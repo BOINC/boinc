@@ -30,7 +30,7 @@ function boincuser_rules_event_info() {
     'boincuser_general_consent_error' => array(
       'label' => bts('Error from user consenting to terms-of-use.', array(), NULL, 'boinc:rule-event'),
       'module' => 'Boincuser',
-      'arguments' => rules_events_global_user_argument(),
+      'arguments' => rules_events_hook_boincuser_adminnotify_argument(),
     ),
     'boincuser_general_consent_type_error' => array(
       'label' => bts('Error dealing with missing consent type.', array(), NULL, 'boinc:rule-event'),
@@ -50,7 +50,7 @@ function rules_events_hook_boincuser_chemail_arguments() {
       'label' => 'New email address',
       'required' => TRUE,
     ),
-  ) + rules_events_global_user_argument();
+  ) + rules_events_hook_boincuser_adminnotify_argument();
 }
 
 function rules_events_hook_boincuser_consenttype_argument() {
@@ -58,6 +58,16 @@ function rules_events_hook_boincuser_consenttype_argument() {
     'consent_type' => array(
       'type' => 'string',
       'label' => 'Consent type id that caused the error',
+      'required' => TRUE,
+    ),
+  ) + rules_events_hook_boincuser_adminnotify_argument();
+}
+
+function rules_events_hook_boincuser_adminnotify_argument() {
+  return array(
+    'subject_tag' => array(
+      'type' => 'string',
+      'label' => 'Subject tag for email filtering',
       'required' => TRUE,
     ),
   ) + rules_events_global_user_argument();

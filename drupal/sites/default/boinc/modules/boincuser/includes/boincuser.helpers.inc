@@ -354,7 +354,7 @@ function boincuser_consentto_termsofuse($user) {
         ),
         'NULL', 'boinc:consent-termsofuse'),
       'error');
-      rules_invoke_event('boincuser_general_consent_error');
+      rules_invoke_event('boincuser_general_consent_error', variable_get('boinc_admin_mailing_list_subject_tag', ''));
     }
     return $rc1;
   }
@@ -363,7 +363,7 @@ function boincuser_consentto_termsofuse($user) {
       bts('ERROR: Consent type for enrollment not found. The @project administrators have been nofitifed.',
         array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:consent-termsofuse'),
     'error');
-    rules_invoke_event('boincuser_general_consent_type_error', CONSENT_TYPE_ENROLL);
+    rules_invoke_event('boincuser_general_consent_type_error', CONSENT_TYPE_ENROLL, variable_get('boinc_admin_mailing_list_subject_tag', ''));
   }
   return FALSE;
 }

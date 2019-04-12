@@ -115,7 +115,7 @@ function boincuser_register_validate($form, &$form_state) {
   $tmp_user = BoincUser::lookup_prev_email_addr($lower_email_addr);
   if ($tmp_user) {
     // User already exists
-    rules_invoke_event('boincuser_change_email_error', $lower_email_addr);
+    rules_invoke_event('boincuser_change_email_error', $lower_email_addr, variable_get('boinc_admin_mailing_list_subject_tag', ''));
     form_set_error('mail',
       bts('An account already exists for @email. The @project administrators have been notified.',
         array(
@@ -868,7 +868,7 @@ function boincuser_revertemail_validate($form, &$form_state) {
   $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
 
   if (BoincUser::lookup_email_addr($boinc_user->previous_email_addr)) {
-    rules_invoke_event('boincuser_revert_email_error', $boinc_user->previous_email_addr);
+    rules_invoke_event('boincuser_revert_email_error', $boinc_user->previous_email_addr, variable_get('boinc_admin_mailing_list_subject_tag', ''));
     form_set_error('mail',
       bts('An account already exists for @email. Previous email address cannot be used because another account is using it as their email address. The @project administrators have been notified.',
         array(
