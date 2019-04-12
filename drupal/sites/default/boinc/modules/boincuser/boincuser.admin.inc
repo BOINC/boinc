@@ -43,6 +43,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
     'boinc_app_list_url' => variable_get('boinc_app_list_url', ''),
+    'boinc_admin_mailing_list' => variable_get('boinc_admin_mailing_list', ''),
     'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
     'boinc_project_config_keywords' => variable_get('boinc_project_config_keywords', ''),
   );
@@ -141,6 +142,12 @@ function boincuser_admin_environment(&$form_state) {
     '#title' => t('BOINC host scheduler log directory (optional)'),
     '#default_value' => $default['boinc_host_sched_logs_dir'],
     '#description' => t('The filesystem directory that contains host scheduler logs'),
+  );
+  $form['boinc_admin_mailing_list'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Admin mailing list'),
+    '#default_value' => $default['boinc_admin_mailing_list'],
+    '#description' => t('Enter an email-address which will be used to contact admisistrators. If empty, the site email configured in Settings -> Site Information will be used.'),
   );
   $form['boinc_debug_mode'] = array(
     '#type' => 'checkbox',
