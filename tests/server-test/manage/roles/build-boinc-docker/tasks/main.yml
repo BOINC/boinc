@@ -1,3 +1,5 @@
 - name: Build BOINC in docker container
   command: docker-compose build --no-cache chdir="{{base_dir}}/boinc-server-docker"
+  environment: 
+    TAG: ""
   tags: build,boinc
