@@ -40,5 +40,15 @@ function rules_events_hook_boincteam_arguments() {
       'label' => 'team name',
       'required' => TRUE,
     ),
+  ) + rules_events_hook_boincteam_adminnotify_argument();
+}
+
+function rules_events_hook_boincteam_adminnotify_argument() {
+  return array(
+    'subject_tag' => array(
+      'type' => 'string',
+      'label' => 'Subject tag for email filtering',
+      'required' => TRUE,
+    ),
   ) + rules_events_global_user_argument();
 }
