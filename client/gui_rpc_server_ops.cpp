@@ -878,17 +878,21 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 	// there is no reason to connect to secure address project
 	// if we're already connected to the non-secure address
 	// or vice versa
+	// also clear last '/' character if present
 
-	const std::string http = "http://";
-	const std::string https = "https://";
+	const string http = "http://";
+	const string https = "https://";
 
 	string new_project_url = url;
 	size_t pos = new_project_url.find(http);
-	if (pos != std::string::npos) {
+	if (pos != string::npos) {
 		new_project_url.erase(pos, http.length());
 	}
-	else if ((pos = new_project_url.find(https)) != std::string::npos) {
+	else if ((pos = new_project_url.find(https)) != string::npos) {
 		new_project_url.erase(pos, https.length());
+	}
+	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+		new_project_url.erase(new_project_url.length() - 1, 1);
 	}
 
     for (i=0; i<gstate.projects.size(); i++) {
@@ -896,11 +900,14 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 		string project_url = p->master_url;
 
 		pos = project_url.find(http);
-		if (pos != std::string::npos) {
+		if (pos != string::npos) {
 			project_url.erase(pos, http.length());
 		}
-		else if ((pos = project_url.find(https)) != std::string::npos) {
+		else if ((pos = project_url.find(https)) != string::npos) {
 			project_url.erase(pos, https.length());
+		}
+		if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+			project_url.erase(project_url.length() - 1, 1);
 		}
 
 		if (new_project_url == project_url) {
