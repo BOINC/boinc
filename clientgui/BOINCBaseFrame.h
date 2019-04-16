@@ -15,13 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// CBOINCBaseFrame: Base class for the 2 variants of the main window,
+// CBOINCAdvancedFrame and CBOINCSimpleFrame
+
 #ifndef BOINC_BOINCBASEFRAME_H
 #define BOINC_BOINCBASEFRAME_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "BOINCBaseFrame.cpp"
 #endif
-
 
 class CFrameEvent;
 class CFrameAlertEvent;
@@ -31,7 +33,6 @@ enum FrameAlertEventType {
     AlertNormal = 0,
     AlertProcessResponse
 };
-
 
 class CBOINCBaseFrame : public wxFrame {
 
@@ -64,6 +65,10 @@ public:
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
 
+    void                OnWizardAttachProject( wxCommandEvent& event );
+    void                OnWizardUpdate( wxCommandEvent& event );
+    void                OnWizardDetach( wxCommandEvent& event );
+
     int                 GetCurrentViewPage();
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
     void                SetDialupConnectionName(wxString val) { m_strNetworkDialupConnectionName = val; }
@@ -83,8 +88,10 @@ public:
     void                ShowDaemonStartFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
 
-    virtual void        StartTimers();
-    virtual void        StopTimers();
+    void                StartTimersBase();
+    void                StopTimersBase();
+    virtual void        StartTimers() {}
+    virtual void        StopTimers() {}
     virtual void        UpdateRefreshTimerInterval();
 
     void                ShowAlert( 
@@ -99,6 +106,8 @@ public:
     
     virtual bool        RestoreState();
     virtual bool        SaveState();
+    virtual bool        CreateMenus(){return true;}
+    void ResetReminderTimers();
 
 protected:
 
