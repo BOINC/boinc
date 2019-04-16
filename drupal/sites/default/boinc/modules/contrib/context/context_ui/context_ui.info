@@ -1,0 +1,11 @@
+name = Context UI
+description = "Provides a simple UI for settings up a site structure using Context."
+dependencies[] = context
+package = Context
+core = "6.x"
+; Information added by drupal.org packaging script on 2013-10-17
+version = "6.x-3.3-boinc-1-dev"
+core = "6.x"
+project = "context"
+datestamp = "1551298073"
+

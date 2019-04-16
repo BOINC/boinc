@@ -269,6 +269,11 @@ function _bbcode_filter_process(&$body, $format = -1) {
       $body);
   }
 
+  // Re-write email addresses
+  if (variable_get("bbcode_rewrite_email_$format", 1)) {
+    $body = preg_replace('#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1\\2-[at]-\\3', $body);
+  }
+
   // Turns web and e-mail addresses into clickable links
   if (variable_get("bbcode_make_links_$format", 1)) {
 
@@ -290,10 +295,11 @@ function _bbcode_filter_process(&$body, $format = -1) {
 
     // matches an email@domain type address at the start of a line, or after a space.
     // Note: Only the followed chars are valid; alphanums, "-", "_" and or ".".
-    if (variable_get("bbcode_encode_mailto_$format", 1))
-      $ret = preg_replace_callback("#([\t\r\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", '_bbcode_encode_mailto', $ret);
-    else 
-      $ret = preg_replace('#([\t\r\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1<a href="mailto:\\2@\\3">\\2@\\3</a>', $ret);
+    if (variable_get("bbcode_encode_mailto_$format", 1)) {
+      $ret = preg_replace_callback("#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", '_bbcode_encode_mailto', $ret);
+    } else {
+      $ret = preg_replace('#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1<a href="mailto:\\2@\\3">\\2@\\3</a>', $ret);
+    }
 
     // Remove our padding
     $ret = str_replace("\x07", '', $ret);

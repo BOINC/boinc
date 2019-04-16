@@ -11,16 +11,16 @@
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015,2017
 # Martin Ligabue <martinligabue@gmail.com>, 2018
-# Pietro <bongiovanni.pietro.vc@gmail.com>, 2015
+# bf74d81e6444bbcd07dca0f3fc7a4398, 2015
 # Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017-2018
+# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
 # Stefano B <boboviz75@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-08-22 07:55+0000\n"
+"PO-Revision-Date: 2019-01-21 14:19+0000\n"
 "Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1705,7 +1705,7 @@ msgstr "Utilizzo rete"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least"
-msgstr "Scarica almeno"
+msgstr "Scarica in locale almeno"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1715,12 +1715,12 @@ msgstr "giorni di lavoro"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Mantieni sufficienti attività per tenere il computer occupato per questo periodo."
+msgstr "Scarica sul computer attività sufficienti per tenere il computer occupato per questo periodo."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store up to an additional"
-msgstr "Conserva fino ad ulteriori"
+msgstr "Scarica in locale fino ad ulteriori"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1732,7 +1732,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Scarica attività oltre la soglia minima. Determina quante attività verranno richieste quando si contatta un progetto."
+msgstr "Cerca di scaricare più attività di quelle minime. Determina quante attività verranno richieste quando viene contattato un progetto."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
