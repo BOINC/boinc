@@ -71,7 +71,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $body = "<html><body>\n"; 
             $body = $body_html; 
             $body .= "\n</body></html>\n"; 
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
+            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n"; 
         }
         return mail($email_addr, $subject, $body, $headers);
     }
