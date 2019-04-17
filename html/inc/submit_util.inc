@@ -96,6 +96,11 @@ function delete_remote_submit_user($user) {
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
+    if ($batch->state == BATCH_STATE_INIT) {
+        // a batch in INIT state has no jobs
+        //
+        return $batch;
+    }
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;
