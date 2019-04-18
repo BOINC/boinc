@@ -16,7 +16,6 @@ function boinccore_admin_community(&$form_state) {
     'min_credit_to_post' => variable_get('boinc_comment_min_credit', 0),
     'penalty_period' => variable_get('boinc_penalty_period', 7*24*60*60),
     'moderator_mailing_list' => variable_get('boinc_moderator_mailing_list', ''),
-    'admin_mailing_list' => variable_get('boinc_admin_mailing_list', ''),
     'moderator_force_individual_notifications' => variable_get('boinc_moderator_force_individual_notifications', 0),
   );
   
@@ -51,13 +50,6 @@ function boinccore_admin_community(&$form_state) {
       emails even when a mailing list is provided.'),
   );
   
-  $form['boinc_admin_mailing_list'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Admin mailing list'),
-    '#default_value' => $default['admin_mailing_list'],
-    '#description' => t('Enter an email-address which will be used to contact admisistrators. If empty, the site email configured in Settings -> Site Information will be used.'),
-  );
-
   $form['tools'] = array(
     '#title' => t('Tools'),
     '#type' => 'fieldset',

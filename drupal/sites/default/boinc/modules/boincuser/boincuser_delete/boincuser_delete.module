@@ -284,7 +284,7 @@ function boincuser_delete_validate($form, &$form_state) {
   $account = $form_state['values']['_account'];
   $boinc_user = boincuser_load($account->uid, TRUE);
   if (!$boinc_user) {
-    rules_invoke_event('boincuser_delete_general_error');
+    rules_invoke_event('boincuser_delete_general_error', variable_get('boinc_admin_mailing_list_subject_tag', ''));
     return form_set_error('current_pass',
       bts('There was a problem deleting your account. The @project administrators have been contacted.',
       array(
@@ -314,7 +314,7 @@ function boincuser_delete_submit($form, &$form_state) {
   $account = user_load(array('uid' => $uid));
 
   if (!$account) {
-    rules_invoke_event('boincuser_delete_uid_invalid_error');
+    rules_invoke_event('boincuser_delete_uid_invalid_error', variable_get('boinc_admin_mailing_list_subject_tag', ''));
     drupal_set_message(
       bts('ERROR: The user account @uid does not exist. The @project administrators have been notified.',
         array(
