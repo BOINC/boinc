@@ -130,6 +130,9 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     return n;
 }
 
+// are we at the jobs/day limit for this (host, app version)?
+// (if so don't use the app version)
+//
 inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
@@ -145,6 +148,10 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
         return true;
     }
     return false;
+}
+
+bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
+    return daily_quota_exceeded(bavp->avp->id, bavp->host_usage);
 }
 
 // scan through client's anonymous apps and pick the best one
@@ -804,7 +811,7 @@ BEST_APP_VERSION* get_app_version(
             if (daily_quota_exceeded(av.id, host_usage)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%lu] daily quota exceeded\n", av.id
+                        "[version] [AV#%lu] daily HAV quota exceeded\n", av.id
                     );
                 }
                 continue;
