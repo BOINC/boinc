@@ -154,8 +154,6 @@ bool CSimpleFrame::CreateMenus() {
         strMenuDescription
     );
 
-// As by default on Linux BOINC runs as a service, the GUI must not stop it.
-#ifndef __WXGTK_
     strMenuDescription.Printf(
         _("Exit %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -171,7 +169,6 @@ bool CSimpleFrame::CreateMenus() {
         strMenuName,
         strMenuDescription
     );
-#endif
 
 #ifdef __WXMAC__
     // wxWidgets actually puts this in the BOINCManager menu
