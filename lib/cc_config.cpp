@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <algorithm>
 #endif
 
 #include "common_defs.h"
@@ -688,6 +689,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 // app_config.xml stuff
 
 bool have_max_concurrent = false;
+    // does any project have a max concurrent restriction?
 
 int APP_CONFIG::parse_gpu_versions(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
@@ -804,6 +806,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             app_configs.push_back(ac);
             if (ac.max_concurrent) {
                 project_has_mc = true;
+                project_min_mc = project_min_mc?std::min(project_min_mc, ac.max_concurrent):ac.max_concurrent;
             }
             continue;
         }
@@ -819,6 +822,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
                 have_max_concurrent = true;
                 project_has_mc = true;
                 project_max_concurrent = n;
+                project_min_mc = project_min_mc?std::min(project_min_mc, n):n;
             }
             continue;
         }

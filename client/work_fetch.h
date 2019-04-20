@@ -151,7 +151,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
     RSC_REASON compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
-    void rr_init();
+    void rr_init(PROJECT*);
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;

@@ -242,6 +242,8 @@ struct APP_CONFIGS {
     int project_max_concurrent;
     bool project_has_mc;
         // have app- or project-level max concurrent restriction
+    int project_min_mc;
+        // the min of these restrictions
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
@@ -253,6 +255,7 @@ struct APP_CONFIGS {
         app_version_configs.clear();
         project_max_concurrent = 0;
         project_has_mc = false;
+        project_min_mc = 0;
         report_results_immediately = false;
     }
 };

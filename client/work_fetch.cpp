@@ -70,14 +70,14 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
-void RSC_PROJECT_WORK_FETCH::rr_init() {
+void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     fetchable_share = 0;
     n_runnable_jobs = 0;
     sim_nused = 0;
     nused_total = 0;
     deadlines_missed = 0;
     mc_shortfall = 0;
-    max_nused = 0;
+    max_nused = p->app_configs.project_min_mc;
 }
 
 void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
@@ -415,7 +415,7 @@ void WORK_FETCH::rr_init() {
         PROJECT* p = gstate.projects[i];
         p->pwf.rr_init(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].rr_init();
+            p->rsc_pwf[j].rr_init(p);
         }
     }
 }

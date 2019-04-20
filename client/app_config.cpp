@@ -117,7 +117,6 @@ void max_concurrent_init() {
 //
 static void clear_app_config(PROJECT* p) {
     p->app_configs.clear();
-    p->report_results_immediately = false;
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;
