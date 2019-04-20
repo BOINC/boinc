@@ -117,4 +117,11 @@ if test x${enable_generic_processor} = xyes ; then
          ;;
   esac
 fi
+
+if test x${enable_unit_tests} = xyes ; then
+  BOINC_CHECK_CFLAG(--coverage)
+  BOINC_CHECK_CXXFLAG(--coverage)
+  LDFLAGS="$LDFLAGS --coverage"
+fi
+
 ])

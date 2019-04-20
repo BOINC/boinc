@@ -334,4 +334,4 @@ PHONY-start:
 status stop: PHONY-start
 	@test -f $@ || @LN_S@ start $@ && test -f $@
 
-CLEANFILES = status stop
+CLEANFILES = status stop *.gcno *.gcda *.gcov

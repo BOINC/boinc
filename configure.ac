@@ -126,6 +126,12 @@ AC_ARG_ENABLE(apps,
     [enable_apps=${enableval}],
     [enable_apps=no])
 
+AC_ARG_ENABLE(unit-tests,
+    AS_HELP_STRING([--enable-unit-tests],
+                   [enable building the boinc unit tests]),
+    [enable_unit_tests=${enableval}],
+    [enable_unit_tests=no])
+
 AC_ARG_ENABLE(pkg-libs,
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
@@ -139,8 +145,9 @@ AC_ARG_ENABLE(pkg-libs,
      enable_manager=no
      enable_install_headers=no
      enable_static=no
-	 enable_boinczip=yes
-	 enable_apps=no
+     enable_boinczip=yes
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -156,8 +163,9 @@ AC_ARG_ENABLE(pkg-devel,
      enable_client=no
      enable_manager=no
      enable_install_headers=yes
-	 enable_boinczip=yes
-	 enable_apps=no
+     enable_boinczip=yes
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -173,8 +181,9 @@ AC_ARG_ENABLE(pkg-client,
      enable_client=yes
      enable_manager=no
      enable_install_headers=no
-	 enable_boinczip=no
-	 enable_apps=no
+     enable_boinczip=no
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -188,8 +197,9 @@ AC_ARG_ENABLE(pkg-manager,
      enable_client=no
      enable_manager=yes
      enable_install_headers=no
-	 enable_boinczip=no
-	 enable_apps=no
+     enable_boinczip=no
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -212,6 +222,9 @@ if test x$enable_server = xyes ; then
 fi
 if test x$enable_apps = xyes ; then
   configured_to_build="${configured_to_build} apps"
+fi
+if test x$enable_unit_tests = xyes ; then
+  configured_to_build="${configured_to_build} unit-tests"
 fi
 
 if test -z "${configured_to_build}" ; then
@@ -1049,6 +1062,7 @@ AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${en
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
+AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])

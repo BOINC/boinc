@@ -130,6 +130,11 @@ locale/*/*.flag
 .libs/
 svn_version.h
 
+## code coverage
+*.gcov
+*.gcno
+*.gcda
+
 # list of executables
 apps/1sec
 apps/concat

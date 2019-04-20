@@ -63,6 +63,7 @@ matrix:
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath p7zip-full ) fi
+   - if [[ "${TRAVIS_OS_NAME}" == "linux" && "${BOINC_TYPE}" == "unit-test" ]]; then ( sudo pip install codecov ) fi
    - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( sudo apt-get install ansible/trusty-backports; sudo service mysql stop; ) fi
 
 before_script:
@@ -80,7 +81,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
 - if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
 - if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm --silent && ./buildAndroidBOINC-CI.sh --arch arm64 --silent && ./buildAndroidBOINC-CI.sh --arch x86 --silent && ./buildAndroidBOINC-CI.sh --arch x86_64 --silent && cd BOINC && ./gradlew assemble -w && cd ../../ ) fi
-- if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( /bin/true ) fi
+- if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0" && make && ./tests/executeUnitTests.sh --report-coverage ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
 
 after_success:

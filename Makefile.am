@@ -71,7 +71,7 @@ svn_version.h: generate_svn_version.sh
 # Add a stage target for staging a distribution
 
 clean-generic:
-	rm -rf stage
+	rm -rf stage *.gcov
 
 stage: all
 	if [ ! -d stage ] ; then mkdir stage ; fi
