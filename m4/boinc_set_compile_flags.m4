@@ -2,19 +2,19 @@ AC_DEFUN([BOINC_SET_COMPILE_FLAGS],[
 dnl  This function sets the compiler flags depending upon options
 dnl  set on the configure command line.
 
-AC_ARG_ENABLE(debug, 
+AC_ARG_ENABLE(debug,
     AS_HELP_STRING([--enable-debug],
                    [enable tracing and debugging flags for all components]),
     [enable_debug="$enableval"],
     [])
 
-AC_ARG_ENABLE(optimize, 
+AC_ARG_ENABLE(optimize,
     AS_HELP_STRING([--enable-optimize],
                    [enable optimization flags for all components]),
     [enable_optimize="$enableval"],
     [])
 
-AC_ARG_ENABLE(generic-processor, 
+AC_ARG_ENABLE(generic-processor,
     AS_HELP_STRING([--enable-generic-processor],
                    [build for a generic processor rather than a specific instruction set]),
     [enable_generic_processor="$enableval"],
@@ -34,7 +34,7 @@ if test x${enable_debug} = xyes ; then
   BOINC_CHECK_LDFLAG(-g)
   CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
   CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
-fi  
+fi
 
 if test x${enable_optimize} = xyes ; then
   if test x${ac_cv_c_compiler_gnu} = xyes ; then
@@ -49,17 +49,17 @@ if test x${enable_optimize} = xyes ; then
     BOINC_CHECK_CXXFLAG(-fast)
   fi
   BOINC_CHECK_CXXFLAG(-O3)
-fi  
+fi
 
 if test x${enable_generic_processor} = xyes ; then
    case ${target} in
-     i*86-*-darwin*) 
+     i*86-*-darwin*)
          BOINC_CHECK_CFLAG(-march=pentium4)
 	 BOINC_CHECK_CFLAG(-mtune=prescott)
          BOINC_CHECK_CXXFLAG(-march=pentium4)
 	 BOINC_CHECK_CXXFLAG(-mtune=prescott)
 	 ;;
-     i*86-*)  
+     i*86-*)
          dnl gcc
 	 if test x${ac_cv_c_compiler_gnu} = xyes ; then
            BOINC_CHECK_CFLAG(-march=i486)
@@ -78,19 +78,19 @@ if test x${enable_generic_processor} = xyes ; then
 	   BOINC_CHECK_CXXFLAG(-3)
 	 fi
 	 ;;
-     x86_64-*|amd64-*)  
+     x86_64-*|amd64-*)
          dnl gcc
 	 if test x${ac_cv_c_compiler_gnu} = xyes ; then
-           BOINC_CHECK_CFLAG(-msse2)   
-           BOINC_CHECK_CFLAG(-march=opteron)   
-           BOINC_CHECK_CFLAG(-mtune=generic)   
+           BOINC_CHECK_CFLAG(-msse2)
+           BOINC_CHECK_CFLAG(-march=opteron)
+           BOINC_CHECK_CFLAG(-mtune=generic)
          else
-           BOINC_CHECK_CFLAG(-xarch=amd64)   
+           BOINC_CHECK_CFLAG(-xarch=amd64)
          fi
 	 if test x${ac_cv_cxx_compiler_gnu} = xyes ; then
-           BOINC_CHECK_CXXFLAG(-msse2)   
-           BOINC_CHECK_CXXFLAG(-march=opteron)   
-           BOINC_CHECK_CXXFLAG(-mtune=generic)   
+           BOINC_CHECK_CXXFLAG(-msse2)
+           BOINC_CHECK_CXXFLAG(-march=opteron)
+           BOINC_CHECK_CXXFLAG(-mtune=generic)
          else
            BOINC_CHECK_CXXFLAG(-xarch=amd64)
          fi
@@ -98,19 +98,19 @@ if test x${enable_generic_processor} = xyes ; then
      sparc-*)
          dnl gcc
 	 if test x${ac_cv_c_compiler_gnu} = xyes ; then
-           BOINC_CHECK_CFLAG(-march=v8)   
-           BOINC_CHECK_CFLAG(-mcpu=v8)   
-           BOINC_CHECK_CFLAG(-mtune=ultrasparc)   
+           BOINC_CHECK_CFLAG(-march=v8)
+           BOINC_CHECK_CFLAG(-mcpu=v8)
+           BOINC_CHECK_CFLAG(-mtune=ultrasparc)
          else
 	 dnl Studio 10
-           BOINC_CHECK_CFLAG(-xarch=v8)   
+           BOINC_CHECK_CFLAG(-xarch=v8)
          fi
 	 if test x${ac_cv_cxx_compiler_gnu} = xyes ; then
-           BOINC_CHECK_CXXFLAG(-march=v8)   
-           BOINC_CHECK_CXXFLAG(-mcpu=v8)   
-           BOINC_CHECK_CXXFLAG(-mtune=ultrasparc)   
+           BOINC_CHECK_CXXFLAG(-march=v8)
+           BOINC_CHECK_CXXFLAG(-mcpu=v8)
+           BOINC_CHECK_CXXFLAG(-mtune=ultrasparc)
          else
-           BOINC_CHECK_CXXFLAG(-xarch=v8)   
+           BOINC_CHECK_CXXFLAG(-xarch=v8)
          fi
          ;;
      *)
