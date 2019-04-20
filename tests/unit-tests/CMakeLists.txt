@@ -21,6 +21,7 @@ include_directories("${PROJECT_SOURCE_DIR}/../../lib")
 include_directories("${PROJECT_SOURCE_DIR}/../../tools")
 include_directories("/usr/include/mariadb")
 include_directories("/usr/include/mariadb/mysql")
+include_directories("/usr/include/mysql")
 
 
 find_library(GTEST_MAIN_LIB libgtest_main.a PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/buildCache/linux/lib NO_DEFAULT_PATH)
@@ -30,7 +31,7 @@ message(STATUS "gtest_lib: ${GTEST_LIB}")
 find_library(SCHED_LIB libsched.a PATHS ${PROJECT_SOURCE_DIR}/../../sched NO_DEFAULT_PATH)
 find_library(BOINC_CRYPT_LIB libboinc_crypt.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)
 find_library(BOINC_LIB libboinc.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)
-find_library(MYSQL_LIB NAMES mariadb mysql)
+find_library(MYSQL_LIB NAMES mariadb mysqlclient)
 message(STATUS "mysql_lib: ${MYSQL_LIB}")
 
 add_subdirectory(lib)
