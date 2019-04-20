@@ -75,5 +75,5 @@ if [ "${report}" = "yes" ]; then
     for T in lib sched; do
         [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     done
-    codecov -X gcov
+    codecov
 fi
