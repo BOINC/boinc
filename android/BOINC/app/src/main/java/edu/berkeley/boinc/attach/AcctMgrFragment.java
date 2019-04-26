@@ -74,6 +74,26 @@ public class AcctMgrFragment extends DialogFragment{
 
 	private AttachProjectAsyncTask asyncTask;
 
+	private boolean mAdapterDataFilled = false;
+	private void fillAdapterData() {
+		ArrayList<AccountManager> accountManagers = null;
+		if (mIsBound && !mAdapterDataFilled){
+			try {
+				accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
+			} catch (Exception e) {
+				if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
+			}
+			List<AccountManagerSpinner> adapterData = new ArrayList<>();
+			for (AccountManager accountManager : accountManagers) {
+				adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+			}
+			ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			accountManagerSpinner.setAdapter(adapter);
+			mAdapterDataFilled = true;
+		}
+	}
+
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment onCreateView"); 
@@ -82,12 +102,13 @@ public class AcctMgrFragment extends DialogFragment{
 
         // Get the account managers list.
 		ArrayList<AccountManager> accountManagers = null;
-		if (mIsBound){
+		if (mIsBound && !mAdapterDataFilled){
 			try {
 				accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
 			} catch (Exception e) {
 				if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
 			}
+			mAdapterDataFilled = true;
 		}
 		else {
 			accountManagers = new ArrayList<>();
@@ -225,6 +246,7 @@ public class AcctMgrFragment extends DialogFragment{
 			// the Monitor object that is needed to call functions.
 			monitor = IMonitor.Stub.asInterface(service);
 			mIsBound = true;
+			fillAdapterData();
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
