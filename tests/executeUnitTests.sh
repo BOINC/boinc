@@ -20,9 +20,11 @@
 # Script to execute googletest based unit tests for BOINC
 
 # Usage:
-#  ./tests/executeUnitTests.sh [--report-coverage]
+#  ./tests/executeUnitTests.sh [--report-coverage] [--clean]
 #
 # if --report-coverage is given the test coverage will be reported to codecov.io
+# if --clean is given the tests will be rebuild from scratch otherwise an existing
+# build directory is used
 
 # check working directory because the script needs to be called like: ./tests/executeUnitTests.sh
 if [ ! -d "tests" ]; then
@@ -33,11 +35,15 @@ fi
 ROOTDIR=$(pwd)
 CI_RUN="${TRAVIS:-false}"
 report=""
+doclean=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
         --report-coverage)
         report="yes"
+        ;;
+        --clean)
+        doclean="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -54,11 +60,11 @@ if [ "${report}" = "yes" ]; then
 fi
 
 cd tests || exit 1
-if [ -d "gtest" ]; then
+if [[ "$doclean" = "yes" && -d "gtest" ]]; then
     rm -rf gtest
     if [ $? -ne 0 ]; then cd ..; exit 1; fi
 fi
-mkdir gtest
+mkdir -p gtest
 if [ $? -ne 0 ]; then cd ..; exit 1; fi
 cd gtest
 cmake ../unit-tests
@@ -72,8 +78,8 @@ done
 
 cd ../..
 if [ "${report}" = "yes" ]; then
-    for T in lib sched; do
-        [ -d "${T}" ] && gcov -lp *.o >/dev/null;
-    done
+    #for T in lib sched; do
+    #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
+    #done
     codecov
 fi
