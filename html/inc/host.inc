@@ -81,6 +81,7 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
+    global $config;
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;
@@ -174,8 +175,8 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Application details"),
             "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
         );
-        $config = get_config();
-        if (parse_bool($config, "show_results")) {
+        $show_results = parse_bool($config, "show_results");
+        if ($show_results) {
             $nresults = host_nresults($host);
             if ($nresults) {
                 $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
@@ -204,7 +205,7 @@ function show_host($host, $user, $ipprivate) {
             }
         }
         row2(tra("Location"), location_form($host));
-        if ($nresults == 0) {
+        if ($show_results && $nresults == 0) {
             $x = " &middot; <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
         } else {
             $x = "";

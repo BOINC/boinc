@@ -123,8 +123,8 @@ class jump_views_plugin_style extends views_plugin_style {
     $map = array_flip($this->field_map);
     foreach ($this->view->display_handler->get_handlers('field') as $field => $handler) {
       $map = array_flip($this->field_map);
-      if (isset($row->$map[$field])) {
-        $tokens["[$field]"] = $row->$map[$field];
+      if (isset($row->{$map[$field]})) {
+        $tokens["[$field]"] = $row->{$map[$field]};
       }
       else {
         $tokens["[$field]"] = '';

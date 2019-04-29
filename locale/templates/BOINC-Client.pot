@@ -1,13 +1,13 @@
 # BOINC client localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2019 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 0a200b2dbfb038a0cd1eb2a7103d80f2e8a46879\n"
+"Project-Id-Version: BOINC 394301e0741912e1eabed4de48dc1a6491937132\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-09-20 18:11 UTC\n"
+"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -27,7 +27,7 @@ msgid ""
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:695
+#: client/client_state.cpp:696
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgid ""
 "add %s"
 msgstr ""
 
-#: client/cs_statefile.cpp:856
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr ""
 
-#: client/cs_statefile.cpp:900
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr ""
 
@@ -79,44 +79,44 @@ msgstr ""
 msgid "A new version of %s is available"
 msgstr ""
 
-#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+#: client/gpu_detect.cpp:246 client/gpu_detect.cpp:289
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr ""
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:494
+#: client/log_flags.cpp:319 client/log_flags.cpp:492
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:468 client/log_flags.cpp:523
+#: client/log_flags.cpp:466 client/log_flags.cpp:521
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:485
+#: client/log_flags.cpp:483
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:513
+#: client/log_flags.cpp:511
 msgid "Error in cc_config.xml options"
 msgstr ""
 
-#: client/log_flags.cpp:531
+#: client/log_flags.cpp:529
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
-#: client/project.cpp:1003
+#: client/project.cpp:995
 msgid "To fix this, you can "
 msgstr ""
 
-#: client/project.cpp:1006
+#: client/project.cpp:999
 msgid "change Project Preferences on the project's web site"
 msgstr ""
 
-#: client/project.cpp:1012
+#: client/project.cpp:1004
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr ""
 
-#: client/project.cpp:1019
+#: client/project.cpp:1009
 msgid "change your settings at your account manager web site"
 msgstr ""
 

@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file tableofcontents.install
+ *
+ * Install the schema used for the node types settings.
+ * Uninstall the schema and variables.
+ * Updates for people using older versions.
+ */
+
+/**
+ * Implementation of hook_schema()
+ */
+function tableofcontents_schema() {
+  $schema['tableofcontents_node_toc'] = array(
+    'description' => 'Extra info on nodes linked to the toc',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The node identifier.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'toc_automatic' => array(
+        'description' => 'The automatic mode of the table of contents for that node. (null or 0, ignore)',
+        'type' => 'int',
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install()
+ */
+function tableofcontents_install() {
+  drupal_install_schema('tableofcontents');
+}
+
+/**
+ * Implementation of hook_uninstall()
+ */
+function tableofcontents_uninstall() {
+  drupal_uninstall_schema('tableofcontents');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'tableofcontents_%'");
+}
+
+/**
+ * Implementation of hook_update_#()
+ */
+function tableofcontents_update_6000() {
+  $ret = array();
+
+  $schema = tableofcontents_schema();
+  db_create_table($ret, 'tableofcontents_node_toc', $schema['tableofcontents_node_toc']);
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_update_#()
+ */
+function tableofcontents_update_6001() {
+  $ret = array();
+
+  // remove the list type variable, copy only if it were in use as 'ol'
+  $sql = "SELECT format FROM {filter_formats}";
+  $result = db_query($sql);
+  while ($row = db_fetch_array($result)) {
+    $format = $row['format'];
+    if (variable_get('tableofcontents_list_type_' . $format, 'ol') == 'ol'
+        && variable_get('tableofcontents_numbering_' . $format, 0) == 0) {
+      variable_set('tableofcontents_numbering_' . $format, 4);
+    }
+    // To make sure people can always go back a version, keep those...
+    //variable_del('tableofcontents_list_type_' . $format);
+  }
+
+  // is that automatic on an update or do we have to do it ourselves?
+  // some modules do call it so I think we might have to...
+  cache_clear_all('theme_registry:', 'cache', TRUE);
+
+  return $ret;
+}
+
+// vim: ts=2 sw=2 et syntax=php

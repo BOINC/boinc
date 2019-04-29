@@ -243,6 +243,10 @@ function page_head(
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
 
+    if ($did_page_head) {
+        return;
+    }
+    
     $did_page_head = true;
     $url_base = url_base();
 
@@ -251,15 +255,24 @@ function page_head(
 
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
-        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
-        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
-        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
-        header ("Pragma: no-cache");                          // HTTP/1.0
+        header("Expires: Mon, 26 Jul 1997 05:00:00 UTC");
+            // Date in the past
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC");
+            // always modified
+        header("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");
+            // for HTTP/1.1
+        header("Pragma: no-cache");
+            // for HTTP/1.0
     }
 
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
+    ';
+    if (defined('GLOBAL_HEAD_EXTRA')) {
+        echo GLOBAL_HEAD_EXTRA;
+    }
+    echo '
         <meta name="viewport" content="width=device-width, initial-scale=1">
     ';
     if ($head_extra) {

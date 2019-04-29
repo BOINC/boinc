@@ -104,7 +104,7 @@ function boincuser_register_validate($form, &$form_state) {
   // Check terms of use agreement
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
   if (!empty($termsofuse)) {
-    if (!$form_state['values']['agreeTOU']) {
+    if (!$form_state['values']['termsofuse']['agreeTOU']) {
       form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', NULL, 'boinc:register-new-user'));
       return false;
     }
@@ -115,12 +115,14 @@ function boincuser_register_validate($form, &$form_state) {
   $tmp_user = BoincUser::lookup_prev_email_addr($lower_email_addr);
   if ($tmp_user) {
     // User already exists
-    form_set_error('mail', bts('An account already exists for @email. Contact the administrators for @project for additional help.',
-      array(
-        '@email' => $lower_email_addr,
-        '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user',
-      )
-    , NULL, 'boinc:register-new-user'));
+    rules_invoke_event('boincuser_change_email_error', $lower_email_addr, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    form_set_error('mail',
+      bts('An account already exists for @email. The @project administrators have been notified.',
+        array(
+          '@email' => $lower_email_addr,
+          '@project' => variable_get('site_name', 'Drupal-BOINC')
+        ), NULL, 'boinc:register-new-user')
+    );
   }
 
   // Check for an existing BOINC user
@@ -697,40 +699,49 @@ function boincuser_termsofuse_form() {
   drupal_set_message( bts('WARNING: You have not agreed to our terms of use. Please agree to the terms of use before continuing.', array(), NULL, 'boinc:termsofuse-form'), 'warning' );
 
   $form = array();
-
-  // Terms of use section
+  drupal_add_js(drupal_get_path('module', 'boincuser') . '/boincuser.js');
   $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
-  $form['title1'] = array(
+
+  // Fieldset to hold all of the form as a container
+  $form['termsofuse'] = array(
+    '#type'   => 'fieldset',
+    '#prefix' => '<div id="termsofuse-wrapper">', // This is our wrapper div.
+    '#suffix' => '</div>',
+    '#tree'   => TRUE,
+  );
+
+  $form['termsofuse']['title1'] = array(
     '#weight' => -12,
     '#value' => '<h2>' . bts( variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:termsofuse-form' ) . '</h2>',
     '#prefix' => '<div id="register-title1">',
     '#suffix' => '</div>',
   );
 
-  $form['termsofuse'] = array(
+  // Terms of use section
+  $form['termsofuse']['body'] = array(
     '#weight' => -10,
     '#value' => bts($termsofuse, array(), NULL, 'project:termsofuse-form'),
     '#prefix' => '<div id="register-termsofuse">',
     '#suffix' => '</div>',
   );
 
-  $form['agreeTOU'] = array(
-    '#type' => 'checkbox',
-    '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
+  $form['termsofuse']['agreeTOU'] = array(
+    '#type'   => 'checkbox',
+    '#title'  => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:termsofuse-form'),
     '#weight' => -8,
     '#prefix' => '<div id="register-checkbox">',
     '#suffix' => '</div>',
   );
 
-  $form['spacer'] = array(
-    '#prefix' => '<div id="register-title2">',
+  $form['termsofuse']['spacer'] = array(
+    '#prefix' => '<div class="clearfix" id="register-title2">',
     '#value'  => '&nbsp;',
     '#suffix' => '</div>',
   );
 
   // Form Control
   $form['submit'] = array(
-    '#prefix' => '<p><p><p><li class="first tab">',
+    '#prefix' => '<p><p><p><li class="first tab" id="register-submit">',
     '#type' => 'submit',
     '#value' => bts('Yes', array(), NULL, 'boinc:form-submit'),
     '#suffix' => '</li>',
@@ -756,7 +767,7 @@ function boincuser_termsofuse_form() {
 
 function boincuser_termsofuse_form_validate($form, &$form_state) {
   // Check TOU agreement
-  if (!$form_state['values']['agreeTOU']) {
+  if (!$form_state['values']['termsofuse']['agreeTOU']) {
     form_set_error('termsofuse', bts('ERROR: You must acknowledge our terms of use by clicking the checkbox before registering for an account.', array(), NULL, 'boinc:termsofuse-form'));
   }
 }
@@ -764,7 +775,10 @@ function boincuser_termsofuse_form_validate($form, &$form_state) {
 function boincuser_termsofuse_form_submit($form, &$form_state) {
   $user = $form['#account'];
   if (!boincuser_consentto_termsofuse($user)) {
-    form_set_error('termsofuse', bts('There was an error in agreeing to the terms of use. Please contact the site administrators.', array(), NULL, 'boinc:termsofuse-form'));
+    form_set_error('termsofuse',
+      bts('There was an error in agreeing to the terms of use. The @project administrators have been notified.',
+        array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:termsofuse-form')
+    );
   }
 
   // Delete session messages
@@ -854,12 +868,13 @@ function boincuser_revertemail_validate($form, &$form_state) {
   $boinc_user = BoincUser::lookup_id_nocache($account->boincuser_id);
 
   if (BoincUser::lookup_email_addr($boinc_user->previous_email_addr)) {
-    form_set_error('mail', bts('An account already exists for @email. Please contact admins for @project. Previous email address cannot be used because another account is using it as their email address.',
-      array(
-        '@email' => $boinc_user->previous_email_addr,
-        '@project' => variable_get('site_name', 'Drupal-BOINC'),
-      ),
-    NULL, 'boinc:add-new-user'));
+    rules_invoke_event('boincuser_revert_email_error', $boinc_user->previous_email_addr, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    form_set_error('mail',
+      bts('An account already exists for @email. Previous email address cannot be used because another account is using it as their email address. The @project administrators have been notified.',
+        array(
+          '@email' => $boinc_user->previous_email_addr,
+          '@project' => variable_get('site_name', 'Drupal-BOINC'),
+        ), NULL, 'boinc:add-new-user'));
   }
 
 }

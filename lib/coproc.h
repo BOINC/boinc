@@ -91,6 +91,14 @@
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
     // max # of processing resources types
+#define GPU_MAX_PEAK_FLOPS  1.e15
+    // sanity-check bound for peak FLOPS
+    // for now (Feb 2019) 1000 TeraFLOPS.
+    // As of now, the fastest GPU is 20 TeraFLOPS (NVIDIA).
+    // May need to increase this at some point
+#define GPU_DEFAULT_PEAK_FLOPS  100.e9
+    // value to use if sanity check fails
+    // as of now (Feb 2019) 100 GigaFLOPS is a typical low-end GPU
 
 // arguments to proc_type_name() and proc_type_name_xml().
 //
@@ -246,6 +254,21 @@ struct COPROC {
         std::vector<OPENCL_DEVICE_PROP> &opencls,
         std::vector<int>& ignore_dev
     );
+
+    // sanity check GPU peak FLOPS
+    //
+    inline bool bad_gpu_peak_flops(const char* source, std::string& msg) {
+        if (peak_flops <= 0 || peak_flops > GPU_MAX_PEAK_FLOPS) {
+            char buf[256];
+            sprintf(buf, "%s reported bad GPU peak FLOPS %f; using %f",
+                source, peak_flops, GPU_DEFAULT_PEAK_FLOPS
+            );
+            msg = buf;
+            peak_flops = GPU_DEFAULT_PEAK_FLOPS;
+            return true;
+        }
+        return false;
+    }
 };
 
 // Based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h

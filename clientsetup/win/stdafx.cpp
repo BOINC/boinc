@@ -6,5 +6,3 @@
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
-
-const char *BOINC_RCSID_be7b382649="$Id$";

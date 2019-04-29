@@ -111,7 +111,7 @@ function join_action() {
         $prefs = compute_prefs_xml($preset);
         $user->update("global_prefs='$prefs'");
     }
-    Header("Location: download.php");
+    Header("Location: download_software.php");
     send_cookie('auth', $user->authenticator, false);
 }
 

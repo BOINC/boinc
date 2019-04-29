@@ -414,7 +414,7 @@ int read_file_string(
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* /*file*/, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -427,12 +427,13 @@ int run_program(
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
 
-    safe_strcpy(cmdline, "");
-    for (int i=0; i<argc; i++) {
+    // lpApplicationName needs to be NULL for CreateProcess to search path
+    // but argv[0] may be full path or just filename
+    // 'file' should be something runnable so use that as program name
+    snprintf(cmdline, sizeof(cmdline), "\"%s\"", file);
+    for (int i=1; i<argc; i++) {
+        safe_strcat(cmdline, " ");
         safe_strcat(cmdline, argv[i]);
-        if (i<argc-1) {
-            safe_strcat(cmdline, " ");
-        }
     }
 
     retval = CreateProcessA(

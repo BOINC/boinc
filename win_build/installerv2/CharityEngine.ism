@@ -2442,7 +2442,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2004 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2019 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">

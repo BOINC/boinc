@@ -202,6 +202,7 @@ void COPROCS::get_opencl(
     vector<int>devnums_pci_slot_sort;
     vector<OPENCL_DEVICE_PROP>::iterator it;
     int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
+    string s;
 
     if (cc_config.no_opencl) {
         return;
@@ -486,6 +487,9 @@ void COPROCS::get_opencl(
                     COPROC_NVIDIA c;
                     c.opencl_prop = prop;
                     c.set_peak_flops();
+                    if (c.bad_gpu_peak_flops("NVIDIA OpenCL", s)) {
+                        warnings.push_back(s);
+                    }
                     prop.peak_flops = c.peak_flops;
                 }
                 if (cuda_match_found) {
@@ -552,6 +556,9 @@ void COPROCS::get_opencl(
                     COPROC_ATI c;
                     c.opencl_prop = prop;
                     c.set_peak_flops();
+                    if (c.bad_gpu_peak_flops("AMD OpenCL", s)) {
+                        warnings.push_back(s);
+                    }
                     prop.peak_flops = c.peak_flops;
                 }
 
@@ -576,6 +583,9 @@ void COPROCS::get_opencl(
                 safe_strcpy(c.version, prop.opencl_driver_version);
 
                 c.set_peak_flops();
+                if (c.bad_gpu_peak_flops("Intel OpenCL", s)) {
+                    warnings.push_back(s);
+                }
                 prop.peak_flops = c.peak_flops;
                 prop.opencl_available_ram = prop.global_mem_size;
 
@@ -606,12 +616,22 @@ void COPROCS::get_opencl(
                 prop.opencl_available_ram = prop.global_mem_size;
                 prop.is_used = COPROC_USED;
 
-                // TODO: Find a better way to calculate / estimate peak_flops for future coprocessors?
+                // TODO: is there a better way to estimate peak_flops?
+                //
                 prop.peak_flops = 0;
                 if (prop.max_compute_units) {
-                    prop.peak_flops = prop.max_compute_units * prop.max_clock_frequency * MEGA;
+                    double freq = ((double)prop.max_clock_frequency) * MEGA;
+                    prop.peak_flops = ((double)prop.max_compute_units) * freq;
                 }
-                if (prop.peak_flops <= 0) prop.peak_flops = 45e9;
+                if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
+                    char buf2[256];
+                    sprintf(buf2,
+                        "OpenCL generic: bad peak FLOPS; Max units %d, max freq %d MHz",
+                        prop.max_compute_units, prop.max_clock_frequency
+                    );
+                    warnings.push_back(buf2);
+                    prop.peak_flops = GPU_DEFAULT_PEAK_FLOPS;
+                }
 
                 other_opencls.push_back(prop);
             }

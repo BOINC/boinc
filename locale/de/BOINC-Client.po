@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2019 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-09-20 18:11 UTC\n"
-"PO-Revision-Date: 2018-09-20 18:27+0000\n"
+"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
+"PO-Revision-Date: 2019-02-10 16:53+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgid ""
 "the preferences."
 msgstr "Einige Aufgaben benötigen mehr Arbeitsspeicher als von ihren Einstellungen erlaubt wird. Bitte die Einstellungen überprüfen."
 
-#: client/client_state.cpp:695
+#: client/client_state.cpp:696
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Konnte Statusdatei nicht schreiben; bitte Zugriffsrechte überprüfen"
 
@@ -50,11 +50,11 @@ msgid ""
 " add %s"
 msgstr "Es wird eine alte URL für dieses Projekt genutzt. Wenn möglich bitte dieses Projekt entfernen und %s neu hinzufügen."
 
-#: client/cs_statefile.cpp:856
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaxfehler in app_info.xml"
 
-#: client/cs_statefile.cpp:900
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Datei auf die aus app_info.xml verwiesen wurde, existiert nicht: "
 
@@ -87,44 +87,44 @@ msgstr "Herunterladen"
 msgid "A new version of %s is available"
 msgstr "Neue Version von %s ist verfügbar"
 
-#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+#: client/gpu_detect.cpp:246 client/gpu_detect.cpp:289
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "kann nicht für CUDA oder OpenCL Berechnungen mit CUDA Treiber 6.5 oder höher verwendet werden"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:494
+#: client/log_flags.cpp:319 client/log_flags.cpp:492
 msgid "Unexpected text in cc_config.xml"
 msgstr "Unerwarteter Text in cc_config.xml"
 
-#: client/log_flags.cpp:468 client/log_flags.cpp:523
+#: client/log_flags.cpp:466 client/log_flags.cpp:521
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nicht erkanntes Tag in cc_config.xml"
 
-#: client/log_flags.cpp:485
+#: client/log_flags.cpp:483
 msgid "Missing start tag in cc_config.xml"
 msgstr "Fehlendes Starttag in cc_config.xml"
 
-#: client/log_flags.cpp:513
+#: client/log_flags.cpp:511
 msgid "Error in cc_config.xml options"
 msgstr "Fehler in den cc_config.xml Optionen"
 
-#: client/log_flags.cpp:531
+#: client/log_flags.cpp:529
 msgid "Missing end tag in cc_config.xml"
 msgstr "Fehlendes Endetag in cc_config.xml"
 
-#: client/project.cpp:1003
+#: client/project.cpp:995
 msgid "To fix this, you can "
 msgstr "Um dies zu beheben, können Sie"
 
-#: client/project.cpp:1006
+#: client/project.cpp:999
 msgid "change Project Preferences on the project's web site"
 msgstr "die Projekteinstellungen auf der Projektwebseite ändern"
 
-#: client/project.cpp:1012
+#: client/project.cpp:1004
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "die GPU-Ausnahmen in Ihrer cc_config.xml entfernen"
 
-#: client/project.cpp:1019
+#: client/project.cpp:1009
 msgid "change your settings at your account manager web site"
 msgstr "die Einstellungen auf der Webseite Ihrer Kontoverwaltung ändern"
 

@@ -89,7 +89,7 @@ function navbar_right($user) {
             );
         } else {
             echo sprintf('
-                <li><a href="%screate_account_form.php">Sign Up</a></li>
+                <li><a href="%ssignup.php">Join</a></li>
                 <li><a href="%slogin_form.php">Login</a></li>
                 ', url_base(), url_base()
             );

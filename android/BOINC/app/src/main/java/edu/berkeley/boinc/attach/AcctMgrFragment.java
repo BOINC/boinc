@@ -25,6 +25,7 @@ import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.utils.*;
+
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
@@ -55,58 +56,63 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcctMgrFragment extends DialogFragment{
-	// services
-	private IMonitor monitor = null;
-	private boolean mIsBound = false;
-	private ProjectAttachService attachService = null;
-	private boolean asIsBound = false;
+public class AcctMgrFragment extends DialogFragment {
 
-	private Spinner accountManagerSpinner;
-	private EditText urlInput;
-	private EditText nameInput;
-	private EditText pwdInput;
-	private TextView warning;
-	private LinearLayout ongoingWrapper;
-	private Button continueB;
-	
-	private boolean returnToMainActivity = false;
+    // services
+    private IMonitor monitor = null;
+    private boolean mIsBound = false;
+    private ProjectAttachService attachService = null;
+    private boolean asIsBound = false;
 
-	private AttachProjectAsyncTask asyncTask;
+    private Spinner urlSpinner;
+    private EditText urlInput;
+    private EditText nameInput;
+    private EditText pwdInput;
+    private TextView warning;
+    private LinearLayout ongoingWrapper;
+    private Button continueB;
+
+    private boolean returnToMainActivity = false;
+
+    private AttachProjectAsyncTask asyncTask;
+
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment onCreateView"); 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
+        }
         doBindService();
         View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
         // Get the account managers list.
-		ArrayList<AccountManager> accountManagers = null;
-		if (mIsBound){
-			try {
-				accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
-			} catch (Exception e) {
-				if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
-			}
-		}
-		else {
-			accountManagers = new ArrayList<>();
-			AccountManager am = new AccountManager();
-			am.name = "";
-			am.url = "";
-			accountManagers.add(am);
-		}
+        ArrayList<AccountManager> accountManagers = null;
+        if (mIsBound){
+            try {
+                accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
+            } catch (Exception e) {
+                if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
+            }
+        }
+        else {
+            accountManagers = new ArrayList<>();
+            AccountManager am = new AccountManager();
+            am.name = "";
+            am.url = "";
+            accountManagers.add(am);
+        }
 
-		// Filter AccountManager data to AccountManagerSpinner data.
-		List<AccountManagerSpinner> adapterData = new ArrayList<>();
-		for (AccountManager accountManager : accountManagers) {
-			adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
-		}
+        // Filter AccountManager data to AccountManagerSpinner data.
+        List<AccountManagerSpinner> adapterData = new ArrayList<>();
+        for (AccountManager accountManager : accountManagers) {
+            adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+        }
 
-		accountManagerSpinner = v.findViewById(R.id.accountManager_spinner);
-		ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
+        urlSpinner = v.findViewById(R.id.url_spinner);
+        //ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData); //Delete this line if everything is working
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        accountManagerSpinner.setAdapter(adapter);
+        urlSpinner.setAdapter(adapter);
 
         urlInput = v.findViewById(R.id.url_input);
         nameInput = v.findViewById(R.id.name_input);
@@ -115,11 +121,12 @@ public class AcctMgrFragment extends DialogFragment{
         ongoingWrapper = v.findViewById(R.id.ongoing_wrapper);
         continueB = v.findViewById(R.id.continue_button);
 
-        // Change urlInput text field on accountManagerSpinner spinner change
-        accountManagerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // change url text field on url spinner change
+        urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) AcctMgrFragment.this.accountManagerSpinner.getSelectedItem();
-				urlInput.setText(accountManagerSpinner.url);
+                urlInput.setText(urlSpinner.getSelectedItem().toString());
+                //AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) AcctMgrFragment.this.accountManagerSpinner.getSelectedItem(); //Delete this line if everything is working
+				        //urlInput.setText(accountManagerSpinner.url); //Delete this line if everything is working
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -161,8 +168,9 @@ public class AcctMgrFragment extends DialogFragment{
 		        	
 		        } else if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing..."); 
 			}
+
         });
-        
+
         return v;
 	}
 
@@ -357,4 +365,5 @@ public class AcctMgrFragment extends DialogFragment{
 			}
 		}
 	}
+
 }
