@@ -109,8 +109,8 @@ public class AcctMgrFragment extends DialogFragment {
         }
 
         urlSpinner = v.findViewById(R.id.url_spinner);
-        //ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData); //Delete this line if everything is working
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item); //Delete this line if everything is working
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urlSpinner.setAdapter(adapter);
 
