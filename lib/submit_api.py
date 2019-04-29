@@ -283,3 +283,15 @@ def upload_files(upload_files_req):
     reply = requests.post(url, data=req, files=files)
     #print "reply text: ", reply.text
     return ET.fromstring(reply.text)
+
+# returns an XML object with various job counts
+#   results_ready_to_send
+#   results_in_progress
+#   results_need_file_delete
+#   wus_need_validate
+#   wus_need_assimilate
+#   wus_need_file_delete
+# see tools/submit_api_test.py
+#
+def get_job_counts(req):
+    return do_http_post('', req.project, 'server_status.php?counts=1');

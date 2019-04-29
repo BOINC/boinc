@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -210,5 +210,3 @@ int get_logical_name(RESULT& result, string& path, string& name) {
     }
     return ERR_XML_PARSE;
 }
-
-const char *BOINC_RCSID_07049e8a0e = "$Id$";

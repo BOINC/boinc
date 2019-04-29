@@ -1,0 +1,102 @@
+API.txt: $Id$
+
+This file contains a log of changes to the API.
+API version 1.9
+  Introduce 'object factory' to export schema, allowing modules to control
+    how the exportable objects are instantiated.
+  Introduce 'hook_ctools_math_expression_functions_alter'.
+
+API version 1.8
+  Introduce 'get base contexts' callback to all tasks to facilitate
+    Page Manager's site template extracting contexts from the environment.
+  Introduce 'ctools_content_editable' function and the corresponding
+    'check editable' callback on all content types to determine if a
+    content type can be edited based upon configuration.
+  Introduce utility.inc and move some code to it.
+  Introduce page-wizard.inc and a "page_wizard" type plugin for Page Manager.
+
+API version 1.7.2
+  Allow Export UI to automatically have wizards by setting 'use wizard' => TRUE
+  Moved the Panels Stylizer module into CTools so that the UI can be
+    used to manage styles for modules other than Panels.
+  Introduce ctools_access_ruleset module for customizable access rulesets.
+  Introduce ctools_custom_content module for customizable content panes.
+  Add 'convert default' as a converter keyword for context implementations.
+    Instead of reverting $context->title this will cause %context without
+    :converter to use a default converter.
+  
+API version 1.7.1
+  Introduce 'modal return' and 'ajax return' to wizard.inc to allow
+    wizard owners to process their own ajax/modal output.
+  Introduce math-expr.inc to allow simple math expression parsing.
+
+API version 1.7
+  Introduce the export-ui plugin. This introduces new keys to the 'export'
+    section of schema: 'primary key', 'key name'.
+  Introduce ctools_export_crud_ functions to provide CRUD access to most
+    exportables. This introduces several optional callback keys to the
+    'export' section of the schema to provide overrides.
+  Introduce auto-submit.js. Forms may now be set to auto submit just by
+    adding appropriate classes.
+  Provide new default functions for bulk export. This may make items that
+    were previously not bulk exportable due to missing 'list' callback
+    appear in the bulk export UI.
+  
+API version 1.5
+  Add two new alter hooks: page_manager_operations_alter and 
+      page_manager_variant_operations_alter to allow modules to add tabs
+      to any page manager page.
+
+API version 1.4:
+  Allow themes to provide APIs which includes default pages of all types.
+  Intorduce ctools_css_add_css() to allow private file systems to have generated CSS.
+  Introduce initial build of stylizer.inc to allow UI configurable styles.
+  Introduce 'cache warming' feature. Use 'ctools-use-ajax-cache' or
+    'ctools-use-modal-cache'. Doing so will cause content to be fetched
+    via AJAX on page load and kept warm in a cache for instant responses
+    to clicks.
+  Generalized ctools_add_css().
+  Generalized ctools_add_js().
+  Generalized ctools_image_path().
+  Make global hooks for plugin definition optional through a 'use hooks'
+    plugin option.
+
+API version 1.3.2:
+  Introduce 'export callback' to individual fields in export.inc
+
+API version 1.3.1:
+  #649144 by neclimdul: Expand ctools_include() to work for other modules.
+
+API version 1.3:
+  Introduce ctools_jump_menu().
+  Change plugins to no longer need magic function. Can now use $plugin = array(...) instead.
+
+API version 1.2:
+  Introduce ctools_set_variable_token().
+  Introduce ctools_set_callback_token().
+  Introduce cleanstring tool. See cleanstring.inc
+  Introduce page_manager_get_current_page().
+  Introduce ctools_ajax_command_redirect().
+  Introduce ctools_ajax_command_reload().
+  Introduce ctools_ajax_command_submit().
+  Introduce ctools_static().
+  Introduce ctools_modal_command_loading().
+
+API version 1.1.1:
+  Introduce ctools_plugin_get_class() and ctools_plugin_load_class()
+  Introduce ctools_ajax_command_attr().
+  Introduce ctools_set_page_token().
+
+API version 1.1.0:
+  delegator module destroyed, replaced by page manager. All 'task' and 'task_handler' plugins
+  now owned by page_manager. Update plugin hooks accordingly. The filename for defaults
+  for pages and handlers should now be MODULE.pages_default.inc
+
+  The task_type plugin has been removed.
+
+  Task handlers no longer have a separate UI. While task handlers can still
+  be separated from pages for other purposes, they will probably need
+  to implement their own UI to do it.
+
+API version 1.0:
+  Initial CTools API version.

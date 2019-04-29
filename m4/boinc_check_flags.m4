@@ -47,28 +47,6 @@ AC_DEFUN([BOINC_CHECK_CXXFLAG],[
   AC_LANG_POP(C++)
 ])
 
-AC_DEFUN([BOINC_CHECK_FFLAG],[
-  AC_LANG_PUSH(Fortran 77)
-  sv_flags="${FFLAGS}"
-  AC_MSG_CHECKING(if f77 compiler supports $1)
-  FFLAGS="${FFLAGS} $1"
-  AC_LINK_IFELSE([
-    AC_LANG_PROGRAM([],
-    [      write(*,*) 'hello' ])],
-    [
-      AC_MSG_RESULT(yes)
-      $2
-    ],
-    [ 
-      AC_MSG_RESULT(no)
-      FFLAGS="${sv_flags}"
-      $3
-    ]
-  )
-  AC_LANG_POP(Fortran 77)
-])
-
-
 AC_DEFUN([BOINC_CHECK_LDFLAG],[
   AC_LANG_PUSH(C)
   sv_flags="${LDFLAGS}"

@@ -36,7 +36,6 @@ if ($border=="no") {
 
 $credit = credit_string($user->total_credit, false);
 
-$title_font = "\"Optima,ZapfChancery\"";
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
 
 echo "
@@ -44,7 +43,7 @@ echo "
     <center>
     <table width=700 border=0><tr><td>
     <center>
-    <font style=\"font-size: 52\" face=$title_font>Certificate of Computation
+    <font style=\"font-size: 52\" face=$font>Certificate of Computation
 
 
     <font face=$font style=\"font-size:28\">

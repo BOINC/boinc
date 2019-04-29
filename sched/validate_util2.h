@@ -18,14 +18,16 @@
 #ifndef BOINC_VALIDATE_UTIL2_H
 #define BOINC_VALIDATE_UTIL2_H
 
-// return value of init_result if an "adaptive replication"
-// result looks suspicious
-//
-#define VAL_RESULT_SUSPICIOUS 1
-
 #include <vector>
 
 #include "boinc_db_types.h"
+
+// special return values of init_result():
+//
+#define VAL_RESULT_SUSPICIOUS       1
+    // if an "adaptive replication" result looks suspicious
+#define VAL_RESULT_LONG_TERM_FAIL   2
+    // host is unlikely to handle this app version; stop using
 
 extern int init_result(RESULT&, void*&);
 extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);

@@ -62,7 +62,6 @@ dnl Workaround for autoconf >= 2.65 backwards incompatibility
 m4_pattern_allow([AC_PROG_OBJCXX])
 m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX],)
 dnl ------
-AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 SAH_LINKS
@@ -282,7 +281,7 @@ echo "--- Build Components: (${configured_to_build}) ---"
 AC_COPYRIGHT([
 Berkeley Open Infrastructure for Network Computing
 http://boinc.berkeley.edu
-Copyright (C) 2005 University of California
+Copyright (C) 2019 University of California
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -1312,9 +1311,6 @@ AC_CONFIG_FILES([
                  packages/solaris/CSW/boincmanager/pkginfo
                  packages/solaris/CSW/boincmanager/prototype
                  samples/Makefile
-                 test/boinc_path_config.py:py/boinc_path_config.py.in
-                 test/Makefile
-                 test/version.inc
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  vda/Makefile

@@ -13,7 +13,7 @@ def buildVersionCode() {
     def head = repo.head()
 
     // Sanity check across git plugins
-    assert head.getAbbreviatedId(10) == versionDetails().gitHash : "Internal error: SHA1 mismatch!"
+    assert head.getAbbreviatedId(10) == versionDetails().gitHash: "Internal error: SHA1 mismatch!"
 
     return head.time
 }
@@ -28,15 +28,14 @@ def buildVersionName() {
     def match = (tag =~ pattern)
 
     // Sanity checks for tag format
-    if(match.hasGroup() && 1L == match.size() && 5L == match[0].size() && head.commitDistance == 0) {
+    if (match.hasGroup() && 1L == match.size() && 5L == match[0].size() && head.commitDistance == 0) {
         def major = match.group('major')
         def minor = match.group('minor')
         def revision = match.group('revision')
         def suffix = match.group('suffix')
         version = "${major}.${minor}.${revision}${suffix}"
-        assert !suffix.endsWith('.dirty') : "Dirty working tree detected! Preventing release build!"
-    }
-    else {
+        assert !suffix.endsWith('.dirty'): "Dirty working tree detected! Preventing release build!"
+    } else {
         println "Warning! Non-release tag or offset found: $tag (offset: $head.commitDistance)"
         println "Flagging as DEVELOPMENT build..."
     }

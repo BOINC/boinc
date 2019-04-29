@@ -7,6 +7,7 @@ set -e
 
 # Script to compile BOINC for Android
 
+STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -34,33 +35,33 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_arm.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-echo "==================building BOINC from $BOINC=========================="
-cd "$BOINC"
-if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-make distclean
-fi
-if [ -n "$CONFIGURE" ]; then
-./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
-sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-mv client/Makefile.out client/Makefile
-fi
-make
-make stage
+    echo "===== building BOINC for arm from $BOINC ====="
+    cd "$BOINC"
+    if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
+        make distclean 1>$STDOUT_TARGET 2>&1
+    fi
+    if [ -n "$CONFIGURE" ]; then
+        ./_autosetup
+        ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
+        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
+        mv client/Makefile.out client/Makefile
+    fi
+    make --silent
+    make stage --silent
 
-echo "Stripping Binaries"
-cd stage/usr/local/bin
-arm-linux-androideabi-strip *
-cd ../../../../
+    echo "Stripping Binaries"
+    cd stage/usr/local/bin
+    arm-linux-androideabi-strip *
+    cd ../../../../
 
-echo "Copy Assets"
-cd android
-mkdir -p "BOINC/app/src/main/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi-v7a/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/armeabi-v7a/boinccmd"
-cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
-cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
+    echo "Copy Assets"
+    cd android
+    mkdir -p "BOINC/app/src/main/assets"
+    cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi-v7a/boinc"
+    cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/armeabi-v7a/boinccmd"
+    cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
+    cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-echo "=============================BOINC done============================="
+    echo "===== BOINC for arm build done ====="
 
 fi

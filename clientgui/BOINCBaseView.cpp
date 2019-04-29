@@ -278,7 +278,9 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     // to draw the bottom items.  This could happen
                     // if the list was scrolled near the bottom and
                     // the user selected "Show active tasks."
-                    m_pListPane->EnsureVisible(iDocCount - 1);
+                    if (m_pListPane->GetItemCount() <= m_pListPane->GetCountPerPage()) {
+                        m_pListPane->EnsureVisible(iDocCount - 1);
+                    }
 #endif
                     m_bNeedSort = true;
                 }

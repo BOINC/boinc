@@ -111,7 +111,9 @@ function boinc_standard_input_formats() {
       // Spam link deterrent
       'bbcode_filter_nofollow' => '0',
       // Email address encoding
-      'bbcode_encode_mailto' => '1',
+      'bbcode_encode_mailto' => '0',
+      // Email address rewrite
+      'bbcode_rewrite_email' => '1',
       // Smart paragraph and line breaks
       'bbcode_paragraph_breaks' => '2',
       // Print debugging info

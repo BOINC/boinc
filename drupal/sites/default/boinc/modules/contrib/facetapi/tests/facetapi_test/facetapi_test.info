@@ -1,0 +1,13 @@
+name = Facet API Test
+description = Provides a test adapter and plugins.
+dependencies[] = facetapi
+package = Testing
+core = 6.x
+hidden = TRUE
+
+; Information added by drupal.org packaging script on 2012-10-23
+version = "6.x-3.0-beta2-boinc-1-dev"
+core = "6.x"
+project = "facetapi"
+datestamp = "1548705925"
+
