@@ -79,7 +79,7 @@ public class AcctMgrFragment extends DialogFragment {
 
     private void fillAdapterData() {
         ArrayList<AccountManager> accountManagers = null;
-        if (mIsBound){
+        if (mIsBound) {
             try {
                 accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
             } catch (Exception e) {
