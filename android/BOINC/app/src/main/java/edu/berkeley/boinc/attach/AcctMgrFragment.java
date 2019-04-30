@@ -77,42 +77,32 @@ public class AcctMgrFragment extends DialogFragment {
     private AttachProjectAsyncTask asyncTask;
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
-        }
-        doBindService();
-        View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
-
-        // Get the account managers list.
+    private void fillAdapterData() {
         ArrayList<AccountManager> accountManagers = null;
-        if (mIsBound) {
+        if (mIsBound){
             try {
                 accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
             } catch (Exception e) {
                 if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
             }
-        } else {
-            accountManagers = new ArrayList<>();
-            AccountManager am = new AccountManager();
-            am.name = "";
-            am.url = "";
-            accountManagers.add(am);
+            List<AccountManagerSpinner> adapterData = new ArrayList<>();
+            for (AccountManager accountManager : accountManagers) {
+                adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+            }
+            ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            urlSpinner.setAdapter(adapter);
         }
+    }
 
-        // Filter AccountManager data to AccountManagerSpinner data.
-        List<AccountManagerSpinner> adapterData = new ArrayList<>();
-        for (AccountManager accountManager : accountManagers) {
-            adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "AcctMgrFragment onCreateView");
         }
+        View v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false);
 
         urlSpinner = v.findViewById(R.id.url_spinner);
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.acct_mgr_url_list, android.R.layout.simple_spinner_item); //Delete this line if everything is working
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        urlSpinner.setAdapter(adapter);
-
         urlInput = v.findViewById(R.id.url_input);
         nameInput = v.findViewById(R.id.name_input);
         pwdInput = v.findViewById(R.id.pwd_input);
@@ -123,9 +113,8 @@ public class AcctMgrFragment extends DialogFragment {
         // change url text field on url spinner change
         urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                urlInput.setText(urlSpinner.getSelectedItem().toString());
-                //AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) AcctMgrFragment.this.accountManagerSpinner.getSelectedItem(); //Delete this line if everything is working
-                //urlInput.setText(accountManagerSpinner.url); //Delete this line if everything is working
+                AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) urlSpinner.getSelectedItem();
+                urlInput.setText(accountManagerSpinner.url);
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -170,6 +159,8 @@ public class AcctMgrFragment extends DialogFragment {
             }
 
         });
+
+        doBindService();
 
         return v;
     }
@@ -231,6 +222,7 @@ public class AcctMgrFragment extends DialogFragment {
             // the Monitor object that is needed to call functions.
             monitor = IMonitor.Stub.asInterface(service);
             mIsBound = true;
+            fillAdapterData();
         }
 
         public void onServiceDisconnected(ComponentName className) {
