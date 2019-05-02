@@ -4,17 +4,17 @@
     dest: "{{base_dir}}/boinc-server-docker/boinc-server-docker-expose-mysql.yml"
     
 - name: Start docker mysql containers
-  shell: TAG='' docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up -d mysql
+  shell: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up -d mysql
   args:
     chdir: "{{base_dir}}/boinc-server-docker"
 
 - name: Start docker makeprojectcontainer
-  shell: TAG='' docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up makeproject
+  shell: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up makeproject
   args:
     chdir: "{{base_dir}}/boinc-server-docker"
 
 - name: Start docker apache containers
-  shell: TAG='' docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up -d apache
+  shell: docker-compose -f docker-compose.yml -f boinc-server-docker-expose-mysql.yml up -d apache
   args:
     chdir: "{{base_dir}}/boinc-server-docker"
 

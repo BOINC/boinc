@@ -1,5 +1,5 @@
 - name: Build BOINC in docker container
-  shell: TAG='' docker-compose build --no-cache
+  shell: docker-compose build --no-cache
   args:
     chdir: "{{base_dir}}/boinc-server-docker"
   tags: build,boinc
