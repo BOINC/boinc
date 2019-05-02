@@ -59,6 +59,7 @@
 /android/**/build
 /android/**/captures
 /android/**/.externalNativeBuild
+/android/**/.vagrant
 /stage
 /android/BOINC/app/src/main/assets/arm*
 /android/BOINC/app/src/main/assets/mips*

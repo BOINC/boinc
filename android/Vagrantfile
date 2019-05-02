@@ -111,9 +111,10 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", name: "Preparing desktop environment...", inline: <<-SHELL
+      export DEBIAN_FRONTEND=noninteractive;
       add-apt-repository ppa:lyzardking/ubuntu-make
-      apt-get update
-      apt-get dist-upgrade
+      apt-get --assume-yes update
+      apt-get --assume-yes dist-upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
       apt-get --assume-yes install ubuntu-mate-core virtualbox-guest-x11
       apt-get --assume-yes install ubuntu-make git automake libtool pkg-config
       update-locale LC_ALL=en_US.UTF-8
@@ -160,9 +161,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", name: "Final update, cleanup and reboot...", inline: <<-SHELL
       export DEBIAN_FRONTEND=noninteractive;
-      apt-get update
-      apt-get --assume-yes upgrade
-      apt-get --assume-yes dist-upgrade
+      apt-get --assume-yes update
+      apt-get --assume-yes upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
+      apt-get --assume-yes dist-upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
       apt-get clean
       reboot
   SHELL
