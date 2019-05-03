@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "average.h"
+#include "median.h"
 #include "opencl_boinc.h"
 #include "parse.h"
 #include "wslinfo.h"
@@ -130,7 +130,7 @@ struct APP_VERSION {
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
     char plan_class[256];
-    AVERAGE pfc;
+    MEDIAN pfc;
         // the stats of (claimed PFC)/wu.rsc_fpops_est
         // What does this mean?
         // Suppose X is the error in rsc_fpops_est
@@ -730,11 +730,11 @@ struct HOST_APP_VERSION {
         // 1000000*appid + 2 (CPU)
         // 1000000*appid + 3 (NVIDIA)
         // 1000000*appid + 4 (ATI)
-    AVERAGE pfc;
+    MEDIAN pfc;
         // the statistics of (claimed peak FLOPS)/wu.rsc_fpops_est
         // If wu.rsc_fpops_est is accurate,
         // this is roughly the reciprocal of efficiency
-    AVERAGE_VAR et;
+    MEDIAN_VAR et;
         // the statistics of (elapsed time)/wu.rsc_fpops_est
         //
         // for old clients (which don't report elapsed time)
@@ -746,7 +746,7 @@ struct HOST_APP_VERSION {
         // for CPU versions:
         //   this times #CPUs
     int n_jobs_today;
-    AVERAGE_VAR turnaround;
+    MEDIAN_VAR turnaround;
         // the stats of turnaround time (received - sent)
         // (NOT normalized by wu.rsc_fpops_est)
     int consecutive_valid;
