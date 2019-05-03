@@ -28,11 +28,11 @@
 // per-host averages respond faster to change
 
 #define HAV_AVG_THRESH  20
-#define HAV_AVG_WEIGHT  .01
+#define HAV_AVG_WEIGHT  .0025
 #define HAV_AVG_LIMIT   10
 
 #define AV_AVG_THRESH   100
-#define AV_AVG_WEIGHT   .001
+#define AV_AVG_WEIGHT   .00025
 #define AV_AVG_LIMIT    10
 
 // variant of DB_APP_VERSION used by the validator
