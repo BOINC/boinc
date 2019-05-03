@@ -22,9 +22,10 @@ libfcgi_sources = \
     coproc.cpp \
     filesys.cpp \
     hostinfo.cpp \
-	keyword.cpp \
+    keyword.cpp \
     md5.cpp \
     md5_file.cpp \
+    median.cpp \
     mfile.cpp \
     miofile.cpp \
     msg_log.cpp \
@@ -36,7 +37,7 @@ libfcgi_sources = \
     synch.cpp \
     url.cpp \
     util.cpp \
-	wslinfo.cpp
+    wslinfo.cpp
 
 generic_sources = \
     app_ipc.cpp \
@@ -50,9 +51,10 @@ generic_sources = \
     gui_rpc_client_ops.cpp \
     gui_rpc_client_print.cpp \
     hostinfo.cpp \
-	keyword.cpp \
+    keyword.cpp \
     md5.cpp \
     md5_file.cpp \
+    median.cpp \
     mem_usage.cpp \
     mfile.cpp \
     miofile.cpp \
@@ -71,7 +73,7 @@ generic_sources = \
     str_util.cpp \
     url.cpp \
     util.cpp \
-	wslinfo.cpp
+    wslinfo.cpp
 
 if OS_WIN32
 win_sources = \
@@ -150,6 +152,7 @@ pkginclude_HEADERS = \
     hostinfo.h \
     md5.h \
     md5_file.h \
+    median.h \
     mem_usage.h \
     mfile.h \
     miofile.h \
