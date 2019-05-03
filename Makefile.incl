@@ -2,7 +2,7 @@
 ## $Id$
 
 # For debugging purposes
-#AM_DEFAULT_VERBOSITY=1
+AM_DEFAULT_VERBOSITY=1
 
 # Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
 
