@@ -85,7 +85,7 @@ public class AppPreferences {
     public void setShowNotificationForNotices(Boolean as) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("showNotification", as);
-        editor.commit();
+        editor.apply();
         this.showNotificationForNotices = as;
     }
 
@@ -96,7 +96,7 @@ public class AppPreferences {
     public void setShowNotificationDuringSuspend(Boolean ns) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("showNotificationDuringSuspend", ns);
-        editor.commit();
+        editor.apply();
         this.showNotificationDuringSuspend = ns;
     }
 
@@ -107,7 +107,7 @@ public class AppPreferences {
     public void setShowAdvanced(Boolean as) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("showAdvanced", as);
-        editor.commit();
+        editor.apply();
         this.showAdvanced = as;
     }
 
@@ -118,7 +118,7 @@ public class AppPreferences {
     public void setLogLevel(Integer logLevel) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("logLevel", logLevel);
-        editor.commit();
+        editor.apply();
         this.logLevel = logLevel;
         Logging.setLogLevel(logLevel);
     }
@@ -130,21 +130,21 @@ public class AppPreferences {
     public void setPowerSourceAc(Boolean ac) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("powerSourceAc", ac);
-        editor.commit();
+        editor.apply();
         this.powerSourceAc = ac;
     }
 
     public void setPowerSourceUsb(Boolean usb) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("powerSourceUsb", usb);
-        editor.commit();
+        editor.apply();
         this.powerSourceUsb = usb;
     }
 
     public void setPowerSourceWireless(Boolean wireless) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("powerSourceWireless", wireless);
-        editor.commit();
+        editor.apply();
         this.powerSourceWireless = wireless;
     }
 
@@ -163,7 +163,7 @@ public class AppPreferences {
     public void setStationaryDeviceMode(Boolean sdm) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("stationaryDeviceMode", sdm);
-        editor.commit();
+        editor.apply();
         this.stationaryDeviceMode = sdm;
     }
 
@@ -174,7 +174,7 @@ public class AppPreferences {
     public void setSuspendWhenScreenOn(Boolean swso) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("suspendWhenScreenOn", swso);
-        editor.commit();
+        editor.apply();
         this.suspendWhenScreenOn = swso;
     }
 
