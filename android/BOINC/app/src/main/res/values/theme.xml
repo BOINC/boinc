@@ -17,8 +17,7 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!-- All styles declared here are for the support library compatibility.
-Style properties for API version 14+ can be found at values-14/theme.xml -->
+<!-- All styles declared here are for the support library compatibility. -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Styled" parent="@style/Theme.AppCompat.Light.DarkActionBar">
