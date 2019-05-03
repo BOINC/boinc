@@ -64,6 +64,8 @@ public class Message implements Serializable, Parcelable {
         seqno = in.readInt();
         timestamp = in.readLong();
         body = in.readString();
+        body = body.replace("<![CDATA[", "");
+        body = body.replace("]]>", "");
     }
 
     public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
