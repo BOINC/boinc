@@ -18,8 +18,6 @@
  */
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
@@ -53,7 +51,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.HostInfo;
-import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.*;
 
 /*
  * Singleton that holds the client status data, as determined by the Monitor.
