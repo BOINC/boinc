@@ -135,7 +135,7 @@ public class ClientStatus {
     // call to acquire or release resources held by the WakeLock.
     // acquisition: every time the Monitor loop calls setClientStatus and computingStatus == COMPUTING_STATUS_COMPUTING
     // release: every time acquisition criteria is not met , and in Monitor.onDestroy()
-    @SuppressLint("Wakelock")
+    @SuppressLint("WakelockTimeout") // To run BOINC in the background, wakeLock has to be used without timeout.
     public void setWakeLock(Boolean acquire) {
         try {
             if(wakeLock.isHeld() == acquire) {
