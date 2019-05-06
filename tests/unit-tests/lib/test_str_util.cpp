@@ -48,6 +48,8 @@ namespace test_str_util {
         EXPECT_TRUE(ndays_to_string(1.0, 0, nilbuf));
         EXPECT_FALSE(ndays_to_string(0.0, 0, buf));
         EXPECT_STREQ(buf, "0.00 sec ");
+        EXPECT_FALSE(ndays_to_string(5, -1, buf));
+        EXPECT_STREQ(buf, "5 days ");
         EXPECT_FALSE(ndays_to_string(1.234567890, 0, buf));
         EXPECT_STREQ(buf, "1 days 5 hr 37 min 46.67 sec ");
         EXPECT_FALSE(ndays_to_string(12.34567890, 1, buf));
@@ -81,14 +83,26 @@ namespace test_str_util {
 
     TEST_F(test_str_util, nbytes_to_string) {
         char buf[256];
-        nbytes_to_string(1024, 0, buf, sizeof (buf));
+        nbytes_to_string(5.0, 0.0, buf, sizeof (buf));
+        EXPECT_STREQ(buf, "5 bytes");
+        nbytes_to_string(1024.0, 0.0, buf, sizeof (buf));
         EXPECT_STREQ(buf, "1.00 KB");
-        nbytes_to_string(1024, 1024 * 1024, buf, sizeof (buf));
-        EXPECT_STREQ(buf, "0.00/1.00 MB");
-        nbytes_to_string(512, 1024, buf, sizeof (buf));
-        EXPECT_STREQ(buf, "0.50/1.00 KB");
-        nbytes_to_string(50000000000000, 0, buf, sizeof (buf));
+        nbytes_to_string(5.0*1024*1024, 0.0, buf, sizeof(buf));
+        EXPECT_STREQ(buf, "5.00 MB");
+        nbytes_to_string(15.0*1024*1024*1024, 0.0, buf, sizeof(buf));
+        EXPECT_STREQ(buf, "15.00 GB");
+        nbytes_to_string(50000000000000.0, 0.0, buf, sizeof (buf));
         EXPECT_STREQ(buf, "45.47 TB");
+        nbytes_to_string(2.0, 48.0, buf, sizeof(buf));
+        EXPECT_STREQ(buf, "2/48 bytes");
+        nbytes_to_string(512.0, 1024.0, buf, sizeof (buf));
+        EXPECT_STREQ(buf, "0.50/1.00 KB");
+        nbytes_to_string(1024.0, 1.0 * 1024 * 1024, buf, sizeof (buf));
+        EXPECT_STREQ(buf, "0.00/1.00 MB");
+        nbytes_to_string(6.0*1024*1024*1024, 6.0*1024*1024*1024, buf, sizeof(buf));
+        EXPECT_STREQ(buf, "6.00/6.00 GB");
+        nbytes_to_string(24.0*1024*1024*1024*1024, 48.0*1024*1024*1024*1024, buf, sizeof(buf));
+        EXPECT_STREQ(buf, "24.00/48.00 TB");
     }
 
     TEST_F(test_str_util, parse_command_line) {;
@@ -326,6 +340,8 @@ namespace test_str_util {
         bool ret = is_valid_filename("filename.txt");
         EXPECT_TRUE(ret);
         ret = is_valid_filename("../filename.txt");
+        EXPECT_FALSE(ret);
+        ret = is_valid_filename("../file\nname.txt");
         EXPECT_FALSE(ret);
     }
 
