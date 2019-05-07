@@ -2,6 +2,11 @@ codecov:
   notify:
     require_ci_to_pass: yes
 
+coverage:
+  status:
+    project: off
+    patch: on
+
 comment:
   layout: "diff, files"
   behavior: default
@@ -9,7 +14,25 @@ comment:
   require_base: no        # [yes :: must have a base report to post]
   require_head: yes       # [yes :: must have a head report to post]
 
-# don't gather statistics for tets and external libraries
+flags:
+  # filter the folder(s) you wish to measure by that flag
+  api:
+    paths:
+      - api/
+  library:
+    paths:
+      - lib/
+  client:
+    paths:
+      - client/
+      - clientgui/
+  server:
+    paths:
+      - sched/
+      - db/
+      - tools/
+
+# don't gather statistics for test and external libraries
 ignore:
   - tests/.*
   - zip/.*
