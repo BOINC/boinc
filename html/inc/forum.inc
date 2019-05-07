@@ -452,6 +452,12 @@ function show_posts(
         echo "<script>function jumpToUnread(){};</script>";
     }
 
+    // if thread has no visible posts, user has seen them all
+    //
+    if ($num_shown == 0) {
+        $latest_shown_timestamp = time();
+    }
+
     if ($logged_in_user) {
         if (!$forum_log || $latest_shown_timestamp > $forum_log->timestamp) {
             BoincForumLogging::replace(
