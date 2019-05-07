@@ -367,7 +367,7 @@ string VBOX_BASE::get_error(int num){
 
           "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n \
               hardware acceleration for virtual machines, but your processor does not support the required feature.\n \
-              Please report this issue to the project so that it can be addresssed.\n \
+              Please report this issue to the project so that it can be addressed.\n \
               Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
 
           "   VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n \
