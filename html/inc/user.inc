@@ -283,10 +283,16 @@ function show_user_info_private($user) {
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
         );
-        row2(
-            tra("Account Ownership"),
-            "<a href=\"account_ownership_form.php?$url_tokens\">Generate ownership proof</a>"
-        );
+        
+        require_once("../inc/account_ownership.inc");
+        if (file_exists($account_ownership_private_key_file_path)) {
+          // If the server has keys configured show the account ownership form
+          row2(
+              tra("Account Ownership"),
+              "<a href=\"account_ownership.php?$url_tokens\">Generate ownership proof</a>"
+          );
+        }
+
     }
 }
 

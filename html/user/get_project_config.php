@@ -19,6 +19,7 @@
 require_once("../inc/consent.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/account_ownership.inc");
 if(file_exists('../inc/release.inc'))
     include '../inc/release.inc';
 
@@ -138,11 +139,10 @@ if (file_exists("../../project_keywords.xml")) {
     readfile("../../project_keywords.xml");
 }
 
-$keydir = parse_config($config, "<key_dir>");
-if (is_readable($keydir."/ownership_sign_public.pem")) {
-    echo "    <ownership_signature_public_key>";
-    echo base64_encode(file_get_contents($keydir."/ownership_sign_public.pem"));
-    echo "</ownership_signature_public_key>\n";
+if (is_readable($account_ownership_public_key)) {
+    echo "    <account_ownership_public_key>";
+    echo base64_encode(file_get_contents($account_ownership_public_key));
+    echo "</account_ownership_public_key>\n";
 }
 
 echo "</project_config>";
