@@ -18,15 +18,13 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.berkeley.boinc.adapter.TasksListAdapter;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
-import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.*;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
