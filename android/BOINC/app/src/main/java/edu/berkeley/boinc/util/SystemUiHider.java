@@ -1,6 +1,8 @@
 package edu.berkeley.boinc.util;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 
 /**
@@ -104,7 +106,7 @@ public abstract class SystemUiHider {
 
     /**
      * Sets up the system UI hider. Should be called from
-     * {@link Activity#onCreate}.
+     * {@link Activity#onCreate(Bundle, PersistableBundle)}.
      */
     public abstract void setup();
 
