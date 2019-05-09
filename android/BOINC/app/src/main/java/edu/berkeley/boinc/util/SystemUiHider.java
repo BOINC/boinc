@@ -168,6 +168,6 @@ public abstract class SystemUiHider {
          *
          * @param visible True if the system UI is visible.
          */
-        public void onVisibilityChange(boolean visible);
+        void onVisibilityChange(boolean visible);
     }
 }
