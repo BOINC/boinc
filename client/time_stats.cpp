@@ -364,6 +364,8 @@ int CLIENT_TIME_STATS::write(MIOFILE& out, bool to_remote) {
 int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
     double x;
 #ifdef SIM
+    // mean unavailability is 1 hour
+    //
     double on_lambda = 3600, connected_lambda = 3600;
     double active_lambda = 3600, gpu_active_lambda = 3600;
 #endif

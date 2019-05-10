@@ -36,7 +36,7 @@ class flag_handler_argument_content_id extends views_handler_argument_numeric {
 
     $result = db_query("SELECT o.". $views_info['title field'] ." FROM {". $views_info['views table'] ."} o WHERE o.". $views_info['join field'] ." IN ($placeholders)", $this->value);
     while ($title = db_fetch_object($result)) {
-      $titles[] = check_plain($title->$views_info['title field']);
+      $titles[] = check_plain($title->{$views_info['title field']});
     }
     return $titles;
   }

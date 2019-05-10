@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <algorithm>
 #endif
 
 #include "common_defs.h"
@@ -688,6 +689,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 // app_config.xml stuff
 
 bool have_max_concurrent = false;
+    // does any project have a max concurrent restriction?
 
 int APP_CONFIG::parse_gpu_versions(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
@@ -729,7 +731,9 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.match_tag("/app")) return 0;
         if (xp.parse_str("name", name, 256)) continue;
         if (xp.parse_int("max_concurrent", max_concurrent)) {
-            if (max_concurrent) have_max_concurrent = true;
+            if (max_concurrent) {
+                have_max_concurrent = true;
+            }
             continue;
         }
         if (xp.match_tag("gpu_versions")) {
@@ -800,6 +804,10 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             int retval = ac.parse(xp, mv, log_flags);
             if (retval) return retval;
             app_configs.push_back(ac);
+            if (ac.max_concurrent) {
+                project_has_mc = true;
+                project_min_mc = project_min_mc?std::min(project_min_mc, ac.max_concurrent):ac.max_concurrent;
+            }
             continue;
         }
         if (xp.match_tag("app_version")) {
@@ -812,7 +820,9 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.parse_int("project_max_concurrent", n)) {
             if (n >= 0) {
                 have_max_concurrent = true;
+                project_has_mc = true;
                 project_max_concurrent = n;
+                project_min_mc = project_min_mc?std::min(project_min_mc, n):n;
             }
             continue;
         }

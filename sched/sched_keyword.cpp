@@ -54,7 +54,7 @@ double keyword_score(int i) {
     USER_KEYWORDS& uk = g_request->user_keywords;
     if (uk.empty()) {
         if (config.debug_keyword) {
-            log_messages.printf(MSG_NORMAL, "user has no keywords; returning 0\n");
+            log_messages.printf(MSG_NORMAL, "[keyword] user has no keywords; returning 0\n");
         }
         return 0;
     }
@@ -66,7 +66,7 @@ double keyword_score(int i) {
         WU_RESULT& wr = ssp->wu_results[i];
         if (empty(wr.workunit.keywords)) {
             if (config.debug_keyword) {
-                log_messages.printf(MSG_NORMAL, "job has no keywords; returning 0\n");
+                log_messages.printf(MSG_NORMAL, "[keyword] job has no keywords; returning 0\n");
             }
             return 0;
         }
@@ -74,7 +74,7 @@ double keyword_score(int i) {
     }
     double s = keyword_score_aux(uk, jk);
     if (config.debug_keyword) {
-        log_messages.printf(MSG_NORMAL, "keyword score: %f\n", s);
+        log_messages.printf(MSG_NORMAL, "[keyword] keyword score: %f\n", s);
     }
     return s;
 }

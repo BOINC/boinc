@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-typedef void (*WORKER_FUNC_PTR)();
+typedef void (*WORKER_FUNC_PTR)(void);
 
 extern int boinc_init_graphics(WORKER_FUNC_PTR);
 
@@ -40,8 +40,8 @@ extern void boinc_app_mouse_button(int x, int y, int which, int is_down);
 extern void boinc_app_mouse_move(int x, int y, int left, int middle, int right);
 extern void boinc_app_key_press(int, int);
 extern void boinc_app_key_release(int, int);
-extern void boinc_suspend_graphics_thread();
-extern void boinc_resume_graphics_thread();
+extern void boinc_suspend_graphics_thread(void);
+extern void boinc_resume_graphics_thread(void);
 
 // C++ API follows here 
 #ifdef __cplusplus
@@ -50,7 +50,7 @@ extern void boinc_resume_graphics_thread();
 #include "boinc_api.h"
 
 extern int boinc_init_options_graphics(BOINC_OPTIONS&, WORKER_FUNC_PTR);
-extern bool boinc_graphics_possible();
+extern bool boinc_graphics_possible(void);
 
 // Implementation stuff
 //

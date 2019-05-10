@@ -67,7 +67,7 @@ class views_query {
   /**
    * Constructor; Create the basic query object and fill with default values.
    */
-  function views_query($base_table = 'node', $base_field = 'nid') {
+  function __construct($base_table = 'node', $base_field = 'nid') {
     $this->base_table = $base_table;  // Predefine these above, for clarity.
     $this->base_field = $base_field;
     $this->relationships[$base_table] = array(
@@ -105,6 +105,10 @@ class views_query {
       'alias' => $base_field,
       'count' => TRUE,
     );
+  }
+
+  function views_query($base_table = 'node', $base_field = 'nid') {
+    self::__construct($base_table, $base_field);
   }
 
   // ----------------------------------------------------------------

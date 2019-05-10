@@ -5,8 +5,8 @@ package = Flags
 php = 5
 
 ; Information added by Drupal.org packaging script on 2015-07-12
-version = "6.x-2.2-boinc-1-dev"
+version = "6.x-2.2-boinc-2-dev"
 core = "6.x"
 project = "flag"
-datestamp = "1494857819"
+datestamp = "1548705400"
 

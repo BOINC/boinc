@@ -23,6 +23,8 @@
 // - deadline misses (per-project count, per-result flag)
 //      Deadline misses are not counted for tasks
 //      that are too large to run in RAM right now.
+// - number of runnable jobs per project
+//      p.pwf.n_runnable_jobs
 // - for each resource type (in RSC_WORK_FETCH):
 //    - shortfall
 //    - nidle_now: # of idle instances
@@ -97,6 +99,7 @@ struct RR_SIM {
         active.push_back(rp);
         rsc_work_fetch[0].sim_nused += rp->avp->avg_ncpus;
         p->rsc_pwf[0].sim_nused += rp->avp->avg_ncpus;
+
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
@@ -114,6 +117,15 @@ struct RR_SIM {
                     rsc_work_fetch[rt].sim_used_instances
                 );
 #endif
+            }
+        }
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+            if (p->rsc_pwf[0].sim_nused > p->rsc_pwf[0].max_nused) {
+                p->rsc_pwf[0].max_nused = p->rsc_pwf[0].sim_nused;
+            }
+            if (rt && p->rsc_pwf[rt].sim_nused > p->rsc_pwf[rt].max_nused) {
+                p->rsc_pwf[rt].max_nused = p->rsc_pwf[rt].sim_nused;
             }
         }
     }
@@ -212,8 +224,8 @@ void RR_SIM::init_pending_lists() {
     }
 }
 
-// Pick jobs to run, putting them in "active" list.
-// Simulate what the job scheduler would do:
+// Pick jobs to run from pending lists, putting them in "active" list.
+// Approximate what the job scheduler would do:
 // pick a job from the project P with highest scheduling priority,
 // then adjust P's scheduling priority.
 //
@@ -224,24 +236,32 @@ void RR_SIM::init_pending_lists() {
 void RR_SIM::pick_jobs_to_run(double reltime) {
     active.clear();
 
+    if (have_max_concurrent) {
+        max_concurrent_init();
+    }
+
     // save and restore rec_temp
     //
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.rec_temp_save = p->pwf.rec_temp;
+        p->pwf.at_max_concurrent_limit = false;
     }
+
+    rsc_work_fetch[0].sim_nused = 0;
 
     // loop over resource types; do the GPUs first
     //
     for (int rt=coprocs.n_rsc-1; rt>=0; rt--) {
         vector<PROJECT*> project_heap;
 
+        if (rt) rsc_work_fetch[rt].sim_nused = 0;
+
         // Make a heap of projects with runnable jobs for this resource,
         // ordered by scheduling priority.
         // Clear usage counts.
         // Initialize iterators to the pending list of each project.
         //
-        rsc_work_fetch[rt].sim_nused = 0;
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
@@ -270,7 +290,13 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
             // (this is just a handy place to do this)
             //
             if (rp->rrsim_done) {
-                rsc_pwf.pending_iter = rsc_pwf.pending.erase(rsc_pwf.pending_iter);
+                rsc_pwf.pending_iter = rsc_pwf.pending.erase(
+                    rsc_pwf.pending_iter
+                );
+            } else if (p->pwf.at_max_concurrent_limit) {
+                rsc_pwf.pending_iter = rsc_pwf.pending.erase(
+                    rsc_pwf.pending_iter
+                );
             } else {
                 // add job to active list, and adjust project priority
                 //
@@ -281,7 +307,8 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                     rsc_string(rp, buf, sizeof(buf));
                     msg_printf(rp->project, MSG_INFO,
                         "[rr_sim_detail] %.2f: starting %s (%s) (%.2fG/%.2fG)",
-                        reltime, rp->name, buf, rp->rrsim_flops_left/1e9, rp->rrsim_flops/1e9
+                        reltime, rp->name, buf, rp->rrsim_flops_left/1e9,
+                        rp->rrsim_flops/1e9
                     );
                     rp->already_selected = true;
                 }
@@ -307,6 +334,34 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 ++rsc_pwf.pending_iter;
             }
 
+            // Check if project is at a max_concurrent limit
+            //
+            if (have_max_concurrent) {
+                switch (max_concurrent_exceeded(rp)) {
+                case CONCURRENT_LIMIT_PROJECT:
+                    // no more jobs for this project
+                    //
+                    rsc_pwf.pending_iter = rsc_pwf.pending.end();
+                    p->pwf.at_max_concurrent_limit = true;
+                    if (log_flags.rr_simulation) {
+                        msg_printf(p, MSG_INFO,
+                            "[rr_sim] at project max concurrent"
+                        );
+                    }
+                    break;
+                case CONCURRENT_LIMIT_APP:
+                    // no more jobs for this project/app
+                    //
+                    p->pwf.at_max_concurrent_limit = true;
+                    if (log_flags.rr_simulation) {
+                        msg_printf(p, MSG_INFO,
+                            "[rr_sim] at app max concurrent for %s", rp->app->name
+                        );
+                    }
+                    break;
+                }
+            }
+
             if (rsc_pwf.pending_iter == rsc_pwf.pending.end()) {
                 // if this project now has no more jobs for the resource,
                 // remove it from the project heap
@@ -327,9 +382,11 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
     }
 }
 
+// compute the number of idle instances (count - nused)
+// Called at the start of RR simulation,
+// after the initial assignment of jobs
+//
 static void record_nidle_now() {
-    // note the number of idle instances
-    //
     rsc_work_fetch[0].nidle_now = gstate.ncpus - rsc_work_fetch[0].sim_nused;
     if (rsc_work_fetch[0].nidle_now < 0) rsc_work_fetch[0].nidle_now = 0;
     for (int i=1; i<coprocs.n_rsc; i++) {
@@ -370,6 +427,34 @@ static void handle_missed_deadline(RESULT* rpbest, double diff, double ar) {
     }
 }
 
+// update "MC shortfall" for projects with max concurrent restrictions
+//
+static void mc_update_stats(double sim_now, double dt, double buf_end) {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!p->app_configs.project_has_mc) continue;
+        for (int rt=0; rt<coprocs.n_rsc; rt++) {
+            RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
+            RSC_WORK_FETCH& rwf = rsc_work_fetch[rt];
+            double x = rsc_pwf.max_nused - rsc_pwf.sim_nused;
+            x = std::min(x, rwf.ninstances - rwf.sim_nused);
+            if (x > 1e-6 && sim_now < buf_end) {
+                double dt2;
+                if (sim_now + dt > buf_end) {
+                    dt2 = buf_end - sim_now;
+                } else {
+                    dt2 = dt;
+                }
+                rsc_pwf.mc_shortfall += x*dt2;
+            }
+        }
+    }
+}
+
+// do a round_robin simulation,
+// for either CPU scheduling (to find deadline misses)
+// or work fetch (do compute idleness and shortfall)
+//
 void RR_SIM::simulate() {
     PROJECT* pbest;
     RESULT* rp, *rpbest;
@@ -377,6 +462,8 @@ void RR_SIM::simulate() {
 
     double ar = gstate.available_ram();
 
+    // initialize work-fetch data structures in either case
+    //
     work_fetch.rr_init();
 
     if (log_flags.rr_simulation) {
@@ -392,6 +479,13 @@ void RR_SIM::simulate() {
 
     project_priority_init(false);
     init_pending_lists();
+
+    if (have_max_concurrent) {
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            PROJECT* p = gstate.projects[i];
+            p->pwf.at_max_concurrent_limit = false;
+        }
+    }
 
     // Simulation loop.  Keep going until all jobs done
     //
@@ -496,8 +590,13 @@ void RR_SIM::simulate() {
             }
         }
 
+        // update shortfall and saturated time for each resource
+        //
         for (int i=0; i<coprocs.n_rsc; i++) {
             rsc_work_fetch[i].update_stats(sim_now, delta_t, buf_end);
+        }
+        if (have_max_concurrent) {
+            mc_update_stats(sim_now, delta_t, buf_end);
         }
 
         // update project REC
@@ -551,16 +650,38 @@ void RR_SIM::simulate() {
         for (int i=0; i<coprocs.n_rsc; i++) {
             rsc_work_fetch[i].update_stats(sim_now, d_time, buf_end);
         }
+        if (have_max_concurrent) {
+            mc_update_stats(sim_now, d_time, buf_end);
+        }
     }
 }
 
-void rr_simulation() {
+void rr_simulation(const char* why) {
+    static double last_time=0;
+
+    if (log_flags.rr_simulation) {
+        msg_printf(0, MSG_INFO, "[rr_sim] doing sim: %s", why);
+    }
+
+    // CPU sched and work fetch both call this.
+    // We only need to do one simulation per moment.
+    //
+    if (last_time == gstate.now) {
+        if (log_flags.rr_simulation) {
+            msg_printf(0, MSG_INFO, "[rr_sim] already did at this time");
+        }
+        return;
+    }
+    last_time = gstate.now;
     RR_SIM rr_sim;
     rr_sim.simulate();
 }
 
 // Compute the number of idle instances of each resource
 // Put results in global state (rsc_work_fetch)
+// This is used from the account manager logic,
+// to decide if we need to get new projects from the AM.
+// ?? why not use RR sim result?
 //
 void get_nidle() {
     int nidle_rsc = coprocs.n_rsc;

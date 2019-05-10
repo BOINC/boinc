@@ -412,6 +412,11 @@ function boinccore_rules_action_info() {
       ),
       'module' => 'BOINC core',
     ),
+    'boinccore_rules_action_mail_to_admins' => array(
+      'label' => t('Notify admins via email'),
+      'module' => 'BOINC core',
+      'eval input' => array('subject', 'message', 'from'),
+    ),
   );
 }
 
@@ -787,6 +792,21 @@ function boinccore_link($type, $object, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boinccore_mail_alter(&$message) {
+  /* This code alters the headers for all emails sent by the Drupal Web site to use
+     'Quote-Printable' as the encoding, both altering the header and modifies the body to the
+     new encoding.
+  */
+  $message['headers']['Content-Transfer-Encoding'] = 'Quoted-Printable';
+  if (is_array($message['body'])) {
+    $message['body'] = array_map( "quoted_printable_encode", $message['body'] );
+  } else {
+    $message['body'] = quoted_printable_encode($message['body']);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -1933,6 +1953,10 @@ function boinccore_get_country_list() {
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions related to rules module
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
 /**
  * Action: Mark node for moderation
  */
@@ -1978,6 +2002,38 @@ function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$f
   // Select only non-anonymous user roles because anonymous users won't have emails.
   rules_action_mail_to_user_form($settings, $form);
 }
+
+
+/**
+ * Action: Send mail to admins.
+ */
+function boinccore_rules_action_mail_to_admins($settings) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
+  $mailing_list = variable_get('boinc_admin_mailing_list', '');
+  if (empty($mailing_list)) {
+    $mailing_list = variable_get('site_mail', '');
+    if (empty($mailing_list)) {
+      watchdog('boinccore',
+        'Attempting to email administrators, but there is no admin email list or site email to send to.', array(),
+        WATCHDOG_ERROR
+      );
+      return FALSE;
+    }
+  }
+  $settings['to'] = $mailing_list;
+  rules_action_mail($settings);
+}
+
+/**
+ * Action "Send mail to admins" configuration form
+ */
+function boinccore_rules_action_mail_to_admins_form($settings = array(), &$form) {
+  rules_action_mail_to_user_form($settings, $form);
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * BOINC Translation functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /*
  * BOINC wrapper for string translation

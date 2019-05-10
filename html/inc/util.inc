@@ -243,6 +243,10 @@ function page_head(
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
 
+    if ($did_page_head) {
+        return;
+    }
+    
     $did_page_head = true;
     $url_base = url_base();
 

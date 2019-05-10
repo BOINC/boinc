@@ -13,6 +13,7 @@
 
 require_once('includes/boincwork.forms.inc');
 require_once('includes/boincwork.helpers.inc');
+require_once('includes/boincwork.rules.inc');
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *

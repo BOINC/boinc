@@ -282,7 +282,6 @@ void CDlgExclusiveApps::AddToListBox(wxListBox * theListBox) {
     bool hostIsWin = false;
     bool isDuplicate;
     wxArrayString appNames;
-    wxChar *extension = wxT("");
     wxString errmsg;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
@@ -291,62 +290,53 @@ void CDlgExclusiveApps::AddToListBox(wxListBox * theListBox) {
 
     if (strstr(pDoc->state.host_info.os_name, "Darwin")) {
         hostIsMac = true;
-        extension = wxT(".app");
     } else if (strstr(pDoc->state.host_info.os_name, "Microsoft")) {
         hostIsWin = true;
-        extension = wxT(".exe");
     }
 
     pDoc->GetConnectedComputerName(strMachineName);
     if (pDoc->IsComputerNameLocal(strMachineName)) {
+        // if the client is local, use a file chooser dialog.
+        // This eliminates spelling errors.
+        // Note: the excluded app may be in an inaccessible directory,
+        // or the user might not know where it is.
+        // In this case they can just type the filename into the dialog
+        //
 #ifdef __WXMAC__
-        wxFileDialog picker(this, _("Applications to add"),
-            wxT("/Applications"), wxT(""), wxT("*.app"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+        wxFileDialog picker(this, _("Choose application or enter file name"),
+            wxT("/Applications"), wxT(""), wxT(""),
+            0
         );
 #elif defined(__WXMSW__)
 //TODO: fill in the default directory for MSW
-        wxFileDialog picker(this, _("Applications to add"),
-            wxT("C:/Program Files"), wxT(""), wxT("*.exe"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+        wxFileDialog picker(this, _("Choose application or enter file name"),
+            wxT("C:/Program Files"), wxT(""), wxT(""),
+            0
         );
 #else
 //TODO: fill in the default directory for Linux
-        wxFileDialog picker(this, _("Applications to add"),
-            wxT("/usr/bin"), wxT(""), wxT("*"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+        wxFileDialog picker(this, _("Choose application or enter file name"),
+            wxT("/usr/bin"), wxT(""), wxT(""),
+            0
         );
 #endif
         if (picker.ShowModal() != wxID_OK) return;
         picker.GetFilenames(appNames);
 
-        for (i=appNames.Count()-1; i>=0; --i) {
 #ifdef __WXMSW__
+        for (i=appNames.Count()-1; i>=0; --i) {
             // Under Windows, filename may include paths if a shortcut selected
-            wxString appNameOnly = appNames[i].AfterLast('\\');
-            appNames[i] = appNameOnly;
-#endif
-            wxString directory = picker.GetDirectory();
-            wxFileName fn(directory, appNames[i]);
-            if (!fn.IsOk() || !fn.IsFileExecutable()) {
-                errmsg.Printf(_("'%s' is not an executable application."), appNames[i].c_str());
-                wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
-                    wxOK | wxICON_EXCLAMATION, this
-                );
-                appNames.RemoveAt(i);
-                continue;
-            }
+            appNames[i] = appNames[i].AfterLast('\\');
         }
+#endif
     } else {
         // We can't use file picker if connected to a remote computer,
         // so show a dialog with textedit field so user can type app name
+        //
         wxChar path_separator = wxT('/');
 
         wxTextEntryDialog dlg(this, _("Name of application to add?"), _("Add exclusive app"));
-        if (hostIsMac) {
-            dlg.SetValue(extension);
-        } else if (hostIsWin) {
-            dlg.SetValue(extension);
+        if (hostIsWin) {
             path_separator = wxT('\\');
         }
         if (dlg.ShowModal() != wxID_OK) return;
@@ -357,32 +347,6 @@ void CDlgExclusiveApps::AddToListBox(wxListBox * theListBox) {
     }
 
     for (i=0; i<(int)appNames.Count(); ++i) {
-        // wxFileName::IsFileExecutable() doesn't seem to work on Windows,
-        // and we can only perform minimal validation on remote hosts, so
-        // check filename extension on Mac and Win
-        bool bad_name = false;
-        if (hostIsMac) {
-            bad_name = !appNames[i].EndsWith(extension);
-        } else if (hostIsWin) {
-            size_t len = appNames[i].Len();
-            size_t xl = 4;
-            if (len < xl) {
-                bad_name = true;
-            } else {
-                wxString x = appNames[i].Mid(len-xl);
-                if (x.CmpNoCase(extension) != 0) {
-                    bad_name = true;
-                }
-            }
-        }
-        if (bad_name) {
-            errmsg.Printf(_("Application names must end with '%s'"), extension);
-            wxGetApp().SafeMessageBox(errmsg, _("Add Exclusive App"),
-                wxOK | wxICON_EXCLAMATION, this
-            );
-            return;
-        }
-
         if (hostIsMac) {
             int suffix = appNames[i].Find('.', true);
             if (suffix != wxNOT_FOUND) {
@@ -391,6 +355,7 @@ void CDlgExclusiveApps::AddToListBox(wxListBox * theListBox) {
         }
 
         // Skip requests for duplicate entries
+        //
         isDuplicate = false;
         n = theListBox->GetCount();
         for (j=0; j<n; ++j) {

@@ -35,7 +35,6 @@ if ($border=="no") {
     $border=8;
 }
 
-$title_font = "\"Optima,ZapfChancery\"";
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
 
 $user = get_other_projects($user);
@@ -57,7 +56,7 @@ echo "
     <center>
     <table width=700 border=0><tr><td style=\"background-position:center; background-repeat:no-repeat\" background=https://boinc.berkeley.edu/logo/boinc_fade_600.png>
     <center>
-    <font style=\"font-size: 52\" face=$title_font>Certificate of Computation
+    <font style=\"font-size: 52\" face=$font>Certificate of Computation
 
     <font face=$font style=\"font-size:28\">
     <br><br>

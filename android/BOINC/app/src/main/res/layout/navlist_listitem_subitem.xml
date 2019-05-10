@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,40 +17,41 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listitem"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:minHeight="60dp"
-    android:background="@drawable/navlist_selector">
+                android:id="@+id/listitem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="60dp"
+                android:background="@drawable/navlist_selector">
 
     <ImageView
-        android:id="@+id/icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/boinc"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="12dp" />
+            android:id="@+id/icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/boinc"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="12dp"/>
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/icon"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black"
-        android:layout_centerVertical="true"
-        android:paddingRight="40dp"/>
-    
-    <TextView android:id="@+id/counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/navlist_counter_background"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:textColor="@android:color/white"/>
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:paddingRight="40dp"/>
+
+    <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/navlist_counter_background"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:textColor="@android:color/white"/>
 </RelativeLayout>

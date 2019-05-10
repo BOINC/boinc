@@ -76,7 +76,7 @@ typedef struct BOINC_STATUS {
 
 extern volatile BOINC_STATUS boinc_status;
 
-typedef void (*FUNC_PTR)();
+typedef void (*FUNC_PTR)(void);
 
 struct APP_INIT_DATA;
 
@@ -93,13 +93,12 @@ extern int boinc_resume_other_activities(void);
 extern int boinc_report_app_status(
     double cpu_time, double checkpoint_cpu_time, double _fraction_done
 );
-extern int boinc_time_to_checkpoint();
-extern void boinc_begin_critical_section();
-extern int boinc_try_critical_section();
-extern void boinc_end_critical_section();
-extern void boinc_need_network();
-extern int boinc_network_poll();
-extern void boinc_network_done();
+extern int boinc_time_to_checkpoint(void);
+extern void boinc_begin_critical_section(void);
+extern void boinc_end_critical_section(void);
+extern void boinc_need_network(void);
+extern int boinc_network_poll(void);
+extern void boinc_network_done(void);
 extern void boinc_network_usage(double sent, double received);
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
@@ -108,10 +107,10 @@ extern void boinc_set_credit_claim(double credit);
 extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
-extern double boinc_get_fraction_done();
+extern double boinc_get_fraction_done(void);
 extern void boinc_register_timer_callback(FUNC_PTR);
-extern double boinc_worker_thread_cpu_time();
-extern int boinc_init_parallel();
+extern double boinc_worker_thread_cpu_time(void);
+extern int boinc_init_parallel(void);
 extern void boinc_web_graphics_url(char*);
 extern void boinc_remote_desktop_addr(char*);
 
@@ -130,7 +129,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
-extern double boinc_elapsed_time();
+extern double boinc_elapsed_time(void);
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
 extern char* boinc_msg_prefix(char*, int);
@@ -155,7 +154,7 @@ extern APP_CLIENT_SHM *app_client_shm;
 extern HANDLE worker_thread_handle;
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
-extern int start_timer_thread();
+extern int start_timer_thread(void);
 extern bool boinc_disable_timer_thread;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {

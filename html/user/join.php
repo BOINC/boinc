@@ -28,6 +28,8 @@
 // This page routes people to the right place depending on whether
 // they already have BOINC installed on this device.
 
+// DEPRECATED.  Use signup.php instead
+
 require_once("../inc/util.inc");
 
 // "old" (misnomer) means BOINC is already installed on this device

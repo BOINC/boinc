@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,19 +17,19 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:gravity="center" >
-    
-	<ImageView 
-        android:id="@+id/logo"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_margin="40dp"
-    	android:maxWidth="400dp"
-    	android:adjustViewBounds="true"
-    	android:src="@drawable/boinc_logo_large"
-    	android:contentDescription="@string/status_launching"/>
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@android:color/white"
+              android:gravity="center">
+
+    <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:maxWidth="400dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/boinc_logo_large"
+            android:contentDescription="@string/status_launching"/>
 </LinearLayout>
