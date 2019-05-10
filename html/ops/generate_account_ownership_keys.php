@@ -54,7 +54,7 @@ if (php_sapi_name() == "cli") {
       openssl_pkey_free($generated_pkey); // Free key data securely from memory
 
       if ((file_exists($account_ownership_private_key_file_path)) && (file_exists($account_ownership_public_key_file_path))) {
-        echo "Successfully generated a new account ownership keypair.";
+        echo "Successfully generated a new account ownership keypair. \n";
       } else {
         throw new Exception('Failed to generate account ownership keypair.');
       }
@@ -64,10 +64,10 @@ if (php_sapi_name() == "cli") {
     }
 
   } else {
-    echo "The private and public keys already exist. Repeat the command with the 'overwrite' parameter to replace the existing ownership keys.";
+    echo "The private and public keys already exist. Repeat the command with the 'overwrite' parameter to replace the existing ownership keys. \n";
   }
 } else {
-  echo "This script must be run from the CLI";
+  echo "This script must be run from the CLI \n";
 }
 
 ?>
