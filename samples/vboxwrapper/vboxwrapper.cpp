@@ -94,6 +94,7 @@
 #include "vbox_mscom50.h"
 #include "vbox_mscom51.h"
 #include "vbox_mscom52.h"
+#include "vbox_mscom60.h"
 #endif
 #endif
 #include "vbox_vboxmanage.h"
@@ -472,14 +473,21 @@ int main(int argc, char** argv) {
     string vbox_version_display;
     int vbox_major = 0, vbox_minor = 0;
 
-    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-            if (BOINC_SUCCESS != vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-                if (BOINC_SUCCESS != vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-                    vbox52::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-                }
-            }
-        }
+    retval = vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+    if (retval) {
+        retval = vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+    }
+    if (retval) {
+        retval = vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+    }
+    if (retval) {
+        retval = vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+    }
+    if (retval) {
+        retval = vbox52::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+    }
+    if (retval) {
+        retval = vbox60::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
     }
     if (!vbox_version_raw.empty()) {
         sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
@@ -497,6 +505,9 @@ int main(int argc, char** argv) {
         }
         if ((5 == vbox_major) && (2 <= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox52::VBOX_VM();
+        }
+        if ((6 == vbox_major) && (0 <= vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox60::VBOX_VM();
         }
         if (pVM) {
             retval = pVM->initialize();
