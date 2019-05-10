@@ -146,8 +146,7 @@ public class SelectionListActivity extends FragmentActivity {
         startActivity(new Intent(this, CredentialInputActivity.class));
     }
 
-    // triggered by cancel button
-    public void cancelClicked(View v) {
+    private void onCancel() {
         // go to projects screen and clear history
         Intent intent = new Intent(this, BOINCActivity.class);
         // add flags to return to main activity and clearing all others and clear the back stack
@@ -155,6 +154,16 @@ public class SelectionListActivity extends FragmentActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        onCancel();
+    }
+
+    // triggered by cancel button
+    public void cancelClicked(View v) {
+        onCancel();
     }
 
     private ServiceConnection mMonitorConnection = new ServiceConnection() {
