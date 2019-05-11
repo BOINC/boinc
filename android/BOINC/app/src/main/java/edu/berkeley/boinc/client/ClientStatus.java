@@ -155,7 +155,7 @@ public class ClientStatus {
         }
         catch(Exception e) {
             if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception durign setWakeLock " + acquire, e);
+                Log.w(Logging.TAG, "Exception during setWakeLock " + acquire, e);
             }
         }
     }
@@ -184,7 +184,7 @@ public class ClientStatus {
         }
         catch(Exception e) {
             if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception durign setWifiLock " + acquire, e);
+                Log.w(Logging.TAG, "Exception during setWifiLock " + acquire, e);
             }
         }
     }
