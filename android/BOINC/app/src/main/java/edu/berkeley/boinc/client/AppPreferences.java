@@ -74,7 +74,7 @@ public class AppPreferences {
     public void setAutostart(Boolean as) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("autostart", as);
-        editor.commit();
+        editor.apply();
         this.autostart = as;
     }
 
