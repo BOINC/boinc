@@ -23,7 +23,7 @@
         <item name="android:actionBarStyle">@style/StyledActionBar</item>
         <item name="android:actionBarTabStyle">@style/StyledActionBarTabView</item>
         <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:itemBackground">@color/dark_blue</item>
+        <item name="android:itemBackground">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColor">@color/black</item>
     </style>
