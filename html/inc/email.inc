@@ -69,7 +69,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         }
         if ($body_html) {
             $body = "<html><body>\n"; 
-            $body = $body_html; 
+            $body .= $body_html; 
             $body .= "\n</body></html>\n"; 
             $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n"; 
         }
