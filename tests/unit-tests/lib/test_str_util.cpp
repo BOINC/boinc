@@ -165,6 +165,21 @@ namespace test_str_util {
         EXPECT_STREQ(buf, "char space");
     }
 
+    TEST_F(test_str_util, strip_quotes) {
+        std::string tmp = "\"\' white\' \"space\'\" ";
+        strip_quotes(tmp);
+        EXPECT_EQ(tmp, "white\' \"space");
+        tmp = "no\"space\'s";
+        strip_quotes(tmp);
+        EXPECT_EQ(tmp, "no\"space\'s");
+        tmp = "\"elèv\' én\"";
+        strip_quotes(tmp);
+        EXPECT_EQ(tmp, "elèv\' én");
+        char buf[128] = "\"\' char\' \"space\'\" ";
+        strip_quotes(buf);
+        EXPECT_STREQ(buf, "char\' \"space");
+    }
+
     TEST_F(test_str_util, collapse_whitespace) {
         std::string tmp = "     white space   ";
         collapse_whitespace(tmp);
@@ -342,6 +357,8 @@ namespace test_str_util {
         ret = is_valid_filename("../filename.txt");
         EXPECT_FALSE(ret);
         ret = is_valid_filename("../file\nname.txt");
+        EXPECT_FALSE(ret);
+        ret = is_valid_filename("/filename.txt");
         EXPECT_FALSE(ret);
     }
 
