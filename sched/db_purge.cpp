@@ -504,7 +504,7 @@ int archive_result_gz (DB_RESULT& result) {
         fail("ERROR: writing result archive failed\n");
     }
 
-    n = gzflush((gzFile)re_stream, Z_FULL_FLUSH);
+    n = gzflush((gzFile)re_stream, Z_SYNC_FLUSH);
     if (n != Z_OK) {
         fail("ERROR: writing result archive failed (flush)\n");
     }
@@ -538,7 +538,7 @@ int archive_wu_gz (DB_WORKUNIT& wu) {
         fail("ERROR: writing workunit archive failed\n");
     }
 
-    n = gzflush((gzFile)re_stream,Z_FULL_FLUSH);
+    n = gzflush((gzFile)wu_stream,Z_SYNC_FLUSH);
     if (n != Z_OK) {
         fail("ERROR: writing workunit archive failed (flush)\n");
     }
@@ -551,7 +551,7 @@ int archive_wu_gz (DB_WORKUNIT& wu) {
         fail("ERROR: writing workunit index failed\n");
     }
 
-    n = gzflush((gzFile)re_stream,Z_SYNC_FLUSH);
+    n = gzflush((gzFile)wu_index_stream,Z_SYNC_FLUSH);
     if (n != Z_OK) {
         fail("ERROR: writing workunit index failed (flush)\n");
     }
