@@ -91,7 +91,7 @@ fi
 
 if [ "x$build_dir" != "x" ]; then
     if isPathCanonical "$build_dir" && [ "$build_dir" != "/" ]; then
-         PREFIX="$build_dir"
+         BUILD_DIR="$build_dir"
      else
          echo "build_dir must be an absolute path without ./ or ../ in it"
          exit 1
