@@ -8,10 +8,12 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [enable_unicode="$enableval"],
      [])
 
-   AM_OPTIONS_WXCONFIG
-     AM_PATH_WXCONFIG([$1],
+   WX_CONFIG_OPTIONS
+     WX_CONFIG_CHECK([$1],
        [_ac_cv_have_wxwidgets=yes],
-       [AC_MSG_ERROR([No suitable wxWidgets library found.])])
+       [AC_MSG_ERROR([No suitable wxWidgets library found.])],
+       [std], ,
+       [webview])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
     [ac_cv_have_wxwidgets="${_ac_cv_have_wxwidgets}"])
    AC_CACHE_SAVE
@@ -65,7 +67,7 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
      AC_MSG_CHECKING([wxWidgets config to use])
      AC_MSG_RESULT([$wx_default_config])
      if test "x${ac_cv_wxwidgets_options}" != "x" ; then
-       AM_PATH_WXCONFIG($1, wxWin=1, wxWin=0, ${ac_cv_wxwidgets_options})
+       WX_CONFIG_CHECK($1, wxWin=1, wxWin=0, [std], ${ac_cv_wxwidgets_options}, [webview])
      fi
    fi
 

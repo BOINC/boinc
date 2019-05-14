@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for the Facet API module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function facetapi_schema() {
+  $schema['facetapi'] = array(
+    'description' => 'Facet configurations.',
+    'export' => array(
+      'key' => 'name',
+      'identifier' => 'facet',
+      'default hook' => 'facetapi_default_facet_settings',
+      'api' => array(
+        'owner' => 'facetapi',
+        'api' => 'facetapi_defaults',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'name' => array(
+        'description' => 'The machine readable name of the configuration.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'searcher' => array(
+        'description' => 'The machine readable name of the searcher.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'realm' => array(
+        'description' => 'The machine readable name of the realm.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'facet' => array(
+        'description' => 'The machine readable name of the facet.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'enabled' => array(
+        'description' => 'Whether the facet is enabled.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'settings' => array(
+        'description' => 'Serialized storage of general settings.',
+        'type' => 'blob',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function facetapi_install() {
+  // Install tables
+  drupal_install_schema('facetapi');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function facetapi_uninstall() {
+  // Remove all variables that start with "facetapi:".
+  $args = array('facetapi%');
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE '%s'", $args);
+  while($result = db_fetch_object($result)) {
+    variable_del($record->name);
+  }
+  // Remove facet blocks.
+  // @see http://drupal.org/node/1567928
+  db_query('DELETE FROM {blocks} WHERE module = "facetapi"');
+
+  // Remove tables.
+  drupal_uninstall_schema('facetapi');
+}
+
+/**
+ * Fix Postgres compatibility issue.
+ */
+function facetapi_update_6301() {
+  $ret = array();
+  db_change_field($ret, 'facetapi', 'settings', 'settings', array(
+    'type' => 'blob',
+    'description' => 'Serialized storage of general settings.',
+    'serialize' => TRUE,
+  ));
+  return $ret;
+}

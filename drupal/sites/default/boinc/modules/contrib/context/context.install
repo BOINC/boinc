@@ -1,0 +1,379 @@
+<?php
+
+
+/**
+ * Implementation of hook_requirements().
+ */
+function context_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  // Test PHP version
+  if (!function_exists('json_decode')) {
+    $requirements['php_context']['description'] = $t('Your PHP installation is too old. Context requires at least PHP %version or installation of the json library (%path)', array('%version' =>  '5.1.0', '%path' => 'http://pecl.php.net/package/json'));
+    $requirements['php_context']['severity'] = REQUIREMENT_ERROR;
+  }
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function context_install() {
+  drupal_install_schema('context');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function context_uninstall() {
+  drupal_uninstall_schema('context');
+  variable_del('context_ui_show_empty_regions');
+  variable_del('context_reaction_block_disable_core');
+  variable_del('context_reaction_block_all_regions');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function context_schema() {
+  $schema = array();
+  $schema['context'] = array(
+    'description' => 'Storage for normal (user-defined) contexts.',
+    'export' => array(
+      'key' => 'name',
+      'identifier' => 'context',
+      'default hook' => 'context_default_contexts',  // Function hook name.
+      'status' => 'context_status',
+      'api' => array(
+        'owner' => 'context',
+        'api' => 'context',  // Base name for api include files.
+        'minimum_version' => 3,
+        'current_version' => 3,
+      ),
+      'export callback' => 'context_export',
+    ),
+    'fields' => array(
+      'name' => array(
+        'description' => 'The primary identifier for a context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'description' => array(
+        'description' => 'Description for this context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'tag' => array(
+        'description' => 'Tag for this context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'conditions' => array(
+        'description' => 'Serialized storage of all context condition settings.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+      'reactions' => array(
+        'description' => 'Serialized storage of all context reaction settings.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+      'condition_mode' => array(
+        'description' => 'Condition mode for this context.',
+        'type' => 'int',
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+  return $schema;
+}
+
+/**
+ * Update script for context that installs the context schema and migrates
+ * any existing context data from deprecated context_ui tables.
+ */
+function context_update_6001() {
+  $ret = array();
+
+  if (!db_table_exists('context')) {
+    drupal_install_schema('context');
+  }
+
+  if (db_table_exists('context_ui')) {
+    // Clear the schema cache and rebuild
+    drupal_get_schema(NULL, TRUE);
+
+    // Migrate existing contexts to context table
+    $result = db_query("SELECT * FROM {context_ui}");
+    while ($context = db_fetch_object($result)) {
+      // Load setters
+      $setter_result = db_query("SELECT * FROM {context_ui_setter} WHERE cid = %d", $context->cid);
+      while ($row = db_fetch_object($setter_result)) {
+        $context->{$row->type}[$row->id] = $row->id;
+      }
+      // Load getters
+      $getter_result = db_query("SELECT * FROM {context_ui_getter} WHERE cid = %d", $context->cid);
+      while ($row = db_fetch_object($getter_result)) {
+        $context->{$row->type} = unserialize($row->data);
+      }
+      // Load blocks
+      $block_result = db_query("SELECT module, delta, region, weight FROM {context_ui_block} WHERE cid = %d", $context->cid);
+      while ($block = db_fetch_object($block_result)) {
+        if (!isset($context->block)) {
+          $context->block = array();
+        }
+        $block->bid = $block->module ."_". $block->delta;
+        $context->block[$block->bid] = $block;
+      }
+      // Clear out identifier
+      unset($context->cid);
+      context_save_context($context);
+    }
+  }
+
+  module_enable(array('context_contrib'));
+
+  return $ret;
+}
+
+/**
+ * Update script for API change in path condition.
+ */
+function context_update_6002() {
+  define('CONTEXT_STORAGE_DEFAULT', 0);
+  define('CONTEXT_STORAGE_OVERRIDDEN', 1);
+  define('CONTEXT_STORAGE_NORMAL', 2);
+
+  // Iterate through all DB-stored contexts and incorporate path
+  // wildcards into their path conditions. Any exported/default
+  // contexts will need to be updated by hand.
+  $contexts = context_enabled_contexts();
+  foreach ($contexts as $context) {
+    if (($context->type == CONTEXT_STORAGE_NORMAL || $context->type == CONTEXT_STORAGE_OVERRIDDEN) && (!empty($context->path) && is_array($context->path))) {
+      $changed = FALSE;
+      foreach ($context->path as $k => $v) {
+        if ($v != '<front>' && strpos($v, '*') === FALSE) {
+          $changed = TRUE;
+          $context->path[$k] = "{$v}*";
+        }
+      }
+      if ($changed) {
+        context_save_context($context);
+      }
+    }
+  }
+  return array();
+}
+
+/**
+ * Remove deprecated tables from context_ui.
+ */
+function context_update_6003() {
+  $ret = array();
+  $tables = array('context_ui', 'context_ui_setter', 'context_ui_getter', 'context_ui_block');
+  foreach ($tables as $table) {
+    if (db_table_exists($table)) {
+      db_drop_table($ret, $table);
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Update 6301: Update schema.
+ */
+function context_update_6301() {
+  // Install CTools.
+  drupal_install_modules(array('ctools'));
+
+  $schema = array(
+    'fields' => array(
+      'name' => array(
+        'description' => 'The primary identifier for a context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'description' => array(
+        'description' => 'Description for this context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'tag' => array(
+        'description' => 'Tag for this context.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'conditions' => array(
+        'description' => 'Serialized storage of all context condition settings.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+      'reactions' => array(
+        'description' => 'Serialized storage of all context reaction settings.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+  $ret = array();
+  if (db_table_exists('context')) {
+    $result = db_query("SELECT * FROM {context}");
+
+    // Migrate old contexts into new table.
+    $contexts = array();
+    while ($context = db_fetch_object($result)) {
+      $data = unserialize($context->data);
+      unset($context->data);
+      foreach ($data as $k => $v) {
+        $context->{$k} = $v;
+      }
+      $contexts["{$context->namespace}-{$context->attribute}-{$context->value}"] = $context;
+    }
+
+    // Drop the existing context table and create one using the new schema.
+    db_drop_table($ret, 'context');
+    db_create_table($ret, 'context', $schema);
+
+    // Migrate objects.
+    context_migrate_api_3($ret, $contexts);
+  }
+  return $ret;
+}
+
+/**
+ * Update 6302: Update old context exportables. This update script may be
+ * re-run at any time to update context 2 objects that have been exported.
+ */
+function context_update_6302() {
+  $contexts = array();
+  // Invoke context 2 default hooks so that the contexts can be migrated.
+  foreach (module_invoke_all('context_default_contexts') as $context) {
+    $context = (object) $context;
+    if (!isset($context->api_version)) {
+      $contexts["{$context->namespace}-{$context->attribute}-{$context->value}"] = $context;
+    }
+  }
+  // Migrate objects.
+  $ret = array();
+  context_migrate_api_3($ret, $contexts);
+  return $ret;
+}
+
+/**
+ * Update 6303: Add field for context condition mode.
+ */
+function context_update_6303() {
+  $ret = array();
+  $spec = array(
+    'description' => 'Condition mode for this context.',
+    'type' => 'int',
+    'default' => 0,
+  );
+  db_add_field($ret, 'context', 'condition_mode', $spec);
+  return $ret;
+}
+
+/**
+ * Update 6304: Rename variable 'context_ui_show_empty_regions'.
+ */
+function context_update_6304() {
+  if (!db_result(db_query("SELECT name FROM {variable} WHERE name = 'context_reaction_block_all_regions'"))) {
+    db_query("UPDATE {variable} SET name = 'context_reaction_block_all_regions' WHERE name = 'context_ui_show_empty_regions'");
+    return array(array('success' => TRUE, 'query' => 'Variable renamed successfully.'));
+  }
+  return array();
+}
+
+/**
+ * Helper function to update context 2 objects to context 3.
+ */
+function context_migrate_api_3(&$ret, $contexts) {
+  foreach ($contexts as $context) {
+    if (!db_result(db_query("SELECT name FROM {context} WHERE name = '%s'", "{$context->namespace}-{$context->attribute}-{$context->value}"))) {
+      $new = array(
+        'name' => "{$context->namespace}-{$context->attribute}-{$context->value}",
+        'description' => isset($context->description) ? $context->description : '',
+        'tag' => '',
+        'conditions' => array(),
+        'reactions' => array(),
+      );
+      // Migration condition/reaction settings.
+      // Some have been renamed. Map them.
+      $conditions = array(
+        'node' => 'node',
+        'user' => 'user',
+        'book' => 'book',
+        'sitewide' => 'sitewide',
+        'path' => 'path',
+        'menu_trail' => 'menu',
+        'views' => 'views',
+        'nodequeue' => 'nodequeue'
+      );
+      foreach ($conditions as $old_key => $new_key) {
+        if (isset($context->{$old_key})) {
+          $values = $context->{$old_key};
+          $new['conditions'][$new_key] = array(
+            'values' => is_array($values) ? $values : array($values),
+            'options' => array()
+          );
+        }
+      }
+      $reactions = array(
+        'menu' => 'menu',
+        'theme_section' => 'theme',
+        'css_injector' => 'css_injector',
+        'block' => 'block',
+      );
+      foreach ($reactions as $old_key => $new_key) {
+        if (isset($context->{$old_key})) {
+          // Special treatment for blocks.
+          if ($old_key === 'block') {
+            foreach ($context->block as $block) {
+              $block = (array)$block;
+              $new['reactions']['block']['blocks'][$block['module'] .'-'. $block['delta']] = $block;
+            }
+          }
+          else {
+            $new['reactions'][$new_key] = $context->{$old_key};
+          }
+        }
+      }
+      $new['conditions'] = serialize($new['conditions']);
+      $new['reactions'] = serialize($new['reactions']);
+
+      // Update_sql does not escape strings properly.
+      db_query("INSERT INTO {context} (name,description,tag,conditions,reactions) VALUES ('%s', '%s', '%s', '%s', '%s')", $new['name'], $new['description'], $new['tag'], $new['conditions'], $new['reactions']);
+
+      // Notify the user of any keys that were not migrated.
+      $known_keys = array_merge(array_keys($conditions), array_keys($reactions), array('cid', 'system', 'namespace', 'attribute', 'value', 'description'));
+      $unmigrated = array_diff(array_keys((array) $context), $known_keys);
+      if (!empty($unmigrated)) {
+        $unmigrated = implode(', ', $unmigrated);
+        $ret[] = array(
+          'success' => TRUE,
+          'query' => "Updated context: {$new['name']}. The following properties could not be migrated: {$unmigrated}."
+        );
+      }
+      else {
+        $ret[] = array(
+          'success' => TRUE,
+          'query' => "Updated context: {$new['name']}."
+        );
+      }
+    }
+  }
+}

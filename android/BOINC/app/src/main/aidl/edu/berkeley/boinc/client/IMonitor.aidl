@@ -2,17 +2,17 @@
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
- * 
+ *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
  * as published by the Free Software Foundation,
  * either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * BOINC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -20,6 +20,7 @@ package edu.berkeley.boinc.client;
 
 import java.util.List;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -35,6 +36,8 @@ import edu.berkeley.boinc.rpc.ImageWrapper;
 
 interface IMonitor {
 /////// client interface //////////////////////////////////////////
+// Data flow: IMonitor -> Monitor -> ClientInterfaceImplementation -> RpcClient
+// Eg.: IMonitor.setDomainName() -> Monitor.setDomainName() -> ClientInterfaceImplementation.setDomainName() -> RpcClient.setDomainNameRpc()
 boolean attachProject(in String url, in String projectName, in String authenticator); // implement: call clientInterface.attachProject(url, projectName, authenticator);
 boolean checkProjectAttached(in String url);       // implement: call clientInterface.checkProjectAttached(url);
 AccountOut lookupCredentials(in AccountIn credentials);  // implement: call clientInterface.lookupCredentials(credentials);
@@ -57,7 +60,9 @@ boolean transferOperation(in List<Transfer> list, in int op);  // implement: cal
 List<Notice> getServerNotices();        // implement: call clientInterface.getServerNotices()
 boolean runBenchmarks();
 List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
+List<AccountManager> getAccountManagers();  // clientInterface.getAccountManagers();
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
+boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
 boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();
@@ -79,7 +84,7 @@ String getCurrentStatusDescription(); // status.getCurrentStatusDescription()
 HostInfo getHostInfo();            // clientStatus.getHostInfo()
 GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();
-AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();                                     
+AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();
 List<Transfer> getTransfers();   // clientStatus.getTransfers();
 List<Result> getTasks();          // clientStatus.getTasks();
 Bitmap getProjectIconByName(in String name);  // clientStatus.getProjectIconByName(entries.get(position).project_name);
@@ -108,5 +113,5 @@ boolean getPowerSourceWireless();
 void setShowAdvanced(in boolean isShow);
 void setStationaryDeviceMode(in boolean mode);
 boolean getSuspendWhenScreenOn();
-void setSuspendWhenScreenOn(in boolean swso);                                         
+void setSuspendWhenScreenOn(in boolean swso);
 }

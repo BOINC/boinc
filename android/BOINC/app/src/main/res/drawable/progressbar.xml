@@ -17,18 +17,20 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@android:id/background">
-    <shape>
-		<solid android:color="@color/lightest_blue" />
-	   	<stroke android:width="1dip" android:color="@color/dark_blue"/>
-    </shape>
-</item>
-<item android:id="@android:id/progress">
-    <clip>
+    <item android:id="@android:id/background">
         <shape>
-   			<solid android:color="@color/dark_blue" />
+            <solid android:color="@color/lightest_blue"/>
+            <stroke
+                    android:width="1dip"
+                    android:color="@color/dark_blue"/>
         </shape>
-    </clip>
-</item>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="@color/dark_blue"/>
+            </shape>
+        </clip>
+    </item>
 
 </layer-list>

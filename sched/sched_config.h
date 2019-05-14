@@ -101,6 +101,8 @@ struct SCHED_CONFIG {
     bool enable_assignment_multi;
     bool job_size_matching;
     bool dont_send_jobs;
+    bool user_url;          // whether to export user.url in db dump
+    bool user_country;
 
     //////////// STUFF RELEVANT ONLY TO SCHEDULER FOLLOWS ///////////
 

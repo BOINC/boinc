@@ -220,17 +220,15 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-// start a table containing messages, where the layout is fixed
-// (to accommodate long [pre] lines)
-// and the left column (author info) has fixed size
+// start a table of forum posts
 //
 function start_forum_table($headings) {
     $a = array();
     foreach ($headings as $h) {
         $a[] = null;
     }
-    $a[0] = 'style="width: 10em;"';
-    start_table('table-striped', 'table-layout:fixed');
+    $a[1] = 'style="width: 100%"';
+    start_table('table-striped');
     row_heading_array($headings, $a);
 }
 
@@ -454,6 +452,12 @@ function show_posts(
         echo "<script>function jumpToUnread(){};</script>";
     }
 
+    // if thread has no visible posts, user has seen them all
+    //
+    if ($num_shown == 0) {
+        $latest_shown_timestamp = time();
+    }
+
     if ($logged_in_user) {
         if (!$forum_log || $latest_shown_timestamp > $forum_log->timestamp) {
             BoincForumLogging::replace(
@@ -566,7 +570,7 @@ function show_post(
     $is_posted_by_special = false;
     for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
         if ($user->prefs && $user->prefs->privilege($keys[$i])) {
-            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+            $fstatus.="<nobr>".$special_user_bitfield[$keys[$i]]."<nobr><br>";
             $is_posted_by_special = true;
         }
     }
@@ -588,7 +592,7 @@ function show_post(
         <a name=\"$post->id\"></a>
     ";
 
-    echo user_links($user, 0);
+    echo user_links($user, 0, 30);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     echo "<span class=\"small\">";
@@ -628,7 +632,7 @@ function show_post(
         // - put the .png's in html/user/flags/
         // - put define("COUNTRY_FLAGS", 1); in your html/project/project.inc
         //
-        if (defined("COUNTRY_FLAGS")) {
+        if (USER_COUNTRY && defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
                 echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png>\n";
@@ -698,7 +702,7 @@ function show_post(
 
         // show message in a panel
         //
-        echo '<div class="panel panel-default">
+        echo '<div class="panel panel-default" style="word-break: break-word;">
             <div class="panel-body">'
             .$posttext
             .'</div></div>

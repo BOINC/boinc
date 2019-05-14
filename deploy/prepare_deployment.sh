@@ -93,6 +93,9 @@ prepare_osx() {
 
 prepare_android() {
     mkdir -p "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 ROOTDIR=$(pwd)

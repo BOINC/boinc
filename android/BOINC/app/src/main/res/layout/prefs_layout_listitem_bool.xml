@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,29 +17,29 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/checkbox_wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
-    
-    <TextView 
-        android:id="@+id/checkbox_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black"
-        android:layout_toLeftOf="@+id/checkbox"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"/>
-        
-    <CheckBox 
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:padding="3dp"
-        android:layout_centerVertical="true"
-        android:clickable="false" />
-    
+                android:id="@+id/checkbox_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+    <TextView
+            android:id="@+id/checkbox_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:layout_toLeftOf="@+id/checkbox"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+
+    <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="3dp"
+            android:layout_centerVertical="true"
+            android:clickable="false"/>
+
 </RelativeLayout>

@@ -21,3 +21,4 @@
 
 extern int handle_trickle(MSG_FROM_HOST&);
 extern int handle_trickle_init(int argc, char** argv);
+extern int handled_enum, handled_set, handled_error;

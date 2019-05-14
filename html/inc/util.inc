@@ -34,7 +34,7 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse some stuff from config (do it here for efficiency)
+// parse some stuff from config.xml (do it here for efficiency)
 //
 $config = get_config();
 global $master_url;
@@ -42,8 +42,16 @@ $master_url = parse_config($config , "<master_url>");
 $recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
 $recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
 
-// don't allow /... at the end of URL
+// the following default to on
+//
+$x = parse_config($config, "<user_country>");
+define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
+$x = parse_config($config, "<user_url>");
+define('USER_URL', ($x===null)?1:(int)$x);
+
+// don't allow /... at the end of URL
+//
 if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
@@ -235,6 +243,10 @@ function page_head(
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
 
+    if ($did_page_head) {
+        return;
+    }
+    
     $did_page_head = true;
     $url_base = url_base();
 
@@ -243,15 +255,24 @@ function page_head(
 
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
-        header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
-        header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
-        header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
-        header ("Pragma: no-cache");                          // HTTP/1.0
+        header("Expires: Mon, 26 Jul 1997 05:00:00 UTC");
+            // Date in the past
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC");
+            // always modified
+        header("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");
+            // for HTTP/1.1
+        header("Pragma: no-cache");
+            // for HTTP/1.0
     }
 
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
+    ';
+    if (defined('GLOBAL_HEAD_EXTRA')) {
+        echo GLOBAL_HEAD_EXTRA;
+    }
+    echo '
         <meta name="viewport" content="width=device-width, initial-scale=1">
     ';
     if ($head_extra) {
@@ -539,10 +560,14 @@ function valid_tokens($auth) {
     $tnow = get_str('tnow', true);
     $ttok = get_str('ttok', true);
     if (!$tnow) {
-        $tnow = $_POST['tnow'];
+      if (isset($_POST['tnow'])) {
+          $tnow = $_POST['tnow'];
+      }
     }
     if (!$ttok) {
-        $ttok = $_POST['ttok'];
+      if (isset($_POST['ttok'])) {
+          $ttok = $_POST['ttok'];
+      }
     }
     if (!$tnow) return false;
     if (!$ttok) return false;

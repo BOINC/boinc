@@ -111,6 +111,15 @@ data="{
 set +x
 ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions"
 
+echo "Adding attributes to version ${VERSION}"
+# this can be used to cleanup old versions
+pr="${TRAVIS_PULL_REQUEST:-0}"
+created=$(date -u +%s)
+data="[{\"name\": \"PR\", \"values\": [\"${pr}\"], \"type\": \"string\"},
+            {\"name\": \"create_time_utc\", \"values\": [${created}], \"type\": \"number\"}]"
+echo $data
+${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions/${VERSION}/attributes"
+
 echo "Uploading and publishing ${SOURCE_DIR}/${BOINC_TYPE}.7z..."
 if [ -f "${SOURCE_DIR}/${BOINC_TYPE}.7z" ]; then
     set +x

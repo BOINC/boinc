@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,48 +17,57 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-	android:padding="10dp" >
-	<LinearLayout
-    	android:id="@+id/text_wrapper"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical"
-    	android:layout_alignParentLeft="true"
-    	android:layout_centerVertical="true"
-    	android:clickable="true"
-    	android:layout_marginRight="40dp">
-	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:id="@+id/name"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:textStyle="bold" />
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/description"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	    <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/summary"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	</LinearLayout>
-	<CheckBox 
-    	android:id="@+id/cb"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentRight="true"
-    	android:layout_centerVertical="true"/>
-	
-    <ImageView 
-    	android:id="@+id/am_button_image"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:src="@drawable/nextb"
-    	android:layout_centerVertical="true"
-    	android:layout_alignParentRight="true"
-    	android:visibility="gone"
-    	android:contentDescription="@string/attachproject_acctmgr_header"/>
-    
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+    <LinearLayout
+            android:id="@+id/text_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginRight="40dp">
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <CheckBox
+            android:id="@+id/cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    <ImageView
+            android:id="@+id/am_button_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nextb"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:contentDescription="@string/attachproject_acctmgr_header"/>
+
 </RelativeLayout>

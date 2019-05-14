@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,25 +17,30 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
-    <item android:id="@+id/projects_control_update"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_control_update" ></item>
-    <item android:id="@+id/projects_control_suspend"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_control_suspend" ></item>
-    <item android:id="@+id/projects_control_nonewtasks"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_control_nonewtasks" ></item>
-    <item android:id="@+id/projects_control_reset"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_control_reset" ></item>
-    <item android:id="@+id/projects_control_remove"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_control_remove" ></item>
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/projects_control_update"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_control_update"></item>
+    <item
+            android:id="@+id/projects_control_suspend"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_control_suspend"></item>
+    <item
+            android:id="@+id/projects_control_nonewtasks"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_control_nonewtasks"></item>
+    <item
+            android:id="@+id/projects_control_reset"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_control_reset"></item>
+    <item
+            android:id="@+id/projects_control_remove"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_control_remove"></item>
 </menu>

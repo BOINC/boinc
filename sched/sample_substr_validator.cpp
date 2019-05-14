@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -84,5 +84,3 @@ int compare_results(RESULT&, void*, RESULT const&, void*, bool& match) {
 int cleanup_result(RESULT const&, void*) {
     return 0;
 }
-
-const char *BOINC_RCSID_f3a7a34795 = "$Id$";

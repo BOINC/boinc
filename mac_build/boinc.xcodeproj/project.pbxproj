@@ -13,8 +13,8 @@
 			buildPhases = (
 			);
 			dependencies = (
-				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC15144EB36E005D6144 /* PBXTargetDependency */,
+				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC17144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC0F144EB34E005D6144 /* PBXTargetDependency */,
 				DDF9EC0D144EB338005D6144 /* PBXTargetDependency */,
@@ -574,6 +574,13 @@
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
 		};
+		DD25E20C220438090040366F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
 		DD3E14D50A774397007E0084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -727,6 +734,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
 			remoteInfo = jpeg;
+		};
+		DDE382002200806D0077E85A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
 		};
 		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1511,7 +1525,6 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
-				DD3EAAA7216A25AE00BC673C /* boinc_finish_install */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1575,13 +1588,6 @@
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD3EAAA7216A25AE00BC673C /* boinc_finish_install */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = boinc_finish_install;
-			sourceTree = "<group>";
 		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
@@ -2241,6 +2247,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDE382012200806D0077E85A /* PBXTargetDependency */,
 				DD3EAAB9216A2A8A00BC673C /* PBXTargetDependency */,
 			);
 			name = Uninstaller;
@@ -2394,7 +2401,6 @@
 			buildPhases = (
 				DDD336F61062235D00867C7D /* Sources */,
 				DDD336F81062235D00867C7D /* Frameworks */,
-				DDD336F91062235D00867C7D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2418,6 +2424,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD25E20D220438090040366F /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
 			productName = BOINC_Client;
@@ -2725,11 +2732,11 @@
 				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app.dSYM\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n\n";
 		};
 		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2740,11 +2747,11 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n##    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n\n";
 		};
 		DD73551E0D9111150006A9D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2755,11 +2762,10 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\nfi\n";
 		};
 		DD81C827144D90FC000BE61A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2784,6 +2790,15 @@
 			);
 			outputPaths = (
 				"$(SRCROOT)/Info.plist",
+				"$(SRCROOT)/ScreenSaver-Info.plist",
+				"$(SRCROOT)/Installer-Info.plist",
+				"$(SRCROOT)/PostInstall-Info.plist",
+				"$(SRCROOT)/Uninstaller-Info.plist",
+				"$(SRCROOT)/English.lproj/InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/Installer-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/PostInstall-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/ScreenSaver-InfoPlist.strings",
+				"$(SRCROOT)/English.lproj/Uninstaller-InfoPlist.strings",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2815,21 +2830,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${DERIVED_FILES_DIR}/i386/MultiGPUMig.h\" -nt \"${SRCROOT}/../api/MultiGPUMig.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/i386/MultiGPUMig.h\" \"${SRCROOT}/../api/MultiGPUMig.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/i386/MultiGPUMigServer.h\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/i386/MultiGPUMigServer.h\" \"${SRCROOT}/../api/MultiGPUMigServer.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/i386/MultiGPUMigServer.c\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/i386/MultiGPUMigServer.c\" \"${SRCROOT}/../api/MultiGPUMigServer.c\"\nfi\nif [ \"${DERIVED_FILES_DIR}/i386/MultiGPUMigUser.c\" -nt \"${SRCROOT}/../api/MultiGPUMigUser.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/i386/MultiGPUMigUser.c\" \"${SRCROOT}/../api/MultiGPUMigUser.c\"\nfi\n";
 		};
-		DDD336F91062235D00867C7D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../client/version.h",
-			);
-			outputPaths = (
-				"$(SRCROOT)/English.lproj/InfoPlist.strings",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
-		};
 		DDEE5E8E0D9112AF0056A99E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2839,11 +2839,11 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+				"",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\nfi\n";
 		};
 		DDF9EC07144EB255005D6144 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3481,6 +3481,11 @@
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */;
 		};
+		DD25E20D220438090040366F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DD25E20C220438090040366F /* PBXContainerItemProxy */;
+		};
 		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
@@ -3591,6 +3596,11 @@
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
 			targetProxy = DDD4D96415A6FE0000612460 /* PBXContainerItemProxy */;
 		};
+		DDE382012200806D0077E85A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DDE382002200806D0077E85A /* PBXContainerItemProxy */;
+		};
 		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
@@ -3665,7 +3675,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
@@ -3722,7 +3731,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
@@ -3811,7 +3819,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3871,7 +3878,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -4104,7 +4110,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",
@@ -4271,7 +4276,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../curl-7.58.0/include",

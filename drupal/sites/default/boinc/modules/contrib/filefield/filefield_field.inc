@@ -190,8 +190,8 @@ function filefield_field_update($node, $field, &$items, $teaser, $page) {
   // Delete items from original node.
   $orig = node_load($node->nid); 
   // If there are, figure out which ones must go.
-  if (!empty($orig->$field['field_name'])) {
-    foreach ($orig->$field['field_name'] as $oitem) {
+  if (!empty($orig->{$field['field_name']})) {
+    foreach ($orig->{$field['field_name']} as $oitem) {
       if (isset($oitem['fid']) && !in_array($oitem['fid'], $curfids)) {
         // For hook_file_references, remember that this is being deleted.
         $oitem['field_name'] = $field['field_name'];

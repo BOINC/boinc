@@ -18,9 +18,7 @@
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
-#ifdef _WIN64
-
-#include "boinc_win.h"
+#include <string>
 
 #include "miofile.h"
 #include "parse.h"
@@ -49,7 +47,5 @@ struct WSLS {
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);    
 };
-
-#endif // _WIN64
 
 #endif

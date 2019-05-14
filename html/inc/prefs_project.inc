@@ -78,8 +78,8 @@ if ($app_types->cpu) {
 }
 if ($app_types->ati) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use ATI GPU"),
-        "Request ATI GPU tasks from this project.",
+        tra("Use AMD GPU"),
+        "Request AMD GPU tasks from this project.",
         "no_ati",
         false,
         true
@@ -303,6 +303,7 @@ function print_prefs_display_project($user, $columns=false) {
         start_table();
         row_heading(tra("Combined preferences").$switch_link);
         prefs_show_privacy($user, true);
+        prefs_show_consent($user, true);
         venue_show($user);
         row_top(tra("Project specific settings"));
         prefs_show_project($project_prefs, true);

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,37 +17,37 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_entry"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
-    
-	<LinearLayout 
-    	android:id="@+id/main_loading"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center"
-	    android:layout_gravity="center"
-	    android:orientation="horizontal"
-	    android:paddingTop="20dp"
-	    android:paddingBottom="20dp"
-	    android:background="@drawable/shape_light_blue_background" >
+              android:id="@+id/main_entry"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal">
 
-	    <ProgressBar
-	        android:id="@+id/loading_progressBar"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        style="?android:attr/progressBarStyleSmall"
-	        android:layout_marginRight="10dp"
-	        android:background="@android:color/transparent" />
-	
-	    <TextView
-	        android:id="@+id/loading_header"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/status_launching"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:maxWidth="100dp"
-	        android:background="@android:color/transparent" />
-	</LinearLayout>
+    <LinearLayout
+            android:id="@+id/main_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/shape_light_blue_background">
+
+        <ProgressBar
+                android:id="@+id/loading_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"/>
+
+        <TextView
+                android:id="@+id/loading_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_launching"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:maxWidth="100dp"
+                android:background="@android:color/transparent"/>
+    </LinearLayout>
 </LinearLayout>

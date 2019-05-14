@@ -48,6 +48,7 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgDiagnosticLogFlags.h"
+#include "AdvancedFrame.h"
 
 
 #ifdef __WXMAC__
@@ -70,6 +71,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
     EVT_MENU_OPEN(CSimpleFrame::OnMenuOpening)
+    // View
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
     EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
@@ -80,13 +82,19 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
-    EVT_MENU(ID_WIZARDATTACHPROJECT, CSimpleFrame::OnProjectsAttachToProject)
+    // Tools
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CBOINCBaseFrame::OnWizardAttachProject)
+    EVT_MENU(ID_WIZARDATTACHACCOUNTMANAGER, CBOINCBaseFrame::OnWizardUpdate)
+    EVT_MENU(ID_WIZARDUPDATE, CBOINCBaseFrame::OnWizardUpdate)
+    EVT_MENU(ID_WIZARDDETACH, CBOINCBaseFrame::OnWizardDetach)
+    // Help
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
-	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+    EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
+    EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
@@ -102,18 +110,34 @@ CSimpleFrame::CSimpleFrame() {
 
 CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
-                    wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN)
+        wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN
+    )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame:: - Overloaded Constructor Function Begin"));
 
-    // Initialize Application
     SetIcons(*icons);
-    
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CreateMenus();
+    dlgMsgsPtr = NULL;
+    m_pBackgroundPanel = new CSimpleGUIPanel(this);
+    RestoreState();
+}
+
+bool CSimpleFrame::CreateMenus() {
+    ACCT_MGR_INFO      ami;
     wxString           strMenuName;
     wxString           strMenuDescription;
+    bool               is_acct_mgr_detected = false;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    if (pDoc->IsConnected()) {
+        pDoc->rpc.acct_mgr_info(ami);
+        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    }
 
     // File menu
     wxMenu *menuFile = new wxMenu;
@@ -202,11 +226,46 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
-    menuTools->Append(
-        ID_WIZARDATTACHPROJECT, 
-        _("&Add project..."),
-        _("Add a project")
-    );
+    if (!is_acct_mgr_detected) {
+        menuTools->Append(
+            ID_WIZARDATTACHPROJECT,
+            _("&Add project..."),
+            _("Add a project")
+        );
+        menuTools->Append(
+            ID_WIZARDATTACHACCOUNTMANAGER,
+            _("&Use account manager..."),
+            _("Use an account manager to control this computer.")
+        );
+    } else {
+        strMenuName.Printf(
+            _("&Synchronize with %s"),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+        strMenuDescription.Printf(
+            _("Get current settings from %s"),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+        menuTools->Append(
+            ID_WIZARDUPDATE,
+            strMenuName,
+            strMenuDescription
+        );
+        menuTools->Append(
+            ID_WIZARDATTACHPROJECT,
+            _("&Add project..."),
+            _("Add a project")
+        );
+        strMenuName.Printf(
+            _("S&top using %s..."),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+        menuTools->Append(
+            ID_WIZARDDETACH,
+            strMenuName,
+            _("Remove this computer from account manager control.")
+        );
+    }
     menuTools->AppendSeparator();
     menuTools->Append(
         ID_EVENTLOG, 
@@ -275,6 +334,13 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
     menuHelp->AppendSeparator();
 
+    menuHelp->Append(
+        ID_REPORT_BUG,
+        _("Report Issue"),
+        _("Report bug or enhancement request")
+    );
+    menuHelp->AppendSeparator();
+
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -331,12 +397,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
-    
-    dlgMsgsPtr = NULL;
-
-    m_pBackgroundPanel = new CSimpleGUIPanel(this);
-    
-    RestoreState();
+    return true;
 }
 
 
@@ -636,6 +697,13 @@ void CSimpleFrame::OnCheckVersion(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnCheckVersion - Function End"));
 }
 
+void CSimpleFrame::OnReportBug(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function Begin"));
+
+    wxLaunchDefaultBrowser(wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationReportBugUrl());
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReportBug - Function End"));
+}
 
 void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
@@ -710,45 +778,6 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function End"));
 }
-
-
-void CSimpleFrame::OnProjectsAttachToProject(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
-
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsUserAuthorized())
-        return;
-
-    if (pDoc->IsConnected()) {
-
-        CWizardAttach* pWizard = new CWizardAttach(this);
-
-        pWizard->Run(
-            wxEmptyString,
-            wxEmptyString,
-            wxEmptyString,
-            wxEmptyString,
-            wxEmptyString,
-            wxEmptyString,
-            wxEmptyString,
-            false,
-            false
-        );
-
-        if (pWizard)
-            pWizard->Destroy();
-
-    } else {
-        ShowNotCurrentlyConnectedAlert();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
-}
-
 
 void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
@@ -878,6 +907,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         pWizard->Destroy();
         m_pBackgroundPanel->UpdateProjectView();
 	}
+
+    // Update the menus
+    //
+    CreateMenus();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
@@ -1120,18 +1153,16 @@ void CSimpleGUIPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::ReskinInterface - Function End"));
 }
 
-
 void CSimpleGUIPanel::OnProjectsAttachToProject(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function Begin"));
 	
     CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
     wxASSERT(pFrame);
 
-    pFrame->OnProjectsAttachToProject(event);
+    pFrame->OnWizardAttachProject(event);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function End"));
 }
-
 
 // called from CSimpleFrame::OnRefreshView()
 void CSimpleGUIPanel::OnFrameRender() {

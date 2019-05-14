@@ -33,24 +33,26 @@ if ($name != sanitize_tags($name)) {
 if (strlen($name) == 0) {
     error_page(tra("You must supply a name for your account."));
 }
-$url = post_str("url", true);
-$url = sanitize_tags($url);
-$country = post_str("country");
-if ($country == "") {
-    $country = "International";
+$name = BoincDb::escape_string($name);
+
+$url = "";
+$country = "";
+$postal_code = "";
+if (USER_URL) {
+    $url = post_str("url", true);
+    $url = sanitize_tags($url);
+    $url = BoincDb::escape_string($url);
 }
-if (!is_valid_country($country)) {
-    error_page("bad country");
+if (USER_COUNTRY) {
+    $country = post_str("country");
+    if (!is_valid_country($country)) {
+        error_page("bad country");
+    }
+    $country = BoincDb::escape_string($country);
 }
-$country = BoincDb::escape_string($country);
 if (POSTAL_CODE) {
     $postal_code = BoincDb::escape_string(sanitize_tags(post_str("postal_code", true)));
-} else {
-    $postal_code = '';
 }
-
-$name = BoincDb::escape_string($name);
-$url = BoincDb::escape_string($url);
 
 $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"

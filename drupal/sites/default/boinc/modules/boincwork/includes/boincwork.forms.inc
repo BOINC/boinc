@@ -669,7 +669,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $result = boincwork_save_prefs($prefs, 'general', $venue);
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
@@ -769,6 +769,34 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   
   $total_credit = $old_host->total_credit + $new_host->total_credit;
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+
+  if ($new_host->rpc_seqno == $old_host->id) {
+    rules_invoke_event('boincwork_circular_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Circular merge attempted, target host rpc_seqno is equal to old host\'s id: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge due to a circular merge error. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
+
+  if ($new_host->userid==0) {
+    rules_invoke_event('boincwork_zombie_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Zombie merge attempted, target host has userid=0: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge because the target host has userid=0. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
   
   // Move credit from the old host to the new host
   db_set_active('boinc_rw');
@@ -1119,12 +1147,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
     if ($app_types->ati) {
       $form['resource']['no_ati'] = array(
-        '#title' => bts('Use ATI GPU', array(), NULL, 'boinc:account-preferences-project'),
+        '#title' => bts('Use AMD GPU', array(), NULL, 'boinc:account-preferences-project'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_ati'] ? 0 : 1,
-        '#description' => bts('Request ATI GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
+        '#description' => bts('Request AMD GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
       );
     }
     if ($app_types->intel_gpu) {
@@ -1363,7 +1391,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   }
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
@@ -1699,7 +1727,7 @@ function communityprefs_form_submit($form, &$form_state) {
   user_save($user, $settings);
   
   drupal_set_message(bts('Your community preferences have been updated.', array(), NULL, 'boinc:account-preferences-community'));
-  
+
   // Form will not redirect if storage is set; not good if language changes
   unset($form_state['storage']);
 }
@@ -1708,7 +1736,7 @@ function communityprefs_form_submit($form, &$form_state) {
  * The structure of the privacy preferences form
  */
 function boincwork_privacyprefs_form(&$form_state) {
-  require_boinc(array('user', 'prefs', 'util'));
+  require_boinc(array('user', 'prefs', 'util', 'consent'));
   
   global $user;
   $account = user_load($user->uid);
@@ -1718,6 +1746,8 @@ function boincwork_privacyprefs_form(&$form_state) {
   $prefs = boincwork_load_prefs('project');
   
   //if (!$prefs AND !$initialize_if_empty) return null;
+
+  $privacy_consent_types = boincwork_load_privacyconsenttypes();
   
   // Define form defaults
   $default = array(
@@ -1755,6 +1785,22 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['privacy']['show_hosts']
   );
+
+  // Loop over privacy consent types and create form question for each
+  // option that deals with privacy.
+  foreach ($privacy_consent_types as $ct) {
+
+    $currstate = (check_user_consent($boincuser, $ct['shortname'])) ? 1 : 0 ;
+    // Set name to 'privacyconsent_SHORTNAME', which can be parsed
+    // later in the submit function.
+    $form['privacy']['privacyconsent_'.$ct['shortname']] = array(
+      '#title' => bts($ct['description'], array(), NULL, 'boinc:account-preferences-privacy'),
+      '#type' => 'radios',
+      '#options' => $form['boolean_options']['#value'],
+      '#attributes' => array('class' => 'fancy'),
+      '#default_value' => $currstate,
+    );
+  }
 
   // Ignore and block users
   if (module_exists('ignore_user')) {
@@ -1901,18 +1947,33 @@ function boincwork_privacyprefs_form_validate($form, &$form_state) {
   * Handle post-validation submission of privacy preferences form.
   */
 function boincwork_privacyprefs_form_submit($form, &$form_state) {
-  require_boinc(array('user', 'prefs'));
-  
+  require_boinc(array('user', 'prefs', 'consent'));
+
   global $user;
   $account = user_load($user->uid);
-  
+
   // Load BOINC account
   $boincuser = BoincUser::lookup_id($account->boincuser_id);
   
   // Privacy preferences
   $boincuser->send_email = ($form_state['values']['send_email']) ? true : false;
   $boincuser->show_hosts = ($form_state['values']['show_hosts']) ? true : false;
-  
+
+  // Privacy consent options, extract the 'privacyconsent_SHORTNAME'
+  // from values array, and loop over them; each is checked with
+  // check_consent_type(). Also check the current state of the option
+  // in the database. If the form value is a new state, then set it.
+  $result = preg_grep("/^privacyconsent/", array_keys($form_state['values']));
+  $privacyconsent_prefs = array_intersect_key($form_state['values'], array_flip($result));
+  foreach ($privacyconsent_prefs as $name => $newstate) {
+    $subname = explode('_', $name)[1];
+    $currstate = (check_user_consent($boincuser, $subname)) ? 1 : 0 ;
+    list($checkct, $ctid) = check_consent_type($subname);
+    if ($checkct && ($currstate != $newstate)) {
+      consent_to_a_policy($boincuser, $ctid, $newstate, 0, 'Webform', time());
+    }
+  }
+
   //project_prefs_update($boincuser, $main_prefs);
   
   db_set_active('boinc_rw');

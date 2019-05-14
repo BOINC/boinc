@@ -600,7 +600,7 @@ void COPROC_NVIDIA::set_peak_flops() {
         //
         x = opencl_prop.max_compute_units * 48 * 2 * opencl_prop.max_clock_frequency * 1e6;
     }
-    peak_flops =  (x>0)?x:5e10;
+    peak_flops = x;
 }
 
 // fake a NVIDIA GPU (for debugging)
@@ -868,7 +868,7 @@ void COPROC_ATI::set_peak_flops() {
         //
         x = opencl_prop.max_compute_units * 16 * 5 * opencl_prop.max_clock_frequency * 1e6;
     }
-    peak_flops = (x>0)?x:5e10;
+    peak_flops = x;
 }
 
 void COPROC_ATI::fake(double ram, double avail_ram, int n) {
@@ -980,7 +980,7 @@ void COPROC_INTEL::set_peak_flops() {
     if (opencl_prop.max_compute_units) {
         x = opencl_prop.max_compute_units * 8 * opencl_prop.max_clock_frequency * 1e6;
     }
-    peak_flops = (x>0)?x:45e9;
+    peak_flops = x;
 }
 
 void COPROC_INTEL::fake(double ram, double avail_ram, int n) {

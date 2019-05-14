@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,54 +17,52 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
- <!-- All styles declared here are for the support library compatibility.
- Style properties for API version 14+ can be found at values-14/theme.xml -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android"> 
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Styled" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/StyledActionBar</item>
-        <item name="actionBarTabStyle">@style/StyledActionBarTabView</item>
+        <item name="android:actionBarStyle">@style/StyledActionBar</item>
+        <item name="android:actionBarTabStyle">@style/StyledActionBarTabView</item>
         <item name="actionMenuTextColor">@android:color/white</item>
-    	<item name="android:itemBackground">@color/dark_blue</item>
+        <item name="android:itemBackground">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColor">@color/black</item>
     </style>
-    
+
     <style name="Theme.Styled.NoActionBar" parent="Theme.Styled">
-    	<item name="android:windowNoTitle">true</item>
-	</style>
-    
-    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-    	<item name="background">@drawable/shape_dark_blue_gradient_background</item>
-    	<item name="backgroundStacked">@color/dark_blue</item>
-    	<item name="titleTextStyle">@style/StyledActionBarTitleText</item>
-	</style>
-    
-    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
-   		<item name="android:gravity">center</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
-  	<style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-    	<item name="android:textColor">@android:color/white</item>
-  	</style>
-    
+    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/shape_dark_blue_gradient_background</item>
+        <item name="android:backgroundStacked">@color/dark_blue</item>
+        <item name="android:titleTextStyle">@style/StyledActionBarTitleText</item>
+    </style>
+
+    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <!-- sub header -->
     <style name="SubHeader">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
-     	<item name="android:singleLine">true</item>
-    	<item name="android:background">@drawable/shape_light_blue_background</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/shape_light_blue_background</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
     <!-- list view -->
     <style name="CustomListView" parent="@android:style/Widget.ListView">
-		<item name="android:background">@color/white_smoke</item>
-		<item name="android:cacheColorHint">@color/lightest_blue</item>
-		<item name="android:divider">@color/lightest_blue</item>
-		<item name="android:dividerHeight">1dp</item>
-	</style>
-    
+        <item name="android:background">@color/white_smoke</item>
+        <item name="android:cacheColorHint">@color/lightest_blue</item>
+        <item name="android:divider">@color/lightest_blue</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
 </resources>
