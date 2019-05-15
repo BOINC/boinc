@@ -621,10 +621,15 @@ bool do_pass() {
     DB_WORKUNIT wu;
     char buf[256], buf2[256];
 
-    if (delete_batches && !dont_delete) {
+    if (delete_batches) {
+      if (dont_delete) {
+	log_messages.printf(MSG_DEBUG,
+			  "Didn't delete retired batches from database (-dont_delete)\n");
+      } else {
         DB_BATCH batch;
-	sprintf(buf, "delete from batch where state=%d", BATCH_STATE_RETIRED);
+	sprintf(buf, "state=%d", BATCH_STATE_RETIRED);
         batch.delete_from_db_multi(buf);
+      }
     }
 
     sprintf(buf, "where file_delete_state=%d", FILE_DELETE_DONE);
