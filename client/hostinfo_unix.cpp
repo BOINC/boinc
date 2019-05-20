@@ -46,8 +46,6 @@
 // prevents naming collision between X.h define of Always and boinc's
 // lib/prefs.h definition in an enum.
 #undef Always
-#include <dirent.h> //for opening /tmp/.X11-unix/
-  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
 #endif
 
@@ -1834,70 +1832,34 @@ bool interrupts_idle(time_t t) {
 const vector<string> X_display_values_initialize() {
     // According to "man Xserver", each local Xserver will have a socket file
     // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
-    // We will parse this directory for currently open Xservers and attempt
-    // to ultimately query them for their idle time. If we can't open this
-    // directory, or the display_values vector is otherwise empty, then a
-    // static list of guesses for open display servers is utilized instead
-    // (DISPLAY values ":{0..6}") that will attempt connections to the first
-    // seven open Xservers.
+    // We will parse this directory for currently open Xservers ":{0..6}".
+    // If we were unable to find an files in /tmp, we default to tryin just :0.
     //
-    // If we were unable to open _any_ Xserver, then we will log this and
-    // xss_idle returns true, effectively leaving idle detection up to other
-    // methods.
-    //
-    static const string dir = "/tmp/.X11-unix/";
+    static const string commonpath = "/tmp/.X11-unix/X";
     vector<string> display_values;
-    vector<string>::iterator it;
+    string filetocheck;
+    string stringofi;
 
-    DIR *dp;
-    struct dirent *dirp;
-    if ((dp = opendir(dir.c_str())) == NULL) {
-        if (log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Error (%d) opening %s.", errno, dir.c_str()
-            );
-        }
-    } else {
-        while ((dirp = readdir(dp)) != NULL) {
-            display_values.push_back(string(dirp->d_name));
-        }
-        closedir(dp);
-    }
+    struct stat buffer;
+    for (int i=0; i <= 6; i++) {
+	stringofi = std::to_string(i);
+        filetocheck = commonpath + stringofi;
+        if ( stat(filetocheck.c_str(), &buffer) == 0 ){
+		display_values.push_back(":"+ stringofi);
+		}
+	}
 
-    // Get rid of non-matching elements and format the matching ones.
-    //
-    for (it = display_values.begin(); it != display_values.end(); ) {
-        if (it->c_str()[0] != 'X') {
-            it = display_values.erase(it);
-        } else {
-            replace(it->begin(), it->end(), 'X', ':');
-            it++;
-        }
-    }
-
-    // if the display_values vector is empty, assume something went wrong
-    // (couldn't open directory, no apparent Xn files). Test a static list of
-    // DISPLAY values instead that is likely to catch most common use cases.
-    // (I don't know of many environments where there will simultaneously be
-    // more than seven active, local Xservers. I'm sure they exist... somewhere.
-    // But seven was the magic number for me).
-    //
+    // If we don't find anything in /tmp fall back to display 0.
     if ( display_values.size() == 0 ) {
         if ( log_flags.idle_detection_debug ) {
             msg_printf(NULL, MSG_INFO,
                 "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/."
             );
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Using static DISPLAY list, :{0..6}."
+                "[idle_detection] Trying just display :0."
             );
         }
         display_values.push_back(":0");
-        display_values.push_back(":1");
-        display_values.push_back(":2");
-        display_values.push_back(":3");
-        display_values.push_back(":4");
-        display_values.push_back(":5");
-        display_values.push_back(":6");
         return display_values;
     } else {
         return display_values;
