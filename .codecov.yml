@@ -5,14 +5,17 @@ codecov:
 coverage:
   status:
     project: off
-    patch: on
+    patch:
+      default:
+        threshold: 0.01
 
 comment:
   layout: "diff, files"
   behavior: default
-  require_changes: false  # if true: only post the comment if coverage changes
+  require_changes: yes    # if true: only post the comment if coverage changes
   require_base: no        # [yes :: must have a base report to post]
   require_head: yes       # [yes :: must have a head report to post]
+  branch: master
 
 flags:
   # filter the folder(s) you wish to measure by that flag
