@@ -13,7 +13,7 @@ See: https://boinc.berkeley.edu/trac/wiki
 See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ## Want to contribute
-See: https://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
+See: https://github.com/BOINC/boinc-policy
 
 ## Reporting Security Issues
 We strongly encourage you to report security problems to our private mailing 
