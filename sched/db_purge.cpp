@@ -74,6 +74,7 @@ void usage() {
         "    [--one_pass]                  Make one DB scan, then exit\n"
         "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
         "    [--mod M R ]                  Handle only WUs with ID mod M == R\n"
+        "    [--batches]                   Delete retired batches from the batch table\n"
         "    [--h | --help]                Show this help text\n"
         "    [--v | --version]             Show version information\n"
     );
@@ -227,6 +228,7 @@ double min_age_days = 0;
 bool no_archive = false;
 bool dont_delete = false;
 bool daily_dir = false;
+bool delete_batches = false;
 int purged_workunits = 0;
     // used if limiting the total number of workunits to eliminate
 int max_number_workunits_to_purge = 0;
@@ -619,6 +621,17 @@ bool do_pass() {
     DB_WORKUNIT wu;
     char buf[256], buf2[256];
 
+    if (delete_batches) {
+      if (dont_delete) {
+	log_messages.printf(MSG_DEBUG,
+			  "Didn't delete retired batches from database (-dont_delete)\n");
+      } else {
+        DB_BATCH batch;
+	sprintf(buf, "state=%d", BATCH_STATE_RETIRED);
+        batch.delete_from_db_multi(buf);
+      }
+    }
+
     sprintf(buf, "where file_delete_state=%d", FILE_DELETE_DONE);
     if (min_age_days) {
         min_age_seconds = (int) (min_age_days*86400);
@@ -801,6 +814,8 @@ int main(int argc, char** argv) {
             max_wu_per_file = atoi(argv[i]);
         } else if (is_arg(argv[i], "no_archive")) {
             no_archive = true;
+        } else if (is_arg(argv[i], "batches")) {
+            delete_batches=true;
         } else if (is_arg(argv[i], "sleep")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
