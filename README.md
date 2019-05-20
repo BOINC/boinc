@@ -15,6 +15,12 @@ See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 ## Want to contribute
 See: https://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
 
+## Reporting Security Issues
+We strongly encourage you to report security problems to our private mailing 
+list and not by posting an issue.  You can do this by sending an email to 
+boinc_pmc@googlegroups.com.  This will be privately sent to the members of the 
+BOINC Project Management Committee.
+
 ### Note
 
 The University of California holds the copyright on all BOINC source code. By 
