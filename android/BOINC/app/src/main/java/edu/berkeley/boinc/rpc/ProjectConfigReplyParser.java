@@ -151,10 +151,6 @@ public class ProjectConfigReplyParser extends BaseParser {
                         platformName = "";
                         platformPlanClass = "";
                     }
-                    else if(localName.equalsIgnoreCase("platform") && withinPlatforms) { // finish platforms
-                        withinPlatforms = false;
-                        mProjectConfig.platforms = mPlatforms;
-                    }
                     else if(localName.equalsIgnoreCase("error_num")) { // reply is not present yet
                         mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
