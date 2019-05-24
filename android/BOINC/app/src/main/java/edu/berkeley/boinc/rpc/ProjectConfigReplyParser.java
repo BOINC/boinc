@@ -154,9 +154,6 @@ public class ProjectConfigReplyParser extends BaseParser {
                     else if(localName.equalsIgnoreCase("error_num")) { // reply is not present yet
                         mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("client_account_creation_disabled")) {
-                        mProjectConfig.clientAccountCreationDisabled = true;
-                    }
                     else if(localName.equalsIgnoreCase("account_manager")) {
                         mProjectConfig.accountManager = true;
                     }
