@@ -8,12 +8,13 @@
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # OlatusRooc <sebastiano.pistore.info@aol.com>, 2016
 # Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
+# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2018-02-01 20:14+0000\n"
+"PO-Revision-Date: 2018-08-24 14:08+0000\n"
 "Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +192,7 @@ msgstr "Per saperne di più:"
 
 #: doc/index.php:119
 msgid "Message boards"
-msgstr "Forum"
+msgstr "Bacheche"
 
 #: doc/index.php:120
 msgid "Projects"
@@ -298,11 +299,11 @@ msgstr "Processo di sviluppo"
 
 #: doc/index.php:189
 msgid "Development tasks"
-msgstr "Task di sviluppo"
+msgstr "Attività di sviluppo"
 
 #: doc/index.php:192
 msgid "BOINC is distributed under the LGPL open-source license."
-msgstr "BOINC è distribuito sotto licenza open source LGPL."
+msgstr "BOINC è rilasciato nei termini della licenza open source LGPL."
 
 #: doc/index.php:200
 msgid "The BOINC project"

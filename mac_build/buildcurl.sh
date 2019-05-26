@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2019 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -35,11 +35,12 @@
 # Updated 1/25/18 for curl 7.58.0 with c-ares 1.13.0 & openssl 1.1.0g, don't patch currules.h
 # Updated 1/26/18 to get directory names of c-ares and OpenSSL from dependencyNames.sh
 # Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
+# Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode
-## and clicked the Install button on the dialog which appears to
+## After first installing Xcode, you must have opened Xcode and
+## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## Where x.xx.x is the curl version number:
@@ -132,15 +133,16 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
-export MAC_OS_X_VERSION_MAX_ALLOWED=1060
-export MAC_OS_X_VERSION_MIN_REQUIRED=1060
+export MACOSX_DEPLOYMENT_TARGET=10.7
+export MAC_OS_X_VERSION_MAX_ALLOWED=1070
+export MAC_OS_X_VERSION_MIN_REQUIRED=1070
 
 if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+    export CPPFLAGS=""
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --host=x86_64
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Get the names of the current versions of c-ares and openssl from
@@ -161,9 +163,10 @@ else
     fi
 
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
+    export CPPFLAGS=""
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
-    ./configure --enable-shared=NO --enable-ares="${libcares}" --host=x86_64
+    ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
@@ -222,7 +225,7 @@ fi
 export lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
-export CPPFLAGS=""
+export CXXFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 

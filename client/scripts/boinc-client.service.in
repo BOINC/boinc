@@ -4,8 +4,12 @@ Documentation=man:boinc(1)
 After=network-online.target
 
 [Service]
-ProtectHome=true
 Type=simple
+ProtectHome=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectControlGroups=true
+ReadWritePaths=-/var/lib/boinc -/etc/boinc-client
 Nice=10
 User=boinc
 WorkingDirectory=/var/lib/boinc
@@ -14,6 +18,20 @@ ExecStop=@exec_prefix@/bin/boinccmd --quit
 ExecReload=@exec_prefix@/bin/boinccmd --read_cc_config
 ExecStopPost=/bin/rm -f lockfile
 IOSchedulingClass=idle
+# The following options prevent setuid root as they imply NoNewPrivileges=true
+# Since Atlas requires setuid root, they break Atlas
+# In order to improve security, if you're not using Atlas,
+# Add these options to the [Service] section of an override file using
+# sudo systemctl edit boinc-client.service
+#NoNewPrivileges=true
+#ProtectKernelModules=true
+#ProtectKernelTunables=true
+#RestrictRealtime=true
+#RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+#RestrictNamespaces=true
+#PrivateUsers=true
+#CapabilityBoundingSet=
+#MemoryDenyWriteExecute=true
 
 [Install]
 WantedBy=multi-user.target

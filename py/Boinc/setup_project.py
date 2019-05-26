@@ -488,7 +488,11 @@ class Project:
         config.max_wus_to_send = 50
         config.daily_result_quota = 500
         config.disable_account_creation = 0
+        config.disable_account_creation_rpc = 0
+        config.account_creation_rpc_require_consent = 0
         config.disable_web_account_creation = 0
+        config.enable_login_mustagree_termsofuse = 0
+        config.enable_privacy_by_default = 0
         config.show_results = 1
         config.cache_md5_info = 1
         config.sched_debug_level = 3
@@ -497,6 +501,7 @@ class Project:
         config.send_result_abort = 1
         config.dont_generate_upload_certificates = 1
         config.ignore_upload_certificates = 1
+        config.enable_delete_account = 0
         if web_only:
             config.no_computing = 1
 

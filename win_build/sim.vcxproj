@@ -392,6 +392,7 @@
     <ClCompile Include="..\lib\str_util.cpp" />
     <ClCompile Include="..\client\time_stats.cpp" />
     <ClCompile Include="..\client\work_fetch.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\client\app.h" />

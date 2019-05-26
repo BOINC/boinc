@@ -123,7 +123,7 @@ class panels_cache_object {
   /**
    * When constructed, take a snapshot of our existing out of band data.
    */
-  function panels_cache_object() {
+  function __construct() {
     $this->head = drupal_set_html_head();
     $this->css = drupal_add_css();
     $this->tokens = ctools_set_page_token();
@@ -133,6 +133,9 @@ class panels_cache_object {
     }
   }
 
+  function panels_cache_object() {
+    self::__construct();
+  }
   /**
    * Add content to the cache. This assumes a pure stream;
    * use set_content() if it's something else.

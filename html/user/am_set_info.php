@@ -21,6 +21,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../inc/password_compat/password.inc");
+require_once("../inc/user_util.inc");
 
 // do a very cursory check that the given text is valid;
 // for now, just make sure it has the given start and end tags,
@@ -53,6 +54,8 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
+$config = get_config();
+
 $auth = post_str("account_key", true);
 if ($auth) {
     $name = post_str("name", true);
@@ -67,6 +70,10 @@ if ($auth) {
     $venue = post_str("venue", true);
     $email_addr = post_str("email_addr", true);
     $password_hash = post_str("password_hash", true);
+    $consent_name = post_str("consent_name", true);
+    $consent_flag = post_str("consent_flag", true);
+    $consent_not_required = post_str("consent_not_required", true);
+    $consent_source = post_str("consent_source", true);
 } else {
     $auth = get_str("account_key");
     $name = get_str("name", true);
@@ -81,6 +88,10 @@ if ($auth) {
     $venue = get_str("venue", true);
     $email_addr = get_str("email_addr", true);
     $password_hash = get_str("password_hash", true);
+    $consent_name = get_str("consent_name", true);
+    $consent_flag = get_str("consent_flag", true);
+    $consent_not_required = get_str("consent_not_required", true);
+    $consent_source = get_str("consent_source", true);
 }
 
 $user = BoincUser::lookup_auth($auth);
@@ -89,7 +100,10 @@ if (!$user) {
 }
 
 $name = BoincDb::escape_string($name);
-if ($country && !is_valid_country($country)) {
+if (!USER_COUNTRY) {
+    $country = "";
+}
+if (!is_valid_country($country)) {
     xml_error(-1, "invalid country");
 }
 $country = BoincDb::escape_string($country);
@@ -107,11 +121,31 @@ if (stripos($project_prefs, "<project_specific>") === false) {
     $project_prefs = str_ireplace("<project_preferences>", "<project_preferences>\n".$orig_project_specific, $project_prefs);
 }
 
+if (!USER_URL) {
+    $url = "";
+}
 $url = BoincDb::escape_string($url);
 $send_email = BoincDb::escape_string($send_email);
 $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
-if ($email_addr) {
+$send_changed_email_to_user = false;
+$email_addr = strtolower($email_addr);
+if ($email_addr && $email_addr != $user->email_addr) {
+    $tmpuser = BoincUser::lookup_email_addr($email_addr);
+    if ($tmpuser) {
+        xml_error(ERR_DB_NOT_UNIQUE, "There's already an account with that email address.");
+    }
+
+    //check if the email address is included in previous_email_addr window. 
+    //
+    $tmpuser = BoincUser::lookup_prev_email_addr($email_addr);
+    if ($tmpuser) {
+        xml_error(ERR_DB_NOT_UNIQUE, "Email address is already in use");
+    }
+    if ($user->email_addr_change_time + 604800 > time()) {
+        xml_error(ERR_BAD_EMAIL_ADDR, "Email address was changed within the past 7 days, please look for an email to $user->previous_email_addr if this email change is incorrect.");
+    }
+
     if (!is_valid_email_addr($email_addr)) {
         xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
     }
@@ -172,9 +206,20 @@ if (!is_null($teamid)) {
 if ($venue) {
     $query .= " venue='$venue', ";
 }
-if ($email_addr && $email_addr!=$user->email_addr) {
-    $old_email_addr = $user->email_addr;
-    $query .= " email_addr='$email_addr', ";
+
+// Check to see if email_addr is different then what user->email-addr has
+// If it is different, then update the database and trigger sending an
+// email to the user that the email address has been changed.
+//
+if ($email_addr && $email_addr != $user->email_addr) {
+    $user->previous_email_addr = $user->email_addr;
+    $user->email_addr_change_time = time();
+    $user->email_addr = $email_addr;
+    $query .= " email_addr='$user->email_addr', ";
+    if ($user->previous_email_addr) {
+        $query .= " previous_email_addr='$user->previous_email_addr', email_addr_change_time=$user->email_addr_change_time, ";
+        $send_changed_email_to_user = true;
+    }
 }
 if ($password_hash) {
     $database_passwd_hash = password_hash($password_hash, PASSWORD_DEFAULT);
@@ -188,12 +233,40 @@ if (strlen($query)) {
     $query = "$query seti_id=seti_id";
     $result = $user->update($query);
     if ($result) {
+        if ($send_changed_email_to_user) {
+            send_changed_email($user);
+        }
         success("");
     } else {
         xml_error(-1, "database error: ".BoincDb::error());
     }
-} else {
-    success("");
 }
+
+// If all four consent parameters must be given to add to the consent
+// table. If one or more of these consent_xyz parameters are NOT
+// present, the RPC will still return 'success', even though the
+// consent table is not updated.
+if ( (isset($consent_name) and isset($consent_flag) and isset($consent_not_required) and isset($consent_source)) ) {
+    list($checkct, $ctid) = check_consent_type($consent_name);
+    if ($checkct) {
+
+        // Check to see if latest consent of this name is already
+        // given.
+        $cr= BoincConsent::lookup("userid={$user->id} AND consent_type_id='${ctid}' ORDER BY consent_time DESC LIMIT 1");
+        if ( (($cr) and ($cr->consent_flag!=$consent_flag)) or
+             (!$cr) ) {
+
+            $rc = consent_to_a_policy($user, $ctid, $consent_flag, $consent_not_required, $consent_source, time());
+            if (!$rc) {
+                xml_error(-1, "database error: ".BoincDb::error());
+            }
+        }
+
+    }
+}
+
+
+// The equivalent of a 'return 0'.
+success("");
 
 ?>

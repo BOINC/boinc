@@ -21,7 +21,6 @@ require_once("../inc/email.inc");
 
 check_get_args(array());
 
-redirect_to_secure_url("edit_email_form.php");
 $user = get_logged_in_user();
 
 page_head(tra("Change email address"));
@@ -31,20 +30,24 @@ if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
-form_start(secure_url_base()."/edit_email_action.php", "post");
-form_input_text(
-    tra("New email address").
-    "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
-    "email_addr", $email_text
-);
+if ($user->email_addr_change_time + 604800 > time()) {
+    echo tra("Email address was changed within the past 7 days. Please look for an email to $user->previous_email_addr if you need to revert this change.");
+} else {
+    form_start(secure_url_base()."edit_email_action.php", "post");
+    form_input_text(
+        tra("New email address").
+        "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
+        "email_addr", $email_text
+    );
 
-// we need the password here not for verification,
-// but because we store it salted with email address,
-// which is about to change.
-
-form_input_text(tra("Password"), "passwd", "", "password");
-form_submit(tra("Change email address"));
-form_end();
+    // we need the password here not for verification,
+    // but because we store it salted with email address,
+    // which is about to change.
+    
+    form_input_text(tra("Password"), "passwd", "", "password");
+    form_submit(tra("Change email address"));
+    form_end();
+}
 page_tail();
 
 ?>

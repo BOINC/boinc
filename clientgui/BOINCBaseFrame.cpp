@@ -36,7 +36,9 @@
 #include "Events.h"
 #include "DlgEventLog.h"
 #include "DlgSelectComputer.h"
-
+#include "wizardex.h"
+#include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 
 DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_CONNECT)
@@ -330,9 +332,8 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         Destroy();
     } else {
 #ifdef __WXGTK__
-        // Apparently aborting a close event just causes the main window to be displayed
-        // again.  Just minimize the window instead.
-        Iconize();
+        wxGetApp().FrameClosed();
+        Destroy();
 #else
         Hide();
 #endif
@@ -556,6 +557,10 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
                 return;
             }
         }
+    } else {
+        // Don't ask whether to reconnect to remote client
+        pDoc->Reconnect();
+        return;
     }
 
     // %s is the application name
@@ -699,7 +704,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
 }
 
 
-void CBOINCBaseFrame::StartTimers() {
+void CBOINCBaseFrame::StartTimersBase() {
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pPeriodicRPCTimer);
     wxASSERT(m_pDocumentPollTimer);
@@ -709,7 +714,7 @@ void CBOINCBaseFrame::StartTimers() {
 }
 
 
-void CBOINCBaseFrame::StopTimers() {
+void CBOINCBaseFrame::StopTimersBase() {
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pPeriodicRPCTimer);
     wxASSERT(m_pDocumentPollTimer);
@@ -898,3 +903,150 @@ void CFrameAlertEvent::ProcessResponse(const int response) const {
     }
 }
 
+// bring up the attach-project dialog
+//
+void CBOINCBaseFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardAttachProject - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!pDoc->IsUserAuthorized()) {
+        return;
+    }
+
+    if (pDoc->IsConnected()) {
+
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
+
+        CWizardAttach* pWizard = new CWizardAttach(this);
+
+        pWizard->Run(
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            false,
+            false
+        );
+
+        pWizard->Destroy();
+
+        // Restart timers to continue normal operations.
+        StartTimers();
+
+        pDoc->ForceCacheUpdate();
+        FireRefreshView();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardAttachProject - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnWizardUpdate(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardUpdate - Function Begin"));
+
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    if (pDoc->IsConnected()) {
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
+
+        CWizardAttach* pWizard = new CWizardAttach(this);
+
+        pWizard->SyncToAccountManager();
+        pWizard->Destroy();
+
+        CreateMenus();
+        pDoc->ForceCacheUpdate();
+        FireRefreshView();
+        ResetReminderTimers();
+
+        // Restart timers to continue normal operations.
+        StartTimers();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardUpdate - Function End"));
+}
+
+// detach from account manager
+//
+void CBOINCBaseFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardDetach - Function Begin"));
+
+    CMainDocument* pDoc           = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxInt32        iAnswer        = 0; 
+    wxString       strTitle       = wxEmptyString;
+    wxString       strMessage     = wxEmptyString;
+    ACCT_MGR_INFO  ami;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    if (!pDoc->IsUserAuthorized()) {
+        return;
+    }
+
+    if (pDoc->IsConnected()) {
+        pDoc->rpc.acct_mgr_info(ami);
+
+        strTitle.Printf(
+            _("%s - Stop using %s"),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+        strMessage.Printf(
+            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"), 
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+
+        iAnswer = wxGetApp().SafeMessageBox(
+            strMessage,
+            strTitle,
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+
+        if (wxYES == iAnswer) {
+            pDoc->rpc.acct_mgr_rpc("", "", "", false);
+        }
+
+        CreateMenus();
+        pDoc->ForceCacheUpdate();
+        FireRefreshView();
+
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnWizardDetach - Function End"));
+}
+
+void CBOINCBaseFrame::ResetReminderTimers() {
+#ifdef __WXMSW__
+    wxASSERT(m_pDialupManager);
+    wxASSERT(wxDynamicCast(m_pDialupManager, CBOINCDialUpManager));
+
+    m_pDialupManager->ResetReminderTimers();
+#endif
+}

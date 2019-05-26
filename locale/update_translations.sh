@@ -2,20 +2,9 @@
 
 set -e # abort if a command exits non-zero
 
-# update localization files from transifex and compile .po to .mo if needed
-# .po files are only updated if they are 100% translated, outdated files are not removed!
-# Then commit and push changes.
-
-testmode=0
-if test $# -gt 0; then
-  if test $1 = "-t"; then
-    testmode=1
-  else
-    echo "Usage: $0 [-t]"
-    echo "     -t  testmode (don't commit or push to git repository)"
-    exit 1
-  fi
-fi
+# update localization files from transifex and compile .po to .mo
+# .po files are updated according to minimum_perc in .tx/config, outdated files are not removed!
+# Then commit and push changes manually.
 
 # find source root upward from CWD
 while ! test -r .tx/config; do
@@ -28,13 +17,12 @@ command -v tx >/dev/null 2>&1 || { echo >&2 "tx (transifex-client) is needed but
 
 # check if working directory is clean to ensure we only commit localization changes
 if test 0 -ne `git status -s -uno |wc -l`; then
-  echo "Please commit your pending changes first"
-  exit 1
+  echo "Warning: You have pending changes! Please make sure to only commit localization changes!"
 fi
 
 echo "pulling translations from transifex"
-# this only updates existing languages, new languages need to be added manually with 'tx pull -a' and 'git add'
-tx pull
+# this updates existing languages and adds new languages
+tx pull -a
 
 echo "compiling localization files for Manager and Client"
 srcdir=`pwd`
@@ -48,27 +36,31 @@ for template_name in "${templates[@]}"; do
     locale=`basename $dir`
 
     cd ${srcdir}/locale/${locale}
-    if test ${template_name}.po -nt ${template_name}.mo.flag || test ! -e ${template_name}.mo.flag; then
-      # Compile the PO file into an MO file.
-      pocompile ${template_name}.po ${template_name}.mo
+    # Compile the PO file into an MO file.
+    pocompile ${template_name}.po ${template_name}.mo
+    # Touch each file to adjust timestamps
+    touch ${template_name}.po
 
-      # Touch each file to adjust timestamps
-      touch ${template_name}.po
-      touch ${template_name}.mo.flag
-
-    fi
   done
   cd ${srcdir}/locale
 done
 
+echo "running pofilter for BOINC-Manager.po"
+echo "Please check output in BOINC-Manager-pofilter.txt!"
+echo "" > BOINC-Manager-pofilter.txt
+for file in `find -name "BOINC-Manager.po"`; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  echo $file >> BOINC-Manager-pofilter.txt
+  pofilter --language ${locale} -t printf -t escapes -t numbers -t tabs --nofuzzy ${srcdir}/locale/${locale}/BOINC-Manager.po >> BOINC-Manager-pofilter.txt
+done
+
 cd ${srcdir}
 
-git add -u # only update already tracked files (will not track new files)
-if test $testmode -eq 0; then
-  git commit -m "Locale: Update localization files [skip ci]"
-  git push
-else
-  echo "working directory prepared for commit, inspect changes with 'git diff --cached'"
-fi
+echo "Translations compiled successfully. Now some manual steps:"
+echo " 1. less BOINC-Manager-pofilter.txt # check output from pofilter and adjust translations then start this script again"
+echo " 2. git add -u # only update already tracked files (add new files when needed too)"
+echo " 3. git commit -m \"Locale: Update localization files [skip ci]\""
+echo " 4. git push"
 
 exit 0

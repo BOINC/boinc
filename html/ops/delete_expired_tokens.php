@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
-require_once("../inc/util_ops.inc");
-require_once("../inc/db_ops.inc");
+require_once("../inc/util.inc");
+require_once("../inc/boinc_db.inc");
 
 echo "Starting: ", time_str(time()), "\n";
 

@@ -134,7 +134,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 5, -6));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<pre>$x</pre>";
+                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
             },
             $text
         );
@@ -241,8 +241,8 @@ function bb2html($text, $export=false) {
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
             "<em>\\1 wrote:</em><blockquote>\\2</blockquote>",
             "<blockquote>\\1</blockquote>",
-            "<ul>\\1</ul><p>",
-            "<ol>\\1</ol><p>",
+            "<ul style=\"word-break:break-word;\">\\1</ul><p>",
+            "<ol style=\"word-break:break-word;\">\\1</ol><p>",
             "<img hspace=\"8\" class=\"img-responsive\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",

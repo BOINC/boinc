@@ -89,11 +89,17 @@ void get_descendants(int pid, vector<int>& pids) {
 // Suspend or resume the threads in a set of processes,
 // but don't suspend 'calling_thread'.
 //
+// Called from:
+//  API (processes = self)
+//      This handles a) throttling; b) suspend/resume by user
+//  wrapper (via suspend_or_resume_process()); process = child
+//  wrapper, MP case (via suspend_or_resume_decendants());
+//      processes = descendants
+//
 // The only way to do this on Windows is to enumerate
 // all the threads in the entire system,
-// and find those belonging to one of the process (ugh!!)
+// and identify those belonging to one of the processes (ugh!!)
 //
-
 int suspend_or_resume_threads(
     vector<int>pids, DWORD calling_thread_id, bool resume, bool check_exempt
 ) { 
@@ -101,6 +107,7 @@ int suspend_or_resume_threads(
     THREADENTRY32 te = {0}; 
     int retval = 0;
     DWORD n;
+    static vector<DWORD> suspended_threads;
 
 #ifdef DEBUG
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -124,6 +131,10 @@ int suspend_or_resume_threads(
         return -1;
     }
 
+    if (!resume) {
+        suspended_threads.clear();
+    }
+
     do { 
         if (check_exempt && !diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) {
 #ifdef DEBUG
@@ -131,17 +142,32 @@ int suspend_or_resume_threads(
 #endif
             continue;
         }
-        //fprintf(stderr, "thread %d PID %d %s\n", te.th32ThreadID, te.th32OwnerProcessID, precision_time_to_string(dtime()));
+#if 0
+        fprintf(stderr, "thread %d PID %d %s\n",
+            te.th32ThreadID, te.th32OwnerProcessID,
+            precision_time_to_string(dtime())
+        );
+#endif
         if (te.th32ThreadID == calling_thread_id) continue;
         if (!in_vector(te.th32OwnerProcessID, pids)) continue;
         thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
         if (resume) {
-            n = ResumeThread(thread);
+            // check whether we suspended this thread earlier
+            //
+            if (std::find(
+                suspended_threads.begin(), suspended_threads.end(),
+                te.th32ThreadID
+            ) != suspended_threads.end()) {
+                n = ResumeThread(thread);
 #ifdef DEBUG
-            fprintf(stderr, "ResumeThread returns %d\n", n);
+                fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
+            } else {
+                n = 0;
+            }
         } else {
             n = SuspendThread(thread);
+            suspended_threads.push_back(te.th32ThreadID);
 #ifdef DEBUG
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
@@ -234,7 +260,7 @@ void suspend_or_resume_descendants(bool resume) {
     int pid = getpid();
     get_descendants(pid, descendants);
     for (unsigned int i=0; i<descendants.size(); i++) {
-        kill(descendants[i], resume?SIGCONT:SIGSTOP);
+        kill(descendants[i], resume?SIGCONT:SIGTSTP);
     }
 #endif
 }
@@ -247,7 +273,7 @@ void suspend_or_resume_process(int pid, bool resume) {
     pids.push_back(pid);
     suspend_or_resume_threads(pids, 0, resume, false);
 #else
-    ::kill(pid, resume?SIGCONT:SIGSTOP);
+    ::kill(pid, resume?SIGCONT:SIGTSTP);
 #endif
 }
 

@@ -1,0 +1,261 @@
+<?php
+
+/**
+ * @file
+ * Tests for the Facet API module.
+ */
+
+/**
+ * Base class for all Facet API test cases.
+ */
+class FacetapiTestCase extends DrupalWebTestCase {
+
+  /**
+   * Overrides DrupalWebTestCase::fetchAssoc().
+   *
+   * Enables the "block" and "facetapi_test" modules, creates an administrative
+   * user with permissions to configure the Faceted Search interface.
+   */
+  public function setUp() {
+    parent::setUp('block', 'search', 'ctools', 'facetapi','facetapi_test');
+    $this->authenticatedUser = $this->drupalCreateUser();
+    $this->adminUser = $this->drupalCreateUser(array(
+      'administer blocks',
+      'administer search',
+      'access administration pages',
+    ));
+  }
+
+  /**
+   * Instantiates the adapter plugin associated with the searcher.
+   *
+   * The following tests are executed:
+   *   - DrupalTestCase::assertTrue(): Asserts that FALSE is not returned by
+   *     facetapi_adapter_load().
+   *
+   * @param string $searcher
+   *   The machine readable name of the searcher.
+   *
+   * @return FacetapiAdapter
+   *   The adapter object, FALSE if the object can't be loaded.
+   *
+   * @see facetapi_adapter_load().
+   */
+  public function loadAdapter($searcher) {
+    $adapter = facetapi_adapter_load('facetapi_test');
+    $value = ($adapter instanceof FacetapiAdapter);
+    $this->assertTrue($value, t('FacetapiAdapter object loaded via facetapi_adapter_load().'));
+    return $adapter;
+  }
+
+  /**
+   * Enables a facet in the block realm, adds it to the "sidebar_first" region.
+   *
+   * The following tests are executed:
+   *   - DrupalTestCase::getPath(): Retrieves path to the administrative
+   *     settings page for the block realm.
+   *   - DrupalTestCase::getPost(): Enables the facet in the block realm.
+   *   - DrupalTestCase::assertRaw(): Ensures the configuration options were
+   *     successful by testing for the confirmation message.
+   *   - DrupalTestCase::assertTrue(): Double checks that the facet is enabled
+   *     via the facetapi_facet_enabled() API function.
+   *   - DrupalTestCase::getPost(): Activates the facet block in the
+   *     "sidebar_first" region.
+   *   - DrupalTestCase::getPath(): Retrieves path to the search page.
+   *   - DrupalTestCase::assertRaw(): Tests if the block is displayed by
+   *     looking for it's title.
+   *
+   * @param string $facet_name
+   *   The machine readable name of the facet.
+   * @param string $label
+   *   The title of the block whose existence is being tested.
+   * @param string $realm_name
+   *   The machine readable name of the realm.
+   */
+  public function enableFacet($facet_name, $label, $realm_name = 'block') {
+    $path = 'admin/settings/facetapi_test/facets/' . $realm_name;
+
+    // Posts the form, ensures it was successfully submitted.
+    $values = array('enabled_facets[' . $facet_name . ']' => $facet_name);
+    $this->drupalGet($path);
+    $this->drupalPost($path, $values, t('Save configuration'));
+    $this->assertRaw(t('The configuration options have been saved.'), t('Facet form successfully submitted.'));
+
+    // We have to clear the static cache otherwise this test won't work. This is
+    // OK because the script execution persists when the form is submitted by
+    // the test unlike a real form post where the page has to reload.
+    ctools_static('facetapi_get_enabled_facets', array(), TRUE);
+
+    // Tests the status of the enabled facet.
+    // Visits search page, raw value mimics return from default theme function.
+    $this->drupalGet('admin/build/block');
+    // Any block of facetapi in this listing is sign of a valid test
+    $this->assertRaw(t('Facet API: Facet API Test'), t('Facet block displayed on block listings.'));
+
+    // Adds realm to block if we are testing the block realm.
+    if ('block' == $realm_name) {
+
+      // Generates the "key" by generating and hashing the delta.
+      module_load_include('inc', 'facetapi', 'facetapi.block');
+      $delta = facetapi_build_delta('facetapi_test', $realm_name, $facet_name);
+      $key = 'facetapi_' . facetapi_hash_delta($delta);
+
+      // Set the created block to a specific region.
+      $edit = array();
+      $edit[$key .'[region]'] = 'right';
+      $this->drupalPost('admin/build/block', $edit, t('Save blocks'));
+
+      // Visits search page, raw value mimics return from default theme function.
+      $this->drupalGet('facetapi_test/search');
+      $raw = t('Filter by @title:', array('@title' => drupal_strtolower($label)));
+      $this->assertRaw($raw, t('Facet block displayed on search page.'));
+    }
+  }
+
+  protected function assertUrl($path, array $options = array(), $message = '', $group = 'Other') {
+    if (!$message) {
+      $url = url($path, $options);
+      $message = t('Current URL is @url.', array('@url' => $url));
+    }
+    $options['absolute'] = TRUE;
+    return $this->assertEqual($this->getUrl(), url($path, $options), $message, $group);
+  }
+}
+
+class FacetapiAdapterTestCase extends FacetapiTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Adapter functionality',
+      'description' => 'Tests the adapter system.',
+      'group' => 'Facet API',
+    );
+  }
+
+  public function testValidAdapter() {
+    // Tests loading of a valid adapter plugin, sets a semaphore to see if
+    // singleton pattern is implemented.
+    $adapter1 = $this->loadAdapter('facetapi_test');
+    $adapter1->semaphore = 'test';
+    $adapter2 = $this->loadAdapter('facetapi_test');
+    $value = (isset($adapter2->semaphore) && 'test' == $adapter2->semaphore);
+    $this->assertTrue($value, t('Singleton pattern implemented by facetapi_adapter_load().'));
+  }
+
+  public function testInvalidAdapter() {
+    $adapter = facetapi_adapter_load('bad_adapter');
+    $this->assertFalse($adapter, t('Loading an invalid adapter returns FALSE.'));
+  }
+
+  public function testSetParams() {
+    // Sets dummy parameters.
+    $adapter = facetapi_adapter_load('facetapi_test');
+    $url = facetapi_parse_url('http://example.com/index.php?q=test&page=1&f[0]=bundle:page');
+    $adapter->setParams($url['query']);
+
+    // Ensures that the "q" and "page" variables are stripped.
+    $params = $adapter->getUrlProcessor()->getParams();
+    $this->assertTrue(!isset($params['q']), t('The "q" variable is stripped by FacetapiAdapter::setParams().'));
+    $this->assertTrue(!isset($params['page']), t('The "page" variable is stripped by FacetapiAdapter::setParams().'));
+
+    // Tests that the "bundle:page" variable is set.
+    $value = (isset($params['f'][0]) && 'bundle:page' == $params['f'][0]);
+    $this->assertTrue($value, t('Facet value captured via FacetapiAdapter::setParams().'));
+  }
+}
+
+class FacetapiAdminInterfaceTestCase extends FacetapiTestCase {
+  protected $authenticatedUser;
+  protected $adminUser;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Administrative UI',
+      'description' => 'Tests the UI for Facet API administrative pages.',
+      'group' => 'Facet API',
+    );
+  }
+
+  public function testFormAccess() {
+    $this->drupalLogin($this->authenticatedUser);
+
+    $this->drupalGet('admin/settings/facetapi_test/facet');
+    $this->assertResponse(403, t('The "administer search" permission is required to access the realm settings form.'));
+
+    // @todo Randomize facet / realm combination?
+    $this->drupalGet('admin/settings/facetapi/facetapi_test/block/enabled/edit');
+    $this->assertResponse(403, t('The "administer search" permission is required to access the facet settings form.'));
+
+    $this->drupalGet('admin/settings/facetapi/facetapi_test/block/enabled/dependencies');
+    $this->assertResponse(403, t('The "administer search" permission is required to access the facet dependencies form.'));
+
+    $this->drupalGet('admin/settings/facetapi/facetapi_test/block/enabled/export');
+    $this->assertResponse(403, t('The "administer search" permission is required to access the facet export form.'));
+  }
+
+  public function testRealmSettingsForms() {
+    $this->drupalLogin($this->adminUser);
+
+    // Looks for placeholder text in main settings form.
+    $this->drupalGet('admin/settings/facetapi_test');
+    $this->assertRaw(FACETAPI_TEST_FORM_TEXT, t('Facet API test setting form exists.'));
+
+    // Searches for "block" link in description.
+    $description = t(
+      'The <em>Blocks</em> realm displays each facet in a separate <a href="@block-page">block</a>. Users are able to refine their searches in a drill-down fashion.',
+      array('@block-page' => url('admin/build/block', array('query' => array('destination' => 'admin/settings/facetapi_test/facets/block'))))
+    );
+    $this->drupalGet('admin/settings/facetapi_test/facets/block');
+    $this->assertRaw($description, t('Facet API test facet form exists.'));
+  }
+
+  public function testEnableFacet() {
+    $this->drupalLogin($this->adminUser);
+    $this->enableFacet('enabled', t('Enabled facet'));
+  }
+
+  public function testEnableFacetWithColon() {
+    // @todo Implement API to enable facets.
+    // @see http://drupal.org/node/1208326
+    $this->drupalLogin($this->adminUser);
+    $this->enableFacet('colon:test', t('Colon test'));
+  }
+}
+
+class FacetapiSearchPageInterfaceTestCase extends FacetapiTestCase {
+  protected $authenticatedUser;
+  protected $adminUser;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Search page UI',
+      'description' => 'Tests the UI for search pages.',
+      'group' => 'Facet API',
+    );
+  }
+
+  public function testFormAccess() {
+    // @todo Implement API to enable facets.
+    // @see http://drupal.org/node/1208326
+    $this->drupalLogin($this->adminUser);
+    $this->enableFacet('enabled', t('Enabled facet'));
+    $this->drupalLogin($this->authenticatedUser);
+
+    // @todo Randomize keys.
+
+    // Tests breadcrumb trail when search keys are in the path.
+    $path = 'facetapi_test/search/testkeys';
+    $options = array('query' => array('f' => array(0 => 'enabled:testone')));
+    $this->drupalGet($path, $options);
+    $this->clickLink('testkeys');
+    $this->assertUrl($path);
+
+    // Tests breadcrumb trail when search keys are in the query string.
+    $path = 'facetapi_test/search';
+    $options = array('query' => array('keys' => 'testkeys', 'f' => array(0 => 'enabled:testone')));
+    $this->drupalGet($path, $options);
+    $this->clickLink('testkeys');
+    $this->assertUrl($path, array('query' => array('keys' => 'testkeys')));
+  }
+
+}

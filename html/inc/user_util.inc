@@ -24,6 +24,7 @@ include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
 require_once("../inc/password_compat/password.inc");
+require_once("../inc/consent.inc");
 
 // Password hash has old format.
 // Update user record with new format
@@ -54,6 +55,17 @@ function check_passwd_hash($user, $passwd_hash) {
     return true;
 }
 
+function check_passwd_ui($user, $passwd) {
+    $passwd_hash = md5($passwd.$user->email_addr);
+    if(!check_passwd_hash($user, $passwd_hash)) {
+        sleep(LOGIN_FAIL_SLEEP_SEC);
+        page_head("Password incorrect");
+        echo "The password you entered is incorrect. Please go back and try again.\n";
+        page_tail();
+        exit;
+    }
+}
+
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
     if (isset($banned_email_domains)) {
@@ -81,6 +93,13 @@ function is_valid_user_name($name, &$reason) {
     return true;
 }
 
+function default_show_hosts() {
+    global $config;
+    // If enable privacy by default is TRUE, then show_hosts' default
+    // is FALSE.
+    return parse_bool($config, "enable_privacy_by_default") ? 0 : 1;
+}
+
 // the following DB-escapes its args
 //
 function make_user(
@@ -103,7 +122,8 @@ function make_user(
     $country = BoincDb::escape_string($country);
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$database_passwd_hash', 0, 0)");
+    $show_hosts = default_show_hosts();
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, $show_hosts, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$database_passwd_hash', 0, 0)");
 
     if (!$uid) {
         return null;
@@ -125,7 +145,9 @@ function make_user_ldap($email_addr, $name) {
     $cross_project_id = random_string();
     $passwd_hash = random_string();
     $now = time();
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 1, '$cross_project_id', '$passwd_hash')");
+
+    $show_hosts = default_show_hosts();
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, $show_hosts, '$cross_project_id', '$passwd_hash')");
 
     if ($uid) {
         return BoincUser::lookup_id($uid);
@@ -162,6 +184,18 @@ function validate_post_make_user() {
                 tra("Your reCAPTCHA response was not correct. Please try again.")
             );
         }
+    }
+
+    // Check if consent to terms of use has been given.
+    //
+    $myconsent = FALSE;
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+    if ($checkct and check_termsofuse()) {
+        $agree = post_str("agree_to_terms_of_use", true);
+        if (!$agree) {
+            error_page(tra("You have not agreed to our terms of use. Please agree to the terms of use by navigating back to the previous page, in order to create your account"));
+        }
+        $myconsent = TRUE;
     }
 
     // see whether the new account should be pre-enrolled in a team,
@@ -203,6 +237,10 @@ function validate_post_make_user() {
     if ($user) {
         show_error(tra("There's already an account with that email address."));
     }
+    $tmpuser = BoincUser::lookup_prev_email_addr($new_email_addr);
+    if ($tmpuser) {
+        show_error(tra("There's already an account with that email address."));
+    }
 
     $passwd = post_str("passwd");
 
@@ -221,12 +259,12 @@ function validate_post_make_user() {
 
     $passwd_hash = md5($passwd.$new_email_addr);
 
-    $country = post_str("country", true);
-    if (!$country) {
-        $country = "None";
-    }
-    if (!is_valid_country($country)) {
-        error_page("bad country");
+    $country = "";
+    if (USER_COUNTRY) {
+        $country = post_str("country", true);
+        if ($country && !is_valid_country($country)) {
+            error_page("bad country");
+        }
     }
 
     if (POSTAL_CODE) {
@@ -243,6 +281,13 @@ function validate_post_make_user() {
         show_error(
             tra("Couldn't create account").": ".BoincDb::error()
         );
+    }
+
+    if ($myconsent) {
+        $rc = consent_to_a_policy($user, $ctid, 1, 0, 'Webreg');
+        if (!$rc) {
+            show_error(tra("database error, please contact site administrators"));
+        }
     }
 
     if (defined('INVITE_CODES')) {
@@ -271,6 +316,7 @@ function delete_user($user) {
     BoincCreditUser::delete_user($user);
     BoincBadgeUser::delete("user_id=$user->id");
     BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    BoincToken::delete_for_user($user->id);
     $user->delete();
 }
 ?>

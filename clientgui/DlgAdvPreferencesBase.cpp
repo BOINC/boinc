@@ -33,6 +33,11 @@
 
 #include "DlgAdvPreferencesBase.h"
 
+#include "res/usage.xpm"
+#include "res/xfer.xpm"
+#include "res/proj.xpm"
+#include "res/clock.xpm"
+
 #define STATICBOXBORDERSIZE 8
 #define STATICBOXVERTICALSPACER 10
 #define DAYOFWEEKBORDERSIZE 10
@@ -45,7 +50,9 @@
 CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxString title, wxPoint pos, wxSize size, int style ) :
     wxDialog( parent, id, title, pos, size, style )
 {
+    int iImageIndex = 0;
     wxString strCaption = title;
+    
     if (strCaption.IsEmpty()) {
         CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
         wxASSERT(pSkinAdvanced);
@@ -60,8 +67,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
 
-
-    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    m_bUsingLocalPrefs = doesLocalPrefsFileExist();
     if (web_prefs_url->IsEmpty()) {
         m_bmpWarning = NULL;
     } else {
@@ -76,7 +82,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
         wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
-        if (usingLocalPrefs) {
+        if (m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
                             _("Using local preferences.\n"
@@ -101,7 +107,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
             0, wxLEFT, 5
         );
         
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new wxStaticText( topControlsStaticBox, ID_DEFAULT,
                      _("Set values and click Save to use local preferences instead."),
@@ -114,7 +120,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
         m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
         m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
-        if (!usingLocalPrefs) {
+        if (!m_bUsingLocalPrefs) {
             m_btnClear->Hide();
         }
         
@@ -131,22 +137,30 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     wxBoxSizer* notebookSizer = new wxBoxSizer( wxVERTICAL );
 
-    m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_FLAT|wxNB_TOP );
+    m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_TOP );
     m_Notebook->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+
+    wxImageList* pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
+    wxASSERT(pImageList != NULL);
+    m_Notebook->SetImageList(pImageList);
 
     // Note: we must set the third AddPage argument ("select") to
     // true for each page or ToolTips won't initialize properly.
     m_panelProcessor = createProcessorTab(m_Notebook);
-    m_Notebook->AddPage( m_panelProcessor, _("Computing"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(proj_xpm));
+    m_Notebook->AddPage( m_panelProcessor, _("Computing"), true, iImageIndex );
 
     m_panelNetwork = createNetworkTab(m_Notebook);
-    m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(xfer_xpm));
+    m_Notebook->AddPage( m_panelNetwork, _("Network"), true, iImageIndex );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and memory"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(usage_xpm));
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and memory"), true, iImageIndex );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDailySchedules, _("Daily schedules"), true );
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(clock_xpm));
+    m_Notebook->AddPage( m_panelDailySchedules, _("Daily schedules"), true, iImageIndex );
 
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -161,13 +175,16 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnOK->SetToolTip( _("Save all values and close the dialog.") );
-    
+    if (m_bUsingLocalPrefs) {
+        m_btnOK->SetDefault();
+    }
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnCancel->SetToolTip( _("Close the dialog without saving.") );
-    m_btnCancel->SetDefault();
-
+    if (!m_bUsingLocalPrefs) {
+        m_btnCancel->SetDefault();
+    }
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
     m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -178,7 +195,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelButtons->SetSizer( buttonSizer );
     m_panelButtons->Layout();
     buttonSizer->Fit( m_panelButtons );
-    dialogSizer->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
+    dialogSizer->Add( m_panelButtons, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
     dialogSizer->Fit( this );
     this->SetSizer( dialogSizer );

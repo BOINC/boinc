@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,45 +17,45 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white">
-    
-    <TextView 
-        android:id="@+id/title"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:textAppearance="?android:attr/textAppearanceLarge"
-    	android:textStyle="bold"
-    	android:singleLine="true"
-    	android:padding="20dp"
-    	android:background="@drawable/shape_light_blue_background"
-    	android:layout_marginBottom="20dp"
-        android:text="@string/attachproject_list_manual_button"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white">
 
-    <EditText 
-        android:id="@+id/url_input"
-        android:inputType="textUri"
-        android:hint="@string/attachproject_list_manual_dialog_title"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_margin="5dp"
-    	android:layout_below="@+id/title"
-    	android:minWidth="200dp"/>
-		        
-    <Button 
-        android:id="@+id/continue_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/generic_button_continue"
-		android:textColor="@android:color/white"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-        android:background="@drawable/shape_button_blue"
-        android:minWidth="150dp"
-		android:padding="5dp"
-    	android:layout_below="@+id/url_input"
-    	android:layout_alignParentRight="true"
-		android:layout_margin="10dp"/>
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:padding="20dp"
+            android:background="@drawable/shape_light_blue_background"
+            android:layout_marginBottom="20dp"
+            android:text="@string/attachproject_list_manual_button"/>
+
+    <EditText
+            android:id="@+id/url_input"
+            android:inputType="textUri"
+            android:hint="@string/attachproject_list_manual_dialog_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/title"
+            android:minWidth="200dp"/>
+
+    <Button
+            android:id="@+id/continue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/generic_button_continue"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/shape_button_blue"
+            android:minWidth="150dp"
+            android:padding="5dp"
+            android:layout_below="@+id/url_input"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"/>
 
 </RelativeLayout>

@@ -24,8 +24,6 @@ require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
-require_once("../inc/host.inc");
-require_once("../inc/friend.inc");
 
 if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
@@ -41,7 +39,7 @@ function get_other_projects($user) {
     // Check the cache for that URL
     //
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
-    if ($cacheddata){
+    if ($cacheddata) {
         $remote = unserialize($cacheddata);
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
@@ -71,7 +69,7 @@ function get_other_projects($user) {
                 $xml_object = @simplexml_load_string($rawxml);
             }
             curl_close($ch);
-            if (!xml_object) {
+            if (!$xml_object) {
                 return $user;
             }
         }
@@ -82,7 +80,7 @@ function get_other_projects($user) {
         if (count($remote) == 1) {
             $remote = array($remote);
         }
-        
+
         if (!$remote) {
             return $user;
         } else {
@@ -90,7 +88,7 @@ function get_other_projects($user) {
             set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
         }
     }
-    
+
     $user->projects = $remote;
     return $user;
 }
@@ -112,7 +110,7 @@ function show_project($project) {
 
 function cmp($a, $b) {
     if ($a->expavg_credit == $b->expavg_credit) return 0;
-    return ($a->expavg_credit < $b->expavg_credit)? 1 : -1;
+    return ($a->expavg_credit < $b->expavg_credit) ? 1 : -1;
 }
 
 function show_other_projects($user, $personal) {
@@ -135,7 +133,7 @@ function show_other_projects($user, $personal) {
         ),
         array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
     );
-    foreach($user->projects as $project) {
+    foreach ($user->projects as $project) {
         show_project($project);
     }
     end_table();
@@ -186,7 +184,7 @@ function show_user_stats_private($user) {
         }
         $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
         row2(tra("Cross-project statistics"), $x);
-        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        $x = sprintf('<a href="%s">%s</a>', cert_filename(), tra("Account"));
         if ($user->teamid) {
             $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
         }
@@ -245,11 +243,15 @@ function show_user_info_private($user) {
         }
         row2(tra("Email address"), $email_text);
     }
-    if (strlen($user->url)) {
-        $u = normalize_user_url($user->url);
-        row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_URL) {
+        if (strlen($user->url)) {
+            $u = normalize_user_url($user->url);
+            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+        }
     }
-    row2(tra("Country"), $user->country);
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
     if (POSTAL_CODE) {
         row2(tra("Postal code"), $user->postal_code);
     }
@@ -262,10 +264,17 @@ function show_user_info_private($user) {
             "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
         );
     } else {
+        $delete_account_str = "";
+        $config = get_config();
+        if (parse_bool($config, "enable_delete_account")) {
+            $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
+        }
+
         row2(tra("Change"),
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            .$delete_account_str
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);
@@ -274,6 +283,16 @@ function show_user_info_private($user) {
             tra("Account keys"),
             "<a href=\"weak_auth.php\">".tra("View")."</a>"
         );
+        
+        require_once("../inc/account_ownership.inc");
+        if (file_exists($account_ownership_private_key_file_path)) {
+          // If the server has keys configured show the account ownership form
+          row2(
+              tra("Account Ownership"),
+              "<a href=\"account_ownership.php?$url_tokens\">Generate ownership proof</a>"
+          );
+        }
+
     }
 }
 
@@ -321,8 +340,9 @@ function friend_links($user) {
 
 // show user name, with links to profile if present.
 // if $badge_height is > 0, show badges
+// if $name_limit, limit name to N chars
 //
-function user_links($user, $badge_height=0) {
+function user_links($user, $badge_height=0, $name_limit=0) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -332,14 +352,18 @@ function user_links($user, $badge_height=0) {
         $img_url = url_base()."img/head_20.png";
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    $name = $user->name;
+    if ($name_limit && strlen($name) > $name_limit) {
+        $name = substr($name, 0, $name_limit)."...";
+    }
+    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$name."</a>";
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
     }
-    return $x;
+    return $name_limit?"<nobr>$x</nobr>":$x;
 }
 
 function show_community_private($user) {
@@ -358,7 +382,7 @@ function show_community_private($user) {
             row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
         }
     }
-    
+
     row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
 
     $notifies = BoincNotify::enum("userid=$user->id");
@@ -393,7 +417,7 @@ function show_community_private($user) {
         } else {
             row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\">".tra("find a team")."</a>");
         }
-        
+
         $teams_founded = BoincTeam::enum("userid=$user->id");
         foreach ($teams_founded as $team) {
             if ($team->id != $user->teamid) {
@@ -428,13 +452,17 @@ function show_user_summary_public($user) {
     global $g_logged_in_user;
     row2(tra("User ID"), $user->id);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    row2(tra("Country"), $user->country);
-    // don't show URL if user has no recent credit (spam suppression)
-    //
-    if (strlen($user->url)) {
-        if (!NO_COMPUTING || $user->expavg_credit > 1) {
-            $u = normalize_user_url($user->url);
-            row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+    if (USER_COUNTRY) {
+        row2(tra("Country"), $user->country);
+    }
+    if (USER_URL) {
+        // don't show URL if user has no recent credit (spam suppression)
+        //
+        if (strlen($user->url)) {
+            if (!NO_COMPUTING || $user->expavg_credit > 1) {
+                $u = normalize_user_url($user->url);
+                row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
+            }
         }
     }
     if (!NO_COMPUTING) {
@@ -475,7 +503,7 @@ function community_links($clo, $logged_in_user){
     $team = $clo->team;
     $friends = $clo->friends;
     $tot = $clo->post_count;
-    
+
     if (!DISABLE_TEAMS) {
         if ($user->teamid && $team) {
             row2(tra("Team"), "<a href=\"".url_base()."team_display.php?teamid=$team->id\">$team->name</a>");
@@ -492,7 +520,7 @@ function community_links($clo, $logged_in_user){
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");
         $friend = BoincFriend::lookup($logged_in_user->id, $user->id);
         if ($friend && $friend->reciprocated) {
-            row2(tra("This person is a friend"), 
+            row2(tra("This person is a friend"),
                 "<a href=\"friend.php?action=cancel_confirm&userid=$user->id\">".tra("Cancel friendship")."</a>"
             );
         } else if ($friend) {
@@ -501,7 +529,7 @@ function community_links($clo, $logged_in_user){
             row2(tra("Friends"),  "<a href=\"friend.php?action=add&userid=$user->id\">".tra("Add as friend")."</a>");
         }
     }
-    
+
     if ($friends) {
         $x = "";
         foreach($friends as $friend) {
@@ -537,7 +565,6 @@ function show_account_private($user) {
             if (function_exists("project_user_page_private")) {
                 project_user_page_private($user);
             }
-            //echo "<a href=delete_account.php>Delete account</a>\n";
         },
         function() use ($user) {
             start_table();
@@ -548,28 +575,6 @@ function show_account_private($user) {
     );
 }
 
-// "delete" an account: leave user record (for DB consistency) but:
-//  - set email address and authenticator to "deleted_pid_time"
-//  - clear name, country, postal_code
-//  - remove from team
-//  - delete posts, subscriptions, and forum prefs
-//  - delete private messages (sent and received)
-//  - delete profile and associated image
-// for each host:
-//  - clear domain_name, last_ip_addr
-//
-function delete_account($user) {
-    $x = "deleted_".time()."_".random_string();
-    $retval = $user->update("email_addr='$x', authenticator='$x', name='deleted', country='', postal_code='', has_profile=0");
-    if (!$retval) return false;
-    user_quit_team($user);
-    forum_delete_user($user);
-    pm_delete_user($user);
-    anonymize_hosts($user);
-    delete_profile($user);
-    delete_friends($user);
-    return true;
-}
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 

@@ -35,7 +35,8 @@ libfcgi_sources = \
     str_util.cpp \
     synch.cpp \
     url.cpp \
-    util.cpp
+    util.cpp \
+	wslinfo.cpp
 
 generic_sources = \
     app_ipc.cpp \
@@ -69,7 +70,8 @@ generic_sources = \
     shmem.cpp \
     str_util.cpp \
     url.cpp \
-    util.cpp
+    util.cpp \
+	wslinfo.cpp
 
 if OS_WIN32
 win_sources = \
@@ -80,18 +82,21 @@ win_sources = \
     procinfo_win.cpp \
     run_app_windows.cpp \
     stackwalker_win.cpp \
-    win_util.cpp
+    win_util.cpp \
+    wslinfo.cpp
 win_headers= \
     boinc_win.h \
     diagnostics_win.h \
     run_app_windows.h \
     stackwalker_win.h \
-    win_util.h
+    win_util.h \
+    wslinfo.h
 else # !OS_WIN32
 if OS_DARWIN
 mac_sources = \
     procinfo_mac.cpp \
     mac/mac_backtrace.cpp \
+    mac/mac_spawn.cpp \
     mac/QBacktrace.c \
     mac/QCrashReport.c \
     mac/QMachOImage.c \
@@ -101,6 +106,7 @@ mac_sources = \
 mac_headers = \
     mac/dyld_gdb.h \
     mac/mac_backtrace.h \
+    mac/mac_spawn.h \
     mac/QBacktrace.h \
     mac/QCrashReport.h \
     mac/QMachOImage.h \
@@ -238,7 +244,7 @@ $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
 clean: clean-am
-	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC)
+	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC) *.gcno *.gcda *.gcov
 
 endif
 # end of "if ENABLE_LIBRARIES"

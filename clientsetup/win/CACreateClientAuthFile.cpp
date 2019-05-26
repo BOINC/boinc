@@ -69,8 +69,7 @@ UINT CACreateClientAuthFile::OnExecution()
     tstring          strVersionNT;
     struct _stat     buf;
     TCHAR                   szMessage[2048];
-    UINT             uiReturnValue = -1;
-
+    UINT             uiReturnValue;
 
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;

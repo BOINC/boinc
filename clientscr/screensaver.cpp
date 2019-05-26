@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,6 +30,9 @@
 #include <sys/wait.h>
 #include <app_ipc.h>
 #include <malloc/malloc.h>
+#include <pthread.h>
+
+extern pthread_mutex_t saver_mutex;
 #endif
 
 // Common application includes
@@ -240,7 +243,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
     }
 #else
         char* argv[3];
-        argv[0] = "app_graphics";   // not used
+        argv[0] = rp->graphics_exec_path;
         argv[1] = "--fullscreen";
         argv[2] = 0;
         retval = run_program(
@@ -273,6 +276,13 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
     char gfx_pid[16];
     pid_t thePID;
     int i;
+    
+    if (graphics_application == 0) return 0;
+    
+    // MUTEX may help prevent crashes when terminating an older gfx app which
+    // we were displaying using CGWindowListCreateImage under OS X >= 10.13
+    // Also prevents reentry when called from our other thread
+    pthread_mutex_lock(&saver_mutex);
 
     sprintf(gfx_pid, "%d", graphics_application);
     getcwd( current_dir, sizeof(current_dir));
@@ -303,6 +313,8 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
             break;
         }
     }
+
+    pthread_mutex_unlock(&saver_mutex);
 #endif
 
 #ifdef _WIN32
@@ -380,10 +392,6 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     BOINCTRACE(_T("launch_default_screensaver returned %d\n"), retval);
     
 #else
-    // For unknown reasons, the graphics application exits with 
-    // "RegisterProcess failed (error = -50)" unless we pass its 
-    // full path twice in the argument list to execv on Macs.
-
     char* argv[4];
     char full_path[1024];
 
@@ -391,7 +399,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, GFXAPP_ID& graphics
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
 
-    argv[0] = full_path;   // not used
+    argv[0] = full_path;
     argv[1] = "--fullscreen";
     argv[2] = 0;
     argv[3] = 0;

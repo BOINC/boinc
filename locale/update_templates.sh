@@ -24,6 +24,8 @@ done
 
 command -v pocompile >/dev/null 2>&1 || { echo >&2 "xgettext (gettext) is needed but not installed.  Aborting."; exit 1; }
 command -v tx >/dev/null 2>&1 || { echo >&2 "tx (transifex-client) is needed but not installed.  Aborting."; exit 1; }
+command -v sed >/dev/null 2>&1 || { echo >&2 "sed is needed but not installed.  Aborting."; exit 1; }
+command -v sqlite3 >/dev/null 2>&1 || { echo >&2 "sqlite3 is needed but not installed.  Aborting."; exit 1; }
 
 # check if working directory is clean to ensure we only commit localization changes
 if test 0 -ne `git status -s -uno |wc -l`; then
@@ -74,6 +76,36 @@ FILE_LIST="html/inc/*.inc html/user/*.php html/project.sample/*.inc"
 sed -e "s/@YEAR@/$YEAR/" -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
+# sql extraction needs to happen next as this gets appended to ${TMPL_FILE} too
+
+echo "extracting translatable strings from sql files for generic template"
+TMP_LOCATION="/tmp/"
+TMP_PREFIX="bts_"
+DB_FILE="${TMP_LOCATION}${TMP_PREFIX}boinc_local.db"
+SCHEMA_FILE="${TMP_LOCATION}${TMP_PREFIX}sqlite_schema.sql"
+STRINGS_FILE="${TMP_LOCATION}${TMP_PREFIX}sql_strings.txt"
+SQLPOT_FILE="${TMP_LOCATION}${TMP_PREFIX}sql_strings.pot"
+
+echo -e "" > ${SQLPOT_FILE}
+# remove mysql specific keywords that sqlite doesn't understand
+sed -e "s/ auto_increment//gi" -e "s/ engine[ ]*=[^;]*//gi" -e "s/ on update current_timestamp//gi" -e "s/ binary//gi" ${srcdir}/db/schema.sql > ${SCHEMA_FILE}
+# create DB with modified sql file
+sqlite3 -noheader -init ${SCHEMA_FILE} ${DB_FILE} ".exit" &>/dev/null
+# insert default content
+sqlite3 -noheader -init ${srcdir}/db/content.sql ${DB_FILE} ".exit" &>/dev/null
+# select strings from DB to be translated
+sqlite3 -noheader ${DB_FILE} "select distinct description from consent_type order by id;" > ${STRINGS_FILE}
+# append other strings to ${STRINGS_FILE} here
+
+while read -r line; do
+    echo "" >> ${SQLPOT_FILE} # this makes sure there is no extra newline at the end of the file
+    grep -HnF "$line" db/*.sql | cut -d ':' -f 1,2 | sed -e 's/^/#: /' >> ${SQLPOT_FILE}
+    echo "msgid \"$line\"" >> ${SQLPOT_FILE}
+    echo "msgstr \"\"" >> ${SQLPOT_FILE}
+done < "${STRINGS_FILE}"
+
+cat ${SQLPOT_FILE} >> ${TMPL_FILE}
+rm ${DB_FILE} ${SCHEMA_FILE} ${STRINGS_FILE} ${SQLPOT_FILE}
 
 #cd ${srcdir}
 #echo "building localization template for BOINC website"

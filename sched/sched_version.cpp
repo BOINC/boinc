@@ -100,6 +100,13 @@ inline DB_ID_TYPE host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
 //
 inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     int n = hav.max_jobs_per_day;
+
+    // if max jobs per day is 1, don't scale;
+    // this host probably can't use this app version at all.
+    // Allow 1 job/day in case something changes.
+    //
+    if (n == 1) return 1;
+
     if (hu.proc_type == PROC_TYPE_CPU) {
         if (g_reply->host.p_ncpus) {
             n *= g_reply->host.p_ncpus;
@@ -123,6 +130,9 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     return n;
 }
 
+// are we at the jobs/day limit for this (host, app version)?
+// (if so don't use the app version)
+//
 inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
@@ -138,6 +148,10 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
         return true;
     }
     return false;
+}
+
+bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
+    return daily_quota_exceeded(bavp->avp->id, bavp->host_usage);
 }
 
 // scan through client's anonymous apps and pick the best one
@@ -522,7 +536,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     // and see if it supports the plan class
     //
     if (strlen(avp->plan_class)) {
-        if (!app_plan(*g_request, avp->plan_class, bav.host_usage)) {
+        if (!app_plan(*g_request, avp->plan_class, bav.host_usage, &wu)) {
             return NULL;
         }
     } else {
@@ -746,7 +760,7 @@ BEST_APP_VERSION* get_app_version(
             }
 
             if (strlen(av.plan_class)) {
-                if (!app_plan(*g_request, av.plan_class, host_usage)) {
+                if (!app_plan(*g_request, av.plan_class, host_usage, &wu)) {
                     if (config.debug_version_select) {
                         log_messages.printf(MSG_NORMAL,
                             "[version] [AV#%lu] app_plan() returned false\n",
@@ -797,7 +811,7 @@ BEST_APP_VERSION* get_app_version(
             if (daily_quota_exceeded(av.id, host_usage)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%lu] daily quota exceeded\n", av.id
+                        "[version] [AV#%lu] daily HAV quota exceeded\n", av.id
                     );
                 }
                 continue;

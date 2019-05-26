@@ -1,356 +1,361 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">로딩 중! 잠시 기다려 주세요…</string>
-  <string name="generic_button_continue">계속</string>
-  <string name="generic_button_finish">완료</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">여러분이 공헌할 과학 프로젝트를 선택하세요:</string>
-  <string name="attachproject_list_header">프로젝트를 선택:</string>
-  <string name="attachproject_list_manual_button">URL로 프로젝트 추가</string>
-  <string name="attachproject_list_manual_dialog_title">프로젝트 URL 입력:</string>
-  <string name="attachproject_list_manual_dialog_button">프로젝트 추가</string>
-  <string name="attachproject_list_manual_no_url">프로젝트 URL를 입력하세요</string>
-  <string name="attachproject_list_acctmgr_button">계정 관리자 추가</string>
-  <string name="attachproject_list_no_internet">인터넷 연결이 되지 않았습니다</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">계정 정보를 입력하세요</string>
-  <string name="attachproject_credential_input_desc">선택한 프로젝트의 계정 정보를 입력:</string>
-  <string name="attachproject_credential_input_show_pwd">비밀번호 보이기</string>
-  <string name="attachproject_individual_credential_input">개별적으로 프로젝트 추가</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">과학 프로젝트 추가 중에 문제가 발생했습니다:</string>
-  <string name="attachproject_conflict_undefined">연결 실패</string>
-  <string name="attachproject_conflict_not_unique">다른 비밀번호를 가진 계정이 이미 있습니다</string>
-  <string name="attachproject_conflict_bad_password">틀린 비밀번호</string>
-  <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">추가하는 중</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">힌트</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">공헌하는 법:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. WiFi에 연결하기</string>
-  <string name="attachproject_hint_contribtion_charger">2. 충전기를 꼽으세요</string>
-  <string name="attachproject_hint_contribtion_screen">3. 화면을 끄세요</string>
-  <string name="attachproject_hint_projectwebsite_header">프로젝트 웹사이트 방문하기:</string>
-  <string name="attachproject_hint_projectwebsite_science">과학에 대해 더 알아보기</string>
-  <string name="attachproject_hint_projectwebsite_stats">공헌 통계 보기</string>
-  <string name="attachproject_hint_projectwebsite_community">다른 기여자들과 만나보기</string>
-  <string name="attachproject_hint_platforms_header">또한 BOINC는 데스크톱이나 랩탑으로도 이용할 수 있습니다. 더 알아보려면 boinc.berkeley.edu에 방문하세요.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">프로젝트 서버 연결 중…</string>
-  <string name="attachproject_login_image_description">프로젝트 로고</string>
-  <string name="attachproject_login_header_general_area">대분류:</string>
-  <string name="attachproject_login_header_specific_area">소분류:</string>
-  <string name="attachproject_login_header_description">개요:</string>
-  <string name="attachproject_login_header_home">거점:</string>
-  <string name="attachproject_login_header_url">웹 사이트:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">이 프로젝트는 안드로이드 장치를 지원합니다</string>
-  <string name="attachproject_login_platform_not_supported">이 프로젝트는 안드로이드 장치를 지원하지 않습니다</string>
-  <string name="attachproject_login_category_terms_of_use">사용자 약관</string>
-  <string name="attachproject_login_accept_terms_of_use">이 프로젝트에 계정을 생성할 경우, 상기된 사용자 약관에 동의하는 것으로 처리됩니다.</string>
-  <string name="attachproject_login_category_login">기존 계정으로 로그인</string>
-  <string name="attachproject_login_header_id_email">이메일:</string>
-  <string name="attachproject_login_header_id_name">이름:</string>
-  <string name="attachproject_login_header_pwd">비밀번호:</string>
-  <string name="attachproject_login_category_creation">신규</string>
-  <string name="attachproject_login_header_creation_enabled">참여하기 위해 계정 등록:</string>
-  <string name="attachproject_login_header_creation_client_disabled">계정 생성을 위해 프로젝트 웹사이트 방문하기:</string>
-  <string name="attachproject_login_header_creation_disabled">이 프로젝트는 현재 새로운 계정을 생성할 수 없습니다.</string>
-  <string name="attachproject_login_button_registration">등록</string>
-  <string name="attachproject_login_button_login">로그인</string>
-  <string name="attachproject_login_button_forgotpw">비밀번호 분실</string>
-  <string name="attachproject_login_error_toast">프로젝트 접속에 실패했습니다!</string>
-  <string name="attachproject_login_attached">연결됨</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">계정 등록</string>
-  <string name="attachproject_registration_header_url">프로젝트:</string>
-  <string name="attachproject_registration_header_email">이메일:</string>
-  <string name="attachproject_registration_header_username">이름:</string>
-  <string name="attachproject_registration_header_teamname">팀:</string>
-  <string name="attachproject_registration_header_pwd">비밀번호:</string>
-  <string name="attachproject_registration_header_pwd_confirm">… 재입력:</string>
-  <string name="attachproject_registration_button">생성</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">여러 프로젝트를 추가 및 관리하기 위해 BOINC 계정 관리자를 이용하세요</string>
-  <string name="attachproject_acctmgr_header">계정 관리자 추가</string>
-  <string name="attachproject_acctmgr_header_url">URL</string>
-  <string name="attachproject_acctmgr_header_name">사용자:</string>
-  <string name="attachproject_acctmgr_header_pwd">비밀번호:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">… 재입력:</string>
-  <string name="attachproject_acctmgr_button">추가</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">사용자를 찾지 못했습니다</string>
-  <string name="attachproject_error_short_pwd">비밀번호가 너무 짧습니다</string>
-  <string name="attachproject_error_no_internet">연결 실패</string>
-  <string name="attachproject_error_pwd_no_match">비밀번호가 일치하지 않습니다</string>
-  <string name="attachproject_error_pwd_no_retype">비밀번호를 다시 입력해 주세요</string>
-  <string name="attachproject_error_no_url">URL을 입력해 주세요</string>
-  <string name="attachproject_error_no_email">이메일 주소를 입력해 주세요</string>
-  <string name="attachproject_error_no_pwd">비밀번호를 입력해 주세요</string>
-  <string name="attachproject_error_no_name">사용자 이름을 입력해 주세요</string>
-  <string name="attachproject_error_unknown">실패</string>
-  <string name="attachproject_error_bad_username">사용자 이름이 거부됨</string>
-  <string name="attachproject_error_email_in_use">이메일 주소가 이미 사용중</string>
-  <string name="attachproject_error_project_down">프로젝트가 오프라인 상태</string>
-  <string name="attachproject_error_email_bad_syntax">이메일 주소가 없거나 틀립니다</string>
-  <string name="attachproject_error_bad_pwd">비밀번호가 틀립니다</string>
-  <string name="attachproject_error_creation_disabled">이 프로젝트는 계정 생성을 할 수 없습니다</string>
-  <string name="attachproject_error_invalid_url">잘못된 URL</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">뒤로</string>
-  <string name="attachproject_working_finish_button">완료</string>
-  <string name="attachproject_working_check_desc">성공</string>
-  <string name="attachproject_working_failed_desc">실패</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">연결</string>
-  <string name="attachproject_working_verify">계정 확인</string>
-  <string name="attachproject_working_register">계정 등록</string>
-  <string name="attachproject_working_login">로그인</string>
-  <string name="attachproject_working_acctmgr">계정 관리자 추가</string>
-  <string name="attachproject_working_acctmgr_sync">동기화</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">프로젝트를 선택하려면 여기를 누르세요.</string>
-  <string name="main_error">어이쿠</string>
-  <string name="main_error_long">…이 작업이 수행되지 못했어요!\n다시 시도하려면 아이콘을 클릭하세요.</string>
-  <string name="main_title_icon_desc">BOINC 아이콘</string>
-  <!--tab names-->
-  <string name="tab_status">상태</string>
-  <string name="tab_projects">프로젝트</string>
-  <string name="tab_tasks">태스크</string>
-  <string name="tab_transfers">전송</string>
-  <string name="tab_preferences">환경 설정</string>
-  <string name="tab_notices">알림</string>
-  <string name="tab_desc">안내</string>
-  <!--status strings-->
-  <string name="status_running">연산중</string>
-  <string name="status_running_long">참여해 주셔서 감사합니다.</string>
-  <string name="status_paused">일시 정지됨</string>
-  <string name="status_idle">아무 것도 안 함</string>
-  <string name="status_idle_long">태스크 대기 중…</string>
-  <string name="status_computing_disabled">일시 정지됨</string>
-  <string name="status_computing_disabled_long">네트워크 및 연산을 재개하려면 실행 버튼을 누르세요.</string>
-  <string name="status_launching">시작중…</string>
-  <string name="status_noproject">참여할 프로젝트를 선택하세요.</string>
-  <string name="status_closing">닫는 중…</string>
-  <string name="status_benchmarking">벤치마크 실행 중…</string>
-  <string name="status_image_description">프로젝트 이미지</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">환경 설정을 읽는 중…</string>
-  <string name="prefs_submit_button">저장</string>
-  <string name="prefs_dialog_title">새로운 값을 입력:</string>
-  <string name="prefs_dialog_title_selection">선택:</string>
-  <string name="prefs_category_general">일반</string>
-  <string name="prefs_category_network">네트워크</string>
-  <string name="prefs_category_power">전원</string>
-  <string name="prefs_category_cpu">CPU</string>
-  <string name="prefs_category_storage">저장소</string>
-  <string name="prefs_category_memory">메모리</string>
-  <string name="prefs_category_debug">디버그</string>
-  <string name="prefs_show_advanced_header">고급 환경 설정과 제어판을 보여주기…</string>
-  <string name="prefs_suspend_when_screen_on">화면이 켜지면 연산 중지</string>
-  <string name="prefs_stationary_device_mode_header">고정 장치 모드</string>
-  <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.</string>
-  <string name="prefs_power_source_header">연산용 전원 공급 장치</string>
-  <string name="prefs_power_source_description">BOINC가 연산을 허용할 전원 공급 장치를 선택하세요.</string>
-  <string name="prefs_power_source_ac">전기 콘센트</string>
-  <string name="prefs_power_source_usb">USB 접속</string>
-  <string name="prefs_power_source_wireless">무선 충전기</string>
-  <string name="prefs_power_source_battery">배터리</string>
-  <string name="battery_charge_min_pct_header">최소 배터리 량</string>
-  <string name="battery_charge_min_pct_description">아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다.</string>
-  <string name="battery_temperature_max_header">최고 배터리 온도</string>
-  <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.</string>
-  <string name="prefs_disk_max_pct_header">최대 사용할 저장소 공간</string>
-  <string name="prefs_disk_max_pct_description">저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?</string>
-  <string name="prefs_disk_min_free_gb_header">최소로 남겨 둘 용량</string>
-  <string name="prefs_disk_min_free_gb_description">저장소 공간 중 얼만큼 여유 공간으로 남겨두길 원하십니까?</string>
-  <string name="prefs_disk_access_interval_header">액세스 간격</string>
-  <string name="prefs_disk_access_interval_description">디스크 액세스 간격을 설정하세요</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">하루 전송 제한량</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">하루에 BOINC가 전송할 데이터 제한량</string>
-  <string name="prefs_network_wifi_only_header">WiFi에서만 태스크 전송</string>
-  <string name="prefs_autostart_header">자동 시작</string>
-  <string name="prefs_show_notification_notices_header">새 공지사항이 나오면 알림 바에 알려주기</string>
-  <string name="prefs_show_notification_suspended_header">일시중지되면 알림 바에 알려주기</string>
-  <string name="prefs_cpu_number_cpus_header">사용할 CPU 코어 수</string>
-  <string name="prefs_cpu_number_cpus_description">BOINC가 연산에 사용할 CPU 코어 수 제한</string>
-  <string name="prefs_cpu_other_load_suspension_header">CPU 사용량 제한 도달시 정지</string>
-  <string name="prefs_cpu_other_load_suspension_description">다른 앱이 사용하면, BOINC가 연산을 정지할 CPU 사용량치</string>
-  <string name="prefs_cpu_time_max_header">CPU 제한</string>
-  <string name="prefs_cpu_time_max_description">BOINC가 연산에 사용할 CPU 시간을 제한합니다.</string>
-  <string name="prefs_memory_max_idle_header">RAM 제한</string>
-  <string name="prefs_memory_max_idle_description">태스크의 RAM 점유량을 제한합니다.</string>
-  <string name="prefs_client_log_flags_header">BOINC 클라이언트 로그 flags</string>
-  <string name="prefs_gui_log_level_header">GUI 로그 레벨</string>
-  <string name="prefs_gui_log_level_description">GUI 로그 메세지의 상세 정도를 결정해 주세요.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">초</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">프로젝트를 불러오는 중…</string>
-  <string name="projects_add">프로젝트 추가</string>
-  <string name="projects_icon">프로젝트 아이콘</string>
-  <string name="projects_credits">크레딧:</string>
-  <string name="projects_credits_host_and_user">%1$,d (해당 장치) %2$,d (전체)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">사용자에 의해 일시 정지됨</string>
-  <string name="projects_status_dontrequestmorework">새 태스크를 원하지 않음</string>
-  <string name="projects_status_ended">프로젝트 종료 - 제거하려면 OK를 누르세요</string>
-  <string name="projects_status_detachwhendone">태스크 완료시 제거될 것입니다</string>
-  <string name="projects_status_schedrpcpending">스케줄러 요청 대기중</string>
-  <string name="projects_status_schedrpcinprogress">스케줄러 요청 처리중</string>
-  <string name="projects_status_trickleuppending">Trickle up 메세지 대기중</string>
-  <string name="projects_status_backoff">예약된 통신 시각:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">프로젝트 명령:</string>
-  <string name="projects_control_visit_website">웹사이트 방문</string>
-  <string name="projects_control_update">업데이트</string>
-  <string name="projects_control_remove">제거</string>
-  <string name="projects_control_suspend">일시 정지</string>
-  <string name="projects_control_resume">재개</string>
-  <string name="projects_control_nonewtasks">새 태스크 금지</string>
-  <string name="projects_control_allownewtasks">새 태스크 허용</string>
-  <string name="projects_control_reset">재설정</string>
-  <string name="projects_control_dialog_title_acctmgr">계정 관리자 명령어:</string>
-  <string name="projects_control_sync_acctmgr">동기화</string>
-  <string name="projects_control_remove_acctmgr">비활성</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">프로젝트를 제거할까요?</string>
-  <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명: </string>
-  <string name="projects_confirm_detach_message2">를 제거하시겠습니까?</string>
-  <string name="projects_confirm_detach_confirm">제거</string>
-  <string name="projects_confirm_reset_title">프로젝트 재설정</string>
-  <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까: </string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">재설정</string>
-  <string name="projects_confirm_remove_acctmgr_title">계정 관리자 비활성화</string>
-  <string name="projects_confirm_remove_acctmgr_message">정말로 다음 항목 사용을 중지합니까</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">비활성화</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">태스크 이름:</string>
-  <string name="tasks_header_elapsed_time">진행 시간:</string>
-  <string name="tasks_header_project_paused">(일시 정지됨)</string>
-  <string name="tasks_header_deadline">마감 시각:</string>
-  <string name="tasks_result_new">신규</string>
-  <string name="tasks_result_files_downloading">다운로드 대기중</string>
-  <string name="tasks_result_files_downloaded">다운로드 완료</string>
-  <string name="tasks_result_compute_error">연산 오류</string>
-  <string name="tasks_result_files_uploading">업로드 중</string>
-  <string name="tasks_result_files_uploaded">업로드 완료</string>
-  <string name="tasks_result_aborted">중단됨</string>
-  <string name="tasks_result_upload_failed">업로드 실패</string>
-  <string name="tasks_active_uninitialized">준비됨</string>
-  <string name="tasks_active_executing">실행 중</string>
-  <string name="tasks_active_suspended">일시 정지됨</string>
-  <string name="tasks_active_abort_pending">일시 정지 중</string>
-  <string name="tasks_active_quit_pending">일시 정지 중</string>
-  <string name="tasks_custom_suspended_via_gui">일시 정지됨</string>
-  <string name="tasks_custom_project_suspended_via_gui">프로젝트가 일시 정지됨</string>
-  <string name="tasks_custom_ready_to_report">보고 준비 완료</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">태스크를 중단할까요?</string>
-  <string name="confirm_abort_task_message">중단할 태스크:</string>
-  <string name="confirm_abort_task_confirm">중단</string>
-  <string name="confirm_cancel">취소</string>
-  <string name="confirm_image_desc">확인 대화상자</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">전송 목록 읽는 중…</string>
-  <string name="trans_upload">업로드</string>
-  <string name="trans_download">다운로드</string>
-  <string name="trans_retryin">재시도</string>
-  <string name="trans_failed">실패</string>
-  <string name="trans_suspended">일시 정지됨</string>
-  <string name="trans_active">활성</string>
-  <string name="trans_pending">보류</string>
-  <string name="trans_projectbackoff">프로젝트 재연결</string>
-  <string name="trans_header_name">파일:</string>
-  <string name="trans_control_retry">전송 재시도</string>
-  <string name="confirm_abort_trans_title">전송을 중단할까요?</string>
-  <string name="confirm_abort_trans_message">중단할 파일:</string>
-  <string name="confirm_abort_trans_confirm">중단</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">공지사항 읽는 중...</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">로그 메세지 읽는 중…</string>
-  <string name="eventlog_client_header">클라이언트 메세지</string>
-  <string name="eventlog_gui_header">GUI 메세지</string>
-  <string name="eventlog_copy_toast">로그가 클립보드에 복사되었습니다.</string>
-  <string name="eventlog_email_subject">안드로이드 상의 BOINC 이벤트 기록:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">연산이 일시 정지되었습니다.</string>
-  <string name="suspend_batteries">연산을 계속하려면 기기를 충전기에 연결하세요.</string>
-  <string name="suspend_screen_on">연산을 계속하려면 화면을 끄세요.</string>
-  <string name="suspend_useractive">사용자가 활동을 시작합니다.</string>
-  <string name="suspend_tod">연산 시간 제한을 넘었습니다.</string>
-  <string name="suspend_bm">BOINC에서 벤치마크 실행 중…</string>
-  <string name="suspend_disksize">저장소 공간을 초과했습니다.</string>
-  <string name="suspend_cputhrottle">예약된 CPU 사용량 제한에 도달했습니다.</string>
-  <string name="suspend_noinput">최근 사용자 활동이 없습니다.</string>
-  <string name="suspend_delay">초기화 지연됨.</string>
-  <string name="suspend_exclusiveapp">독점 앱이 실행 중입니다.</string>
-  <string name="suspend_cpu">다른 앱으로 인해 기기가 바쁩니다.</string>
-  <string name="suspend_network_quota">BOINC가 네트워크 전송 제한량에 도달했습니다.</string>
-  <string name="suspend_os">안드로이드에서 정지시킴.</string>
-  <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
-  <string name="suspend_battery_charging">배터리가 충전되길 기다리는 중.</string>
-  <string name="suspend_battery_charging_long">배터리가 설정량만큼 충전되면 연산이 재개됩니다</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">현재</string>
-  <string name="suspend_battery_overheating">배터리가 식길 기다리는 중</string>
-  <string name="suspend_user_req">연산 재개 중…</string>
-  <string name="suspend_network_user_req">수동</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">사용자가 요청함</string>
-  <string name="rpcreason_needwork">작업 반입</string>
-  <string name="rpcreason_resultsdue">완료된 태스크 보고</string>
-  <string name="rpcreason_trickleup">trickle-up 메세지 전송</string>
-  <string name="rpcreason_acctmgrreq">계정 관리자에서 요청함</string>
-  <string name="rpcreason_init">프로젝트 초기화</string>
-  <string name="rpcreason_projectreq">프로젝트에서 요청함</string>
-  <string name="rpcreason_unknown">알 수 없는 이유</string>
-  <!--menu-->
-  <string name="menu_refresh">새로 고침</string>
-  <string name="menu_emailto">이메일로 보내기</string>
-  <string name="menu_copy">클립보드에 복사</string>
-  <string name="menu_eventlog">이벤트 기록</string>
-  <string name="menu_exit">BOINC 종료</string>
-  <string name="menu_run_mode_disable">일시 정지됨</string>
-  <string name="menu_run_mode_enable">재개</string>
-  <string name="menu_about">정보</string>
-  <string name="menu_help">도움말</string>
-  <!--about dialog-->
-  <string name="about_button">뒤로</string>
-  <string name="about_title">정보</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">버전</string>
-  <string name="about_name_long">네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체</string>
-  <string name="about_copyright">\u00A9 2003–2017 University of California, Berkeley.</string>
-  <string name="about_copyright_reserved">모든 권리 보유</string>
-  <string name="about_credits">막스 플랑크 중력 물리학 연구소, IBM Corporation, HTC의 지원에 감사드립니다.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="other">%2$,d 새로운 알림</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">기여자 연산 앱 감지됨</string>
-  <string name="nonexcl_dialog_text">다른 기여자 연산 앱이 이 장치에서 실행되고 있습니다. 한 번에 하나씩만 실행할 수 있습니다.</string>
-  <string name="nonexcl_dialog_exit">종료</string>
-  <!--social integration-->
-  <string name="social_invite_button">친구 초대하기</string>
-  <string name="social_invite_intent_title">누구에게 공유하고 싶습니까?</string>
-  <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
-  <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">로딩 중! 잠시 기다려 주세요…</string>
+    <string name="generic_button_continue">계속</string>
+    <string name="generic_button_finish">완료</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">여러분이 공헌할 과학 프로젝트를 선택하세요:</string>
+    <string name="attachproject_list_header">프로젝트를 선택:</string>
+    <string name="attachproject_list_manual_button">URL로 프로젝트 추가</string>
+    <string name="attachproject_list_manual_dialog_title">프로젝트 URL 입력:</string>
+    <string name="attachproject_list_manual_dialog_button">프로젝트 추가</string>
+    <string name="attachproject_list_manual_no_url">프로젝트 URL를 입력하세요</string>
+    <string name="attachproject_list_acctmgr_button">계정 관리자 추가</string>
+    <string name="attachproject_list_no_internet">인터넷 연결이 되지 않았습니다</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">계정 정보를 입력하세요</string>
+    <string name="attachproject_credential_input_desc">선택한 프로젝트의 계정 정보를 입력:</string>
+    <string name="attachproject_credential_input_show_pwd">비밀번호 보이기</string>
+    <string name="attachproject_individual_credential_input">개별적으로 프로젝트 추가</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">과학 프로젝트 추가 중에 문제가 발생했습니다:</string>
+    <string name="attachproject_conflict_undefined">연결 실패</string>
+    <string name="attachproject_conflict_not_unique">다른 비밀번호를 가진 계정이 이미 있습니다</string>
+    <string name="attachproject_conflict_bad_password">틀린 비밀번호</string>
+    <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요</string>
+    <!--working-->
+    <string name="attachproject_working_attaching">추가하는 중</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">힌트</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">공헌하는 법:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. WiFi에 연결하기</string>
+    <string name="attachproject_hint_contribtion_charger">2. 충전기를 꼽으세요</string>
+    <string name="attachproject_hint_contribtion_screen">3. 화면을 끄세요</string>
+    <string name="attachproject_hint_projectwebsite_header">프로젝트 웹사이트 방문하기:</string>
+    <string name="attachproject_hint_projectwebsite_science">과학에 대해 더 알아보기</string>
+    <string name="attachproject_hint_projectwebsite_stats">공헌 통계 보기</string>
+    <string name="attachproject_hint_projectwebsite_community">다른 기여자들과 만나보기</string>
+    <string name="attachproject_hint_platforms_header">또한 BOINC는 데스크톱이나 랩탑으로도 이용할 수 있습니다. 더 알아보려면 boinc.berkeley.edu에
+        방문하세요.
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">프로젝트 서버 연결 중…</string>
+    <string name="attachproject_login_image_description">프로젝트 로고</string>
+    <string name="attachproject_login_header_general_area">대분류:</string>
+    <string name="attachproject_login_header_specific_area">소분류:</string>
+    <string name="attachproject_login_header_description">개요:</string>
+    <string name="attachproject_login_header_home">거점:</string>
+    <string name="attachproject_login_header_url">웹 사이트:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">이 프로젝트는 안드로이드 장치를 지원합니다</string>
+    <string name="attachproject_login_platform_not_supported">이 프로젝트는 안드로이드 장치를 지원하지 않습니다</string>
+    <string name="attachproject_login_category_terms_of_use">사용자 약관</string>
+    <string name="attachproject_login_accept_terms_of_use">이 프로젝트에 계정을 생성할 경우, 상기된 사용자 약관에 동의하는 것으로 처리됩니다.</string>
+    <string name="attachproject_login_category_login">기존 계정으로 로그인</string>
+    <string name="attachproject_login_header_id_email">이메일:</string>
+    <string name="attachproject_login_header_id_name">이름:</string>
+    <string name="attachproject_login_header_pwd">비밀번호:</string>
+    <string name="attachproject_login_category_creation">신규</string>
+    <string name="attachproject_login_header_creation_enabled">참여하기 위해 계정 등록:</string>
+    <string name="attachproject_login_header_creation_client_disabled">계정 생성을 위해 프로젝트 웹사이트 방문하기:</string>
+    <string name="attachproject_login_header_creation_disabled">이 프로젝트는 현재 새로운 계정을 생성할 수 없습니다.</string>
+    <string name="attachproject_login_button_registration">등록</string>
+    <string name="attachproject_login_button_login">로그인</string>
+    <string name="attachproject_login_button_forgotpw">비밀번호 분실</string>
+    <string name="attachproject_login_error_toast">프로젝트 접속에 실패했습니다!</string>
+    <string name="attachproject_login_attached">연결됨</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">계정 등록</string>
+    <string name="attachproject_registration_header_url">프로젝트:</string>
+    <string name="attachproject_registration_header_email">이메일:</string>
+    <string name="attachproject_registration_header_username">이름:</string>
+    <string name="attachproject_registration_header_teamname">팀:</string>
+    <string name="attachproject_registration_header_pwd">비밀번호:</string>
+    <string name="attachproject_registration_header_pwd_confirm">… 재입력:</string>
+    <string name="attachproject_registration_button">생성</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">여러 프로젝트를 추가 및 관리하기 위해 BOINC 계정 관리자를 이용하세요</string>
+    <string name="attachproject_acctmgr_header">계정 관리자 추가</string>
+    <string name="attachproject_acctmgr_header_url">URL</string>
+    <string name="attachproject_acctmgr_header_name">사용자:</string>
+    <string name="attachproject_acctmgr_header_pwd">비밀번호:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">… 재입력:</string>
+    <string name="attachproject_acctmgr_button">추가</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">사용자를 찾지 못했습니다</string>
+    <string name="attachproject_error_short_pwd">비밀번호가 너무 짧습니다</string>
+    <string name="attachproject_error_no_internet">연결 실패</string>
+    <string name="attachproject_error_pwd_no_match">비밀번호가 일치하지 않습니다</string>
+    <string name="attachproject_error_pwd_no_retype">비밀번호를 다시 입력해 주세요</string>
+    <string name="attachproject_error_no_url">URL을 입력해 주세요</string>
+    <string name="attachproject_error_no_email">이메일 주소를 입력해 주세요</string>
+    <string name="attachproject_error_no_pwd">비밀번호를 입력해 주세요</string>
+    <string name="attachproject_error_no_name">사용자 이름을 입력해 주세요</string>
+    <string name="attachproject_error_unknown">실패</string>
+    <string name="attachproject_error_bad_username">사용자 이름이 거부됨</string>
+    <string name="attachproject_error_email_in_use">이메일 주소가 이미 사용중</string>
+    <string name="attachproject_error_project_down">프로젝트가 오프라인 상태</string>
+    <string name="attachproject_error_email_bad_syntax">이메일 주소가 없거나 틀립니다</string>
+    <string name="attachproject_error_bad_pwd">비밀번호가 틀립니다</string>
+    <string name="attachproject_error_creation_disabled">이 프로젝트는 계정 생성을 할 수 없습니다</string>
+    <string name="attachproject_error_invalid_url">잘못된 URL</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">뒤로</string>
+    <string name="attachproject_working_finish_button">완료</string>
+    <string name="attachproject_working_check_desc">성공</string>
+    <string name="attachproject_working_failed_desc">실패</string>
+    <string name="attachproject_working_ongoing">…</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">연결</string>
+    <string name="attachproject_working_verify">계정 확인</string>
+    <string name="attachproject_working_register">계정 등록</string>
+    <string name="attachproject_working_login">로그인</string>
+    <string name="attachproject_working_acctmgr">계정 관리자 추가</string>
+    <string name="attachproject_working_acctmgr_sync">동기화</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">프로젝트를 선택하려면 여기를 누르세요.</string>
+    <string name="main_error">어이쿠</string>
+    <string name="main_error_long">…이 작업이 수행되지 못했어요!\n다시 시도하려면 아이콘을 클릭하세요.</string>
+    <string name="main_title_icon_desc">BOINC 아이콘</string>
+    <!--tab names-->
+    <string name="tab_status">상태</string>
+    <string name="tab_projects">프로젝트</string>
+    <string name="tab_tasks">태스크</string>
+    <string name="tab_transfers">전송</string>
+    <string name="tab_preferences">환경 설정</string>
+    <string name="tab_notices">알림</string>
+    <string name="tab_desc">안내</string>
+    <!--status strings-->
+    <string name="status_running">연산중</string>
+    <string name="status_running_long">참여해 주셔서 감사합니다.</string>
+    <string name="status_paused">일시 정지됨</string>
+    <string name="status_idle">아무 것도 안 함</string>
+    <string name="status_idle_long">태스크 대기 중…</string>
+    <string name="status_computing_disabled">일시 정지됨</string>
+    <string name="status_computing_disabled_long">네트워크 및 연산을 재개하려면 실행 버튼을 누르세요.</string>
+    <string name="status_launching">시작중…</string>
+    <string name="status_noproject">참여할 프로젝트를 선택하세요.</string>
+    <string name="status_closing">닫는 중…</string>
+    <string name="status_benchmarking">벤치마크 실행 중…</string>
+    <string name="status_image_description">프로젝트 이미지</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">환경 설정을 읽는 중…</string>
+    <string name="prefs_submit_button">저장</string>
+    <string name="prefs_dialog_title">새로운 값을 입력:</string>
+    <string name="prefs_dialog_title_selection">선택:</string>
+    <string name="prefs_category_general">일반</string>
+    <string name="prefs_category_network">네트워크</string>
+    <string name="prefs_category_power">전원</string>
+    <string name="prefs_category_cpu">CPU</string>
+    <string name="prefs_category_storage">저장소</string>
+    <string name="prefs_category_memory">메모리</string>
+    <string name="prefs_category_debug">디버그</string>
+    <string name="prefs_show_advanced_header">고급 환경 설정과 제어판을 보여주기…</string>
+    <string name="prefs_suspend_when_screen_on">화면이 켜지면 연산 중지</string>
+    <string name="prefs_stationary_device_mode_header">고정 장치 모드</string>
+    <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.
+    </string>
+    <string name="prefs_power_source_header">연산용 전원 공급 장치</string>
+    <string name="prefs_power_source_description">BOINC가 연산을 허용할 전원 공급 장치를 선택하세요.</string>
+    <string name="prefs_power_source_ac">전기 콘센트</string>
+    <string name="prefs_power_source_usb">USB 접속</string>
+    <string name="prefs_power_source_wireless">무선 충전기</string>
+    <string name="prefs_power_source_battery">배터리</string>
+    <string name="battery_charge_min_pct_header">최소 배터리 량</string>
+    <string name="battery_charge_min_pct_description">아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다.</string>
+    <string name="battery_temperature_max_header">최고 배터리 온도</string>
+    <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.
+    </string>
+    <string name="prefs_disk_max_pct_header">최대 사용할 저장소 공간</string>
+    <string name="prefs_disk_max_pct_description">저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?</string>
+    <string name="prefs_disk_min_free_gb_header">최소로 남겨 둘 용량</string>
+    <string name="prefs_disk_min_free_gb_description">저장소 공간 중 얼만큼 여유 공간으로 남겨두길 원하십니까?</string>
+    <string name="prefs_disk_access_interval_header">액세스 간격</string>
+    <string name="prefs_disk_access_interval_description">디스크 액세스 간격을 설정하세요</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">하루 전송 제한량</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">하루에 BOINC가 전송할 데이터 제한량</string>
+    <string name="prefs_network_wifi_only_header">WiFi에서만 태스크 전송</string>
+    <string name="prefs_autostart_header">자동 시작</string>
+    <string name="prefs_show_notification_notices_header">새 공지사항이 나오면 알림 바에 알려주기</string>
+    <string name="prefs_show_notification_suspended_header">일시중지되면 알림 바에 알려주기</string>
+    <string name="prefs_cpu_number_cpus_header">사용할 CPU 코어 수</string>
+    <string name="prefs_cpu_number_cpus_description">BOINC가 연산에 사용할 CPU 코어 수 제한</string>
+    <string name="prefs_cpu_other_load_suspension_header">CPU 사용량 제한 도달시 정지</string>
+    <string name="prefs_cpu_other_load_suspension_description">다른 앱이 사용하면, BOINC가 연산을 정지할 CPU 사용량치</string>
+    <string name="prefs_cpu_time_max_header">CPU 제한</string>
+    <string name="prefs_cpu_time_max_description">BOINC가 연산에 사용할 CPU 시간을 제한합니다.</string>
+    <string name="prefs_memory_max_idle_header">RAM 제한</string>
+    <string name="prefs_memory_max_idle_description">태스크의 RAM 점유량을 제한합니다.</string>
+    <string name="prefs_client_log_flags_header">BOINC 클라이언트 로그 flags</string>
+    <string name="prefs_gui_log_level_header">GUI 로그 레벨</string>
+    <string name="prefs_gui_log_level_description">GUI 로그 메세지의 상세 정도를 결정해 주세요.</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">초</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">프로젝트를 불러오는 중…</string>
+    <string name="projects_add">프로젝트 추가</string>
+    <string name="projects_icon">프로젝트 아이콘</string>
+    <string name="projects_credits">크레딧:</string>
+    <string name="projects_credits_host_and_user">%1$,d (해당 장치) %2$,d (전체)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">사용자에 의해 일시 정지됨</string>
+    <string name="projects_status_dontrequestmorework">새 태스크를 원하지 않음</string>
+    <string name="projects_status_ended">프로젝트 종료 - 제거하려면 OK를 누르세요</string>
+    <string name="projects_status_detachwhendone">태스크 완료시 제거될 것입니다</string>
+    <string name="projects_status_schedrpcpending">스케줄러 요청 대기중</string>
+    <string name="projects_status_schedrpcinprogress">스케줄러 요청 처리중</string>
+    <string name="projects_status_trickleuppending">Trickle up 메세지 대기중</string>
+    <string name="projects_status_backoff">예약된 통신 시각:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">프로젝트 명령:</string>
+    <string name="projects_control_visit_website">웹사이트 방문</string>
+    <string name="projects_control_update">업데이트</string>
+    <string name="projects_control_remove">제거</string>
+    <string name="projects_control_suspend">일시 정지</string>
+    <string name="projects_control_resume">재개</string>
+    <string name="projects_control_nonewtasks">새 태스크 금지</string>
+    <string name="projects_control_allownewtasks">새 태스크 허용</string>
+    <string name="projects_control_reset">재설정</string>
+    <string name="projects_control_dialog_title_acctmgr">계정 관리자 명령어:</string>
+    <string name="projects_control_sync_acctmgr">동기화</string>
+    <string name="projects_control_remove_acctmgr">비활성</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">프로젝트를 제거할까요?</string>
+    <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명:</string>
+    <string name="projects_confirm_detach_message2">를 제거하시겠습니까?</string>
+    <string name="projects_confirm_detach_confirm">제거</string>
+    <string name="projects_confirm_reset_title">프로젝트 재설정</string>
+    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까:</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">재설정</string>
+    <string name="projects_confirm_remove_acctmgr_title">계정 관리자 비활성화</string>
+    <string name="projects_confirm_remove_acctmgr_message">정말로 다음 항목 사용을 중지합니까</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">비활성화</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">태스크 이름:</string>
+    <string name="tasks_header_elapsed_time">진행 시간:</string>
+    <string name="tasks_header_project_paused">(일시 정지됨)</string>
+    <string name="tasks_header_deadline">마감 시각:</string>
+    <string name="tasks_result_new">신규</string>
+    <string name="tasks_result_files_downloading">다운로드 대기중</string>
+    <string name="tasks_result_files_downloaded">다운로드 완료</string>
+    <string name="tasks_result_compute_error">연산 오류</string>
+    <string name="tasks_result_files_uploading">업로드 중</string>
+    <string name="tasks_result_files_uploaded">업로드 완료</string>
+    <string name="tasks_result_aborted">중단됨</string>
+    <string name="tasks_result_upload_failed">업로드 실패</string>
+    <string name="tasks_active_uninitialized">준비됨</string>
+    <string name="tasks_active_executing">실행 중</string>
+    <string name="tasks_active_suspended">일시 정지됨</string>
+    <string name="tasks_active_abort_pending">일시 정지 중</string>
+    <string name="tasks_active_quit_pending">일시 정지 중</string>
+    <string name="tasks_custom_suspended_via_gui">일시 정지됨</string>
+    <string name="tasks_custom_project_suspended_via_gui">프로젝트가 일시 정지됨</string>
+    <string name="tasks_custom_ready_to_report">보고 준비 완료</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">태스크를 중단할까요?</string>
+    <string name="confirm_abort_task_message">중단할 태스크:</string>
+    <string name="confirm_abort_task_confirm">중단</string>
+    <string name="confirm_cancel">취소</string>
+    <string name="confirm_image_desc">확인 대화상자</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">전송 목록 읽는 중…</string>
+    <string name="trans_upload">업로드</string>
+    <string name="trans_download">다운로드</string>
+    <string name="trans_retryin">재시도</string>
+    <string name="trans_failed">실패</string>
+    <string name="trans_suspended">일시 정지됨</string>
+    <string name="trans_active">활성</string>
+    <string name="trans_pending">보류</string>
+    <string name="trans_projectbackoff">프로젝트 재연결</string>
+    <string name="trans_header_name">파일:</string>
+    <string name="trans_control_retry">전송 재시도</string>
+    <string name="confirm_abort_trans_title">전송을 중단할까요?</string>
+    <string name="confirm_abort_trans_message">중단할 파일:</string>
+    <string name="confirm_abort_trans_confirm">중단</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">공지사항 읽는 중...</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">로그 메세지 읽는 중…</string>
+    <string name="eventlog_client_header">클라이언트 메세지</string>
+    <string name="eventlog_gui_header">GUI 메세지</string>
+    <string name="eventlog_copy_toast">로그가 클립보드에 복사되었습니다.</string>
+    <string name="eventlog_email_subject">안드로이드 상의 BOINC 이벤트 기록:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">연산이 일시 정지되었습니다.</string>
+    <string name="suspend_batteries">연산을 계속하려면 기기를 충전기에 연결하세요.</string>
+    <string name="suspend_screen_on">연산을 계속하려면 화면을 끄세요.</string>
+    <string name="suspend_useractive">사용자가 활동을 시작합니다.</string>
+    <string name="suspend_tod">연산 시간 제한을 넘었습니다.</string>
+    <string name="suspend_bm">BOINC에서 벤치마크 실행 중…</string>
+    <string name="suspend_disksize">저장소 공간을 초과했습니다.</string>
+    <string name="suspend_cputhrottle">예약된 CPU 사용량 제한에 도달했습니다.</string>
+    <string name="suspend_noinput">최근 사용자 활동이 없습니다.</string>
+    <string name="suspend_delay">초기화 지연됨.</string>
+    <string name="suspend_exclusiveapp">독점 앱이 실행 중입니다.</string>
+    <string name="suspend_cpu">다른 앱으로 인해 기기가 바쁩니다.</string>
+    <string name="suspend_network_quota">BOINC가 네트워크 전송 제한량에 도달했습니다.</string>
+    <string name="suspend_os">안드로이드에서 정지시킴.</string>
+    <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
+    <string name="suspend_battery_charging">배터리가 충전되길 기다리는 중.</string>
+    <string name="suspend_battery_charging_long">배터리가 설정량만큼 충전되면 연산이 재개됩니다</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">현재</string>
+    <string name="suspend_battery_overheating">배터리가 식길 기다리는 중</string>
+    <string name="suspend_user_req">연산 재개 중…</string>
+    <string name="suspend_network_user_req">수동</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">사용자가 요청함</string>
+    <string name="rpcreason_needwork">작업 반입</string>
+    <string name="rpcreason_resultsdue">완료된 태스크 보고</string>
+    <string name="rpcreason_trickleup">trickle-up 메세지 전송</string>
+    <string name="rpcreason_acctmgrreq">계정 관리자에서 요청함</string>
+    <string name="rpcreason_init">프로젝트 초기화</string>
+    <string name="rpcreason_projectreq">프로젝트에서 요청함</string>
+    <string name="rpcreason_unknown">알 수 없는 이유</string>
+    <!--menu-->
+    <string name="menu_refresh">새로 고침</string>
+    <string name="menu_emailto">이메일로 보내기</string>
+    <string name="menu_copy">클립보드에 복사</string>
+    <string name="menu_eventlog">이벤트 기록</string>
+    <string name="menu_exit">BOINC 종료</string>
+    <string name="menu_run_mode_disable">일시 정지됨</string>
+    <string name="menu_run_mode_enable">재개</string>
+    <string name="menu_about">정보</string>
+    <string name="menu_help">도움말</string>
+    <!--about dialog-->
+    <string name="about_button">뒤로</string>
+    <string name="about_title">정보</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">버전</string>
+    <string name="about_name_long">네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체</string>
+    <string name="about_copyright_reserved">모든 권리 보유</string>
+    <string name="about_credits">막스 플랑크 중력 물리학 연구소, IBM Corporation, HTC의 지원에 감사드립니다.</string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="other">%2$,d 새로운 알림</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">기여자 연산 앱 감지됨</string>
+    <string name="nonexcl_dialog_text">다른 기여자 연산 앱이 이 장치에서 실행되고 있습니다. 한 번에 하나씩만 실행할 수 있습니다.</string>
+    <string name="nonexcl_dialog_exit">종료</string>
+    <!--social integration-->
+    <string name="social_invite_button">친구 초대하기</string>
+    <string name="social_invite_intent_title">누구에게 공유하고 싶습니까?</string>
+    <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
+    <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

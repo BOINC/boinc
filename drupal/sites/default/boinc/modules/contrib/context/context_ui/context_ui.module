@@ -1,0 +1,282 @@
+<?php
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function context_ui_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'export_ui') {
+    return 'export_ui';
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function context_ui_theme() {
+  $items = array();
+  $items['context_ui_form'] = array(
+    'arguments' => array('form' => array()),
+    'path' => drupal_get_path('module', 'context_ui') .'/theme',
+    'template' => 'context-ui-form',
+    'file' => 'theme.inc',
+  );
+  $items['context_ui_plugins'] = array(
+    'arguments' => array('form' => array()),
+    'path' => drupal_get_path('module', 'context_ui') .'/theme',
+    'template' => 'context-ui-plugins',
+    'file' => 'theme.inc',
+  );
+  $items['context_ui_editor'] = array(
+    'arguments' => array('form' => array()),
+    'path' => drupal_get_path('module', 'context_ui') .'/theme',
+    'template' => 'context-ui-editor',
+    'file' => 'theme.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function context_ui_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks = array();
+      if (module_exists('jquery_ui') && module_exists('admin')) {
+        $blocks['editor'] = array('info' => t('Context editor'), 'admin' => TRUE);
+      }
+      if (module_exists('devel')) {
+        $blocks['devel'] = array('info' => t('Context inspector'), 'admin' => TRUE);
+      }
+      return $blocks;
+    case 'view':
+      switch ($delta) {
+        case 'editor':
+          if (user_access('administer site configuration') && strpos($_GET['q'], 'admin/build/context') === FALSE && $contexts = context_active_contexts()) {
+            return array(
+              'subject' => t('Context editor'),
+              'content' => drupal_get_form('context_ui_editor', $contexts),
+            );
+          }
+          break;
+        case 'devel':
+          if (module_exists('devel') && $all = context_get()) {
+            return array(
+              'subject' => t('Context inspector'),
+              'content' => kdevel_print_object($all),
+            );
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function context_ui_menu() {
+  $items = array();
+  $items['admin/build/context/settings'] = array(
+    'title' => 'Settings',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('context_ui_settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_help().
+ */
+function context_ui_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#context_ui':
+      $output = file_get_contents(drupal_get_path('module', 'context_ui') .'/README.txt');
+      return module_exists('markdown') ? filter_xss_admin(module_invoke('markdown', 'filter', 'process', 0, -1, $output)) : '<pre>'. check_plain($output) .'</pre>';
+    case 'admin/build/context':
+      return '<p>'. t('Context allows you to manage contextual conditions and reactions for different portions of your site. You can think of each context as representing a "section" of your site. For each context, you can choose the conditions that trigger this context to be active and choose different aspects of Drupal that should react to this active context.') .'</p>';
+  }
+}
+
+/**
+ * Inline context editor form.
+ */
+function context_ui_editor($form_state, $contexts) {
+  $form = array(
+    '#attributes' => array('class' => 'context-editor'),
+    '#theme' => array('context_ui_editor'),
+    'editables' => array('#type' => 'markup'),
+    'contexts' => array('#tree' => TRUE),
+    'buttons' => array('#tree' => FALSE),
+  );
+
+  $items = array();
+  $form_context = array();
+  ksort($contexts);
+
+  foreach ($contexts as $context) {
+    $edit = l(t('Edit'), $_GET['q'], array('fragment' => $context->name, 'attributes' => array('class' => 'edit')));
+    $done = l(t('Done'), $_GET['q'], array('fragment' => $context->name, 'attributes' => array('class' => 'done')));
+    $items[] = array(
+      'data' => "<div class='label'>" . (empty($context->description) ? $context->name : check_plain($context->description)) ."</div><div class='links'>{$edit} {$done}</div>",
+      'class' => 'context-editable clear-block',
+      'id' => "context-editable-trigger-{$context->name}",
+    );
+    $form_context = array(
+      '#tree' => TRUE,
+      '#type' => module_exists('admin') ? 'admin_panes' : NULL,
+      'context' => array('#type' => 'value', '#value' => $context),
+    );
+
+    // Edit context conditions.
+    foreach (array_keys(context_conditions()) as $condition) {
+      $plugin = context_get_plugin('condition', $condition);
+      if (method_exists($plugin, 'editor_form') && ($plugin_form = $plugin->editor_form($context))) {
+        $form_context['condition'][$condition] = $plugin_form;
+      }
+    }
+    if (count(element_children($form_context['condition']))) {
+      $form_context['condition']['#title'] = t('Conditions');
+      $form_context['condition']['#type'] = 'item';
+      $form_context['condition']['#description'] = t('This context is active when any of the selected conditions are true.');
+    }
+
+    // Edit context reactions.
+    foreach (array_keys(context_reactions()) as $reaction) {
+      $plugin = context_get_plugin('reaction', $reaction);
+      if (method_exists($plugin, 'editor_form') && ($plugin_form = $plugin->editor_form($context))) {
+        $form_context["reaction-{$reaction}"] = $plugin_form + array('#title' => $plugin->title);
+      }
+    }
+
+    // Add to main form.
+    $form['contexts'][$context->name] = $form_context;
+  }
+
+  // Display editable contexts in list.
+  $form['editables']['#value'] = theme('item_list', $items);
+
+  // Buttons.
+  $form['buttons']['save'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+    '#submit' => array('context_ui_editor_submit'),
+  );
+  $form['buttons']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel'),
+    '#submit' => array('context_ui_editor_cancel'),
+  );
+  return $form;
+}
+
+/**
+ * Values processor for context_ui_editor_submit().
+ * Split out for reuse by overriding submit handlers.
+ */
+function context_ui_editor_process($values) {
+  $context = $values['context'];
+  foreach (array_keys(context_conditions()) as $condition) {
+    if (isset($values['condition'][$condition])) {
+      $plugin = context_get_plugin('condition', $condition);
+      if ($plugin && method_exists($plugin, 'editor_form_submit')) {
+        $context->conditions[$condition]['values'] = $plugin->editor_form_submit($context, $values['condition'][$condition]);
+      }
+    }
+    if (isset($context->conditions[$condition]) && context_empty($context->conditions[$condition]['values'])) {
+      unset($context->conditions[$condition]);
+    }
+  }
+  foreach (array_keys(context_reactions()) as $reaction) {
+    if (isset($values["reaction-{$reaction}"])) {
+      $plugin = context_get_plugin('reaction', $reaction);
+      if ($plugin && method_exists($plugin, 'editor_form_submit')) {
+        $context->reactions[$reaction] = $plugin->editor_form_submit($context, $values["reaction-{$reaction}"]);
+      }
+    }
+    if (isset($context->reactions[$reaction]) && context_empty($context->reactions[$reaction])) {
+      unset($context->reactions[$reaction]);
+    }
+  }
+  return $context;
+}
+
+/**
+ * Save handler for context_block_editor().
+ */
+function context_ui_editor_submit(&$form, &$form_state) {
+  foreach ($form_state['values']['contexts'] as $name => $values) {
+    $original_conditions = $values['context']->conditions;
+    $original_reactions = $values['context']->reactions;
+    $context = context_ui_editor_process($values);
+    if (($original_conditions !== $context->conditions) || ($original_reactions !== $context->reactions)) {
+      if (context_save($context)) {
+        drupal_set_message(t('Saved %title.', array(
+          '%title' => (!empty($context->description) ? $context->description : $context->name)
+        )));
+      }
+      else {
+        drupal_set_message(t('Could not save context %title.', array('%title' =>  $context->name)), 'error');
+      }
+    }
+  }
+  return;
+}
+
+/**
+ * Cancel handler for context_block_editor().
+ */
+function context_ui_editor_cancel(&$form, &$form_state) {
+  return;
+}
+
+/**
+ * Settings form.
+ */
+function context_ui_settings(&$form_state) {
+  $form = array();
+  foreach (context_conditions() as $condition => $info) {
+    if ($plugin = context_get_plugin('condition', $condition)) {
+      $settings_form = $plugin->settings_form();
+      if ($settings_form) {
+        $form['conditions'][$reaction] = $settings_form;
+        $form['conditions'][$reaction]['#tree'] = FALSE;
+        $form['conditions'][$reaction]['#type'] = 'fieldset';
+        $form['conditions'][$reaction]['#title'] = $info['title'];
+      }
+    }
+  }
+  foreach (context_reactions() as $reaction => $info) {
+    if ($plugin = context_get_plugin('reaction', $reaction)) {
+      $settings_form = $plugin->settings_form();
+      if ($settings_form) {
+        $form['reactions'][$reaction] = $settings_form;
+        $form['reactions'][$reaction]['#tree'] = FALSE;
+        $form['reactions'][$reaction]['#type'] = 'fieldset';
+        $form['reactions'][$reaction]['#title'] = $info['title'];
+      }
+    }
+  }
+  $form = system_settings_form($form);
+  $form['#submit'][] = 'context_ui_settings_submit';
+  return $form;
+}
+
+/**
+ * Extra submit handler for context_ui_settings.
+ * Mark the menu cache as needing a rebuild.
+ */
+function context_ui_settings_submit($form, &$form_state) {
+  variable_set('menu_rebuild_needed', TRUE);
+}
+
+/**
+ * Implements hook_perm
+ */
+function context_perm() {
+  return array('context ajax block access');
+}

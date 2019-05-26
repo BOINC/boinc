@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProjectInfoPage.h"
@@ -42,10 +42,12 @@
 #include "res/windowsicon.xpm"
 #include "res/macosicon.xpm"
 #include "res/linuxicon.xpm"
+#include "res/androidicon2.xpm"
 #include "res/freebsdicon.xpm"
-#include "res/atiicon.xpm"
-#include "res/nvidiaicon.xpm"
-#include "res/androidicon.xpm"
+#include "res/linuxarmicon2.xpm"
+#include "res/amdicon2.xpm"
+#include "res/nvidiaicon2.xpm"
+#include "res/intelgpuicon2.xpm"
 #include "res/virtualboxicon.xpm"
 #include "res/blankicon.xpm"
 
@@ -62,15 +64,18 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsWindows = false;
         m_bProjectSupportsMac = false;
         m_bProjectSupportsLinux = false;
+        m_bProjectSupportsAndroid = false;
         m_bProjectSupportsFreeBSD = false;
+        m_bProjectSupportsLinuxARM = false;
         m_bProjectSupportsCUDA = false;
         m_bProjectSupportsCAL = false;
-        m_bProjectSupportsAndroid = false;
+        m_bProjectSupportsIntelGPU  = false;
         m_bProjectSupportsVirtualBox = false;
     }
 
 public:
     wxString m_strURL;
+    wxString m_strWebURL;
     wxString m_strName;
     wxString m_strDescription;
     wxString m_strGeneralArea;
@@ -80,10 +85,12 @@ public:
     bool m_bProjectSupportsWindows;
     bool m_bProjectSupportsMac;
     bool m_bProjectSupportsLinux;
+    bool m_bProjectSupportsAndroid;
     bool m_bProjectSupportsFreeBSD;
+    bool m_bProjectSupportsLinuxARM;
     bool m_bProjectSupportsCUDA;
     bool m_bProjectSupportsCAL;
-    bool m_bProjectSupportsAndroid;
+    bool m_bProjectSupportsIntelGPU;
     bool m_bProjectSupportsVirtualBox;
 };
 
@@ -169,10 +176,12 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformWindowsCtrl = NULL;
     m_pProjectDetailsSupportedPlatformMacCtrl = NULL;
     m_pProjectDetailsSupportedPlatformLinuxCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
     m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = NULL;
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = NULL;
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = NULL;
     m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
     m_pProjectURLStaticCtrl = NULL;
@@ -319,27 +328,43 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer24->Add(itemBoxSizer26, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsSupportedPlatformWindowsCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("windowsicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformWindowsCtrl->SetToolTip(_("Supports Microsoft Windows"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformWindowsCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformMacCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("macosicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformMacCtrl->SetToolTip(_("Supports Mac OS X"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformMacCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformLinuxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformLinuxCtrl->SetToolTip(_("Supports Linux on Intel"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
-    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("freebsdicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
-    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformFreeBSDCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
-
-    m_pProjectDetailsSupportedPlatformATICtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("atiicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
-    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformATICtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
-
-    m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
-    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformNvidiaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
-
-    m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformAndroidCtrl->SetToolTip(_("Supports Android"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformAndroidCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("freebsdicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl->SetToolTip(_("Supports FreeBSD"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformFreeBSDCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxarmicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl->SetToolTip(_("Supports Linux on ARM (e.g. Raspberry Pi)"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxArmCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformNvidiaCtrl->SetToolTip(_("Supports NVIDIA GPUs"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformNvidiaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformATICtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("amdicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformATICtrl->SetToolTip(_("Supports AMD GPUs"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformATICtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("intelgpuicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformIntelGPUCtrl->SetToolTip(_("Supports Intel GPUs"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformIntelGPUCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("virtualboxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->SetToolTip(_("Supports VirtualBox"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
@@ -423,24 +448,34 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(Linux_xpm);
         return bitmap;
     }
+    else if (name == wxT("androidicon2.xpm"))
+    {
+        wxBitmap bitmap(androidicon2_xpm);
+        return bitmap;
+    }
     else if (name == wxT("freebsdicon.xpm"))
     {
         wxBitmap bitmap(FreeBSD_xpm);
         return bitmap;
     }
-    else if (name == wxT("atiicon.xpm"))
+    else if (name == wxT("linuxarmicon2.xpm"))
     {
-        wxBitmap bitmap(atiicon_xpm);
+        wxBitmap bitmap(linuxarmicon2_xpm);
         return bitmap;
     }
-    else if (name == wxT("nvidiaicon.xpm"))
+    else if (name == wxT("amdicon2.xpm"))
     {
-        wxBitmap bitmap(nvidiaicon_xpm);
+        wxBitmap bitmap(amdicon2_xpm);
         return bitmap;
     }
-    else if (name == wxT("androidicon.xpm"))
+    else if (name == wxT("nvidiaicon2.xpm"))
     {
-        wxBitmap bitmap(androidicon_xpm);
+        wxBitmap bitmap(nvidiaicon2_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("intelgpuicon2.xpm"))
+    {
+        wxBitmap bitmap(intelgpuicon2_xpm);
         return bitmap;
     }
     else if (name == wxT("virtualboxicon.xpm"))
@@ -480,7 +515,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
 
     m_pProjectsCtrl->Clear();
 
-    // Populate the list box with the list of project names that belong to eith the specific
+    // Populate the list box with the list of project names that belong to either the specific
     // category or all of them.
     for (unsigned int i=0; i<m_Projects.size(); i++) {
         if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) || 
@@ -512,8 +547,8 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
 
         CProjectInfo* pProjectInfo = (CProjectInfo*)m_pProjectsCtrl->GetClientData(m_pProjectsCtrl->GetSelection());
 
-        wxString strURL = pProjectInfo->m_strURL;
-        EllipseStringIfNeeded(strURL, m_pProjectDetailsURLCtrl);
+        wxString strWebURL = pProjectInfo->m_strWebURL;
+        EllipseStringIfNeeded(strWebURL, m_pProjectDetailsURLCtrl);
 
         // Populate the project details area
         wxString desc = pProjectInfo->m_strDescription;
@@ -522,26 +557,30 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         desc.Replace(wxT("</sup>"), wxT(""), true);
         desc.Replace(wxT("&lt;"), wxT("<"), true);
 
-        m_pProjectDetailsURLCtrl->SetLabel(strURL);
-        m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
-        m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strURL);
+        m_pProjectDetailsURLCtrl->SetLabel(strWebURL);
+        m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strWebURL);
+        m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strWebURL);
         m_pProjectDetailsDescriptionCtrl->SetValue(desc);
 
         m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
         m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
         m_pProjectDetailsSupportedPlatformLinuxCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
-        m_pProjectDetailsSupportedPlatformATICtrl->Hide();
-        m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
         m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformATICtrl->Hide();
+        m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
         m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
         if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
-        if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
 
         // Populate non-control data for use in other places of the wizard
@@ -600,12 +639,18 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             // Convert the easy stuff
             pProjectInfo->m_strURL = wxGetTranslation(wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8));
+            pProjectInfo->m_strWebURL = wxGetTranslation(wxString(m_apl->projects[i]->web_url.c_str(), wxConvUTF8));
             pProjectInfo->m_strName = wxGetTranslation(wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8));
             pProjectInfo->m_strDescription = wxGetTranslation(wxString(m_apl->projects[i]->description.c_str(), wxConvUTF8));
             pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
             pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(m_apl->projects[i]->specific_area.c_str(), wxConvUTF8));
             pProjectInfo->m_strOrganization = wxGetTranslation(wxString(m_apl->projects[i]->home.c_str(), wxConvUTF8));
-            
+
+            // Use project URL if web_url is not available
+            if (!pProjectInfo->m_strWebURL) {
+                pProjectInfo->m_strWebURL = pProjectInfo->m_strURL;
+            }
+
             // Add the category if it isn't already in the category list
             bCategoryFound = false;
             for (j=0; j<aCategories.size(); j++) {
@@ -630,6 +675,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 for (k = 0;k < aProjectPlatforms.size(); k++) {
                     wxString strProjectPlatform = aProjectPlatforms[k];
                     wxString strRootProjectPlatform = strProjectPlatform.SubString(0, strProjectPlatform.Find(_T("[")) - 1);
+                    wxString strProjectPlanClass = strProjectPlatform.Mid(strProjectPlatform.Find(_T("[")));
                     
                     if (strProjectPlatform.Find(_T("windows")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsWindows = true;
@@ -643,25 +689,48 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         pProjectInfo->m_bProjectSupportsLinux = true;
                     }
 
-                    if (strProjectPlatform.Find(_T("freebsd")) != wxNOT_FOUND) {
-                        pProjectInfo->m_bProjectSupportsFreeBSD = true;
-                    }
-                    
                     if (strProjectPlatform.Find(_T("android")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsAndroid = true;
                     }
 
-                    if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
+                    if (strProjectPlatform.Find(_T("freebsd")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsFreeBSD = true;
+                    }
+
+                    if (strProjectPlatform.Find(_T("arm-unknown-linux-gnu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                    }
+
+                    if (strProjectPlatform.Find(_T("arm-unknown-linux-gnueabihf")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
 						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
                     }
 
-                    if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
+                    if (strProjectPlanClass.Find(_T("nvidia")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsCUDA = true;
+						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("ati")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCAL = true;
 						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
-                    if (strProjectPlatform.Find(_T("[vbox")) != wxNOT_FOUND) {
+                    if (strProjectPlanClass.Find(_T("amd")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsCAL = true;
+						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("intel_gpu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsIntelGPU = true;
+						if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsVirtualBox = true;
                     }
 
@@ -745,15 +814,42 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     }
 
     // Check if we are already attached to that project: 
+    const std::string http = "http://";
+    const std::string https = "https://";
+
+	std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+	canonicalize_master_url(new_project_url);
+	// remove http(s):// at the beginning of project address
+	// there is no reason to connect to secure address project
+	// if we're already connected to the non-secure address
+	// or vice versa
+	// also clear last '/' character if present
+	size_t pos = new_project_url.find(http);
+	if (pos != std::string::npos) {
+		new_project_url.erase(pos, http.length());
+	}
+	else if ((pos = new_project_url.find(https)) != std::string::npos) {
+		new_project_url.erase(pos, https.length());
+	}
+	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+		new_project_url.erase(new_project_url.length() - 1, 1);
+	}
  	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
  	    PROJECT* project = pDoc->project(i);
         if (project) {
-            std::string project_url = project->master_url;
-            std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+            std::string project_url = project->master_url;            
 
             canonicalize_master_url(project_url);
-            canonicalize_master_url(new_project_url);
-                
+
+            if ((pos = project_url.find(http)) != std::string::npos) {
+                project_url.erase(pos, http.length());
+            } else if ((pos = project_url.find(https)) != std::string::npos) {
+                project_url.erase(pos, https.length());
+            }
+			if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+				project_url.erase(project_url.length() - 1, 1);
+			}
+
             if (project_url == new_project_url) {
                 bAlreadyAttached = true;
                 break;

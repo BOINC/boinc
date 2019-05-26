@@ -4,8 +4,7 @@ package = "Input filters"
 core = 6.x
 
 ; Information added by drupal.org packaging script on 2008-11-30
-version = "6.x-1.2-boinc-1-dev"
+version = "6.x-1.2-boinc-3-dev"
 core = "6.x"
 project = "bbcode"
-datestamp = "1393530079"
-
+datestamp = "1544045742"

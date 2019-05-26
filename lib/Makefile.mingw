@@ -40,7 +40,8 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/opencl_boinc.h \
 	$(BOINC_SRC)/svn_version.h \
 	$(BOINC_SRC)/win_build/config.h \
-	$(BOINC_SRC)/lib/str_util.h
+	$(BOINC_SRC)/lib/str_util.h \
+	$(BOINC_SRC)/lib/wslinfo.h
 
 ZIP_HEADERS = zip/boinc_zip.h
 
@@ -78,7 +79,8 @@ LIB_OBJ = app_ipc.o \
 	stackwalker_win.o \
 	url.o \
 	util.o \
-	win_util.o
+	win_util.o \
+	wslinfo.o
 
 ZIP_OBJ = zip/boinc_zip.o \
 	zip/api.o \

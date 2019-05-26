@@ -1,358 +1,375 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">טוען! אנא המתן...</string>
-  <string name="generic_button_continue">המשך</string>
-  <string name="generic_button_finish">סיים</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">בחר מיזמים מדעיים שברצונך לתרום להם:</string>
-  <string name="attachproject_list_header">בחר מיזם</string>
-  <string name="attachproject_list_manual_button">הוסף מיזם על-ידי כתובת אינטרנט</string>
-  <string name="attachproject_list_manual_dialog_title">הזן את כתובת האינטרנט של המיזם:</string>
-  <string name="attachproject_list_manual_dialog_button">הוסף מיזם</string>
-  <string name="attachproject_list_manual_no_url">אנא הזן את כתובת האינטרנט של המיזם</string>
-  <string name="attachproject_list_acctmgr_button">הוסף מנהל חשבון</string>
-  <string name="attachproject_list_no_internet">אין חיבור לאינטרנט</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">הזן את מידע החשבון</string>
-  <string name="attachproject_credential_input_desc">הזן מידע חשבון עבור מיזמים נבחרים:</string>
-  <string name="attachproject_credential_input_show_pwd">הצג סיסמה</string>
-  <string name="attachproject_individual_credential_input">צרף מיזמים בנפרד</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">היו בעיות בצירוף מיזמים מדעיים:</string>
-  <string name="attachproject_conflict_undefined">לא היתה אפשרות להתחבר</string>
-  <string name="attachproject_conflict_not_unique">החשבון קיים עם סיסמה אחרת</string>
-  <string name="attachproject_conflict_bad_password">סיסמה שגויה</string>
-  <string name="attachproject_conflict_unknown_user">החשבון לא קיים</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">מצרף</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">רמז</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">כיצד לתרום:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. התחבר ל-WiFi</string>
-  <string name="attachproject_hint_contribtion_charger">2. חבר מטען</string>
-  <string name="attachproject_hint_contribtion_screen">3. כבה את המסך</string>
-  <string name="attachproject_hint_projectwebsite_header">בקר באתר המיזם כדי:</string>
-  <string name="attachproject_hint_projectwebsite_science">למד עוד אודות המדע</string>
-  <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>
-  <string name="attachproject_hint_projectwebsite_community">צור קשר עם מתנדבים אחרים</string>
-  <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב או המחשב הנייד, בקר ב-boinc.berkeley.edu כדי ללמוד עוד.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">יוצר קשר עם שרת המיזם...</string>
-  <string name="attachproject_login_image_description">לוגו המיזם.</string>
-  <string name="attachproject_login_header_general_area">אזור כללי:</string>
-  <string name="attachproject_login_header_specific_area">אזור מסוים:</string>
-  <string name="attachproject_login_header_description">תיאור:</string>
-  <string name="attachproject_login_header_home">בית:</string>
-  <string name="attachproject_login_header_url">אתר אינטרנט:</string>
-  <string name="attachproject_login_header_platform">אנדרואיד:</string>
-  <string name="attachproject_login_platform_supported">סוג ההתקן נתמך על ידי מיזם זה</string>
-  <string name="attachproject_login_platform_not_supported">סוג ההתקן אינן נתמך על ידי מיזם זה</string>
-  <string name="attachproject_login_category_terms_of_use">תנאי שימוש עבור</string>
-  <string name="attachproject_login_accept_terms_of_use">על ידי יצירת חשבון עם מיזם זה, אתה מקבל את תנאי השימוש כמתואר לעיל.</string>
-  <string name="attachproject_login_category_login">היכנס באמצעות חשבון קיים</string>
-  <string name="attachproject_login_header_id_email">דוא\"ל:</string>
-  <string name="attachproject_login_header_id_name">שם:</string>
-  <string name="attachproject_login_header_pwd">סיסמה:</string>
-  <string name="attachproject_login_category_creation">חדש לגבי</string>
-  <string name="attachproject_login_header_creation_enabled">הירשם בחשבון כדי להשתתף:</string>
-  <string name="attachproject_login_header_creation_client_disabled">בקר באתר המיזם כדי ליצור חשבון:</string>
-  <string name="attachproject_login_header_creation_disabled">מיזם זה אינו מקבל כעת חשבונות חדשים.</string>
-  <string name="attachproject_login_button_registration">הירשם</string>
-  <string name="attachproject_login_button_login">היכנס</string>
-  <string name="attachproject_login_button_forgotpw">שכחתי סיסמה</string>
-  <string name="attachproject_login_error_toast">יצירת קשר עם המיזם נכשלה!</string>
-  <string name="attachproject_login_attached">מצורף</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">הרשמה לחשבון עבור</string>
-  <string name="attachproject_registration_header_url">מיזם:</string>
-  <string name="attachproject_registration_header_email">דואר אלקטרוני:</string>
-  <string name="attachproject_registration_header_username">שם:</string>
-  <string name="attachproject_registration_header_teamname">צוות:</string>
-  <string name="attachproject_registration_header_pwd">סיסמה:</string>
-  <string name="attachproject_registration_header_pwd_confirm">… הקלד מחדש:</string>
-  <string name="attachproject_registration_button">צור</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">השתמש במנהל החשבון של BOINC כדי להוסיף ולנהל מיזמים מרובים</string>
-  <string name="attachproject_acctmgr_header">הוסף מנהל חשבונות</string>
-  <string name="attachproject_acctmgr_header_url">כתובת אינטרנט</string>
-  <string name="attachproject_acctmgr_header_name">משתמש:</string>
-  <string name="attachproject_acctmgr_header_pwd">סיסמה:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">… הקלד מחדש:</string>
-  <string name="attachproject_acctmgr_button">הוסף</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">משתמש לא נמצא</string>
-  <string name="attachproject_error_short_pwd">סיסמה קצרה מדי</string>
-  <string name="attachproject_error_no_internet">כשל בחיבור</string>
-  <string name="attachproject_error_pwd_no_match">הסיסמאות לא תואמות</string>
-  <string name="attachproject_error_pwd_no_retype">אנא הקלד שוב את הסיסמה</string>
-  <string name="attachproject_error_no_url">אנא הזן את כתובת האינטרנט</string>
-  <string name="attachproject_error_no_email">אנא הזן כתובת דוא\"ל</string>
-  <string name="attachproject_error_no_pwd">אנא הזן סיסמה</string>
-  <string name="attachproject_error_no_name">אנא הזן שם משתמש</string>
-  <string name="attachproject_error_unknown">נכשל</string>
-  <string name="attachproject_error_bad_username">שם המשתמש סורב</string>
-  <string name="attachproject_error_email_in_use">דוא\"ל זה נמצא כבר בשימוש</string>
-  <string name="attachproject_error_project_down">המיזם פועל במצב לא מקוון</string>
-  <string name="attachproject_error_email_bad_syntax">דוא\"ל סורב</string>
-  <string name="attachproject_error_bad_pwd">סיסמה סורבה</string>
-  <string name="attachproject_error_creation_disabled">אפשרות ליצירת חשבון מושבתת במיזם זה</string>
-  <string name="attachproject_error_invalid_url">כתובת אינטרנט לא חוקית</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">אחורה</string>
-  <string name="attachproject_working_finish_button">סיום</string>
-  <string name="attachproject_working_check_desc">הצליחה</string>
-  <string name="attachproject_working_failed_desc">נכשלה</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">התחבר</string>
-  <string name="attachproject_working_verify">אמת את החשבון</string>
-  <string name="attachproject_working_register">הירשם לחשבון</string>
-  <string name="attachproject_working_login">היכנס</string>
-  <string name="attachproject_working_acctmgr">הוסף מנהל חשבונות</string>
-  <string name="attachproject_working_acctmgr_sync">סנכרן</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">הקש כאן כדי לבחור מיזם.</string>
-  <string name="main_error">אופס</string>
-  <string name="main_error_long">...זה לא אמור לקרות!\nלחץ על הסמל כדי לנסות שוב.</string>
-  <string name="main_title_icon_desc">סמל BOINC</string>
-  <!--tab names-->
-  <string name="tab_status">מצב</string>
-  <string name="tab_projects">מיזמים</string>
-  <string name="tab_tasks">משימות</string>
-  <string name="tab_transfers">העברות</string>
-  <string name="tab_preferences">העדפות</string>
-  <string name="tab_notices">הודעות</string>
-  <string name="tab_desc">ניווט</string>
-  <!--status strings-->
-  <string name="status_running">מחשב</string>
-  <string name="status_running_long">תודה על השתתפותך.</string>
-  <string name="status_paused">מושעה</string>
-  <string name="status_idle">אין דבר לעשות</string>
-  <string name="status_idle_long">מחכה למשימות...</string>
-  <string name="status_computing_disabled">מושעה</string>
-  <string name="status_computing_disabled_long">לחץ על הפעל כדי לחדש רשת וחישוביות.</string>
-  <string name="status_launching">מתחיל...</string>
-  <string name="status_noproject">בחר מיזם כדי להשתתף בו.</string>
-  <string name="status_closing">סוגר...</string>
-  <string name="status_benchmarking">מודד ביצועים...</string>
-  <string name="status_image_description">תמונת מיזם</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">קורא העדפות...</string>
-  <string name="prefs_submit_button">שמור</string>
-  <string name="prefs_dialog_title">הזן ערך חדש:</string>
-  <string name="prefs_dialog_title_selection">בחר:</string>
-  <string name="prefs_category_general">כללי</string>
-  <string name="prefs_category_network">רשת</string>
-  <string name="prefs_category_power">כוח</string>
-  <string name="prefs_category_cpu">מעבד</string>
-  <string name="prefs_category_storage">אחסון</string>
-  <string name="prefs_category_memory">זיכרון</string>
-  <string name="prefs_category_debug">איתור באגים</string>
-  <string name="prefs_show_advanced_header">הצג העדפות ובקרות מתקדמים...</string>
-  <string name="prefs_suspend_when_screen_on">השהה חישוב כאשר המסך מופעל</string>
-  <string name="prefs_stationary_device_mode_header">מצב ההתקן נייח</string>
-  <string name="prefs_stationary_device_mode_description">אפשר חישוב ללא תלות בההעדפות של כוח. אפשר רק אם אין סוללה להתקן.</string>
-  <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
-  <string name="prefs_power_source_description">בחר מקורות כוח של-BOINC מותר להשתמש עבור מחשוב.</string>
-  <string name="prefs_power_source_ac">שקע קיר</string>
-  <string name="prefs_power_source_usb">חיבור USB</string>
-  <string name="prefs_power_source_wireless">מטען אלחוטי</string>
-  <string name="prefs_power_source_battery">סוללה</string>
-  <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית</string>
-  <string name="battery_charge_min_pct_description">BOINC משהה את החישוב ברמה של טעינת סוללה נמוכה מהמוגדר.</string>
-  <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה</string>
-  <string name="battery_temperature_max_description">BOINC משהה את החישוב מעל טמפרטורת סוללה שהוגדרה. לא מומלץ לשנות ערך זה.</string>
-  <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש</string>
-  <string name="prefs_disk_max_pct_description">בכמה אחוזים משטח האחסון של מכשירך מותר ל-BOINC להשתמש?</string>
-  <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי</string>
-  <string name="prefs_disk_min_free_gb_description">כמה משטח אחסון של מכשירך צריך להישאר פנוי?</string>
-  <string name="prefs_disk_access_interval_header">מרווח זמן גישה</string>
-  <string name="prefs_disk_access_interval_description">הצע מרווח זמן בין גישות דיסק</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">הגבלת תעבורה יומית</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">הגבל את תעבורת נתונים היומית הנגרמת על ידי BOINC.</string>
-  <string name="prefs_network_wifi_only_header">שלח משימות ב-WiFi בלבד</string>
-  <string name="prefs_autostart_header">אתחול אוטומטי</string>
-  <string name="prefs_show_notification_notices_header">הצג הודעה עבור הודעות חדשות</string>
-  <string name="prefs_show_notification_suspended_header">הצג הודעה כאשר מושעה</string>
-  <string name="prefs_cpu_number_cpus_header">ליבות מעבד בשימוש</string>
-  <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
-  <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל</string>
-  <string name="prefs_cpu_other_load_suspension_description">קבע מתי BOINC משהה את החישוב עקב שמוש במעבד של יישומים אחרים.</string>
-  <string name="prefs_cpu_time_max_header">הגבלת מעבד</string>
-  <string name="prefs_cpu_time_max_description">הגבל את זמן המעבד ש-BOINC משתמש לחישוב.</string>
-  <string name="prefs_memory_max_idle_header">הגבלת זיכרון גישה אקראית</string>
-  <string name="prefs_memory_max_idle_description">מגביל את כמות הזיכרון לגישה אקראית שמותר למשימות לתפוס.</string>
-  <string name="prefs_client_log_flags_header">דגלים של יומן לקוח BOINC</string>
-  <string name="prefs_gui_log_level_header">רמת יומן ממשק משתמש גרפי</string>
-  <string name="prefs_gui_log_level_description">מציין את פירוט ההודעות של יומן ממשק משתמש גרפי.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">שניות</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">קורא מיזמים...</string>
-  <string name="projects_add">הוסף מיזם</string>
-  <string name="projects_icon">סמל מיזם</string>
-  <string name="projects_credits">זכות:</string>
-  <string name="projects_credits_host_and_user">%1$,d (בהתקן זה) %2$,d (סך הכל)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">הושעה על ידי המשתמש</string>
-  <string name="projects_status_dontrequestmorework">לא יקבל משימות חדשות</string>
-  <string name="projects_status_ended">המיזם הסתיים - ניתן להסיר</string>
-  <string name="projects_status_detachwhendone">יוסר כאשר המשימות יושלמו</string>
-  <string name="projects_status_schedrpcpending">בקשה מתוזמנת ממתינה</string>
-  <string name="projects_status_schedrpcinprogress">בקשה מתוזמנת בהתקדמות</string>
-  <string name="projects_status_trickleuppending">הודעת טפטוף עולה ממתינה</string>
-  <string name="projects_status_backoff">תקשורת מתוזמנת ב-:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">פקודות מיזם:</string>
-  <string name="projects_control_visit_website">בקר באתר</string>
-  <string name="projects_control_update">עדכן</string>
-  <string name="projects_control_remove">הסר</string>
-  <string name="projects_control_suspend">השעה</string>
-  <string name="projects_control_resume">חדש פעולה</string>
-  <string name="projects_control_nonewtasks">אין משימות חדשות</string>
-  <string name="projects_control_allownewtasks">הרשה משימות חדשות</string>
-  <string name="projects_control_reset">אפס</string>
-  <string name="projects_control_dialog_title_acctmgr">פקודות מנהל החשבון:</string>
-  <string name="projects_control_sync_acctmgr">סנכרן</string>
-  <string name="projects_control_remove_acctmgr">השבת</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">להסיר את המיזם?</string>
-  <string name="projects_confirm_detach_message">האם אתה בטוח שברצונך להסיר</string>
-  <string name="projects_confirm_detach_message2">מ-BOINC?</string>
-  <string name="projects_confirm_detach_confirm">הסר</string>
-  <string name="projects_confirm_reset_title">אפס את המיזם</string>
-  <string name="projects_confirm_reset_message">האם אתה בטוח שברצונך לאפס</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">אפס</string>
-  <string name="projects_confirm_remove_acctmgr_title">השבת את מנהל חשבונות</string>
-  <string name="projects_confirm_remove_acctmgr_message">האם אתה בטוח שברצונך להפסיק את השימוש ב-</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">השבת</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">שם המשימה:</string>
-  <string name="tasks_header_elapsed_time">זמן שחלף:</string>
-  <string name="tasks_header_project_paused">(מושעה)</string>
-  <string name="tasks_header_deadline">מועד אחרון:</string>
-  <string name="tasks_result_new">חדש</string>
-  <string name="tasks_result_files_downloading">ממתין להורדה</string>
-  <string name="tasks_result_files_downloaded">ההורדה הושלמה</string>
-  <string name="tasks_result_compute_error">שגיאת חישוב</string>
-  <string name="tasks_result_files_uploading">מעלה</string>
-  <string name="tasks_result_files_uploaded">העלאה הושלמה</string>
-  <string name="tasks_result_aborted">בוטל</string>
-  <string name="tasks_result_upload_failed">ההעלאה נכשלה</string>
-  <string name="tasks_active_uninitialized">מוכן</string>
-  <string name="tasks_active_executing">פועל</string>
-  <string name="tasks_active_suspended">מושעה</string>
-  <string name="tasks_active_abort_pending">משעה</string>
-  <string name="tasks_active_quit_pending">משעה</string>
-  <string name="tasks_custom_suspended_via_gui">הושעה</string>
-  <string name="tasks_custom_project_suspended_via_gui">מיזם מושעה</string>
-  <string name="tasks_custom_ready_to_report">מוכן לדווח</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">האם לבטל משימה?</string>
-  <string name="confirm_abort_task_message">בטל משימה:</string>
-  <string name="confirm_abort_task_confirm">בטל</string>
-  <string name="confirm_cancel">ביטול</string>
-  <string name="confirm_image_desc">תיבת דו-שיח לאישור</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">קורא העברות...</string>
-  <string name="trans_upload">העלאה</string>
-  <string name="trans_download">הורדה</string>
-  <string name="trans_retryin">נסה שנית ב-</string>
-  <string name="trans_failed">נכשל</string>
-  <string name="trans_suspended">הושעה</string>
-  <string name="trans_active">פעיל</string>
-  <string name="trans_pending">ממתין</string>
-  <string name="trans_projectbackoff">המיזם נסוג</string>
-  <string name="trans_header_name">קובץ:</string>
-  <string name="trans_control_retry"> נסה העברות שוב</string>
-  <string name="confirm_abort_trans_title">האם לבטל את ההעברה?</string>
-  <string name="confirm_abort_trans_message">בטל את הקובץ:</string>
-  <string name="confirm_abort_trans_confirm">בטל</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">קורא הודעות...</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">טוען הודעות של יומן...</string>
-  <string name="eventlog_client_header">הודעות לקוח</string>
-  <string name="eventlog_gui_header">הודעות ממשק משתמש גרפי</string>
-  <string name="eventlog_copy_toast">היומן הועתק ללוח.</string>
-  <string name="eventlog_email_subject">יומן האירועים עבור BOINC על אנדרואיד:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">חישוב הושעה.</string>
-  <string name="suspend_batteries">חבר את המכשיר למטען כדי להמשיך בחישוב.</string>
-  <string name="suspend_screen_on">כבה את המסך כדי להמשיך בחישוב.</string>
-  <string name="suspend_useractive">המשתמש פעיל.</string>
-  <string name="suspend_tod">פרק הזמן לחישוב אזל.</string>
-  <string name="suspend_bm">BOINC מודד את ביצועי מכשירך...</string>
-  <string name="suspend_disksize">אין די שטח דיסק.</string>
-  <string name="suspend_cputhrottle">ויסות מעבד מתוזמן</string>
-  <string name="suspend_noinput">אין פעילות המשתמש לאחרונה.</string>
-  <string name="suspend_delay">השהיית אתחול.</string>
-  <string name="suspend_exclusiveapp">יישום בלעדי פועל.</string>
-  <string name="suspend_cpu">המכשיר שלך עסוק עם יישומים אחרים.</string>
-  <string name="suspend_network_quota">BOINC הגיע למגבלת תעבורת רשת.</string>
-  <string name="suspend_os">נעצר על ידי אנדרואיד</string>
-  <string name="suspend_wifi">לא מחובר לרשת אלחוטית.</string>
-  <string name="suspend_battery_charging">ממתין לטעינת הסוללה.</string>
-  <string name="suspend_battery_charging_long">החישוב יתחדש כאשר טעינת הסוללה תגיע אל</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">כעת</string>
-  <string name="suspend_battery_overheating">ממתין לקירור הסוללה</string>
-  <string name="suspend_user_req">מחדש את החישוב...</string>
-  <string name="suspend_network_user_req">באופן ידני.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">מבוקש על ידי המשתמש</string>
-  <string name="rpcreason_needwork">כדי להביא עבודה</string>
-  <string name="rpcreason_resultsdue">כדי לדווח משימות שהושלמו</string>
-  <string name="rpcreason_trickleup">כדי לשלוח טפטוף עולה</string>
-  <string name="rpcreason_acctmgrreq">מבוקש על ידי מנהל החשבונות</string>
-  <string name="rpcreason_init">אתחול מיזם</string>
-  <string name="rpcreason_projectreq">מבוקש על ידי המיזם</string>
-  <string name="rpcreason_unknown">סיבה לא ידועה</string>
-  <!--menu-->
-  <string name="menu_refresh">רענן</string>
-  <string name="menu_emailto">שלח כדוא\"ל</string>
-  <string name="menu_copy">העתק ללוח</string>
-  <string name="menu_eventlog">יומן אירועים</string>
-  <string name="menu_exit">צא מ-BOINC</string>
-  <string name="menu_run_mode_disable">השעה</string>
-  <string name="menu_run_mode_enable">חדש פעולה</string>
-  <string name="menu_about">על אודות</string>
-  <string name="menu_help">עזרה</string>
-  <!--about dialog-->
-  <string name="about_button">חזור</string>
-  <string name="about_title">על אודות</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">גירסה</string>
-  <string name="about_name_long">התשתית הפתוחה של ברקלי עבור מחשוב רשת</string>
-  <string name="about_copyright">\u00A9 2003–2017
-אוניברסיטת קליפורניה, ברקלי</string>
-  <string name="about_copyright_reserved">כל הזכויות שמורות.</string>
-  <string name="about_credits">תודות למכון מקס פלנק לפיסיקה כבידתית, תאגיד IBM וחברת HTC על תמיכתם.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="one">הודעות חדשות מ-%1$s</item>
-    <item quantity="other">%2$,d הודעות חדשות</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">זוהה יישוון מחשוב בהתנדבות</string>
-  <string name="nonexcl_dialog_text">יישומון מחשוב בהתנדבות נוסף פועל במכשיר זה. ניתן להפעיל גירסה אחת בלבד בכל פעם.</string>
-  <string name="nonexcl_dialog_exit">צא</string>
-  <!--social integration-->
-  <string name="social_invite_button">הזמן חברים</string>
-  <string name="social_invite_intent_title">כיצד ברצונך לשתף?</string>
-  <string name="social_invite_content_title">אני עושה מדע עם הטלפון החכם שלי!</string>
-  <string name="social_invite_content_body">אני משתמשב-%1$s שלי כדי לעשות מחשוב עבור המדע. גם אתה יכול! הורד את היישום מ- %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">טוען! אנא המתן...</string>
+    <string name="generic_button_continue">המשך</string>
+    <string name="generic_button_finish">סיים</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">בחר מיזמים מדעיים שברצונך לתרום להם:</string>
+    <string name="attachproject_list_header">בחר מיזם</string>
+    <string name="attachproject_list_manual_button">הוסף מיזם על-ידי כתובת אינטרנט</string>
+    <string name="attachproject_list_manual_dialog_title">הזן את כתובת האינטרנט של המיזם:</string>
+    <string name="attachproject_list_manual_dialog_button">הוסף מיזם</string>
+    <string name="attachproject_list_manual_no_url">אנא הזן את כתובת האינטרנט של המיזם</string>
+    <string name="attachproject_list_acctmgr_button">הוסף מנהל חשבון</string>
+    <string name="attachproject_list_no_internet">אין חיבור לאינטרנט</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">הזן את מידע החשבון</string>
+    <string name="attachproject_credential_input_desc">הזן מידע חשבון עבור מיזמים נבחרים:</string>
+    <string name="attachproject_credential_input_show_pwd">הצג סיסמה</string>
+    <string name="attachproject_individual_credential_input">צרף מיזמים בנפרד</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">היו בעיות בצירוף מיזמים מדעיים:</string>
+    <string name="attachproject_conflict_undefined">לא היתה אפשרות להתחבר</string>
+    <string name="attachproject_conflict_not_unique">החשבון קיים עם סיסמה אחרת</string>
+    <string name="attachproject_conflict_bad_password">סיסמה שגויה</string>
+    <string name="attachproject_conflict_unknown_user">החשבון לא קיים</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם
+    </string>
+    <!--working-->
+    <string name="attachproject_working_attaching">מצרף</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">רמז</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">כיצד לתרום:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. התחבר ל-WiFi</string>
+    <string name="attachproject_hint_contribtion_charger">2. חבר מטען</string>
+    <string name="attachproject_hint_contribtion_screen">3. כבה את המסך</string>
+    <string name="attachproject_hint_projectwebsite_header">בקר באתר המיזם כדי:</string>
+    <string name="attachproject_hint_projectwebsite_science">למד עוד אודות המדע</string>
+    <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>
+    <string name="attachproject_hint_projectwebsite_community">צור קשר עם מתנדבים אחרים</string>
+    <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב או המחשב הנייד, בקר ב-boinc.berkeley.edu
+        כדי ללמוד עוד.
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">יוצר קשר עם שרת המיזם...</string>
+    <string name="attachproject_login_image_description">לוגו המיזם.</string>
+    <string name="attachproject_login_header_general_area">אזור כללי:</string>
+    <string name="attachproject_login_header_specific_area">אזור מסוים:</string>
+    <string name="attachproject_login_header_description">תיאור:</string>
+    <string name="attachproject_login_header_home">בית:</string>
+    <string name="attachproject_login_header_url">אתר אינטרנט:</string>
+    <string name="attachproject_login_header_platform">אנדרואיד:</string>
+    <string name="attachproject_login_platform_supported">סוג ההתקן נתמך על ידי מיזם זה</string>
+    <string name="attachproject_login_platform_not_supported">סוג ההתקן אינן נתמך על ידי מיזם זה</string>
+    <string name="attachproject_login_category_terms_of_use">תנאי שימוש עבור</string>
+    <string name="attachproject_login_accept_terms_of_use">על ידי יצירת חשבון עם מיזם זה, אתה מקבל את תנאי השימוש כמתואר
+        לעיל.
+    </string>
+    <string name="attachproject_login_category_login">היכנס באמצעות חשבון קיים</string>
+    <string name="attachproject_login_header_id_email">דוא\"ל:</string>
+    <string name="attachproject_login_header_id_name">שם:</string>
+    <string name="attachproject_login_header_pwd">סיסמה:</string>
+    <string name="attachproject_login_category_creation">חדש לגבי</string>
+    <string name="attachproject_login_header_creation_enabled">הירשם בחשבון כדי להשתתף:</string>
+    <string name="attachproject_login_header_creation_client_disabled">בקר באתר המיזם כדי ליצור חשבון:</string>
+    <string name="attachproject_login_header_creation_disabled">מיזם זה אינו מקבל כעת חשבונות חדשים.</string>
+    <string name="attachproject_login_button_registration">הירשם</string>
+    <string name="attachproject_login_button_login">היכנס</string>
+    <string name="attachproject_login_button_forgotpw">שכחתי סיסמה</string>
+    <string name="attachproject_login_error_toast">יצירת קשר עם המיזם נכשלה!</string>
+    <string name="attachproject_login_attached">מצורף</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">הרשמה לחשבון עבור</string>
+    <string name="attachproject_registration_header_url">מיזם:</string>
+    <string name="attachproject_registration_header_email">דואר אלקטרוני:</string>
+    <string name="attachproject_registration_header_username">שם:</string>
+    <string name="attachproject_registration_header_teamname">צוות:</string>
+    <string name="attachproject_registration_header_pwd">סיסמה:</string>
+    <string name="attachproject_registration_header_pwd_confirm">… הקלד מחדש:</string>
+    <string name="attachproject_registration_button">צור</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">השתמש במנהל החשבון של BOINC כדי להוסיף ולנהל מיזמים מרובים</string>
+    <string name="attachproject_acctmgr_header">הוסף מנהל חשבונות</string>
+    <string name="attachproject_acctmgr_header_url">כתובת אינטרנט</string>
+    <string name="attachproject_acctmgr_header_name">משתמש:</string>
+    <string name="attachproject_acctmgr_header_pwd">סיסמה:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">… הקלד מחדש:</string>
+    <string name="attachproject_acctmgr_button">הוסף</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">משתמש לא נמצא</string>
+    <string name="attachproject_error_short_pwd">סיסמה קצרה מדי</string>
+    <string name="attachproject_error_no_internet">כשל בחיבור</string>
+    <string name="attachproject_error_pwd_no_match">הסיסמאות לא תואמות</string>
+    <string name="attachproject_error_pwd_no_retype">אנא הקלד שוב את הסיסמה</string>
+    <string name="attachproject_error_no_url">אנא הזן את כתובת האינטרנט</string>
+    <string name="attachproject_error_no_email">אנא הזן כתובת דוא\"ל</string>
+    <string name="attachproject_error_no_pwd">אנא הזן סיסמה</string>
+    <string name="attachproject_error_no_name">אנא הזן שם משתמש</string>
+    <string name="attachproject_error_unknown">נכשל</string>
+    <string name="attachproject_error_bad_username">שם המשתמש סורב</string>
+    <string name="attachproject_error_email_in_use">דוא\"ל זה נמצא כבר בשימוש</string>
+    <string name="attachproject_error_project_down">המיזם פועל במצב לא מקוון</string>
+    <string name="attachproject_error_email_bad_syntax">דוא\"ל סורב</string>
+    <string name="attachproject_error_bad_pwd">סיסמה סורבה</string>
+    <string name="attachproject_error_creation_disabled">אפשרות ליצירת חשבון מושבתת במיזם זה</string>
+    <string name="attachproject_error_invalid_url">כתובת אינטרנט לא חוקית</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">אחורה</string>
+    <string name="attachproject_working_finish_button">סיום</string>
+    <string name="attachproject_working_check_desc">הצליחה</string>
+    <string name="attachproject_working_failed_desc">נכשלה</string>
+    <string name="attachproject_working_ongoing">…</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">התחבר</string>
+    <string name="attachproject_working_verify">אמת את החשבון</string>
+    <string name="attachproject_working_register">הירשם לחשבון</string>
+    <string name="attachproject_working_login">היכנס</string>
+    <string name="attachproject_working_acctmgr">הוסף מנהל חשבונות</string>
+    <string name="attachproject_working_acctmgr_sync">סנכרן</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">הקש כאן כדי לבחור מיזם.</string>
+    <string name="main_error">אופס</string>
+    <string name="main_error_long">...זה לא אמור לקרות!\nלחץ על הסמל כדי לנסות שוב.</string>
+    <string name="main_title_icon_desc">סמל BOINC</string>
+    <!--tab names-->
+    <string name="tab_status">מצב</string>
+    <string name="tab_projects">מיזמים</string>
+    <string name="tab_tasks">משימות</string>
+    <string name="tab_transfers">העברות</string>
+    <string name="tab_preferences">העדפות</string>
+    <string name="tab_notices">הודעות</string>
+    <string name="tab_desc">ניווט</string>
+    <!--status strings-->
+    <string name="status_running">מחשב</string>
+    <string name="status_running_long">תודה על השתתפותך.</string>
+    <string name="status_paused">מושעה</string>
+    <string name="status_idle">אין דבר לעשות</string>
+    <string name="status_idle_long">מחכה למשימות...</string>
+    <string name="status_computing_disabled">מושעה</string>
+    <string name="status_computing_disabled_long">לחץ על הפעל כדי לחדש רשת וחישוביות.</string>
+    <string name="status_launching">מתחיל...</string>
+    <string name="status_noproject">בחר מיזם כדי להשתתף בו.</string>
+    <string name="status_closing">סוגר...</string>
+    <string name="status_benchmarking">מודד ביצועים...</string>
+    <string name="status_image_description">תמונת מיזם</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">קורא העדפות...</string>
+    <string name="prefs_submit_button">שמור</string>
+    <string name="prefs_dialog_title">הזן ערך חדש:</string>
+    <string name="prefs_dialog_title_selection">בחר:</string>
+    <string name="prefs_category_general">כללי</string>
+    <string name="prefs_category_network">רשת</string>
+    <string name="prefs_category_power">כוח</string>
+    <string name="prefs_category_cpu">מעבד</string>
+    <string name="prefs_category_storage">אחסון</string>
+    <string name="prefs_category_memory">זיכרון</string>
+    <string name="prefs_category_debug">איתור באגים</string>
+    <string name="prefs_show_advanced_header">הצג העדפות ובקרות מתקדמים...</string>
+    <string name="prefs_suspend_when_screen_on">השהה חישוב כאשר המסך מופעל</string>
+    <string name="prefs_stationary_device_mode_header">מצב ההתקן נייח</string>
+    <string name="prefs_stationary_device_mode_description">אפשר חישוב ללא תלות בההעדפות של כוח. אפשר רק אם אין סוללה
+        להתקן.
+    </string>
+    <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
+    <string name="prefs_power_source_description">בחר מקורות כוח של-BOINC מותר להשתמש עבור מחשוב.</string>
+    <string name="prefs_power_source_ac">שקע קיר</string>
+    <string name="prefs_power_source_usb">חיבור USB</string>
+    <string name="prefs_power_source_wireless">מטען אלחוטי</string>
+    <string name="prefs_power_source_battery">סוללה</string>
+    <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית</string>
+    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב ברמה של טעינת סוללה נמוכה מהמוגדר.</string>
+    <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה</string>
+    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעל טמפרטורת סוללה שהוגדרה. לא מומלץ לשנות
+        ערך זה.
+    </string>
+    <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש</string>
+    <string name="prefs_disk_max_pct_description">בכמה אחוזים משטח האחסון של מכשירך מותר ל-BOINC להשתמש?</string>
+    <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי</string>
+    <string name="prefs_disk_min_free_gb_description">כמה משטח אחסון של מכשירך צריך להישאר פנוי?</string>
+    <string name="prefs_disk_access_interval_header">מרווח זמן גישה</string>
+    <string name="prefs_disk_access_interval_description">הצע מרווח זמן בין גישות דיסק</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">הגבלת תעבורה יומית</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">הגבל את תעבורת נתונים היומית הנגרמת על ידי BOINC.
+    </string>
+    <string name="prefs_network_wifi_only_header">שלח משימות ב-WiFi בלבד</string>
+    <string name="prefs_autostart_header">אתחול אוטומטי</string>
+    <string name="prefs_show_notification_notices_header">הצג הודעה עבור הודעות חדשות</string>
+    <string name="prefs_show_notification_suspended_header">הצג הודעה כאשר מושעה</string>
+    <string name="prefs_cpu_number_cpus_header">ליבות מעבד בשימוש</string>
+    <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
+    <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל</string>
+    <string name="prefs_cpu_other_load_suspension_description">קבע מתי BOINC משהה את החישוב עקב שמוש במעבד של יישומים
+        אחרים.
+    </string>
+    <string name="prefs_cpu_time_max_header">הגבלת מעבד</string>
+    <string name="prefs_cpu_time_max_description">הגבל את זמן המעבד ש-BOINC משתמש לחישוב.</string>
+    <string name="prefs_memory_max_idle_header">הגבלת זיכרון גישה אקראית</string>
+    <string name="prefs_memory_max_idle_description">מגביל את כמות הזיכרון לגישה אקראית שמותר למשימות לתפוס.</string>
+    <string name="prefs_client_log_flags_header">דגלים של יומן לקוח BOINC</string>
+    <string name="prefs_gui_log_level_header">רמת יומן ממשק משתמש גרפי</string>
+    <string name="prefs_gui_log_level_description">מציין את פירוט ההודעות של יומן ממשק משתמש גרפי.</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">שניות</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">קורא מיזמים...</string>
+    <string name="projects_add">הוסף מיזם</string>
+    <string name="projects_icon">סמל מיזם</string>
+    <string name="projects_credits">זכות:</string>
+    <string name="projects_credits_host_and_user">%1$,d (בהתקן זה) %2$,d (סך הכל)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">הושעה על ידי המשתמש</string>
+    <string name="projects_status_dontrequestmorework">לא יקבל משימות חדשות</string>
+    <string name="projects_status_ended">המיזם הסתיים - ניתן להסיר</string>
+    <string name="projects_status_detachwhendone">יוסר כאשר המשימות יושלמו</string>
+    <string name="projects_status_schedrpcpending">בקשה מתוזמנת ממתינה</string>
+    <string name="projects_status_schedrpcinprogress">בקשה מתוזמנת בהתקדמות</string>
+    <string name="projects_status_trickleuppending">הודעת טפטוף עולה ממתינה</string>
+    <string name="projects_status_backoff">תקשורת מתוזמנת ב-:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">פקודות מיזם:</string>
+    <string name="projects_control_visit_website">בקר באתר</string>
+    <string name="projects_control_update">עדכן</string>
+    <string name="projects_control_remove">הסר</string>
+    <string name="projects_control_suspend">השעה</string>
+    <string name="projects_control_resume">חדש פעולה</string>
+    <string name="projects_control_nonewtasks">אין משימות חדשות</string>
+    <string name="projects_control_allownewtasks">הרשה משימות חדשות</string>
+    <string name="projects_control_reset">אפס</string>
+    <string name="projects_control_dialog_title_acctmgr">פקודות מנהל החשבון:</string>
+    <string name="projects_control_sync_acctmgr">סנכרן</string>
+    <string name="projects_control_remove_acctmgr">השבת</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">להסיר את המיזם?</string>
+    <string name="projects_confirm_detach_message">האם אתה בטוח שברצונך להסיר</string>
+    <string name="projects_confirm_detach_message2">מ-BOINC?</string>
+    <string name="projects_confirm_detach_confirm">הסר</string>
+    <string name="projects_confirm_reset_title">אפס את המיזם</string>
+    <string name="projects_confirm_reset_message">האם אתה בטוח שברצונך לאפס</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">אפס</string>
+    <string name="projects_confirm_remove_acctmgr_title">השבת את מנהל חשבונות</string>
+    <string name="projects_confirm_remove_acctmgr_message">האם אתה בטוח שברצונך להפסיק את השימוש ב-</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">השבת</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">שם המשימה:</string>
+    <string name="tasks_header_elapsed_time">זמן שחלף:</string>
+    <string name="tasks_header_project_paused">(מושעה)</string>
+    <string name="tasks_header_deadline">מועד אחרון:</string>
+    <string name="tasks_result_new">חדש</string>
+    <string name="tasks_result_files_downloading">ממתין להורדה</string>
+    <string name="tasks_result_files_downloaded">ההורדה הושלמה</string>
+    <string name="tasks_result_compute_error">שגיאת חישוב</string>
+    <string name="tasks_result_files_uploading">מעלה</string>
+    <string name="tasks_result_files_uploaded">העלאה הושלמה</string>
+    <string name="tasks_result_aborted">בוטל</string>
+    <string name="tasks_result_upload_failed">ההעלאה נכשלה</string>
+    <string name="tasks_active_uninitialized">מוכן</string>
+    <string name="tasks_active_executing">פועל</string>
+    <string name="tasks_active_suspended">מושעה</string>
+    <string name="tasks_active_abort_pending">משעה</string>
+    <string name="tasks_active_quit_pending">משעה</string>
+    <string name="tasks_custom_suspended_via_gui">הושעה</string>
+    <string name="tasks_custom_project_suspended_via_gui">מיזם מושעה</string>
+    <string name="tasks_custom_ready_to_report">מוכן לדווח</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">האם לבטל משימה?</string>
+    <string name="confirm_abort_task_message">בטל משימה:</string>
+    <string name="confirm_abort_task_confirm">בטל</string>
+    <string name="confirm_cancel">ביטול</string>
+    <string name="confirm_image_desc">תיבת דו-שיח לאישור</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">קורא העברות...</string>
+    <string name="trans_upload">העלאה</string>
+    <string name="trans_download">הורדה</string>
+    <string name="trans_retryin">נסה שנית ב-</string>
+    <string name="trans_failed">נכשל</string>
+    <string name="trans_suspended">הושעה</string>
+    <string name="trans_active">פעיל</string>
+    <string name="trans_pending">ממתין</string>
+    <string name="trans_projectbackoff">המיזם נסוג</string>
+    <string name="trans_header_name">קובץ:</string>
+    <string name="trans_control_retry">נסה העברות שוב</string>
+    <string name="confirm_abort_trans_title">האם לבטל את ההעברה?</string>
+    <string name="confirm_abort_trans_message">בטל את הקובץ:</string>
+    <string name="confirm_abort_trans_confirm">בטל</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">קורא הודעות...</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">טוען הודעות של יומן...</string>
+    <string name="eventlog_client_header">הודעות לקוח</string>
+    <string name="eventlog_gui_header">הודעות ממשק משתמש גרפי</string>
+    <string name="eventlog_copy_toast">היומן הועתק ללוח.</string>
+    <string name="eventlog_email_subject">יומן האירועים עבור BOINC על אנדרואיד:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">חישוב הושעה.</string>
+    <string name="suspend_batteries">חבר את המכשיר למטען כדי להמשיך בחישוב.</string>
+    <string name="suspend_screen_on">כבה את המסך כדי להמשיך בחישוב.</string>
+    <string name="suspend_useractive">המשתמש פעיל.</string>
+    <string name="suspend_tod">פרק הזמן לחישוב אזל.</string>
+    <string name="suspend_bm">BOINC מודד את ביצועי מכשירך...</string>
+    <string name="suspend_disksize">אין די שטח דיסק.</string>
+    <string name="suspend_cputhrottle">ויסות מעבד מתוזמן</string>
+    <string name="suspend_noinput">אין פעילות המשתמש לאחרונה.</string>
+    <string name="suspend_delay">השהיית אתחול.</string>
+    <string name="suspend_exclusiveapp">יישום בלעדי פועל.</string>
+    <string name="suspend_cpu">המכשיר שלך עסוק עם יישומים אחרים.</string>
+    <string name="suspend_network_quota">BOINC הגיע למגבלת תעבורת רשת.</string>
+    <string name="suspend_os">נעצר על ידי אנדרואיד</string>
+    <string name="suspend_wifi">לא מחובר לרשת אלחוטית.</string>
+    <string name="suspend_battery_charging">ממתין לטעינת הסוללה.</string>
+    <string name="suspend_battery_charging_long">החישוב יתחדש כאשר טעינת הסוללה תגיע אל</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">כעת</string>
+    <string name="suspend_battery_overheating">ממתין לקירור הסוללה</string>
+    <string name="suspend_user_req">מחדש את החישוב...</string>
+    <string name="suspend_network_user_req">באופן ידני.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">מבוקש על ידי המשתמש</string>
+    <string name="rpcreason_needwork">כדי להביא עבודה</string>
+    <string name="rpcreason_resultsdue">כדי לדווח משימות שהושלמו</string>
+    <string name="rpcreason_trickleup">כדי לשלוח טפטוף עולה</string>
+    <string name="rpcreason_acctmgrreq">מבוקש על ידי מנהל החשבונות</string>
+    <string name="rpcreason_init">אתחול מיזם</string>
+    <string name="rpcreason_projectreq">מבוקש על ידי המיזם</string>
+    <string name="rpcreason_unknown">סיבה לא ידועה</string>
+    <!--menu-->
+    <string name="menu_refresh">רענן</string>
+    <string name="menu_emailto">שלח כדוא\"ל</string>
+    <string name="menu_copy">העתק ללוח</string>
+    <string name="menu_eventlog">יומן אירועים</string>
+    <string name="menu_exit">צא מ-BOINC</string>
+    <string name="menu_run_mode_disable">השעה</string>
+    <string name="menu_run_mode_enable">חדש פעולה</string>
+    <string name="menu_about">על אודות</string>
+    <string name="menu_help">עזרה</string>
+    <!--about dialog-->
+    <string name="about_button">חזור</string>
+    <string name="about_title">על אודות</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">גירסה</string>
+    <string name="about_name_long">התשתית הפתוחה של ברקלי עבור מחשוב רשת</string>
+    <string name="about_copyright_reserved">כל הזכויות שמורות.</string>
+    <string name="about_credits">תודות למכון מקס פלנק לפיסיקה כבידתית, תאגיד IBM וחברת HTC על תמיכתם.</string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="one">הודעות חדשות מ-%1$s</item>
+        <item quantity="two">%2$,d הודעות חדשות</item>
+        <item quantity="many">%2$,d הודעות חדשות</item>
+        <item quantity="other">%2$,d הודעות חדשות</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">זוהה יישוון מחשוב בהתנדבות</string>
+    <string name="nonexcl_dialog_text">יישומון מחשוב בהתנדבות נוסף פועל במכשיר זה. ניתן להפעיל גירסה אחת בלבד בכל פעם.
+    </string>
+    <string name="nonexcl_dialog_exit">צא</string>
+    <!--social integration-->
+    <string name="social_invite_button">הזמן חברים</string>
+    <string name="social_invite_intent_title">כיצד ברצונך לשתף?</string>
+    <string name="social_invite_content_title">אני עושה מדע עם הטלפון החכם שלי!</string>
+    <string name="social_invite_content_body">אני משתמשב-%1$s שלי כדי לעשות מחשוב עבור המדע. גם אתה יכול! הורד את היישום
+        מ- %2$s
+    </string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

@@ -1,359 +1,358 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Ładowanie! Proszę czekać…</string>
-  <string name="generic_button_continue">Kontynuuj</string>
-  <string name="generic_button_finish">Zakończ</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">Wybierz projekty naukowe, do których chcesz się przyczynić:</string>
-  <string name="attachproject_list_header">Wybór projektu</string>
-  <string name="attachproject_list_manual_button">Dodaj URL projektu</string>
-  <string name="attachproject_list_manual_dialog_title">Wprowadź URL projektu:</string>
-  <string name="attachproject_list_manual_dialog_button">Dodaj projekt</string>
-  <string name="attachproject_list_manual_no_url">Proszę wprowadź URL projektu</string>
-  <string name="attachproject_list_acctmgr_button">Dodaj zarządce kont</string>
-  <string name="attachproject_list_no_internet">Brak połączenia z internetem</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Wprowadź informacje konta</string>
-  <string name="attachproject_credential_input_desc">Wprowadź informacje konta dla wybranych projektów:</string>
-  <string name="attachproject_credential_input_show_pwd">Pokaż hasło</string>
-  <string name="attachproject_individual_credential_input">Załącz projekty osobno</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">W trakcie załączania projektów naukowych pojawiły się problemy:</string>
-  <string name="attachproject_conflict_undefined">Nie można się połączyć</string>
-  <string name="attachproject_conflict_not_unique">Konto już istnieje</string>
-  <string name="attachproject_conflict_bad_password">Nieprawidłowe hasło</string>
-  <string name="attachproject_conflict_unknown_user">Konto nie istnieje</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę internetową projektu aby się zarejestrować.</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">Załączanie</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">Wskazówka</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">Jak się przyczyniać:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Podłącz się do sieci Wi-Fi</string>
-  <string name="attachproject_hint_contribtion_charger">2. Przypnij ładowarkę</string>
-  <string name="attachproject_hint_contribtion_screen">3. Wyłącz ekran</string>
-  <string name="attachproject_hint_projectwebsite_header">Wejdź na witrynę internetową projektu aby:</string>
-  <string name="attachproject_hint_projectwebsite_science">Dowiedzieć się więcej o zagadnieniu naukowym</string>
-  <string name="attachproject_hint_projectwebsite_stats">Przeglądać statystyki przyczynienia</string>
-  <string name="attachproject_hint_projectwebsite_community">Skontaktować się z innymi wolontariuszami</string>
-  <string name="attachproject_hint_platforms_header">BOINC jest zarówno dostępny na Twój komputer lub laptop.\nWejdź na boinc.berkeley.edu aby dowiedzieć się więcej.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">Kontaktowanie serwera projektu…</string>
-  <string name="attachproject_login_image_description">Logo projektu</string>
-  <string name="attachproject_login_header_general_area">Dziedzina ogólna:</string>
-  <string name="attachproject_login_header_specific_area">Dziedzina szczególna:</string>
-  <string name="attachproject_login_header_description">Opis:</string>
-  <string name="attachproject_login_header_home">Realizator projektu:</string>
-  <string name="attachproject_login_header_url">Witryna internetowa:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Projekt obsługuje urządzenia tego typu.</string>
-  <string name="attachproject_login_platform_not_supported">Projekt nie obsługuje urządzenia tego typu.</string>
-  <string name="attachproject_login_category_terms_of_use">Warunki korzystania</string>
-  <string name="attachproject_login_accept_terms_of_use">Tworząc nowe konto w tym projekcie, akceptujesz powyższe warunki korzystania.</string>
-  <string name="attachproject_login_category_login">Logowanie kontem istniejącym</string>
-  <string name="attachproject_login_header_id_email">E-mail:</string>
-  <string name="attachproject_login_header_id_name">Nazwa:</string>
-  <string name="attachproject_login_header_pwd">Hasło:</string>
-  <string name="attachproject_login_category_creation">Nowe w</string>
-  <string name="attachproject_login_header_creation_enabled">Zarejestruj się aby brać udział:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Wejdź na witrynę internetową projektu aby utworzyć konto:</string>
-  <string name="attachproject_login_header_creation_disabled">Aktualnie, projekt nie tworzy nowych kont.</string>
-  <string name="attachproject_login_button_registration">Zarejestruj</string>
-  <string name="attachproject_login_button_login">Zaloguj</string>
-  <string name="attachproject_login_button_forgotpw">Przypomnij hasło</string>
-  <string name="attachproject_login_error_toast">Kontaktowanie projektu się nie powiodło!</string>
-  <string name="attachproject_login_attached">Załączono</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">Rejestracja konta w</string>
-  <string name="attachproject_registration_header_url">Projekt:</string>
-  <string name="attachproject_registration_header_email">E-mail:</string>
-  <string name="attachproject_registration_header_username">Nazwa:</string>
-  <string name="attachproject_registration_header_teamname">Zespół:</string>
-  <string name="attachproject_registration_header_pwd">Hasło:</string>
-  <string name="attachproject_registration_header_pwd_confirm">Potwierdzenie hasła:</string>
-  <string name="attachproject_registration_button">Utwórz</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Posługuj się zarządcą kont BOINC, aby dodawać projekty i nimi zarządzać</string>
-  <string name="attachproject_acctmgr_header">Dodawanie zarządcy kont</string>
-  <string name="attachproject_acctmgr_header_url">URL</string>
-  <string name="attachproject_acctmgr_header_name">Użytkownik:</string>
-  <string name="attachproject_acctmgr_header_pwd">Hasło:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">Potwierdzenie hasła:</string>
-  <string name="attachproject_acctmgr_button">Dodaj</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">Nie znaleziono użytkownika</string>
-  <string name="attachproject_error_short_pwd">Hasło za krótkie</string>
-  <string name="attachproject_error_no_internet">Nie udało się połączyć</string>
-  <string name="attachproject_error_pwd_no_match">Hasła się różnią</string>
-  <string name="attachproject_error_pwd_no_retype">Wprowadź hasło ponownie</string>
-  <string name="attachproject_error_no_url">Wprowadź URL</string>
-  <string name="attachproject_error_no_email">Wprowadź adres e-mail</string>
-  <string name="attachproject_error_no_pwd">Wprowadź hasło</string>
-  <string name="attachproject_error_no_name">Wprowadź nazwę użytkownika</string>
-  <string name="attachproject_error_unknown">Brak powodzenia</string>
-  <string name="attachproject_error_bad_username">Odrzucono nazwę użytkownika</string>
-  <string name="attachproject_error_email_in_use">Adres e-mail już w użytku</string>
-  <string name="attachproject_error_project_down">Projekt nieczynny</string>
-  <string name="attachproject_error_email_bad_syntax">Odrzucono adres e-mail</string>
-  <string name="attachproject_error_bad_pwd">Odrzucono hasło</string>
-  <string name="attachproject_error_creation_disabled">Tworzenie kont w tym projekcie zostało wyłączone.</string>
-  <string name="attachproject_error_invalid_url">Niepoprawny URL</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Wróć</string>
-  <string name="attachproject_working_finish_button">Zakończ</string>
-  <string name="attachproject_working_check_desc">Pomyślne</string>
-  <string name="attachproject_working_failed_desc">Zawiodło</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Łączenie</string>
-  <string name="attachproject_working_verify">Sprawdzanie konta</string>
-  <string name="attachproject_working_register">Zakładanie konta</string>
-  <string name="attachproject_working_login">Logowanie</string>
-  <string name="attachproject_working_acctmgr">Dodawanie zarządcy konta</string>
-  <string name="attachproject_working_acctmgr_sync">Synchronizowanie</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Klepnij tu, aby wybrać projekt.</string>
-  <string name="main_error">Ojojoj</string>
-  <string name="main_error_long">... to nie powinno się zdarzyć!\nKliknij na symbol aby spróbować ponownie.</string>
-  <string name="main_title_icon_desc">Symbol BOINC</string>
-  <!--tab names-->
-  <string name="tab_status">Status</string>
-  <string name="tab_projects">Projekty</string>
-  <string name="tab_tasks">Zadania</string>
-  <string name="tab_transfers">Przekazy</string>
-  <string name="tab_preferences">Preferencje</string>
-  <string name="tab_notices">Wiadomości</string>
-  <string name="tab_desc">Nawigacja</string>
-  <!--status strings-->
-  <string name="status_running">Obliczanie</string>
-  <string name="status_running_long">Dziękujemy że się przyczyniasz.</string>
-  <string name="status_paused">Zawieszone</string>
-  <string name="status_idle">Nic do roboty</string>
-  <string name="status_idle_long">Czekanie na zadania…</string>
-  <string name="status_computing_disabled">Zawieszone</string>
-  <string name="status_computing_disabled_long">Naciśnij „wznów” aby wznowić aktywność sieci i obliczenia.</string>
-  <string name="status_launching">Rozpoczynanie…</string>
-  <string name="status_noproject">Wybierz projekt w którym chcesz brać udział.</string>
-  <string name="status_closing">Zamykanie…</string>
-  <string name="status_benchmarking">Mierzenie mocy obliczeniowej…</string>
-  <string name="status_image_description">Wizerunek projektu</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">Wczytywanie preferencji…</string>
-  <string name="prefs_submit_button">Zapisz</string>
-  <string name="prefs_dialog_title">Wprowadź wartość</string>
-  <string name="prefs_dialog_title_selection">Wybierz</string>
-  <string name="prefs_category_general">Ogólne</string>
-  <string name="prefs_category_network">Sieć</string>
-  <string name="prefs_category_power">Zasilanie</string>
-  <string name="prefs_category_cpu">Procesor główny</string>
-  <string name="prefs_category_storage">Pamięć stała</string>
-  <string name="prefs_category_memory">Pamięć robocza</string>
-  <string name="prefs_category_debug">Usuwanie błędów</string>
-  <string name="prefs_show_advanced_header">Pokaż zaawansowane preferencje i kontrolki…</string>
-  <string name="prefs_suspend_when_screen_on">Wstrzymuj obliczenia gdy ekran jest włączony</string>
-  <string name="prefs_stationary_device_mode_header">Tryb urządzenia stacjonarnego</string>
-  <string name="prefs_stationary_device_mode_description">Zezwala na wykonywanie obliczeń niezależnie od preferencji zasilania.\nWłączać wyłącznie jeśli urządzenie nie posiada akumulatora.</string>
-  <string name="prefs_power_source_header">Źródła zasilania podczas obliczeń</string>
-  <string name="prefs_power_source_description">Ustala źródło zasilania, które BOINC może używać do obliczeń.</string>
-  <string name="prefs_power_source_ac">Gniazdo elektryczne</string>
-  <string name="prefs_power_source_usb">Przypięcie USB</string>
-  <string name="prefs_power_source_wireless">Ładowarka bezprzewodowa</string>
-  <string name="prefs_power_source_battery">Akumulator</string>
-  <string name="battery_charge_min_pct_header">Minimalny poziom załadowania akumulatora</string>
-  <string name="battery_charge_min_pct_description">BOINC zawiesza wykonywanie obliczeń poniżej tego poziomu załadowania akumulatora.</string>
-  <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora</string>
-  <string name="battery_temperature_max_description">BOINC zawiesza wykonywanie obliczeń, jeśli temperatura akumulatora przekroczy tą temperaturę. Nie zaleca się zmian tej wartości.</string>
-  <string name="prefs_disk_max_pct_header">Maksymalny rozmiar pamięci stałej</string>
-  <string name="prefs_disk_max_pct_description">Określa procentowy rozmiar pamięci stałej urządzenia który BOINC może używać.</string>
-  <string name="prefs_disk_min_free_gb_header">Minimalny wolny rozmiar pamięci stałej</string>
-  <string name="prefs_disk_min_free_gb_description">Określa rozmiar pamięci stałej, który ma pozostać wolny.</string>
-  <string name="prefs_disk_access_interval_header">Częstotliwość sięgania</string>
-  <string name="prefs_disk_access_interval_description">Określa jak często BOINC sięga do pamięci stałej.</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Ograniczenie dziennego przekazu</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Ogranicza rozmiar danych przekazywanych dziennie przez BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Przekazuj zadania wyłącznie siecią Wi-Fi</string>
-  <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_notices_header">Pokazuj powiadomienia o nowych wiadomościach</string>
-  <string name="prefs_show_notification_suspended_header">Pokazuj powiadomienia gdy urządzenie jest uśpione</string>
-  <string name="prefs_cpu_number_cpus_header">Wykorzystanie rdzeni procesora głównego</string>
-  <string name="prefs_cpu_number_cpus_description">Ogranicza ilość rdzeni procesora głównego, które BOINC może używać do obliczeń.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Wstrzymanie obliczeń gdy użytkowanie procesora głównego przewyższa</string>
-  <string name="prefs_cpu_other_load_suspension_description">Określa poziom użytkowania procesora głównego przez inne aplikacje powyżej którego BOINC wstrzymuje wykonywanie obliczeń.</string>
-  <string name="prefs_cpu_time_max_header">Maksymalny czas procesora głównego</string>
-  <string name="prefs_cpu_time_max_description">Ogranicza czas procesora głównego, który BOINC może używać do obliczeń.</string>
-  <string name="prefs_memory_max_idle_header">Maksymalny rozmiar pamięci roboczej</string>
-  <string name="prefs_memory_max_idle_description">Ogranicza rozmiar pamięci roboczej, który zadania mogą zajmować.</string>
-  <string name="prefs_client_log_flags_header">Ustawiania dziennika klienta BOINC</string>
-  <string name="prefs_gui_log_level_header">Poziom dziennikowania w powłoce graficznej</string>
-  <string name="prefs_gui_log_level_description">Określa szczegółowość komunikatów diennikowania w powłoce graficznej.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">s</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">Wczytywanie projektu…</string>
-  <string name="projects_add">Dodaj projekt</string>
-  <string name="projects_icon">Symbol projektu</string>
-  <string name="projects_credits">Punkty:</string>
-  <string name="projects_credits_host_and_user">%1$,d (zebrane tym urządzeniem), %2$,d (razem)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">Zawieszony przez użytkownika</string>
-  <string name="projects_status_dontrequestmorework">Nie pobiera zadań</string>
-  <string name="projects_status_ended">Projekt zakończony. Można go usunąć.</string>
-  <string name="projects_status_detachwhendone">Zostanie usunięty po wykonaniu zadań</string>
-  <string name="projects_status_schedrpcpending">Oczekuje odpowiedzi na żądanie planisty</string>
-  <string name="projects_status_schedrpcinprogress">Oczekuje przetworzenia żądania planisty</string>
-  <string name="projects_status_trickleuppending">Oczekuje wiadomość bąbelkową</string>
-  <string name="projects_status_backoff">Oczekuje komunikacji za:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">Polecenia projektowe</string>
-  <string name="projects_control_visit_website">Przejdź do witryny internetowej</string>
-  <string name="projects_control_update">Aktualizuj</string>
-  <string name="projects_control_remove">Usuń</string>
-  <string name="projects_control_suspend">Zawieś</string>
-  <string name="projects_control_resume">Wznów</string>
-  <string name="projects_control_nonewtasks">Nie pobieraj zadań</string>
-  <string name="projects_control_allownewtasks">Pobieraj nowe zadania</string>
-  <string name="projects_control_reset">Wyzeruj</string>
-  <string name="projects_control_dialog_title_acctmgr">Polecenia zarządcy kontami</string>
-  <string name="projects_control_sync_acctmgr">Synchronizuj</string>
-  <string name="projects_control_remove_acctmgr">Wyłącz</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Usuwanie projektu</string>
-  <string name="projects_confirm_detach_message">Czy na pewno chcesz usunąć</string>
-  <string name="projects_confirm_detach_message2">z BOINC?</string>
-  <string name="projects_confirm_detach_confirm">Usuń</string>
-  <string name="projects_confirm_reset_title">Wyzerowanie projektu</string>
-  <string name="projects_confirm_reset_message">Czy na pewno chcesz wyzerować</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Wyzeruj</string>
-  <string name="projects_confirm_remove_acctmgr_title">Wyłączenie zarządcy kont</string>
-  <string name="projects_confirm_remove_acctmgr_message">Czy na pewno chcesz przestać używać</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">Wyłącz</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">Nazwa zadania:</string>
-  <string name="tasks_header_elapsed_time">Czas obliczeń:</string>
-  <string name="tasks_header_project_paused">(zawieszony)</string>
-  <string name="tasks_header_deadline">Termin ostateczny:</string>
-  <string name="tasks_result_new">nowe</string>
-  <string name="tasks_result_files_downloading">pobieranie</string>
-  <string name="tasks_result_files_downloaded">pobrano</string>
-  <string name="tasks_result_compute_error">błąd obliczeniowy</string>
-  <string name="tasks_result_files_uploading">wysyłanie</string>
-  <string name="tasks_result_files_uploaded">wysłano</string>
-  <string name="tasks_result_aborted">przerwano</string>
-  <string name="tasks_result_upload_failed">wysyłanie się nie powiodło</string>
-  <string name="tasks_active_uninitialized">gotowe</string>
-  <string name="tasks_active_executing">obliczane</string>
-  <string name="tasks_active_suspended">zawieszone</string>
-  <string name="tasks_active_abort_pending">zawieszanie</string>
-  <string name="tasks_active_quit_pending">zawieszanie</string>
-  <string name="tasks_custom_suspended_via_gui">zawieszone</string>
-  <string name="tasks_custom_project_suspended_via_gui">zawieszono projekt</string>
-  <string name="tasks_custom_ready_to_report">gotowe do relacjonowania</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Przerwanie zadania</string>
-  <string name="confirm_abort_task_message">Czy przerwać zadanie:</string>
-  <string name="confirm_abort_task_confirm">Przerwij</string>
-  <string name="confirm_cancel">Anuluj</string>
-  <string name="confirm_image_desc">Dialog potwierdzalny</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">Wczytywanie przekazów…</string>
-  <string name="trans_upload">wysyłanie</string>
-  <string name="trans_download">pobieranie</string>
-  <string name="trans_retryin">ponowna próba za</string>
-  <string name="trans_failed">błąd</string>
-  <string name="trans_suspended">zawieszony</string>
-  <string name="trans_active">aktywny</string>
-  <string name="trans_pending">czeka</string>
-  <string name="trans_projectbackoff">czas oczekiwania projektu</string>
-  <string name="trans_header_name">Plik:</string>
-  <string name="trans_control_retry">Wznów przekazy</string>
-  <string name="confirm_abort_trans_title">Przerwanie przekazu</string>
-  <string name="confirm_abort_trans_message">Czy przerwać plik:</string>
-  <string name="confirm_abort_trans_confirm">Przerwij</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Wczytywanie wiadomości…</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">Wczytywanie komunikatów dziennika…</string>
-  <string name="eventlog_client_header">Komunikaty klienta</string>
-  <string name="eventlog_gui_header">Komunikaty powłoki graficznej</string>
-  <string name="eventlog_copy_toast">Dziennik skopiowano do schowka.</string>
-  <string name="eventlog_email_subject">Dziennik zdarzeń BOINCa na Androidzie:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">Zawieszono obliczenia</string>
-  <string name="suspend_batteries">Przypnij ładowarkę do urządzenia aby kontynuować obliczenia.</string>
-  <string name="suspend_screen_on">Wyłącz ekran aby kontynuować obliczenia.</string>
-  <string name="suspend_useractive">Użytkownik jest aktywny.</string>
-  <string name="suspend_tod">Wyczerpano ograniczenie czasu obliczeniowego.</string>
-  <string name="suspend_bm">BOINC testuje twoje urządzenie...</string>
-  <string name="suspend_disksize">Brak wolnego miejsca pamięci stałej</string>
-  <string name="suspend_cputhrottle">Przewidziane pohamowanie procesora głównego</string>
-  <string name="suspend_noinput">Brak aktywności użytkownika</string>
-  <string name="suspend_delay">Przewleczenie inicjalizacji</string>
-  <string name="suspend_exclusiveapp">Uruchomiono aplikację wykluczającą.</string>
-  <string name="suspend_cpu">Procesor główny obsługuje inne aplikacje.</string>
-  <string name="suspend_network_quota">BOINC wyczerpał ograniczenie przekazu sieciowego.</string>
-  <string name="suspend_os">Zatrzymany przez Androida.</string>
-  <string name="suspend_wifi">Brak połączenia z siecią Wi-Fi.</string>
-  <string name="suspend_battery_charging">Czekanie na załadowanie akumulatora…</string>
-  <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">obecnie</string>
-  <string name="suspend_battery_overheating">Czekanie na ochłodzenie akumulatora…</string>
-  <string name="suspend_user_req">Wznawianie obliczeń…</string>
-  <string name="suspend_network_user_req">ręcznie.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">Na żądanie użytkownika</string>
-  <string name="rpcreason_needwork">Aby odebrać pracę</string>
-  <string name="rpcreason_resultsdue">Aby relacjonować o zakończonych zadaniach</string>
-  <string name="rpcreason_trickleup">Aby wysłać wiadomość strużkową</string>
-  <string name="rpcreason_acctmgrreq">Na żądanie zarządcy kont</string>
-  <string name="rpcreason_init">Inicjalizacja projektu</string>
-  <string name="rpcreason_projectreq">Na żądanie projektu</string>
-  <string name="rpcreason_unknown">Powód nieznany</string>
-  <!--menu-->
-  <string name="menu_refresh">Odśwież</string>
-  <string name="menu_emailto">Wyślij e-mail</string>
-  <string name="menu_copy">Kopiuj do schowka</string>
-  <string name="menu_eventlog">Dziennik zdarzeń</string>
-  <string name="menu_exit">Wyjdź z BOINC</string>
-  <string name="menu_run_mode_disable">Zawieś</string>
-  <string name="menu_run_mode_enable">Wznów</string>
-  <string name="menu_about">O BOINC…</string>
-  <string name="menu_help">Pomoc</string>
-  <!--about dialog-->
-  <string name="about_button">Wróć</string>
-  <string name="about_title">O BOINC</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">Wersja</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2017 University of California, Berkeley.</string>
-  <string name="about_copyright_reserved">Wszelkie prawa zastrzeżone.</string>
-  <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Max Plancka, korporacjom IBM i HTC za wsparcie.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="one">Nowa wiadomość od „%1$s”</item>
-    <item quantity="few">%2$,d nowe wiadomości</item>
-    <item quantity="many">%2$,d nowych wiadomości</item>
-    <item quantity="other">%2$,d nowych wiadomości</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">Wykryto aplikację obliczeń ochotniczych</string>
-  <string name="nonexcl_dialog_text">Inna aplikacja obliczeń ochotniczych już jest uruchomiona na tym urządzeniu. Wyłącznie jedna wersja może być uruchomiona.</string>
-  <string name="nonexcl_dialog_exit">Wyjdź</string>
-  <!--social integration-->
-  <string name="social_invite_button">Zaproś przyjaciół</string>
-  <string name="social_invite_intent_title">Sposób dzielenia</string>
-  <string name="social_invite_content_title">Jestem naukowcem na moim smartfonie!</string>
-  <string name="social_invite_content_body">Wykorzystuję mój „%1$s“ do obliczeń naukowych. Ty też możesz to robić! Pobierz aplikację z: %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">Ładowanie! Proszę czekać…</string>
+    <string name="generic_button_continue">Kontynuuj</string>
+    <string name="generic_button_finish">Zakończ</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">Wybierz projekty naukowe, do których chcesz się przyczynić:</string>
+    <string name="attachproject_list_header">Wybór projektu</string>
+    <string name="attachproject_list_manual_button">Dodaj URL projektu</string>
+    <string name="attachproject_list_manual_dialog_title">Wprowadź URL projektu:</string>
+    <string name="attachproject_list_manual_dialog_button">Dodaj projekt</string>
+    <string name="attachproject_list_manual_no_url">Proszę wprowadź URL projektu</string>
+    <string name="attachproject_list_acctmgr_button">Dodaj zarządce kont</string>
+    <string name="attachproject_list_no_internet">Brak połączenia z internetem</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">Wprowadź informacje konta</string>
+    <string name="attachproject_credential_input_desc">Wprowadź informacje konta dla wybranych projektów:</string>
+    <string name="attachproject_credential_input_show_pwd">Pokaż hasło</string>
+    <string name="attachproject_individual_credential_input">Załącz projekty osobno</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">W trakcie załączania projektów naukowych pojawiły się problemy:</string>
+    <string name="attachproject_conflict_undefined">Nie można się połączyć</string>
+    <string name="attachproject_conflict_not_unique">Konto już istnieje</string>
+    <string name="attachproject_conflict_bad_password">Nieprawidłowe hasło</string>
+    <string name="attachproject_conflict_unknown_user">Konto nie istnieje</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę internetową projektu aby się zarejestrować.</string>
+    <!--working-->
+    <string name="attachproject_working_attaching">Załączanie</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">Wskazówka</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">Jak się przyczyniać:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. Podłącz się do sieci Wi-Fi</string>
+    <string name="attachproject_hint_contribtion_charger">2. Przypnij ładowarkę</string>
+    <string name="attachproject_hint_contribtion_screen">3. Wyłącz ekran</string>
+    <string name="attachproject_hint_projectwebsite_header">Wejdź na witrynę internetową projektu aby:</string>
+    <string name="attachproject_hint_projectwebsite_science">Dowiedzieć się więcej o zagadnieniu naukowym</string>
+    <string name="attachproject_hint_projectwebsite_stats">Przeglądać statystyki przyczynienia</string>
+    <string name="attachproject_hint_projectwebsite_community">Skontaktować się z innymi wolontariuszami</string>
+    <string name="attachproject_hint_platforms_header">BOINC jest zarówno dostępny na Twój komputer lub laptop.\nWejdź na boinc.berkeley.edu aby dowiedzieć się więcej.</string>
+    <!--project login-->
+    <string name="attachproject_login_loading">Kontaktowanie serwera projektu…</string>
+    <string name="attachproject_login_image_description">Logo projektu</string>
+    <string name="attachproject_login_header_general_area">Dziedzina ogólna:</string>
+    <string name="attachproject_login_header_specific_area">Dziedzina szczególna:</string>
+    <string name="attachproject_login_header_description">Opis:</string>
+    <string name="attachproject_login_header_home">Realizator projektu:</string>
+    <string name="attachproject_login_header_url">Witryna internetowa:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">Projekt obsługuje urządzenia tego typu.</string>
+    <string name="attachproject_login_platform_not_supported">Projekt nie obsługuje urządzenia tego typu.</string>
+    <string name="attachproject_login_category_terms_of_use">Warunki korzystania</string>
+    <string name="attachproject_login_accept_terms_of_use">Tworząc nowe konto w tym projekcie, akceptujesz powyższe warunki korzystania.</string>
+    <string name="attachproject_login_category_login">Logowanie kontem istniejącym</string>
+    <string name="attachproject_login_header_id_email">E-mail:</string>
+    <string name="attachproject_login_header_id_name">Nazwa:</string>
+    <string name="attachproject_login_header_pwd">Hasło:</string>
+    <string name="attachproject_login_category_creation">Nowe w</string>
+    <string name="attachproject_login_header_creation_enabled">Zarejestruj się aby brać udział:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Wejdź na witrynę internetową projektu aby utworzyć konto:</string>
+    <string name="attachproject_login_header_creation_disabled">Aktualnie, projekt nie tworzy nowych kont.</string>
+    <string name="attachproject_login_button_registration">Zarejestruj</string>
+    <string name="attachproject_login_button_login">Zaloguj</string>
+    <string name="attachproject_login_button_forgotpw">Przypomnij hasło</string>
+    <string name="attachproject_login_error_toast">Kontaktowanie projektu się nie powiodło!</string>
+    <string name="attachproject_login_attached">Załączono</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">Rejestracja konta w</string>
+    <string name="attachproject_registration_header_url">Projekt:</string>
+    <string name="attachproject_registration_header_email">E-mail:</string>
+    <string name="attachproject_registration_header_username">Nazwa:</string>
+    <string name="attachproject_registration_header_teamname">Zespół:</string>
+    <string name="attachproject_registration_header_pwd">Hasło:</string>
+    <string name="attachproject_registration_header_pwd_confirm">Potwierdzenie hasła:</string>
+    <string name="attachproject_registration_button">Utwórz</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">Posługuj się zarządcą kont BOINC, aby dodawać projekty i nimi zarządzać</string>
+    <string name="attachproject_acctmgr_header">Dodawanie zarządcy kont</string>
+    <string name="attachproject_acctmgr_header_url">URL</string>
+    <string name="attachproject_acctmgr_header_name">Użytkownik:</string>
+    <string name="attachproject_acctmgr_header_pwd">Hasło:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">Potwierdzenie hasła:</string>
+    <string name="attachproject_acctmgr_button">Dodaj</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">Nie znaleziono użytkownika</string>
+    <string name="attachproject_error_short_pwd">Hasło za krótkie</string>
+    <string name="attachproject_error_no_internet">Nie udało się połączyć</string>
+    <string name="attachproject_error_pwd_no_match">Hasła się różnią</string>
+    <string name="attachproject_error_pwd_no_retype">Wprowadź hasło ponownie</string>
+    <string name="attachproject_error_no_url">Wprowadź URL</string>
+    <string name="attachproject_error_no_email">Wprowadź adres e-mail</string>
+    <string name="attachproject_error_no_pwd">Wprowadź hasło</string>
+    <string name="attachproject_error_no_name">Wprowadź nazwę użytkownika</string>
+    <string name="attachproject_error_unknown">Brak powodzenia</string>
+    <string name="attachproject_error_bad_username">Odrzucono nazwę użytkownika</string>
+    <string name="attachproject_error_email_in_use">Adres e-mail już w użytku</string>
+    <string name="attachproject_error_project_down">Projekt nieczynny</string>
+    <string name="attachproject_error_email_bad_syntax">Odrzucono adres e-mail</string>
+    <string name="attachproject_error_bad_pwd">Odrzucono hasło</string>
+    <string name="attachproject_error_creation_disabled">Tworzenie kont w tym projekcie zostało wyłączone.</string>
+    <string name="attachproject_error_invalid_url">Niepoprawny URL</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">Wróć</string>
+    <string name="attachproject_working_finish_button">Zakończ</string>
+    <string name="attachproject_working_check_desc">Pomyślne</string>
+    <string name="attachproject_working_failed_desc">Zawiodło</string>
+    <string name="attachproject_working_ongoing">…</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">Łączenie</string>
+    <string name="attachproject_working_verify">Sprawdzanie konta</string>
+    <string name="attachproject_working_register">Zakładanie konta</string>
+    <string name="attachproject_working_login">Logowanie</string>
+    <string name="attachproject_working_acctmgr">Dodawanie zarządcy konta</string>
+    <string name="attachproject_working_acctmgr_sync">Synchronizowanie</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">Klepnij tu, aby wybrać projekt.</string>
+    <string name="main_error">Ojojoj</string>
+    <string name="main_error_long">... to nie powinno się zdarzyć!\nKliknij na symbol aby spróbować ponownie.</string>
+    <string name="main_title_icon_desc">Symbol BOINC</string>
+    <!--tab names-->
+    <string name="tab_status">Status</string>
+    <string name="tab_projects">Projekty</string>
+    <string name="tab_tasks">Zadania</string>
+    <string name="tab_transfers">Przekazy</string>
+    <string name="tab_preferences">Preferencje</string>
+    <string name="tab_notices">Wiadomości</string>
+    <string name="tab_desc">Nawigacja</string>
+    <!--status strings-->
+    <string name="status_running">Obliczanie</string>
+    <string name="status_running_long">Dziękujemy że się przyczyniasz.</string>
+    <string name="status_paused">Zawieszone</string>
+    <string name="status_idle">Nic do roboty</string>
+    <string name="status_idle_long">Czekanie na zadania…</string>
+    <string name="status_computing_disabled">Zawieszone</string>
+    <string name="status_computing_disabled_long">Naciśnij „wznów” aby wznowić aktywność sieci i obliczenia.</string>
+    <string name="status_launching">Rozpoczynanie…</string>
+    <string name="status_noproject">Wybierz projekt w którym chcesz brać udział.</string>
+    <string name="status_closing">Zamykanie…</string>
+    <string name="status_benchmarking">Mierzenie mocy obliczeniowej…</string>
+    <string name="status_image_description">Wizerunek projektu</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">Wczytywanie preferencji…</string>
+    <string name="prefs_submit_button">Zapisz</string>
+    <string name="prefs_dialog_title">Wprowadź wartość</string>
+    <string name="prefs_dialog_title_selection">Wybierz</string>
+    <string name="prefs_category_general">Ogólne</string>
+    <string name="prefs_category_network">Sieć</string>
+    <string name="prefs_category_power">Zasilanie</string>
+    <string name="prefs_category_cpu">Procesor główny</string>
+    <string name="prefs_category_storage">Pamięć stała</string>
+    <string name="prefs_category_memory">Pamięć robocza</string>
+    <string name="prefs_category_debug">Usuwanie błędów</string>
+    <string name="prefs_show_advanced_header">Pokaż zaawansowane preferencje i kontrolki…</string>
+    <string name="prefs_suspend_when_screen_on">Wstrzymuj obliczenia gdy ekran jest włączony</string>
+    <string name="prefs_stationary_device_mode_header">Tryb urządzenia stacjonarnego</string>
+    <string name="prefs_stationary_device_mode_description">Zezwala na wykonywanie obliczeń niezależnie od preferencji zasilania.\nWłączać wyłącznie jeśli urządzenie nie posiada akumulatora.</string>
+    <string name="prefs_power_source_header">Źródła zasilania podczas obliczeń</string>
+    <string name="prefs_power_source_description">Ustala źródło zasilania, które BOINC może używać do obliczeń.</string>
+    <string name="prefs_power_source_ac">Gniazdo elektryczne</string>
+    <string name="prefs_power_source_usb">Przypięcie USB</string>
+    <string name="prefs_power_source_wireless">Ładowarka bezprzewodowa</string>
+    <string name="prefs_power_source_battery">Akumulator</string>
+    <string name="battery_charge_min_pct_header">Minimalny poziom załadowania akumulatora</string>
+    <string name="battery_charge_min_pct_description">BOINC zawiesza wykonywanie obliczeń poniżej tego poziomu załadowania akumulatora.</string>
+    <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora</string>
+    <string name="battery_temperature_max_description">BOINC zawiesza wykonywanie obliczeń, jeśli temperatura akumulatora przekroczy tą temperaturę. Nie zaleca się zmian tej wartości.</string>
+    <string name="prefs_disk_max_pct_header">Maksymalny rozmiar pamięci stałej</string>
+    <string name="prefs_disk_max_pct_description">Określa procentowy rozmiar pamięci stałej urządzenia który BOINC może używać.</string>
+    <string name="prefs_disk_min_free_gb_header">Minimalny wolny rozmiar pamięci stałej</string>
+    <string name="prefs_disk_min_free_gb_description">Określa rozmiar pamięci stałej, który ma pozostać wolny.</string>
+    <string name="prefs_disk_access_interval_header">Częstotliwość sięgania</string>
+    <string name="prefs_disk_access_interval_description">Określa jak często BOINC sięga do pamięci stałej.</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Ograniczenie dziennego przekazu</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Ogranicza rozmiar danych przekazywanych dziennie przez BOINC.</string>
+    <string name="prefs_network_wifi_only_header">Przekazuj zadania wyłącznie siecią Wi-Fi</string>
+    <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_show_notification_notices_header">Pokazuj powiadomienia o nowych wiadomościach</string>
+    <string name="prefs_show_notification_suspended_header">Pokazuj powiadomienia gdy urządzenie jest uśpione</string>
+    <string name="prefs_cpu_number_cpus_header">Wykorzystanie rdzeni procesora głównego</string>
+    <string name="prefs_cpu_number_cpus_description">Ogranicza ilość rdzeni procesora głównego, które BOINC może używać do obliczeń.</string>
+    <string name="prefs_cpu_other_load_suspension_header">Wstrzymanie obliczeń gdy użytkowanie procesora głównego przewyższa</string>
+    <string name="prefs_cpu_other_load_suspension_description">Określa poziom użytkowania procesora głównego przez inne aplikacje powyżej którego BOINC wstrzymuje wykonywanie obliczeń.</string>
+    <string name="prefs_cpu_time_max_header">Maksymalny czas procesora głównego</string>
+    <string name="prefs_cpu_time_max_description">Ogranicza czas procesora głównego, który BOINC może używać do obliczeń.</string>
+    <string name="prefs_memory_max_idle_header">Maksymalny rozmiar pamięci roboczej</string>
+    <string name="prefs_memory_max_idle_description">Ogranicza rozmiar pamięci roboczej, który zadania mogą zajmować.</string>
+    <string name="prefs_client_log_flags_header">Ustawiania dziennika klienta BOINC</string>
+    <string name="prefs_gui_log_level_header">Poziom dziennikowania w powłoce graficznej</string>
+    <string name="prefs_gui_log_level_description">Określa szczegółowość komunikatów diennikowania w powłoce graficznej.</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">s</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">Wczytywanie projektu…</string>
+    <string name="projects_add">Dodaj projekt</string>
+    <string name="projects_icon">Symbol projektu</string>
+    <string name="projects_credits">Punkty:</string>
+    <string name="projects_credits_host_and_user">%1$,d (zebrane tym urządzeniem), %2$,d (razem)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">Zawieszony przez użytkownika</string>
+    <string name="projects_status_dontrequestmorework">Nie pobiera zadań</string>
+    <string name="projects_status_ended">Projekt zakończony. Można go usunąć.</string>
+    <string name="projects_status_detachwhendone">Zostanie usunięty po wykonaniu zadań</string>
+    <string name="projects_status_schedrpcpending">Oczekuje odpowiedzi na żądanie planisty</string>
+    <string name="projects_status_schedrpcinprogress">Oczekuje przetworzenia żądania planisty</string>
+    <string name="projects_status_trickleuppending">Oczekuje wiadomość bąbelkową</string>
+    <string name="projects_status_backoff">Oczekuje komunikacji za:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">Polecenia projektowe</string>
+    <string name="projects_control_visit_website">Przejdź do witryny internetowej</string>
+    <string name="projects_control_update">Aktualizuj</string>
+    <string name="projects_control_remove">Usuń</string>
+    <string name="projects_control_suspend">Zawieś</string>
+    <string name="projects_control_resume">Wznów</string>
+    <string name="projects_control_nonewtasks">Nie pobieraj zadań</string>
+    <string name="projects_control_allownewtasks">Pobieraj nowe zadania</string>
+    <string name="projects_control_reset">Wyzeruj</string>
+    <string name="projects_control_dialog_title_acctmgr">Polecenia zarządcy kontami</string>
+    <string name="projects_control_sync_acctmgr">Synchronizuj</string>
+    <string name="projects_control_remove_acctmgr">Wyłącz</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">Usuwanie projektu</string>
+    <string name="projects_confirm_detach_message">Czy na pewno chcesz usunąć</string>
+    <string name="projects_confirm_detach_message2">z BOINC?</string>
+    <string name="projects_confirm_detach_confirm">Usuń</string>
+    <string name="projects_confirm_reset_title">Wyzerowanie projektu</string>
+    <string name="projects_confirm_reset_message">Czy na pewno chcesz wyzerować</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">Wyzeruj</string>
+    <string name="projects_confirm_remove_acctmgr_title">Wyłączenie zarządcy kont</string>
+    <string name="projects_confirm_remove_acctmgr_message">Czy na pewno chcesz przestać używać</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">Wyłącz</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">Nazwa zadania:</string>
+    <string name="tasks_header_elapsed_time">Czas obliczeń:</string>
+    <string name="tasks_header_project_paused">(zawieszony)</string>
+    <string name="tasks_header_deadline">Termin ostateczny:</string>
+    <string name="tasks_result_new">nowe</string>
+    <string name="tasks_result_files_downloading">pobieranie</string>
+    <string name="tasks_result_files_downloaded">pobrano</string>
+    <string name="tasks_result_compute_error">błąd obliczeniowy</string>
+    <string name="tasks_result_files_uploading">wysyłanie</string>
+    <string name="tasks_result_files_uploaded">wysłano</string>
+    <string name="tasks_result_aborted">przerwano</string>
+    <string name="tasks_result_upload_failed">wysyłanie się nie powiodło</string>
+    <string name="tasks_active_uninitialized">gotowe</string>
+    <string name="tasks_active_executing">obliczane</string>
+    <string name="tasks_active_suspended">zawieszone</string>
+    <string name="tasks_active_abort_pending">zawieszanie</string>
+    <string name="tasks_active_quit_pending">zawieszanie</string>
+    <string name="tasks_custom_suspended_via_gui">zawieszone</string>
+    <string name="tasks_custom_project_suspended_via_gui">zawieszono projekt</string>
+    <string name="tasks_custom_ready_to_report">gotowe do relacjonowania</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">Przerwanie zadania</string>
+    <string name="confirm_abort_task_message">Czy przerwać zadanie:</string>
+    <string name="confirm_abort_task_confirm">Przerwij</string>
+    <string name="confirm_cancel">Anuluj</string>
+    <string name="confirm_image_desc">Dialog potwierdzalny</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">Wczytywanie przekazów…</string>
+    <string name="trans_upload">wysyłanie</string>
+    <string name="trans_download">pobieranie</string>
+    <string name="trans_retryin">ponowna próba za</string>
+    <string name="trans_failed">błąd</string>
+    <string name="trans_suspended">zawieszony</string>
+    <string name="trans_active">aktywny</string>
+    <string name="trans_pending">czeka</string>
+    <string name="trans_projectbackoff">czas oczekiwania projektu</string>
+    <string name="trans_header_name">Plik:</string>
+    <string name="trans_control_retry">Wznów przekazy</string>
+    <string name="confirm_abort_trans_title">Przerwanie przekazu</string>
+    <string name="confirm_abort_trans_message">Czy przerwać plik:</string>
+    <string name="confirm_abort_trans_confirm">Przerwij</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">Wczytywanie wiadomości…</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">Wczytywanie komunikatów dziennika…</string>
+    <string name="eventlog_client_header">Komunikaty klienta</string>
+    <string name="eventlog_gui_header">Komunikaty powłoki graficznej</string>
+    <string name="eventlog_copy_toast">Dziennik skopiowano do schowka.</string>
+    <string name="eventlog_email_subject">Dziennik zdarzeń BOINCa na Androidzie:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">Zawieszono obliczenia</string>
+    <string name="suspend_batteries">Przypnij ładowarkę do urządzenia aby kontynuować obliczenia.</string>
+    <string name="suspend_screen_on">Wyłącz ekran aby kontynuować obliczenia.</string>
+    <string name="suspend_useractive">Użytkownik jest aktywny.</string>
+    <string name="suspend_tod">Wyczerpano ograniczenie czasu obliczeniowego.</string>
+    <string name="suspend_bm">BOINC testuje twoje urządzenie...</string>
+    <string name="suspend_disksize">Brak wolnego miejsca pamięci stałej</string>
+    <string name="suspend_cputhrottle">Przewidziane pohamowanie procesora głównego</string>
+    <string name="suspend_noinput">Brak aktywności użytkownika</string>
+    <string name="suspend_delay">Przewleczenie inicjalizacji</string>
+    <string name="suspend_exclusiveapp">Uruchomiono aplikację wykluczającą.</string>
+    <string name="suspend_cpu">Procesor główny obsługuje inne aplikacje.</string>
+    <string name="suspend_network_quota">BOINC wyczerpał ograniczenie przekazu sieciowego.</string>
+    <string name="suspend_os">Zatrzymany przez Androida.</string>
+    <string name="suspend_wifi">Brak połączenia z siecią Wi-Fi.</string>
+    <string name="suspend_battery_charging">Czekanie na załadowanie akumulatora…</string>
+    <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">obecnie</string>
+    <string name="suspend_battery_overheating">Czekanie na ochłodzenie akumulatora…</string>
+    <string name="suspend_user_req">Wznawianie obliczeń…</string>
+    <string name="suspend_network_user_req">ręcznie.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">Na żądanie użytkownika</string>
+    <string name="rpcreason_needwork">Aby odebrać pracę</string>
+    <string name="rpcreason_resultsdue">Aby relacjonować o zakończonych zadaniach</string>
+    <string name="rpcreason_trickleup">Aby wysłać wiadomość strużkową</string>
+    <string name="rpcreason_acctmgrreq">Na żądanie zarządcy kont</string>
+    <string name="rpcreason_init">Inicjalizacja projektu</string>
+    <string name="rpcreason_projectreq">Na żądanie projektu</string>
+    <string name="rpcreason_unknown">Powód nieznany</string>
+    <!--menu-->
+    <string name="menu_refresh">Odśwież</string>
+    <string name="menu_emailto">Wyślij e-mail</string>
+    <string name="menu_copy">Kopiuj do schowka</string>
+    <string name="menu_eventlog">Dziennik zdarzeń</string>
+    <string name="menu_exit">Wyjdź z BOINC</string>
+    <string name="menu_run_mode_disable">Zawieś</string>
+    <string name="menu_run_mode_enable">Wznów</string>
+    <string name="menu_about">O BOINC…</string>
+    <string name="menu_help">Pomoc</string>
+    <!--about dialog-->
+    <string name="about_button">Wróć</string>
+    <string name="about_title">O BOINC</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">Wersja</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright_reserved">Wszelkie prawa zastrzeżone.</string>
+    <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Max Plancka, korporacjom IBM i HTC za wsparcie.</string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="one">Nowa wiadomość od „%1$s”</item>
+        <item quantity="few">%2$,d nowe wiadomości</item>
+        <item quantity="many">%2$,d nowych wiadomości</item>
+        <item quantity="other">%2$,d nowych wiadomości</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">Wykryto aplikację obliczeń ochotniczych</string>
+    <string name="nonexcl_dialog_text">Inna aplikacja obliczeń ochotniczych już jest uruchomiona na tym urządzeniu. Wyłącznie jedna wersja może być uruchomiona.</string>
+    <string name="nonexcl_dialog_exit">Wyjdź</string>
+    <!--social integration-->
+    <string name="social_invite_button">Zaproś przyjaciół</string>
+    <string name="social_invite_intent_title">Sposób dzielenia</string>
+    <string name="social_invite_content_title">Jestem naukowcem na moim smartfonie!</string>
+    <string name="social_invite_content_body">Wykorzystuję mój „%1$s“ do obliczeń naukowych. Ty też możesz to robić! Pobierz aplikację z: %2$s</string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

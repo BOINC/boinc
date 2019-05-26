@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -121,15 +121,14 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     );
     m_AboutBOINCTitleCtrl->SetLabel(buf);
 
-#if 0
     m_AboutBOINCLogoCtrl->SetBitmap(wxBitmap(*(pSkinAdvanced->GetApplicationLogo())));
-
-    m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
 
     m_AboutBOINCURLCtrl->SetLabel(
         pSkinAdvanced->GetOrganizationWebsite().c_str()
     );
-#endif
+    m_AboutBOINCURLCtrl->SetURL(
+        pSkinAdvanced->GetOrganizationWebsite().c_str()
+    );
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -144,6 +143,10 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
 
 void CDlgAbout::CreateControls() {    
 ////@begin CDlgAbout content construction
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
     CDlgAbout* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
@@ -189,11 +192,17 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2018 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2019 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
+    wxString buf = wxEmptyString;
+    buf.Printf(
+        _("%s is distributed under the GNU Lesser General Public License v3.0."),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+
     wxStaticText* itemStaticText14 = new wxStaticText;
-    itemStaticText14->Create( itemDialog1, wxID_STATIC, _("BOINC is distributed under the GNU Lesser General Public License v3.0."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText14->Create( itemDialog1, wxID_STATIC, buf, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer2->Add(itemStaticText14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);

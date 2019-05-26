@@ -89,11 +89,15 @@ class panels_allowed_layouts {
    *  as allowed or not allowed on the initial call to panels_allowed_layouts::set_allowed()
    *
    */
-  function panels_allowed_layouts($start_allowed = TRUE) {
+  function __construct($start_allowed = TRUE) {
     // TODO would be nice if there was a way to just fetch the names easily
     foreach ($this->list_layouts() as $layout_name) {
       $this->allowed_layout_settings[$layout_name] = $start_allowed ? 1 : 0;
     }
+  }
+
+  function panels_allowed_layouts($start_allowed = TRUE) {
+    self::__construct($start_allowed);
   }
 
   /**

@@ -134,7 +134,7 @@ function get_gpu_list($vendor, $alt_vendor=null) {
 function get_gpu_lists() {
     $x = new StdClass;
     $x->cuda = get_gpu_list("cuda", "nvidia");
-    $x->ati = get_gpu_list("ati");
+    $x->ati = get_gpu_list("ati", "amd");
     $x->intel_gpu = get_gpu_list("intel_gpu");
     $x->time = time();
     return $x;

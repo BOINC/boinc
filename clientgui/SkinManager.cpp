@@ -476,6 +476,7 @@ void CSkinAdvanced::Clear() {
     m_bIsBranded = false;
     m_strApplicationName = wxEmptyString;
     m_strApplicationShortName = wxEmptyString;
+    m_strApplicationHelpName = wxEmptyString;
     m_iconApplicationIcon.Clear();
     m_iconApplicationDisconnectedIcon.Clear();
     m_iconApplicationSnoozeIcon.Clear();
@@ -483,6 +484,7 @@ void CSkinAdvanced::Clear() {
     m_strOrganizationName = wxEmptyString;
     m_strOrganizationWebsite = wxEmptyString;
     m_strOrganizationHelpUrl = wxEmptyString;
+    m_strOrganizationReportBugUrl = wxEmptyString;
     m_bDefaultTabSpecified = false;
     m_iDefaultTab = 0;
     m_strExitMessage = wxEmptyString;
@@ -501,6 +503,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
             continue;
         } else if (parse_str(buf, "<application_short_name>", strBuffer)) {
             m_strApplicationShortName = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        } else if (parse_str(buf, "<application_help_name>", strBuffer)) {
+            m_strApplicationHelpName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (match_tag(buf, "<application_icon>")) {
             m_iconApplicationIcon.Parse(in);
@@ -552,6 +557,9 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         } else if (parse_str(buf, "<exit_message>", strBuffer)) {
             m_strExitMessage = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
+        } else if (parse_str(buf, "<organization_report_bug_url>", strBuffer)) {
+            m_strOrganizationReportBugUrl = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
         }
     }
 
@@ -572,6 +580,14 @@ wxString CSkinAdvanced::GetApplicationName() {
 
 wxString CSkinAdvanced::GetApplicationShortName() {
     return m_strApplicationShortName;
+}
+
+
+wxString CSkinAdvanced::GetApplicationHelpName() {
+    if (m_strApplicationHelpName.IsEmpty()) {
+        return m_strApplicationName;
+    }
+    return m_strApplicationHelpName;
 }
 
 
@@ -609,6 +625,9 @@ wxString CSkinAdvanced::GetOrganizationHelpUrl() {
     return m_strOrganizationHelpUrl;
 }
 
+wxString CSkinAdvanced::GetOrganizationReportBugUrl() {
+    return m_strOrganizationReportBugUrl;
+}
 
 int CSkinAdvanced::GetDefaultTab() { 
     return m_iDefaultTab;
@@ -639,6 +658,11 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         }
         m_strApplicationShortName = wxT("BOINC");
         wxASSERT(!m_strApplicationShortName.IsEmpty());
+    }
+    if (m_strApplicationHelpName.IsEmpty()) {
+        if (show_error_msgs) {
+            fprintf(stderr, "Skin Manager: Application help name was not defined. Using application name.\n");
+        }
     }
 #ifdef _WIN32
     m_iconApplicationIcon.SetDefaults(wxT("application"), wxT("boinc"));
@@ -689,6 +713,13 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
             fprintf(stderr, "Skin Manager: Exit message was not defined. Using default.\n");
         }
         m_strExitMessage = wxEmptyString;
+    }
+    if (m_strOrganizationReportBugUrl.IsEmpty()) {
+        if (show_error_msgs) {
+            fprintf(stderr, "Skin Manager: Origanization report bug url was not defined. Using defaults.\n");
+        }
+        m_strOrganizationReportBugUrl = wxT("https://boinc.berkeley.edu/trac/wiki/ReportBugs");
+        wxASSERT(!m_strOrganizationReportBugUrl.IsEmpty());
     }
     return true;
 }
@@ -756,6 +787,7 @@ CSkinWizardATAM::~CSkinWizardATAM() {
 
 
 void CSkinWizardATAM::Clear() {
+    m_strTitle = wxEmptyString;
     m_strAccountInfoMessage = wxEmptyString;
 }
 
@@ -768,6 +800,10 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
         if (match_tag(buf, "</attach_to_account_manager>")) break;
         else if (parse_str(buf, "<account_info_message>", strBuffer)) {
             m_strAccountInfoMessage = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        }
+        else if (parse_str(buf, "<title>", strBuffer)) {
+            m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         }
     }

@@ -436,12 +436,25 @@ function user_quit_team($user) {
     if (!$user->teamid) return;
     $user->update("teamid=0");
     $team = BoincTeam::lookup_id($user->teamid);
-    if ($team && $team->ping_user=$user->id) {
+    if ($team && $team->ping_user==$user->id) {
         $team->update("ping_user=-ping_user");
     }
     BoincTeamAdmin::delete("teamid=$user->teamid and userid=$user->id");
     $now = time();
     BoincTeamDelta::insert("(userid, teamid, timestamp, joining, total_credit) values ($user->id, $user->teamid, $now, 0, $user->total_credit)");
+}
+
+function user_erase_team_owner($user) {
+    if ($user->teamid) {
+        $team = BoincTeam::lookup_id($user->teamid);
+        if ($team && $team->userid == $user->id) {
+            $team->update("userid=0");
+        }
+    }
+}
+
+function user_erase_team_delta($user) {
+    BoincTeamDelta::delete_for_user($user->id);
 }
 
 function team_edit_form($team, $label, $url) {

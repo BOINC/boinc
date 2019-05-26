@@ -362,8 +362,19 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "<project>\n"
     );
 
-    xml_escape(user_name, un, sizeof(un));
-    xml_escape(team_name, tn, sizeof(tn));
+    // if this project was attached via SU, show the SU user and team names
+    //
+    if (gstate.acct_mgr_info.using_am()
+        && attached_via_acct_mgr
+        && gstate.acct_mgr_info.dynamic
+        && strlen(gstate.acct_mgr_info.user_name)
+    ) {
+        xml_escape(gstate.acct_mgr_info.user_name, un, sizeof(un));
+        xml_escape(gstate.acct_mgr_info.team_name, tn, sizeof(tn));
+    } else {
+        xml_escape(user_name, un, sizeof(un));
+        xml_escape(team_name, tn, sizeof(tn));
+    }
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
@@ -959,54 +970,51 @@ void PROJECT::check_no_apps() {
     }
 }
 
-// show a notice if we can't possibly get work from this project,
-// and there's something the user could do about it
+// show a notice if we can't get work from this project,
+// and there's something the user could do about it.
 //
 void PROJECT::show_no_work_notice() {
-    bool show_ams = false, show_prefs=false, show_config = false;
-    bool user_action_possible = false;
+    bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
-        if (!banned_by_user) {
-            // work for this resource is possible; return
-            notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-            return;
+        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
+        if (!gstate.acct_mgr_info.dynamic) {
+            // dynamic account managers manage rsc usage themselves, not user
+            //
+            banned_by_user = banned_by_user || no_rsc_ams[i];
+            // note to self: ||= doesn't exist
         }
-        if (no_rsc_pref[i]) show_prefs = true;
-        if (no_rsc_config[i]) show_config = true;
-        if (no_rsc_ams[i]) show_ams = true;
-        user_action_possible = true;
+        if (!banned_by_user) {
+            continue;
+        }
+        string x;
+        x = NO_WORK_MSG;
+        x += " ";
+        x += rsc_name_long(i);
+        x += ".  ";
+        x += _("To fix this, you can ");
+
+        bool first = true;
+        if (no_rsc_pref[i]) {
+            x += _("change Project Preferences on the project's web site");
+            first = false;
+        }
+        if (no_rsc_config[i]) {
+            if (!first) x += ", or ";
+            x += _("remove GPU exclusions in your cc_config.xml file");
+            first = false;
+        }
+        if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
+            if (!first) x += ", or ";
+            x += _("change your settings at your account manager web site");
+        }
+        x += ".";
+        msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
+        some_banned = true;
     }
-    if (!user_action_possible) {
-        // no work is possible because project has no apps for any resource
-        //
+    if (!some_banned) {
         notices.remove_notices(this, REMOVE_NO_WORK_MSG);
         return;
     }
 
-    bool first = true;
-    string x;
-    x = NO_WORK_MSG;
-    x += "  ";
-    x += _("To fix this, you can ");
-    if (show_prefs) {
-        first = false;
-        x += _("change Project Preferences on the project's web site");
-    }
-    if (show_config) {
-        if (!first) {
-            x += ", or ";
-        }
-        x += _("remove GPU exclusions in your cc_config.xml file");
-        first = false;
-    }
-    if (show_ams) {
-        if (!first) {
-            x += ", or ";
-        }
-        x += _("change your settings at your account manager web site");
-    }
-    x += ".";
-    msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
 }

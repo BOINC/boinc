@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,7 @@
 //      [ --cushion n ]      // make work if fewer than N unsent results
 //      [ --max_wus n ]      // don't make work if more than N total WUs
 //      [ --one_pass ]       // quit after one pass
+//      [ --credit_from_wu ] // copy canonical_credit
 //
 // Create WU and result records as needed to maintain a pool of work
 // (for testing purposes).
@@ -59,6 +60,7 @@ using std::string;
 int max_wus = 0;
 int cushion = 300;
 bool one_pass = false;
+bool credit_from_wu = false;
 
 // edit a WU XML doc, replacing one filename by another
 // (should appear twice, within <file_info> and <file_ref>)
@@ -128,7 +130,7 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     sprintf(wu.name, "wu_%d_%d", start_time, wu_seqno++);
     wu.need_validate = false;
     wu.canonical_resultid = 0;
-    wu.canonical_credit = 0;
+    wu.canonical_credit = credit_from_wu?original_wu.canonical_credit:0;
     wu.hr_class = 0;
     wu.transition_time = time(0);
     wu.error_mask = 0;
@@ -326,6 +328,8 @@ int main(int argc, char** argv) {
             max_wus = atoi(argv[i]);
         } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
+        } else if (is_arg(argv[i], "credit_from_wu")) {
+            credit_from_wu = true;
         } else if (is_arg(argv[1], "h") || is_arg(argv[1], "help")) {
             usage(argv[0]);
             exit(0);
@@ -355,5 +359,3 @@ int main(int argc, char** argv) {
     srand48(getpid() + time(0));
     make_work(wu_names);
 }
-
-const char *BOINC_RCSID_d24265dc7f = "$Id$";

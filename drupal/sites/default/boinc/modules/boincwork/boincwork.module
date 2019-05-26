@@ -13,6 +13,7 @@
 
 require_once('includes/boincwork.forms.inc');
 require_once('includes/boincwork.helpers.inc');
+require_once('includes/boincwork.rules.inc');
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -287,6 +288,18 @@ function boincwork_privatemsg_message_view_alter(&$vars) {
         'query' => 'destination=messages/view/' . $thread_id,
       );
     }
+  }
+}
+
+/**
+ * Implementation of hook_cron()
+ */
+function boincwork_cron() {
+  // Delete expired hosts in the BOINC database, host_delete table.
+  require_boinc('boinc_db');
+  $num_deleted = BoincHostDeleted::delete_expired();
+  if ($num_deleted>0) {
+    watchdog('boincwork', "Deleted ${num_deleted} hosts from host_deleted table", WATCHDOG_NOTICE);
   }
 }
 
@@ -1041,8 +1054,30 @@ function boincwork_get_output() {
  * Get the project configuration XML; used by client software
  */
 function boincwork_get_project_config() {
+  ob_start();
   include_boinc('user/get_project_config.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+
+  // obtain Drupal variables
+  $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
+  $overrideboinctou = variable_get('boinc_weboptions_overrideboinctou', FALSE);
+
+  // If terms of use string exists and override is true, set terms-of-use
+  // to Drupal varaible.
+  if ( (!empty($termsofuse) && ($overrideboinctou)) ) {
+    if (!empty($xml['project_config']['terms_of_use'])) {
+      // Remove any existing terms of use
+      unset($xml['project_config']['terms_of_use']);
+    }
+
+    // Add terms of use from Drupal
+    $xml['project_config']['terms_of_use']['@value'] = $termsofuse;
+  }
+
+  print save_configuration($xml);
 }
+
 
 /**
  * Page callback for the remote job submission RPC (submit_rpc_handler.php).

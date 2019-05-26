@@ -99,12 +99,14 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     return 0;
 }
 
+// clear app- and project-level counters to enforce max concurrent limits
+//
 void max_concurrent_init() {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        gstate.apps[i]->n_concurrent = 0;
+        gstate.apps[i]->app_n_concurrent = 0;
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        gstate.projects[i]->n_concurrent = 0;
+        gstate.projects[i]->proj_n_concurrent = 0;
     }
 }
 
@@ -115,7 +117,6 @@ void max_concurrent_init() {
 //
 static void clear_app_config(PROJECT* p) {
     p->app_configs.clear();
-    p->report_results_immediately = false;
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;
@@ -133,13 +134,15 @@ static void print_msgs(vector<string> msgs, PROJECT* p) {
 // check for app_config.xml files, and parse them.
 // Called at startup and on read_cc_config() RPC
 //
-void check_app_config() {
+void check_app_config(const char* prefix) {
     char path[MAXPATHLEN];
     FILE* f;
 
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        sprintf(path, "%s/%s", p->project_dir(), APP_CONFIG_FILE_NAME);
+        snprintf(path, sizeof(path), "%s%s/%s",
+            prefix, p->project_dir(), APP_CONFIG_FILE_NAME
+        );
         f = boinc_fopen(path, "r");
         if (!f) {
             clear_app_config(p);
@@ -157,5 +160,25 @@ void check_app_config() {
             }
         }
         fclose(f);
+    }
+}
+
+void show_app_config() {
+    if (!have_max_concurrent) return;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->app_configs.project_max_concurrent) {
+            msg_printf(p, MSG_INFO,
+                "Max %d concurrent jobs", p->app_configs.project_max_concurrent
+            );
+        }
+    }
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->max_concurrent) {
+            msg_printf(app->project, MSG_INFO,
+                "%s: Max %d concurrent jobs", app->name, app->max_concurrent
+            );
+        }
     }
 }

@@ -70,7 +70,7 @@ if ($content && $title && (!$preview)){
         if ($thread) {
             header('Location: forum_thread.php?id=' . $thread->id);
         } else {
-            error_page("Can't create thread");
+            error_page("Can't create thread.  $forum_error");
         }
     }
 }

@@ -1,0 +1,35 @@
+CTools' form tool is a replacement for drupal_get_form() that includes some additional functionality:
+<ul>
+<li> It takes $form_state as an argument, which is accepted as a reference; meaning when the form is complete, you can examine the $form_state to see what the form did.</li>
+<li> It can handle $_GET as an input source, or the input can be provided from some other source.</li>
+<li> It can be told not to render or not to redirect, which can be important during AJAX operations.</li>
+<li> It can provide a special 'wrapper' form which is used by the wizard tool to provide a standard set of buttons to a form.</li>
+</ul>
+
+Usage:
+
+<pre>
+ctools_include('form');
+$output = ctools_build_form($form_id, $form_state);
+</pre>
+
+Previously, arguments to the form builder were passed into drupal_get_form; this is no longer true. You have two options for passing arguments to the form with ctools_build_form: set $form_state['args'] to an array which will then be passed to the builder as before. Or simply set $form_state values and refer to them in the builder. 
+
+<h3>Values you can set on $form_state</h3>
+
+<dl>
+<dt>no_redirect</dt>
+<dd>If set to TRUE, completely disables redirecting, no matter what $form_state['redirect'] has been set to.</dd>
+<dt>rerender</dt>
+<dd>Defaults to TRUE. If set, the form will be rerendered after submit if not redirected. If set to FALSE the form will not be rerendered after submit and $output will be NULL.</dd>
+<dt>method</dt>
+<dd>Defaults to 'post'. May be set to 'get'. If 'get' is in use, form ids and tokens will not be used, and all get forms will automatically be assumed to be submitted. Beware as this can have unexpected effects on default values as fapi doesn't quite know how to handle this state.</dd>
+<dt>input</dt>
+<dd>Defaults to $_POST. If using 'get' you should set this to $_GET.</dd>
+<dt>wrapper callback</dt>
+<dd>If this is set to a function name, the form will be 'wrapped' in another form. This changes how the builder callback work! First, $form is set to a blank array. Then the wrapper callback is called with &$form and &$form_state as arguments. Then the form builder is called with &$form and &$form_state as arguments. No other arguments are given.</dd>
+<dt>args</dt>
+<dd>An array of arguments that will be passed to the form builder callback just as though they were passed as arguments to drupal_get_form().</dd>
+<dt>want form</dt>
+<dd>Defaults to FALSE. If set, instead of rendering, the return value will be the $form array. It can then be rendered via drupal_render() normally. This is particularly useful for AJAX operations that may need to process a form and then only render a part of it.</dd>
+</dl>

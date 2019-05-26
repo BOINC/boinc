@@ -381,6 +381,7 @@
     <ClCompile Include="..\lib\url.cpp" />
     <ClCompile Include="..\lib\util.cpp" />
     <ClCompile Include="..\lib\win_util.cpp" />
+    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\base64.h" />
@@ -410,6 +411,7 @@
     <ClInclude Include="..\lib\url.h" />
     <ClInclude Include="..\lib\util.h" />
     <ClInclude Include="..\lib\win_util.h" />
+    <ClInclude Include="..\lib\wslinfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\clientscr\res\boinc.bmp" />

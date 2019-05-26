@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -103,8 +103,20 @@ void boinc_checkpoint_completed_() {
     boinc_checkpoint_completed();
 }
 
+void boinc_begin_critical_section_() {
+    boinc_begin_critical_section();
+}
+
+void boinc_end_critical_section_() {
+    boinc_end_critical_section();
+}
+
 void boinc_fraction_done_(double* d) {
     boinc_fraction_done(*d);
+}
+
+void boinc_get_fraction_done_(double* d) {
+    *d = boinc_get_fraction_done();
 }
 
 void boinc_wu_cpu_time_(double* d_out) {
@@ -130,5 +142,3 @@ void boinc_zip_(int* zipmode, const char* zipfile,
 #endif
 
 }   // extern "C"
-
-const char *BOINC_RCSID_4f5153609c = "$Id$";

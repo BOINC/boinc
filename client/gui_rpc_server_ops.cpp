@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -377,7 +377,7 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-// On Android, get product name, OS name, OS version, and MAC addr from GUI,
+// On Android, get product name, OS name, OS version, domain name (device name), and MAC addr from GUI,
 //
 static void handle_set_host_info(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
@@ -408,6 +408,12 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
                     safe_strcat(gstate.host_info.os_version, ")");
                 }
             }
+
+            // Device name
+            if (strlen(hi.domain_name)) {
+                safe_strcpy(gstate.host_info.domain_name, hi.domain_name);
+            }
+
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");
             return;
@@ -874,9 +880,46 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         }
     }
 
+	// remove http(s):// at the beginning of project address
+	// there is no reason to connect to secure address project
+	// if we're already connected to the non-secure address
+	// or vice versa
+	// also clear last '/' character if present
+
+	const string http = "http://";
+	const string https = "https://";
+
+	string new_project_url = url;
+	size_t pos = new_project_url.find(http);
+	if (pos != string::npos) {
+		new_project_url.erase(pos, http.length());
+	}
+	else if ((pos = new_project_url.find(https)) != string::npos) {
+		new_project_url.erase(pos, https.length());
+	}
+	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+		new_project_url.erase(new_project_url.length() - 1, 1);
+	}
+
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (url == p->master_url) already_attached = true;
+		string project_url = p->master_url;
+
+		pos = project_url.find(http);
+		if (pos != string::npos) {
+			project_url.erase(pos, http.length());
+		}
+		else if ((pos = project_url.find(https)) != string::npos) {
+			project_url.erase(pos, https.length());
+		}
+		if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+			project_url.erase(project_url.length() - 1, 1);
+		}
+
+		if (new_project_url == project_url) {
+			already_attached = true;
+			break;
+		}
     }
 
     if (already_attached) {
@@ -1030,7 +1073,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        cc_config.client_download_url.c_str()
+        nvc_config.client_download_url.c_str()
     );
 }
 

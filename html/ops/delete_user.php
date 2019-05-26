@@ -22,7 +22,7 @@
 // effectively delete the user with given ID
 // USE THIS WITH EXTREME CAUTION.  CAN'T UNDO.
 
-require_once("../inc/user.inc");
+require_once("../inc/delete_account.inc");
 require_once("../inc/boinc_db.inc");
 
 die("Delete this line first\n");
@@ -32,6 +32,11 @@ $id = (int) $argv[1];
 $user = BoincUser::lookup_id($id);
 if (!$user) die("no such user\n");
 
-delete_account($user);
+$retval = delete_account($user);
+if ($retval) {
+    echo "Failed to delete user: $retval\n";
+} else {
+    echo "User deleted\n";
+}
 
 ?>

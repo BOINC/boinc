@@ -1,357 +1,356 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Yükleniyor! Lütfen bekleyin...</string>
-  <string name="generic_button_continue">Devam</string>
-  <string name="generic_button_finish">Bitir</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">Katkıda bulunmak istediğiniz bilimsel projeleri seçin</string>
-  <string name="attachproject_list_header">Bir proje seçin:</string>
-  <string name="attachproject_list_manual_button">Adres ile proje ekle</string>
-  <string name="attachproject_list_manual_dialog_title">Proje adresini girin:</string>
-  <string name="attachproject_list_manual_dialog_button">Proje ekle</string>
-  <string name="attachproject_list_manual_no_url">Lütfen proje adresini girin</string>
-  <string name="attachproject_list_acctmgr_button">Hesap Yöneticisi ekle</string>
-  <string name="attachproject_list_no_internet">İnternet bağlantısı yok</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Hesap bilgilerini girin</string>
-  <string name="attachproject_credential_input_desc">Seçilen proje için hesap bilgilerini girin</string>
-  <string name="attachproject_credential_input_show_pwd">Şifreyi göster</string>
-  <string name="attachproject_individual_credential_input">Bireysel proje ekle</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Bilimsel projelere eklenirken sorunlar oluştu:</string>
-  <string name="attachproject_conflict_undefined">Bağlantı kurulamadı</string>
-  <string name="attachproject_conflict_not_unique">Hesap farklı bir şifreyle mevcut</string>
-  <string name="attachproject_conflict_bad_password">Şifre hatalı</string>
-  <string name="attachproject_conflict_unknown_user">Hesap yok</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap yok, kayıt için proje web sitesini ziyaret edin</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">Ekleniyor</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">İpucu</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">Nasıl katkı sağlanır:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Kablosuz Ağa Bağlan</string>
-  <string name="attachproject_hint_contribtion_charger">2. Şarja Cihazını Takın</string>
-  <string name="attachproject_hint_contribtion_screen">3. Ekranı Kapat</string>
-  <string name="attachproject_hint_projectwebsite_header">Proje web sitelerine git:</string>
-  <string name="attachproject_hint_projectwebsite_science">Bilim hakkında daha fazlasını öğren</string>
-  <string name="attachproject_hint_projectwebsite_stats">Katkı istatistiklerini gör</string>
-  <string name="attachproject_hint_projectwebsite_community">Diğer gönüllülerle bağlantıya geç</string>
-  <string name="attachproject_hint_platforms_header">BOINC bilgisayarınız  için kullanılabilir, daha fazla bilgi için boinc.berkeley.edu adresini ziyaret edin.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">Proje sunucusuna bağlanılıyor...</string>
-  <string name="attachproject_login_image_description">Proje logosu.</string>
-  <string name="attachproject_login_header_general_area">Genel alan:</string>
-  <string name="attachproject_login_header_specific_area">Özel alan:</string>
-  <string name="attachproject_login_header_description">Tanım:</string>
-  <string name="attachproject_login_header_home">Anasayfa:</string>
-  <string name="attachproject_login_header_url">Site:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Bu proje Android cihazlarını destekliyor</string>
-  <string name="attachproject_login_platform_not_supported">Bu proje Android cihazlarını desteklemiyor</string>
-  <string name="attachproject_login_category_terms_of_use">Kural ve politikalar: </string>
-  <string name="attachproject_login_accept_terms_of_use">Bu projede bir hesap oluşturmakla, aşağıdaki kural ve politikaları kabul etmiş oluyorsunuz.</string>
-  <string name="attachproject_login_category_login">Mevcut hesap ile oturum aç</string>
-  <string name="attachproject_login_header_id_email">ePosta:</string>
-  <string name="attachproject_login_header_id_name">İsim:</string>
-  <string name="attachproject_login_header_pwd">Parola:</string>
-  <string name="attachproject_login_category_creation">Bu projede yeni misiniz:</string>
-  <string name="attachproject_login_header_creation_enabled">Katılmak için bir hesap oluşturun:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Hesap oluşturmak için proje sitesini ziyaret edin:</string>
-  <string name="attachproject_login_header_creation_disabled">Bu proje şu anda yeni hesapları kabul etmiyor.</string>
-  <string name="attachproject_login_button_registration">Kayıt ol</string>
-  <string name="attachproject_login_button_login">Giriş yap</string>
-  <string name="attachproject_login_button_forgotpw">Parolamı unuttum</string>
-  <string name="attachproject_login_error_toast">Projeyle bağlantı kurulamadı!</string>
-  <string name="attachproject_login_attached">Eklendi</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">Hesaba kaydolma: </string>
-  <string name="attachproject_registration_header_url">Proje:</string>
-  <string name="attachproject_registration_header_email">ePosta:</string>
-  <string name="attachproject_registration_header_username">İsim:</string>
-  <string name="attachproject_registration_header_teamname">Takım:</string>
-  <string name="attachproject_registration_header_pwd">Parola:</string>
-  <string name="attachproject_registration_header_pwd_confirm">Yeniden yazın:</string>
-  <string name="attachproject_registration_button">Oluştur</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Proje eklemek ya da yönetmek için BOINC hesap yöneticisini kullan</string>
-  <string name="attachproject_acctmgr_header">Hesap Yöneticisi ekle</string>
-  <string name="attachproject_acctmgr_header_url">Adres</string>
-  <string name="attachproject_acctmgr_header_name">Kullanıcı:</string>
-  <string name="attachproject_acctmgr_header_pwd">Parola:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">Yeniden yazın:</string>
-  <string name="attachproject_acctmgr_button">Ekle</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">Kullanıcı bulunamadı</string>
-  <string name="attachproject_error_short_pwd">Parola çok kısa</string>
-  <string name="attachproject_error_no_internet">Bağlantı başarısız</string>
-  <string name="attachproject_error_pwd_no_match">Yazdığınız parolalar aynı değil</string>
-  <string name="attachproject_error_pwd_no_retype">Lütfen şifreyi tekrar yazın</string>
-  <string name="attachproject_error_no_url">Lütfen adresi yazın</string>
-  <string name="attachproject_error_no_email">Lütfen ePosta adresinizi yazın</string>
-  <string name="attachproject_error_no_pwd">Lütfen bir parola yazın</string>
-  <string name="attachproject_error_no_name">Lütfen kullanıcı adınızı yazın</string>
-  <string name="attachproject_error_unknown">başarısız</string>
-  <string name="attachproject_error_bad_username">Kullanıcı adı kabul edilmedi</string>
-  <string name="attachproject_error_email_in_use">ePosta zaten kullanımda</string>
-  <string name="attachproject_error_project_down">Proje çevrimdışı</string>
-  <string name="attachproject_error_email_bad_syntax">ePosta kabul edilmedi</string>
-  <string name="attachproject_error_bad_pwd">Parola kabul edilmedi</string>
-  <string name="attachproject_error_creation_disabled">Hesap oluşturma bu projede devre dışı</string>
-  <string name="attachproject_error_invalid_url">Geçersiz adres</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Geri</string>
-  <string name="attachproject_working_finish_button">Tamamla</string>
-  <string name="attachproject_working_check_desc">Başarılı</string>
-  <string name="attachproject_working_failed_desc">Başarısız</string>
-  <string name="attachproject_working_ongoing">...</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Bağlan</string>
-  <string name="attachproject_working_verify">Hesabı doğrula</string>
-  <string name="attachproject_working_register">Hesap oluştur</string>
-  <string name="attachproject_working_login">Giriş yap</string>
-  <string name="attachproject_working_acctmgr">Hesap yöneticisi ekle</string>
-  <string name="attachproject_working_acctmgr_sync">Eşitle</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Proje seçmek için buraya dokunun.</string>
-  <string name="main_error">Haydaaa</string>
-  <string name="main_error_long">... bu olmamalıydı!\nYeniden denemek için simgeye dokunun.</string>
-  <string name="main_title_icon_desc">BOINC simgesi</string>
-  <!--tab names-->
-  <string name="tab_status">Durum</string>
-  <string name="tab_projects">Projeler</string>
-  <string name="tab_tasks">İşler</string>
-  <string name="tab_transfers">Aktarımlar</string>
-  <string name="tab_preferences">Tercihler</string>
-  <string name="tab_notices">Bildirimler</string>
-  <string name="tab_desc">Gezinti</string>
-  <!--status strings-->
-  <string name="status_running">Hesaplıyor</string>
-  <string name="status_running_long">Katıldığınız için teşekkürler.</string>
-  <string name="status_paused">Beklemede</string>
-  <string name="status_idle">Yapacak bir görev yok</string>
-  <string name="status_idle_long">İşler için bekleniyor...</string>
-  <string name="status_computing_disabled">Beklemede</string>
-  <string name="status_computing_disabled_long">Hesaplama ve ağı sürdürmek için oynata dokunun.</string>
-  <string name="status_launching">Başlıyor...</string>
-  <string name="status_noproject">Katılmak için bir proje seçin.</string>
-  <string name="status_closing">Kapanıyor...</string>
-  <string name="status_benchmarking">Test ediliyor...</string>
-  <string name="status_image_description">proje resmi</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">Tercihler okunuyor...</string>
-  <string name="prefs_submit_button">Kaydet</string>
-  <string name="prefs_dialog_title">Yeni değeri girin:</string>
-  <string name="prefs_dialog_title_selection">Seçin:</string>
-  <string name="prefs_category_general">Genel</string>
-  <string name="prefs_category_network">Ağ</string>
-  <string name="prefs_category_power">Güç</string>
-  <string name="prefs_category_cpu">CPU</string>
-  <string name="prefs_category_storage">Depolama</string>
-  <string name="prefs_category_memory">Bellek</string>
-  <string name="prefs_category_debug">Hata kaydı</string>
-  <string name="prefs_show_advanced_header">Gelişmiş tercihler ve kontrolleri görüntüle...</string>
-  <string name="prefs_suspend_when_screen_on">Ekran açıkken hesaplamayı duraklat</string>
-  <string name="prefs_stationary_device_mode_header">Sabit cihaz modu</string>
-  <string name="prefs_stationary_device_mode_description">Güç tercihlerinin hesaplanmasına izin verir. Cihazın pili yoksa etkinleştirin.</string>
-  <string name="prefs_power_source_header">Hesaplama için güç kaynakları</string>
-  <string name="prefs_power_source_description">BOINC hesaplama için kullanmasına izin verilen güç kaynakları seçer.</string>
-  <string name="prefs_power_source_ac">Duvar soketi</string>
-  <string name="prefs_power_source_usb">USB bağlantı</string>
-  <string name="prefs_power_source_wireless">Kablosuz Şarj Edici</string>
-  <string name="prefs_power_source_battery">Pil</string>
-  <string name="battery_charge_min_pct_header">En az pil seviyesi</string>
-  <string name="battery_charge_min_pct_description">BOINC, pil seviyesi bu değerin altına düşerse hesaplamayı duraklatır.</string>
-  <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
-  <string name="battery_temperature_max_description">BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu değeri değiştirmeniz önerilmez.</string>
-  <string name="prefs_disk_max_pct_header">En çok depolama alanı kullanımı</string>
-  <string name="prefs_disk_max_pct_description">BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını kullanabilecek?</string>
-  <string name="prefs_disk_min_free_gb_header">En az boş depolama alanı</string>
-  <string name="prefs_disk_min_free_gb_description">Cihazınızda en az ne kadar depolama alanı boş bırakılacak?</string>
-  <string name="prefs_disk_access_interval_header">Erişim zaman aralığı</string>
-  <string name="prefs_disk_access_interval_description">Disk erişimleri arasında bir aralık önerir</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Günlük aktarım kotası</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">BOINC\'in günlük internet kullanım kotası.</string>
-  <string name="prefs_network_wifi_only_header">İşleri yalnızca WiFi\'dayken aktar</string>
-  <string name="prefs_autostart_header">Cihaz açılınca otomatik başla</string>
-  <string name="prefs_show_notification_notices_header">Yeni bildirimler için uyarı göster</string>
-  <string name="prefs_show_notification_suspended_header">Askıya alındığında bildirim göster</string>
-  <string name="prefs_cpu_number_cpus_header">Kullanılacak CPU çekirdekleri</string>
-  <string name="prefs_cpu_number_cpus_description">BOINC\'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı.</string>
-  <string name="prefs_cpu_other_load_suspension_header">CPU kullanımı fazlaysa duraklat</string>
-  <string name="prefs_cpu_other_load_suspension_description">BOINC nedeniyle diğer uygulamaların CPU kullanımı için hesaplama duraklama zamanını belirler.</string>
-  <string name="prefs_cpu_time_max_header">CPU sınırı</string>
-  <string name="prefs_cpu_time_max_description">BOINC\'in hesaplama için kullanabileceği CPU gücü.</string>
-  <string name="prefs_memory_max_idle_header">Bellek limiti</string>
-  <string name="prefs_memory_max_idle_description">İşlerin kullanabileceği en fazla bellek (RAM) miktarı.</string>
-  <string name="prefs_client_log_flags_header">BOINC istemci günlüğü bayrakları</string>
-  <string name="prefs_gui_log_level_header">GUI günlük seviyesi</string>
-  <string name="prefs_gui_log_level_description">Grafik arabirimi (GUI) günlüğü mesaj ayrıntı düzeyi.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">sn</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">Projeler okunuyor...</string>
-  <string name="projects_add">Proje ekle</string>
-  <string name="projects_icon">Proje simgesi</string>
-  <string name="projects_credits">Kredi:</string>
-  <string name="projects_credits_host_and_user">%1$,d (bu cihazda) %2$,d (toplam)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">Kullanıcı tarafından duraklatıldı</string>
-  <string name="projects_status_dontrequestmorework">Yeni işler indirilmeyecek</string>
-  <string name="projects_status_ended">Proje sona erdi - Kaldırmak için Tamam\'a dokunun</string>
-  <string name="projects_status_detachwhendone">İşler tamamlandığında kaldırılacak</string>
-  <string name="projects_status_schedrpcpending">Zamanlanmış istek kuyrukta</string>
-  <string name="projects_status_schedrpcinprogress">Zamanlanmış istek gerçekleştiriliyor</string>
-  <string name="projects_status_trickleuppending">İş ilerleme mesajı kuyrukta</string>
-  <string name="projects_status_backoff">İletişim ertelendi:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">Proje komutları:</string>
-  <string name="projects_control_visit_website">Sitesine git</string>
-  <string name="projects_control_update">Güncelle</string>
-  <string name="projects_control_remove">Kaldır</string>
-  <string name="projects_control_suspend">Duraklat</string>
-  <string name="projects_control_resume">Sürdür</string>
-  <string name="projects_control_nonewtasks">Yeni işler indirme</string>
-  <string name="projects_control_allownewtasks">Yeni işler indir</string>
-  <string name="projects_control_reset">Sıfırla</string>
-  <string name="projects_control_dialog_title_acctmgr">Hesap Yöneticisi komutları:</string>
-  <string name="projects_control_sync_acctmgr">Eşitle</string>
-  <string name="projects_control_remove_acctmgr">Devredışı bırak</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
-  <string name="projects_confirm_detach_message">Kaldırmak istediğinizden emin misiniz?</string>
-  <string name="projects_confirm_detach_message2">BOINC\'ten? </string>
-  <string name="projects_confirm_detach_confirm">Kaldır</string>
-  <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
-  <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Sıfırla</string>
-  <string name="projects_confirm_remove_acctmgr_title">Hesap Yöneticisini devredışı bırak</string>
-  <string name="projects_confirm_remove_acctmgr_message">Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">Devredışı bırak</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">İş adı:</string>
-  <string name="tasks_header_elapsed_time">Geçen süre:</string>
-  <string name="tasks_header_project_paused">(beklemede)</string>
-  <string name="tasks_header_deadline">Son teslim zamanı:</string>
-  <string name="tasks_result_new">yeni</string>
-  <string name="tasks_result_files_downloading">indirilmeyi bekliyor</string>
-  <string name="tasks_result_files_downloaded">indirme tamamlandı</string>
-  <string name="tasks_result_compute_error">hesaplama hatası</string>
-  <string name="tasks_result_files_uploading">gönderiliyor</string>
-  <string name="tasks_result_files_uploaded">gönderme tamamlandı</string>
-  <string name="tasks_result_aborted">iptal edildi</string>
-  <string name="tasks_result_upload_failed">gönderme başarısız</string>
-  <string name="tasks_active_uninitialized">başlamaya hazır</string>
-  <string name="tasks_active_executing">çalışıyor</string>
-  <string name="tasks_active_suspended">durakladı</string>
-  <string name="tasks_active_abort_pending">durduruluyor</string>
-  <string name="tasks_active_quit_pending">durduruluyor</string>
-  <string name="tasks_custom_suspended_via_gui">durakladı</string>
-  <string name="tasks_custom_project_suspended_via_gui">proje duraklatıldı</string>
-  <string name="tasks_custom_ready_to_report">raporlanmaya hazır</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">İş iptal edilsin mi?</string>
-  <string name="confirm_abort_task_message">Bu iş iptal edilsin :</string>
-  <string name="confirm_abort_task_confirm">İptal</string>
-  <string name="confirm_cancel">Vazgeç</string>
-  <string name="confirm_image_desc">Onaylama sorusu</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">Aktarımlar okunuyor...</string>
-  <string name="trans_upload">Yükleme</string>
-  <string name="trans_download">İndirme</string>
-  <string name="trans_retryin">yeniden denenecek </string>
-  <string name="trans_failed">başarısız</string>
-  <string name="trans_suspended">durakladı</string>
-  <string name="trans_active">sürüyor</string>
-  <string name="trans_pending">kuyrukta</string>
-  <string name="trans_projectbackoff">proje ertelendi</string>
-  <string name="trans_header_name">Dosya:</string>
-  <string name="trans_control_retry">Aktarımları yeniden dene</string>
-  <string name="confirm_abort_trans_title">Aktarım iptal edilsin mi?</string>
-  <string name="confirm_abort_trans_message">Bu dosyanın aktarımı iptal edilsin mi:</string>
-  <string name="confirm_abort_trans_confirm">Evet</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Bildirimler alınıyor...</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">Günlük mesajları yükleniyor...</string>
-  <string name="eventlog_client_header">İstemci Mesajları</string>
-  <string name="eventlog_gui_header">GUI Mesajları</string>
-  <string name="eventlog_copy_toast">Günlük mesajları panoya kopyalandı.</string>
-  <string name="eventlog_email_subject">BONIC Android olay günlüğü:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">Hesaplama durakladı.</string>
-  <string name="suspend_batteries">Hesaplamayı sürdürmek için cihazınızı şarja takın.</string>
-  <string name="suspend_screen_on">Hesaplamaya devam etmek için ekranı kapat.</string>
-  <string name="suspend_useractive">Kullanıcı faal.</string>
-  <string name="suspend_tod">Hesaplama zaman sınırlaması dışında.</string>
-  <string name="suspend_bm">BOINC cihazınızı test ediyor...</string>
-  <string name="suspend_disksize">Depolama alanı yetersiz.</string>
-  <string name="suspend_cputhrottle">Zamanlanmış CPU sınırlaması.</string>
-  <string name="suspend_noinput">Yakın zamanda kullanıcı faaaliyeti yok.</string>
-  <string name="suspend_delay">Başlatma geciktirmesi.</string>
-  <string name="suspend_exclusiveapp">Ayrıcalıklı bir uygulama çalışıyor.</string>
-  <string name="suspend_cpu">Cihazınız diğer uygulamalarla meşgul.</string>
-  <string name="suspend_network_quota">BOINC, internet kullanım kotasına ulaştı.</string>
-  <string name="suspend_os">Android tarafından durduruldu.</string>
-  <string name="suspend_wifi">WiFi\'a bağlı değil.</string>
-  <string name="suspend_battery_charging">Pilin şarj olması bekleniyor.</string>
-  <string name="suspend_battery_charging_long">Hesaplama, pil seviyesi şuna ulaştğında başlayacak:</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">şu anda</string>
-  <string name="suspend_battery_overheating">Pilin soğuması bekleniyor</string>
-  <string name="suspend_user_req">Hesaplama sürdürülüyor...</string>
-  <string name="suspend_network_user_req">elle.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">Kullanıcı tarafından istendi</string>
-  <string name="rpcreason_needwork">İş indirmek için</string>
-  <string name="rpcreason_resultsdue">Tamamlanan işleri raporlamak için</string>
-  <string name="rpcreason_trickleup">İş ilerleme mesajı gönderimi için</string>
-  <string name="rpcreason_acctmgrreq">Hesap yöneticisi tarafından istendi</string>
-  <string name="rpcreason_init">Proje başlatılıyor</string>
-  <string name="rpcreason_projectreq">Proje tarafından istendi</string>
-  <string name="rpcreason_unknown">Bilinmeyen sebep</string>
-  <!--menu-->
-  <string name="menu_refresh">Yenile</string>
-  <string name="menu_emailto">ePostayla gönder</string>
-  <string name="menu_copy">Panoya kopyala</string>
-  <string name="menu_eventlog">Olay Günlüğü</string>
-  <string name="menu_exit">BOINC\'ten Çık</string>
-  <string name="menu_run_mode_disable">Duraklat</string>
-  <string name="menu_run_mode_enable">Sürdür</string>
-  <string name="menu_about">Hakkında</string>
-  <string name="menu_help">Yardım</string>
-  <!--about dialog-->
-  <string name="about_button">Geri dön</string>
-  <string name="about_title">Hakkında</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">Sürüm</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2017 Kaliforniya Üniversitesi, Berkeley.</string>
-  <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
-  <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM  ve HTC şirketlerine teşekkürler.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="one">Yeni bildirim - %1$s</item>
-    <item quantity="other">%2$,d yeni bildirim</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">Gönüllü hesaplama uygulaması tespit edildi.</string>
-  <string name="nonexcl_dialog_text">Bu cihazda başka bir gönüllü hesaplama uygulaması çalışıyor. Aynı anda sadece bir versiyon çalışabilir.</string>
-  <string name="nonexcl_dialog_exit">Çıkış</string>
-  <!--social integration-->
-  <string name="social_invite_button">Arkadaşlarını davet et</string>
-  <string name="social_invite_intent_title">Nasıl paylaşmak istiyorsunuz?</string>
-  <string name="social_invite_content_title">Akıllı telefonumdan bilim yapıyorum!</string>
-  <string name="social_invite_content_body">Bilim adına hesaplama yapmak için %1$s mı kullanıyorum. Sende katılabilirsin! Uygulamayı %2$s dan indirebilirsin.</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">Yükleniyor! Lütfen bekleyin...</string>
+    <string name="generic_button_continue">Devam</string>
+    <string name="generic_button_finish">Bitir</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">Katkıda bulunmak istediğiniz bilimsel projeleri seçin</string>
+    <string name="attachproject_list_header">Bir proje seçin:</string>
+    <string name="attachproject_list_manual_button">Adres ile proje ekle</string>
+    <string name="attachproject_list_manual_dialog_title">Proje adresini girin:</string>
+    <string name="attachproject_list_manual_dialog_button">Proje ekle</string>
+    <string name="attachproject_list_manual_no_url">Lütfen proje adresini girin</string>
+    <string name="attachproject_list_acctmgr_button">Hesap Yöneticisi ekle</string>
+    <string name="attachproject_list_no_internet">İnternet bağlantısı yok</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">Hesap bilgilerini girin</string>
+    <string name="attachproject_credential_input_desc">Seçilen proje için hesap bilgilerini girin</string>
+    <string name="attachproject_credential_input_show_pwd">Şifreyi göster</string>
+    <string name="attachproject_individual_credential_input">Bireysel proje ekle</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">Bilimsel projelere eklenirken sorunlar oluştu:</string>
+    <string name="attachproject_conflict_undefined">Bağlantı kurulamadı</string>
+    <string name="attachproject_conflict_not_unique">Hesap farklı bir şifreyle mevcut</string>
+    <string name="attachproject_conflict_bad_password">Şifre hatalı</string>
+    <string name="attachproject_conflict_unknown_user">Hesap yok</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap yok, kayıt için proje web sitesini ziyaret edin</string>
+    <!--working-->
+    <string name="attachproject_working_attaching">Ekleniyor</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">İpucu</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">Nasıl katkı sağlanır:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. Kablosuz Ağa Bağlan</string>
+    <string name="attachproject_hint_contribtion_charger">2. Şarja Cihazını Takın</string>
+    <string name="attachproject_hint_contribtion_screen">3. Ekranı Kapat</string>
+    <string name="attachproject_hint_projectwebsite_header">Proje web sitelerine git:</string>
+    <string name="attachproject_hint_projectwebsite_science">Bilim hakkında daha fazlasını öğren</string>
+    <string name="attachproject_hint_projectwebsite_stats">Katkı istatistiklerini gör</string>
+    <string name="attachproject_hint_projectwebsite_community">Diğer gönüllülerle bağlantıya geç</string>
+    <string name="attachproject_hint_platforms_header">BOINC bilgisayarınız için kullanılabilir, daha fazla bilgi için boinc.berkeley.edu adresini ziyaret edin.</string>
+    <!--project login-->
+    <string name="attachproject_login_loading">Proje sunucusuna bağlanılıyor...</string>
+    <string name="attachproject_login_image_description">Proje logosu.</string>
+    <string name="attachproject_login_header_general_area">Genel alan:</string>
+    <string name="attachproject_login_header_specific_area">Özel alan:</string>
+    <string name="attachproject_login_header_description">Tanım:</string>
+    <string name="attachproject_login_header_home">Anasayfa:</string>
+    <string name="attachproject_login_header_url">Site:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">Bu proje Android cihazlarını destekliyor</string>
+    <string name="attachproject_login_platform_not_supported">Bu proje Android cihazlarını desteklemiyor</string>
+    <string name="attachproject_login_category_terms_of_use">Kural ve politikalar:</string>
+    <string name="attachproject_login_accept_terms_of_use">Bu projede bir hesap oluşturmakla, aşağıdaki kural ve politikaları kabul etmiş oluyorsunuz.</string>
+    <string name="attachproject_login_category_login">Mevcut hesap ile oturum aç</string>
+    <string name="attachproject_login_header_id_email">ePosta:</string>
+    <string name="attachproject_login_header_id_name">İsim:</string>
+    <string name="attachproject_login_header_pwd">Parola:</string>
+    <string name="attachproject_login_category_creation">Bu projede yeni misiniz:</string>
+    <string name="attachproject_login_header_creation_enabled">Katılmak için bir hesap oluşturun:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Hesap oluşturmak için proje sitesini ziyaret edin:</string>
+    <string name="attachproject_login_header_creation_disabled">Bu proje şu anda yeni hesapları kabul etmiyor.</string>
+    <string name="attachproject_login_button_registration">Kayıt ol</string>
+    <string name="attachproject_login_button_login">Giriş yap</string>
+    <string name="attachproject_login_button_forgotpw">Parolamı unuttum</string>
+    <string name="attachproject_login_error_toast">Projeyle bağlantı kurulamadı!</string>
+    <string name="attachproject_login_attached">Eklendi</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">Hesaba kaydolma:</string>
+    <string name="attachproject_registration_header_url">Proje:</string>
+    <string name="attachproject_registration_header_email">ePosta:</string>
+    <string name="attachproject_registration_header_username">İsim:</string>
+    <string name="attachproject_registration_header_teamname">Takım:</string>
+    <string name="attachproject_registration_header_pwd">Parola:</string>
+    <string name="attachproject_registration_header_pwd_confirm">Yeniden yazın:</string>
+    <string name="attachproject_registration_button">Oluştur</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">Proje eklemek ya da yönetmek için BOINC hesap yöneticisini kullan</string>
+    <string name="attachproject_acctmgr_header">Hesap Yöneticisi ekle</string>
+    <string name="attachproject_acctmgr_header_url">Adres</string>
+    <string name="attachproject_acctmgr_header_name">Kullanıcı:</string>
+    <string name="attachproject_acctmgr_header_pwd">Parola:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">Yeniden yazın:</string>
+    <string name="attachproject_acctmgr_button">Ekle</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">Kullanıcı bulunamadı</string>
+    <string name="attachproject_error_short_pwd">Parola çok kısa</string>
+    <string name="attachproject_error_no_internet">Bağlantı başarısız</string>
+    <string name="attachproject_error_pwd_no_match">Yazdığınız parolalar aynı değil</string>
+    <string name="attachproject_error_pwd_no_retype">Lütfen şifreyi tekrar yazın</string>
+    <string name="attachproject_error_no_url">Lütfen adresi yazın</string>
+    <string name="attachproject_error_no_email">Lütfen ePosta adresinizi yazın</string>
+    <string name="attachproject_error_no_pwd">Lütfen bir parola yazın</string>
+    <string name="attachproject_error_no_name">Lütfen kullanıcı adınızı yazın</string>
+    <string name="attachproject_error_unknown">başarısız</string>
+    <string name="attachproject_error_bad_username">Kullanıcı adı kabul edilmedi</string>
+    <string name="attachproject_error_email_in_use">ePosta zaten kullanımda</string>
+    <string name="attachproject_error_project_down">Proje çevrimdışı</string>
+    <string name="attachproject_error_email_bad_syntax">ePosta kabul edilmedi</string>
+    <string name="attachproject_error_bad_pwd">Parola kabul edilmedi</string>
+    <string name="attachproject_error_creation_disabled">Hesap oluşturma bu projede devre dışı</string>
+    <string name="attachproject_error_invalid_url">Geçersiz adres</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">Geri</string>
+    <string name="attachproject_working_finish_button">Tamamla</string>
+    <string name="attachproject_working_check_desc">Başarılı</string>
+    <string name="attachproject_working_failed_desc">Başarısız</string>
+    <string name="attachproject_working_ongoing">...</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">Bağlan</string>
+    <string name="attachproject_working_verify">Hesabı doğrula</string>
+    <string name="attachproject_working_register">Hesap oluştur</string>
+    <string name="attachproject_working_login">Giriş yap</string>
+    <string name="attachproject_working_acctmgr">Hesap yöneticisi ekle</string>
+    <string name="attachproject_working_acctmgr_sync">Eşitle</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">Proje seçmek için buraya dokunun.</string>
+    <string name="main_error">Haydaaa</string>
+    <string name="main_error_long">... bu olmamalıydı!\nYeniden denemek için simgeye dokunun.</string>
+    <string name="main_title_icon_desc">BOINC simgesi</string>
+    <!--tab names-->
+    <string name="tab_status">Durum</string>
+    <string name="tab_projects">Projeler</string>
+    <string name="tab_tasks">İşler</string>
+    <string name="tab_transfers">Aktarımlar</string>
+    <string name="tab_preferences">Tercihler</string>
+    <string name="tab_notices">Bildirimler</string>
+    <string name="tab_desc">Gezinti</string>
+    <!--status strings-->
+    <string name="status_running">Hesaplıyor</string>
+    <string name="status_running_long">Katıldığınız için teşekkürler.</string>
+    <string name="status_paused">Beklemede</string>
+    <string name="status_idle">Yapacak bir görev yok</string>
+    <string name="status_idle_long">İşler için bekleniyor...</string>
+    <string name="status_computing_disabled">Beklemede</string>
+    <string name="status_computing_disabled_long">Hesaplama ve ağı sürdürmek için oynata dokunun.</string>
+    <string name="status_launching">Başlıyor...</string>
+    <string name="status_noproject">Katılmak için bir proje seçin.</string>
+    <string name="status_closing">Kapanıyor...</string>
+    <string name="status_benchmarking">Test ediliyor...</string>
+    <string name="status_image_description">proje resmi</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">Tercihler okunuyor...</string>
+    <string name="prefs_submit_button">Kaydet</string>
+    <string name="prefs_dialog_title">Yeni değeri girin:</string>
+    <string name="prefs_dialog_title_selection">Seçin:</string>
+    <string name="prefs_category_general">Genel</string>
+    <string name="prefs_category_network">Ağ</string>
+    <string name="prefs_category_power">Güç</string>
+    <string name="prefs_category_cpu">CPU</string>
+    <string name="prefs_category_storage">Depolama</string>
+    <string name="prefs_category_memory">Bellek</string>
+    <string name="prefs_category_debug">Hata kaydı</string>
+    <string name="prefs_show_advanced_header">Gelişmiş tercihler ve kontrolleri görüntüle...</string>
+    <string name="prefs_suspend_when_screen_on">Ekran açıkken hesaplamayı duraklat</string>
+    <string name="prefs_stationary_device_mode_header">Sabit cihaz modu</string>
+    <string name="prefs_stationary_device_mode_description">Güç tercihlerinin hesaplanmasına izin verir. Cihazın pili yoksa etkinleştirin.</string>
+    <string name="prefs_power_source_header">Hesaplama için güç kaynakları</string>
+    <string name="prefs_power_source_description">BOINC hesaplama için kullanmasına izin verilen güç kaynakları seçer.</string>
+    <string name="prefs_power_source_ac">Duvar soketi</string>
+    <string name="prefs_power_source_usb">USB bağlantı</string>
+    <string name="prefs_power_source_wireless">Kablosuz Şarj Edici</string>
+    <string name="prefs_power_source_battery">Pil</string>
+    <string name="battery_charge_min_pct_header">En az pil seviyesi</string>
+    <string name="battery_charge_min_pct_description">BOINC, pil seviyesi bu değerin altına düşerse hesaplamayı duraklatır.</string>
+    <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
+    <string name="battery_temperature_max_description">BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu değeri değiştirmeniz önerilmez.</string>
+    <string name="prefs_disk_max_pct_header">En çok depolama alanı kullanımı</string>
+    <string name="prefs_disk_max_pct_description">BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını kullanabilecek?</string>
+    <string name="prefs_disk_min_free_gb_header">En az boş depolama alanı</string>
+    <string name="prefs_disk_min_free_gb_description">Cihazınızda en az ne kadar depolama alanı boş bırakılacak?</string>
+    <string name="prefs_disk_access_interval_header">Erişim zaman aralığı</string>
+    <string name="prefs_disk_access_interval_description">Disk erişimleri arasında bir aralık önerir</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Günlük aktarım kotası</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">BOINC\'in günlük internet kullanım kotası.</string>
+    <string name="prefs_network_wifi_only_header">İşleri yalnızca WiFi\'dayken aktar</string>
+    <string name="prefs_autostart_header">Cihaz açılınca otomatik başla</string>
+    <string name="prefs_show_notification_notices_header">Yeni bildirimler için uyarı göster</string>
+    <string name="prefs_show_notification_suspended_header">Askıya alındığında bildirim göster</string>
+    <string name="prefs_cpu_number_cpus_header">Kullanılacak CPU çekirdekleri</string>
+    <string name="prefs_cpu_number_cpus_description">BOINC\'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı.</string>
+    <string name="prefs_cpu_other_load_suspension_header">CPU kullanımı fazlaysa duraklat</string>
+    <string name="prefs_cpu_other_load_suspension_description">BOINC nedeniyle diğer uygulamaların CPU kullanımı için hesaplama duraklama zamanını belirler.</string>
+    <string name="prefs_cpu_time_max_header">CPU sınırı</string>
+    <string name="prefs_cpu_time_max_description">BOINC\'in hesaplama için kullanabileceği CPU gücü.</string>
+    <string name="prefs_memory_max_idle_header">Bellek limiti</string>
+    <string name="prefs_memory_max_idle_description">İşlerin kullanabileceği en fazla bellek (RAM) miktarı.</string>
+    <string name="prefs_client_log_flags_header">BOINC istemci günlüğü bayrakları</string>
+    <string name="prefs_gui_log_level_header">GUI günlük seviyesi</string>
+    <string name="prefs_gui_log_level_description">Grafik arabirimi (GUI) günlüğü mesaj ayrıntı düzeyi.</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">sn</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">Projeler okunuyor...</string>
+    <string name="projects_add">Proje ekle</string>
+    <string name="projects_icon">Proje simgesi</string>
+    <string name="projects_credits">Kredi:</string>
+    <string name="projects_credits_host_and_user">%1$,d (bu cihazda) %2$,d (toplam)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">Kullanıcı tarafından duraklatıldı</string>
+    <string name="projects_status_dontrequestmorework">Yeni işler indirilmeyecek</string>
+    <string name="projects_status_ended">Proje sona erdi - Kaldırmak için Tamam\'a dokunun</string>
+    <string name="projects_status_detachwhendone">İşler tamamlandığında kaldırılacak</string>
+    <string name="projects_status_schedrpcpending">Zamanlanmış istek kuyrukta</string>
+    <string name="projects_status_schedrpcinprogress">Zamanlanmış istek gerçekleştiriliyor</string>
+    <string name="projects_status_trickleuppending">İş ilerleme mesajı kuyrukta</string>
+    <string name="projects_status_backoff">İletişim ertelendi:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">Proje komutları:</string>
+    <string name="projects_control_visit_website">Sitesine git</string>
+    <string name="projects_control_update">Güncelle</string>
+    <string name="projects_control_remove">Kaldır</string>
+    <string name="projects_control_suspend">Duraklat</string>
+    <string name="projects_control_resume">Sürdür</string>
+    <string name="projects_control_nonewtasks">Yeni işler indirme</string>
+    <string name="projects_control_allownewtasks">Yeni işler indir</string>
+    <string name="projects_control_reset">Sıfırla</string>
+    <string name="projects_control_dialog_title_acctmgr">Hesap Yöneticisi komutları:</string>
+    <string name="projects_control_sync_acctmgr">Eşitle</string>
+    <string name="projects_control_remove_acctmgr">Devredışı bırak</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
+    <string name="projects_confirm_detach_message">Kaldırmak istediğinizden emin misiniz?</string>
+    <string name="projects_confirm_detach_message2">BOINC\'ten?</string>
+    <string name="projects_confirm_detach_confirm">Kaldır</string>
+    <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
+    <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">Sıfırla</string>
+    <string name="projects_confirm_remove_acctmgr_title">Hesap Yöneticisini devredışı bırak</string>
+    <string name="projects_confirm_remove_acctmgr_message">Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">Devredışı bırak</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">İş adı:</string>
+    <string name="tasks_header_elapsed_time">Geçen süre:</string>
+    <string name="tasks_header_project_paused">(beklemede)</string>
+    <string name="tasks_header_deadline">Son teslim zamanı:</string>
+    <string name="tasks_result_new">yeni</string>
+    <string name="tasks_result_files_downloading">indirilmeyi bekliyor</string>
+    <string name="tasks_result_files_downloaded">indirme tamamlandı</string>
+    <string name="tasks_result_compute_error">hesaplama hatası</string>
+    <string name="tasks_result_files_uploading">gönderiliyor</string>
+    <string name="tasks_result_files_uploaded">gönderme tamamlandı</string>
+    <string name="tasks_result_aborted">iptal edildi</string>
+    <string name="tasks_result_upload_failed">gönderme başarısız</string>
+    <string name="tasks_active_uninitialized">başlamaya hazır</string>
+    <string name="tasks_active_executing">çalışıyor</string>
+    <string name="tasks_active_suspended">durakladı</string>
+    <string name="tasks_active_abort_pending">durduruluyor</string>
+    <string name="tasks_active_quit_pending">durduruluyor</string>
+    <string name="tasks_custom_suspended_via_gui">durakladı</string>
+    <string name="tasks_custom_project_suspended_via_gui">proje duraklatıldı</string>
+    <string name="tasks_custom_ready_to_report">raporlanmaya hazır</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">İş iptal edilsin mi?</string>
+    <string name="confirm_abort_task_message">Bu iş iptal edilsin :</string>
+    <string name="confirm_abort_task_confirm">İptal</string>
+    <string name="confirm_cancel">Vazgeç</string>
+    <string name="confirm_image_desc">Onaylama sorusu</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">Aktarımlar okunuyor...</string>
+    <string name="trans_upload">Yükleme</string>
+    <string name="trans_download">İndirme</string>
+    <string name="trans_retryin">yeniden denenecek</string>
+    <string name="trans_failed">başarısız</string>
+    <string name="trans_suspended">durakladı</string>
+    <string name="trans_active">sürüyor</string>
+    <string name="trans_pending">kuyrukta</string>
+    <string name="trans_projectbackoff">proje ertelendi</string>
+    <string name="trans_header_name">Dosya:</string>
+    <string name="trans_control_retry">Aktarımları yeniden dene</string>
+    <string name="confirm_abort_trans_title">Aktarım iptal edilsin mi?</string>
+    <string name="confirm_abort_trans_message">Bu dosyanın aktarımı iptal edilsin mi:</string>
+    <string name="confirm_abort_trans_confirm">Evet</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">Bildirimler alınıyor...</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">Günlük mesajları yükleniyor...</string>
+    <string name="eventlog_client_header">İstemci Mesajları</string>
+    <string name="eventlog_gui_header">GUI Mesajları</string>
+    <string name="eventlog_copy_toast">Günlük mesajları panoya kopyalandı.</string>
+    <string name="eventlog_email_subject">BONIC Android olay günlüğü:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">Hesaplama durakladı.</string>
+    <string name="suspend_batteries">Hesaplamayı sürdürmek için cihazınızı şarja takın.</string>
+    <string name="suspend_screen_on">Hesaplamaya devam etmek için ekranı kapat.</string>
+    <string name="suspend_useractive">Kullanıcı faal.</string>
+    <string name="suspend_tod">Hesaplama zaman sınırlaması dışında.</string>
+    <string name="suspend_bm">BOINC cihazınızı test ediyor...</string>
+    <string name="suspend_disksize">Depolama alanı yetersiz.</string>
+    <string name="suspend_cputhrottle">Zamanlanmış CPU sınırlaması.</string>
+    <string name="suspend_noinput">Yakın zamanda kullanıcı faaaliyeti yok.</string>
+    <string name="suspend_delay">Başlatma geciktirmesi.</string>
+    <string name="suspend_exclusiveapp">Ayrıcalıklı bir uygulama çalışıyor.</string>
+    <string name="suspend_cpu">Cihazınız diğer uygulamalarla meşgul.</string>
+    <string name="suspend_network_quota">BOINC, internet kullanım kotasına ulaştı.</string>
+    <string name="suspend_os">Android tarafından durduruldu.</string>
+    <string name="suspend_wifi">WiFi\'a bağlı değil.</string>
+    <string name="suspend_battery_charging">Pilin şarj olması bekleniyor.</string>
+    <string name="suspend_battery_charging_long">Hesaplama, pil seviyesi şuna ulaştğında başlayacak:</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">şu anda</string>
+    <string name="suspend_battery_overheating">Pilin soğuması bekleniyor</string>
+    <string name="suspend_user_req">Hesaplama sürdürülüyor...</string>
+    <string name="suspend_network_user_req">elle.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">Kullanıcı tarafından istendi</string>
+    <string name="rpcreason_needwork">İş indirmek için</string>
+    <string name="rpcreason_resultsdue">Tamamlanan işleri raporlamak için</string>
+    <string name="rpcreason_trickleup">İş ilerleme mesajı gönderimi için</string>
+    <string name="rpcreason_acctmgrreq">Hesap yöneticisi tarafından istendi</string>
+    <string name="rpcreason_init">Proje başlatılıyor</string>
+    <string name="rpcreason_projectreq">Proje tarafından istendi</string>
+    <string name="rpcreason_unknown">Bilinmeyen sebep</string>
+    <!--menu-->
+    <string name="menu_refresh">Yenile</string>
+    <string name="menu_emailto">ePostayla gönder</string>
+    <string name="menu_copy">Panoya kopyala</string>
+    <string name="menu_eventlog">Olay Günlüğü</string>
+    <string name="menu_exit">BOINC\'ten Çık</string>
+    <string name="menu_run_mode_disable">Duraklat</string>
+    <string name="menu_run_mode_enable">Sürdür</string>
+    <string name="menu_about">Hakkında</string>
+    <string name="menu_help">Yardım</string>
+    <!--about dialog-->
+    <string name="about_button">Geri dön</string>
+    <string name="about_title">Hakkında</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">Sürüm</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
+    <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM ve HTC şirketlerine teşekkürler.</string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="one">Yeni bildirim - %1$s</item>
+        <item quantity="other">%2$,d yeni bildirim</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">Gönüllü hesaplama uygulaması tespit edildi.</string>
+    <string name="nonexcl_dialog_text">Bu cihazda başka bir gönüllü hesaplama uygulaması çalışıyor. Aynı anda sadece bir versiyon çalışabilir.</string>
+    <string name="nonexcl_dialog_exit">Çıkış</string>
+    <!--social integration-->
+    <string name="social_invite_button">Arkadaşlarını davet et</string>
+    <string name="social_invite_intent_title">Nasıl paylaşmak istiyorsunuz?</string>
+    <string name="social_invite_content_title">Akıllı telefonumdan bilim yapıyorum!</string>
+    <string name="social_invite_content_body">Bilim adına hesaplama yapmak için %1$s mı kullanıyorum. Sende katılabilirsin! Uygulamayı %2$s dan indirebilirsin.</string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

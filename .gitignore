@@ -9,6 +9,12 @@
 # Visual Studio build directories
 /win_build/Build/
 
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+#Visual Studio Code options directory
+.vscode/
+
 # Installshield build directories
 /win_build/installerv2/BOINC
 /win_build/installerv2/BOINC_vbox
@@ -43,10 +49,17 @@
 /android/**/*.iml
 /android/**/.gradle
 /android/**/local.properties
-/android/**/.idea
+/android/**/.idea/caches
+/android/**/.idea/libraries
+/android/**/.idea/gradle.xml
+/android/**/.idea/modules.xml
+/android/**/.idea/tasks.xml
+/android/**/.idea/usage.statistics.xml
+/android/**/.idea/workspace.xml
 /android/**/build
 /android/**/captures
 /android/**/.externalNativeBuild
+/android/**/.vagrant
 /stage
 /android/BOINC/app/src/main/assets/arm*
 /android/BOINC/app/src/main/assets/mips*
@@ -117,6 +130,11 @@ locale/*/*.flag
 
 .libs/
 svn_version.h
+
+## code coverage
+*.gcov
+*.gcno
+*.gcda
 
 # list of executables
 apps/1sec

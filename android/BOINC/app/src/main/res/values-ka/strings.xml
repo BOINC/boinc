@@ -1,355 +1,395 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">მიმდინარეობს ჩატვირთვა! გთხოვთ, დაელოდოთ...</string>
-  <string name="generic_button_continue">გაგრძელება</string>
-  <string name="generic_button_finish">დასრულება</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">აირჩიეთ მეცნიერული პროექტები, რომელშიც გსურთ ღვაწლის შეტანა:</string>
-  <string name="attachproject_list_header">აირჩიეთ პროექტი</string>
-  <string name="attachproject_list_manual_button">პროექტის დამატება URL-ის მეშვეობით</string>
-  <string name="attachproject_list_manual_dialog_title">შეიყვანეთ პროექტის URL-ი:</string>
-  <string name="attachproject_list_manual_dialog_button">პროექტის დამატება</string>
-  <string name="attachproject_list_manual_no_url">გთხოვთ, შეიყვანოთ პროექტის URL-ი</string>
-  <string name="attachproject_list_acctmgr_button">ანგარიშის მმართველის დამატება</string>
-  <string name="attachproject_list_no_internet">არ არის ინტერნეტ კავშირი</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">შეიყვანეთ ანგარიშის ინფორმაცია</string>
-  <string name="attachproject_credential_input_desc">შეიყვანეთ ანგარიშის ინფორმაცია შემდეგი პროექტებისთვის:</string>
-  <string name="attachproject_credential_input_show_pwd">პაროლის ჩვენება</string>
-  <string name="attachproject_individual_credential_input">პროექტების მიბმა ინდივიდუალურად</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">მოხდა შეცდომა მეცნიერული პროექტების მიბმისას:</string>
-  <string name="attachproject_conflict_undefined">ვერ მოხერხდა შეერთება</string>
-  <string name="attachproject_conflict_not_unique">ანგარიში არსებობს განსხვავებული პაროლით</string>
-  <string name="attachproject_conflict_bad_password">პაროლი არასწორია</string>
-  <string name="attachproject_conflict_unknown_user">ანგარიში არ არსებობს</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">ანგარიში არ არსებობს, ეწვიეთ პროექტის ვებ-გვერდს დასარეგისტრირებლად</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">მიმდინარეობს მიბმა</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">მინიშნება</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">როგორ შეიტანოთ ღვაწლი:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. შეუერთდით WiFi-ს</string>
-  <string name="attachproject_hint_contribtion_charger">2. შეაერთეთ დამტენი</string>
-  <string name="attachproject_hint_contribtion_screen">3. გამორთეთ ეკრანი</string>
-  <string name="attachproject_hint_projectwebsite_header">შედით პროექტის ვებ-გვერდებზე შემდეგისთვის:</string>
-  <string name="attachproject_hint_projectwebsite_science">გაიგოთ მეტი მეცნიერებაზე</string>
-  <string name="attachproject_hint_projectwebsite_stats">ნახოთ ღვაწლის შეტანის სტატისტიკა</string>
-  <string name="attachproject_hint_projectwebsite_community">დაუკავშირდეთ სხვა მოხალისეებს</string>
-  <string name="attachproject_hint_platforms_header">BOINC ასევე არის მისაწვდომი თქვენი კომპიუტერისთვის ან ლეპტოპისთვის, ეწვიეთ boinc.berkeley.edu მეტის გასაგებად.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">მიმდინარეობს დაკავშირება პროექტის სერვერთან...</string>
-  <string name="attachproject_login_image_description">პროექტის ლოგოტიპი.</string>
-  <string name="attachproject_login_header_general_area">ზოგადი სფერო:</string>
-  <string name="attachproject_login_header_specific_area">კერძო სფერო:</string>
-  <string name="attachproject_login_header_description">აღწერა:</string>
-  <string name="attachproject_login_header_home">სახლი:</string>
-  <string name="attachproject_login_header_url">ვებ-გვერდი:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">ამ პროექტს აქვს მოწყობილობის ტიპის მხარდაჭერა</string>
-  <string name="attachproject_login_platform_not_supported">ამ პროექტს არ აქვს მოწობილობის მხარდაჭერა</string>
-  <string name="attachproject_login_category_terms_of_use">შემდეგის გამოყენების პირობები</string>
-  <string name="attachproject_login_accept_terms_of_use">ამ პროექტში ანგარიშის შექმნით, თქვენ ეთანხმებით გამოყენების პირობებს, როგორც ნაჩვენებია ზემოთ.</string>
-  <string name="attachproject_login_category_login">შესვლა არსებული ანგარიშით</string>
-  <string name="attachproject_login_header_id_email">ელ.ფოსტა:</string>
-  <string name="attachproject_login_header_id_name">სახელი:</string>
-  <string name="attachproject_login_header_pwd">პაროლი:</string>
-  <string name="attachproject_login_category_creation">ახალი</string>
-  <string name="attachproject_login_header_creation_enabled">დაარეგისტრირეთ ანგარიში მონაწილეობის მისაღებად:</string>
-  <string name="attachproject_login_header_creation_client_disabled">ეწვიეთ პროექტის ვებ-გვერდს ანგარიშის შესაქმენალდ:</string>
-  <string name="attachproject_login_header_creation_disabled">ეს პროექტი ამჟამად არ იღებს ახალ ანგარიშებს.</string>
-  <string name="attachproject_login_button_registration">დარეგისტრირება</string>
-  <string name="attachproject_login_button_login">შესვლა</string>
-  <string name="attachproject_login_button_forgotpw">დაგავიწყდათ პაროლი?</string>
-  <string name="attachproject_login_error_toast">პროექტთან დაკავშირება ვერ მოხერხდა!</string>
-  <string name="attachproject_login_attached">მიბმული</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">შემდეგისთვის ანგარიშის დარეგისტრირება:</string>
-  <string name="attachproject_registration_header_url">პროექტი:</string>
-  <string name="attachproject_registration_header_email">ელ.ფოსტა:</string>
-  <string name="attachproject_registration_header_username">სახელი:</string>
-  <string name="attachproject_registration_header_teamname">გუნდი:</string>
-  <string name="attachproject_registration_header_pwd">პაროლი:</string>
-  <string name="attachproject_registration_header_pwd_confirm">... თავიდან:</string>
-  <string name="attachproject_registration_button">შექმნა</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">გამოიყენეთ BOINC ანგარიშის მმართველი მრავალი პროექტის დასამატებლად და სამართველად</string>
-  <string name="attachproject_acctmgr_header">ანგარიშის მმართველის დამატება</string>
-  <string name="attachproject_acctmgr_header_url">URL-ი</string>
-  <string name="attachproject_acctmgr_header_name">მომხმარებელი:</string>
-  <string name="attachproject_acctmgr_header_pwd">აროლი:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">... თავიდან:</string>
-  <string name="attachproject_acctmgr_button">დამატება</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">მომხმარებელი ვერ მოიძებნა</string>
-  <string name="attachproject_error_short_pwd">პაროლი ნამეტანი მოკლეა</string>
-  <string name="attachproject_error_no_internet">შეერთების შეცდომა</string>
-  <string name="attachproject_error_pwd_no_match">პაროლები არ დაემთხვა</string>
-  <string name="attachproject_error_pwd_no_retype">გთხოვთ, თავიდან შეიყვანოთ პაროლი</string>
-  <string name="attachproject_error_no_url">გთხოვთ, შეიყვანოთ URL-ი</string>
-  <string name="attachproject_error_no_email">გთხოვ, შეიყვანოთ ელ.ფოსტის მისამართი</string>
-  <string name="attachproject_error_no_pwd">გთხოვთ, შეიყვანოთ პაროლი</string>
-  <string name="attachproject_error_no_name">გთხოვთ, შეიყვანოთ მომხმარებლის სახელი</string>
-  <string name="attachproject_error_unknown">ვერ მოხერხდა</string>
-  <string name="attachproject_error_bad_username">მომხმარებლის სახელი იქნა უარყოფილი</string>
-  <string name="attachproject_error_email_in_use">ელ.ფოსტა უკვე გამოიყენება</string>
-  <string name="attachproject_error_project_down">პროექტი არ არის ქსელში</string>
-  <string name="attachproject_error_email_bad_syntax">ელ.ფოსტა იქნა უარყოფილი</string>
-  <string name="attachproject_error_bad_pwd">პაროლი იქნა უარყოფილი</string>
-  <string name="attachproject_error_creation_disabled">ანგარიშის შექნა გათიშულია ამ პროექტზე</string>
-  <string name="attachproject_error_invalid_url">არასწორი URL-ი</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">უკან</string>
-  <string name="attachproject_working_finish_button">დასრულებასრულება</string>
-  <string name="attachproject_working_check_desc">წარმატებული</string>
-  <string name="attachproject_working_failed_desc">ვერ მოხერხდა</string>
-  <string name="attachproject_working_ongoing">...</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">დაკავშირება</string>
-  <string name="attachproject_working_verify">ანგარიშის შემოწმება</string>
-  <string name="attachproject_working_register">ანგარიშის დარეგისტრირება</string>
-  <string name="attachproject_working_login">შესვლა</string>
-  <string name="attachproject_working_acctmgr">ანგარიშის მმართველის დამატება</string>
-  <string name="attachproject_working_acctmgr_sync">სინქრონიზირება</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">დააჭირეთ აქ პროექტის ასარჩევად.</string>
-  <string name="main_error">უფს</string>
-  <string name="main_error_long">...ეს არ უნდა მოხდეს!\nდააჭირეთ იარლიყს თავიდან საცდელად.</string>
-  <string name="main_title_icon_desc">BOINC-ის იარლიყი</string>
-  <!--tab names-->
-  <string name="tab_status">სტატუსი</string>
-  <string name="tab_projects">პროექტები</string>
-  <string name="tab_tasks">დავალებები</string>
-  <string name="tab_transfers">გზავნილები</string>
-  <string name="tab_preferences">პარამეტრები</string>
-  <string name="tab_notices">შეტყობინებები</string>
-  <string name="tab_desc">ნავიგაცია</string>
-  <!--status strings-->
-  <string name="status_running">მიმდინარეობს გამოთვლა</string>
-  <string name="status_running_long">გიხდის მადლობას მონაწილების მიღებისათვის.</string>
-  <string name="status_paused">შეჩერებულია</string>
-  <string name="status_idle">გასაკეთებელი არაფერია</string>
-  <string name="status_idle_long">დავალებების ლოდინში...</string>
-  <string name="status_computing_disabled">შეჩერებულია</string>
-  <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.</string>
-  <string name="status_launching">მიმდინარეობს დაწყება...</string>
-  <string name="status_noproject">აირჩიეთ პროექტი მონაწილეობის მისაღებად.</string>
-  <string name="status_closing">მიმდინარეობს დახურვა...</string>
-  <string name="status_benchmarking">მიმდინარეობს წარმადობის შემოწმება...</string>
-  <string name="status_image_description">პროექტის სურათი</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">მიმდინარეობს პარამეტრების წაკითხვა...</string>
-  <string name="prefs_submit_button">შენახვა</string>
-  <string name="prefs_dialog_title">შეიყვანეთ ახალი მნიშვნელობა:</string>
-  <string name="prefs_dialog_title_selection">აირჩიეთ:</string>
-  <string name="prefs_category_general">ზოგადი</string>
-  <string name="prefs_category_network">ქსელი</string>
-  <string name="prefs_category_power">ძაბვა</string>
-  <string name="prefs_category_cpu">ცპ</string>
-  <string name="prefs_category_storage">მეხსიერება</string>
-  <string name="prefs_category_memory">ოპერატიული მეხსიერება</string>
-  <string name="prefs_category_debug">დებაგი</string>
-  <string name="prefs_show_advanced_header">დამატებითი პარამეტრების და კონტროლების ჩვენება...</string>
-  <string name="prefs_suspend_when_screen_on">გამოთვლის შეჩერება, როდესაც ეკრანი ჩართული</string>
-  <string name="prefs_stationary_device_mode_header">მოწყობილობის სტაციონარული რეჟიმი</string>
-  <string name="prefs_stationary_device_mode_description">გამოთვლის ნებართვა ძაბვის პარამეტრების მიუხედავად. ჩართეთ მხოლოდ მაშინ, თუ მოწყობილობას არ აქვს ბატარეა.</string>
-  <string name="prefs_power_source_header">ძაბვის წყაროები გამოთვლისთვის</string>
-  <string name="prefs_power_source_description">აირჩიეთ ძაბვის წყაროები, რომლების გამოყენების უფლება აქვს BOINC-ს გამოთვლებისთვის.</string>
-  <string name="prefs_power_source_ac">შტეფსელი</string>
-  <string name="prefs_power_source_usb">USB კავშირი</string>
-  <string name="prefs_power_source_wireless">უსადენო დამტენი</string>
-  <string name="prefs_power_source_battery">ბატარეა</string>
-  <string name="battery_charge_min_pct_header">მინ. ბატარეის დონე</string>
-  <string name="battery_charge_min_pct_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის მუხტის დონის ქვემოთ.</string>
-  <string name="battery_temperature_max_header">მაქს. ბატარეის ტემპერატურა</string>
-  <string name="battery_temperature_max_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის ტემპერატურის ზემოთ. არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..</string>
-  <string name="prefs_disk_max_pct_header">მაქს. გამოყენებული მეხსიერების ადგილი</string>
-  <string name="prefs_disk_max_pct_description">თქვენი მოწყობილობის მეხსიერების ადგილის რამდენი პროცენტის გამოყენების უფლება აქვს BOINC-ს?</string>
-  <string name="prefs_disk_min_free_gb_header">მინ. თავისუფალი მეხსიერება</string>
-  <string name="prefs_disk_min_free_gb_description">თქვენი მოწყობილობის მეხსიერების რამდენი ადგილი უნდა დარჩეს ცარელად?</string>
-  <string name="prefs_disk_access_interval_header">წვდომის ინტერვალი</string>
-  <string name="prefs_disk_access_interval_description">აყენებს დისკზე წვდომის ინტერვალს</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">დღიური გზავნის შეზღუდვა</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">ზღუდავს დღიურ მონაცემთა გზავნილებს, რომელიც გამოწვეულია BOINC-ის მიერ</string>
-  <string name="prefs_network_wifi_only_header">დავალებების გაგზავნა მხოლოდ WiFi-თ</string>
-  <string name="prefs_autostart_header">ავტოგაშვება</string>
-  <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>
-  <string name="prefs_show_notification_suspended_header">შეტყობინებების ჩვენება, როდესაც შეჩერებულია</string>
-  <string name="prefs_cpu_number_cpus_header">გამოყენებული ცპ-ს ბირთვები</string>
-  <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების რაოდენობას</string>
-  <string name="prefs_cpu_other_load_suspension_header">შეჩერება, როდესაც ცპ-ს გამოყენება აღემატება</string>
-  <string name="prefs_cpu_other_load_suspension_description">წყვეთს, თუ როდის შეაჩეროს გამოთვლები BOINC-მა სხვა აპლიკაციების ცპ-ს გამოყენების მიხედვით</string>
-  <string name="prefs_cpu_time_max_header">ცპ-ს შეზღუდვა</string>
-  <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
-  <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
-  <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
-  <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
-  <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
-  <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">წმ</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">მიმდინარეობს პროექტების წაკითხვა...</string>
-  <string name="projects_add">პროექტის დამატება</string>
-  <string name="projects_icon">პროექტის იარლიყი</string>
-  <string name="projects_credits">კრედიტი:</string>
-  <string name="projects_credits_host_and_user">%1$,d (ამ მოწყობილობაზე) %2$,d (სულ)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">შეჩერებულია მომხმარებლის მიერ</string>
-  <string name="projects_status_dontrequestmorework">არ მიღიებს ახალ დავალებებს</string>
-  <string name="projects_status_ended">პროექტი დასრულდა - ოკ წასაშლელად</string>
-  <string name="projects_status_detachwhendone">წაიშლება დავალებების დამთავრებისას</string>
-  <string name="projects_status_schedrpcpending">განრიგის მოთხოვნა ლოდინშია</string>
-  <string name="projects_status_schedrpcinprogress">მიმდინარეობს განრიგის მოთხოვნა</string>
-  <string name="projects_status_trickleuppending">გაწობის შეტყობინება მოლოდინშია</string>
-  <string name="projects_status_backoff">კავშირი დაგეგმილია:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">პროექტის ბრძანებები:</string>
-  <string name="projects_control_visit_website">ვებ-გვერდზე გადასვლა</string>
-  <string name="projects_control_update">განახლება</string>
-  <string name="projects_control_remove">წაშლა</string>
-  <string name="projects_control_suspend">შეჩერება</string>
-  <string name="projects_control_resume">გაგრძელება</string>
-  <string name="projects_control_nonewtasks">უარი ახალ დავალებებზე</string>
-  <string name="projects_control_allownewtasks">ახალი დავალებების დაშვება</string>
-  <string name="projects_control_reset">ჩამოგდება</string>
-  <string name="projects_control_dialog_title_acctmgr">ანგარიშის მმართველის ბრძანებები:</string>
-  <string name="projects_control_sync_acctmgr">სინქრონიზირება</string>
-  <string name="projects_control_remove_acctmgr">გათიშვა</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">გსურთ პროექტის წაშლა?</string>
-  <string name="projects_confirm_detach_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ</string>
-  <string name="projects_confirm_detach_message2">BOINC-იდან?</string>
-  <string name="projects_confirm_detach_confirm">წაშლა</string>
-  <string name="projects_confirm_reset_title">პროექტის ჩამოგდება</string>
-  <string name="projects_confirm_reset_message">დარწმუნებული ხართ, რომ გსურთ ჩამოაგდოთ</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">ჩამოგდება</string>
-  <string name="projects_confirm_remove_acctmgr_title">ანგარიშის მმართველის გათიშვა</string>
-  <string name="projects_confirm_remove_acctmgr_message">დარწმუნებული ხართ, რომ გსურთ აღარ გამოიყენოთ</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">გათიშვა</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">დავალების სახელი:</string>
-  <string name="tasks_header_elapsed_time">გასული დრო:</string>
-  <string name="tasks_header_project_paused">(შეჩერებულია)</string>
-  <string name="tasks_header_deadline">ვადა:</string>
-  <string name="tasks_result_new">ახალი</string>
-  <string name="tasks_result_files_downloading">გადმოტვირთვის მოლოდინში</string>
-  <string name="tasks_result_files_downloaded">გატმოტვირთვა დასრულებულია</string>
-  <string name="tasks_result_compute_error">გამოთვლის შეცდომა</string>
-  <string name="tasks_result_files_uploading">მიმდინარეობს ატვირთვა</string>
-  <string name="tasks_result_files_uploaded">ატვირთვა დასრულებულია</string>
-  <string name="tasks_result_aborted">შეწყვეტილია</string>
-  <string name="tasks_result_upload_failed">ატვირთვა ვერ მოხერხდა</string>
-  <string name="tasks_active_uninitialized">არის მზად</string>
-  <string name="tasks_active_executing">გაშვებულია</string>
-  <string name="tasks_active_suspended">შეჩერებულია</string>
-  <string name="tasks_active_abort_pending">მიმდინარეობს შეჩერება</string>
-  <string name="tasks_active_quit_pending">მიმდინარეობს შეჩერება</string>
-  <string name="tasks_custom_suspended_via_gui">შეჩერებულია</string>
-  <string name="tasks_custom_project_suspended_via_gui">პროექტი შეჩერებულია</string>
-  <string name="tasks_custom_ready_to_report">მზად არის გასაგზავნად</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">გსურთ დავალების შეწყვეტა?</string>
-  <string name="confirm_abort_task_message">დავალების შეწყვეტა:</string>
-  <string name="confirm_abort_task_confirm">შეწყვეტა</string>
-  <string name="confirm_cancel">გაუქმება</string>
-  <string name="confirm_image_desc">დასტურის ფანჯარა</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">გზავნილების წაკითხვა</string>
-  <string name="trans_upload">ატვირთვა</string>
-  <string name="trans_download">გადმოწერა</string>
-  <string name="trans_retryin">თავიდან სწდა მოხდება</string>
-  <string name="trans_failed">ვერ მოხერხდა</string>
-  <string name="trans_suspended">შეჩერებულია</string>
-  <string name="trans_active">აქტიურია</string>
-  <string name="trans_pending">მოლოდინშია</string>
-  <string name="trans_projectbackoff">პროექტიდან გამოსვლა</string>
-  <string name="trans_header_name">ფაილი:</string>
-  <string name="trans_control_retry">გზავნილების თავიდან სცდა</string>
-  <string name="confirm_abort_trans_title">გსურთ გზავნილის შეწყვეტა?</string>
-  <string name="confirm_abort_trans_message">ფაილის შეწყვეტა:</string>
-  <string name="confirm_abort_trans_confirm">შეწყვეტა</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">მიმდინარეობს შეტყობინებების წაკითხვა...</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">მიმდინარეობს ჟურნალის შეტყობინებების ჩატვირთვა...</string>
-  <string name="eventlog_client_header">კლიენტის შეტყობინებები</string>
-  <string name="eventlog_gui_header">გმი-ს შეტყობინებები</string>
-  <string name="eventlog_copy_toast">ჟურნალი დაკოპირებულია კოპირების ბუფერში.</string>
-  <string name="eventlog_email_subject">მოვლენების ჟურნალი BOINC-ისთვის Android-ზე:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">გამოთვლა შეჩერებულია.</string>
-  <string name="suspend_batteries">შეაერთეთ თქვენი მოწყობილობა დამტენზე გამოთვლის გასაგრძელებლად.</string>
-  <string name="suspend_screen_on">გამორთეთ ეკრანი გამოთვლის გასაგრძელებლად.</string>
-  <string name="suspend_useractive">მომხმარებელი აქტიურია.</string>
-  <string name="suspend_tod">გამოთვლების დროის ჩარჩოების გარეთ.</string>
-  <string name="suspend_bm">BOINC-ი ასრულებს თქვენი მოწყობილობის წარმადობის შემოწმებას...</string>
-  <string name="suspend_disksize">მეხსიერების ადგილი დამთავრდა.</string>
-  <string name="suspend_cputhrottle">დაგეგმილი ცპ-ს ასწრაფება.</string>
-  <string name="suspend_noinput">მომხმარებლის ბოლო აქტივობა არ არსებობს.</string>
-  <string name="suspend_delay">ინიციალიზაციის გადაწევა.</string>
-  <string name="suspend_exclusiveapp">გაშვებულია ექსკლუზიური აპლიკაცია.</string>
-  <string name="suspend_cpu">თქვენი მოწყობილობა დაკავებულია სხვა აპლიკაციებით.</string>
-  <string name="suspend_network_quota">BOINC-მა მიაღწია ქსელის გზავნილების შეზღუდვას.</string>
-  <string name="suspend_os">გაჩერებულია Android-ის მიერ.</string>
-  <string name="suspend_wifi">არ არის შეერთებული WiFi-სთან.</string>
-  <string name="suspend_battery_charging">ბატარეის დატენვის მოლოდინში.</string>
-  <string name="suspend_battery_charging_long">გამოთვლა გაგრძელდება, როდესაც იქნება მიღწეული ბატარეის მუხტი.</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">ამჟამად</string>
-  <string name="suspend_battery_overheating">ბატარეის გაგრილების მოლოდინში</string>
-  <string name="suspend_user_req">მიმდინარეობს გამოთვლის გაგრძელება...</string>
-  <string name="suspend_network_user_req">ხელით.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">მოთხოვნილის მომხმარებლის მიერ</string>
-  <string name="rpcreason_needwork">სამუშაოს მისაღებად</string>
-  <string name="rpcreason_resultsdue">შესრულებული დავალებების გასაგზავნად</string>
-  <string name="rpcreason_trickleup">გაწობის შეტყობინების გაზაგზავნად</string>
-  <string name="rpcreason_acctmgrreq">მოთხოვნილია ანგარიშის მმართველის მიერ</string>
-  <string name="rpcreason_init">პროექტის ინიციალიზირება</string>
-  <string name="rpcreason_projectreq">მოთხოვნილია პროექტის მიერ</string>
-  <string name="rpcreason_unknown">უცნობი მიზეზი</string>
-  <!--menu-->
-  <string name="menu_refresh">განახლება</string>
-  <string name="menu_emailto">ელ.ფოსტის გაზავნა</string>
-  <string name="menu_copy">კოპირების ბუფერში დაკოპირება</string>
-  <string name="menu_eventlog">მოვლენების ჟურნალი</string>
-  <string name="menu_exit">BOINC-იდან გასვლა</string>
-  <string name="menu_run_mode_disable">შეჩერება</string>
-  <string name="menu_run_mode_enable">გაგრძელება</string>
-  <string name="menu_about">პროგრამის შესახებ</string>
-  <string name="menu_help">დახმარება</string>
-  <!--about dialog-->
-  <string name="about_button">დაბრუნება</string>
-  <string name="about_title">პროგრამის შესახებ</string>
-  <string name="about_name">BOINC-ი</string>
-  <string name="about_version">ვერსია</string>
-  <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
-  <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
-  <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="other">%2$,d ახალი შეტყობინება</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">მოხალისეთა გამოთვლების აპლიკაცია იქნა აღმოჩენილი</string>
-  <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.</string>
-  <string name="nonexcl_dialog_exit">გამოსვლა</string>
-  <!--social integration-->
-  <string name="social_invite_button">მეგობრების მოწვევა</string>
-  <string name="social_invite_intent_title">როგორ გსურთ გაზიარება?</string>
-  <string name="social_invite_content_title">მე ვმუშაობ მეცნიერებაზე ჩემს სმარტფონზე!</string>
-  <string name="social_invite_content_body">მე ვიყენებ ჩემს %1$s მეცნიერების გამოთვლებისთვის. თქვენც ასევე შეგიძლიათ! გადმოიწერეთ აპლიკაცია აქედან: %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">მიმდინარეობს ჩატვირთვა! გთხოვთ, დაელოდოთ...</string>
+    <string name="generic_button_continue">გაგრძელება</string>
+    <string name="generic_button_finish">დასრულება</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">აირჩიეთ მეცნიერული პროექტები, რომელშიც გსურთ ღვაწლის შეტანა:</string>
+    <string name="attachproject_list_header">აირჩიეთ პროექტი</string>
+    <string name="attachproject_list_manual_button">პროექტის დამატება URL-ის მეშვეობით</string>
+    <string name="attachproject_list_manual_dialog_title">შეიყვანეთ პროექტის URL-ი:</string>
+    <string name="attachproject_list_manual_dialog_button">პროექტის დამატება</string>
+    <string name="attachproject_list_manual_no_url">გთხოვთ, შეიყვანოთ პროექტის URL-ი</string>
+    <string name="attachproject_list_acctmgr_button">ანგარიშის მმართველის დამატება</string>
+    <string name="attachproject_list_no_internet">არ არის ინტერნეტ კავშირი</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">შეიყვანეთ ანგარიშის ინფორმაცია</string>
+    <string name="attachproject_credential_input_desc">შეიყვანეთ ანგარიშის ინფორმაცია შემდეგი პროექტებისთვის:</string>
+    <string name="attachproject_credential_input_show_pwd">პაროლის ჩვენება</string>
+    <string name="attachproject_individual_credential_input">პროექტების მიბმა ინდივიდუალურად</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">მოხდა შეცდომა მეცნიერული პროექტების მიბმისას:</string>
+    <string name="attachproject_conflict_undefined">ვერ მოხერხდა შეერთება</string>
+    <string name="attachproject_conflict_not_unique">ანგარიში არსებობს განსხვავებული პაროლით</string>
+    <string name="attachproject_conflict_bad_password">პაროლი არასწორია</string>
+    <string name="attachproject_conflict_unknown_user">ანგარიში არ არსებობს</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">ანგარიში არ არსებობს, ეწვიეთ პროექტის
+        ვებ-გვერდს დასარეგისტრირებლად
+    </string>
+    <!--working-->
+    <string name="attachproject_working_attaching">მიმდინარეობს მიბმა</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">მინიშნება</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">როგორ შეიტანოთ ღვაწლი:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. შეუერთდით WiFi-ს</string>
+    <string name="attachproject_hint_contribtion_charger">2. შეაერთეთ დამტენი</string>
+    <string name="attachproject_hint_contribtion_screen">3. გამორთეთ ეკრანი</string>
+    <string name="attachproject_hint_projectwebsite_header">შედით პროექტის ვებ-გვერდებზე შემდეგისთვის:</string>
+    <string name="attachproject_hint_projectwebsite_science">გაიგოთ მეტი მეცნიერებაზე</string>
+    <string name="attachproject_hint_projectwebsite_stats">ნახოთ ღვაწლის შეტანის სტატისტიკა</string>
+    <string name="attachproject_hint_projectwebsite_community">დაუკავშირდეთ სხვა მოხალისეებს</string>
+    <string name="attachproject_hint_platforms_header">BOINC ასევე არის მისაწვდომი თქვენი კომპიუტერისთვის ან
+        ლეპტოპისთვის, ეწვიეთ boinc.berkeley.edu მეტის გასაგებად.
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">მიმდინარეობს დაკავშირება პროექტის სერვერთან...</string>
+    <string name="attachproject_login_image_description">პროექტის ლოგოტიპი.</string>
+    <string name="attachproject_login_header_general_area">ზოგადი სფერო:</string>
+    <string name="attachproject_login_header_specific_area">კერძო სფერო:</string>
+    <string name="attachproject_login_header_description">აღწერა:</string>
+    <string name="attachproject_login_header_home">სახლი:</string>
+    <string name="attachproject_login_header_url">ვებ-გვერდი:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">ამ პროექტს აქვს მოწყობილობის ტიპის მხარდაჭერა</string>
+    <string name="attachproject_login_platform_not_supported">ამ პროექტს არ აქვს მოწობილობის მხარდაჭერა</string>
+    <string name="attachproject_login_category_terms_of_use">შემდეგის გამოყენების პირობები</string>
+    <string name="attachproject_login_accept_terms_of_use">ამ პროექტში ანგარიშის შექმნით, თქვენ ეთანხმებით გამოყენების
+        პირობებს, როგორც ნაჩვენებია ზემოთ.
+    </string>
+    <string name="attachproject_login_category_login">შესვლა არსებული ანგარიშით</string>
+    <string name="attachproject_login_header_id_email">ელ.ფოსტა:</string>
+    <string name="attachproject_login_header_id_name">სახელი:</string>
+    <string name="attachproject_login_header_pwd">პაროლი:</string>
+    <string name="attachproject_login_category_creation">ახალი</string>
+    <string name="attachproject_login_header_creation_enabled">დაარეგისტრირეთ ანგარიში მონაწილეობის მისაღებად:</string>
+    <string name="attachproject_login_header_creation_client_disabled">ეწვიეთ პროექტის ვებ-გვერდს ანგარიშის
+        შესაქმენალდ:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">ეს პროექტი ამჟამად არ იღებს ახალ ანგარიშებს.</string>
+    <string name="attachproject_login_button_registration">დარეგისტრირება</string>
+    <string name="attachproject_login_button_login">შესვლა</string>
+    <string name="attachproject_login_button_forgotpw">დაგავიწყდათ პაროლი?</string>
+    <string name="attachproject_login_error_toast">პროექტთან დაკავშირება ვერ მოხერხდა!</string>
+    <string name="attachproject_login_attached">მიბმული</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">შემდეგისთვის ანგარიშის დარეგისტრირება:</string>
+    <string name="attachproject_registration_header_url">პროექტი:</string>
+    <string name="attachproject_registration_header_email">ელ.ფოსტა:</string>
+    <string name="attachproject_registration_header_username">სახელი:</string>
+    <string name="attachproject_registration_header_teamname">გუნდი:</string>
+    <string name="attachproject_registration_header_pwd">პაროლი:</string>
+    <string name="attachproject_registration_header_pwd_confirm">... თავიდან:</string>
+    <string name="attachproject_registration_button">შექმნა</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">გამოიყენეთ BOINC ანგარიშის მმართველი მრავალი პროექტის დასამატებლად და
+        სამართველად
+    </string>
+    <string name="attachproject_acctmgr_header">ანგარიშის მმართველის დამატება</string>
+    <string name="attachproject_acctmgr_header_url">URL-ი</string>
+    <string name="attachproject_acctmgr_header_name">მომხმარებელი:</string>
+    <string name="attachproject_acctmgr_header_pwd">აროლი:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">... თავიდან:</string>
+    <string name="attachproject_acctmgr_button">დამატება</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">მომხმარებელი ვერ მოიძებნა</string>
+    <string name="attachproject_error_short_pwd">პაროლი ნამეტანი მოკლეა</string>
+    <string name="attachproject_error_no_internet">შეერთების შეცდომა</string>
+    <string name="attachproject_error_pwd_no_match">პაროლები არ დაემთხვა</string>
+    <string name="attachproject_error_pwd_no_retype">გთხოვთ, თავიდან შეიყვანოთ პაროლი</string>
+    <string name="attachproject_error_no_url">გთხოვთ, შეიყვანოთ URL-ი</string>
+    <string name="attachproject_error_no_email">გთხოვ, შეიყვანოთ ელ.ფოსტის მისამართი</string>
+    <string name="attachproject_error_no_pwd">გთხოვთ, შეიყვანოთ პაროლი</string>
+    <string name="attachproject_error_no_name">გთხოვთ, შეიყვანოთ მომხმარებლის სახელი</string>
+    <string name="attachproject_error_unknown">ვერ მოხერხდა</string>
+    <string name="attachproject_error_bad_username">მომხმარებლის სახელი იქნა უარყოფილი</string>
+    <string name="attachproject_error_email_in_use">ელ.ფოსტა უკვე გამოიყენება</string>
+    <string name="attachproject_error_project_down">პროექტი არ არის ქსელში</string>
+    <string name="attachproject_error_email_bad_syntax">ელ.ფოსტა იქნა უარყოფილი</string>
+    <string name="attachproject_error_bad_pwd">პაროლი იქნა უარყოფილი</string>
+    <string name="attachproject_error_creation_disabled">ანგარიშის შექნა გათიშულია ამ პროექტზე</string>
+    <string name="attachproject_error_invalid_url">არასწორი URL-ი</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">უკან</string>
+    <string name="attachproject_working_finish_button">დასრულებასრულება</string>
+    <string name="attachproject_working_check_desc">წარმატებული</string>
+    <string name="attachproject_working_failed_desc">ვერ მოხერხდა</string>
+    <string name="attachproject_working_ongoing">...</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">დაკავშირება</string>
+    <string name="attachproject_working_verify">ანგარიშის შემოწმება</string>
+    <string name="attachproject_working_register">ანგარიშის დარეგისტრირება</string>
+    <string name="attachproject_working_login">შესვლა</string>
+    <string name="attachproject_working_acctmgr">ანგარიშის მმართველის დამატება</string>
+    <string name="attachproject_working_acctmgr_sync">სინქრონიზირება</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">დააჭირეთ აქ პროექტის ასარჩევად.</string>
+    <string name="main_error">უფს</string>
+    <string name="main_error_long">...ეს არ უნდა მოხდეს!\nდააჭირეთ იარლიყს თავიდან საცდელად.</string>
+    <string name="main_title_icon_desc">BOINC-ის იარლიყი</string>
+    <!--tab names-->
+    <string name="tab_status">სტატუსი</string>
+    <string name="tab_projects">პროექტები</string>
+    <string name="tab_tasks">დავალებები</string>
+    <string name="tab_transfers">გზავნილები</string>
+    <string name="tab_preferences">პარამეტრები</string>
+    <string name="tab_notices">შეტყობინებები</string>
+    <string name="tab_desc">ნავიგაცია</string>
+    <!--status strings-->
+    <string name="status_running">მიმდინარეობს გამოთვლა</string>
+    <string name="status_running_long">გიხდის მადლობას მონაწილების მიღებისათვის.</string>
+    <string name="status_paused">შეჩერებულია</string>
+    <string name="status_idle">გასაკეთებელი არაფერია</string>
+    <string name="status_idle_long">დავალებების ლოდინში...</string>
+    <string name="status_computing_disabled">შეჩერებულია</string>
+    <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.
+    </string>
+    <string name="status_launching">მიმდინარეობს დაწყება...</string>
+    <string name="status_noproject">აირჩიეთ პროექტი მონაწილეობის მისაღებად.</string>
+    <string name="status_closing">მიმდინარეობს დახურვა...</string>
+    <string name="status_benchmarking">მიმდინარეობს წარმადობის შემოწმება...</string>
+    <string name="status_image_description">პროექტის სურათი</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">მიმდინარეობს პარამეტრების წაკითხვა...</string>
+    <string name="prefs_submit_button">შენახვა</string>
+    <string name="prefs_dialog_title">შეიყვანეთ ახალი მნიშვნელობა:</string>
+    <string name="prefs_dialog_title_selection">აირჩიეთ:</string>
+    <string name="prefs_category_general">ზოგადი</string>
+    <string name="prefs_category_network">ქსელი</string>
+    <string name="prefs_category_power">ძაბვა</string>
+    <string name="prefs_category_cpu">ცპ</string>
+    <string name="prefs_category_storage">მეხსიერება</string>
+    <string name="prefs_category_memory">ოპერატიული მეხსიერება</string>
+    <string name="prefs_category_debug">დებაგი</string>
+    <string name="prefs_show_advanced_header">დამატებითი პარამეტრების და კონტროლების ჩვენება...</string>
+    <string name="prefs_suspend_when_screen_on">გამოთვლის შეჩერება, როდესაც ეკრანი ჩართული</string>
+    <string name="prefs_stationary_device_mode_header">მოწყობილობის სტაციონარული რეჟიმი</string>
+    <string name="prefs_stationary_device_mode_description">გამოთვლის ნებართვა ძაბვის პარამეტრების მიუხედავად. ჩართეთ
+        მხოლოდ მაშინ, თუ მოწყობილობას არ აქვს ბატარეა.
+    </string>
+    <string name="prefs_power_source_header">ძაბვის წყაროები გამოთვლისთვის</string>
+    <string name="prefs_power_source_description">აირჩიეთ ძაბვის წყაროები, რომლების გამოყენების უფლება აქვს BOINC-ს
+        გამოთვლებისთვის.
+    </string>
+    <string name="prefs_power_source_ac">შტეფსელი</string>
+    <string name="prefs_power_source_usb">USB კავშირი</string>
+    <string name="prefs_power_source_wireless">უსადენო დამტენი</string>
+    <string name="prefs_power_source_battery">ბატარეა</string>
+    <string name="battery_charge_min_pct_header">მინ. ბატარეის დონე</string>
+    <string name="battery_charge_min_pct_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის მუხტის დონის
+        ქვემოთ.
+    </string>
+    <string name="battery_temperature_max_header">მაქს. ბატარეის ტემპერატურა</string>
+    <string name="battery_temperature_max_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის ტემპერატურის ზემოთ.
+        არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..
+    </string>
+    <string name="prefs_disk_max_pct_header">მაქს. გამოყენებული მეხსიერების ადგილი</string>
+    <string name="prefs_disk_max_pct_description">თქვენი მოწყობილობის მეხსიერების ადგილის რამდენი პროცენტის გამოყენების
+        უფლება აქვს BOINC-ს?
+    </string>
+    <string name="prefs_disk_min_free_gb_header">მინ. თავისუფალი მეხსიერება</string>
+    <string name="prefs_disk_min_free_gb_description">თქვენი მოწყობილობის მეხსიერების რამდენი ადგილი უნდა დარჩეს
+        ცარელად?
+    </string>
+    <string name="prefs_disk_access_interval_header">წვდომის ინტერვალი</string>
+    <string name="prefs_disk_access_interval_description">აყენებს დისკზე წვდომის ინტერვალს</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">დღიური გზავნის შეზღუდვა</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">ზღუდავს დღიურ მონაცემთა გზავნილებს, რომელიც გამოწვეულია
+        BOINC-ის მიერ
+    </string>
+    <string name="prefs_network_wifi_only_header">დავალებების გაგზავნა მხოლოდ WiFi-თ</string>
+    <string name="prefs_autostart_header">ავტოგაშვება</string>
+    <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>
+    <string name="prefs_show_notification_suspended_header">შეტყობინებების ჩვენება, როდესაც შეჩერებულია</string>
+    <string name="prefs_cpu_number_cpus_header">გამოყენებული ცპ-ს ბირთვები</string>
+    <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების
+        რაოდენობას
+    </string>
+    <string name="prefs_cpu_other_load_suspension_header">შეჩერება, როდესაც ცპ-ს გამოყენება აღემატება</string>
+    <string name="prefs_cpu_other_load_suspension_description">წყვეთს, თუ როდის შეაჩეროს გამოთვლები BOINC-მა სხვა
+        აპლიკაციების ცპ-ს გამოყენების მიხედვით
+    </string>
+    <string name="prefs_cpu_time_max_header">ცპ-ს შეზღუდვა</string>
+    <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
+    <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
+    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების
+        უფლება აქვს BOINC-ს
+    </string>
+    <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
+    <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
+    <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">წმ</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">მიმდინარეობს პროექტების წაკითხვა...</string>
+    <string name="projects_add">პროექტის დამატება</string>
+    <string name="projects_icon">პროექტის იარლიყი</string>
+    <string name="projects_credits">კრედიტი:</string>
+    <string name="projects_credits_host_and_user">%1$,d (ამ მოწყობილობაზე) %2$,d (სულ)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">შეჩერებულია მომხმარებლის მიერ</string>
+    <string name="projects_status_dontrequestmorework">არ მიღიებს ახალ დავალებებს</string>
+    <string name="projects_status_ended">პროექტი დასრულდა - ოკ წასაშლელად</string>
+    <string name="projects_status_detachwhendone">წაიშლება დავალებების დამთავრებისას</string>
+    <string name="projects_status_schedrpcpending">განრიგის მოთხოვნა ლოდინშია</string>
+    <string name="projects_status_schedrpcinprogress">მიმდინარეობს განრიგის მოთხოვნა</string>
+    <string name="projects_status_trickleuppending">გაწობის შეტყობინება მოლოდინშია</string>
+    <string name="projects_status_backoff">კავშირი დაგეგმილია:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">პროექტის ბრძანებები:</string>
+    <string name="projects_control_visit_website">ვებ-გვერდზე გადასვლა</string>
+    <string name="projects_control_update">განახლება</string>
+    <string name="projects_control_remove">წაშლა</string>
+    <string name="projects_control_suspend">შეჩერება</string>
+    <string name="projects_control_resume">გაგრძელება</string>
+    <string name="projects_control_nonewtasks">უარი ახალ დავალებებზე</string>
+    <string name="projects_control_allownewtasks">ახალი დავალებების დაშვება</string>
+    <string name="projects_control_reset">ჩამოგდება</string>
+    <string name="projects_control_dialog_title_acctmgr">ანგარიშის მმართველის ბრძანებები:</string>
+    <string name="projects_control_sync_acctmgr">სინქრონიზირება</string>
+    <string name="projects_control_remove_acctmgr">გათიშვა</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">გსურთ პროექტის წაშლა?</string>
+    <string name="projects_confirm_detach_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ</string>
+    <string name="projects_confirm_detach_message2">BOINC-იდან?</string>
+    <string name="projects_confirm_detach_confirm">წაშლა</string>
+    <string name="projects_confirm_reset_title">პროექტის ჩამოგდება</string>
+    <string name="projects_confirm_reset_message">დარწმუნებული ხართ, რომ გსურთ ჩამოაგდოთ</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">ჩამოგდება</string>
+    <string name="projects_confirm_remove_acctmgr_title">ანგარიშის მმართველის გათიშვა</string>
+    <string name="projects_confirm_remove_acctmgr_message">დარწმუნებული ხართ, რომ გსურთ აღარ გამოიყენოთ</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">გათიშვა</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">დავალების სახელი:</string>
+    <string name="tasks_header_elapsed_time">გასული დრო:</string>
+    <string name="tasks_header_project_paused">(შეჩერებულია)</string>
+    <string name="tasks_header_deadline">ვადა:</string>
+    <string name="tasks_result_new">ახალი</string>
+    <string name="tasks_result_files_downloading">გადმოტვირთვის მოლოდინში</string>
+    <string name="tasks_result_files_downloaded">გატმოტვირთვა დასრულებულია</string>
+    <string name="tasks_result_compute_error">გამოთვლის შეცდომა</string>
+    <string name="tasks_result_files_uploading">მიმდინარეობს ატვირთვა</string>
+    <string name="tasks_result_files_uploaded">ატვირთვა დასრულებულია</string>
+    <string name="tasks_result_aborted">შეწყვეტილია</string>
+    <string name="tasks_result_upload_failed">ატვირთვა ვერ მოხერხდა</string>
+    <string name="tasks_active_uninitialized">არის მზად</string>
+    <string name="tasks_active_executing">გაშვებულია</string>
+    <string name="tasks_active_suspended">შეჩერებულია</string>
+    <string name="tasks_active_abort_pending">მიმდინარეობს შეჩერება</string>
+    <string name="tasks_active_quit_pending">მიმდინარეობს შეჩერება</string>
+    <string name="tasks_custom_suspended_via_gui">შეჩერებულია</string>
+    <string name="tasks_custom_project_suspended_via_gui">პროექტი შეჩერებულია</string>
+    <string name="tasks_custom_ready_to_report">მზად არის გასაგზავნად</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">გსურთ დავალების შეწყვეტა?</string>
+    <string name="confirm_abort_task_message">დავალების შეწყვეტა:</string>
+    <string name="confirm_abort_task_confirm">შეწყვეტა</string>
+    <string name="confirm_cancel">გაუქმება</string>
+    <string name="confirm_image_desc">დასტურის ფანჯარა</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">გზავნილების წაკითხვა</string>
+    <string name="trans_upload">ატვირთვა</string>
+    <string name="trans_download">გადმოწერა</string>
+    <string name="trans_retryin">თავიდან სწდა მოხდება</string>
+    <string name="trans_failed">ვერ მოხერხდა</string>
+    <string name="trans_suspended">შეჩერებულია</string>
+    <string name="trans_active">აქტიურია</string>
+    <string name="trans_pending">მოლოდინშია</string>
+    <string name="trans_projectbackoff">პროექტიდან გამოსვლა</string>
+    <string name="trans_header_name">ფაილი:</string>
+    <string name="trans_control_retry">გზავნილების თავიდან სცდა</string>
+    <string name="confirm_abort_trans_title">გსურთ გზავნილის შეწყვეტა?</string>
+    <string name="confirm_abort_trans_message">ფაილის შეწყვეტა:</string>
+    <string name="confirm_abort_trans_confirm">შეწყვეტა</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">მიმდინარეობს შეტყობინებების წაკითხვა...</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">მიმდინარეობს ჟურნალის შეტყობინებების ჩატვირთვა...</string>
+    <string name="eventlog_client_header">კლიენტის შეტყობინებები</string>
+    <string name="eventlog_gui_header">გმი-ს შეტყობინებები</string>
+    <string name="eventlog_copy_toast">ჟურნალი დაკოპირებულია კოპირების ბუფერში.</string>
+    <string name="eventlog_email_subject">მოვლენების ჟურნალი BOINC-ისთვის Android-ზე:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">გამოთვლა შეჩერებულია.</string>
+    <string name="suspend_batteries">შეაერთეთ თქვენი მოწყობილობა დამტენზე გამოთვლის გასაგრძელებლად.</string>
+    <string name="suspend_screen_on">გამორთეთ ეკრანი გამოთვლის გასაგრძელებლად.</string>
+    <string name="suspend_useractive">მომხმარებელი აქტიურია.</string>
+    <string name="suspend_tod">გამოთვლების დროის ჩარჩოების გარეთ.</string>
+    <string name="suspend_bm">BOINC-ი ასრულებს თქვენი მოწყობილობის წარმადობის შემოწმებას...</string>
+    <string name="suspend_disksize">მეხსიერების ადგილი დამთავრდა.</string>
+    <string name="suspend_cputhrottle">დაგეგმილი ცპ-ს ასწრაფება.</string>
+    <string name="suspend_noinput">მომხმარებლის ბოლო აქტივობა არ არსებობს.</string>
+    <string name="suspend_delay">ინიციალიზაციის გადაწევა.</string>
+    <string name="suspend_exclusiveapp">გაშვებულია ექსკლუზიური აპლიკაცია.</string>
+    <string name="suspend_cpu">თქვენი მოწყობილობა დაკავებულია სხვა აპლიკაციებით.</string>
+    <string name="suspend_network_quota">BOINC-მა მიაღწია ქსელის გზავნილების შეზღუდვას.</string>
+    <string name="suspend_os">გაჩერებულია Android-ის მიერ.</string>
+    <string name="suspend_wifi">არ არის შეერთებული WiFi-სთან.</string>
+    <string name="suspend_battery_charging">ბატარეის დატენვის მოლოდინში.</string>
+    <string name="suspend_battery_charging_long">გამოთვლა გაგრძელდება, როდესაც იქნება მიღწეული ბატარეის მუხტი.</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">ამჟამად</string>
+    <string name="suspend_battery_overheating">ბატარეის გაგრილების მოლოდინში</string>
+    <string name="suspend_user_req">მიმდინარეობს გამოთვლის გაგრძელება...</string>
+    <string name="suspend_network_user_req">ხელით.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">მოთხოვნილის მომხმარებლის მიერ</string>
+    <string name="rpcreason_needwork">სამუშაოს მისაღებად</string>
+    <string name="rpcreason_resultsdue">შესრულებული დავალებების გასაგზავნად</string>
+    <string name="rpcreason_trickleup">გაწობის შეტყობინების გაზაგზავნად</string>
+    <string name="rpcreason_acctmgrreq">მოთხოვნილია ანგარიშის მმართველის მიერ</string>
+    <string name="rpcreason_init">პროექტის ინიციალიზირება</string>
+    <string name="rpcreason_projectreq">მოთხოვნილია პროექტის მიერ</string>
+    <string name="rpcreason_unknown">უცნობი მიზეზი</string>
+    <!--menu-->
+    <string name="menu_refresh">განახლება</string>
+    <string name="menu_emailto">ელ.ფოსტის გაზავნა</string>
+    <string name="menu_copy">კოპირების ბუფერში დაკოპირება</string>
+    <string name="menu_eventlog">მოვლენების ჟურნალი</string>
+    <string name="menu_exit">BOINC-იდან გასვლა</string>
+    <string name="menu_run_mode_disable">შეჩერება</string>
+    <string name="menu_run_mode_enable">გაგრძელება</string>
+    <string name="menu_about">პროგრამის შესახებ</string>
+    <string name="menu_help">დახმარება</string>
+    <!--about dialog-->
+    <string name="about_button">დაბრუნება</string>
+    <string name="about_title">პროგრამის შესახებ</string>
+    <string name="about_name">BOINC-ი</string>
+    <string name="about_version">ვერსია</string>
+    <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
+    <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
+    <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი
+        კორპორაციას მითი მხარდაჭერისთვის.
+    </string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="one">%2$,d ახალი შეტყობინება</item>
+        <item quantity="other">%2$,d ახალი შეტყობინება</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">მოხალისეთა გამოთვლების აპლიკაცია იქნა აღმოჩენილი</string>
+    <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ
+        ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.
+    </string>
+    <string name="nonexcl_dialog_exit">გამოსვლა</string>
+    <!--social integration-->
+    <string name="social_invite_button">მეგობრების მოწვევა</string>
+    <string name="social_invite_intent_title">როგორ გსურთ გაზიარება?</string>
+    <string name="social_invite_content_title">მე ვმუშაობ მეცნიერებაზე ჩემს სმარტფონზე!</string>
+    <string name="social_invite_content_body">მე ვიყენებ ჩემს %1$s მეცნიერების გამოთვლებისთვის. თქვენც ასევე შეგიძლიათ!
+        გადმოიწერეთ აპლიკაცია აქედან: %2$s
+    </string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

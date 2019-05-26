@@ -23,7 +23,7 @@
 //
 // GL:  "boincscr -root  \n\"
 //
-// If your BOINC directory differs from /var/lib/boinc-client, you can use
+// If your BOINC directory differs from /var/lib/boinc, you can use
 // the -boinc_dir command line argument.
 //
 // When run, this screensaver connects to the BOINC client via RPC, asks for
@@ -377,7 +377,7 @@ void *event_loop(void*) {
 int main(int argc, char *argv[]) {
   unsigned long int window_id = 0;
   bool windowed = true;
-  std::string boinc_wd = "/var/lib/boinc-client";
+  std::string boinc_wd = "/var/lib/boinc";
 
   // parse command line
   for(int c = 0; c < argc; c++) {

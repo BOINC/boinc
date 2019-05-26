@@ -1,357 +1,387 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--app global-->
-  <string name="app_name">BOINC</string>
-  <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Indlæser! Vent venligst...</string>
-  <string name="generic_button_continue">Fortsæt</string>
-  <string name="generic_button_finish">Færdig</string>
-  <!--attach project-->
-  <!--selection list-->
-  <string name="attachproject_list_desc">Vælg videnskabelige projekter, du vil bidrage til:</string>
-  <string name="attachproject_list_header">Vælg et projekt</string>
-  <string name="attachproject_list_manual_button">Tilføj projekt vha. URL</string>
-  <string name="attachproject_list_manual_dialog_title">Indtast projekt-URL:</string>
-  <string name="attachproject_list_manual_dialog_button">Tilføj projekt</string>
-  <string name="attachproject_list_manual_no_url">Indtast venligst projekt-URL</string>
-  <string name="attachproject_list_acctmgr_button">Tilføj kontohåndtering</string>
-  <string name="attachproject_list_no_internet">Ingen Internet-forbindelse</string>
-  <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Indtast kontoinformation</string>
-  <string name="attachproject_credential_input_desc">Indtast kontoinformation for valgte projekter:</string>
-  <string name="attachproject_credential_input_show_pwd">Vis adgangskode</string>
-  <string name="attachproject_individual_credential_input">Forbind projekter individuelt</string>
-  <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Der opstod problemer med at forbinde videnskabelige projekter:</string>
-  <string name="attachproject_conflict_undefined">Kunne ikke forbinde</string>
-  <string name="attachproject_conflict_not_unique">Konto eksisterer med en anden adgangskode</string>
-  <string name="attachproject_conflict_bad_password">Adgangskode ukorrekt</string>
-  <string name="attachproject_conflict_unknown_user">Konto eksisterer ikke</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Konto eksisterer ikke; besøg projektets webside for at registrere</string>
-  <!--working-->
-  <string name="attachproject_working_attaching">Forbinder</string>
-  <!--e.g. Attaching Einstein@Home-->
-  <!--hints-->
-  <string name="attachproject_hints_header">Tip</string>
-  <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">Hvordan du kan bidrage:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Forbind til WiFi</string>
-  <string name="attachproject_hint_contribtion_charger">2. Tilslut oplader</string>
-  <string name="attachproject_hint_contribtion_screen">3. Sluk skærmen</string>
-  <string name="attachproject_hint_projectwebsite_header">Besøg projekt-websider for at:</string>
-  <string name="attachproject_hint_projectwebsite_science">Lære mere om videnskaben</string>
-  <string name="attachproject_hint_projectwebsite_stats">Se bidragsstatistik</string>
-  <string name="attachproject_hint_projectwebsite_community">Tale med andre frivillige</string>
-  <string name="attachproject_hint_platforms_header">BOINC findes også til din bærbare eller stationære computer; besøg boinc.berkeley.edu for at finde ud af mere.</string>
-  <!--project login-->
-  <string name="attachproject_login_loading">Kontakter projekt-server …</string>
-  <string name="attachproject_login_image_description">Projektlogo.</string>
-  <string name="attachproject_login_header_general_area">Generelt område:</string>
-  <string name="attachproject_login_header_specific_area">Specifikt område:</string>
-  <string name="attachproject_login_header_description">Beskrivelse:</string>
-  <string name="attachproject_login_header_home">Hjem:</string>
-  <string name="attachproject_login_header_url">Webside:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Enhedstypen understøttes af dette projekt</string>
-  <string name="attachproject_login_platform_not_supported">Enheden understøttes ikke af dette projekt</string>
-  <string name="attachproject_login_category_terms_of_use">Brugsvilkår for</string>
-  <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du brugsvilkårene, som vises herover.</string>
-  <string name="attachproject_login_category_login">Log ind med eksisterende konto</string>
-  <string name="attachproject_login_header_id_email">Email:</string>
-  <string name="attachproject_login_header_id_name">Navn:</string>
-  <string name="attachproject_login_header_pwd">Adgangskode:</string>
-  <string name="attachproject_login_category_creation">Kender du ikke</string>
-  <string name="attachproject_login_header_creation_enabled">Opret en konto for at deltage:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Besøg projektets webside for at oprette en konto:</string>
-  <string name="attachproject_login_header_creation_disabled">Dette projekt tager for tiden ikke imod nye konti.</string>
-  <string name="attachproject_login_button_registration">Registrér</string>
-  <string name="attachproject_login_button_login">Log ind</string>
-  <string name="attachproject_login_button_forgotpw">Glemt adgangskode</string>
-  <string name="attachproject_login_error_toast">Kontakt til projekt mislykkedes!</string>
-  <string name="attachproject_login_attached">Forbundet</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">Kontoregistrering for</string>
-  <string name="attachproject_registration_header_url">Projekt:</string>
-  <string name="attachproject_registration_header_email">Email:</string>
-  <string name="attachproject_registration_header_username">Navn:</string>
-  <string name="attachproject_registration_header_teamname">Hold:</string>
-  <string name="attachproject_registration_header_pwd">Adgangskode:</string>
-  <string name="attachproject_registration_header_pwd_confirm">… Tast igen:</string>
-  <string name="attachproject_registration_button">Opret</string>
-  <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Brug BOINC kontohåndtering for at tilføje og vedligeholde adskillige projekter</string>
-  <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
-  <string name="attachproject_acctmgr_header_url">URL</string>
-  <string name="attachproject_acctmgr_header_name">Bruger:</string>
-  <string name="attachproject_acctmgr_header_pwd">Adgangskode:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">… Tast igen:</string>
-  <string name="attachproject_acctmgr_button">Tilføj</string>
-  <!--error strings-->
-  <string name="attachproject_error_wrong_name">Bruger ikke fundet</string>
-  <string name="attachproject_error_short_pwd">Adgangskode for kort</string>
-  <string name="attachproject_error_no_internet">Forbindelsesfejl</string>
-  <string name="attachproject_error_pwd_no_match">Adgangskoder passer ikke sammen</string>
-  <string name="attachproject_error_pwd_no_retype">Indtast venligst adgangskode igen</string>
-  <string name="attachproject_error_no_url">Indtast venligst URL</string>
-  <string name="attachproject_error_no_email">Indtast venligst emailadresse</string>
-  <string name="attachproject_error_no_pwd">Indtast venligst en adgangskode</string>
-  <string name="attachproject_error_no_name">Indtast venligst brugernavn</string>
-  <string name="attachproject_error_unknown">mislykkedes</string>
-  <string name="attachproject_error_bad_username">Brugernavn afvist</string>
-  <string name="attachproject_error_email_in_use">Email er allerede i brug</string>
-  <string name="attachproject_error_project_down">Projekt er offline</string>
-  <string name="attachproject_error_email_bad_syntax">Email afvist</string>
-  <string name="attachproject_error_bad_pwd">Adgangskode afvist</string>
-  <string name="attachproject_error_creation_disabled">Oprettelse af konti er slået fra for dette projekt</string>
-  <string name="attachproject_error_invalid_url">Ugyldig URL</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Tilbage</string>
-  <string name="attachproject_working_finish_button">Afslut</string>
-  <string name="attachproject_working_check_desc">Succesfuldt</string>
-  <string name="attachproject_working_failed_desc">Mislykkedes</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Forbind</string>
-  <string name="attachproject_working_verify">Verificér konto</string>
-  <string name="attachproject_working_register">Registrér konto</string>
-  <string name="attachproject_working_login">Log ind</string>
-  <string name="attachproject_working_acctmgr">Tilføj kontohåndtering</string>
-  <string name="attachproject_working_acctmgr_sync">Synkronisér</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Berør her for at vælge et projekt.</string>
-  <string name="main_error">Ups</string>
-  <string name="main_error_long">… dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
-  <string name="main_title_icon_desc">BOINC-ikon</string>
-  <!--tab names-->
-  <string name="tab_status">Status</string>
-  <string name="tab_projects">Projekter</string>
-  <string name="tab_tasks">Opgaver</string>
-  <string name="tab_transfers">Overførsler</string>
-  <string name="tab_preferences">Indstillinger</string>
-  <string name="tab_notices">Meddelelser</string>
-  <string name="tab_desc">Navigering</string>
-  <!--status strings-->
-  <string name="status_running">Beregner</string>
-  <string name="status_running_long">Tak for din deltagelse.</string>
-  <string name="status_paused">Suspenderet</string>
-  <string name="status_idle">Intet at beregne</string>
-  <string name="status_idle_long">Venter på opgaver …</string>
-  <string name="status_computing_disabled">Suspenderet</string>
-  <string name="status_computing_disabled_long">Tryk play for at genoptage netværk og beregning.</string>
-  <string name="status_launching">Starter …</string>
-  <string name="status_noproject">Vælg et projekt at deltage i.</string>
-  <string name="status_closing">Lukker …</string>
-  <string name="status_benchmarking">Måler ydelsesevne …</string>
-  <string name="status_image_description">projektbillede</string>
-  <!--preferences tab strings-->
-  <string name="prefs_loading">Indlæser indstillinger …</string>
-  <string name="prefs_submit_button">Gem</string>
-  <string name="prefs_dialog_title">Indtast ny værdi:</string>
-  <string name="prefs_dialog_title_selection">Vælg:</string>
-  <string name="prefs_category_general">Generelt</string>
-  <string name="prefs_category_network">Netværk</string>
-  <string name="prefs_category_power">Strøm</string>
-  <string name="prefs_category_cpu">CPU</string>
-  <string name="prefs_category_storage">Lagring</string>
-  <string name="prefs_category_memory">Hukommelse</string>
-  <string name="prefs_category_debug">Fejlsøgning</string>
-  <string name="prefs_show_advanced_header">Vis avancerede indstillinger …</string>
-  <string name="prefs_suspend_when_screen_on">Sæt beregning på pause, når skærmen er tændt</string>
-  <string name="prefs_stationary_device_mode_header">Tilstand for stationære enheder</string>
-  <string name="prefs_stationary_device_mode_description">Tillader beregning uanset strømindstillinger. Kun tilgængelig, hvis enheden ikke har et batteri.</string>
-  <string name="prefs_power_source_header">Strømkilder for beregning</string>
-  <string name="prefs_power_source_description">Vælger strømkilder, som BOINC må beregne under.</string>
-  <string name="prefs_power_source_ac">Oplader til stikkontakt</string>
-  <string name="prefs_power_source_usb">USB-forbindelse</string>
-  <string name="prefs_power_source_wireless">Trådløs oplader</string>
-  <string name="prefs_power_source_battery">Batteri</string>
-  <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
-  <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
-  <string name="battery_temperature_max_header">Maks. batteritemperatur</string>
-  <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det anbefales ikke at ændre denne værdi.</string>
-  <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
-  <string name="prefs_disk_max_pct_description">Hvor mange procent af din enheds lagringsplads må BOINC bruge?</string>
-  <string name="prefs_disk_min_free_gb_header">Min. lagringsplads</string>
-  <string name="prefs_disk_min_free_gb_description">Hvor meget af din enheds lagringsplads skal forblive ubrugt?</string>
-  <string name="prefs_disk_access_interval_header">Interval for tilgang</string>
-  <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Daglig begrænsning på overførsler</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
-  <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
-  <string name="prefs_show_notification_suspended_header">Vis notifikation under suspendering</string>
-  <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
-  <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pause ved CPU-belastning over</string>
-  <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC sætter beregninger på pause på grund af andre app\'ers CPU-forbrug.</string>
-  <string name="prefs_cpu_time_max_header">CPU-begrænsning</string>
-  <string name="prefs_cpu_time_max_description">Begrænser CPU-tiden, som BOINC bruger til beregninger.</string>
-  <string name="prefs_memory_max_idle_header">RAM-begrænsning</string>
-  <string name="prefs_memory_max_idle_description">Begrænser mængden af RAM, som opgaver tillades at optage.</string>
-  <string name="prefs_client_log_flags_header">Log-flag for BOINC-klient</string>
-  <string name="prefs_gui_log_level_header">GUI-logniveau</string>
-  <string name="prefs_gui_log_level_description">Specificerer uddybningsniveau for GUI-logbeskeder.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">sek.</string>
-  <!--projects tab strings-->
-  <string name="projects_loading">Indlæser projekter …</string>
-  <string name="projects_add">Tilføj projekt</string>
-  <string name="projects_icon">Projekt-ikon</string>
-  <string name="projects_credits">Bidragsydere:</string>
-  <string name="projects_credits_host_and_user">%1$,d (på denne enhed) %2$,d (totalt)</string>
-  <!--project status strings-->
-  <string name="projects_status_suspendedviagui">Suspenderet af bruger</string>
-  <string name="projects_status_dontrequestmorework">Vil ikke modtage nye opgaver</string>
-  <string name="projects_status_ended">Projekt afsluttet – O.k. for at fjerne</string>
-  <string name="projects_status_detachwhendone">Vil blive fjernet, når opgaver er fuldført</string>
-  <string name="projects_status_schedrpcpending">Planlægningsforespørgsel afventer</string>
-  <string name="projects_status_schedrpcinprogress">Planlægningsforespørgsel under udførsel</string>
-  <string name="projects_status_trickleuppending">Trickle-up-besked afventer</string>
-  <string name="projects_status_backoff">Kommunikation planlagt om:</string>
-  <!--project controls-->
-  <string name="projects_control_dialog_title">Projektkommandoer:</string>
-  <string name="projects_control_visit_website">Besøg hjemmeside</string>
-  <string name="projects_control_update">Opdatér</string>
-  <string name="projects_control_remove">Fjern</string>
-  <string name="projects_control_suspend">Suspendér</string>
-  <string name="projects_control_resume">Fortsæt</string>
-  <string name="projects_control_nonewtasks">Ingen nye opgaver</string>
-  <string name="projects_control_allownewtasks">Tillad nye opgaver</string>
-  <string name="projects_control_reset">Nulstil</string>
-  <string name="projects_control_dialog_title_acctmgr">Kommandoer for kontohåndtering:</string>
-  <string name="projects_control_sync_acctmgr">Synkronisér</string>
-  <string name="projects_control_remove_acctmgr">Deaktivér</string>
-  <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Fjern projekt?</string>
-  <string name="projects_confirm_detach_message">Er du sikker på, at du vil fjerne</string>
-  <string name="projects_confirm_detach_message2">fra BOINC?</string>
-  <string name="projects_confirm_detach_confirm">Fjern</string>
-  <string name="projects_confirm_reset_title">Nulstil projekt</string>
-  <string name="projects_confirm_reset_message">Er du sikker på, at du vil nulstille</string>
-  <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Nulstil</string>
-  <string name="projects_confirm_remove_acctmgr_title">Deaktivér kontohåndtering</string>
-  <string name="projects_confirm_remove_acctmgr_message">Er du sikker på, du vil stoppe med at bruge</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
-  <string name="projects_confirm_remove_acctmgr_confirm">Deaktivér</string>
-  <!--tasks tab strings-->
-  <string name="tasks_header_name">Opgavenavn:</string>
-  <string name="tasks_header_elapsed_time">Forgangen tid:</string>
-  <string name="tasks_header_project_paused">(suspenderet)</string>
-  <string name="tasks_header_deadline">Deadline:</string>
-  <string name="tasks_result_new">ny</string>
-  <string name="tasks_result_files_downloading">venter på download</string>
-  <string name="tasks_result_files_downloaded">download komplet</string>
-  <string name="tasks_result_compute_error">beregningsfejl</string>
-  <string name="tasks_result_files_uploading">uploader</string>
-  <string name="tasks_result_files_uploaded">upload komplet</string>
-  <string name="tasks_result_aborted">afbrudt</string>
-  <string name="tasks_result_upload_failed">upload mislykkedes</string>
-  <string name="tasks_active_uninitialized">klar</string>
-  <string name="tasks_active_executing">kører</string>
-  <string name="tasks_active_suspended">suspenderet</string>
-  <string name="tasks_active_abort_pending">suspenderer</string>
-  <string name="tasks_active_quit_pending">suspenderer</string>
-  <string name="tasks_custom_suspended_via_gui">suspenderet</string>
-  <string name="tasks_custom_project_suspended_via_gui">projekt suspenderet</string>
-  <string name="tasks_custom_ready_to_report">klar til at rapportere</string>
-  <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Afbryd opgave?</string>
-  <string name="confirm_abort_task_message">Afbryd opgave:</string>
-  <string name="confirm_abort_task_confirm">Afbryd</string>
-  <string name="confirm_cancel">Annullér</string>
-  <string name="confirm_image_desc">Bekræftelsesdialog</string>
-  <!--transfers tab strings-->
-  <string name="trans_loading">Indlæser overførsler …</string>
-  <string name="trans_upload">Upload</string>
-  <string name="trans_download">Download</string>
-  <string name="trans_retryin">prøv igen om</string>
-  <string name="trans_failed">mislykkedes</string>
-  <string name="trans_suspended">suspenderet</string>
-  <string name="trans_active">aktiv</string>
-  <string name="trans_pending">afventer</string>
-  <string name="trans_projectbackoff">projekt backoff</string>
-  <string name="trans_header_name">Fil:</string>
-  <string name="trans_control_retry">Prøv filoverførsler igen</string>
-  <string name="confirm_abort_trans_title">Afbryd overførsel?</string>
-  <string name="confirm_abort_trans_message">Afbryd fil:</string>
-  <string name="confirm_abort_trans_confirm">Afbryd</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Indlæser meddelelser …</string>
-  <!--eventlog tab strings-->
-  <string name="eventlog_loading">Indlæser logbeskeder …</string>
-  <string name="eventlog_client_header">Klientbeskeder</string>
-  <string name="eventlog_gui_header">GUI-beskeder</string>
-  <string name="eventlog_copy_toast">Log kopieret til udklipsholder.</string>
-  <string name="eventlog_email_subject">Hændelseslog for BOINC på Android:</string>
-  <!--suspend reasons-->
-  <string name="suspend_unknown">Beregning suspenderet.</string>
-  <string name="suspend_batteries">Forbind din enhed til en oplader for at fortsætte beregning.</string>
-  <string name="suspend_screen_on">Sluk skærmen for at fortsætte beregning.</string>
-  <string name="suspend_useractive">Bruger er aktiv.</string>
-  <string name="suspend_tod">Tidsvindue for beregning brugt up.</string>
-  <string name="suspend_bm">BOINC måler din enheds ydelsesevne …</string>
-  <string name="suspend_disksize">Diskplads opbrugt.</string>
-  <string name="suspend_cputhrottle">CPU-neddrosling planlagt.</string>
-  <string name="suspend_noinput">Ingen nylig brugeraktivitet.</string>
-  <string name="suspend_delay">Initialiseringsforsinkelse.</string>
-  <string name="suspend_exclusiveapp">En eksklusiv app kører.</string>
-  <string name="suspend_cpu">Din enhed er optaget af andre apps.</string>
-  <string name="suspend_network_quota">BOINC har nået begrænsningen for netværksoverførsel.</string>
-  <string name="suspend_os">Stoppet af Android.</string>
-  <string name="suspend_wifi">Ikke forbundet til WiFi.</string>
-  <string name="suspend_battery_charging">Venter på at batteriet er mere opladet.</string>
-  <string name="suspend_battery_charging_long">Beregning vil blive genoptaget, når batteriniveau når</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">nuværende</string>
-  <string name="suspend_battery_overheating">Venter på at batteri køler ned</string>
-  <string name="suspend_user_req">Genoptager beregning …</string>
-  <string name="suspend_network_user_req">manuelt.</string>
-  <!--rpc reasons-->
-  <string name="rpcreason_userreq">Forespurgt af bruger</string>
-  <string name="rpcreason_needwork">For at hente opgaver</string>
-  <string name="rpcreason_resultsdue">For at rapportere komplette opgaver</string>
-  <string name="rpcreason_trickleup">For at sende trickle-up-besked</string>
-  <string name="rpcreason_acctmgrreq">Forespurgt af kontohåndtering</string>
-  <string name="rpcreason_init">Projektinitialisering</string>
-  <string name="rpcreason_projectreq">Forespurgt af projekt</string>
-  <string name="rpcreason_unknown">Ukendt årsag</string>
-  <!--menu-->
-  <string name="menu_refresh">Opdatér</string>
-  <string name="menu_emailto">Send som email</string>
-  <string name="menu_copy">Kopiér til udklipsholder</string>
-  <string name="menu_eventlog">Hændelseslog</string>
-  <string name="menu_exit">Afslut BOINC</string>
-  <string name="menu_run_mode_disable">Suspendér</string>
-  <string name="menu_run_mode_enable">Genoptag</string>
-  <string name="menu_about">Om</string>
-  <string name="menu_help">Hjælp</string>
-  <!--about dialog-->
-  <string name="about_button">Tilbage</string>
-  <string name="about_title">Om</string>
-  <string name="about_name">BOINC</string>
-  <string name="about_version">Version</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">(C) 2003-2017 University of California, Berkeley.</string>
-  <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
-  <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC Corporation for deres støtte.</string>
-  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
-  <plurals name="notice_notification">
-    <item quantity="one">Ny besked fra %1$s</item>
-    <item quantity="other">%2$,d nye beskeder</item>
-  </plurals>
-  <!--multi BOINC compatibility-->
-  <string name="nonexcl_dialog_header">App til frivillig beregning detekteret</string>
-  <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan køre ad gangen.</string>
-  <string name="nonexcl_dialog_exit">Afslut</string>
-  <!--social integration-->
-  <string name="social_invite_button">Invitér venner</string>
-  <string name="social_invite_intent_title">Hvordan vil du dele?</string>
-  <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
-  <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du også! Download app\'en fra: %2$s</string>
-  <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--app global-->
+    <string name="app_name">BOINC</string>
+    <!--generic. used by multiple Activities/tabs-->
+    <string name="generic_loading">Indlæser! Vent venligst...</string>
+    <string name="generic_button_continue">Fortsæt</string>
+    <string name="generic_button_finish">Færdig</string>
+    <!--attach project-->
+    <!--selection list-->
+    <string name="attachproject_list_desc">Vælg videnskabelige projekter, du vil bidrage til:</string>
+    <string name="attachproject_list_header">Vælg et projekt</string>
+    <string name="attachproject_list_manual_button">Tilføj projekt vha. URL</string>
+    <string name="attachproject_list_manual_dialog_title">Indtast projekt-URL:</string>
+    <string name="attachproject_list_manual_dialog_button">Tilføj projekt</string>
+    <string name="attachproject_list_manual_no_url">Indtast venligst projekt-URL</string>
+    <string name="attachproject_list_acctmgr_button">Tilføj kontohåndtering</string>
+    <string name="attachproject_list_no_internet">Ingen Internet-forbindelse</string>
+    <!--credential input-->
+    <string name="attachproject_credential_input_sing_desc">Indtast kontoinformation</string>
+    <string name="attachproject_credential_input_desc">Indtast kontoinformation for valgte projekter:</string>
+    <string name="attachproject_credential_input_show_pwd">Vis adgangskode</string>
+    <string name="attachproject_individual_credential_input">Forbind projekter individuelt</string>
+    <!--conflicts-->
+    <string name="attachproject_conflicts_desc">Der opstod problemer med at forbinde videnskabelige projekter:</string>
+    <string name="attachproject_conflict_undefined">Kunne ikke forbinde</string>
+    <string name="attachproject_conflict_not_unique">Konto eksisterer med en anden adgangskode</string>
+    <string name="attachproject_conflict_bad_password">Adgangskode ukorrekt</string>
+    <string name="attachproject_conflict_unknown_user">Konto eksisterer ikke</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto eksisterer ikke; besøg projektets webside
+        for at registrere
+    </string>
+    <!--working-->
+    <string name="attachproject_working_attaching">Forbinder</string>
+    <!--e.g. Attaching Einstein@Home-->
+    <!--hints-->
+    <string name="attachproject_hints_header">Tip</string>
+    <!--e.g. Hint 1/2-->
+    <string name="attachproject_hint_contribtion_header">Hvordan du kan bidrage:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. Forbind til WiFi</string>
+    <string name="attachproject_hint_contribtion_charger">2. Tilslut oplader</string>
+    <string name="attachproject_hint_contribtion_screen">3. Sluk skærmen</string>
+    <string name="attachproject_hint_projectwebsite_header">Besøg projekt-websider for at:</string>
+    <string name="attachproject_hint_projectwebsite_science">Lære mere om videnskaben</string>
+    <string name="attachproject_hint_projectwebsite_stats">Se bidragsstatistik</string>
+    <string name="attachproject_hint_projectwebsite_community">Tale med andre frivillige</string>
+    <string name="attachproject_hint_platforms_header">BOINC findes også til din bærbare eller stationære computer;
+        besøg boinc.berkeley.edu for at finde ud af mere.
+    </string>
+    <!--project login-->
+    <string name="attachproject_login_loading">Kontakter projekt-server …</string>
+    <string name="attachproject_login_image_description">Projektlogo.</string>
+    <string name="attachproject_login_header_general_area">Generelt område:</string>
+    <string name="attachproject_login_header_specific_area">Specifikt område:</string>
+    <string name="attachproject_login_header_description">Beskrivelse:</string>
+    <string name="attachproject_login_header_home">Hjem:</string>
+    <string name="attachproject_login_header_url">Webside:</string>
+    <string name="attachproject_login_header_platform">Android:</string>
+    <string name="attachproject_login_platform_supported">Enhedstypen understøttes af dette projekt</string>
+    <string name="attachproject_login_platform_not_supported">Enheden understøttes ikke af dette projekt</string>
+    <string name="attachproject_login_category_terms_of_use">Brugsvilkår for</string>
+    <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du
+        brugsvilkårene, som vises herover.
+    </string>
+    <string name="attachproject_login_category_login">Log ind med eksisterende konto</string>
+    <string name="attachproject_login_header_id_email">Email:</string>
+    <string name="attachproject_login_header_id_name">Navn:</string>
+    <string name="attachproject_login_header_pwd">Adgangskode:</string>
+    <string name="attachproject_login_category_creation">Kender du ikke</string>
+    <string name="attachproject_login_header_creation_enabled">Opret en konto for at deltage:</string>
+    <string name="attachproject_login_header_creation_client_disabled">Besøg projektets webside for at oprette en
+        konto:
+    </string>
+    <string name="attachproject_login_header_creation_disabled">Dette projekt tager for tiden ikke imod nye konti.
+    </string>
+    <string name="attachproject_login_button_registration">Registrér</string>
+    <string name="attachproject_login_button_login">Log ind</string>
+    <string name="attachproject_login_button_forgotpw">Glemt adgangskode</string>
+    <string name="attachproject_login_error_toast">Kontakt til projekt mislykkedes!</string>
+    <string name="attachproject_login_attached">Forbundet</string>
+    <!--project registration-->
+    <string name="attachproject_registration_header">Kontoregistrering for</string>
+    <string name="attachproject_registration_header_url">Projekt:</string>
+    <string name="attachproject_registration_header_email">Email:</string>
+    <string name="attachproject_registration_header_username">Navn:</string>
+    <string name="attachproject_registration_header_teamname">Hold:</string>
+    <string name="attachproject_registration_header_pwd">Adgangskode:</string>
+    <string name="attachproject_registration_header_pwd_confirm">… Tast igen:</string>
+    <string name="attachproject_registration_button">Opret</string>
+    <!--account manager-->
+    <string name="attachproject_acctmgr_list_desc">Brug BOINC kontohåndtering for at tilføje og vedligeholde adskillige
+        projekter
+    </string>
+    <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
+    <string name="attachproject_acctmgr_header_url">URL</string>
+    <string name="attachproject_acctmgr_header_name">Bruger:</string>
+    <string name="attachproject_acctmgr_header_pwd">Adgangskode:</string>
+    <string name="attachproject_acctmgr_header_pwd_confirm">… Tast igen:</string>
+    <string name="attachproject_acctmgr_button">Tilføj</string>
+    <!--error strings-->
+    <string name="attachproject_error_wrong_name">Bruger ikke fundet</string>
+    <string name="attachproject_error_short_pwd">Adgangskode for kort</string>
+    <string name="attachproject_error_no_internet">Forbindelsesfejl</string>
+    <string name="attachproject_error_pwd_no_match">Adgangskoder passer ikke sammen</string>
+    <string name="attachproject_error_pwd_no_retype">Indtast venligst adgangskode igen</string>
+    <string name="attachproject_error_no_url">Indtast venligst URL</string>
+    <string name="attachproject_error_no_email">Indtast venligst emailadresse</string>
+    <string name="attachproject_error_no_pwd">Indtast venligst en adgangskode</string>
+    <string name="attachproject_error_no_name">Indtast venligst brugernavn</string>
+    <string name="attachproject_error_unknown">mislykkedes</string>
+    <string name="attachproject_error_bad_username">Brugernavn afvist</string>
+    <string name="attachproject_error_email_in_use">Email er allerede i brug</string>
+    <string name="attachproject_error_project_down">Projekt er offline</string>
+    <string name="attachproject_error_email_bad_syntax">Email afvist</string>
+    <string name="attachproject_error_bad_pwd">Adgangskode afvist</string>
+    <string name="attachproject_error_creation_disabled">Oprettelse af konti er slået fra for dette projekt</string>
+    <string name="attachproject_error_invalid_url">Ugyldig URL</string>
+    <!--working activity-->
+    <string name="attachproject_working_back_button">Tilbage</string>
+    <string name="attachproject_working_finish_button">Afslut</string>
+    <string name="attachproject_working_check_desc">Succesfuldt</string>
+    <string name="attachproject_working_failed_desc">Mislykkedes</string>
+    <string name="attachproject_working_ongoing">…</string>
+    <string name="attachproject_working_finished">.</string>
+    <string name="attachproject_working_description">:</string>
+    <string name="attachproject_working_connect">Forbind</string>
+    <string name="attachproject_working_verify">Verificér konto</string>
+    <string name="attachproject_working_register">Registrér konto</string>
+    <string name="attachproject_working_login">Log ind</string>
+    <string name="attachproject_working_acctmgr">Tilføj kontohåndtering</string>
+    <string name="attachproject_working_acctmgr_sync">Synkronisér</string>
+    <!--main activity-->
+    <string name="main_noproject_warning">Berør her for at vælge et projekt.</string>
+    <string name="main_error">Ups</string>
+    <string name="main_error_long">… dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
+    <string name="main_title_icon_desc">BOINC-ikon</string>
+    <!--tab names-->
+    <string name="tab_status">Status</string>
+    <string name="tab_projects">Projekter</string>
+    <string name="tab_tasks">Opgaver</string>
+    <string name="tab_transfers">Overførsler</string>
+    <string name="tab_preferences">Indstillinger</string>
+    <string name="tab_notices">Meddelelser</string>
+    <string name="tab_desc">Navigering</string>
+    <!--status strings-->
+    <string name="status_running">Beregner</string>
+    <string name="status_running_long">Tak for din deltagelse.</string>
+    <string name="status_paused">Suspenderet</string>
+    <string name="status_idle">Intet at beregne</string>
+    <string name="status_idle_long">Venter på opgaver …</string>
+    <string name="status_computing_disabled">Suspenderet</string>
+    <string name="status_computing_disabled_long">Tryk play for at genoptage netværk og beregning.</string>
+    <string name="status_launching">Starter …</string>
+    <string name="status_noproject">Vælg et projekt at deltage i.</string>
+    <string name="status_closing">Lukker …</string>
+    <string name="status_benchmarking">Måler ydelsesevne …</string>
+    <string name="status_image_description">projektbillede</string>
+    <!--preferences tab strings-->
+    <string name="prefs_loading">Indlæser indstillinger …</string>
+    <string name="prefs_submit_button">Gem</string>
+    <string name="prefs_dialog_title">Indtast ny værdi:</string>
+    <string name="prefs_dialog_title_selection">Vælg:</string>
+    <string name="prefs_category_general">Generelt</string>
+    <string name="prefs_category_network">Netværk</string>
+    <string name="prefs_category_power">Strøm</string>
+    <string name="prefs_category_cpu">CPU</string>
+    <string name="prefs_category_storage">Lagring</string>
+    <string name="prefs_category_memory">Hukommelse</string>
+    <string name="prefs_category_debug">Fejlsøgning</string>
+    <string name="prefs_show_advanced_header">Vis avancerede indstillinger …</string>
+    <string name="prefs_suspend_when_screen_on">Sæt beregning på pause, når skærmen er tændt</string>
+    <string name="prefs_stationary_device_mode_header">Tilstand for stationære enheder</string>
+    <string name="prefs_stationary_device_mode_description">Tillader beregning uanset strømindstillinger. Kun
+        tilgængelig, hvis enheden ikke har et batteri.
+    </string>
+    <string name="prefs_power_source_header">Strømkilder for beregning</string>
+    <string name="prefs_power_source_description">Vælger strømkilder, som BOINC må beregne under.</string>
+    <string name="prefs_power_source_ac">Oplader til stikkontakt</string>
+    <string name="prefs_power_source_usb">USB-forbindelse</string>
+    <string name="prefs_power_source_wireless">Trådløs oplader</string>
+    <string name="prefs_power_source_battery">Batteri</string>
+    <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
+    <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
+    <string name="battery_temperature_max_header">Maks. batteritemperatur</string>
+    <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det
+        anbefales ikke at ændre denne værdi.
+    </string>
+    <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
+    <string name="prefs_disk_max_pct_description">Hvor mange procent af din enheds lagringsplads må BOINC bruge?
+    </string>
+    <string name="prefs_disk_min_free_gb_header">Min. lagringsplads</string>
+    <string name="prefs_disk_min_free_gb_description">Hvor meget af din enheds lagringsplads skal forblive ubrugt?
+    </string>
+    <string name="prefs_disk_access_interval_header">Interval for tilgang</string>
+    <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Daglig begrænsning på overførsler</string>
+    <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af
+        BOINC.
+    </string>
+    <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
+    <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
+    <string name="prefs_show_notification_suspended_header">Vis notifikation under suspendering</string>
+    <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
+    <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til
+        beregninger.
+    </string>
+    <string name="prefs_cpu_other_load_suspension_header">Pause ved CPU-belastning over</string>
+    <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC sætter beregninger på pause på
+        grund af andre app\'ers CPU-forbrug.
+    </string>
+    <string name="prefs_cpu_time_max_header">CPU-begrænsning</string>
+    <string name="prefs_cpu_time_max_description">Begrænser CPU-tiden, som BOINC bruger til beregninger.</string>
+    <string name="prefs_memory_max_idle_header">RAM-begrænsning</string>
+    <string name="prefs_memory_max_idle_description">Begrænser mængden af RAM, som opgaver tillades at optage.</string>
+    <string name="prefs_client_log_flags_header">Log-flag for BOINC-klient</string>
+    <string name="prefs_gui_log_level_header">GUI-logniveau</string>
+    <string name="prefs_gui_log_level_description">Specificerer uddybningsniveau for GUI-logbeskeder.</string>
+    <string name="prefs_unit_celsius">°C</string>
+    <string name="prefs_unit_seconds">sek.</string>
+    <!--projects tab strings-->
+    <string name="projects_loading">Indlæser projekter …</string>
+    <string name="projects_add">Tilføj projekt</string>
+    <string name="projects_icon">Projekt-ikon</string>
+    <string name="projects_credits">Bidragsydere:</string>
+    <string name="projects_credits_host_and_user">%1$,d (på denne enhed) %2$,d (totalt)</string>
+    <!--project status strings-->
+    <string name="projects_status_suspendedviagui">Suspenderet af bruger</string>
+    <string name="projects_status_dontrequestmorework">Vil ikke modtage nye opgaver</string>
+    <string name="projects_status_ended">Projekt afsluttet – O.k. for at fjerne</string>
+    <string name="projects_status_detachwhendone">Vil blive fjernet, når opgaver er fuldført</string>
+    <string name="projects_status_schedrpcpending">Planlægningsforespørgsel afventer</string>
+    <string name="projects_status_schedrpcinprogress">Planlægningsforespørgsel under udførsel</string>
+    <string name="projects_status_trickleuppending">Trickle-up-besked afventer</string>
+    <string name="projects_status_backoff">Kommunikation planlagt om:</string>
+    <!--project controls-->
+    <string name="projects_control_dialog_title">Projektkommandoer:</string>
+    <string name="projects_control_visit_website">Besøg hjemmeside</string>
+    <string name="projects_control_update">Opdatér</string>
+    <string name="projects_control_remove">Fjern</string>
+    <string name="projects_control_suspend">Suspendér</string>
+    <string name="projects_control_resume">Fortsæt</string>
+    <string name="projects_control_nonewtasks">Ingen nye opgaver</string>
+    <string name="projects_control_allownewtasks">Tillad nye opgaver</string>
+    <string name="projects_control_reset">Nulstil</string>
+    <string name="projects_control_dialog_title_acctmgr">Kommandoer for kontohåndtering:</string>
+    <string name="projects_control_sync_acctmgr">Synkronisér</string>
+    <string name="projects_control_remove_acctmgr">Deaktivér</string>
+    <!--project confirm dialog-->
+    <string name="projects_confirm_detach_title">Fjern projekt?</string>
+    <string name="projects_confirm_detach_message">Er du sikker på, at du vil fjerne</string>
+    <string name="projects_confirm_detach_message2">fra BOINC?</string>
+    <string name="projects_confirm_detach_confirm">Fjern</string>
+    <string name="projects_confirm_reset_title">Nulstil projekt</string>
+    <string name="projects_confirm_reset_message">Er du sikker på, at du vil nulstille</string>
+    <string name="projects_confirm_reset_message2">\?</string>
+    <string name="projects_confirm_reset_confirm">Nulstil</string>
+    <string name="projects_confirm_remove_acctmgr_title">Deaktivér kontohåndtering</string>
+    <string name="projects_confirm_remove_acctmgr_message">Er du sikker på, du vil stoppe med at bruge</string>
+    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_confirm">Deaktivér</string>
+    <!--tasks tab strings-->
+    <string name="tasks_header_name">Opgavenavn:</string>
+    <string name="tasks_header_elapsed_time">Forgangen tid:</string>
+    <string name="tasks_header_project_paused">(suspenderet)</string>
+    <string name="tasks_header_deadline">Deadline:</string>
+    <string name="tasks_result_new">ny</string>
+    <string name="tasks_result_files_downloading">venter på download</string>
+    <string name="tasks_result_files_downloaded">download komplet</string>
+    <string name="tasks_result_compute_error">beregningsfejl</string>
+    <string name="tasks_result_files_uploading">uploader</string>
+    <string name="tasks_result_files_uploaded">upload komplet</string>
+    <string name="tasks_result_aborted">afbrudt</string>
+    <string name="tasks_result_upload_failed">upload mislykkedes</string>
+    <string name="tasks_active_uninitialized">klar</string>
+    <string name="tasks_active_executing">kører</string>
+    <string name="tasks_active_suspended">suspenderet</string>
+    <string name="tasks_active_abort_pending">suspenderer</string>
+    <string name="tasks_active_quit_pending">suspenderer</string>
+    <string name="tasks_custom_suspended_via_gui">suspenderet</string>
+    <string name="tasks_custom_project_suspended_via_gui">projekt suspenderet</string>
+    <string name="tasks_custom_ready_to_report">klar til at rapportere</string>
+    <!--confirmation dialog-->
+    <string name="confirm_abort_task_title">Afbryd opgave?</string>
+    <string name="confirm_abort_task_message">Afbryd opgave:</string>
+    <string name="confirm_abort_task_confirm">Afbryd</string>
+    <string name="confirm_cancel">Annullér</string>
+    <string name="confirm_image_desc">Bekræftelsesdialog</string>
+    <!--transfers tab strings-->
+    <string name="trans_loading">Indlæser overførsler …</string>
+    <string name="trans_upload">Upload</string>
+    <string name="trans_download">Download</string>
+    <string name="trans_retryin">prøv igen om</string>
+    <string name="trans_failed">mislykkedes</string>
+    <string name="trans_suspended">suspenderet</string>
+    <string name="trans_active">aktiv</string>
+    <string name="trans_pending">afventer</string>
+    <string name="trans_projectbackoff">projekt backoff</string>
+    <string name="trans_header_name">Fil:</string>
+    <string name="trans_control_retry">Prøv filoverførsler igen</string>
+    <string name="confirm_abort_trans_title">Afbryd overførsel?</string>
+    <string name="confirm_abort_trans_message">Afbryd fil:</string>
+    <string name="confirm_abort_trans_confirm">Afbryd</string>
+    <!--notices tab strings-->
+    <string name="notices_loading">Indlæser meddelelser …</string>
+    <!--eventlog tab strings-->
+    <string name="eventlog_loading">Indlæser logbeskeder …</string>
+    <string name="eventlog_client_header">Klientbeskeder</string>
+    <string name="eventlog_gui_header">GUI-beskeder</string>
+    <string name="eventlog_copy_toast">Log kopieret til udklipsholder.</string>
+    <string name="eventlog_email_subject">Hændelseslog for BOINC på Android:</string>
+    <!--suspend reasons-->
+    <string name="suspend_unknown">Beregning suspenderet.</string>
+    <string name="suspend_batteries">Forbind din enhed til en oplader for at fortsætte beregning.</string>
+    <string name="suspend_screen_on">Sluk skærmen for at fortsætte beregning.</string>
+    <string name="suspend_useractive">Bruger er aktiv.</string>
+    <string name="suspend_tod">Tidsvindue for beregning brugt up.</string>
+    <string name="suspend_bm">BOINC måler din enheds ydelsesevne …</string>
+    <string name="suspend_disksize">Diskplads opbrugt.</string>
+    <string name="suspend_cputhrottle">CPU-neddrosling planlagt.</string>
+    <string name="suspend_noinput">Ingen nylig brugeraktivitet.</string>
+    <string name="suspend_delay">Initialiseringsforsinkelse.</string>
+    <string name="suspend_exclusiveapp">En eksklusiv app kører.</string>
+    <string name="suspend_cpu">Din enhed er optaget af andre apps.</string>
+    <string name="suspend_network_quota">BOINC har nået begrænsningen for netværksoverførsel.</string>
+    <string name="suspend_os">Stoppet af Android.</string>
+    <string name="suspend_wifi">Ikke forbundet til WiFi.</string>
+    <string name="suspend_battery_charging">Venter på at batteriet er mere opladet.</string>
+    <string name="suspend_battery_charging_long">Beregning vil blive genoptaget, når batteriniveau når</string>
+    <string name="suspend_battery_charging_long2"></string>
+    <string name="suspend_battery_charging_current">nuværende</string>
+    <string name="suspend_battery_overheating">Venter på at batteri køler ned</string>
+    <string name="suspend_user_req">Genoptager beregning …</string>
+    <string name="suspend_network_user_req">manuelt.</string>
+    <!--rpc reasons-->
+    <string name="rpcreason_userreq">Forespurgt af bruger</string>
+    <string name="rpcreason_needwork">For at hente opgaver</string>
+    <string name="rpcreason_resultsdue">For at rapportere komplette opgaver</string>
+    <string name="rpcreason_trickleup">For at sende trickle-up-besked</string>
+    <string name="rpcreason_acctmgrreq">Forespurgt af kontohåndtering</string>
+    <string name="rpcreason_init">Projektinitialisering</string>
+    <string name="rpcreason_projectreq">Forespurgt af projekt</string>
+    <string name="rpcreason_unknown">Ukendt årsag</string>
+    <!--menu-->
+    <string name="menu_refresh">Opdatér</string>
+    <string name="menu_emailto">Send som email</string>
+    <string name="menu_copy">Kopiér til udklipsholder</string>
+    <string name="menu_eventlog">Hændelseslog</string>
+    <string name="menu_exit">Afslut BOINC</string>
+    <string name="menu_run_mode_disable">Suspendér</string>
+    <string name="menu_run_mode_enable">Genoptag</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_help">Hjælp</string>
+    <!--about dialog-->
+    <string name="about_button">Tilbage</string>
+    <string name="about_title">Om</string>
+    <string name="about_name">BOINC</string>
+    <string name="about_version">Version</string>
+    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
+    <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC
+        Corporation for deres støtte.
+    </string>
+    <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+    <plurals name="notice_notification">
+        <item quantity="one">Ny besked fra %1$s</item>
+        <item quantity="other">%2$,d nye beskeder</item>
+    </plurals>
+    <!--multi BOINC compatibility-->
+    <string name="nonexcl_dialog_header">App til frivillig beregning detekteret</string>
+    <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan
+        køre ad gangen.
+    </string>
+    <string name="nonexcl_dialog_exit">Afslut</string>
+    <!--social integration-->
+    <string name="social_invite_button">Invitér venner</string>
+    <string name="social_invite_intent_title">Hvordan vil du dele?</string>
+    <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
+    <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du
+        også! Download app\'en fra: %2$s
+    </string>
+    <!--first parameter: device manufacturer, second: URL-->
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

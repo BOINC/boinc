@@ -8,14 +8,15 @@
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
 # Johan Holmström, 2016-2017
 # Josef Andersson <josef.andersson@fripost.org>, 2017
+# Tommy Kronkvist <tommykronkvist@me.com>, 2018
 # Urban Berggren <pudberggren@icloud.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-07-04 11:20 UTC\n"
-"PO-Revision-Date: 2017-11-09 20:21+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2018-08-24 14:19+0000\n"
+"Last-Translator: Tommy Kronkvist <tommykronkvist@me.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,7 +83,7 @@ msgstr "Du kan bara köra programvaran på din dator om du äger datorn eller ha
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Vi rekommenderar att du laddar ned BOINC från Google Play Butik eller Amazon App Butik, inte härifrån."
+msgstr "Vi rekommenderar att du laddar ned BOINC från någon av butikerna Google Play eller Amazon Appstore, inte härifrån."
 
 #: doc/download.php:86
 msgid "System requirements"
@@ -172,7 +173,7 @@ msgstr "Hämta"
 msgid ""
 "For Android devices, get the BOINC app from the Google Play Store; for "
 "Kindle, get it from the Amazon App Store."
-msgstr "För Android-enheter, hämta BOINC från Google Play Store; för Kindle, hämta den från Amazon App Store."
+msgstr "För Android-enheter, hämta BOINC från Google Play; för Kindle, hämta den från Amazon Appstore."
 
 #: doc/index.php:102
 msgid ""
@@ -568,7 +569,7 @@ msgid ""
 "couldn't possibly attempt without your help. You will also be helping our "
 "efforts at designing new proteins to fight diseases such as HIV, malaria, "
 "cancer, and Alzheimer's"
-msgstr "Bestäm 3-dimensionella former av proteiner i forskning som i slutändan kan leda till att finna botemedel för vissa stora mänskliga sjukdomar. Genom att köra Rosetta@home kommer du att hjälpa oss att påskynda och utvidga vår forskning på ett sätt som vi inte en kunde försöka utan din hjälp. Du kommer också att hjälpa våra ansträngningar att utforma nya proteiner för att bekämpa sjukdomar som hiv, malaria, cancer och Alzheimers."
+msgstr "Bestäm tredimensionella former av proteiner i forskning som i slutändan kan leda till att finna botemedel för vissa stora mänskliga sjukdomar. Genom att köra Rosetta@home kommer du att hjälpa oss att påskynda och utvidga vår forskning på ett sätt som vi inte en kunde försöka utan din hjälp. Du kommer också att hjälpa våra ansträngningar att utforma nya proteiner för att bekämpa sjukdomar som HIV, malaria, cancer och Alzheimers."
 
 #: doc/projects.inc:229
 msgid "Earth Sciences"
@@ -592,7 +593,7 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Undersöka approximationer som måste göras i toppmoderna klimatmodeller. Genom att köra modellen tusentals gånger hoppas vi kunna ta reda på hur modellen svarar på små justeringar av dessa approximationer - små nog att inte göra approximationerna mindre realistisk. Detta gör det möjligt för oss att förbättra vår förståelse för hur känsliga våra modeller är av små förändringar och även för saker som förändringar i koldioxid och svavelcykeln. Detta gör det möjligt för oss att undersöka hur klimatet kan förändras under nästa århundrade med ett brett spektrum av olika scenarier."
+msgstr "Undersöka approximationer som måste göras i toppmoderna klimatmodeller. Genom att köra modellen tusentals gånger hoppas vi kunna ta reda på hur modellen svarar på små justeringar av dessa approximationer – små nog att inte göra approximationerna mindre realistisk. Detta gör det möjligt för oss att förbättra vår förståelse för hur känsliga våra modeller är av små förändringar och även för saker som förändringar i koldioxid- och svavelcykeln. Detta gör det möjligt för oss att undersöka hur klimatet kan förändras under nästa århundrade med ett brett spektrum av olika scenarier."
 
 #: doc/projects.inc:251
 msgid "Physical Science"
@@ -688,7 +689,7 @@ msgstr "Hjälp studenter att göra atomsimuleringar"
 msgid ""
 "University of Wisconsin - Milwaukee (USA), Max Planck Institute for "
 "Gravitational Physics - Hanover (Germany)"
-msgstr "Universitetet i Wisconsin - Milwaukee (USA), Max Planck institutet för gravitationsfysik - Hanover (Tyskland)"
+msgstr "Universitetet i Wisconsin – Milwaukee (USA), Max Planck-institutet för Gravitationsfysik – Hannover (Tyskland)"
 
 #: doc/projects.inc:374
 msgid ""
@@ -725,7 +726,7 @@ msgstr "Förbättra designen av \"the Large Hadron Collider\""
 
 #: doc/projects.inc:420
 msgid "University of California, Berkeley"
-msgstr "Universitetet i Kalifornien, Berkeley"
+msgstr "University of California, Berkeley"
 
 #: doc/projects.inc:421
 msgid "Astrophysics, astrobiology"
@@ -802,7 +803,7 @@ msgstr "IBM kooperativa medborgarskap"
 
 #: doc/projects.inc:505
 msgid "Medical, environmental and other humanitarian research"
-msgstr "Medicinska, miljömässiga och annan humanitära forskning"
+msgstr "Medicinsk-, miljörelaterad- och annan humanitär forskning"
 
 #: doc/projects.inc:506
 msgid ""
@@ -870,7 +871,7 @@ msgstr "Kryptografi"
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Försök att avkoda 3 ursprungliga Enigma-meddelanden. Signalerna fångades i Nordatlanten 1942 och tros vara olösta."
+msgstr "Försök att avkoda 3 ursprungliga Enigma-meddelanden. Signalerna fångades upp i Nordatlanten 1942 och tros vara olösta."
 
 #: doc/projects.inc:603
 msgid "Decode WWII submarine messages"
@@ -886,7 +887,7 @@ msgstr "Studera Collatz-problem"
 
 #: doc/projects.inc:618
 msgid "California State University Fullerton"
-msgstr "Kaliforniska delstats universitetet i Fullerton"
+msgstr "California State University i Fullerton"
 
 #: doc/projects.inc:619
 msgid "Factorization of large integers"
@@ -900,7 +901,7 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home är ett forskningsprojekt som använder internetanslutna datorer för att göra rationella sållningssteg i fältet primtalsfaktorisering av stora tal. Som en ung elev fick du din första erfarenhet att bryta ett heltal i primtalsfaktorer, såsom 15 = 3 * 5 eller 35 = 5 * 7. NFS@Home är en fortsättning av den erfarenheten men med heltal som är hundratals siffror långa."
+msgstr "NFS@Home är ett forskningsprojekt som använder internetanslutna datorer för att göra rationella sållningssteg i fältet primtalsfaktorisering av stora tal. Som en ung elev fick du din första erfarenhet att bryta ett heltal i primtalsfaktorer, såsom 15 = 3 × 5 eller 35 = 5 × 7. NFS@Home är en fortsättning av den erfarenheten men med heltal som är hundratals siffror långa."
 
 #: doc/projects.inc:623
 msgid "Study the factorization of large integers"
