@@ -101,6 +101,9 @@ struct COMMAND {
     double min_mod_time;
 
     COMMAND(char* _in) {
+        id = 0;
+        lease_end_time = 0.0;
+        min_mod_time = 0.0;
         in = _in;
         out = NULL;
     }
