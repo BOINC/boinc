@@ -218,7 +218,7 @@ int procinfo_setup(PROC_MAP& pm) {
         }
         fclose(fd);
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-        pm.insert(std::pair(p.id, p));
+        pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #else  // linux
         sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
         fd = fopen(pidpath, "r");
