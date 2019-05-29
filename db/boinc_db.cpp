@@ -151,9 +151,13 @@ DB_USER_SUBMIT::DB_USER_SUBMIT(DB_CONN* dc) :
 DB_STATE_COUNTS::DB_STATE_COUNTS(DB_CONN* dc) :
     DB_BASE("state_counts", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db) {
+    nitems_this_query = 0;
+}
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db) {
+    nitems_this_query = 0;
+}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db
 ){
