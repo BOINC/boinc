@@ -22,7 +22,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: christian.beer@posteo.de
     build_command_prepend: "./3rdParty/buildLinuxDependencies.sh && ./configure --enable-apps --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux"
-    build_command: "make"
+    build_command: "--checker-option UNINIT_CTOR:ctor_func:Create make"
     branch_pattern: coverity_scan
 
 env:
