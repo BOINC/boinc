@@ -23,13 +23,13 @@ require_once("../inc/account_ownership.inc");
 admin_page_head("Account Ownership Keys");
 
 if (!file_exists($account_ownership_private_key_file_path)) {
-  echo "<p>The account ownership private key '" . $account_ownership_private_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script in the BOINC web server ops directory.</p>";
+  echo "<p>The account ownership private key '" . $account_ownership_private_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the command line in the BOINC web server ops directory.</p>";
 } else {
   echo "<p>The account ownership private key '" . $account_ownership_private_key_file_name . "' exists.</p>";
 }
 
 if (!file_exists($account_ownership_public_key_file_path)) {
-  echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script in the BOINC web server ops directory.</p>";
+  echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the command line in the BOINC web server ops directory.</p>";
 } else {
   echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' exists.</p>";
 }
