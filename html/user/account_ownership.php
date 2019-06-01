@@ -108,7 +108,7 @@ function account_ownership_action($user) {
           error_page(tra("Signature verification failed. Contact the project administrator to resolve the issue."));
       } else {
           // Something has gone wrong & an error has occurred.
-          error_page(tra("An error occured during the signature verification. Contact the project administrator to resolve the issue."));
+          error_page(tra("An error occurred during the signature verification. Contact the project administrator to resolve the issue."));
       }
   } else {
       // User data input invalid
