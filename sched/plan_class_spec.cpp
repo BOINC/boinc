@@ -60,7 +60,7 @@ static double os_version_num(HOST h) {
     return 0;
 }
 
-// parse "Android 4.3.1" or "Android 4.3"
+// parse version# from "(Android 4.3.1)" or "(Android 4.3)" or "(Android 4)"
 //
 static int android_version_num(HOST h) {
     int maj, min, rel;
@@ -74,6 +74,10 @@ static int android_version_num(HOST h) {
     n = sscanf(p, "%d.%d", &maj, &min);
     if (n == 2) {
         return maj*10000 + min*100;
+    }
+    n = sscanf(p, "%d", &maj);
+    if (n == 1) {
+        return maj*10000;
     }
     return 0;
 }
