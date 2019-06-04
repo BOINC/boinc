@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include <cstdio>
+#include <cstring>
 
 #include <ctype.h>
 #include <sys/types.h>
