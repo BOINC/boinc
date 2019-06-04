@@ -129,8 +129,13 @@ extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 #ifdef HAVE_SIGACTION
+#ifdef __NetBSD__
+typedef void (*handler_t)(int, union siginfo *, void *);
+extern void boinc_catch_signal(int signal, union siginfo *siginfo, void *sigcontext);
+#else
 typedef void (*handler_t)(int, struct siginfo *, void *);
 extern void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext);
+#endif // NetBSD
 #else
 typedef void (*handler_t)(int);
 extern void boinc_catch_signal(int signal);

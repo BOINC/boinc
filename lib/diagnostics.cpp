@@ -756,7 +756,11 @@ static char *xtoa(size_t x) {
 #ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
+#ifdef __NetBSD__
+void boinc_catch_signal(int signal, union siginfo *, void *) {
+#else
 void boinc_catch_signal(int signal, struct siginfo *, void *) {
+#endif  // NetBSD
 #endif  // ANDROID
 #else
 void boinc_catch_signal(int signal) {
