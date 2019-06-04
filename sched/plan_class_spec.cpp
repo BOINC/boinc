@@ -75,6 +75,10 @@ static int android_version_num(HOST h) {
     if (n == 2) {
         return maj*10000 + min*100;
     }
+    n = sscanf(p, "%d", &maj);
+    if (n == 1) {
+    return maj*10000;
+}
     return 0;
 }
 
