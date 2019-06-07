@@ -5,6 +5,8 @@ include $(top_srcdir)/Makefile.incl
 
 if ENABLE_LIBRARIES
 
+BUILT_SOURCES =
+
 # library for both main and graphics apps
 api_files= \
     boinc_api.cpp \
@@ -50,6 +52,17 @@ lib_LTLIBRARIES += libboinc_graphics2.la
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
 libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
 libboinc_graphics2_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -ljpeg
+
+if OS_DARWIN
+BUILT_SOURCES += MultiGPUMig.h
+BUILT_SOURCES += MultiGPUMigServer.h
+MultiGPUMig.h:
+	mig -header MultiGPUMig.h MultiGPUMig.defs
+MultiGPUMigServer.h:
+	mig -sheader MultiGPUMigServer.h MultiGPUMig.defs
+	rm MGSServer.h MGSServerServer.c MGSServerUser.c
+endif #OS_DARWIN
+
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la
