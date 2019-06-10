@@ -48,6 +48,10 @@
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
 // Marius Millea <mariusmillea AT gmail DOT com>
 
+#define RESTART_DELAY   300
+    // if a VM operation (suspend, resume, snapshot) fails,
+    // exit and restart after this delay.
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
@@ -1125,7 +1129,11 @@ int main(int argc, char** argv) {
                 if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
-                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
+                    sprintf(buf, 
+                        "VM suspend failed. Will exit and restart in %d sec.",
+                        RESTART_DELAY
+                    );
+                    boinc_temporary_exit(RESTART_DELAY, buf);
                 }
             }
         } else {
@@ -1134,7 +1142,11 @@ int main(int argc, char** argv) {
                 if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
-                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
+                    sprintf(buf,
+                        "VM resume failed. Will exit and restart in %d sec.",
+                        RESTART_DELAY
+                    );
+                    boinc_temporary_exit(RESTART_DELAY, buf);
                 }
             }
 
@@ -1209,7 +1221,11 @@ int main(int argc, char** argv) {
                         //
                         vboxlog_msg("ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)", retval);
                         pVM->poweroff();
-                        boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
+                        sprintf(buf,
+                            "VM snapshot failed. Will exit and restart in %d sec.",
+                            RESTART_DELAY
+                        );
+                        boinc_temporary_exit(RESTART_DELAY, buf);
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
