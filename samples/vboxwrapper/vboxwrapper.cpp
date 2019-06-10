@@ -395,7 +395,8 @@ int main(int argc, char** argv) {
     double elapsed_time = 0;
     double fraction_done = 0;
     double trickle_period = 0;
-    double current_cpu_time = 0;
+    double total_cpu_time = 0;
+        // job CPU time counting previous episodes as well
     double starting_cpu_time = 0;
     double last_heartbeat_elapsed_time = 0;
     double last_checkpoint_cpu_time = 0;
@@ -761,7 +762,7 @@ int main(int argc, char** argv) {
     pVM->rd_host_port = checkpoint.remote_desktop_port;
     elapsed_time = checkpoint.elapsed_time;
     starting_cpu_time = checkpoint.cpu_time;
-    current_cpu_time = starting_cpu_time;
+    total_cpu_time = starting_cpu_time;
     last_checkpoint_elapsed_time = elapsed_time;
     last_heartbeat_elapsed_time = elapsed_time;
     last_checkpoint_cpu_time = starting_cpu_time;
@@ -791,7 +792,7 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
-    retval = pVM->run(current_cpu_time > 0);
+    retval = pVM->run(total_cpu_time > 0);
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
         vboxlog_msg("ERROR: VM failed to start");
@@ -833,28 +834,29 @@ int main(int argc, char** argv) {
         if (unrecoverable_error) {
             if (pVM->online) pVM->capture_screenshot();
 
-            checkpoint.update(elapsed_time, current_cpu_time);
+            checkpoint.update(elapsed_time, total_cpu_time);
 
         }
 
-        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
-                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
-                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
-                bytes_sent, bytes_received);
+        pVM->report_clean(
+            unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+            retval, error_reason, temp_delay, temp_reason,
+            total_cpu_time, last_checkpoint_cpu_time, fraction_done,
+            bytes_sent, bytes_received
+        );
     }
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
     //
     vboxlog_msg("Reporting VM Process ID to BOINC.");
     retval = boinc_report_app_status_aux(
-
-            current_cpu_time,
-            last_checkpoint_cpu_time,
-            fraction_done,
-            pVM->vm_pid,
-            bytes_sent,
-            bytes_received
-            );
+        total_cpu_time,
+        last_checkpoint_cpu_time,
+        fraction_done,
+        pVM->vm_pid,
+        bytes_sent,
+        bytes_received
+    );
 
     // Wait for up to 5 minutes for the VM to switch states.
     // A system under load can take a while.
@@ -905,14 +907,16 @@ int main(int argc, char** argv) {
             temp_delay = 86400;
         }
 
-        if (unrecoverable_error) checkpoint.update(elapsed_time, current_cpu_time);
+        if (unrecoverable_error) {
+            checkpoint.update(elapsed_time, total_cpu_time);
+        }
 
-
-        pVM->report_clean(unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
-                retval, error_reason, pVM->vm_pid, temp_delay, temp_reason,
-                current_cpu_time, last_checkpoint_cpu_time, fraction_done,
-                bytes_sent, bytes_received);
-
+        pVM->report_clean(
+            unrecoverable_error, skip_cleanup, do_dump_hypervisor_logs,
+            retval, error_reason, temp_delay, temp_reason,
+            total_cpu_time, last_checkpoint_cpu_time, fraction_done,
+            bytes_sent, bytes_received
+        );
     }
 
     set_floppy_image(aid, *pVM);
@@ -920,7 +924,7 @@ int main(int argc, char** argv) {
     report_remote_desktop_info(*pVM);
     checkpoint.webapi_port = pVM->pf_host_port;
     checkpoint.remote_desktop_port = pVM->rd_host_port;
-    checkpoint.update(elapsed_time, current_cpu_time);
+    checkpoint.update(elapsed_time, total_cpu_time);
 
     // Force throttling on our first pass through the loop
     boinc_status.reread_init_data_file = true;
@@ -985,7 +989,9 @@ int main(int argc, char** argv) {
 
         // Write updates for the graphics application's use
         if (pVM->enable_graphics_support) {
-            boinc_write_graphics_status(current_cpu_time, elapsed_time, fraction_done);
+            boinc_write_graphics_status(
+                total_cpu_time, elapsed_time, fraction_done
+            );
         }
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
@@ -993,7 +999,7 @@ int main(int argc, char** argv) {
             if (pVM->enable_vm_savestate_usage) {
                 retval = pVM->create_snapshot(elapsed_time);
                 if (!retval) {
-                    checkpoint.update(elapsed_time, current_cpu_time);
+                    checkpoint.update(elapsed_time, total_cpu_time);
                     boinc_checkpoint_completed();
                 }
                 pVM->stop();
@@ -1077,7 +1083,7 @@ int main(int argc, char** argv) {
             pVM->reset_vm_process_priority();
             retval = pVM->create_snapshot(elapsed_time);
             if (!retval) {
-                checkpoint.update(elapsed_time, current_cpu_time);
+                checkpoint.update(elapsed_time, total_cpu_time);
                 boinc_checkpoint_completed();
             }
             pVM->poweroff();
@@ -1153,7 +1159,7 @@ int main(int argc, char** argv) {
             // stuff to do every 10 secs (everything else is 1/sec)
             //
             if ((loop_iteration % 10) == 0) {
-                current_cpu_time = starting_cpu_time + pVM->get_vm_cpu_time();
+                total_cpu_time = starting_cpu_time + pVM->get_vm_cpu_time();
                 check_trickle_triggers(*pVM);
                 check_intermediate_uploads(*pVM);
             }
@@ -1173,10 +1179,10 @@ int main(int argc, char** argv) {
                 fraction_done = 1.0;
             }
             boinc_report_app_status(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done
-                    );
+                total_cpu_time,
+                last_checkpoint_cpu_time,
+                fraction_done
+            );
 
             // write status report to stderr at regular intervals
             //
@@ -1188,7 +1194,7 @@ int main(int argc, char** argv) {
                 if (elapsed_time) {
                     vboxlog_msg("Status Report: Elapsed Time: '%f'", elapsed_time);
                 }
-                vboxlog_msg("Status Report: CPU Time: '%f'", current_cpu_time);
+                vboxlog_msg("Status Report: CPU Time: '%f'", total_cpu_time);
                 if (aid.global_prefs.daily_xfer_limit_mb) {
                     vboxlog_msg("Status Report: Network Bytes Sent (Total): '%f'", bytes_sent);
                     vboxlog_msg("Status Report: Network Bytes Received (Total): '%f'", bytes_received);
@@ -1229,9 +1235,9 @@ int main(int argc, char** argv) {
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        checkpoint.update(elapsed_time, current_cpu_time);
+                        checkpoint.update(elapsed_time, total_cpu_time);
                         last_checkpoint_elapsed_time = elapsed_time;
-                        last_checkpoint_cpu_time = current_cpu_time;
+                        last_checkpoint_cpu_time = total_cpu_time;
                         boinc_checkpoint_completed();
                     }
                 }
