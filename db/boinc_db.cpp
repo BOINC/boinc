@@ -132,6 +132,8 @@ DB_HOST_DELETED::DB_HOST_DELETED(DB_CONN* dc) :
     DB_BASE("host_deleted", dc?dc:&boinc_db){}
 DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
     DB_BASE("workunit", dc?dc:&boinc_db){}
+DB_BATCH::DB_BATCH(DB_CONN* dc) :
+    DB_BASE("batch", dc?dc:&boinc_db){}
 DB_CREDITED_JOB::DB_CREDITED_JOB(DB_CONN* dc) :
     DB_BASE("credited_job", dc?dc:&boinc_db){}
 DB_RESULT::DB_RESULT(DB_CONN* dc) :
@@ -206,6 +208,7 @@ DB_ID_TYPE DB_TEAM::get_id() {return id;}
 DB_ID_TYPE DB_HOST::get_id() {return id;}
 DB_ID_TYPE DB_HOST_DELETED::get_id() {return hostid;}
 DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
+DB_ID_TYPE DB_BATCH::get_id() {return id;}
 DB_ID_TYPE DB_RESULT::get_id() {return id;}
 DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
 DB_ID_TYPE DB_MSG_TO_HOST::get_id() {return id;}

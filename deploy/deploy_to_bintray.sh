@@ -71,6 +71,7 @@ PKG_NAME="custom"
 PKG_DESC="Automated CI build of BOINC components"
 VERSION="custom_${BUILD_DATE}_${GIT_REV}"
 VERSION_DESC="Custom build created on ${BUILD_DATE}"
+RUN_CLEANUP="false"
 if [[ $CI_RUN == "true" ]]; then
     case $TRAVIS_EVENT_TYPE in
         pull_request)
@@ -83,6 +84,10 @@ if [[ $CI_RUN == "true" ]]; then
             PKG_NAME="weekly"
             VERSION="weekly_${BUILD_DATE}_${GIT_REV}"
             VERSION_DESC="Weekly CI build created on ${BUILD_DATE}"
+            # run cleanup script once a month
+            if [[ $(date +%d) -lt 8 ]]; then
+                RUN_CLEANUP="true"
+            fi
         ;;
         *)
             echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
@@ -138,4 +143,8 @@ if [ "$TRAVIS_BUILD_ID" ] ; then
 }'
     set +x
     ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions/${VERSION}/release_notes"
+fi
+
+if [[ $RUN_CLEANUP == "true" ]]; then
+    ./deploy/cleanup_bintray.sh
 fi

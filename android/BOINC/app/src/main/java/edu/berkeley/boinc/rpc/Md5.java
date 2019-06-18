@@ -22,6 +22,7 @@ package edu.berkeley.boinc.rpc;
 
 import edu.berkeley.boinc.utils.*;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import android.util.Log;
@@ -43,7 +44,7 @@ public class Md5 {
     public final static String hash(String text) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(text.getBytes("iso-8859-1"), 0, text.length());
+            md5.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
             byte[] md5hash = md5.digest();
             StringBuilder sb = new StringBuilder();
             for(byte singleMd5hash : md5hash) {
