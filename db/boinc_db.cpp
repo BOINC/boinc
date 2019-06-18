@@ -312,10 +312,6 @@ void DB_APP_VERSION::db_print(char* buf){
         "pfc_n=%.15e, "
         "pfc_avg=%.15e, "
         "pfc_scale=%.15e, "
-        "runtime_n=%.15e, "
-        "runtime_avg=%.15e, "
-        "cputime_n=%.15e, "
-        "cputime_avg=%.15e, "
         "expavg_credit=%.15e, "
         "expavg_time=%.15e, "
         "beta=%d ",
@@ -331,10 +327,6 @@ void DB_APP_VERSION::db_print(char* buf){
         pfc.n,
         pfc.avg,
         pfc_scale,
-        runtime.n,
-        runtime.avg,
-        cputime.n,
-        cputime.avg,
         expavg_credit,
         expavg_time,
         beta
@@ -357,10 +349,6 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     pfc.n = atof(r[i++]);
     pfc.avg = atof(r[i++]);
     pfc_scale = atof(r[i++]);
-    runtime.n = atof(r[i++]);
-    runtime.avg = atof(r[i++]);
-    cputime.n = atof(r[i++]);
-    cputime.avg = atof(r[i++]);
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
     beta = atoi(r[i++]);
@@ -1436,10 +1424,6 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         && et.avg == orig.et.avg
         && et.q == orig.et.q
         && et.var == orig.et.var
-        && runtime.n == orig.runtime.n
-        && runtime.avg == orig.runtime.avg
-        && cputime.n == orig.cputime.n
-        && cputime.avg == orig.cputime.avg
         && turnaround.n == orig.turnaround.n
         && turnaround.avg == orig.turnaround.avg
         && turnaround.q == orig.turnaround.q
@@ -1456,10 +1440,6 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         "et_avg=%.15e, "
         "et_q=%.15e, "
         "et_var=%.15e, "
-        "runtime_n=%.15e, "
-        "runtime_avg=%.15e, "
-        "cputime_n=%.15e, "
-        "cputime_avg=%.15e, "
         "turnaround_n=%.15e, "
         "turnaround_avg=%.15e, "
         "turnaround_q=%.15e, "
@@ -1472,10 +1452,6 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         et.avg,
         et.q,
         et.var,
-        runtime.n,
-        runtime.avg,
-        cputime.n,
-        cputime.avg,
         turnaround.n,
         turnaround.avg,
         turnaround.q,
@@ -1500,10 +1476,6 @@ void DB_HOST_APP_VERSION::db_print(char* buf) {
         "et_avg=%.15e, "
         "et_var=%.15e, "
         "et_q=%.15e, "
-        "runtime_n=%.15e, "
-        "runtime_avg=%.15e, "
-        "cputime_n=%.15e, "
-        "cputime_avg=%.15e, "
         "max_jobs_per_day=%d, "
         "n_jobs_today=%d, "
         "turnaround_n=%.15e, "
@@ -1519,10 +1491,6 @@ void DB_HOST_APP_VERSION::db_print(char* buf) {
         et.avg,
         et.var,
         et.q,
-        runtime.n,
-        runtime.avg,
-        cputime.n,
-        cputime.avg,
         max_jobs_per_day,
         n_jobs_today,
         turnaround.n,
@@ -1544,10 +1512,6 @@ void DB_HOST_APP_VERSION::db_parse(MYSQL_ROW& r) {
     et.avg = atof(r[i++]);
     et.var = atof(r[i++]);
     et.q = atof(r[i++]);
-    runtime.n = atof(r[i++]);
-    runtime.avg = atof(r[i++]);
-    cputime.n = atof(r[i++]);
-    cputime.avg = atof(r[i++]);
     max_jobs_per_day = atoi(r[i++]);
     n_jobs_today = atoi(r[i++]);
     turnaround.n = atof(r[i++]);

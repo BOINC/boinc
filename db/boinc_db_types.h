@@ -142,8 +142,6 @@ struct APP_VERSION {
         // PFC scaling factor for this app (or 0 if not enough data)
         // The reciprocal of this version's efficiency, averaged over all jobs,
         // relative to that of the most efficient version
-    AVERAGE runtime;
-    AVERAGE cputime;
     double expavg_credit;
     double expavg_time;
     bool beta;
@@ -741,8 +739,6 @@ struct HOST_APP_VERSION {
         //
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
-    AVERAGE runtime;
-    AVERAGE cputime;
     int max_jobs_per_day;
         // the actual limit is:
         // for GPU versions:
