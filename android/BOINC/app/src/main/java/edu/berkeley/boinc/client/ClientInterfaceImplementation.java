@@ -566,7 +566,8 @@ public class ClientInterfaceImplementation extends RpcClient {
 
             // project is not yet attached, check whether it supports CPU architecture
             for (String supportedPlatform : candidate.platforms) {
-                if (supportedPlatform.contains(boincPlatformName) || supportedPlatform.contains(boincAltPlatformName)) {
+                if (supportedPlatform.contains(boincPlatformName) ||
+                   (!boincAltPlatformName.isEmpty() && supportedPlatform.contains(boincAltPlatformName))) {
                     // project is not yet attached and does support platform
                     // add to list, if not already in it
                     if (!attachableProjects.contains(candidate)) attachableProjects.add(candidate);

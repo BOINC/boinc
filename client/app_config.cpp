@@ -99,6 +99,8 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     return 0;
 }
 
+// clear app- and project-level counters to enforce max concurrent limits
+//
 void max_concurrent_init() {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         gstate.apps[i]->app_n_concurrent = 0;
@@ -115,7 +117,6 @@ void max_concurrent_init() {
 //
 static void clear_app_config(PROJECT* p) {
     p->app_configs.clear();
-    p->report_results_immediately = false;
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;

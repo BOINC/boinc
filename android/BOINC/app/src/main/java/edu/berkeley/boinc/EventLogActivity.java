@@ -18,15 +18,13 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
-import java.lang.StringBuffer;
 
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
+import edu.berkeley.boinc.utils.*;
 
 import android.content.ClipData;
 import android.content.ComponentName;

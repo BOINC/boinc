@@ -18,8 +18,6 @@
  */
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
@@ -53,7 +51,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.HostInfo;
-import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.*;
 
 /*
  * Singleton that holds the client status data, as determined by the Monitor.
@@ -135,7 +133,7 @@ public class ClientStatus {
     // call to acquire or release resources held by the WakeLock.
     // acquisition: every time the Monitor loop calls setClientStatus and computingStatus == COMPUTING_STATUS_COMPUTING
     // release: every time acquisition criteria is not met , and in Monitor.onDestroy()
-    @SuppressLint("Wakelock")
+    @SuppressLint("WakelockTimeout") // To run BOINC in the background, wakeLock has to be used without timeout.
     public void setWakeLock(Boolean acquire) {
         try {
             if(wakeLock.isHeld() == acquire) {
@@ -157,7 +155,7 @@ public class ClientStatus {
         }
         catch(Exception e) {
             if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception durign setWakeLock " + acquire, e);
+                Log.w(Logging.TAG, "Exception during setWakeLock " + acquire, e);
             }
         }
     }
@@ -186,7 +184,7 @@ public class ClientStatus {
         }
         catch(Exception e) {
             if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception durign setWifiLock " + acquire, e);
+                Log.w(Logging.TAG, "Exception during setWifiLock " + acquire, e);
             }
         }
     }

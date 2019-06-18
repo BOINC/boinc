@@ -99,6 +99,7 @@ struct RR_SIM {
         active.push_back(rp);
         rsc_work_fetch[0].sim_nused += rp->avp->avg_ncpus;
         p->rsc_pwf[0].sim_nused += rp->avp->avg_ncpus;
+
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
@@ -118,7 +119,15 @@ struct RR_SIM {
 #endif
             }
         }
-        max_concurrent_inc(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+            if (p->rsc_pwf[0].sim_nused > p->rsc_pwf[0].max_nused) {
+                p->rsc_pwf[0].max_nused = p->rsc_pwf[0].sim_nused;
+            }
+            if (rt && p->rsc_pwf[rt].sim_nused > p->rsc_pwf[rt].max_nused) {
+                p->rsc_pwf[rt].max_nused = p->rsc_pwf[rt].sim_nused;
+            }
+        }
     }
 
     void init_pending_lists();
@@ -236,6 +245,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.rec_temp_save = p->pwf.rec_temp;
+        p->pwf.at_max_concurrent_limit = false;
     }
 
     rsc_work_fetch[0].sim_nused = 0;
@@ -254,7 +264,6 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         //
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
-            if (p->pwf.at_max_concurrent_limit) continue;
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
             if (rsc_pwf.pending.size() ==0) continue;
             rsc_pwf.pending_iter = rsc_pwf.pending.begin();
@@ -418,6 +427,30 @@ static void handle_missed_deadline(RESULT* rpbest, double diff, double ar) {
     }
 }
 
+// update "MC shortfall" for projects with max concurrent restrictions
+//
+static void mc_update_stats(double sim_now, double dt, double buf_end) {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!p->app_configs.project_has_mc) continue;
+        for (int rt=0; rt<coprocs.n_rsc; rt++) {
+            RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
+            RSC_WORK_FETCH& rwf = rsc_work_fetch[rt];
+            double x = rsc_pwf.max_nused - rsc_pwf.sim_nused;
+            x = std::min(x, rwf.ninstances - rwf.sim_nused);
+            if (x > 1e-6 && sim_now < buf_end) {
+                double dt2;
+                if (sim_now + dt > buf_end) {
+                    dt2 = buf_end - sim_now;
+                } else {
+                    dt2 = dt;
+                }
+                rsc_pwf.mc_shortfall += x*dt2;
+            }
+        }
+    }
+}
+
 // do a round_robin simulation,
 // for either CPU scheduling (to find deadline misses)
 // or work fetch (do compute idleness and shortfall)
@@ -557,8 +590,13 @@ void RR_SIM::simulate() {
             }
         }
 
+        // update shortfall and saturated time for each resource
+        //
         for (int i=0; i<coprocs.n_rsc; i++) {
             rsc_work_fetch[i].update_stats(sim_now, delta_t, buf_end);
+        }
+        if (have_max_concurrent) {
+            mc_update_stats(sim_now, delta_t, buf_end);
         }
 
         // update project REC
@@ -611,6 +649,9 @@ void RR_SIM::simulate() {
         double d_time = buf_end - sim_now;
         for (int i=0; i<coprocs.n_rsc; i++) {
             rsc_work_fetch[i].update_stats(sim_now, d_time, buf_end);
+        }
+        if (have_max_concurrent) {
+            mc_update_stats(sim_now, d_time, buf_end);
         }
     }
 }
