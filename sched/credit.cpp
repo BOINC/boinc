@@ -563,6 +563,23 @@ int get_pfc(
         return 0;
     }
 
+    // get app version
+    //
+    avp = av_lookup(r.app_version_id, app_versions);
+
+    // Update runtime and cputime stats.
+    // this is here because this is where it used to be.   It should probably be
+    // elsewhere since it's really not pfc related.
+    if (!r.runtime_outlier) {
+        if (r.elapsed_time > 0) {
+            avp->runtime.update(r.elapsed_time,AV_AVG_THRESH,AV_AVG_WEIGHT,AV_AVG_LIMIT);
+            hav.runtime.update(r.elapsed_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
+        }
+        if (r.cpu_time > 0) {
+            avp->cputime.update(r.cpu_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
+            hav.cputime.update(r.cpu_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
+        }
+    }
     // old clients report CPU time but not elapsed time.
     // Use HOST_APP_VERSION.et to track statistics of CPU time.
     //
@@ -575,16 +592,15 @@ int get_pfc(
                 r.id
             );
         }
+
         if (!r.runtime_outlier) {
             hav.et.update_var(
                 r.cpu_time/wu.rsc_fpops_est,
                 HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
             );
-//          if ((r.elapsed_time > 0) && (r.cpu_time > 0)) {
-//              hav.rt.update(r.elapsed_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//              hav.cpu.update(r.cpu_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//          }
         }
+
+
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
@@ -650,9 +666,6 @@ int get_pfc(
         );
     }
 
-    // get app version
-    //
-    avp = av_lookup(r.app_version_id, app_versions);
 
     // Sanity check
     // If an app version scale exists, use it.  Otherwise assume 1.
