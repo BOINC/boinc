@@ -70,12 +70,14 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
-void RSC_PROJECT_WORK_FETCH::rr_init() {
+void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     fetchable_share = 0;
     n_runnable_jobs = 0;
     sim_nused = 0;
     nused_total = 0;
     deadlines_missed = 0;
+    mc_shortfall = 0;
+    max_nused = p->app_configs.project_min_mc;
 }
 
 void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
@@ -177,6 +179,9 @@ void RSC_WORK_FETCH::rr_init() {
     sim_used_instances = 0;
 }
 
+// update shortfall and saturated time for a given resource;
+// called at each time step in RR sim
+//
 void RSC_WORK_FETCH::update_stats(double sim_now, double dt, double buf_end) {
     double idle = ninstances - sim_nused;
     if (idle > 1e-6 && sim_now < buf_end) {
@@ -222,6 +227,21 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     }
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     double non_excl_inst = ninstances - w.ncoprocs_excluded;
+
+    // if this project has max concurrent,
+    // use the project-specific "MC shortfall" instead of global shortfall
+    //
+    if (p->app_configs.project_has_mc) {
+        RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rsc_type];
+        if (log_flags.work_fetch_debug) {
+            msg_printf(p, MSG_INFO,
+                "[work_fetch] using MC shortfall %f instead of shortfall %f",
+                rsc_pwf.mc_shortfall, shortfall
+            );
+        }
+        shortfall = rsc_pwf.mc_shortfall;
+    }
+
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
@@ -236,12 +256,20 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         }
     }
 
-    double instance_share = ninstances*w.fetchable_share;
-    if (instance_share > non_excl_inst) {
-        instance_share = non_excl_inst;
+    // ask for enough instances to use our share, and to use idle instances
+    //
+    if (p->app_configs.project_has_mc) {
+        // but not if project has max_concurrent
+        //
+        req_instances = 0;
+    } else {
+        double instance_share = ninstances*w.fetchable_share;
+        if (instance_share > non_excl_inst) {
+            instance_share = non_excl_inst;
+        }
+        instance_share -= w.nused_total;
+        req_instances = std::max(nidle_now, instance_share);
     }
-    instance_share -= w.nused_total;
-    req_instances = std::max(nidle_now, instance_share);
 
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
@@ -387,7 +415,7 @@ void WORK_FETCH::rr_init() {
         PROJECT* p = gstate.projects[i];
         p->pwf.rr_init(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].rr_init();
+            p->rsc_pwf[j].rr_init(p);
         }
     }
 }
@@ -601,7 +629,7 @@ bool RSC_WORK_FETCH::uses_starved_excluded_instances(PROJECT* p) {
 
 // check for various reasons to not fetch work from a project.
 // Called after doing RR simulation,
-// so p->pwf.n_runnable_jobs and p->pwf.at_max_concurrent_limit are set.
+// so p->pwf.n_runnable_jobs is set.
 //
 static PROJECT_REASON compute_project_reason(PROJECT* p) {
     if (p->non_cpu_intensive) return PROJECT_REASON_NON_CPU_INTENSIVE;
@@ -611,7 +639,6 @@ static PROJECT_REASON compute_project_reason(PROJECT* p) {
     if (p->some_download_stalled()) return PROJECT_REASON_DOWNLOAD_STALLED;
     if (p->some_result_suspended()) return PROJECT_REASON_RESULT_SUSPENDED;
     if (p->too_many_uploading_results) return PROJECT_REASON_TOO_MANY_UPLOADS;
-    if (p->pwf.at_max_concurrent_limit) return PROJECT_REASON_MAX_CONCURRENT;
     if (p->pwf.n_runnable_jobs > WF_MAX_RUNNABLE_JOBS) {
         // don't request work from projects w/ > 1000 runnable jobs
         //
@@ -745,14 +772,21 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 continue;
             }
+
+            // is the buffer low for this resource?
+            //
             if (rwf.saturated_time < gstate.work_buf_min()) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO, "%s needs work - buffer low",
-                        rsc_name_long(i)
-                    );
+                // skip if project has max_concurrent and has no shortfall
+                //
+                if (!p->app_configs.project_has_mc || rpwf.mc_shortfall > 0) {
+                    if (log_flags.work_fetch_debug) {
+                        msg_printf(p, MSG_INFO, "%s needs work - buffer low",
+                            rsc_name_long(i)
+                        );
+                    }
+                    rsc_index = i;
+                    break;
                 }
-                rsc_index = i;
-                break;
             }
             if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
                 if (log_flags.work_fetch_debug) {

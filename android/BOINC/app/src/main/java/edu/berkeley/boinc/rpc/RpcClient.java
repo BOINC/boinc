@@ -676,8 +676,8 @@ public class RpcClient {
     /**
      * Reports the device name as host info to the client
      *
+     * @param deviceName The name you want to set as device name.
      * @return true for success, false for failure
-     * @deviceName The name you want to set as device name.
      */
     public synchronized boolean setDomainNameRpc(String deviceName) {
         mLastErrorMessage = null;

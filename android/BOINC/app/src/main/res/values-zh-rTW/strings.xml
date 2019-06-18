@@ -343,7 +343,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2018 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">感謝 Max Planck 引力物理研究所，IBM 公司和 HTC 公司的幫助</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
