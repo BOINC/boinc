@@ -142,8 +142,8 @@ struct APP_VERSION {
         // PFC scaling factor for this app (or 0 if not enough data)
         // The reciprocal of this version's efficiency, averaged over all jobs,
         // relative to that of the most efficient version
-    AVERAGE runtime;
-    AVERAGE cputime;
+    MEDIAN runtime;
+    MEDIAN cputime;
     double expavg_credit;
     double expavg_time;
     bool beta;

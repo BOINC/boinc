@@ -18,6 +18,9 @@
 // structure for tracking the recent approximate median
 // of a distribution that may change over time
 //
+#ifndef _MEDIAN_H
+#define _MEDIAN_H
+
 #include <cmath>
 #include <algorithm>
 #include "average.h"
@@ -117,3 +120,4 @@ struct MEDIAN_VAR : MEDIAN {
         q = 0;
     }
 };
+#endif
