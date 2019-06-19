@@ -570,7 +570,7 @@ int get_pfc(
     // Update runtime and cputime stats.
     // this is here because this is where it used to be.   It should probably be
     // elsewhere since it's really not pfc related.
-    if (!r.runtime_outlier) {
+    if (avp && !r.runtime_outlier) {
         if (r.elapsed_time > 0) {
             avp->runtime.update(r.elapsed_time,AV_AVG_THRESH,AV_AVG_WEIGHT,AV_AVG_LIMIT);
             hav.runtime.update(r.elapsed_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
