@@ -1089,9 +1089,20 @@ int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
             }
             char query[512], clause[512];
             sprintf(query,
-                "pfc_n=%.15e, pfc_avg=%.15e, expavg_credit=%.15e, expavg_time=%f",
+                "pfc_n=%.15e, "
+                "pfc_avg=%.15e, "
+                "runtime_n=%.15e, "
+                "runtime_avg=%.15e, "
+                "cputime_n=%.15e, "
+                "cputime_avg=%.15e, "
+                "expavg_credit=%.15e, "
+                "expavg_time=%f ",
                 av.pfc.n,
                 av.pfc.avg,
+                av.runtime.n,
+                av.runtime.avg,
+                av.cputime.n,
+                av.cputime.avg,
                 av.expavg_credit,
                 av.expavg_time
             );
