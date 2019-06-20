@@ -58,7 +58,7 @@ if (isset($_COOKIE['tempuserid'])) {
 if (isset($_COOKIE['tempperm'])) {
     $perm = $_COOKIE['tempperm'];
 } else {
-    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+    $perm = false;
 }
 
 // Verify login token to authenticate the account.
