@@ -27,8 +27,7 @@ function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_no
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
-    }
-    else {
+    } else {
         $mytime = $ctime;
     }
     return BoincConsent::insert(
@@ -78,8 +77,7 @@ function intercept_login($user, $perm, $in_next_url = "") {
         send_cookie('tempperm', $perm, false);
         $save_url = $in_next_url;
         return "user_agreetermsofuse.php?next_url=$save_url";
-    }
-    else {
+    } else {
         send_cookie('auth', $user->authenticator, $perm);
         return $in_next_url;
     }

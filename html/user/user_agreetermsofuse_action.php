@@ -48,16 +48,16 @@ if (isset($_COOKIE['logintoken'])) {
 } else {
     error_page(tra("Website error when attempting to agree to terms of use."));
 }
+
 if (isset($_COOKIE['tempuserid'])) {
     $userid = $_COOKIE['tempuserid'];
-}
-else {
+} else {
     error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
 }
+
 if (isset($_COOKIE['tempperm'])) {
     $perm = $_COOKIE['tempperm'];
-}
-else {
+} else {
     error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
 }
 
