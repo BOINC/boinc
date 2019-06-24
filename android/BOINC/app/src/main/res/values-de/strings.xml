@@ -42,7 +42,7 @@
   <string name="attachproject_hint_projectwebsite_science">Mehr über die Wissenschaft zu erfahren</string>
   <string name="attachproject_hint_projectwebsite_stats">Die Statistik zur Teilnahme zu sehen</string>
   <string name="attachproject_hint_projectwebsite_community">Kontakt mit anderen Teilnehmern aufzunehmen</string>
-  <string name="attachproject_hint_platforms_header">BOINC ist auch für Ihren Computer oder Laptop verfügbar, auf boinc.berkeley.edu erfahren Sie mehr.</string>
+  <string name="attachproject_hint_platforms_header">BOINC ist auch für Ihren Computer oder Laptop verfügbar. Auf boinc.berkeley.edu erfahren Sie mehr.</string>
   <!--project login-->
   <string name="attachproject_login_loading">kontaktiere Projektserver…</string>
   <string name="attachproject_login_image_description">Projektlogo.</string>
@@ -79,7 +79,7 @@
   <string name="attachproject_registration_header_pwd_confirm">… Bestätigung:</string>
   <string name="attachproject_registration_button">Erstellen</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Eine BOINC-Kontoverwaltung nutzen, um mehrere Projekte hinzuzufügen und zu verwalten. </string>
+  <string name="attachproject_acctmgr_list_desc">Eine BOINC-Kontoverwaltung nutzen, um mehrere Projekte hinzuzufügen und zu verwalten.</string>
   <string name="attachproject_acctmgr_header">Kontoverwaltung hinzufügen</string>
   <string name="attachproject_acctmgr_header_url">Adresse</string>
   <string name="attachproject_acctmgr_header_name">Benutzer:</string>
@@ -98,7 +98,7 @@
   <string name="attachproject_error_no_name">Bitte einen Benutzernamen eingeben</string>
   <string name="attachproject_error_unknown">fehlgeschlagen</string>
   <string name="attachproject_error_bad_username">Benutzername nicht erlaubt</string>
-  <string name="attachproject_error_email_in_use">E-Mail-Adresse ist bereits registriert</string>
+  <string name="attachproject_error_email_in_use">E-Mail-Adresse bereits registriert</string>
   <string name="attachproject_error_project_down">Projekt nicht erreichbar</string>
   <string name="attachproject_error_email_bad_syntax">E-Mail-Adresse nicht akzeptiert</string>
   <string name="attachproject_error_bad_pwd">Passwort zu kurz</string>
@@ -145,7 +145,7 @@
   <string name="status_benchmarking">Leistungsüberprüfung…</string>
   <string name="status_image_description">Projektbild</string>
   <!--preferences tab strings-->
-  <string name="prefs_loading">lese Einstellungen…</string>
+  <string name="prefs_loading">Lese Einstellungen…</string>
   <string name="prefs_submit_button">Speichern</string>
   <string name="prefs_dialog_title">Neuen Wert eingeben:</string>
   <string name="prefs_dialog_title_selection">Auswählen:</string>
@@ -157,7 +157,7 @@
   <string name="prefs_category_memory">Arbeitsspeicher</string>
   <string name="prefs_category_other">Sonstiges</string>
   <string name="prefs_category_debug">Fehlerdiagnose</string>
-  <string name="prefs_show_advanced_header">Zeige erweiterte Einstellungen und Steuerungen…</string>
+  <string name="prefs_show_advanced_header">Zeige erweiterte Einstellungen und Steuerungen</string>
   <string name="prefs_suspend_when_screen_on">Die Berechnung anhalten wenn der Bildschirm eingeschaltet ist</string>
   <string name="prefs_general_device_name_header">Gerätename</string>
   <string name="prefs_stationary_device_mode_header">Modus für feststehende Geräte</string>
@@ -193,9 +193,9 @@
   <string name="prefs_memory_max_idle_header">Arbeitsspeicherlimit</string>
   <string name="prefs_memory_max_idle_description">Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Speichere mindestens für X Tage Arbeit</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">Speichere Arbeit für mindestens X Tage</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Speichere zusätzlich für weitere X Tage Arbeit</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Speichere zusätzlich Arbeit für weitere X Tage</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
@@ -210,7 +210,7 @@
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Angehalten durch Benutzer</string>
   <string name="projects_status_dontrequestmorework">Keine neuen Arbeitspakete</string>
-  <string name="projects_status_ended">Projekt wurde beendet - kann jetzt entfernt werden</string>
+  <string name="projects_status_ended">Projekt wurde beendet &amp; kann jetzt entfernt werden</string>
   <string name="projects_status_detachwhendone">wird entfernt wenn Aufgaben erledigt</string>
   <string name="projects_status_schedrpcpending">Serveranfrage ausstehend</string>
   <string name="projects_status_schedrpcinprogress">Serveranfrage läuft</string>
@@ -235,7 +235,7 @@
   <string name="projects_confirm_detach_message2">von BOINC entfernen?</string>
   <string name="projects_confirm_detach_confirm">Entfernen</string>
   <string name="projects_confirm_reset_title">Projekt zurücksetzen</string>
-  <string name="projects_confirm_reset_message">Sind Sie sicher, dass Projekt neu zu initialisieren</string>
+  <string name="projects_confirm_reset_message">Sind Sie sicher, das Projekt neu zu initialisieren</string>
   <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Zurücksetzen</string>
   <string name="projects_confirm_remove_acctmgr_title">Kontoverwaltung deaktivieren</string>
@@ -310,7 +310,7 @@
   <string name="suspend_wifi">Nicht per WLAN verbunden.</string>
   <string name="suspend_battery_charging">Warten bis der Akku geladen ist.</string>
   <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt wenn der Ladezustand größer</string>
-  <string name="suspend_battery_charging_long2"></string>
+  <string name="suspend_battery_charging_long2">ist</string>
   <string name="suspend_battery_charging_current">aktuell</string>
   <string name="suspend_battery_overheating">Warten bis der Akku abgekühlt ist</string>
   <string name="suspend_user_req">Berechnung wird fortgesetzt…</string>
