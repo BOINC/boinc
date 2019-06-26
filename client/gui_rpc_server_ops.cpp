@@ -1300,13 +1300,14 @@ static bool complete_post_request(char* buf) {
 struct AUTH_INFO {
     int id;
     long seqno;
+    char salt[64];
 };
 
 vector<AUTH_INFO> auth_infos;
 
 // check HTTP authentication info
 //
-bool valid_auth(int id, long seqno, char* hash) {
+bool valid_auth(int id, long seqno, char* hash, char* request) {
     char buf[256], my_hash[256];
     //printf("valid_auth: id %d seqno %ld hash %s\n", id, seqno, hash);
     for (unsigned int i=0; i<auth_infos.size(); i++) {
@@ -1314,8 +1315,11 @@ bool valid_auth(int id, long seqno, char* hash) {
         if (ai.id != id) continue;
         if (seqno <= ai.seqno) return false;
         ai.seqno = seqno;
-        snprintf(buf, sizeof(buf), "%d%s", seqno, gstate.gui_rpcs.password);
-        md5_block((const unsigned char*)buf, (int)strlen(buf), my_hash);
+        int n = request?(int)strlen(request):0;
+        snprintf(buf, sizeof(buf), "%d%s%s", seqno, gstate.gui_rpcs.password, ai.salt);
+        md5_block((const unsigned char*)buf, (int)strlen(buf), my_hash,
+            (const unsigned char*)request, n
+        );
         if (strcmp(hash, my_hash)) return false;
         return true;
     }
@@ -1329,8 +1333,9 @@ void handle_get_auth_id(MIOFILE& fout) {
     AUTH_INFO ai;
     ai.id = id++;
     ai.seqno = 0;
+    make_random_string(ai.salt);
     auth_infos.push_back(ai);
-    fout.printf("<auth_id>%d</auth_id>\n", ai.id);
+    fout.printf("<auth_id>%d</auth_id>\n<auth_salt>%s</auth_salt>\n", ai.id, ai.salt);
 }
 
 // see if the HTTP request has valid authentication info
@@ -1351,7 +1356,9 @@ static bool authenticated_request(char* buf) {
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
     if (n != 1) return false;
-    return valid_auth(auth_id, auth_seqno, auth_hash);
+    char* request = strstr(buf, "\n\n");
+    if (request) request += 2;
+    return valid_auth(auth_id, auth_seqno, auth_hash, request);
 }
 
 static void handle_set_language(GUI_RPC_CONN& grc) {
