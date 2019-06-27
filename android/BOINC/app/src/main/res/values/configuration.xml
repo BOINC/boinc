@@ -25,6 +25,7 @@
     <string name="client_config" translatable="false">cc_config.xml</string>
     <string name="auth_file_name" translatable="false">gui_rpc_auth.cfg</string>
     <string name="all_projects_list" translatable="false">all_projects_list.xml</string>
+    <string name="nomedia" translatable="false">nomedia</string>
     <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
     <string name="assets_dir_arm64" translatable="false">arm64-v8a/</string>
     <string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
