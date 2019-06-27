@@ -18,16 +18,21 @@ const crypto = require('crypto')
 
 var auth_id = 0;
 var auth_seqno = 1;
-var passwd;
+var auth_salt;
+var passwd = null;
 var http = new XMLHttpRequest();
 
 var state;	// result of get_state()
 
-// read RPC password from file
+// read GUI RPC password from file
 //
 function read_password() {
-	let x = String(fs.readFileSync("gui_rpc_auth.cfg"));
-	passwd = x.trim();
+	try {
+		p = fs.readFileSync("gui_rpc_auth.cfg")
+		passwd = String(p).trim();
+	} catch (err) {
+		console.log("can't read RPC password file");
+	}
 }
 
 // initiate a GUI RPC, passing authentication info if needed
@@ -49,8 +54,9 @@ function gui_rpc(request) {
 			http.setRequestHeader("Auth-ID", auth_id);
 			console.log("request "+request+ " auth ID " + auth_id + " seqno " + auth_seqno);
 			http.setRequestHeader("Auth-Seqno", auth_seqno);
-			var s = String(auth_seqno);
-			var x = crypto.createHash('md5').update(s+passwd).digest("hex");
+			var seqno = String(auth_seqno);
+			var salt = String(auth_salt);
+			var x = crypto.createHash('md5').update(seqno+passwd+salt+request).digest("hex");
 			http.setRequestHeader("Auth-Hash", x);
 			auth_seqno++;
 		}
@@ -70,10 +76,18 @@ function set_run_mode(mode) {
 //
 function authorize() {
 	read_password();
+	if (!passwd) {
+		return new Promise(function(resolve, reject) {
+			resolve();
+		});
+	}
 	return gui_rpc("<get_auth_id/>").then(function(reply) {
+		// TODO: error checking
 		x = new DOMParser().parseFromString(reply, "text/xml");
 		auth_id = x.getElementsByTagName("auth_id")[0].childNodes[0].nodeValue;
-		console.log("auth_id: "+auth_id);
+		auth_salt = x.getElementsByTagName("auth_salt")[0].childNodes[0].nodeValue;
+		//console.log("auth_id: "+auth_id);
+		//console.log("auth_salt: "+auth_salt);
 	});
 }
 
@@ -81,7 +95,6 @@ function authorize() {
 //
 function get_state() {
 	return gui_rpc("<get_state/>").then(function(reply) {
-		//console.log("reply:" + reply);
 		parser = new DOMParser();
 		state = parser.parseFromString(reply, "text/xml");
 	});

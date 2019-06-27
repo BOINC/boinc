@@ -1314,13 +1314,16 @@ bool valid_auth(int id, long seqno, char* hash, char* request) {
         AUTH_INFO& ai = auth_infos[i];
         if (ai.id != id) continue;
         if (seqno <= ai.seqno) return false;
-        ai.seqno = seqno;
         int n = request?(int)strlen(request):0;
-        snprintf(buf, sizeof(buf), "%d%s%s", seqno, gstate.gui_rpcs.password, ai.salt);
+        snprintf(buf, sizeof(buf), "%ld%s%s", seqno, gstate.gui_rpcs.password, ai.salt);
         md5_block((const unsigned char*)buf, (int)strlen(buf), my_hash,
             (const unsigned char*)request, n
         );
-        if (strcmp(hash, my_hash)) return false;
+        if (strcmp(hash, my_hash)) {
+            msg_printf(0, MSG_INFO, "got invalid GUI RPC request");
+            return false;
+        }
+        ai.seqno = seqno;   // bump seqno only if valid request
         return true;
     }
     return false;
@@ -1356,8 +1359,8 @@ static bool authenticated_request(char* buf) {
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
     if (n != 1) return false;
-    char* request = strstr(buf, "\n\n");
-    if (request) request += 2;
+    char* request = strstr(buf, "\r\n\r\n");
+    if (request) request += 4;
     return valid_auth(auth_id, auth_seqno, auth_hash, request);
 }
 
