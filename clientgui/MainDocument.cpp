@@ -922,11 +922,13 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
         pFrame->GetEventHandler()->AddPendingEvent(event);
+#ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->AddPendingEvent(event);
         }
+#endif
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
             eventLog->OnRefresh();
@@ -1803,17 +1805,19 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             );
         }
 #else
-        char* argv[2];
-
         // If graphics app is already running, don't launch a second instance
         //
         if (previous_gfx_app) return 0;
-        argv[0] = 0;
+
+        char* argv[2] = {
+            rp->graphics_exec_path,
+            NULL
+        };
 
         iRetVal = run_program(
             rp->slot_path,
             rp->graphics_exec_path,
-            0,
+            1,
             argv,
             0,
             id

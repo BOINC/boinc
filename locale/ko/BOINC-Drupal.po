@@ -5,13 +5,13 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Jin Lee <ysjbserver@naver.com>, 2015
+# ysjbserver <ysjbserver@naver.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-26 05:32+0000\n"
+"PO-Revision-Date: 2018-05-17 01:01+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"

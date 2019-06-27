@@ -457,14 +457,30 @@ function get_job_status() {
     return $s;
 }
 
+function show_counts_xml() {
+    xml_header();
+    echo "<job_counts>\n";
+    item_xml('results_ready_to_send', BoincResult::count("server_state=2"));
+    item_xml('results_in_progress', BoincResult::count("server_state=4"));
+    item_xml('results_need_file_delete', BoincResult::count("file_delete_state=1"));
+    item_xml('wus_need_validate', BoincWorkunit::count("need_validate=1"));
+    item_xml('wus_need_assimilate', BoincWorkunit::count("assimilate_state=1"));
+    item_xml('wus_need_file_delete', BoincWorkunit::count("file_delete_state=1"));
+    echo "</job_counts>\n";
+}
+
 function main() {
-    $x = new StdClass;
-    $x->daemons = get_daemon_status();
-    $x->jobs = get_job_status();
-    if (get_int('xml', true)) {
-        show_status_xml($x);
+    if (get_int('counts', true)) {
+        show_counts_xml();
     } else {
-        show_status_html($x);
+        $x = new StdClass;
+        $x->daemons = get_daemon_status();
+        $x->jobs = get_job_status();
+        if (get_int('xml', true)) {
+            show_status_xml($x);
+        } else {
+            show_status_html($x);
+        }
     }
 }
 

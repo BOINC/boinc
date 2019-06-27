@@ -135,9 +135,16 @@ bool ACTIVE_TASK_SET::poll() {
             ACTIVE_TASK* atp = active_tasks[i];
             if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
             if (atp->finish_file_time) {
-                // process is still there 10 sec after it wrote finish file.
-                // abort the job
-                atp->abort_task(EXIT_ABORTED_BY_CLIENT, "finish file present too long");
+                if (gstate.now - atp->finish_file_time > FINISH_FILE_TIMEOUT) {
+                    // process is still there 5 min after it wrote finish file.
+                    // abort the job
+                    // Note: actually we should treat it as successful.
+                    // But this would be tricky.
+                    //
+                    atp->abort_task(EXIT_ABORTED_BY_CLIENT,
+                        "Process still present 5 min after writing finish file; aborting"
+                    );
+                }
             } else if (atp->finish_file_present()) {
                 atp->finish_file_time = gstate.now;
             }

@@ -19,6 +19,7 @@
 require_once("../inc/consent.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/account_ownership.inc");
 require_once("../inc/server_version.inc");
 
 BoincDb::get(true);
@@ -39,7 +40,7 @@ function show_platforms() {
                 <platform_name>$platform->name</platform_name>
                 <user_friendly_name>$platform->user_friendly_name</user_friendly_name>";
             if ($platform->plan_class) $xmlFragment .= "
-                <plan_class>$platform->plan_class</plan_class>\n"; 
+                <plan_class>$platform->plan_class</plan_class>\n";
             $xmlFragment .= "
             </platform>";
         }
@@ -134,6 +135,12 @@ if (LDAP_HOST) {
 
 if (file_exists("../../project_keywords.xml")) {
     readfile("../../project_keywords.xml");
+}
+
+if (is_readable($account_ownership_public_key)) {
+    echo "    <account_ownership_public_key>";
+    echo base64_encode(file_get_contents($account_ownership_public_key));
+    echo "</account_ownership_public_key>\n";
 }
 
 echo "</project_config>";

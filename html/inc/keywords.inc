@@ -180,7 +180,7 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     keyword('KW_CZECH', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Czech Republic'
     );
-        keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_GERMANY,
+        keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_CZECH,
             'Charles University in Prague'
         );
     keyword('KW_GERMANY', KW_CATEGORY_LOC, 1, KW_EUROPE,
@@ -216,10 +216,10 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     keyword('KW_RUSSIA', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Russia'
     );
-        keyword('KW_SW_STATE_RUSSIA', KW_CATEGORY_LOC, 2, KW_SPAIN,
+        keyword('KW_SW_STATE_RUSSIA', KW_CATEGORY_LOC, 2, KW_RUSSIA,
             'Southwest State University, Russia'
         );
-        keyword('KW_RAS', KW_CATEGORY_LOC, 2, KW_SPAIN,
+        keyword('KW_RAS', KW_CATEGORY_LOC, 2, KW_RUSSIA,
             'Russian Academy of Science'
         );
     keyword('KW_SPAIN', KW_CATEGORY_LOC, 1, KW_EUROPE,

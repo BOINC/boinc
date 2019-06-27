@@ -47,4 +47,5 @@ public class BOINCErrors {
     public final static int ERR_BAD_PASSWD = -206;
     public final static int ERR_NONUNIQUE_EMAIL = -207;
     public final static int ERR_ACCT_CREATION_DISABLED = -208; // i.e. account creation currently disabled
+    public final static int ERR_ACCT_REQUIRE_CONSENT = -242; // project requires consent
 }

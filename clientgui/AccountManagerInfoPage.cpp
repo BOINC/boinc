@@ -302,10 +302,10 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             CAcctMgrListItem* pItem = new CAcctMgrListItem();
 
-            pItem->SetURL( pl.account_managers[i]->url.c_str() );
-            pItem->SetName( pl.account_managers[i]->name.c_str() );
-            pItem->SetImage( pl.account_managers[i]->image.c_str() );
-            pItem->SetDescription( pl.account_managers[i]->description.c_str() );
+            pItem->SetURL( wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8) );
+            pItem->SetName( wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8) );
+            pItem->SetImage( wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8) );
+            pItem->SetDescription( wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8) );
 
             
             m_pProjectListCtrl->Append(
