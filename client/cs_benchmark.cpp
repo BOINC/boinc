@@ -236,7 +236,7 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 }
 #endif
 
-void CLIENT_STATE::start_cpu_benchmarks() {
+void CLIENT_STATE::start_cpu_benchmarks(bool force) {
     int i;
 
     if (benchmarks_running) {
@@ -246,7 +246,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         return;
     }
 
-    if (cc_config.skip_cpu_benchmarks) {
+    if (cc_config.skip_cpu_benchmarks && !force) {
         if (log_flags.benchmark_debug) {
             msg_printf(0, MSG_INFO,
                 "[benchmark] start_cpu_benchmarks(): Skipping CPU benchmarks"

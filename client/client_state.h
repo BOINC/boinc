@@ -380,7 +380,7 @@ struct CLIENT_STATE {
 
     void check_if_need_benchmarks();
     bool can_run_cpu_benchmarks();
-    void start_cpu_benchmarks();
+    void start_cpu_benchmarks(bool force = false);
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
     bool cpu_benchmarks_done();
