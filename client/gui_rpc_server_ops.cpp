@@ -459,7 +459,7 @@ static void handle_set_network_mode(GUI_RPC_CONN& grc) {
 }
 
 static void handle_run_benchmarks(GUI_RPC_CONN& grc) {
-    gstate.start_cpu_benchmarks();
+    gstate.start_cpu_benchmarks(true);
     grc.mfout.printf("<success/>\n");
 }
 
