@@ -1384,6 +1384,7 @@ void ACCOUNT_IN::clear() {
     server_cookie.clear();
     ldap_auth = false;
     server_assigned_cookie = false;
+    consented_to_terms = false;
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
@@ -1458,7 +1459,7 @@ void CC_STATUS::clear() {
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
-int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
+int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1469,10 +1470,12 @@ int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
         "   <major>%d</major>\n"
         "   <minor>%d</minor>\n"
         "   <release>%d</release>\n"
+        "   <name>%s</name>\n"
         "</exchange_versions>\n",
         BOINC_MAJOR_VERSION,
         BOINC_MINOR_VERSION,
-        BOINC_RELEASE
+        BOINC_RELEASE,
+        client_name.c_str()
     );
 
     retval = rpc.do_rpc(buf);
@@ -2375,12 +2378,14 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <user_name>%s</user_name>\n"
         "   <team_name>%s</team_name>\n"
+        "   %s"
         "</create_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
         ai.user_name.c_str(),
-        ai.team_name.c_str()
+        ai.team_name.c_str(),
+        ai.consented_to_terms ? "<consented_to_terms/>\n" : ""
     );
     buf[sizeof(buf)-1] = 0;
 

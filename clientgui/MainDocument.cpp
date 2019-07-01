@@ -41,6 +41,7 @@
 #include "DlgEventLog.h"
 #include "Events.h"
 #include "SkinManager.h"
+#include "version.h"
 
 #ifndef _WIN32
 #include <sys/wait.h>
@@ -373,7 +374,8 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
 
         // Get the version of the client and cache it
         VERSION_INFO vi;
-        m_pDocument->rpc.exchange_versions(vi);
+        string rpc_client_name = "BOINC Manager " BOINC_VERSION_STRING;
+        m_pDocument->rpc.exchange_versions(rpc_client_name, vi);
         m_strConnectedComputerVersion.Printf(
             wxT("%d.%d.%d"),
             vi.major, vi.minor, vi.release
