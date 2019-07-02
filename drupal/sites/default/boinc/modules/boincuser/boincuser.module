@@ -2311,7 +2311,7 @@ function boincuser_get_profile_links($uid) {
       $output .= '</li>';
       $count++;
     }
-    $output .= '<li class="' . (($count) ? '' : 'first ') . 'last tab">' . flag_create_link('abuse_user', $account->uid) . '</li>';
+    $output .= '<li class="' . (($count) ? '' : 'first ') . 'last tab">' . flag_create_link('abuse_user_meta', $account->uid) . '</li>';
     $output .= '</ul>';
   }
   return $output;
