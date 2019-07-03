@@ -18,10 +18,15 @@
 
 // functions dealing with the consent and consent_type tables.
 
-include_once("../inc/boinc_db.inc");
-include_once("../inc/util.inc");
+require_once("../inc/boinc_db.inc");
+require_once("../inc/util.inc");
 
 define('CONSENT_TYPE_ENROLL','ENROLL');
+
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
 
 function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
     $mys = BoincDb::escape_string($source);
