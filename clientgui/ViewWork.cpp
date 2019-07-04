@@ -118,6 +118,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
 #endif
     EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
     EVT_LIST_COL_END_DRAG(ID_LIST_WORKVIEW, CViewWork::OnColResize)
+    EVT_CONTEXT_MENU(CViewWork::OnRightClick)
 END_EVENT_TABLE ()
 
 
@@ -1288,3 +1289,36 @@ int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
     return 0;
 }
 
+
+void CViewWork::OnPopupClick(wxCommandEvent &evt) {
+    switch(evt.GetId()) {
+    case ID_TASK_WORK_SUSPEND: {
+        OnWorkSuspend(evt);
+        break;
+    }
+    case ID_TASK_WORK_SHOWGRAPHICS: {
+        OnWorkShowGraphics(evt);
+        break;
+    }
+    case ID_TASK_WORK_VMCONSOLE: {
+        OnWorkShowVMConsole(evt);
+        break;
+    }
+    case ID_TASK_WORK_ABORT: {
+        OnWorkAbort(evt);
+        break;
+    }
+    case ID_TASK_SHOW_PROPERTIES: {
+        OnShowItemProperties(evt);
+        break;
+    }
+    case ID_TASK_ACTIVE_ONLY: {
+        OnActiveTasksOnly(evt);
+        break;
+    }
+    default: {
+        OnProjectWebsiteClicked(evt);
+        break;
+    }
+    }
+}

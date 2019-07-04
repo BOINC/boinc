@@ -116,6 +116,8 @@ protected:
 
     int                     GetProjectCacheAtIndex(CProject*& projectPtr, int index);
 
+    virtual void            OnPopupClick(wxCommandEvent &evt);
+
     DECLARE_EVENT_TABLE()
 };
 
