@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script src="web.js"></script>
+        <script src="msg.js"></script>
+        <script src="upd.js"></script>
+        <script src="get_vbox_version.js"></script>
+        <script src="task.js"></script>
+
+<style>
+
+ .btn-primary {
+    background: #9CC;
+    color: #633;
+    padding: 20px;
+ }
+
+ .row {
+     position: relative;
+ }
+
+ #logholder {
+ }
+
+ .col-sm-7 {
+     border-radius: 25px;
+     padding: 20px; 
+     position: fixed;
+     bottom: 0;
+     right: 0;
+     height: 300px;
+     overflow-y: auto;
+ }
+
+</style>
+
+
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="col-sm-12">
+                <h2>BOINC NetManager</h2>   
+                <div id = "buttons" >
+                    <button type="button" onclick="WebSocketTest()" class="btn btn-primary">Ping the BOINC client</button>
+                    <button id="gt" type="button" onclick="GetMessages()" class="btn btn-primary">Get the messages</button>
+                    <button type="button" onclick="Update()" class="btn btn-primary">Update Project</button>
+                    <button type="button" onclick="Get_VBox_Version()" class="btn btn-primary">Get VirtualBox Version</button>
+                    <button id="task" type="button" onclick="Tasks()" class="btn btn-primary">Active Tasks</button>
+                </div>
+
+                <h4 id="demo" class="bg-success"></h4>
+            </div>
+
+            <div id ="logholder" class="col-sm-7"></div>
+
+            <div id="prog" class="col-sm-12">
+            </div>
+
+        </div>
+    </body>
+</html>
