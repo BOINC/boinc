@@ -327,7 +327,7 @@ except:
 try:
     os.system('cd '+proot+'/html/ops; ./generate_account_ownership_keys.php')
 except:
-    print '''Couldn't generate account ownership keypair'''
+    print ('''Couldn't generate account ownership keypair''')
 
 print ('''Done installing default daemons.''')
 
