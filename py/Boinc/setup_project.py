@@ -686,10 +686,10 @@ require valid-user
     #     self.config.write()
 
     def start_stripcharts(self):
-          cgi_bin = [ 'stripchart.cgi', 'stripchart', 'stripchart.cnf',
-              'looper', 'db_looper', 'datafiles', 'get_load', 'dir_size' ]
-          for f in cgi_bin:
-              self.copy(os.path.join('stripchart', f), 'cgi-bin/')
+        cgi_bin = [ 'stripchart.cgi', 'stripchart', 'stripchart.cnf',
+            'looper', 'db_looper', 'datafiles', 'get_load', 'dir_size' ]
+        for f in cgi_bin:
+            self.copy(os.path.join('stripchart', f), 'cgi-bin/')
 
         macro_substitute('BOINC_DB_NAME', self.db_name, srcdir('stripchart/samples/db_count'),
                          self.dest('bin/db_count'))
