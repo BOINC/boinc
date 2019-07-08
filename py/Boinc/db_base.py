@@ -43,7 +43,7 @@ class DatabaseInconsistency(Exception):
             self.search_kwargs,
             '\n'.join(
             [ "          %s#%s %s"%(o._table.table,o.__dict__.get('id'),o) for o in self.search_tree ]
-            ))
+            )))
 
 class Debug:
     def __init__(self):
@@ -323,7 +323,7 @@ class DatabaseTable:
         return
 
     def _create_objects_from_sql_results(self, results, kwargs):
-        return map(self._create_object_from_sql_result, results)
+        return [ self._create_object_from_sql_result for result in  results ]
 
     def _create_object_from_sql_result(self, result):
         id = result['id']
@@ -521,7 +521,7 @@ def init_table_classes(database_classes_, more_id_lookups = {}):
 
     DatabaseObject.id_lookups.update(more_id_lookups)
 
-    database_tables = [ c._table, for c in database_classes ]
+    database_tables = [ c._table for c in database_classes ]
 
 def check_database_consistency():
     '''Raises DatabaseInconsistency on error.
