@@ -450,7 +450,7 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'xadd',
         ]
     for f in command:
-        install(builddir('vda/' + f), dest('bin',f))
+        install(builddir('tools/' + f), dest('bin',f))
     install(srcdir('lib/crypt_prog'), dest('bin','crypt_prog'))
     install(srcdir('sched/db_dump_spec.xml' ), dest('','db_dump_spec.xml' ))
 
