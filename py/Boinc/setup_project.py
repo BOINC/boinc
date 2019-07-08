@@ -425,7 +425,7 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
         ]
     for f in command:
         install(builddir('sched',f), dest('bin',f))
-    command = [ 'vda', 'vdad' ])
+    command = [ 'vda', 'vdad' ]
     for f in command:
         install(builddir('vda',f), dest('bin',f))
     command = [
