@@ -42,7 +42,7 @@ class DatabaseInconsistency(Exception):
             self.search_table,
             self.search_kwargs,
             '\n'.join(
-            map(lambda o:"          %s#%s %s"%(o._table.table,o.__dict__.get('id'),o), self.search_tree))
+            [ "          %s#%s %s"%(o._table.table,o.__dict__.get('id'),o) for o in self.search_tree ]
             ))
 
 class Debug:
@@ -521,7 +521,7 @@ def init_table_classes(database_classes_, more_id_lookups = {}):
 
     DatabaseObject.id_lookups.update(more_id_lookups)
 
-    database_tables = map(lambda c: c._table, database_classes)
+    database_tables = [ c._table, for c in database_classes ]
 
 def check_database_consistency():
     '''Raises DatabaseInconsistency on error.
