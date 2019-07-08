@@ -298,7 +298,7 @@ def create_project_dirs(dest_dir):
         'html/user_profile/images',
     ]
     for d in directories:
-        os.chmod(dir(d), 0o2770)
+        os.chmod(os.path.join(dest_dir, d), 0o2770)
 
 def install_boinc_files(dest_dir, install_web_files, install_server_files):
     """Copy files from source dir to project dir.
