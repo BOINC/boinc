@@ -96,7 +96,8 @@ class ConfigDictList(list):
         self._node = dom_node
         list.__init__(self, map(item_class, get_child_elements(self._node)))
     def save(self):
-        map(ConfigDict.save, self)
+        for item in self:
+            ConfigDict.save(item)
     def make_node_and_append(self, name):
         '''Make a new ConfigDict and append it. Returns new ConfigDict.'''
         new_element = append_new_element(self._node, name)
