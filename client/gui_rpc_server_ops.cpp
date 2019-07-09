@@ -76,6 +76,9 @@
 using std::string;
 using std::vector;
 
+const char* HTTP_HEADER_DELIM = "\r\n\r\n";
+const size_t HTTP_HEADER_DELIM_LEN = strlen(HTTP_HEADER_DELIM);
+
 static void auth_failure(MIOFILE& fout) {
     fout.printf("<unauthorized/>\n");
 }
@@ -1284,9 +1287,9 @@ static bool complete_post_request(char* buf) {
     if (!p) return false;
     p += strlen("Content-Length: ");
     int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
+    p = strstr(p, HTTP_HEADER_DELIM);
     if (!p) return false;
-    p += 4;
+    p += HTTP_HEADER_DELIM_LEN;
     if ((int)strlen(p) < n) return false;
     return true;
 }
@@ -1359,8 +1362,8 @@ static bool authenticated_request(char* buf) {
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
     if (n != 1) return false;
-    char* request = strstr(buf, "\r\n\r\n");
-    if (request) request += 4;
+    char* request = strstr(buf, HTTP_HEADER_DELIM);
+    if (request) request += HTTP_HEADER_DELIM_LEN;
     return valid_auth(auth_id, auth_seqno, auth_hash, request);
 }
 
@@ -1697,7 +1700,10 @@ int GUI_RPC_CONN::handle_rpc() {
 
 #define XML_HEADER "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
 
-    mfout.printf("</boinc_gui_rpc_reply>\n\003");
+    mfout.printf("</boinc_gui_rpc_reply>\n");
+    if (!http_request) {
+        mfout.printf("\003");   // delimiter for non-HTTP replies
+    }
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
@@ -1715,8 +1721,10 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     if (p) {
         send(sock, p, n, 0);
-        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.gui_rpc_debug) {
+            if (!http_request) {
+                p[n-1]=0;   // replace 003 with NULL
+            }
             if (n > 128) p[128] = 0;
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p
