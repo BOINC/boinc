@@ -232,7 +232,7 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).authorize((const char*)(current_request->arg1));
         break;
     case RPC_EXCHANGE_VERSIONS:
-        retval = (m_pDoc->rpcClient).exchange_versions(*(VERSION_INFO*)(current_request->arg1));
+        retval = (m_pDoc->rpcClient).exchange_versions(*(std::string*)(current_request->arg1), *(VERSION_INFO*)(current_request->arg2));
         break;
     case RPC_GET_STATE:
         retval = (m_pDoc->rpcClient).get_state(*(CC_STATE*)(current_request->arg1));

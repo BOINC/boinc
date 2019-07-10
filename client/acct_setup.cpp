@@ -46,6 +46,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
     server_cookie = "";
     ldap_auth = false;
     server_assigned_cookie = false;
+    consented_to_terms = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -56,6 +57,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("server_cookie", server_cookie)) continue;
         if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
         if (xp.parse_bool("server_assigned_cookie", server_assigned_cookie)) continue;
+        if (xp.parse_bool("consented_to_terms", consented_to_terms)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -152,7 +154,7 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
     }
 }
 
-int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
+int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai, string rpc_client_name) {
     int retval;
     string url;
     string parameter;
@@ -181,6 +183,13 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         escape_url(parameter);
         url += parameter;
     }
+
+    if (ai.consented_to_terms) {
+        parameter = rpc_client_name;
+        escape_url(parameter);
+        url += "&consent_flag=1&source=" + parameter;
+    }
+
     retval = gui_http->do_rpc(
         this, url.c_str(), CREATE_ACCOUNT_FILENAME, false
     );

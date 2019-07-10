@@ -280,7 +280,10 @@ void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
     // re-enabled if the back button is pressed.
     pWA->EnableNextButton();
 
-    if (event.GetDirection() == false) return;
+    if (event.GetDirection() == false) {
+        pWA->SetConsentedToTerms(false);
+        return;
+    }
 
     if (!CHECK_CLOSINGINPROGRESS()) {
         // We are leaving this page.
@@ -293,6 +296,7 @@ void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
         } else {
             SetCredentialsAlreadyAvailable(false);
         }
+        pWA->SetConsentedToTerms(GetUserAgrees());
     }
 }
   

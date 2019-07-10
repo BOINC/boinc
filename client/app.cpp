@@ -283,6 +283,13 @@ int ACTIVE_TASK::init(RESULT* rp) {
     wup = rp->wup;
     app_version = rp->avp;
     max_elapsed_time = rp->wup->rsc_fpops_bound/rp->avp->flops;
+    if (max_elapsed_time < MIN_TIME_BOUND) {
+        msg_printf(wup->project, MSG_INFO,
+            "Elapsed time limit %f < %f; setting to %f",
+            max_elapsed_time, MIN_TIME_BOUND, DEFAULT_TIME_BOUND
+        );
+        max_elapsed_time = DEFAULT_TIME_BOUND;
+    }
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));

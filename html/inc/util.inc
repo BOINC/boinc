@@ -1148,9 +1148,13 @@ function text_end() {
     echo "</div>\n";
 }
 
-// Utility function to check the terms of use.
-function check_termsofuse() {
-    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+// express a size in terms of GB or MB
+//
+function size_string($x) {
+    if ($x > GIGA) {
+        return number_format($x/GIGA, 2)." GB";
+    }
+    return number_format($x/MEGA, 2)." MB";
 }
 
 function cert_filename() {

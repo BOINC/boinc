@@ -60,6 +60,8 @@ public:
         // On next auth failure, disconnect
     bool is_local;
         // connection is from local host
+    VERSION_INFO client_api;
+    std::string client_name;
     bool quit_flag;
     int au_ss_state;
     int au_mgr_state;

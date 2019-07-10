@@ -102,9 +102,20 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     return 0;
 }
 
-// client passes its version, but ignore it for now
-//
 static void handle_exchange_versions(GUI_RPC_CONN& grc) {
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.parse_int("major", grc.client_api.major)) continue;
+        if (grc.xp.parse_int("minor", grc.client_api.minor)) continue;
+        if (grc.xp.parse_int("release", grc.client_api.release)) continue;
+        if (grc.xp.parse_string("name", grc.client_name)) continue;
+    }
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(NULL, MSG_INFO, "[gui_rpc] RPC client: %s; API %d.%d.%d",
+            grc.client_name.size() ? grc.client_name.c_str() : "unknown",
+            grc.client_api.major, grc.client_api.minor, grc.client_api.release
+        );
+    }
+
     grc.mfout.printf(
         "<server_version>\n"
         "   <major>%d</major>\n"
@@ -459,7 +470,7 @@ static void handle_set_network_mode(GUI_RPC_CONN& grc) {
 }
 
 static void handle_run_benchmarks(GUI_RPC_CONN& grc) {
-    gstate.start_cpu_benchmarks();
+    gstate.start_cpu_benchmarks(true);
     grc.mfout.printf("<success/>\n");
 }
 
@@ -823,7 +834,12 @@ void handle_create_account(GUI_RPC_CONN& grc) {
     ACCOUNT_IN ai;
 
     ai.parse(grc.xp);
-    grc.create_account_op.do_rpc(ai);
+    if (ai.consented_to_terms && !grc.client_name.size()) {
+        grc.create_account_op.error_num = ERR_INVALID_STATE;
+        grc.mfout.printf("<error>&lt;name&gt; must be set in &lt;exchange_versions&gt; before using &lt;consented_to_terms/&gt;</error>\n");
+        return;
+    }
+    grc.create_account_op.do_rpc(ai, grc.client_name);
     grc.mfout.printf("<success/>\n");
 }
 

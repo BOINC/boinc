@@ -90,6 +90,7 @@ public class Monitor extends Service {
     private String fileNameClientConfig;
     private String fileNameGuiAuthentication;
     private String fileNameAllProjectsList;
+    private String fileNameNoMedia;
     private String boincWorkingDir;
     private Integer clientStatusInterval;
     private Integer deviceStatusIntervalScreenOff;
@@ -124,6 +125,7 @@ public class Monitor extends Service {
         fileNameClientConfig = getString(R.string.client_config);
         fileNameGuiAuthentication = getString(R.string.auth_file_name);
         fileNameAllProjectsList = getString(R.string.all_projects_list);
+        fileNameNoMedia = getString(R.string.nomedia);
         clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
         deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
         clientSocketAddress = getString(R.string.client_socket_address);
@@ -682,24 +684,28 @@ public class Monitor extends Service {
      */
     private Boolean installClient() {
 
-        if (!installFile(fileNameClient, true, true)) {
+        if (!installFile(fileNameClient, true, true, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
             return false;
         }
-        if (!installFile(fileNameCLI, true, true)) {
+        if (!installFile(fileNameCLI, true, true, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCLI);
             return false;
         }
-        if (!installFile(fileNameCABundle, true, false)) {
+        if (!installFile(fileNameCABundle, true, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCABundle);
             return false;
         }
-        if (!installFile(fileNameClientConfig, true, false)) {
+        if (!installFile(fileNameClientConfig, true, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClientConfig);
             return false;
         }
-        if (!installFile(fileNameAllProjectsList, true, false)) {
+        if (!installFile(fileNameAllProjectsList, true, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameAllProjectsList);
+            return false;
+        }
+        if (!installFile(fileNameNoMedia, false, false, "." + fileNameNoMedia)) {
+            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameNoMedia);
             return false;
         }
 
@@ -712,9 +718,10 @@ public class Monitor extends Service {
      * @param file       name of file as it appears in assets directory
      * @param override   define override, if already present in internal storage
      * @param executable set executable flag of file in internal storage
+     * @param targetFile name of target file 
      * @return Boolean success
      */
-    private Boolean installFile(String file, Boolean override, Boolean executable) {
+    private Boolean installFile(String file, Boolean override, Boolean executable, String targetFile) {
         Boolean success = false;
         byte[] b = new byte[1024];
         int count;
@@ -728,7 +735,12 @@ public class Monitor extends Service {
         try {
             if (Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
 
-            File target = new File(boincWorkingDir + file);
+            File target;
+            if (!targetFile.isEmpty()) {
+                target = new File(boincWorkingDir + targetFile);
+            } else {
+                target = new File(boincWorkingDir + file);
+            }
 
             // Check path and create it
             File installDir = new File(boincWorkingDir);
