@@ -76,6 +76,9 @@
 using std::string;
 using std::vector;
 
+const char* HTTP_HEADER_DELIM = "\r\n\r\n";
+const size_t HTTP_HEADER_DELIM_LEN = strlen(HTTP_HEADER_DELIM);
+
 static void auth_failure(MIOFILE& fout) {
     fout.printf("<unauthorized/>\n");
 }
@@ -1329,17 +1332,92 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
+// see if we got a complete HTTP request
+//
 static bool complete_post_request(char* buf) {
     if (strncmp(buf, "POST", 4)) return false;
     char* p = strstr(buf, "Content-Length: ");
     if (!p) return false;
     p += strlen("Content-Length: ");
     int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
+    p = strstr(p, HTTP_HEADER_DELIM);
     if (!p) return false;
-    p += 4;
+    p += HTTP_HEADER_DELIM_LEN;
     if ((int)strlen(p) < n) return false;
     return true;
+}
+
+// We use a different authentication scheme for HTTP because
+// each request has its own connection.
+// Send clients an "authentication ID".
+// Each request has (in HTTP header vars) the ID,
+// a sequence number, and a hash of the seq# and the password.
+//
+struct AUTH_INFO {
+    int id;
+    long seqno;
+    char salt[64];
+};
+
+vector<AUTH_INFO> auth_infos;
+
+// check HTTP authentication info
+//
+bool valid_auth(int id, long seqno, char* hash, char* request) {
+    char buf[256], my_hash[256];
+    //printf("valid_auth: id %d seqno %ld hash %s\n", id, seqno, hash);
+    for (unsigned int i=0; i<auth_infos.size(); i++) {
+        AUTH_INFO& ai = auth_infos[i];
+        if (ai.id != id) continue;
+        if (seqno <= ai.seqno) return false;
+        int n = request?(int)strlen(request):0;
+        snprintf(buf, sizeof(buf), "%ld%s%s", seqno, gstate.gui_rpcs.password, ai.salt);
+        md5_block((const unsigned char*)buf, (int)strlen(buf), my_hash,
+            (const unsigned char*)request, n
+        );
+        if (strcmp(hash, my_hash)) {
+            msg_printf(0, MSG_INFO, "got invalid GUI RPC request");
+            return false;
+        }
+        ai.seqno = seqno;   // bump seqno only if valid request
+        return true;
+    }
+    return false;
+}
+
+// create a new authentication ID
+//
+void handle_get_auth_id(MIOFILE& fout) {
+    static int id=0;
+    AUTH_INFO ai;
+    ai.id = id++;
+    ai.seqno = 0;
+    make_random_string(ai.salt);
+    auth_infos.push_back(ai);
+    fout.printf("<auth_id>%d</auth_id>\n<auth_salt>%s</auth_salt>\n", ai.id, ai.salt);
+}
+
+// see if the HTTP request has valid authentication info
+//
+static bool authenticated_request(char* buf) {
+    int auth_id;
+    long auth_seqno;
+    char auth_hash[256];
+    char* p = strstr(buf, "Auth-ID: ");
+    if (!p) return false;
+    int n = sscanf(p+strlen("Auth-ID: "), "%d", &auth_id);
+    if (n != 1) return false;
+    p = strstr(buf, "Auth-Seqno: ");
+    if (!p) return false;
+    n = sscanf(p+strlen("Auth-Seqno: "), "%ld", &auth_seqno);
+    if (n != 1) return false;
+    p = strstr(buf, "Auth-Hash: ");
+    if (!p) return false;
+    n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
+    if (n != 1) return false;
+    char* request = strstr(buf, HTTP_HEADER_DELIM);
+    if (request) request += HTTP_HEADER_DELIM_LEN;
+    return valid_auth(auth_id, auth_seqno, auth_hash, request);
 }
 
 static void handle_set_language(GUI_RPC_CONN& grc) {
@@ -1616,6 +1694,10 @@ int GUI_RPC_CONN::handle_rpc() {
     bool http_request;
     if (complete_post_request(request_msg)) {
         http_request = true;
+        if (authenticated_request(request_msg)) {
+            got_auth1 = got_auth2 = true;
+            auth_needed = false;
+        }
     } else {
         p = strchr(request_msg, 3);
         if (p) {
@@ -1657,6 +1739,8 @@ int GUI_RPC_CONN::handle_rpc() {
             retval = handle_auth2(request_msg, mfout);
             got_auth2 = true;
         }
+    } else if (match_req(request_msg, "get_auth_id")) {
+        handle_get_auth_id(mfout);
     } else if (auth_needed && !is_local) {
         auth_failure(mfout);
         if (sent_unauthorized) {
@@ -1667,7 +1751,12 @@ int GUI_RPC_CONN::handle_rpc() {
         retval = handle_rpc_aux(*this);
     }
 
-    mfout.printf("</boinc_gui_rpc_reply>\n\003");
+#define XML_HEADER "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+
+    mfout.printf("</boinc_gui_rpc_reply>\n");
+    if (!http_request) {
+        mfout.printf("\003");   // delimiter for non-HTTP replies
+    }
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
@@ -1678,15 +1767,17 @@ int GUI_RPC_CONN::handle_rpc() {
             "Connection: close\n"
             "Content-Type: text/xml; charset=utf-8\n"
             "Content-Length: %d\n\n"
-            "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n",
-            n
+            XML_HEADER,
+            n+(int)strlen(XML_HEADER)
         );
         send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
         send(sock, p, n, 0);
-        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.gui_rpc_debug) {
+            if (!http_request) {
+                p[n-1]=0;   // replace 003 with NULL
+            }
             if (n > 128) p[128] = 0;
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p
