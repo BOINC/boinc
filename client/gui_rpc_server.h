@@ -86,6 +86,7 @@ public:
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     int handle_auth2(char*, MIOFILE&);
+    void handle_get();
 };
 
 // authentication for GUI RPCs:

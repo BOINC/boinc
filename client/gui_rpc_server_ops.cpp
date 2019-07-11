@@ -1276,19 +1276,6 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
-static bool complete_post_request(char* buf) {
-    if (strncmp(buf, "POST", 4)) return false;
-    char* p = strstr(buf, "Content-Length: ");
-    if (!p) return false;
-    p += strlen("Content-Length: ");
-    int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
-    if (!p) return false;
-    p += 4;
-    if ((int)strlen(p) < n) return false;
-    return true;
-}
-
 static void handle_set_language(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_str("language", gstate.language, sizeof(gstate.language))) {
@@ -1515,6 +1502,68 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     return 0;
 }
 
+// see if we got a complete HTTP POST request
+//
+static bool is_http_post_request(char* buf) {
+    if (strstr(buf, "POST") != buf) return false;
+    char* p = strstr(buf, "Content-Length: ");
+    if (!p) return false;
+    p += strlen("Content-Length: ");
+    int n = atoi(p);
+    p = strstr(p, "\r\n\r\n");
+    if (!p) return false;
+    p += 4;
+    if ((int)strlen(p) < n) return false;
+    return true;
+}
+
+static bool is_http_get_request(char* buf) {
+    return (strstr(buf, "GET") == buf);
+}
+
+// handle a GET request (e.g. to read an HTML file from the BOINC data dir.
+// This is unauthenticated so be paranoid
+//
+void GUI_RPC_CONN::handle_get() {
+    // get filename from GET /foo.html HTTP/1.1
+    //
+    char* p = strchr(request_msg, '/');
+    if (!p) return;
+    p++;
+    char* q = strchr(p, ' ');
+    if (!q) return;
+    *q = 0;
+    if (strstr(p, "..")) return;    // no directory traversal allowed
+    if (strstr(p, "/")) return;
+    if (strstr(p, "\\")) return;
+    if (!strlen(p)) {
+        p = "index.html";
+    }
+    if (!strstr(p, ".html")) return;        // only .html files allowed
+
+    //  read the file
+    //
+    string file;
+    if (read_file_string(p, file)) {
+        const char* reply = "HTTP/1.0 404 Not Found\n\nFile not found\n";
+        send(sock, reply, (int)strlen(reply), 0);
+        return;
+    }
+    int n = (int)file.size();
+    char buf[1024];
+    snprintf(buf, sizeof(buf),
+        "HTTP/1.1 200 OK\n"
+        "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
+        "Server: BOINC client\n"
+        "Connection: close\n"
+        "Content-Type: text/html; charset=utf-8\n"
+        "Content-Length: %d\n\n",
+        n
+    );
+    send(sock, buf, (int)strlen(buf), 0);
+    send(sock, file.c_str(), n, 0);
+}
+
 // return nonzero only if we need to close the connection
 //
 int GUI_RPC_CONN::handle_rpc() {
@@ -1539,6 +1588,13 @@ int GUI_RPC_CONN::handle_rpc() {
         return ERR_READ;
     }
     request_msg[request_nbytes] = 0;
+
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
+        );
+    }
+
     if (!strncmp(request_msg, "OPTIONS", 7)) {
         char buf[1024];
         snprintf(buf, sizeof(buf),
@@ -1560,8 +1616,12 @@ int GUI_RPC_CONN::handle_rpc() {
         }
         return 0;
     }
+    if (is_http_get_request(request_msg)) {
+        handle_get();
+        return 1;
+    }
     bool http_request;
-    if (complete_post_request(request_msg)) {
+    if (is_http_post_request(request_msg)) {
         http_request = true;
     } else {
         p = strchr(request_msg, 3);
@@ -1578,12 +1638,6 @@ int GUI_RPC_CONN::handle_rpc() {
         }
     }
     request_nbytes = 0;
-
-    if (log_flags.gui_rpc_debug) {
-        msg_printf(0, MSG_INFO,
-            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
-        );
-    }
 
     // Policy:
     // - the first auth failure gets an error message; after that, disconnect
