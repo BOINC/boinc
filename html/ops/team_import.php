@@ -3,7 +3,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,9 +39,9 @@ if (parse_bool($config, "disable_account_creation")) {
     exit;
 }
 
-// set the following to 1 to print queries but not do anything
+// set the following to true to print queries but not do anything
 
-$dry_run = 0;
+$dry_run = false;
 
 function lookup_team_seti_id($seti_id) {
     return BoincTeam::lookup("seti_id=$seti_id");
@@ -141,8 +141,7 @@ function insert_case($t, $user) {
         list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
         if ($checkct) {
             echo "   cannot make user when an consent to terms of use is required\n";
-        }
-        else {
+        } else {
             echo "   making user $t->user_email\n";
             $user = make_user($t->user_email, $t->user_name, random_string());
             if (!$user) {
@@ -153,7 +152,8 @@ function insert_case($t, $user) {
         }
     }
     echo "   making team $t->name\n";
-    // if user was not created, set the userid of a team to be zero
+    // if user was not created, set the userid of team to zero
+    //
     $myid = 0;
     if ($make_user) {
         $myid = $user->id;
@@ -274,7 +274,8 @@ function handle_team($f) {
 
 function main() {
     echo "------------ Starting at ".time_str(time())."-------\n";
-    $f = fopen("http://boinc.berkeley.edu/boinc_teams.xml", "r");
+    system("wget https://boinc.berkeley.edu/boinc_teams.xml -O boinc_teams.xml");
+    $f = fopen("boinc_teams.xml", "r");
     if (!$f) {
         echo "Can't get times file\n";
         exit;
