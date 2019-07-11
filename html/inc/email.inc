@@ -47,6 +47,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         if ($body_html) {
             $mail->AltBody = $body;
             $mail->Body = $body_html;
+            $mail->IsHTML(true);
         } else {
             $mail->Body = $body;
         }
@@ -63,11 +64,16 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         } else if (defined('EMAIL_FROM')) {
             $headers = "From: ". EMAIL_FROM;
         }
-        if ($email_addr) {
-            return mail($email_addr, $subject, $body, $headers);
-        } else {
-            return mail($user->email_addr, $subject, $body, $headers);
+        if (!$email_addr) {
+            $email_addr = $user->email_addr;
         }
+        if ($body_html) {
+            $body = "<html><body>\n"; 
+            $body .= $body_html; 
+            $body .= "\n</body></html>\n"; 
+            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n"; 
+        }
+        return mail($email_addr, $subject, $body, $headers);
     }
 }
 
@@ -179,7 +185,12 @@ function salted_key($key) {
     return md5($key.'oogabooga');
 }
 
-function opt_out_url($user) {
-    return secure_url_base()."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id";
+function opt_out_url($user, $page="opt_out.php") {
+    return sprintf("%s%s?code=%s&userid=%d",
+        secure_url_base(),
+        $page,
+        salted_key($user->authenticator),
+        $user->id
+    );
 }
 ?>

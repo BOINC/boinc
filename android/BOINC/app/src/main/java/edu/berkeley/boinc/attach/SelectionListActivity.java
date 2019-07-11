@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -36,6 +36,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
@@ -143,6 +144,26 @@ public class SelectionListActivity extends FragmentActivity {
 
         // start credential input activity
         startActivity(new Intent(this, CredentialInputActivity.class));
+    }
+
+    private void onCancel() {
+        // go to projects screen and clear history
+        Intent intent = new Intent(this, BOINCActivity.class);
+        // add flags to return to main activity and clearing all others and clear the back stack
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        onCancel();
+    }
+
+    // triggered by cancel button
+    public void cancelClicked(View v) {
+        onCancel();
     }
 
     private ServiceConnection mMonitorConnection = new ServiceConnection() {

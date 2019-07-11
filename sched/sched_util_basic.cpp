@@ -281,6 +281,9 @@ int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "ati")) {
         return PROC_TYPE_AMD_GPU;
     }
+    if (strstr(plan_class, "amd")) {
+        return PROC_TYPE_AMD_GPU;
+    }
     if (strstr(plan_class, "intel_gpu")) {
         return PROC_TYPE_INTEL_GPU;
     }

@@ -42,7 +42,7 @@ public class PersistentStorage {
     public void setLastNotifiedNoticeArrivalTime(double arrivalTime) {
         SharedPreferences.Editor editor = store.edit();
         editor.putLong("lastNotifiedNoticeArrivalTime", Double.doubleToRawLongBits(arrivalTime));
-        editor.commit();
+        editor.apply();
     }
 
     public String getLastEmailAddress() {
@@ -52,7 +52,7 @@ public class PersistentStorage {
     public void setLastEmailAddress(String email) {
         SharedPreferences.Editor editor = store.edit();
         editor.putString("lastEmailAddress", email);
-        editor.commit();
+        editor.apply();
     }
 
     public String getLastUserName() {
@@ -62,6 +62,6 @@ public class PersistentStorage {
     public void setLastUserName(String name) {
         SharedPreferences.Editor editor = store.edit();
         editor.putString("lastUserName", name);
-        editor.commit();
+        editor.apply();
     }
 }

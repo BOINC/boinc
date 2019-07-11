@@ -91,7 +91,8 @@ private:
 };
 
 
-// Define a new frame
+// Simple view frame
+//
 class CSimpleFrame : public CBOINCBaseFrame
 {
     DECLARE_DYNAMIC_CLASS(CSimpleFrame)
@@ -117,8 +118,6 @@ public:
     void OnCheckVersion( wxCommandEvent& event );
     void OnReportBug( wxCommandEvent& event );
 
-    void OnProjectsAttachToProject(wxCommandEvent& event);
-
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
@@ -132,6 +131,14 @@ public:
     bool SaveState();
     bool RestoreState();
     void OnMove(wxMoveEvent& event);
+
+    void StartTimers() {
+        StartTimersBase();
+    }
+    void StopTimers() {
+        StopTimersBase();
+    }
+    bool CreateMenus();
 
 protected:
     virtual int     _GetCurrentViewPage();

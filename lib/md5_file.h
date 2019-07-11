@@ -31,7 +31,9 @@ extern int md5_file(
     const char* path, char* output, double& nbytes, bool is_gzip=false
 );
 
-extern int md5_block(const unsigned char* data, int nbytes, char* output);
+extern int md5_block(const unsigned char* data, int nbytes, char* output,
+    const unsigned char* data2=0, int nbytes2=0
+);
 
 extern std::string md5_string(const unsigned char* data, int nbytes);
 

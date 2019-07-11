@@ -45,5 +45,15 @@ function rules_events_hook_boincwork_arguments() {
       'label' => 'target host id',
       'required' => TRUE,
     ),
+  ) + rules_events_hook_boincwork_adminnotify_argument();
+}
+
+function rules_events_hook_boincwork_adminnotify_argument() {
+  return array(
+    'subject_tag' => array(
+      'type' => 'string',
+      'label' => 'Subject tag for email filtering',
+      'required' => TRUE,
+    ),
   ) + rules_events_global_user_argument();
 }

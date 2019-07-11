@@ -225,6 +225,13 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
+class DB_BATCH : public DB_BASE, public BATCH {
+public:
+    DB_BATCH(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+};
+
+
 class DB_CREDITED_JOB : public DB_BASE, public CREDITED_JOB {
 public:
     DB_CREDITED_JOB(DB_CONN* p=0);

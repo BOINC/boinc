@@ -65,9 +65,9 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     }
 
     public interface IndividualCredentialInputFragmentListener {
-        public void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd);
+        void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd);
 
-        public ArrayList<String> getDefaultInput();
+        ArrayList<String> getDefaultInput();
     }
 
     IndividualCredentialInputFragmentListener mListener;

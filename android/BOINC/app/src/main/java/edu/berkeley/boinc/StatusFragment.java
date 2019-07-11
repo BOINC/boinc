@@ -21,7 +21,6 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.utils.BOINCDefs;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

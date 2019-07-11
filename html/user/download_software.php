@@ -19,7 +19,7 @@
 // Show a page with download links and instructions.
 // There's a logged-in user.
 //
-// If no project ID, redirect to BOINC web site
+// If no project ID, direct user to BOINC web site
 // otherwise...
 //
 // - get platform from user agent string
@@ -28,9 +28,15 @@
 // - Show download button(s)
 //   The download will be via concierge, using the login token.
 //
-// By default both regular and vbox buttons will be shown, if available.
-// You can suppress one or the other by setting
-// <disable_regular_download> or <disable_vbox_download>.
+// VirtualBox
+//
+// config.xml entries:
+// <need_vbox/>     This project requires VBox
+// <recommend_vbox> This project can use VBox
+//
+// Windows has combined BOINC/VBox installers.
+// For other platforms, direct user to VBox download page
+// before installing BOINC
 //
 // Notes:
 // 1) You need to have the client versions file
@@ -41,30 +47,33 @@
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
 
-// take the client info string reported by web browser,
+define("VBOX_DOWNLOAD_URL", "https://www.virtualbox.org/wiki/Downloads");
+
+// take the user agent string reported by web browser,
 // and return best guess for platform
 //
-function client_info_to_platform($client_info) {
-    if (strstr($client_info, 'Windows')) {
-        if (strstr($client_info, 'Win64')||strstr($client_info, 'WOW64')) {
+function get_platform() {
+    global $user_agent;
+    if (strstr($user_agent, 'Windows')) {
+        if (strstr($user_agent, 'Win64')||strstr($user_agent, 'WOW64')) {
             return 'windows_x86_64';
         } else {
             return 'windows_intelx86';
         }
-    } else if (strstr($client_info, 'Mac')) {
-        if (strstr($client_info, 'PPC Mac OS X')) {
+    } else if (strstr($user_agent, 'Mac')) {
+        if (strstr($user_agent, 'PPC Mac OS X')) {
             return 'powerpc-apple-darwin';
         } else {
             return 'x86_64-apple-darwin';
         }
-    } else if (strstr($client_info, 'Android')) {
+    } else if (strstr($user_agent, 'Android')) {
         // Check for Android before Linux,
         // since Android contains the Linux kernel and the
         // web browser user agent string lists Linux too.
         //
         return 'arm-android-linux-gnu';
-    } else if (strstr($client_info, 'Linux')) {
-        if (strstr($client_info, 'x86_64')) {
+    } else if (strstr($user_agent, 'Linux')) {
+        if (strstr($user_agent, 'x86_64')) {
             return 'x86_64-pc-linux-gnu';
         } else {
             return 'i686-pc-linux-gnu';
@@ -74,12 +83,20 @@ function client_info_to_platform($client_info) {
     }
 }
 
+function is_windows() {
+    global $user_agent;
+    if (strstr($user_agent, 'Windows')) {
+        return true;
+    }
+    return false;
+}
+
 // find release version for user's platform
 //
 function get_version($dev) {
+    global $user_agent;
     $v = simplexml_load_file("versions.xml");
-    $client_info = $_SERVER['HTTP_USER_AGENT'];
-    $p = client_info_to_platform($client_info);
+    $p = get_platform();
     foreach ($v->version as $i=>$v) {
         if ((string)$v->dbplatform != $p) {
             continue;
@@ -96,14 +113,14 @@ function get_version($dev) {
     return null;
 }
 
-function download_button($v, $project_id, $token, $user) {
+function download_button($v, $project_id, $token, $user, $green) {
     return sprintf(
         '<form action="https://boinc.berkeley.edu/concierge.php" method="post">
         <input type=hidden name=project_id value="%d">
         <input type=hidden name=token value="%s">
         <input type=hidden name=user_id value="%d">
         <input type=hidden name=filename value="%s">
-        <button class="btn btn-info">
+        <button class="btn %s">
         <font size=2><u>Download BOINC</u></font>
         <br>for %s (%s MB)
         <br><small>BOINC %s</small></button>
@@ -113,6 +130,7 @@ function download_button($v, $project_id, $token, $user) {
         $token,
         $user->id,
         (string)$v->filename,
+        $green?"btn-success":"btn-info",
         (string)$v->platform,
         (string)$v->size_mb,
         (string)$v->version_num
@@ -147,18 +165,54 @@ function download_button_vbox($v, $project_id, $token, $user) {
     );
 }
 
-// We can't use auto-attach; direct them to the BOINC download page
+function show_vbox_info($where) {
+    global $need_vbox, $recommend_vbox;
+
+    if ($need_vbox || $recommend_vbox) {
+        echo "<p>";
+        if ($need_vbox) {
+            echo tra("This project requires VirtualBox.");
+        }
+        if ($recommend_vbox) {
+            echo tra("This project recommends VirtualBox.");
+        }
+        echo " ";
+        switch ($where) {
+        case "installed":
+            echo tra(
+                "If it is not installed on this computer, get it %1here%2, then restart BOINC.",
+                "<a href=".VBOX_DOWNLOAD_URL.">",
+                "</a>"
+            );
+            break;
+        case "direct":
+        case "main":
+            if (is_windows()) {
+                echo tra("Use the BOINC+VirtualBox installer.");
+            } else {
+                echo tra(
+                    "If it is not installed on this computer, get it %1here%2.",
+                    "<a href=".VBOX_DOWNLOAD_URL.">",
+                    "</a>"
+                );
+            }
+        }
+        echo "<p>";
+    }
+}
+
+// We can't use auto-attach; direct user to the BOINC download page
 //
 function direct_to_boinc() {
     global $master_url;
     page_head(tra("Download BOINC"));
     text_start();
+    show_vbox_info("direct");
     echo sprintf(
         '<p>%s
         <p><p>
         %s
         <p>
-        <a href=https://boinc.berkeley.edu/download.php>%s</a>
         ',
         tra("To download and install BOINC,
             click on the link below and follow the instructions.
@@ -168,7 +222,10 @@ function direct_to_boinc() {
             or enter this project's URL: %2",
             PROJECT,
             $master_url
-        ),
+        )
+    );
+    show_button(
+        "https://boinc.berkeley.edu/download.php",
         tra("Go to the BOINC download page.")
     );
     text_end();
@@ -176,9 +233,10 @@ function direct_to_boinc() {
 }
 
 function show_download_page($user, $dev) {
-    global $config;
-    $need_vbox = parse_bool($config, "need_vbox");
-    $project_id = parse_config($config, "<project_id>");
+    global $need_vbox, $project_id;
+
+    // If no project ID, we can't use simplified install
+    //
     if (!$project_id) {
         direct_to_boinc();
         return;
@@ -209,28 +267,31 @@ function show_download_page($user, $dev) {
     echo"
         <p>
     ";
-    echo tra("If %1 already installed, %2click here%3; otherwise:",
+    echo tra("If %1 already installed, %2click here%3.",
         $phrase,
-        "<a href=download.php?action=installed>",
+        "<a href=download_software.php?action=installed>",
         "</a>"
     );
     echo "
         <p>
     ";
+
+    show_vbox_info("main");
+
     $token = make_login_token($user);
-    echo "<center><table border=0 cellpadding=20>\n";
+    echo "<table border=0 cellpadding=20>\n";
     if ($v->vbox_filename) {
         table_row(
             "",
             download_button_vbox($v, $project_id, $token, $user),
             "&nbsp;&nbsp;",
-            download_button($v, $project_id, $token, $user),
+            download_button($v, $project_id, $token, $user, false),
             ""
         );
     } else {
-        table_row("", download_button($v, $project_id, $token, $user), "");
+        table_row("", download_button($v, $project_id, $token, $user, true), "");
     }
-    echo "</table></center>\n";
+    echo "</table>\n";
     echo "<p><p>";
     echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
     echo "<p><p>";
@@ -238,10 +299,10 @@ function show_download_page($user, $dev) {
     page_tail();
 }
 
-// if user already has BOINC installed, tell them how to attach
+// if user already has BOINC installed, tell them how to attach.
 //
 function installed() {
-    global $config;
+    global $config, $need_vbox, $recommend_vbox;
     $am = parse_bool($config, "account_manager");
     if ($am) {
         page_head(tra("Use %1", PROJECT));
@@ -261,6 +322,7 @@ function installed() {
         );
     } else {
         page_head(tra("Add %1", PROJECT));
+        show_vbox_info("installed");
         echo sprintf("%s
             <ul>
             <li> %s
@@ -284,9 +346,21 @@ function installed() {
     page_tail();
 }
 
+// get config.xml items
+//
+$need_vbox = parse_bool($config, "need_vbox");
+$recommend_vbox = parse_bool($config, "recommend_vbox");
+$project_id = parse_config($config, "<project_id>");
+
 $user = get_logged_in_user();
 $action = get_str("action", true);
 $dev = get_str("dev", true);
+
+$user_agent = get_str("user_agent", true);      // for debugging
+if (!$user_agent) {
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+}
+
 if ($action == "installed") {
     installed();
 } else {

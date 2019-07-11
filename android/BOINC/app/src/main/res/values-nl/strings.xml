@@ -341,7 +341,6 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2018 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
   <string name="about_credits">Met dank aan het Max Planck Instituut voor Gravitationele Natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

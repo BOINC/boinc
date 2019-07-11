@@ -20,7 +20,7 @@
 package edu.berkeley.boinc.rpc;
 
 public interface Boinc {
-    public static final int MAJOR_VERSION = 6;
-    public static final int MINOR_VERSION = 10;
-    public static final int RELEASE = 17;
+    int MAJOR_VERSION = 6;
+    int MINOR_VERSION = 10;
+    int RELEASE = 17;
 }
