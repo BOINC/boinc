@@ -497,6 +497,11 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     if (exitItem) {
         exitItem->Enable(true);
     }
+
+	wxMenuItem* optionsItem = menu->FindChildItem(ID_SGOPTIONS, NULL);
+	if (optionsItem) {
+		optionsItem->Enable(true);
+	}
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }

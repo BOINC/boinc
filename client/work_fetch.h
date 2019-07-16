@@ -139,6 +139,8 @@ struct RSC_PROJECT_WORK_FETCH {
         pending.clear();
         has_deferred_job = false;
         rsc_project_reason = RSC_REASON_NONE;
+        max_nused = 0.0;
+        mc_shortfall = 0.0;
     }
 
     inline void reset() {

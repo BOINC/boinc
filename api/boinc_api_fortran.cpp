@@ -103,8 +103,20 @@ void boinc_checkpoint_completed_() {
     boinc_checkpoint_completed();
 }
 
+void boinc_begin_critical_section_() {
+    boinc_begin_critical_section();
+}
+
+void boinc_end_critical_section_() {
+    boinc_end_critical_section();
+}
+
 void boinc_fraction_done_(double* d) {
     boinc_fraction_done(*d);
+}
+
+void boinc_get_fraction_done_(double* d) {
+    *d = boinc_get_fraction_done();
 }
 
 void boinc_wu_cpu_time_(double* d_out) {

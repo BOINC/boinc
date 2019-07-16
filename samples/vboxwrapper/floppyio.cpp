@@ -72,6 +72,15 @@ static FloppyIOException   __FloppyIOExceptionSingleton;
 //
 
 FloppyIO::FloppyIO(const char * filename, int flags) {
+  // initialize class members
+  ofsInput = 0;
+  szInput = 0;
+  ofsOutput = 0;
+  szOutput = 0;
+  ofsCtrlByteIn = 0;
+  ofsCtrlByteOut = 0;
+  synchronized = false;
+  syncTimeout = 0;
   // Clear error flag
   this->error = 0;
   

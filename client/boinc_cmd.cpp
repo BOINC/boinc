@@ -280,7 +280,8 @@ int main(int argc, char** argv) {
     char* cmd = next_arg(argc, argv, i);
     if (!strcmp(cmd, "--client_version")) {
         VERSION_INFO vi;
-        retval = rpc.exchange_versions(vi);
+        string rpc_client_name = "boinccmd " BOINC_VERSION_STRING;
+        retval = rpc.exchange_versions(rpc_client_name, vi);
         if (!retval) {
             printf("Client version: %d.%d.%d\n", vi.major, vi.minor, vi.release);
         }

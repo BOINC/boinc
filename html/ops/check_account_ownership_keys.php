@@ -17,23 +17,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/boinc_db.inc");
-require_once("../inc/user.inc");
-require_once("../inc/util.inc");
+require_once('../inc/util_ops.inc');
 require_once("../inc/account_ownership.inc");
 
+admin_page_head("Account Ownership Keys");
+
 if (!file_exists($account_ownership_private_key_file_path)) {
-  echo "<p>The '$account_ownership_private_key_file_name' key <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the BOINC web server command line.";
+  echo "<p>The account ownership private key '" . $account_ownership_private_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the command line in the BOINC web server ops directory.</p>";
 } else {
-  echo "<p>The '$account_ownership_private_key_file_name' key exists.";
+  echo "<p>The account ownership private key '" . $account_ownership_private_key_file_name . "' exists.</p>";
 }
 
 if (!file_exists($account_ownership_public_key_file_path)) {
-  echo "<p>The '$account_ownership_public_key_file_name' key <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the BOINC web server command line.";
+  echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' <b>doesn't</b> exist. Please run the 'generate_account_ownership_keys.php' script from the command line in the BOINC web server ops directory.</p>";
 } else {
-  echo "<p>The '$account_ownership_public_key_file_name' key exists.";
+  echo "<p>The account ownership public key '" . $account_ownership_public_key_file_name . "' exists.</p>";
 }
 
-echo "<p>For more info see the related wiki page: <a href=\"https://boinc.berkeley.edu/trac/wiki/ProofOfOwnership\">ProofOfOwnership</a></p>"
+echo "<p>For more info see the related wiki page: <a href=\"https://boinc.berkeley.edu/trac/wiki/ProofOfOwnership\">ProofOfOwnership</a></p>";
+
+admin_page_tail();
 
 ?>

@@ -13,7 +13,7 @@ See: https://boinc.berkeley.edu/trac/wiki
 See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ## Want to contribute
-See: https://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
+See: https://github.com/BOINC/boinc-policy
 
 ### Note
 
@@ -22,6 +22,12 @@ submitting contributions to the BOINC code, you irrevocably assign all right,
 title, and interest, including copyright and all copyright rights, in such 
 contributions to The Regents of the University of California, who may then 
 use the code for any purpose that it desires. 
+
+## Reporting Security Issues
+We strongly encourage you to report security problems to our private mailing 
+list and not by posting an issue.  You can do this by sending an email to 
+boinc_pmc@googlegroups.com.  This will be privately sent to the members of the 
+BOINC Project Management Committee.
 
 # License
 BOINC is free software; you can redistribute it and/or modify it
