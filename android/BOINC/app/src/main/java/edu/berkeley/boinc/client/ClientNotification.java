@@ -187,7 +187,7 @@ public class ClientNotification {
             nb.setPriority(Notification.PRIORITY_HIGH);
         }
         else {
-            nb.setPriority(Notification.PRIORITY_MIN);
+            nb.setPriority(Notification.PRIORITY_LOW);
         }
 
         // set action based on computing status
