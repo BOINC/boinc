@@ -1650,33 +1650,54 @@ static bool is_http_get_request(char* buf) {
     return (strstr(buf, "GET") == buf);
 }
 
-// handle a GET request (e.g. to read an HTML file from the BOINC data dir.
-// This is unauthenticated so be paranoid
+// send HTTP error reply
+//
+void GUI_RPC_CONN::http_error(const char* msg) {
+    send(sock, msg, (int)strlen(msg), 0);
+}
+
+// handle a GET request, returning a file from the BOINC data dir.
+// This is unauthenticated so be paranoid:
+// - only .html, .js, and .css filenames
+// - no ..
 //
 void GUI_RPC_CONN::handle_get() {
+    if (!cc_config.allow_gui_rpc_get) {
+        return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+    }
+
     // get filename from GET /foo.html HTTP/1.1
     //
-    char* p = strchr(request_msg, '/');
-    if (!p) return;
-    p++;
-    char* q = strchr(p, ' ');
-    if (!q) return;
-    *q = 0;
-    if (strstr(p, "..")) return;    // no directory traversal allowed
-    if (strstr(p, "/")) return;
-    if (strstr(p, "\\")) return;
-    if (!strlen(p)) {
-        p = "index.html";
+    char *p, *q=0;
+    p = strchr(request_msg, '/');
+    if (p) {
+        p++;
+        q = strchr(p, ' ');
     }
-    if (!strstr(p, ".html")) return;        // only .html files allowed
+
+    if (!q) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+
+    *q = 0;
+    if (strstr(p, "..")) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+    if (!strlen(p)) {
+        p = (char*)"index.html";
+    }
+    if (!ends_with(p, ".html")
+        && !ends_with(p, ".js")
+        && !ends_with(p, ".css")
+    ) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad file type\n");
+    }
 
     //  read the file
     //
     string file;
     if (read_file_string(p, file)) {
-        const char* reply = "HTTP/1.0 404 Not Found\n\nFile not found\n";
-        send(sock, reply, (int)strlen(reply), 0);
-        return;
+        return http_error("HTTP/1.0 404 Not Found\n\nFile not found\n");
     }
     int n = (int)file.size();
     char buf[1024];

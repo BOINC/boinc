@@ -88,6 +88,7 @@ public:
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     int handle_auth2(char*, MIOFILE&);
+    void http_error(const char* msg);
     void handle_get();
 };
 
