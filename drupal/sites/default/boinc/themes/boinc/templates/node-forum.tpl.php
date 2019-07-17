@@ -217,11 +217,11 @@
       
       <div class="dropdown">
         <div id="<?php print $ddname; ?>" class="dropdown-content">
-          <?php print flag_create_link('abuse_node_a', $node->nid); ?>
-          <?php print flag_create_link('abuse_node_b', $node->nid); ?>
-          <?php print flag_create_link('abuse_node_c', $node->nid); ?>
-          <?php print flag_create_link('abuse_node_d', $node->nid); ?>
-          <?php print flag_create_link('abuse_node_e', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_1', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_2', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_3', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_4', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_5', $node->nid); ?>
         </div>
       </div>
       <div class="content">

@@ -45,6 +45,14 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
         ddelement.style.display = "none";
       }
     }
+
+    // User unflags by Cancel Report - refresh page
+    if ( window.getComputedStyle(ddelement).display === "none" &&
+         data.flagName == "abuse_node_meta" &&
+         data.flagStatus == "unflagged" ) {
+	window.location.reload();
+    }
+
     break;
 
     case 'comment':
@@ -70,6 +78,14 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
         ddelement.style.display = "none";
       }
     }
+
+    // User unflags by Cancel Report - refresh page
+    if ( window.getComputedStyle(ddelement).display === "none" &&
+         data.flagName == "abuse_comment_meta" &&
+         data.flagStatus == "unflagged" ) {
+	window.location.reload();
+    }
+
     break;
 
     case 'user':
@@ -95,6 +111,14 @@ $(document).bind('flagGlobalBeforeLinkUpdate', function(event, data) {
         ddelement.style.display = "none";
       }
     }
+
+    // User unflags by Cancel Report - refresh page
+    if ( window.getComputedStyle(ddelement).display === "none" &&
+         data.flagName == "abuse_user_meta" &&
+         data.flagStatus == "unflagged" ) {
+	window.location.reload();
+    }
+
     break;
   } //switch
 

@@ -236,10 +236,10 @@ if ($user->uid AND ($user->uid != $account->uid)) {
 ?>
 <div class="dropdown">
   <div id="<?php print $ddname; ?>" class="dropdown-content">
-    <?php print flag_create_link('abuse_user_a', $account->uid); ?>
-    <?php print flag_create_link('abuse_user_b', $account->uid); ?>
-    <?php print flag_create_link('abuse_user_c', $account->uid); ?>
-    <?php print flag_create_link('abuse_user_d', $account->uid); ?>
-    <?php print flag_create_link('abuse_user_e', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_1', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_2', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_3', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_4', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_5', $account->uid); ?>
   </div>
 </div>

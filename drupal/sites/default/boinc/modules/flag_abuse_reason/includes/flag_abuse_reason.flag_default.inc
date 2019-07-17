@@ -8,15 +8,15 @@
  * Define the flags for the flag_abuse_module. There are multiple
  * flags for each content type: node, comment, and user. Each has a
  * 'meta' flag which helps organize the 'subflags' for each type. Each
- * subflag is labeled A, B, C, etc. There are five for node and
+ * subflag is labeled 1, 2, 3, etc. There are five for node and
  * comment; four for user. More may be added here if necessary.
  *
  * In the admin flag interface, after adding the meta flags and flags
- * A, B, C, etc. The admin may give the A, B, C, flags titles to make
+ * 1, 2, 3, etc. The admin may give the 1, 2, 3, flags titles to make
  * them clear what each flag does. The machine readable name will
- * still be use letters A, B, C, but the title, description, links,
+ * still be use number 1, 2, 3, but the title, description, links,
  * etc should all be changed to be human readable as well as
- * specific. E.g., abuse_node_a should be used for SPAM nodes.
+ * specific. Example: abuse_node_1 should be used for SPAM nodes.
  */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * *
@@ -70,15 +70,15 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Node Abuse A".
+  // Exported flag: "Node Abuse 1".
   $flags[] = array (
     'content_type' => 'node',
-    'name' => 'abuse_node_a',
-    'title' => 'Node Abuse A',
+    'name' => 'abuse_node_1',
+    'title' => 'Node Abuse 1',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -121,15 +121,15 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Node Abuse B".
+  // Exported flag: "Node Abuse 2".
   $flags[] = array (
     'content_type' => 'node',
-    'name' => 'abuse_node_b',
-    'title' => 'Node Abuse B',
+    'name' => 'abuse_node_2',
+    'title' => 'Node Abuse 2',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -172,15 +172,15 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Node Abuse C".
+  // Exported flag: "Node Abuse 3".
   $flags[] = array (
     'content_type' => 'node',
-    'name' => 'abuse_node_c',
-    'title' => 'Node Abuse C',
+    'name' => 'abuse_node_3',
+    'title' => 'Node Abuse 3',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -223,15 +223,15 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Node Abuse D".
+  // Exported flag: "Node Abuse 4".
   $flags[] = array (
     'content_type' => 'node',
-    'name' => 'abuse_node_d',
-    'title' => 'Node Abuse D',
+    'name' => 'abuse_node_4',
+    'title' => 'Node Abuse 4',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -274,15 +274,15 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Node Abuse E".
+  // Exported flag: "Node Abuse 5".
   $flags[] = array (
     'content_type' => 'node',
-    'name' => 'abuse_node_e',
-    'title' => 'Node Abuse E',
+    'name' => 'abuse_node_5',
+    'title' => 'Node Abuse 5',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -325,7 +325,7 @@ function _flag_abuse_reason_abuse_node_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
@@ -382,15 +382,15 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Comment Abuse A".
+  // Exported flag: "Comment Abuse 1".
   $flags[] = array (
     'content_type' => 'comment',
-    'name' => 'abuse_comment_a',
-    'title' => 'Comment Abuse A',
+    'name' => 'abuse_comment_1',
+    'title' => 'Comment Abuse 1',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -430,15 +430,15 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Comment Abuse B".
+  // Exported flag: "Comment Abuse 2".
   $flags[] = array (
     'content_type' => 'comment',
-    'name' => 'abuse_comment_b',
-    'title' => 'Comment Abuse B',
+    'name' => 'abuse_comment_2',
+    'title' => 'Comment Abuse 2',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -478,15 +478,15 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Comment Abuse C".
+  // Exported flag: "Comment Abuse 3".
   $flags[] = array (
     'content_type' => 'comment',
-    'name' => 'abuse_comment_c',
-    'title' => 'Comment Abuse C',
+    'name' => 'abuse_comment_3',
+    'title' => 'Comment Abuse 3',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -526,15 +526,15 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Comment Abuse D".
+  // Exported flag: "Comment Abuse 4".
   $flags[] = array (
     'content_type' => 'comment',
-    'name' => 'abuse_comment_d',
-    'title' => 'Comment Abuse D',
+    'name' => 'abuse_comment_4',
+    'title' => 'Comment Abuse 4',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -574,15 +574,15 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "Comment Abuse E".
+  // Exported flag: "Comment Abuse 5".
   $flags[] = array (
     'content_type' => 'comment',
-    'name' => 'abuse_comment_e',
-    'title' => 'Comment Abuse E',
+    'name' => 'abuse_comment_5',
+    'title' => 'Comment Abuse 5',
     'global' => false,
     'types' => array (
       '0' => 'forum',
@@ -622,7 +622,7 @@ function _flag_abuse_reason_abuse_comment_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
@@ -674,15 +674,15 @@ function _flag_abuse_reason_abuse_user_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "User Abuse A".
+  // Exported flag: "User Abuse 1".
   $flags[] = array (
     'content_type' => 'user',
-    'name' => 'abuse_user_a',
-    'title' => 'User Abuse A',
+    'name' => 'abuse_user_1',
+    'title' => 'User Abuse 1',
     'global' => false,
     'types' => array (
     ),
@@ -719,15 +719,15 @@ function _flag_abuse_reason_abuse_user_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "User Abuse B".
+  // Exported flag: "User Abuse 2".
   $flags[] = array (
     'content_type' => 'user',
-    'name' => 'abuse_user_b',
-    'title' => 'User Abuse B',
+    'name' => 'abuse_user_2',
+    'title' => 'User Abuse 2',
     'global' => false,
     'types' => array (
     ),
@@ -764,15 +764,15 @@ function _flag_abuse_reason_abuse_user_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "User Abuse C".
+  // Exported flag: "User Abuse 3".
   $flags[] = array (
     'content_type' => 'user',
-    'name' => 'abuse_user_c',
-    'title' => 'User Abuse C',
+    'name' => 'abuse_user_3',
+    'title' => 'User Abuse 3',
     'global' => false,
     'types' => array (
     ),
@@ -809,15 +809,15 @@ function _flag_abuse_reason_abuse_user_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 
-  // Exported flag: "User Abuse D".
+  // Exported flag: "User Abuse 4".
   $flags[] = array (
     'content_type' => 'user',
-    'name' => 'abuse_user_d',
-    'title' => 'User Abuse D',
+    'name' => 'abuse_user_4',
+    'title' => 'User Abuse 4',
     'global' => false,
     'types' => array (
     ),
@@ -854,7 +854,7 @@ function _flag_abuse_reason_abuse_user_flags(&$flags) {
       'name' => 'name',
       'global' => 'global',
     ),
-    'module' => 'flag_abuse',
+    'module' => 'flag_abuse_reason',
     'api_version' => 2,
   );
 

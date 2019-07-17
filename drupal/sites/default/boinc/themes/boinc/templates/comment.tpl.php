@@ -185,11 +185,11 @@
     <?php endif; ?>
     <div class="dropdown">
       <div id="<?php print $ddname; ?>" class="dropdown-content">
-        <?php print flag_create_link('abuse_comment_a', $comment->cid); ?>
-        <?php print flag_create_link('abuse_comment_b', $comment->cid); ?>
-        <?php print flag_create_link('abuse_comment_c', $comment->cid); ?>
-        <?php print flag_create_link('abuse_comment_d', $comment->cid); ?>
-        <?php print flag_create_link('abuse_comment_e', $comment->cid); ?>
+        <?php print flag_create_link('abuse_comment_1', $comment->cid); ?>
+        <?php print flag_create_link('abuse_comment_2', $comment->cid); ?>
+        <?php print flag_create_link('abuse_comment_3', $comment->cid); ?>
+        <?php print flag_create_link('abuse_comment_4', $comment->cid); ?>
+        <?php print flag_create_link('abuse_comment_5', $comment->cid); ?>
       </div>
     </div>
     <div class="content">

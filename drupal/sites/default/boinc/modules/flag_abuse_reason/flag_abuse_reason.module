@@ -51,25 +51,36 @@ function flag_abuse_reason_preprocess_flag(&$vars) {
   drupal_add_css(drupal_get_path('module', 'flag_abuse_reason') . "/css/flag_abuse_reason.css");
 
   global $user;
+  $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
+
   // permmission check instead of a role
-  if (user_access('reset abuse flags', $user)) {
-    $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
-    // Is this one of our abuse flags?
-    if (in_array($vars['flag']->name, $metaflags)) {
+  // Is this one of our abuse flags?
+  if (in_array($vars['flag']->name, $metaflags)) {
 
-      // count the number of flags on this content
-      $count = db_result(db_query("SELECT COUNT(*) FROM {flag_content} WHERE content_id=%d AND fid=%d", $vars['content_id'], $vars['flag']->fid));
+    // count the number of flags on this content
+    $count = db_result(db_query("SELECT COUNT(*) FROM {flag_content} WHERE content_id=%d AND fid=%d", $vars['content_id'], $vars['flag']->fid));
 
-      // If the variable <flagname>-<contentid> is set, then Reset
-      // completely.
-      if (variable_get($vars['flag']->name.'-'.$vars['content_id'], FALSE)) {
+    // If the variable <flagname>-<contentid> is set, then Reset
+    // completely.
+    if (variable_get($vars['flag']->name.'-'.$vars['content_id'], FALSE)) {
+      if (user_access('reset abuse flags', $user)) {
         $vars['action'] = 'none';
         $vars['link_text'] = t('Reset Completely');
         $vars['link_title'] = t('Reset everying, allows users to re-flag content.');
       }
       else {
-        // If there are flags on this content, clear the flags and
-        // lock the content.
+        $vars['action'] = 'none';
+        $vars['link_text'] = t('Locked');
+        $vars['link_title'] = t('Reporting locked by moderator.');
+        $vars['link'] = array();
+        $vars['link_href'] = '';
+        $vars['flag_classes'] = 'flag style-like-link';
+      }
+    }
+    else {
+      // If there are flags on this content, clear the flags and
+      // lock the content.
+      if (user_access('reset abuse flags', $user)) {
         if ($count>0) {
           $vars['action'] = 'reset';
           $vars['link_text'] = t('Clear Reports and Lock');
@@ -80,9 +91,11 @@ function flag_abuse_reason_preprocess_flag(&$vars) {
           $vars['action'] = 'none';
           $vars['link_text'] = t('No abuse reports');
           $vars['link_title'] = t('This content has no abuse reports. Link does nothing.');
+        $vars['link'] = array();
+        $vars['link_href'] = '';
+        $vars['flag_classes'] = 'flag style-like-link';
         }
       }
-
     }
   }
 }
@@ -154,6 +167,7 @@ function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
  * Implementation of hook_flag_access().
  */
 function flag_abuse_reason_flag_access($flag, $content_id, $action, $account) {
+/* @todo - consider removing block
   $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
   if (in_array($flag->name, $metaflags)) {
     // Check to see if this flag is locked.
@@ -167,6 +181,7 @@ function flag_abuse_reason_flag_access($flag, $content_id, $action, $account) {
       }
     }
   }
+*/
 }
 
 /**
