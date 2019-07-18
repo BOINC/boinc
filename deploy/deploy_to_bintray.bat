@@ -84,6 +84,8 @@ if exist "deploy\win-manager\win-manager_!pkg_version!.7z" (
     %CURL% -H Content-Type:application/octet-stream -T "deploy\win-manager\win-manager_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-manager_!pkg_version!.7z?publish=1&override=1"
 )
 
+%CURL% -H Content-Type:application/html -T "C:/projects/boinc/win_build/UpgradeLog.htm" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/UpgradeLog.htm?publish=1&override=1"
+
 rem if defined APPVEYOR_JOB_ID (
 rem     echo Adding AppVeyor log to release notes...
 rem     set BUILD_LOG=https://ci.appveyor.com/api/buildjobs/%APPVEYOR_JOB_ID%/log
