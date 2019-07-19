@@ -1,5 +1,5 @@
 # NOTE: settings in this file have precedence over settings on the website
-image: Visual Studio 2013
+image: Previous Visual Studio 2013
 
 matrix:
   fast_finish: true
