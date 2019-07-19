@@ -64,6 +64,7 @@ environment:
       depends_path: C:\projects\boinc_depends_win_vs2013
   BINTRAY_API_KEY:
     secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
+  APPVEYOR_RDP_PASSWORD: q1W2e#
 
 cache:
   - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
@@ -88,3 +89,6 @@ artifacts:
     name: win-manager
 
 test: off
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
