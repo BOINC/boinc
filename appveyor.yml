@@ -64,7 +64,7 @@ environment:
       depends_path: C:\projects\boinc_depends_win_vs2013
   BINTRAY_API_KEY:
     secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
-  APPVEYOR_RDP_PASSWORD: 7*pVU{,KrUyFTY[n
+  #APPVEYOR_RDP_PASSWORD: 7*pVU{,KrUyFTY[n
 
 cache:
   - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
@@ -72,6 +72,7 @@ cache:
 before_build:
   - call win_build\load_dependencies.bat %depends_git_path% %depends_path% %platform% %configuration%
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
+  - rmdir /S /Q %localappdata%\Microsoft\VisualStudio\%TOOLCHAIN_VERSION%\ComponentModelCache
 
 build_script:
   - devenv %solution_name% /Build "%configuration%|%platform%"
@@ -90,5 +91,5 @@ artifacts:
 
 test: off
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
