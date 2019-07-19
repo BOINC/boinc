@@ -1683,9 +1683,6 @@ void GUI_RPC_CONN::handle_get() {
     if (strstr(p, "..")) {
         return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
     }
-    if (!strlen(p)) {
-        p = (char*)"index.html";
-    }
     if (!ends_with(p, ".html")
         && !ends_with(p, ".js")
         && !ends_with(p, ".css")
