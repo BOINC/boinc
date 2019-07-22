@@ -238,7 +238,7 @@ void HOST_INFO::print() {
     printf("  CPU model: %s\n", p_model);
     printf("  CPU FP OPS: %f\n", p_fpops);
     printf("  CPU int OPS: %f\n", p_iops);
-    printf("  CPU mem BW: %f\n", p_membw);
+    //printf("  CPU mem BW: %f\n", p_membw);
     printf("  OS name: %s\n", os_name);
     printf("  OS version: %s\n", os_version);
     printf("  mem size: %f\n", m_nbytes);
@@ -246,6 +246,30 @@ void HOST_INFO::print() {
     printf("  swap size: %f\n", m_swap);
     printf("  disk size: %f\n", d_total);
     printf("  disk free: %f\n", d_free);
+    char buf[256];
+    if (coprocs.nvidia.count) {
+        coprocs.nvidia.description(buf, sizeof(buf));
+        printf("  NVIDIA GPU: %s\n", buf);
+        if (coprocs.nvidia.have_opencl) {
+            coprocs.nvidia.opencl_prop.description(buf, sizeof(buf), "NVIDIA");
+            printf("    OpenCL: %s\n", buf);
+        }
+    }
+    if (coprocs.ati.count) {
+        coprocs.ati.description(buf, sizeof(buf));
+        printf("  AMD GPU: %s\n", buf);
+        if (coprocs.ati.have_opencl) {
+            coprocs.ati.opencl_prop.description(buf, sizeof(buf), "AMD");
+            printf("    OpenCL: %s\n", buf);
+        }
+    }
+    if (coprocs.intel_gpu.count) {
+        printf("  Intel GPU\n");
+        if (coprocs.intel_gpu.have_opencl) {
+            coprocs.intel_gpu.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
+            printf("    OpenCL: %s\n", buf);
+        }
+    }
 }
 
 void SIMPLE_GUI_INFO::print() {
