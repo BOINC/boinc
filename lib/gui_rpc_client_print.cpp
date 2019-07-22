@@ -246,28 +246,59 @@ void HOST_INFO::print() {
     printf("  swap size: %f\n", m_swap);
     printf("  disk size: %f\n", d_total);
     printf("  disk free: %f\n", d_free);
+
+    // show GPU info.
+    // This is way harder than it should be,
+    // because the structures aren't populated like they were
+    // at GPU detection time.
+    // So we have to kind of patch things together.
+    //
     char buf[256];
-    if (coprocs.nvidia.count) {
-        coprocs.nvidia.description(buf, sizeof(buf));
+    COPROC_NVIDIA& cn = coprocs.nvidia;
+    if (cn.count) {
+        cn.set_peak_flops();
+        cn.description(buf, sizeof(buf));
         printf("  NVIDIA GPU: %s\n", buf);
-        if (coprocs.nvidia.have_opencl) {
-            coprocs.nvidia.opencl_prop.description(buf, sizeof(buf), "NVIDIA");
-            printf("    OpenCL: %s\n", buf);
+        if (cn.count > 1) {
+            printf("    Count: %d\n", cn.count);
+        }
+        if (cn.have_opencl) {
+            cn.opencl_prop.is_used = COPROC_USED;
+            cn.opencl_prop.peak_flops = cn.peak_flops;
+            cn.opencl_prop.opencl_available_ram = cn.available_ram;
+            cn.opencl_prop.description(buf, sizeof(buf), "NVIDIA");
+            printf("    %s\n", buf);
         }
     }
-    if (coprocs.ati.count) {
-        coprocs.ati.description(buf, sizeof(buf));
+    COPROC_ATI &ca = coprocs.ati;
+    if (ca.count) {
+        ca.set_peak_flops();
+        ca.description(buf, sizeof(buf));
         printf("  AMD GPU: %s\n", buf);
-        if (coprocs.ati.have_opencl) {
-            coprocs.ati.opencl_prop.description(buf, sizeof(buf), "AMD");
-            printf("    OpenCL: %s\n", buf);
+        if (ca.count > 1) {
+            printf("    Count: %d\n", ca.count);
+        }
+        if (ca.have_opencl) {
+            ca.opencl_prop.peak_flops = ca.peak_flops;
+            ca.opencl_prop.opencl_available_ram = ca.available_ram;
+            ca.opencl_prop.is_used = COPROC_USED;
+            ca.opencl_prop.description(buf, sizeof(buf), "AMD");
+            printf("    %s\n", buf);
         }
     }
-    if (coprocs.intel_gpu.count) {
+    COPROC_INTEL &ci = coprocs.intel_gpu;
+    if (ci.count) {
         printf("  Intel GPU\n");
-        if (coprocs.intel_gpu.have_opencl) {
-            coprocs.intel_gpu.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
-            printf("    OpenCL: %s\n", buf);
+        if (ci.count > 1) {
+            printf("    Count: %d\n", ci.count);
+        }
+        ci.set_peak_flops();
+        if (ci.have_opencl) {
+            ci.opencl_prop.peak_flops = ci.peak_flops;
+            ci.opencl_prop.opencl_available_ram = ci.opencl_prop.global_mem_size;
+            ci.opencl_prop.is_used = COPROC_USED;
+            ci.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
+            printf("    %s\n", buf);
         }
     }
 }
