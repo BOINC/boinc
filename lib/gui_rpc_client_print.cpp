@@ -247,16 +247,15 @@ void HOST_INFO::print() {
     printf("  disk size: %f\n", d_total);
     printf("  disk free: %f\n", d_free);
 
-    // show GPU info.
-    // This is way harder than it should be,
+    // Show GPU info.
+    // This is harder than it should be,
     // because the structures aren't populated like they were
     // at GPU detection time.
-    // So we have to kind of patch things together.
+    // Would be better for the client to export the description strings.
     //
     char buf[256];
     COPROC_NVIDIA& cn = coprocs.nvidia;
     if (cn.count) {
-        cn.set_peak_flops();
         cn.description(buf, sizeof(buf));
         printf("  NVIDIA GPU: %s\n", buf);
         if (cn.count > 1) {
@@ -272,7 +271,6 @@ void HOST_INFO::print() {
     }
     COPROC_ATI &ca = coprocs.ati;
     if (ca.count) {
-        ca.set_peak_flops();
         ca.description(buf, sizeof(buf));
         printf("  AMD GPU: %s\n", buf);
         if (ca.count > 1) {
@@ -292,7 +290,6 @@ void HOST_INFO::print() {
         if (ci.count > 1) {
             printf("    Count: %d\n", ci.count);
         }
-        ci.set_peak_flops();
         if (ci.have_opencl) {
             ci.opencl_prop.peak_flops = ci.peak_flops;
             ci.opencl_prop.opencl_available_ram = ci.opencl_prop.global_mem_size;
