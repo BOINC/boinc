@@ -1332,21 +1332,6 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
-// see if we got a complete HTTP request
-//
-static bool complete_post_request(char* buf) {
-    if (strncmp(buf, "POST", 4)) return false;
-    char* p = strstr(buf, "Content-Length: ");
-    if (!p) return false;
-    p += strlen("Content-Length: ");
-    int n = atoi(p);
-    p = strstr(p, HTTP_HEADER_DELIM);
-    if (!p) return false;
-    p += HTTP_HEADER_DELIM_LEN;
-    if ((int)strlen(p) < n) return false;
-    return true;
-}
-
 // We use a different authentication scheme for HTTP because
 // each request has its own connection.
 // Send clients an "authentication ID".
@@ -1646,6 +1631,86 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     return 0;
 }
 
+// see if we got a complete HTTP POST request
+//
+static bool is_http_post_request(char* buf) {
+    if (strstr(buf, "POST") != buf) return false;
+    char* p = strstr(buf, "Content-Length: ");
+    if (!p) return false;
+    p += strlen("Content-Length: ");
+    int n = atoi(p);
+    p = strstr(p, "\r\n\r\n");
+    if (!p) return false;
+    p += 4;
+    if ((int)strlen(p) < n) return false;
+    return true;
+}
+
+static bool is_http_get_request(char* buf) {
+    return (strstr(buf, "GET") == buf);
+}
+
+// send HTTP error reply
+//
+void GUI_RPC_CONN::http_error(const char* msg) {
+    send(sock, msg, (int)strlen(msg), 0);
+}
+
+// handle a GET request, returning a file from the BOINC data dir.
+// This is unauthenticated so be paranoid:
+// - only .html, .js, and .css filenames
+// - no ..
+//
+void GUI_RPC_CONN::handle_get() {
+    if (!cc_config.allow_gui_rpc_get) {
+        return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+    }
+
+    // get filename from GET /foo.html HTTP/1.1
+    //
+    char *p, *q=0;
+    p = strchr(request_msg, '/');
+    if (p) {
+        p++;
+        q = strchr(p, ' ');
+    }
+
+    if (!q) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+
+    *q = 0;
+    if (strstr(p, "..")) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+    if (!ends_with(p, ".html")
+        && !ends_with(p, ".js")
+        && !ends_with(p, ".css")
+    ) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad file type\n");
+    }
+
+    //  read the file
+    //
+    string file;
+    if (read_file_string(p, file)) {
+        return http_error("HTTP/1.0 404 Not Found\n\nFile not found\n");
+    }
+    int n = (int)file.size();
+    char buf[1024];
+    snprintf(buf, sizeof(buf),
+        "HTTP/1.1 200 OK\n"
+        "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
+        "Server: BOINC client\n"
+        "Connection: close\n"
+        "Content-Type: text/html; charset=utf-8\n"
+        "Content-Length: %d\n\n",
+        n
+    );
+    send(sock, buf, (int)strlen(buf), 0);
+    send(sock, file.c_str(), n, 0);
+}
+
 // return nonzero only if we need to close the connection
 //
 int GUI_RPC_CONN::handle_rpc() {
@@ -1670,6 +1735,13 @@ int GUI_RPC_CONN::handle_rpc() {
         return ERR_READ;
     }
     request_msg[request_nbytes] = 0;
+
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
+        );
+    }
+
     if (!strncmp(request_msg, "OPTIONS", 7)) {
         char buf[1024];
         snprintf(buf, sizeof(buf),
@@ -1691,8 +1763,12 @@ int GUI_RPC_CONN::handle_rpc() {
         }
         return 0;
     }
+    if (is_http_get_request(request_msg)) {
+        handle_get();
+        return 1;
+    }
     bool http_request;
-    if (complete_post_request(request_msg)) {
+    if (is_http_post_request(request_msg)) {
         http_request = true;
         if (authenticated_request(request_msg)) {
             got_auth1 = got_auth2 = true;
@@ -1713,12 +1789,6 @@ int GUI_RPC_CONN::handle_rpc() {
         }
     }
     request_nbytes = 0;
-
-    if (log_flags.gui_rpc_debug) {
-        msg_printf(0, MSG_INFO,
-            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
-        );
-    }
 
     // Policy:
     // - the first auth failure gets an error message; after that, disconnect
