@@ -71,6 +71,7 @@ cache:
 before_build:
   - call win_build\load_dependencies.bat %depends_git_path% %depends_path% %platform% %configuration%
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
+  - rmdir /S /Q %localappdata%\Microsoft\VisualStudio\%TOOLCHAIN_VERSION%\ComponentModelCache
 
 build_script:
   - devenv %solution_name% /Build "%configuration%|%platform%"
