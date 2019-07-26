@@ -9,11 +9,8 @@ Project Website: https://boinc.berkeley.edu
 ## Want to create a project
 See: https://boinc.berkeley.edu/trac/wiki
 
-## Want to help translate
-See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
-
-## Want to contribute
-See: https://github.com/BOINC/boinc-policy
+## Want to help
+Read about all the [ways you can help](CONTRIBUTING.md)
 
 ### Note
 
