@@ -114,7 +114,7 @@ static bool wu_is_infeasible_for_plan_class(const PLAN_CLASS_SPEC* pc, const WOR
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] batch#%ld too new for plan class '%s' (%ld)\n",
-                wu->id, pc->name, pc->max_batch
+                wu->batch, pc->name, pc->max_batch
             );
         }
         return true;
