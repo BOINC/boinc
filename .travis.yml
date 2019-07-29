@@ -73,7 +73,7 @@ before_script:
 script:
 - if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager --enable-boinczip && make ) fi
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
-- if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager --enable-boinczip && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" && "${TRAVIS_OS_NAME}" == "linux" ]]; then ( make distclean && ./3rdParty/buildLinuxDependencies.sh --disable-webview --cache_dir ${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && ./configure --disable-server --disable-client --with-wx-prefix=${TRAVIS_BUILD_DIR}/3rdParty/buildCache/linux2 && make ) fi
