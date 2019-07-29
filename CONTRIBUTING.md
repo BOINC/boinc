@@ -23,8 +23,8 @@ See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ### Help Test
 You can help new versions of the client.  
-* Become an (Alpha Tester)[https://boinc.berkeley.edu/trac/wiki/AlphaInstructions]
-* Signup to be a (BOINC Android Tester)[https://groups.google.com/forum/#!forum/boinc-android-testing]
+* Become an [Alpha Tester](https://boinc.berkeley.edu/trac/wiki/AlphaInstructions)
+* Signup to be a [BOINC Android Tester](https://groups.google.com/forum/#!forum/boinc-android-testing)
 
 ### Report Bugs
 Did you find a bug? Make a Bug report.
