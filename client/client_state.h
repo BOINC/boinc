@@ -100,6 +100,7 @@ struct CLIENT_STATE {
 
     CLIENT_TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
+    PREFS prefs;
     NET_STATS net_stats;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;

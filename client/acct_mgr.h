@@ -118,20 +118,6 @@ struct ACCT_MGR_INFO : PROJ_AM {
 
 // stuff after here related to RPCs to account managers
 
-struct OPTIONAL_BOOL {
-    bool present;
-    bool value;
-    inline void init() {present=false;}
-    inline void set(bool v) {value=v; present=true;}
-};
-
-struct OPTIONAL_DOUBLE {
-    bool present;
-    double value;
-    inline void init() {present=false;}
-    inline void set(double v) {value=v; present=true;}
-};
-
 // an account entry in reply message
 //
 struct AM_ACCOUNT {

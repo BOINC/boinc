@@ -896,3 +896,81 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     return 0;
 }
 
+///////////////// new prefs system starts here //////////////////
+
+// convert old prefs to new structure
+//
+void PREFS::convert(GLOBAL_PREFS& old) {
+    // defaults
+    //
+    PREFS_CLAUSE p0;
+    p0.state.max_bytes_sec_down.set_nonzero(old.max_bytes_sec_down);
+    p0.state.max_bytes_sec_up.set_nonzero(old.max_bytes_sec_up);
+    p0.state.max_ncpus.set_nonzero(old.max_ncpus);
+    p0.state.max_ncpus_pct.set_nonzero(old.max_ncpus_pct);
+    p0.state.ram_max_used_frac.set_nonzero(old.ram_max_used_busy_frac);
+    clauses.push_back(p0);
+
+    // no recent input
+    //
+    PREFS_CLAUSE p2;
+    p2.condition.user_active.set(false);
+    if (!old.run_if_user_active) {
+        p2.state.dont_use_cpu.set(true);
+    }
+    if (!old.run_gpu_if_user_active) {
+        p2.state.dont_use_gpu.set(true);
+    }
+    p2.state.ram_max_used_frac.set_nonzero(old.ram_max_used_idle_frac);
+    if (p2.state.any_present()) {
+        clauses.push_back(p2);
+    }
+
+    // on batteries
+    //
+    if (!old.run_on_batteries) {
+        PREFS_CLAUSE p;
+        p.condition.on_batteries.set(true);
+        p.state.dont_use_cpu.set(true);
+        clauses.push_back(p);
+    }
+
+    // CPU time of day
+    //
+    if (old.cpu_times.present) {
+        PREFS_CLAUSE p;
+        p.condition.time_condition = old.cpu_times;
+        p.state.dont_use_cpu.set(true);
+        clauses.push_back(p);
+    }
+
+    // network time of day
+    //
+    if (old.cpu_times.present) {
+        PREFS_CLAUSE p;
+        p.condition.time_condition = old.net_times;
+        p.state.dont_do_file_xfer.set(true);
+        clauses.push_back(p);
+    }
+
+    // exclusive apps
+    //
+
+    // static prefs
+    //
+    static_state.battery_charge_min_pct.set_nonzero(old.battery_charge_min_pct);
+    static_state.battery_max_temperature.set_nonzero(old.battery_max_temperature);
+    static_state.confirm_before_connecting.set(old.confirm_before_connecting);
+    static_state.cpu_scheduling_period_minutes.set(old.cpu_scheduling_period_minutes);
+    static_state.daily_xfer_limit_mb.set_nonzero(old.daily_xfer_limit_mb);
+    static_state.daily_xfer_period_days.set_nonzero(old.daily_xfer_period_days);
+    static_state.disk_max_used_gb.set_nonzero(old.disk_max_used_gb);
+    static_state.disk_max_used_pct.set_nonzero(old.disk_max_used_pct);
+    static_state.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
+    static_state.dont_verify_images.set(old.dont_verify_images);
+    static_state.hangup_if_dialed.set(old.hangup_if_dialed);
+    static_state.idle_time_to_run.set(old.idle_time_to_run);
+    static_state.network_wifi_only.set(old.network_wifi_only);
+    static_state.work_buf_additional_days.set(old.work_buf_additional_days);
+    static_state.work_buf_min_days.set(old.work_buf_min_days);
+}

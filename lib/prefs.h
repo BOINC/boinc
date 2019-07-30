@@ -203,4 +203,99 @@ struct GLOBAL_PREFS {
     }
 };
 
+////////////////// new prefs starts here /////////////////
+
+// specifies a condition of the host: user active, time of day, etc.
+// The condition is the "and" of the various items.
+//
+struct PREFS_CONDITION {
+    OPTIONAL_BOOL user_active;
+    OPTIONAL_BOOL on_batteries;
+    TIME_PREFS time_condition;
+    OPTIONAL_DOUBLE min_cpu_usage;
+    OPTIONAL_BOOL exclusive_app_running;
+    OPTIONAL_BOOL exclusive_gpu_app_running;
+
+    bool condition_holds();
+};
+
+// specifies a group of "dynamic settings": #CPUs, max RAM, etc.
+// All are optional.
+//
+struct PREFS_DYNAMIC_STATE {
+    OPTIONAL_DOUBLE cpu_usage_limit;
+    OPTIONAL_BOOL dont_use_cpu;
+    OPTIONAL_BOOL dont_use_gpu;
+    OPTIONAL_BOOL dont_do_file_xfer;
+    OPTIONAL_DOUBLE max_bytes_sec_down;
+    OPTIONAL_DOUBLE max_bytes_sec_up;
+    OPTIONAL_INT max_ncpus;
+    OPTIONAL_DOUBLE max_ncpus_pct;
+    OPTIONAL_DOUBLE ram_max_used_frac;
+    inline bool any_present() {
+        return cpu_usage_limit.present
+            || dont_use_cpu.present
+            || dont_use_gpu.present
+            || dont_do_file_xfer.present
+            || max_bytes_sec_down.present
+            || max_bytes_sec_up.present
+            || max_ncpus.present
+            || max_ncpus_pct.present
+            || ram_max_used_frac.present
+        ;
+    }
+    // add or replace items that are present in s
+    //
+    void overlay(PREFS_DYNAMIC_STATE& s) {
+        cpu_usage_limit.overlay(s.cpu_usage_limit);
+        dont_use_cpu.overlay(s.dont_use_cpu);
+        dont_use_gpu.overlay(s.dont_use_gpu);
+        dont_do_file_xfer.overlay(s.dont_do_file_xfer);
+        max_bytes_sec_down.overlay(s.max_bytes_sec_down);
+        max_bytes_sec_up.overlay(s.max_bytes_sec_up);
+        max_ncpus.overlay(s.max_ncpus);
+        max_ncpus_pct.overlay(s.max_ncpus_pct);
+        ram_max_used_frac.overlay(s.ram_max_used_frac);
+    }
+};
+
+// the combination of a condition and a state
+//
+struct PREFS_CLAUSE {
+    PREFS_CONDITION condition;
+    PREFS_DYNAMIC_STATE state;
+};
+
+// static settings, i.e. those that don't change with condition
+//
+struct PREFS_STATIC_STATE {
+    OPTIONAL_DOUBLE battery_charge_min_pct;
+    OPTIONAL_DOUBLE battery_max_temperature;
+    OPTIONAL_BOOL confirm_before_connecting;
+    OPTIONAL_DOUBLE cpu_scheduling_period_minutes;
+    OPTIONAL_DOUBLE daily_xfer_limit_mb;
+    OPTIONAL_INT daily_xfer_period_days;
+    OPTIONAL_DOUBLE disk_max_used_gb;
+    OPTIONAL_DOUBLE disk_max_used_pct;
+    OPTIONAL_DOUBLE disk_min_free_gb;
+    OPTIONAL_BOOL dont_verify_images;
+    OPTIONAL_BOOL hangup_if_dialed;
+    OPTIONAL_DOUBLE idle_time_to_run;
+    OPTIONAL_BOOL leave_apps_in_memory;
+    OPTIONAL_BOOL network_wifi_only;
+    OPTIONAL_DOUBLE work_buf_additional_days;
+    OPTIONAL_DOUBLE work_buf_min_days;
+};
+
+// overall preferences
+//
+struct PREFS {
+    double mod_time;
+    std::vector<PREFS_CLAUSE> clauses;
+    PREFS_STATIC_STATE static_state;
+
+    void convert(GLOBAL_PREFS&);
+    void get_dynamic_state(PREFS_DYNAMIC_STATE&);
+};
+
 #endif

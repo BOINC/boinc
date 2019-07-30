@@ -355,6 +355,8 @@ void procinfo_show(PROC_MAP& pm) {
 // 2) see if exclusive apps are running
 // 3) get CPU time of non-BOINC processes
 //
+// Do this at most every 10 sec (MEMORY_USAGE_PERIOD)
+//
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
     unsigned int i;

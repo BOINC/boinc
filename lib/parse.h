@@ -349,6 +349,59 @@ extern bool parse_bool(const char*, const char*, bool&);
 
 /////////////// END DEPRECATED XML PARSER
 
+// could use template instead
+
+struct OPTIONAL_BOOL {
+    bool present;
+    bool value;
+    inline void init() {
+        present = false;
+    }
+    inline void set(bool v) {
+        value = v;
+        present = true;
+    }
+    inline void overlay(OPTIONAL_BOOL& x) {
+        if (x.present) set(x.value);
+    }
+};
+
+struct OPTIONAL_DOUBLE {
+    bool present;
+    double value;
+    inline void init() {
+        present = false;
+    }
+    inline void set(double v) {
+        value = v;
+        present = true;
+    }
+    inline void set_nonzero(double v) {
+        if (v) set(v);
+    }
+    inline void overlay(OPTIONAL_DOUBLE& x) {
+        if (x.present) set(x.value);
+    }
+};
+
+struct OPTIONAL_INT {
+    bool present;
+    int value;
+    inline void init() {
+        present=false;
+    }
+    inline void set(int v) {
+        value = v;
+        present = true;
+    }
+    inline void set_nonzero(double v) {
+        if (v) set(v);
+    }
+    inline void overlay(OPTIONAL_INT& x) {
+        if (x.present) set(x.value);
+    }
+};
+
 extern int copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);

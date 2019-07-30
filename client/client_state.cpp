@@ -734,6 +734,8 @@ int CLIENT_STATE::init() {
     check_if_need_benchmarks();
 
     read_global_prefs();
+    
+    prefs.convert(global_prefs);
 
     // do CPU scheduler and work fetch
     //

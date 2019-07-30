@@ -769,3 +769,25 @@ double CLIENT_STATE::max_available_ram() {
         global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
     );
 }
+
+//////////////////// new prefs starts here ///////////////////
+
+// where dynamic prefs may change
+// ACTIVE_TASK_SET::get_memory_usage()
+//      may change exclusive_app_running, exclusive_gpu_app_running
+
+
+bool PREFS_CONDITION::condition_holds() {
+    return true;
+}
+
+// get dynamic state based on current system conditions
+//
+void PREFS::get_dynamic_state(PREFS_DYNAMIC_STATE& s) {
+    for (unsigned int i=0; i<clauses.size(); i++) {
+        PREFS_CLAUSE &c = clauses[i];
+        if (c.condition.condition_holds()) {
+            s.overlay(c.state);
+        }
+    }
+}

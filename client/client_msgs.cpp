@@ -247,6 +247,8 @@ void MESSAGE_DESCS::cleanup() {
     msgs.clear();
 }
 
+// return list of project's app names as a string
+//
 string app_list_string(PROJECT* p) {
     string app_list;
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
