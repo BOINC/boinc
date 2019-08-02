@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # $Id$
 
@@ -24,7 +24,7 @@ from Boinc.setup_project import *
 import os, getopt
 
 def usage():
-    print "Usage: upgrade [--web_only | --server_only] [--srcdir DIR] project_root"
+    print ("Usage: upgrade [--web_only | --server_only] [--srcdir DIR] project_root")
     raise SystemExit
 
 def syntax_error(str):
@@ -32,7 +32,7 @@ def syntax_error(str):
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'web_only', 'server_only', 'srcdir='])
-except getopt.GetoptError, e:
+except getopt.GetoptError as e:
     syntax_error(e)
 
 home = os.path.expanduser('~')
@@ -65,7 +65,7 @@ if not options.srcdir:
         syntax_error('Not running in the source directory and --srcdir was not specified')
 
 if not options.web_only:
-    print "Don't forget to do 'make' first!"
+    print ("Don't forget to do 'make' first!")
     
 if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
     raise SystemExit
@@ -74,19 +74,19 @@ if not options.web_only:
     if os.system('cd '+INSTALL_DIR+'; ./bin/stop'):
         raise SystemExit("Couldn't stop project!")
 
-print "Upgrading files... "
+print ("Upgrading files... ")
 
 options.install_method = 'copy'
 init()
 install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 
-print "Upgrading files... done"
+print ("Upgrading files... done")
 
-print "Updating translations"
+print ("Updating translations")
 try:
     os.system('cd '+INSTALL_DIR+'/html/ops; ./update_translations.php -d 1')
 except:
-    print '''Couldn't install translation files'''
+    print ('''Couldn't install translation files''')
 
 opt = '';
 if options.server_only:
@@ -94,15 +94,15 @@ if options.server_only:
 if options.web_only:
     opt = ' --web'
 
-print "Checking for DB updates"
+print ("Checking for DB updates")
 os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php'+opt)
 
 if os.path.exists(INSTALL_DIR+'/html/project/project_news.inc'):
-    print '''\
+    print ('''\
 
 html/project/project_news.inc is deprecated.
 Run html/ops/news_convert.php to convert project news to forum format.
-'''
+''')
 
 if not options.web_only:
-    print "Run `bin/start' to restart the project."
+    print ("Run `bin/start' to restart the project.")
