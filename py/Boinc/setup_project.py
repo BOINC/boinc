@@ -668,7 +668,7 @@ require valid-user
             each_app = True
         else:
             raise SystemExit("test script error: invalid progname '%s'"%progname)
-        cmdline = build_command_line([''], kwargs)
+        cmdline = build_command_line('', kwargs)
         if each_app:
             return [ '-app %s %s'%(av.app.name,cmdline) for av in self.app_versions ]
         else:
