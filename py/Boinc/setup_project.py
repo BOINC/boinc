@@ -386,9 +386,9 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
         install(builddir('sched','fcgi'), dest('cgi-bin','fcgi'))
     if os.path.isfile(dest('cgi-bin', 'file_upload_handler')):
         os.rename(dest('cgi-bin', 'file_upload_handler'), dest('cgi-bin', 'file_upload_handler.old'))
-        cgi_script = [ 'cgi', 'file_upload_handler']
-        for f in cgi_script:
-            install(builddir('sched',f), dest('cgi-bin',f))
+    cgi_script = [ 'cgi', 'file_upload_handler']
+    for f in cgi_script:
+        install(builddir('sched/' + f), dest('cgi-bin',f))
     command = [
             'adjust_user_priority',
             'antique_file_deleter',
