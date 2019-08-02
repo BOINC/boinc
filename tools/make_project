@@ -239,7 +239,7 @@ project.sched_install('feeder')
 project.sched_install('transitioner')
 project.sched_install('file_deleter')
 if options.test_app:
-    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3 --app example_app'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 --app example_app'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 --app example_app'
 
