@@ -4,7 +4,7 @@
 
 # Social
 
-[![Slack](https://img.shields.io/badge/slack-boincworkspace-blue?logo=slack)](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI)
+[![Slack](https://img.shields.io/badge/slack-boincworkspace-blue?logo=slack)](https://join.slack.com/t/boincworkspace/shared_invite/enQtNzA3MTQ4NDA0Njc4LTM4NTEyZTY1MWEwZjAyNTVmOTg3NDA2NjVjZDQzMWQ3NmFjYTc4MTNkNTEyNjRkOTQ4MWU5Nzk3NzRhNTg0NDI) [![Discord](https://img.shields.io/badge/discord-boincnetwork-blue?logo=discord)](https://discord.gg/kebpfnr)
 
 # BOINC
 
