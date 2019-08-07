@@ -6,7 +6,6 @@ branches:
   only:
     - master
     - coverity_scan
-    - client_release/7/7.16
 
 dist: trusty
 sudo: required

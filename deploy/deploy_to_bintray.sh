@@ -89,11 +89,6 @@ if [[ $CI_RUN == "true" ]]; then
                 RUN_CLEANUP="true"
             fi
         ;;
-        push)
-            PKG_NAME="custom"
-            VERSION="custom_${BUILD_DATE}_${GIT_REV}"
-            VERSION_DESC="Custom build created on ${BUILD_DATE}"
-        ;;
         *)
             echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
             exit 0;
