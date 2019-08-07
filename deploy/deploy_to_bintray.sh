@@ -91,7 +91,6 @@ if [[ $CI_RUN == "true" ]]; then
         ;;
         push)
             PKG_NAME="custom"
-            GIT_REV=${TRAVIS_PULL_REQUEST_SHA:0:8}
             VERSION="custom_${BUILD_DATE}_${GIT_REV}"
             VERSION_DESC="Custom build created on ${BUILD_DATE}"
         ;;
