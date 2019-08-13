@@ -503,7 +503,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "    <options>\n"
         "        <abort_jobs_on_exit>%d</abort_jobs_on_exit>\n"
-        "        <allow_gui_rpc_get>%d</allow_gui_rpc_get>\n",
+        "        <allow_gui_rpc_get>%d</allow_gui_rpc_get>\n"
         "        <allow_multiple_clients>%d</allow_multiple_clients>\n"
         "        <allow_remote_gui_rpc>%d</allow_remote_gui_rpc>\n",
         abort_jobs_on_exit ? 1 : 0,
