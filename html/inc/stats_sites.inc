@@ -31,9 +31,6 @@ $cpid_stats_sites = array(
     array("BOINCstats",
         "http://boincstats.com/en/stats/-1/user/detail/%s"
     ),
-    array("BOINC Statistics for the WORLD!",
-        "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
-    ),
     array("BOINC Combined Statistics",
         "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
     ),
@@ -66,10 +63,6 @@ $stats_sites = array(
         ""
     ),
 */
-    array("http://www.boincsynergy.com/stats/index.php",
-        "BOINC Statistics for the WORLD!",
-        "developed by Zain Upton"
-    ),
     array("http://boinc.netsoft-online.com/",
         "BOINC Combined Statistics",
         "developed by James Drews"
