@@ -49,11 +49,10 @@ function flag_abuse_reason_perm() {
 function flag_abuse_reason_preprocess_flag(&$vars) {
   drupal_add_js(drupal_get_path('module', 'flag_abuse_reason') . "/includes/flag_abuse_reason.js");
   drupal_add_css(drupal_get_path('module', 'flag_abuse_reason') . "/css/flag_abuse_reason.css");
-
-  global $user;
+  $myuser = $vars['user'];
   $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
 
-  // permmission check instead of a role
+   // permmission check instead of a role
   // Is this one of our abuse flags?
   if (in_array($vars['flag']->name, $metaflags)) {
 
@@ -63,7 +62,7 @@ function flag_abuse_reason_preprocess_flag(&$vars) {
     // If the variable <flagname>-<contentid> is set, then Reset
     // completely.
     if (variable_get($vars['flag']->name.'-'.$vars['content_id'], FALSE)) {
-      if (user_access('reset abuse flags', $user)) {
+      if (user_access('reset abuse flags', $myuser)) {
         $vars['action'] = 'none';
         $vars['link_text'] = t('Reset Completely');
         $vars['link_title'] = t('Reset everying, allows users to re-flag content.');
@@ -80,7 +79,7 @@ function flag_abuse_reason_preprocess_flag(&$vars) {
     else {
       // If there are flags on this content, clear the flags and
       // lock the content.
-      if (user_access('reset abuse flags', $user)) {
+      if (user_access('reset abuse flags', $myuser)) {
         if ($count>0) {
           $vars['action'] = 'reset';
           $vars['link_text'] = t('Clear Reports and Lock');
@@ -188,7 +187,7 @@ function flag_abuse_reason_flag_access($flag, $content_id, $action, $account) {
  * Implementation of hook_form_FORM_ID_alter().
  */
 function flag_abuse_reason_form_flag_confirm_alter(&$form, &$form_state) {
-  global $user;
+  //global $user;
   // Permmission check instead of a role.
   if (user_access('reset abuse flags', $account)) {
     $flag_name = $form['flag_name']['#value'];
