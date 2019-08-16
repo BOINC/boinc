@@ -28,9 +28,9 @@ for user in database.Users.find():
 
 '''
 
-import configxml
-from util import *
-from db_base import *
+from Boinc import configxml
+from Boinc.util import *
+from Boinc.db_base import *
 
 ID = '$Id$'
 

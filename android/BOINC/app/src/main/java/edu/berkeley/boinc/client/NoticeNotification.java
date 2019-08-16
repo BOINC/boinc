@@ -142,6 +142,7 @@ public class NoticeNotification {
                 projectName = this.currentlyNotifiedNotices.get(0).project_name,
                 notices)).
                   setSmallIcon(R.drawable.mailw).
+                  setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
             // single notice view

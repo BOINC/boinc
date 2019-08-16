@@ -99,13 +99,18 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     return 0;
 }
 
-int md5_block(const unsigned char* data, int nbytes, char* output) {
+int md5_block(const unsigned char* data, int nbytes, char* output,
+    const unsigned char* data2, int nbytes2     // optional 2nd block
+) {
     unsigned char binout[16];
     int i;
 
     md5_state_t state;
     md5_init(&state);
     md5_append(&state, data, nbytes);
+    if (data2) {
+        md5_append(&state, data2, nbytes2);
+    }
     md5_finish(&state, binout);
     for (i=0; i<16; i++) {
         sprintf(output+2*i, "%02x", binout[i]);

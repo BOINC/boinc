@@ -138,11 +138,13 @@ struct EXCLUDE_GPU {
     void write(MIOFILE&);
 };
 
-// if you add anything, you must add it to
-// defaults(), parse_options(), and write()
+// if you add anything here, add it to
+// defaults(), parse_options(), parse_options_client(), write(),
+// and possibly show()
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
+    bool allow_gui_rpc_get;
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
