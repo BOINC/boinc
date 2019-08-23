@@ -140,7 +140,7 @@ int init_result(RESULT& result, void*&) {
     return 0;
 }
 
-int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
+int compare_results(RESULT& r1, void*, RESULT & r2, void*, bool& match) {
     unsigned int i, j;
     char buf[256];
 

@@ -36,7 +36,7 @@ int init_result(RESULT&, void*&) {
     return 0;
 }
 
-int compare_results(RESULT&, void*, RESULT const&, void*, bool& match) {
+int compare_results(RESULT&, void*, RESULT &, void*, bool& match) {
     match = true;
     return 0;
 }

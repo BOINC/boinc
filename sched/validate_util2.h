@@ -30,7 +30,7 @@
     // host is unlikely to handle this app version; stop using
 
 extern int init_result(RESULT&, void*&);
-extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);
+extern int compare_results(RESULT &, void*, RESULT &, void*, bool&);
 extern int cleanup_result(RESULT const&, void*);
 
 // old/internal interface:

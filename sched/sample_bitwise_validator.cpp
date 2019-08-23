@@ -65,7 +65,7 @@ void validate_handler_usage() {
 }
 
 
-bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
+bool files_match(RESULT &r1, FILE_CKSUM_LIST& f1, RESULT &r2, FILE_CKSUM_LIST& f2) {
     if (f1.files.size() != f2.files.size()) return false;
     for (unsigned int i=0; i<f1.files.size(); i++) {
         if (f1.files[i] != f2.files[i]) return false;
@@ -113,14 +113,14 @@ int init_result(RESULT& result, void*& data) {
 }
 
 int compare_results(
-    RESULT & /*r1*/, void* data1,
-    RESULT const& /*r2*/, void* data2,
+    RESULT & r1, void* data1,
+    RESULT & r2, void* data2,
     bool& match
 ) {
     FILE_CKSUM_LIST* f1 = (FILE_CKSUM_LIST*) data1;
     FILE_CKSUM_LIST* f2 = (FILE_CKSUM_LIST*) data2;
 
-    match = files_match(*f1, *f2);
+    match = files_match(r1, *f1, r2, *f2);
     return 0;
 }
 
