@@ -47,7 +47,7 @@ class PymwAssimilator(Assimilator):
             else:
                 shutil.copy2(resultFullPath, dest)
                 self.logNormal("Result copied [%s]\n", resultName)
-        except Exception,msg:
+        except(Exception,msg):
             self.logCritical("Error copying output\n" + \
                              "  - Source: %s\n" + \
                              "  - Dest: %s\n" + 

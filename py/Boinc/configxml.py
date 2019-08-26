@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 # $Id$
 
 # configxml.py - module to read and parse config.xml, run_state.xml

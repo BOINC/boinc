@@ -1,4 +1,5 @@
 ## $Id$
+from __future__ import print_function
 
 # quarl 2003-10-16 initial version based on conglomeration of
 #                  coursesurvey/database.py and boinc/database.py

@@ -1,4 +1,5 @@
 ## $Id$
+from __future__ import print_function
 
 # module for setting up a new project (either a real project or a test project
 # see tools/makeproject, test/testbase.py).
