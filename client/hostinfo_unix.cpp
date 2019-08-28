@@ -1229,6 +1229,9 @@ int HOST_INFO::get_cpu_count() {
 #error Need to specify a method to get number of processors
 #endif
 
+    /* Save value for later use in CLIENT_STATE::set_ncpus() */
+    p_ncpus_genuine = p_ncpus;
+
     return 0;
 }
 

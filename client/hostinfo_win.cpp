@@ -1454,6 +1454,10 @@ int HOST_INFO::get_host_info(bool init) {
         m_cache,
         p_ncpus
     );
+
+    /* Save value for later use in CLIENT_STATE::set_ncpus() */
+    p_ncpus_genuine = p_ncpus;
+
     collapse_whitespace(p_model);
     collapse_whitespace(p_vendor);
     if (!strlen(host_cpid)) {

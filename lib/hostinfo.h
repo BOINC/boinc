@@ -57,6 +57,7 @@ public:
     char host_cpid[64];
 
     int p_ncpus;
+    int p_ncpus_genuine;
     char p_vendor[256];
     char p_model[256];
     char p_features[1024];
