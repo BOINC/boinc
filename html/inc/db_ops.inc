@@ -910,7 +910,7 @@ function admin_show_host($host) {
     row("GIOPS", number_format($host->p_iops/1e9, 2));
 
     row("Number of GPUs", $host->p_ngpus);
-    row("GPU GLOPS", number_format($host->p_gpu_fpops/1e9, 2));
+    row("GPU GFLOPS", number_format($host->p_gpu_fpops/1e9, 2));
 
     $x = $host->p_membw/(1024*1024);
     $y = number_format($x, 2);
@@ -989,7 +989,7 @@ function admin_show_workunit($wu) {
     row("hr_class", $wu->hr_class);
     row("opaque", $wu->opaque);
     row("Priority", $wu->priority);
-    row("Keywords", $wu->keywords);
+    row("Keywords", ($wu->keywords ? $wu->keywords : "<em>empty</em>"));
     end_table();
     echo "<div align=\"center\">";
     echo "<a href=\"show_log.php?s=$wu->name\">GREP LOGS FOR THIS WORKUNIT</a>";
