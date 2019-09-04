@@ -1627,13 +1627,23 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
+    // config file can say to act like host has N CPUs
+    //
+    static bool first = true;
+    static int original_p_ncpus;
+    if (first) {
+        original_p_ncpus = host_info.p_ncpus;
+        first = false;
+    }
     if (cc_config.ncpus>0) {
         ncpus = cc_config.ncpus;
-        host_info.p_ncpus = ncpus;
-    } else if (host_info.p_ncpus>0) {
-        ncpus = host_info.p_ncpus;
+        host_info.p_ncpus = ncpus;  // use this in scheduler requests
     } else {
-        ncpus = 1;
+        host_info.p_ncpus = original_p_ncpus;
+        ncpus = host_info.p_ncpus;
+    }
+    if (ncpus <= 0) {
+        ncpus = 1;      // shouldn't happen
     }
 
     if (global_prefs.max_ncpus_pct) {
