@@ -19,6 +19,7 @@
 #define BOINC_PREFS_H
 
 #include <cstdio>
+#include <map>
 
 #include "miofile.h"
 #include "parse.h"
@@ -205,18 +206,76 @@ struct GLOBAL_PREFS {
 
 ////////////////// new prefs starts here /////////////////
 
-// specifies a condition of the host: user active, time of day, etc.
-// The condition is the "and" of the various items.
+// basic idea: the "prefs dictionary" is a map string -> double.
+// Some of the items are predefined and updated
+//      idle_time: time since input
+//      on_batteries (nonzero if true)
+//      time: time of day
+//      exclusive_app_running
+//      cpu_usage: non-BOINC CPU usage frac
+//
+// items can be dynamically set via RPC
+
+struct PREFS_DICT {
+    std::map<std::string, double> dict;
+    bool lookup(std::string s, double& x) {
+        return true;
+    }
+} prefs_dict;
+
+// base class for terms
+//
+struct PREFS_TERM {
+    std::string item;
+    bool negate;
+    virtual bool holds();
+};
+
+// item is greater than threshold
+//
+struct PREFS_TERM_GT : PREFS_TERM {
+    double thresh;
+    bool holds() {
+        double x;
+        if (prefs_dict.lookup(item, x)) {
+            return x > thresh;
+        }
+        return false;
+    }
+};
+
+// item is nonzero
+//
+struct PREFS_TERM_NONZERO : PREFS_TERM {
+    bool holds() {
+        double x;
+        if (prefs_dict.lookup(item, x)) {
+            return x != 0;
+        }
+        return false;
+    }
+};
+
+// item (typically time of day) is in weekday/hour range
+//
+struct PREFS_TERM_TIME_RANGE : PREFS_TERM {
+    TIME_PREFS range;
+    bool holds() {
+        double x;
+        if (prefs_dict.lookup(item, x)) {
+            range.suspended(x);
+        }
+        return false;
+    }
+};
+
+// a condition of the host.
+// The condition is the "and" of the terms, possibly negated.
 //
 struct PREFS_CONDITION {
-    OPTIONAL_BOOL user_active;
-    OPTIONAL_BOOL on_batteries;
-    TIME_PREFS time_condition;
-    OPTIONAL_DOUBLE min_cpu_usage;
-    OPTIONAL_BOOL exclusive_app_running;
-    OPTIONAL_BOOL exclusive_gpu_app_running;
-
-    bool condition_holds();
+    bool negate;
+    std::vector<PREFS_TERM*> terms;
+    bool holds();
 };
 
 // specifies a group of "dynamic settings": #CPUs, max RAM, etc.
@@ -287,7 +346,11 @@ struct PREFS_STATIC_STATE {
     OPTIONAL_DOUBLE work_buf_min_days;
 };
 
-// overall preferences
+// overall preferences.
+// we start of with a default state S.
+// the clauses are evaluated in order.
+// for each one whose condition is true,
+// its state overlays S.
 //
 struct PREFS {
     double mod_time;
