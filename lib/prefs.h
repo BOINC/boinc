@@ -207,65 +207,61 @@ struct GLOBAL_PREFS {
 ////////////////// new prefs starts here /////////////////
 
 // basic idea: the "prefs dictionary" is a map string -> double.
-// Some of the items are predefined and updated
-//      idle_time: time since input
-//      on_batteries (nonzero if true)
-//      time: time of day
-//      exclusive_app_running
-//      cpu_usage: non-BOINC CPU usage frac
-//
-// items can be dynamically set via RPC
+// Some of the items are predefined and updated periodically:
+
+#define PREFS_IDLE_TIME "idle_time"    // time since user input
+#define PREFS_ON_BATTERIES "on_batteries"
+#define PREFS_TIME "time"
+#define PREFS_EXCLUSIVE_APP_RUNNING "exclusive_app_running"
+#define PREFS_NON_BOINC_CPU_USAGE "non_boinc_cpu_usage"
+
+// other items can be dynamically set via RPC
 
 struct PREFS_DICT {
     std::map<std::string, double> dict;
     bool lookup(std::string s, double& x) {
+        if (dict.count(s) == 0) {
+            return false;
+        }
+        x = dict[s];
         return true;
     }
+    PREFS_DICT();
 } prefs_dict;
 
-// base class for terms
+typedef enum {
+    TERM_GT,
+    TERM_BOOL,
+    TERM_TIME_RANGE
+} TERM_TYPE ;
+
+// a term of a condition
 //
 struct PREFS_TERM {
     std::string item;
     bool negate;
-    virtual bool holds();
-};
-
-// item is greater than threshold
-//
-struct PREFS_TERM_GT : PREFS_TERM {
     double thresh;
-    bool holds() {
-        double x;
-        if (prefs_dict.lookup(item, x)) {
-            return x > thresh;
-        }
-        return false;
+    TIME_PREFS *time_range;
+    TERM_TYPE term_type;
+    PREFS_TERM(TERM_TYPE t, std::string i) {
+        term_type = t;
+        item = i;
     }
-};
-
-// item is nonzero
-//
-struct PREFS_TERM_NONZERO : PREFS_TERM {
-    bool holds() {
-        double x;
-        if (prefs_dict.lookup(item, x)) {
-            return x != 0;
-        }
-        return false;
+    PREFS_TERM(TERM_TYPE t, std::string i, double x) {
+        term_type = t;
+        item = i;
+        thresh = x;
     }
-};
-
-// item (typically time of day) is in weekday/hour range
-//
-struct PREFS_TERM_TIME_RANGE : PREFS_TERM {
-    TIME_PREFS range;
     bool holds() {
         double x;
-        if (prefs_dict.lookup(item, x)) {
-            range.suspended(x);
+        if (!prefs_dict.lookup(item, x)) {
+            return false;
         }
-        return false;
+        switch (term_type) {
+        case TERM_GT: return x > thresh;
+        case TERM_BOOL: return x != 0;
+        case TERM_TIME_RANGE: return time_range->suspended(x);
+        }
     }
 };
 
@@ -274,7 +270,7 @@ struct PREFS_TERM_TIME_RANGE : PREFS_TERM {
 //
 struct PREFS_CONDITION {
     bool negate;
-    std::vector<PREFS_TERM*> terms;
+    std::vector<PREFS_TERM> terms;
     bool holds();
 };
 

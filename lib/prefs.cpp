@@ -27,6 +27,13 @@
 #include <time.h>
 #endif
 
+#include <string>
+#include <map>
+
+using std::map;
+using std::string;
+using std::pair;
+
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
@@ -898,6 +905,14 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
 
 ///////////////// new prefs system starts here //////////////////
 
+PREFS_DICT::PREFS_DICT() {
+    dict.insert(pair<string, double>(PREFS_IDLE_TIME, 0));
+    dict.insert(pair<string, double>(PREFS_ON_BATTERIES, 0));
+    dict.insert(pair<string, double>(PREFS_TIME, 0));
+    dict.insert(pair<string, double>(PREFS_EXCLUSIVE_APP_RUNNING, 0));
+    dict.insert(pair<string, double>(PREFS_NON_BOINC_CPU_USAGE, 0));
+}
+
 // convert old prefs to new structure
 //
 void PREFS::convert(GLOBAL_PREFS& old) {
@@ -914,7 +929,8 @@ void PREFS::convert(GLOBAL_PREFS& old) {
     // no recent input
     //
     PREFS_CLAUSE p2;
-    p2.condition.user_active.set(false);
+    PREFS_TERM t2(TERM_GT, PREFS_IDLE_TIME, old.idle_time_to_run);
+    p2.condition.terms.push_back(t2);
     if (!old.run_if_user_active) {
         p2.state.dont_use_cpu.set(true);
     }
@@ -930,7 +946,8 @@ void PREFS::convert(GLOBAL_PREFS& old) {
     //
     if (!old.run_on_batteries) {
         PREFS_CLAUSE p;
-        p.condition.on_batteries.set(true);
+        PREFS_TERM t(TERM_BOOL, PREFS_ON_BATTERIES);
+        p.condition.terms.push_back(t);
         p.state.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
@@ -939,16 +956,24 @@ void PREFS::convert(GLOBAL_PREFS& old) {
     //
     if (old.cpu_times.present) {
         PREFS_CLAUSE p;
-        p.condition.time_condition = old.cpu_times;
+        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
+        TIME_PREFS *tp = new TIME_PREFS;
+        *tp = old.cpu_times;
+        t.time_range = tp;
+        p.condition.terms.push_back(t);
         p.state.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
 
     // network time of day
     //
-    if (old.cpu_times.present) {
+    if (old.net_times.present) {
         PREFS_CLAUSE p;
-        p.condition.time_condition = old.net_times;
+        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
+        TIME_PREFS *tp = new TIME_PREFS;
+        *tp = old.net_times;
+        t.time_range = tp;
+        p.condition.terms.push_back(t);
         p.state.dont_do_file_xfer.set(true);
         clauses.push_back(p);
     }
