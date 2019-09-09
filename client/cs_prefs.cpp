@@ -776,18 +776,13 @@ double CLIENT_STATE::max_available_ram() {
 // ACTIVE_TASK_SET::get_memory_usage()
 //      may change exclusive_app_running, exclusive_gpu_app_running
 
-
-bool PREFS_CONDITION::holds() {
-    return true;
-}
-
 // get dynamic state based on current system conditions
 //
-void PREFS::get_dynamic_state(PREFS_DYNAMIC_STATE& s) {
+void PREFS::get_dynamic_params(PREFS_DYNAMIC_PARAMS& s) {
     for (unsigned int i=0; i<clauses.size(); i++) {
         PREFS_CLAUSE &c = clauses[i];
         if (c.condition.holds()) {
-            s.overlay(c.state);
+            s.overlay(c.params);
         }
     }
 }

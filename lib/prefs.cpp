@@ -905,6 +905,8 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
 
 ///////////////// new prefs system starts here //////////////////
 
+PREFS_DICT prefs_dict;
+
 void TIME_PREFS::write(MIOFILE& f) {
     f.printf(
         "<time_range>\n"
@@ -917,10 +919,12 @@ void TIME_PREFS::write(MIOFILE& f) {
         TIME_SPAN &s = week.days[i];
         if (s.present) {
             f.printf(
-                "   <day>\n"
+                "   <day_of_week>\n"
+                "       <day>%d</day>\n"
                 "       <start>%f</start>\n"
                 "       <end>%f</end>\n",
-                "   </day>\n",
+                "   </day_of_week>\n",
+                i,
                 s.start_hour,
                 s.end_hour
             );
@@ -937,13 +941,13 @@ int TIME_PREFS::parse(XML_PARSER& xp) {
         if (xp.match_tag("/time_range")) {
             return 0;
         }
-        if (xp.parse_double("start_hour", start_hour)) continue;
-        if (xp.parse_double("end_hour", end_hour)) continue;
-        if (xp.match_tag("day")) {
+        if (xp.parse_double("start", start_hour)) continue;
+        if (xp.parse_double("end", end_hour)) continue;
+        if (xp.match_tag("day_of_week")) {
             int day_num = -1;
             double start=0, end=0;
             while (!xp.get_tag()) {
-                if (xp.match_tag("/day")) {
+                if (xp.match_tag("/day_of_week")) {
                     if (day_num < 0) {
                         return ERR_XML_PARSE;
                     }
@@ -952,8 +956,9 @@ int TIME_PREFS::parse(XML_PARSER& xp) {
                     week.days[day_num].end_hour = end;
                     break;
                 }
-                if (xp.parse_double("start_hour", start)) continue;
-                if (xp.parse_double("end_hour", end)) continue;
+                if (xp.parse_double("start", start)) continue;
+                if (xp.parse_double("end", end)) continue;
+                if (xp.parse_int("day", day_num)) continue;
             }
             continue;
         }
@@ -1251,6 +1256,32 @@ int PREFS_STATIC_PARAMS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void PREFS_CLAUSE::write(MIOFILE& f) {
+    f.printf("<clause>\n");
+    condition.write(f);
+    params.write(f);
+    f.printf("</clause>\n");
+}
+
+int PREFS_CLAUSE::parse(XML_PARSER& xp) {
+    int retval;
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/clause")) {
+            return 0;
+        }
+        if (xp.match_tag("condition")) {
+            retval = condition.parse(xp);
+            if (retval) return retval;
+        }
+        if (xp.match_tag("params")) {
+            retval = params.parse(xp);
+            if (retval) return retval;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 void PREFS::write(MIOFILE& f) {
     f.printf(
         "<prefs>\n"
@@ -1370,7 +1401,6 @@ void PREFS::convert(GLOBAL_PREFS& old) {
     static_params.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
     static_params.dont_verify_images.set(old.dont_verify_images);
     static_params.hangup_if_dialed.set(old.hangup_if_dialed);
-    static_params.idle_time_to_run.set(old.idle_time_to_run);
     static_params.network_wifi_only.set(old.network_wifi_only);
     static_params.work_buf_additional_days.set(old.work_buf_additional_days);
     static_params.work_buf_min_days.set(old.work_buf_min_days);

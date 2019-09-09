@@ -228,7 +228,9 @@ struct PREFS_DICT {
         return true;
     }
     PREFS_DICT();
-} prefs_dict;
+};
+
+extern PREFS_DICT prefs_dict;
 
 typedef enum {
     TERM_NONE,
@@ -286,7 +288,17 @@ struct PREFS_TERM {
 struct PREFS_CONDITION {
     bool negate;
     std::vector<PREFS_TERM> terms;
-    bool holds();
+    bool holds() {
+        bool x = true;
+        for (unsigned int i=0; i<terms.size(); i++) {
+            if (!terms[i].holds()) {
+                x = false;
+                break;
+            }
+        }
+        if (negate) x = !x;
+        return x;
+    }
     void clear() {
         negate = false;
         terms.clear();
@@ -347,6 +359,10 @@ struct PREFS_CLAUSE {
     PREFS_DYNAMIC_PARAMS params;
     void write(MIOFILE&);
     int parse(XML_PARSER&);
+    void clear() {
+        condition.clear();
+        params.clear();
+    }
 };
 
 // static params, i.e. those that don't change with condition
@@ -363,7 +379,6 @@ struct PREFS_STATIC_PARAMS {
     OPTIONAL_DOUBLE disk_min_free_gb;
     OPTIONAL_BOOL dont_verify_images;
     OPTIONAL_BOOL hangup_if_dialed;
-    OPTIONAL_DOUBLE idle_time_to_run;
     OPTIONAL_BOOL leave_apps_in_memory;
     OPTIONAL_BOOL network_wifi_only;
     OPTIONAL_DOUBLE work_buf_additional_days;
