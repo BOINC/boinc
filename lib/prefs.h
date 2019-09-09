@@ -132,7 +132,8 @@ struct TIME_PREFS : public TIME_SPAN {
     
     void clear();
     bool suspended(double t);
-    
+    void write(MIOFILE&); 
+    int parse(XML_PARSER&);
 };
 
 
@@ -230,10 +231,11 @@ struct PREFS_DICT {
 } prefs_dict;
 
 typedef enum {
+    TERM_NONE,
     TERM_GT,
     TERM_BOOL,
     TERM_TIME_RANGE
-} TERM_TYPE ;
+} TERM_TYPE;
 
 // a term of a condition
 //
@@ -258,11 +260,24 @@ struct PREFS_TERM {
             return false;
         }
         switch (term_type) {
+        case TERM_NONE: return false;
         case TERM_GT: return x > thresh;
         case TERM_BOOL: return x != 0;
         case TERM_TIME_RANGE: return time_range->suspended(x);
         }
     }
+    void clear() {
+        item.clear();
+        negate = false;
+        thresh = 0;
+        term_type = TERM_NONE;
+        time_range = NULL;
+    }
+    PREFS_TERM() {
+        clear();
+    }
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // a condition of the host.
@@ -272,12 +287,18 @@ struct PREFS_CONDITION {
     bool negate;
     std::vector<PREFS_TERM> terms;
     bool holds();
+    void clear() {
+        negate = false;
+        terms.clear();
+    }
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // specifies a group of "dynamic settings": #CPUs, max RAM, etc.
 // All are optional.
 //
-struct PREFS_DYNAMIC_STATE {
+struct PREFS_DYNAMIC_PARAMS {
     OPTIONAL_DOUBLE cpu_usage_limit;
     OPTIONAL_BOOL dont_use_cpu;
     OPTIONAL_BOOL dont_use_gpu;
@@ -287,6 +308,9 @@ struct PREFS_DYNAMIC_STATE {
     OPTIONAL_INT max_ncpus;
     OPTIONAL_DOUBLE max_ncpus_pct;
     OPTIONAL_DOUBLE ram_max_used_frac;
+    void clear() {
+        memset(this, sizeof(*this), 0);
+    }
     inline bool any_present() {
         return cpu_usage_limit.present
             || dont_use_cpu.present
@@ -301,7 +325,7 @@ struct PREFS_DYNAMIC_STATE {
     }
     // add or replace items that are present in s
     //
-    void overlay(PREFS_DYNAMIC_STATE& s) {
+    void overlay(PREFS_DYNAMIC_PARAMS& s) {
         cpu_usage_limit.overlay(s.cpu_usage_limit);
         dont_use_cpu.overlay(s.dont_use_cpu);
         dont_use_gpu.overlay(s.dont_use_gpu);
@@ -312,18 +336,22 @@ struct PREFS_DYNAMIC_STATE {
         max_ncpus_pct.overlay(s.max_ncpus_pct);
         ram_max_used_frac.overlay(s.ram_max_used_frac);
     }
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // the combination of a condition and a state
 //
 struct PREFS_CLAUSE {
     PREFS_CONDITION condition;
-    PREFS_DYNAMIC_STATE state;
+    PREFS_DYNAMIC_PARAMS params;
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
-// static settings, i.e. those that don't change with condition
+// static params, i.e. those that don't change with condition
 //
-struct PREFS_STATIC_STATE {
+struct PREFS_STATIC_PARAMS {
     OPTIONAL_DOUBLE battery_charge_min_pct;
     OPTIONAL_DOUBLE battery_max_temperature;
     OPTIONAL_BOOL confirm_before_connecting;
@@ -340,6 +368,11 @@ struct PREFS_STATIC_STATE {
     OPTIONAL_BOOL network_wifi_only;
     OPTIONAL_DOUBLE work_buf_additional_days;
     OPTIONAL_DOUBLE work_buf_min_days;
+    void clear() {
+        memset(this, sizeof(*this), 0);
+    }
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 // overall preferences.
@@ -351,10 +384,12 @@ struct PREFS_STATIC_STATE {
 struct PREFS {
     double mod_time;
     std::vector<PREFS_CLAUSE> clauses;
-    PREFS_STATIC_STATE static_state;
+    PREFS_STATIC_PARAMS static_params;
 
     void convert(GLOBAL_PREFS&);
-    void get_dynamic_state(PREFS_DYNAMIC_STATE&);
+    void get_dynamic_params(PREFS_DYNAMIC_PARAMS&);
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
 };
 
 #endif
