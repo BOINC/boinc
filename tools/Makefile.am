@@ -40,7 +40,8 @@ dist_tools_SCRIPTS = \
     watch_tcp
 
 dist_tools_DATA = \
-    project.xml
+    project.xml \
+    gui_urls.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static
