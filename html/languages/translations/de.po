@@ -1278,8 +1278,8 @@ msgstr "Erlaubt es einige Prozessoren f√ºr andere Anwendungen zu reservieren. Be
 
 #: html/inc/prefs.inc:58
 #, no-php-format
-msgid "% of the CPUs"
-msgstr "% der Prozessoren"
+msgid "%% of the CPUs"
+msgstr "%% der Prozessoren"
 
 #: html/inc/prefs.inc:63
 #, no-php-format
@@ -1291,8 +1291,8 @@ msgstr "Die Berechnung alle paar Sekunden pausieren/fortsetzen um die Prozessort
 
 #: html/inc/prefs.inc:66
 #, no-php-format
-msgid "% of CPU time"
-msgstr "% der Prozessorzeit"
+msgid "%% of CPU time"
+msgstr "%% der Prozessorzeit"
 
 #: html/inc/prefs.inc:68 html/inc/prefs.inc:214
 msgid "When to suspend"
@@ -1446,8 +1446,8 @@ msgstr "Prozentuale begrenzung des Festplattenplatzes den BOINC auf dem Datentr√
 
 #: html/inc/prefs.inc:158
 #, no-php-format
-msgid "% of total"
-msgstr "% von Gesamt"
+msgid "%% of total"
+msgstr "%% von Gesamt"
 
 #: html/inc/prefs.inc:164
 msgid "When computer is in use, use at most"
