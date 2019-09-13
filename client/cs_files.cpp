@@ -506,6 +506,15 @@ void CLIENT_STATE::check_file_existence() {
                     path, fip->nbytes, size
                 );
             }
+
+            // If an output file disappears before it's uploaded,
+            // flag the job as an error.
+            //
+            if (fip->result && fip->status == FILE_NOT_PRESENT && !fip->uploaded) {
+                gstate.report_result_error(
+                    *fip->result, "output file missing or invalid"
+                );
+            }
         }
     }
 }
