@@ -1133,11 +1133,13 @@ int WORKUNIT::parse(XML_PARSER& xp) {
         if (xp.parse_double("rsc_disk_bound", rsc_disk_bound)) continue;
         if (xp.match_tag("file_ref")) {
             retval = file_ref.parse(xp);
-            if (retval) msg_printf(0, MSG_INFO,
-                "can't parse file_ref in workunit: %s",
-                boincerror(retval)
-            );
-            return retval;
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in workunit: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
 #ifndef SIM
             input_files.push_back(file_ref);
 #endif
