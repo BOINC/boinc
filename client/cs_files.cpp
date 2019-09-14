@@ -530,7 +530,7 @@ RESULT* CLIENT_STATE::file_info_to_result(FILE_INFO* fip) {
         RESULT* rp = results[i];
         if (rp->project != fip->project) continue;
         for (j=0; j<rp->output_files.size(); j++) {
-            FILE_REF& fr = rp->output_files[i];
+            FILE_REF& fr = rp->output_files[j];
             if (fr.file_info == fip) {
                 return rp;
             }
