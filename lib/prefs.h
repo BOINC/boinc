@@ -208,26 +208,45 @@ struct GLOBAL_PREFS {
 ////////////////// new prefs starts here /////////////////
 
 // basic idea: the "prefs dictionary" is a map string -> double.
-// Some of the items are predefined and updated periodically:
+// Entries are created for preference terms.
+// Some of the entries have standardized names,
+// and their values are set by the client.
+//
+// Names of the form .X represent the executable file X;
+// their value is whether that program is running.
 
 #define PREFS_IDLE_TIME "idle_time"    // time since user input
 #define PREFS_ON_BATTERIES "on_batteries"
 #define PREFS_TIME "time"
-#define PREFS_EXCLUSIVE_APP_RUNNING "exclusive_app_running"
 #define PREFS_NON_BOINC_CPU_USAGE "non_boinc_cpu_usage"
 
-// other items can be dynamically set via RPC
+// the values of non-standard entries are set via RPC
+
+struct PREFS_DICT_ENTRY {
+    double value;
+    PREFS_DICT_ENTRY(double v) {
+        value = v;
+    }
+    PREFS_DICT_ENTRY() {}
+};
+
+typedef std::pair<std::string, PREFS_DICT_ENTRY> PREFS_DICT_PAIR;
 
 struct PREFS_DICT {
-    std::map<std::string, double> dict;
-    bool lookup(std::string s, double& x) {
+    std::map<std::string, PREFS_DICT_ENTRY> dict;
+    bool lookup(std::string s, PREFS_DICT_ENTRY& x) {
         if (dict.count(s) == 0) {
             return false;
         }
         x = dict[s];
         return true;
     }
-    PREFS_DICT();
+
+    void add_item(std::string s) {
+        dict.insert(PREFS_DICT_PAIR(s, PREFS_DICT_ENTRY(0)));
+    }
+
+    void init();
 };
 
 extern PREFS_DICT prefs_dict;
@@ -236,7 +255,8 @@ typedef enum {
     TERM_NONE,
     TERM_GT,
     TERM_BOOL,
-    TERM_TIME_RANGE
+    TERM_TIME_RANGE,
+    TERM_APP_RUNNING
 } TERM_TYPE;
 
 // a term of a condition
@@ -257,15 +277,17 @@ struct PREFS_TERM {
         thresh = x;
     }
     bool holds() {
-        double x;
+        PREFS_DICT_ENTRY x;
         if (!prefs_dict.lookup(item, x)) {
             return false;
         }
         switch (term_type) {
         case TERM_NONE: return false;
-        case TERM_GT: return x > thresh;
-        case TERM_BOOL: return x != 0;
-        case TERM_TIME_RANGE: return time_range->suspended(x);
+        case TERM_GT: return x.value > thresh;
+        case TERM_BOOL:
+        case TERM_APP_RUNNING:
+            return x.value != 0;
+        case TERM_TIME_RANGE: return time_range->suspended(x.value);
         }
     }
     void clear() {
@@ -282,8 +304,7 @@ struct PREFS_TERM {
     int parse(XML_PARSER&);
 };
 
-// a condition of the host.
-// The condition is the "and" of the terms, possibly negated.
+// A condition is the "and" of some terms, possibly negated.
 //
 struct PREFS_CONDITION {
     bool negate;
@@ -307,7 +328,7 @@ struct PREFS_CONDITION {
     int parse(XML_PARSER&);
 };
 
-// specifies a group of "dynamic settings": #CPUs, max RAM, etc.
+// specifies a group of "dynamic parameters": #CPUs, max RAM, etc.
 // All are optional.
 //
 struct PREFS_DYNAMIC_PARAMS {
@@ -352,7 +373,7 @@ struct PREFS_DYNAMIC_PARAMS {
     int parse(XML_PARSER&);
 };
 
-// the combination of a condition and a state
+// the combination of a condition and a set of params
 //
 struct PREFS_CLAUSE {
     PREFS_CONDITION condition;
@@ -365,7 +386,7 @@ struct PREFS_CLAUSE {
     }
 };
 
-// static params, i.e. those that don't change with condition
+// static params, i.e. those that don't change over time
 //
 struct PREFS_STATIC_PARAMS {
     OPTIONAL_DOUBLE battery_charge_min_pct;
@@ -391,10 +412,11 @@ struct PREFS_STATIC_PARAMS {
 };
 
 // overall preferences.
-// we start of with a default state S.
+// To evaluate dynamic params,
+// we start of with a default param set S.
 // the clauses are evaluated in order.
 // for each one whose condition is true,
-// its state overlays S.
+// its params overlay S.
 //
 struct PREFS {
     double mod_time;

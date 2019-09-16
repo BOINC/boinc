@@ -966,14 +966,6 @@ int TIME_PREFS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-PREFS_DICT::PREFS_DICT() {
-    dict.insert(pair<string, double>(PREFS_IDLE_TIME, 0));
-    dict.insert(pair<string, double>(PREFS_ON_BATTERIES, 0));
-    dict.insert(pair<string, double>(PREFS_TIME, 0));
-    dict.insert(pair<string, double>(PREFS_EXCLUSIVE_APP_RUNNING, 0));
-    dict.insert(pair<string, double>(PREFS_NON_BOINC_CPU_USAGE, 0));
-}
-
 void PREFS_TERM::write(MIOFILE& f) {
     f.printf(
         "<prefs_term>\n"
@@ -991,6 +983,7 @@ void PREFS_TERM::write(MIOFILE& f) {
         f.printf("   <thresh>%f</thresh>\n", thresh);
         break;
     case TERM_BOOL:
+    case TERM_APP_RUNNING:
         break;
     case TERM_TIME_RANGE:
         time_range->write(f);
@@ -1003,16 +996,36 @@ void PREFS_TERM::write(MIOFILE& f) {
 
 int PREFS_TERM::parse(XML_PARSER& xp) {
     clear();
+    string item_name;
+    int i;
     while (!xp.get_tag()) {
         if (xp.match_tag("/prefs_term")) {
+            if (term_type == TERM_NONE) {
+                return ERR_XML_PARSE;
+            }
+            if (item_name.empty()) {
+                return ERR_XML_PARSE;
+            }
+            if (term_type == TERM_APP_RUNNING) {
+                item_name = "."+item_name;
+            }
+            item = item_name;
+            PREFS_DICT_ENTRY x;
+            if (!prefs_dict.lookup(item_name, x)) {
+                prefs_dict.add_item(item_name);
+            }
             return 0;
         }
-        if (xp.parse_string("item", item)) {
+        if (xp.parse_string("item", item_name)) {
             continue;
         }
         if (xp.match_tag("time_range")) {
             int retval = time_range->parse(xp);
             if (retval) return retval;
+            continue;
+        }
+        if (xp.parse_int("term_type", i)) {
+            term_type = (TERM_TYPE)i;
             continue;
         }
         if (xp.parse_double("thresh", thresh)) {
