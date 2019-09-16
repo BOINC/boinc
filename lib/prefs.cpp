@@ -966,21 +966,36 @@ int TIME_PREFS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+static const char* term_type_name(TERM_TYPE t) {
+    switch (t) {
+    case TERM_GT: return "greater_than";
+    case TERM_BOOL: return "boolean";
+    case TERM_TIME_RANGE: return "time_range";
+    case TERM_APP_RUNNING: return "app_running";
+    }
+    return "unknown";
+}
+
+static const TERM_TYPE term_type_int(string s) {
+    if (s == "greater_than") return TERM_GT;
+    return TERM_NONE;
+}
+
 void PREFS_TERM::write(MIOFILE& f) {
     f.printf(
-        "<prefs_term>\n"
-        "   <term_type>%f</term_type>\n"
-        "   <item>%f</item>\n",
-        term_type,
+        "      <prefs_term>\n"
+        "         <term_type>%s</term_type>\n"
+        "         <item>%s</item>\n",
+        term_type_name(term_type),
         item.c_str()
     );
-    if (negate) {
-        f.printf("   <negate/>\n");
+    if (not) {
+        f.printf("         <not/>\n");
     }
     switch (term_type) {
     case TERM_NONE: break;
     case TERM_GT:
-        f.printf("   <thresh>%f</thresh>\n", thresh);
+        f.printf("         <thresh>%f</thresh>\n", thresh);
         break;
     case TERM_BOOL:
     case TERM_APP_RUNNING:
@@ -990,14 +1005,13 @@ void PREFS_TERM::write(MIOFILE& f) {
         break;
     }
     f.printf(
-        "</prefs_term>\n"
+        "      </prefs_term>\n"
     );
 }
 
 int PREFS_TERM::parse(XML_PARSER& xp) {
     clear();
-    string item_name;
-    int i;
+    string item_name, term_type_name;
     while (!xp.get_tag()) {
         if (xp.match_tag("/prefs_term")) {
             if (term_type == TERM_NONE) {
@@ -1024,14 +1038,14 @@ int PREFS_TERM::parse(XML_PARSER& xp) {
             if (retval) return retval;
             continue;
         }
-        if (xp.parse_int("term_type", i)) {
-            term_type = (TERM_TYPE)i;
+        if (xp.parse_string("term_type", term_type_name)) {
+            term_type = term_type_int(term_type_name);
             continue;
         }
         if (xp.parse_double("thresh", thresh)) {
             continue;
         }
-        if (xp.parse_bool("negate", negate)) {
+        if (xp.parse_bool("not", not)) {
             continue;
         }
         xp.skip_unexpected("PREFS_TERM::parse()");
@@ -1040,14 +1054,15 @@ int PREFS_TERM::parse(XML_PARSER& xp) {
 }
 
 void PREFS_CONDITION::write(MIOFILE& f) {
-    f.printf("<prefs_condition>\n");
-    if (negate) {
-        f.printf("   <negate/>\n");
+    if (!not && terms.empty()) return;
+    f.printf("   <prefs_condition>\n");
+    if (not) {
+        f.printf("      <not/>\n");
     }
     for (unsigned int i=0; i<terms.size(); i++) {
         terms[i].write(f);
     }
-    f.printf("</prefs_condition>\n");
+    f.printf("   </prefs_condition>\n");
 }
 
 int PREFS_CONDITION::parse(XML_PARSER& xp) {
@@ -1068,34 +1083,35 @@ int PREFS_CONDITION::parse(XML_PARSER& xp) {
 }
 
 void PREFS_DYNAMIC_PARAMS::write(MIOFILE& f) {
-    f.printf("<dynamic_state>\n");
+    f.printf("   <dynamic_params>\n");
     if (cpu_usage_limit.present) {
-        f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit.value);
+        f.printf("      <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit.value);
     }
     if (dont_use_cpu.present) {
-        f.printf("   <dont_use_cpu>%d</dont_use_cpu>\n", dont_use_cpu.value?1:0);
+        f.printf("      <dont_use_cpu>%d</dont_use_cpu>\n", dont_use_cpu.value?1:0);
     }
     if (dont_use_gpu.present) {
-        f.printf("   <dont_use_gpu>%d</dont_use_gpu>\n", dont_use_gpu.value?1:0);
+        f.printf("      <dont_use_gpu>%d</dont_use_gpu>\n", dont_use_gpu.value?1:0);
     }
     if (dont_do_file_xfer.present) {
-        f.printf("   <dont_do_file_xfer>%d</dont_do_file_xfer>\n", dont_do_file_xfer.value?1:0);
+        f.printf("      <dont_do_file_xfer>%d</dont_do_file_xfer>\n", dont_do_file_xfer.value?1:0);
     }
     if (max_bytes_sec_down.present) {
-        f.printf("   <max_bytes_sec_down>%f</max_bytes_sec_down>\n", max_bytes_sec_down.value);
+        f.printf("      <max_bytes_sec_down>%f</max_bytes_sec_down>\n", max_bytes_sec_down.value);
     }
     if (max_bytes_sec_up.present) {
-        f.printf("   <max_bytes_sec_up>%f</max_bytes_sec_up>\n", max_bytes_sec_up);
+        f.printf("      <max_bytes_sec_up>%f</max_bytes_sec_up>\n", max_bytes_sec_up.value);
     }
     if (max_ncpus.present) {
-        f.printf("   <max_ncpus>%d</max_ncpus>\n", max_ncpus);
+        f.printf("      <max_ncpus>%d</max_ncpus>\n", max_ncpus.value);
     }
     if (max_ncpus_pct.present) {
-        f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
+        f.printf("      <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct.value);
     }
     if (ram_max_used_frac.present) {
-        f.printf("   <ram_max_used_frac>%f</ram_max_used_frac>\n", ram_max_used_frac);
+        f.printf("      <ram_max_used_frac>%f</ram_max_used_frac>\n", ram_max_used_frac.value);
     }
+    f.printf("   <dynamic_params>\n");
 }
 
 int PREFS_DYNAMIC_PARAMS::parse(XML_PARSER& xp) {
@@ -1194,6 +1210,7 @@ void PREFS_STATIC_PARAMS::write(MIOFILE& f) {
     if (work_buf_min_days.present) {
         f.printf("   <work_buf_min_days>%f</work_buf_min_days>\n", work_buf_min_days.value);
     }
+    f.printf("</static_params>\n");
 }
 
 int PREFS_STATIC_PARAMS::parse(XML_PARSER& xp) {
@@ -1330,91 +1347,4 @@ int PREFS::parse(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
-}
-
-
-// convert old prefs to new structure
-//
-void PREFS::convert(GLOBAL_PREFS& old) {
-    // defaults
-    //
-    PREFS_CLAUSE p0;
-    p0.params.max_bytes_sec_down.set_nonzero(old.max_bytes_sec_down);
-    p0.params.max_bytes_sec_up.set_nonzero(old.max_bytes_sec_up);
-    p0.params.max_ncpus.set_nonzero(old.max_ncpus);
-    p0.params.max_ncpus_pct.set_nonzero(old.max_ncpus_pct);
-    p0.params.ram_max_used_frac.set_nonzero(old.ram_max_used_busy_frac);
-    clauses.push_back(p0);
-
-    // no recent input
-    //
-    PREFS_CLAUSE p2;
-    PREFS_TERM t2(TERM_GT, PREFS_IDLE_TIME, old.idle_time_to_run);
-    p2.condition.terms.push_back(t2);
-    if (!old.run_if_user_active) {
-        p2.params.dont_use_cpu.set(true);
-    }
-    if (!old.run_gpu_if_user_active) {
-        p2.params.dont_use_gpu.set(true);
-    }
-    p2.params.ram_max_used_frac.set_nonzero(old.ram_max_used_idle_frac);
-    if (p2.params.any_present()) {
-        clauses.push_back(p2);
-    }
-
-    // on batteries
-    //
-    if (!old.run_on_batteries) {
-        PREFS_CLAUSE p;
-        PREFS_TERM t(TERM_BOOL, PREFS_ON_BATTERIES);
-        p.condition.terms.push_back(t);
-        p.params.dont_use_cpu.set(true);
-        clauses.push_back(p);
-    }
-
-    // CPU time of day
-    //
-    if (old.cpu_times.present) {
-        PREFS_CLAUSE p;
-        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
-        TIME_PREFS *tp = new TIME_PREFS;
-        *tp = old.cpu_times;
-        t.time_range = tp;
-        p.condition.terms.push_back(t);
-        p.params.dont_use_cpu.set(true);
-        clauses.push_back(p);
-    }
-
-    // network time of day
-    //
-    if (old.net_times.present) {
-        PREFS_CLAUSE p;
-        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
-        TIME_PREFS *tp = new TIME_PREFS;
-        *tp = old.net_times;
-        t.time_range = tp;
-        p.condition.terms.push_back(t);
-        p.params.dont_do_file_xfer.set(true);
-        clauses.push_back(p);
-    }
-
-    // exclusive apps
-    //
-
-    // static prefs
-    //
-    static_params.battery_charge_min_pct.set_nonzero(old.battery_charge_min_pct);
-    static_params.battery_max_temperature.set_nonzero(old.battery_max_temperature);
-    static_params.confirm_before_connecting.set(old.confirm_before_connecting);
-    static_params.cpu_scheduling_period_minutes.set(old.cpu_scheduling_period_minutes);
-    static_params.daily_xfer_limit_mb.set_nonzero(old.daily_xfer_limit_mb);
-    static_params.daily_xfer_period_days.set_nonzero(old.daily_xfer_period_days);
-    static_params.disk_max_used_gb.set_nonzero(old.disk_max_used_gb);
-    static_params.disk_max_used_pct.set_nonzero(old.disk_max_used_pct);
-    static_params.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
-    static_params.dont_verify_images.set(old.dont_verify_images);
-    static_params.hangup_if_dialed.set(old.hangup_if_dialed);
-    static_params.network_wifi_only.set(old.network_wifi_only);
-    static_params.work_buf_additional_days.set(old.work_buf_additional_days);
-    static_params.work_buf_min_days.set(old.work_buf_min_days);
 }

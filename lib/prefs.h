@@ -22,6 +22,7 @@
 #include <map>
 
 #include "miofile.h"
+#include "cc_config.h"
 #include "parse.h"
 
 // global prefs are maintained as follows:
@@ -263,7 +264,7 @@ typedef enum {
 //
 struct PREFS_TERM {
     std::string item;
-    bool negate;
+    bool not;
     double thresh;
     TIME_PREFS *time_range;
     TERM_TYPE term_type;
@@ -289,10 +290,11 @@ struct PREFS_TERM {
             return x.value != 0;
         case TERM_TIME_RANGE: return time_range->suspended(x.value);
         }
+        return false;
     }
     void clear() {
         item.clear();
-        negate = false;
+        not = false;
         thresh = 0;
         term_type = TERM_NONE;
         time_range = NULL;
@@ -307,7 +309,7 @@ struct PREFS_TERM {
 // A condition is the "and" of some terms, possibly negated.
 //
 struct PREFS_CONDITION {
-    bool negate;
+    bool not;
     std::vector<PREFS_TERM> terms;
     bool holds() {
         bool x = true;
@@ -317,12 +319,15 @@ struct PREFS_CONDITION {
                 break;
             }
         }
-        if (negate) x = !x;
+        if (not) x = !x;
         return x;
     }
     void clear() {
-        negate = false;
+        not = false;
         terms.clear();
+    }
+    PREFS_CONDITION() {
+        clear();
     }
     void write(MIOFILE&);
     int parse(XML_PARSER&);
@@ -342,7 +347,10 @@ struct PREFS_DYNAMIC_PARAMS {
     OPTIONAL_DOUBLE max_ncpus_pct;
     OPTIONAL_DOUBLE ram_max_used_frac;
     void clear() {
-        memset(this, sizeof(*this), 0);
+        memset(this, 0, sizeof(*this));
+    }
+    PREFS_DYNAMIC_PARAMS() {
+        clear();
     }
     inline bool any_present() {
         return cpu_usage_limit.present
@@ -384,6 +392,9 @@ struct PREFS_CLAUSE {
         condition.clear();
         params.clear();
     }
+    PREFS_CLAUSE() {
+        clear();
+    }
 };
 
 // static params, i.e. those that don't change over time
@@ -405,7 +416,7 @@ struct PREFS_STATIC_PARAMS {
     OPTIONAL_DOUBLE work_buf_additional_days;
     OPTIONAL_DOUBLE work_buf_min_days;
     void clear() {
-        memset(this, sizeof(*this), 0);
+        memset(this, 0, sizeof(*this));
     }
     void write(MIOFILE&);
     int parse(XML_PARSER&);
@@ -423,10 +434,14 @@ struct PREFS {
     std::vector<PREFS_CLAUSE> clauses;
     PREFS_STATIC_PARAMS static_params;
 
-    void convert(GLOBAL_PREFS&);
+    void convert(GLOBAL_PREFS&, CC_CONFIG&);
     void get_dynamic_params(PREFS_DYNAMIC_PARAMS&);
     void write(MIOFILE&);
+    void write_file(const char* fname);
     int parse(XML_PARSER&);
+    void init();
 };
+
+extern PREFS prefs;
 
 #endif

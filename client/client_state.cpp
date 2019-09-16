@@ -735,7 +735,7 @@ int CLIENT_STATE::init() {
 
     read_global_prefs();
     
-    prefs.convert(global_prefs);
+    prefs.convert(global_prefs, cc_config);
 
     // do CPU scheduler and work fetch
     //
@@ -844,6 +844,8 @@ int CLIENT_STATE::init() {
     // initialize project priorities (for the GUI, in case we're suspended)
     //
     project_priority_init(false);
+
+    prefs.init();
 
 #ifdef NEW_CPU_THROTTLE
     client_mutex.lock();

@@ -786,3 +786,129 @@ void PREFS::get_dynamic_params(PREFS_DYNAMIC_PARAMS& s) {
         }
     }
 }
+
+void PREFS::write_file(const char* fname) {
+    FILE* f = fopen(fname, "w");
+    if (!f) return;
+    MIOFILE mf;
+    mf.init_file(f);
+    write(mf);
+    fclose(f);
+}
+
+void PREFS::init() {
+    convert(gstate.global_prefs, cc_config);
+    write_file("prefs2.xml");
+}
+
+
+// convert old prefs to new structure
+//
+void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
+    unsigned int i;
+
+    // defaults
+    //
+    PREFS_CLAUSE p0;
+    p0.params.max_bytes_sec_down.set_nonzero(old.max_bytes_sec_down);
+    p0.params.max_bytes_sec_up.set_nonzero(old.max_bytes_sec_up);
+    p0.params.max_ncpus.set_nonzero(old.max_ncpus);
+    p0.params.max_ncpus_pct.set_nonzero(old.max_ncpus_pct);
+    p0.params.ram_max_used_frac.set_nonzero(old.ram_max_used_busy_frac);
+    clauses.push_back(p0);
+
+    // no recent input
+    //
+    PREFS_CLAUSE p2;
+    PREFS_TERM t2(TERM_GT, PREFS_IDLE_TIME, old.idle_time_to_run);
+    p2.condition.terms.push_back(t2);
+    if (!old.run_if_user_active) {
+        p2.params.dont_use_cpu.set(true);
+    }
+    if (!old.run_gpu_if_user_active) {
+        p2.params.dont_use_gpu.set(true);
+    }
+    p2.params.ram_max_used_frac.set_nonzero(old.ram_max_used_idle_frac);
+    if (p2.params.any_present()) {
+        clauses.push_back(p2);
+    }
+
+    // on batteries
+    //
+    if (!old.run_on_batteries) {
+        PREFS_CLAUSE p;
+        PREFS_TERM t(TERM_BOOL, PREFS_ON_BATTERIES);
+        p.condition.terms.push_back(t);
+        p.params.dont_use_cpu.set(true);
+        clauses.push_back(p);
+    }
+
+    // CPU time of day
+    //
+    if (old.cpu_times.present) {
+        PREFS_CLAUSE p;
+        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
+        TIME_PREFS *tp = new TIME_PREFS;
+        *tp = old.cpu_times;
+        t.time_range = tp;
+        p.condition.terms.push_back(t);
+        p.params.dont_use_cpu.set(true);
+        clauses.push_back(p);
+    }
+
+    // network time of day
+    //
+    if (old.net_times.present) {
+        PREFS_CLAUSE p;
+        PREFS_TERM t(TERM_TIME_RANGE, PREFS_TIME);
+        TIME_PREFS *tp = new TIME_PREFS;
+        *tp = old.net_times;
+        t.time_range = tp;
+        p.condition.terms.push_back(t);
+        p.params.dont_do_file_xfer.set(true);
+        clauses.push_back(p);
+    }
+
+    // exclusive apps
+    //
+    if (conf.exclusive_apps.size()) {
+        PREFS_CLAUSE p;
+        for (i=0; i<conf.exclusive_apps.size(); i++) {
+            PREFS_TERM t(TERM_APP_RUNNING, conf.exclusive_apps[i]);
+            t.not = true;
+            p.condition.terms.push_back(t);
+        }
+        p.condition.not = true;
+        p.params.dont_use_cpu.set(true);
+        clauses.push_back(p);
+    }
+
+    if (conf.exclusive_gpu_apps.size()) {
+        PREFS_CLAUSE p;
+        for (i=0; i<conf.exclusive_gpu_apps.size(); i++) {
+            PREFS_TERM t(TERM_APP_RUNNING, conf.exclusive_gpu_apps[i]);
+            t.not = true;
+            p.condition.terms.push_back(t);
+        }
+        p.condition.not = true;
+        p.params.dont_use_gpu.set(true);
+        clauses.push_back(p);
+    }
+
+    // static prefs
+    //
+    static_params.battery_charge_min_pct.set_nonzero(old.battery_charge_min_pct);
+    static_params.battery_max_temperature.set_nonzero(old.battery_max_temperature);
+    static_params.confirm_before_connecting.set(old.confirm_before_connecting);
+    static_params.cpu_scheduling_period_minutes.set(old.cpu_scheduling_period_minutes);
+    static_params.daily_xfer_limit_mb.set_nonzero(old.daily_xfer_limit_mb);
+    static_params.daily_xfer_period_days.set_nonzero(old.daily_xfer_period_days);
+    static_params.disk_max_used_gb.set_nonzero(old.disk_max_used_gb);
+    static_params.disk_max_used_pct.set_nonzero(old.disk_max_used_pct);
+    static_params.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
+    static_params.dont_verify_images.set(old.dont_verify_images);
+    static_params.hangup_if_dialed.set(old.hangup_if_dialed);
+    static_params.network_wifi_only.set(old.network_wifi_only);
+    static_params.work_buf_additional_days.set(old.work_buf_additional_days);
+    static_params.work_buf_min_days.set(old.work_buf_min_days);
+}
