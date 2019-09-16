@@ -264,7 +264,7 @@ typedef enum {
 //
 struct PREFS_TERM {
     std::string item;
-    bool not;
+    bool _not;
     double thresh;
     TIME_PREFS *time_range;
     TERM_TYPE term_type;
@@ -294,7 +294,7 @@ struct PREFS_TERM {
     }
     void clear() {
         item.clear();
-        not = false;
+        _not = false;
         thresh = 0;
         term_type = TERM_NONE;
         time_range = NULL;
@@ -309,7 +309,7 @@ struct PREFS_TERM {
 // A condition is the "and" of some terms, possibly negated.
 //
 struct PREFS_CONDITION {
-    bool not;
+    bool _not;
     std::vector<PREFS_TERM> terms;
     bool holds() {
         bool x = true;
@@ -319,11 +319,11 @@ struct PREFS_CONDITION {
                 break;
             }
         }
-        if (not) x = !x;
+        if (_not) x = !x;
         return x;
     }
     void clear() {
-        not = false;
+        _not = false;
         terms.clear();
     }
     PREFS_CONDITION() {
@@ -442,6 +442,6 @@ struct PREFS {
     void init();
 };
 
-extern PREFS prefs;
+extern PREFS prefs2;
 
 #endif

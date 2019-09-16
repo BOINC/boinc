@@ -875,10 +875,10 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
         PREFS_CLAUSE p;
         for (i=0; i<conf.exclusive_apps.size(); i++) {
             PREFS_TERM t(TERM_APP_RUNNING, conf.exclusive_apps[i]);
-            t.not = true;
+            t._not = true;
             p.condition.terms.push_back(t);
         }
-        p.condition.not = true;
+        p.condition._not = true;
         p.params.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
@@ -887,10 +887,10 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
         PREFS_CLAUSE p;
         for (i=0; i<conf.exclusive_gpu_apps.size(); i++) {
             PREFS_TERM t(TERM_APP_RUNNING, conf.exclusive_gpu_apps[i]);
-            t.not = true;
+            t._not = true;
             p.condition.terms.push_back(t);
         }
-        p.condition.not = true;
+        p.condition._not = true;
         p.params.dont_use_gpu.set(true);
         clauses.push_back(p);
     }

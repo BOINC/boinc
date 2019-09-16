@@ -972,11 +972,12 @@ static const char* term_type_name(TERM_TYPE t) {
     case TERM_BOOL: return "boolean";
     case TERM_TIME_RANGE: return "time_range";
     case TERM_APP_RUNNING: return "app_running";
+    default: return "unknown";
     }
     return "unknown";
 }
 
-static const TERM_TYPE term_type_int(string s) {
+static TERM_TYPE term_type_int(string s) {
     if (s == "greater_than") return TERM_GT;
     return TERM_NONE;
 }
@@ -989,7 +990,7 @@ void PREFS_TERM::write(MIOFILE& f) {
         term_type_name(term_type),
         item.c_str()
     );
-    if (not) {
+    if (_not) {
         f.printf("         <not/>\n");
     }
     switch (term_type) {
@@ -1045,7 +1046,7 @@ int PREFS_TERM::parse(XML_PARSER& xp) {
         if (xp.parse_double("thresh", thresh)) {
             continue;
         }
-        if (xp.parse_bool("not", not)) {
+        if (xp.parse_bool("not", _not)) {
             continue;
         }
         xp.skip_unexpected("PREFS_TERM::parse()");
@@ -1054,9 +1055,9 @@ int PREFS_TERM::parse(XML_PARSER& xp) {
 }
 
 void PREFS_CONDITION::write(MIOFILE& f) {
-    if (!not && terms.empty()) return;
+    if (!_not && terms.empty()) return;
     f.printf("   <prefs_condition>\n");
-    if (not) {
+    if (_not) {
         f.printf("      <not/>\n");
     }
     for (unsigned int i=0; i<terms.size(); i++) {
