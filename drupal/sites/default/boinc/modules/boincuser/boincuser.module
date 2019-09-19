@@ -1304,6 +1304,14 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       ),
     ));
     
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['register_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+      );
+    }
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
