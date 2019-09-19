@@ -7,7 +7,7 @@
 ##
 ## will look prettier if you import this module.
 
-import database
+from Boinc import database
 
 def MixIn(pyClass, mixInClass):
     pyClass.__bases__ = (mixInClass,) + pyClass.__bases__
