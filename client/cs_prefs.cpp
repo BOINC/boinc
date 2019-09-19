@@ -772,11 +772,8 @@ double CLIENT_STATE::max_available_ram() {
 
 //////////////////// new prefs starts here ///////////////////
 
-// where dynamic prefs may change
-// ACTIVE_TASK_SET::get_memory_usage()
-//      may change exclusive_app_running, exclusive_gpu_app_running
-
-// get dynamic state based on current system conditions
+// Get dynamic params based on current system conditions.
+// Do this whenever something in the dictionary changes value.
 //
 void PREFS::get_dynamic_params(PREFS_DYNAMIC_PARAMS& s) {
     for (unsigned int i=0; i<clauses.size(); i++) {
@@ -912,3 +909,25 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
     static_params.work_buf_additional_days.set(old.work_buf_additional_days);
     static_params.work_buf_min_days.set(old.work_buf_min_days);
 }
+
+// phase 1:
+// keep the current code for editing and storing prefs,
+// but convert them to new format internally.
+// If new-format XML file is present, use it
+
+// phase 2:
+// develop GUI for editing new format
+
+// phase 1 stuff:
+//
+// places where parameters are used
+//  app.cpp: leave_apps_in_memory, cpu_usage_limit
+//  app_control.cpp: disk_interval, cpu_usage_limit
+//  app_start.cpp: disk_interval
+//      pass prefs to app (need this? just pass params?)
+//
+// places where dictionary entries may change, and need to re-evaluate prefs
+//  host_info::idle_time_to_run(): change to return idle time
+//  ACTIVE_TASK_SET::get_memory_usage()
+//      may change exclusive_app_running, exclusive_gpu_app_running
+
