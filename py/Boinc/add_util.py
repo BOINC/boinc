@@ -4,7 +4,7 @@
 
 # add_util.py - code shared between add and xadd
 
-import database, tools
+from Boinc import database, tools
 import time, pprint
 import MySQLdb
 
@@ -128,9 +128,9 @@ def translate_database_arg(database_table, arg, value):
     if len(results) == 0:
         raise SystemExit('No %s "%s" found' %(arg,value))
     if len(results) > 1:
-        print >>sys.stderr, 'Too many %ss match "%s": '%(arg,value)
+        print('Too many %ss match "%s": '%(arg,value), sys.stderr)
         for result in results:
-            print  >>sys.stderr, '   ', result.name
+            print ('   '+result.name, sys.stderr)
         raise SystemExit
     return results[0]
 
@@ -158,14 +158,14 @@ def do_add_object(add_object, untranslated_args_dict, skip_old=False):
     args_dict = translate_args_dict(add_object, untranslated_args_dict)
     check_required_arguments(add_object, args_dict)
     dbobject = add_object.DatabaseObject(**args_dict)
-    print "Processing", dbobject, "..."
+    print("Processing"+dbobject+"...")
     # print "Commiting", dbobject, "with args:"
     # pprint.pprint(dbobject.__dict__)
     try:
         dbobject.commit()
-    except MySQLdb.MySQLError, e:
+    except MySQLdb.MySQLError as e:
         if skip_old and exception_is_duplicate_entry(e):
-            print "  Skipped existing", dbobject
+            print("  Skipped existing"+dbobject)
             return
         else:
             raise SystemExit('Error committing %s: %s' %(dbobject, e))
@@ -175,5 +175,5 @@ def do_add_object(add_object, untranslated_args_dict, skip_old=False):
     id = dbobject.id
     del dbobject
     dbobject = add_object.DatabaseObject._table[id]
-    print "  Committed", dbobject, "; values:"
+    print("  Committed"+dbobject+"; values:")
     pprint.pprint(dbobject.__dict__)

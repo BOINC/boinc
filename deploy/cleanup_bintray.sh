@@ -60,13 +60,6 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "jq (command-line json parser) is ne
 if [ "${BINTRAY_API_KEY}" == "" ] ; then
     echo "BINTRAY_API_KEY is missing; doing nothing"
     exit 0
-fi
-
-CI_RUN="${TRAVIS:-false}"
-if [[ $CI_RUN == "true" ]]; then
-    echo "This script cannot be used in a CI environment"
-    exit 0
-fi
 
 BINTRAY_API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"

@@ -450,7 +450,7 @@ static inline void clamp_frac(double& frac, const char* name) {
                 "[send] %s=%f; setting to %f\n", name, frac, FRAC_MIN
             );
         }
-        frac = .01;
+        frac = FRAC_MIN;
     }
 }
 

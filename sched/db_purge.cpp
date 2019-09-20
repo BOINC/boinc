@@ -269,6 +269,7 @@ void fail(const char* msg) {
 void open_archive(const char* filename_prefix, void*& f){
     char path[MAXPATHLEN];
     char command[MAXPATHLEN+512];
+    sprintf(command, "/bin/false");
 
     if (daily_dir) {
         time_t time_time = time_int;
