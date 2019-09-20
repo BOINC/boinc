@@ -911,23 +911,41 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
 }
 
 // phase 1:
-// keep the current code for editing and storing prefs,
-// but convert them to new format internally.
-// If new-format XML file is present, use it
+// keep the V1 code for editing and storing prefs,
+// but convert them to V2 format internally.
+// If V2 XML file is present, use it
 
 // phase 2:
-// develop GUI for editing new format
+// develop GUI for editing V2
+// We'll have to keep accepting V1 prefs indefinitely.
 
-// phase 1 stuff:
+// phase 1 changes:
 //
-// places where parameters are used
+// places where parameters are used (use dynamic_params instead of global_prefs)
 //  app.cpp: leave_apps_in_memory, cpu_usage_limit
 //  app_control.cpp: disk_interval, cpu_usage_limit
 //  app_start.cpp: disk_interval
 //      pass prefs to app (need this? just pass params?)
+//  coproc_sched.cpp
+//      fix even though commented out
+//  cpu_sched.cpp
+//  cs_files.cpp
+//  cs_scheduler.cpp
+//      what should we send the scheduler for working_global_preferences?
+//      I guess the current params.
+//      report finished result: make prefs evaluation take a "now" param
+//      (to see if suspended soon).
+//  file_xfer.cpp
 //
 // places where dictionary entries may change, and need to re-evaluate prefs
-//  host_info::idle_time_to_run(): change to return idle time
-//  ACTIVE_TASK_SET::get_memory_usage()
-//      may change exclusive_app_running, exclusive_gpu_app_running
-
+//  hostinfo_*.cpp
+//      host_info::idle_time_to_run(): change to return idle time
+//          Note: Android just tells you whether user active.
+//          Use this for terms involving idle time (ignore threshold).
+//      ACTIVE_TASK_SET::get_memory_usage()
+//          may change exclusive_app_running, exclusive_gpu_app_running
+//      host_is_running_on_batteries
+//  client_state.cpp
+//      time of day: check every minute
+//  cs_prefs.cpp
+//      check_suspend_processing(): this is now the central function
