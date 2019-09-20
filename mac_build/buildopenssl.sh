@@ -135,7 +135,7 @@ if [ "x${lprefix}" != "x" ]; then
     ./configure --prefix=${lprefix} no-shared darwin64-x86_64-cc
     if [ $? -ne 0 ]; then return 1; fi
 else
-    ./configure no-shared darwin64-x86_64-cc
+    ./configure rsa no-shared darwin64-x86_64-cc
     if [ $? -ne 0 ]; then return 1; fi
 fi
 
