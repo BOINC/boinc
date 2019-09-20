@@ -119,6 +119,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     register_only = false;
     rd_host_port = 0;
     headless = true;
+    log_pointer = 0;
     vm_pid = 0;
     vboxsvc_pid = 0;
 

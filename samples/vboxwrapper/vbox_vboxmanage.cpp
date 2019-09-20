@@ -801,9 +801,11 @@ namespace vboxmanage {
                 return deregister_vm(false);
             } else {
                 command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+                // coverity[CHECKED_RETURN]
                 vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
                 if (enable_cache_disk) {
                      command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                     // coverity[CHECKED_RETURN]
                      vbm_popen(command, output, "remove virtual cache disk", false);
                 }
             }

@@ -140,6 +140,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_bCredentialsDetected = false;
     m_bCookieRequired = false;
     m_strCookieFailureURL.Empty();
+    m_bConsentedToTerms = false;
 
 
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();

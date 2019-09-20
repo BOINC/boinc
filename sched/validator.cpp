@@ -801,6 +801,7 @@ bool do_validate_scan() {
         if (!retval) found = true;
         if (++i == one_pass_N_WU) break;
         if (wu_id) break;
+        if (dry_run) break;  // otherwise it will enumerate forever
     }
     return found;
 }

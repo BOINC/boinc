@@ -241,8 +241,8 @@ function bb2html($text, $export=false) {
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
             "<em>\\1 wrote:</em><blockquote>\\2</blockquote>",
             "<blockquote>\\1</blockquote>",
-            "<ul style=\"word-break:break-word;\">\\1</ul><p>",
-            "<ol style=\"word-break:break-word;\">\\1</ol><p>",
+            "<ul>\\1</ul><p>",
+            "<ol>\\1</ol><p>",
             "<img hspace=\"8\" class=\"img-responsive\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
@@ -265,6 +265,8 @@ function bb2html($text, $export=false) {
         $text = preg_replace($bbtags, $htmltags, $text);
         $i = $i + 1;
     }
+    $text = str_replace("<ul>", '<ul style="word-break:break-word;">', $text);
+    $text = str_replace("<ol>", '<ol style="word-break:break-word;">', $text);
     return $text;
 }
 

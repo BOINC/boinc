@@ -47,7 +47,11 @@ void PROJECT::init() {
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
+    resource_share_frac = 0.0;
+    disk_resource_share = 0.0;
     desired_disk_usage = 0;
+    ddu = 0.0;
+    disk_quota = 0.0;
     for (int i=0; i<MAX_RSC; i++) {
         no_rsc_pref[i] = false;
         no_rsc_config[i] = false;
@@ -86,6 +90,8 @@ void PROJECT::init() {
     next_rpc_time = 0;
     last_rpc_time = 0;
     trickle_up_pending = false;
+    disk_usage = 0.0;
+    disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
@@ -108,8 +114,16 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
+    proj_n_concurrent = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
+    sched_priority = 0.0;
+    rr_sim_cpu_share = 0.0;
+    rr_sim_active = false;
+    nresults_returned = 0;
+    checked = false;
+    dont_contact = false;
+    n_ready = 0;
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
