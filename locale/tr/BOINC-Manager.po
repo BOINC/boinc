@@ -9,13 +9,14 @@
 # Emre GÜN <thondras@gmail.com>, 2015
 # Faruk SARI <faruksari@hotmail.com>, 2015
 # ilkeryus <ilkeryus@gmail.com>, 2016-2018
+# Kevin Reed <knreed@us.ibm.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2019-09-20 21:58+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1174,7 +1175,7 @@ msgstr "Kullanım sınırlamaları"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Bazı CPU (işlemci) çekirdeklerini diğer uygulamalar için boşta tut. Örneğin %75, 8 çekirdekli işlemcinin 6 çekirdeğinin kullanılmasını sağlar."
+msgstr "Bazı CPU (işlemci) çekirdeklerini diğer uygulamalar için boşta tut. Örneğin %%75, 8 çekirdekli işlemcinin 6 çekirdeğinin kullanılmasını sağlar."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260
 #: clientgui/DlgAdvPreferencesBase.cpp:272 clientgui/sg_DlgPreferences.cpp:286
@@ -1192,7 +1193,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Her birkaç saniyede bir hesaplamayı durdurmak/sürdürmek, CPU (işlemci) sıcaklığını ve enerji kullanımını azaltır. Örneğin %75, 3 saniye hesaplama, 1 saniye bekleme ve bunu tekrarlama demektir."
+msgstr "Her birkaç saniyede bir hesaplamayı durdurmak/sürdürmek, CPU (işlemci) sıcaklığını ve enerji kullanımını azaltır. Örneğin %%75, 3 saniye hesaplama, 1 saniye bekleme ve bunu tekrarlama demektir."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
