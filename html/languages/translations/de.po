@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -450,11 +450,11 @@ msgstr "Fragen und Antworten"
 msgid "%1 message board"
 msgstr "%1 Diskussionsforen"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Vorherige"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Nächste"
 
@@ -2087,7 +2087,7 @@ msgstr "CPU Zeit<br />(sek)"
 msgid "Credit"
 msgstr "Punkte"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Anwendung"
@@ -2140,19 +2140,19 @@ msgstr "max. FLOPS des Gerätes"
 msgid "Application version"
 msgstr "Anwendungsversion"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Ausgabedateien"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr Ausgabe"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Status"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Aufgabenname:"
 
@@ -2516,7 +2516,7 @@ msgstr "Kontoschlüssel"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Konto Eigentum"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2784,7 +2784,7 @@ msgstr "Optional; nicht öffentlich"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Beweis der Kontoeigentumergebnisse"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2809,7 +2809,7 @@ msgstr ""
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2827,7 +2827,7 @@ msgstr ""
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Generieren"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3340,7 +3340,7 @@ msgstr "Diese Liste ist zentral verwaltet von der %1 BOINC Webseite %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Dieses Projekt erfordert VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
@@ -3354,7 +3354,7 @@ msgstr ""
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Benutze den BOINC+VirtualBox installateur."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
@@ -3380,7 +3380,7 @@ msgstr "Wenn BOINC das erste Mal startet wird es Sie auffordern ein Projekt zu w
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Gehe zu der BOINC download Seite."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -6670,7 +6670,6 @@ msgstr "Benutzer des Tages am %1: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

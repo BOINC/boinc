@@ -4,14 +4,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# devil taz <tazisle@gmail.com>, 2019
+# tazdevil isle <tazisle@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2019-01-21 08:58+0000\n"
-"Last-Translator: devil taz <tazisle@gmail.com>\n"
+"Last-Translator: tazdevil isle <tazisle@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgid ""
 "the preferences."
 msgstr "어떤 태스크는 환경설정 허용치보다 더 많은 메모리를 필요로 합니다. 환경설정을 확인하세요."
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "상태 파일을 기록할 수 없습니다. 디렉토리 권한을 확인하세요"
 
@@ -91,39 +91,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA 드라이버 6.5 이상 버전은 CUDA 혹은 OpenCL 연산에 사용할 수 없습니다"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:492
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml에 예상치 못한 텍스트 발견"
 
-#: client/log_flags.cpp:466 client/log_flags.cpp:521
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml에 유효하지 않은 태그 발견"
 
-#: client/log_flags.cpp:483
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml에 시작 태그가 빠짐"
 
-#: client/log_flags.cpp:511
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 옵션에서 오류 발견"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml에 마침 태그가 빠짐"
 
-#: client/project.cpp:995
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "이 문제를 해결하려면"
 
-#: client/project.cpp:999
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "프로젝트 웹 사이트에서 프로젝트 환경설정을 변경하세요"
 
-#: client/project.cpp:1004
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "cc_config.xml에서 GPU 예외 목록을 제거합니다"
 
-#: client/project.cpp:1009
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "계정 관리자 웹 사이트에서 설정값을 변경하세요"
 
@@ -154,45 +154,45 @@ msgstr "BOINC 클라이언트 소프트웨어가 오래되었습니다. 최신 �
 msgid "This project doesn't support computers of type"
 msgstr "이 프로젝트는 해당 컴퓨터를 지원하지 않습니다"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "해당 컴퓨터의 GPU로 태스크를 처리하려면 최신 드라이버로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레이드하세요"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "이 프로젝트의 태스크를 실행하려면 %s GPU가 필요합니다"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "선택한 응용 프로그램으로 실행 가능한 태스크가 없습니다."
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "이 프로젝트에서는 해당 컴퓨터는 지원되지 않습니다"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "더 높은 BOINC 버전이 필요합니다. 최신 버전을 설치하세요"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s용 태스크가 있습니다. 그러나 환경 설정에서 사용이 허가되지 않았습니다"
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:239
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "app_info.xml에 사용 가능한 버전이 없음 :"
