@@ -38,7 +38,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
@@ -524,7 +526,18 @@ public class ProjectAttachService extends Service {
                 }
                 switch(statusCredentials.error_num) {
                     case BOINCErrors.ERR_DB_NOT_UNIQUE:
+                        Handler handler = new Handler(Looper.getMainLooper());
+
+                        handler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Wrong email or password", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        });
                         result = RESULT_NAME_NOT_UNIQUE;
+
                         return RESULT_NAME_NOT_UNIQUE;
                     case BOINCErrors.ERR_BAD_PASSWD:
                         result = RESULT_BAD_PASSWORD;
