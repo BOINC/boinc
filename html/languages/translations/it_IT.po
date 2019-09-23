@@ -11,15 +11,18 @@
 # Filippo Rossi <rossi.filippo@gmail.com>, 2018
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
+# J M <fire.hi@gmail.com>, 2019
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019
+# VaiTon <eyadlorenzo@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -286,7 +289,7 @@ msgstr "Lavora"
 
 #: html/inc/bootstrap.inc:175 html/user/server_status.php:117
 msgid "Server status"
-msgstr "Stato del server"
+msgstr "Stato server"
 
 #: html/inc/bootstrap.inc:176
 msgid "Credit statistics"
@@ -455,11 +458,11 @@ msgstr "Domande e risposte"
 msgid "%1 message board"
 msgstr "Bacheca di %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Precedente"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Successivo"
 
@@ -2092,7 +2095,7 @@ msgstr "Tempo CPU<br/>(sec)"
 msgid "Credit"
 msgstr "Crediti"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Applicazione"
@@ -2145,19 +2148,19 @@ msgstr "Picco di FLOP del dispositivo"
 msgid "Application version"
 msgstr "Versione dell'applicazione"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "File di output"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Output su Stderr"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Stato"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Nome attività:"
 
@@ -2521,7 +2524,7 @@ msgstr "Chiavi di accesso"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Proprietà dell'account"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2659,7 +2662,7 @@ msgstr "La tua risposta al reCAPTCHA non è corretta. Prova di nuovo."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Non hai accettato le condizioni d'uso. Per poter creare un account è necessario ritornare alla pagina precedente ed accettare le condizioni d'uso."
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2809,12 +2812,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "Verifica della firma fallita. Contattare l'amministratore del progetto per risolvere il problema."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2823,7 +2826,7 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Input non valido. L'input utente deve avere una lunghezza compresa tra 0 e 4096 caratteri. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
@@ -2832,7 +2835,7 @@ msgstr ""
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Genera"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3345,25 +3348,25 @@ msgstr "Questo elenco è gestito in modo centralizzato dal %1 sito di BOINC %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Questo progetto richiede VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Questo progetto consiglia VirtualBox."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Se non installato sul PC ottienilo %1quì%2 e riavvia BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Usa l'installer BOINC+VirtualBox. "
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Se non è installato sul PC puoi %1scaricarlo%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3385,7 +3388,7 @@ msgstr "Quando avviato per la prima volta, BOINC chiede di scegliere un progetto
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Naviga alla pagina di download di BOINC."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3413,7 +3416,7 @@ msgstr "Per partecipare a %1, %2 deve essere installato sul tuo computer."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Se %1 è già installato, %2cclicca qui %3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6675,7 +6678,6 @@ msgstr "Utente del giorno per %1: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
@@ -6898,7 +6900,7 @@ msgid ""
 "        This computation may cause your computer's fan to run,\n"
 "        and it may slightly increase your electric bill.\n"
 "    "
-msgstr ""
+msgstr "BOINC, eseguito in background, scaricherà lavori di elaborazione,\nli processerà e caricherà i risultati.\nTutto ciò avverrà automaticamente; non devi fare niente.\nL'elaborazione potrebbe far avviare le ventole del tuo PC\ne potrebbe aumentare leggermente la tua bolletta dell'elettricità."
 
 #: html/user/welcome.php:49
 msgid "How to monitor and control BOINC"
@@ -6919,7 +6921,7 @@ msgid ""
 "        for example, limiting the amount of memory BOINC uses.\n"
 "        You can control many settings.\n"
 "        Check this out %1here%2."
-msgstr ""
+msgstr "BOINC è stato sviluppato per non incidere sulle prestazioni del vostro computer durante il suo uso regolare. Nel caso si riscontrino dei problemi di prestazione, ci sono varie opzioni configurabili, tra cui il limite della memoria usata da BOINC.\n\nControlla %1qui%2."
 
 #: html/user/welcome.php:80
 msgid ""

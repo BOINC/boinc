@@ -6,8 +6,8 @@
 # 
 # Translators:
 # Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
-# Manuela Silva, 2016-2018
-# Manuela Silva, 2016
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016-2018
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2017
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 # Paco Banderas <duimpera1@gmail.com>, 2015
@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
 "PO-Revision-Date: 2018-05-15 18:25+0000\n"
-"Last-Translator: Manuela Silva\n"
+"Last-Translator: Manuela Silva <manuelarodsilva@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

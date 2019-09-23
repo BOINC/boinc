@@ -9,16 +9,16 @@
 # Asa Wang <xtremeaud@gmail.com>, 2017
 # Gavin Zheng <179873196@qq.com>, 2018
 # Mingye Wang <arthur200126@gmail.com>, 2019
-# snn qy <qysnn1@gmail.com>, 2017
+# Heyang Qin <qysnn1@gmail.com>, 2017
 # woclass, 2019
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2018
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2018
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2018
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2018
 # yanglin Xun <xunyanglins@gmail.com>, 2016
 # Gang Yin <zenith.yin@gmail.com>, 2015,2018
 # 政麟 杨 <1546535923@qq.com>, 2018
 # 李泽林, 2015
 # 浩然 王 <9709021@qq.com>, 2018
-# snn qy <qysnn1@gmail.com>, 2015-2016
+# Heyang Qin <qysnn1@gmail.com>, 2015-2016
 # 鹏希 刘 <lpx.ustc@gmail.com>, 2018
 msgid ""
 msgstr ""

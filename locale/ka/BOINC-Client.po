@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2018-09-29 16:47+0000\n"
 "Last-Translator: George Salukvadze <giosal90@gmail.com>\n"
 "Language-Team: Georgian (http://www.transifex.com/boinc/boinc/language/ka/)\n"
@@ -34,7 +34,7 @@ msgid ""
 "the preferences."
 msgstr "ზოგ დავალებას სჭირდება მეტი მეხსიერება, ვიდრე დაშვებულია თქვენი პარამეტრებით. გთხოვთ, შეამოწმოთ პარამეტრები."
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "მდგომარების ფაილი ვერ ჩაიწერა; გთხოვთ, შეამოწმოთ საქაღალდეს უფლებები"
 
@@ -91,39 +91,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA ან OpenCL გამოთვლისთვის გამოყენება შეუძლებელია CUDA-ს დრაივერით 6.5 ან უფრო ახალით"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:492
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "მოულოდნელი ტექსტი cc_config.xml-ში"
 
-#: client/log_flags.cpp:466 client/log_flags.cpp:521
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "ამოუცნობი ტეგი cc_config.xml-ში"
 
-#: client/log_flags.cpp:483
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "დაწყების ტეგი cc_config.xml-ში არ არსებობს"
 
-#: client/log_flags.cpp:511
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "შეცდომა cc_config.xml-ის ოპციებში"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "დასრულების ტეგი cc_config.xml-ში არ არსებობს"
 
-#: client/project.cpp:995
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "ამის გასასწორებლად, შეგიძლიათ"
 
-#: client/project.cpp:999
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "შეცვალოთ პროექტის პარამეტრები პროექტის ვებ-გვერდზე"
 
-#: client/project.cpp:1004
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "წაშალოთ გპ-ს გამონაკლისები თქვენს cc_config.xml ფაილში"
 
-#: client/project.cpp:1009
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "შეცვალოთ თქვენი პარამეტრები თქვენი ანგარიშის მმართველის ვებ-გვერდზე"
 
@@ -154,45 +154,45 @@ msgstr "თქვენი BOINC-ის კლიენტის პროგრ
 msgid "This project doesn't support computers of type"
 msgstr "ამ პროექტს არ აქვს შემდეგი ტიპის კომპიუტერების მხარდაჭერა"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "განაახლეთ დრაივერი ბოლო ვერსიამდე დავალებების დასამუშავებლად თქვენი კომპიუტერის გპ-ს მეშვეობით"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "განაახლეთ დრაივერი ბოლო ვერსიამდე ამ პროექტის ყველა გპ აპლიკაციის გამოსაყენებლად"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "თქვენი NVIDIA გპ-ს გამოსაყენებლად საჭიროა BOINC-ის ახალი ვერსია; გთხოვთ, განაახლოთ მიმდინარე ვერსიამდე"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "ამ პროექტზე დავალებების გასაშვებად საჭიროა %s გპ"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "აპლიკაციებისთვის, რომელიც თქვენ აირჩიეთ, არ არის მისაწვდომი დავალებები."
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "ამ პროექტს არ აქვს თქვენი კომპიუტერის ტიპის მხარდაჭერა"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "საჭიროა BOINC-ის ახალი ვერსია; გთხოვთ, დააყენოთ მიმდინარე ვერსია"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "მისაწვდომია დავალებები %s-ისთვის, მაგრამ თქვენი პარამეტრები დაყენებულია ისე, რომ არ მიიღოთ ისინი."
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:239
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "თქვენს app_info.xml ფაილს არ აქვს შემდეგის გამოყენებადი ვერსია"

@@ -11,7 +11,7 @@
 # Clément Marshall <7clement@gmail.com>, 2019
 # Poussinou, 2017
 # lentrad <lentrad@gmail.com>, 2015
-# Lionel HANNEQUIN <lionel.hannequin@free.fr>, 2018
+# Lionel HANNEQUIN <lionel.hannequin@sfr.fr>, 2018
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2015
 # Petit Jérôme <yeromu@gmail.com>, 2015
 # Philippe Janocha, 2016-2018
