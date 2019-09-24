@@ -4,17 +4,18 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Manuela Silva, 2016-2018
-# Manuela Silva, 2016
-# Manuela Silva, 2016
+# Manuela Silva <manuelarodsilva@gmail.com>, 2019
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016-2018
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -450,11 +451,11 @@ msgstr "Perguntas e Respostas"
 msgid "%1 message board"
 msgstr "%1 mensagem do fórum"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Anterior"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Seguinte"
 
@@ -2087,7 +2088,7 @@ msgstr "Tempo da CPU<br />(seg.)"
 msgid "Credit"
 msgstr "Créditos"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Aplicação"
@@ -2140,19 +2141,19 @@ msgstr "Máximo de FLOPS do dispositivo"
 msgid "Application version"
 msgstr "Versão da aplicação"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Ficheiros de saída"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr output"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Estado"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Nome da tarefa:"
 
@@ -2516,7 +2517,7 @@ msgstr "Chaves da conta"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Dono da Conta"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2654,7 +2655,7 @@ msgstr "A resposta reCAPTCHA não está correcta. Por favor, tente novamente."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Não concordou com os nossos termos de utilização. Por favor, concorde com os termos de utilização, navegando para a página anterior, para poder criar a sua conta."
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2784,7 +2785,7 @@ msgstr "Opcional; não mostrado a outros"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Resultados da prova de dono da conta"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2796,7 +2797,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "O comprovativo da funcionalidade de dono da conta não está configurado corretamente. Contacte o administrador do projeto para resolver o problema."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2804,12 +2805,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "A verificação da assinatura falhou. Contacte o administrador do projeto para resolver o problema."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2818,16 +2819,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Entrada inválida. A entrada do utilizador deve ter um comprimento > 0 e < 4096. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Gerar prova de dono da conta"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Gerar"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3088,7 +3089,7 @@ msgstr "Esta funcionalidade está desabilitada. Por favor contacte o administrad
 msgid ""
 "The token you used has expired or is otherwise not valid.  Please request a "
 "new one <a href=\"delete_account_request.php\">here</a>"
-msgstr "O token que utilizou expirou ou já não está válido. Por favor solicite um novo <a href=\"delete_account_request.php\">aqui</a>"
+msgstr "O token que utilizou expirou ou já não está válido. Por favor, solicite um novo <a href=\"delete_account_request.php\">aqui</a>"
 
 #: html/user/delete_account_confirm.php:44
 #: html/user/delete_account_confirm.php:55
@@ -3340,25 +3341,25 @@ msgstr "Esta lista é gerida centralmente no %1 website do BOINC %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Este projeto necessita do VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Este projeto recomenda o VirtualBox."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Se não estiver instalado neste computador, obtenha-o %1aqui%2, e de seguida reinicie o BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Utilize o BOINC+Instalador do VirtualBox."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Se não estiver instalado neste computador, obtenha-o %1aqui%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3380,7 +3381,7 @@ msgstr "Quando o BOINC for executado pela primeira vez, irá pedir-lhe para sele
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Vá para a página de transferência do BOINC."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3408,7 +3409,7 @@ msgstr "Para participar em %1, o %2 tem de estar instalado no seu computador."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Se o %1 já estiver instalado, %2clique aqui%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -3416,7 +3417,7 @@ msgstr "Quando a transferência terminar, execute o ficheiro transferido para in
 
 #: html/user/download_software.php:298
 msgid "All done? %1Click here to finish%2."
-msgstr "Tudo feito? %1Clique aqui para terminar%2"
+msgstr "Tudo concluído? %1Clique aqui para terminar%2."
 
 #: html/user/download_software.php:308
 msgid "Use %1"
@@ -3691,7 +3692,7 @@ msgstr "Atualizar"
 
 #: html/user/edit_forum_preferences_form.php:162
 msgid "Click here to update preferences"
-msgstr "Carregue aqui para atualizar preferências"
+msgstr "Clique aqui para atualizar as preferências"
 
 #: html/user/edit_forum_preferences_form.php:164
 #: html/user/edit_forum_preferences_form.php:166
@@ -4564,7 +4565,7 @@ msgstr "Subscrição bem sucedida"
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
-msgstr "Está agora subscrito a %1. Será notificado quando houver uma nova publicação."
+msgstr "Agora está subscrito a %1. Será notificado quando houver uma nova publicação."
 
 #: html/user/forum_subscribe.php:53
 msgid "Subscription failed"
@@ -4616,7 +4617,7 @@ msgstr "A minha questão foi respondida"
 
 #: html/user/forum_thread.php:132
 msgid "Click here if your question has been adequately answered"
-msgstr "Carregue aqui se a sua questão foi adequadamente respondida"
+msgstr "Clique aqui se a sua questão foi devidamente respondida"
 
 #: html/user/forum_thread.php:140
 msgid "I've also got this question"
@@ -4632,7 +4633,7 @@ msgstr "Remover subscrição"
 
 #: html/user/forum_thread.php:178
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr "Já está subscrito neste tópico. Carregue aqui para remover subscrição."
+msgstr "Já está subscrito neste tópico. Clique aqui para cancelar a subscrição."
 
 #: html/user/forum_thread.php:184
 msgid "Subscribe"
@@ -4640,7 +4641,7 @@ msgstr "Subscrever"
 
 #: html/user/forum_thread.php:185
 msgid "Click to get email when there are new posts in this thread"
-msgstr "Carregue para obter e-mails quando houver novas publicações neste tópico"
+msgstr "Clique para receber mensagens quando houver novas publicações neste tópico"
 
 #: html/user/forum_thread.php:196
 msgid "Unhide this thread"
@@ -5079,7 +5080,7 @@ msgstr "pré-formatado"
 msgid ""
 "image; height cannot exceed 450 pixels. Please do not link to images without"
 " permission of the web site where the image is hosted."
-msgstr "imagem; altura não pode exceder 450 pixeis. Por favor, não crie links de imagens sem a permissão do website onde a imagem está alojada."
+msgstr "imagem; a altura não pode exceder 450 pixeis. Por favor, não associe imagens sem a permissão do site da Web onde a imagem está alojada."
 
 #: html/user/html.php:35
 msgid "You can also use ampersand notation for special characters."
@@ -5143,7 +5144,7 @@ msgid ""
 "To participate in %1, you must give an address where you receive email. This"
 " address will not be shown on the %1 web site or shared with organizations. "
 "%1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "Para participar em %1, tem que inserir um endereço onde receba e-mails. Este endereço não será mostrado no website %1 ou partilhado com organizações.O %1 pode enviar newsletters periódicas; no entanto, pode desistir a qualquer altura."
+msgstr "Para participar em %1, deve fornecer um endereço onde recebe as mensagens. Este endereço não será mostrado no site da Web %1 ou partilhado com as organizações. O %1 poderá enviar-lhe boletins informativos periódicos; contudo, pode desistir a qualquer altura."
 
 #: html/user/info.php:46
 msgid ""
@@ -5728,7 +5729,7 @@ msgstr "Obrigado por se juntar %1"
 msgid ""
 "Your computer hasn't completed any tasks yet.  If you need help, %1go "
 "here%2."
-msgstr "O seu computador não completou ainda quaisquer tarefas. Se necessitar de ajuda. %1g o aqui%2."
+msgstr "O seu computador não completou ainda quaisquer tarefas. Se necessitar de ajuda, 1%1vá aqui%2."
 
 #: html/user/sample_index.php:78
 msgid "You've contributed about %1 credits per day to %2 recently."
@@ -5828,7 +5829,7 @@ msgstr "Nome de utilizador"
 
 #: html/user/signup.php:51
 msgid "An address where you can receive emails."
-msgstr "Um endereço onde possa receber e-mails."
+msgstr "Um endereço onde possa receber mensagens."
 
 #: html/user/signup.php:52
 msgid "Your email address"
@@ -5840,11 +5841,11 @@ msgstr "Escolha palavra-passe"
 
 #: html/user/stats.php:21
 msgid "Credit leader boards and statistics"
-msgstr ""
+msgstr "Quadro de líderes de crédito e estatísticas"
 
 #: html/user/stats.php:30
 msgid "Leader boards for %1"
-msgstr ""
+msgstr "Quadro de lideres para %1"
 
 #: html/user/stats.php:32
 msgid "Participants"
@@ -5930,7 +5931,7 @@ msgstr "Nós recomendados que selecione apenas pessoas que conheça e confie par
 
 #: html/user/team_admins.php:62
 msgid "There are currently no Team Admins"
-msgstr "Atualmente não existem Administradores da Equipa"
+msgstr "Atualmente não existem 'Administradores da Equipa'"
 
 #: html/user/team_admins.php:64
 msgid "Current Team Admins"
@@ -6035,7 +6036,7 @@ msgstr "Mudar fundador"
 
 #: html/user/team_change_founder_form.php:116
 msgid "There are no users to transfer team to."
-msgstr "Não existem utilizadores para transferir de equipa."
+msgstr "Não existem utilizadores para transferir da equipa."
 
 #: html/user/team_create_action.php:51
 msgid "You must choose a non-blank team name"
@@ -6281,7 +6282,7 @@ msgstr "Solicitou a liderança de %1 em %2."
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr "60 dias passaram desde o seu pedido e o fundador não respondeu. Pode agora assumir a liderança clicando aqui:"
+msgstr "Decorreram 60 dias desde o seu pedido, e o fundador não respondeu. Agora, pode assumir a liderança, clicando aqui:"
 
 #: html/user/team_founder_transfer_form.php:52
 msgid "Assume foundership"
@@ -6670,7 +6671,6 @@ msgstr "Utilizador do Dia para %1: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
@@ -6879,7 +6879,7 @@ msgid ""
 "    the system tray should have an icon like this: %1\n"
 "    If not, %2get help here%3.\n"
 "    "
-msgstr "\nNesta altura, o BOINC deve estar instalado e a ser executado no seu computador; e na barra de tarefas deve haver um ícone como este: %1\nSe não, %2get ajuda aqui%3."
+msgstr "\nNesta altura, o BOINC deve estar instalado e a ser executado no seu computador; e na barra de tarefas deve haver um ícone como este: %1\nSe não, 1%2obtenha ajuda aqui%3."
 
 #: html/user/welcome.php:36
 msgid "What happens now?"
@@ -6893,7 +6893,7 @@ msgid ""
 "        This computation may cause your computer's fan to run,\n"
 "        and it may slightly increase your electric bill.\n"
 "    "
-msgstr ""
+msgstr "BOINC, em execução em segundo plano, irá transferir trabalhos,\n         de computação, processá-los, e enviar os resultados.\n        Isto irá acontecer automaticamente; não tem que fazer nada.\n        Esta computação poderá fazer com que a fá do seu funcione,\n        e isto poderá aumentar ligeiramente a sua fatura de electricidade.\n    "
 
 #: html/user/welcome.php:49
 msgid "How to monitor and control BOINC"
@@ -6914,7 +6914,7 @@ msgid ""
 "        for example, limiting the amount of memory BOINC uses.\n"
 "        You can control many settings.\n"
 "        Check this out %1here%2."
-msgstr ""
+msgstr "BOINC foi desenhado para não reduzir o\n        desempenho do seu computador para a utilização normal.\n        Se este o fizer, pode reduzir este impacto, por exemplo,\n        limitando a quantidade de memória que o BOINC utiliza.\n        Pode controlar muitas definições.\n        Consulte %1aqui%2."
 
 #: html/user/welcome.php:80
 msgid ""
@@ -6934,7 +6934,7 @@ msgid ""
 "        but you can attach it to other projects if you want.\n"
 "        It will process jobs for all attached projects.\n"
 "        %2Learn about how to do this%3."
-msgstr ""
+msgstr "%1 é um dos muitos projetos de ciência que utiliza o BOINC.\n        O seu computador está agora 'associado' com %1,\n        mas se pretender pode associá-lo com outros projetos.\n        Este irá processar trabalhos de todos os projetos associados.\n        %2Learn mais sobre como fazer isto%3."
 
 #: html/user/workunit.php:46
 msgid "Workunit %1"
@@ -7083,4 +7083,4 @@ msgstr "Termos de utilização gerais para este projeto BOINC."
 msgid ""
 "Do you consent to exporting your data to BOINC statistics aggregation Web "
 "sites?"
-msgstr ""
+msgstr "Concorda em exportar os seus dados para sites da Web de agregação de estatísticas do BOINC?"

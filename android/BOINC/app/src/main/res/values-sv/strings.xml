@@ -107,6 +107,7 @@ licensavtalen som visas ovan.</string>
   <string name="attachproject_error_bad_pwd">Lösenord felaktigt</string>
   <string name="attachproject_error_creation_disabled">Registrering av konton är inaktiverat för det här projektet</string>
   <string name="attachproject_error_invalid_url">Ogiltig URL</string>
+  <string name="attachproject_error_consent_required">Det här projektet kräver ditt godkännande av dess villkor för användning</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Tillbaka</string>
   <string name="attachproject_working_finish_button">Avsluta</string>
@@ -349,6 +350,7 @@ arbete</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2019 Kaliforniens universitet, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
   <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, företaget IBM och till företaget HTC
 för deras stöd till oss.</string>

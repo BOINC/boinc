@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2019-05-09 00:56+0000\n"
 "Last-Translator: Yosef Kaner <ykaner12@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/boinc/boinc/language/he/)\n"
@@ -37,7 +37,7 @@ msgid ""
 "the preferences."
 msgstr "חלק מהמשימות מצריכות יותר זיכרון מהכמות המאושרת בהגדרות שלך. אנא בדוק את ההגדרות."
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "לא ניתן לרשום קובץ מצב; בדוק הרשאות תיקייה"
 
@@ -94,39 +94,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "אינה יכולה להשתמש לצורך חישוב CUDA או OpenCL עם CUDA מנהל התקן 6.5 או מאוחר יותר"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:492
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "טקסט לא צפוי ב-cc_config.xml"
 
-#: client/log_flags.cpp:466 client/log_flags.cpp:521
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "תג לא מוכר ב-cc_config.xml"
 
-#: client/log_flags.cpp:483
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "תג התחלה חסר  ב-cc_config.xml"
 
-#: client/log_flags.cpp:511
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "שגיאה באפשרויות cc_config.xml"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "תג סיום חסר ב-cc_config.xml"
 
-#: client/project.cpp:995
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "כדי לפתור זאת, באפשרותך "
 
-#: client/project.cpp:999
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "שנה את העדפות המיזם באתר האינטרנט של המיזם"
 
-#: client/project.cpp:1004
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "הסר מעבדים גרפיים מוחרגים בקובץ ה-cc_config.xml שלך"
 
-#: client/project.cpp:1009
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "שנה את ההגדרות שלך באתר מנהל החשבון"
 

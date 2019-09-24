@@ -113,6 +113,7 @@
   <string name="attachproject_error_bad_pwd">Пароль відхилено</string>
   <string name="attachproject_error_creation_disabled">Можливість створення облікових записів в даному проекті відключена</string>
   <string name="attachproject_error_invalid_url">Неправильна адреса (URL)</string>
+  <string name="attachproject_error_consent_required">Цей проект вимагає згоди на його умови використання</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Назад</string>
   <string name="attachproject_working_finish_button">Готово</string>
@@ -363,6 +364,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
+  <string name="about_copyright">\u00A9 2003–2019 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC
         Corporation за їх підтримку.
