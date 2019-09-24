@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string>BOINC Manager 7.15.0 + VirtualBox</string>
+	<key>CFBundleIdentifier</key>
+	<string>edu.berkeley.boinc+vbox</string>
+	<key>CFBundleShortVersionString</key>
+	<string>7.15.0</string>
+	<key>IFMajorVersion</key>
+	<integer>7</integer>
+	<key>IFMinorVersion</key>
+	<integer>15</integer>
+	<key>IFPkgFlagAllowBackRev</key>
+	<integer>1</integer>
+	<key>IFPkgFlagAuthorizationAction</key>
+	<string>AdminAuthorization</string>
+	<key>IFPkgFlagRestartAction</key>
+	<string>NoRestart</string>
+	<key>IFPkgFlagRootVolumeOnly</key>
+	<integer>1</integer>
+	<key>IFPkgFlagComponentDirectory</key>
+	<string>../</string>
+	<key>IFPkgFlagPackageList</key>
+	<array>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>BOINC.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>required</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>VirtualBox.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+	</array>
+	<key>IFPkgFormatVersion</key>
+	<real>0.10000000149011612</real>
+</dict>
+</plist>
