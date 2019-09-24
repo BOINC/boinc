@@ -479,7 +479,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             // if another process killed the app, it looks like exit(0).
             // So check for the finish file
             //
-            if (finish_file_present()) {
+            int e;
+            if (finish_file_present(e)) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 break;
             }
