@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2019-05-20 18:28+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Romanian (http://www.transifex.com/boinc/boinc/language/ro/)\n"
@@ -826,8 +826,8 @@ msgstr "%s proprietatea sau permisiunile nu sunt setate corespunzător; vă rug�
 msgid " at "
 msgstr " la "
 
-#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2526
-#: clientgui/MainDocument.cpp:2585 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2587 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
@@ -930,7 +930,7 @@ msgstr "GPU Dormi"
 msgid "E&xit"
 msgstr "I&eşire"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:968
+#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:973
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:872
@@ -1155,7 +1155,7 @@ msgstr "Închide dialogul fără a salva."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1004
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1009
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Ajutor"
@@ -2477,210 +2477,210 @@ msgstr "Cercetare"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Învăţaţi despre proecte găzduite de World Community Grid"
 
-#: clientgui/MainDocument.cpp:1307
+#: clientgui/MainDocument.cpp:1309
 msgid "Version Update"
 msgstr "Actualizare versiune"
 
-#: clientgui/MainDocument.cpp:1316
+#: clientgui/MainDocument.cpp:1318
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "Este disponibilă o nouă versiunde de %s. O puteți descărca de aici: %s"
 
-#: clientgui/MainDocument.cpp:1319
+#: clientgui/MainDocument.cpp:1321
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "Nu există versiune nouă de %s."
 
-#: clientgui/MainDocument.cpp:1323
+#: clientgui/MainDocument.cpp:1325
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%s nu este conectat la client"
 
-#: clientgui/MainDocument.cpp:1865
+#: clientgui/MainDocument.cpp:1867
 msgid "Missing application"
 msgstr "Aplicaţie lipsă"
 
-#: clientgui/MainDocument.cpp:1866
+#: clientgui/MainDocument.cpp:1868
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Vă rugăm descărcaţi şi instalaţi aplicaţia CoRD de la http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2476
 msgid "on batteries"
 msgstr "pe baterii"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2477
 msgid "computer is in use"
 msgstr "calculatorul este folosit"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2478
 msgid "user request"
 msgstr "cerere utilizator"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2479
 msgid "time of day"
 msgstr "timpul zilei"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2480
 msgid "CPU benchmarks in progress"
 msgstr "Benchmarks CPU în curs"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2481
 msgid "need disk space - check preferences"
 msgstr "este nevoie de spaţiu pe disc - verificaţi preferinţele"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2482
 msgid "computer is not in use"
 msgstr "calculatorul nu este folosit"
 
-#: clientgui/MainDocument.cpp:2481
+#: clientgui/MainDocument.cpp:2483
 msgid "starting up"
 msgstr "porneşte"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2484
 msgid "an exclusive app is running"
 msgstr "rulează o aplicaţie exclusivă"
 
-#: clientgui/MainDocument.cpp:2483
+#: clientgui/MainDocument.cpp:2485
 msgid "CPU is busy"
 msgstr "CPU este ocupat"
 
-#: clientgui/MainDocument.cpp:2484
+#: clientgui/MainDocument.cpp:2486
 msgid "network bandwidth limit exceeded"
 msgstr "limita lăţime bandă reţea depăşită"
 
-#: clientgui/MainDocument.cpp:2485
+#: clientgui/MainDocument.cpp:2487
 msgid "requested by operating system"
 msgstr "cerut de sistemul de operare"
 
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2489
 msgid "unknown reason"
 msgstr "motiv necunoscut"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2511
 msgid "GPU missing, "
 msgstr "GPU lipsă, "
 
-#: clientgui/MainDocument.cpp:2516
+#: clientgui/MainDocument.cpp:2518
 msgid "New"
 msgstr "Nou"
 
-#: clientgui/MainDocument.cpp:2520
+#: clientgui/MainDocument.cpp:2522
 msgid "Download failed"
 msgstr "Download-ul a eşuat"
 
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2524
 msgid "Downloading"
 msgstr "In curs de download"
 
-#: clientgui/MainDocument.cpp:2524 clientgui/MainDocument.cpp:2583
+#: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2585
 msgid " (suspended - "
 msgstr " (suspendat - "
 
-#: clientgui/MainDocument.cpp:2532
+#: clientgui/MainDocument.cpp:2534
 msgid "Project suspended by user"
 msgstr "Proiect suspendat de utilizator"
 
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2536
 msgid "Task suspended by user"
 msgstr "Task suspendat de utilizator"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2539
+#: clientgui/MainDocument.cpp:2541
 msgid "Suspended - "
 msgstr "Suspendat - "
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2544
 msgid "GPU suspended - "
 msgstr "GPU Suspendat - "
 
-#: clientgui/MainDocument.cpp:2546
+#: clientgui/MainDocument.cpp:2548
 msgid "Waiting for memory"
 msgstr "În aşteptare de memorie"
 
-#: clientgui/MainDocument.cpp:2548
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting for shared memory"
 msgstr "În aşteptare de memorie partajată"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2552
 msgid "Running"
 msgstr "Rulează"
 
-#: clientgui/MainDocument.cpp:2552
+#: clientgui/MainDocument.cpp:2554
 msgid " (non-CPU-intensive)"
 msgstr " (CPU-neintensiv)"
 
-#: clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting to run"
 msgstr "Aşteaptă să ruleze"
 
-#: clientgui/MainDocument.cpp:2557 clientgui/MainDocument.cpp:2560
+#: clientgui/MainDocument.cpp:2559 clientgui/MainDocument.cpp:2562
 msgid "Ready to start"
 msgstr "Gata de start"
 
-#: clientgui/MainDocument.cpp:2564
+#: clientgui/MainDocument.cpp:2566
 msgid "Postponed: "
 msgstr "Amânat:"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2569
 msgid "Postponed"
 msgstr "Amânat"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2573
 msgid "Waiting for network access"
 msgstr "În așteptare de acces la rețea"
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2577
 msgid "Computation error"
 msgstr "Eroare de calcul"
 
-#: clientgui/MainDocument.cpp:2579
+#: clientgui/MainDocument.cpp:2581
 msgid "Upload failed"
 msgstr "Upload-ul a eşuat"
 
-#: clientgui/MainDocument.cpp:2581
+#: clientgui/MainDocument.cpp:2583
 msgid "Uploading"
 msgstr "In curs de upload"
 
-#: clientgui/MainDocument.cpp:2592
+#: clientgui/MainDocument.cpp:2594
 msgid "Aborted by user"
 msgstr "Abandonat de utilizator"
 
-#: clientgui/MainDocument.cpp:2595
+#: clientgui/MainDocument.cpp:2597
 msgid "Aborted by project"
 msgstr "Abandonat de proiect"
 
-#: clientgui/MainDocument.cpp:2598
+#: clientgui/MainDocument.cpp:2600
 msgid "Aborted: not started by deadline"
 msgstr "Abandonat: nu a fost pornit până la termenul limită"
 
-#: clientgui/MainDocument.cpp:2601
+#: clientgui/MainDocument.cpp:2603
 msgid "Aborted: task disk limit exceeded"
 msgstr "Abandonat: limită disc task depășită"
 
-#: clientgui/MainDocument.cpp:2604
+#: clientgui/MainDocument.cpp:2606
 msgid "Aborted: run time limit exceeded"
 msgstr "Abandonat: limita de timp de rulare depăşită"
 
-#: clientgui/MainDocument.cpp:2607
+#: clientgui/MainDocument.cpp:2609
 msgid "Aborted: memory limit exceeded"
 msgstr "Abandonat: limita de memorie depăşită"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2612
 msgid "Aborted"
 msgstr "Abandonat"
 
-#: clientgui/MainDocument.cpp:2615
+#: clientgui/MainDocument.cpp:2617
 msgid "Acknowledged"
 msgstr "Acreditat"
 
-#: clientgui/MainDocument.cpp:2617
+#: clientgui/MainDocument.cpp:2619
 msgid "Ready to report"
 msgstr "Gata de raport"
 
-#: clientgui/MainDocument.cpp:2619
+#: clientgui/MainDocument.cpp:2621
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Eroare: stare nevalidă cu codul '%d'"
@@ -2834,12 +2834,12 @@ msgid ""
 "Please wait..."
 msgstr "În curs de comunicare cu proiectul\nVă rugăm să asteptaţi..."
 
-#: clientgui/ProjectProcessingPage.cpp:521
+#: clientgui/ProjectProcessingPage.cpp:523
 msgid "Required files not found on the server."
 msgstr "Fişierele necesare nu s-au găsit pe server."
 
-#: clientgui/ProjectProcessingPage.cpp:524
-#: clientgui/ProjectProcessingPage.cpp:597
+#: clientgui/ProjectProcessingPage.cpp:526
+#: clientgui/ProjectProcessingPage.cpp:599
 msgid "An internal server error has occurred."
 msgstr "A apărut o eroare internă server."
 
@@ -2969,11 +2969,11 @@ msgstr "Afişează mesajele de diagnostic."
 msgid "Show information about BOINC and %s"
 msgstr "Afişează informaţii despre BOINC şi %s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:529
+#: clientgui/sg_BoincSimpleFrame.cpp:534
 msgid "Default"
 msgstr "Implicit"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:967
+#: clientgui/sg_BoincSimpleFrame.cpp:972
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -2982,23 +2982,23 @@ msgstr "Implicit"
 msgid "Suspend"
 msgstr "Suspendă"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:969
+#: clientgui/sg_BoincSimpleFrame.cpp:974
 msgid "Suspend Computing"
 msgstr "Suspendă Calculele"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:970
+#: clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Resume Computing"
 msgstr "Reia Calculele"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:986 clientgui/ViewNotices.cpp:99
+#: clientgui/sg_BoincSimpleFrame.cpp:991 clientgui/ViewNotices.cpp:99
 msgid "Notices"
 msgstr "Anunţuri"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:987
+#: clientgui/sg_BoincSimpleFrame.cpp:992
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Deschide o fereastră pentru a vedea anunţurile de la proiecte sau BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1008 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1013 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Ajutor cu %s"
@@ -3865,11 +3865,11 @@ msgstr "Arată toate task-urile"
 msgid "Show all tasks."
 msgstr "Arată toate task-urile."
 
-#: clientgui/WizardAttach.cpp:606
+#: clientgui/WizardAttach.cpp:607
 msgid "Do you really want to cancel?"
 msgstr "Sunteţi sigur că doriţi să abandonaţi?"
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/WizardAttach.cpp:608
 msgid "Question"
 msgstr "Întrebare"
 

@@ -59,13 +59,14 @@
   <string name="attachproject_login_platform_supported">Questo progetto supporta i dispositivi Android</string>
   <string name="attachproject_login_platform_not_supported">Questo progetto non supporta i dispositivi Android</string>
   <string name="attachproject_login_category_terms_of_use">Licenza per</string>
-  <string name="attachproject_login_accept_terms_of_use">Creando un account per questo progetto, accetti 
-          le condizioni d\'uso scritte qui sotto.
+  <string name="attachproject_login_accept_terms_of_use">Creando un account per questo progetto accetti 
+          queste condizioni d\'uso.
     </string>
   <string name="attachproject_login_category_login">Fai il login con un account esistente</string>
   <string name="attachproject_login_header_id_email">email:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Password:</string>
+  <string name="attachproject_login_category_creation">Nuovo utente</string>
   <string name="attachproject_login_header_creation_enabled">Crea un account per partecipare:</string>
   <string name="attachproject_login_header_creation_client_disabled">Per creare un account visitare il sito del progetto:
     </string>
@@ -112,6 +113,7 @@
   <string name="attachproject_error_bad_pwd">Password rifiutata</string>
   <string name="attachproject_error_creation_disabled">La creazione di nuovi account è disabilitata su questo progetto</string>
   <string name="attachproject_error_invalid_url">URL non valido</string>
+  <string name="attachproject_error_consent_required">L\'adesione a questo progetto richiede l\'accettazione delle condizioni d\'uso</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Indietro</string>
   <string name="attachproject_working_finish_button">Fine</string>
@@ -179,8 +181,7 @@
   <string name="prefs_power_source_wireless">Caricabatterie wireless</string>
   <string name="prefs_power_source_battery">Batteria</string>
   <string name="battery_charge_min_pct_header">Livello minimo batteria</string>
-  <string name="battery_charge_min_pct_description">BOINC sospenderà l\'elaborazione sotto il livello definito di carica della batteria.
-</string>
+  <string name="battery_charge_min_pct_description">BOINC sospenderà l\'elaborazione sotto il livello di carica della batteria impostato.</string>
   <string name="battery_temperature_max_header">Temperatura massima della batteria</string>
   <string name="battery_temperature_max_description">BOINC sospenderà l\'elaborazione sopra al livello definito di temperatura della batteria.
         Non è raccomandato il cambiamento di questo valore.
@@ -210,6 +211,8 @@
   <string name="prefs_memory_max_idle_header">Limite RAM</string>
   <string name="prefs_memory_max_idle_description">Limita il quantitativo di RAM che le attività possono usare.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_description">Scarica in locale almeno X giorni di elaborazione</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Scarica in locale fino ad ulteriori X giorni di
+      elaborazione</string>
   <string name="prefs_client_log_flags_header">Flag di log del client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
@@ -355,6 +358,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2019 Università della California, Berkeley.</string>
   <string name="about_copyright_reserved">Tutti i diritti riservati.</string>
   <string name="about_credits">Si ringraziano il Max Plank Istitute per la fisica gravitazionale, IBM Corporation e HTC
         Corporation per il loro supporto.

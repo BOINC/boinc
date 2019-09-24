@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2019-05-20 18:28+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
@@ -829,8 +829,8 @@ msgstr "%s に対する所有権あるいは許可情報が正しく設定され
 msgid " at "
 msgstr "で"
 
-#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2526
-#: clientgui/MainDocument.cpp:2585 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2587 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
@@ -933,7 +933,7 @@ msgstr "GPU を休止"
 msgid "E&xit"
 msgstr "終了(&X)"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:968
+#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:973
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:872
@@ -1158,7 +1158,7 @@ msgstr "保存せずにダイアログを終了します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1004
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1009
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "ヘルプ"
@@ -2480,210 +2480,210 @@ msgstr "研究"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "World Community Grid で運営されるプロジェクトについて知る"
 
-#: clientgui/MainDocument.cpp:1307
+#: clientgui/MainDocument.cpp:1309
 msgid "Version Update"
 msgstr "バージョンアップデート"
 
-#: clientgui/MainDocument.cpp:1316
+#: clientgui/MainDocument.cpp:1318
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "%sの新しいバージョンが利用できます。%sからダウンロードできます。"
 
-#: clientgui/MainDocument.cpp:1319
+#: clientgui/MainDocument.cpp:1321
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "ダウンロードできる%sの新しいバージョンはありません。"
 
-#: clientgui/MainDocument.cpp:1323
+#: clientgui/MainDocument.cpp:1325
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%sはクライアントに接続していません"
 
-#: clientgui/MainDocument.cpp:1865
+#: clientgui/MainDocument.cpp:1867
 msgid "Missing application"
 msgstr "見つからないアプリケーション"
 
-#: clientgui/MainDocument.cpp:1866
+#: clientgui/MainDocument.cpp:1868
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "http://cord.sourceforge.net から CoRD アプリケーションをダウンロードし、インストールしてください。"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2476
 msgid "on batteries"
 msgstr "バッテリーで駆動中"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2477
 msgid "computer is in use"
 msgstr "コンピュータを別途使用中"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2478
 msgid "user request"
 msgstr "参加者の要求"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2479
 msgid "time of day"
 msgstr "実行時間帯制約"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2480
 msgid "CPU benchmarks in progress"
 msgstr "CPU ベンチマーク実行中"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2481
 msgid "need disk space - check preferences"
 msgstr "ディスク容量の不足 - 好みの設定(プレファレンス)を確認してください"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2482
 msgid "computer is not in use"
 msgstr "コンピュータ使用されていない"
 
-#: clientgui/MainDocument.cpp:2481
+#: clientgui/MainDocument.cpp:2483
 msgid "starting up"
 msgstr "起動の途中"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2484
 msgid "an exclusive app is running"
 msgstr "排他的なアプリケーションを実行中"
 
-#: clientgui/MainDocument.cpp:2483
+#: clientgui/MainDocument.cpp:2485
 msgid "CPU is busy"
 msgstr "CPU を別途使用中"
 
-#: clientgui/MainDocument.cpp:2484
+#: clientgui/MainDocument.cpp:2486
 msgid "network bandwidth limit exceeded"
 msgstr "ネットワーク帯域幅の使用制約超過"
 
-#: clientgui/MainDocument.cpp:2485
+#: clientgui/MainDocument.cpp:2487
 msgid "requested by operating system"
 msgstr "オペレーティングシステムの指示による"
 
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2489
 msgid "unknown reason"
 msgstr "不明な理由"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2511
 msgid "GPU missing, "
 msgstr "GPU が見当たりません、"
 
-#: clientgui/MainDocument.cpp:2516
+#: clientgui/MainDocument.cpp:2518
 msgid "New"
 msgstr "新規"
 
-#: clientgui/MainDocument.cpp:2520
+#: clientgui/MainDocument.cpp:2522
 msgid "Download failed"
 msgstr "ダウンロード失敗"
 
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2524
 msgid "Downloading"
 msgstr "ダウンロード中"
 
-#: clientgui/MainDocument.cpp:2524 clientgui/MainDocument.cpp:2583
+#: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2585
 msgid " (suspended - "
 msgstr "(一時停止中 - "
 
-#: clientgui/MainDocument.cpp:2532
+#: clientgui/MainDocument.cpp:2534
 msgid "Project suspended by user"
 msgstr "参加者によってプロジェクト一時停止"
 
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2536
 msgid "Task suspended by user"
 msgstr "参加者によってタスク一時停止"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2539
+#: clientgui/MainDocument.cpp:2541
 msgid "Suspended - "
 msgstr "一時停止中 - "
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2544
 msgid "GPU suspended - "
 msgstr "GPUは一時停止中 -"
 
-#: clientgui/MainDocument.cpp:2546
+#: clientgui/MainDocument.cpp:2548
 msgid "Waiting for memory"
 msgstr "メモリ不足のため待機"
 
-#: clientgui/MainDocument.cpp:2548
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting for shared memory"
 msgstr "共有メモリが空くまで待機中"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2552
 msgid "Running"
 msgstr "実行中"
 
-#: clientgui/MainDocument.cpp:2552
+#: clientgui/MainDocument.cpp:2554
 msgid " (non-CPU-intensive)"
 msgstr "(常時 CPU を使用するわけではありません)"
 
-#: clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting to run"
 msgstr "実行待機"
 
-#: clientgui/MainDocument.cpp:2557 clientgui/MainDocument.cpp:2560
+#: clientgui/MainDocument.cpp:2559 clientgui/MainDocument.cpp:2562
 msgid "Ready to start"
 msgstr "開始まで待機"
 
-#: clientgui/MainDocument.cpp:2564
+#: clientgui/MainDocument.cpp:2566
 msgid "Postponed: "
 msgstr "次まで延期:"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2569
 msgid "Postponed"
 msgstr "延期"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2573
 msgid "Waiting for network access"
 msgstr "ネットワーク接続の待機中"
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2577
 msgid "Computation error"
 msgstr "計算中に異常発生"
 
-#: clientgui/MainDocument.cpp:2579
+#: clientgui/MainDocument.cpp:2581
 msgid "Upload failed"
 msgstr "アップロード失敗"
 
-#: clientgui/MainDocument.cpp:2581
+#: clientgui/MainDocument.cpp:2583
 msgid "Uploading"
 msgstr "アップロード中"
 
-#: clientgui/MainDocument.cpp:2592
+#: clientgui/MainDocument.cpp:2594
 msgid "Aborted by user"
 msgstr "参加者によって中止"
 
-#: clientgui/MainDocument.cpp:2595
+#: clientgui/MainDocument.cpp:2597
 msgid "Aborted by project"
 msgstr "プロジェクトによって中止"
 
-#: clientgui/MainDocument.cpp:2598
+#: clientgui/MainDocument.cpp:2600
 msgid "Aborted: not started by deadline"
 msgstr "中止: 報告期限までに開始されませんでした"
 
-#: clientgui/MainDocument.cpp:2601
+#: clientgui/MainDocument.cpp:2603
 msgid "Aborted: task disk limit exceeded"
 msgstr "中止: タスクがディスクの利用可能領域を超過しました"
 
-#: clientgui/MainDocument.cpp:2604
+#: clientgui/MainDocument.cpp:2606
 msgid "Aborted: run time limit exceeded"
 msgstr "中止: 報告期限を超過しました"
 
-#: clientgui/MainDocument.cpp:2607
+#: clientgui/MainDocument.cpp:2609
 msgid "Aborted: memory limit exceeded"
 msgstr "中止: メモリの利用可能領域を超過しました"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2612
 msgid "Aborted"
 msgstr "中止"
 
-#: clientgui/MainDocument.cpp:2615
+#: clientgui/MainDocument.cpp:2617
 msgid "Acknowledged"
 msgstr "サーバ承認済み"
 
-#: clientgui/MainDocument.cpp:2617
+#: clientgui/MainDocument.cpp:2619
 msgid "Ready to report"
 msgstr "報告待機"
 
-#: clientgui/MainDocument.cpp:2619
+#: clientgui/MainDocument.cpp:2621
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "エラー: 無効状態 '%d'"
@@ -2837,12 +2837,12 @@ msgid ""
 "Please wait..."
 msgstr "プロジェクトと通信中\nお待ちください..."
 
-#: clientgui/ProjectProcessingPage.cpp:521
+#: clientgui/ProjectProcessingPage.cpp:523
 msgid "Required files not found on the server."
 msgstr "必要なファイルがサーバ上に見つかりません。"
 
-#: clientgui/ProjectProcessingPage.cpp:524
-#: clientgui/ProjectProcessingPage.cpp:597
+#: clientgui/ProjectProcessingPage.cpp:526
+#: clientgui/ProjectProcessingPage.cpp:599
 msgid "An internal server error has occurred."
 msgstr "サーバ内部で異常が発生しました。"
 
@@ -2972,11 +2972,11 @@ msgstr "診断メッセージを表示します"
 msgid "Show information about BOINC and %s"
 msgstr "BOINC および %s に関する情報を表示します"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:529
+#: clientgui/sg_BoincSimpleFrame.cpp:534
 msgid "Default"
 msgstr "初期値(指定省略時の扱い)"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:967
+#: clientgui/sg_BoincSimpleFrame.cpp:972
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -2985,23 +2985,23 @@ msgstr "初期値(指定省略時の扱い)"
 msgid "Suspend"
 msgstr "一時停止"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:969
+#: clientgui/sg_BoincSimpleFrame.cpp:974
 msgid "Suspend Computing"
 msgstr "計算を一時停止"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:970
+#: clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Resume Computing"
 msgstr "計算を再開"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:986 clientgui/ViewNotices.cpp:99
+#: clientgui/sg_BoincSimpleFrame.cpp:991 clientgui/ViewNotices.cpp:99
 msgid "Notices"
 msgstr "お知らせ"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:987
+#: clientgui/sg_BoincSimpleFrame.cpp:992
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "プロジェクトまたは BOINC からのお知らせを見るためウィンドウを開く"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1008 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1013 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "%s について助けを求める"
@@ -3868,11 +3868,11 @@ msgstr "全てのタスクを表示"
 msgid "Show all tasks."
 msgstr "全てのタスクを表示します。"
 
-#: clientgui/WizardAttach.cpp:606
+#: clientgui/WizardAttach.cpp:607
 msgid "Do you really want to cancel?"
 msgstr "本当にキャンセルしますか？"
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/WizardAttach.cpp:608
 msgid "Question"
 msgstr "質問"
 

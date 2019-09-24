@@ -6,14 +6,14 @@
 # 
 # Translators:
 # D c <onlinegamesdavey@gmail.com>, 2015
-# Jord <elst93@gmail.com>, 2015-2018
+# Jord <elst93@gmail.com>, 2015-2019
 # Martin L <martinlievense@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-02-06 20:11+0000\n"
+"PO-Revision-Date: 2019-06-12 20:08+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -3557,7 +3557,7 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr "Als je een BOINC versie ouder dan 5.0 gebruikt,\nupdate dan a.u.b. naar een meer modernere versie van BOINC om een \naccount bij @this_project te maken. "
+msgstr "Als je een BOINC versie ouder dan 5.0 gebruikt,\nupdatet dan a.u.b. naar een meer modernere versie van BOINC om een \naccount bij @this_project te maken. "
 
 #: team-add-admin
 msgctxt "team-add-admin"
