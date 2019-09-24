@@ -507,16 +507,16 @@ void CLIENT_STATE::check_file_existence() {
                     path, fip->nbytes, size
                 );
             }
-            // If an output file disappears before it's uploaded,
-            // flag the job as an error.
-            //
-            if (fip->status == FILE_NOT_PRESENT && fip->uploadable() && !fip->uploaded) {
-                RESULT* rp = file_info_to_result(fip);
-                if (rp) {
-                    gstate.report_result_error(
-                        *rp, "output file missing or invalid"
-                    );
-                }
+        }
+        // If an output file disappears before it's uploaded,
+        // flag the job as an error.
+        //
+        if (fip->status == FILE_NOT_PRESENT && fip->uploadable() && !fip->uploaded) {
+            RESULT* rp = file_info_to_result(fip);
+            if (rp) {
+                gstate.report_result_error(
+                    *rp, "output file missing or invalid"
+                );
             }
         }
     }
