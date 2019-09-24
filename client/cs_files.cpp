@@ -49,6 +49,7 @@
 #include "client_msgs.h"
 #include "file_xfer.h"
 #include "project.h"
+#include "result.h"
 #include "sandbox.h"
 
 using std::vector;
@@ -507,6 +508,33 @@ void CLIENT_STATE::check_file_existence() {
                 );
             }
         }
+        // If an output file disappears before it's uploaded,
+        // flag the job as an error.
+        //
+        if (fip->status == FILE_NOT_PRESENT && fip->uploadable() && !fip->uploaded) {
+            RESULT* rp = file_info_to_result(fip);
+            if (rp) {
+                gstate.report_result_error(
+                    *rp, "output file missing or invalid"
+                );
+            }
+        }
     }
 }
 
+// return the result that *fip is an output file of, if any
+//
+RESULT* CLIENT_STATE::file_info_to_result(FILE_INFO* fip) {
+    unsigned int i, j;
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        if (rp->project != fip->project) continue;
+        for (j=0; j<rp->output_files.size(); j++) {
+            FILE_REF& fr = rp->output_files[j];
+            if (fr.file_info == fip) {
+                return rp;
+            }
+        }
+    }
+    return NULL;
+}

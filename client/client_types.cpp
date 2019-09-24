@@ -208,7 +208,6 @@ FILE_INFO::FILE_INFO() {
     is_auto_update_file = false;
     anonymous_platform_file = false;
     pers_file_xfer = NULL;
-    result = NULL;
     project = NULL;
     download_urls.clear();
     upload_urls.clear();
