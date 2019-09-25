@@ -750,14 +750,14 @@ int TASK::run(int argct, char** argvt) {
         // Some processes will launch child processes and then exit; set up a
         // job object to prevent this from ending the task
         //
-        job_handle = CreateJobObject(nullptr, nullptr);
+        job_handle = CreateJobObject(NULL, NULL);
         if (!job_handle) {
             fprintf(stderr, "CreateJobObject failed: %d\n", GetLastError());
             return ERR_FORK;
         }
 
         ioport_handle = CreateIoCompletionPort(INVALID_HANDLE_VALUE,
-            nullptr, 0, 1);
+            NULL, 0, 1);
         if (!ioport_handle) {
             fprintf(stderr, "CreateIoCompletionPort failed: %d\n", GetLastError());
             return ERR_FORK;
