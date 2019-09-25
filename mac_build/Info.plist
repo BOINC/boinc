@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>BOINCMgr.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>edu.berkeley.boinc</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>BNC!</string>
 	<key>CFBundleVersion</key>
-	<string>7.15.0</string>
+	<string>7.15.1</string>
 	<key>NSRequiresAquaSystemAppearance</key>
 	<true/>
 </dict>
