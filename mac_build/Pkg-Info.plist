@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>BOINC Manager 7.15.0</string>
+	<string>BOINC Manager 7.15.1</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc</string>
 	<key>CFBundleShortVersionString</key>
-	<string>7.15.0</string>
+	<string>7.15.1</string>
 	<key>IFPkgFlagAllowBackRev</key>
 	<integer>1</integer>
 	<key>IFPkgFlagAuthorizationAction</key>

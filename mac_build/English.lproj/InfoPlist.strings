@@ -1,5 +1,5 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "BOINC Manager";
-CFBundleShortVersionString = "BOINC Manager version 7.15.0";
-CFBundleGetInfoString = "BOINC Manager version 7.15.0, Copyright 2019 University of California.";
+CFBundleShortVersionString = "BOINC Manager version 7.15.1";
+CFBundleGetInfoString = "BOINC Manager version 7.15.1, Copyright 2019 University of California.";

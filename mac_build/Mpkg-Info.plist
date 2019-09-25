@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>BOINC Manager 7.15.0 + VirtualBox</string>
+	<string>BOINC Manager 7.15.1 + VirtualBox</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc+vbox</string>
 	<key>CFBundleShortVersionString</key>
-	<string>7.15.0</string>
+	<string>7.15.1</string>
 	<key>IFMajorVersion</key>
 	<integer>7</integer>
 	<key>IFMinorVersion</key>
