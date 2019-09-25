@@ -139,6 +139,7 @@ struct TASK {
     bool forward_slashes;
     double time_limit;
     int priority;
+    bool wait_for_children;
 
     // dynamic stuff follows
     double current_cpu_time;
@@ -151,6 +152,8 @@ struct TASK {
     double elapsed_time;
 #ifdef _WIN32
     HANDLE pid_handle;
+    HANDLE job_handle;
+    HANDLE ioport_handle;
     DWORD pid;
     struct _stat last_stat;     // mod time of checkpoint file
 #else
@@ -435,6 +438,7 @@ int TASK::parse(XML_PARSER& xp) {
     forward_slashes = false;
     time_limit = 0;
     priority = PROCESS_PRIORITY_LOWEST;
+    wait_for_children = false;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -471,6 +475,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
         else if (xp.parse_int("priority", priority)) continue;
+        else if (xp.parse_bool("wait_for_children", wait_for_children)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -741,6 +746,33 @@ int TASK::run(int argct, char** argvt) {
     );
 
 #ifdef _WIN32
+    if (wait_for_children) {
+        // Some processes will launch child processes and then exit; set up a
+        // job object to prevent this from ending the task
+        //
+        job_handle = CreateJobObject(nullptr, nullptr);
+        if (!job_handle) {
+            fprintf(stderr, "CreateJobObject failed: %d\n", GetLastError());
+            return ERR_FORK;
+        }
+
+        ioport_handle = CreateIoCompletionPort(INVALID_HANDLE_VALUE,
+            nullptr, 0, 1);
+        if (!ioport_handle) {
+            fprintf(stderr, "CreateIoCompletionPort failed: %d\n", GetLastError());
+            return ERR_FORK;
+        }
+
+        JOBOBJECT_ASSOCIATE_COMPLETION_PORT Port;
+        Port.CompletionKey = job_handle;
+        Port.CompletionPort = ioport_handle;
+        if (!SetInformationJobObject(job_handle,
+            JobObjectAssociateCompletionPortInformation,
+            &Port, sizeof(Port))) {
+            fprintf(stderr, "SetInformation failed: %d\n", GetLastError());
+            return ERR_FORK;
+        }
+    }
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     string command;
@@ -800,7 +832,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|process_priority_value(priority),
+        CREATE_NO_WINDOW|CREATE_SUSPENDED|process_priority_value(priority),
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
@@ -820,6 +852,18 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
+    if (wait_for_children) {
+        // Use a job object if completion of child processes is required
+        //
+        if (!AssignProcessToJobObject(job_handle, pid_handle)) {
+            fprintf(stderr, "Failed to assign process to job: %d\n", GetLastError());
+            return ERR_FORK;
+        }
+    }
+    // Process was created suspended in case it needed to be attached to a job
+    // object; it can now be resumed
+    //
+    ResumeThread(process_info.hThread);
 #else
     int retval;
     char* argv[256];
@@ -925,15 +969,32 @@ bool TASK::poll(int& status) {
     }
 #ifdef _WIN32
     unsigned long exit_code;
-    if (GetExitCodeProcess(pid_handle, &exit_code)) {
-        if (exit_code != STILL_ACTIVE) {
-            status = exit_code;
-            final_cpu_time = current_cpu_time;
-            fprintf(stderr, "%s %s exited; CPU time %f\n",
-                boinc_msg_prefix(buf, sizeof(buf)),
-                application.c_str(), final_cpu_time
-            );
-            return true;
+    if (wait_for_children) {
+        ULONG_PTR completion_key;
+        LPOVERLAPPED overlapped;
+        if (GetQueuedCompletionStatus(ioport_handle, &exit_code, &completion_key, &overlapped, INFINITE)) {
+            if ((HANDLE)completion_key == job_handle && exit_code == JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO) {
+                status = exit_code;
+                final_cpu_time = current_cpu_time;
+                fprintf(stderr, "%s %s exited; CPU time %f\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    application.c_str(), final_cpu_time
+                );
+                return true;
+            }
+        }
+    }
+    else {
+        if (GetExitCodeProcess(pid_handle, &exit_code)) {
+            if (exit_code != STILL_ACTIVE) {
+                status = exit_code;
+                final_cpu_time = current_cpu_time;
+                fprintf(stderr, "%s %s exited; CPU time %f\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    application.c_str(), final_cpu_time
+                );
+                return true;
+            }
         }
     }
 #else
