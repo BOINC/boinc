@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string>BOINC Manager 7.15.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>edu.berkeley.boinc</string>
+	<key>CFBundleShortVersionString</key>
+	<string>7.15.0</string>
+	<key>IFPkgFlagAllowBackRev</key>
+	<integer>1</integer>
+	<key>IFPkgFlagAuthorizationAction</key>
+	<string>AdminAuthorization</string>
+	<key>IFPkgFlagDefaultLocation</key>
+	<string>/</string>
+	<key>IFPkgFlagFollowLinks</key>
+	<integer>0</integer>
+	<key>IFPkgFlagInstallFat</key>
+	<integer>0</integer>
+	<key>IFPkgFlagInstalledSize</key>
+	<integer>6680</integer>
+	<key>IFPkgFlagIsRequired</key>
+	<integer>0</integer>
+	<key>IFPkgFlagOverwritePermissions</key>
+	<integer>0</integer>
+	<key>IFPkgFlagRelocatable</key>
+	<integer>0</integer>
+	<key>IFPkgFlagRestartAction</key>
+	<string>NoRestart</string>
+	<key>IFPkgFlagRootVolumeOnly</key>
+	<integer>1</integer>
+	<key>IFPkgFlagUpdateInstalledLanguages</key>
+	<integer>0</integer>
+	<key>IFPkgFormatVersion</key>
+	<real>0.10000000149011612</real>
+</dict>
+</plist>

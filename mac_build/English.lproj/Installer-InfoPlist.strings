@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "BOINC Installer";
+CFBundleShortVersionString = "BOINC Installer version 7.15.0";
+CFBundleGetInfoString = "BOINC Installer version 7.15.0, Copyright 2019 University of California.";

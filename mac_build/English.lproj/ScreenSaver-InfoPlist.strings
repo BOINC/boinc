@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "BOINC Screen Saver";
+CFBundleShortVersionString = "BOINC Screen Saver version 7.15.0";
+CFBundleGetInfoString = "BOINC Screen Saver version 7.15.0, Copyright 2019 University of California.";

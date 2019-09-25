@@ -1,0 +1,14 @@
+prefix=/Volumes/Photos/src/BOINC_dev/freetype-2.9/../freetype_install
+exec_prefix=/Volumes/Photos/src/BOINC_dev/freetype-2.9/../freetype_install
+libdir=/Volumes/Photos/src/BOINC_dev/freetype-2.9/../freetype_install/lib
+includedir=/Volumes/Photos/src/BOINC_dev/freetype-2.9/../freetype_install/include
+
+Name: FreeType 2
+URL: https://freetype.org
+Description: A free, high-quality, and portable font engine.
+Version: 22.0.16
+Requires:
+Requires.private: zlib
+Libs: -L${libdir} -lfreetype
+Libs.private: -lbz2
+Cflags: -I${includedir}/freetype2

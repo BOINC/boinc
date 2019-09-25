@@ -1,0 +1,17 @@
+The general instructions in the mac_build folder in the file HowToBuildBOINC_XCode.pdf should also note that if you want to build using XCode alone, you need to put all the downloaded libraries in the folder directly above the build folder. For EG:
+All of these external programs:
+
+wxWidgets-3.1.0 s-3.1.0.tar.bz2
+sqlite-3.22.0 
+curl-7.58.0:
+c-ares-1.13.0 (used by curl):
+openssl-1.1.0g
+freetype-2.9 
+ftgl-2.1.3~rc5 
+
+Need to go into the top GitHub directory on your system and be unpacked there. Otherwise XCode  as the project is currently set up, will not find the libraries. They need to be unzipped there of course.
+
+/Users/<your name>/GitHub/
+
+So that when you build in XCode, they can be found in the existing setup, which looks for them in - for example - 
+USER_HEADER_SEARCH_PATHS = ../../curl-7.58.0/include ../../openssl-1.1.0g/include ../lib/**
