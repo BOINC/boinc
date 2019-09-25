@@ -15,48 +15,46 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef BOINC_VIEWWORK_H
-#define BOINC_VIEWWORK_H
+#ifndef BOINC_VIEWTRANSFERS_H
+#define BOINC_VIEWTRANSFERS_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewWork.cpp"
+#pragma interface "ViewTransfers.cpp"
 #endif
 
 
 #include "BOINCBaseView.h"
 
 
-class CWork : public wxObject
-{
+class CTransfer : public wxObject {
 public:
-    CWork();
-    ~CWork();
+	CTransfer();
+	~CTransfer();
 
-    wxString m_strProjectName;
-    wxString m_strApplicationName;
-    wxString m_strName;
-    double m_fCPUTime;
+	wxString m_strProjectName;
+    wxString m_strFileName;
     double m_fProgress;
-    double m_fTimeToCompletion;
-    time_t m_tReportDeadline;
+    double m_fBytesXferred;
+    double m_fTotalBytes;
+    double m_dTime;
+    double m_dSpeed;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
-    wxString m_strCPUTime;
     wxString m_strProgress;
-    wxString m_strTimeToCompletion;
-    wxString m_strReportDeadline;
+    wxString m_strSize;
+    wxString m_strTime;
+    wxString m_strSpeed;
 };
 
 
-class CViewWork : public CBOINCBaseView
-{
-    DECLARE_DYNAMIC_CLASS( CViewWork )
+class CViewTransfers : public CBOINCBaseView {
+    DECLARE_DYNAMIC_CLASS( CViewTransfers )
 
 public:
-    CViewWork();
-    CViewWork(wxNotebook* pNotebook);
+    CViewTransfers();
+    CViewTransfers(wxNotebook* pNotebook);
 
-    ~CViewWork();
+    ~CViewTransfers();
 
     void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
@@ -68,26 +66,16 @@ public:
     virtual wxString        GetKeyValue2(int iRowIndex);
     virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 
-    void                    OnWorkSuspend( wxCommandEvent& event );
-    void                    OnWorkShowGraphics( wxCommandEvent& event );
-    void                    OnWorkShowVMConsole( wxCommandEvent& event );
-    void                    OnWorkAbort( wxCommandEvent& event );
-    void                    OnShowItemProperties( wxCommandEvent& event );
-    void                    OnActiveTasksOnly( wxCommandEvent& event );
-
-    void                    OnProjectWebsiteClicked( wxEvent& event );
+    void                    OnTransfersRetryNow( wxCommandEvent& event );
+    void                    OnTransfersAbort( wxCommandEvent& event );
     void                    OnColResize( wxListEvent& event);
-    
-    std::vector<CWork*>     m_WorkCache;
+
+    std::vector<CTransfer*> m_TransferCache;
 
 protected:
-
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual bool            OnSaveState( wxConfigBase* pConfig );
-    virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -100,23 +88,23 @@ protected:
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
-    void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
-    void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
-    void                    GetDocCPUTime(wxInt32 item, double& fBuffer) const;
+    void                    GetDocFileName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocProgress(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
-    void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
-    void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
-    wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
-    wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocBytesXferred(wxInt32 item, double& fBuffer) const;
+    void                    GetDocTotalBytes(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatSize( double fBytesSent, double fFileSize, wxString& strBuffer ) const;
+    void                    GetDocTime(wxInt32 item, double& fBuffer) const;
+    void                    GetDocSpeed(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatSpeed( double fBuffer, wxString& strBuffer ) const;
+    void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
+
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
+    
+    int                     GetTransferCacheAtIndex(CTransfer*& transferPtr, int index);
 
-    int                     GetWorkCacheAtIndex(CWork*& workPtr, int index);
-
-    virtual void            OnPopupClick(wxCommandEvent &evt);
-   
     DECLARE_EVENT_TABLE()
 };
 

@@ -15,47 +15,48 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef BOINC_VIEWPROJECTS_H
-#define BOINC_VIEWPROJECTS_H
+#ifndef BOINC_VIEWWORK_H
+#define BOINC_VIEWWORK_H
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewProjects.cpp"
+#pragma interface "ViewWork.cpp"
 #endif
 
 
 #include "BOINCBaseView.h"
 
 
-class CProject : public wxObject
+class CWork : public wxObject
 {
 public:
-	CProject();
-	~CProject();
+    CWork();
+    ~CWork();
 
     wxString m_strProjectName;
-    wxString m_strAccountName;
-    wxString m_strTeamName;
-    double m_fTotalCredit;
-    double m_fAVGCredit;
-    double m_fResourceShare;
-    double m_fResourcePercent;
+    wxString m_strApplicationName;
+    wxString m_strName;
+    double m_fCPUTime;
+    double m_fProgress;
+    double m_fTimeToCompletion;
+    time_t m_tReportDeadline;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
-    wxString m_strTotalCredit;
-    wxString m_strAVGCredit;
-    wxString m_strResourceShare;
+    wxString m_strCPUTime;
+    wxString m_strProgress;
+    wxString m_strTimeToCompletion;
+    wxString m_strReportDeadline;
 };
 
 
-class CViewProjects : public CBOINCBaseView
+class CViewWork : public CBOINCBaseView
 {
-    DECLARE_DYNAMIC_CLASS( CViewProjects )
+    DECLARE_DYNAMIC_CLASS( CViewWork )
 
 public:
-    CViewProjects();
-    CViewProjects(wxNotebook* pNotebook);
+    CViewWork();
+    CViewWork(wxNotebook* pNotebook);
 
-    ~CViewProjects();
+    ~CViewWork();
 
     void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
@@ -64,24 +65,30 @@ public:
     virtual int             GetViewCurrentViewPage();
 
     virtual wxString        GetKeyValue1(int iRowIndex);
+    virtual wxString        GetKeyValue2(int iRowIndex);
     virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 
-    void                    OnProjectUpdate( wxCommandEvent& event );
-    void                    OnProjectSuspend( wxCommandEvent& event );
-    void                    OnProjectNoNewWork( wxCommandEvent& event );
-    void                    OnProjectReset( wxCommandEvent& event );
-    void                    OnProjectDetach( wxCommandEvent& event );
+    void                    OnWorkSuspend( wxCommandEvent& event );
+    void                    OnWorkShowGraphics( wxCommandEvent& event );
+    void                    OnWorkShowVMConsole( wxCommandEvent& event );
+    void                    OnWorkAbort( wxCommandEvent& event );
     void                    OnShowItemProperties( wxCommandEvent& event );
+    void                    OnActiveTasksOnly( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
     void                    OnColResize( wxListEvent& event);
-
-    std::vector<CProject*>  m_ProjectCache;
+    
+    std::vector<CWork*>     m_WorkCache;
 
 protected:
+
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual bool            OnSaveState( wxConfigBase* pConfig );
+    virtual bool            OnRestoreState( wxConfigBase* pConfig );
+
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
     virtual wxInt32         GetCacheCount();
@@ -93,31 +100,21 @@ protected:
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
-    void                    GetDocAccountName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
-    void                    GetDocTeamName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
-    void                    GetDocTotalCredit(wxInt32 item, double& fBuffer) const;
-    void                    GetDocAVGCredit(wxInt32 item, double& fBuffer) const;
-    void                    GetDocResourceShare(wxInt32 item, double& fBuffer) const;
-    void                    GetDocResourcePercent(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatResourceShare( double fBuffer, double fBufferPercent, wxString& strBuffer ) const;
-    void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
+    void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
+    void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
+    void                    GetDocCPUTime(wxInt32 item, double& fBuffer) const;
+    void                    GetDocProgress(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
+    void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
+    void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
+    wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
-
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
 
-    bool                    IsWebsiteLink( const wxString& strLink );
-    wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
-    wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
-
-    int                     GetProjectCacheAtIndex(CProject*& projectPtr, int index);
-
-    virtual void            OnPopupClick(wxCommandEvent &evt);
-
+    int                     GetWorkCacheAtIndex(CWork*& workPtr, int index);
+    
     DECLARE_EVENT_TABLE()
 };
 

@@ -115,7 +115,6 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
 #endif
     EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
     EVT_LIST_COL_END_DRAG(ID_LIST_PROJECTSVIEW, CViewProjects::OnColResize)
-    EVT_CONTEXT_MENU(CViewProjects::OnRightClick)
 END_EVENT_TABLE ()
 
 
@@ -1282,38 +1281,5 @@ int CViewProjects::GetProjectCacheAtIndex(CProject*& projectPtr, int index) {
     }
     
     return 0;
-}
-
-void CViewProjects::OnPopupClick(wxCommandEvent &evt) {
-    switch (evt.GetId()) {
-    case ID_TASK_PROJECT_UPDATE: {
-        OnProjectUpdate(evt);
-        break;
-    }
-    case ID_TASK_PROJECT_SUSPEND: {
-        OnProjectSuspend(evt);
-        break;
-    }
-    case ID_TASK_PROJECT_NONEWWORK: {
-        OnProjectNoNewWork(evt);
-        break;
-    }
-    case ID_TASK_PROJECT_RESET: {
-        OnProjectReset(evt);
-        break;
-    }
-    case ID_TASK_PROJECT_DETACH: {
-        OnProjectDetach(evt);
-        break;
-    }
-    case ID_TASK_PROJECT_SHOW_PROPERTIES: {
-        OnShowItemProperties(evt);
-        break;
-    }
-    default: {
-        OnProjectWebsiteClicked(evt);
-        break;
-    }
-    }
 }
 

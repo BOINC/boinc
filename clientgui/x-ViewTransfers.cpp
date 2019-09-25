@@ -96,7 +96,6 @@ BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
 #endif
     EVT_LIST_COL_CLICK(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColClick)
     EVT_LIST_COL_END_DRAG(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColResize)
-    EVT_CONTEXT_MENU(CViewTransfers::OnRightClick)
 END_EVENT_TABLE ()
 
 
@@ -939,18 +938,5 @@ int CViewTransfers::GetTransferCacheAtIndex(CTransfer*& transferPtr, int index) 
     }
     
     return 0;
-}
-
-void CViewTransfers::OnPopupClick(wxCommandEvent &evt) {
-    switch (evt.GetId()) {
-    case ID_TASK_TRANSFERS_RETRYNOW: {
-        OnTransfersRetryNow(evt);
-        break;
-    }
-    case ID_TASK_TRANSFERS_ABORT: {
-        OnTransfersAbort(evt);
-        break;
-    }
-    }
 }
 

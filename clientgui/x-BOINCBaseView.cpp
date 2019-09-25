@@ -61,7 +61,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_aStdColNameOrder = NULL;
     m_iDefaultShownColumns = NULL;
     m_iNumDefaultShownColumns = 0;
-   
+    
     SetName(GetViewName());
     SetAutoLayout(TRUE);
 }
@@ -1182,38 +1182,5 @@ wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
     }
 
 	return strDecodedHtml;
-}
-
-
-void CBOINCBaseView::OnRightClick(wxContextMenuEvent& WXUNUSED(event)) {
-    if (m_TaskGroups.size() == 0) {
-        return;
-    }
-
-    CTaskItemGroup* pGroup = m_TaskGroups[0];
-    wxMenu menu;
-
-    menu.Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CBOINCBaseView::OnPopupClick), NULL, this);
-
-    for (size_t i = 0; i < pGroup->m_Tasks.size(); ++i) {
-        CTaskItem* item = pGroup->m_Tasks[i];
-        if (item->m_pButton->IsShown()) {
-            menu.Append(item->m_iEventID, item->m_strName, item->m_strDescription);
-            menu.Enable(item->m_iEventID, item->m_pButton->IsEnabled());
-        }
-    }
-    if (m_TaskGroups.size() > 1) {
-        menu.AppendSeparator();
-        for (size_t i = 0; i < m_TaskGroups[1]->m_Tasks.size(); ++i) {
-            CTaskItem* item = m_TaskGroups[1]->m_Tasks[i];
-            menu.Append(item->m_iEventID, item->m_strName, item->m_strDescription);
-        }
-    }
-
-    PopupMenu(&menu);
-}
-
-
-void CBOINCBaseView::OnPopupClick(wxCommandEvent& WXUNUSED(evt)) {
 }
 

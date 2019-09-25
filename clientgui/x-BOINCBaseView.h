@@ -197,9 +197,6 @@ protected:
     static  wxString        HtmlEntityEncode(wxString strRaw);
     static  wxString        HtmlEntityDecode(wxString strRaw);
 
-    virtual void            OnRightClick(wxContextMenuEvent& event);
-    virtual void            OnPopupClick(wxCommandEvent &evt);
-
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
