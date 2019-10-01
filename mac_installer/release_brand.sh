@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+## updated 10/1/19 by Robert Chalmers for Apple "notarization"
 ##
 # Script to create a branded installer such as World Community Grid
 #
@@ -72,6 +73,13 @@
 ## For example, if the version is 3.2.1:
 ##     source /mac_installer/release_brand.sh 3 2 1 ./mac_installer/WCGridInstaller.environment -dev
 
+## MOJAVE and Subsequent Mac Builds Note:
+## It is strongly recommended that you read the Apple Documentation on Notarization here. 
+## https://developer.apple.com/documentation/xcode/notarizing_your_app_before_distribution/customizing_the_notarization_workflow?language=objc#3087734 
+
+## Before you can use the altool command, you must first set up an app-specific password, 
+## as explained in Apple's documentation at the Apple Documentation on Notarization website 
+## and at Using app-specific passwords in their support documentation, here: https://support.apple.com/en-us/HT204397.
 ## As of OS 10.14 Mojave, Apple has introduced a new level of security which 
 ## Apple calls "notarization". Under OS 10.14, the only difference is that 
 ## Gatekeeper adds the sentence "Apple checked it for malicious software and 

@@ -48,6 +48,7 @@
 ## updated 10/19/17 by Charlie Fenton for different path to boinc_logo_black.jpg
 ## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
 ## updated 11/6/18 by Charlie Fenton to code sign for Apple "notarization"
+## updated 10/1/19 by Robert Chalmers for Apple "notarization"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -89,6 +90,15 @@
 ## signing identity.
 ## If you wish to also code sign the installer package, add a second line
 ## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
+
+## MOJAVE and Subsequent Mac Builds Note:
+## It is strongly recommended that you read the Apple Documentation on Notarization here. 
+## https://developer.apple.com/documentation/xcode/notarizing_your_app_before_distribution/customizing_the_notarization_workflow?language=objc#3087734 
+
+## Before you can use the altool command, you must first set up an app-specific password, 
+## as explained in Apple's documentation at the Apple Documentation on Notarization website 
+## and at Using app-specific passwords in their support documentation, here: https://support.apple.com/en-us/HT204397.
+
 
 ##
 ## cd to the root directory of the boinc tree, for example:
