@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Basque (http://www.transifex.com/boinc/boinc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -447,11 +447,11 @@ msgstr "Galderak eta erantzunak"
 msgid "%1 message board"
 msgstr "%1(r)en foroa"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Hurrengoa"
 
@@ -2084,7 +2084,7 @@ msgstr "PUZ denbora<br />(seg)"
 msgid "Credit"
 msgstr "Kreditua"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Aplikazioa"
@@ -2137,19 +2137,19 @@ msgstr "Gailuaren gehieneko FLOPS kopurua"
 msgid "Application version"
 msgstr "Aplikazioaren bertsioa"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Irteerako fitxategiak"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr irteera"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Estatua"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Atazaren izena:"
 
@@ -2513,7 +2513,7 @@ msgstr "Kontuaren gakoak"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Kontuen titulartasuna"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2651,7 +2651,7 @@ msgstr "Zure reCAPTCHA erantzuna ez da zuzena. Saiatu berriro."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Ez dituzu onartu gure erabiltzeko baldintzak. Zure kontua sortzeko, onartu erabiltzeko baldintzak aurreko orrira itzuliz."
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2781,7 +2781,7 @@ msgstr "Aukerakoa; ez zaie besteei erakusten"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Kontuaren titulartasuna egiaztatzeko probaren emaitzak"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2793,7 +2793,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "Kontuaren titulartasuna egiaztatzeko funtzioa ez dago behar bezala konfiguratuta. Jarri harremanetan proiektuaren administratzailearekin arazoa konpontzeko."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2801,12 +2801,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "Sinaduraren egiaztapenak huts egin du. Jarri harremanetan proiektuaren administratzailearekin arazoa konpontzeko."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2815,16 +2815,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Sarrera okerra. Sarreraren luzera > 0 eta < 4096 izan behar da.<form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Hasi kontuaren titularra egiaztatzeko proba"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Sortu"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3337,25 +3337,25 @@ msgstr "Zerrenda hau %1 BOINCen webgunetik %2 kudeatzen da."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Proiektu honek VirtualBox eskatzen du."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Proiektu honek VirtualBox gomendatzen du."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2, ondoren berrabiarazi BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Erabili BOINC+VirtualBox instalatzailea."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Ordenagailu honetan instalatuta ez badago, lortu %1hemen%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3377,7 +3377,7 @@ msgstr "BOINC lehenengo aldiz exekutatzen denean proiektu bat aukeratzeko eskatu
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Joan BOINCen deskarga-orrira."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3405,7 +3405,7 @@ msgstr "%1(e)n parte hartzeko, zure ordenagailuan %2 instalatuta egon behar da."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "%1 dagoeneko instalatuta badago, 1%2klik egin hemen%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6667,7 +6667,6 @@ msgstr "%1(r)en eguneko erabiltzailea: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

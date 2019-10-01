@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -451,11 +451,11 @@ msgstr "Frågor & Svar"
 msgid "%1 message board"
 msgstr "%1 forum"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Tidigare"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Nästa"
 
@@ -2088,7 +2088,7 @@ msgstr "Processor tid<br />(s)"
 msgid "Credit"
 msgstr "Poäng"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Program"
@@ -2141,19 +2141,19 @@ msgstr "Enhetens största flyttalshastighet"
 msgid "Application version"
 msgstr "Programversion"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Resultatfiler"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr ut"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Tillstånd"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Uppgiftsnamn:"
 
@@ -2517,7 +2517,7 @@ msgstr "Kontonycklar"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Kontoinnehav"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2655,7 +2655,7 @@ msgstr "Ditt reCAPTCHA svar var inte korrekt. Vänligen försök igen."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Du har inte godkänt våra användarvillkor. För att skapa ett konto, vänligen godkänn användarvillkoren genom att gå tillbaka till föregående sida"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2785,7 +2785,7 @@ msgstr "Valfritt; visas inte för andra"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Bevis på resultat för kontoinnehav"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2797,7 +2797,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "Funktionen för bevis för kontoinnehav har inte konfigurerats korrekt. Kontakta projektets administratör för att lösa problemet."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2805,12 +2805,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "Verifiering av signaturen misslyckades. Kontakta projektets administratör för att lösa problemet."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2819,16 +2819,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Ogiltig inmatning. Användarinmatning måste ha en längd > 0 och < 4096. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Generera bevis för kontoinnehav"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Generera"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3341,25 +3341,25 @@ msgstr "Denna lista sköts centralt från %1 BOINCs webbplats %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Det här projektet kräver VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Det här projektet rekommenderar VirtualBox."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Om det inte är installerat på denna dator, skaffa det %1här%2, starta sedan om BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Använd BOINC+VirtualBox installationsprogrammet. "
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Om det inte är installerat på denna dator, ladda ner det %1här%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3381,7 +3381,7 @@ msgstr "När BOINC kör för första gången kommer du uppmanas att välja ett p
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Gå till nerladdningssidan för BOINC"
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3409,7 +3409,7 @@ msgstr "För att delta i %1, behöver %2 vara installerat på din dator."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Om %1 redan är installerat, 1%2klicka här%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6671,7 +6671,6 @@ msgstr "Dagens användare för %1: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

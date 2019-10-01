@@ -20,14 +20,16 @@
   <string name="attachproject_credential_input_sing_desc">輸入帳號資訊</string>
   <string name="attachproject_credential_input_desc">輸入專案的帳號資訊:</string>
   <string name="attachproject_credential_input_show_pwd">顯示密碼</string>
-  <string name="attachproject_individual_credential_input">個別加入專案</string>
+  <string name="attachproject_individual_credential_input">加入個別專案</string>
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">加入專案時發生問題：</string>
   <string name="attachproject_conflict_undefined">無法連線</string>
   <string name="attachproject_conflict_not_unique">帳號存在但密碼不正確</string>
   <string name="attachproject_conflict_bad_password">密碼不正確</string>
   <string name="attachproject_conflict_unknown_user">帳號不存在</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請前往專案網站來註冊</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請前往網站註冊
+        註冊
+    </string>
   <!--working-->
   <string name="attachproject_working_attaching">加入中</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -104,6 +106,7 @@
   <string name="attachproject_error_bad_pwd">密碼無效</string>
   <string name="attachproject_error_creation_disabled">此專案已停用註冊功能</string>
   <string name="attachproject_error_invalid_url">網址不正確</string>
+  <string name="attachproject_error_consent_required">使用此軟體必須同意我們的使用條款</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">返回</string>
   <string name="attachproject_working_finish_button">完成</string>
@@ -343,6 +346,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
+  <string name="about_copyright">\u00A9 2003–2019 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">感謝 Max Planck 引力物理研究所，IBM 公司和 HTC 公司的幫助</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -357,7 +361,7 @@
   <string name="social_invite_button">邀請好友</string>
   <string name="social_invite_intent_title">您想如何分享?</string>
   <string name="social_invite_content_title">我正在用智慧型手機研究科學!</string>
-  <string name="social_invite_content_body">我的 %1$s 正在為科學運算。希望您加入！ App 下載連結: %2$s</string>
+  <string name="social_invite_content_body">我的 %1$s 正在為科學運算，你也可以！ App 下載連結: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

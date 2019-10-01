@@ -273,6 +273,9 @@ void ACTIVE_TASK::cleanup_task() {
     kill_subsidiary_processes();
 
     if (cc_config.exit_after_finish) {
+        msg_printf(wup->project, MSG_INFO,
+            "exit_after_finish: job %s, slot %d", wup->name, slot
+        );
         gstate.write_state_file();
         exit(0);
     }

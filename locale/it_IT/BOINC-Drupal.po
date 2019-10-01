@@ -6,22 +6,23 @@
 # 
 # Translators:
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
+# bf74d81e6444bbcd07dca0f3fc7a4398, 2015
 # Erik Pannocchia <erik.pannocchia@gmail.com>, 2018
 # Filippo Rossi <rossi.filippo@gmail.com>, 2018
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015,2017
 # Martin Ligabue <martinligabue@gmail.com>, 2018
 # bf74d81e6444bbcd07dca0f3fc7a4398, 2015
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
-# Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
 # Stefano B <boboviz75@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2019-01-21 14:19+0000\n"
-"Last-Translator: Sebastiano Pistore <SebastianoPistore.info@protonmail.ch>\n"
+"PO-Revision-Date: 2019-08-30 10:15+0000\n"
+"Last-Translator: SebastianoPistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -615,7 +616,7 @@ msgstr "Applicazioni"
 #: footer-link
 msgctxt "footer-link"
 msgid "Server status"
-msgstr "Stato dei server"
+msgstr "Stato server"
 
 #: team-id
 msgctxt "team-id"
@@ -932,7 +933,7 @@ msgstr "Credito richiesto"
 #: task-details
 msgctxt "task-details"
 msgid "Client state"
-msgstr "Stato del client"
+msgstr "Stato client"
 
 #: task-details
 msgctxt "task-details"

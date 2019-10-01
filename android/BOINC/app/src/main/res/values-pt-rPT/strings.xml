@@ -107,6 +107,7 @@
   <string name="attachproject_error_bad_pwd">Palavra-passe recusada</string>
   <string name="attachproject_error_creation_disabled">A criação de conta está desativada neste projeto</string>
   <string name="attachproject_error_invalid_url">URL inválido</string>
+  <string name="attachproject_error_consent_required">Este projeto necessita do consentimento dos seus termos de utilização</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Anterior</string>
   <string name="attachproject_working_finish_button">Terminar</string>
@@ -347,6 +348,7 @@ permitido que o BOINC utilize?</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
+  <string name="about_copyright">\u00A9 2003–2019 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC 
          pelo seu suporte.</string>

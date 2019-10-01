@@ -94,8 +94,9 @@ void CLIENT_STATE::check_app(APP& p) {
 }
 
 void CLIENT_STATE::check_file_info(FILE_INFO& p) {
-    if (p.pers_file_xfer) check_pers_file_xfer_pointer(p.pers_file_xfer);
-    if (p.result) check_result_pointer(p.result);
+    if (p.pers_file_xfer) {
+        check_pers_file_xfer_pointer(p.pers_file_xfer);
+    }
     check_project_pointer(p.project);
 }
 
