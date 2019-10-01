@@ -201,14 +201,6 @@ static void print_descendants(int pid, vector<int>desc, const char* where) {
 // Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
-    // unsuspend the process.
-    // If it's suspended, the timer thread is suspended and
-    // won't process the quit message
-    //
-    if (task_state() == PROCESS_SUSPENDED) {
-        unsuspend();
-    }
-
     if (app_client_shm.shm) {
         process_control_queue.msg_queue_send(
             "<quit/>",
