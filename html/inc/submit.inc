@@ -29,6 +29,8 @@
 //      boinc_query_job(): get details of a job
 //      boinc_retire_batch(): retire a batch; delete output files
 //      boinc_submit_batch(): submit a batch
+//
+//      boinc_set_timeout($x): set RPC timeout to X seconds
 
 //// Implementation stuff follows
 
@@ -119,10 +121,17 @@ function validate_request($req) {
     return null;
 }
 
+$rpc_timeout = 0;
+
 function do_http_op($req, $xml, $op) {
+    global $rpc_timeout;
+
     $ch = curl_init("$req->project/submit_rpc_handler.php");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    if ($rpc_timeout) {
+        curl_setopt($ch, CURLOPT_TIMEOUT, $rpc_timeout);
+    }
 
     // see if we need to send any files
     //
@@ -198,6 +207,12 @@ function get_error($reply, $outer_tag) {
 }
 
 //// API functions follow
+
+function boinc_set_timeout($x) {
+    global $rpc_timeout;
+    $rpc_timeout = $x;
+}
+
 function boinc_ping($req) {
     $req_xml = "<ping>
     <authenticator>$req->authenticator</authenticator>
