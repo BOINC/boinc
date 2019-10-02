@@ -1631,7 +1631,8 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     return 0;
 }
 
-// see if we got a complete HTTP POST request
+// see if we got a complete HTTP POST request,
+// and if so remove HTTP header from buffer
 //
 static bool is_http_post_request(char* buf) {
     if (strstr(buf, "POST") != buf) return false;
@@ -1643,6 +1644,7 @@ static bool is_http_post_request(char* buf) {
     if (!p) return false;
     p += 4;
     if ((int)strlen(p) < n) return false;
+    strcpy_overlap(buf, p);
     return true;
 }
 
