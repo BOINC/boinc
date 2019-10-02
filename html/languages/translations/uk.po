@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -452,11 +452,11 @@ msgstr "Питання та відповіді"
 msgid "%1 message board"
 msgstr "Форум %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Попередні"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Наступні"
 
@@ -2089,7 +2089,7 @@ msgstr "Процесорний час<br />(сек)"
 msgid "Credit"
 msgstr "Бали"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Додаток"
@@ -2142,19 +2142,19 @@ msgstr "Максимум FLOPS пристрою"
 msgid "Application version"
 msgstr "Версія додатку"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Вихідні файли"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Текст протоколу"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Стан"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Назва завдання:"
 
@@ -2518,7 +2518,7 @@ msgstr "Ключі облікового запису"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Право власності на Обліковий запис"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2656,7 +2656,7 @@ msgstr "Ваша відповідь reCAPTCHA була неправильною.
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Ви не погодилися з нашими умовами використання. Прийміть умови використання, перейшовши назад на попередню сторінку, щоб створити свій обліковий запис"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2786,7 +2786,7 @@ msgstr "Необов'язковий; не показує іншим"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Підтвердження налаштувань які потрібні для володіння обліковим записом"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2798,7 +2798,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "Функція підтвердження володіння обліковим записом не налаштована належним чином. Щоб вирішити проблему, зверніться до адміністратора проекту."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2806,12 +2806,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "Помилка перевірки підпису. Щоб вирішити проблему, зверніться до адміністратора проекту."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2820,16 +2820,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Неправильні дані. Вхідні дані користувача повинні мати довжину > 0 та < 4096. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Підтвердити право на володіння обліковим записом"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Створити"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3342,25 +3342,25 @@ msgstr "Цей список ведеться централізовано на %
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Цей проект вимагає VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Цей проект рекомендує VirtualBox."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Якщо вона не встановлена на цьому комп'ютері, отримайте її %1тут%2, а потім перезапустіть BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Використовуйте програму установки BOINC+VirtualBox."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Якщо вона не встановлена на цьому комп'ютері, отримайте її %1тут%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3382,7 +3382,7 @@ msgstr "Коли ви запустите BOINC вперше, він попрос
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Перейдіть на сторінку завантаження BOINC."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3410,7 +3410,7 @@ msgstr "Для участі в %1, %2 має бути встановлено н�
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Якщо %1 вже встановлена, %2cнажміть тут%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6672,7 +6672,6 @@ msgstr "Користувач дня на %1: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

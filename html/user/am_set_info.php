@@ -236,7 +236,6 @@ if (strlen($query)) {
         if ($send_changed_email_to_user) {
             send_changed_email($user);
         }
-        success("");
     } else {
         xml_error(-1, "database error: ".BoincDb::error());
     }

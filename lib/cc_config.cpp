@@ -208,6 +208,7 @@ CC_CONFIG::CC_CONFIG() {
 //
 void CC_CONFIG::defaults() {
     abort_jobs_on_exit = false;
+    allow_gui_rpc_get = false;
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
@@ -321,6 +322,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
+        if (xp.parse_bool("allow_gui_rpc_get", allow_gui_rpc_get)) continue;
         if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
@@ -501,9 +503,11 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "    <options>\n"
         "        <abort_jobs_on_exit>%d</abort_jobs_on_exit>\n"
+        "        <allow_gui_rpc_get>%d</allow_gui_rpc_get>\n"
         "        <allow_multiple_clients>%d</allow_multiple_clients>\n"
         "        <allow_remote_gui_rpc>%d</allow_remote_gui_rpc>\n",
         abort_jobs_on_exit ? 1 : 0,
+        allow_gui_rpc_get ? 1 : 0,
         allow_multiple_clients ? 1 : 0,
         allow_remote_gui_rpc ? 1 : 0
     );

@@ -42,17 +42,17 @@ class DatabaseInconsistency(Exception):
             self.search_table,
             self.search_kwargs,
             '\n'.join(
-            map(lambda o:"          %s#%s %s"%(o._table.table,o.__dict__.get('id'),o), self.search_tree))
-            ))
+            [ "          %s#%s %s"%(o._table.table,o.__dict__.get('id'),o) for o in self.search_tree ]
+            )))
 
 class Debug:
     def __init__(self):
         self.html = False
     def printline(self,s):
         if self.html:
-            print "<!-- ## %s -->"%s
+            print("<!-- ## %s -->"%s)
         else:
-            print >>sys.stderr, "##", s
+            print("##"+s, sys.stderr)
 
 debug = Debug()
 debug.mysql = not not os.environ.get('DEBUG_DB')
@@ -61,7 +61,7 @@ def _execute_sql(cursor, command):
     '''Same as ``cursor.execute(command)``, but more verbose on error.'''
     try:
         cursor.execute(command)
-    except MySQLdb.MySQLError, e:
+    except MySQLdb.MySQLError as e:
         e.args += (command,)
         raise e
 
@@ -323,7 +323,7 @@ class DatabaseTable:
         return
 
     def _create_objects_from_sql_results(self, results, kwargs):
-        return map(self._create_object_from_sql_result, results)
+        return [ self._create_object_from_sql_result for result in  results ]
 
     def _create_object_from_sql_result(self, result):
         id = result['id']
@@ -445,7 +445,7 @@ class DatabaseObject:
     def do_init(self, kwargs):
         try:
             self.database_fields_to_self(kwargs)
-        except DatabaseInconsistency, e:
+        except DatabaseInconsistency as e:
             e.search_tree.append(self)
             raise
         # if no id then object starts dirty
@@ -521,7 +521,7 @@ def init_table_classes(database_classes_, more_id_lookups = {}):
 
     DatabaseObject.id_lookups.update(more_id_lookups)
 
-    database_tables = map(lambda c: c._table, database_classes)
+    database_tables = [ c._table for c in database_classes ]
 
 def check_database_consistency():
     '''Raises DatabaseInconsistency on error.
@@ -530,21 +530,21 @@ def check_database_consistency():
     '''
     options.LAZY_LOOKUPS = False
     for table in database_tables:
-        print '\rChecking %s: [counting]' %(table.table),
+        print('\rChecking %s: [counting]' %(table.table))
         sys.stdout.flush()
         count = table.count()
         i = 0
         j_limit = int(count / 100) # show progress every 1%
         j = j_limit
-        print '\rChecking %s: [iterating]' %(table.table),
+        print('\rChecking %s: [iterating]' %(table.table))
         sys.stdout.flush()
         for object in table.iterate():
             # we don't need to do anything here; just iterating through the
             # database will automatically read everything into memory
             i += 1
             if j == j_limit:
-                print '\rChecking %s: [%d/%d] %3.f%%' %(table.table, i, count, 100.0*i/count),
+                print('\rChecking %s: [%d/%d] %3.f%%' %(table.table, i, count, 100.0*i/count))
                 sys.stdout.flush()
                 j = 0
             j += 1
-        print '\rChecking %s: all %d rows are good' %(table.table, count)
+        print('\rChecking %s: all %d rows are good' %(table.table, count))

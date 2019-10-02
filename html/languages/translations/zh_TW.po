@@ -10,13 +10,14 @@
 # Willy Wu <df910105@yahoo.com.tw>, 2015
 # Willy Wu <df910105@yahoo.com.tw>, 2015-2016,2018
 # Yung Gaby <gabrielle@yungs.org>, 2018
+# 江昱輝 <darkanglephantom@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +96,7 @@ msgstr "使用條款"
 
 #: html/inc/account.inc:134 html/inc/account.inc:178
 msgid "Do you agree to the terms of use above?"
-msgstr ""
+msgstr "您是否同意以上的使用條款"
 
 #: html/inc/account.inc:146
 msgid "Email address:"
@@ -115,7 +116,7 @@ msgstr "保持登入狀態"
 
 #: html/inc/account.inc:184
 msgid "I agree"
-msgstr ""
+msgstr "我同意"
 
 #: html/inc/bbcode_html.inc:10
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -452,11 +453,11 @@ msgstr "問與答"
 msgid "%1 message board"
 msgstr "%1留言版"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "上一個"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "下一個"
 
@@ -1678,7 +1679,7 @@ msgstr "使用CPU"
 
 #: html/inc/prefs_project.inc:81
 msgid "Use AMD GPU"
-msgstr ""
+msgstr "使用 AMD 圖形處理器"
 
 #: html/inc/prefs_project.inc:90
 msgid "Use NVIDIA GPU"
@@ -1730,7 +1731,7 @@ msgstr "錯誤的偏好設定子集：%1"
 
 #: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
 msgid "Database error:"
-msgstr ""
+msgstr "資料庫錯誤"
 
 #: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
 msgid "and"
@@ -1808,7 +1809,7 @@ msgstr "NVIDIA GPU"
 
 #: html/inc/result.inc:78 html/user/host_app_versions.php:25
 msgid "AMD GPU"
-msgstr ""
+msgstr "AMD 圖形處理器"
 
 #: html/inc/result.inc:80 html/user/host_app_versions.php:26
 msgid "Intel GPU"
@@ -2089,7 +2090,7 @@ msgstr "CPU 時間<br /> (秒)"
 msgid "Credit"
 msgstr "積分"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "程式"
@@ -2142,19 +2143,19 @@ msgstr "裝置的 FLOPS 峰值"
 msgid "Application version"
 msgstr "程式版本"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "檔案輸出"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "標準錯誤輸出"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "狀態"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "任務名稱："
 
@@ -2518,7 +2519,7 @@ msgstr "帳號鑰匙"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "帳號所有權"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2656,7 +2657,7 @@ msgstr "您輸入的驗證字不符，請重試。"
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "您必須同意我們的使用條款。要建立您的帳號，請回到上一頁並同意。"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2689,7 +2690,7 @@ msgstr "無法建立帳號"
 
 #: html/inc/user_util.inc:289
 msgid "database error, please contact site administrators"
-msgstr ""
+msgstr "資料庫錯誤，請連聯繫網站管理員"
 
 #: html/inc/util.inc:204
 msgid "log out"
@@ -2786,7 +2787,7 @@ msgstr "可選，其他人不可見"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "帳號所有權的證明"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2798,7 +2799,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "帳號所有權證明並未沒妥善設定。請聯繫專案管理員來解決問題"
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2811,7 +2812,7 @@ msgstr ""
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -6672,7 +6673,6 @@ msgstr "%1 的每日用戶：%2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

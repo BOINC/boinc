@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # $Id$
 # Creates a new BOINC project.
@@ -42,7 +42,7 @@ Dir-options:
    --project_root       default: HOME/projects/PROJECT
    --key_dir            default: PROJECT_ROOT/keys
    --project_host       default: $HOSTNAME (%(NODENAME)s)
-   --url_base           default: http://PROJECT_HOST/
+   --url_base           default: https://PROJECT_HOST/
 
    --html_user_url      default: URL_BASE/PROJECT/
    --html_ops_url       default: URL_BASE/PROJECT_ops/
@@ -54,10 +54,10 @@ Other:
    --db_host            default: None
 
 Example command line:
-  ./make_project --project_root $HOME/boinc/projects --url_base http://tah.org/ tah 'Test@home'
+  ./make_project --project_root $HOME/boinc/projects --url_base https://tah.org/ tah 'Test@home'
 
 Then upload_dir = $HOME/boinc/projects/tah/upload
-and  cgi_url    = http://tah.org/tah_cgi/
+and  cgi_url    = https://tah.org/tah_cgi/
 
 By default, directory options will be queried if they do not exist yet.
 
@@ -67,7 +67,7 @@ def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str,sys.argv[0]))
 
 def usage():
-    print HELP
+    print(HELP)
     raise SystemExit
 
 try:
@@ -96,7 +96,7 @@ try:
             'web_only',
             ]
         )
-except getopt.GetoptError, e:
+except getopt.GetoptError as e:
     syntax_error(e)
 
 options.url_base = None
@@ -165,12 +165,12 @@ def defopt(name, v, isdir=True):
     options.__dict__[name] = opt_repls[name.upper()] = add_slash(replopt(options.__dict__.get(name) or v), isdir)
 
 defopt('project_host'  , NODENAME, isdir=False)
-defopt('url_base'      , 'http://%s/'%options.project_host)
+defopt('url_base'      , 'https://%s/'%options.project_host)
 # strip project_host to get short hostname
 options.project_host=options.project_host.split('.')[0]
 
 if not isurl(options.url_base):
-    syntax_error('url_base needs to be an URL')
+    syntax_error('url_base must be a URL')
 
 defopt('html_user_url' , 'URL_BASE/PROJECT')
 defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
@@ -184,7 +184,7 @@ defopt('db_user'       , 'USER_NAME', isdir=False)
 defopt('db_passwd'     , '', isdir=False)
 defopt('db_host'       , '', isdir=False)
 
-print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
+print("Creating project '%s' (short name '%s'):" %(project_longname, project_shortname))
 for k in [
     'project_root',
     'project_host',
@@ -195,7 +195,7 @@ for k in [
     'db_name',
     'db_host',
     ]:
-    print k.upper().rjust(15), "=", options.__dict__[k]
+    print(k.upper().rjust(15), "=", options.__dict__[k])
 
 project_root_parent = os.path.realpath(os.path.join(options.project_root,'..'))
 if not os.path.exists(project_root_parent):
@@ -206,7 +206,7 @@ if os.path.exists(options.project_root):
         if not options.no_query:
             if not query_noyes('Delete %s?'%options.project_root):
                 raise SystemExit('Aborted')
-        print "Deleting", options.project_root
+        print("Deleting", options.project_root)
         rmtree(options.project_root)
     else:
         raise SystemExit('Project root already exists! Specify --delete_prev_inst --drop_db_first to clobber')
@@ -239,7 +239,7 @@ project.sched_install('feeder')
 project.sched_install('transitioner')
 project.sched_install('file_deleter')
 if options.test_app:
-    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3 --app example_app'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 --app example_app'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 --app example_app'
 
@@ -317,19 +317,14 @@ if not options.no_db:
     try:
         os.system('cd '+proot+'/html/ops; ./db_schemaversion.php > '+proot+'/db_revision')
     except:
-        print '''Couldn't set db schema version number'''
+        print('''Couldn't set db schema version number''')
 
 try:
     os.system('cd '+proot+'/html/ops; ./update_translations.php -d 1')
 except:
-    print '''Couldn't install translation files'''
+    print('''Couldn't install translation files''')
 
-try:
-    os.system('cd '+proot+'/html/ops; ./generate_account_ownership_keys.php')
-except:
-    print '''Couldn't generate account ownership keypair'''
-
-print '''Done installing default daemons.'''
+print ('''Done installing default daemons.''')
 
 # copy the test app if needed
 if options.test_app:
@@ -353,8 +348,7 @@ httpd_conf_template_filename = os.path.join(
     project_shortname+'.httpd.conf'
     )
 
-print >>open(httpd_conf_template_filename,'w'), '''
-
+content ='''
     ## Settings for BOINC project %(project_longname)s
 
     Alias /%(project_shortname)s/download %(proot)s/download
@@ -409,24 +403,32 @@ print >>open(httpd_conf_template_filename,'w'), '''
         Require all granted
     </Directory>
 
-''' %locals()
+''' % locals()
+f = open(httpd_conf_template_filename,'w')
+f.write(content)
+f.close()
 
 htaccess_filename = options.project_root+'/html/ops/.htaccess'
 htpasswd_filename = options.project_root+'/html/ops/.htpasswd'
 
-print >>open(htaccess_filename, 'w'), '''
+content = '''
 AuthName "%(project_shortname)s"
 AuthType Basic
 AuthUserFile %(htpasswd_filename)s
 require valid-user
 '''%locals()
+f = open(htaccess_filename, 'w')
+f.write(content)
+f.close()
 
 cronjob_filename = os.path.join(
     options.project_root,
     project_shortname+'.cronjob'
     )
-print >>open(cronjob_filename,'w'), '''0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron
-'''%locals()
+
+f = open(cronjob_filename,'w')
+f.write('0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd %(proot)s ; %(proot)s/bin/start --cron\n' %locals())
+f.close()
 
 readme_filename = os.path.join(
     options.project_root,
@@ -458,13 +460,13 @@ if not options.web_only:
 To use this project for your own computations, you'll need to
 - Port your application(s) and add them
 - Develop programs to submit and handle jobs
-See the online documentation at http://boinc.berkeley.edu/
+See the online documentation at https://boinc.berkeley.edu/
 '''
 
 html_user_url = options.html_user_url
 html_ops_url = options.html_ops_url
 
-print >>open(readme_filename,'w'), '''Steps to complete installation:
+content = '''Steps to complete installation:
 
 -  Change Apache configuration (as root):
 
@@ -511,9 +513,12 @@ Home page (and master URL): %(html_user_url)s
 Administrative page:        %(html_ops_url)s
 %(compute_msg)s
 '''%locals()
+f = open(readme_filename,'w')
+f.write(content)
+f.close()
 
-print '''
+print('''
 Done creating project.  Please view
 %(readme_filename)s
 for important additional instructions.
-'''%locals()
+'''%locals())
