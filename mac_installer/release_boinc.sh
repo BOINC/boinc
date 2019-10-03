@@ -135,7 +135,7 @@
 ## - delete or rename the original ...macOSX_x86_64.zip}
 ## - Run this ditto command again to create a new ...macOSX_x86_64.zip containing 
 ##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
-##  $ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
+##  $ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_macOSX_x86_64 boinc_x.y.z_macOSX_x86_64.zip
 ## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
 ##   cache may have become corrupted. You can resolve this by either running stapler
 ##   under MacOS 10.14 Mojave or by running this command under OS 10.13:
