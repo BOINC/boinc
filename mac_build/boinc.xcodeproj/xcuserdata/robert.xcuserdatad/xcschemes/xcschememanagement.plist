@@ -57,7 +57,7 @@
 		<key>boinc_finish_install.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>16</integer>
+			<integer>15</integer>
 		</dict>
 		<key>boinc_opencl.xcscheme_^#shared#^_</key>
 		<dict>
@@ -92,12 +92,12 @@
 		<key>mgr_boinc.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>16</integer>
 		</dict>
 		<key>setprojectgrp.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>14</integer>
 		</dict>
 		<key>ss_app.xcscheme_^#shared#^_</key>
 		<dict>

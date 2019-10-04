@@ -655,7 +655,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
         }
     }
     errno = 0;
-    int val = strtol(buf, &end, 0);
+    int = strtol(buf, &end, 0);
     if (errno) return false;
     if (end != buf+strlen(buf)) return false;
 
