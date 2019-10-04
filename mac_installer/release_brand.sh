@@ -18,6 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 ## updated 10/1/19 by Robert Chalmers for Apple "notarization"
+## updated 10/4/19 by Robert Chalmers for Apple "notarization" comments
 ##
 # Script to create a branded installer such as World Community Grid
 #
@@ -100,7 +101,8 @@
 ## - delete or rename the original ...macOSX_x86_64.zip}
 ## - Run this ditto command again to create a new ...macOSX_x86_64.zip containing 
 ##   the updated (notarized) ${INSTALLERAPPNAME}.app and ${UNINSTALLERAPPNAME}.app:
-##  $ ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_macOSX_x86_64 boinc_x.y.z_macOSX_x86_64.zip
+## $ ditto -ck --sequesterRsrc --keepParent boinc_x.y.z_macOSX_x86_64 boinc_x.y.z_macOSX_x86_64.zip
+##   replacing x.y.z with the current version number
 ## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
 ##   cache may have become corrupted. You can resolve this by either running stapler
 ##   under MacOS 10.14 Mojave or by running this command under OS 10.13:

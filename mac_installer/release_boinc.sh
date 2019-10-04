@@ -49,6 +49,7 @@
 ## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
 ## updated 11/6/18 by Charlie Fenton to code sign for Apple "notarization"
 ## updated 10/1/19 by Robert Chalmers for Apple "notarization"
+## updated 10/4/19 by Robert Chalmers for Apple "notarization" comments
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -135,7 +136,8 @@
 ## - delete or rename the original ...macOSX_x86_64.zip}
 ## - Run this ditto command again to create a new ...macOSX_x86_64.zip containing 
 ##   the updated (notarized) BOINC Installer.app and Uninstall BOINC.app:
-##  $ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_macOSX_x86_64 boinc_x.y.z_macOSX_x86_64.zip
+##  $ ditto -ck --sequesterRsrc --keepParent boinc_x.y.z_macOSX_x86_64 boinc_x.y.z_macOSX_x86_64.zip
+##    replacing x.y.z with the current version number
 ## - Note: if you are running stapler under OS 10.13 and get an error 68, the local CRL
 ##   cache may have become corrupted. You can resolve this by either running stapler
 ##   under MacOS 10.14 Mojave or by running this command under OS 10.13:
