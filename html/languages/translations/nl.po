@@ -7,7 +7,7 @@
 # Christian Beer <christian.beer@posteo.de>, 2018
 # D c <onlinegamesdavey@gmail.com>, 2015
 # Jaari Atmc <rob.jaap@hotmail.com>, 2019
-# Jord <elst93@gmail.com>, 2015,2017-2018
+# Jord <elst93@gmail.com>, 2015,2017-2019
 # Rene Oskam, 2015
 # Sibe Bleuzé, 2018
 # Tolga Kavi <tolga.kavi@outlook.com>, 2019
@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -289,7 +289,7 @@ msgstr "Server status"
 
 #: html/inc/bootstrap.inc:176
 msgid "Credit statistics"
-msgstr "Kredietstatistieken"
+msgstr "Puntenstatistieken"
 
 #: html/inc/bootstrap.inc:177 html/user/apps.php:32
 msgid "Applications"
@@ -454,11 +454,11 @@ msgstr "Vraag en Antwoord"
 msgid "%1 message board"
 msgstr "%1 forum"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Vorige"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Volgende"
 
@@ -2091,7 +2091,7 @@ msgstr "CPU tijd<br />(sec)"
 msgid "Credit"
 msgstr "Punten"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Applicatie"
@@ -2144,19 +2144,19 @@ msgstr "Apparaat piek FLOPS"
 msgid "Application version"
 msgstr "Programma versie"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Uitvoer bestanden"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr output"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Status"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Taaknaam:"
 
@@ -2520,7 +2520,7 @@ msgstr "Account keys"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Accounteigendom"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2658,7 +2658,7 @@ msgstr "Je ReCaptcha antwoord was niet correct. Probeer het a.u.b. opnieuw."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "U bent niet akkoord gegaan met onze gebruiksvoorwaarden. Ga akkoord met de gebruiksvoorwaarden door terug te gaan naar de vorige pagina om uw account aan te maken"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2788,7 +2788,7 @@ msgstr "Ter keuze; wordt niet vertoond aan anderen"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Bewijs van resultaten voor accounteigendom "
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2800,7 +2800,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "De functie voor het bewijs van accounteigendom is niet correct ingesteld. Neem contact op met de projectbeheerder om het probleem op te lossen."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2808,12 +2808,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "Handtekening verificatie mislukt. Neem contact op met de projectbeheerder om het probleem op te lossen."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2822,16 +2822,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Ongeldige invoer. Gebruikersinvoer moet een lengte > 0 en < 4096 hebben. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Genereer een bewijs van accounteigendom"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Genereer"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -2849,7 +2849,7 @@ msgid ""
 "tasks for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr "% 1 heeft momenteel de volgende toepassingen. Wanneer je deelneemt aan 1%, zullen taken voor één of meer van deze toepassingen worden toegewezen aan jouw computer. De huidige versie van de applicatie zal worden gedownload naar jouw computer. Dit gebeurt automatisch; je hoeft niets te doen."
+msgstr "%1 heeft momenteel de volgende toepassingen. Wanneer je deelneemt aan %1, zullen taken voor één of meer van deze toepassingen worden toegewezen aan jouw computer. De huidige versie van de applicatie zal worden gedownload naar jouw computer. Dit gebeurt automatisch; je hoeft niets te doen."
 
 #: html/user/apps.php:55
 msgid "Platform"
@@ -3128,7 +3128,7 @@ msgstr "Account Verwijderd"
 msgid ""
 "Your account has been deleted.  If you want to contribute to %1 in the "
 "future you will need to create a new account."
-msgstr "Uw account is verwijderd. Als u in de toekomst een bijdrage wilt leveren aan % 1, moet u een nieuw account maken."
+msgstr "Uw account is verwijderd. Als u in de toekomst een bijdrage wilt leveren aan %1, moet u een nieuw account maken."
 
 #: html/user/delete_account_request.php:35
 msgid ""
@@ -3344,25 +3344,25 @@ msgstr "Deze lijst wordt centraal onderhouden op %1 de BOINC website %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Dit project vereist VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Dit project beveelt VirtualBox aan."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Als het niet op deze computer is geïnstalleerd, krijg je het %1hier%2 en start je BOINC opnieuw."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Gebruik de BOINC+VirtualBox installer."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Als het niet op deze computer is geïnstalleerd, krijg je het %1hier%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3380,11 +3380,11 @@ msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
-msgstr "Wanneer BOINC voor het eerst wordt uitgevoerd, wordt u gevraagd om een project te selecteren.\nSelecteer % 1 uit de lijst, \nof voer de URL van dit project in: %2"
+msgstr "Wanneer BOINC voor het eerst wordt uitgevoerd, wordt er gevraagd om een project te selecteren.\nSelecteer %1 uit de lijst, \nof voer de URL van dit project in: %2"
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Ga naar de BOINC download pagina."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3412,7 +3412,7 @@ msgstr "Om deel te nemen aan %1 moet %2 op je computer geïnstalleerd zijn."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Als %1 al is geïnstalleerd, %2cklik dan hier%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -4587,7 +4587,7 @@ msgstr "Uitschrijven geslaagd"
 msgid ""
 "You are no longer subscribed to %1. You will no longer receive notifications"
 " for this thread."
-msgstr "U bent niet meer aangemeld bij %1. U ontvangt geen mededelingen meer over dit onderwerp."
+msgstr "Je bent niet meer aangemeld bij %1, en ontvangt geen mededelingen meer over dit onderwerp."
 
 #: html/user/forum_subscribe.php:68
 msgid "Unsubscription failed"
@@ -4775,11 +4775,11 @@ msgstr "We hebben %1 een bericht m.b.t. jouw verzoek verzonden."
 
 #: html/user/friend.php:128
 msgid "Please log in as %1"
-msgstr "Log a.u.b. in als %1"
+msgstr "Log alsjeblieft in als %1"
 
 #: html/user/friend.php:129
 msgid "You must log in as %1 to view this friend request"
-msgstr "U dient zich aan te melden als %1 om het verzoek van deze vriend te kunnen lezen"
+msgstr "Je dient je aan te melden als %1 om het verzoek van deze vriend te kunnen lezen"
 
 #: html/user/friend.php:140
 msgid "Friend request"
@@ -5345,7 +5345,7 @@ msgstr "Als je denkt dat een post de regels overtreedt, dan kun je de beheerders
 msgid ""
 "This moderation policy is set by the %1 project.  If you have comments about"
 " the policy or its enforcement, email %2."
-msgstr "Dit beheersbeleid wordt ingesteld door het %1 project. Als u opmerkingen over het beleid of de uitvoering ervan heeft, stuurt u een e-mail naar %2."
+msgstr "Dit beheersbeleid wordt ingesteld door het %1 project. Als je opmerkingen over het beleid of de uitvoering ervan hebt, stuur dan een e-mail naar %2."
 
 #: html/user/pending.php:66
 msgid "Pending credit"
@@ -5474,7 +5474,7 @@ msgstr "%1 is geen unieke gebruikersnaam; gebruik je gebruikers-ID"
 
 #: html/user/pm.php:254
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Gebruiker %1 (ID: %2) accepteert geen privé berichten van u."
+msgstr "Gebruiker %1 (ID: %2) accepteert geen privé berichten van jou."
 
 #: html/user/pm.php:276 html/user/view_profile.php:28
 msgid "No such user"
@@ -5488,7 +5488,7 @@ msgstr "Echt %1 blokkeren?"
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr "Weet u zeker dat u gebruiker %1 wilt blokkeren om u privé berichten te sturen?"
+msgstr "Weet je zeker dat je gebruiker %1 wil blokkeren om jou privé berichten te sturen?"
 
 #: html/user/pm.php:280
 msgid "Please note that you can only block a limited amount of users."
@@ -5732,11 +5732,11 @@ msgstr "Bedankt om aan te sluiten bij %1"
 msgid ""
 "Your computer hasn't completed any tasks yet.  If you need help, %1go "
 "here%2."
-msgstr "Uw computer heeft nog geen taken voltooid. Als u hulp nodig hebt, %1 gaat u hier %2."
+msgstr "Jouw computer heeft nog geen taken voltooid. Als je hulp nodig hebt, %1 ga dan hier %2."
 
 #: html/user/sample_index.php:78
 msgid "You've contributed about %1 credits per day to %2 recently."
-msgstr "U heeft onlangs ongeveer %1 credits per dag bijgedragen aan %2."
+msgstr "Je hebt onlangs ongeveer %1 credits per dag bijgedragen aan %2."
 
 #: html/user/sample_index.php:81
 msgid "Thanks!"
@@ -5760,11 +5760,11 @@ msgstr "Installeer BOINC op uw andere computers, tablets of telefoons."
 
 #: html/user/sample_index.php:104
 msgid "Tell your friends about BOINC, and show them how to join %1."
-msgstr "Vertel uw vrienden over BOINC en laat ze zien hoe je lid kunt worden %1."
+msgstr "Vertel jouw vrienden over BOINC en laat ze zien hoe je lid kunt worden %1."
 
 #: html/user/sample_index.php:130
 msgid "Already joined? %1Log in%2."
-msgstr "Doet u al mee? 1%Log in%2."
+msgstr "Doe jij al mee? 1%Log in%2."
 
 #: html/user/sample_index.php:151
 msgid "News"
@@ -6007,7 +6007,7 @@ msgstr "Team lid %1 heeft het oprichterschap van dit team gevraagd op %2, maar h
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr "Team lid %1 heeft het oprichterschap van dit team aangevraagd. Dit kan zijn omdat u het team heeft verlaten, of lange tijd geen contact hebt gehad met het team."
+msgstr "Team lid %1 heeft het oprichterschap van dit team aangevraagd. Dit kan zijn omdat jij het team hebt verlaten, of lange tijd geen contact hebt gehad met het team."
 
 #: html/user/team_change_founder_form.php:57
 msgid "decline request"
@@ -6017,7 +6017,7 @@ msgstr "verzoek afwijzen"
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the form below."
-msgstr "Al u het verzoek niet voor %1 afwijst, zal %2 de optie krijgen om het oprichterschap van het team op te eissen.<br /><br />\n                  Om het verzoek te accepteren kunt het het oprichterschap overdragen aan %3 middels het onderstaande formulier."
+msgstr "Als je het verzoek niet voor %1 afwijst, zal %2 de optie krijgen om het oprichterschap van het team op te eisen.<br /><br />\nOm het verzoek te accepteren kun je het oprichterschap overdragen aan %3 middels het onderstaande formulier."
 
 #: html/user/team_change_founder_form.php:68
 msgid "No transfer request is pending."
@@ -6047,7 +6047,7 @@ msgstr "Je moet een naam invullen voor je team"
 
 #: html/user/team_create_action.php:56
 msgid "A team named %1 already exists - try another name"
-msgstr "Er bestaat al een team met de naam %1 - kies a.u.b. een andere naam"
+msgstr "Er bestaat al een team met de naam %1 - kies alsjeblieft een andere naam"
 
 #: html/user/team_create_action.php:76
 msgid "Could not create team - please try later."
@@ -6128,7 +6128,7 @@ msgstr "Forum aanmaken"
 
 #: html/user/team_forum.php:31
 msgid "You may create a message board for use by %1."
-msgstr "het is mogelijk om voor %1 een forum aan te maken."
+msgstr "Het is mogelijk om voor %1 een forum aan te maken."
 
 #: html/user/team_forum.php:33
 msgid "Only team members will be able to post."
@@ -6336,7 +6336,7 @@ msgstr "Lid geworden van %1"
 
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
-msgstr "U bent lid geworden van %1."
+msgstr "Je bent lid geworden van %1."
 
 #: html/user/team_join_action.php:45 html/user/team_join.php:44
 msgid "Couldn't join team - please try again later."
@@ -6621,7 +6621,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1 Join this team %2."
-msgstr "De volgende teams passen bij één of meer van uw zoekcriteria.\nOm deel te nemen aan een team, click op de naam om naar de team pagina te gaan,\n             en klik vervolgens op %1 Deelnemen aan dit team %2. "
+msgstr "De volgende teams passen bij één of meer van jouw zoekcriteria.\nOm deel te nemen aan een team, klik op de naam om naar de team pagina te gaan,\nen klik vervolgens op %1 Deelnemen aan dit team %2. "
 
 #: html/user/team_search.php:130
 msgid "Change your search"
@@ -6670,11 +6670,10 @@ msgstr "De gebruiker mag geen van de dag is gekozen."
 
 #: html/user/uotd.php:36
 msgid "User of the Day for %1: %2"
-msgstr "Gebruiker van de Dag voor% 1:% 2"
+msgstr "Gebruiker van de Dag voor %1:%2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
@@ -6764,7 +6763,7 @@ msgstr "Gebruiker niet gevonden!"
 
 #: html/user/userw.php:44
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr "Account Data <br/> voor% 1 <br/> Tijd:"
+msgstr "Account Data <br/> voor %1 <br/> Tijd:"
 
 #: html/user/userw.php:47
 msgid "Team:"
@@ -6883,7 +6882,7 @@ msgid ""
 "    the system tray should have an icon like this: %1\n"
 "    If not, %2get help here%3.\n"
 "    "
-msgstr "\nOp dit moment zou BOINC op uw computer geïnstalleerd en uitgevoerd moeten worden;\n     het systeemvak zou een pictogram zoals dit moeten hebben: % 1\n     Zo niet, %2 dan krijgt u hulp %3."
+msgstr "\nOp dit moment zou BOINC op jouw computer geïnstalleerd en uitgevoerd moeten worden;\n     het systeemvak zou een pictogram zoals dit moeten hebben: %1\n     Zo niet,%2ga dan hier om hulp te krijgen%3."
 
 #: html/user/welcome.php:36
 msgid "What happens now?"
@@ -6938,7 +6937,7 @@ msgid ""
 "        but you can attach it to other projects if you want.\n"
 "        It will process jobs for all attached projects.\n"
 "        %2Learn about how to do this%3."
-msgstr "%1 is een van de vele wetenschappelijke projecten met BOINC.\n         Uw computer is nu 'gekoppeld' aan %1,\n         maar u kunt het aan andere projecten koppelen als u wilt.\n         Het verwerkt opdrachten voor alle bijgevoegde projecten.\n         %2 Leer erover hoe dit te doen %3."
+msgstr "%1 is een van de vele wetenschappelijke projecten met BOINC.\n         Jouw computer is nu 'gekoppeld' aan %1,\n         maar je kunt het aan andere projecten koppelen als je wil.\n         Het verwerkt opdrachten voor alle bijgevoegde projecten.\n         %2Leer erover hoe dit te doen %3."
 
 #: html/user/workunit.php:46
 msgid "Workunit %1"

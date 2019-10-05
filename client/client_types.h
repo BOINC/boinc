@@ -124,8 +124,6 @@ struct FILE_INFO {
         // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;
         // nonzero if in the process of being up/downloaded
-    RESULT* result;
-        // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     URL_LIST download_urls;

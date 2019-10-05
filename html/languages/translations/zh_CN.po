@@ -8,21 +8,21 @@
 # Aaron Y <yhaoquan@gmail.com>, 2018
 # Hansong Zhang, 2017
 # Mingye Wang <arthur200126@gmail.com>, 2019
-# snn qy <qysnn1@gmail.com>, 2017
+# Heyang Qin <qysnn1@gmail.com>, 2017,2019
 # woclass, 2019
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2018
 # Gang Yin <zenith.yin@gmail.com>, 2017-2018
 # Cally Mal <zhouxiaobo.500@gmail.com>, 2015
 # 浩然 王 <9709021@qq.com>, 2018
-# snn qy <qysnn1@gmail.com>, 2015-2017
+# Heyang Qin <qysnn1@gmail.com>, 2015-2017
 # 谢意, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +101,7 @@ msgstr "使用协议"
 
 #: html/inc/account.inc:134 html/inc/account.inc:178
 msgid "Do you agree to the terms of use above?"
-msgstr ""
+msgstr "您同意上述使用条款吗？"
 
 #: html/inc/account.inc:146
 msgid "Email address:"
@@ -121,7 +121,7 @@ msgstr "保持登录状态"
 
 #: html/inc/account.inc:184
 msgid "I agree"
-msgstr ""
+msgstr "我同意"
 
 #: html/inc/bbcode_html.inc:10
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -458,11 +458,11 @@ msgstr "疑难解答"
 msgid "%1 message board"
 msgstr "%1 留言板"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "前"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "后"
 
@@ -1684,7 +1684,7 @@ msgstr "使用CPU"
 
 #: html/inc/prefs_project.inc:81
 msgid "Use AMD GPU"
-msgstr ""
+msgstr "使用AMD GPU"
 
 #: html/inc/prefs_project.inc:90
 msgid "Use NVIDIA GPU"
@@ -1736,7 +1736,7 @@ msgstr "错误的参数设置子集：%1"
 
 #: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
 msgid "Database error:"
-msgstr ""
+msgstr "数据库错误："
 
 #: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
 msgid "and"
@@ -1814,7 +1814,7 @@ msgstr "NVIDIA GPU"
 
 #: html/inc/result.inc:78 html/user/host_app_versions.php:25
 msgid "AMD GPU"
-msgstr ""
+msgstr "AMD GPU"
 
 #: html/inc/result.inc:80 html/user/host_app_versions.php:26
 msgid "Intel GPU"
@@ -2095,7 +2095,7 @@ msgstr "CPU 时间<br />（秒）"
 msgid "Credit"
 msgstr "积分"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "计算程序"
@@ -2148,19 +2148,19 @@ msgstr "设备最高FLOPS（每秒浮点运算次数）"
 msgid "Application version"
 msgstr "计算程序版本"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "输出文件"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "标准错误输出"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "状态"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "任务名称："
 
@@ -2524,7 +2524,7 @@ msgstr "帐户密钥"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "帐户所有权"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2662,7 +2662,7 @@ msgstr "你输入的验证字符不正确，请重试。"
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "您尚未同意我们的使用条款。 请通过导航回上一页同意使用条款，以便创建您的帐户"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2695,7 +2695,7 @@ msgstr "无法创建帐户"
 
 #: html/inc/user_util.inc:289
 msgid "database error, please contact site administrators"
-msgstr ""
+msgstr "系统数据库错误，请联系网站管理员"
 
 #: html/inc/util.inc:204
 msgid "log out"
@@ -2792,7 +2792,7 @@ msgstr "可选；不对他人显示"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "帐户所有权证明的结果"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2804,7 +2804,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "帐户所有权证明功能未正确设置。 请与项目管理员联系以解决此问题。"
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2812,12 +2812,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "签名认证失败。 请与项目管理员联系以解决此问题。"
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2826,16 +2826,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "输入无效。 用户输入的长度必须大于0且小于4096。<form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "生成帐户所有权证明"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "生成"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3348,25 +3348,25 @@ msgstr "本页面中的列表内容由 %1BOINC 官方网站%2 集中管理。"
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "这个项目需要VirtualBox。"
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "该项目推荐使用VirtualBox。"
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "如果它未安装在此计算机上，从%1这里%2下载它，然后重新启动BOINC。"
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "使用BOINC + VirtualBox安装程序。"
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "如果它未安装在此计算机上，从%1这里%2下载它。"
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3388,7 +3388,7 @@ msgstr "当 BOINC 首次运行时，它会提示你选择一个项目。\n      
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "访问 BOINC 下载页面。"
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3416,7 +3416,7 @@ msgstr "想参加%1，必须在你的电脑上安装%2。"
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "如果%1已经安装，%2c点击这里%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6678,33 +6678,32 @@ msgstr "%1 的每日用户：%2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
-msgstr ""
+msgstr "尝试同意使用条款时出现网站错误。 请与网站管理员联系。"
 
 #: html/user/user_agreetermsofuse_action.php:42
 msgid ""
 "You have not agreed to our terms of use. You may not continue until you do "
 "so."
-msgstr ""
+msgstr "您尚未同意我们的使用条款。你必须同意才能继续。"
 
 #: html/user/user_agreetermsofuse_action.php:49
 msgid "Website error when attempting to agree to terms of use."
-msgstr ""
+msgstr "尝试同意使用条款时出现网站错误。"
 
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
-msgstr ""
+msgstr "尝试同意使用条款时出现身份验证错误。"
 
 #: html/user/user_agreetermsofuse.php:27
 msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
+msgstr "您尚未登录。请登录以同意我们的使用条款。"
 
 #: html/user/user_agreetermsofuse.php:41
 msgid "Agree to our Terms of Use."
-msgstr ""
+msgstr "同意我们的使用条款。"
 
 #: html/user/user_search.php:51
 msgid "Filters"
@@ -7085,10 +7084,10 @@ msgstr "最多#个CPU"
 
 #: db/content.sql:8
 msgid "General terms-of-use for this BOINC project."
-msgstr ""
+msgstr "本BOINC项目的一般使用条款。"
 
 #: db/content.sql:9
 msgid ""
 "Do you consent to exporting your data to BOINC statistics aggregation Web "
 "sites?"
-msgstr ""
+msgstr "您是否同意将数据分享到BOINC统计聚合网站？"

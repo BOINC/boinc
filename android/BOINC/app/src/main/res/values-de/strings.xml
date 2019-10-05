@@ -42,7 +42,7 @@
   <string name="attachproject_hint_projectwebsite_science">Mehr über die Wissenschaft zu erfahren</string>
   <string name="attachproject_hint_projectwebsite_stats">Die Statistik zur Teilnahme zu sehen</string>
   <string name="attachproject_hint_projectwebsite_community">Kontakt mit anderen Teilnehmern aufzunehmen</string>
-  <string name="attachproject_hint_platforms_header">BOINC ist auch für Ihren Computer oder Laptop verfügbar, auf boinc.berkeley.edu erfahren Sie mehr.</string>
+  <string name="attachproject_hint_platforms_header">BOINC ist auch für Ihren Computer oder Laptop erhältlich, besuchen Sie uns unter boinc.berkeley.edu, um mehr zu erfahren.</string>
   <!--project login-->
   <string name="attachproject_login_loading">kontaktiere Projektserver…</string>
   <string name="attachproject_login_image_description">Projektlogo.</string>
@@ -104,6 +104,7 @@
   <string name="attachproject_error_bad_pwd">Passwort zu kurz</string>
   <string name="attachproject_error_creation_disabled">Die Kontoerstellung ist bei diesem Projekt deaktiviert</string>
   <string name="attachproject_error_invalid_url">Ungültige Adresse</string>
+  <string name="attachproject_error_consent_required">Dieses Projekt erfordert die Zustimmung zu seinen Nutzungsbedingungen.</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Zurück</string>
   <string name="attachproject_working_finish_button">Beenden</string>
@@ -341,6 +342,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2019 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Dank dem Max Planck Institut für Gravitationsphysik, IBM und HTC, für die Unterstützung.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

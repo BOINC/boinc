@@ -10,8 +10,11 @@
 # Jakub Meisner <tangornsvk@gmail.com>, 2015
 # Jan Schladetzky <inactive+Keiken@transifex.com>, 2015
 # Jonas <jesus_007@posteo.de>, 2015
+# Marcus Haupt <oldsql.Triso@gmail.com>, 2018
 # Maximilian Borm <bormolino@gmail.com>, 2018
 # Velociraptor, 2015
+# Peter Pogodsky <peterpogodsky@gmx.de>, 2018
+# Raphael Raberger <schraubenit@gmail.com>, 2018
 # Rom Walton, 2016
 # Sebastian <sebbl.schuler@gmail.com>, 2015
 # Sebastian, 2017
@@ -21,8 +24,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-23 23:21+0000\n"
-"Last-Translator: Maximilian Borm <bormolino@gmail.com>\n"
+"PO-Revision-Date: 2018-03-22 14:51+0000\n"
+"Last-Translator: Marcus Haupt <oldsql.Triso@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +66,7 @@ msgid "Run while computer is on battery power?"
 msgstr "Rechnen während der Computer auf Batteriebetrieb läuft?"
 
 msgid "Only applies to portable computers"
-msgstr "Nur für tragbare Rechner anwendbar"
+msgstr "Nur für tragbare Computer anwendbar"
 
 msgid "Run while computer is in use?"
 msgstr "Rechnen während der Computer benutzt wird?"
@@ -108,7 +111,7 @@ msgid "processors"
 msgstr "Prozessoren"
 
 msgid "Set to 0 for no limit"
-msgstr "Auf 0 setzen für keine Begrenzung"
+msgstr "0 steht für keine Begrenzung"
 
 msgid "Can be used to reduce CPU heat"
 msgstr "Kann benutzt werden um CPU Überhitzung zu vermeiden"
@@ -289,7 +292,7 @@ msgstr "Warnung: Ihr Inhalt <a href=\"@url\">muss erneut indiziert werden</a> be
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "Wählen Sie die Inhaltstypen in dem die Kommentare von Apache Solr indiziert sind. Ihr Inhalt muss nach dem Ändern dieser Konfiguration neu indiziert werden."
 
 msgid ""
 "If changing a user's email, you must also change the password "
@@ -300,7 +303,7 @@ msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "Verwendung: 'Konfiguration speichern' speichert die obigen Einstellungen in der Drupal-Datenbank. Dies sind die voreingestellten (globalen) Voreinstellungen, die das Voreinstellungsformular ausfüllen, sobald ein Benutzer die Seite \"Kontoeinstellungen\" geladen hat."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -310,7 +313,7 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "'Speichern Sie die Konfiguration mit Einstellungen für die Festplattenbelegung in der Datei config.xml' Speichert die obigen Einstellungen in der drupal-Datenbank, lädt aber auch die Einstellungen für die Festplattenbelegung aus der Datei config.xml des BOINC-Projekts. Diese überschreiben alle Einstellungen für die Festplattennutzung, die Sie oben platziert haben. Achtung: Die persönlichen Einstellungen eines Benutzers ändern sich nicht, wenn Sie die Einstellungen für die Festplattenbelegung von config.xml hier in die drupal-Datenbank laden. Sie müssen ihre Voreinstellungen manuell ändern."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -340,7 +343,7 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr "Informationen zu ihrer Person"
+msgstr "Persönliche Daten"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -1570,7 +1573,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "Wenn \"Ja\" werden unterbundene Aufgaben im Speicher belassen und keine Arbeit geht verloren. Wenn \"Nein\" werden unterbundene Aufgaben vom Speicher gelöscht und verlieren ihren letzten Checkpoint."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -3548,7 +3551,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "Wähle <i>Werkzeuge/Projekt hinzufügen</i>. Wähle @sitename aus der Liste oder besuche @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3557,7 +3560,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "Falls Sie eine Command-Line Version von BOINC benutzen,\nnutzen Sie bitte vorher die BOINC Manager Software (falls nötig wo anders) um einen Account\nfür das Projekt zu erstellen, dann benutzen Sie den Account um sich mit der Command-Line Version\nzu verbinden. <b>!boinccmd</b>."
 
 #: join-page
 msgctxt "join-page"
@@ -3565,7 +3568,7 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "Wenn du eine Vor-5,0 Version von BOINC benutzt, bitte aktualisiere auf eine neuere Version von BOINC um ein Konto für @this_project zu erstellen."
 
 #: team-add-admin
 msgctxt "team-add-admin"
@@ -3576,12 +3579,12 @@ msgstr "@user ist der Gründer von @team!"
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "BOINC Übersetzungsfilter um zu Helfen Inhalte für Übersetzungen zu teilen."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "Teilt verbundenen Inhalt für Übertragung in Teile"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
@@ -3591,14 +3594,14 @@ msgstr "BOINC Übersetzungsfilter"
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "Wähle Filter um zu filtern."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "Wähle welche Inhaltstypen für die Übertragung geteilt werden sollen."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
@@ -3855,7 +3858,7 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "Danke dir @user_name dafür das du @site_name beigetreten bist. Dein Profil wurde erstellt. Dein BOINC Klient sollte bald, ohne weiteres, an zugewiesenen Aufgaben anfangen zu arbeiten. Bitte besuche die folgenden Seiten für mehr Informationen und zusätzlichen Optionen."
 
 #: account-fininsh
 msgctxt "account-fininsh"
@@ -3879,7 +3882,7 @@ msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "Zusätzlich möchtest du vielleicht die Sprache deines Kontos und Benachrichtigungseinstellungen einstellen."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3896,7 +3899,7 @@ msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "Vielleicht möchtest du einstellen wie viel CPU,RAM und Festplattenspeicher der BOINC Klient für Aufgaben auf deinem Computer benutzen darf."
 
 #: account-finish
 msgctxt "account-finish"

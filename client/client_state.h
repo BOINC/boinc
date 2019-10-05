@@ -394,6 +394,7 @@ struct CLIENT_STATE {
 
 // --------------- cs_files.cpp:
     void check_file_existence();
+    RESULT* file_info_to_result(FILE_INFO*);
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();

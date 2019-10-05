@@ -5,14 +5,14 @@
 # 
 # Translators:
 # Petteri Karjalainen <penes81@gmail.com>, 2018
-# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgstr "Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai l
 
 #: html/inc/account.inc:82
 msgid "Screen name"
-msgstr "Näytön nimi"
+msgstr ""
 
 #: html/inc/account.inc:88
 msgid "Must be a valid address of the form 'name@domain'."
@@ -91,7 +91,7 @@ msgstr "Käyttöehdot"
 
 #: html/inc/account.inc:134 html/inc/account.inc:178
 msgid "Do you agree to the terms of use above?"
-msgstr ""
+msgstr "Hyväksytkö ylläolevat käyttöehdot?"
 
 #: html/inc/account.inc:146
 msgid "Email address:"
@@ -111,7 +111,7 @@ msgstr "Pysy kirjautuneena"
 
 #: html/inc/account.inc:184
 msgid "I agree"
-msgstr ""
+msgstr "Hyväksyn"
 
 #: html/inc/bbcode_html.inc:10
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -283,7 +283,7 @@ msgstr "Palvelimen tila"
 
 #: html/inc/bootstrap.inc:176
 msgid "Credit statistics"
-msgstr ""
+msgstr "Pistetilastot"
 
 #: html/inc/bootstrap.inc:177 html/user/apps.php:32
 msgid "Applications"
@@ -299,7 +299,7 @@ msgstr "CPU-mallit"
 
 #: html/inc/bootstrap.inc:180
 msgid "Computer types"
-msgstr "Tietokone tyypit"
+msgstr "Tietokonetyypit"
 
 #: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
@@ -388,7 +388,7 @@ msgstr "Kysyisin myös tätä"
 
 #: html/inc/forum.inc:94
 msgid "Off-topic"
-msgstr "Ei-aiheessa"
+msgstr "Aiheeseen liittymätön"
 
 #: html/inc/forum.inc:111
 msgid "Volunteer moderator"
@@ -448,11 +448,11 @@ msgstr "Kysymykset ja vastaukset"
 msgid "%1 message board"
 msgstr "%1 keskustelupalsta"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Edellinen"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Seuraava"
 
@@ -912,7 +912,7 @@ msgstr "Mitattu liukulukulaskennan nopeus"
 
 #: html/inc/host.inc:154 html/inc/host.inc:157
 msgid "%1 billion ops/sec"
-msgstr "%1 biljoona ops/s"
+msgstr "%1 miljardia laskutoimitusta/sek"
 
 #: html/inc/host.inc:157
 msgid "Measured integer speed"
@@ -1376,7 +1376,7 @@ msgstr "Varastoi tarpeeksi työtä pitääksesi koneen työssä näin kauan."
 
 #: html/inc/prefs.inc:116 html/inc/prefs.inc:122
 msgid "days of work"
-msgstr "työpäivän aikana"
+msgstr "päivää työtä"
 
 #: html/inc/prefs.inc:119
 msgid "Store up to an additional"
@@ -1674,7 +1674,7 @@ msgstr "Käytä CPUta"
 
 #: html/inc/prefs_project.inc:81
 msgid "Use AMD GPU"
-msgstr ""
+msgstr "Käytä AMD:n GPUta"
 
 #: html/inc/prefs_project.inc:90
 msgid "Use NVIDIA GPU"
@@ -1726,7 +1726,7 @@ msgstr "väärä osajoukko: %1"
 
 #: html/inc/prefs_util.inc:274 html/inc/prefs_util.inc:291
 msgid "Database error:"
-msgstr ""
+msgstr "Tietokantavirhe:"
 
 #: html/inc/prefs_util.inc:595 html/inc/prefs_util.inc:619
 msgid "and"
@@ -1760,7 +1760,7 @@ msgstr "Tietokantavirhe"
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
-msgstr "Spämmin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat alle %1, näkyvät vain kirjautuneille käyttäjille. Pahoittelemme mahdollista haittaa."
+msgstr "Roskapostin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat alle %1, näkyvät vain kirjautuneille käyttäjille. Pahoittelemme mahdollista haittaa."
 
 #: html/inc/profile.inc:198
 msgid "User is banished"
@@ -1804,7 +1804,7 @@ msgstr "NVIDIAn GPU"
 
 #: html/inc/result.inc:78 html/user/host_app_versions.php:25
 msgid "AMD GPU"
-msgstr ""
+msgstr "AMD:n GPU"
 
 #: html/inc/result.inc:80 html/user/host_app_versions.php:26
 msgid "Intel GPU"
@@ -2085,7 +2085,7 @@ msgstr "Suoritinaika<br />(sekuntia)"
 msgid "Credit"
 msgstr "Pisteet"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Sovellus"
@@ -2138,19 +2138,19 @@ msgstr "Laitteen FLOPS-huippuarvo"
 msgid "Application version"
 msgstr "Sovellusversio"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Tulostetiedostot"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr output"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Tila"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Tehtävän nimi:"
 
@@ -2185,7 +2185,7 @@ msgstr "Pyyntösi, perustajan vastauksen takaraja saavutettu."
 
 #: html/inc/team.inc:64
 msgid "Complete foundership transfer"
-msgstr "Päätä perustajuuden vaihto"
+msgstr "Vie perustajuuden vaihto loppuun"
 
 #: html/inc/team.inc:68
 msgid "Requested by you"
@@ -2514,7 +2514,7 @@ msgstr "Tiliavaimet"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Tilin omistajuus"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2542,7 +2542,7 @@ msgstr "%1 asetukset"
 
 #: html/inc/user.inc:329
 msgid "View the profile of %1"
-msgstr "Katso %1:n profiilia"
+msgstr "Katso käyttäjän %1 profiilia"
 
 #: html/inc/user.inc:330 html/inc/user.inc:377 html/inc/user.inc:544
 msgid "Profile"
@@ -2652,7 +2652,7 @@ msgstr "reCAPTCHA-vastaus oli väärin. Yritä uudelleen."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Et ole hyväksynyt käyttöehtoja. Hyväksy käyttöehdot palaamalla edelliselle sivulle, jotta voit luoda tilin"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2685,7 +2685,7 @@ msgstr "Tilin luonti ei onnistunut"
 
 #: html/inc/user_util.inc:289
 msgid "database error, please contact site administrators"
-msgstr ""
+msgstr "tietokantavirhe, ota yhteyttä sivuston ylläpitäjiin"
 
 #: html/inc/util.inc:204
 msgid "log out"
@@ -2807,7 +2807,7 @@ msgstr ""
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2816,7 +2816,7 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Virheellinen syöte. Syötteen pituus pitää olla > 0 ja < 4096. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
@@ -2947,7 +2947,7 @@ msgstr "Kohta 2"
 
 #: html/user/bbcode.php:48
 msgid "link to an issue on the BOINC Github repository"
-msgstr "linkissä on ongelma BOINC Github titolähteessä"
+msgstr ""
 
 #: html/user/bbcode.php:51
 msgid "link to a Wiki page on the BOINC Github repository"
@@ -3033,13 +3033,13 @@ msgstr "ReCaptcha-vastaus oli väärin.  Yritä uudelleen."
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-spämminestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
+msgstr "Ensimmäinen kirjoituksesi merkittiin roskapostiksi Akismet-roskapostiestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: html/user/create_profile.php:224
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "Toinen kirjoituksesi merkittiin spämmiksi Akismet-spämminestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
+msgstr "Toinen kirjoituksesi merkittiin roskapostiksi Akismet-roskapostiestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: html/user/create_profile.php:240
 msgid "Your profile submission was empty."
@@ -3074,7 +3074,7 @@ msgstr "Luo profiili"
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or"
 " edit a profile.  We apologize for this inconvenience."
-msgstr "Spämmin estämiseksi profiilin luonti tai muokkaus vaatii keskimääräisten pisteiden määräksi %1 tai enemmän.  Pahoittelut mahdollisesta haitasta."
+msgstr "Roskapostin estämiseksi profiilin luonti tai muokkaus vaatii keskimääräisten pisteiden määräksi %1 tai enemmän.  Pahoittelut mahdollisesta haitasta."
 
 #: html/user/delete_account_confirm.php:29
 #: html/user/delete_account_request.php:28
@@ -3280,7 +3280,7 @@ msgstr "Anna haluamasi lahjoitussumma allaolevaan kenttään.\n        PayPal hy
 
 #: html/user/donations.php:315
 msgid "Amount you would like to donate"
-msgstr "Haluamasi lahjoitussumma"
+msgstr "Summa, jonka haluat lahjoittaa"
 
 #: html/user/donations.php:316
 msgid "Estimated value in"
@@ -3338,25 +3338,25 @@ msgstr "Tätä listaa hoidetaan keskitetysti %1 BOINC-nettisivulla %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Tämä projekti vaatii VirtualBoxin."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Tämä projekti suosittelee VirtualBoxia."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "Jos sitä ei ole asennettu tietokoneelle, hanki se %1tästä%2 ja käynnistä sitten BOINC uudelleen."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Käytä BOINC+VirtualBox -asentajaa."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Jos sitä ei ole asennettu tietokoneelle, hanki se %1tästä%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3374,11 +3374,11 @@ msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
-msgstr ""
+msgstr "Kun BOINC käynnistyy ensimmäisen kerran se pyytää projektia.\n            Valitse %1 listasta,\n            tai anna tämä URL: %2"
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Mene BOINCin lataussivulle."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3406,7 +3406,7 @@ msgstr "Osallistuaksesi %1, %2 pitää asentaa tietokoneelle."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Jos %1 on jo asennettu, %2 napsauta tästä%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -3446,7 +3446,7 @@ msgstr "Lisää %1"
 
 #: html/user/download_software.php:334
 msgid "To add %1 on this computer:"
-msgstr "Lisätäksesi %1 tässä tietokoneessa:"
+msgstr "Lisätäksesi %1 tähän tietokoneeseen:"
 
 #: html/user/download_software.php:336
 msgid "Select Add Project"
@@ -3455,7 +3455,7 @@ msgstr "Valitse Liity projektiin"
 #: html/user/download_software.php:344 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
-msgstr "Jatka kotisivullesi asti"
+msgstr "Jatka kotisivullesi"
 
 #: html/user/edit_email_action.php:37
 msgid "Change email address of account"
@@ -3737,7 +3737,7 @@ msgstr "Muokkaa tilitietoja"
 
 #: html/user/edit_user_info_form.php:33
 msgid "Screen name %1 real name or nickname%2"
-msgstr "Näytön nimi %1 oikea nimi tai nimimerkki%2"
+msgstr ""
 
 #: html/user/edit_user_info_form.php:40
 msgid "URL %1 of your personal web page; optional%2"
@@ -3749,7 +3749,7 @@ msgstr "Postinumero %1 Valinnainen%2"
 
 #: html/user/explain_state.php:27
 msgid "Server states"
-msgstr "Tilat palvelimella"
+msgstr "Palvelimen tilat"
 
 #: html/user/explain_state.php:30
 msgid ""
@@ -3832,7 +3832,7 @@ msgstr "Tehtävää ei lähetetty tietokoneelle, koska riittävä määrä muita
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
-msgstr "Tehtävä raportoitiin mutta ei voitu vahvistaa, yleensä siksi, koska tulostetiedostot ovat kadonnut palvelimelta."
+msgstr "Tehtävä raportoitiin mutta ei voitu vahvistaa, yleensä siksi, koska tulostetiedostot ovat kadonneet palvelimelta."
 
 #: html/user/explain_state.php:80
 msgid "Client states"
@@ -5676,7 +5676,7 @@ msgstr "Sähköpostiosoitteesi on palautettu."
 
 #: html/user/recover_email.php:53
 msgid "You need to reset your password:  "
-msgstr ""
+msgstr "Salasana pitää asettaa uudelleen:"
 
 #: html/user/recover_email.php:63 html/user/recover_email.php:66
 msgid "Invalid token."
@@ -5754,7 +5754,7 @@ msgstr "Asenna BOINC muihin tietokoneisiin, tabletteihin ja puhelimiin."
 
 #: html/user/sample_index.php:104
 msgid "Tell your friends about BOINC, and show them how to join %1."
-msgstr ""
+msgstr "Kerro kavereillesi BOINCista ja näytä, miten liittyä %1."
 
 #: html/user/sample_index.php:130
 msgid "Already joined? %1Log in%2."
@@ -5838,7 +5838,7 @@ msgstr "Valitse salasana"
 
 #: html/user/stats.php:21
 msgid "Credit leader boards and statistics"
-msgstr ""
+msgstr "Pistetaulukko ja tilastot"
 
 #: html/user/stats.php:30
 msgid "Leader boards for %1"
@@ -6668,7 +6668,6 @@ msgstr "%1:n päivän käyttäjä: %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
@@ -6678,7 +6677,7 @@ msgstr ""
 msgid ""
 "You have not agreed to our terms of use. You may not continue until you do "
 "so."
-msgstr ""
+msgstr "Et ole hyväksynyt käyttöehtojamme. Et voi jatkaa ennen kuin hyväksyt."
 
 #: html/user/user_agreetermsofuse_action.php:49
 msgid "Website error when attempting to agree to terms of use."
@@ -6690,11 +6689,11 @@ msgstr ""
 
 #: html/user/user_agreetermsofuse.php:27
 msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
+msgstr "Et ole kirjautunut. Kirjaudu, jotta voit hyväksyä käyttöehtomme."
 
 #: html/user/user_agreetermsofuse.php:41
 msgid "Agree to our Terms of Use."
-msgstr ""
+msgstr "Hyväksy käyttöehtomme."
 
 #: html/user/user_search.php:51
 msgid "Filters"
@@ -7075,7 +7074,7 @@ msgstr "Suurin määrä prosessoreita"
 
 #: db/content.sql:8
 msgid "General terms-of-use for this BOINC project."
-msgstr ""
+msgstr "Yleiset käyttöehdot tälle BOINC-projektille."
 
 #: db/content.sql:9
 msgid ""
