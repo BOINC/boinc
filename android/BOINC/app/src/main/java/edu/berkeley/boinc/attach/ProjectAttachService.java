@@ -31,18 +31,13 @@ import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
 import edu.berkeley.boinc.utils.Logging;
-
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
@@ -334,7 +329,6 @@ public class ProjectAttachService extends Service {
         while(retry && attemptCounter < maxAttempts) {
             try {
                 reply = monitor.addAcctMgrErrorNum(url, name, pwd);
-                System.out.println("REPLY " + reply);
             }
             catch(RemoteException e) {
                 if(Logging.ERROR) {
@@ -380,7 +374,6 @@ public class ProjectAttachService extends Service {
             if(info.acct_mgr_url.equals("") && info.acct_mgr_name.equals("") && !info.have_credentials){
                 return  BOINCErrors.ERR_BAD_PASSWD;
             }
-
         }
         catch(RemoteException e) {
             if(Logging.ERROR) {
@@ -566,7 +559,6 @@ public class ProjectAttachService extends Service {
             result = RESULT_SUCCESS;
             return RESULT_SUCCESS;
         }
-
 
         /**
          * Attempts account registration with the credentials previously set in service.
