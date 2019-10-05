@@ -215,7 +215,6 @@ public class BatchProcessingActivity extends FragmentActivity {
             // the Monitor object that is needed to call functions.
             attachService = ((ProjectAttachService.LocalBinder) service).getService();
             asIsBound = true;
-
             // start attaching projects
             new AttachProjectAsyncTask().execute();
         }
@@ -271,9 +270,11 @@ public class BatchProcessingActivity extends FragmentActivity {
             // attach projects, one at a time
             ArrayList<ProjectAttachWrapper> selectedProjects = attachService.getSelectedProjects();
             for(ProjectAttachWrapper selectedProject : selectedProjects) {
-                if(selectedProject.result != ProjectAttachWrapper.RESULT_READY) {
+                //below commented conditional causes us not trying a connection for the project that we tried to connect, even if it was unsuccessful
+                //and this causes us not being able to alert user for wrong password or username on account information screen that is after project screen
+                /*if(selectedProject.result != ProjectAttachWrapper.RESULT_READY) {
                     continue; // skip already tried projects in batch processing
-                }
+                }*/
                 publishProgress(selectedProject.info.name);
                 int conflict = selectedProject.lookupAndAttach(false);
                 if(conflict != ProjectAttachWrapper.RESULT_SUCCESS) {

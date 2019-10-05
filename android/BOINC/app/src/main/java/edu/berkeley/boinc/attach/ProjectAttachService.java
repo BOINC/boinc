@@ -32,12 +32,14 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
 import edu.berkeley.boinc.utils.Logging;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -332,6 +334,7 @@ public class ProjectAttachService extends Service {
         while(retry && attemptCounter < maxAttempts) {
             try {
                 reply = monitor.addAcctMgrErrorNum(url, name, pwd);
+                System.out.println("REPLY " + reply);
             }
             catch(RemoteException e) {
                 if(Logging.ERROR) {
@@ -374,6 +377,10 @@ public class ProjectAttachService extends Service {
         AcctMgrInfo info = null;
         try {
             info = monitor.getAcctMgrInfo();
+            if(info.acct_mgr_url.equals("") && info.acct_mgr_name.equals("") && !info.have_credentials){
+                return  BOINCErrors.ERR_BAD_PASSWD;
+            }
+
         }
         catch(RemoteException e) {
             if(Logging.ERROR) {
@@ -526,24 +533,16 @@ public class ProjectAttachService extends Service {
                 }
                 switch(statusCredentials.error_num) {
                     case BOINCErrors.ERR_DB_NOT_UNIQUE:
-                        Handler handler = new Handler(Looper.getMainLooper());
-
-                        handler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "Wrong email or password", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        });
                         result = RESULT_NAME_NOT_UNIQUE;
-
+                        showErrorOnUIThread(getResultDescription());
                         return RESULT_NAME_NOT_UNIQUE;
                     case BOINCErrors.ERR_BAD_PASSWD:
                         result = RESULT_BAD_PASSWORD;
+                        showErrorOnUIThread(getResultDescription());
                         return RESULT_BAD_PASSWORD;
                     case BOINCErrors.ERR_DB_NOT_FOUND:
                         result = RESULT_UNKNOWN_USER;
+                        showErrorOnUIThread(getResultDescription());
                         return RESULT_UNKNOWN_USER;
                     default:
                         if(Logging.WARNING) {
@@ -551,6 +550,7 @@ public class ProjectAttachService extends Service {
                                                statusCredentials.error_num);
                         }
                         result = RESULT_UNDEFINED;
+                        showErrorOnUIThread(getResultDescription());
                         return RESULT_UNDEFINED;
                 }
             }
@@ -569,6 +569,32 @@ public class ProjectAttachService extends Service {
 
             result = RESULT_SUCCESS;
             return RESULT_SUCCESS;
+        }
+
+        private void showErrorOnUIThread(final String error){
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    new CountDownTimer(2000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        public void onFinish() {
+                            Intent intent = new Intent(ProjectAttachService.this,CredentialInputActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+
+                    }.start();
+                    return;
+                }
+            });
         }
 
         /**
