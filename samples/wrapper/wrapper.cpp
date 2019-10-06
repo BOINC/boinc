@@ -970,10 +970,12 @@ bool TASK::poll(int& status) {
 #ifdef _WIN32
     unsigned long exit_code;
     if (wait_for_children) {
+        DWORD completion_code;
         ULONG_PTR completion_key;
         LPOVERLAPPED overlapped;
-        if (GetQueuedCompletionStatus(ioport_handle, &exit_code, &completion_key, &overlapped, INFINITE)) {
-            if ((HANDLE)completion_key == job_handle && exit_code == JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO) {
+        exit_code = 0;
+        if (GetQueuedCompletionStatus(ioport_handle, &completion_code, &completion_key, &overlapped, INFINITE)) {
+            if ((HANDLE)completion_key == job_handle && completion_code == JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO) {
                 status = exit_code;
                 final_cpu_time = current_cpu_time;
                 fprintf(stderr, "%s %s exited; CPU time %f\n",
@@ -981,6 +983,9 @@ bool TASK::poll(int& status) {
                     application.c_str(), final_cpu_time
                 );
                 return true;
+            }
+            else if ((HANDLE)completion_key == job_handle && completion_code == JOB_OBJECT_MSG_ABNORMAL_EXIT_PROCESS) {
+                exit_code = JOB_OBJECT_MSG_ABNORMAL_EXIT_PROCESS;
             }
         }
     }
