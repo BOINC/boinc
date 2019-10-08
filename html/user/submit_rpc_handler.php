@@ -644,6 +644,32 @@ function show_job_details($wu) {
     }
 }
 
+function show_job_status($wu) {
+    if       ($wu->error_mask) {
+        echo "            <status>error</status>\n";
+    } elseif ($wu->canonical_resultid) {
+        echo "            <status>done</status>\n";
+    } else {
+        $results = BoincResult::enum("server_state","workunitid=$wu->id");
+        $in_progress = 0;
+        foreach ($results as $r) {
+            switch ($r->server_state) {
+                case RESULT_SERVER_STATE_IN_PROGRESS:
+                    $in_progress++;
+                    break;
+            }
+            if ($in_progress > 0) {
+                break;
+            }
+        }
+        if ($in_progress > 0) {
+            echo "            <status>in_progress</status>\n";
+        } else {
+            echo "            <status>queued</status>\n";
+        }
+    }
+}
+
 // return a batch specified by the command, using either ID or name
 //
 function get_batch($r) {
@@ -699,6 +725,43 @@ function query_batch($r) {
         echo "        </job>\n";
     }
     echo "</query_batch>\n";
+}
+
+function query_batches_status($r) {
+    xml_start_tag("query_batches_status");
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batches = BoincBatch::enum("user_id = $user->id");
+    foreach ($batches as $batch) {
+        if ($batch->state == BATCH_STATE_RETIRED) continue;
+        if ($batch->state < BATCH_STATE_COMPLETE) {
+            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $batch = get_batch_params($batch, $wus);
+        }
+        echo "    <batch>\n";
+        echo "        <id>$batch->id</id>
+        <create_time>$batch->create_time</create_time>
+        <expire_time>$batch->expire_time</expire_time>
+        <njobs>$batch->njobs</njobs>
+        <fraction_done>$batch->fraction_done</fraction_done>
+        <nerror_jobs>$batch->nerror_jobs</nerror_jobs>
+        <state>$batch->state</state>
+        <completion_time>$batch->completion_time</completion_time>
+        <name>$batch->name</name>
+";
+
+        foreach ($wus as $wu) {
+            echo "        <job>
+            <id>$wu->id</id>
+            <name>$wu->name</name>
+            <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
+";
+
+            show_job_status($wu);
+            echo "        </job>\n";
+        }
+        echo "    </batch>\n";
+    }
+    echo "</query_batches_status>\n";
 }
 
 function results_sent($wu) {
@@ -1060,6 +1123,7 @@ switch ($r->getName()) {
     case 'query_batch': query_batch($r); break;
     case 'query_batch2': query_batch2($r); break;
     case 'query_batches': query_batches($r); break;
+    case 'query_batches_status': query_batches_status($r); break;
     case 'query_job': query_job($r); break;
     case 'query_completed_job': query_completed_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;

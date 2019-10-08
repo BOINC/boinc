@@ -165,6 +165,13 @@ def query_batches(req):
     ) %(req.authenticator, 1 if req.get_cpu_time else 0)
     return do_http_post(req_xml, req.project)
 
+def query_batches_status(req):
+    req_xml = ('<query_batches_status>\n'
+    '<authenticator>%s</authenticator>\n'
+    '</query_batches_status>\n'
+    ) %(req.authenticator)
+    return do_http_post(req_xml, req.project)
+
 def query_completed_job(req):
     req_xml = ('<query_completed_job>\n'
     '<authenticator>%s</authenticator>\n'
