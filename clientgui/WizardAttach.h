@@ -301,6 +301,9 @@ public:
     wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
     void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
 
+    bool GetConsentedToTerms() const { return m_bConsentedToTerms ; }
+    void SetConsentedToTerms(bool value) { m_bConsentedToTerms = value ; }
+
     wxString GetReturnURL() const { return m_strReturnURL ; }
     void SetReturnURL(wxString value) { m_strReturnURL = value ; }
 
@@ -374,6 +377,7 @@ public:
     wxString            m_strAccountUsername;
     wxString            m_strAccountPassword;
     wxString            m_strAccountConfirmPassword;
+    bool                m_bConsentedToTerms;
     wxString            m_strReturnURL;
     wxString            m_strCookieFailureURL;
 };

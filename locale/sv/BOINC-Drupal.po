@@ -10,7 +10,7 @@
 # Henrik Mattsson-Mårn <h@reglage.net>, 2016
 # Johan Holmström, 2016-2017
 # Josef Andersson <josef.andersson@fripost.org>, 2017
-# Urban Berggren <pudberggren@icloud.com>, 2016
+# 8385e6e60a22e18cd347a1f6e4685fb9, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"

@@ -138,11 +138,13 @@ struct EXCLUDE_GPU {
     void write(MIOFILE&);
 };
 
-// if you add anything, you must add it to
-// defaults(), parse_options(), and write()
+// if you add anything here, add it to
+// defaults(), parse_options(), parse_options_client(), write(),
+// and possibly show()
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
+    bool allow_gui_rpc_get;
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
@@ -240,6 +242,10 @@ struct APP_CONFIGS {
     std::vector<APP_CONFIG> app_configs;
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
+    bool project_has_mc;
+        // have app- or project-level max concurrent restriction
+    int project_min_mc;
+        // the min of these restrictions
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
@@ -250,6 +256,8 @@ struct APP_CONFIGS {
         app_configs.clear();
         app_version_configs.clear();
         project_max_concurrent = 0;
+        project_has_mc = false;
+        project_min_mc = 0;
         report_results_immediately = false;
     }
 };

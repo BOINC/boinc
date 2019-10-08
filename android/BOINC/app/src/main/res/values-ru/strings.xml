@@ -9,7 +9,7 @@
   <!--attach project-->
   <!--selection list-->
   <string name="attachproject_list_desc">Выберите научные проекты, в которых Вы хотите принять участие:</string>
-  <string name="attachproject_list_header">Выберите проект:</string>
+  <string name="attachproject_list_header">Выберите проект</string>
   <string name="attachproject_list_manual_button">Добавить URL-адрес проекта</string>
   <string name="attachproject_list_manual_dialog_title">Введите URL проекта:</string>
   <string name="attachproject_list_manual_dialog_button">Добавить проект</string>
@@ -104,6 +104,7 @@
   <string name="attachproject_error_bad_pwd">Пароль не принят</string>
   <string name="attachproject_error_creation_disabled">Создание учётной записи в данном проекте отключено</string>
   <string name="attachproject_error_invalid_url">Неправильный адрес (URL)</string>
+  <string name="attachproject_error_consent_required">Этот проект требует согласия с его условиями использования</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Назад</string>
   <string name="attachproject_working_finish_button">Готово</string>
@@ -155,9 +156,11 @@
   <string name="prefs_category_cpu">Процессор</string>
   <string name="prefs_category_storage">Диск</string>
   <string name="prefs_category_memory">Память</string>
+  <string name="prefs_category_other">Другое</string>
   <string name="prefs_category_debug">Отладка</string>
   <string name="prefs_show_advanced_header">Показать дополнительные настройки и элементы управления…</string>
   <string name="prefs_suspend_when_screen_on">Приостановить вычисления, когда экран включён</string>
+  <string name="prefs_general_device_name_header">Имя устройства</string>
   <string name="prefs_stationary_device_mode_header">Стационарный режим работы устройства</string>
   <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включать только в том случае, если устройство не оснащено аккумулятором.</string>
   <string name="prefs_power_source_header">Источники питания для вычислений</string>
@@ -190,6 +193,10 @@
   <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
   <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
   <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">Хранить не менее X дней работы</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Хранить дополнительно не менее X дней работы</string>
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
   <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
   <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
@@ -328,12 +335,14 @@
   <string name="menu_run_mode_enable">Возобновить</string>
   <string name="menu_about">О</string>
   <string name="menu_help">Справка</string>
+  <string name="menu_report_issue">Сообщить о проблеме</string>
   <!--about dialog-->
   <string name="about_button">Вернуться</string>
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
+  <string name="about_copyright">\u00A9 2003–2019 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
   <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

@@ -624,6 +624,13 @@ int CLIENT_STATE::init() {
     // domain_name for Android
     //
     host_info.get_host_info(true);
+
+    // clear the VM extensions disabled flag.
+    // It's possible that the user enabled them since the last VM failure,
+    // or that the last failure was specious.
+    //
+    host_info.p_vm_extensions_disabled = false;
+
     set_ncpus();
     show_host_info();
 
@@ -634,6 +641,7 @@ int CLIENT_STATE::init() {
     // check for app_config.xml files in project dirs
     //
     check_app_config();
+    show_app_config();
 
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
@@ -725,8 +733,6 @@ int CLIENT_STATE::init() {
 
     check_if_need_benchmarks();
 
-    log_show_projects();
-
     read_global_prefs();
 
     // do CPU scheduler and work fetch
@@ -758,6 +764,8 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+
+    log_show_projects();    // this must follow acct_mgr_info.init()
 
     // set up for handling GUI RPCs
     //

@@ -32,8 +32,21 @@
 *  http://developer.apple.com/technotes/tn2004/tn2123.html#SECNOSYMBOLS
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
-*  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  * If the .dSYM file is not in the same directory as the executable, put 
+*    a copy of the .dSYM file in that directory.
+*  atos -o <binary-image-file> -l <load-address>
+*  * <binary-image-file> must be the path to the binary executable; for
+*    example: "/Applications/BOINCManager.app/Conents/MacOS/BOINCManager"
+*  * The load address of the binary image can be found in the
+*   "Binary Images Description:" section of the backtrace. If the backtrace 
+*    contains the following two lines:
+*      Binary Images Description:
+*      0x10ebd9000 - 0x10f360fff /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
+*    then <load-address> would be 0x10ebd9000
+*  * You can then enter addresses from the backtrace one line at a time to 
+*    get their corresponding symbols.
+*  * Note: if an address 1a23 is hex, use 0x1a23.
+*  * For more information on using atos, see the atos man page.
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
 *  You may need to prefix C++ symbols with an additonal underscore before 

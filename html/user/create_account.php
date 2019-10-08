@@ -25,6 +25,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/password_compat/password.inc");
+require_once("../inc/consent.inc");
 
 xml_header();
 
@@ -51,6 +52,9 @@ $email_addr = strtolower($email_addr);
 $passwd_hash = get_str("passwd_hash");
 $user_name = get_str("user_name");
 $team_name = get_str("team_name", true);
+
+$consent_flag = get_str("consent_flag", true);
+$source = get_str("source", true);
 
 if (!is_valid_user_name($user_name, $reason)) {
     xml_error(ERR_BAD_USER_NAME, $reason);
@@ -81,6 +85,34 @@ if ($user) {
         $authenticator = $user->authenticator;
     }
 } else {
+    // Get consent type setting
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+
+    // Projects can require explicit consent for account creation
+    // by setting "account_creation_rpc_require_consent" to 1 in
+    // config.xml
+    //
+    if (parse_bool($config, "account_creation_rpc_require_consent")) {
+        // Consistency checks
+        if (!check_termsofuse()) {
+            error_log("Project configuration error! " .
+                      "Terms of use undefined while 'account_creation_rpc_require_consent' enabled!");
+        }
+        if (!$checkct) {
+            error_log("Project configuration error! " .
+                      "'CONSENT_TYPE_ENROLL' disabled while 'account_creation_rpc_require_consent' enabled!");
+        }
+
+        // Check consent requirement
+        if (is_null($consent_flag) or !$source) {
+            xml_error(ERR_ACCT_REQUIRE_CONSENT, "This project requires to consent to its terms of use. " .
+                                                "Please update your BOINC software " .
+                                                "or register via the project's website " .
+                                                "or contact your account manager's provider.");
+        }
+    }
+
+    // Create user account
     $user = make_user($email_addr, $user_name, $passwd_hash, 'International');
     if (!$user) {
         xml_error(ERR_DB_NOT_UNIQUE);
@@ -88,6 +120,40 @@ if ($user) {
     
     if (defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
+    }
+
+    // If the project has configured to use the CONSENT_TYPE_ENROLL, then
+    // record it.
+    if ($checkct and check_termsofuse()) {
+        // As of Sept 2018, this code allows 'legacy' boinc clients to
+        // create accounts. If consent_flag is null the code creates
+        // an account as normal and there is no update to the consent
+        // DB table.
+        //
+        // Logic:
+        // * An old(er) BOINC Manager or third party GUI that doesn't
+        // * support the new consent features.
+        //   -> consent_flag not set (NULL).
+        // * A new(er) BOINC GUI, the terms of use are shown and user
+        // * agrees.
+        //   -> consent_flag=1
+        // * A new or older GUI, terms of use shown but the user not
+        // * not agree.
+        //   -> no create account RPC at all
+        //
+        if ( (!is_null($consent_flag)) and $source) {
+            // Record the user giving consent in database - if consent_flag is 0,
+            // this is an 'anonymous account' and consent_not_required is
+            // set to 1.
+            if ($consent_flag==0) {
+                $rc = consent_to_a_policy($user, $ctid, 0, 1, $source);
+            } else  {
+                $rc = consent_to_a_policy($user, $ctid, 1, 0, $source);
+            }
+            if (!$rc) {
+                xml_error(-1, "database error, please contact site administrators");
+            }
+        }
     }
 }
 

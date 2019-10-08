@@ -1,0 +1,136 @@
+
+td.facetapi-operations {
+  vertical-align: 50%;
+}
+
+.ctools-button {
+  -moz-border-radius: 10px;
+  background-color: #ffffff;
+  border-color: #cccccc;
+  padding-bottom: 3px;
+  padding-top: 2px;
+  text-transform: lowercase;
+  background-image:
+    -moz-linear-gradient(
+      -90deg,
+      #ffffff 0px,
+      #f1f1f1 100%
+    );
+  background-image:
+    -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.0, rgba(255, 255, 255, 1.0)),
+      color-stop(1.0, rgba(241, 241, 241, 1.0))
+    );
+  background-image:
+    -webkit-linear-gradient(
+      -90deg,
+      #ffffff 0px,
+      #f1f1f1 100%
+    );
+  background-image:
+    linear-gradient(
+      -90deg,
+      #ffffff 0px,
+      #f1f1f1 100%
+    );
+}
+
+.ctools-button:hover {
+  border-color: #b8b8b8;
+}
+
+.ctools-button .ctools-content {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.ctools-dropbutton-processed {
+  position: absolute;
+  top: auto;
+}
+
+.ctools-dropbutton-processed .ctools-content {
+  border-right: 1px solid #e8e8e8;
+}
+
+.ctools-dropbutton-processed .ctools-content ul {
+  margin: 0;
+  padding: 0;
+}
+
+.ctools-content ul.actions {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.ctools-button .ctools-content a {
+  background-image: none;
+  border: medium none;
+}
+
+.ctools-dropbutton-processed.open:hover {
+  border-color: #D0D0D0;
+}
+
+.ctools-dropbutton-processed.open {
+  z-index: 100;
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+  background-image: none;
+}
+
+.ctools-dropbutton-processed .ctools-link {
+  border-left: 1px solid #ffffff;
+}
+
+.ctools-dropbutton-processed.open .ctools-content {
+  padding-bottom: 4px;
+}
+
+.ctools-dropbutton-processed li a {
+  padding-right: 9px;
+}
+
+.ctools-dropbutton-processed.open li + li {
+  border-top: 1px solid #efefef;
+  margin-top: 4px;
+  padding-bottom: 0;
+  padding-top: 4px;
+}
+
+.facetapi-sort-table {
+  width: 55%;
+  float: right;
+  margin-top: -2em;
+  padding: 0 1em 1em .5em;
+  position: relative;
+  z-index: 1000;
+}
+
+.form-item-widget select {
+  font-size: 120%;
+  margin-top: .3em;
+}
+
+.form-item-widget option {
+  padding-right: 1.5em;
+}
+
+.form-item-widget label {
+  font-size: 105%;
+}
+
+.facetapi-global-setting {
+  float: left;
+  width: 30%;
+  margin-right: 2em;
+}
+
+.facetapi-empty-setting {
+  clear: right;
+}

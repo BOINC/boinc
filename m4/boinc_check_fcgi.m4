@@ -1,5 +1,5 @@
 AC_DEFUN([BOINC_CHECK_FCGI],[
-if ( test "x${enable_server}" = "xyes" ) || ( test "x${enable_libraries}" = "xyes" ) ; then
+if test "x${enable_server}" = "xyes" -o "x${enable_libraries}" = "xyes" ; then
   if test "x${enable_fcgi}" = "xyes" ; then
     AC_MSG_CHECKING([if CFLAG '-include fcgi_stdio.h' works])
     AC_LANG_PUSH(C)

@@ -720,10 +720,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
-    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt;
+    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
     char capabilities[256];
 
-    hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = 0;
+    hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = hasAVX = 0;
     do_cpuid(0x0, p);
 
     if (p[0] >= 0x1) {
@@ -733,6 +733,7 @@ void use_cpuid(HOST_INFO& host) {
         hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
         hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
         hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
+        hasAVX  = (p[2] & (1 << 28 )) >> 28;
         hasSSE3 = (p[2] & (1 << 0 )) >> 0;
     }
 
@@ -751,6 +752,7 @@ void use_cpuid(HOST_INFO& host) {
     if (has3DNow) safe_strcat(capabilities, "3dnow ");
     if (has3DNowExt) safe_strcat(capabilities, "3dnowext ");
     if (hasMMX) safe_strcat(capabilities, "mmx ");
+    if (hasAVX) safe_strcat(capabilities, "avx ");
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s [] [%s]",
@@ -1450,7 +1452,6 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char buf2[256];
     char dist_name[256], dist_version[256];
     string os_version_extra("");
     safe_strcpy(dist_name, "");

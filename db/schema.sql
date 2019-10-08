@@ -41,6 +41,8 @@
 -- fields ending with id (but not _id) are treated specially
 -- by the Python code (db_base.py)
 
+-- Put initial content of any table in content.sql, and not in this file.
+
 create table platform (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
@@ -625,8 +627,7 @@ create table private_messages (
     opened                  tinyint         not null default 0,
     subject                 varchar(255)    not null,
     content                 text            not null,
-    primary key(id),
-    key userid (userid)
+    primary key(id)
 ) engine=MyISAM;
 
 create table credited_job (
@@ -804,3 +805,39 @@ create table host_deleted (
     primary key (hostid)
 ) engine=InnoDB;
 
+create table consent (
+    id                      integer         not null auto_increment,
+    userid                  integer         not null,
+    consent_type_id         integer         not null,
+    consent_time            integer         not null,
+    consent_flag            tinyint         not null,
+    consent_not_required    tinyint         not null,
+    source                  varchar(255)    not null,
+    primary key (id)
+) engine=InnoDB;
+
+-- @todo - change 'protect' to 'project_specific'
+create table consent_type (
+    id                      integer         not null auto_increment,
+    shortname               varchar(255)    not null,
+    description             varchar(255)    not null,
+    enabled                 integer         not null,
+    project_specific        integer         not null,
+    privacypref             integer         not null,
+    primary key (id)
+) engine=InnoDB;
+
+-- SQL View representing the latest consent state of users for all
+-- consent_types. Used in sched/db_dump and Web site preferences to
+-- determine if a user has consented to a particular consent type.
+create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);

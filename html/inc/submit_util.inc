@@ -21,6 +21,30 @@
 
 require_once("../inc/submit_db.inc");
 
+// write status and error messages to log
+//
+function log_write($x) {
+    static $enabled, $log_file;
+
+    if (!isset($enabled)) {
+        $enabled = false;
+        $filename = parse_config(get_config(), "<remote_submit_log>");
+        if (!$filename) {
+            return;
+        }
+        $log_dir = parse_config(get_config(), "<log_dir>");
+        if (!$log_dir) {
+            return;
+        }
+        $log_file = fopen("$log_dir/$filename", "a");
+        if (!$log_file) return;
+        $enabled = true;
+    }
+    if (!$enabled) return;
+    fwrite($log_file, sprintf("%s: %s\n", strftime("%c"), $x));
+    fflush($log_file);
+}
+
 // in remote job submission,
 // for input files of type local, semilocal, and inline,
 // we need to give a unique physical name based on its content.
@@ -32,16 +56,26 @@ function job_file_name($md5) {
 
 function authenticate_user($r, $app) {
     $auth = (string)$r->authenticator;
-    if (!$auth) xml_error(-1, "no authenticator");
+    if (!$auth) {
+        log_write("no authenticator");
+        xml_error(-1, "no authenticator");
+    }
     $auth = BoincDb::escape_string($auth);
     $user = BoincUser::lookup("authenticator='$auth'");
-    if (!$user) xml_error(-1, "bad authenticator");
+    if (!$user) {
+        log_write("bad authenticator");
+        xml_error(-1, "bad authenticator");
+    }
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if (!$user_submit) xml_error(-1, "no submit access");
+    if (!$user_submit) {
+        log_write("no submit access");
+        xml_error(-1, "no submit access");
+    }
     if ($app && !$user_submit->submit_all) {
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if (!$usa) {
-            xml_error(-1, "no submit access");
+            log_write("no app submit access");
+            xml_error(-1, "no app submit access");
         }
     }
     return array($user, $user_submit);
@@ -62,6 +96,11 @@ function delete_remote_submit_user($user) {
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
+    if ($batch->state == BATCH_STATE_INIT) {
+        // a batch in INIT state has no jobs
+        //
+        return $batch;
+    }
     $fp_total = 0;
     $fp_done = 0;
     $completed = true;

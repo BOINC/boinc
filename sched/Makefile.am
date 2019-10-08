@@ -53,7 +53,7 @@ libsched_fcgi_la_LIBADD=
 endif
 # end of "if ENABLE_FCGI"
 
-# Some OSs may not prefix libraries with lib. 
+# Some OSs may not prefix libraries with lib.
 # For example OS2
 if OS_OS2
 LIBSCHED_STATIC=sched.${LIBEXT}
@@ -221,7 +221,7 @@ VALIDATOR_SOURCES = \
 	validate_util2.cpp
 
 sample_bitwise_validator_SOURCES = $(VALIDATOR_SOURCES) \
-	sample_bitwise_validator.cpp 
+	sample_bitwise_validator.cpp
 sample_bitwise_validator_LDADD = $(SERVERLIBS)
 
 sample_substr_validator_SOURCES = $(VALIDATOR_SOURCES) \
@@ -260,7 +260,7 @@ script_validator_SOURCES = $(VALIDATOR_SOURCES) \
 script_validator_LDADD = $(SERVERLIBS)
 
 db_dump_SOURCES = db_dump.cpp
-db_dump_LDADD = $(SERVERLIBS)
+db_dump_LDADD = $(SERVERLIBS) -lz
 
 db_purge_SOURCES = db_purge.cpp
 db_purge_LDADD = $(SERVERLIBS) -lz
@@ -323,7 +323,7 @@ fcgi_file_upload_handler_LDADD = $(SERVERLIBS_FCGI)
 
 endif
 # end of "if ENABLE_FCGI"
-endif 
+endif
 # end of "if ENABLE_SERVER"
 
 .PHONY: PHONY-start
@@ -334,4 +334,4 @@ PHONY-start:
 status stop: PHONY-start
 	@test -f $@ || @LN_S@ start $@ && test -f $@
 
-CLEANFILES = status stop
+CLEANFILES = status stop *.gcno *.gcda *.gcov

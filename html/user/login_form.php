@@ -27,9 +27,6 @@ $next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
 $next_url = urlencode($next_url);
 
-$u = "login_form.php?next_url=".$next_url;
-redirect_to_secure_url($u);
-
 $user = get_logged_in_user(false);
 if ($user) {
     page_head("Already logged in");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -67,7 +67,7 @@ int DB_CONN::open(
     }
 
     if (set_opt_before) {
-        my_bool mbReconnect = 1;
+        bool mbReconnect = 1;
         mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
     }
 
@@ -91,7 +91,7 @@ int DB_CONN::open(
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
 
     if (set_opt_after) {
-        my_bool mbReconnect = 1;
+        bool mbReconnect = 1;
         mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
     }
     return 0;
@@ -530,5 +530,3 @@ void escape_mysql_like_pattern(const char* in, char* out) {
         *out++ = *in++;
     }
 }
-
-const char *BOINC_RCSID_43d919556b = "$Id$";

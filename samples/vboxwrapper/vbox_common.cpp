@@ -119,6 +119,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     register_only = false;
     rd_host_port = 0;
     headless = true;
+    log_pointer = 0;
     vm_pid = 0;
     vboxsvc_pid = 0;
 
@@ -267,44 +268,47 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     if (include_error_logs) {
         dump_screenshot();
         fprintf(
-                stderr,
-                "\n"
-                "    Hypervisor System Log:\n\n"
-                "%s\n"
-                "    VM Execution Log:\n\n"
-                "%s\n"
-                "    VM Startup Log:\n\n"
-                "%s\n"
-                "    VM Trace Log:\n\n"
-                "%s",
-                local_system_log.c_str(),
-                local_vm_log.c_str(),
-                local_startup_log.c_str(),
-                local_trace_log.c_str()
-               );
+            stderr,
+            "\n"
+            "    Hypervisor System Log:\n\n"
+            "%s\n"
+            "    VM Execution Log:\n\n"
+            "%s\n"
+            "    VM Startup Log:\n\n"
+            "%s\n"
+            "    VM Trace Log:\n\n"
+            "%s",
+            local_system_log.c_str(),
+            local_vm_log.c_str(),
+            local_startup_log.c_str(),
+            local_trace_log.c_str()
+       );
     }
 
     if (vm_exit_code) {
-        fprintf(
-                stderr,
-                "\n"
-                "    VM Exit Code: %d (0x%x)\n\n",
-                (unsigned int)vm_exit_code,
-                (unsigned int)vm_exit_code
-               );
+        fprintf(stderr,
+            "\n"
+            "    VM Exit Code: %d (0x%x)\n\n",
+            (unsigned int)vm_exit_code,
+            (unsigned int)vm_exit_code
+       );
     }
 }
 
-void VBOX_BASE::report_clean(bool unrecoverable_error, bool skip_cleanup, bool do_dump_hypervisor_logs,
-        int retval, std::string error_reason,
-        int vm_pid, int temp_delay, std::string temp_reason,
-        double current_cpu_time,
-        double last_checkpoint_cpu_time,
-        double fraction_done,
-        double bytes_sent,
-        double bytes_received) {
-
-
+void VBOX_BASE::report_clean(
+    bool unrecoverable_error,
+    bool skip_cleanup,
+    bool do_dump_hypervisor_logs,
+    int retval,
+    string error_reason,
+    int temp_delay,
+    string temp_reason,
+    double total_cpu_time,
+    double last_checkpoint_cpu_time,
+    double fraction_done,
+    double bytes_sent,
+    double bytes_received
+) {
     if (unrecoverable_error) {
 
         // Attempt to cleanup the VM and exit.
@@ -321,21 +325,20 @@ void VBOX_BASE::report_clean(bool unrecoverable_error, bool skip_cleanup, bool d
         }
 
         boinc_finish(retval);
-    }
-    else {
-
-        // if the VM is already running notify BOINC about the process ID so it can
-        // clean up the environment.  We should be safe to run after that.
+    } else {
+        // if the VM is already running notify BOINC about the process ID
+        // so it can clean up the environment.
+        // We should be safe to run after that.
         //
         if (vm_pid) {
             retval = boinc_report_app_status_aux(
-                    current_cpu_time,
-                    last_checkpoint_cpu_time,
-                    fraction_done,
-                    vm_pid,
-                    bytes_sent,
-                    bytes_received
-                    );
+                total_cpu_time,
+                last_checkpoint_cpu_time,
+                fraction_done,
+                vm_pid,
+                bytes_sent,
+                bytes_received
+            );
         }
 
         // Give the BOINC API time to report the pid to BOINC.
@@ -367,7 +370,7 @@ string VBOX_BASE::get_error(int num){
 
           "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n \
               hardware acceleration for virtual machines, but your processor does not support the required feature.\n \
-              Please report this issue to the project so that it can be addresssed.\n \
+              Please report this issue to the project so that it can be addressed.\n \
               Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
 
           "   VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n \
@@ -404,7 +407,7 @@ string VBOX_BASE::get_error(int num){
           "VM Hypervisor failed to enter an online state in a timely fashion."
     };
 
-    std::vector<std::string> v(args, args + 13);
+    std::vector<string> v(args, args + 13);
     return v[num];
 }
 
@@ -645,7 +648,7 @@ int VBOX_BASE::get_scratch_directory(string& dir) {
     APP_INIT_DATA aid;
     boinc_get_init_data_p(&aid);
 
-    dir = aid.project_dir + std::string("/scratch");
+    dir = aid.project_dir + string("/scratch");
 
     if (!dir.empty()) {
         return 1;
@@ -816,7 +819,7 @@ int VBOX_BASE::get_startup_log(string& log, bool tail_only, unsigned int buffer_
     return retval;
 }
 
-int VBOX_BASE::read_floppy(std::string& data) {
+int VBOX_BASE::read_floppy(string& data) {
     if (enable_floppyio && pFloppy) {
         data = pFloppy->receive();
         return 0;
@@ -824,7 +827,7 @@ int VBOX_BASE::read_floppy(std::string& data) {
     return 1;
 }
 
-int VBOX_BASE::write_floppy(std::string& data) {
+int VBOX_BASE::write_floppy(string& data) {
     if (enable_floppyio && pFloppy) {
         pFloppy->send(data);
         return 0;
@@ -832,7 +835,7 @@ int VBOX_BASE::write_floppy(std::string& data) {
     return 1;
 }
 
-void VBOX_BASE::sanitize_format(std::string& output) {
+void VBOX_BASE::sanitize_format(string& output) {
     // Check for special characters used by printf and render them harmless
     string::iterator iter = output.begin();
     while (iter != output.end()) {
@@ -850,7 +853,7 @@ void VBOX_BASE::sanitize_format(std::string& output) {
 }
 
 #ifdef _WIN32
-void VBOX_BASE::sanitize_output(std::string& output) {
+void VBOX_BASE::sanitize_output(string& output) {
     // Remove \r from the log spew
     string::iterator iter = output.begin();
     while (iter != output.end()) {
@@ -862,7 +865,7 @@ void VBOX_BASE::sanitize_output(std::string& output) {
     }
 }
 #else
-void VBOX_BASE::sanitize_output(std::string& ) {}
+void VBOX_BASE::sanitize_output(string& ) {}
 #endif
 
 // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
@@ -969,7 +972,7 @@ int VBOX_BASE::launch_vboxvm() {
     char cmdline[1024];
     char* argv[5];
     int argc;
-    std::string output;
+    string output;
     int retval = ERR_EXEC;
 
     // Construct the command line parameters
@@ -1429,7 +1432,7 @@ CLEANUP:
     return retval;
 }
 
-void VBOX_BASE::vbm_replay(std::string& command) {
+void VBOX_BASE::vbm_replay(string& command) {
     FILE* f = fopen(REPLAYLOG_FILENAME, "a");
     if (f) {
         fprintf(f, "%s\n", command.c_str());
@@ -1437,7 +1440,7 @@ void VBOX_BASE::vbm_replay(std::string& command) {
     }
 }
 
-void VBOX_BASE::vbm_trace(std::string& command, std::string& output, int retval) {
+void VBOX_BASE::vbm_trace(string& command, string& output, int retval) {
     char buf[256];
     int pid;
     struct tm tm;

@@ -29,7 +29,6 @@ $venue = sanitize_tags(get_str("venue", true));
 $columns = get_str("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
-
 if ($action) {
     check_tokens($user->authenticator);
     if ($subset == "global") {
@@ -78,6 +77,7 @@ if ($action) {
             } else {
                 $main_prefs = $prefs;
                 prefs_privacy_parse_form($user);
+                prefs_consent_parse_update($user);
             }
 
             project_prefs_update($user, $main_prefs);

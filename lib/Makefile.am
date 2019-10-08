@@ -35,7 +35,8 @@ libfcgi_sources = \
     str_util.cpp \
     synch.cpp \
     url.cpp \
-    util.cpp
+    util.cpp \
+	wslinfo.cpp
 
 generic_sources = \
     app_ipc.cpp \
@@ -69,7 +70,8 @@ generic_sources = \
     shmem.cpp \
     str_util.cpp \
     url.cpp \
-    util.cpp
+    util.cpp \
+	wslinfo.cpp
 
 if OS_WIN32
 win_sources = \
@@ -183,6 +185,9 @@ libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
+if OS_FREEBSD
+libboinc_la_LDFLAGS += -lexecinfo
+endif
 libboinc_la_LIBADD =
 
 if ENABLE_BOINCCRYPT
@@ -242,7 +247,7 @@ $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
 clean: clean-am
-	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC)
+	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC) *.gcno *.gcda *.gcov
 
 endif
 # end of "if ENABLE_LIBRARIES"

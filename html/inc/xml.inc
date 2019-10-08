@@ -95,18 +95,15 @@ function show_host_xml($host) {
 //
 function show_user_xml($user, $show_hosts) {
     $cpid = md5($user->cross_project_id.$user->email_addr);
-    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
     <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>
-    <country>$user->country</country>
     <total_credit>$user->total_credit</total_credit>
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
     <teamid>$user->teamid</teamid>
-    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
     if ($show_hosts) {
@@ -116,8 +113,14 @@ function show_user_xml($user, $show_hosts) {
             show_host_xml($host);
         }
     }
-echo"</user>
-";
+    if (USER_COUNTRY) {
+        echo "     <country>$user->country</country>\n";
+    }
+    if (USER_URL) {
+        $url = normalize_user_url($user->url);
+        echo "    <url>".htmlspecialchars($url)."</url>\n";
+    }
+    echo "</user>\n";
 }
 
 function show_team_member($user, $creditonly = false) {
@@ -131,12 +134,17 @@ function show_team_member($user, $creditonly = false) {
     if (!$creditonly) {
         echo "    <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>
-    <country>$user->country</country>
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>
-    <url>".htmlspecialchars($url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
+        if (USER_COUNTRY) {
+            echo "     <country>$user->country</country>\n";
+        }
+        if (USER_URL) {
+            $url = normalize_user_url($user->url);
+            echo "    <url>".htmlspecialchars($url)."</url>\n";
+        }
     }
     echo "</user>
 ";

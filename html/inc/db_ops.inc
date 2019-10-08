@@ -840,7 +840,7 @@ function resource_name($x) {
     switch ($x) {
     case 2: return "CPU";
     case 3: return "NVIDIA";
-    case 4: return "ATI";
+    case 4: return "AMD";
     }
     return "Unknown resource: $x";
 }
@@ -908,6 +908,10 @@ function admin_show_host($host) {
     row("CPU", "$host->p_vendor $host->p_model");
     row("GFLOPS", number_format($host->p_fpops/1e9, 2));
     row("GIOPS", number_format($host->p_iops/1e9, 2));
+
+    row("Number of GPUs", $host->p_ngpus);
+    row("GPU GFLOPS", number_format($host->p_gpu_fpops/1e9, 2));
+
     $x = $host->p_membw/(1024*1024);
     $y = number_format($x, 2);
     row("Memory bandwidth", "$y MB/sec");
@@ -954,6 +958,7 @@ function admin_show_workunit($wu) {
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
+    row("Application version number", $wu->app_version_num);
     row("Batch", $wu->batch);
     $x = number_format($wu->rsc_fpops_est/1e9, 2);
     row("Estimated FP Operations", "$x GFLOPS");
@@ -984,6 +989,7 @@ function admin_show_workunit($wu) {
     row("hr_class", $wu->hr_class);
     row("opaque", $wu->opaque);
     row("Priority", $wu->priority);
+    row("Keywords", ($wu->keywords ? $wu->keywords : "<em>empty</em>"));
     end_table();
     echo "<div align=\"center\">";
     echo "<a href=\"show_log.php?s=$wu->name\">GREP LOGS FOR THIS WORKUNIT</a>";
@@ -1217,6 +1223,8 @@ function admin_show_user($user) {
         row("Authenticator", $user->authenticator);
     }
     row("Email address", $user->email_addr);
+    row("Previous email address", $user->previous_email_addr);
+    row("Email change time", time_str($user->email_addr_change_time));
     row("OK to send Email?", $user->send_email);
     row("Country", $user->country);
     row("Postal code", $user->postal_code);

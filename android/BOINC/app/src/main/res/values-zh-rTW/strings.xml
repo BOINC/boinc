@@ -20,14 +20,16 @@
   <string name="attachproject_credential_input_sing_desc">輸入帳號資訊</string>
   <string name="attachproject_credential_input_desc">輸入專案的帳號資訊:</string>
   <string name="attachproject_credential_input_show_pwd">顯示密碼</string>
-  <string name="attachproject_individual_credential_input">個別加入專案</string>
+  <string name="attachproject_individual_credential_input">加入個別專案</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">加入研究專案時發生問題:</string>
+  <string name="attachproject_conflicts_desc">加入專案時發生問題：</string>
   <string name="attachproject_conflict_undefined">無法連線</string>
   <string name="attachproject_conflict_not_unique">帳號存在但密碼不正確</string>
   <string name="attachproject_conflict_bad_password">密碼不正確</string>
   <string name="attachproject_conflict_unknown_user">帳號不存在</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請到專案網站註冊</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請前往網站註冊
+        註冊
+    </string>
   <!--working-->
   <string name="attachproject_working_attaching">加入中</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -38,32 +40,32 @@
   <string name="attachproject_hint_contribtion_wifi">1.連線到WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2.接上充電器</string>
   <string name="attachproject_hint_contribtion_screen">3.關閉螢幕</string>
-  <string name="attachproject_hint_projectwebsite_header">造訪專案網站:</string>
+  <string name="attachproject_hint_projectwebsite_header">造訪專案網站：</string>
   <string name="attachproject_hint_projectwebsite_science">更深入了解科學</string>
   <string name="attachproject_hint_projectwebsite_stats">查看貢獻統計</string>
   <string name="attachproject_hint_projectwebsite_community">與其他參與者互動</string>
-  <string name="attachproject_hint_platforms_header">BOINC 也支援電腦及筆電，造訪 boinc.berkeley.edu 了解更多資訊。</string>
+  <string name="attachproject_hint_platforms_header">BOINC 也支援您的電腦或筆電，請前往 boinc.berkeley.edu 了解更多資訊。</string>
   <!--project login-->
   <string name="attachproject_login_loading">正連線到專案伺服器...</string>
   <string name="attachproject_login_image_description">專案標誌。</string>
-  <string name="attachproject_login_header_general_area">研究領域:</string>
-  <string name="attachproject_login_header_specific_area">專業領域:</string>
+  <string name="attachproject_login_header_general_area">研究領域：</string>
+  <string name="attachproject_login_header_specific_area">專業領域：</string>
   <string name="attachproject_login_header_description">描述:</string>
   <string name="attachproject_login_header_home">首頁:</string>
   <string name="attachproject_login_header_url">網站:</string>
   <string name="attachproject_login_header_platform">Android:</string>
   <string name="attachproject_login_platform_supported">此專案支援Android裝置</string>
   <string name="attachproject_login_platform_not_supported">此專案不支援Android裝置</string>
-  <string name="attachproject_login_category_terms_of_use">使用條款:</string>
-  <string name="attachproject_login_accept_terms_of_use">當您在這個專案建立帳號，表示您同意上述使用條款。</string>
+  <string name="attachproject_login_category_terms_of_use">使用條款：</string>
+  <string name="attachproject_login_accept_terms_of_use">當您在這個專案註冊帳號，表示您同意上述使用條款。</string>
   <string name="attachproject_login_category_login">用現有的帳號登入</string>
   <string name="attachproject_login_header_id_email">電子郵件:</string>
   <string name="attachproject_login_header_id_name">名稱:</string>
   <string name="attachproject_login_header_pwd">密碼:</string>
   <string name="attachproject_login_category_creation">第一次加入</string>
-  <string name="attachproject_login_header_creation_enabled">註冊帳號加入:</string>
-  <string name="attachproject_login_header_creation_client_disabled">進入專案官網建立帳號:</string>
-  <string name="attachproject_login_header_creation_disabled">專案目前不允許建立新帳號。</string>
+  <string name="attachproject_login_header_creation_enabled">註冊帳號加入：</string>
+  <string name="attachproject_login_header_creation_client_disabled">進入專案網站來建立帳號</string>
+  <string name="attachproject_login_header_creation_disabled">這個專案目前不允許建立新帳號</string>
   <string name="attachproject_login_button_registration">註冊</string>
   <string name="attachproject_login_button_login">登入</string>
   <string name="attachproject_login_button_forgotpw">忘記密碼</string>
@@ -79,7 +81,7 @@
   <string name="attachproject_registration_header_pwd_confirm">… 再次輸入:</string>
   <string name="attachproject_registration_button">建立</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">使用BOINC帳號管理服務新增及管理多個專案</string>
+  <string name="attachproject_acctmgr_list_desc">使用 BOINC 帳號管理服務來新增及管理多個專案</string>
   <string name="attachproject_acctmgr_header">新增帳號管理服務</string>
   <string name="attachproject_acctmgr_header_url">網址</string>
   <string name="attachproject_acctmgr_header_name">用戶:</string>
@@ -104,6 +106,7 @@
   <string name="attachproject_error_bad_pwd">密碼無效</string>
   <string name="attachproject_error_creation_disabled">此專案已停用註冊功能</string>
   <string name="attachproject_error_invalid_url">網址不正確</string>
+  <string name="attachproject_error_consent_required">使用此軟體必須同意我們的使用條款</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">返回</string>
   <string name="attachproject_working_finish_button">完成</string>
@@ -155,23 +158,27 @@
   <string name="prefs_category_cpu">CPU</string>
   <string name="prefs_category_storage">儲存</string>
   <string name="prefs_category_memory">記憶體</string>
+  <string name="prefs_category_other">其他</string>
   <string name="prefs_category_debug">偵錯</string>
   <string name="prefs_show_advanced_header">顯示進階偏好設定...</string>
   <string name="prefs_suspend_when_screen_on">當螢幕亮時暫停運算</string>
+  <string name="prefs_general_device_name_header">裝置名稱</string>
   <string name="prefs_stationary_device_mode_header">固定裝置模式</string>
-  <string name="prefs_stationary_device_mode_description">忽略電源設定執行運算。僅能於裝置沒有電池時使用。</string>
+  <string name="prefs_stationary_device_mode_description">忽略電源設定來執行運算。
+只用於非電池的裝置使用。</string>
   <string name="prefs_power_source_header">運算電源選項</string>
-  <string name="prefs_power_source_description">選擇允許 BOINC 執行的電力來源</string>
+  <string name="prefs_power_source_description">選擇˙可讓 BOINC 使用的電力來源</string>
   <string name="prefs_power_source_ac">充電器</string>
   <string name="prefs_power_source_usb">USB連線</string>
   <string name="prefs_power_source_wireless">無線充電</string>
   <string name="prefs_power_source_battery">電池</string>
   <string name="battery_charge_min_pct_header">最低電量</string>
-  <string name="battery_charge_min_pct_description">BOINC在低於設定電量時即暫停運算。</string>
+  <string name="battery_charge_min_pct_description">BOINC 在低於設定的電量時將暫停運算。</string>
   <string name="battery_temperature_max_header">最高電池溫度</string>
-  <string name="battery_temperature_max_description">BOINC當電池溫度高於預設值時暫停運算。不建議變更此設定值。</string>
+  <string name="battery_temperature_max_description">BOINC 將在電池溫度高於預設值的時候暫停運算。
+不建議您變更此設定值。</string>
   <string name="prefs_disk_max_pct_header">最多使用儲存空間</string>
-  <string name="prefs_disk_max_pct_description">BOINC能使用多少比例的儲存空間?</string>
+  <string name="prefs_disk_max_pct_description">允許 BOINC 使用多少比例的儲存空間?</string>
   <string name="prefs_disk_min_free_gb_header">最小備用容量</string>
   <string name="prefs_disk_min_free_gb_description">您的裝置有多少閒置空間可以使用?</string>
   <string name="prefs_disk_access_interval_header">存取間隔</string>
@@ -185,11 +192,15 @@
   <string name="prefs_cpu_number_cpus_header">使用CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC運算時使用的核心數。</string>
   <string name="prefs_cpu_other_load_suspension_header">暫停在CPU使用率高於</string>
-  <string name="prefs_cpu_other_load_suspension_description">由其他程式使用的CPU使用率決定是否暫停BOINC。</string>
+  <string name="prefs_cpu_other_load_suspension_description">由其他應用程式使用CPU的情況來決定是否暫停 BOINC 的運算。</string>
   <string name="prefs_cpu_time_max_header">限制CPU</string>
   <string name="prefs_cpu_time_max_description">限制BOINC運算時的CPU時間。</string>
   <string name="prefs_memory_max_idle_header">限制RAM</string>
   <string name="prefs_memory_max_idle_description">限制任務佔用 RAM 容量。</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">運算單元緩衝區</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">儲存至少 X 天的工作</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">附加工作單元緩衝區</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">最少存放 X 天的工作</string>
   <string name="prefs_client_log_flags_header">BOINC客戶端紀錄檔標籤</string>
   <string name="prefs_gui_log_level_header">GUI日誌等級</string>
   <string name="prefs_gui_log_level_description">指定GUI紀錄的詳細程度。</string>
@@ -199,7 +210,7 @@
   <string name="projects_loading">正在讀取專案…</string>
   <string name="projects_add">新增專案</string>
   <string name="projects_icon">專案圖示</string>
-  <string name="projects_credits">積分:</string>
+  <string name="projects_credits">積分：</string>
   <string name="projects_credits_host_and_user">%1$,d (裝置上) %2$,d (總計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">用戶已暫停</string>
@@ -209,9 +220,9 @@
   <string name="projects_status_schedrpcpending">排程器請求等待中</string>
   <string name="projects_status_schedrpcinprogress">排程器請求處理中</string>
   <string name="projects_status_trickleuppending">Trickle up訊息處理中</string>
-  <string name="projects_status_backoff">排定通訊:</string>
+  <string name="projects_status_backoff">排定通訊：</string>
   <!--project controls-->
-  <string name="projects_control_dialog_title">專案指令:</string>
+  <string name="projects_control_dialog_title">專案指令：</string>
   <string name="projects_control_visit_website">造訪網站</string>
   <string name="projects_control_update">更新</string>
   <string name="projects_control_remove">移除</string>
@@ -220,7 +231,7 @@
   <string name="projects_control_nonewtasks">拒絕新任務</string>
   <string name="projects_control_allownewtasks">允許新任務</string>
   <string name="projects_control_reset">重置</string>
-  <string name="projects_control_dialog_title_acctmgr">帳號管理服務指令:</string>
+  <string name="projects_control_dialog_title_acctmgr">帳號管理服務指令：</string>
   <string name="projects_control_sync_acctmgr">同步</string>
   <string name="projects_control_remove_acctmgr">停用</string>
   <!--project confirm dialog-->
@@ -238,9 +249,9 @@
   <string name="projects_confirm_remove_acctmgr_confirm">停用</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">任務名稱:</string>
-  <string name="tasks_header_elapsed_time">執行時間:</string>
+  <string name="tasks_header_elapsed_time">執行時間：</string>
   <string name="tasks_header_project_paused">(暫停)</string>
-  <string name="tasks_header_deadline">上傳期限:</string>
+  <string name="tasks_header_deadline">上傳期限：</string>
   <string name="tasks_result_new">新任務</string>
   <string name="tasks_result_files_downloading">等待下載中</string>
   <string name="tasks_result_files_downloaded">下載完成</string>
@@ -259,7 +270,7 @@
   <string name="tasks_custom_ready_to_report">準備回報</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">停止任務?</string>
-  <string name="confirm_abort_task_message">停止任務:</string>
+  <string name="confirm_abort_task_message">停止任務：</string>
   <string name="confirm_abort_task_confirm">停止</string>
   <string name="confirm_cancel">取消</string>
   <string name="confirm_image_desc">確認對話框</string>
@@ -285,7 +296,7 @@
   <string name="eventlog_client_header">用戶端訊息</string>
   <string name="eventlog_gui_header">GUI 訊息</string>
   <string name="eventlog_copy_toast">紀錄已複製到剪貼簿。</string>
-  <string name="eventlog_email_subject">Android 的 BOINC 事件紀錄:</string>
+  <string name="eventlog_email_subject">Android 的 BOINC 事件紀錄：</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">已暫停運算。</string>
   <string name="suspend_batteries">裝置連接到充電器時繼續運算。</string>
@@ -328,28 +339,29 @@
   <string name="menu_run_mode_enable">繼續</string>
   <string name="menu_about">關於</string>
   <string name="menu_help">幫助</string>
+  <string name="menu_report_issue">回報問題</string>
   <!--about dialog-->
   <string name="about_button">返回</string>
   <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2018 美國加州大學柏克萊分校</string>
+  <string name="about_copyright">\u00A9 2003–2019 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
-  <string name="about_credits">特別感謝 Max Planck Institute for Gravitational Physics, IBM Corporation 和 HTC Corporation 的技術支援。</string>
+  <string name="about_credits">感謝 Max Planck 引力物理研究所，IBM 公司和 HTC 公司的幫助</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="other">%2$,d 則新提醒</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">偵測到志願運算 APP</string>
-  <string name="nonexcl_dialog_text">有其它志願運算 APP 正在此裝置執行。只容許一個版本執行。</string>
+  <string name="nonexcl_dialog_text">有其它志願運算的 APP 正在此裝置執行。一次只容許一個版本執行。</string>
   <string name="nonexcl_dialog_exit">退出</string>
   <!--social integration-->
   <string name="social_invite_button">邀請好友</string>
   <string name="social_invite_intent_title">您想如何分享?</string>
   <string name="social_invite_content_title">我正在用智慧型手機研究科學!</string>
-  <string name="social_invite_content_body">我的 %1$s 正在為科學運算。希望您加入! APP 下載: %2$s</string>
+  <string name="social_invite_content_body">我的 %1$s 正在為科學運算，你也可以！ App 下載連結: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

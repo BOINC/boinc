@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -44,6 +44,8 @@
 //  [--credit_from_wu]          get credit from workunit.canonical_credit
 //  [--credit_from_runtime]     grant credit based on runtime,
 //  [--wu_id n]                 Validate WU n (debugging)
+//  [--check_punitive]          check for results with long-term failure,
+//                              punish host
 
 #include "config.h"
 #include <unistd.h>
@@ -73,6 +75,8 @@
 #include "gcl_simulator.h"
 #endif
 
+using std::vector;
+
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
 
@@ -90,6 +94,7 @@ typedef enum {
 
 char app_name[256];
 DB_APP app;
+DB_APP* g_app = &app;
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int wu_id_min=0;
@@ -104,6 +109,7 @@ bool credit_from_runtime = false;
 bool post_assigned_credit = false;
 bool no_credit = false;
 bool dry_run = false;
+bool check_punitive = false;
 int wu_id = 0;
 int g_argc;
 char **g_argv;
@@ -176,10 +182,46 @@ static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
     }
 }
 
+// check for results with long-term failure; punish those hosts.
+//
+void scan_punitive(vector<VALIDATOR_ITEM>& items) {
+    void* data=NULL;
+    char buf[256];
+
+    for (unsigned int i=0; i<items.size(); i++) {
+        RESULT& result = items[i].res;
+        if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
+        if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
+        if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
+            DB_HOST_APP_VERSION hav, hav2;
+            sprintf(buf, "where host_id=%ld and app_version_id=%ld",
+                result.hostid, result.app_version_id
+            );
+            int retval = hav.lookup(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "scan_punitive(): can't find HAV for results %ld",
+                    result.id
+                );
+                continue;
+            }
+            hav2 = hav;
+            hav2.max_jobs_per_day = 1;
+            hav2.n_jobs_today = 1;
+            hav2.update_scheduler(hav);
+                // update_scheduler() updates the above fields
+        }
+        if (data) {
+            cleanup_result(result, data);
+            data = NULL;
+        }
+    }
+}
+
 // handle a workunit which has new results
 //
 int handle_wu(
-    DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
+    DB_VALIDATOR_ITEM_SET& validator, vector<VALIDATOR_ITEM>& items
 ) {
     int canonical_result_index = -1;
     bool update_result, retry;
@@ -191,6 +233,10 @@ int handle_wu(
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
+
+    if (check_punitive) {
+        scan_punitive(items);
+    }
 
     if (wu.canonical_resultid) {
         log_messages.printf(MSG_NORMAL,
@@ -755,6 +801,7 @@ bool do_validate_scan() {
         if (!retval) found = true;
         if (++i == one_pass_N_WU) break;
         if (wu_id) break;
+        if (dry_run) break;  // otherwise it will enumerate forever
     }
     return found;
 }
@@ -817,6 +864,7 @@ void usage(char* name) {
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
         "    [--no_credit]              Don't grant credit\n"
+        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"  
         "    [--sleep_interval n]       Set sleep-interval to n\n"
         "    [--wu_id n]                Process WU with given ID\n"
         "    [-d level|--debug_level n] Set log verbosity level\n"
@@ -887,6 +935,8 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "wu_id")) {
             wu_id = atoi(argv[++i]);
             one_pass = true;
+        } else if (is_arg(argv[i], "check_punitive")) {
+            check_punitive = true;
         } else {
             // unknown arg - pass to handler
             argv[j++] = argv[i];
@@ -965,5 +1015,3 @@ int main(int argc, char** argv) {
 
     main_loop();
 }
-
-const char *BOINC_RCSID_634dbda0b9 = "$Id$";

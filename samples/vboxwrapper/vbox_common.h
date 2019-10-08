@@ -270,14 +270,20 @@ class VBOX_BASE : public VBOX_JOB {
 
         virtual std::string get_error(int choice);
 
-        virtual void report_clean(bool unrecoverable_error, bool skip_cleanup, bool do_dump_hypervisor_logs, 
-                int retval, std::string error_reason,
-                int vm_pid, int temp_delay, std::string  temp_reason,
-                double current_cpu_time,
-                double last_checkpoint_cpu_time,
-                double fraction_done,
-                double bytes_sent,
-                double bytes_received);
+        virtual void report_clean(
+            bool unrecoverable_error,
+            bool skip_cleanup,
+            bool do_dump_hypervisor_logs, 
+            int retval,
+            std::string error_reason,
+            int temp_delay,
+            std::string temp_reason,
+            double current_cpu_time,
+            double last_checkpoint_cpu_time,
+            double fraction_done,
+            double bytes_sent,
+            double bytes_received
+        );
 };
 
 class VBOX_VM : public VBOX_BASE {

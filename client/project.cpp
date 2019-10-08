@@ -47,7 +47,11 @@ void PROJECT::init() {
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
+    resource_share_frac = 0.0;
+    disk_resource_share = 0.0;
     desired_disk_usage = 0;
+    ddu = 0.0;
+    disk_quota = 0.0;
     for (int i=0; i<MAX_RSC; i++) {
         no_rsc_pref[i] = false;
         no_rsc_config[i] = false;
@@ -86,6 +90,8 @@ void PROJECT::init() {
     next_rpc_time = 0;
     last_rpc_time = 0;
     trickle_up_pending = false;
+    disk_usage = 0.0;
+    disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
@@ -108,8 +114,16 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
+    proj_n_concurrent = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
+    sched_priority = 0.0;
+    rr_sim_cpu_share = 0.0;
+    rr_sim_active = false;
+    nresults_returned = 0;
+    checked = false;
+    dont_contact = false;
+    n_ready = 0;
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
@@ -970,54 +984,51 @@ void PROJECT::check_no_apps() {
     }
 }
 
-// show a notice if we can't possibly get work from this project,
-// and there's something the user could do about it
+// show a notice if we can't get work from this project,
+// and there's something the user could do about it.
 //
 void PROJECT::show_no_work_notice() {
-    bool show_ams = false, show_prefs=false, show_config = false;
-    bool user_action_possible = false;
+    bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
-        if (!banned_by_user) {
-            // work for this resource is possible; return
-            notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-            return;
+        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
+        if (!gstate.acct_mgr_info.dynamic) {
+            // dynamic account managers manage rsc usage themselves, not user
+            //
+            banned_by_user = banned_by_user || no_rsc_ams[i];
+            // note to self: ||= doesn't exist
         }
-        if (no_rsc_pref[i]) show_prefs = true;
-        if (no_rsc_config[i]) show_config = true;
-        if (no_rsc_ams[i]) show_ams = true;
-        user_action_possible = true;
+        if (!banned_by_user) {
+            continue;
+        }
+        string x;
+        x = NO_WORK_MSG;
+        x += " ";
+        x += rsc_name_long(i);
+        x += ".  ";
+        x += _("To fix this, you can ");
+
+        bool first = true;
+        if (no_rsc_pref[i]) {
+            x += _("change Project Preferences on the project's web site");
+            first = false;
+        }
+        if (no_rsc_config[i]) {
+            if (!first) x += ", or ";
+            x += _("remove GPU exclusions in your cc_config.xml file");
+            first = false;
+        }
+        if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
+            if (!first) x += ", or ";
+            x += _("change your settings at your account manager web site");
+        }
+        x += ".";
+        msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
+        some_banned = true;
     }
-    if (!user_action_possible) {
-        // no work is possible because project has no apps for any resource
-        //
+    if (!some_banned) {
         notices.remove_notices(this, REMOVE_NO_WORK_MSG);
         return;
     }
 
-    bool first = true;
-    string x;
-    x = NO_WORK_MSG;
-    x += "  ";
-    x += _("To fix this, you can ");
-    if (show_prefs) {
-        first = false;
-        x += _("change Project Preferences on the project's web site");
-    }
-    if (show_config) {
-        if (!first) {
-            x += ", or ";
-        }
-        x += _("remove GPU exclusions in your cc_config.xml file");
-        first = false;
-    }
-    if (show_ams) {
-        if (!first) {
-            x += ", or ";
-        }
-        x += _("change your settings at your account manager web site");
-    }
-    x += ".";
-    msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
 }

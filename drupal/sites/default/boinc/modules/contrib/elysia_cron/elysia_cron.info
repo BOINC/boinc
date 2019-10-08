@@ -2,8 +2,8 @@ name = "Elysia Cron"
 description = "Extended cron support with crontab-like scheduling and other features."
 core = 6.x
 ; Information added by drupal.org packaging script on 2012-03-13
-version = "6.x-2.1-boinc-1-dev"
+version = "6.x-2.1-boinc-2-dev"
 core = "6.x"
 project = "elysia_cron"
-datestamp = "1494510782"
+datestamp = "1548705400"
 

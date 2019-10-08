@@ -18,6 +18,7 @@
 
 // TODO: the following is organized in a funky way.  Clean it up
 
+require_once("..inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
 require_once("../inc/recaptchalib.php");
@@ -105,10 +106,9 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1(tra("Submit profile"));
-    $config = get_config();
-    $publickey = parse_config($config, "<recaptcha_public_key>");
-    if ($publickey) {
-        table_row(boinc_recaptcha_get_html($publickey));
+    global $recaptcha_public_key;
+    if ($recaptcha_public_key) {
+        table_row(boinc_recaptcha_get_html($recaptcha_public_key));
     }
     table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
@@ -193,15 +193,14 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
-    global $config;
+    global $recaptcha_private_key;
 
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
     $language = post_str('language', true);
 
-    $privatekey = parse_config($config, "<recaptcha_private_key>");
-    if ($privatekey) {
-        if (!boinc_recaptcha_isValidated($privatekey)) {
+    if ($recaptcha_private_key) {
+        if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,

@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for the Current Search Blocks module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function current_search_schema() {
+  $schema = array();
+
+  $schema['current_search'] = array(
+    'description' => 'Current search block configurations.',
+    'export' => array(
+      'key' => 'name',
+      'identifier' => 'item',
+      'default hook' => 'current_search_default_items',
+      'delete callback' => 'current_search_export_crud_delete',
+      'api' => array(
+        'owner' => 'current_search',
+        'api' => 'current_search',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+    'fields' => array(
+      'name' => array(
+        'description' => 'The machine readable name of the configuration.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'label' => array(
+        'description' => 'The human readable name of the configuration.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'settings' => array(
+        'description' => 'Serialized storage of general settings.',
+        'type' => 'text',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  $schema['block_current_search'] = array(
+    'description' => 'Sets up display criteria for blocks based on searcher',
+    'fields' => array(
+      'delta' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'description' => "The block's unique delta within module, from {block}.delta.",
+      ),
+      'searcher' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => "The machine-readable name of the searcher.",
+      ),
+    ),
+    'primary key' => array('delta'),
+    'indexes' => array(
+      'searcher' => array('searcher'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function current_search_install() {
+  // Install tables
+  drupal_install_schema('current_search');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function current_search_uninstall() {
+  // Remove Current Search blocks.
+  // @see http://drupal.org/node/1567928
+  db_query('DELETE FROM {blocks} WHERE module = "current_search"');
+  // Remove tables.
+  drupal_uninstall_schema('current_search');
+}

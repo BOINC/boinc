@@ -87,7 +87,7 @@ echo "
     <p>
     <table border=\"0\"><tr valign=\"top\">
     <td><b>Browse database:</b>
-    <ul> 
+    <ul>
         <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
         <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
         <li><a href=\"db_form.php?table=host&amp;detail=low\">Hosts</a></li>
@@ -99,13 +99,14 @@ echo "
         <li><a href=dbinfo.php>DB row counts and disk usage</a>
         <li><a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
     </ul>
-    
 
-    </td> 
+
+    </td>
     <td><b>Computing</b>
     <ul>
         <li><a href=\"manage_apps.php\">Manage applications</a></li>
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
+        <li><a href=\"manage_consent_types.php\">Manage consent types</a></li>
         <li> Manage jobs
         <ul>
             <li><a href=\"cancel_wu_form.php\">Cancel jobs by ID</a>
@@ -121,12 +122,12 @@ echo "
         <li>
             <form method=\"get\" action=\"clear_host.php\">
             <input class=\"btn btn-default\" type=\"submit\" value=\"Clear RPC seqno\">
-            host ID: 
+            host ID:
             <input type=\"text\" size=\"5\" name=\"hostid\">
             </form>
     </ul>
-    
-    </td> 
+
+    </td>
     <td><b>User management</b>
     <ul>
         <li><a href=".url_base()."/forum_index.php>Post news item</a></li>
@@ -135,6 +136,7 @@ echo "
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
         <li><a href=".url_base()."/manage_project.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
+        <li><a href=\"check_account_ownership_keys.php\">Check generated account ownership keys</a></li>
         <li><form action=\"manage_user.php\">
             <input class=\"btn btn-default\" type=\"submit\" value=\"Manage user\">
             ID: <input name=\"userid\">
@@ -152,11 +154,11 @@ $show_deprecated = get_str("show_deprecated", true);
 $show_only = array("all"); // Add all appids you want to display, or "all"
 $apps = BoincApp::enum("");
 foreach ($apps as $app) {
-    if (in_array($app->id, $show_only) 
+    if (in_array($app->id, $show_only)
        || ( in_array("all", $show_only)
           && (!$app->deprecated || $show_deprecated)
     )) {
-    
+
         echo "
             <b>Results for <tt>$app->name</tt>:</b>
             <ul>
@@ -176,7 +178,7 @@ foreach ($apps as $app) {
                 </a> |
                 <a href=\"pass_percentage_by_platform.php?appid=$app->id&amp;nsecs=$secs\">
                     summary per app version
-                </a> | 
+                </a> |
                 <a href=\"failure_result_summary_by_host.php?appid=$app->id&amp;nsecs=$secs\">
                     failures broken down by (app version, host)
                 </a> |

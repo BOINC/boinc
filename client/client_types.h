@@ -124,8 +124,6 @@ struct FILE_INFO {
         // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;
         // nonzero if in the process of being up/downloaded
-    RESULT* result;
-        // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     URL_LIST download_urls;
@@ -261,7 +259,7 @@ struct APP {
         // Limit on # of concurrent jobs of this app; 0 if none
         // Specified in app_config.xml
         // Can also specify in client_state.xml (for client emulator)
-    int n_concurrent;
+    int app_n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
     COPROC_INSTANCE_BITMAP non_excluded_instances[MAX_RSC];
         // for each resource type, bitmap of the non-excluded instances

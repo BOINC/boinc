@@ -60,6 +60,8 @@ public:
         // On next auth failure, disconnect
     bool is_local;
         // connection is from local host
+    VERSION_INFO client_api;
+    std::string client_name;
     bool quit_flag;
     int au_ss_state;
     int au_mgr_state;
@@ -86,6 +88,8 @@ public:
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     int handle_auth2(char*, MIOFILE&);
+    void http_error(const char* msg);
+    void handle_get();
 };
 
 // authentication for GUI RPCs:

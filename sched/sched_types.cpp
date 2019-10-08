@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -277,6 +277,7 @@ void SCHEDULER_REQUEST::clear() {
     using_weak_auth = false;
     last_rpc_dayofyear = 0;
     current_rpc_dayofyear = 0;
+    user_id = 0;
 }
 
 // return an error message or NULL
@@ -728,6 +729,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&disk_limits, 0, sizeof(disk_limits));
     request_delay = 0;
     hostid = 0;
+    lockfile_fd = -1;
     send_global_prefs = false;
     strcpy(code_sign_key, "");
     strcpy(code_sign_key_signature, "");
@@ -1402,6 +1404,11 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+        if (xp.parse_bool("wsl_available", wsl_available)) continue;
+        if (xp.match_tag("wsl")) {
+            wsls.parse(xp);
+            continue;
+        }
 
         // unused fields
         //
@@ -1660,5 +1667,3 @@ bool HOST::get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
     }
     return false;
 }
-
-const char *BOINC_RCSID_ea659117b3 = "$Id$";

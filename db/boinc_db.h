@@ -225,6 +225,13 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
+class DB_BATCH : public DB_BASE, public BATCH {
+public:
+    DB_BATCH(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+};
+
+
 class DB_CREDITED_JOB : public DB_BASE, public CREDITED_JOB {
 public:
     DB_CREDITED_JOB(DB_CONN* p=0);
@@ -567,5 +574,13 @@ struct DB_CREDIT_TEAM : public DB_BASE, public CREDIT_TEAM {
     void db_print(char*);
     void db_parse(MYSQL_ROW&);
 };
+
+struct DB_CONSENT_TYPE : public DB_BASE, public CONSENT_TYPE {
+    DB_CONSENT_TYPE(DB_CONN* p=0);
+    DB_ID_TYPE get_id();
+    void db_print(char *);
+    void db_parse(MYSQL_ROW &row);
+};
+
 
 #endif

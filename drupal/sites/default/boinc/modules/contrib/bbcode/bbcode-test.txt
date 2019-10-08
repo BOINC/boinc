@@ -4,6 +4,7 @@ This document uses (almost) all BBCode tags supported by Drupal's BBCode module.
 [hr]
 
 [h3]Normal text formatting[/h3]
+
 Test [b]bold[/b] / [strong]strong[/strong] text
 Test [i]italic[/i] / [em]emphasised[/em] text
 Test [u]underlined[/u] text
@@ -11,20 +12,39 @@ Test [s]strikeout[/s] text
 Test subscript text - H[sub]2[/sub]O
 Test superscript text - X[sup]3[/sup]
 
-[h3]Font colors[/h3]
+[h3]Font colours[/h3]
+
 Test [color=blue]blue[/color] text
 Test [color=red]red[/color] text
 Test [color=green]green[/color] text
 Test [color=#eeff00]#eeff00[/color] text
+Some [highlight=yellow]highlighted[/highlight] [highlight=green]text[/highlight]
 
 [h3]Font sizes[/h3]
+
+It [size=14]g[/size][size=18]r[/size][size=22]o[/size][size=26]o[/size][size=30]w[/size][size=34]s[/size][size=36]![/size]
+
+[i]Sizes smaller than 50 are treated as px:[/i]
 Test [size=1]1px[/size] - too small, normalized to 6px
 Test [size=12]12px[/size] text
 Test [size=24]24px[/size] text
-Test [size=100]100px[/size] - too big, normalized to 48px
-[size=10] $_SERVER[PHP_SELF] "quoted" \\e\s\c\aped\" [/size] - watch out for eval
+Test [size=48]24px[/size] text
+
+[i]Sizes 50 and bigger are treated as percentages:[/i]
+Test [size=50]50[/size] - 50%
+Test [size=100]100[/size] - 100%
+Test [size=150]150[/size] - 150%
+
+[i]With CSS attributes:[/i]
+Test [size=xx-small]xx-small[/size] - xx-small
+Test [size=x-small]x-small[/size] - x-small
+Test [size=small]small[/size] - small
+Test [size=large]large[/size] - large
+Test [size=x-large]x-large[/size] - x-large
+Test [size=xx-large]xx-large[/size] - xx-large
 
 [h3]Font faces[/h3]
+
 Test [font=arial]Arial typeface[/font] text
 Test [font=Arial Black]Arial typeface[/font] text
 Test [font=Courier]Courier typeface[/font] text
@@ -35,26 +55,31 @@ Test [font=Times New Roman]Times New Roman typeface[/font] text
 Test [font=verdana]Verdana typeface[/font] text
 
 [h3]Text alignment[/h3]
+
 [left]Left hand side of the screen[/left]
 [right]Right hand side of the screen[/right]
-[center]Centered[/center]
+[center]Centred text[/center]
 [justify]This paragraph is justified on both sided on the page. By default most browsers render text with a jagged right edge. If you want all text rendered like in a book with an even right edge - use the justify tag.[/justify]
+[indent]Indented text[/indent]
+[tab]20[/tab]Tabbed 20px
+[tab]30[/tab]Tabbed 30px
 
 [h3]Images[/h3]
 
 Normal image:
-[img]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+[img]http://upload.wikimedia.org/wikipedia/commons/7/7c/Drupal.ru-Logo.png[/img]
 
 Align image right:
-[img align=right]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+[img align=right]http://upload.wikimedia.org/wikipedia/commons/7/7c/Drupal.ru-Logo.png[/img]
 
 Image with ALT description:
-[img=The Dripal Logo]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+[img=The Drupal Logo]http://upload.wikimedia.org/wikipedia/commons/7/7c/Drupal.ru-Logo.png[/img]
 
 Re-sized image:
-[img=100x50]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+[img=100x50]http://upload.wikimedia.org/wikipedia/commons/7/7c/Drupal.ru-Logo.png[/img]
 
 [h3]URL's[/h3]
+
 www.test-url.com
 ftp.test-url.com
 http://test-url.com/~user/,part,of,url
@@ -72,18 +97,21 @@ Wikipedia link: [wikipedia]BBCode[/wikipedia]
 Youtube video: [youtube]0Q2aPi9ZEgs[/youtube]
 
 [h3]E-mail addresses[/h3]
+
 Test@Mail.com
 drupal.user@server1.drupal.org
 [email]joe@example.com[/email]
 [email=joe@smith.co.za]Joe Smith[/email]
 
 [h3]Headings[/h3]
+
 [h1]Level 1 Heading[/h1]
 [h2]Level 2 Heading[/h2]
 [h3]Level 3 Heading[/h3]
 [h4]Level 4 Heading[/h4]
 
 [h3]Acronyms and abbreviations[/h3]
+
 Abbreviations:
 [abbr=Application Programming Interface]API[/abbr]
 [abbr=Content Management System]CMS[/abbr]
@@ -98,12 +126,12 @@ Acronyms:
 [h3]Code blocks[/h3]
 
 Normal code block:
-[code]x := y + z;
-y := a - b;[/code]
+[code] x := y + z;
+   y := a - b;[/code]
 
 An [code]inline code[/code] block
 
-Color highlighted PHP code block:
+Colour highlighted PHP code block:
 [php]
 <?php
   echo "Sample PHP code";
@@ -132,7 +160,7 @@ Nested quotes:
 A normal list (circular bullets, same as list=c):
 [list][*]foo[*]bar[*]baz[/list]
 
-List with circular buttets (list=c):
+List with circular bullets (list=c):
 [list=c]
 [*]x
 [*]y
@@ -160,28 +188,28 @@ Numeric list (list=1):
 [*]z
 [/list]
 
-Roman lowercase list (list=i):
+Roman lower-case list (list=i):
 [list=i]
 [*]x
 [*]y
 [*]z
 [/list]
 
-Roman uppercase list (list=I):
+Roman upper-case list (list=I):
 [list=I]
 [*]x
 [*]y
 [*]z
 [/list]
 
-Alpha lowercase list (list=a):
+Alpha lower-case list (list=a):
 [list=a]
 [*]x
 [*]y
 [*]z
 [/list]
 
-Alpha uppercase list (list=A):
+Alpha upper-case list (list=A):
 [list=A]
 [*]x
 [*]y
@@ -191,7 +219,7 @@ Alpha uppercase list (list=A):
 Simple nested lists:
 [list][*]foo[list][*]bar[/list][*]baz[/list]
 
-Complex nexted list:
+Complex nested list:
 [list=1]
   [*]list=foo
     [list=s]
@@ -261,12 +289,14 @@ Force line break:
 Force space:
 --&gt;[sp]&lt;--
 
-[h3]Tag nesting[/h3]
+[h3]Nested and multi-line tags[/h3]
+
+Nested:
 [size=10]10px [size=20]20px [size=30]30px [/size]20px [/size]10px[/size]
 [size=20][color=blue]BLUE [color=red]RED [/color][color=green]GREEN [/color]BLUE[/color] [/size]
 [size=20][font=Arial]Arial [font=Century]Century [/font][font=Comic sans MS]Comic sans MS [/font]Arial [font=Arial Bold Italic]Arial Bold Italic [/font]Arial [/font][/size]
 
-[h3]Test multi-line tags:[/h3]
+Multi-line:
 [size=20]
   [color=red]
     test
@@ -274,6 +304,7 @@ Force space:
 [/size]
 
 [h3]Cross site scripting (XSS) vulnerabilities[/h3]
+
 User-entered text with embedded script tags <script>alert(document.cookie);</script> will be encoded.
 
 Some other exploits:
@@ -287,7 +318,8 @@ Some other exploits:
 http://host.com/?act=SR&f='><script>alert(document.cookie)</script>
 
 [h3]Broken tags[/h3]
-We need to ensure that bad formating will not disrupt your site's HTML.
+
+We need to ensure that bad formatting will not disrupt your site's HTML.
 
 Broken [b]bold text...
 
@@ -295,4 +327,3 @@ Broken [b]bold text...
 [*]A broken list...
 
 [quote]A broken quote...
-

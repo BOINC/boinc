@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -19,70 +18,68 @@
 -->
 <resources>
     <!-- path and file configuration -->
-        <string name="client_path" translatable="false">/data/data/edu.berkeley.boinc/client/</string>
-        <string name="client_name" translatable="false">boinc</string>
-        <string name="client_cli" translatable="false">boinccmd</string>
-        <string name="client_cabundle" translatable="false">ca-bundle.crt</string>
-        <string name="client_config" translatable="false">cc_config.xml</string>
-        <string name="auth_file_name" translatable="false">gui_rpc_auth.cfg</string>
-        <string name="all_projects_list" translatable="false">all_projects_list.xml</string>
-        <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
-        <string name="assets_dir_arm64" translatable="false">arm64-v8a/</string><string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
-        <string name="assets_dir_x86_64" translatable="false">x86_64/</string><string name="assets_dir_x86" translatable="false">x86/</string>
-        <string name="assets_dir_mips64" translatable="false">mips64/</string><string name="assets_dir_mips" translatable="false">mips/</string>
+    <string name="client_path" translatable="false">/data/data/edu.berkeley.boinc/client/</string>
+    <string name="client_name" translatable="false">boinc</string>
+    <string name="client_cli" translatable="false">boinccmd</string>
+    <string name="client_cabundle" translatable="false">ca-bundle.crt</string>
+    <string name="client_config" translatable="false">cc_config.xml</string>
+    <string name="auth_file_name" translatable="false">gui_rpc_auth.cfg</string>
+    <string name="all_projects_list" translatable="false">all_projects_list.xml</string>
+    <string name="nomedia" translatable="false">nomedia</string>
+    <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
+    <string name="assets_dir_arm64" translatable="false">arm64-v8a/</string>
+    <string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
+    <string name="assets_dir_x86_64" translatable="false">x86_64/</string>
+    <string name="assets_dir_x86" translatable="false">x86/</string>
     <!-- client socket address, CAUTION: change this if you are building branded BOINC app to avoid interference btwn apps! -->
-        <string name="client_socket_address" translatable="false">edu_berkeley_boinc_client_socket</string>
+    <string name="client_socket_address" translatable="false">edu_berkeley_boinc_client_socket</string>
     <!-- BOINC platform -->
-    	<string name="boinc_platform_name_arm64" translatable="false">aarch64-android-linux-gnu</string><string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
-    	<string name="boinc_platform_name_x86_64" translatable="false">x86_64-android-linux-gnu</string><string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
-    	<string name="boinc_platform_name_mips64" translatable="false">mips64el-android-linux-gnu</string><string name="boinc_platform_name_mips" translatable="false">mipsel-android-linux-gnu</string>
+    <string name="boinc_platform_name_arm64" translatable="false">aarch64-android-linux-gnu</string>
+    <string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
+    <string name="boinc_platform_name_x86_64" translatable="false">x86_64-android-linux-gnu</string>
+    <string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
     <!-- Default preferences of Android app-->
-    	<bool name="prefs_default_autostart">true</bool>
-        <bool name="prefs_default_notification_notices">true</bool>
-        <bool name="prefs_default_notification_suspended">false</bool>
-        <bool name="prefs_default_advanced">false</bool>
-        <integer name="prefs_default_loglevel">2</integer>
-        <bool name="prefs_power_source_ac">true</bool>
-        <bool name="prefs_power_source_usb">true</bool>
-        <bool name="prefs_power_source_wireless">true</bool>
-        <bool name="prefs_stationary_device_mode">false</bool>
-        <bool name="prefs_suspend_when_screen_on">true</bool>
+    <bool name="prefs_default_autostart">true</bool>
+    <bool name="prefs_default_notification_notices">true</bool>
+    <bool name="prefs_default_notification_suspended">false</bool>
+    <bool name="prefs_default_advanced">false</bool>
+    <integer name="prefs_default_loglevel">2</integer>
+    <bool name="prefs_power_source_ac">true</bool>
+    <bool name="prefs_power_source_usb">true</bool>
+    <bool name="prefs_power_source_wireless">true</bool>
+    <bool name="prefs_stationary_device_mode">false</bool>
+    <bool name="prefs_suspend_when_screen_on">true</bool>
     <!-- Monitor behavior -->
-    	<integer name="status_update_interval_ms">1000</integer>
-    	<integer name="device_status_update_screen_off_every_X_loop">10</integer> <!-- every X status_update_interval_ms -->
-    	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
-    	<integer name="monitor_setup_connection_retry_attempts">10</integer>
-    	<integer name="autostart_notification_id">1</integer>
-    	<integer name="notice_notification_id">2</integer>
+    <integer name="status_update_interval_ms">1000</integer>
+    <integer name="device_status_update_screen_off_every_X_loop">10
+    </integer> <!-- every X status_update_interval_ms -->
+    <integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
+    <integer name="monitor_setup_connection_retry_attempts">10</integer>
+    <integer name="autostart_notification_id">1</integer>
+    <integer name="notice_notification_id">2</integer>
     <!-- configuration project attach -->
-    	<integer name="attach_step_interval_ms">1000</integer> 
-    	<integer name="attach_get_project_config_retries">2</integer>
-    	<integer name="attach_login_retries">5</integer>
-    	<integer name="attach_creation_retries">5</integer>
-    	<integer name="attach_attach_retries">5</integer>
-    	<integer name="attach_acctmgr_retries">5</integer>
+    <integer name="attach_step_interval_ms">1000</integer>
+    <integer name="attach_get_project_config_retries">2</integer>
+    <integer name="attach_login_retries">5</integer>
+    <integer name="attach_creation_retries">5</integer>
+    <integer name="attach_attach_retries">5</integer>
+    <integer name="attach_acctmgr_retries">5</integer>
     <!-- configuration on tasks layout -->
-    	<integer name="tasks_transistion_timeout_number_monitor_loops">15</integer>
+    <integer name="tasks_transistion_timeout_number_monitor_loops">15</integer>
     <!-- shutdown -->
-    	<integer name="shutdown_graceful_rpc_check_rate_ms">1000</integer>
-    	<integer name="shutdown_graceful_rpc_check_attempts">5</integer>
-    	<integer name="shutdown_graceful_os_check_rate_ms">1000</integer>
-    	<integer name="shutdown_graceful_os_check_attempts">5</integer>
+    <integer name="shutdown_graceful_rpc_check_rate_ms">1000</integer>
+    <integer name="shutdown_graceful_rpc_check_attempts">5</integer>
+    <integer name="shutdown_graceful_os_check_rate_ms">1000</integer>
+    <integer name="shutdown_graceful_os_check_attempts">5</integer>
     <!-- eventlog -->
-    	<integer name="eventlog_gui_messages">100</integer>
-    <!-- preferences -->	
-    	<string-array name="prefs_client_log_flags" translatable="false">
-    	    <item>android_debug</item>
-    	    <item>http_debug</item>
-    	    <item>task_debug</item>
-    	    <item>gui_rpc_debug</item>
-    	    <item>cpu_sched_debug</item>
-    	    <item>work_fetch_debug</item>
-    	</string-array>
-    <!-- account manager -->	
-    	<string-array name="acct_mgr_url_list" translatable="false">
-        	<item>http://bam.boincstats.com/</item>
-        	<item>http://gridrepublic.org/</item>
-        	<item>http://www.extremadurathome.org/extremadurathome/</item>
-    	</string-array>
+    <integer name="eventlog_gui_messages">100</integer>
+    <!-- preferences -->
+    <string-array name="prefs_client_log_flags" translatable="false">
+        <item>android_debug</item>
+        <item>http_debug</item>
+        <item>task_debug</item>
+        <item>gui_rpc_debug</item>
+        <item>cpu_sched_debug</item>
+        <item>work_fetch_debug</item>
+    </string-array>
 </resources>

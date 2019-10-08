@@ -18,7 +18,7 @@
 #ifndef BOINC_RR_SIM_H
 #define BOINC_RR_SIM_H
 
-extern void rr_simulation();
+extern void rr_simulation(const char* why);
 extern void print_deadline_misses();
 extern void get_nidle();
 extern bool any_resource_idle();

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -440,5 +440,3 @@ void send_work_old() {
         if (scan_work_array()) return;
     }
 }
-
-const char *BOINC_RCSID_d9f764fd14="$Id$";

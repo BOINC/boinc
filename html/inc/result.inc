@@ -75,7 +75,7 @@ function app_version_string($result) {
     case ANON_PLATFORM_NVIDIA:
         return anon_platform_string($result, tra("NVIDIA GPU"));
     case ANON_PLATFORM_ATI:
-        return anon_platform_string($result, tra("ATI GPU"));
+        return anon_platform_string($result, tra("AMD GPU"));
     case ANON_PLATFORM_INTEL:
         return anon_platform_string($result, tra("Intel GPU"));
     }
@@ -707,16 +707,15 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
     if ($result->peak_working_set_size) {
-        $x = number_format($result->peak_working_set_size/MEGA, 2);
-        row2("Peak working set size", "$x MB");
+        row2("Peak working set size",
+            size_string($result->peak_working_set_size)
+        );
     }
     if ($result->peak_swap_size) {
-        $x = number_format($result->peak_swap_size/MEGA, 2);
-        row2("Peak swap size", "$x MB");
+        row2("Peak swap size", size_string($result->peak_swap_size));
     }
     if ($result->peak_disk_usage) {
-        $x = number_format($result->peak_disk_usage/MEGA, 2);
-        row2("Peak disk usage", "$x MB");
+        row2("Peak disk usage", size_string($result->peak_disk_usage));
     }
     if ($show_outfile_links && $result->outcome == 1) {
         $fanout = parse_config(get_config(), "<uldl_dir_fanout>");

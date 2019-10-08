@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The BOINC file upload handler.
-// See doc/upload.php for protocol spec.
+// See http://boinc.berkeley.edu/trac/wiki/FileUpload for protocol spec.
 //
 
 #include "config.h"
@@ -60,6 +60,7 @@ using std::string;
 #define ERR_PERMANENT   false
 
 char this_filename[256];
+string variety = "";
 double start_time();
 
 inline static const char* get_remote_addr() {
@@ -113,7 +114,7 @@ double bytes_left=-1;
 int accept_empty_file(char* name, char* path) {
     int fd = open(path,
         O_WRONLY|O_CREAT,
-        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+        config.fuh_set_initial_permission
     );
     if (fd<0) {
         return return_error(ERR_TRANSIENT,
@@ -122,6 +123,17 @@ int accept_empty_file(char* name, char* path) {
     }
     close(fd);
     return return_success(0);
+}
+
+// read from socket, discard data
+//
+void copy_socket_to_null(FILE* in) {
+    unsigned char buf[BLOCK_SIZE];
+
+    while (1) {
+        int n = fread(buf, 1, BLOCK_SIZE, in);
+        if (n <= 0) return;
+    }
 }
 
 // read from socket, write to file
@@ -137,13 +149,13 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
     bytes_left = nbytes - offset;
 
     while (bytes_left > 0) {
-        int n, m, to_write;
+        size_t m;
 
-        m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
+        m = bytes_left<(double)BLOCK_SIZE ? (size_t)bytes_left : BLOCK_SIZE;
 
         // try to get m bytes from socket (n>=0 is number actually returned)
         //
-        n = fread(buf, 1, m, in);
+        size_t n = fread(buf, 1, m, in);
 
         // delay opening the file until we've done the first socket read
         // to avoid filesystem lockups (WCG, possible paranoia)
@@ -157,9 +169,21 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
             // coverity[toctou]
             fd = open(path,
                 O_WRONLY|O_CREAT,
-                S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+                config.fuh_set_initial_permission
             );
             if (fd<0) {
+                if (errno == EACCES) {
+                    // this is this case when the file was already uploaded
+                    // and made read-only;
+                    // return success to the client won't keep trying
+                    //
+                    log_messages.printf(MSG_WARNING,
+                      "client tried to reupload the read-only file %s\n",
+                      path
+                    );
+                    copy_socket_to_null(in);
+                    return return_success(0);
+                }
                 return return_error(ERR_TRANSIENT,
                     "can't open file %s: %s\n", name, strerror(errno)
                 );
@@ -195,8 +219,8 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
             if (sbuf.st_size < offset) {
                 close(fd);
                 return return_error(ERR_TRANSIENT,
-                    "length of file %s %d bytes < offset %.0f bytes",
-                    name, (int)sbuf.st_size, offset
+                    "length of file %s %zu bytes < offset %.0f bytes",
+                    name, sbuf.st_size, offset
                 );
             }
             if (offset) {
@@ -213,16 +237,16 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
                 }
             }
             if (sbuf.st_size > offset) {
-                log_messages.printf(MSG_CRITICAL,
-                    "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
-                     this_filename, (int)sbuf.st_size, offset
+                log_messages.printf(MSG_NORMAL,
+                    "file %s length on disk %zu bytes; host upload starting at %.0f bytes.\n",
+                     this_filename, sbuf.st_size, offset
                 );
             }
         }
 
         // try to write n bytes to file
         //
-        to_write=n;
+        size_t to_write=n;
         while (to_write > 0) {
             ssize_t ret = write(fd, buf+n-to_write, to_write);
             if (ret < 0) {
@@ -266,19 +290,18 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
 
         bytes_left -= n;
     }
+    // upload complete; set new file permissions if configured
+    //
+    if (config.fuh_set_completed_permission >= 0) {
+        if (fchmod(fd, config.fuh_set_completed_permission)) {
+            log_messages.printf(MSG_CRITICAL, "can't set %03o permissions on %s: %s\n",
+                config.fuh_set_completed_permission,
+                path,
+                strerror(errno));
+        }
+    }
     close(fd);
     return return_success(0);
-}
-
-// read from socket, discard data
-//
-void copy_socket_to_null(FILE* in) {
-    unsigned char buf[BLOCK_SIZE];
-
-    while (1) {
-        int n = fread(buf, 1, BLOCK_SIZE, in);
-        if (n <= 0) return;
-    }
 }
 
 // ALWAYS generates an HTML reply
@@ -289,16 +312,14 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     double max_nbytes=-1;
     char xml_signature[1024];
     int retval;
-    double offset=0, nbytes = -1, size;
+    double offset=0, nbytes = -1;
     bool is_valid, btemp;
 
     strcpy(name, "");
     strcpy(xml_signature, "");
     bool found_data = false;
     while (fgets(buf, 256, in)) {
-#if 1
-        log_messages.printf(MSG_NORMAL, "got:%s\n", buf);
-#endif
+        log_messages.printf(MSG_DETAIL, "got:%s\n", buf);
         if (match_tag(buf, "<file_info>")) continue;
         if (match_tag(buf, "</file_info>")) continue;
         if (match_tag(buf, "<signed_xml>")) continue;
@@ -324,7 +345,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             found_data = true;
             break;
         }
-        log_messages.printf(MSG_NORMAL, "unrecognized: %s", buf);
+        log_messages.printf(MSG_WARNING, "unrecognized: %s", buf);
     }
     if (strlen(name) == 0) {
         return return_error(ERR_PERMANENT, "Missing name");
@@ -402,17 +423,6 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             name, boincerror(retval)
         );
     }
-
-    // if file already exists and is full size, don't upload again.
-    //
-    if (!file_size(path, size) && (size == nbytes)) {
-        log_messages.printf(MSG_NORMAL,
-            "file %s exists and is right size - skipping\n", name
-        );
-        copy_socket_to_null(in);
-        return return_success(0);
-    }
-
     log_messages.printf(MSG_NORMAL,
         "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
         name,
@@ -486,7 +496,7 @@ int handle_get_file_size(char* file_name) {
         return return_error(ERR_TRANSIENT, "Server is out of disk space");
     }
 
-    fd = open(path, O_WRONLY|O_APPEND);
+    fd = open(path, O_RDONLY);
 
     if (fd<0 && ENOENT==errno) {
         // file does not exist: return zero length
@@ -506,8 +516,8 @@ int handle_get_file_size(char* file_name) {
         );
         return return_error(ERR_TRANSIENT, "can't open file");
     }
-
-    if ((pid = mylockf(fd))) {
+#ifdef LOCK_FILES
+    if ((pid = checklockf(fd))) {
         // file locked by another file_upload_handler: try again later
         //
         close(fd);
@@ -518,7 +528,8 @@ int handle_get_file_size(char* file_name) {
             "[%s] locked by file_upload_handler PID=%d", file_name, pid
         );
     }
-    // file exists, writable, not locked by anyone else, so return length.
+#endif
+    // file exists, readable, not locked by anyone else, so return length.
     //
     retval = stat(path, &sbuf);
     close(fd);
@@ -553,7 +564,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     log_messages.set_indent_level(1);
 #endif
     while (fgets(buf, 256, in)) {
-        log_messages.printf(MSG_DEBUG, "handle_request: %s", buf);
+        log_messages.printf(MSG_DETAIL, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
             continue;
         } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
@@ -578,7 +589,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         }
     }
     if (!did_something) {
-        log_messages.printf(MSG_CRITICAL, "handle_request: no command\n");
+        log_messages.printf(MSG_WARNING, "handle_request: no command\n");
         return return_error(ERR_TRANSIENT, "no command");
     }
 
@@ -617,6 +628,10 @@ void boinc_catch_signal(int signal_num) {
         buffer, get_remote_addr(),
         signal_num, strsignal(signal_num)
     );
+#ifdef _USING_FCGI_
+    // flush log for FCGI, otherwise it just buffers a lot
+    log_messages.flush();
+#endif
 
     // there is no point in trying to return an error.
     // At this point Apache has broken the connection
@@ -626,62 +641,16 @@ void boinc_catch_signal(int signal_num) {
     _exit(1);
 }
 
-void installer() {
-    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
-    signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_catch_signal); // quit program
-    signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGTRAP, boinc_catch_signal); // illegal instruction
-    signal(SIGABRT, boinc_catch_signal); // abort(2) call
-    signal(SIGFPE, boinc_catch_signal);  // bus error
-    signal(SIGKILL, boinc_catch_signal); // bus error
-    signal(SIGBUS, boinc_catch_signal);  // bus error
-    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
-    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
-    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
-    signal(SIGTERM, boinc_catch_signal); // terminate process
-}
-
-void usage(char *name) {
-    fprintf(stderr,
-        "This is the BOINC file upload handler.\n"
-        "It receives the results from the clients\n"
-        "and puts them on the file server.\n\n"
-        "Normally this is run as a CGI program.\n\n"
-        "Usage: %s [OPTION]...\n\n"
-        "Options:\n"
-        "  [ -h | --help ]        Show this help text.\n"
-        "  [ -v | --version ]     Show version information.\n",
-        name
-    );
-}
-
-int main(int argc, char *argv[]) {
-    int retval;
-    R_RSA_PUBLIC_KEY key;
+void boinc_reopen_logfile(int signal_num) {
+    char log_name[MAXPATHLEN];
     char log_path[MAXPATHLEN];
-#ifdef _USING_FCGI_
-    unsigned int counter=0;
-#endif
 
-    for(int c = 1; c < argc; c++) {
-        string option(argv[c]);
-        if(option == "-v" || option == "--version") {
-            printf("%s\n", SVN_VERSION);
-            exit(0);
-        } else if(option == "-h" || option == "--help") {
-            usage(argv[0]);
-            exit(0);
-        } else if (option.length()){
-            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
-            usage(argv[0]);
-            exit(1);
-        }
+    // only handle SIGUSR1 here
+    if (signal_num != SIGUSR2) {
+        boinc_catch_signal(signal_num);
     }
-
-    installer();
-
-    if (get_log_path(log_path, "file_upload_handler.log") == ERR_MKDIR) {
+    sprintf(log_name, "file_upload_handler%s.log", variety.c_str());
+    if (get_log_path(log_path, log_name) == ERR_MKDIR) {
         fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
     }
 #ifndef _USING_FCGI_
@@ -705,13 +674,86 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+}
+
+void installer() {
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_catch_signal); // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGTRAP, boinc_catch_signal); // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGFPE, boinc_catch_signal);  // bus error
+    signal(SIGKILL, boinc_catch_signal); // bus error
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGTERM, boinc_catch_signal); // terminate process
+#ifdef _USING_FCGI_
+    signal(SIGUSR1, boinc_catch_signal); // user defined 1
+    signal(SIGUSR2, boinc_reopen_logfile); // user defined 2
+#endif
+}
+
+void usage(char *name) {
+    fprintf(stderr,
+        "This is the BOINC file upload handler.\n"
+        "It receives the results from the clients\n"
+        "and puts them on the file server.\n\n"
+        "Normally this is run as a CGI program.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  [ -h | --help ]        Show this help text.\n"
+        "  [ -v | --version ]     Show version information.\n"
+        "  [ -u V | --variety V]  Use V to construct logfile name and upload_dir from config.xml (FCGI only)\n",
+        name
+    );
+}
+
+int main(int argc, char *argv[]) {
+    int retval;
+    R_RSA_PUBLIC_KEY key;
+#ifdef _USING_FCGI_
+    unsigned int counter=0;
+#endif
+
+    for(int c = 1; c < argc; c++) {
+        string option(argv[c]);
+        if(option == "-v" || option == "--version") {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if(option == "-h" || option == "--help") {
+            usage(argv[0]);
+            exit(0);
+#ifdef _USING_FCGI_
+        } else if(option == "-u" || option == "--variety") {
+            variety = "_" + string(argv[++c]);
+#endif
+        } else if (option.length()){
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            usage(argv[0]);
+            exit(1);
+        }
+    }
+
+    installer();
+
+    boinc_reopen_logfile(SIGUSR2);
+
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         return_error(ERR_TRANSIENT,
-            "can't parse config file", log_path, errno
+            "can't parse config file"
         );
         exit(1);
+    }
+
+    // check if --variety was specified and add it to config.upload_dir
+    if (!variety.empty()) {
+        log_messages.printf(MSG_NORMAL, "Using variety: %s\n", variety.c_str());
+        strcat(config.upload_dir, variety.c_str());
     }
 
     log_messages.pid = getpid();
@@ -740,7 +782,21 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    // intentionally disallows a value of 0 as this would mean we can't write the file in the first place
+    if (config.fuh_set_initial_permission > 0) {
+        // sanitize user input, no execute flags allowed for uploaded files
+        config.fuh_set_initial_permission &= (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+    } else {
+        config.fuh_set_initial_permission = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH;
+    }
+    // intentionally allows a value of 0
+    if (config.fuh_set_completed_permission >= 0) {
+        // sanitize user input, no execute flags allowed for uploaded files
+        config.fuh_set_completed_permission &= (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+    }
+
 #ifdef _USING_FCGI_
+    log_messages.flush();
     while(FCGI_Accept() >= 0) {
         counter++;
         //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
@@ -763,5 +819,3 @@ int main(int argc, char *argv[]) {
 #endif
     return 0;
 }
-
-const char *BOINC_RCSID_470a0d4d11 = "$Id$";

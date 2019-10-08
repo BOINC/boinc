@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2012 University of California
@@ -18,15 +17,17 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
-    <item android:id="@+id/projects_add"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/projects_add"
-         android:icon="@drawable/plusw"
-         yourapp:showAsAction="ifRoom|withText"></item>
-    <item android:id="@+id/projects_add_url"
-         android:enabled="true"
-         android:visible="true"
-         android:title="@string/attachproject_list_manual_button"></item>
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/projects_add"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/projects_add"
+            android:icon="@drawable/plusw"
+            yourapp:showAsAction="ifRoom|withText"></item>
+    <item
+            android:id="@+id/projects_add_url"
+            android:enabled="true"
+            android:visible="true"
+            android:title="@string/attachproject_list_manual_button"></item>
 </menu>

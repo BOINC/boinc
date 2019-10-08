@@ -62,10 +62,6 @@ public:
     void OnChangeView( wxCommandEvent& event );
     void OnChangeGUI( wxCommandEvent& event );
 
-    void OnWizardAttachProject( wxCommandEvent& event );
-    void OnWizardUpdate( wxCommandEvent& event );
-    void OnWizardDetach( wxCommandEvent& event );
-
     void OnActivitySelection( wxCommandEvent& event );
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
@@ -89,6 +85,7 @@ public:
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
     void OnCheckVersion( wxCommandEvent& event );
+    void OnReportBug( wxCommandEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
@@ -98,8 +95,6 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
-
-    void ResetReminderTimers();
 
     bool RestoreState();
     bool SaveState();
@@ -126,8 +121,7 @@ private:
 
     wxString        m_strBaseTitle;
 
-    bool            CreateMenu();
-    bool            DeleteMenu();
+    bool            CreateMenus();
 
     bool            CreateNotebook();
     bool            RepopulateNotebook();

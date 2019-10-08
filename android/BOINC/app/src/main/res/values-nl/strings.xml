@@ -55,22 +55,22 @@
   <string name="attachproject_login_platform_supported">Dit project ondersteunt Android-apparaten</string>
   <string name="attachproject_login_platform_not_supported">Dit project ondersteunt geen Android-apparaten</string>
   <string name="attachproject_login_category_terms_of_use">Gebruiksvoorwaarden voor</string>
-  <string name="attachproject_login_accept_terms_of_use">Het aanmaken van een account bij dit project impliceert acceptatie van de gebruiksvoorwaarden zoals hierboven beschreven.</string>
+  <string name="attachproject_login_accept_terms_of_use">Door het aanmaken van een account bij dit project ga je akkoord met de gebruiksvoorwaarden zoals hierboven getoond.</string>
   <string name="attachproject_login_category_login">Aanmeldgegevens van bestaand account gebruiken</string>
   <string name="attachproject_login_header_id_email">E-mailadres:</string>
   <string name="attachproject_login_header_id_name">Naam:</string>
   <string name="attachproject_login_header_pwd">Wachtwoord:</string>
   <string name="attachproject_login_category_creation">Nieuw bij</string>
   <string name="attachproject_login_header_creation_enabled">Een account aanmaken voor deelname:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Bezoek projectspecifieke website om een account aan te maken:</string>
-  <string name="attachproject_login_header_creation_disabled">Het project accepteert op dit moment geen nieuwe accounts.</string>
+  <string name="attachproject_login_header_creation_client_disabled">Bezoek projectwebsite om een account aan te maken:</string>
+  <string name="attachproject_login_header_creation_disabled">Dit project accepteert op dit moment geen nieuwe accounts.</string>
   <string name="attachproject_login_button_registration">Aanmaken</string>
   <string name="attachproject_login_button_login">Aanmelden</string>
   <string name="attachproject_login_button_forgotpw">Wachtwoord Vergeten</string>
   <string name="attachproject_login_error_toast">Verbinding met het project mislukt!</string>
   <string name="attachproject_login_attached">Bijgevoegd</string>
   <!--project registration-->
-  <string name="attachproject_registration_header">Account-registratie voor</string>
+  <string name="attachproject_registration_header">Accountregistratie voor</string>
   <string name="attachproject_registration_header_url">Project:</string>
   <string name="attachproject_registration_header_email">E-mailadres:</string>
   <string name="attachproject_registration_header_username">Naam:</string>
@@ -79,7 +79,7 @@
   <string name="attachproject_registration_header_pwd_confirm">... Herhalen:</string>
   <string name="attachproject_registration_button">Aanmaken</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten te onderhouden</string>
+  <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten toe te voegen en te onderhouden</string>
   <string name="attachproject_acctmgr_header">Account manager toevoegen</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
@@ -104,6 +104,7 @@
   <string name="attachproject_error_bad_pwd">Wachtwoord geweigerd</string>
   <string name="attachproject_error_creation_disabled">Aanmaken van een account is voor dit project niet mogelijk</string>
   <string name="attachproject_error_invalid_url">Ongeldig URL</string>
+  <string name="attachproject_error_consent_required">Dit project vereist dat er ingestemd wordt met de gebruiksvoorwaarden</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Vorige</string>
   <string name="attachproject_working_finish_button">Voltooien</string>
@@ -155,23 +156,25 @@
   <string name="prefs_category_cpu">Processor</string>
   <string name="prefs_category_storage">Opslag</string>
   <string name="prefs_category_memory">Geheugen</string>
+  <string name="prefs_category_other">Anders</string>
   <string name="prefs_category_debug">Foutoplossing</string>
   <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen...</string>
   <string name="prefs_suspend_when_screen_on">Pauzeer berekening wanneer scherm ingeschakeld is</string>
+  <string name="prefs_general_device_name_header">Apparaatnaam</string>
   <string name="prefs_stationary_device_mode_header">Stationaire apparaatmodus</string>
-  <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroom voorkeuren. Alleen inschakelen als het apparaat niet over een batterij beschikt.</string>
+  <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroomvoorkeuren. Alleen inschakelen als het apparaat geen batterij heeft.</string>
   <string name="prefs_power_source_header">Stroombronnen voor berekeningen</string>
-  <string name="prefs_power_source_description">Hiermee selecteer je stroombronnen die BOINC mag gebruiken voor berekeningen.</string>
+  <string name="prefs_power_source_description">Selecteert stroombronnen die BOINC mag gebruiken voor berekeningen.</string>
   <string name="prefs_power_source_ac">Wandcontactdoos</string>
   <string name="prefs_power_source_usb">USB verbinding</string>
   <string name="prefs_power_source_wireless">Draadloze oplader</string>
   <string name="prefs_power_source_battery">Accu</string>
   <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
-  <string name="battery_charge_min_pct_description">BOINC pauzeert de berekening wanneer de batterijlading onder een gegeven niveau zakt.</string>
+  <string name="battery_charge_min_pct_description">BOINC pauzeert de berekening onder een bepaald batterijniveau.</string>
   <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
-  <string name="battery_temperature_max_description">BOINC stopt met bereken boven de aangegeven batterij temperatuur. Het is niet aanbevolen om deze waarde te wijzigen.</string>
+  <string name="battery_temperature_max_description">BOINC stopt de berekening boven een bepaalde batterijtemperatuur. Het is niet aanbevolen deze waarde te veranderen.</string>
   <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
-  <string name="prefs_disk_max_pct_description">Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?</string>
+  <string name="prefs_disk_max_pct_description">Welk percentage van de opslagruimte van je apparaat mag BOINC gebruiken?</string>
   <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
   <string name="prefs_disk_min_free_gb_description">Hoeveel van de opslagruimte moet er minimaal vrij blijven?</string>
   <string name="prefs_disk_access_interval_header">Toegangs interval</string>
@@ -185,11 +188,15 @@
   <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
   <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik van meer dan</string>
-  <string name="prefs_cpu_other_load_suspension_description">Bepaald wanneer BOINC pauzeert vanwege CPU gebruik door andere apps.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Bepaald wanneer BOINC de berekening pauzeert vanwege CPU gebruik door andere apps.</string>
   <string name="prefs_cpu_time_max_header">CPU limiet</string>
   <string name="prefs_cpu_time_max_description">Beperkt de CPU tijd gebruikt door BOINC voor berekeningen.</string>
   <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
   <string name="prefs_memory_max_idle_description">Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken.</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Werkeenheid buffer</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_description">Bewaar tenminste X dagen werk</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra werkeenheid buffer</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Bewaar tot een extra X dagen werk</string>
   <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
@@ -328,14 +335,16 @@
   <string name="menu_run_mode_enable">Hervatten</string>
   <string name="menu_about">Over</string>
   <string name="menu_help">Help</string>
+  <string name="menu_report_issue">Rapporteer Probleem</string>
   <!--about dialog-->
   <string name="about_button">Terug</string>
   <string name="about_title">Over</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
-  <string name="about_credits">Met dank aan het Max Planck Instituut voor gravitationele natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
+  <string name="about_credits">Met dank aan het Max Planck Instituut voor Gravitationele Natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nieuwe berichten van %1$s</item>
@@ -343,14 +352,16 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Andere berekenings app gedetecteerd</string>
-  <string name="nonexcl_dialog_text">Een andere berekenings app draait op dit apparaat. Slechts één versie kan per keer worden uitgevoerd.</string>
+  <string name="nonexcl_dialog_text">Een andere vrijwilligersapp is berekeningen aan het doen op dit apparaat. Er kan maar één versie tegelijk uitgevoerd worden.</string>
   <string name="nonexcl_dialog_exit">Afsluiten</string>
   <!--social integration-->
   <string name="social_invite_button">Vrienden uitnodigen</string>
   <string name="social_invite_intent_title">Hoe wil je dit delen?</string>
   <string name="social_invite_content_title">Ik doe wetenschap op mijn smartphone!</string>
-  <string name="social_invite_content_body">Ik doe met behulp van mijn %1$s berekeningen voor de wetenschap. Doe dit ook! Download app van: %2$s</string>
+  <string name="social_invite_content_body">Ik gebruik mijn %1$s om berekeningen te doen voor de wetenschap. Jij kan dat ook! Download de app van: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>
