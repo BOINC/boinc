@@ -1070,7 +1070,10 @@ void check_trickle_period() {
 void write_checkpoint(int ntasks_completed, double cpu, double rt) {
     boinc_begin_critical_section();
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) return;
+    if (!f) {
+        boinc_end_critical_section();
+        return;
+    }
     fprintf(f, "%d %f %f\n", ntasks_completed, cpu, rt);
     fclose(f);
     boinc_checkpoint_completed();
