@@ -337,7 +337,21 @@ UINT BOINCCABase::GetRegistryValue(
         KEY_READ,
         &hkSetupHive
     );
-	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+
+    //try again for 64-bit
+    if (lReturnValue != ERROR_SUCCESS)
+    {
+        lReturnValue = RegOpenKeyEx(
+            HKEY_LOCAL_MACHINE, 
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+            0, 
+            KEY_READ | KEY_WOW64_64KEY,
+            &hkSetupHive
+        );
+    }
+
+
+    if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
 
     // How large does our buffer need to be?
     RegQueryValueEx(
