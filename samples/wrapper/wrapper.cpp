@@ -978,7 +978,7 @@ bool TASK::poll(int& status) {
             if ((HANDLE)completion_key == job_handle && completion_code == JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO) {
                 status = exit_code;
                 final_cpu_time = current_cpu_time;
-                fprintf(stderr, "%s %s exited; CPU time %f\n",
+                fprintf(stderr, "%s %s all processes exited; CPU time %f\n",
                     boinc_msg_prefix(buf, sizeof(buf)),
                     application.c_str(), final_cpu_time
                 );
