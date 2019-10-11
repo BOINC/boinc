@@ -94,7 +94,7 @@
 
 ## MOJAVE and Subsequent Mac Builds Note:
 ## It is strongly recommended that you read the Apple Documentation on Notarization here. 
-## https://developer.apple.com/documentation/xcode/notarizing_your_app_before_distribution/customizing_the_notarization_workflow?language=objc#3087734 
+## https://developer.apple.com/documentation/xcode/notarizing_your_app_before_distribution/customizing_the_notarization_workflow?language=objc#3087734
 
 ## Before you can use the altool command, you must first set up an app-specific password, 
 ## as explained in Apple's documentation at the Apple Documentation on Notarization website 
