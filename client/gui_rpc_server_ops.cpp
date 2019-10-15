@@ -1361,6 +1361,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         if (stop) {
             if (boincscr_pid) {
                 kill_program(boincscr_pid);
+                boincscr_pid = 0;
             } else {
                 grc.mfout.printf("<error>boincscr not running</error>\n");
                 return;
@@ -1376,17 +1377,19 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
                 grc.mfout.printf("<error>no / in client path</error>\n");
                 return;
             }
-            strcat(p, "/boincscr");
-            char* argv[1];
+            strcpy(p, "/boincscr");
+            char* argv[2];
             int argc = 1;
             argv[0] = (char*)"boincscr";
-            retval = run_program(NULL, path, argc, argv, 0, boincscr_pid);
+            argv[1] = 0;
+            retval = run_program(NULL, path, argc, argv, 1, boincscr_pid);
             if (retval) {
                 grc.mfout.printf("<error>couldn't run boincscr</error>\n");
                 return;
             }
         }
         grc.mfout.printf("<success/>\n");
+        return;
     }
 
     // start or stop a graphics app
@@ -1412,12 +1415,13 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         grc.mfout.printf("<error>job has no graphics app</error>\n");
         return;
     }
-    char* argv[1];
+    char* argv[2];
     int argc = 1;
     argv[0] = atp->app_version->graphics_exec_file;
+    argv[1] = 0;
     retval = run_program(
         atp->slot_path, atp->app_version->graphics_exec_path,
-        argc, argv, 0, atp->graphics_pid
+        argc, argv, 1, atp->graphics_pid
     );
     if (retval) {
         grc.mfout.printf("<error>couldn't run graphics app</error>\n");

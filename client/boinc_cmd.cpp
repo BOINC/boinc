@@ -93,6 +93,7 @@ Commands:\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
+ --run_graphics_app slot [stop]     run graphics app in slot\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_host_info product_name\n\
@@ -542,6 +543,10 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+    } else if (!strcmp(cmd, "--run_graphics_app")) {
+        int slot = atoi(argv[2]);
+        bool stop = (argc == 4);
+        retval = rpc.run_graphics_app(slot, stop);
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));

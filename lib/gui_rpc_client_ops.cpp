@@ -1979,6 +1979,21 @@ int RPC_CLIENT::run_benchmarks() {
     return rpc.parse_reply();
 }
 
+int RPC_CLIENT::run_graphics_app(int slot, bool stop) {
+    char buf[256];
+    SET_LOCALE sl;
+    RPC rpc(this);
+
+    sprintf(buf, "<run_graphics_app>\n<slot>%d</slot>\n", slot);
+    if (stop) {
+        strcat(buf, "<stop/>\n");
+    }
+    strcat(buf, "</run_graphics_app>\n");
+    int retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
+}
+
 int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
     int retval;
     SET_LOCALE sl;

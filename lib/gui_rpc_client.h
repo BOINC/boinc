@@ -711,6 +711,7 @@ struct RPC_CLIENT {
     int set_network_mode(int mode, double duration);
     int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int run_benchmarks();
+    int run_graphics_app(int slot, bool stop);
     int set_proxy_settings(GR_PROXY_INFO&);
     int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&, bool translatable=false);
