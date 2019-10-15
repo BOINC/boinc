@@ -304,11 +304,8 @@ int CLIENT_STATE::latest_version(APP* app, char* platform) {
 // Find the ACTIVE_TASK in the current set with the matching PID
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
         if (atp->pid == pid) return atp;
     }
     return NULL;
@@ -317,12 +314,19 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
 // Find the ACTIVE_TASK in the current set with the matching result
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
         if (atp->result == result) {
+            return atp;
+        }
+    }
+    return NULL;
+}
+
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_slot(int slot) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
+        if (atp->slot == slot) {
             return atp;
         }
     }

@@ -1332,6 +1332,100 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
+// start or stop a graphics app on behalf of the screensaver.
+// (needed for Mac OS X 10.5+)
+//
+// <slot>n</slot>
+// [<stop/>]
+//
+// n is the slot #; if -1, start or stop the screensaver itself
+//
+static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
+    bool stop = false;
+    static int boincscr_pid = 0;
+    int slot = -2, retval;
+
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("/run_graphics_app")) break;
+        if (grc.xp.parse_bool("stop", stop)) continue;
+        if (grc.xp.parse_int("slot", slot)) continue;
+    }
+    if (slot == -2) {
+        grc.mfout.printf("<error>missing slot</error>\n");
+        return;
+    }
+
+    // start or stop boincscr
+    //
+    if (slot == -1) {
+        if (stop) {
+            if (boincscr_pid) {
+                kill_program(boincscr_pid);
+            } else {
+                grc.mfout.printf("<error>boincscr not running</error>\n");
+                return;
+            }
+        } else {
+            char path[MAXPATHLEN];
+            if (get_real_executable_path(path, sizeof(path))) {
+                grc.mfout.printf("<error>can't get client path</error>\n");
+                return;
+            }
+            char *p = strrchr(path, '/');
+            if (!p) {
+                grc.mfout.printf("<error>no / in client path</error>\n");
+                return;
+            }
+            strcat(p, "/boincscr");
+            char* argv[1];
+            int argc = 1;
+            argv[0] = (char*)"boincscr";
+            retval = run_program(NULL, path, argc, argv, 0, boincscr_pid);
+            if (retval) {
+                grc.mfout.printf("<error>couldn't run boincscr</error>\n");
+                return;
+            }
+        }
+        grc.mfout.printf("<success/>\n");
+    }
+
+    // start or stop a graphics app
+    //
+    ACTIVE_TASK* atp = gstate.active_tasks.lookup_slot(slot);
+    if (!atp) {
+        grc.mfout.printf("<error>no job in slot</error>\n");
+        return;
+    }
+    if (stop) {
+        if (!atp->graphics_pid) {
+            grc.mfout.printf("<error>graphics app not running</error>\n");
+            return;
+        }
+        kill_program(atp->graphics_pid);
+        return;
+    }
+    if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
+        grc.mfout.printf("<error>job not running</error>\n");
+        return;
+    }
+    if (!strlen(atp->app_version->graphics_exec_path)) {
+        grc.mfout.printf("<error>job has no graphics app</error>\n");
+        return;
+    }
+    char* argv[1];
+    int argc = 1;
+    argv[0] = atp->app_version->graphics_exec_file;
+    retval = run_program(
+        atp->slot_path, atp->app_version->graphics_exec_path,
+        argc, argv, 0, atp->graphics_pid
+    );
+    if (retval) {
+        grc.mfout.printf("<error>couldn't run graphics app</error>\n");
+        return;
+    }
+    grc.mfout.printf("<success/>\n");
+}
+
 // We use a different authentication scheme for HTTP because
 // each request has its own connection.
 // Send clients an "authentication ID".
@@ -1599,6 +1693,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
 };
 
 // return nonzero only if we need to close the connection
