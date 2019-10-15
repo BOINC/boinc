@@ -907,3 +907,84 @@ mac_build/x-build/XCBuildData/build.db
 mac_build/x-build/XCBuildData/BuildDescriptionCacheIndex-f08d995b84448423ff00ba797813dd10
 mac_build/Build_Deployment_Dir
 mac_build/log.txt
+mylog.log
+mac_build/Build_Deployment_Dir-old
+mac_build/Build_Deployment_Dir
+mac_build/boinc.xcodeproj/xcuserdata/robert.xcuserdatad/xcschemes/xcschememanagement.plist
+mac_build/boinc.xcodeproj/project.xcworkspace/xcuserdata/robert.xcuserdatad/UserInterfaceState.xcuserstate
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/move_to_boinc_dir/switcher/switcher
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/move_to_boinc_dir/switcher/setprojectgrp
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/move_to_boinc_dir/ca-bundle.crt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/move_to_boinc_dir/boinccmd
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/move_to_boinc_dir/boinc
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/Mac_SA_Secure.sh
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/Mac_SA_Insecure.sh
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/License.rtf
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/COPYRIGHT.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/COPYING.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin/COPYING.LESSER.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_x86_64-apple-darwin.zip
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/ReadMe.rtf
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/PutInTrash.icns
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/MacUninstaller.icns
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/zh_TW/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/zh_CN/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/uk/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/tr/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/th/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/sv/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/sr@latin/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/sk/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ru/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ro/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/pt_PT/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/pt_BR/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/pl/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/nl/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/nb/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/lv/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ku/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ko/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ka/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ja/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/it_IT/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/id/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/hu/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/he/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/fr/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/fi/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/fa_IR/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/eu/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/es/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/el/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/de/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/da/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/cs/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/ca/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/bg/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/locale/az/BOINC-Setup.mo
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/English.lproj/InfoPlist.strings
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Resources/boinc_finish_install
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/Uninstall BOINC.app/Contents/Info.plist
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/COPYRIGHT.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/COPYING.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/extras/COPYING.LESSER.txt
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/English.lproj/InfoPlist.strings
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/boinc_finish_install
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Info.plist
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/MacInstaller.icns
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/English.lproj/InfoPlist.strings
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Resources/BOINC.pkg
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/MacOS/BOINC Installer
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64/BOINC Installer.app/Contents/Info.plist
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_x86_64.zip
+BOINC_Installer/New_Release_7_15_0/boinc_7.15.0_macOSX_SymbolTables.zip
+mac_build/boinc.xcodeproj/project.xcworkspace/xcuserdata/robert.xcuserdatad/UserInterfaceState.xcuserstate
+mac_build/boinc.xcodeproj/xcuserdata/robert.xcuserdatad/xcschemes/xcschememanagement.plist
+mac_build/Build_Deployment_Dir
+mac_build/boinc.xcodeproj/xcuserdata/robert.xcuserdatad/xcschemes/xcschememanagement.plist
+mac_build/boinc.xcodeproj/project.xcworkspace/xcuserdata/robert.xcuserdatad/UserInterfaceState.xcuserstate
+mac_build/Build_Deployment_Dir
