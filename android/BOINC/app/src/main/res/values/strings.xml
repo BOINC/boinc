@@ -376,6 +376,7 @@
     <string name="rpcreason_init">Project initialization</string>
     <string name="rpcreason_projectreq">Requested by project</string>
     <string name="rpcreason_unknown">Unknown reason</string>
+    <string name="rpcreason_user_pass_problem">User not found or password wrong.</string>
 
     <!-- menu -->
     <string name="menu_refresh">Refresh</string>

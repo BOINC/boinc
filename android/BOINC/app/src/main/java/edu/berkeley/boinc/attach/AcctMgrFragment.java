@@ -307,10 +307,14 @@ public class AcctMgrFragment extends DialogFragment {
             case BOINCErrors.ERR_INVALID_URL:
                 stringResource = R.string.attachproject_error_invalid_url;
                 break;
+            case -999:
+                stringResource = R.string.rpcreason_user_pass_problem;
+                break;
             default:
                 stringResource = R.string.attachproject_error_unknown;
                 break;
         }
+
         return getString(stringResource);
     }
 
@@ -334,6 +338,7 @@ public class AcctMgrFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+
             if (Logging.DEBUG)
                 Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result);
             if (result == BOINCErrors.ERR_OK) {
