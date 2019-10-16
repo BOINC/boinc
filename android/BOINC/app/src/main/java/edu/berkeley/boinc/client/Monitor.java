@@ -1180,7 +1180,12 @@ public class Monitor extends Service {
                 throws RemoteException {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                return acctMgr.error_num;
+                if(acctMgr.messages.get(0).equals(getString(R.string.rpcreason_user_pass_problem))) {
+                    return -999;
+                }
+                else {
+                    return acctMgr.error_num;
+                }
             }
             return -1;
         }

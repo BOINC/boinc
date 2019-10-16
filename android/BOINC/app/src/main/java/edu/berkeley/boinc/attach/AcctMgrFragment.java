@@ -307,6 +307,9 @@ public class AcctMgrFragment extends DialogFragment {
             case BOINCErrors.ERR_INVALID_URL:
                 stringResource = R.string.attachproject_error_invalid_url;
                 break;
+            case -999:
+                stringResource = R.string.rpcreason_user_pass_problem;
+                break;
             default:
                 stringResource = R.string.attachproject_error_unknown;
                 break;
