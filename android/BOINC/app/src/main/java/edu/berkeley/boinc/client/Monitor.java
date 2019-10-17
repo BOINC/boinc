@@ -1180,7 +1180,7 @@ public class Monitor extends Service {
                 throws RemoteException {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                if(acctMgr.messages.get(0).equals(getString(R.string.rpcreason_user_pass_problem))) {
+                if(acctMgr.messages.get(0).equals("User not found or password wrong.")) {
                     return -999;
                 }
                 else {
