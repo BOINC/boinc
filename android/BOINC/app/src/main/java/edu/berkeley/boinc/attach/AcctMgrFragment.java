@@ -310,6 +310,12 @@ public class AcctMgrFragment extends DialogFragment {
             case -999:
                 stringResource = R.string.rpcreason_user_pass_problem;
                 break;
+            case -995:
+                stringResource = R.string.rpcreason_user_pass_problem;
+                break;
+            case -997:
+                stringResource = R.string.rpcreason_no_account_found;
+                break;
             default:
                 stringResource = R.string.attachproject_error_unknown;
                 break;

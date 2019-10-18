@@ -1180,10 +1180,13 @@ public class Monitor extends Service {
                 throws RemoteException {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                if(acctMgr.messages.get(0).equals("User not found or password wrong.")) {
+                if (acctMgr.error_num !=0){
                     return -999;
-                }
-                else {
+                } else if (acctMgr.error_num == 0 && !acctMgr.messages.toString().equals("")) {
+                    return -998;
+                } else if (!acctMgr.messages.toString().equals("") && acctMgr.error_num === -1){
+                    return -997;
+                } else if (acctMgr.error_num ==0 && acctMgr.messages.toString().equals("")){
                     return acctMgr.error_num;
                 }
             }
