@@ -276,7 +276,7 @@ struct ACTIVE_TASK {
     void get_graphics_msg();
     double est_dur();
     int read_stderr_file();
-    bool finish_file_present();
+    bool finish_file_present(int&);
     bool temporary_exit_file_present(double&, char*, bool&);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
@@ -328,6 +328,7 @@ public:
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();
+    void check_for_finished_jobs();
 
     void process_control_poll();
     void request_reread_prefs(PROJECT*);

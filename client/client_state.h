@@ -372,6 +372,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
 
     ACTIVE_TASK* get_task(RESULT*);
 

@@ -835,6 +835,11 @@ int CLIENT_STATE::init() {
         notices.init_rss();
     }
 
+    // check for jobs with finish files
+    // (i.e. they finished just as client was exiting)
+    //
+    active_tasks.check_for_finished_jobs();
+
     // warn user if some jobs need more memory than available
     //
     check_too_large_jobs();
