@@ -27,6 +27,7 @@ skip_tags: true
 
 skip_commits:
   files:
+    - .github/
     - 3rdParty/*.sh
     - android/
     - client/android/
@@ -39,6 +40,7 @@ skip_commits:
     - doc/
     - drupal/
     - html/
+    - integration_test
     - lib/mac/
     - locale/
     - m4/
@@ -47,7 +49,7 @@ skip_commits:
     - packages/
     - py/
     - stripchart/
-    - test/
+    - tests/
     - tools/
     - vda/
     - xcompile/
