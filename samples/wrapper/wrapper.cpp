@@ -1032,14 +1032,22 @@ bool TASK::poll(int& status) {
 //
 void TASK::kill() {
 #ifdef _WIN32
-    kill_descendants();
+    if (wait_for_children) {
+        kill_job_object(job_handle);
+    }
+    else {
+        kill_descendants();
+    }
 #else
     kill_descendants(pid);
 #endif
 }
 
 void TASK::stop() {
-    if (multi_process) {
+    if (wait_for_children) {
+        suspend_or_resume_job_object(job_handle, false);
+    }
+    else if (multi_process) {
         suspend_or_resume_descendants(false);
     } else {
         suspend_or_resume_process(pid, false);
@@ -1048,7 +1056,10 @@ void TASK::stop() {
 }
 
 void TASK::resume() {
-    if (multi_process) {
+    if (wait_for_children) {
+        suspend_or_resume_job_object(job_handle, true);
+    }
+    else if (multi_process) {
         suspend_or_resume_descendants(true);
     } else {
         suspend_or_resume_process(pid, true);
