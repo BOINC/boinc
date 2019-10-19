@@ -1034,8 +1034,7 @@ void TASK::kill() {
 #ifdef _WIN32
     if (wait_for_children) {
         kill_job_object(job_handle);
-    }
-    else {
+    } else {
         kill_descendants();
     }
 #else
@@ -1046,8 +1045,7 @@ void TASK::kill() {
 void TASK::stop() {
     if (wait_for_children) {
         suspend_or_resume_job_object(job_handle, false);
-    }
-    else if (multi_process) {
+    } else if (multi_process) {
         suspend_or_resume_descendants(false);
     } else {
         suspend_or_resume_process(pid, false);
@@ -1058,8 +1056,7 @@ void TASK::stop() {
 void TASK::resume() {
     if (wait_for_children) {
         suspend_or_resume_job_object(job_handle, true);
-    }
-    else if (multi_process) {
+    } else if (multi_process) {
         suspend_or_resume_descendants(true);
     } else {
         suspend_or_resume_process(pid, true);
