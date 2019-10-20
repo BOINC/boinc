@@ -385,7 +385,14 @@ static void show_connect_error(sockaddr_storage& s) {
     sockaddr_in* sin = (sockaddr_in*)&s;
     safe_strcpy(buf, inet_ntoa(sin->sin_addr));
 #else
-    inet_ntop(s.ss_family, &s, buf, 256);
+    if (s.ss_family == AF_INET) {
+        sockaddr_in* sin = (sockaddr_in*)&s;
+        inet_ntop(AF_INET, (void*)(&sin->sin_addr), buf, 256);
+    } else {
+        sockaddr_in6* sin = (sockaddr_in6*)&s;
+        inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, 256);
+    }
+
 #endif
     msg_printf(NULL, MSG_INFO,
         "GUI RPC request from non-allowed address %s",
