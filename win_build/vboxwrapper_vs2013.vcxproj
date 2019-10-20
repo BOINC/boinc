@@ -314,6 +314,7 @@
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom50.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom51.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom52.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom60.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom_impl.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
   </ItemGroup>
@@ -330,6 +331,7 @@
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom50.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom51.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom52.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom60.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom_impl.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.h" />
   </ItemGroup>

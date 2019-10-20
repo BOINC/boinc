@@ -190,6 +190,12 @@ def test_get_output_files():
     r = get_output_files(req)
     print(r)
 
+def test_get_job_counts():
+    req = REQUEST()
+    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    x = get_job_counts(req)
+    print x.find('results_ready_to_send').text
+
 #test_query_batch(328)
-test_submit_batch('batch_39')
+#test_submit_batch('batch_39')
 #test_create_batch('batch_33')

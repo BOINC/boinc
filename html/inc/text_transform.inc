@@ -134,7 +134,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 5, -6));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<pre>$x</pre>";
+                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
             },
             $text
         );
@@ -265,6 +265,8 @@ function bb2html($text, $export=false) {
         $text = preg_replace($bbtags, $htmltags, $text);
         $i = $i + 1;
     }
+    $text = str_replace("<ul>", '<ul style="word-break:break-word;">', $text);
+    $text = str_replace("<ol>", '<ol style="word-break:break-word;">', $text);
     return $text;
 }
 

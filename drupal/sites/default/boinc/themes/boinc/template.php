@@ -81,6 +81,7 @@ function boinc_theme(&$existing, $type, $theme, $path) {
  * Adjust the rendering of the menu
  */
 function boinc_links__system_main_menu($links, $menu, $element) {
+  $html = '';
   $html .= '<ul id="' . $menu['id'] . '" class="' . $menu['class'] . '">' . "\n";
   $item_count = count($links);
   $i = 1;

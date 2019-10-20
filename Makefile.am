@@ -23,7 +23,7 @@ endif
 endif
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools vda html
+   SERVER_SUBDIRS = db py sched apps tools vda html
 ## once contained samples/example_app which breaks out-of-source-tree builds
 endif
 
@@ -71,7 +71,7 @@ svn_version.h: generate_svn_version.sh
 # Add a stage target for staging a distribution
 
 clean-generic:
-	rm -rf stage
+	rm -rf stage *.gcov
 
 stage: all
 	if [ ! -d stage ] ; then mkdir stage ; fi

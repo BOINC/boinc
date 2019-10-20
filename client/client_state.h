@@ -372,6 +372,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
 
     ACTIVE_TASK* get_task(RESULT*);
 
@@ -380,7 +381,7 @@ struct CLIENT_STATE {
 
     void check_if_need_benchmarks();
     bool can_run_cpu_benchmarks();
-    void start_cpu_benchmarks();
+    void start_cpu_benchmarks(bool force = false);
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
     bool cpu_benchmarks_done();
@@ -394,6 +395,7 @@ struct CLIENT_STATE {
 
 // --------------- cs_files.cpp:
     void check_file_existence();
+    RESULT* file_info_to_result(FILE_INFO*);
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();
@@ -538,7 +540,7 @@ extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////
 
-//////// CLIENT INTERNAL
+//////// POLLING PERIODS
 
 #define POLL_INTERVAL   1.0
     // the client will handle I/O (including GUI RPCs)
@@ -623,6 +625,19 @@ extern THREAD throttle_thread;
 
 #define MAX_STARTUP_TIME    10
     // if app startup takes longer than this, quit loop
+
+#define MIN_TIME_BOUND  120.
+#define DEFAULT_TIME_BOUND  (12*3600.)
+    // if ACTIVE_TASK::max_elapsed_time is < MIN, set it to DEFAULT
+    // This is a sanity check, so that bad values for
+    // wup->rsc_fpops_bound or avp->flops won't cause jobs
+    // to get aborted after a few seconds
+    // The values are a bit arbitrary.
+
+#define FINISH_FILE_TIMEOUT 300
+    // if app process exists this long after writing finish file, abort it.
+    // NOTE: this used to be 10 sec and it wasn't enough,
+    // e.g. during heavy paging.
 
 //////// NETWORK
 

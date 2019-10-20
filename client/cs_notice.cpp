@@ -128,6 +128,9 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
         for (j=0; j<p->proj_feeds.size(); j++) {
             RSS_FEED& rf2 = p->proj_feeds[j];
             if (!strcmp(rf.url, rf2.url)) {
+                if (rf2.poll_interval != rf.poll_interval) {
+                    feed_set_changed = true;
+                }
                 rf2 = rf;
                 rf2.found = true;
                 present = true;
@@ -921,6 +924,7 @@ void RSS_FEEDS::update_proj_am(PROJ_AM* p) {
         RSS_FEED* rfp = lookup_url(rf.url);
         if (rfp) {
             rfp->found = true;
+            rfp->poll_interval = rf.poll_interval;
         } else {
             rf.found = true;
             safe_strcpy(rf.project_name, p->get_project_name());

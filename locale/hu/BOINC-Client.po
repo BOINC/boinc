@@ -1,17 +1,17 @@
 # BOINC client localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2019 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Attila Fenyvesi <fenya25@gmail.com>, 2017
-# Gabor Cseh <csega@mailbox.hu>, 2015,2017
+# Gabor Cseh <csega@mailbox.hu>, 2015,2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-09-23 20:48+0000\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-02-01 09:07+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
+#: client/acct_mgr.cpp:542 client/acct_mgr.cpp:549
 msgid "Message from account manager"
 msgstr "Üzenet a fiókkezelőtől"
 
@@ -29,17 +29,17 @@ msgstr "Üzenet a fiókkezelőtől"
 msgid "Message from server"
 msgstr "Üzenet a szervertől"
 
-#: client/client_state.cpp:315
+#: client/client_state.cpp:336
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Néhány feladatnak a beállításokban engedélyezettnél több memóriára van szüksége. Kérjük, ellenőrizd a beállításokat."
 
-#: client/client_state.cpp:672
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Az állapotadatok nem írhatók; kérjük, ellenőrizd a könyvtár jogosultságait"
 
-#: client/cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:297
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A HTTP_PROXY környezeti változónak egy HTTP proxy-t kell megadnia"
 
@@ -50,60 +50,81 @@ msgid ""
 " add %s"
 msgstr "Ez a projekt régi URL-t használ. Amikor kényelmes, távolítsd el a projektet, majd add hozzá ezt: %s"
 
-#: client/cs_statefile.cpp:850
+#: client/cs_statefile.cpp:861
 msgid "Syntax error in app_info.xml"
 msgstr "Szintaktikai hiba az app_info.xml-ben"
 
-#: client/cs_statefile.cpp:894
+#: client/cs_statefile.cpp:905
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "A hivatkozott fájl nem létezik az app_info.xml-ben:"
 
+#: client/current_version.cpp:55
+msgid "Missing start tag in nvc_config.xml"
+msgstr "Hiányzó kezdő címke az nvc_config.xml fájlban"
+
+#: client/current_version.cpp:64
+msgid "Unexpected text in nvc_config.xml"
+msgstr "Váratlan szöveg az nvc_config.xml fájlban"
+
 #: client/current_version.cpp:91
+msgid "Unrecognized tag in nvc_config.xml"
+msgstr "Nem felismerhető címke az nvc_config.xml fájlban"
+
+#: client/current_version.cpp:99
+msgid "Missing end tag in nvc_config.xml"
+msgstr "Hiányzó lezáró címke az nvc_config.xml fájlban"
+
+#: client/current_version.cpp:177
 msgid "A new version of BOINC is available"
 msgstr "Új BOINC verzió érhető el"
 
-#: client/current_version.cpp:94 client/current_version.cpp:102
+#: client/current_version.cpp:180 client/current_version.cpp:191
 msgid "Download"
 msgstr "Letöltés"
 
-#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+#: client/current_version.cpp:183
+#, c-format
+msgid "A new version of %s is available"
+msgstr "A(z) %s új verziója elérhető"
+
+#: client/gpu_detect.cpp:246 client/gpu_detect.cpp:289
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "nem használható CUDA vagy OpenCL számításra a CUDA illesztőprogram 6.5 vagy későbbi verziójával"
 
-#: client/log_flags.cpp:316 client/log_flags.cpp:496
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "Váratlan szöveg a cc_config.xml fájlban"
 
-#: client/log_flags.cpp:470 client/log_flags.cpp:525
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Felismerhetetlen címke a cc_config.xml-ben"
 
-#: client/log_flags.cpp:487
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "Hiányzó indító címke a cc_config.xml fájlban"
 
-#: client/log_flags.cpp:515
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "Hiba a cc_config.xml beállításaiban"
 
-#: client/log_flags.cpp:533
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "Hiányzó lezáró címke a cc_config.xml fájlban"
 
-#: client/project.cpp:991
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "A javításhoz megteheted "
 
-#: client/project.cpp:994
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "változtasd meg a Projektbeállításokat a projekt weboldalán"
 
-#: client/project.cpp:1000
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "távolítsd el a GPU tiltásokat a cc_config.xml fájlodban "
 
-#: client/project.cpp:1007
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "változtasd meg a beállításaidat a fiókkezelőd weboldalán"
 
@@ -130,49 +151,49 @@ msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Az Ön BOINC kliens szoftvere túl régi. Kérjük, telepítse a jelenlegi verziót."
 
-#: sched/handle_request.cpp:1347
+#: sched/handle_request.cpp:1348
 msgid "This project doesn't support computers of type"
 msgstr "Ez a projekt nem támogatja az alábbí típusú számítógépet"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "A számítógép GPU-ját használó feladatok futtatásához telepítsd a legfrissebb videókártya illesztőprogramot"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "E projekt GPU-alkalmazásainak használatához telepítsd a legfrissebb videókártya illesztőprogramot"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "NVIDIA GPU-d használatához a BOINC újabb verziója szükséges; kérjük, telepítsd a jelenlegi verziót"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "%s GPU szükséges a projekt feladatainak futtatásához"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "Az általad kiválasztott alkalmazásokhoz nincs elérhető feladat."
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "Ez a projekt nem támogatja a számítógéptípusodat"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "Újabb BOINC verzió szükséges; kérjük, telepítsd a legfrissebbet"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s számára elérhetőek feladatok, de a beállításaid miatt nem futtathatók"
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:239
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Az app_info.xml fájlodnak nincsen használható verziója erről a projektről:"

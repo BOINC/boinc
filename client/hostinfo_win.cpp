@@ -1130,7 +1130,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
 	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
-    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0;
+    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0, hygon_supported = 0;
 
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
@@ -1143,6 +1143,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     }
     if (strcmp(vendor, "AuthenticAMD") == 0) {
         amd_supported = 1;
+    }
+    if (strcmp(vendor, "HygonGenuine") == 0) {
+        hygon_supported = 1;
     }
 
     get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
@@ -1226,8 +1229,8 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
 
-    if (amd_supported) {
-        // AMD only features
+    if (amd_supported || hygon_supported) {
+        // AMD or Hygon features
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 6)), "sse4a ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw ");

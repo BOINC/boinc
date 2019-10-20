@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <algorithm>
 #endif
 
 #include "common_defs.h"
@@ -207,6 +208,7 @@ CC_CONFIG::CC_CONFIG() {
 //
 void CC_CONFIG::defaults() {
     abort_jobs_on_exit = false;
+    allow_gui_rpc_get = false;
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
@@ -320,6 +322,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
+        if (xp.parse_bool("allow_gui_rpc_get", allow_gui_rpc_get)) continue;
         if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
@@ -500,9 +503,11 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "    <options>\n"
         "        <abort_jobs_on_exit>%d</abort_jobs_on_exit>\n"
+        "        <allow_gui_rpc_get>%d</allow_gui_rpc_get>\n"
         "        <allow_multiple_clients>%d</allow_multiple_clients>\n"
         "        <allow_remote_gui_rpc>%d</allow_remote_gui_rpc>\n",
         abort_jobs_on_exit ? 1 : 0,
+        allow_gui_rpc_get ? 1 : 0,
         allow_multiple_clients ? 1 : 0,
         allow_remote_gui_rpc ? 1 : 0
     );
@@ -688,6 +693,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 // app_config.xml stuff
 
 bool have_max_concurrent = false;
+    // does any project have a max concurrent restriction?
 
 int APP_CONFIG::parse_gpu_versions(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
@@ -729,7 +735,9 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.match_tag("/app")) return 0;
         if (xp.parse_str("name", name, 256)) continue;
         if (xp.parse_int("max_concurrent", max_concurrent)) {
-            if (max_concurrent) have_max_concurrent = true;
+            if (max_concurrent) {
+                have_max_concurrent = true;
+            }
             continue;
         }
         if (xp.match_tag("gpu_versions")) {
@@ -800,6 +808,10 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             int retval = ac.parse(xp, mv, log_flags);
             if (retval) return retval;
             app_configs.push_back(ac);
+            if (ac.max_concurrent) {
+                project_has_mc = true;
+                project_min_mc = project_min_mc?std::min(project_min_mc, ac.max_concurrent):ac.max_concurrent;
+            }
             continue;
         }
         if (xp.match_tag("app_version")) {
@@ -812,7 +824,9 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.parse_int("project_max_concurrent", n)) {
             if (n >= 0) {
                 have_max_concurrent = true;
+                project_has_mc = true;
                 project_max_concurrent = n;
+                project_min_mc = project_min_mc?std::min(project_min_mc, n):n;
             }
             continue;
         }

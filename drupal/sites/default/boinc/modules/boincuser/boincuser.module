@@ -16,7 +16,7 @@
 
 require_once('includes/boincuser.forms.inc');
 require_once('includes/boincuser.helpers.inc');
-
+require_once('includes/boincuser.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
@@ -303,7 +303,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
 
   require_boinc('password_compat/password');
   // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
-  if ($account->uid > 1) {
+  if (isset($account->uid) && ($account->uid > 1)) {
     switch($op) {
     case 'load':
       // User loading; insert BOINC data into the user object
@@ -1220,25 +1220,37 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'hidden',
       '#value' => rand() . '.' . time()
     );
-    
+
+    // Add JS for submit button disabling
+    drupal_add_js(drupal_get_path('module', 'boincuser') . '/boincuser.js');
+
     // Terms of use section
     $termsofuse = variable_get('boinc_weboptions_termsofuse', '');
     if (!empty($termsofuse)) {
-      $form['title1'] = array(
+
+      $form['termsofuse'] = array(
+        '#type'   => 'fieldset',
+        '#prefix' => '<div id="termsofuse-wrapper">', // This is our wrapper div.
+        '#suffix' => '</div>',
+        '#tree'   => TRUE,
+        '#weight' => -15,
+      );
+
+      $form['termsofuse']['title1'] = array(
         '#weight' => -12,
         '#value' => '<h2>' . bts(variable_get('boinc_weboptions_registrationtitle', 'Please read and acknowledge our terms of use'), array(), NULL, 'project:user-register' ) . '</h2>',
         '#prefix' => '<div id="register-title1">',
         '#suffix' => '</div>',
       );
 
-      $form['termsofuse'] = array(
+      $form['termsofuse']['body'] = array(
         '#weight' => -10,
         '#value' => bts($termsofuse, array(), NULL, 'project:user-register'),
         '#prefix' => '<div id="register-termsofuse">',
         '#suffix' => '</div>',
       );
 
-      $form['agreeTOU'] = array(
+      $form['termsofuse']['agreeTOU'] = array(
         '#type' => 'checkbox',
         '#title' => bts(variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'), array(), NULL, 'project:user-register'),
         '#weight' => -8,
@@ -1292,6 +1304,14 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       ),
     ));
     
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['register_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+      );
+    }
+
     // Wrap action buttons for styling consistency
     $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -1394,7 +1414,9 @@ function boincuser_token_list($type = 'all') {
  * Implementation of hook_views_pre_execute()
  */
 function boincuser_views_pre_execute(&$view) {
-  $account_id = $view->args[0];
+  if ($view->args) {
+    $account_id = $view->args[0];
+  }
   if ($view->name=="user_activity") {
     // Run the following custom query for the user_activity view
     $view->build_info['query']= "

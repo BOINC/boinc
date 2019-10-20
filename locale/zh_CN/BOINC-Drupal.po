@@ -7,20 +7,26 @@
 # Translators:
 # 233 666 <fenggaobuke@gmail.com>, 2017
 # Asa Wang <xtremeaud@gmail.com>, 2017
-# snn qy <qysnn1@gmail.com>, 2017
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2018
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2018
+# Gavin Zheng <179873196@qq.com>, 2018
+# Mingye Wang <arthur200126@gmail.com>, 2019
+# Heyang Qin <qysnn1@gmail.com>, 2017
+# woclass, 2019
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2018
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2018
 # yanglin Xun <xunyanglins@gmail.com>, 2016
-# Yin Gang <zenith.yin@gmail.com>, 2015
+# Gang Yin <zenith.yin@gmail.com>, 2015,2018
+# 政麟 杨 <1546535923@qq.com>, 2018
 # 李泽林, 2015
-# snn qy <qysnn1@gmail.com>, 2015-2016
+# 浩然 王 <9709021@qq.com>, 2018
+# Heyang Qin <qysnn1@gmail.com>, 2015-2016
+# 鹏希 刘 <lpx.ustc@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-10 13:57+0000\n"
-"Last-Translator: Xiaobo Zhou <zhouxiaobo.500@gmail.com>\n"
+"PO-Revision-Date: 2019-02-18 03:10+0000\n"
+"Last-Translator: woclass\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +61,7 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home项目使用您计算机的空闲时间来搜索从脉冲星发出的引力波。所使用的数据由LIGO引力波探测器提供。"
+msgstr "Einstein@Home 项目使用您计算机的空闲时间来搜索从旋转中子星（脉冲星）发出的引力波。所使用的数据由 LIGO 引力波探测器提供。"
 
 msgid "Run while computer is on battery power?"
 msgstr "电池供电时仍进行计算？"
@@ -170,7 +176,7 @@ msgid "Total credits"
 msgstr "总积分"
 
 msgid "Recent avg credits"
-msgstr "近期平均积分"
+msgstr "近期日均积分"
 
 msgid "Web site"
 msgstr "网站"
@@ -224,7 +230,7 @@ msgstr "请设置用户在该留言板发贴所要求的最低总积分。"
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "请设置用户在该留言板发贴所要求的最小平均积分。"
+msgstr "请设置用户在该留言板发贴所要求的最小日均积分。"
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -549,7 +555,7 @@ msgstr "没有内容在队列中等待审核。"
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr "用户配置文件审核队列"
+msgstr "用户资料审核队列"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -629,7 +635,7 @@ msgstr "创建人"
 #: user-or-team-RAC
 msgctxt "user-or-team-RAC"
 msgid "Recent average credit"
-msgstr "近期平均积分"
+msgstr "近期日均积分"
 
 #: user-or-team-name
 msgctxt "user-or-team-name"
@@ -781,7 +787,7 @@ msgstr "任务时长校正因子"
 #: host-details
 msgctxt "host-details"
 msgid "Avg. credit"
-msgstr "平均积分"
+msgstr "日均积分"
 
 #: host-details
 msgctxt "host-details"
@@ -1305,7 +1311,7 @@ msgstr "该用户没有关联的计算机，计算机将在首次得到积分后
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Avg credit"
-msgstr "平均积分"
+msgstr "日均积分"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -1397,7 +1403,7 @@ msgstr "保存更改"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Change password"
-msgstr "修改用户口令"
+msgstr "修改密码"
 
 #: account-preferences-location
 msgctxt "account-preferences-location"
@@ -1510,7 +1516,7 @@ msgstr "当您使用计算机时将暂停GPU计算。"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "如果在最近一段时间内有鼠标或键盘操作则认为计算机在使用中"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1568,7 +1574,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "如果“是”，挂起的任务将保留在内存中，并可无损恢复。如果“否”，挂起的任务将会从内存中移除，并将恢复到上一个记录点。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1791,14 +1797,14 @@ msgstr "例如： 限制BOINC在30天内最多传输2000 MB数据。"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "跳过图像文件的数据校验？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "仅当您的Internet提供商会修改图像文件的情况下才需要选中此选项。跳过验证会降低BOINC的安全性。"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1852,7 +1858,7 @@ msgstr "该项目仅需要CPU参与运算。"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use NVIDIA GPU"
-msgstr "使用NVIDIA GPU"
+msgstr "使用 NVIDIA GPU"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -2045,7 +2051,7 @@ msgstr "忽略论坛的用户数："
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "<a href=\"@ignore-user-list\"> 查看/编辑</a> 忽略用户列表。"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2180,7 +2186,7 @@ msgstr "搜索团队"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "此工作单元正在执行任务。"
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2274,7 +2280,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "设置@venue 没有特殊偏好。点击保存更改将下列首选项保存到帐户中。 "
 
 #: join-page
 msgctxt "join-page"
@@ -3083,7 +3089,7 @@ msgstr "发贴要求的最低总积分"
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum avg credit to post"
-msgstr "发帖要求的最低平均积分"
+msgstr "发帖要求的最低日均积分"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
@@ -3322,14 +3328,14 @@ msgstr "根据提示输入 @siteurl"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr ""
+msgstr "指南"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "@email账号不存在——使用BOINC客户端注册账号"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3363,7 +3369,7 @@ msgstr "等待中"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "你的账号的任务"
 
 #: task-table
 msgctxt "task-table"
@@ -3398,7 +3404,7 @@ msgstr "发送时间"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "上传时间或截止时间"
 
 #: task-table
 msgctxt "task-table"
@@ -3418,12 +3424,12 @@ msgstr "已用 CPU 时间"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "已领取积分"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "待授予积分"
 
 #: task-table
 msgctxt "task-table"
@@ -3463,27 +3469,27 @@ msgstr "重置"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "使用过滤器"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "你没有权限来编辑该帖子。"
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "电脑@host_id的任务"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "计算机的位置已更新"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "更改将在该主机下一次和项目通讯的时候生效。 "
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
@@ -3534,7 +3540,7 @@ msgstr "运行安装程序。"
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "在列表中选择@sitename，或者输入@siteurl。"
 
 #: join-page
 msgctxt "join-page"
@@ -3546,7 +3552,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "选择<i>工具/添加项目</i>。选择@sitename自列表，或者输入@siteurl。"
 
 #: join-page
 msgctxt "join-page"
@@ -3555,7 +3561,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "如果你正在使用命令行版本的 BOINC，先使用 BOINC Manager 创建该项目的账户（如有必要在别处），然后在命令行版本中使用该账户来连接。 "
 
 #: join-page
 msgctxt "join-page"
@@ -3563,23 +3569,23 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "如果你在使用 5.0 前版本的 BOINC，请\n升级到更近的版本来创建账户"
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@user 现在是 @team 的创建人了！"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "BOINC翻译过滤器可以划分待译内容。"
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "将节点内容分割成块进行翻译。 "
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
@@ -3589,26 +3595,26 @@ msgstr "BOINC 翻译筛选器"
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "要过滤的内容类型 "
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "选择哪些内容（节点）类型将被分成块进行翻译。 "
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "打印debug详情"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "打印附加debug信息。这个选项应该在生产场所关闭。"
 
 #: join-page
 msgctxt "join-page"
@@ -3618,12 +3624,12 @@ msgstr "规则和政策"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "阅读我们的 !规则和政策。"
 
 #: account-password
 msgctxt "account-password"
 msgid "Password"
-msgstr "用户口令"
+msgstr "密码"
 
 #: login-page
 msgctxt "login-page"
@@ -3680,12 +3686,12 @@ msgstr "启用富文本"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "关注"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "取消关注"
 
 #: forum
 msgctxt "forum"
@@ -3715,12 +3721,12 @@ msgstr "所有任务"
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "结果上报时间或截止时间"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "运行时间（秒）"
 
 #: task-details
 msgctxt "task-details"
@@ -3735,17 +3741,17 @@ msgstr "典型结果"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "最大 # 错误/总数/正确任务"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "站点主页的消息"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "要在网站首页跳转页面上显示的文本。"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3853,7 +3859,7 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "谢谢你 @user_name 加入 @site_name 。\n你的账号成功创建。我们的BONC客户端应该很快开始分配工作任务，如果没有任何额外的行动或配置。请访问下面的链接获取更多信息和其他选项。（链接将在新窗口中打开）"
 
 #: account-fininsh
 msgctxt "account-fininsh"
@@ -3870,14 +3876,14 @@ msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "你的用户名被用来让其他志愿者认出你。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "此外，您可以设置帐户的默认语言并调整通知设置。 "
 
 #: account-finish
 msgctxt "account-finish"
@@ -3887,21 +3893,21 @@ msgstr "计算参数设置"
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "更改你的 !计算设置 。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "您可以调整BOINC客户端允许在计算机上使用多少CPU、RAM和磁盘空间。 "
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "正常情况下，你应该运行 @site_name 任务在没有附加设置时。"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3914,7 +3920,7 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "建议新的志愿者取消默认设置，直到他们获得运行某些任务的经验。问问题在 !论坛 里以在更改不理解的设置之前得到建议。 "
 
 #: account-finish
 msgctxt "account-finish"
@@ -3924,14 +3930,14 @@ msgstr "用户档案"
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "创建一个 !user_profile"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "一个用户概况将会让其他志愿者认识你并且知道你为什么加入 @site_name 。"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3946,24 +3952,24 @@ msgstr "加入 !team。"
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "你可以加入一个团队，邀请其他志愿者。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "账户面板"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "前往你的 !account_dashboard。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "你的账户面板有你的电脑（们）和任务（们）的信息和链接"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3973,17 +3979,17 @@ msgstr "帮助"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "访问我们的 !帮助 界面。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "在我们的社区论坛中寻求帮助"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "错误：那个验证者没有帐户。 "
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -4000,7 +4006,7 @@ msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "错误：在载入你的账户信息时出现些问题。请尝试使用用户名和密码进行登陆。"
 
 #: team-add-admin
 msgctxt "team-add-admin"
@@ -4015,28 +4021,28 @@ msgstr "仲裁"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "请注意：用户简介是受 !moderation 的。 "
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "默认情况下，搜索匹配任何搜索项。结果在搜索结果中会出现一个以上的术语。 "
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "你可以使用“AND”以让搜索引擎给出包含其中所有关键词的搜索结果。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "例如，搜索“boinc AND client”将只会包含含有BOINC与client的条目"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"

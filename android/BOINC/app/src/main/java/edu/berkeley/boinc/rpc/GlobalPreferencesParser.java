@@ -57,9 +57,7 @@ public class GlobalPreferencesParser extends BaseParser {
             mPreferences = new GlobalPreferences();
         }
         else if(localName.equalsIgnoreCase("day_prefs")) {
-            if(mInsideDayPrefs) {
-                mInsideDayPrefs = true;
-            }
+            mInsideDayPrefs = true;
         }
         else {
             // Another element, hopefully primitive and not constructor

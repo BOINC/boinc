@@ -272,6 +272,17 @@ void send_work_score_type(int rt) {
             continue;
         }
 
+        // check daily limit for (host, app version)
+        //
+        if (daily_quota_exceeded(job.bavp)) {
+            if (config.debug_quota) {
+                log_messages.printf(MSG_NORMAL,
+                    "[quota] daily host/app version quota now exceeded\n"
+                );
+            }
+            break;
+        }
+
         if (!sema_locked) {
             lock_sema();
             sema_locked = true;

@@ -347,17 +347,23 @@ function boincuser_consentto_termsofuse($user) {
     $rc1 = consent_to_a_policy($boinc_user, $ctid, 1, 0, 'Webform', time());
     if (!$rc1) {
       drupal_set_message(
-        bts("ERROR: Database error when attempting to INSERT into table consent with ID=@id. Please contact site administrators.",
-        array('@id' => $boinc_user->id),
+        bts("ERROR: Database error when attempting to INSERT into table consent with ID=@id. The @project administrators have been notified.",
+        array(
+          '@id' => $boinc_user->id,
+          '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user'
+        ),
         'NULL', 'boinc:consent-termsofuse'),
       'error');
+      rules_invoke_event('boincuser_general_consent_error', variable_get('boinc_admin_mailing_list_subject_tag', ''));
     }
     return $rc1;
   }
   else {
     drupal_set_message(
-      bts('ERROR: Consent type for enrollment not found. Please contact site administrators.', array(), 'NULL', 'boinc:consent-termsofuse'),
+      bts('ERROR: Consent type for enrollment not found. The @project administrators have been nofitifed.',
+        array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:consent-termsofuse'),
     'error');
+    rules_invoke_event('boincuser_general_consent_type_error', CONSENT_TYPE_ENROLL, variable_get('boinc_admin_mailing_list_subject_tag', ''));
   }
   return FALSE;
 }

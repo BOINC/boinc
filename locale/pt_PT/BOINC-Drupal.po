@@ -6,8 +6,8 @@
 # 
 # Translators:
 # Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
-# Manuela Silva <manuela.silva@sky.com>, 2016-2018
-# Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016-2018
+# Manuela Silva <manuelarodsilva@gmail.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2017
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 # Paco Banderas <duimpera1@gmail.com>, 2015
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-19 15:21+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2018-05-15 18:25+0000\n"
+"Last-Translator: Manuela Silva <manuelarodsilva@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgid "Total Credit"
 msgstr "Crédito Total"
 
 msgid "App ID"
-msgstr "ID da App"
+msgstr "Id. da App"
 
 msgid "Friends (@count)"
 msgstr "Amigos (@count)"
@@ -751,7 +751,7 @@ msgstr "Enquanto o BOINC está em execução, % do tempo do anfitrião tem liga�
 #: host-details
 msgctxt "host-details"
 msgid "Average CPU efficiency"
-msgstr "Eficiência média do CPU"
+msgstr "Eficiência média da CPU"
 
 #: host-details
 msgctxt "host-details"
@@ -813,7 +813,7 @@ msgstr "Espaço temporário"
 #: host-details
 msgctxt "host-details"
 msgid "Maximum daily WU quota per CPU"
-msgstr "Cota máxima diária de Unidades de Trabalho por CPU"
+msgstr "Cota máxima diária de unidades de trabalho por CPU"
 
 #: host-details
 msgctxt "host-details"
@@ -858,7 +858,7 @@ msgstr "Velocidade de número inteiro calculada"
 #: host-details
 msgctxt "host-details"
 msgid "CPU model"
-msgstr "Modelo do CPU"
+msgstr "Modelo da CPU"
 
 #: host-details
 msgctxt "host-details"
@@ -933,7 +933,7 @@ msgstr "Estado do cliente"
 #: task-details
 msgctxt "task-details"
 msgid "CPU time"
-msgstr "Tempo de CPU"
+msgstr "Tempo da CPU"
 
 #: task-details:-1:ignoreoverwrite
 msgctxt "task-details:-1:ignoreoverwrite"
@@ -1532,7 +1532,7 @@ msgstr "Isto permite que alguns computadores entrem em poupança de energia quan
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspender quando a utilização do CPU por parte de terceiros for superior a"
+msgstr "Suspender quando a utilização da CPU por parte de terceiros for superior a"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1592,12 +1592,12 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Manter alguns CPUs livres para outras aplicações. Exemplo: 75% significa utilizar 6 núcleos num CPU de 8 núcleos."
+msgstr "Manter algumas CPUs livres para outras aplicações. Exemplo: 75%, significa utilizar 6 núcleos numa CPU de 8 núcleos."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the CPU time"
-msgstr "% do tempo de CPU"
+msgstr "% do tempo da CPU"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1605,7 +1605,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspende/resume computação em alguns segundos para reduzir a temperatura do CPU e o consumo energético. Exemplo: 75% significa computação durante 3 segundos, aguardar 1 segundo, e repetir."
+msgstr "Suspende/resume computação em alguns segundos para reduzir a temperatura da CPU e o consumo de energia. Exemplo: 75%, significa computação durante 3 segundos, aguardar 1 segundo, e repetir."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1844,7 +1844,7 @@ msgstr "Utilizar CPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr "Solicitar apenas tarefas para CPU neste projeto."
+msgstr "Neste projeto, solicitar apenas tarefas para CPU."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -3410,7 +3410,7 @@ msgstr "Tempo decorrido"
 #: task-table
 msgctxt "task-table"
 msgid "CPU time"
-msgstr "Tempo de CPU"
+msgstr "Tempo da CPU"
 
 #: task-table
 msgctxt "task-table"
@@ -3722,7 +3722,7 @@ msgstr "Tempo decorrido (seg)"
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr "Tempo de CPU (seg)"
+msgstr "Tempo da CPU (seg.)"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -3891,7 +3891,7 @@ msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr "Pode ajustar a capacidade de CPU, RAM e Espaço em Disco, que o cliente BOINC está autorizado a utilizar para tarefas no seu computador."
+msgstr "Pode ajustar a capacidade da CPU, RAM e espaço em disco, que o cliente BOINC está autorizado a utilizar para tarefas no seu computador."
 
 #: account-finish
 msgctxt "account-finish"

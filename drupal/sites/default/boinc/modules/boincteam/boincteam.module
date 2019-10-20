@@ -16,7 +16,7 @@
 
 require_once('includes/boincteam.forms.inc');
 require_once('includes/boincteam.helpers.inc');
-
+require_once('includes/boincteam.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
@@ -98,6 +98,15 @@ function boincteam_menu() {
   $items['community/teams/%/user-name-autocomplete'] = array(
     'page callback' => '_boincuser_user_name_autocomplete',
     'access callback' => 'boincteam_is_founder',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
+  $items['community/teams/%/message-all-members'] = array(
+    'title' => bts('Send Message to Team', array(), NULL, 'boinc:team-manage'),
+    'description' => bts('Send Message to Team', array(), NULL, 'boinc:team-manage'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincteam_sendmessagetoteam', 2),
+    'access callback' => 'boincteam_is_admin',
     'access arguments' => array(2),
     'type' => MENU_CALLBACK,
   );
@@ -201,6 +210,16 @@ function boincteam_cron_queue_info() {
     'worker callback' => 'boincteam_delete',
     'time' => 60,
   );
+}
+
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boincteam_mail_alter(&$message) {
+  if (isset($message['params']['boincteam_headers'])) {
+    $message['headers']['Bcc'] = $message['params']['boincteam_headers']['Bcc'];
+    $message['to'] = '';
+  }
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -502,6 +521,7 @@ function boincteam_join($team_id) {
         array('@uid' => $user->uid, '@nid' => $team_id), WATCHDOG_NOTICE);
     }
     else {
+      // @todo - consider another rule/error event here
       drupal_set_message(t('There was a problem joining @team, please try again
         later', array('@team' => $boincteam->name)));
       watchdog('boincteam', 'error adding user @uid to team @nid',
@@ -976,20 +996,13 @@ function boincteam_management_panel($team_id) {
   
   // PM all members
   if (module_exists('privatemsg')) {
-    // Obtain all Drupal uids of team members and construct URL to send
-    // a private message to all.
-    $boinc_id = boincteam_lookup_id($team_id);
-    $member_drupaluids = _boincteam_userids($boinc_id, FALSE);
-    $members = array_map("user_load", $member_drupaluids);
-    $team_pm_link = privatemsg_get_link($members);
-
     $output .= '<div class="form-item">';
     $output .= '  <ul class="tab-list action-list">';
     $output .= '    <li class="first tab primary">' .
-      l('Send message to team', $team_pm_link) . '</li>';
+      l('Send message to team', "community/teams/{$team_id}/message-all-members") . '</li>';
     $output .= '  </ul>';
     $output .= '  <div class="description">';
-    $output .=   bts('Private message all team members.', array(), NULL, 'boinc:team-manage');
+    $output .=   bts('Contact all team members using e-mail.', array(), NULL, 'boinc:team-manage');
     $output .= '  </div>';
     $output .= '</div>';
   }
