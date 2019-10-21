@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -33,6 +33,7 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.utils.ErrorCodeDescription;
 
 interface IMonitor {
 /////// client interface //////////////////////////////////////////
@@ -46,7 +47,7 @@ boolean resultOp(in int op, in String url, in String name);      // implement: c
 AccountOut createAccountPolling(in AccountIn information);  // implement: call clientInterface.createAccountPolling(information);
 String readAuthToken(in String path);               // implement: call clientInterface.readAuthToken(String);
 ProjectConfig getProjectConfigPolling(in String url);    // implement: call clientInterface.getProjectConfigPolling(url);
-int addAcctMgrErrorNum(in String url, in String userName, in String pwd);  // implement: return clientInterface.addAcctMgr(url, userName, pwd).error_num; check return null!=clientInterface.addAcctMgr(url, userName, pwd)
+ErrorCodeDescription addAcctMgrErrorNum(in String url, in String userName, in String pwd);  // implement: return clientInterface.addAcctMgr(url, userName, pwd).error_num; check return null!=clientInterface.addAcctMgr(url, userName, pwd)
 AcctMgrInfo getAcctMgrInfo();               // implement: call clientInterface.getAcctMgrInfo();
 boolean synchronizeAcctMgr(in String url);         // implement: call clientInterface.synchronizeAcctMgr(String);
 boolean setRunMode(in int mode);                // implement: call clientInterface.setRunMode(Integer);
@@ -65,7 +66,7 @@ ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(Strin
 boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
-boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();
+boolean boincMutexAcquired();				// implement: call Monitor.boincMutexAcquired();
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
 boolean isStationaryDeviceSuspected();               // implement: call Monitor.getDeviceStatus().isStationaryDevice();
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;
