@@ -323,6 +323,7 @@
     <ClCompile Include="..\client\acct_setup.cpp" />
     <ClCompile Include="..\client\app.cpp" />
     <ClCompile Include="..\client\app_config.cpp" />
+    <ClCompile Include="..\client\app_control.cpp" />
     <ClCompile Include="..\client\client_state.cpp" />
     <ClCompile Include="..\client\client_types.cpp" />
     <ClCompile Include="..\client\coproc_sched.cpp" />
