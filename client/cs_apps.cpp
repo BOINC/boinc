@@ -329,6 +329,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
     return NULL;
 }
 
+#ifndef SIM
 // on startup, see if any active tasks have a finished file
 // i.e. they finished as the client was shutting down
 //
@@ -345,3 +346,4 @@ void ACTIVE_TASK_SET::check_for_finished_jobs() {
         }
     }
 }
+#endif
