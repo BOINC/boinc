@@ -104,6 +104,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
+    m_bHostnamePasswordSet = false;
     m_bBOINCMGRAutoStarted = false;
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
@@ -690,6 +691,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
     if (hostNameSpecified && passwordSpecified) {
         m_bMultipleInstancesOK = true;
+        m_bHostnamePasswordSet = true;
     }
 
     if (parser.Found(wxT("no-daemon"))) {

@@ -583,6 +583,7 @@ int CMainDocument::OnPoll() {
     int iRetVal = 0;
     wxString hostName = wxGetApp().GetClientHostNameArg();
     wxString password = wxGetApp().GetClientPasswordArg();
+    bool isHostnamePasswordSet = wxGetApp().IsHostnamePasswordSet();
     int portNum = wxGetApp().GetClientRPCPortArg();
 
     wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
@@ -592,7 +593,7 @@ int CMainDocument::OnPoll() {
         m_bClientStartCheckCompleted = true;
 
         if (IsComputerNameLocal(hostName)) {
-            if (wxGetApp().IsAnotherInstanceRunning()) {
+            if (wxGetApp().IsAnotherInstanceRunning() && !isHostnamePasswordSet) {
                 if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
                     wxCommandEvent event;
@@ -603,7 +604,7 @@ int CMainDocument::OnPoll() {
 
         if (wxGetApp().GetNeedRunDaemon() && IsComputerNameLocal(hostName)) {
             if (m_pClientManager->StartupBOINCCore()) {
-                Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
+                Connect(wxT("localhost"), portNum, password, TRUE, password.IsEmpty());
             }
             else {
                 m_pNetworkConnection->ForceDisconnect();
