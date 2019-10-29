@@ -843,6 +843,14 @@ int ACTIVE_TASK::start(bool test) {
     pid = process_info.dwProcessId;
     process_handle = process_info.hProcess;
     CloseHandle(process_info.hThread);  // thread handle is not used
+
+    // if host has multiple processor groups (i.e. > 64 processors)
+    // see which one was used for this job, and show it
+    //
+    if (log_flags.task_debug && gstate.host_info.n_processor_groups > 0) {
+        int i = get_processor_group(process_handle);
+        msg_printf(wup->project, MSG_INFO, "[task_debug] task is running in processor group %d", i);
+    }
 #elif defined(__EMX__)
 
     char* argv[100];

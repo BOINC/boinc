@@ -95,6 +95,10 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
+#ifdef _WIN32
+    int n_processor_groups;
+#endif
+
     HOST_INFO();
     int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
@@ -126,10 +130,14 @@ public:
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
     static bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
         char* os_name, const int os_name_size, char* os_version, const int os_version_size);
+#ifdef _WIN32
+    void win_get_processor_info();
+#endif
 };
 
 #ifdef _WIN64
 int get_wsl_information(bool& wsl_available, WSLS& wsls);
+int get_processor_group(HANDLE);
 #endif
 
 #ifdef __APPLE__
