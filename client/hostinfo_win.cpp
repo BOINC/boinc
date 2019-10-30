@@ -1515,10 +1515,6 @@ int HOST_INFO::get_host_battery_state() {
     return BATTERY_STATE_UNKNOWN;
 }
 
-bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
-    double seconds_idle = get_idle_tick_count() / 1000;
-    double seconds_time_to_run = 60 * idle_time_to_run;
-    return seconds_idle > seconds_time_to_run;
+bool HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
+    return get_idle_tick_count() / 1000;
 }
-
-

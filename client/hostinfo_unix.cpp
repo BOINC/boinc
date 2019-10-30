@@ -118,6 +118,7 @@
 #include "hostinfo.h"
 
 using std::string;
+using std::min;
 
 #ifdef __APPLE__
 #include <IOKit/IOKitLib.h>
@@ -1556,12 +1557,12 @@ int HOST_INFO::get_host_info(bool init) {
     return 0;
 }
 
-// returns true iff device was last accessed before t
-// or if an error occurred looking at the device.
-//
-inline bool device_idle(time_t t, const char *device) {
+inline int device_idle_time(const char *device) {
     struct stat sbuf;
-    return stat(device, &sbuf) || (sbuf.st_atime < t);
+    if (stat(device, &sbuf)) {
+        return USER_IDLE_TIME_INF;
+    }
+    return gstate.now - sbuf.st_atime;
 }
 
 static const struct dir_tty_dev {
@@ -1606,24 +1607,21 @@ vector<string> get_tty_list() {
     return tty_list;
 }
 
-// return true if all ttys inactive since time t
-//
-inline bool all_tty_idle(time_t t) {
+inline int all_tty_idle_time() {
     static vector<string> tty_list;
     struct stat sbuf;
     unsigned int i;
+    int idle_time = USER_IDLE_TIME_INF;
 
     if (tty_list.size()==0) tty_list=get_tty_list();
     for (i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
             // printf("tty: %s %d %d\n",tty_list[i].c_str(), sbuf.st_atime, t);
-            if (sbuf.st_atime >= t) {
-                return false;
-            }
+            idle_time = min(idle_time, (int)(gstate.now-sbuf.st_atime));
         }
     }
-    return true;
+    return idle_time;
 }
 
 #ifdef __APPLE__
@@ -1679,9 +1677,7 @@ int get_system_uptime() {
 // Even with calling IORegistryEntryFromPath() each time, this code is much
 // faster than the previous method, which called IOHIDGetParameter().
 //
-bool HOST_INFO::users_idle(
-    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
-) {
+int HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
     static bool     error_posted = false;
     int64_t         idleNanoSeconds;
     double          idleTime = 0;
@@ -1690,7 +1686,7 @@ bool HOST_INFO::users_idle(
     CFTypeRef idleTimeProperty;
     io_registry_entry_t IOHIDSystemEntry;
 
-    if (error_posted) goto bail;
+    if (error_posted) return USER_IDLE_TIME_INF;
 
     IOHIDSystemEntry = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IOHIDSystem");
     if (IOHIDSystemEntry != MACH_PORT_NULL) {
@@ -1706,7 +1702,7 @@ bool HOST_INFO::users_idle(
                 "Could not connect to HIDSystem: user idle detection is disabled."
             );
             error_posted = true;
-            goto bail;
+            return USER_IDLE_TIME_INF;
         }
     }
 
@@ -1719,17 +1715,13 @@ bool HOST_INFO::users_idle(
         }
     }
 
-bail:
-    if (actual_idle_time) {
-        *actual_idle_time = idleTime;
-    }
-    return (idleTime > (60 * idle_time_to_run));
+    return (int)idleTime;
 }
 
 #else  // ! __APPLE__
 
 #if HAVE_UTMP_H
-inline bool user_idle(time_t t, struct utmp* u) {
+inline int user_idle_time(struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
 
@@ -1741,7 +1733,7 @@ inline bool user_idle(time_t t, struct utmp* u) {
             tty[i+5] = '\0';
         }
     }
-    return device_idle(t, tty);
+    return device_idle_time(tty);
 }
 
 #if !HAVE_SETUTENT || !HAVE_GETUTENT
@@ -1782,52 +1774,19 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
   // scan list of logged-in users, and see if they're all idle
   //
-  inline bool all_logins_idle(time_t t) {
+  inline int all_logins_idle() {
       struct utmp* u;
       setutent();
+      int idle_time = USER_IDLE_TIME_INF;
 
       while ((u = getutent()) != NULL) {
-          if (!user_idle(t, u)) {
-              return false;
-          }
+          idle_time = min(idle_time, user_idle_time(u));
       }
-      return true;
+      return idle_time;
   }
 #endif  // HAVE_UTMP_H
 
 #if LINUX_LIKE_SYSTEM
-bool interrupts_idle(time_t t) {
-    // This method doesn't really work reliably on USB keyboards and mice.
-    static FILE *ifp = NULL;
-    static long irq_count[256];
-    static time_t last_irq = time(NULL);
-
-    char line[256];
-    int i = 0;
-    long ccount = 0;
-
-    if (ifp == NULL) {
-        if ((ifp = fopen("/proc/interrupts", "r")) == NULL) {
-            return true;
-        }
-    }
-    rewind(ifp);
-    while (fgets(line, sizeof(line), ifp)) {
-        // Check for mouse, keyboard and PS/2 devices.
-        if (strcasestr(line, "mouse") != NULL ||
-            strcasestr(line, "keyboard") != NULL ||
-            strcasestr(line, "i8042") != NULL) {
-            // If any IRQ count changed, update last_irq.
-            if (sscanf(line, "%d: %ld", &i, &ccount) == 2
-                && irq_count[i] != ccount
-            ) {
-                last_irq = time(NULL);
-                irq_count[i] = ccount;
-            }
-        }
-    }
-    return last_irq < t;
-}
 
 #if HAVE_XSS
 
@@ -1907,15 +1866,15 @@ const vector<string> X_display_values_initialize() {
 }
 
 // Ask the X server for user idle time (using XScreenSaver API)
-// Return true if the idle time exceeds idle_threshold for all accessible
-// Xservers. However, if even one Xserver reports busy/non-idle, then
-// return false. This function assumes that the boinc user has been
+// Return min of idle times.
+// This function assumes that the boinc user has been
 // granted access to the Xservers a la "xhost +SI:localuser:boinc". If
 // access isn't available for an Xserver, then that Xserver is skipped.
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
 //
-bool xss_idle(long idle_threshold) {
+int xss_idle() {
+    int idle_time = USER_IDLE_TIME_INF;
     const vector<string> display_values = X_display_values_initialize();
     vector<string>::const_iterator it;
 
@@ -1940,7 +1899,7 @@ bool xss_idle(long idle_threshold) {
     for (it = display_values.begin(); it != display_values.end() ; it++) {
 
         Display* disp = NULL;
-        long idle_time = 0;
+        long display_idle_time = 0;
 
         disp = XOpenDisplay(it->c_str());
         // XOpenDisplay may return NULL if there is no running X
@@ -1985,94 +1944,62 @@ bool xss_idle(long idle_threshold) {
 
         // convert from milliseconds to seconds
         //
-        idle_time = idle_time / 1000;
+        display_idle_time /= 1000;
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
             );
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] idle threshold: %ld", idle_threshold
-            );
-            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] idle_time: %ld", idle_time
             );
         }
 
-        if ( idle_threshold < idle_time ) {
-            if (log_flags.idle_detection_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[idle_detection] DISPLAY '%s' is idle.", it->c_str()
-                );
-            }
-        } else {
-            if (log_flags.idle_detection_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[idle_detection] DISPLAY '%s' is active.", it->c_str()
-                );
-            }
-            return false;
-        }
+        idle_time = min(idle_time, display_idle_time);
     }
 
-    // We should only ever get here if all queryable Xservers were idle.
-    // If none of the Xservers were queryable, we should still end up here,
-    // and simply report true. In that case, the xss_idle function effectively
-    // provides no information on the idle state of the system,
-    // as no Xservers were accessible to interrogate.
+    // If none of the Xservers were queryable, report it
     //
     if (log_flags.idle_detection_debug && no_available_x_display) {
         msg_printf(NULL, MSG_INFO,
             "[idle_detection] Could not connect to any DISPLAYs. XSS idle determination impossible."
         );
     }
-    return true;
+    return idle_time;
 
 }
 #endif // HAVE_XSS
 
 #endif // LINUX_LIKE_SYSTEM
 
-bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
-    time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
+int HOST_INFO::user_idle_time(bool check_all_logins) {
+    int idle_time = USER_IDLE_TIME_INF;
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
-        if (!all_logins_idle(idle_time)) {
-            return false;
-        }
+        idle_time = min(idle_time, all_logins_idle());
     }
 #endif
 
-    if (!all_tty_idle(idle_time)) {
-        return false;
-    }
+    idle_time = min(idle_time, all_tty_idle_time());
 
 #if LINUX_LIKE_SYSTEM
-    // Check /proc/interrupts to detect keyboard or mouse activity.
-    // this ignores USB keyboards/mice.  They don't use the keyboard
-    // and mouse interrupts.
-    if (!interrupts_idle(idle_time)) {
-        return false;
-    }
 
 #if HAVE_XSS
-    if (!xss_idle((long)(idle_time_to_run * 60))) {
-        return false;
-    }
+    idle_time = min(idle_time, xss_idle());
 #endif // HAVE_XSS
 
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
     //
-    if (!device_idle(idle_time, "/dev/mouse")) return false;
+    idle_time = min(idle_time, device_idle(idle_time, "/dev/mouse"));
         // solaris, linux
-    if (!device_idle(idle_time, "/dev/input/mice")) return false;
-    if (!device_idle(idle_time, "/dev/kbd")) return false;
+    idle_time = min(idle_time, device_idle(idle_time, "/dev/input/mice"));
+    idle_time = min(idle_time, device_idle(idle_time, "/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
-    return true;
+    return idle_time;
 }
 
 #endif  // ! __APPLE__
