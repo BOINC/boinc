@@ -1083,8 +1083,8 @@ int PREFS_CONDITION::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void PREFS_DYNAMIC_PARAMS::write(MIOFILE& f) {
-    f.printf("   <dynamic_params>\n");
+void PREFS_DYNAMIC_SETTINGS::write(MIOFILE& f) {
+    f.printf("   <settings>\n");
     if (cpu_usage_limit.present) {
         f.printf("      <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit.value);
     }
@@ -1112,10 +1112,10 @@ void PREFS_DYNAMIC_PARAMS::write(MIOFILE& f) {
     if (ram_max_used_frac.present) {
         f.printf("      <ram_max_used_frac>%f</ram_max_used_frac>\n", ram_max_used_frac.value);
     }
-    f.printf("   <dynamic_params>\n");
+    f.printf("   <settings>\n");
 }
 
-int PREFS_DYNAMIC_PARAMS::parse(XML_PARSER& xp) {
+int PREFS_DYNAMIC_SETTINGS::parse(XML_PARSER& xp) {
     double x;
     bool b;
     int i;
@@ -1164,8 +1164,8 @@ int PREFS_DYNAMIC_PARAMS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void PREFS_STATIC_PARAMS::write(MIOFILE& f) {
-    f.printf("<static_params>\n");
+void PREFS_STATIC_SETTINGS::write(MIOFILE& f) {
+    f.printf("<static_settings>\n");
     if (battery_charge_min_pct.present) {
         f.printf("   <battery_charge_min_pct>%f</battery_charge_min_pct>\n", battery_charge_min_pct.value);
     }
@@ -1211,16 +1211,16 @@ void PREFS_STATIC_PARAMS::write(MIOFILE& f) {
     if (work_buf_min_days.present) {
         f.printf("   <work_buf_min_days>%f</work_buf_min_days>\n", work_buf_min_days.value);
     }
-    f.printf("</static_params>\n");
+    f.printf("</static_settings>\n");
 }
 
-int PREFS_STATIC_PARAMS::parse(XML_PARSER& xp) {
+int PREFS_STATIC_SETTINGS::parse(XML_PARSER& xp) {
     double x;
     bool b;
     int i;
     clear();
     while (!xp.get_tag()) {
-        if (xp.match_tag("/static_params")) {
+        if (xp.match_tag("/static_settings")) {
             return 0;
         }
         if (xp.parse_double("battery_charge_min_pct", x)) {
@@ -1290,7 +1290,7 @@ int PREFS_STATIC_PARAMS::parse(XML_PARSER& xp) {
 void PREFS_CLAUSE::write(MIOFILE& f) {
     f.printf("<clause>\n");
     condition.write(f);
-    params.write(f);
+    settings.write(f);
     f.printf("</clause>\n");
 }
 
@@ -1305,8 +1305,8 @@ int PREFS_CLAUSE::parse(XML_PARSER& xp) {
             retval = condition.parse(xp);
             if (retval) return retval;
         }
-        if (xp.match_tag("params")) {
-            retval = params.parse(xp);
+        if (xp.match_tag("settings")) {
+            retval = settings.parse(xp);
             if (retval) return retval;
         }
     }
@@ -1322,7 +1322,7 @@ void PREFS::write(MIOFILE& f) {
     for (unsigned int i=0; i<clauses.size(); i++) {
         clauses[i].write(f);
     }
-    static_params.write(f);
+    static_settings.write(f);
     f.printf(
         "</prefs>\n"
     );
@@ -1342,8 +1342,8 @@ int PREFS::parse(XML_PARSER& xp) {
             clauses.push_back(c);
             continue;
         }
-        if (xp.match_tag("static_params")) {
-            retval = static_params.parse(xp);
+        if (xp.match_tag("static_settings")) {
+            retval = static_settings.parse(xp);
             if (retval) return retval;
         }
     }

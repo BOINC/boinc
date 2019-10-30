@@ -772,14 +772,14 @@ double CLIENT_STATE::max_available_ram() {
 
 //////////////////// new prefs starts here ///////////////////
 
-// Get dynamic params based on current system conditions.
+// Get dynamic settings based on current system conditions.
 // Do this whenever something in the dictionary changes value.
 //
-void PREFS::get_dynamic_params(PREFS_DYNAMIC_PARAMS& s) {
+void PREFS::get_dynamic_settings(PREFS_DYNAMIC_SETTINGS& s) {
     for (unsigned int i=0; i<clauses.size(); i++) {
         PREFS_CLAUSE &c = clauses[i];
         if (c.condition.holds()) {
-            s.overlay(c.params);
+            s.overlay(c.settings);
         }
     }
 }
@@ -807,11 +807,11 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
     // defaults
     //
     PREFS_CLAUSE p0;
-    p0.params.max_bytes_sec_down.set_nonzero(old.max_bytes_sec_down);
-    p0.params.max_bytes_sec_up.set_nonzero(old.max_bytes_sec_up);
-    p0.params.max_ncpus.set_nonzero(old.max_ncpus);
-    p0.params.max_ncpus_pct.set_nonzero(old.max_ncpus_pct);
-    p0.params.ram_max_used_frac.set_nonzero(old.ram_max_used_busy_frac);
+    p0.settings.max_bytes_sec_down.set_nonzero(old.max_bytes_sec_down);
+    p0.settings.max_bytes_sec_up.set_nonzero(old.max_bytes_sec_up);
+    p0.settings.max_ncpus.set_nonzero(old.max_ncpus);
+    p0.settings.max_ncpus_pct.set_nonzero(old.max_ncpus_pct);
+    p0.settings.ram_max_used_frac.set_nonzero(old.ram_max_used_busy_frac);
     clauses.push_back(p0);
 
     // no recent input
@@ -820,13 +820,13 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
     PREFS_TERM t2(TERM_GT, PREFS_IDLE_TIME, old.idle_time_to_run);
     p2.condition.terms.push_back(t2);
     if (!old.run_if_user_active) {
-        p2.params.dont_use_cpu.set(true);
+        p2.settings.dont_use_cpu.set(true);
     }
     if (!old.run_gpu_if_user_active) {
-        p2.params.dont_use_gpu.set(true);
+        p2.settings.dont_use_gpu.set(true);
     }
-    p2.params.ram_max_used_frac.set_nonzero(old.ram_max_used_idle_frac);
-    if (p2.params.any_present()) {
+    p2.settings.ram_max_used_frac.set_nonzero(old.ram_max_used_idle_frac);
+    if (p2.settings.any_present()) {
         clauses.push_back(p2);
     }
 
@@ -836,7 +836,7 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
         PREFS_CLAUSE p;
         PREFS_TERM t(TERM_BOOL, PREFS_ON_BATTERIES);
         p.condition.terms.push_back(t);
-        p.params.dont_use_cpu.set(true);
+        p.settings.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
 
@@ -849,7 +849,7 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
         *tp = old.cpu_times;
         t.time_range = tp;
         p.condition.terms.push_back(t);
-        p.params.dont_use_cpu.set(true);
+        p.settings.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
 
@@ -862,7 +862,7 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
         *tp = old.net_times;
         t.time_range = tp;
         p.condition.terms.push_back(t);
-        p.params.dont_do_file_xfer.set(true);
+        p.settings.dont_do_file_xfer.set(true);
         clauses.push_back(p);
     }
 
@@ -876,7 +876,7 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
             p.condition.terms.push_back(t);
         }
         p.condition._not = true;
-        p.params.dont_use_cpu.set(true);
+        p.settings.dont_use_cpu.set(true);
         clauses.push_back(p);
     }
 
@@ -888,55 +888,28 @@ void PREFS::convert(GLOBAL_PREFS& old, CC_CONFIG& conf) {
             p.condition.terms.push_back(t);
         }
         p.condition._not = true;
-        p.params.dont_use_gpu.set(true);
+        p.settings.dont_use_gpu.set(true);
         clauses.push_back(p);
     }
 
     // static prefs
     //
-    static_params.battery_charge_min_pct.set_nonzero(old.battery_charge_min_pct);
-    static_params.battery_max_temperature.set_nonzero(old.battery_max_temperature);
-    static_params.confirm_before_connecting.set(old.confirm_before_connecting);
-    static_params.cpu_scheduling_period_minutes.set(old.cpu_scheduling_period_minutes);
-    static_params.daily_xfer_limit_mb.set_nonzero(old.daily_xfer_limit_mb);
-    static_params.daily_xfer_period_days.set_nonzero(old.daily_xfer_period_days);
-    static_params.disk_max_used_gb.set_nonzero(old.disk_max_used_gb);
-    static_params.disk_max_used_pct.set_nonzero(old.disk_max_used_pct);
-    static_params.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
-    static_params.dont_verify_images.set(old.dont_verify_images);
-    static_params.hangup_if_dialed.set(old.hangup_if_dialed);
-    static_params.network_wifi_only.set(old.network_wifi_only);
-    static_params.work_buf_additional_days.set(old.work_buf_additional_days);
-    static_params.work_buf_min_days.set(old.work_buf_min_days);
+    static_settings.battery_charge_min_pct.set_nonzero(old.battery_charge_min_pct);
+    static_settings.battery_max_temperature.set_nonzero(old.battery_max_temperature);
+    static_settings.confirm_before_connecting.set(old.confirm_before_connecting);
+    static_settings.cpu_scheduling_period_minutes.set(old.cpu_scheduling_period_minutes);
+    static_settings.daily_xfer_limit_mb.set_nonzero(old.daily_xfer_limit_mb);
+    static_settings.daily_xfer_period_days.set_nonzero(old.daily_xfer_period_days);
+    static_settings.disk_max_used_gb.set_nonzero(old.disk_max_used_gb);
+    static_settings.disk_max_used_pct.set_nonzero(old.disk_max_used_pct);
+    static_settings.disk_min_free_gb.set_nonzero(old.disk_min_free_gb);
+    static_settings.dont_verify_images.set(old.dont_verify_images);
+    static_settings.hangup_if_dialed.set(old.hangup_if_dialed);
+    static_settings.network_wifi_only.set(old.network_wifi_only);
+    static_settings.work_buf_additional_days.set(old.work_buf_additional_days);
+    static_settings.work_buf_min_days.set(old.work_buf_min_days);
 }
 
-// phase 1:
-// keep the V1 code for editing and storing prefs,
-// but convert them to V2 format internally.
-// If V2 XML file is present, use it
-
-// phase 2:
-// develop GUI for editing V2
-// We'll have to keep accepting V1 prefs indefinitely.
-
-// phase 1 changes:
-//
-// places where parameters are used (use dynamic_params instead of global_prefs)
-//  app.cpp: leave_apps_in_memory, cpu_usage_limit
-//  app_control.cpp: disk_interval, cpu_usage_limit
-//  app_start.cpp: disk_interval
-//      pass prefs to app (need this? just pass params?)
-//  coproc_sched.cpp
-//      fix even though commented out
-//  cpu_sched.cpp
-//  cs_files.cpp
-//  cs_scheduler.cpp
-//      what should we send the scheduler for working_global_preferences?
-//      I guess the current params.
-//      report finished result: make prefs evaluation take a "now" param
-//      (to see if suspended soon).
-//  file_xfer.cpp
-//
 // places where dictionary entries may change, and need to re-evaluate prefs
 //  hostinfo_*.cpp
 //      host_info::idle_time_to_run(): change to return idle time

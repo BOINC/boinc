@@ -333,10 +333,10 @@ struct PREFS_CONDITION {
     int parse(XML_PARSER&);
 };
 
-// specifies a group of "dynamic parameters": #CPUs, max RAM, etc.
+// specifies a group of "dynamic settings": #CPUs, max RAM, etc.
 // All are optional.
 //
-struct PREFS_DYNAMIC_PARAMS {
+struct PREFS_DYNAMIC_SETTINGS {
     OPTIONAL_DOUBLE cpu_usage_limit;
     OPTIONAL_BOOL dont_use_cpu;
     OPTIONAL_BOOL dont_use_gpu;
@@ -349,7 +349,7 @@ struct PREFS_DYNAMIC_PARAMS {
     void clear() {
         memset(this, 0, sizeof(*this));
     }
-    PREFS_DYNAMIC_PARAMS() {
+    PREFS_DYNAMIC_SETTINGS() {
         clear();
     }
     inline bool any_present() {
@@ -366,7 +366,7 @@ struct PREFS_DYNAMIC_PARAMS {
     }
     // add or replace items that are present in s
     //
-    void overlay(PREFS_DYNAMIC_PARAMS& s) {
+    void overlay(PREFS_DYNAMIC_SETTINGS& s) {
         cpu_usage_limit.overlay(s.cpu_usage_limit);
         dont_use_cpu.overlay(s.dont_use_cpu);
         dont_use_gpu.overlay(s.dont_use_gpu);
@@ -381,25 +381,25 @@ struct PREFS_DYNAMIC_PARAMS {
     int parse(XML_PARSER&);
 };
 
-// the combination of a condition and a set of params
+// the combination of a condition and a group of settings
 //
 struct PREFS_CLAUSE {
     PREFS_CONDITION condition;
-    PREFS_DYNAMIC_PARAMS params;
+    PREFS_DYNAMIC_SETTINGS settings;
     void write(MIOFILE&);
     int parse(XML_PARSER&);
     void clear() {
         condition.clear();
-        params.clear();
+        settings.clear();
     }
     PREFS_CLAUSE() {
         clear();
     }
 };
 
-// static params, i.e. those that don't change over time
+// static settings, i.e. those that don't change over time
 //
-struct PREFS_STATIC_PARAMS {
+struct PREFS_STATIC_SETTINGS {
     OPTIONAL_DOUBLE battery_charge_min_pct;
     OPTIONAL_DOUBLE battery_max_temperature;
     OPTIONAL_BOOL confirm_before_connecting;
@@ -423,19 +423,19 @@ struct PREFS_STATIC_PARAMS {
 };
 
 // overall preferences.
-// To evaluate dynamic params,
-// we start of with a default param set S.
+// To evaluate dynamic settings,
+// we start of with a default setting set S.
 // the clauses are evaluated in order.
 // for each one whose condition is true,
-// its params overlay S.
+// its settings overlay S.
 //
 struct PREFS {
     double mod_time;
     std::vector<PREFS_CLAUSE> clauses;
-    PREFS_STATIC_PARAMS static_params;
+    PREFS_STATIC_SETTINGS static_settings;
 
     void convert(GLOBAL_PREFS&, CC_CONFIG&);
-    void get_dynamic_params(PREFS_DYNAMIC_PARAMS&);
+    void get_dynamic_settings(PREFS_DYNAMIC_SETTINGS&);
     void write(MIOFILE&);
     void write_file(const char* fname);
     int parse(XML_PARSER&);
