@@ -1230,18 +1230,19 @@ SELECT userid,
     ");
 }
 
-function update_6_18_2019() {
+// Add fields needed for computing runtime stats
+function update_10_30_2019() {
     do_query("alter table app_version 
-       add runtime_n double not null after pfc_scale, 
-       add runtime_avg double not null after runtime_n, 
-       add cputime_n double not null after runtime_avg, 
-       add cputime_avg double not null after cputime_n
+       add runtime_n   double not null default 0 after pfc_scale, 
+       add runtime_avg double not null default 0 after runtime_n, 
+       add cputime_n   double not null default 0 after runtime_avg, 
+       add cputime_avg double not null default 0 after cputime_n
     ");
     do_query("alter table host_app_version 
-       add runtime_n double not null after et_q, 
-       add runtime_avg double not null after runtime_n, 
-       add cputime_n double not null after runtime_avg, 
-       add cputime_avg double not null after cputime_n
+       add runtime_n   double not null default 0 after et_q, 
+       add runtime_avg double not null default 0 after runtime_n, 
+       add cputime_n   double not null default 0 after runtime_avg, 
+       add cputime_avg double not null default 0 after cputime_n
     ");
 }
 
@@ -1304,8 +1305,8 @@ $db_updates = array (
     array(27025, "update_4_19_2018"),
     array(27026, "update_5_9_2018"),
     array(27027, "update_8_23_2018"),
-    array(27028, "update_9_12_2018")
-    array(27029, "update_6_18_2019")
+    array(27028, "update_9_12_2018"),
+    array(27029, "update_10_30_2019")
 );
 
 ?>
