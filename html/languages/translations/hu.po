@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -452,11 +452,11 @@ msgstr "Kérdések és válaszok"
 msgid "%1 message board"
 msgstr "%1 üzenőfal"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Előző"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Következő"
 
@@ -2089,7 +2089,7 @@ msgstr "CPU idő<br />(mp)"
 msgid "Credit"
 msgstr "Kredit"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Alkalmazás"
@@ -2142,19 +2142,19 @@ msgstr "Az eszköz csúcs FLOPS teljesítménye"
 msgid "Application version"
 msgstr "Az alkalmazás verziója"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Kimeneti fájlok"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr kimenet"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Állapot"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Feladatnév:"
 
@@ -2811,7 +2811,7 @@ msgstr ""
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -6672,7 +6672,6 @@ msgstr "A nap felhasználója ekkor: %2, ekkor: %1"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

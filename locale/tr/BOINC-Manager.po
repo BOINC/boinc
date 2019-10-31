@@ -9,13 +9,14 @@
 # Emre GÜN <thondras@gmail.com>, 2015
 # Faruk SARI <faruksari@hotmail.com>, 2015
 # ilkeryus <ilkeryus@gmail.com>, 2016-2018
+# Kevin Reed <knreed@us.ibm.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-20 21:58+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -826,8 +827,8 @@ msgstr "%s sahipliği ya da izinleri doğru olarak ayarlanmamış; lütfen %s'i 
 msgid " at "
 msgstr " at "
 
-#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2526
-#: clientgui/MainDocument.cpp:2585 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2587 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
@@ -930,7 +931,7 @@ msgstr "GPU ile hesaplamayı bir süre ertele"
 msgid "E&xit"
 msgstr "&Çık"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:968
+#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:973
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:872
@@ -1155,7 +1156,7 @@ msgstr "Değişiklikleri kaydetmeden pencereyi kapat."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1004
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1009
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Yardım"
@@ -1174,7 +1175,7 @@ msgstr "Kullanım sınırlamaları"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Bazı CPU (işlemci) çekirdeklerini diğer uygulamalar için boşta tut. Örneğin %75, 8 çekirdekli işlemcinin 6 çekirdeğinin kullanılmasını sağlar."
+msgstr "Bazı CPU (işlemci) çekirdeklerini diğer uygulamalar için boşta tut. Örneğin %%75, 8 çekirdekli işlemcinin 6 çekirdeğinin kullanılmasını sağlar."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260
 #: clientgui/DlgAdvPreferencesBase.cpp:272 clientgui/sg_DlgPreferences.cpp:286
@@ -1192,7 +1193,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Her birkaç saniyede bir hesaplamayı durdurmak/sürdürmek, CPU (işlemci) sıcaklığını ve enerji kullanımını azaltır. Örneğin %75, 3 saniye hesaplama, 1 saniye bekleme ve bunu tekrarlama demektir."
+msgstr "Her birkaç saniyede bir hesaplamayı durdurmak/sürdürmek, CPU (işlemci) sıcaklığını ve enerji kullanımını azaltır. Örneğin %%75, 3 saniye hesaplama, 1 saniye bekleme ve bunu tekrarlama demektir."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
@@ -2477,210 +2478,210 @@ msgstr "Araştırma"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "World Community Grid tarafından barındırılan projeler hakkında bilgi edinin"
 
-#: clientgui/MainDocument.cpp:1307
+#: clientgui/MainDocument.cpp:1309
 msgid "Version Update"
 msgstr "Sürüm Güncellemesi"
 
-#: clientgui/MainDocument.cpp:1316
+#: clientgui/MainDocument.cpp:1318
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "Yeni bir %s sürümü mevcut. Buradan indirebilirsiniz: %s"
 
-#: clientgui/MainDocument.cpp:1319
+#: clientgui/MainDocument.cpp:1321
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "İndirmek için yeni bir %s sürümü mevcut değil."
 
-#: clientgui/MainDocument.cpp:1323
+#: clientgui/MainDocument.cpp:1325
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%s istemciyle bağlantı kuramadı"
 
-#: clientgui/MainDocument.cpp:1865
+#: clientgui/MainDocument.cpp:1867
 msgid "Missing application"
 msgstr "Uygulama bulunamadı"
 
-#: clientgui/MainDocument.cpp:1866
+#: clientgui/MainDocument.cpp:1868
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Lütfen CoRD uygulamasını buradan indirin ve kurun: http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2476
 msgid "on batteries"
 msgstr "pil gücünde"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2477
 msgid "computer is in use"
 msgstr "bilgisayar kullanımda"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2478
 msgid "user request"
 msgstr "kullanıcı talebi"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2479
 msgid "time of day"
 msgstr "günlük zamanlama"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2480
 msgid "CPU benchmarks in progress"
 msgstr "İşlemci testleri sürüyor"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2481
 msgid "need disk space - check preferences"
 msgstr "disk alanı gerekiyor - tercihleri kontrol edin"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2482
 msgid "computer is not in use"
 msgstr "bilgisayar kullanımda değil"
 
-#: clientgui/MainDocument.cpp:2481
+#: clientgui/MainDocument.cpp:2483
 msgid "starting up"
 msgstr "başlıyor"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2484
 msgid "an exclusive app is running"
 msgstr "ayrıcalıklı bir uygulama çalışıyor"
 
-#: clientgui/MainDocument.cpp:2483
+#: clientgui/MainDocument.cpp:2485
 msgid "CPU is busy"
 msgstr "İşlemci meşgul"
 
-#: clientgui/MainDocument.cpp:2484
+#: clientgui/MainDocument.cpp:2486
 msgid "network bandwidth limit exceeded"
 msgstr "ağ kullanım kotası doldu"
 
-#: clientgui/MainDocument.cpp:2485
+#: clientgui/MainDocument.cpp:2487
 msgid "requested by operating system"
 msgstr "işletim sistemi tarafından istendi"
 
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2489
 msgid "unknown reason"
 msgstr "bilinmeyen sebep"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2511
 msgid "GPU missing, "
 msgstr "GPU mevcut değil, "
 
-#: clientgui/MainDocument.cpp:2516
+#: clientgui/MainDocument.cpp:2518
 msgid "New"
 msgstr "Yeni"
 
-#: clientgui/MainDocument.cpp:2520
+#: clientgui/MainDocument.cpp:2522
 msgid "Download failed"
 msgstr "İndirme başarısız"
 
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2524
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: clientgui/MainDocument.cpp:2524 clientgui/MainDocument.cpp:2583
+#: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2585
 msgid " (suspended - "
 msgstr " (durakladı - "
 
-#: clientgui/MainDocument.cpp:2532
+#: clientgui/MainDocument.cpp:2534
 msgid "Project suspended by user"
 msgstr "Kullanıcı projeyi durdurdu"
 
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2536
 msgid "Task suspended by user"
 msgstr "Kullanıcı işi durdurdu"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2539
+#: clientgui/MainDocument.cpp:2541
 msgid "Suspended - "
 msgstr "Durakladı - "
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2544
 msgid "GPU suspended - "
 msgstr "GPU durakladı - "
 
-#: clientgui/MainDocument.cpp:2546
+#: clientgui/MainDocument.cpp:2548
 msgid "Waiting for memory"
 msgstr "Bellek için bekleniyor"
 
-#: clientgui/MainDocument.cpp:2548
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting for shared memory"
 msgstr "Paylaşılan bellek için bekleniyor"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2552
 msgid "Running"
 msgstr "Çalışıyor"
 
-#: clientgui/MainDocument.cpp:2552
+#: clientgui/MainDocument.cpp:2554
 msgid " (non-CPU-intensive)"
 msgstr " (CPU-yoğun-değil)"
 
-#: clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting to run"
 msgstr "Çalışmayı bekliyor"
 
-#: clientgui/MainDocument.cpp:2557 clientgui/MainDocument.cpp:2560
+#: clientgui/MainDocument.cpp:2559 clientgui/MainDocument.cpp:2562
 msgid "Ready to start"
 msgstr "Başlamaya hazır"
 
-#: clientgui/MainDocument.cpp:2564
+#: clientgui/MainDocument.cpp:2566
 msgid "Postponed: "
 msgstr "Ertelendi:"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2569
 msgid "Postponed"
 msgstr "Ertelendi"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2573
 msgid "Waiting for network access"
 msgstr "Ağ erişimi için bekleniyor"
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2577
 msgid "Computation error"
 msgstr "Hesaplama hatası"
 
-#: clientgui/MainDocument.cpp:2579
+#: clientgui/MainDocument.cpp:2581
 msgid "Upload failed"
 msgstr "Gönderme başarısız"
 
-#: clientgui/MainDocument.cpp:2581
+#: clientgui/MainDocument.cpp:2583
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
-#: clientgui/MainDocument.cpp:2592
+#: clientgui/MainDocument.cpp:2594
 msgid "Aborted by user"
 msgstr "Kullanıcı tarafından iptal edildi"
 
-#: clientgui/MainDocument.cpp:2595
+#: clientgui/MainDocument.cpp:2597
 msgid "Aborted by project"
 msgstr "Proje tarafından iptal edildi"
 
-#: clientgui/MainDocument.cpp:2598
+#: clientgui/MainDocument.cpp:2600
 msgid "Aborted: not started by deadline"
 msgstr "İptal edildi: Son teslim zamanı nedeniyle başlamadı"
 
-#: clientgui/MainDocument.cpp:2601
+#: clientgui/MainDocument.cpp:2603
 msgid "Aborted: task disk limit exceeded"
 msgstr "İptal edildi: İş disk sınırlaması aşıldı"
 
-#: clientgui/MainDocument.cpp:2604
+#: clientgui/MainDocument.cpp:2606
 msgid "Aborted: run time limit exceeded"
 msgstr "İptal edildi: Çalışma zamanı sınırlaması aşıldı"
 
-#: clientgui/MainDocument.cpp:2607
+#: clientgui/MainDocument.cpp:2609
 msgid "Aborted: memory limit exceeded"
 msgstr "İptal edildi: Bellek sınırlaması aşıldı"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2612
 msgid "Aborted"
 msgstr "İptal edildi"
 
-#: clientgui/MainDocument.cpp:2615
+#: clientgui/MainDocument.cpp:2617
 msgid "Acknowledged"
 msgstr "Kabul edildi"
 
-#: clientgui/MainDocument.cpp:2617
+#: clientgui/MainDocument.cpp:2619
 msgid "Ready to report"
 msgstr "Raporlanmaya hazır"
 
-#: clientgui/MainDocument.cpp:2619
+#: clientgui/MainDocument.cpp:2621
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Hata: Geçersiz durum '%d'"
@@ -2834,12 +2835,12 @@ msgid ""
 "Please wait..."
 msgstr "Projeye bağlanılıyor\nLütfen bekleyin..."
 
-#: clientgui/ProjectProcessingPage.cpp:521
+#: clientgui/ProjectProcessingPage.cpp:523
 msgid "Required files not found on the server."
 msgstr "Gerekli dosyalar sunucu üzerinde bulunamadı."
 
-#: clientgui/ProjectProcessingPage.cpp:524
-#: clientgui/ProjectProcessingPage.cpp:597
+#: clientgui/ProjectProcessingPage.cpp:526
+#: clientgui/ProjectProcessingPage.cpp:599
 msgid "An internal server error has occurred."
 msgstr "Sunucuda dahili bir hata meydana geldi."
 
@@ -2969,11 +2970,11 @@ msgstr "Tanılama mesajlarını görüntüler."
 msgid "Show information about BOINC and %s"
 msgstr "BOINC ve %s resmi internet sitesini açar."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:529
+#: clientgui/sg_BoincSimpleFrame.cpp:534
 msgid "Default"
 msgstr "Varsayılan"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:967
+#: clientgui/sg_BoincSimpleFrame.cpp:972
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -2982,23 +2983,23 @@ msgstr "Varsayılan"
 msgid "Suspend"
 msgstr "Duraklat"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:969
+#: clientgui/sg_BoincSimpleFrame.cpp:974
 msgid "Suspend Computing"
 msgstr "Hesaplamayı duraklatır"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:970
+#: clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Resume Computing"
 msgstr "Hesaplamayı sürdürür"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:986 clientgui/ViewNotices.cpp:99
+#: clientgui/sg_BoincSimpleFrame.cpp:991 clientgui/ViewNotices.cpp:99
 msgid "Notices"
 msgstr "Bildirimler"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:987
+#: clientgui/sg_BoincSimpleFrame.cpp:992
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Projelerden ya da BOINC'ten gelen bildirimleri gösterir"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1008 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1013 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "%s ile yardım alın"
@@ -3865,11 +3866,11 @@ msgstr "Tüm işleri göster"
 msgid "Show all tasks."
 msgstr "Çalışan, bekleyen ve durdurulmuş tüm işleri gösterir."
 
-#: clientgui/WizardAttach.cpp:606
+#: clientgui/WizardAttach.cpp:607
 msgid "Do you really want to cancel?"
 msgstr "İptal etmek istediğinize emin misiniz?"
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/WizardAttach.cpp:608
 msgid "Question"
 msgstr "Soru"
 

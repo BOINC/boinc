@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2019-05-20 18:28+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Slovak (http://www.transifex.com/boinc/boinc/language/sk/)\n"
@@ -826,8 +826,8 @@ msgstr "Vlastnícke práva alebo povolenia pre %s nie sú nastavené správne; p
 msgid " at "
 msgstr " na "
 
-#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2526
-#: clientgui/MainDocument.cpp:2585 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2587 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
@@ -930,7 +930,7 @@ msgstr "Uspať GPU"
 msgid "E&xit"
 msgstr "&Ukončiť"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:968
+#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:973
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:872
@@ -1155,7 +1155,7 @@ msgstr "Zavrieť ponuku bez uloženia."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1004
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1009
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Pomoc"
@@ -2477,210 +2477,210 @@ msgstr "Výskum"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Spoznajte projekty zapojené do World Community Grid"
 
-#: clientgui/MainDocument.cpp:1307
+#: clientgui/MainDocument.cpp:1309
 msgid "Version Update"
 msgstr "Aktualizácia verzie"
 
-#: clientgui/MainDocument.cpp:1316
+#: clientgui/MainDocument.cpp:1318
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "Nová verzia %s je k dispozícii. Môžete si ju stiahnuť tu: %s"
 
-#: clientgui/MainDocument.cpp:1319
+#: clientgui/MainDocument.cpp:1321
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "Žiadna nová verzia %s nie je k dispozícii na stiahnutie."
 
-#: clientgui/MainDocument.cpp:1323
+#: clientgui/MainDocument.cpp:1325
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%s nie je pripojený ku klientovi"
 
-#: clientgui/MainDocument.cpp:1865
+#: clientgui/MainDocument.cpp:1867
 msgid "Missing application"
 msgstr "Chýbajúca aplikácia"
 
-#: clientgui/MainDocument.cpp:1866
+#: clientgui/MainDocument.cpp:1868
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Prosím stiahnite a nainštalujte aplikáciu CoRD z http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2476
 msgid "on batteries"
 msgstr "z batérií"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2477
 msgid "computer is in use"
 msgstr "počítač je používaný"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2478
 msgid "user request"
 msgstr "požadované používateľom"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2479
 msgid "time of day"
 msgstr "denná doba"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2480
 msgid "CPU benchmarks in progress"
 msgstr "prebiehajú testy rýchlosti CPU"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2481
 msgid "need disk space - check preferences"
 msgstr "nedostatok voľného miesta na disku - skontrolujte preferencie"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2482
 msgid "computer is not in use"
 msgstr "počítač nie je používaný"
 
-#: clientgui/MainDocument.cpp:2481
+#: clientgui/MainDocument.cpp:2483
 msgid "starting up"
 msgstr "spúšťa sa"
 
-#: clientgui/MainDocument.cpp:2482
+#: clientgui/MainDocument.cpp:2484
 msgid "an exclusive app is running"
 msgstr "beží aplikácia vo výhradnom režime"
 
-#: clientgui/MainDocument.cpp:2483
+#: clientgui/MainDocument.cpp:2485
 msgid "CPU is busy"
 msgstr "procesor je vyťažený"
 
-#: clientgui/MainDocument.cpp:2484
+#: clientgui/MainDocument.cpp:2486
 msgid "network bandwidth limit exceeded"
 msgstr "prekročený limit prenosu dát"
 
-#: clientgui/MainDocument.cpp:2485
+#: clientgui/MainDocument.cpp:2487
 msgid "requested by operating system"
 msgstr "vyžiadané operačným systémom"
 
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2489
 msgid "unknown reason"
 msgstr "neznámy dôvod"
 
-#: clientgui/MainDocument.cpp:2509
+#: clientgui/MainDocument.cpp:2511
 msgid "GPU missing, "
 msgstr "GPU sa nenašlo, "
 
-#: clientgui/MainDocument.cpp:2516
+#: clientgui/MainDocument.cpp:2518
 msgid "New"
 msgstr "Nová"
 
-#: clientgui/MainDocument.cpp:2520
+#: clientgui/MainDocument.cpp:2522
 msgid "Download failed"
 msgstr "Stiahnutie zlyhalo"
 
-#: clientgui/MainDocument.cpp:2522
+#: clientgui/MainDocument.cpp:2524
 msgid "Downloading"
 msgstr "Sťahovanie"
 
-#: clientgui/MainDocument.cpp:2524 clientgui/MainDocument.cpp:2583
+#: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2585
 msgid " (suspended - "
 msgstr " (pozastavené - "
 
-#: clientgui/MainDocument.cpp:2532
+#: clientgui/MainDocument.cpp:2534
 msgid "Project suspended by user"
 msgstr "Projekt pozastavený používateľom"
 
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2536
 msgid "Task suspended by user"
 msgstr "Úloha pozastavená používateľom"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2539
+#: clientgui/MainDocument.cpp:2541
 msgid "Suspended - "
 msgstr "Pozastavené - "
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2544
 msgid "GPU suspended - "
 msgstr "GPU pozastavené - "
 
-#: clientgui/MainDocument.cpp:2546
+#: clientgui/MainDocument.cpp:2548
 msgid "Waiting for memory"
 msgstr "Čakanie na pamäť"
 
-#: clientgui/MainDocument.cpp:2548
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting for shared memory"
 msgstr "Čakanie na zdieľanú pamäť"
 
-#: clientgui/MainDocument.cpp:2550
+#: clientgui/MainDocument.cpp:2552
 msgid "Running"
 msgstr "Počítanie"
 
-#: clientgui/MainDocument.cpp:2552
+#: clientgui/MainDocument.cpp:2554
 msgid " (non-CPU-intensive)"
 msgstr " (nenáročný na procesor)"
 
-#: clientgui/MainDocument.cpp:2555
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting to run"
 msgstr "Čakanie na výpočet"
 
-#: clientgui/MainDocument.cpp:2557 clientgui/MainDocument.cpp:2560
+#: clientgui/MainDocument.cpp:2559 clientgui/MainDocument.cpp:2562
 msgid "Ready to start"
 msgstr "Pripravená na spustenie"
 
-#: clientgui/MainDocument.cpp:2564
+#: clientgui/MainDocument.cpp:2566
 msgid "Postponed: "
 msgstr "Odložené:"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2569
 msgid "Postponed"
 msgstr "Pozastavené"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2573
 msgid "Waiting for network access"
 msgstr "Čakanie na prístup k sieti"
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2577
 msgid "Computation error"
 msgstr "Chyba výpočtu"
 
-#: clientgui/MainDocument.cpp:2579
+#: clientgui/MainDocument.cpp:2581
 msgid "Upload failed"
 msgstr "Odoslanie zlyhalo"
 
-#: clientgui/MainDocument.cpp:2581
+#: clientgui/MainDocument.cpp:2583
 msgid "Uploading"
 msgstr "Odosielanie"
 
-#: clientgui/MainDocument.cpp:2592
+#: clientgui/MainDocument.cpp:2594
 msgid "Aborted by user"
 msgstr "Zrušená používateľom"
 
-#: clientgui/MainDocument.cpp:2595
+#: clientgui/MainDocument.cpp:2597
 msgid "Aborted by project"
 msgstr "Zrušená projektom"
 
-#: clientgui/MainDocument.cpp:2598
+#: clientgui/MainDocument.cpp:2600
 msgid "Aborted: not started by deadline"
 msgstr "Zrušené: výpočet sa nezačal do určeného termínu"
 
-#: clientgui/MainDocument.cpp:2601
+#: clientgui/MainDocument.cpp:2603
 msgid "Aborted: task disk limit exceeded"
 msgstr "Zrušené: úloha prekročila limit na disku"
 
-#: clientgui/MainDocument.cpp:2604
+#: clientgui/MainDocument.cpp:2606
 msgid "Aborted: run time limit exceeded"
 msgstr "Zrušené: prekročený limit na dĺžku výpočtu"
 
-#: clientgui/MainDocument.cpp:2607
+#: clientgui/MainDocument.cpp:2609
 msgid "Aborted: memory limit exceeded"
 msgstr "Zrušené: prekročený limit použitej pamäte"
 
-#: clientgui/MainDocument.cpp:2610
+#: clientgui/MainDocument.cpp:2612
 msgid "Aborted"
 msgstr "Zrušená"
 
-#: clientgui/MainDocument.cpp:2615
+#: clientgui/MainDocument.cpp:2617
 msgid "Acknowledged"
 msgstr "Potvrdená"
 
-#: clientgui/MainDocument.cpp:2617
+#: clientgui/MainDocument.cpp:2619
 msgid "Ready to report"
 msgstr "Pripravená na odoslanie"
 
-#: clientgui/MainDocument.cpp:2619
+#: clientgui/MainDocument.cpp:2621
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Chyba: neplatný stav '%d'"
@@ -2834,12 +2834,12 @@ msgid ""
 "Please wait..."
 msgstr "Komunikácia s projektom\nProsím čakajte..."
 
-#: clientgui/ProjectProcessingPage.cpp:521
+#: clientgui/ProjectProcessingPage.cpp:523
 msgid "Required files not found on the server."
 msgstr "Na serveri sa nenašli potrebné súbory."
 
-#: clientgui/ProjectProcessingPage.cpp:524
-#: clientgui/ProjectProcessingPage.cpp:597
+#: clientgui/ProjectProcessingPage.cpp:526
+#: clientgui/ProjectProcessingPage.cpp:599
 msgid "An internal server error has occurred."
 msgstr "Vyskytla sa interná chyba servera."
 
@@ -2969,11 +2969,11 @@ msgstr "Zobraziť diagnostické správy."
 msgid "Show information about BOINC and %s"
 msgstr "Zobraziť informácie o BOINC a %s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:529
+#: clientgui/sg_BoincSimpleFrame.cpp:534
 msgid "Default"
 msgstr "Predvolené"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:967
+#: clientgui/sg_BoincSimpleFrame.cpp:972
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -2982,23 +2982,23 @@ msgstr "Predvolené"
 msgid "Suspend"
 msgstr "Pozastaviť"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:969
+#: clientgui/sg_BoincSimpleFrame.cpp:974
 msgid "Suspend Computing"
 msgstr "Pozastaviť výpočty"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:970
+#: clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Resume Computing"
 msgstr "Pokračovať vo výpočtoch"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:986 clientgui/ViewNotices.cpp:99
+#: clientgui/sg_BoincSimpleFrame.cpp:991 clientgui/ViewNotices.cpp:99
 msgid "Notices"
 msgstr "Oznamy"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:987
+#: clientgui/sg_BoincSimpleFrame.cpp:992
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Otvoriť okno zobrazujúce oznamy z projektov a BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1008 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1013 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Získať pomoc s %s"
@@ -3865,11 +3865,11 @@ msgstr "Zobraziť všetky úlohy"
 msgid "Show all tasks."
 msgstr "Zobraziť všetky úlohy."
 
-#: clientgui/WizardAttach.cpp:606
+#: clientgui/WizardAttach.cpp:607
 msgid "Do you really want to cancel?"
 msgstr "Chcete skutočne zrušiť operáciu?"
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/WizardAttach.cpp:608
 msgid "Question"
 msgstr "Otázka"
 

@@ -300,7 +300,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
     
-            if (!iReturnValue && !reply.error_num) {
+            if (!iReturnValue && (!reply.error_num && reply.messages.size() == 0)) {
                 SetProjectAttachSucceeded(true);
                 pWA->SetAttachedToProjectSuccessfully(true);
             } else {

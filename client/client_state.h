@@ -372,6 +372,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
 
     ACTIVE_TASK* get_task(RESULT*);
 
@@ -394,6 +395,7 @@ struct CLIENT_STATE {
 
 // --------------- cs_files.cpp:
     void check_file_existence();
+    RESULT* file_info_to_result(FILE_INFO*);
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();

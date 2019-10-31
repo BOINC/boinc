@@ -4568,7 +4568,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>RebootYesNo</td><td>Yes</td><td/></row>
 		<row><td>ReinstallModeText</td><td>omus</td><td/></row>
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ACTPROP_BC961760_07FB_4754_A277_8D6943B569CC;ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;SUPPORTDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ACTPROP_BC961760_07FB_4754_A277_8D6943B569CC;ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;SUPPORTDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1;ISACTIONPROP2</td><td/></row>
 		<row><td>UpgradeCode</td><td>{E913E54D-5080-42EC-A312-B21948BA1C02}</td><td/></row>
 		<row><td>_BrowseDataProperty</td><td>0</td><td/></row>
 		<row><td>_BrowseInstallProperty</td><td>0</td><td/></row>
@@ -4847,6 +4847,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S255">Remove</col>
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
+		<row><td>{76DD37FC-EE51-408D-9FB5-3D59FC8ED22A}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ISACTIONPROP2</td><td>World Community Grid Upgrade (7.14.2)</td></row>
 		<row><td>{862B80F6-835D-4F72-8C4F-EE68ED34C6F8}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ISACTIONPROP1</td><td>World Community Grid Upgrade</td></row>
 		<row><td>{E913E54D-5080-42EC-A312-B21948BA1C02}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02</td><td>General Upgrade</td></row>
 	</table>

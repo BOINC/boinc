@@ -328,3 +328,22 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
     }
     return NULL;
 }
+
+#ifndef SIM
+// on startup, see if any active tasks have a finished file
+// i.e. they finished as the client was shutting down
+//
+void ACTIVE_TASK_SET::check_for_finished_jobs() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        int exit_code;
+        if (atp->finish_file_present(exit_code)) {
+            msg_printf(atp->wup->project, MSG_INFO,
+                "Found finish file for %s; exit code %d",
+                atp->result->name, exit_code
+            );
+            atp->handle_exited_app(exit_code);
+        }
+    }
+}
+#endif

@@ -107,6 +107,7 @@ naudojimo sąlygomis kaip parodyta aukščiau.</string>
   <string name="attachproject_error_bad_pwd">Netinkamas slaptažodis</string>
   <string name="attachproject_error_creation_disabled">Paskyros kūrimas šiame projekte išjungtas</string>
   <string name="attachproject_error_invalid_url">Neteisingas URL</string>
+  <string name="attachproject_error_consent_required">Reikia sutikti su šio projekto naudojimo sąlygomis</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Atgal</string>
   <string name="attachproject_working_finish_button">Baigti</string>
@@ -346,6 +347,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versija</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>
   <string name="about_credits">Dėkojame Max Planck Institute for Gravitational Physics, IBM Corporation ir HTC
         Corporation už jų pagalbą.

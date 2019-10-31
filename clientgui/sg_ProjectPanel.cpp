@@ -426,8 +426,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     ProjectSelectionData* selData;
     PROJECT* project;
-    char* ctrl_url;
-    int i, j, oldProjectSelection, newProjectSelection;
+    int oldProjectSelection, newProjectSelection;
 
     if ( pDoc->IsConnected() ) {
         int projCnt = pDoc->GetSimpleProjectCount();
@@ -435,10 +434,11 @@ void CSimpleProjectPanel::UpdateProjectList() {
         oldProjectSelection = m_ProjectSelectionCtrl->GetSelection();
         
         // If a new project has been added, figure out which one
-        for(i=0; i<projCnt; i++) {
+        for(int i=0; i<projCnt; i++) {
+            char* ctrl_url;
             project = pDoc->state.projects[i];
             bool found = false;
-            for(j=0; j<ctrlCount; j++) {
+            for(int j=0; j<ctrlCount; j++) {
                 ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
                 if (!strcmp(project->master_url, ctrl_url)) {
                     found = true;
@@ -455,7 +455,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 }
                 wxString projname(p, wxConvUTF8);
 #if SORTPROJECTLIST
-                int alphaOrder;
+                int alphaOrder,j;
                 for(j = 0; j < ctrlCount; ++j) {
                     alphaOrder = (m_ProjectSelectionCtrl->GetString(j)).CmpNoCase(projname);
                     if (alphaOrder > 0) {
@@ -487,8 +487,8 @@ void CSimpleProjectPanel::UpdateProjectList() {
         if ( projCnt < ctrlCount ) {
             project = NULL;
             // Check items in descending order so deletion won't change indexes of items yet to be checked
-            for(j=ctrlCount-1; j>=0; --j) {
-                ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
+            for(int j=ctrlCount-1; j>=0; --j) {
+                char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j))->project_url;
                 project = pDoc->state.lookup_project(ctrl_url);
                 if ( project == NULL ) {
                     selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
@@ -516,9 +516,9 @@ void CSimpleProjectPanel::UpdateProjectList() {
     
         // Check to see if we need to reload the project icon
         ctrlCount = m_ProjectSelectionCtrl->GetCount();
-        for(j=0; j<ctrlCount; j++) {
+        for(int j=0; j<ctrlCount; j++) {
             selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
-            ctrl_url = selData->project_url;
+            char* ctrl_url = selData->project_url;
             project = pDoc->state.lookup_project(ctrl_url);
             if ( (project != NULL) && (project->project_files_downloaded_time > selData->project_files_downloaded_time) ) {
                 wxBitmap* projectBM = GetProjectSpecificBitmap(ctrl_url);

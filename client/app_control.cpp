@@ -131,6 +131,7 @@ bool ACTIVE_TASK_SET::poll() {
     static double last_finish_check_time = 0;
     if (gstate.clock_change || gstate.now - last_finish_check_time > 10) {
         last_finish_check_time = gstate.now;
+        int exit_code;
         for (i=0; i<active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks[i];
             if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
@@ -145,7 +146,7 @@ bool ACTIVE_TASK_SET::poll() {
                         "Process still present 5 min after writing finish file; aborting"
                     );
                 }
-            } else if (atp->finish_file_present()) {
+            } else if (atp->finish_file_present(exit_code)) {
                 atp->finish_file_time = gstate.now;
             }
         }
@@ -201,14 +202,6 @@ static void print_descendants(int pid, vector<int>desc, const char* where) {
 // Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
-    // unsuspend the process.
-    // If it's suspended, the timer thread is suspended and
-    // won't process the quit message
-    //
-    if (task_state() == PROCESS_SUSPENDED) {
-        unsuspend();
-    }
-
     if (app_client_shm.shm) {
         process_control_queue.msg_queue_send(
             "<quit/>",
@@ -478,7 +471,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             // if another process killed the app, it looks like exit(0).
             // So check for the finish file
             //
-            if (finish_file_present()) {
+            int e;
+            if (finish_file_present(e)) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 break;
             }
@@ -533,6 +527,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             double x;
             char buf[256];
             bool is_notice;
+            int e;
             if (temporary_exit_file_present(x, buf, is_notice)) {
                 handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
@@ -551,7 +546,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     );
                     gstate.report_result_error(*result, err_msg);
                 } else {
-                    if (finish_file_present()) {
+                    if (finish_file_present(e)) {
                         set_task_state(PROCESS_EXITED, "handle_exited_app");
                     } else {
                         handle_premature_exit(will_restart);
@@ -626,19 +621,28 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
 // structure of a finish file (see boinc_api.cpp)):
 // exit status (int)
-// message
-// "notice" or blank line
-// ... or empty
+// optional:
+//  message to show user
+//  "notice" or blank line
 //
-bool ACTIVE_TASK::finish_file_present() {
+bool ACTIVE_TASK::finish_file_present(int &exit_code) {
     char path[MAXPATHLEN], buf[1024], buf2[256];
     safe_strcpy(buf, "");
     safe_strcpy(buf2, "");
+
+    exit_code = 0;
+
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
-    fgets(buf, sizeof(buf), f);     // read (and discard) exit status
     char* p = fgets(buf, sizeof(buf), f);
+    if (p && strlen(buf)) {
+        int e;
+        if (sscanf(buf, "%d", &e) == 1) {
+            exit_code = e;
+        }
+    }
+    p = fgets(buf, sizeof(buf), f);
     if (p && strlen(buf)) {
         fgets(buf2, sizeof(buf2), f);
         msg_printf(result->project,

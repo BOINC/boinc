@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-05-20 18:24 UTC\n"
-"PO-Revision-Date: 2019-05-20 18:28+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-23 13:34+0000\n"
+"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -456,11 +456,11 @@ msgstr "Questions / Réponses"
 msgid "%1 message board"
 msgstr "Forum %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Précédent"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Suivant"
 
@@ -2093,7 +2093,7 @@ msgstr "Temps de CPU<br />(sec)"
 msgid "Credit"
 msgstr "Crédit"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
+#: html/inc/result.inc:407 html/inc/result.inc:813
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Application"
@@ -2146,19 +2146,19 @@ msgstr "FLOPS maximum de l'appareil"
 msgid "Application version"
 msgstr "Version de l'application"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Fichiers sortants"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr output"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "État"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "Nom de la tâche:"
 
@@ -2522,7 +2522,7 @@ msgstr "Clés de compte"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr ""
+msgstr "Titulaire du compte"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2660,7 +2660,7 @@ msgstr "Votre réponse ReCaptcha est incorrecte.  Veuillez réessayer."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Vous n’avez pas accepté nos conditions d’utilisation. Veuillez accepter les conditions d’utilisation en revenant à la page précédente, afin de créer votre compte"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2790,7 +2790,7 @@ msgstr "Optionnel : masqué au public"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Résultats de preuve de propriété du compte"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2802,7 +2802,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "La fonction pouvant prouver la propriété du compte n'est pas configurée correctement. Contactez l'administrateur du projet pour résoudre le problème."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2810,12 +2810,12 @@ msgstr ""
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr ""
+msgstr "La vérification de signature a échoué. Veuillez contacter l'administrateur du projet."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
-"An error occured during the signature verification. Contact the project "
+"An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
 msgstr ""
 
@@ -2824,16 +2824,16 @@ msgstr ""
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr ""
+msgstr "Saisie invalide. La saisie entrée doit avoir une longueur > 0 et < 4096 <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Générer une preuve de propriété du compte"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3346,25 +3346,25 @@ msgstr "La gestion de cette liste est centralisée sur %1 le site web BOINC %2."
 
 #: html/user/download_software.php:174
 msgid "This project requires VirtualBox."
-msgstr ""
+msgstr "Ce projet nécessite VirtualBox."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr ""
+msgstr "Ce projet recommande VirtualBox."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr ""
+msgstr "S'il n'est pas installé sur cet ordinateur, téléchargez-le %1ici%2, puis redémarrez BOINC."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr ""
+msgstr "Utilisez l'installateur BOINC+VirtualBox."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "S'il n'est pas installé sur cet ordinateur, téléchargez-le %1ici%2."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3386,7 +3386,7 @@ msgstr "Au premier démarrage de BOINC, vous devrez sélectionner un projet.\n  
 
 #: html/user/download_software.php:229
 msgid "Go to the BOINC download page."
-msgstr ""
+msgstr "Allez à la page de téléchargement de BOINC."
 
 #: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
@@ -3414,7 +3414,7 @@ msgstr "Pour participer à %1, %2 doit être installé sur votre ordinateur."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Si %1 est déjà installé, %2cliquez ici%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -6676,7 +6676,6 @@ msgstr "Utilisateur du jour pour %1 : %2"
 
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."

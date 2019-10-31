@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2018-11-26 15:01+0000\n"
 "Last-Translator: Willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
@@ -37,7 +37,7 @@ msgid ""
 "the preferences."
 msgstr "部分任務所需要的記憶體超過您設定使用量。請檢查您的設定值。"
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "無法寫入狀態文件，請檢查目錄權限"
 
@@ -94,39 +94,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA 驅動程式版本 6.5 或以上不能用作 CUDA 或 OpenCL 計算。"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:492
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有異常的文件"
 
-#: client/log_flags.cpp:466 client/log_flags.cpp:521
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有無法辨識的標籤"
 
-#: client/log_flags.cpp:483
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml 中缺少了起始標籤"
 
-#: client/log_flags.cpp:511
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 中有錯誤的設定"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml 中缺少了結束標籤"
 
-#: client/project.cpp:995
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "要修復此問題，您可以"
 
-#: client/project.cpp:999
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "在專案的網站上變更專案偏好設定"
 
-#: client/project.cpp:1004
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "移除 cc_config.xml 檔案中排除 GPU 的設定"
 
-#: client/project.cpp:1009
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "在帳號管理服務網站上變更您的設定"
 
@@ -157,45 +157,45 @@ msgstr "你的 BOINC 軟體太舊了。請安裝更新版本。"
 msgid "This project doesn't support computers of type"
 msgstr "該專案不支援您的電腦類型"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "將您的 GPU 驅動程式升級到最新的版本之後，才可以執行任務"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "將您的 GPU 驅動程式升級到最新的版本之後，才可以執行專案中的 GPU 程式"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "當您使用 NVIDIA GPU 進行運算的時候，請將 BOINC 升級至最新版本"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "該專案的任務需要 %s GPU 才可以執行"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "您目前選擇的程式沒有任務。"
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "該專案不支援您的電腦類型"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "請更新至最新版的BOINC"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s目前有任務，但您的偏好設定為不允許"
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:239
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "你的 app_info.xml 中沒有可以使用的版本"

@@ -42,7 +42,7 @@ Dir-options:
    --project_root       default: HOME/projects/PROJECT
    --key_dir            default: PROJECT_ROOT/keys
    --project_host       default: $HOSTNAME (%(NODENAME)s)
-   --url_base           default: http://PROJECT_HOST/
+   --url_base           default: https://PROJECT_HOST/
 
    --html_user_url      default: URL_BASE/PROJECT/
    --html_ops_url       default: URL_BASE/PROJECT_ops/
@@ -54,10 +54,10 @@ Other:
    --db_host            default: None
 
 Example command line:
-  ./make_project --project_root $HOME/boinc/projects --url_base http://tah.org/ tah 'Test@home'
+  ./make_project --project_root $HOME/boinc/projects --url_base https://tah.org/ tah 'Test@home'
 
 Then upload_dir = $HOME/boinc/projects/tah/upload
-and  cgi_url    = http://tah.org/tah_cgi/
+and  cgi_url    = https://tah.org/tah_cgi/
 
 By default, directory options will be queried if they do not exist yet.
 
@@ -165,12 +165,12 @@ def defopt(name, v, isdir=True):
     options.__dict__[name] = opt_repls[name.upper()] = add_slash(replopt(options.__dict__.get(name) or v), isdir)
 
 defopt('project_host'  , NODENAME, isdir=False)
-defopt('url_base'      , 'http://%s/'%options.project_host)
+defopt('url_base'      , 'https://%s/'%options.project_host)
 # strip project_host to get short hostname
 options.project_host=options.project_host.split('.')[0]
 
 if not isurl(options.url_base):
-    syntax_error('url_base needs to be an URL')
+    syntax_error('url_base must be a URL')
 
 defopt('html_user_url' , 'URL_BASE/PROJECT')
 defopt('html_ops_url'  , 'URL_BASE/PROJECT_ops')
@@ -460,7 +460,7 @@ if not options.web_only:
 To use this project for your own computations, you'll need to
 - Port your application(s) and add them
 - Develop programs to submit and handle jobs
-See the online documentation at http://boinc.berkeley.edu/
+See the online documentation at https://boinc.berkeley.edu/
 '''
 
 html_user_url = options.html_user_url
