@@ -283,10 +283,12 @@ void suspend_or_resume_process(int pid, bool resume) {
 //
 
 void get_job_object_processes(HANDLE job_handle, vector<int>& pids) {
-    JOBOBJECT_BASIC_PROCESS_ID_LIST process_list;
-    QueryInformationJobObject(job_handle, JobObjectBasicProcessIdList, &process_list, sizeof(JOBOBJECT_BASIC_PROCESS_ID_LIST), NULL);
-    for (int i = 0; i < process_list.NumberOfProcessIdsInList; i++) {
-        pids.push_back(process_list.ProcessIdList[i]);
+    int max_job_object_processes = 32;
+    PJOBOBJECT_BASIC_PROCESS_ID_LIST process_list;
+    process_list = (PJOBOBJECT_BASIC_PROCESS_ID_LIST)LocalAlloc(LPTR, sizeof(JOBOBJECT_BASIC_PROCESS_ID_LIST) + (max_job_object_processes - 1) * 32);
+    QueryInformationJobObject(job_handle, JobObjectBasicProcessIdList, process_list, sizeof(JOBOBJECT_BASIC_PROCESS_ID_LIST) + (max_job_object_processes - 1) * 32, NULL);
+    for (int i = 0; i < process_list->NumberOfProcessIdsInList; i++) {
+        pids.push_back((int)process_list->ProcessIdList[i]);
     }
 }
 

@@ -974,7 +974,7 @@ bool TASK::poll(int& status) {
         ULONG_PTR completion_key;
         LPOVERLAPPED overlapped;
         exit_code = 0;
-        if (GetQueuedCompletionStatus(ioport_handle, &completion_code, &completion_key, &overlapped, INFINITE)) {
+        if (GetQueuedCompletionStatus(ioport_handle, &completion_code, &completion_key, &overlapped, 3000)) {
             if ((HANDLE)completion_key == job_handle && completion_code == JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO) {
                 status = exit_code;
                 final_cpu_time = current_cpu_time;
