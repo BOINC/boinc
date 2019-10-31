@@ -109,7 +109,6 @@ struct MEDIAN_VAR : MEDIAN {
         return false;
     }
 
-
     inline double get_var() {
         return var;
     }
@@ -119,5 +118,7 @@ struct MEDIAN_VAR : MEDIAN {
         var = 0;
         q = 0;
     }
+
+    MEDIAN_VAR() : MEDIAN() {}
 };
 #endif
