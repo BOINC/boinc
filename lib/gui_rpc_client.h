@@ -496,7 +496,7 @@ struct ACCT_MGR_INFO {
     bool have_credentials;
     bool cookie_required;
     std::string cookie_failure_url;
-    
+
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
@@ -661,6 +661,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
+    void clear();
     void print();
 };
 

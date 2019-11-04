@@ -105,7 +105,9 @@ struct WEEK_PREFS {
     TIME_SPAN days[7];
 
     void clear() {
-        memset(this, 0, sizeof(WEEK_PREFS));
+        for (int i = 0; i < 7; i++) {
+          days[i] = TIME_SPAN{};
+        }
     }
     WEEK_PREFS() {
         clear();
@@ -128,10 +130,10 @@ struct TIME_PREFS : public TIME_SPAN {
         start_hour = start;
         end_hour = end;
     }
-    
+
     void clear();
     bool suspended(double t);
-    
+
 };
 
 

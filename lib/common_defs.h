@@ -110,7 +110,7 @@
     // high-priority message from scheduler
     // (used internally within the client;
     // changed to MSG_USER_ALERT before passing to manager)
-    
+
 // values for suspend_reason, network_suspend_reason
 // Notes:
 // - doesn't need to be a bitmap, but keep for compatibility
@@ -286,21 +286,24 @@ struct TIME_STATS {
     void write(MIOFILE&);
     int parse(XML_PARSER&);
     void print();
+    void clear() {
+      now = 0;
+      on_frac = 1;
+      connected_frac = 1;
+      cpu_and_network_available_frac = 1;
+      active_frac = 1;
+      gpu_active_frac = 1;
+      client_start_time = 0;
+      previous_uptime = 0;
+      session_active_duration = 0;
+      session_gpu_active_duration = 0;
+      total_start_time = 0;
+      total_duration = 0;
+      total_active_duration = 0;
+      total_gpu_active_duration = 0;
+    }
     TIME_STATS() {
-        now = 0;
-        on_frac = 1;
-        connected_frac = 1;
-        cpu_and_network_available_frac = 1;
-        active_frac = 1;
-        gpu_active_frac = 1;
-        client_start_time = 0;
-        previous_uptime = 0;
-        session_active_duration = 0;
-        session_gpu_active_duration = 0;
-        total_start_time = 0;
-        total_duration = 0;
-        total_active_duration = 0;
-        total_gpu_active_duration = 0;
+        clear();
     }
 };
 
@@ -309,8 +312,8 @@ struct VERSION_INFO {
     int minor;
     int release;
     bool prerelease;
-    int parse(MIOFILE&); 
-    void write(MIOFILE&); 
+    int parse(MIOFILE&);
+    void write(MIOFILE&);
     bool greater_than(VERSION_INFO&);
     VERSION_INFO() {
         major = 0;

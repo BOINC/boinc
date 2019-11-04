@@ -83,7 +83,7 @@ using std::vector;
 using std::sort;
 
 int OLD_RESULT::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(OLD_RESULT));
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/old_result")) return 0;
         if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
@@ -98,8 +98,21 @@ int OLD_RESULT::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+void OLD_RESULT::clear() {
+  for (int i = 0; i < 256; i++) {
+    project_url[i] = 0;
+    result_name[i] = 0;
+    app_name[i] = 0;
+  }
+  exit_status = 0;
+  elapsed_time = 0;
+  cpu_time = 0;
+  completed_time = 0;
+  create_time = 0;
+}
+
 int TIME_STATS::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(TIME_STATS));
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/time_stats")) return 0;
         if (xp.parse_double("now", now)) continue;
@@ -503,14 +516,14 @@ void PROJECT::clear() {
     trickle_up_pending = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
-    
+
     statistics.clear();
     safe_strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
     safe_strcpy(external_cpid, "");
-    
+
     flag_for_delete = false;
 }
 
@@ -588,7 +601,25 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 void APP_VERSION::clear() {
-    memset(this, 0, sizeof(*this));
+  for (int i = 0; i < 256; i++) {
+    app_name[i] = 0;
+    exec_filename[i] = 0;
+  }
+  for (int i = 0; i < 64; i++) {
+    platform[i] = 0;
+    plan_class[i] = 0;
+  }
+  version_num = 0;
+  avg_ncpus = 0;
+  gpu_type = 0;
+  gpu_usage = 0;
+  natis = 0;
+  gpu_ram = 0;
+  flops = 0;
+  delete app;
+  app = NULL;
+  delete project;
+  project = NULL;
 }
 
 WORKUNIT::WORKUNIT() {
@@ -1413,7 +1444,7 @@ CC_STATUS::CC_STATUS() {
 
 int CC_STATUS::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
-        if (xp.match_tag("/cc_status")) return 0; 
+        if (xp.match_tag("/cc_status")) return 0;
         if (xp.parse_int("network_status", network_status)) continue;
         if (xp.parse_bool("ams_password_error", ams_password_error)) continue;
         if (xp.parse_bool("manager_must_quit", manager_must_quit)) continue;
@@ -1480,7 +1511,7 @@ int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
-        memset(&server, 0, sizeof(server));
+        server = VERSION_INFO{};
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</server_version>")) break;
             else if (parse_int(buf, "<major>", server.major)) continue;
@@ -1891,7 +1922,7 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
         "<set_run_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
@@ -1996,8 +2027,8 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
         "        <socks_server_name>%s</socks_server_name>\n"
         "        <socks_server_port>%d</socks_server_port>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
-        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
-        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"		
+        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"
+        "        <socks5_remote_dns>%d</socks5_remote_dns>\n"
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
@@ -2623,7 +2654,7 @@ int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     MIOFILE mf;
     int retval;
     RPC rpc(this);
-    
+
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
 
