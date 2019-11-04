@@ -106,7 +106,7 @@ struct WEEK_PREFS {
 
     void clear() {
         for (int i = 0; i < 7; i++) {
-          days[i] = TIME_SPAN{};
+          days[i] = TIME_SPAN();
         }
     }
     WEEK_PREFS() {

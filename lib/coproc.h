@@ -226,8 +226,8 @@ struct COPROC {
             running_graphics_app[i] = true;
         }
         device_num = 0;
-        opencl_prop = OPENCL_DEVICE_PROP{};
-        pci_info = PCI_INFO{};
+        opencl_prop = OPENCL_DEVICE_PROP();
+        pci_info = PCI_INFO();
         last_print_time = 0;
     }
     inline void clear_usage() {

@@ -502,7 +502,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             } else {
                 my_nvidia_gpu.device_num = (int)nvidia_gpus.size();
                 my_nvidia_gpu.pci_info = my_nvidia_gpu.pci_infos[0];
-                my_nvidia_gpu.pci_infos[0] = PCI_INFO{};
+                my_nvidia_gpu.pci_infos[0] = PCI_INFO();
                 nvidia_gpus.push_back(my_nvidia_gpu);
             }
             continue;
@@ -519,10 +519,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("ati_opencl")) {
-            ati_opencl = OPENCL_DEVICE_PROP{};
+            ati_opencl = OPENCL_DEVICE_PROP();
             retval = ati_opencl.parse(xp, "/ati_opencl");
             if (retval) {
-                ati_opencl = OPENCL_DEVICE_PROP{};
+                ati_opencl = OPENCL_DEVICE_PROP();
             } else {
                 ati_opencl.is_used = COPROC_IGNORED;
                 ati_opencls.push_back(ati_opencl);
@@ -531,10 +531,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("nvidia_opencl")) {
-            nvidia_opencl = OPENCL_DEVICE_PROP{};
+            nvidia_opencl = OPENCL_DEVICE_PROP();
             retval = nvidia_opencl.parse(xp, "/nvidia_opencl");
             if (retval) {
-                nvidia_opencl = OPENCL_DEVICE_PROP{};
+                nvidia_opencl = OPENCL_DEVICE_PROP();
             } else {
                 nvidia_opencl.is_used = COPROC_IGNORED;
                 nvidia_opencls.push_back(nvidia_opencl);
@@ -543,10 +543,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("intel_gpu_opencl")) {
-            intel_gpu_opencl = OPENCL_DEVICE_PROP{};
+            intel_gpu_opencl = OPENCL_DEVICE_PROP();
             retval = intel_gpu_opencl.parse(xp, "/intel_gpu_opencl");
             if (retval) {
-                intel_gpu_opencl = OPENCL_DEVICE_PROP{};
+                intel_gpu_opencl = OPENCL_DEVICE_PROP();
             } else {
                 intel_gpu_opencl.is_used = COPROC_IGNORED;
                 intel_gpu_opencls.push_back(intel_gpu_opencl);
@@ -555,10 +555,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("other_opencl")) {
-            other_opencl = OPENCL_DEVICE_PROP{};
+            other_opencl = OPENCL_DEVICE_PROP();
             retval = other_opencl.parse(xp, "/other_opencl");
             if (retval) {
-                other_opencl = OPENCL_DEVICE_PROP{};
+                other_opencl = OPENCL_DEVICE_PROP();
             } else {
                 other_opencl.is_used = COPROC_USED;
                 other_opencls.push_back(other_opencl);
@@ -567,10 +567,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("opencl_cpu_prop")) {
-            cpu_opencl = OPENCL_CPU_PROP{};
+            cpu_opencl = OPENCL_CPU_PROP();
             retval = cpu_opencl.parse(xp);
             if (retval) {
-                cpu_opencl = OPENCL_CPU_PROP{};
+                cpu_opencl = OPENCL_CPU_PROP();
             } else {
                 cpu_opencl.opencl_prop.is_used = COPROC_IGNORED;
                 cpu_opencls.push_back(cpu_opencl);
