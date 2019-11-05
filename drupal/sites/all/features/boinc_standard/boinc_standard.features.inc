@@ -27,7 +27,7 @@ function boinc_standard_ctools_plugin_api() {
  */
 function boinc_standard_flag_default_flags() {
   $flags = array();
-  // Exported flag: "Comment Abuse 1".
+  // Exported flag: "Comment Abuse 1 SPAM".
   $flags['abuse_comment_1'] = array(
     'content_type' => 'comment',
     'title' => 'Comment Abuse 1 SPAM',
@@ -1114,6 +1114,843 @@ asdf jkl;',
             '#name' => 'boinccore_rules_action_mail_to_admins',
             '#info' => array(
               'label' => 'Notify admins via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_comment_reported_hostile' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment_3',
+        '#label' => 'Offensive comment reported - Hostile',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of hostile language in [node:type] comment at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as 
+containing hostile language for the [:global:site-name] site:
+
+<?php print url(\'<front>\', array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>/goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_comment_reported_link' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment_2',
+        '#label' => 'Offensive comment reported - Link',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of inappropriate link in  [node:type] comment at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as 
+containing an offensive or inappropriate link for the [:global:site-name] site:
+
+<?php print url(\'<front>\', array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>/goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_comment_reported_not_kid_friendly' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment_4',
+        '#label' => 'Offensive comment reported - Not Kid Friendly',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of non Kid-friendly language in [node:type] comment at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as 
+containing non Kid-friendly language for the [:global:site-name] site:
+
+<?php print url(\'<front>\', array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>/goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_comment_reported_other' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment_5',
+        '#label' => 'Offensive comment reported - Other',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as 
+being offensive or inappropriate for the [:global:site-name] site, with reason \'Other\':
+
+<?php print url(\'<front>\', array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>/goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_comment_reported_spam' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment_1',
+        '#label' => 'Offensive comment reported - SPAM',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of SPAM [node:type] comment at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content 
+as being SPAM for the [:global:site-name] site:
+
+<?php print url(\'<front>\', array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>/goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_content_reported_hostile' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node_3',
+        '#label' => 'Offensive content reported - Hostile',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of hostile language in [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content 
+as hostile language for the [:global:site-name] site:
+
+<?php print url(\'node/\' . \\$node->nid, array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>
+
+Total reports of this content: [node:flag-abuse-node-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'node',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_content_reported_link' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node_2',
+        '#label' => 'Offensive content reported - Link',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of inappropriate link in [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content 
+as containing an offensive or inappropriate link for the [:global:site-name] site:
+
+<?php print url(\'node/\' . \\$node->nid, array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>
+
+Total reports of this content: [node:flag-abuse-node-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'node',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_content_reported_not_kid_friendly' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node_4',
+        '#label' => 'Offensive content reported - Not Kid Friendly',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of non Kid-friendly language in [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content 
+as containing non Kid-friendly language for the [:global:site-name] site:
+
+<?php print url(\'node/\' . \\$node->nid, array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>
+
+Total reports of this content: [node:flag-abuse-node-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'node',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_content_reported_other' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node_4',
+        '#label' => 'Offensive content reported - Other',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content 
+as being offensive or inappropriate for the [:global:site-name] site:
+
+<?php print url(\'node/\' . \\$node->nid, array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>
+
+Total reports of this content: [node:flag-abuse-node-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'node',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_content_reported_spam' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node_1',
+        '#label' => 'Offensive content reported - SPAM',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of SPAM [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content 
+as being SPAM for the [:global:site-name] site:
+
+<?php print url(\'node/\' . \\$node->nid, array(\'absolute\' => TRUE, \'language\' => \'en\')); ?>
+
+Total reports of this content: [node:flag-abuse-node-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(
+                    '0' => 'node',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_user_reported_link' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_user_2',
+        '#label' => 'Offensive user reported - Link',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of inappropriate link in user profile at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported [account:display-name] for 
+inappropriate link in a user profile:
+
+<?php print url(\\\'<front>\\\', array(\\\'absolute\\\' => TRUE, \\\'language\\\' => \\\'en\\\')); ?>/account/[account:uid]
+
+Total current reports of this user: [account:flag-abuse-user-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'account',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_user_reported_not_kid_friendly' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_user_3',
+        '#label' => 'Offensive user reported - Not Kid Friendly',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of hostile language in user profile at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported [account:display-name] for 
+hostile language in a user profile:
+
+<?php print url(\\\'<front>\\\', array(\\\'absolute\\\' => TRUE, \\\'language\\\' => \\\'en\\\')); ?>/account/[account:uid]
+
+Total current reports of this user: [account:flag-abuse-user-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'account',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_user_reported_other' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_user_4',
+        '#label' => 'Offensive user reported - Other',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of offensive user at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported [account:display-name] for 
+inappropriate behavior:
+
+<?php print url(\\\'<front>\\\', array(\\\'absolute\\\' => TRUE, \\\'language\\\' => \\\'en\\\')); ?>/account/[account:uid]
+
+Total current reports of this user: [account:flag-abuse-user-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'account',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0.0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_offensive_user_reported_spam' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_user_1',
+        '#label' => 'Offensive user reported - SPAM',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'from' => '',
+              'subject' => 'Report of SPAM user at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported [account:display-name] for 
+a SPAM user profile:
+
+<?php print url(\\\'<front>\\\', array(\\\'absolute\\\' => TRUE, \\\'language\\\' => \\\'en\\\')); ?>/account/[account:uid]
+
+Total current reports of this user: [account:flag-abuse-user-meta-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'account',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'message' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
               'module' => 'BOINC core',
               'eval input' => array(
                 '0' => 'subject',
