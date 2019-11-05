@@ -121,7 +121,7 @@ struct LOG_FLAGS {
     bool work_fetch_debug;
         // work fetch policy 
 
-    LOG_FLAGS();
+    LOG_FLAGS(){}
     void init();
     int parse(XML_PARSER&);
     void show();
@@ -224,6 +224,7 @@ struct APP_CONFIG {
     bool fraction_done_exact;
     bool report_results_immediately;
 
+    APP_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
     int parse_gpu_versions(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
@@ -235,6 +236,7 @@ struct APP_VERSION_CONFIG {
     double avg_ncpus;
     double ngpus;
 
+    APP_VERSION_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
 

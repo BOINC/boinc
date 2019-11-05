@@ -39,12 +39,10 @@
 
 using std::string;
 
-LOG_FLAGS::LOG_FLAGS() {
-    init();
-}
-
 void LOG_FLAGS::init() {
-    memset(this, 0, sizeof(LOG_FLAGS));
+    static const LOG_FLAGS x;
+    *this = x;
+
     // on by default (others are off by default)
     //
     task = true;
@@ -55,6 +53,7 @@ void LOG_FLAGS::init() {
 // Parse log flag preferences
 //
 int LOG_FLAGS::parse(XML_PARSER& xp) {
+    init();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
@@ -729,7 +728,8 @@ int APP_CONFIG::parse_gpu_versions(
 
 int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_CONFIG));
+    static const APP_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
@@ -768,7 +768,8 @@ int APP_VERSION_CONFIG::parse(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
 ) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_VERSION_CONFIG));
+    static const APP_VERSION_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {

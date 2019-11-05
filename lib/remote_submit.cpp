@@ -600,7 +600,8 @@ int query_batch_set(
 }
 
 int BATCH_STATUS::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(BATCH_STATUS));
+    static const BATCH_STATUS x;
+    *this = x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/batch")) {
             return 0;
@@ -710,7 +711,8 @@ int query_batches(
 }
 
 int JOB_STATE::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(JOB_STATE));
+    static const JOB_STATE x;
+    *this = x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/job")) {
             return 0;

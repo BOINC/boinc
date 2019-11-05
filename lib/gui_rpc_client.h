@@ -660,6 +660,7 @@ struct OLD_RESULT {
     double completed_time;
     double create_time;
 
+    OLD_RESULT(){}
     int parse(XML_PARSER&);
     void print();
 };
