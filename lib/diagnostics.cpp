@@ -696,7 +696,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = (void (*)(int))handler;
+        temp.sa_sigaction = handler;
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -755,7 +755,7 @@ static char *xtoa(size_t x) {
 #ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
-void boinc_catch_signal(int signal, struct siginfo *, void *) {
+void boinc_catch_signal(int signal, siginfo_t*, void *) {
 #endif  // ANDROID
 #else
 void boinc_catch_signal(int signal) {

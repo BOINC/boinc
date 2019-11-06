@@ -1349,7 +1349,7 @@ vector<AUTH_INFO> auth_infos;
 // check HTTP authentication info
 //
 bool valid_auth(int id, long seqno, char* hash, char* request) {
-    char buf[256], my_hash[256];
+    char buf[1024], my_hash[256];
     //printf("valid_auth: id %d seqno %ld hash %s\n", id, seqno, hash);
     for (unsigned int i=0; i<auth_infos.size(); i++) {
         AUTH_INFO& ai = auth_infos[i];

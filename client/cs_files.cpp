@@ -193,7 +193,7 @@ int FILE_INFO::verify_file(
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
         char gzpath[MAXPATHLEN];
-        snprintf(gzpath, sizeof(gzpath), "%s.gz", pathname);
+        snprintf(gzpath, sizeof(gzpath), "%.2048s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
             if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
                 ASYNC_VERIFY* avp = new ASYNC_VERIFY;
@@ -419,8 +419,8 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 if (fip->download_gzipped) {
                     char path[MAXPATHLEN], from_path[MAXPATHLEN], to_path[MAXPATHLEN];
                     get_pathname(fip, path, sizeof(path));
-                    snprintf(from_path, sizeof(from_path), "%s.gzt", path);
-                    snprintf(to_path, sizeof(to_path), "%s.gz", path);
+                    snprintf(from_path, sizeof(from_path), "%.2048s.gzt", path);
+                    snprintf(to_path, sizeof(to_path), "%.2048s.gz", path);
                     boinc_rename(from_path, to_path);
                 }
 

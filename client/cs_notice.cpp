@@ -59,7 +59,7 @@ static bool cmp(NOTICE n1, NOTICE n2) {
 static void project_feed_list_file_name(PROJ_AM* p, char* buf, int len) {
     char url[256];
     escape_project_url(p->master_url, url);
-    snprintf(buf, len, "notices/feeds_%s.xml", url);
+    snprintf(buf, len, "notices/feeds_%.128s.xml", url);
 }
 
 // parse feed descs from scheduler reply or feed list file
@@ -619,7 +619,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
 void RSS_FEED::feed_file_name(char* path, int len) {
     char buf[256];
     escape_project_url(url_base, buf);
-    snprintf(path, len, NOTICES_DIR"/%s.xml", buf);
+    snprintf(path, len, NOTICES_DIR"/%.128s.xml", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path, int len) {

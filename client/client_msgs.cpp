@@ -75,10 +75,10 @@ void show_message(
     //
     switch (priority) {
     case MSG_INTERNAL_ERROR:
-        snprintf(event_msg, sizeof(event_msg), "[error] %s", message);
+        snprintf(event_msg, sizeof(event_msg), "[error] %.512s", message);
         break;
     case MSG_SCHEDULER_ALERT:
-        snprintf(event_msg, sizeof(event_msg), "%s: %s",
+        snprintf(event_msg, sizeof(event_msg), "%.64s: %.512s",
             _("Message from server"), message
         );
         break;

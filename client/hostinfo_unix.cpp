@@ -1580,7 +1580,7 @@ static const struct dir_tty_dev {
 vector<string> get_tty_list() {
     // Create a list of all terminal devices on the system.
     char devname[1024];
-    char fullname[1024];
+    char fullname[MAXPATHLEN];
     int done,i=0;
     vector<string> tty_list;
 
@@ -1594,7 +1594,7 @@ vector<string> get_tty_list() {
                 if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
                     // don't add anything starting with .
                     if (devname[0] != '.') {
-                        sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
+                        sprintf(fullname,"%s/%s", tty_patterns[i].dir, devname);
                         tty_list.push_back(fullname);
                     }
                 }
