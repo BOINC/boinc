@@ -163,27 +163,6 @@ function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
 }
 
 /**
- * Implementation of hook_flag_access().
- */
-function flag_abuse_reason_flag_access($flag, $content_id, $action, $account) {
-/* @todo - consider removing block
-  $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
-  if (in_array($flag->name, $metaflags)) {
-    // Check to see if this flag is locked.
-    if (variable_get($flag->name.'-'.$content_id, FALSE)) {
-      if (user_access('reset abuse flags', $account)) {
-        return TRUE;
-      }
-      else {
-        // Normal users see nothing when flag is locked.
-        return FALSE;
-      }
-    }
-  }
-*/
-}
-
-/**
  * Implementation of hook_form_FORM_ID_alter().
  */
 function flag_abuse_reason_form_flag_confirm_alter(&$form, &$form_state) {
