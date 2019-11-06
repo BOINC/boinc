@@ -118,8 +118,7 @@ function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
       if (variable_get($flag->name.'-'.$content_id, FALSE)) {
         // Since the user flags the content again, we need to unflag it.
         flag_reset_flag($flag, $content_id);
-        // @todo - replace t() with bts()
-        drupal_set_message(t('INFO: Reset everything. Users may reflag this content.'), 'info');
+        drupal_set_message(bts('INFO: Reset everything. Users may reflag this content.', array(), NULL, 'boinc:flag-abuse-reset'), 'info');
         // unlock flag; effectively resets flags for this content
         variable_del($flag->name.'-'.$content_id);
       }
@@ -136,8 +135,7 @@ function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
           // confuse the user if they reset what they thought was one
           // flag and we report two.
           $rows--;
-          // @todo - replace t() with bts()
-          drupal_set_message(t('INFO: Cleared !rows flags. Content is now locked and may not be reflagged.', array('!rows' => $rows)), 'info');
+          drupal_set_message(bts('INFO: Cleared !rows flags. Content is now locked and may not be reflagged.', array('!rows' => $rows), NULL, 'boinc:flag-abuse-reset'), 'info');
 
           // This is the line which sets a Drupal variable which
           // prevents the flag link from showing again for all
