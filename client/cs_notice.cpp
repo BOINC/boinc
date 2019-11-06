@@ -59,7 +59,7 @@ static bool cmp(NOTICE n1, NOTICE n2) {
 static void project_feed_list_file_name(PROJ_AM* p, char* buf, int len) {
     char url[256];
     escape_project_url(p->master_url, url);
-    snprintf(buf, len, "notices/feeds_%.128s.xml", url);
+    snprintf(buf, len, "notices/feeds_%s.xml", url);
 }
 
 // parse feed descs from scheduler reply or feed list file
@@ -98,7 +98,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
 }
 
 static void write_project_feed_list(PROJ_AM* p) {
-    char buf[256];
+    char buf[MAXPATHLEN];
     project_feed_list_file_name(p, buf, sizeof(buf));
     FILE* f = fopen(buf, "w");
     if (!f) return;
