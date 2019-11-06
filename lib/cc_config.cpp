@@ -718,7 +718,7 @@ int APP_CONFIG::parse_gpu_versions(
             continue;
         }
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
     }
@@ -755,7 +755,7 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         // unparsed XML not considered an error; maybe it should be?
         //
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
@@ -773,7 +773,7 @@ int APP_VERSION_CONFIG::parse(
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -784,7 +784,7 @@ int APP_VERSION_CONFIG::parse(
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
         if (xp.parse_double("ngpus", ngpus)) continue;
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_VERSION_CONFIG::parse");
@@ -799,7 +799,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     clear();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -834,7 +834,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
             continue;
         }
-        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %s", xp.parsed_tag);
+        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %.128s", xp.parsed_tag);
         mv.push_back(string(buf));
 
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");

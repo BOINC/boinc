@@ -915,7 +915,7 @@ int XML_PARSER::copy_element(string& out) {
     out = "<";
     out += parsed_tag;
     out += ">";
-    snprintf(end_tag, sizeof(end_tag), "</%s>", parsed_tag);
+    snprintf(end_tag, sizeof(end_tag), "</%.256s>", parsed_tag);
     int retval = element_contents(end_tag, buf, sizeof(buf));
     if (retval) return retval;
     out += buf;

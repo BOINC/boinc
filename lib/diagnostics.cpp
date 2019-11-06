@@ -83,7 +83,6 @@ static _CrtMemState difference_snapshot;
 
 #endif
 
-
 static int         diagnostics_initialized = false;
 static int         flags;
 static char        stdout_log[MAXPATHLEN];
@@ -295,10 +294,10 @@ int diagnostics_init(
             boinc_mkdir(user_dir);
         }
 
-        snprintf(stdout_log, sizeof(stdout_log), "%s/%s.txt", user_dir, stdout_prefix);
-        snprintf(stdout_archive, sizeof(stdout_archive), "%s/%s.old", user_dir, stdout_prefix);
-        snprintf(stderr_log, sizeof(stderr_log), "%s/%s.txt", user_dir, stderr_prefix);
-        snprintf(stderr_archive, sizeof(stderr_archive), "%s/%s.old", user_dir, stderr_prefix);
+        snprintf(stdout_log, sizeof(stdout_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
 
     } else {
 
