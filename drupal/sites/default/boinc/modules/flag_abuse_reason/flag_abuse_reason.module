@@ -119,7 +119,7 @@ function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
         // Since the user flags the content again, we need to unflag it.
         flag_reset_flag($flag, $content_id);
         // @todo - replace t() with bts()
-        drupal_set_message(t('INFO: Reset everything. Users may reflag this content.', array('!rows' => $rows)), 'info');
+        drupal_set_message(t('INFO: Reset everything. Users may reflag this content.'), 'info');
         // unlock flag; effectively resets flags for this content
         variable_del($flag->name.'-'.$content_id);
       }
@@ -187,7 +187,6 @@ function flag_abuse_reason_flag_access($flag, $content_id, $action, $account) {
  * Implementation of hook_form_FORM_ID_alter().
  */
 function flag_abuse_reason_form_flag_confirm_alter(&$form, &$form_state) {
-  //global $user;
   // Permmission check instead of a role.
   if (user_access('reset abuse flags', $account)) {
     $flag_name = $form['flag_name']['#value'];
