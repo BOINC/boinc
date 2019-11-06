@@ -76,8 +76,8 @@ static void get_user_agent_string() {
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
-        char buf[256];
-        snprintf(buf, sizeof(buf), " (%.80s)", gstate.client_brand);
+        char buf[1024];
+        snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
         safe_strcat(g_user_agent_string, buf);
     }
 }
