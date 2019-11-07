@@ -1606,8 +1606,14 @@ GUI_RPC gui_rpcs[] = {
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse <boinc_gui_rpc_request>
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse the request tag
+    if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
+        grc.mfout.printf("<error>missing boing_gui_rpc_request tag</error>\n");
+        return 0;
+    }
+    if (grc.xp.get_tag()) {    // parse the request tag
+        grc.mfout.printf("<error>missing request</error>\n");
+        return 0;
+    }
     for (unsigned int i=0; i<sizeof(gui_rpcs)/sizeof(GUI_RPC); i++) {
         GUI_RPC& gr = gui_rpcs[i];
         if (!grc.xp.match_tag(gr.req_tag) && !grc.xp.match_tag(gr.alt_req_tag)) {

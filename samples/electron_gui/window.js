@@ -40,10 +40,11 @@ function read_password() {
 //
 function gui_rpc(request) {
 	return new Promise(function(resolve, reject) {
+		request = "<boinc_gui_rpc_request>"+request+"</boinc_gui_rpc_request>"
 		http.onreadystatechange = function() {
 			if (http.readyState != 4) return;
 			if (http.status == 200) {
-				//console.log('got response: ' + http.responseText);
+				console.log('got response: ' + http.responseText);
 				resolve(http.responseText);
 			} else {
 				reject(http);
@@ -86,8 +87,8 @@ function authorize() {
 		x = new DOMParser().parseFromString(reply, "text/xml");
 		auth_id = x.getElementsByTagName("auth_id")[0].childNodes[0].nodeValue;
 		auth_salt = x.getElementsByTagName("auth_salt")[0].childNodes[0].nodeValue;
-		//console.log("auth_id: "+auth_id);
-		//console.log("auth_salt: "+auth_salt);
+		console.log("auth_id: "+auth_id);
+		console.log("auth_salt: "+auth_salt);
 	});
 }
 
@@ -134,6 +135,7 @@ function show_state() {
 $(() => {		// shorthand for document ready
 	// get authorization ID
 	//
+	console.log('starting');
 	authorize().then(function() {
 		// then get state and show it
 		//
