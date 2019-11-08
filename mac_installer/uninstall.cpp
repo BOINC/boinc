@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,6 +60,7 @@ static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static void DeleteLoginItemOSAScript(char *userName);
 static Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw);
+static void DeleteScreenSaverLaunchAgent(passwd *pw);
 long GetBrandID(char *path);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
@@ -80,6 +81,7 @@ static char gBrandName[256];
 static char gCatalogsDir[MAXPATHLEN];
 static char * gCatalog_Name = (char *)"BOINC-Setup";
 static char loginName[256];
+static Boolean usedScreenSaverLaunchAgent = false;
 
 
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
@@ -99,6 +101,9 @@ int main(int argc, char *argv[])
     FILE                        *f;
     OSStatus                    err = noErr;
     
+    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
+    usedScreenSaverLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
+
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
     getPathToThisApp(pathToSelf, sizeof(pathToSelf));
@@ -754,6 +759,14 @@ static OSStatus CleanupAllVisibleUsers(void)
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
 
+        if (usedScreenSaverLaunchAgent) {
+#if TESTING
+            showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
+                pw->pw_name);
+#endif
+            DeleteScreenSaverLaunchAgent(pw);
+        }
+        
         // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        callPosixSpawn (s);
@@ -1028,6 +1041,19 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
 
     return true;
 }
+
+void DeleteScreenSaverLaunchAgent(passwd *pw) {
+    char                    cmd[MAXPATHLEN];
+
+    sprintf(cmd, "sudo -u \"%s\" -b launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name, pw->pw_name);
+    callPosixSpawn(cmd);
+
+    snprintf(cmd, sizeof(cmd), 
+        "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+        pw->pw_name);
+    boinc_delete_file(cmd);
+}
+
 
 
 long GetBrandID(char *path)

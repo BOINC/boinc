@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -157,7 +157,8 @@ static bool UseSharedOffscreenBuffer(void);
 static double lastGetSSMsgTime;
 static pthread_t mainThreadID;
 static int CGWindowListTries;
-static bool mojave;
+static int DPI_multiplier = 1;
+static bool myIsPreview;
 
 
 #define TEXTBOXMINWIDTH 400.0
@@ -168,8 +169,10 @@ static bool mojave;
 #define MINDELTA 8
 #define MAXDELTA 16
 
-// On OS 10.13+, assume graphics app is not compatible if no MachO connection after 5 seconds
+// On OS 10.13+, assume graphics app is not compatible if no MachO 
+// connection after MAXWAITFORCONNECTION seconds
 #define MAXWAITFORCONNECTION 8.0
+#define MAXWAITFORCONNECTIONCATALINA 12.0
 #define MAX_CGWINDOWLIST_TRIES 3
 
 int signof(float x) {
@@ -199,7 +202,36 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     self = [ super initWithFrame:frame isPreview:isPreview ];
-    mojave = (compareOSVersionTo(10, 14) >= 0);
+    
+    gIsHighSierra = (compareOSVersionTo(10, 13) >= 0);
+    gIsMojave = (compareOSVersionTo(10, 14) >= 0);
+    gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
+
+    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
+    gUseLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
+
+    if (gIsCatalina) {
+        // Under OS 10.15, isPreview is often true even when it shouldn't be
+        // so we use this hack instead
+        myIsPreview = (frame.size.width < 500.) || (frame.size.height < 500.);
+    } else {
+        myIsPreview = isPreview;
+    }
+    
+    // OpenGL apps built under Xcode 11 under Catalina apparently use window 
+    // dimensions based on the number of backing store pixels. That is, they 
+    // double the window dimensiona for Retina displays (which have two pixels 
+    // per point.) But OpenGL apps built under earlier versions of Xcode don't.
+    // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
+    // older builds at half width and height, unless we compensate in our code.
+    // This code is part of my attempt to ensure that BOINC graphics apps built on 
+    // all versions of Xcode work proprly on different versions of OS X. See also 
+    // MacPassOffscreenBufferToScreenSaver() in lib/magglutfix.m for more info.
+    //
+    if (gIsCatalina) {
+        NSArray *allScreens = [ NSScreen screens ];
+        DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
+    }
     return self;
 }
 
@@ -311,7 +343,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
     [ super startAnimation ];
 
-    if ( [ self isPreview ] ) {
+    if (myIsPreview) {
         [ self setAnimationTimeInterval:1.0/8.0 ];
         return;
     }
@@ -346,7 +378,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 - (void)stopAnimation {
     [ super stopAnimation ];
 
-    if ([ self isPreview ]) return;
+    if (myIsPreview) return;
 #if ! DEBUG_UNDER_XCODE
     NSRect windowFrame = [ [ self window ] frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
@@ -359,8 +391,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [imageView removeFromSuperview];   // Releases imageView
         imageView = nil;
     }
-
-    if ( ! [ self isPreview ] ) {
+    if (!myIsPreview) {
         closeBOINCSaver();
     }
  
@@ -380,7 +411,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 // against any problems that may cause.
 - (void)drawRect:(NSRect)rect {
 //  optionally draw here
-    if (mojave) {
+    if (gIsMojave) {
         [self doPeriodicTasks];
     } else {
         [ super drawRect:rect ];
@@ -395,6 +426,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
     NSUInteger n;
+    double maxWaitTime;
     NSRect currentDrawingRect, eraseRect;
     NSPoint imagePosition;
     char *msg;
@@ -402,7 +434,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     double timeToBlock, frameStartTime = getDTime();
     HIThemeTextInfo textInfo;
 
-   if ([ self isPreview ]) {
+   if (myIsPreview) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         if (gPreview_Image == NULL) {
             NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
@@ -429,7 +461,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // For unkown reasons, OS 10.7 Lion screensaver and later delay several seconds
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
-        if (! mojave) {
+        if (! gIsMojave) {
                double idleTime =  CGEventSourceSecondsSinceLastEventType
                         (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
             if (idleTime < 1.5) {
@@ -499,6 +531,11 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
                 pthread_mutex_lock(&saver_mutex);
 
                 // terminate_v6_screensaver may have removed imageView via launchedGfxApp("", 0, -1)
+                //
+                // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
+                // windows between user boinc_project and the user running the 
+                // screensaver only if OS < 10.15 (before Catalina)
+                //
                 if (imageView) {
                     CGImageRef windowImage = CGWindowListCreateImage(CGRectNull,
                                                 kCGWindowListOptionIncludingWindow,
@@ -552,17 +589,25 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         // the graphics app is not compatible with OS 10.13+ and kill it.
         //
         // taskSlot<0 if no worker app is running, so launching default graphics
-        if (gfxAppStartTime && (taskSlot >= 0)) { 
-            if ((getDTime() - gfxAppStartTime)> MAXWAITFORCONNECTION) {
-                if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
-                    // After displaying message for 5 seconds, incompatibleGfxApp
-                    // will call launchedGfxApp("", 0, -1) which will clear 
-                    // gfxAppStartTime and CGWindowListTries
+        if (gfxAppStartTime && (taskSlot >= 0)) {
+            maxWaitTime = gIsCatalina ? MAXWAITFORCONNECTIONCATALINA : MAXWAITFORCONNECTION;
+            if ((getDTime() - gfxAppStartTime) > maxWaitTime) {
+                if (gIsCatalina) {
+                    // CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
+                    // windows between user boinc_project and the user running the 
+                    // screensaver only if OS < 10.15 (before Catalina)
                     incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
                 } else {
-                    if ([self setUpToUseCGWindowList]) {
-                        CGWindowListTries = 0;
-                        gfxAppStartTime = 0.0;
+                    if (++CGWindowListTries > MAX_CGWINDOWLIST_TRIES) {
+                        // After displaying message for 5 seconds, incompatibleGfxApp
+                        // will call launchedGfxApp("", 0, -1) which will clear 
+                        // gfxAppStartTime and CGWindowListTries
+                        incompatibleGfxApp(gfxAppPath, childPid, taskSlot);
+                    } else {
+                        if ([self setUpToUseCGWindowList]) {
+                            CGWindowListTries = 0;
+                            gfxAppStartTime = 0.0;
+                        }
                     }
                 }
             }
@@ -775,16 +820,16 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 - (void)animateOneFrame {
 #if ! DEBUG_UNDER_XCODE
-    if ( ! [ self isPreview ] ) {    
+    if (!myIsPreview) {    
         NSRect windowFrame = [ [ self window ] frame ];
         if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
             return;         // We draw only to main screen
         }
     }
 #endif
-    //  Drawing in animateOneFrame doesn't seem to work under OS 10.14 Mojave
-    // but drawing in drawRect: seems slow under erarlier versions of OS X
-    if (mojave) {
+    // Drawing in animateOneFrame doesn't seem to work under OS 10.14 Mojave
+    // but drawing in drawRect: seems slow under earlier versions of OS X
+    if (gIsMojave) {
         [self display];
     } else {
         [self doPeriodicTasks];
@@ -931,6 +976,11 @@ Bad:
 }
 
 // Find the gtaphics app's window number (window ID)
+//
+// CGWindowListCopyWindowInfo and CGWindowListCreateImage can copy 
+// windows between user boinc_project and the user running the 
+// screensaver only if OS < 10.15 (before Catalina)
+//
 - (bool) setUpToUseCGWindowList
 {
     NSArray *windowList = (__bridge NSArray*)CGWindowListCopyWindowInfo(
@@ -955,6 +1005,9 @@ Bad:
 }
 
 @end
+
+int IOSurfaceWidth;
+int IOSurfaceHeight;
 
 // On OS 10.13 or later, use MachO comunication and IOSurfaceBuffer to
 // display the graphics output of our child graphics apps in our window.
@@ -998,6 +1051,8 @@ static bool okToDraw;
     [[NSNotificationCenter defaultCenter] addObserver:self 
         selector:@selector(portDied:) name:NSPortDidBecomeInvalidNotification object:nil];
     
+    openGLView = nil;
+    
     [self testConnection];
 }
 
@@ -1036,10 +1091,6 @@ static bool okToDraw;
 		kr = _MGCCheckinClient(serverPortName, localPortName, &clientIndex);
 		if(kr != 0)
 			[NSApp terminate:nil];
-
-        openGLView = [[saverOpenGLView alloc] initWithFrame:[screenSaverView frame]];
-        
-        [screenSaverView addSubview:openGLView];
 
         runningSharedGraphics = true;
 
@@ -1092,6 +1143,7 @@ static bool okToDraw;
         if ((serverPort == nil) && (localPort == nil)) {
             runningSharedGraphics = false;
             [openGLView removeFromSuperview];   // Releases openGLView
+            openGLView = nil;
         }
 	}
 }
@@ -1120,6 +1172,20 @@ static bool okToDraw;
 		_ioSurfaceBuffers[frameIndex] = IOSurfaceLookupFromMachPort(iosurface_port);
         _ioSurfaceMachPorts[frameIndex] = iosurface_port;
 	}
+
+    IOSurfaceWidth = (int)IOSurfaceGetWidth((IOSurfaceRef)_ioSurfaceBuffers[frameIndex]);
+    IOSurfaceHeight = (int)IOSurfaceGetHeight((IOSurfaceRef)_ioSurfaceBuffers[frameIndex]);
+
+    if (openGLView == nil) {
+        NSRect theframe;
+        theframe.origin.x = theframe.origin.y = 0.0;
+        theframe.size.width = IOSurfaceWidth;
+        theframe.size.height = IOSurfaceHeight;
+        
+        openGLView = [[saverOpenGLView alloc] initWithFrame:theframe];
+        [screenSaverView addSubview:openGLView];
+    }
+
 	if(!_textureNames[frameIndex])
     {
 		_textureNames[frameIndex] = [openGLView setupIOSurfaceTexture:_ioSurfaceBuffers[frameIndex]];
@@ -1192,6 +1258,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 - (void)update
 {
+//    [super update];
 	// Override to do nothing.
 }
 
@@ -1202,7 +1269,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 	CGLContextObj cgl_ctx = (CGLContextObj)[[self openGLContext] CGLContextObj];
 
 	glGenTextures(1, &name);
-	
+    
 	glBindTexture(GL_TEXTURE_RECTANGLE, name);
     // At the moment, CGLTexImageIOSurface2D requires the GL_TEXTURE_RECTANGLE target
 	CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE, GL_RGBA, (GLsizei)self.bounds.size.width, (GLsizei)self.bounds.size.height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,
@@ -1231,7 +1298,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
         0.0f,  0.0f,     1.0f, 0.0f,
         0.0f,  0.0f,     0.0f, 1.0f
     };
-    
+
     GLint		saveMatrixMode;
 
     glGetIntegerv(GL_MATRIX_MODE, &saveMatrixMode);
@@ -1268,7 +1335,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 - (void)drawRect:(NSRect)theRect
 {
-    glViewport(0, 0, (GLint)theRect.size.width, (GLint)theRect.size.height);
+    glViewport(0, 0, (GLint)[[self window]frame].size.width*DPI_multiplier, (GLint)[[self window] frame].size.height*DPI_multiplier);
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -1278,8 +1345,8 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
     // causing the screen to flash unless we prevent any actual drawing.
     if (!okToDraw) {
         [[self openGLContext] flushBuffer];
-    return;
-}
+        return;
+    }
 
     // MachO client draws with current IO surface contents as texture
     [self renderTextureFromIOSurfaceWithWidth:(GLsizei)self.bounds.size.width height:(GLsizei)self.bounds.size.height];

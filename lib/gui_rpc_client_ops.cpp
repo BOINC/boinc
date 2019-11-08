@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1977,6 +1977,45 @@ int RPC_CLIENT::run_benchmarks() {
     retval = rpc.do_rpc("<run_benchmarks/>\n");
     if (retval) return retval;
     return rpc.parse_reply();
+}
+
+int RPC_CLIENT::run_graphics_app(int slot, int& id, const char *operation) {
+    char buf[256];
+    SET_LOCALE sl;
+    RPC rpc(this);
+    int thePID = -1;
+    bool stop = false;
+    
+    snprintf(buf, sizeof(buf), "<run_graphics_app>\n");
+    
+    if (!strcmp(operation, "run")) {
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n", slot);
+    } else if (!strcmp(operation, "runfullscreen")) {
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<runfullscreen/>\n", slot);
+    } else if (!strcmp(operation, "stop")) {
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<stop/>\n", id);
+        stop = true;
+    } else if (!strcmp(operation, "test")) {
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<test/>\n", id);
+    } else {
+        id = -1;
+        return -1;
+    }
+    safe_strcat(buf, "</run_graphics_app>\n");
+    int retval = rpc.do_rpc(buf);
+    if (retval) {
+        id = -1;
+    } else {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</run_graphics_app>")) break;
+            if (parse_int(buf, "<graphics_pid>", thePID)) continue;
+        }
+        id = thePID;
+        if ((!stop) && (thePID < 0)) {
+            retval = -1;
+        }
+    }
+    return retval;
 }
 
 int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
