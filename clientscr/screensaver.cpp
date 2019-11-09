@@ -326,10 +326,11 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
 //
 int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application, RESULT* rp) {
     int retval = 0;
-    pid_t thePID;
     int i;
 
 #ifdef __APPLE__
+    pid_t thePID;
+
     if (gUseLaunchAgent) {
         // As of OS 10.15 (Catalina) screensavers can no longer launch apps
         // that run setuid or setgid. So instead of killing graphics apps 
