@@ -292,14 +292,14 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 @end
 
 
-// OpenGL apps built under Xcode 11 under Catalina apparently use window 
-// dimensions based on the number of backing store pixels. That is, they 
-// double the window dimensiona for Retina displays (which have two pixels 
-// per point.) But OpenGL apps built under earlier versions of Xcode don't.
-// Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-// older builds at half width and height, unless we compensate in our code.
-// This code is part of my attempt to ensure that BOINC graphics apps built on 
-// all versions of Xcode work proprly on different versions of OS X. See also 
+// Under OS 10.15 Catalina, OpenGL apps apparently use window dimensions 
+// based on the number of backing store pixels. That is, they double the 
+// window dimensions for Retina displays (which have two pixels per point.) 
+// But OpenGL apps running under earlier versions of OS X don't. As a 
+// result, Catalina displays BOINC graphics at half width and height 
+// unless we compensate in our code.
+// This code is part of my attempt to ensure that BOINC graphics apps are 
+// displayed properly on different versions of OS X. See also 
 // [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
 //
 void MacPassOffscreenBufferToScreenSaver() {
