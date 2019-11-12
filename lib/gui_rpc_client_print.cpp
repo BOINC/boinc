@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -179,6 +179,8 @@ void RESULT::print() {
     // stuff for jobs that are running or have run
     //
     if (scheduler_state > CPU_SCHED_UNINITIALIZED) {
+        printf("   slot: %d\n", slot);
+        printf("   PID: %d\n", pid);
         printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
         printf("   current CPU time: %f\n", current_cpu_time);
         printf("   fraction done: %f\n", fraction_done);

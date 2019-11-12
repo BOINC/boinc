@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2019 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -80,6 +80,9 @@
 ## Apple."
 ## 
 ## To notarize the installer and uninstaller:
+## NOTE: Do not use your normal Apple ID password. You must create an 
+## app-specific password at https://appleid.apple.com/account/manage.
+##
 ## - Use the command line tools in Xcode 10 or later
 ## - Provide valid application & installer code signing identities as above
 ## - In Terminal":
@@ -379,6 +382,9 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the gfx_switcher utility embedded in BOINC screensaver if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/gfx_switcher"
+
+    # Code Sign the gfx_cleanup utility embedded in BOINC screensaver if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_cleanup"
 
     # Code Sign the BOINC screensaver code for OS 10.8 and later if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/"

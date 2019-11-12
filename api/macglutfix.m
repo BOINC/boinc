@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2019 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -285,7 +285,6 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 	{
 		if(clientPortNames[i])
 		{
-            // print_to_log_file("BOINCSCR: about to call _MGCDisplayFrame  with iosurface_port %d, IOSurfaceGetID %d and frameIndex %d", (int)iosurface_port, IOSurfaceGetID(ioSurfaceBuffers[index]), (int)index);
 			_MGCDisplayFrame(clientPortNames[i], index, iosurface_port);
 		}
 	}
@@ -293,24 +292,31 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 @end
 
 
+// OpenGL apps built under Xcode 11 apparently use window dimensions based 
+// on the number of backing store pixels. That is, they double the window 
+// dimensiona for Retina displays (which have two pixels per point.) But 
+// OpenGL apps built under earlier versions of Xcode don't.
+// Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
+// older builds at half width and height, unless we compensate in our code.
+// This code is part of my attempt to ensure that BOINC graphics apps built on 
+// all versions of Xcode work proprly on different versions of OS X. See also 
+// [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
+//
 void MacPassOffscreenBufferToScreenSaver() {
     NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
-    NSView *myView = [ myContext view ];
-    GLsizei w = myView.bounds.size.width;
-    GLsizei h = myView.bounds.size.height;
-
+    int viewportRect[4];
+    GLsizei w, h;
     GLuint name, namef;
+
+    glGetIntegerv(GL_VIEWPORT, (GLint*)viewportRect);
+    w = viewportRect[2];
+    h = viewportRect[3];
 
     if (!myserverController) {
         myserverController = [[[ServerController alloc] init] retain];
     }
 
     if (!ioSurfaceBuffers[0]) {
-        NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
-        NSView *myView = [ myContext view ];
-        GLsizei w = myView.bounds.size.width;
-        GLsizei h = myView.bounds.size.height;
-
         // Set up all of our iosurface buffers
         for(int i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
             ioSurfaceBuffers[i] = IOSurfaceCreate((CFDictionaryRef)@{
