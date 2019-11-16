@@ -408,7 +408,8 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_NVIDIA::clear() {
-    COPROC::clear();
+    static const COPROC_NVIDIA x;
+    *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
     estimated_delay = -1;   // mark as absent
     cuda_version = 0;
@@ -608,39 +609,40 @@ void COPROC_NVIDIA::set_peak_flops() {
 void COPROC_NVIDIA::fake(
     int driver_version, double ram, double avail_ram, int n
 ) {
-   safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
-   count = n;
-   for (int i=0; i<count; i++) {
-       device_nums[i] = i;
-   }
-   available_ram = avail_ram;
-   display_driver_version = driver_version;
-   cuda_version = 5000;
-   have_cuda = true;
-   safe_strcpy(prop.name, "Fake NVIDIA GPU");
-   memset(&prop, 0, sizeof(prop));
-   prop.totalGlobalMem = ram;
-   prop.sharedMemPerBlock = 100;
-   prop.regsPerBlock = 8;
-   prop.warpSize = 10;
-   prop.memPitch = 10;
-   prop.maxThreadsPerBlock = 20;
-   prop.maxThreadsDim[0] = 2;
-   prop.maxThreadsDim[1] = 2;
-   prop.maxThreadsDim[2] = 2;
-   prop.maxGridSize[0] = 10;
-   prop.maxGridSize[1] = 10;
-   prop.maxGridSize[2] = 10;
-   prop.totalConstMem = 10;
-   prop.major = 1;
-   prop.minor = 2;
-   prop.clockRate = 1250000;
-   prop.textureAlignment = 1000;
-   prop.multiProcessorCount = 14;
-   have_opencl = true;
-   safe_strcpy(opencl_prop.opencl_device_version, "OpenCL 3.17");
-   opencl_prop.opencl_device_version_int = 317;
-   set_peak_flops();
+    static const COPROC_NVIDIA x;
+    *this = x;
+    safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
+    count = n;
+    for (int i=0; i<count; i++) {
+        device_nums[i] = i;
+    }
+    available_ram = avail_ram;
+    display_driver_version = driver_version;
+    cuda_version = 5000;
+    have_cuda = true;
+    safe_strcpy(prop.name, "Fake NVIDIA GPU");
+    prop.totalGlobalMem = ram;
+    prop.sharedMemPerBlock = 100;
+    prop.regsPerBlock = 8;
+    prop.warpSize = 10;
+    prop.memPitch = 10;
+    prop.maxThreadsPerBlock = 20;
+    prop.maxThreadsDim[0] = 2;
+    prop.maxThreadsDim[1] = 2;
+    prop.maxThreadsDim[2] = 2;
+    prop.maxGridSize[0] = 10;
+    prop.maxGridSize[1] = 10;
+    prop.maxGridSize[2] = 10;
+    prop.totalConstMem = 10;
+    prop.major = 1;
+    prop.minor = 2;
+    prop.clockRate = 1250000;
+    prop.textureAlignment = 1000;
+    prop.multiProcessorCount = 14;
+    have_opencl = true;
+    safe_strcpy(opencl_prop.opencl_device_version, "OpenCL 3.17");
+    opencl_prop.opencl_device_version_int = 317;
+    set_peak_flops();
 }
 
 ////////////////// ATI STARTS HERE /////////////////
@@ -715,15 +717,14 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_ATI::clear() {
-    COPROC::clear();
+    static const COPROC_ATI x;
+    *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     estimated_delay = -1;
     safe_strcpy(name, "");
     safe_strcpy(version, "");
     atirt_detected = false;
     amdrt_detected = false;
-    memset(&attribs, 0, sizeof(attribs));
-    memset(&info, 0, sizeof(info));
     version_num = 0;
     is_used = COPROC_USED;
 }
@@ -872,14 +873,13 @@ void COPROC_ATI::set_peak_flops() {
 }
 
 void COPROC_ATI::fake(double ram, double avail_ram, int n) {
+    clear();
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     safe_strcpy(version, "1.4.3");
     safe_strcpy(name, "foobar");
     count = n;
     available_ram = avail_ram;
     have_cal = true;
-    memset(&attribs, 0, sizeof(attribs));
-    memset(&info, 0, sizeof(info));
     attribs.localRAM = (int)(ram/MEGA);
     attribs.numberOfSIMD = 32;
     attribs.wavefrontSize = 32;
@@ -924,7 +924,8 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_INTEL::clear() {
-    COPROC::clear();
+    static const COPROC_INTEL x;
+    *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     estimated_delay = -1;
     safe_strcpy(name, "");

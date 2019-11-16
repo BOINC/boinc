@@ -175,7 +175,6 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double vax_mips, int_loops=0, int_time=0, fp_time;
 
     bdp->error_str[0] = '\0';
-    host_info.clear_host_info();
 
 #if defined(ANDROID) && defined(__arm__)
     // check for FP accelerator: VFP, Neon, or none;

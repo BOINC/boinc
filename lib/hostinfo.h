@@ -95,7 +95,12 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
-    HOST_INFO();
+    HOST_INFO(int){}
+    HOST_INFO(){}
+    void clear() {
+        static const HOST_INFO x(0);
+        *this = x;
+    }
     int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
@@ -117,7 +122,6 @@ public:
     int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
-    void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
     static bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,

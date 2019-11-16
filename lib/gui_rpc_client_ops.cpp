@@ -83,7 +83,8 @@ using std::vector;
 using std::sort;
 
 int OLD_RESULT::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(OLD_RESULT));
+    static const OLD_RESULT x;
+    *this = x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/old_result")) return 0;
         if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
@@ -99,7 +100,8 @@ int OLD_RESULT::parse(XML_PARSER& xp) {
 }
 
 int TIME_STATS::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(TIME_STATS));
+    static const TIME_STATS x;
+    *this = x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/time_stats")) return 0;
         if (xp.parse_double("now", now)) continue;
@@ -588,7 +590,8 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 void APP_VERSION::clear() {
-    memset(this, 0, sizeof(*this));
+    static const APP_VERSION x;
+    *this = x;
 }
 
 WORKUNIT::WORKUNIT() {
@@ -1049,7 +1052,7 @@ void CC_STATE::clear() {
     results.clear();
     platforms.clear();
     executing_as_daemon = false;
-    host_info.clear_host_info();
+    host_info.clear();
     have_nvidia = false;
     have_ati = false;
 }
@@ -1480,7 +1483,8 @@ int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
-        memset(&server, 0, sizeof(server));
+        static const VERSION_INFO x;
+        server = x;
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</server_version>")) break;
             else if (parse_int(buf, "<major>", server.major)) continue;

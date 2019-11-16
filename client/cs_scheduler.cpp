@@ -1187,7 +1187,7 @@ void CLIENT_STATE::check_project_timeout() {
         PROJECT* p = projects[i];
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
-            char buf[256];
+            char buf[1024];
             snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name());
             request_work_fetch(buf);
         }

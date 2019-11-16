@@ -392,7 +392,7 @@ void* cudalib = NULL;
     warnings.push_back(buf);
 
     for (j=0; j<cuda_ndevs; j++) {
-        memset(&cc.prop, 0, sizeof(cc.prop));
+        cc.prop.clear();
         CUdevice device;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {

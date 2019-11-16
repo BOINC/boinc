@@ -158,7 +158,7 @@ void log_message_error(const char* msg, int error_code) {
 }
 
 #ifndef _WIN32
-static void signal_handler(int signum) {
+static void signal_handler(int signum, siginfo_t*, void*) {
     msg_printf(NULL, MSG_INFO, "Received signal %d", signum);
     switch(signum) {
     case SIGHUP:

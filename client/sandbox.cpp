@@ -346,7 +346,7 @@ int client_clean_out_dir(
         if (except && !strcmp(except, filename)) {
             continue;
         }
-        snprintf(path, sizeof(path), "%s/%s", dirpath,  filename);
+        snprintf(path, sizeof(path), "%.*s/%.*s", DIR_LEN, dirpath,  FILE_LEN, filename);
         if (is_dir(path)) {
             retval = client_clean_out_dir(path, NULL);
             if (retval) final_retval = retval;

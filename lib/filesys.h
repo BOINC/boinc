@@ -36,6 +36,11 @@
 #define MAXPATHLEN 4096
 #endif
 
+// use the following in format codes in snprintf
+//
+#define DIR_LEN 2048
+#define FILE_LEN 256
+
 #define FILE_RETRY_INTERVAL 5
     // On Windows, retry for this period of time, since some other program
     // (virus scan, defrag, index) may have the file open.

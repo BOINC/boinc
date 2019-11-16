@@ -136,7 +136,15 @@ struct PCI_INFO {
     int device_id;
     int domain_id;
 
-    PCI_INFO(): present(false), bus_id(0), device_id(0),domain_id(0) {}
+    void clear() {
+        present = false;
+        bus_id = 0;
+        device_id = 0;
+        domain_id = 0;
+    }
+    PCI_INFO() {
+        clear();
+    }
     void write(MIOFILE&);
     int parse(XML_PARSER&);
 };
@@ -196,48 +204,26 @@ struct COPROC {
 
     OPENCL_DEVICE_PROP opencl_prop;
 
+    COPROC(int){}
+    inline void clear() {
+        static const COPROC x(0);
+        *this = x;
+    }
+    COPROC(){
+        clear();
+    }
+
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc=false);
     void write_request(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
 
-    inline void clear() {
-        // can't just memcpy() - trashes vtable
-        type[0] = 0;
-        count = 0;
-        non_gpu = false;
-        peak_flops = 0;
-        used = 0;
-        have_cuda = false;
-        have_cal = false;
-        have_opencl = false;
-        specified_in_config = false;
-        req_secs = 0;
-        req_instances = 0;
-        opencl_device_count = 0;
-        estimated_delay = 0;
-        available_ram = 0;
-        for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
-            device_nums[i] = 0;
-            instance_has_opencl[i] = false;
-            opencl_device_ids[i] = 0;
-            opencl_device_indexes[i] = 0;
-            running_graphics_app[i] = true;
-        }
-        device_num = 0;
-        memset(&opencl_prop, 0, sizeof(opencl_prop));
-        memset(&pci_info, 0, sizeof(pci_info));
-        last_print_time = 0;
-    }
     inline void clear_usage() {
         for (int i=0; i<count; i++) {
             usage[i] = 0;
             pending_usage[i] = 0;
         }
-    }
-    COPROC() {
-        clear();
     }
     int device_num_index(int n) {
         for (int i=0; i<count; i++) {
@@ -296,6 +282,15 @@ struct CUDA_DEVICE_PROP {
     double   textureAlignment;
     int   deviceOverlap;
     int   multiProcessorCount;
+
+    CUDA_DEVICE_PROP(int){}
+    void clear() {
+        static const CUDA_DEVICE_PROP x(0);
+        *this = x;
+    }
+    CUDA_DEVICE_PROP() {
+        clear();
+    }
 };
 
 typedef int CUdevice;
@@ -309,9 +304,7 @@ struct COPROC_NVIDIA : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_NVIDIA(): COPROC() {
-        clear();
-    }
+    COPROC_NVIDIA(): COPROC() {}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,
@@ -346,9 +339,7 @@ struct COPROC_ATI : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_ATI(): COPROC() {
-        clear();
-    }
+    COPROC_ATI(): COPROC() {}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,
@@ -370,9 +361,7 @@ struct COPROC_INTEL : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_INTEL(): COPROC() {
-        clear();
-    }
+    COPROC_INTEL(): COPROC() {}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,

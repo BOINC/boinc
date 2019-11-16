@@ -740,7 +740,7 @@ char *check_validity(
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
         // TODO : replace '128'  
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);

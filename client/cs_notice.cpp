@@ -98,7 +98,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
 }
 
 static void write_project_feed_list(PROJ_AM* p) {
-    char buf[256];
+    char buf[MAXPATHLEN];
     project_feed_list_file_name(p, buf, sizeof(buf));
     FILE* f = fopen(buf, "w");
     if (!f) return;
@@ -619,7 +619,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
 void RSS_FEED::feed_file_name(char* path, int len) {
     char buf[256];
     escape_project_url(url_base, buf);
-    snprintf(path, len, NOTICES_DIR"/%s.xml", buf);
+    snprintf(path, len, NOTICES_DIR"/%.128s.xml", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path, int len) {
