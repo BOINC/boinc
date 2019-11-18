@@ -22,7 +22,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:focusable="true"
                 android:padding="5dp">
 
     <LinearLayout
