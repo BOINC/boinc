@@ -44,6 +44,7 @@
             android:layout_height="0dip"
             android:padding="5dp"
             android:clickable="true"
+            android:focusable="true"
             android:layout_margin="5dp"
             android:background="@drawable/shape_button_blue"
             android:textColor="@color/white_smoke"

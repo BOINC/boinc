@@ -22,6 +22,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:clickable="true"
+              android:focusable="true"
               android:background="@drawable/shape_light_blue_background_wo_stroke">
 
     <RelativeLayout
