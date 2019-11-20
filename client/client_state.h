@@ -228,6 +228,7 @@ struct CLIENT_STATE {
         // if nonzero, exit this many seconds after starting an app
     double app_started;
         // when the most recent app was started
+    const char* cmdline_data_dir;
 
 // --------------- acct_mgr.cpp:
     ACCT_MGR_INFO acct_mgr_info;

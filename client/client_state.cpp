@@ -128,6 +128,7 @@ CLIENT_STATE::CLIENT_STATE()
     safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
+    cmdline_data_dir = NULL;
     exit_before_upload = false;
     run_test_app = false;
 #ifndef _WIN32
