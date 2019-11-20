@@ -112,14 +112,14 @@ class REQUEST:
     def __init__(self):
         return
 
-timeout = 0
+rpc_timeout = 0
 
 def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
     #print req
     url = project_url + handler
     params = urllib.urlencode({'request': req})
-    if timeout>0:
-        f = urllib2.urlopen(url, params, timeout)
+    if rpc_timeout>0:
+        f = urllib2.urlopen(url, params, rpc_timeout)
     else:
         f = urllib2.urlopen(url, params)
     reply = f.read()
@@ -129,8 +129,8 @@ def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
 ########### API FUNCTIONS START HERE ###############
 
 def set_timeout(x):
-    global timeout
-    timeout = x
+    global rpc_timeout
+    rpc_timeout = x
 
 def abort_batch(req):
     req_xml = ('<abort_batch>\n'
