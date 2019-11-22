@@ -664,6 +664,7 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
         || strlen(gstate.acct_mgr_info.authenticator)
     ) {
         grc.mfout.printf("   <have_credentials/>\n");
+	grc.mfout.printf("   <authenticator>%s</authenticator>\n", gstate.acct_mgr_info.authenticator);
     }
 
     if (gstate.acct_mgr_info.cookie_required) {
