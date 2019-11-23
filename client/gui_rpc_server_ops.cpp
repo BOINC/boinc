@@ -1388,15 +1388,15 @@ static bool authenticated_request(char* buf) {
     int auth_id;
     long auth_seqno;
     char auth_hash[256];
-    char* p = strstr(buf, "Auth-ID: ");
+    char* p = strcasestr(buf, "Auth-ID: ");
     if (!p) return false;
     int n = sscanf(p+strlen("Auth-ID: "), "%d", &auth_id);
     if (n != 1) return false;
-    p = strstr(buf, "Auth-Seqno: ");
+    p = strcasestr(buf, "Auth-Seqno: ");
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Seqno: "), "%ld", &auth_seqno);
     if (n != 1) return false;
-    p = strstr(buf, "Auth-Hash: ");
+    p = strcasestr(buf, "Auth-Hash: ");
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
     if (n != 1) return false;
@@ -1645,7 +1645,7 @@ static bool is_http_post_request(char* buf) {
     if (!p) return false;
     p += strlen("Content-Length: ");
     int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
+    p = strstr(p, HTTP_HEADER_DELIM);
     if (!p) return false;
     p += 4;
     if ((int)strlen(p) < n) return false;
@@ -1655,7 +1655,7 @@ static bool is_http_post_request(char* buf) {
 // remove HTTP header from request
 //
 static void strip_http_header(char* buf) {
-    char* p = strstr(buf, "\r\n\r\n");
+    char* p = strstr(buf, HTTP_HEADER_DELIM);
     p += 4;
     strcpy_overlap(buf, p);
 }
