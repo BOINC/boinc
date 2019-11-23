@@ -1388,7 +1388,7 @@ static bool authenticated_request(char* buf) {
     int auth_id;
     long auth_seqno;
     char auth_hash[256];
-    char* p = strcasestr(buf, "Auth-ID: ");
+    const char* p = strcasestr(buf, "Auth-ID: ");
     if (!p) return false;
     int n = sscanf(p+strlen("Auth-ID: "), "%d", &auth_id);
     if (n != 1) return false;
