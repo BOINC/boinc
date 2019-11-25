@@ -147,7 +147,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) {
                 show_options = true;
             } else {
-                cmdline_data_dir = argv[++i];
+                if (chdir(argv[++i])) {
+                    perror("chdir");
+                    exit(1);
+                }
+                cmdline_dir = true;
             }
         } else if (ARG(exit_after_app_start)) {
             if (i == argc-1) show_options = true;

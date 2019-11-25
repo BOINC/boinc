@@ -189,13 +189,8 @@ static void init_core_client(int argc, char** argv) {
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
-    if (gstate.cmdline_data_dir) {
-        if (chdir(gstate.cmdline_data_dir)) {
-            perror("chdir");
-            exit(1);
-        }
 #ifdef _WIN32
-    } else if (!cc_config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
 #endif
     }
