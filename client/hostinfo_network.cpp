@@ -53,6 +53,7 @@
 #include "util.h"
 
 #include "client_msgs.h"
+#include "client_state.h"
 
 #include "hostinfo.h"
 
@@ -117,6 +118,20 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
     );
 #endif
     md5_block((const unsigned char*) buf, (int)strlen(buf), out);
+}
+
+void make_secure_random_string(char* out) {
+    int retval = make_secure_random_string_os(out);
+    if (retval) {
+        if (cc_config.os_random_only) {
+            msg_printf(
+                NULL, MSG_INTERNAL_ERROR,
+                "OS random string generation failed, exiting"
+            );
+            exit(1);
+        }
+        gstate.host_info.make_random_string("guirpc", out);
+    }
 }
 
 // make a host cross-project ID.

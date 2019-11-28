@@ -1377,7 +1377,7 @@ void handle_get_auth_id(MIOFILE& fout) {
     AUTH_INFO ai;
     ai.id = id++;
     ai.seqno = 0;
-    make_random_string(ai.salt);
+    make_secure_random_string(ai.salt);
     auth_infos.push_back(ai);
     fout.printf("<auth_id>%d</auth_id>\n<auth_salt>%s</auth_salt>\n", ai.id, ai.salt);
 }

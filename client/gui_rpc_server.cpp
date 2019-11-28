@@ -142,17 +142,7 @@ void GUI_RPC_CONN_SET::get_password() {
 
     // if no password file, make a random password
     //
-    retval = make_random_string(password);
-    if (retval) {
-        if (cc_config.os_random_only) {
-            msg_printf(
-                NULL, MSG_INTERNAL_ERROR,
-                "OS random string generation failed, exiting"
-            );
-            exit(1);
-        }
-        gstate.host_info.make_random_string("guirpc", password);
-    }
+    make_secure_random_string(password);
 
     // try to write it to the file.
     // if fail, just return

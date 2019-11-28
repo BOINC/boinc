@@ -192,8 +192,8 @@ static void init_core_client(int argc, char** argv) {
 #ifdef _WIN32
     if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
-#endif
     }
+#endif
 
 #ifndef _WIN32
     if (g_use_sandbox)
