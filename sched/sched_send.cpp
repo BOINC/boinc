@@ -145,11 +145,6 @@ void WORK_REQ::get_job_limits() {
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
     if (n > MAX_CPUS) n = MAX_CPUS;
-    if (project_prefs.max_cpus) {
-        if (n > project_prefs.max_cpus) {
-            n = project_prefs.max_cpus;
-        }
-    }
     ninstances[PROC_TYPE_CPU] = n;
     effective_ncpus = n;
 

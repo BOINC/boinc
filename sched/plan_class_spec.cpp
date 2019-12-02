@@ -915,11 +915,17 @@ bool PLAN_CLASS_SPEC::check(
             hu.avg_ncpus = avg_ncpus;
         } else {
             if (can_use_multicore) {
+	        hu.avg_ncpus = max_threads;
+		// Limits the number of threads to the number of CPUs
                 if (max_threads > g_wreq->effective_ncpus) {
                     hu.avg_ncpus = g_wreq->effective_ncpus;
-                } else {
-                    hu.avg_ncpus = max_threads;
-                }
+                }                
+		// Limits the number of threads to the max_cpus volunteer's project preference
+		if (g_wreq->project_prefs.max_cpus) {
+		    if (hu.avg_ncpus > g_wreq->project_prefs.max_cpus) {
+		        hu.avg_ncpus = g_wreq->project_prefs.max_cpus;
+		    }
+		}
 
                 // if per-CPU mem usage given
                 //
