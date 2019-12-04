@@ -644,6 +644,10 @@ html.js fieldset.collapsible legend a,
 #recaptcha_response_field {
 	left: 0;
 }
+/* This id cancels out the above margin-left for .captcha*/
+#captcha-on-left {
+        margin-left: -360px;
+}
 
 /* Task App filter */
 select.task-app-filter {
