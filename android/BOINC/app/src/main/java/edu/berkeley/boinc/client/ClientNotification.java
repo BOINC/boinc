@@ -72,25 +72,9 @@ public class ClientNotification {
             return;
         }
 
-        // stop service foreground, if not active anymore
-        if(!active && foreground) {
-            setForegroundState(service, false);
-        }
-
-        // if not active, check preference whether to show notification during suspension
-        if(!active && !Monitor.getAppPrefs().getShowNotificationDuringSuspend()) {
-            // cancel notification if necessary
-            if(notificationShown) {
-                Log.d(Logging.TAG, "ClientNotification: cancel suspension notification due to preference.");
-                nm.cancel(notificationId);
-                notificationShown = false;
-            }
-            return;
-        }
-
         //check if active tasks have changed to force update
         Boolean activeTasksChanged = false;
-        if(updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+        if(active && updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
             ArrayList<Result> activeTasks = updatedStatus.getExecutingTasks();
             if(activeTasks.size() != mOldActiveTasks.size()) {
                 activeTasksChanged = true;
@@ -107,6 +91,10 @@ public class ClientNotification {
             if(activeTasksChanged) {
                 mOldActiveTasks = activeTasks;
             }
+        }
+        else if (!mOldActiveTasks.isEmpty()) {
+            mOldActiveTasks.clear();
+            activeTasksChanged = true;
         }
 
         // update notification, only

@@ -1389,17 +1389,6 @@ public class Monitor extends Service {
         }
 
         @Override
-        public void setShowNotificationDuringSuspend(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowNotificationDuringSuspend(isShow);
-
-        }
-
-        @Override
-        public boolean getShowNotificationDuringSuspend() throws RemoteException {
-            return Monitor.getAppPrefs().getShowNotificationDuringSuspend();
-        }
-
-        @Override
         public boolean runBenchmarks() throws RemoteException {
             return clientInterface.runBenchmarks();
         }
