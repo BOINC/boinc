@@ -419,6 +419,7 @@ extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 extern wxString FormatTime(double secs);
+extern wxTimeSpan convert_to_timespan(double secs);
 extern bool autoattach_in_progress();
 
 #ifdef __WXMSW__

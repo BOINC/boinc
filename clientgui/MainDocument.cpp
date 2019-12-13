@@ -2721,16 +2721,22 @@ wxString FormatTime(double secs) {
     if (secs <= 0) {
         return wxT("---");
     }
-    wxInt32 iHour = (wxInt32)(secs / (60 * 60));
-    wxInt32 iMin  = (wxInt32)(secs / 60) % 60;
-    wxInt32 iSec  = (wxInt32)(secs) % 60;
-    wxTimeSpan ts = wxTimeSpan(iHour, iMin, iSec);
+    
+    wxTimeSpan ts = convert_to_timespan(secs);
     return ts.Format((secs>=86400)?"%Dd %H:%M:%S":"%H:%M:%S");
 }
 
 wxString format_number(double x, int nprec) {
     return wxNumberFormatter::ToString(x, nprec);
 
+}
+
+wxTimeSpan convert_to_timespan(double secs) {
+    wxInt32 iHour = (wxInt32)(secs / (60 * 60));
+    wxInt32 iMin  = (wxInt32)(secs / 60) % 60;
+    wxInt32 iSec  = (wxInt32)(secs) % 60;
+    wxTimeSpan ts = wxTimeSpan(iHour, iMin, iSec);
+    return (ts);
 }
 
 // the autoattach process deletes the installer filename file when done
