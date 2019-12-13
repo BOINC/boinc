@@ -107,7 +107,7 @@ protected:
     wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
     void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
-    wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
+    wxInt32                 FormatDateTime( time_t datetime, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
     virtual double          GetProgressValue(long item);

@@ -49,9 +49,11 @@
 #define COLUMN_STATUS               2
 #define COLUMN_CPUTIME              3
 #define COLUMN_TOCOMPLETION         4
-#define COLUMN_REPORTDEADLINE       5
-#define COLUMN_APPLICATION          6
-#define COLUMN_NAME                 7
+#define COLUMN_ESTIMATEDCOMPLETION  5
+#define COLUMN_REPORTDEADLINE       6
+#define COLUMN_APPLICATION          7
+#define COLUMN_NAME                 8
+
 
 // DefaultShownColumns is an array containing the
 // columnIDs of the columns to be shown by default,
@@ -60,9 +62,9 @@
 //
 // For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
-                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
+                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION, COLUMN_ESTIMATEDCOMPLETION,
                                 COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
-                                COLUMN_NAME};
+                                COLUMN_NAME };
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -181,6 +183,19 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     case COLUMN_STATUS:
         result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
         break;
+    case COLUMN_ESTIMATEDCOMPLETION:
+        wxDateTime now = wxDateTime::Now();
+        wxTimeSpan time_to_completion_work1 = convert_to_timespan(work1->m_fTimeToCompletion);
+        wxTimeSpan time_to_completion_work2 = convert_to_timespan(work2->m_fTimeToCompletion);
+        wxDateTime estimated_completion_work1 = now.Add(time_to_completion_work1);
+        wxDateTime estimated_completion_work2 = now.Add(time_to_completion_work2);
+        if (estimated_completion_work1.IsEarlierThan(estimated_completion_work2)) {
+            result = -1;
+        } else if (estimated_completion_work1.IsLaterThan(estimated_completion_work2) ||
+                   estimated_completion_work1.IsEqualTo(estimated_completion_work2)) {
+            result = 1;
+        }
+        break;
     }
 
     // Always return FALSE for equality (result == 0)
@@ -261,7 +276,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
     m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_CPUTIME);
-    m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Remaining"), COLUMN_TOCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
     m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
@@ -278,6 +294,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_iStdColWidthOrder.Insert(135, COLUMN_STATUS);
     m_iStdColWidthOrder.Insert(80, COLUMN_CPUTIME);
     m_iStdColWidthOrder.Insert(100, COLUMN_TOCOMPLETION);
+    m_iStdColWidthOrder.Insert(150, COLUMN_ESTIMATEDCOMPLETION);
     m_iStdColWidthOrder.Insert(150, COLUMN_REPORTDEADLINE);
     m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
     m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
@@ -330,6 +347,10 @@ void CViewWork::AppendColumn(int columnID){
         case COLUMN_NAME:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_NAME],
                 wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_NAME]);
+            break;
+        case COLUMN_ESTIMATEDCOMPLETION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ESTIMATEDCOMPLETION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ESTIMATEDCOMPLETION]);
             break;
     }
 }
@@ -745,6 +766,12 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
             case COLUMN_STATUS:
                 strBuffer = work->m_strStatus;
                 break;
+            case COLUMN_ESTIMATEDCOMPLETION:
+                wxDateTime now = wxDateTime::Now();
+                wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
+                wxDateTime estimated_completion = now.Add(time_to_completion);
+                FormatDateTime(estimated_completion.GetTicks(), strBuffer);
+                break;
         }
     }
     
@@ -1031,7 +1058,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocReportDeadline(m_iSortedIndexes[iRowIndex], tDocumentTime);
             if (tDocumentTime != work->m_tReportDeadline) {
                 work->m_tReportDeadline = tDocumentTime;
-                FormatReportDeadline(tDocumentTime, work->m_strReportDeadline);
+                FormatDateTime(tDocumentTime, work->m_strReportDeadline);
                 return true;
             }
             break;
@@ -1184,6 +1211,7 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
     }
 }
 
+
 void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
@@ -1195,24 +1223,22 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
 }
 
 
-wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) const {
+wxInt32 CViewWork::FormatDateTime(time_t datetime, wxString& strBuffer) const {
 #ifdef __WXMAC__
     // Work around a wxCocoa bug(?) in wxDateTime::Format()
     char buf[80];
-    struct tm * timeinfo = localtime(&deadline);
+    struct tm * timeinfo = localtime(&datetime);
     strftime(buf, sizeof(buf), "%c", timeinfo);
     strBuffer = buf;
 #else
     wxDateTime     dtTemp;
 
-    dtTemp.Set(deadline);
+    dtTemp.Set(datetime);
     strBuffer = dtTemp.Format();
 #endif
 
     return 0;
 }
-
-
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
