@@ -662,9 +662,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
-    if (log_flags.sched_op_debug && sr.request_delay) {
+    if (sr.request_delay) {
         msg_printf(project, MSG_INFO,
-            "[sched_op] Project requested delay of %.0f seconds", sr.request_delay
+            "Project requested delay of %.0f seconds", sr.request_delay
         );
     }
 
