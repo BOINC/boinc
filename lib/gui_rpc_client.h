@@ -222,6 +222,7 @@ struct APP_VERSION {
     PROJECT* project;
 
     APP_VERSION();
+    APP_VERSION(int) {}
 
     int parse(XML_PARSER&);
     int parse_coproc(XML_PARSER&);
