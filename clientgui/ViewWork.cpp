@@ -276,7 +276,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
     m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_CPUTIME);
-    m_aStdColNameOrder->Insert(_("Remaining"), COLUMN_TOCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
     m_aStdColNameOrder->Insert(_("Estimated Completion"), COLUMN_ESTIMATEDCOMPLETION);
     m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
@@ -767,10 +767,17 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strStatus;
                 break;
             case COLUMN_ESTIMATEDCOMPLETION:
-                wxDateTime now = wxDateTime::Now();
-                wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
-                wxDateTime estimated_completion = now.Add(time_to_completion);
-                FormatDateTime(estimated_completion.GetTicks(), strBuffer);
+                if (work->m_fCPUTime > 0) {
+                    wxDateTime now = wxDateTime::Now();
+                    wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
+                    wxDateTime estimated_completion = now.Add(time_to_completion);
+                    FormatDateTime(estimated_completion.GetTicks(), strBuffer);
+                } else {
+                    strBuffer = FormatTime(0);
+                    // If the task has not started (CPUTime <= 0), passing
+                    // 0 to FormatTime will return "---" as the estimated
+                    // completion time
+                }
                 break;
         }
     }
@@ -1210,7 +1217,6 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
         fBuffer = result->estimated_cpu_time_remaining;
     }
 }
-
 
 void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
