@@ -1218,6 +1218,7 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
     }
 }
 
+
 void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
