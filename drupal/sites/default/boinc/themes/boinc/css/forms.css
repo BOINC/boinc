@@ -648,6 +648,10 @@ html.js fieldset.collapsible legend a,
 #captcha-on-left {
         margin-left: -360px;
 }
+/*Custom captcha margin for password reset form*/
+#captcha-password-reset {
+	margin-left: -200px;
+}
 
 /* Task App filter */
 select.task-app-filter {
