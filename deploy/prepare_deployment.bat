@@ -38,7 +38,7 @@ copy "win_build\Build\%platform%\%configuration%\example_app.exe" "deploy\win-ap
 copy "win_build\Build\%platform%\%configuration%\worker.exe" "deploy\win-apps\"
 copy "win_build\Build\%platform%\%configuration%\sleeper.exe" "deploy\win-apps\"
 cd deploy\win-apps
-7z a win-apps_!pkg_version!_%compiler%.7z *.exe
+7z a win-apps_!pkg_version!_%platform%.7z *.exe
 cd ..\..
 
 if not exist "deploy\win-client" mkdir deploy\win-client
@@ -48,14 +48,14 @@ copy "win_build\Build\%platform%\%configuration%\boinccmd.exe" "deploy\win-clien
 copy "win_build\Build\%platform%\%configuration%\boincscr.exe" "deploy\win-client\"
 copy "win_build\Build\%platform%\%configuration%\boinc.scr" "deploy\win-client\"
 cd deploy\win-client
-7z a win-client_!pkg_version!_%compiler%.7z *.exe *.scr
+7z a win-client_!pkg_version!_%platform%.7z *.exe *.scr
 cd ..\..
 
 if not exist "deploy\win-manager" mkdir deploy\win-manager
 copy "win_build\Build\%platform%\%configuration%\boinctray.exe" "deploy\win-manager\"
 copy "win_build\Build\%platform%\%configuration%\boincmgr.exe" "deploy\win-manager\"
 cd deploy\win-manager
-7z a win-manager_!pkg_version!_%compiler%.7z *.exe
+7z a win-manager_!pkg_version!_%platform%.7z *.exe
 cd ..\..
 
 rem setlocal mode is very 'interesting'

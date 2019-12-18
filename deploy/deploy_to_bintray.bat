@@ -69,17 +69,17 @@ echo Creating version !pkg_version!...
 set data={\"name\": \"!pkg_version!\", \"desc\": \"!pkg_version_desc!\"}
 %CURL% -H Content-Type:application/json -X POST -d "%data%" "%API%/packages/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/versions"
 
-if exist "deploy\win-apps\win-apps_!pkg_version!_%compiler%.7z" (
+if exist "deploy\win-apps\win-apps_!pkg_version!_%platform%.7z" (
     echo Uploading and publishing "deploy\win-apps\win-apps_!pkg_version!.7z"
     %CURL% -H Content-Type:application/octet-stream -T "deploy\win-apps\win-apps_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-apps_!pkg_version!.7z?publish=1&override=1"
 )
 
-if exist "deploy\win-client\win-client_!pkg_version!_%compiler%.7z" (
+if exist "deploy\win-client\win-client_!pkg_version!_%platform%.7z" (
     echo Uploading and publishing "deploy\win-client\win-client_!pkg_version!.7z"
     %CURL% -H Content-Type:application/octet-stream -T "deploy\win-client\win-client_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-client_!pkg_version!.7z?publish=1&override=1"
 )
 
-if exist "deploy\win-manager\win-manager_!pkg_version!_%compiler%.7z" (
+if exist "deploy\win-manager\win-manager_!pkg_version!_%platform%.7z" (
     echo Uploading and publishing "deploy\win-manager\win-manager_!pkg_version!.7z"
     %CURL% -H Content-Type:application/octet-stream -T "deploy\win-manager\win-manager_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-manager_!pkg_version!.7z?publish=1&override=1"
 )
