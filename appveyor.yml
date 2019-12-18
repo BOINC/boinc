@@ -5,7 +5,7 @@ matrix:
   fast_finish: true
 
 platform:
-#  - Win32
+  - Win32
   - x64
 
 pull_requests:
@@ -66,6 +66,7 @@ environment:
       depends_path: C:\projects\boinc_depends_win_vs2013
   BINTRAY_API_KEY:
     secure: kZI9k0Kh2bFSCbXfkz+J16fGNAee1ToRMl10D8QPQsKpC2PqhF/uVMpd6gRC+OSI
+  APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=9 -ms=on"
 
 cache:
   - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
@@ -73,10 +74,10 @@ cache:
 before_build:
   - call win_build\load_dependencies.bat %depends_git_path% %depends_path% %platform% %configuration%
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
-  - rmdir /S /Q %localappdata%\Microsoft\VisualStudio\%TOOLCHAIN_VERSION%\ComponentModelCache
+  - if %TOOLCHAIN_VERSION%==12.0 call rmdir /S /Q %localappdata%\Microsoft\VisualStudio\%TOOLCHAIN_VERSION%\ComponentModelCache
 
 build_script:
-  - devenv %solution_name% /Build "%configuration%|%platform%"
+  - msbuild %solution_name% /p:Configuration=%configuration%;Platform=%platform%
 
 after_build:
   - call deploy\prepare_deployment.bat
