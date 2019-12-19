@@ -1309,7 +1309,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       $form['register_captcha'] = array(
         '#type' => 'captcha',
         '#weight' => 0,
-        '#prefix' => '<div id="captcha-on-left">',
+        '#prefix' => '<div id="captcha-password-reset">',
         '#suffix' => '</div>'
       );
     }
