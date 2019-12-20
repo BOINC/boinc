@@ -33,9 +33,6 @@
 
 //  warning, this method should not be used for a value that can change sign.
 struct MEDIAN : AVERAGE {
-    // alias med to avg
-    double &med;
-
     // return true if sample exceeded limit and was truncated
     //
     inline bool update(
@@ -48,34 +45,34 @@ struct MEDIAN : AVERAGE {
         // unused.  Here for compatibility with AVERAGE
     ) {
         if (n==0) {
-            med=sample;
+            avg=sample;
             n++;
             return false;
         }
-        double delta=med*std::max(sample_weight,1.0/(n+1));
+        double delta=avg*std::max(sample_weight,1.0/(n+1));
         n++;
-        if (sample>med) {
-            if (sample<(med+delta)) {
-                med=sample;
+        if (sample>avg) {
+            if (sample<(avg+delta)) {
+                avg=sample;
             } else {
-                med=med+delta;
+                avg=avg+delta;
             }
         } else {
-            if (sample>(med-delta)) {
-                med=sample;
+            if (sample>(avg-delta)) {
+                avg=sample;
             } else {
-                med=med-delta;
+                avg=avg-delta;
             }
         }
         return false;
     }
 
     inline double get_med() {
-        return med;
+        return avg;
     }
 
-    MEDIAN() : med(avg) {} ;
-    MEDIAN(const MEDIAN &m) : AVERAGE(m), med(avg) {} ;
+    MEDIAN() {} ;
+    MEDIAN(const MEDIAN &m) : AVERAGE(m) {} ;
 
     MEDIAN &operator =(const MEDIAN &m) {
         if (this != &m) {
@@ -101,10 +98,10 @@ struct MEDIAN_VAR : MEDIAN {
         double sample_limit
         // unused.  Here for compatibility with AVERAGE
     ) {
-        double delta=sample-med;
+        double delta=sample-avg;
         MEDIAN::update(sample,n_threshold,sample_weight,sample_limit);
 
-        double weight=med*std::max(sample_weight,1.0/n);
+        double weight=avg*std::max(sample_weight,1.0/n);
         var=var*(1-weight)+delta*delta*weight;
         return false;
     }
