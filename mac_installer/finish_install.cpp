@@ -69,7 +69,7 @@ int main(int argc, const char * argv[]) {
     passwd                  *pw;
 
     // Wait until we are the active login (in case of fast user switching)
-    userName = getlogin();
+    userName = getenv("USER");
     while (!IsUserActive(userName)) {
         sleep(1);
     }
