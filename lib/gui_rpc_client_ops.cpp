@@ -590,7 +590,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 void APP_VERSION::clear() {
-    static const APP_VERSION x;
+    static const APP_VERSION x(0);
     *this = x;
 }
 
