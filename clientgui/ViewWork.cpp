@@ -767,16 +767,18 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strStatus;
                 break;
             case COLUMN_ESTIMATEDCOMPLETION:
-                if (work->m_fCPUTime > 0) {
+                if ((work->m_fCPUTime > 0) && (work->m_strStatus.IsSameAs("Running"))) {
                     wxDateTime now = wxDateTime::Now();
                     wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
                     wxDateTime estimated_completion = now.Add(time_to_completion);
                     FormatDateTime(estimated_completion.GetTicks(), strBuffer);
+                    // Only display the Estimated Completion time if the task has
+                    // been started and is currently running.
                 } else {
                     strBuffer = FormatTime(0);
-                    // If the task has not started (CPUTime <= 0), passing
-                    // 0 to FormatTime will return "---" as the estimated
-                    // completion time
+                    // If the task has not started (CPUTime <= 0) or is not currently
+                    // running, pass 0 to FormatTime to display "---" as the Estimated
+                    // Completion time
                 }
                 break;
         }
