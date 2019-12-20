@@ -384,7 +384,7 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/gfx_switcher"
 
     # Code Sign the gfx_cleanup utility embedded in BOINC screensaver if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_cleanup"
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/Contents/Resources/gfx_cleanup"
 
     # Code Sign the BOINC screensaver code for OS 10.8 and later if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/"
