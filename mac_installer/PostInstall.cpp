@@ -69,7 +69,6 @@
 #include <Carbon/Carbon.h>
 #include <grp.h>
 
-#include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
@@ -1200,6 +1199,7 @@ Boolean SetScreenSaverLaunchAgent(passwd *pw, char *theSaverName)
         callPosixSpawn(s);
     }
 
+    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
     FILE* f = fopen(s, "w");
     if (!f) return false;
     fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
