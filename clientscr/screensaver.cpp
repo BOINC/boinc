@@ -236,7 +236,6 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
             //
             int thePID = -5;
 
-#if 1
             FILE *f;
             char *p;
            
@@ -266,10 +265,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
                 fclose(f);
             }
             
-           if (thePID < 1) retval = -1;
-#else            
-            retval = rpc->run_graphics_app(rp->slot, thePID, "runfullscreen");
-#endif
+            if (thePID < 1) retval = -1;
             graphics_application = thePID;
             // Inform our helper app what we launched 
             fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
@@ -651,7 +647,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             boinc_delete_file(BOINCPidFilePath);
         }
 
-        snprintf(helper_app_dir, sizeof(helper_app_dir), "/Users/%s/Library/%sApplication Support/BOINC/", getlogin(), helper_app_base_path);
+        snprintf(helper_app_dir, sizeof(helper_app_dir), "/Users/%s/Library/%sApplication Support/BOINC/", getenv("USER"), helper_app_base_path);
         safe_strcpy(helper_app_path, helper_app_dir);
         safe_strcat(helper_app_path, "BOINCSSHelper.txt");
         if (boinc_file_exists(helper_app_path)) {

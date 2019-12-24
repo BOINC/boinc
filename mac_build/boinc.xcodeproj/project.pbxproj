@@ -218,6 +218,7 @@
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD6802310E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
 		DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD69D09C23ACBD9E00304FD0 /* mac_spawn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2C5C3D1E66D83D00BF5511 /* mac_spawn.cpp */; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */; };
 		DD69FF0C084171CF00C01361 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
@@ -3556,6 +3557,7 @@
 				DDF0776D236C4E420046EE44 /* coproc.cpp in Sources */,
 				DDC918FB236C2ABB009641C8 /* filesys.cpp in Sources */,
 				DDF07769236C4D6A0046EE44 /* hostinfo.cpp in Sources */,
+				DD69D09C23ACBD9E00304FD0 /* mac_spawn.cpp in Sources */,
 				DD26B52B237443BF00206557 /* mac_util.mm in Sources */,
 				DDFA61780CB348660037B88C /* mfile.cpp in Sources */,
 				DDFA617A0CB3486D0037B88C /* miofile.cpp in Sources */,
