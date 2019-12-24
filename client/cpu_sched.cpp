@@ -146,6 +146,8 @@ struct PROC_RESOURCES {
                 atp->needs_shmem = false;
             }
         }
+        if (rp->rr_sim_misses_deadline) return false;
+            // Don't schedule if the result is simulated to miss its deadline
         if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_gpu()) {
             if (gpu_suspend_reason) return false;
