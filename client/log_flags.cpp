@@ -290,6 +290,11 @@ void CC_CONFIG::show() {
             );
         }
     }
+    for (i=0; i<ignore_tty.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: ignore tty: %s", ignore_tty[i].c_str()
+        );
+    }
 }
 
 // This is used by the BOINC client.
@@ -311,6 +316,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -452,6 +458,10 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
 
         // The following 3 tags have been moved to nvc_config and
         // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
