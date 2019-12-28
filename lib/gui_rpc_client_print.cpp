@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -179,6 +179,8 @@ void RESULT::print() {
     // stuff for jobs that are running or have run
     //
     if (scheduler_state > CPU_SCHED_UNINITIALIZED) {
+        printf("   slot: %d\n", slot);
+        printf("   PID: %d\n", pid);
         printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
         printf("   current CPU time: %f\n", current_cpu_time);
         printf("   fraction done: %f\n", fraction_done);
@@ -238,7 +240,7 @@ void HOST_INFO::print() {
     printf("  CPU model: %s\n", p_model);
     printf("  CPU FP OPS: %f\n", p_fpops);
     printf("  CPU int OPS: %f\n", p_iops);
-    printf("  CPU mem BW: %f\n", p_membw);
+    //printf("  CPU mem BW: %f\n", p_membw);
     printf("  OS name: %s\n", os_name);
     printf("  OS version: %s\n", os_version);
     printf("  mem size: %f\n", m_nbytes);
@@ -246,6 +248,58 @@ void HOST_INFO::print() {
     printf("  swap size: %f\n", m_swap);
     printf("  disk size: %f\n", d_total);
     printf("  disk free: %f\n", d_free);
+
+    // Show GPU info.
+    // This is harder than it should be,
+    // because the structures aren't populated like they were
+    // at GPU detection time.
+    // Would be better for the client to export the description strings.
+    //
+    char buf[256];
+    COPROC_NVIDIA& cn = coprocs.nvidia;
+    if (cn.count) {
+        cn.description(buf, sizeof(buf));
+        printf("  NVIDIA GPU: %s\n", buf);
+        if (cn.count > 1) {
+            printf("    Count: %d\n", cn.count);
+        }
+        if (cn.have_opencl) {
+            cn.opencl_prop.is_used = COPROC_USED;
+            cn.opencl_prop.peak_flops = cn.peak_flops;
+            cn.opencl_prop.opencl_available_ram = cn.available_ram;
+            cn.opencl_prop.description(buf, sizeof(buf), "NVIDIA");
+            printf("    %s\n", buf);
+        }
+    }
+    COPROC_ATI &ca = coprocs.ati;
+    if (ca.count) {
+        ca.description(buf, sizeof(buf));
+        printf("  AMD GPU: %s\n", buf);
+        if (ca.count > 1) {
+            printf("    Count: %d\n", ca.count);
+        }
+        if (ca.have_opencl) {
+            ca.opencl_prop.peak_flops = ca.peak_flops;
+            ca.opencl_prop.opencl_available_ram = ca.available_ram;
+            ca.opencl_prop.is_used = COPROC_USED;
+            ca.opencl_prop.description(buf, sizeof(buf), "AMD");
+            printf("    %s\n", buf);
+        }
+    }
+    COPROC_INTEL &ci = coprocs.intel_gpu;
+    if (ci.count) {
+        printf("  Intel GPU\n");
+        if (ci.count > 1) {
+            printf("    Count: %d\n", ci.count);
+        }
+        if (ci.have_opencl) {
+            ci.opencl_prop.peak_flops = ci.peak_flops;
+            ci.opencl_prop.opencl_available_ram = ci.opencl_prop.global_mem_size;
+            ci.opencl_prop.is_used = COPROC_USED;
+            ci.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
+            printf("    %s\n", buf);
+        }
+    }
 }
 
 void SIMPLE_GUI_INFO::print() {

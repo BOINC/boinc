@@ -62,12 +62,6 @@ if [ "${BINTRAY_API_KEY}" == "" ] ; then
     exit 0
 fi
 
-CI_RUN="${TRAVIS:-false}"
-if [[ $CI_RUN == "true" ]]; then
-    echo "This script cannot be used in a CI environment"
-    exit 0
-fi
-
 BINTRAY_API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
 BINTRAY_API_KEY="$BINTRAY_API_KEY" # env
@@ -109,7 +103,7 @@ ${BINTRAY_CURL} "${BINTRAY_API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/$
 pr_ids=$(jq -r .versions[]? < "${TMPDIR}/package_pr.txt" | cut -d_ -f1 | cut -b 3- | sort -u)
 for pr in $pr_ids
 do
-    echo $pr
+    echo "$pr"
     state=$(${GITHUB_CURL} "${GITHUB_API}/repos/${GITHUB_USER}/${GITHUB_REPO}/pulls/${pr}" | jq -r .state)
     if [ "$state" = "closed" ]; then
         echo "  is closed"

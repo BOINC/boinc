@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -93,7 +93,10 @@ Commands:\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
- --set_gpu_mode mode duration       set GPU run mode for given duration\n\
+ --run_graphics_app id op         run, test or stop graphics app\n\
+   op = run | runfullscreen | stop | test\n\
+   id = slot # for run or runfullscreen, process ID for stop or test\n\
+   --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_host_info product_name\n\
  --set_network_mode mode duration   set network mode for given duration\n\
@@ -280,7 +283,8 @@ int main(int argc, char** argv) {
     char* cmd = next_arg(argc, argv, i);
     if (!strcmp(cmd, "--client_version")) {
         VERSION_INFO vi;
-        retval = rpc.exchange_versions(vi);
+        string rpc_client_name = "boinccmd " BOINC_VERSION_STRING;
+        retval = rpc.exchange_versions(rpc_client_name, vi);
         if (!retval) {
             printf("Client version: %d.%d.%d\n", vi.major, vi.minor, vi.release);
         }
@@ -422,7 +426,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
+        h.clear();
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
@@ -541,6 +545,18 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+    } else if (!strcmp(cmd, "--run_graphics_app")) {
+        int slot = 0;
+        if (!strcmp(argv[3], "test") || (!strcmp(argv[3], "stop"))) {
+            i = atoi(argv[2]);
+        } else {
+            slot = atoi(argv[2]);
+            i = 0;
+        }
+        retval = rpc.run_graphics_app(slot, i, argv[3]);
+        if (strcmp(argv[3], "stop") & !retval) {
+            printf("pid: %d\n", i);
+        }
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));

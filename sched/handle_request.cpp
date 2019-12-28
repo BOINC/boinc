@@ -87,7 +87,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
         if (user.id == config.dont_search_host_for_userid[i]) {
             return false;
-        }    
+        }
     }
 
     // Only check if all the fields are populated
@@ -1416,12 +1416,13 @@ void process_request(char* code_sign_key) {
             if (config.min_sendwork_interval) {
                 double diff = dtime() - last_rpc_time;
                 if (diff < config.min_sendwork_interval) {
+                    double t_left = config.min_sendwork_interval - diff;
                     ok_to_send_work = false;
                     log_messages.printf(MSG_NORMAL,
-                        "Not sending work - last request too recent: %f\n", diff
+                        "Not sending work - last request too recent, please wait: %f\n", t_left
                     );
                     sprintf(buf,
-                        "Not sending work - last request too recent: %d sec", (int)diff
+                        "Not sending work - last request too recent, please wait: %d sec", (int)t_left
                     );
                     g_reply->insert_message(buf, "low");
 

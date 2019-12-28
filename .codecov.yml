@@ -1,0 +1,42 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  status:
+    project: off
+    patch:
+      default:
+        threshold: 0.01
+
+comment:
+  layout: "diff, files"
+  behavior: default
+  require_changes: yes    # if true: only post the comment if coverage changes
+  require_base: no        # [yes :: must have a base report to post]
+  require_head: yes       # [yes :: must have a head report to post]
+  branch: master
+
+flags:
+  # filter the folder(s) you wish to measure by that flag
+  api:
+    paths:
+      - api/
+  library:
+    paths:
+      - lib/
+  client:
+    paths:
+      - client/
+      - clientgui/
+  server:
+    paths:
+      - sched/
+      - db/
+      - tools/
+
+# don't gather statistics for test and external libraries
+ignore:
+  - tests/.*
+  - zip/.*
+  - 3rdParty/.*

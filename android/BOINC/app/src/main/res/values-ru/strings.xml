@@ -104,6 +104,7 @@
   <string name="attachproject_error_bad_pwd">Пароль не принят</string>
   <string name="attachproject_error_creation_disabled">Создание учётной записи в данном проекте отключено</string>
   <string name="attachproject_error_invalid_url">Неправильный адрес (URL)</string>
+  <string name="attachproject_error_consent_required">Этот проект требует согласия с его условиями использования</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Назад</string>
   <string name="attachproject_working_finish_button">Готово</string>
@@ -341,7 +342,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
-  <string name="about_copyright">\u00A9 2003–2018 Калифорнийский университет, Беркли.</string>
+  <string name="about_copyright">\u00A9 2003–2019 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
   <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

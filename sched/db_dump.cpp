@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <string>
 #include <vector>
 
@@ -644,7 +645,7 @@ void write_badge_user(char* output_dir) {
     DB_BADGE_USER bu;
     char path[MAXPATHLEN];
     ZFILE zf("badge_users", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_user.gz", output_dir);
+    sprintf(path, "%s/badge_user", output_dir);
     zf.open(path);
     while (!bu.enumerate("")) {
         zf.write(
@@ -665,7 +666,7 @@ void write_badge_team(char* output_dir) {
     DB_BADGE_TEAM bt;
     char path[MAXPATHLEN];
     ZFILE zf("badge_teams", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_team.gz", output_dir);
+    sprintf(path, "%s/badge_team", output_dir);
     zf.open(path);
     while (!bt.enumerate("")) {
         zf.write(

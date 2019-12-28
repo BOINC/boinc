@@ -39,50 +39,8 @@
 
 #include "hostinfo.h"
 
-HOST_INFO::HOST_INFO() {
-    clear_host_info();
-}
-
-void HOST_INFO::clear_host_info() {
-    timezone = 0;
-    safe_strcpy(domain_name, "");
-    safe_strcpy(serialnum, "");
-    safe_strcpy(ip_addr, "");
-    safe_strcpy(host_cpid, "");
-
-    p_ncpus = 0;
-    safe_strcpy(p_vendor, "");
-    safe_strcpy(p_model, "");
-    safe_strcpy(p_features, "");
-    p_fpops = 0;
-    p_iops = 0;
-    p_membw = 0;
-    p_calculated = 0;
-    p_vm_extensions_disabled = false;
-
-    m_nbytes = 0;
-    m_cache = 0;
-    m_swap = 0;
-
-    d_total = 0;
-    d_free = 0;
-
-    safe_strcpy(os_name, "");
-    safe_strcpy(os_version, "");
-
-    wsl_available = false;
-#ifdef _WIN64
-    wsls.clear();
-#endif
-
-    safe_strcpy(product_name, "");
-    safe_strcpy(mac_address, "");
-
-    safe_strcpy(virtualbox_version, "");
-    num_opencl_cpu_platforms = 0;
-}
-
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_double("p_fpops", p_fpops)) {

@@ -63,10 +63,10 @@ struct PLAN_CLASS_SPEC {
     regex_t host_summary_regex;
     int user_id;
     double infeasible_random;
-    int min_wu_id;
-    int max_wu_id;
-    int min_batch;
-    int max_batch;
+    long min_wu_id;
+    long max_wu_id;
+    long min_batch;
+    long max_batch;
 
     // GPU apps
     //

@@ -140,7 +140,7 @@ export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.7
 
-./configure --enable-shared=NO --prefix=${lprefix} --host=x86_64
+./configure --enable-shared=NO --prefix=${lprefix} --without-png --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "${doclean}" = "yes" ]; then

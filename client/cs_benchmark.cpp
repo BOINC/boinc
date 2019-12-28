@@ -175,7 +175,6 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double vax_mips, int_loops=0, int_time=0, fp_time;
 
     bdp->error_str[0] = '\0';
-    host_info.clear_host_info();
 
 #if defined(ANDROID) && defined(__arm__)
     // check for FP accelerator: VFP, Neon, or none;
@@ -236,7 +235,7 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 }
 #endif
 
-void CLIENT_STATE::start_cpu_benchmarks() {
+void CLIENT_STATE::start_cpu_benchmarks(bool force) {
     int i;
 
     if (benchmarks_running) {
@@ -246,7 +245,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         return;
     }
 
-    if (cc_config.skip_cpu_benchmarks) {
+    if (cc_config.skip_cpu_benchmarks && !force) {
         if (log_flags.benchmark_debug) {
             msg_printf(0, MSG_INFO,
                 "[benchmark] start_cpu_benchmarks(): Skipping CPU benchmarks"

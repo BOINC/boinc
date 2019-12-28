@@ -5,8 +5,14 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Anderson Fachini <anderson.dkfachini@gmail.com>, 2016
+# Anderson Diego Kulpa Fachini <anderson.dkfachini@gmail.com>, 2016
+# apenas mais um usuário do goole <carlseduardo044@gmail.com>, 2018
+# apenas mais um usuário do goole <carlseduardo044@gmail.com>, 2018
+# Filipe Gonçalves <Filipe1983@gmail.com>, 2019
 # Marcos Gramelich <mgramelich@gmail.com>, 2017
+# Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2018
+# Noriel Chang Reissig <Noriel.Chang@gmail.com>, 2019
+# Renata Ross Kloss <renata.agkn@gmail.com>, 2018
 # Rogério Cunha <rogerioabreu.cunha@gmail.com>, 2016
 # Wiri Marcolan Kamei <wirimk@hotmail.com>, 2016-2017
 msgid ""
@@ -14,8 +20,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2017-12-11 17:04+0000\n"
-"Last-Translator: Marcos Gramelich <mgramelich@gmail.com>\n"
+"PO-Revision-Date: 2019-09-08 16:15+0000\n"
+"Last-Translator: Noriel Chang Reissig <Noriel.Chang@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,14 +251,14 @@ msgid "You are banned from community participation until @date"
 msgstr "Você está banido de participação na comunidade até @date"
 
 msgid "There is no user on your team with that email address."
-msgstr "Não há nenhum usuário em sua equipe com este endereço de e-mail."
+msgstr "não há nenhum usuário na sua equipe com este endereço de e-mail."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr ""
+msgstr "Einstein@Home é um programa que usa a CPU (processamento) ociosa do seu computador para rodar ondas gravitacionais vindas de objetos compactos que estão girando (entre quais são pulsantes) usando dados vindos do detector de ondas gravitacionais LIGO"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
@@ -266,10 +272,10 @@ msgstr "Adicionar preferências separadas para @venue"
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr "O membro da equipe @name requisitou ser o fundador. Isto porquê você deixou a equipe ou não manteve contato com a equipe por um longo tempo."
+msgstr "O membro da equipe @name requisitou ser o fundador. Isto pode ter sido porquê você deixou a equipe ou por que não manteve contato com a equipe por muito tempo."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "O criador da equipe tem 1 dia para responder seu pedido de transferência."
+msgstr "O fundador da equipe tem 1 dia para responder seu pedido de transferência."
 
 msgid "Message board title is required."
 msgstr "É necessário informar um título."
@@ -277,12 +283,12 @@ msgstr "É necessário informar um título."
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr ""
+msgstr "ATENÇÃO: o seu conteúdo<a href=\"@url\"> precisa ser re-indexado</a>antes de Apache Solr ir procurar comentários."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "selecione os tipos de conteúdo onde os comentários são indexados pelo Apace Solr. seu conteúdo precisa ser re-indexado depois de mudar esta configuração."
 
 msgid ""
 "If changing a user's email, you must also change the password "
@@ -293,7 +299,7 @@ msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "Uso: 'Salvar configurações' vai salvar as preferências abaixo a partir do banco de dados drupal. Estas serão as configurações de computação (globais) predefinidas que estarão nas preferências cada vez que um usuário carregar a página Preferências da Conta"
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -303,12 +309,12 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "'Salvar configuração com configurações de uso de disco do config.xml' salvará as preferências acima no banco de dados do Drupal, mas também carregará as configurações de uso do disco do arquivo config.xml do projeto BOINC. Isto substituirá quaisquer configurações de uso do disco que você colocou acima. Cuidado: as preferências pessoais de um usuário não serão alteradas se você carregar as configurações de uso de disco do config.xml aqui no banco de dados do Drupal. Elas devem ter alteradas suas configurações de preferência manualmente."
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr ""
+msgstr "minhas estatísticas "
 
 #: menu-link
 msgctxt "menu-link"
@@ -323,7 +329,7 @@ msgstr "Credenciais"
 #: menu-link
 msgctxt "menu-link"
 msgid "Dashboard"
-msgstr ""
+msgstr "painel de controle"
 
 #: footer-link
 msgctxt "footer-link"
@@ -333,7 +339,7 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr ""
+msgstr "seu background pessoal"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -345,7 +351,7 @@ msgstr "Nos conte sobre você. Você pode nos dizer sua origem, sua idade, ocupa
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr ""
+msgstr "Suas opiniões sobre este projeto"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -354,7 +360,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr ""
+msgstr "nos conte suas experiências sobre @este_projeto\n1. por que você roda @este_projeto?\n2. quais são suas opiniões sobre este projeto?\n3. alguma sugestão?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -374,17 +380,17 @@ msgstr "País"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr ""
+msgstr "Imagem do perfil"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr ""
+msgstr "Endereço da página"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr ""
+msgstr "@this_project Progresso"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -394,27 +400,27 @@ msgstr "Projetos"
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr ""
+msgstr "Nenhum Amigo foi adicionado."
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr ""
+msgstr "Ver Todos os Amigos"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr ""
+msgstr "Solicitações de Amizade"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr ""
+msgstr "esperando a aprovação do seu amigo"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr ""
+msgstr "Buscar na página"
 
 #: menu-link
 msgctxt "menu-link"
@@ -424,7 +430,7 @@ msgstr "Notícias"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr ""
+msgstr "certificados"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -434,7 +440,7 @@ msgstr "Todos os computadores"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr ""
+msgstr "o computador ficou ativo 30 dias atrás "
 
 #: menu-link
 msgctxt "menu-link"
@@ -449,27 +455,27 @@ msgstr "Comunidade"
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr ""
+msgstr "Privacidade"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Incrições"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Incrições"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr ""
+msgstr "Atualizado"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr ""
+msgstr "Fila"
 
 #: menu-link
 msgctxt "menu-link"
@@ -479,7 +485,7 @@ msgstr "Perfil"
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Ativo nos últimos 30 dias"
 
 #: user-host-list
 msgctxt "user-host-list"
@@ -519,7 +525,7 @@ msgstr "Compor nova"
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr ""
+msgstr "Mostrar computadores"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -539,17 +545,17 @@ msgstr "Login com autenticador"
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr ""
+msgstr "nenhum conteúdo está na fila para moderação"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr ""
+msgstr "Fila de moderação do perfil de usuário"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "Ativo nos últimos 30 dias"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
@@ -559,7 +565,7 @@ msgstr "Formulário de comentários"
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr ""
+msgstr "Incrições"
 
 #: country-of-origin
 msgctxt "country-of-origin"
@@ -991,17 +997,17 @@ msgstr "Estado de validação"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr ""
+msgstr "Setar tamanho máximo de trabalho"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr ""
+msgstr "Tamanho máximo de swap"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr ""
+msgstr "Uso máximo de disco"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1148,27 +1154,27 @@ msgstr "Citar"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr ""
+msgstr "Responder este comentário com uma citação"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr ""
+msgstr "Membro desde: @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr ""
+msgstr "Postagens: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr ""
+msgstr "Créditos: @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr ""
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
@@ -1475,37 +1481,37 @@ msgstr "Uso do processador"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr ""
+msgstr "Suspender quando o computador estiver utilizando a bateria?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr ""
+msgstr "Suspende quando computadores portáteis estão usando a bateria"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr ""
+msgstr "Suspender quando o computador estiver em uso?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr ""
+msgstr "Suspende a computação e transferências na fila quando você está usando o computador."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr ""
+msgstr "suspende GPU computing quando o computador estiver em uso?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr ""
+msgstr "Suspende GPU computing quando você está usando o computador."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "\"em uso\" significa mouse/teclado usados nos últimos"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1515,7 +1521,7 @@ msgstr "minutos"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr ""
+msgstr "Isto determina quando o computador é considerado \"em uso\"."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1540,7 +1546,7 @@ msgstr "Suspender a computação quando seu computador estiver ocupado rodando o
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr ""
+msgstr "computar apenas entre:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -1555,7 +1561,7 @@ msgstr "Computar apenas durante um período particular do dia."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr ""
+msgstr "Deixar tarefas Não-GPU na memória enquanto suspensas?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1563,7 +1569,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "Se\"Sim\",tarefas suspensas permanecem na memória,e retornam sem trabalho perdido. Se \"Não\",tarefas suspensas são removidas da memórias,e retorna ao último checkpoint."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1613,7 +1619,7 @@ msgstr "Uso do disco e da memória"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr ""
+msgstr "Disco Rígido: não usar mais que"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1623,7 +1629,7 @@ msgstr "Limitar o espaço total de disco usado pelo BOINC."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr ""
+msgstr "Disco: deixar pelo menos"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1786,14 +1792,14 @@ msgstr "Exemplo: BOINC deve transferir no máximo 2000 MB de dados a cada 30 dia
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "pular verificação de dados por arquivos de imagem?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "Apenas selecione \"Sim\" se o seu provedor de internet modifica arquivos de imagem. Pulando verificações você reduz a segurança do BOINC."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1842,7 +1848,7 @@ msgstr "Usar CPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr ""
+msgstr "Requisitar tarefas somente-CPU deste projeto"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1852,7 +1858,7 @@ msgstr "Usar GPU NVIDIA"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr ""
+msgstr "Requisitar tarefas NVIDIA GPU deste projeto"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1862,7 +1868,7 @@ msgstr "Usar GPU ATI"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr ""
+msgstr "Requisitar tarefas ATI GPU deste projeto"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1872,7 +1878,7 @@ msgstr "Usar GPU INTEL"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr ""
+msgstr "Requisitar tarefas Intel GPU deste projeto"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -2035,12 +2041,12 @@ msgstr "Esconder assinaturas em fóruns"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr ""
+msgstr "Ignorar usuários nos foruss: "
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "<a href=\"@ignore-user-list\">Ver/Editar</a> sua lista de usuários ignorados."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2175,7 +2181,7 @@ msgstr "Pesquisar equipes"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "As tarefas estão pendentes para esta unidade de trabalho."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2269,7 +2275,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "Sem preferencias encontradas para conjunto '@venue'. Clique SALVAR MUDANÇAS abaixo para salvar as preferências seguidas para sua conta."
 
 #: join-page
 msgctxt "join-page"
@@ -2284,7 +2290,7 @@ msgstr "Execute o instalador"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr ""
+msgstr "responder"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2294,7 +2300,7 @@ msgstr "Responder este comentário"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr ""
+msgstr "Responder este tópico com uma citação"
 
 #: private-message
 msgctxt "private-message"
@@ -2461,7 +2467,7 @@ msgstr "Se você não encontrar uma equipe que te satisfaça, você pode criar u
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr ""
+msgstr "Entre para criar um novo time"
 
 #: join-page
 msgctxt "join-page"
@@ -2689,7 +2695,7 @@ msgstr "Mudar Modo de Visualização"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr ""
+msgstr "Transferir arquivos apenas entre:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -3212,7 +3218,7 @@ msgstr "@email não é um endereço de email bem formado, por favor verifique"
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr ""
+msgstr "Aprovar solicitação de amizade"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
@@ -3222,7 +3228,7 @@ msgstr "Remover banimento do usuário"
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr ""
+msgstr "1 dia restando"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -3317,14 +3323,14 @@ msgstr "Quando solicitado insira @siteurl"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr ""
+msgstr "Instruções"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "Não há contas existentes com este @email -- por favor,crie uma conta usando o cliente do BOINC  -- !instruções"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3358,7 +3364,7 @@ msgstr "Pendente"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "tarefas para sua conta"
 
 #: task-table
 msgctxt "task-table"
@@ -3368,7 +3374,7 @@ msgstr "Aplicação"
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr ""
+msgstr "Todas aplicações."
 
 #: task-table
 msgctxt "task-table"
@@ -3393,7 +3399,7 @@ msgstr "Enviada"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "Tempo Reportado ou Prazo Final"
 
 #: task-table
 msgctxt "task-table"
@@ -3413,12 +3419,12 @@ msgstr "Tempo de CPU"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "Crédito solicitado"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "Crédito conferido"
 
 #: task-table
 msgctxt "task-table"
@@ -3458,32 +3464,32 @@ msgstr "Restaurar"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "Aplicar Filtro"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "Você não tem permissão para fazer mudanças neste host."
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "Tarefas para o computador @host_id"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "A localização deste servidor foi atualizada."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "Isto vai fazer efeito na próxima vez que o host contatar o projeto."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr ""
+msgstr "Perfil não existe."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
@@ -3529,7 +3535,7 @@ msgstr "Execute o instalador."
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "Escolha @sitename da lista, ou insira @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3541,7 +3547,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "selecione <i>Ferramentas / Adicionar projeto </i>. Escolha @sitename da lista, ou entre @siteurl. "
 
 #: join-page
 msgctxt "join-page"
@@ -3550,7 +3556,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "Se você está rodando umas versão command-line do BOINC,\n primeiro use o software BOINC Mananger (em outro lugar se necessário) para criar uma\n conta neste projeto,então use esta conta para conectar com a\n versão command-line usando <b>!boinccmd</b>. "
 
 #: join-page
 msgctxt "join-page"
@@ -3558,52 +3564,52 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "Se você está rodando uma versão do BOINC anterior a -5.0,por favor\n atualize para a versão mais recente do BOINC para criar uma conta\n em @este_projeto."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@usuário é o fundador da @equipe!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "Filtro de tradução BOINC para ajudar a dividir o conteúdo em blocos para traduções."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "Divide o conteúdo do nó em blocos para tradução."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr ""
+msgstr "filtro de tradução BOINC"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "Tipos de conteúdo para filtrar"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "Escolha quais tipos de conteúdo (nó) que serão divididos em blocos para tradução."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "Imprimir informações de depuração"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "Imprime informações adicionais de depuração. Esta opção deve ser desabilitada em sites de produção."
 
 #: join-page
 msgctxt "join-page"
@@ -3613,7 +3619,7 @@ msgstr "Regras e Políticas"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "Leia nossa !rules_and_policies."
 
 #: account-password
 msgctxt "account-password"
@@ -3675,72 +3681,72 @@ msgstr "Habilitar texto rico"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "inscrever."
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "desinscrever"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr ""
+msgstr "Reportar"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr ""
+msgstr "Cancelar reportação"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr ""
+msgstr "Resetar flags"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr ""
+msgstr "Ignorar usuário"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr ""
+msgstr "Todas as tarefas"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "Tempo reportado ou prazo final"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "Tempo de execução (seg)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr ""
+msgstr "Tempo de CPU (seg)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr ""
+msgstr "Resultado canônico"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "Número máximo de tarefas erro/total/sucesso"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "Mensagem para a Home Page do site"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "Texto que será exibido na landing page do site"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3767,7 +3773,7 @@ msgstr "Removido"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr ""
+msgstr "Mostrar este tópico"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3819,17 +3825,17 @@ msgstr "Selecione um tipo de equipe."
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr ""
+msgstr "ID do BOINC"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr ""
+msgstr "Tarefa não encontrada no banco de dados."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr ""
+msgstr "Unidade de trabalho não encontrada no banco de dados."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3839,7 +3845,7 @@ msgstr "Resultado do stderr"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr ""
+msgstr "Aviso: perfis de usuários estão sujeitos a moderação."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3848,60 +3854,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "Obrigado @user_name por se juntar @site_name. Sua conta foi criada. seu cliente BOINC deve começar a trabalhar nas tarefas designadas em breve,sem nenhuma ação ou configuração adicional. Por favor visite os links abaixo para mais informações e opções adicionais. (Links vão abrir em uma nova guia.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr ""
+msgstr "Preferências da comunidade"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr ""
+msgstr "mude seu nome de usuário na !community_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "Seu nome de usuário é usado para sua identificação perante outros voluntários desta página."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "Em adição,você pode mudar o idioma padrão da sua conta e ajustar as configurações de notificação."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr ""
+msgstr "Preferências de computação"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "Troque seu/sua(s) !computing_preferences."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "Você pode ajustar quanta CPU,RAM e Espaço no disco o cliente do BOINC é permitido para usar nas tarefas no seu computador."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "Por padrão,você vai rodar as tarefas do @site_name sem nenhuma configuração adicional."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr ""
+msgstr "fóruns"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3909,24 +3915,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "É recomendado para novos usuários deixar as configurações no padrão até eles ganharem experiência rodando algumas tarefas. Peça perguntas nos !foruns para ganhar conselhos antes de mudar configurações que você não compreender."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr ""
+msgstr "Perfil do Usuário"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "Criar um !user_profile."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "Um perfil de usuário informará outros voluntários quem você é e por que você se inscreveu no @site_name."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3936,29 +3942,29 @@ msgstr "Equipe"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr ""
+msgstr "Entrar na equipe !team."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "Você pode se juntar a uma equipe, composta por outros voluntários."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "Painel de Controle da Conta"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "Ir par sua !account_dashboard."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "O painel da conta tem informações e links sobre o(s) computador(es) e as tarefas atribuídas."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3968,17 +3974,17 @@ msgstr "Ajuda"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "Visite nossa !help pages."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "Solicite ajuda em nossa comunidade !forums."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "ERRO: Não existe uma conta com esse autenticador."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3988,14 +3994,14 @@ msgstr "Última preferência modificada: @mod_time"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr ""
+msgstr "Host não encontrado no banco de dados."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "ERROR: houve um problema carregando sua conta. Tente logar com seu nome de usuário e senha."
 
 #: team-add-admin
 msgctxt "team-add-admin"
@@ -4010,30 +4016,30 @@ msgstr "moderação"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "Aviso: perfis de usuários estão sujeitos à !moderatiom."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "Por padrão, uma pesquisa corresponde a qualquer termo de pesquisa. Os resultados com mais de um termo serão apresentados primeiro nos resultados da pesquisa."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "Você pode usar 'AND' para que o mecanismo de pesquisa retorne resultados com TODOS os termos de pesquisa."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "Por exemplo, a procura por 'boinc AND cliente' só conterá resultados com as palavras boinc e cliente."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr ""
+msgstr "Procure Ajuda"

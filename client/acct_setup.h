@@ -33,6 +33,7 @@ struct ACCOUNT_IN {
     std::string server_cookie;
     bool ldap_auth;
     bool server_assigned_cookie;
+    bool consented_to_terms;
 
     void parse(XML_PARSER&);
 };
@@ -72,7 +73,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
         gui_http = p;
     }
     virtual ~CREATE_ACCOUNT_OP(){}
-    int do_rpc(ACCOUNT_IN&);
+    int do_rpc(ACCOUNT_IN&, std::string rpc_client_name);
     virtual void handle_reply(int http_op_retval);
 };
 

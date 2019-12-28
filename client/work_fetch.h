@@ -93,6 +93,7 @@ struct RSC_PROJECT_WORK_FETCH {
     int n_runnable_jobs;
     double sim_nused;
         // # of instances used at this point in the simulation
+        // Used for GPU exclusion logic
     double nused_total;     // sum of instances over all runnable jobs
     int ncoprocs_excluded;
         // number of excluded instances
@@ -114,6 +115,13 @@ struct RSC_PROJECT_WORK_FETCH {
         // If zero, it's OK to ask this project for this type of work.
         // If nonzero, the reason why it's not OK
 
+    // stuff for max concurrent logic
+    //
+    double max_nused;
+        // max # instances used so far in simulation.
+    double mc_shortfall;
+        // project's shortfall for this resources, given MC limits
+
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -131,6 +139,8 @@ struct RSC_PROJECT_WORK_FETCH {
         pending.clear();
         has_deferred_job = false;
         rsc_project_reason = RSC_REASON_NONE;
+        max_nused = 0.0;
+        mc_shortfall = 0.0;
     }
 
     inline void reset() {
@@ -143,7 +153,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
     RSC_REASON compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
-    void rr_init();
+    void rr_init(PROJECT*);
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -218,6 +228,7 @@ struct RSC_WORK_FETCH {
     double nidle_now;
         // # idle instances now (at the beginning of RR sim)
     double sim_nused;
+        // # instance used at this point in RR sim
     COPROC_INSTANCE_BITMAP sim_used_instances;
         // bitmap of instances used in simulation,
         // taking into account GPU exclusions
@@ -314,8 +325,13 @@ struct PROJECT_WORK_FETCH {
         // If we're uploading but a resource is idle, make a work request.
         // If this succeeds, clear the flag.
 
+    PROJECT_WORK_FETCH(int) {}
+    void clear() {
+        static const PROJECT_WORK_FETCH x(0);
+        *this = x;
+    }
     PROJECT_WORK_FETCH() {
-        memset(this, 0, sizeof(*this));
+        clear();
     }
     void reset(PROJECT*);
     void rr_init(PROJECT*);

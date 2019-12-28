@@ -16,7 +16,7 @@
 
 require_once('includes/boincteam.forms.inc');
 require_once('includes/boincteam.helpers.inc');
-
+require_once('includes/boincteam.rules.inc');
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into core modules
@@ -521,6 +521,7 @@ function boincteam_join($team_id) {
         array('@uid' => $user->uid, '@nid' => $team_id), WATCHDOG_NOTICE);
     }
     else {
+      // @todo - consider another rule/error event here
       drupal_set_message(t('There was a problem joining @team, please try again
         later', array('@team' => $boincteam->name)));
       watchdog('boincteam', 'error adding user @uid to team @nid',

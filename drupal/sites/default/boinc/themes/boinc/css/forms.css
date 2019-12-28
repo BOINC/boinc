@@ -207,8 +207,9 @@ form ul.tab-list {
 
 /* Form submit 'disabled' with javascript.*/
 .form-submit[disabled] {
-  color: #888888;
-  text-decoration: line-through;
+  color: #fccf9c;
+  text-decoration: none;
+  cursor: not-allowed;
 }
 
 .container-inline div,
@@ -642,6 +643,14 @@ html.js fieldset.collapsible legend a,
 }
 #recaptcha_response_field {
 	left: 0;
+}
+/* This id cancels out the above margin-left for .captcha*/
+#captcha-on-left {
+        margin-left: -360px;
+}
+/*Custom captcha margin for password reset form*/
+#captcha-password-reset {
+	margin-left: -200px;
 }
 
 /* Task App filter */

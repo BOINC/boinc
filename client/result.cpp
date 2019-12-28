@@ -108,6 +108,7 @@ void RESULT::clear() {
 //
 int RESULT::parse_server(XML_PARSER& xp) {
     FILE_REF file_ref;
+    int retval;
 
     clear();
     while (!xp.get_tag()) {
@@ -119,7 +120,14 @@ int RESULT::parse_server(XML_PARSER& xp) {
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
+            retval = file_ref.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in result: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
             output_files.push_back(file_ref);
             continue;
         }
@@ -139,6 +147,7 @@ int RESULT::parse_server(XML_PARSER& xp) {
 //
 int RESULT::parse_state(XML_PARSER& xp) {
     FILE_REF file_ref;
+    int retval;
 
     clear();
     while (!xp.get_tag()) {
@@ -164,7 +173,14 @@ int RESULT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
+            retval = file_ref.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in result: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
 #ifndef SIM
             output_files.push_back(file_ref);
 #endif
@@ -414,7 +430,7 @@ int RESULT::write_gui(MIOFILE& out) {
             }
         } else if (avp->missing_coproc) {
             snprintf(resources, sizeof(resources),
-                "%.3g %s + %s GPU (missing)",
+                "%.3g %s + %.12s GPU (missing)",
                 avp->avg_ncpus,
                 cpu_string(avp->avg_ncpus),
                 avp->missing_coproc_name

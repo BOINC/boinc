@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -222,6 +222,7 @@ struct APP_VERSION {
     PROJECT* project;
 
     APP_VERSION();
+    APP_VERSION(int) {}
 
     int parse(XML_PARSER&);
     int parse_coproc(XML_PARSER&);
@@ -582,6 +583,7 @@ struct ACCOUNT_IN {
     std::string server_cookie;
     bool ldap_auth;
     bool server_assigned_cookie;
+    bool consented_to_terms;
 
     ACCOUNT_IN();
 
@@ -659,6 +661,7 @@ struct OLD_RESULT {
     double completed_time;
     double create_time;
 
+    OLD_RESULT(){}
     int parse(XML_PARSER&);
     void print();
 };
@@ -692,7 +695,7 @@ struct RPC_CLIENT {
     int init_unix_domain();
     void close();
     int authorize(const char* passwd);
-    int exchange_versions(VERSION_INFO&);
+    int exchange_versions(std::string client_name, VERSION_INFO& server);
     int get_state(CC_STATE&);
     int get_results(RESULTS&, bool active_only = false);
     int get_old_results(std::vector<OLD_RESULT>&);
@@ -710,6 +713,7 @@ struct RPC_CLIENT {
     int set_network_mode(int mode, double duration);
     int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int run_benchmarks();
+    int run_graphics_app(int slot, int& id, const char *operation);
     int set_proxy_settings(GR_PROXY_INFO&);
     int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&, bool translatable=false);

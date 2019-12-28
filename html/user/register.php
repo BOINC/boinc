@@ -22,6 +22,8 @@
 //
 // Link to this from a "Join" button on home page
 
+// DEPRECATED; use signup.php instead
+
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
 require_once("../inc/recaptchalib.php");
@@ -34,7 +36,7 @@ function reg_form() {
     page_head("Register",  null, null, null, boinc_recaptcha_get_head_extra());
     echo "<h3>Create an account</h3>";
     form_start("create_account_action.php", "post");
-    create_account_form(0, "download.php");
+    create_account_form(0, "download_software.php");
     if ($recaptcha_public_key) {
         form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
     }
@@ -42,7 +44,7 @@ function reg_form() {
     form_end();
 
     echo "<h3>If you already have an account, log in</h3>";
-    login_form("download.php");
+    login_form("download_software.php");
     echo "</td></tr>";
     page_tail();
 }

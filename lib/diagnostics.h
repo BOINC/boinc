@@ -80,57 +80,57 @@ extern "C" {
 // These are functions common to all platforms
 extern int boinc_init_diagnostics( int flags );
 extern int boinc_init_graphics_diagnostics( int flags );
-extern int boinc_install_signal_handlers();
-extern int boinc_finish_diag();
+extern int boinc_install_signal_handlers(void);
+extern int boinc_finish_diag(void);
 
 extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
-extern int diagnostics_thread_init();
-extern int diagnostics_finish();
-extern int diagnostics_is_initialized();
+extern int diagnostics_thread_init(void);
+extern int diagnostics_finish(void);
+extern int diagnostics_is_initialized(void);
 extern int diagnostics_is_flag_set(int flags);
 
 // Properties
-extern char* diagnostics_get_boinc_dir();
-extern char* diagnostics_get_boinc_install_dir();
-extern char* diagnostics_get_symstore();
+extern char* diagnostics_get_boinc_dir(void);
+extern char* diagnostics_get_boinc_install_dir(void);
+extern char* diagnostics_get_symstore(void);
 extern int diagnostics_set_symstore(char* symstore);
-extern int diagnostics_is_proxy_enabled();
-extern char* diagnostics_get_proxy();
+extern int diagnostics_is_proxy_enabled(void);
+extern char* diagnostics_get_proxy(void);
 
-extern int diagnostics_is_aborted_via_gui();
-extern int diagnostics_set_aborted_via_gui();
+extern int diagnostics_is_aborted_via_gui(void);
+extern int diagnostics_set_aborted_via_gui(void);
 
 // Log rotation
-extern int diagnostics_cycle_logs();
+extern int diagnostics_cycle_logs(void);
 extern void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size);
 
 // Thread Tracking
-extern int diagnostics_init_thread_list();
-extern int diagnostics_finish_thread_list();
-extern int diagnostics_update_thread_list();
-extern int diagnostics_set_thread_exempt_suspend();
+extern int diagnostics_init_thread_list(void);
+extern int diagnostics_finish_thread_list(void);
+extern int diagnostics_update_thread_list(void);
+extern int diagnostics_set_thread_exempt_suspend(void);
 extern int diagnostics_is_thread_exempt_suspend(long thread_id);
 
 // Message Monitoring (debugger viewport)
-extern int diagnostics_init_message_monitor();
-extern int diagnostics_finish_message_monitor();
+extern int diagnostics_init_message_monitor(void);
+extern int diagnostics_finish_message_monitor(void);
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
 extern int diagnostics_trace_to_debugger(const char* msg);
 
 // Unhandled exception monitor
-extern int diagnostics_init_unhandled_exception_monitor();
-extern int diagnostics_finish_unhandled_exception_monitor();
+extern int diagnostics_init_unhandled_exception_monitor(void);
+extern int diagnostics_finish_unhandled_exception_monitor(void);
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 #ifdef HAVE_SIGACTION
-typedef void (*handler_t)(int, struct siginfo *, void *);
-extern void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext);
+typedef void (*handler_t)(int, siginfo_t*, void *);
+extern void boinc_catch_signal(int signal, siginfo_t *siginfo, void *sigcontext);
 #else
 typedef void (*handler_t)(int);
 extern void boinc_catch_signal(int signal);

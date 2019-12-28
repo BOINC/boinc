@@ -269,7 +269,7 @@ int RPC_CLIENT::init_unix_domain() {
 int RPC_CLIENT::authorize(const char* passwd) {
     bool found=false, authorized;
     int retval, n;
-    char nonce[256], nonce_hash[256], buf[256];
+    char nonce[256], nonce_hash[256], buf[1024];
     RPC rpc(this);
     XML_PARSER xp(&rpc.fin);
 

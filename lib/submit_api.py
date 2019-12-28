@@ -19,6 +19,7 @@
 # Python bindings of the remote job submission and file management APIs
 
 import urllib
+import urllib2
 import copy
 import xml.etree.ElementTree as ET
 import requests
@@ -111,16 +112,25 @@ class REQUEST:
     def __init__(self):
         return
 
+rpc_timeout = 0
+
 def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
     #print req
     url = project_url + handler
     params = urllib.urlencode({'request': req})
-    f = urllib.urlopen(url, params)
+    if rpc_timeout>0:
+        f = urllib2.urlopen(url, params, rpc_timeout)
+    else:
+        f = urllib2.urlopen(url, params)
     reply = f.read()
     #print "REPLY:", reply
     return ET.fromstring(reply)
 
 ########### API FUNCTIONS START HERE ###############
+
+def set_timeout(x):
+    global rpc_timeout
+    rpc_timeout = x
 
 def abort_batch(req):
     req_xml = ('<abort_batch>\n'
@@ -283,3 +293,15 @@ def upload_files(upload_files_req):
     reply = requests.post(url, data=req, files=files)
     #print "reply text: ", reply.text
     return ET.fromstring(reply.text)
+
+# returns an XML object with various job counts
+#   results_ready_to_send
+#   results_in_progress
+#   results_need_file_delete
+#   wus_need_validate
+#   wus_need_assimilate
+#   wus_need_file_delete
+# see tools/submit_api_test.py
+#
+def get_job_counts(req):
+    return do_http_post('', req.project, 'server_status.php?counts=1');

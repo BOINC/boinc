@@ -160,13 +160,14 @@ void CC_CONFIG::show() {
     if (abort_jobs_on_exit) {
         msg_printf(NULL, MSG_INFO, "Config: abort jobs on exit");
     }
+    if (allow_gui_rpc_get) {
+        msg_printf(NULL, MSG_INFO, "Config: allow web file fetch");
+    }
     if (allow_multiple_clients) {
         msg_printf(NULL, MSG_INFO, "Config: allow multiple clients");
     }
     if (allow_remote_gui_rpc) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: GUI RPC allowed from any host"
-        );
+        msg_printf(NULL, MSG_INFO, "Config: GUI RPC allowed from any host");
     }
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f) {
@@ -331,6 +332,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
+        if (xp.parse_bool("allow_gui_rpc_get", allow_gui_rpc_get)) continue;
         if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {

@@ -71,7 +71,9 @@ int handle_result(DB_RESULT& result) {
         );
         return 1;
     }
-    get_file_path(wu, path);
+    if (get_file_path(wu, path)) { // no input files
+        return 0;
+    }
     f = fopen(path, "r");
     if (f) {
         fclose(f);

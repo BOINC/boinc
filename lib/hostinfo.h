@@ -95,7 +95,12 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
-    HOST_INFO();
+    HOST_INFO(int){}
+    HOST_INFO(){}
+    void clear() {
+        static const HOST_INFO x(0);
+        *this = x;
+    }
     int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
@@ -104,7 +109,10 @@ public:
 
     bool host_is_running_on_batteries();
 #ifdef __APPLE__
-    bool users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time=NULL);
+    bool users_idle(
+        bool check_all_logins, double idle_time_to_run,
+        double *actual_idle_time=NULL
+    );
 #else
     bool users_idle(bool check_all_logins, double idle_time_to_run);
 #endif
@@ -117,16 +125,27 @@ public:
     int get_host_battery_state();
     int get_local_network_info();
     int get_virtualbox_version();
-    void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
-    static bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    static bool parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
-    static bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
-        char* os_name, const int os_name_size, char* os_version, const int os_version_size);
+    static bool parse_linux_os_info(
+        FILE* file, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
+    static bool parse_linux_os_info(
+        const std::string& line, const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
+    static bool parse_linux_os_info(
+        const std::vector<std::string>& lines,
+        const LINUX_OS_INFO_PARSER parser,
+        char* os_name, const int os_name_size, char* os_version,
+        const int os_version_size
+    );
 };
+
+extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
 int get_wsl_information(bool& wsl_available, WSLS& wsls);

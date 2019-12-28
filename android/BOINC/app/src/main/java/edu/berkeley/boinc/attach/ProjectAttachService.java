@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -30,6 +30,7 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
+import edu.berkeley.boinc.utils.ErrorCodeDescription;
 import edu.berkeley.boinc.utils.Logging;
 
 import android.app.Service;
@@ -316,9 +317,9 @@ public class ProjectAttachService extends Service {
      * @param pwd  password
      * @return result code, see BOINCErrors
      */
-    public int attachAcctMgr(String url, String name, String pwd) {
+    public ErrorCodeDescription attachAcctMgr(String url, String name, String pwd) {
 
-        int reply = -1;
+        ErrorCodeDescription reply = new ErrorCodeDescription();
         Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
         Integer attemptCounter = 0;
         Boolean retry = true;
@@ -340,7 +341,7 @@ public class ProjectAttachService extends Service {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
             }
-            switch(reply) {
+            switch(reply.code) {
                 case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                     attemptCounter++; // limit number of retries
                     break;
@@ -365,7 +366,7 @@ public class ProjectAttachService extends Service {
             }
         }
 
-        if(reply != BOINCErrors.ERR_OK) {
+        if(reply.code != BOINCErrors.ERR_OK || (reply.description != null && !reply.description.isEmpty())) {
             return reply;
         }
 
@@ -379,7 +380,7 @@ public class ProjectAttachService extends Service {
             }
         }
         if(info == null) {
-            return -1;
+            return new ErrorCodeDescription(-1);
         }
 
         if(Logging.DEBUG) {
@@ -387,7 +388,7 @@ public class ProjectAttachService extends Service {
                   "ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name +
                   info.have_credentials);
         }
-        return BOINCErrors.ERR_OK;
+        return new ErrorCodeDescription(BOINCErrors.ERR_OK);
     }
 
     public class ProjectAttachWrapper {

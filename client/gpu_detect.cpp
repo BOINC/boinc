@@ -201,7 +201,7 @@ void COPROCS::correlate_gpus(
     IGNORE_GPU_INSTANCE &ignore_gpu_instance
 ) {
     unsigned int i;
-    char buf[256], buf2[256];
+    char buf[256], buf2[1024];
 
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
@@ -502,7 +502,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             } else {
                 my_nvidia_gpu.device_num = (int)nvidia_gpus.size();
                 my_nvidia_gpu.pci_info = my_nvidia_gpu.pci_infos[0];
-                memset(&my_nvidia_gpu.pci_infos[0], 0, sizeof(struct PCI_INFO));
+                my_nvidia_gpu.pci_infos[0].clear();
                 nvidia_gpus.push_back(my_nvidia_gpu);
             }
             continue;
@@ -519,10 +519,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
         
         if (xp.match_tag("ati_opencl")) {
-            memset(&ati_opencl, 0, sizeof(ati_opencl));
+            ati_opencl.clear();
             retval = ati_opencl.parse(xp, "/ati_opencl");
             if (retval) {
-                memset(&ati_opencl, 0, sizeof(ati_opencl));
+                ati_opencl.clear();
             } else {
                 ati_opencl.is_used = COPROC_IGNORED;
                 ati_opencls.push_back(ati_opencl);
@@ -531,10 +531,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("nvidia_opencl")) {
-            memset(&nvidia_opencl, 0, sizeof(nvidia_opencl));
+            nvidia_opencl.clear();
             retval = nvidia_opencl.parse(xp, "/nvidia_opencl");
             if (retval) {
-                memset(&nvidia_opencl, 0, sizeof(nvidia_opencl));
+                nvidia_opencl.clear();
             } else {
                 nvidia_opencl.is_used = COPROC_IGNORED;
                 nvidia_opencls.push_back(nvidia_opencl);
@@ -543,10 +543,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("intel_gpu_opencl")) {
-            memset(&intel_gpu_opencl, 0, sizeof(intel_gpu_opencl));
+            intel_gpu_opencl.clear();
             retval = intel_gpu_opencl.parse(xp, "/intel_gpu_opencl");
             if (retval) {
-                memset(&intel_gpu_opencl, 0, sizeof(intel_gpu_opencl));
+                intel_gpu_opencl.clear();
             } else {
                 intel_gpu_opencl.is_used = COPROC_IGNORED;
                 intel_gpu_opencls.push_back(intel_gpu_opencl);
@@ -555,10 +555,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("other_opencl")) {
-            memset(&other_opencl, 0, sizeof(other_opencl));
+            other_opencl.clear();
             retval = other_opencl.parse(xp, "/other_opencl");
             if (retval) {
-                memset(&other_opencl, 0, sizeof(other_opencl));
+                other_opencl.clear();
             } else {
                 other_opencl.is_used = COPROC_USED;
                 other_opencls.push_back(other_opencl);
@@ -567,10 +567,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("opencl_cpu_prop")) {
-            memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+            cpu_opencl.clear();
             retval = cpu_opencl.parse(xp);
             if (retval) {
-                memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+                cpu_opencl.clear();
             } else {
                 cpu_opencl.opencl_prop.is_used = COPROC_IGNORED;
                 cpu_opencls.push_back(cpu_opencl);
@@ -598,7 +598,6 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #else
     int prog;
 #endif
-    char quoted_client_path[MAXPATHLEN];
     char quoted_data_dir[MAXPATHLEN+2];
     char data_dir[MAXPATHLEN];
     int retval = 0;
@@ -625,22 +624,17 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     boinc_getcwd(data_dir);
 
 #ifdef _WIN32
-    strlcpy(quoted_client_path, "\"", sizeof(quoted_client_path));
-    strlcat(quoted_client_path, client_path, sizeof(quoted_client_path));
-    strlcat(quoted_client_path, "\"", sizeof(quoted_client_path));
-
     strlcpy(quoted_data_dir, "\"", sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
     strlcat(quoted_data_dir, "\"", sizeof(quoted_data_dir));
 #else
-    strlcpy(quoted_client_path, client_path, sizeof(quoted_client_path));
     strlcpy(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
 #endif
 
     if (log_flags.coproc_debug) {
         msg_printf(0, MSG_INFO,
             "[coproc] launching child process at %s",
-            quoted_client_path
+            client_path
         );
         if (!is_path_absolute(client_path)) {
             msg_printf(0, MSG_INFO,
@@ -656,7 +650,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-         const_cast<char *>(quoted_client_path),
+         const_cast<char *>(client_path),
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),

@@ -6,14 +6,14 @@
 # Translators:
 # Gang Yin <zenith.yin@gmail.com>, 2018
 # woclass, 2018
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2018
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2015
-# snn qy <qysnn1@gmail.com>, 2016-2017
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2018
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2015
+# Heyang Qin <qysnn1@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
 "PO-Revision-Date: 2018-11-12 12:01+0000\n"
 "Last-Translator: Gang Yin <zenith.yin@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
@@ -38,7 +38,7 @@ msgid ""
 "the preferences."
 msgstr "部分计算任务所需要的内存超出了你的设定值，请检查参数设置中的相关选项。"
 
-#: client/client_state.cpp:696
+#: client/client_state.cpp:703
 msgid "Couldn't write state file; check directory permissions"
 msgstr "无法写入状态文件，请检查目录权限"
 
@@ -95,39 +95,39 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "不能在 CUDA 驱动程序 6.5 或更高版本中用于 CUDA 或 OpenCL 计算"
 
-#: client/log_flags.cpp:319 client/log_flags.cpp:492
+#: client/log_flags.cpp:320 client/log_flags.cpp:494
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有异常文本"
 
-#: client/log_flags.cpp:466 client/log_flags.cpp:521
+#: client/log_flags.cpp:468 client/log_flags.cpp:523
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有无法识别的标签"
 
-#: client/log_flags.cpp:483
+#: client/log_flags.cpp:485
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml 中有起始标签丢失"
 
-#: client/log_flags.cpp:511
+#: client/log_flags.cpp:513
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml 中有错误的选项"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:531
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml 中有结束标签丢失"
 
-#: client/project.cpp:995
+#: client/project.cpp:1009
 msgid "To fix this, you can "
 msgstr "若要解决此问题，您可以"
 
-#: client/project.cpp:999
+#: client/project.cpp:1013
 msgid "change Project Preferences on the project's web site"
 msgstr "在项目的网站上更改项目首选项（Project Preferences）"
 
-#: client/project.cpp:1004
+#: client/project.cpp:1018
 msgid "remove GPU exclusions in your cc_config.xml file"
 msgstr "在 cc_config.xml 文件中删除和 GPU 互斥的应用程序"
 
-#: client/project.cpp:1009
+#: client/project.cpp:1023
 msgid "change your settings at your account manager web site"
 msgstr "更改您的帐户管理器网站中的设置"
 
@@ -158,45 +158,45 @@ msgstr "您的 BOINC 客户端软件版本过低，请安装当前的最新版�
 msgid "This project doesn't support computers of type"
 msgstr "该项目不支持的计算机类型"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能继续运行计算任务"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能运行该项目的 GPU 计算程序"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "运行这个项目要求计算机配备一块 %s 显卡。"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "你当前选择的计算程序类型没有任务可供处理。"
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "该项目不支持您的计算机类型"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "要求更新 BOINC 的版本，请安装当前最新的正式版本"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s 目前有可用的任务，但是您的偏好设定禁用了该类任务。"
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:239
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "您的 app_info.xml 文件中未包括可用版本的"

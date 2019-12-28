@@ -18,17 +18,21 @@
 
 // functions dealing with the consent and consent_type tables.
 
-include_once("../inc/boinc_db.inc");
-include_once("../inc/util.inc");
+require_once("../inc/boinc_db.inc");
+require_once("../inc/util.inc");
 
 define('CONSENT_TYPE_ENROLL','ENROLL');
+
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
 
 function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
-    }
-    else {
+    } else {
         $mytime = $ctime;
     }
     return BoincConsent::insert(
@@ -78,8 +82,7 @@ function intercept_login($user, $perm, $in_next_url = "") {
         send_cookie('tempperm', $perm, false);
         $save_url = $in_next_url;
         return "user_agreetermsofuse.php?next_url=$save_url";
-    }
-    else {
+    } else {
         send_cookie('auth', $user->authenticator, $perm);
         return $in_next_url;
     }

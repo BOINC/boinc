@@ -3,7 +3,7 @@
 <!--
  This is the manual page for the BOINC core client (boinc).
 
- Copyright © 2007-2008 University of California
+ Copyright © 2007-2019 University of California
 
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -17,7 +17,7 @@
   <!ENTITY % COMMON SYSTEM "common.ent">
   %COMMON;
 
-  <!ENTITY date "<date>04 March 2013</date>">
+  <!ENTITY date "<date>08 April 2019</date>">
 ]>
 
 <refentry>
@@ -46,7 +46,7 @@
    </authorgroup>
     <copyright>
       <year>2007</year>
-      <year>2013</year>
+      <year>2019</year>
       <holder>University of California</holder>
     </copyright>
     &date;
@@ -430,7 +430,7 @@
 
   <refsect1>
     <title>COPYRIGHT</title>
-    <para>Copyright © 2007-2013 University of California.</para>
+    <para>Copyright © 2007-2019 University of California.</para>
     <para>Permission is granted to copy, distribute and/or modify this
       document under the terms of the &gnu; Free Documentation License,
       Version 1.2 or any later version published by the Free Software

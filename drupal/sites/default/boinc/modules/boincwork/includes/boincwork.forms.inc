@@ -769,6 +769,34 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   
   $total_credit = $old_host->total_credit + $new_host->total_credit;
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+
+  if ($new_host->rpc_seqno == $old_host->id) {
+    rules_invoke_event('boincwork_circular_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Circular merge attempted, target host rpc_seqno is equal to old host\'s id: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge due to a circular merge error. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
+
+  if ($new_host->userid==0) {
+    rules_invoke_event('boincwork_zombie_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Zombie merge attempted, target host has userid=0: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge because the target host has userid=0. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
   
   // Move credit from the old host to the new host
   db_set_active('boinc_rw');
@@ -1699,7 +1727,7 @@ function communityprefs_form_submit($form, &$form_state) {
   user_save($user, $settings);
   
   drupal_set_message(bts('Your community preferences have been updated.', array(), NULL, 'boinc:account-preferences-community'));
-  
+
   // Form will not redirect if storage is set; not good if language changes
   unset($form_state['storage']);
 }

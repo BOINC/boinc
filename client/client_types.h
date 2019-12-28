@@ -124,8 +124,6 @@ struct FILE_INFO {
         // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;
         // nonzero if in the process of being up/downloaded
-    RESULT* result;
-        // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     URL_LIST download_urls;
@@ -228,8 +226,14 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    void clear();
-    DAILY_STATS() {clear();}
+    DAILY_STATS(int){}
+    void clear() {
+        static const DAILY_STATS x(0);
+        *this = x;
+    }
+    DAILY_STATS() {
+        clear();
+    }
     int parse(FILE*);
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
@@ -275,7 +279,14 @@ struct APP {
     bool ignore;
 #endif
 
-    APP() {memset(this, 0, sizeof(APP));}
+    APP(int){}
+    void clear() {
+        static const APP x(0);
+        *this = x;
+    }
+    APP(){
+        clear();
+    }
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };

@@ -84,7 +84,9 @@ bool CBOINCGUIApp::OnInit() {
     m_pSkinManager = NULL;
     m_pFrame = NULL;
     m_pDocument = NULL;
+#ifndef __WXGTK__
     m_pTaskBarIcon = NULL;
+#endif
     m_pEventLog = NULL;
     m_bEventLogWasActive = false;
     m_bProcessingActivateAppEvent = false;
@@ -102,6 +104,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
+    m_bHostnamePasswordSet = false;
     m_bBOINCMGRAutoStarted = false;
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
@@ -426,7 +429,7 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
-
+#ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -438,6 +441,7 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     );
     wxASSERT(m_pTaskBarIcon);
+#endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -510,11 +514,12 @@ int CBOINCGUIApp::OnExit() {
     }
     m_pMacDockIcon = NULL;
 #endif
+#ifndef __WXGTK__
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
     m_pTaskBarIcon = NULL;
-
+#endif
     if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;
@@ -686,6 +691,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
     if (hostNameSpecified && passwordSpecified) {
         m_bMultipleInstancesOK = true;
+        m_bHostnamePasswordSet = true;
     }
 
     if (parser.Found(wxT("no-daemon"))) {
@@ -1036,9 +1042,11 @@ void CBOINCGUIApp::FireReloadSkin() {
     if (m_pFrame) {
 	    m_pFrame->FireReloadSkin();
     }
+#ifndef __WXGTK__
     if (m_pTaskBarIcon) {
 	    m_pTaskBarIcon->FireReloadSkin();
     }
+#endif
 }
 
 

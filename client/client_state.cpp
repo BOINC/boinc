@@ -128,6 +128,7 @@ CLIENT_STATE::CLIENT_STATE()
     safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
+    cmdline_dir = false;
     exit_before_upload = false;
     run_test_app = false;
 #ifndef _WIN32
@@ -624,6 +625,13 @@ int CLIENT_STATE::init() {
     // domain_name for Android
     //
     host_info.get_host_info(true);
+
+    // clear the VM extensions disabled flag.
+    // It's possible that the user enabled them since the last VM failure,
+    // or that the last failure was specious.
+    //
+    host_info.p_vm_extensions_disabled = false;
+
     set_ncpus();
     show_host_info();
 
@@ -827,6 +835,11 @@ int CLIENT_STATE::init() {
         all_projects_list_check();
         notices.init_rss();
     }
+
+    // check for jobs with finish files
+    // (i.e. they finished just as client was exiting)
+    //
+    active_tasks.check_for_finished_jobs();
 
     // warn user if some jobs need more memory than available
     //

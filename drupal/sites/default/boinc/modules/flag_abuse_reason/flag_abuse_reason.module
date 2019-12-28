@@ -1,0 +1,177 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Create a flag link with a JS dropdown with reasons why content has
+ * been flagged for abuse.
+ */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into flag module
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_flag_default_flags()
+ */
+
+function flag_abuse_reason_flag_default_flags() {
+  $flags = array();
+  module_load_include('inc', 'flag_abuse_reason', 'includes/flag_abuse_reason.flag_default');
+  _flag_abuse_reason_abuse_node_flags($flags);
+  _flag_abuse_reason_abuse_comment_flags($flags);
+  _flag_abuse_reason_abuse_user_flags($flags);
+  return $flags;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function flag_abuse_reason_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'flag_abuse_reason') . '/includes',
+  );
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function flag_abuse_reason_perm() {
+  return array('reset abuse flags');
+}
+
+/**
+ * Implementation of hook_preprocess_flag().
+ *
+ * Here we change our flag event/action to 'reset'.
+ */
+function flag_abuse_reason_preprocess_flag(&$vars) {
+  drupal_add_js(drupal_get_path('module', 'flag_abuse_reason') . "/includes/flag_abuse_reason.js");
+  drupal_add_css(drupal_get_path('module', 'flag_abuse_reason') . "/css/flag_abuse_reason.css");
+  $myuser = $vars['user'];
+  $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
+
+   // permmission check instead of a role
+  // Is this one of our abuse flags?
+  if (in_array($vars['flag']->name, $metaflags)) {
+
+    // count the number of flags on this content
+    $count = db_result(db_query("SELECT COUNT(*) FROM {flag_content} WHERE content_id=%d AND fid=%d", $vars['content_id'], $vars['flag']->fid));
+
+    // If the variable <flagname>-<contentid> is set, then Reset
+    // completely.
+    if (variable_get($vars['flag']->name.'-'.$vars['content_id'], FALSE)) {
+      if (user_access('reset abuse flags', $myuser)) {
+        $vars['action'] = 'none';
+        $vars['link_text'] = t('Reset Completely');
+        $vars['link_title'] = t('Reset everying, allows users to re-flag content.');
+      }
+      else {
+        $vars['action'] = 'none';
+        $vars['link_text'] = t('Locked');
+        $vars['link_title'] = t('Reporting locked by moderator.');
+        $vars['link'] = array();
+        $vars['link_href'] = '';
+        $vars['flag_classes'] = 'flag style-like-link';
+      }
+    }
+    else {
+      // If there are flags on this content, clear the flags and
+      // lock the content.
+      if (user_access('reset abuse flags', $myuser)) {
+        if ($count>0) {
+          $vars['action'] = 'reset';
+          $vars['link_text'] = t('Clear Reports and Lock');
+          $vars['link_title'] = t('Remove all flags on this content and prevent any new flagging.');
+        }
+        // Otherwise the link is shown but has no effect.
+        else {
+          $vars['action'] = 'none';
+          $vars['link_text'] = t('No abuse reports');
+          $vars['link_title'] = t('This content has no abuse reports. Link does nothing.');
+        $vars['link'] = array();
+        $vars['link_href'] = '';
+        $vars['flag_classes'] = 'flag style-like-link';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_flag().
+ *
+ * If a user with appropriate permission/role flags this content from our view
+ * we want to remove all flags. http://drupal.org/node/327901#comment-1085685
+ */
+function flag_abuse_reason_flag($event, $flag, $content_id, $account) {
+  $metaflags = array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta');
+
+  // For privileged users, check permissions and reset flags
+  // permission check instead of a role.
+  if (user_access('reset abuse flags', $account)) {
+    // Is this one of our abuse flags?
+    if (in_array($flag->name, $metaflags)) {
+
+      // Reset the flags completely.
+      if (variable_get($flag->name.'-'.$content_id, FALSE)) {
+        // Since the user flags the content again, we need to unflag it.
+        flag_reset_flag($flag, $content_id);
+        drupal_set_message(bts('INFO: Reset everything. Users may reflag this content.', array(), NULL, 'boinc:flag-abuse-reset'), 'info');
+        // unlock flag; effectively resets flags for this content
+        variable_del($flag->name.'-'.$content_id);
+      }
+      else {
+        // Clear and Lock all flags on this content.
+        $dbresult = db_query("SELECT DISTINCT fid FROM {flag_content} WHERE content_id = %d", $content_id);
+        $rows = 0;
+        while ($myfid = db_fetch_array($dbresult)) {
+          $myflag = flag_get_flag(NULL, array_pop($myfid));
+          $rows += flag_reset_flag($myflag, $content_id);
+        }
+        if ($rows) {
+          // This user actually flags the content as well, so it may
+          // confuse the user if they reset what they thought was one
+          // flag and we report two.
+          $rows--;
+          drupal_set_message(bts('INFO: Cleared !rows flags. Content is now locked and may not be reflagged.', array('!rows' => $rows), NULL, 'boinc:flag-abuse-reset'), 'info');
+
+          // This is the line which sets a Drupal variable which
+          // prevents the flag link from showing again for all
+          // users. Effectively preventing the content from being
+          // flagged again.
+          variable_set($flag->name.'-'.$content_id, TRUE);
+        }
+      }
+
+    }
+  }
+  // Normal users may cancel their all their reported flags on this
+  // content.
+  else {
+    if ( ($event=='unflag') && (in_array($flag->name, $metaflags)) ) {
+      $allflags = flag_get_user_flags($flag->content_type, $content_id, $account->uid);
+      foreach ($allflags as $subflag) {
+        $myflag = flag_get_flag(NULL, $subflag->fid);
+        $rc = $myflag->flag('unflag', $content_id, $account);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function flag_abuse_reason_form_flag_confirm_alter(&$form, &$form_state) {
+  // Permmission check instead of a role.
+  if (user_access('reset abuse flags', $account)) {
+    $flag_name = $form['flag_name']['#value'];
+    // Is this one of our abuse flags?
+    if (in_array($flag_name, array('abuse_node_meta', 'abuse_comment_meta', 'abuse_user_meta'))) {
+      drupal_set_title(t('Flag reset'));
+      $form['description']['#value'] = t('Are you sure you want to reset all offensive flag on this content? Once doing so, users will not be able to flag this content again.');
+      $form['actions']['submit']['#value'] = t('Reset flags');
+    }
+  }
+}

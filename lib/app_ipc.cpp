@@ -269,7 +269,7 @@ void APP_INIT_DATA::clear() {
     host_total_credit = 0;
     host_expavg_credit = 0;
     resource_share_fraction = 0;
-    host_info.clear_host_info();
+    host_info.clear();
     proxy_info.clear();
     global_prefs.defaults();
     starting_elapsed_time = 0;

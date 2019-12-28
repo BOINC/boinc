@@ -96,6 +96,7 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
+#ifndef SIM
 #if !(defined(_WIN32) || defined(__APPLE__))
 
 static int nvidia_driver_version() {
@@ -130,6 +131,7 @@ end:
 }
 
 #endif 
+#endif // SIM
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
@@ -390,7 +392,7 @@ void* cudalib = NULL;
     warnings.push_back(buf);
 
     for (j=0; j<cuda_ndevs; j++) {
-        memset(&cc.prop, 0, sizeof(cc.prop));
+        cc.prop.clear();
         CUdevice device;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {

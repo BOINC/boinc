@@ -49,6 +49,7 @@
 #include "client_msgs.h"
 #include "file_xfer.h"
 #include "project.h"
+#include "result.h"
 #include "sandbox.h"
 
 using std::vector;
@@ -191,7 +192,7 @@ int FILE_INFO::verify_file(
     // see if we need to unzip it
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
-        char gzpath[MAXPATHLEN];
+        char gzpath[MAXPATHLEN+16];
         snprintf(gzpath, sizeof(gzpath), "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
             if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
@@ -416,7 +417,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 // If this was a compressed download, rename .gzt to .gz
                 //
                 if (fip->download_gzipped) {
-                    char path[MAXPATHLEN], from_path[MAXPATHLEN], to_path[MAXPATHLEN];
+                    char path[MAXPATHLEN], from_path[MAXPATHLEN+16], to_path[MAXPATHLEN+16];
                     get_pathname(fip, path, sizeof(path));
                     snprintf(from_path, sizeof(from_path), "%s.gzt", path);
                     snprintf(to_path, sizeof(to_path), "%s.gz", path);
@@ -506,7 +507,34 @@ void CLIENT_STATE::check_file_existence() {
                     path, fip->nbytes, size
                 );
             }
+            // If an output file disappears before it's uploaded,
+            // flag the job as an error.
+            //
+            if (fip->status == FILE_NOT_PRESENT && fip->uploadable() && !fip->uploaded) {
+                RESULT* rp = file_info_to_result(fip);
+                if (rp) {
+                    gstate.report_result_error(
+                        *rp, "output file missing or invalid"
+                    );
+                }
+            }
         }
     }
 }
 
+// return the result that *fip is an output file of, if any
+//
+RESULT* CLIENT_STATE::file_info_to_result(FILE_INFO* fip) {
+    unsigned int i, j;
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        if (rp->project != fip->project) continue;
+        for (j=0; j<rp->output_files.size(); j++) {
+            FILE_REF& fr = rp->output_files[j];
+            if (fr.file_info == fip) {
+                return rp;
+            }
+        }
+    }
+    return NULL;
+}

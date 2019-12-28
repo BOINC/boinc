@@ -5,15 +5,15 @@
 # 
 # Translators:
 # Petteri Karjalainen <penes81@gmail.com>, 2018
-# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2019
 # Kasvain <kasvain@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
-"PO-Revision-Date: 2019-02-10 08:55+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-09-02 05:48+0000\n"
+"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,425 +200,410 @@ msgstr "Yhdistetty"
 msgid "Disconnected"
 msgstr "Yhteys katkaistu"
 
-#: clientgui/AdvancedFrame.cpp:333
+#: clientgui/AdvancedFrame.cpp:329
 #, c-format
 msgid "New %s window..."
 msgstr "Uusi %s ikkuna..."
 
-#: clientgui/AdvancedFrame.cpp:337
+#: clientgui/AdvancedFrame.cpp:333
 #, c-format
 msgid "Open another %s window"
 msgstr "Avaa toinen %s ikkuna"
 
-#: clientgui/AdvancedFrame.cpp:348
+#: clientgui/AdvancedFrame.cpp:344
 msgid "Select computer...\tCtrl+Shift+I"
 msgstr "Valitse tietokone...\tCtrl+Shift+I"
 
-#: clientgui/AdvancedFrame.cpp:349
+#: clientgui/AdvancedFrame.cpp:345
 msgid "Connect to a BOINC client on another computer"
 msgstr "Ota yhteys BOINC-ohjelmaan toisessa tietokoneessa"
 
-#: clientgui/AdvancedFrame.cpp:353
+#: clientgui/AdvancedFrame.cpp:349
 msgid "Shut down connected client..."
 msgstr "Sulje yhdistetty ydinohjelma..."
 
-#: clientgui/AdvancedFrame.cpp:354
+#: clientgui/AdvancedFrame.cpp:350
 msgid "Shut down the currently connected BOINC client"
 msgstr "Sulje tällä hetkellä yhdistetty BOINC-ohjelma"
 
-#: clientgui/AdvancedFrame.cpp:359 clientgui/sg_BoincSimpleFrame.cpp:123
+#: clientgui/AdvancedFrame.cpp:355 clientgui/sg_BoincSimpleFrame.cpp:146
 #, c-format
 msgid "Close the %s window"
 msgstr "Sulje %s ikkuna"
 
-#: clientgui/AdvancedFrame.cpp:362 clientgui/sg_BoincSimpleFrame.cpp:126
+#: clientgui/AdvancedFrame.cpp:358 clientgui/sg_BoincSimpleFrame.cpp:149
 msgid "&Close window"
 msgstr "&Sulje ikkuna"
 
-#: clientgui/AdvancedFrame.cpp:371 clientgui/AdvancedFrame.cpp:376
-#: clientgui/AdvancedFrame.cpp:381 clientgui/sg_BoincSimpleFrame.cpp:135
-#: clientgui/sg_BoincSimpleFrame.cpp:140
+#: clientgui/AdvancedFrame.cpp:367 clientgui/AdvancedFrame.cpp:372
+#: clientgui/AdvancedFrame.cpp:377 clientgui/sg_BoincSimpleFrame.cpp:158
+#: clientgui/sg_BoincSimpleFrame.cpp:163
 #, c-format
 msgid "Exit %s"
 msgstr "Lopeta %s"
 
-#: clientgui/AdvancedFrame.cpp:395 clientgui/sg_BoincSimpleFrame.cpp:154
+#: clientgui/AdvancedFrame.cpp:391 clientgui/sg_BoincSimpleFrame.cpp:177
 msgid "Preferences..."
 msgstr "Asetukset..."
 
-#: clientgui/AdvancedFrame.cpp:404
+#: clientgui/AdvancedFrame.cpp:400
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Ilmoitukset\t Ctrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:405
+#: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
 msgstr "Näytä ilmoitukset"
 
-#: clientgui/AdvancedFrame.cpp:410
+#: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projektit\t Ctrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:411
+#: clientgui/AdvancedFrame.cpp:407
 msgid "Show projects"
 msgstr "Näytä projektit"
 
-#: clientgui/AdvancedFrame.cpp:416
+#: clientgui/AdvancedFrame.cpp:412
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Työpaketit\t Ctrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:413
 msgid "Show tasks"
 msgstr "Näytä paketit"
 
-#: clientgui/AdvancedFrame.cpp:422
+#: clientgui/AdvancedFrame.cpp:418
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "Sii&rrot\t Ctrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:423
+#: clientgui/AdvancedFrame.cpp:419
 msgid "Show file transfers"
 msgstr "Näytä tiedostosiirrot"
 
-#: clientgui/AdvancedFrame.cpp:428
+#: clientgui/AdvancedFrame.cpp:424
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "&Tilastot\t Ctrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:429
+#: clientgui/AdvancedFrame.cpp:425
 msgid "Show statistics"
 msgstr "Näytä tilastot"
 
-#: clientgui/AdvancedFrame.cpp:434
+#: clientgui/AdvancedFrame.cpp:430
 msgid "&Disk\tCtrl+Shift+D"
 msgstr "&Levy\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:435
+#: clientgui/AdvancedFrame.cpp:431
 msgid "Show disk usage"
 msgstr "Näytä levynkäyttö"
 
-#: clientgui/AdvancedFrame.cpp:442
+#: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Yksinkertainen &näkymä...\t Ctrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:443
+#: clientgui/AdvancedFrame.cpp:439
 msgid "Switch to the Simple View"
 msgstr "Vaihda yksinkertaiseen näkymään"
 
-#: clientgui/AdvancedFrame.cpp:457 clientgui/AdvancedFrame.cpp:481
-#: clientgui/sg_BoincSimpleFrame.cpp:208
+#: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
+#: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
 msgid "&Add project..."
 msgstr "&Liity projektiin..."
 
-#: clientgui/AdvancedFrame.cpp:458 clientgui/AdvancedFrame.cpp:482
-#: clientgui/sg_BoincSimpleFrame.cpp:209
+#: clientgui/AdvancedFrame.cpp:454 clientgui/AdvancedFrame.cpp:478
+#: clientgui/sg_BoincSimpleFrame.cpp:233 clientgui/sg_BoincSimpleFrame.cpp:257
 msgid "Add a project"
 msgstr "Lisää projekti"
 
-#: clientgui/AdvancedFrame.cpp:462
+#: clientgui/AdvancedFrame.cpp:458 clientgui/sg_BoincSimpleFrame.cpp:237
 msgid "&Use account manager..."
 msgstr "&Käytä tilihallitsijaa..."
 
-#: clientgui/AdvancedFrame.cpp:463
+#: clientgui/AdvancedFrame.cpp:459 clientgui/sg_BoincSimpleFrame.cpp:238
 msgid "Use an account manager to control this computer."
 msgstr "Käytä tilihallitsijaa tämän koneen hallinnointiin."
 
-#: clientgui/AdvancedFrame.cpp:467
+#: clientgui/AdvancedFrame.cpp:463 clientgui/sg_BoincSimpleFrame.cpp:242
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Synkronoi %s kanssa"
 
-#: clientgui/AdvancedFrame.cpp:471
+#: clientgui/AdvancedFrame.cpp:467 clientgui/sg_BoincSimpleFrame.cpp:246
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Hae nykyiset asetukset %s:sta"
 
-#: clientgui/AdvancedFrame.cpp:485
+#: clientgui/AdvancedFrame.cpp:481 clientgui/sg_BoincSimpleFrame.cpp:260
 #, c-format
 msgid "S&top using %s..."
 msgstr "L&opeta %s:n käyttö..."
 
-#: clientgui/AdvancedFrame.cpp:491
+#: clientgui/AdvancedFrame.cpp:487 clientgui/sg_BoincSimpleFrame.cpp:266
 msgid "Remove this computer from account manager control."
 msgstr "Poista tämä tietokone tilihallitsijasta."
 
-#: clientgui/AdvancedFrame.cpp:497
+#: clientgui/AdvancedFrame.cpp:493
 msgid "Run CPU &benchmarks"
 msgstr "Aja keskusyksikön &suorituskykytestit"
 
-#: clientgui/AdvancedFrame.cpp:498
+#: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
 msgstr "Aja testit jotka mittaavat CPU-nopeuden"
 
-#: clientgui/AdvancedFrame.cpp:502
+#: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
 msgstr "Yritä uudelleen odottavia siirtoja"
 
-#: clientgui/AdvancedFrame.cpp:503
+#: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
 msgstr "Yritä lykättyjä tiedostonsiirtoja ja tehtäväpyyntöjä"
 
-#: clientgui/AdvancedFrame.cpp:508 clientgui/sg_BoincSimpleFrame.cpp:214
+#: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:272
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Tapahtumaloki...\t Ctrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:509
+#: clientgui/AdvancedFrame.cpp:505
 msgid "Show diagnostic messages"
 msgstr "Näytä diagnostiikkaviestit"
 
-#: clientgui/AdvancedFrame.cpp:517
+#: clientgui/AdvancedFrame.cpp:513
 msgid "&Run always"
 msgstr "&Suorita aina"
 
-#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/AdvancedFrame.cpp:514
 msgid "Allow work regardless of preferences"
 msgstr "Salli työ riippumatta asetuksista"
 
-#: clientgui/AdvancedFrame.cpp:522
+#: clientgui/AdvancedFrame.cpp:518
 msgid "Run based on &preferences"
 msgstr "Suorita &asetusten perusteella"
 
-#: clientgui/AdvancedFrame.cpp:523
+#: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work according to preferences"
 msgstr "Salli työ asetusten mukaisesti"
 
-#: clientgui/AdvancedFrame.cpp:527
+#: clientgui/AdvancedFrame.cpp:523
 msgid "&Suspend"
 msgstr "&Hyllytä"
 
-#: clientgui/AdvancedFrame.cpp:528
+#: clientgui/AdvancedFrame.cpp:524
 msgid "Stop work regardless of preferences"
 msgstr "Keskeytä työ riippumatta asetuksista"
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
 msgstr "Käytä näytönohjainta aina"
 
-#: clientgui/AdvancedFrame.cpp:554
+#: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
 msgstr "Salli näytönohjaimen työ riippumatta asetuksista"
 
-#: clientgui/AdvancedFrame.cpp:558
+#: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU based on preferences"
 msgstr "Käytä näytönohjainta asetusten mukaan"
 
-#: clientgui/AdvancedFrame.cpp:559
+#: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
 msgstr "Salli näytönohjaimen työ asetusten mukaan"
 
-#: clientgui/AdvancedFrame.cpp:563
+#: clientgui/AdvancedFrame.cpp:559
 msgid "Suspend GPU"
 msgstr "Hyllytä näytönohjain"
 
-#: clientgui/AdvancedFrame.cpp:564
+#: clientgui/AdvancedFrame.cpp:560
 msgid "Stop GPU work regardless of preferences"
 msgstr "Pysäytä näytönohjaimen työ riippumatta asetuksista"
 
-#: clientgui/AdvancedFrame.cpp:588
+#: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
 msgstr "Verkkoyhteys on aina"
 
-#: clientgui/AdvancedFrame.cpp:589
+#: clientgui/AdvancedFrame.cpp:585
 msgid "Allow network activity regardless of preferences"
 msgstr "Salli verkon käyttö asetuksista riippumatta"
 
-#: clientgui/AdvancedFrame.cpp:593
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity based on preferences"
 msgstr "Verkon käyttö asetusten mukaan"
 
-#: clientgui/AdvancedFrame.cpp:594
+#: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity according to preferences"
 msgstr "Salli verkon käyttö asetusten mukaan"
 
-#: clientgui/AdvancedFrame.cpp:598
+#: clientgui/AdvancedFrame.cpp:594
 msgid "Suspend network activity"
 msgstr "Hyllytä verkkoyhteys"
 
-#: clientgui/AdvancedFrame.cpp:599
+#: clientgui/AdvancedFrame.cpp:595
 msgid "Stop network activity"
 msgstr "Pysäytä verkkoyhteys"
 
-#: clientgui/AdvancedFrame.cpp:608 clientgui/sg_BoincSimpleFrame.cpp:194
+#: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:217
 msgid "Computing &preferences..."
 msgstr "La&skenta-asetukset..."
 
-#: clientgui/AdvancedFrame.cpp:609 clientgui/sg_BoincSimpleFrame.cpp:195
+#: clientgui/AdvancedFrame.cpp:605 clientgui/sg_BoincSimpleFrame.cpp:218
 msgid "Configure computing preferences"
 msgstr "Muuta laskennan asetuksia"
 
-#: clientgui/AdvancedFrame.cpp:614
+#: clientgui/AdvancedFrame.cpp:610
 msgid "Exclusive applications..."
 msgstr "Erityissovellukset..."
 
-#: clientgui/AdvancedFrame.cpp:615
+#: clientgui/AdvancedFrame.cpp:611
 msgid "Configure exclusive applications"
 msgstr "Määritä erityissovellusten asetukset"
 
-#: clientgui/AdvancedFrame.cpp:620
+#: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
 msgstr "Valitse sarakkeet..."
 
-#: clientgui/AdvancedFrame.cpp:621
+#: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
 msgstr "Valitse mitkä sarakkeet näytetään"
 
-#: clientgui/AdvancedFrame.cpp:625
+#: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
 msgstr "Tapahtumalokin asetukset...\tCtrl+Shift+F"
 
-#: clientgui/AdvancedFrame.cpp:626
+#: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
 msgstr "Salli tai poista käytöstä erilaisia diagnostiikkaviestejä"
 
-#: clientgui/AdvancedFrame.cpp:630 clientgui/sg_BoincSimpleFrame.cpp:200
+#: clientgui/AdvancedFrame.cpp:626 clientgui/sg_BoincSimpleFrame.cpp:223
 msgid "&Other options..."
 msgstr "&Muut asetukset..."
 
-#: clientgui/AdvancedFrame.cpp:631
+#: clientgui/AdvancedFrame.cpp:627
 msgid "Configure display options and network settings"
 msgstr "Muuta näyttö- ja verkkoasetuksia"
 
-#: clientgui/AdvancedFrame.cpp:636
+#: clientgui/AdvancedFrame.cpp:632
 msgid "Read config files"
 msgstr "Lue kokoonpanotiedosto"
 
-#: clientgui/AdvancedFrame.cpp:637
+#: clientgui/AdvancedFrame.cpp:633
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml -tiedostoista"
 
-#: clientgui/AdvancedFrame.cpp:641
+#: clientgui/AdvancedFrame.cpp:637
 msgid "Read local prefs file"
 msgstr "Lue paikallinen asetustiedosto"
 
-#: clientgui/AdvancedFrame.cpp:642
+#: clientgui/AdvancedFrame.cpp:638
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Lue asetukset global_prefs_override.xml -tiedostosta."
 
-#: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:222
+#: clientgui/AdvancedFrame.cpp:646 clientgui/sg_BoincSimpleFrame.cpp:280
 #, c-format
 msgid "%s &help"
 msgstr "%s &ohje"
 
-#: clientgui/AdvancedFrame.cpp:654 clientgui/sg_BoincSimpleFrame.cpp:226
+#: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:284
 #, c-format
 msgid "Show information about %s"
 msgstr "Näytä tietoja %s:sta"
 
-#: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:236
+#: clientgui/AdvancedFrame.cpp:660 clientgui/sg_BoincSimpleFrame.cpp:294
 #, c-format
 msgid "&%s help"
-msgstr "&%s apua"
+msgstr "&%s ohje"
 
-#: clientgui/AdvancedFrame.cpp:668 clientgui/sg_BoincSimpleFrame.cpp:240
+#: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:298
 #, c-format
 msgid "Show information about the %s"
 msgstr "Näytä tietoja %s:sta"
 
-#: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:250
+#: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:308
 #, c-format
 msgid "%s &web site"
 msgstr "%s &nettisivu"
 
-#: clientgui/AdvancedFrame.cpp:683
+#: clientgui/AdvancedFrame.cpp:679
 #, c-format
 msgid "See more information about %s on the web"
 msgstr "%s löytyy lisätietoa netissä"
 
-#: clientgui/AdvancedFrame.cpp:694 clientgui/AdvancedFrame.cpp:698
-#: clientgui/sg_BoincSimpleFrame.cpp:265 clientgui/sg_BoincSimpleFrame.cpp:269
+#: clientgui/AdvancedFrame.cpp:690 clientgui/AdvancedFrame.cpp:694
+#: clientgui/sg_BoincSimpleFrame.cpp:323 clientgui/sg_BoincSimpleFrame.cpp:327
 #, c-format
 msgid "Check for new %s version"
 msgstr "Tarkista, onko uutta %s versiota"
 
-#: clientgui/AdvancedFrame.cpp:710 clientgui/sg_BoincSimpleFrame.cpp:281
+#: clientgui/AdvancedFrame.cpp:706 clientgui/sg_BoincSimpleFrame.cpp:339
 msgid "Report Issue"
-msgstr ""
+msgstr "Raportoi virheestä"
 
-#: clientgui/AdvancedFrame.cpp:711 clientgui/sg_BoincSimpleFrame.cpp:282
+#: clientgui/AdvancedFrame.cpp:707 clientgui/sg_BoincSimpleFrame.cpp:340
 msgid "Report bug or enhancement request"
-msgstr ""
+msgstr "Raportoi ohjelmavirheestä tai ehdota parannusta"
 
-#: clientgui/AdvancedFrame.cpp:716 clientgui/BOINCTaskBar.cpp:530
-#: clientgui/sg_BoincSimpleFrame.cpp:287
+#: clientgui/AdvancedFrame.cpp:712 clientgui/BOINCTaskBar.cpp:530
+#: clientgui/sg_BoincSimpleFrame.cpp:345
 #, c-format
 msgid "&About %s..."
 msgstr "&Tietoja %s:sta..."
 
-#: clientgui/AdvancedFrame.cpp:722 clientgui/sg_BoincSimpleFrame.cpp:293
+#: clientgui/AdvancedFrame.cpp:718 clientgui/sg_BoincSimpleFrame.cpp:351
 msgid "Licensing and copyright information."
 msgstr "Lisenssi- ja tekijänoikeustiedot."
 
-#: clientgui/AdvancedFrame.cpp:729 clientgui/sg_BoincSimpleFrame.cpp:300
+#: clientgui/AdvancedFrame.cpp:725 clientgui/sg_BoincSimpleFrame.cpp:358
 msgid "&File"
 msgstr "&Tiedosto"
 
-#: clientgui/AdvancedFrame.cpp:733 clientgui/sg_BoincSimpleFrame.cpp:304
+#: clientgui/AdvancedFrame.cpp:729 clientgui/sg_BoincSimpleFrame.cpp:362
 msgid "&View"
 msgstr "&Näytä"
 
-#: clientgui/AdvancedFrame.cpp:737
+#: clientgui/AdvancedFrame.cpp:733
 msgid "&Activity"
 msgstr "&Toiminta"
 
-#: clientgui/AdvancedFrame.cpp:741 clientgui/sg_BoincSimpleFrame.cpp:308
+#: clientgui/AdvancedFrame.cpp:737 clientgui/sg_BoincSimpleFrame.cpp:366
 msgid "&Options"
 msgstr "&Asetukset"
 
-#: clientgui/AdvancedFrame.cpp:745 clientgui/sg_BoincSimpleFrame.cpp:312
+#: clientgui/AdvancedFrame.cpp:741 clientgui/sg_BoincSimpleFrame.cpp:370
 msgid "&Tools"
 msgstr "&Työkalut"
 
-#: clientgui/AdvancedFrame.cpp:749 clientgui/sg_BoincSimpleFrame.cpp:316
+#: clientgui/AdvancedFrame.cpp:745 clientgui/sg_BoincSimpleFrame.cpp:374
 #: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
 msgstr "&Apua"
 
-#: clientgui/AdvancedFrame.cpp:1264
-#, c-format
-msgid "%s - Stop using %s"
-msgstr "%s - Lopeta %s:n käyttö"
-
-#: clientgui/AdvancedFrame.cpp:1269
-#, c-format
-msgid ""
-"If you stop using %s,\n"
-"you'll keep all your current projects,\n"
-"but you'll have to manage projects manually.\n"
-"\n"
-"Do you want to stop using %s?"
-msgstr "Jos lopetat %s:n käytön,\nkaikki nykyiset projektisi säilyvät,\nmutta sinun on hallittava niitä itse.\n\nHaluatko lopettaa %s:n käytön?"
-
-#: clientgui/AdvancedFrame.cpp:1483
+#: clientgui/AdvancedFrame.cpp:1325
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Sulje nykyinen ohjelma..."
 
-#: clientgui/AdvancedFrame.cpp:1492
+#: clientgui/AdvancedFrame.cpp:1334
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr "%s sulkee nykyisen ohjelman ja\npyytää toista konetta, johon yhteys otetaan."
 
-#: clientgui/AdvancedFrame.cpp:1879 clientgui/DlgAbout.cpp:119
+#: clientgui/AdvancedFrame.cpp:1721 clientgui/DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1889
+#: clientgui/AdvancedFrame.cpp:1731
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s on onnistuneesti lisätty %s"
 
-#: clientgui/AdvancedFrame.cpp:2056
+#: clientgui/AdvancedFrame.cpp:1897
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:2060
+#: clientgui/AdvancedFrame.cpp:1901
 #, c-format
 msgid "Connecting to %s"
 msgstr "Otetaan yhteyttä %s"
 
-#: clientgui/AdvancedFrame.cpp:2063
+#: clientgui/AdvancedFrame.cpp:1904
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Yhteydessä %s:iin (%s)"
@@ -647,93 +632,93 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "Sähköpostiosoitteella on jo tili ja sen\nsalasana on eri kuin antamasi.\n\nKäy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
 
-#: clientgui/AsyncRPC.cpp:1035
+#: clientgui/AsyncRPC.cpp:1037
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota..."
 
-#: clientgui/AsyncRPC.cpp:1038
+#: clientgui/AsyncRPC.cpp:1040
 #, c-format
 msgid "&Quit %s"
 msgstr "&Sulje %s"
 
-#: clientgui/AsyncRPC.cpp:1040
+#: clientgui/AsyncRPC.cpp:1042
 #, c-format
 msgid "E&xit %s"
 msgstr "Lopeta %s"
 
-#: clientgui/AsyncRPC.cpp:1044
+#: clientgui/AsyncRPC.cpp:1046
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Verkkoyhteys"
 
-#: clientgui/AsyncRPC.cpp:1060 clientgui/DlgAdvPreferencesBase.cpp:183
+#: clientgui/AsyncRPC.cpp:1062 clientgui/DlgAdvPreferencesBase.cpp:183
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: clientgui/BOINCBaseFrame.cpp:492
+#: clientgui/BOINCBaseFrame.cpp:493
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Yhteysvirhe"
 
-#: clientgui/BOINCBaseFrame.cpp:501
+#: clientgui/BOINCBaseFrame.cpp:502
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr "Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\nOta yhteys ylläpitäjään, joka lisää sinut paikalliseen \"boinc_users\" -käyttäjäryhmään."
 
-#: clientgui/BOINCBaseFrame.cpp:510
+#: clientgui/BOINCBaseFrame.cpp:511
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr "Käyttöoikeusvirhe otettaessa yhteyttä ohjelmaan.\nVarmista, että molemmat ohjelmat käynnistetään samasta hakemistosta."
 
-#: clientgui/BOINCBaseFrame.cpp:512
+#: clientgui/BOINCBaseFrame.cpp:513
 msgid "Authorization failed connecting to running client."
 msgstr "Käyttöoikeusvirhe otettaessa yhteyttä ohjelmaan."
 
-#: clientgui/BOINCBaseFrame.cpp:520
+#: clientgui/BOINCBaseFrame.cpp:521
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Antamasi salasana on virheellinen, yritä uudelleen."
 
-#: clientgui/BOINCBaseFrame.cpp:568
+#: clientgui/BOINCBaseFrame.cpp:569
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Yhteydenotto epäonnistui"
 
-#: clientgui/BOINCBaseFrame.cpp:577
+#: clientgui/BOINCBaseFrame.cpp:578
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr "%s ei saa yhteyttä %s -ohjelmaan.\nHaluatko yrittää yhteyttä uudelleen?"
 
-#: clientgui/BOINCBaseFrame.cpp:613
+#: clientgui/BOINCBaseFrame.cpp:614
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - Daemonin käynnistys epäonnistui"
 
-#: clientgui/BOINCBaseFrame.cpp:623
+#: clientgui/BOINCBaseFrame.cpp:624
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr "%s ei pysty käynnistämään %s -ohjelmaa.\nAvaa Ohjauspaneeli->Valvontatyökalut->Palvelut ja käynnistä BOINC-palvelu."
 
-#: clientgui/BOINCBaseFrame.cpp:629
+#: clientgui/BOINCBaseFrame.cpp:630
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
 msgstr "%s ei pysty käynnistämään %s ohjelmaa.\nAja ohjelma ja yritä uudelleen."
 
-#: clientgui/BOINCBaseFrame.cpp:680
+#: clientgui/BOINCBaseFrame.cpp:681
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Yhteyden tila"
 
-#: clientgui/BOINCBaseFrame.cpp:691
+#: clientgui/BOINCBaseFrame.cpp:692
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -741,8 +726,23 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr "%s ei tällä hetkellä ole yhteydessä %s -ohjelmaan.\nValitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %s -ohjelmaan.\nJos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
 
+#: clientgui/BOINCBaseFrame.cpp:1013
+#, c-format
+msgid "%s - Stop using %s"
+msgstr "%s - Lopeta %s:n käyttö"
+
+#: clientgui/BOINCBaseFrame.cpp:1018
+#, c-format
+msgid ""
+"If you stop using %s,\n"
+"you'll keep all your current projects,\n"
+"but you'll have to manage projects manually.\n"
+"\n"
+"Do you want to stop using %s?"
+msgstr "Jos lopetat %s:n käytön,\nkaikki nykyiset projektisi säilyvät,\nmutta sinun on hallittava niitä itse.\n\nHaluatko lopettaa %s:n käytön?"
+
 #. Create the web sites task group
-#: clientgui/BOINCBaseView.cpp:776
+#: clientgui/BOINCBaseView.cpp:778
 msgid "Project web pages"
 msgstr "Projektin nettisivut"
 
@@ -802,7 +802,7 @@ msgstr "%s yhteys internetiin on katkaistu."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s yhteyden katkaisu internetiin epäonnistui."
 
-#: clientgui/BOINCGUIApp.cpp:337
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -813,94 +813,94 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "Sinulla ei ole oikeuksia hallinnoida %s -ohjelmaa.\n\nKäyttääksesi %s tällä käyttäjällä:\n- asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen ei-ylläpitäjäkäyttäjistä\n tai\n- ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master' käyttäjäryhmään."
 
-#: clientgui/BOINCGUIApp.cpp:345
+#: clientgui/BOINCGUIApp.cpp:347
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n(Virhekoodi %d"
 
-#: clientgui/BOINCGUIApp.cpp:351
+#: clientgui/BOINCGUIApp.cpp:353
 msgid " at "
 msgstr " paikassa "
 
-#: clientgui/BOINCGUIApp.cpp:354 clientgui/MainDocument.cpp:2522
-#: clientgui/MainDocument.cpp:2581 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:356 clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2587 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:384
+#: clientgui/BOINCGUIApp.cpp:386
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "Tarvitaan uudelleenkäynnistys, jotta BOINC voisi toimia kunnolla.\nUudelleenkäynnistä tietokoneesi ja yritä uudelleen."
 
-#: clientgui/BOINCGUIApp.cpp:385 clientgui/DlgAbout.cpp:156
+#: clientgui/BOINCGUIApp.cpp:387 clientgui/DlgAbout.cpp:156
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCGUIApp.cpp:598
+#: clientgui/BOINCGUIApp.cpp:602
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Käyttöjärjestelmä käynnisti BOINC Managerin automaattisesti"
 
-#: clientgui/BOINCGUIApp.cpp:600
+#: clientgui/BOINCGUIApp.cpp:604
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Käynnistä BOINC niin, että vain tehtäväpalkin kuvake on näkyvissä"
 
-#: clientgui/BOINCGUIApp.cpp:602
+#: clientgui/BOINCGUIApp.cpp:606
 msgid "Directory containing the BOINC Client executable"
 msgstr "Hakemisto, joka sisältää BOINCin ohjelmatiedoston"
 
-#: clientgui/BOINCGUIApp.cpp:603
+#: clientgui/BOINCGUIApp.cpp:607
 msgid "BOINC data directory"
 msgstr "BOINCin datahakemisto"
 
-#: clientgui/BOINCGUIApp.cpp:605
+#: clientgui/BOINCGUIApp.cpp:609
 msgid "Host name or IP address"
 msgstr "Konenimi tai IP-osoite"
 
-#: clientgui/BOINCGUIApp.cpp:606
+#: clientgui/BOINCGUIApp.cpp:610
 msgid "GUI RPC port number"
 msgstr "GUI RPC porttinumero"
 
-#: clientgui/BOINCGUIApp.cpp:607
+#: clientgui/BOINCGUIApp.cpp:611
 msgid "Password"
 msgstr "Salasana"
 
-#: clientgui/BOINCGUIApp.cpp:608
+#: clientgui/BOINCGUIApp.cpp:612
 msgid "Startup BOINC with these optional arguments"
 msgstr "Käynnistä BOINC näillä lisäoptioilla"
 
-#: clientgui/BOINCGUIApp.cpp:609
+#: clientgui/BOINCGUIApp.cpp:613
 msgid "disable BOINC security users and permissions"
 msgstr "poista käytöstä BOINCin turvakäyttäjät ja käyttöoikeudet"
 
-#: clientgui/BOINCGUIApp.cpp:610
+#: clientgui/BOINCGUIApp.cpp:614
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "laita ulkoasun virheenkorjaus päälle nähdäksesi virheviestit"
 
-#: clientgui/BOINCGUIApp.cpp:611
+#: clientgui/BOINCGUIApp.cpp:615
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "useita BOINC Manager -instansseja sallittu"
 
-#: clientgui/BOINCGUIApp.cpp:613
+#: clientgui/BOINCGUIApp.cpp:617
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Ei käytetä: tilapäinen korjaus bugiin XCode 4.2:ssa"
 
-#: clientgui/BOINCGUIApp.cpp:615
+#: clientgui/BOINCGUIApp.cpp:619
 msgid "Don't run the client"
 msgstr "Älä aja ohjelmaa"
 
 #. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:883
+#: clientgui/BOINCGUIApp.cpp:887
 msgid "(Automatic Detection)"
 msgstr "(Automaattinen tunnistus)"
 
-#: clientgui/BOINCGUIApp.cpp:884
+#: clientgui/BOINCGUIApp.cpp:888
 msgid "(Unknown)"
 msgstr "(Tuntematon)"
 
-#: clientgui/BOINCGUIApp.cpp:885
+#: clientgui/BOINCGUIApp.cpp:889
 msgid "(User Defined)"
 msgstr "(Käyttäjän määrittelemä)"
 
@@ -928,7 +928,7 @@ msgstr "Nukuta näytönohjain"
 msgid "E&xit"
 msgstr "L&opeta"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:950
+#: clientgui/BOINCTaskBar.cpp:615 clientgui/sg_BoincSimpleFrame.cpp:973
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118 clientgui/ViewProjects.cpp:788
 #: clientgui/ViewWork.cpp:872
@@ -1073,9 +1073,9 @@ msgstr "Tekijänoikeus:"
 
 #: clientgui/DlgAbout.cpp:195
 msgid ""
-"(C) 2003-2018 University of California, Berkeley.\n"
+"(C) 2003-2019 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2018 Kalifornian yliopisto, Berkeley.\nKaikki oikeudet pidätetään."
+msgstr "(C) 2003-2019 Kalifornian yliopisto, Berkeley.\nKaikki oikeudet pidätetään."
 
 #: clientgui/DlgAbout.cpp:200
 #, c-format
@@ -1153,7 +1153,7 @@ msgstr "Sulje ikkuna tallentamatta."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:986
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1009
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Apua"
@@ -1278,7 +1278,7 @@ msgstr "Varastoi vähintään"
 #: clientgui/DlgAdvPreferencesBase.cpp:387
 #: clientgui/DlgAdvPreferencesBase.cpp:409
 msgid "days of work"
-msgstr "työpäivän aikana"
+msgstr "päiväksi työtä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:393
 msgid ""
@@ -1589,7 +1589,7 @@ msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
-msgstr "Vaihtaminen paikalliseksi "
+msgstr "Vaihtaa käyttämään tällä sivulla olevia paikallisia asetuksia. Tämä ohittaa nettipohjaiset asetukset vaikka tekisit myöhemmin siellä muutoksia. Haluatko jatkaa?"
 
 #: clientgui/DlgAdvPreferences.cpp:1122 clientgui/DlgAdvPreferences.cpp:1163
 #: clientgui/sg_DlgPreferences.cpp:1199 clientgui/sg_DlgPreferences.cpp:1211
@@ -1757,38 +1757,27 @@ msgstr "näyttää asetusten nettisivun"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
-#: clientgui/DlgExclusiveApps.cpp:303 clientgui/DlgExclusiveApps.cpp:309
-#: clientgui/DlgExclusiveApps.cpp:315
-msgid "Applications to add"
-msgstr "Lisättävät sovellukset"
+#: clientgui/DlgExclusiveApps.cpp:306 clientgui/DlgExclusiveApps.cpp:312
+#: clientgui/DlgExclusiveApps.cpp:318
+msgid "Choose application or enter file name"
+msgstr "Valitse sovellus tai anna tiedostonimi"
 
-#: clientgui/DlgExclusiveApps.cpp:332
-#, c-format
-msgid "'%s' is not an executable application."
-msgstr "\"%s\" ei ole ajettava sovellus."
-
-#: clientgui/DlgExclusiveApps.cpp:333 clientgui/DlgExclusiveApps.cpp:380
-#: clientgui/DlgExclusiveApps.cpp:404
-msgid "Add Exclusive App"
-msgstr "Lisää erityissovellus"
-
-#: clientgui/DlgExclusiveApps.cpp:345
+#: clientgui/DlgExclusiveApps.cpp:338
 msgid "Name of application to add?"
 msgstr "Lisättävän sovelluksen nimi?"
 
-#: clientgui/DlgExclusiveApps.cpp:345
+#: clientgui/DlgExclusiveApps.cpp:338
 msgid "Add exclusive app"
 msgstr "Lisää erityissovellus"
 
-#: clientgui/DlgExclusiveApps.cpp:379
-#, c-format
-msgid "Application names must end with '%s'"
-msgstr "Sovellusnimien pitää päätyä \"%s\""
-
-#: clientgui/DlgExclusiveApps.cpp:403
+#: clientgui/DlgExclusiveApps.cpp:368
 #, c-format
 msgid "'%s' is already in the list."
 msgstr "\"%s\" on jo listalla."
+
+#: clientgui/DlgExclusiveApps.cpp:369
+msgid "Add Exclusive App"
+msgstr "Lisää erityissovellus"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -2486,210 +2475,210 @@ msgstr "Tutkimus"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Hanki tietoja World Community Grid -projekteista"
 
-#: clientgui/MainDocument.cpp:1305
+#: clientgui/MainDocument.cpp:1309
 msgid "Version Update"
 msgstr "Versiopäivitys"
 
-#: clientgui/MainDocument.cpp:1314
+#: clientgui/MainDocument.cpp:1318
 #, c-format
 msgid "A new version of %s is available. You can download it here: %s"
 msgstr "Uusi versio ohjelmasta %s on saatavilla. Voit ladata sen tästä: %s"
 
-#: clientgui/MainDocument.cpp:1317
+#: clientgui/MainDocument.cpp:1321
 #, c-format
 msgid "There is no new version of %s available for download."
 msgstr "Ohjelmasta %s ei ole uutta versiota ladattavissa."
 
-#: clientgui/MainDocument.cpp:1321
+#: clientgui/MainDocument.cpp:1325
 #, c-format
 msgid "%s is not connected to the client"
 msgstr "%s ei ole yhteydessä ohjelmaan"
 
-#: clientgui/MainDocument.cpp:1861
+#: clientgui/MainDocument.cpp:1867
 msgid "Missing application"
 msgstr "Puuttuva sovellus"
 
-#: clientgui/MainDocument.cpp:1862
+#: clientgui/MainDocument.cpp:1868
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Lataa ja asenna CoRD-sovellus osoitteesta http://cord.sourceforge.net"
 
-#: clientgui/MainDocument.cpp:2470
+#: clientgui/MainDocument.cpp:2476
 msgid "on batteries"
 msgstr "akkukäytöllä"
 
-#: clientgui/MainDocument.cpp:2471
+#: clientgui/MainDocument.cpp:2477
 msgid "computer is in use"
 msgstr "tietokone on käytössä"
 
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2478
 msgid "user request"
 msgstr "käyttäjän pyytämä"
 
-#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2479
 msgid "time of day"
 msgstr "aika päivästä"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2480
 msgid "CPU benchmarks in progress"
 msgstr "suorituskykytestit käynnissä"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2481
 msgid "need disk space - check preferences"
 msgstr "tarvitaan levytilaa - tarkista asetukset"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2482
 msgid "computer is not in use"
 msgstr "tietokone ei ole käytössä"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2483
 msgid "starting up"
 msgstr "käynnistetään"
 
-#: clientgui/MainDocument.cpp:2478
+#: clientgui/MainDocument.cpp:2484
 msgid "an exclusive app is running"
 msgstr "erityisohjelma käynnissä"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2485
 msgid "CPU is busy"
 msgstr "CPU varattu"
 
-#: clientgui/MainDocument.cpp:2480
+#: clientgui/MainDocument.cpp:2486
 msgid "network bandwidth limit exceeded"
 msgstr "verkon latausraja ylitetty"
 
-#: clientgui/MainDocument.cpp:2481
+#: clientgui/MainDocument.cpp:2487
 msgid "requested by operating system"
 msgstr "käyttöjärjestelmän pyytämä"
 
-#: clientgui/MainDocument.cpp:2483
+#: clientgui/MainDocument.cpp:2489
 msgid "unknown reason"
 msgstr "tuntematon syy"
 
-#: clientgui/MainDocument.cpp:2505
+#: clientgui/MainDocument.cpp:2511
 msgid "GPU missing, "
 msgstr "Näytönohjain puuttuu, "
 
-#: clientgui/MainDocument.cpp:2512
+#: clientgui/MainDocument.cpp:2518
 msgid "New"
 msgstr "Uusi"
 
-#: clientgui/MainDocument.cpp:2516
+#: clientgui/MainDocument.cpp:2522
 msgid "Download failed"
 msgstr "Lataus epäonnistui"
 
-#: clientgui/MainDocument.cpp:2518
+#: clientgui/MainDocument.cpp:2524
 msgid "Downloading"
 msgstr "Ladataan"
 
-#: clientgui/MainDocument.cpp:2520 clientgui/MainDocument.cpp:2579
+#: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2585
 msgid " (suspended - "
 msgstr " (hyllytetty - "
 
-#: clientgui/MainDocument.cpp:2528
+#: clientgui/MainDocument.cpp:2534
 msgid "Project suspended by user"
 msgstr "Projekti on käyttäjän hyllyttämä"
 
-#: clientgui/MainDocument.cpp:2530
+#: clientgui/MainDocument.cpp:2536
 msgid "Task suspended by user"
 msgstr "Tehtävä on käyttäjän hyllyttämä"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2535
+#: clientgui/MainDocument.cpp:2541
 msgid "Suspended - "
 msgstr "Hyllytetty - "
 
-#: clientgui/MainDocument.cpp:2538
+#: clientgui/MainDocument.cpp:2544
 msgid "GPU suspended - "
 msgstr "GPU hyllytetty - "
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2548
 msgid "Waiting for memory"
 msgstr "Odottaa muistia"
 
-#: clientgui/MainDocument.cpp:2544
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting for shared memory"
 msgstr "Odottaa jaettua muistia"
 
-#: clientgui/MainDocument.cpp:2546
+#: clientgui/MainDocument.cpp:2552
 msgid "Running"
 msgstr "Suoritetaan"
 
-#: clientgui/MainDocument.cpp:2548
+#: clientgui/MainDocument.cpp:2554
 msgid " (non-CPU-intensive)"
 msgstr " (ei prosessorikuormittava)"
 
-#: clientgui/MainDocument.cpp:2551
+#: clientgui/MainDocument.cpp:2557
 msgid "Waiting to run"
 msgstr "Odottaa suorittamista"
 
-#: clientgui/MainDocument.cpp:2553 clientgui/MainDocument.cpp:2556
+#: clientgui/MainDocument.cpp:2559 clientgui/MainDocument.cpp:2562
 msgid "Ready to start"
 msgstr "Valmiina aloitettavaksi"
 
-#: clientgui/MainDocument.cpp:2560
+#: clientgui/MainDocument.cpp:2566
 msgid "Postponed: "
 msgstr "Lykätty:"
 
-#: clientgui/MainDocument.cpp:2563
+#: clientgui/MainDocument.cpp:2569
 msgid "Postponed"
 msgstr "Lykätty"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2573
 msgid "Waiting for network access"
 msgstr "Odottaa pääsyä verkkoon"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2577
 msgid "Computation error"
 msgstr "Laskentavirhe"
 
-#: clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2581
 msgid "Upload failed"
 msgstr "Lähetys epäonnistui"
 
-#: clientgui/MainDocument.cpp:2577
+#: clientgui/MainDocument.cpp:2583
 msgid "Uploading"
 msgstr "Lähetetään"
 
-#: clientgui/MainDocument.cpp:2588
+#: clientgui/MainDocument.cpp:2594
 msgid "Aborted by user"
 msgstr "Käyttäjän hylkäämä"
 
-#: clientgui/MainDocument.cpp:2591
+#: clientgui/MainDocument.cpp:2597
 msgid "Aborted by project"
 msgstr "Projektin hylkäämä"
 
-#: clientgui/MainDocument.cpp:2594
+#: clientgui/MainDocument.cpp:2600
 msgid "Aborted: not started by deadline"
 msgstr "Hylätty: ei ehditty aloittaa ennen takarajaa"
 
-#: clientgui/MainDocument.cpp:2597
+#: clientgui/MainDocument.cpp:2603
 msgid "Aborted: task disk limit exceeded"
 msgstr "Hylätty: paketin levyraja saavutettu"
 
-#: clientgui/MainDocument.cpp:2600
+#: clientgui/MainDocument.cpp:2606
 msgid "Aborted: run time limit exceeded"
 msgstr "Hylätty: suoritusajan raja saavutettu"
 
-#: clientgui/MainDocument.cpp:2603
+#: clientgui/MainDocument.cpp:2609
 msgid "Aborted: memory limit exceeded"
 msgstr "Hylätty: muistiraja saavutettu"
 
-#: clientgui/MainDocument.cpp:2606
+#: clientgui/MainDocument.cpp:2612
 msgid "Aborted"
 msgstr "Hylätty"
 
-#: clientgui/MainDocument.cpp:2611
+#: clientgui/MainDocument.cpp:2617
 msgid "Acknowledged"
 msgstr "Hyväksytty"
 
-#: clientgui/MainDocument.cpp:2613
+#: clientgui/MainDocument.cpp:2619
 msgid "Ready to report"
 msgstr "Valmiina raportoitavaksi"
 
-#: clientgui/MainDocument.cpp:2615
+#: clientgui/MainDocument.cpp:2621
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Virhe: virheellinen tila \"%d\""
@@ -2832,7 +2821,7 @@ msgid ""
 "add it anyway?"
 msgstr "Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se kuitenkin?"
 
-#: clientgui/ProjectInfoPage.cpp:836
+#: clientgui/ProjectInfoPage.cpp:863
 msgid "You already added this project. Please choose a different project."
 msgstr "Olet jo liittynyt tähän projektiin. Valitse toinen projekti."
 
@@ -2843,19 +2832,19 @@ msgid ""
 "Please wait..."
 msgstr "Ollaan yhteydessä projektiin\nOdota..."
 
-#: clientgui/ProjectProcessingPage.cpp:521
+#: clientgui/ProjectProcessingPage.cpp:523
 msgid "Required files not found on the server."
 msgstr "Palvelimelta ei löydy tarvittavia tiedostoja."
 
-#: clientgui/ProjectProcessingPage.cpp:524
-#: clientgui/ProjectProcessingPage.cpp:597
+#: clientgui/ProjectProcessingPage.cpp:526
+#: clientgui/ProjectProcessingPage.cpp:599
 msgid "An internal server error has occurred."
 msgstr "Palvelimella on tapahtunut virhe."
 
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr "Tervetuloa %s-ohjelmaan."
+msgstr "Tervetuloa %s -projektiin."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
@@ -2949,40 +2938,40 @@ msgstr "Automaattitunnistus"
 msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:172
+#: clientgui/sg_BoincSimpleFrame.cpp:195
 msgid "Skin"
 msgstr "Ulkoasu"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:174
+#: clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "Select the appearance of the user interface."
 msgstr "Valitse käyttöliittymän ulkomuoto."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:184
+#: clientgui/sg_BoincSimpleFrame.cpp:207
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Laajennettu näkymä...\tCtrl+Shift+A"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:185
+#: clientgui/sg_BoincSimpleFrame.cpp:208
 msgid "Display the advanced graphical interface."
 msgstr "Näytä laajennettu graafinen käyttöliittymä."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:201
+#: clientgui/sg_BoincSimpleFrame.cpp:224
 msgid "Configure display options and proxy settings"
 msgstr "Muuta näytön ja proxyn asetuksia"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:215
+#: clientgui/sg_BoincSimpleFrame.cpp:273
 msgid "Display diagnostic messages."
 msgstr "Näytä diagnostiikkaviestit."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:254
+#: clientgui/sg_BoincSimpleFrame.cpp:312
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Näytä tietoja BOINCista ja %s:sta"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:476
+#: clientgui/sg_BoincSimpleFrame.cpp:534
 msgid "Default"
 msgstr "Oletus"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:949
+#: clientgui/sg_BoincSimpleFrame.cpp:972
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -2991,23 +2980,23 @@ msgstr "Oletus"
 msgid "Suspend"
 msgstr "Hyllytä"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:951
+#: clientgui/sg_BoincSimpleFrame.cpp:974
 msgid "Suspend Computing"
 msgstr "Hyllytä laskenta"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:952
+#: clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Resume Computing"
 msgstr "Jatka laskentaa"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:968 clientgui/ViewNotices.cpp:99
+#: clientgui/sg_BoincSimpleFrame.cpp:991 clientgui/ViewNotices.cpp:99
 msgid "Notices"
 msgstr "Ilmoitukset"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:969
+#: clientgui/sg_BoincSimpleFrame.cpp:992
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Avaa ikkuna katsoaksesi ilmoituksia projektilta tai BOINCilta"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:990 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1013 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Hae apua %s:iin"
@@ -3874,11 +3863,11 @@ msgstr "Näytä kaikki paketit"
 msgid "Show all tasks."
 msgstr "Näytä kaikki paketit."
 
-#: clientgui/WizardAttach.cpp:606
+#: clientgui/WizardAttach.cpp:607
 msgid "Do you really want to cancel?"
 msgstr "Haluatko todella peruuttaa?"
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/WizardAttach.cpp:608
 msgid "Question"
 msgstr "Kysymys"
 

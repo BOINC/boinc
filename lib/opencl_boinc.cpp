@@ -265,14 +265,14 @@ int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
 }
 
 void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
-    char s1[256], s2[256];
+    char s1[256], s2[1024];
     int n;
     // openCL_device_version may have a trailing space
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
     snprintf(s2, sizeof(s2),
-        "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        "%.64s (driver version %.64s, device version %.64s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
         name, opencl_driver_version,
         s1, global_mem_size/MEGA,
         opencl_available_ram/MEGA, peak_flops/1.e9

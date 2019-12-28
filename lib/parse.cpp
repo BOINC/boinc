@@ -403,7 +403,9 @@ void xml_unescape(char* buf) {
     char* out = buf;
     char* in = buf;
     char* p;
+    bool goodescape;
     while (*in) {
+        goodescape = false;
         if (*in != '&') {       // avoid strncmp's if possible
             *out++ = *in++;
         } else if (!strncmp(in, "&lt;", 4)) {
@@ -412,10 +414,10 @@ void xml_unescape(char* buf) {
         } else if (!strncmp(in, "&gt;", 4)) {
             *out++ = '>';
             in += 4;
-        } else if (!strncmp(in, "&quot;", 4)) {
+        } else if (!strncmp(in, "&quot;", 6)) {
             *out++ = '"';
             in += 6;
-        } else if (!strncmp(in, "&apos;", 4)) {
+        } else if (!strncmp(in, "&apos;", 6)) {
             *out++ = '\'';
             in += 6;
         } else if (!strncmp(in, "&amp;", 5)) {
@@ -428,14 +430,33 @@ void xml_unescape(char* buf) {
             *out++ = '\n';
             in += 5;
         } else if (!strncmp(in, "&#", 2)) {
+            //If escape is poorly formed or outside of char size, then print as is.
             in += 2;
-            char c = atoi(in);
-            *out++ = c;
             p = strchr(in, ';');
-            if (p) {
-                in = p+1; 
+            if (!p || *in == ';') { //No end semicolon found or it was formatted as &#;
+                *out++ = '&';
+                *out++ = '#';
             } else {
-                while (isdigit(*in)) in++;
+                //Check that escape is formed correctly
+                for (unsigned int i = 0; i < 4 || i < strlen(in); i++) {
+                    if (!isdigit(*(in + i)) && *(in + i) != ';') {
+                        //Found something other than a single digit.
+                        break;
+                    }
+                    if (*(in + i) == ';') {
+                        goodescape = true;
+                        break;
+                    }
+                }
+                int ascii = atoi(in);
+
+                if (goodescape && ascii < 256) {
+                    *out++ = ascii;
+                    in = p + 1;
+                } else {
+                    *out++ = '&';
+                    *out++ = '#';
+                }
             }
         } else {
             *out++ = *in++;
@@ -894,7 +915,7 @@ int XML_PARSER::copy_element(string& out) {
     out = "<";
     out += parsed_tag;
     out += ">";
-    snprintf(end_tag, sizeof(end_tag), "</%s>", parsed_tag);
+    snprintf(end_tag, sizeof(end_tag), "</%.256s>", parsed_tag);
     int retval = element_contents(end_tag, buf, sizeof(buf));
     if (retval) return retval;
     out += buf;

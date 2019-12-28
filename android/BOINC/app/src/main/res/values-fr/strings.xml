@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Veuillez patienter...</string>
+  <string name="generic_loading">Chargement en cours. Veuillez patienter...</string>
   <string name="generic_button_continue">Continuer</string>
   <string name="generic_button_finish">Terminer</string>
   <!--attach project-->
@@ -113,6 +113,7 @@
   <string name="attachproject_error_bad_pwd">Mot de passe refusé</string>
   <string name="attachproject_error_creation_disabled">La création de compte est désactivée pour ce projet</string>
   <string name="attachproject_error_invalid_url">URL non valide</string>
+  <string name="attachproject_error_consent_required">Ce projet nécessite le consentement à ses conditions d\'utilisation</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Retour</string>
   <string name="attachproject_working_finish_button">Terminer</string>
@@ -362,7 +363,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2018 Université de Californie, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2019 Université de Californie, Berkeley.</string>
   <string name="about_copyright_reserved">Tous droits réservés.</string>
   <string name="about_credits">Merci à l\'Institut de Physique Gravitationnelle Max Planck
         et aux entreprises IBM et HTC pour leur soutien.

@@ -347,6 +347,7 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
+		<row><td>AllOtherFiles</td><td>{15EFC6BC-94F1-4A3E-892C-5B2433CA9190}</td><td>INSTALLDIR</td><td>8</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>BOINCServiceConfig</td><td>{3BD51E4E-504D-43C2-AD8A-2FAD36A43488}</td><td>INSTALLDIR</td><td>0</td><td>VersionNT AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>boinc.exe1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINC</td><td>{B2649E11-6320-4710-B5C8-1922588446E9}</td><td>INSTALLDIR</td><td>0</td><td/><td>boinc.exe</td><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCCMD</td><td>{02757F30-2A56-4AB4-99DC-92F0AA5A84A5}</td><td>INSTALLDIR</td><td>0</td><td/><td>boinccmd.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -913,6 +914,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>INSTALLDIR</td><td>AllOtherFiles</td></row>
 		<row><td>INSTALLDIR</td><td>BOINCServiceConfig</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINC</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINCManagerStartMenu</td></row>
@@ -1777,6 +1779,7 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>BOINC</td><td>AllOtherFiles</td></row>
 		<row><td>BOINC</td><td>BOINCServiceConfig</td></row>
 		<row><td>BOINC</td><td>_BOINC</td></row>
 		<row><td>BOINC</td><td>_BOINCCMD</td></row>
@@ -2112,6 +2115,7 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
+		<row><td>AllOtherFiles</td><td/><td/><td>_6FC188F4_9DA8_4AC1_A478_CB1D127B6B02_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>BOINCServiceConfig</td><td/><td/><td>_23973580_DA7B_4A53_B5EB_5F1F61B97C11_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINC</td><td/><td/><td>_8A5DE506_FADD_485F_B712_2BFBE8D3B700_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>_BOINCCMD</td><td/><td/><td>_C3AE567A_C9EF_457F_AD95_6B8C39633948_FILTER</td><td/><td/><td/><td/></row>
@@ -2491,7 +2495,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.13.0_windows_intelx86</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_7.15.0_windows_intelx86</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -2526,7 +2530,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td/><td/><td>Copyright (C) 2015 University of California at Berkeley. All Rights Reserved.</td><td>42708365</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>https://www.worldcommunitygrid.org</td><td/><td/><td/><td>Copyright (C) 2019 University of California at Berkeley. All Rights Reserved.</td><td>42708365</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -2777,10 +2781,10 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Space Sciences Laboratory, U.C. Berkeley</td><td>0</td><td/><td>1301824496</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>International Business Machines Corporation</td><td>0</td><td/><td>-1926873461</td></row>
 		<row><td>COMPANY_PRODUCT</td><td>1033</td><td>World Community Grid for Windows</td><td>0</td><td/><td>564544022</td></row>
 		<row><td>COMPANY_PRODUCT_SUBJECT</td><td>1033</td><td>BOINC</td><td>0</td><td/><td>-1650978224</td></row>
-		<row><td>COMPANY_URL</td><td>1033</td><td>http://www.worldcommunitygrid.org/</td><td>0</td><td/><td>564550230</td></row>
+		<row><td>COMPANY_URL</td><td>1033</td><td>https://www.worldcommunitygrid.org/</td><td>0</td><td/><td>-1532529689</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN</td><td>1033</td><td>You must have administrative privileges in order to install [ProductName].</td><td>0</td><td/><td>1301828691</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_IE5FOUND</td><td>1033</td><td>Internet Explorer 5 or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>983266765</td></row>
@@ -4587,11 +4591,11 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{A48CBA96-E95D-4CF3-BB3E-741D88686A5C}</td><td/></row>
+		<row><td>ProductCode</td><td>{5948CD5F-DE8B-43AA-85C3-D5BE896CD75C}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>World Community Grid</td><td/></row>
-		<row><td>ProductVersion</td><td>7.13.0</td><td/></row>
+		<row><td>ProductVersion</td><td>7.15.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4602,7 +4606,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>RebootYesNo</td><td>Yes</td><td/></row>
 		<row><td>ReinstallModeText</td><td>omus</td><td/></row>
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ACTPROP_BC961760_07FB_4754_A277_8D6943B569CC;ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;SUPPORTDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ACTPROP_BC961760_07FB_4754_A277_8D6943B569CC;ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;SUPPORTDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1;ISACTIONPROP2</td><td/></row>
 		<row><td>UpgradeCode</td><td>{E913E54D-5080-42EC-A312-B21948BA1C02}</td><td/></row>
 		<row><td>_BrowseDataProperty</td><td>0</td><td/></row>
 		<row><td>_BrowseInstallProperty</td><td>0</td><td/></row>
@@ -4883,6 +4887,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S255">Remove</col>
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
+		<row><td>{76DD37FC-EE51-408D-9FB5-3D59FC8ED22A}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ISACTIONPROP2</td><td>World Community Grid Upgrade (7.14.2)</td></row>
 		<row><td>{862B80F6-835D-4F72-8C4F-EE68ED34C6F8}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ISACTIONPROP1</td><td>World Community Grid Upgrade</td></row>
 		<row><td>{E913E54D-5080-42EC-A312-B21948BA1C02}</td><td>0000.0000.0000</td><td>9999.9999.9999</td><td></td><td>769</td><td/><td>ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02</td><td>General Upgrade</td></row>
 	</table>

@@ -59,6 +59,7 @@
 /android/**/build
 /android/**/captures
 /android/**/.externalNativeBuild
+/android/**/.vagrant
 /stage
 /android/BOINC/app/src/main/assets/arm*
 /android/BOINC/app/src/main/assets/mips*
@@ -129,6 +130,11 @@ locale/*/*.flag
 
 .libs/
 svn_version.h
+
+## code coverage
+*.gcov
+*.gcno
+*.gcda
 
 # list of executables
 apps/1sec
