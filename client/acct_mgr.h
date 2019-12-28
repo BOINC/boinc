@@ -31,6 +31,11 @@
 // represents an account manager account to which
 // we're attached or potentially attached.
 // Info stored in acct_mgr_url.xml and acct_mgr_login.xml
+//
+// If you add stuff here, add code to
+// - ACCT_MGR_INFO::clear()
+// - ACCT_MGR_OP::parse()
+// - ACCT_MGR_OP::handle_reply()
 
 struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
@@ -61,6 +66,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // in AM RPCs (used for "farm management")
     bool no_project_notices;
         // if set, don't show notices from projects
+    bool send_tasks_all;
+    bool send_tasks_active;
 
     // TODO: get rid of the following here and in the manager
     bool cookie_required;
