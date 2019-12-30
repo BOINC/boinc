@@ -769,7 +769,6 @@ void RSS_FEED::delete_files() {
 
 RSS_FEED_OP::RSS_FEED_OP() {
     error_num = BOINC_SUCCESS;
-    rfp = NULL;
     gui_http = &gstate.gui_http;
 }
 
@@ -785,7 +784,7 @@ bool RSS_FEED_OP::poll() {
         if (gstate.now > rf.next_poll_time) {
             rf.next_poll_time = gstate.now + rf.poll_interval;
             rf.feed_file_name(file_name, sizeof(file_name));
-            rfp = &rf;
+            canceled = false;
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
                     "[notice] start fetch from %s", rf.url
@@ -806,7 +805,17 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char file_name[256];
     int nitems;
 
-    if (!rfp) return;   // op was canceled
+    if (canceled) return;   // op was canceled
+
+    RSS_FEED* rfp = rss_feeds.lookup_url(gui_http->http_op.m_url);
+    if (!rfp) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice] RSS feed %s not found", rfp->url
+            );
+        }
+        return;
+    }
 
     if (http_op_retval) {
         if (log_flags.notice_debug) {
@@ -965,11 +974,11 @@ void RSS_FEEDS::update_feed_list() {
         } else {
             // cancel op if active
             //
-            if (rss_feed_op.rfp == &(*iter)) {
+            if (!strcmp(rss_feed_op.gui_http->http_op.m_url, rf.url)) {
                 if (rss_feed_op.gui_http->is_busy()) {
                     gstate.http_ops->remove(&rss_feed_op.gui_http->http_op);
                 }
-                rss_feed_op.rfp = NULL;
+                rss_feed_op.canceled = true;
             }
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
