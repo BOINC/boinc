@@ -767,7 +767,8 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strStatus;
                 break;
             case COLUMN_ESTIMATEDCOMPLETION:
-                if ((work->m_fCPUTime > 0) && (work->m_strStatus.IsSameAs("Running"))) {
+                //if ((work->m_fCPUTime > 0) && (work->m_strStatus.IsSameAs("Running"))) {
+                if ((work->m_fCPUTime > 0) && (work->m_strStatus.Contains("Running"))) {
                     wxDateTime now = wxDateTime::Now();
                     wxTimeSpan time_to_completion = convert_to_timespan(work->m_fTimeToCompletion);
                     wxDateTime estimated_completion = now.Add(time_to_completion);
