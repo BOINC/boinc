@@ -430,7 +430,7 @@ int RESULT::write_gui(MIOFILE& out) {
             }
         } else if (avp->missing_coproc) {
             snprintf(resources, sizeof(resources),
-                "%.3g %s + %s GPU (missing)",
+                "%.3g %s + %.12s GPU (missing)",
                 avp->avg_ncpus,
                 cpu_string(avp->avg_ncpus),
                 avp->missing_coproc_name

@@ -24,7 +24,6 @@
 
 #include <Carbon/Carbon.h>
 
-#include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <sys/time.h>
 #include <pwd.h>	// getpwname, getpwuid, getuid

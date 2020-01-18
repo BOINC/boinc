@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -173,6 +173,8 @@ struct ACTIVE_TASK {
     double finish_file_time;
         // time when we saw finish file in slot dir.
         // Used to kill apps that hang after writing finished file
+    int graphics_pid;
+        // PID of running graphics app (Mac)
 
     void set_task_state(int, const char*);
     inline int task_state() {
@@ -276,7 +278,7 @@ struct ACTIVE_TASK {
     void get_graphics_msg();
     double est_dur();
     int read_stderr_file();
-    bool finish_file_present();
+    bool finish_file_present(int&);
     bool temporary_exit_file_present(double&, char*, bool&);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
@@ -302,6 +304,7 @@ public:
     active_tasks_v active_tasks;
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
+    ACTIVE_TASK* lookup_slot(int);
     void init();
     bool poll();
     void suspend_all(int reason);
@@ -328,6 +331,7 @@ public:
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();
+    void check_for_finished_jobs();
 
     void process_control_poll();
     void request_reread_prefs(PROJECT*);

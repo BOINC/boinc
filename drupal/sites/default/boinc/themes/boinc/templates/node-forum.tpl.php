@@ -137,6 +137,9 @@
           <div id="node-<?php print $node->nid; ?>-alt" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
     <?php endif; ?>
     
+    <?php
+      $ddname = 'flag_abuse_reason-dropdown-node-' . $node->nid;
+    ?>
     <div class="user">
       <?php
         $account = user_load(array('uid' => $uid));
@@ -212,6 +215,15 @@
         </div>
       <?php endif; ?>
       
+      <div class="dropdown">
+        <div id="<?php print $ddname; ?>" class="dropdown-content">
+          <?php print flag_create_link('abuse_node_1', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_2', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_3', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_4', $node->nid); ?>
+          <?php print flag_create_link('abuse_node_5', $node->nid); ?>
+        </div>
+      </div>
       <div class="content">
         <?php print $content; ?>
         <?php if ($signature AND $show_signatures): ?>

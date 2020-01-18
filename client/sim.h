@@ -34,12 +34,19 @@ struct SIM_RESULTS {
     double idle_frac;
     int nrpcs;
 
+    SIM_RESULTS(int){}
+    void clear() {
+        static const SIM_RESULTS x(0);
+        *this = x;
+    }
+    SIM_RESULTS() {
+        clear();
+    }
     void compute_figures_of_merit();
     void print(FILE* f, bool human_readable=false);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
     void divide(int);
-    void clear();
 };
 
 struct PROJECT_RESULTS {

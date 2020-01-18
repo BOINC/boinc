@@ -320,7 +320,7 @@ void COPROCS::get_opencl(
         }
 
         for (device_index=0; device_index<num_devices; ++device_index) {
-            memset(&prop, 0, sizeof(prop));
+            prop.clear();
             prop.device_id = devices[device_index];
             strlcpy(
                 prop.opencl_platform_version, platform_version,
@@ -406,7 +406,7 @@ void COPROCS::get_opencl(
         }
 
         for (device_index=0; device_index<num_devices; ++device_index) {
-            memset(&prop, 0, sizeof(prop));
+            prop.clear();
             prop.device_id = devices[device_index];
             strlcpy(
                 prop.opencl_platform_version, platform_version,

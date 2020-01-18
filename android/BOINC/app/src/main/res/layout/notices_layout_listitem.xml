@@ -21,8 +21,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:clickable="true"
-              android:focusable="true">
+              android:clickable="true">
 
     <RelativeLayout
             android:layout_width="60dp"

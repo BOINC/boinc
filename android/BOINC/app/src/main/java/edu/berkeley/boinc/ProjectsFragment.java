@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -531,7 +531,7 @@ public class ProjectsFragment extends Fragment {
                     case RpcClient.MGR_SYNC:
                         return BOINCActivity.monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
                     case RpcClient.MGR_DETACH:
-                        return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "") == BOINCErrors.ERR_OK;
+                        return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "").code == BOINCErrors.ERR_OK;
 
                     // transfer operations
                     case RpcClient.TRANSFER_RETRY:

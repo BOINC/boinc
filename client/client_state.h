@@ -228,6 +228,8 @@ struct CLIENT_STATE {
         // if nonzero, exit this many seconds after starting an app
     double app_started;
         // when the most recent app was started
+    bool cmdline_dir;
+        // data dir was specified on cmdline
 
 // --------------- acct_mgr.cpp:
     ACCT_MGR_INFO acct_mgr_info;
@@ -372,6 +374,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
 
     ACTIVE_TASK* get_task(RESULT*);
 
@@ -394,6 +397,7 @@ struct CLIENT_STATE {
 
 // --------------- cs_files.cpp:
     void check_file_existence();
+    RESULT* file_info_to_result(FILE_INFO*);
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();

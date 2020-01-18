@@ -108,6 +108,7 @@ protected:
     int                 m_iGUISelected;
     bool                m_bDebugSkins;
     bool                m_bMultipleInstancesOK;
+    bool                m_bHostnamePasswordSet;
     bool                m_bFilterEvents;
     bool                m_bAboutDialogIsOpen;
     bool                m_bRunDaemon;  
@@ -143,6 +144,7 @@ public:
 
     bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
+    bool                IsHostnamePasswordSet()     { return m_bHostnamePasswordSet; }
 
 #ifdef __WXMAC__
     void                OnFinishInit();

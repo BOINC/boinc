@@ -209,6 +209,7 @@ struct BATCH_STATUS {
     double credit_estimate;     // original estimate for credit
     double credit_canonical;    // if completed, granted credit
 
+    BATCH_STATUS(){}
     int parse(XML_PARSER&);
     void print();
 };
@@ -229,6 +230,7 @@ struct JOB_STATE {
                                     // the ID of the canonical instance
     int n_outfiles;                 // number of output files
 
+    JOB_STATE(){}
     int parse(XML_PARSER&);
     void print();
 };

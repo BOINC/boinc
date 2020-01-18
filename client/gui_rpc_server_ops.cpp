@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,7 @@
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <libproc.h>
+#include "sandbox.h"
 #endif
 
 #ifdef _WIN32
@@ -1332,6 +1333,201 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
+// start, stop or get status of a graphics app on behalf of the screensaver.
+// (needed for Mac OS X 10.5+)
+//
+// <slot>n</slot> { <run/> | <runfullscreen/> }
+// <graphics_pid>p</graphics_pid> { <stop/> | <test/> }
+//
+// n is the slot number:
+//   if slot = -1, start the default screensaver
+// p is the process id to stop or test
+//   test returns 0 for the pid if it has exited, else returns the child's pid
+//
+// As of 3 November 2019, only the "stop" verb is being used, because the client 
+// can't launch or test gfx apps outside the user session within which the client
+// is running. So if another user is logged in and runs the screensaver, that
+// sure would not see the graphics. But I'm leaving code for all the verbs for 
+// now as a possible starting point for future development.
+//
+// The stop verb still works because it calls kill_via_switcher(), which calls 
+// kill(pid, SIGKILL) after setting user and group to pbionc_project. That does 
+// work across different login sessions.
+//
+static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
+#ifndef __APPLE__
+    grc.mfout.printf("<error>run_graphics_app RPC is currently available only on Mac OS</error>\n");
+#else
+    static int boincscr_pid = 0;
+    bool run = false;
+    bool runfullscreen = false;
+    bool stop = false;
+    bool test = false;
+    int slot = -2, retval;
+    int status;
+    pid_t p;
+    char* argv[5];
+    int argc;
+    int thePID = 0;
+
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("/run_graphics_app")) break;
+        if (grc.xp.parse_int("slot", slot)) continue;
+        if (grc.xp.parse_bool("run", run)) continue;
+        if (grc.xp.parse_bool("runfullscreen", runfullscreen)) continue;
+        if (grc.xp.parse_bool("stop", stop)) continue;
+        if (grc.xp.parse_bool("test", test)) continue;
+        if (grc.xp.parse_int("graphics_pid", thePID)) continue;
+    }
+    
+    if (stop || test) {
+        if (thePID < 1) {
+            grc.mfout.printf("<error>missing or invalid process id</error>\n");
+            return;
+        }
+    } else if (run || runfullscreen) {
+        if (slot < -1) {
+            grc.mfout.printf("<error>missing or invalid slot</error>\n");
+            return;
+        }
+    } else {
+        grc.mfout.printf("<error>missing or invalid operation</error>\n");
+        return;
+    }
+
+    if (test) {
+        // returns 0 for the pid if it has exited, else returns the child's pid
+        p = waitpid(thePID, &status, WNOHANG);
+        if (p != 0) thePID = 0;
+        grc.mfout.printf(
+            "<graphics_pid>%d</graphics_pid>\n",
+            thePID
+        );
+        return;
+    }
+
+    if (stop) {
+        if (g_use_sandbox && (thePID != boincscr_pid )) {
+            retval = kill_via_switcher(thePID);
+        } else {
+            retval = kill_program(thePID);
+        }
+        if (retval) {
+            grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
+            return;
+        }
+        if (thePID == boincscr_pid) boincscr_pid = 0;
+        grc.mfout.printf("<success/>\n");
+        return;
+    }
+
+    // start boincscr
+    //
+    if (slot == -1) {
+        char path[MAXPATHLEN];
+
+#ifdef __APPLE__
+        safe_strcpy(path, "./boincscr");
+#else
+        if (get_real_executable_path(path, sizeof(path))) {
+            grc.mfout.printf("<error>can't get client path</error>\n");
+            return;
+        }
+        char *p = strrchr(path, '/');
+        if (!p) {
+            grc.mfout.printf("<error>no / in client path</error>\n");
+            return;
+        }
+        safe_strcpy(p, "/boincscr");
+#endif
+        argv[0] = (char*)"boincscr";
+        if (runfullscreen) {
+            argv[1] = (char*)"--fullscreen";
+            argc = 2;
+        } else {
+            argv[1] = 0;
+            argc = 1;
+        }
+        argv[2] = 0;
+        retval = run_program(NULL, path, argc, argv, 0, boincscr_pid);
+    
+        if (retval) {
+            grc.mfout.printf("<error>couldn't run boincscr</error>\n");
+            return;
+        }
+        grc.mfout.printf(
+            "<graphics_pid>%d</graphics_pid>\n",
+            boincscr_pid
+        );
+        return;
+    }   // end if (slot == -1)
+
+    // start a graphics app
+    //
+    ACTIVE_TASK* atp = gstate.active_tasks.lookup_slot(slot);
+    if (!atp) {
+        grc.mfout.printf("<error>no job in slot</error>\n");
+        return;
+    }
+    if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
+        grc.mfout.printf("<error>job not running</error>\n");
+        return;
+    }
+    if (!strlen(atp->app_version->graphics_exec_path)) {
+        grc.mfout.printf("<error>job has no graphics app</error>\n");
+        return;
+    }
+
+    if (g_use_sandbox) {
+        char current_dir[MAXPATHLEN], switcher_path[MAXPATHLEN];
+        getcwd( current_dir, sizeof(current_dir));
+        snprintf(switcher_path, sizeof(switcher_path), 
+            "%s/%s/%s",
+            current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
+        );
+        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+        argv[1] = atp->app_version->graphics_exec_path;
+        argv[2] = atp->app_version->graphics_exec_file;
+        if (runfullscreen) {
+            argv[3] = (char*)"--fullscreen";
+            argc = 3;
+        } else {
+            argv[3] = 0;
+            argc = 2;
+        }
+        argv[4] = 0;
+        retval = run_program(
+            atp->slot_path, switcher_path,
+            argc, argv, 0, atp->graphics_pid
+        );
+    } else {    // not g_use_sandbox
+        argv[0] = atp->app_version->graphics_exec_file;
+        if (runfullscreen) {
+            argv[1] = (char*)"--fullscreen";
+            argc = 2;
+        } else {
+            argv[2] = 0;
+            argc = 1;
+        }
+        argv[2] = 0;
+        retval = run_program(
+            atp->slot_path, atp->app_version->graphics_exec_path,
+            argc, argv, 0, atp->graphics_pid
+        );
+    }
+    
+    if (retval) {
+        grc.mfout.printf("<error>couldn't run graphics app</error>\n");
+        return;
+    }
+    
+    grc.mfout.printf(
+        "<graphics_pid>%d</graphics_pid>\n",
+        atp->graphics_pid
+    );
+#endif  // __APPLE__
+}
+
 // We use a different authentication scheme for HTTP because
 // each request has its own connection.
 // Send clients an "authentication ID".
@@ -1349,7 +1545,7 @@ vector<AUTH_INFO> auth_infos;
 // check HTTP authentication info
 //
 bool valid_auth(int id, long seqno, char* hash, char* request) {
-    char buf[256], my_hash[256];
+    char buf[1024], my_hash[256];
     //printf("valid_auth: id %d seqno %ld hash %s\n", id, seqno, hash);
     for (unsigned int i=0; i<auth_infos.size(); i++) {
         AUTH_INFO& ai = auth_infos[i];
@@ -1377,7 +1573,7 @@ void handle_get_auth_id(MIOFILE& fout) {
     AUTH_INFO ai;
     ai.id = id++;
     ai.seqno = 0;
-    make_random_string(ai.salt);
+    make_secure_random_string(ai.salt);
     auth_infos.push_back(ai);
     fout.printf("<auth_id>%d</auth_id>\n<auth_salt>%s</auth_salt>\n", ai.id, ai.salt);
 }
@@ -1388,15 +1584,15 @@ static bool authenticated_request(char* buf) {
     int auth_id;
     long auth_seqno;
     char auth_hash[256];
-    char* p = strstr(buf, "Auth-ID: ");
+    const char* p = strcasestr(buf, "Auth-ID: ");
     if (!p) return false;
     int n = sscanf(p+strlen("Auth-ID: "), "%d", &auth_id);
     if (n != 1) return false;
-    p = strstr(buf, "Auth-Seqno: ");
+    p = strcasestr(buf, "Auth-Seqno: ");
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Seqno: "), "%ld", &auth_seqno);
     if (n != 1) return false;
-    p = strstr(buf, "Auth-Hash: ");
+    p = strcasestr(buf, "Auth-Hash: ");
     if (!p) return false;
     n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
     if (n != 1) return false;
@@ -1599,6 +1795,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
 };
 
 // return nonzero only if we need to close the connection
@@ -1606,8 +1803,14 @@ GUI_RPC gui_rpcs[] = {
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse <boinc_gui_rpc_request>
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse the request tag
+    if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
+        grc.mfout.printf("<error>missing boing_gui_rpc_request tag</error>\n");
+        return 0;
+    }
+    if (grc.xp.get_tag()) {    // parse the request tag
+        grc.mfout.printf("<error>missing request</error>\n");
+        return 0;
+    }
     for (unsigned int i=0; i<sizeof(gui_rpcs)/sizeof(GUI_RPC); i++) {
         GUI_RPC& gr = gui_rpcs[i];
         if (!grc.xp.match_tag(gr.req_tag) && !grc.xp.match_tag(gr.alt_req_tag)) {
@@ -1639,11 +1842,19 @@ static bool is_http_post_request(char* buf) {
     if (!p) return false;
     p += strlen("Content-Length: ");
     int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
+    p = strstr(p, HTTP_HEADER_DELIM);
     if (!p) return false;
     p += 4;
     if ((int)strlen(p) < n) return false;
     return true;
+}
+
+// remove HTTP header from request
+//
+static void strip_http_header(char* buf) {
+    char* p = strstr(buf, HTTP_HEADER_DELIM);
+    p += 4;
+    strcpy_overlap(buf, p);
 }
 
 static bool is_http_get_request(char* buf) {
@@ -1774,6 +1985,7 @@ int GUI_RPC_CONN::handle_rpc() {
             got_auth1 = got_auth2 = true;
             auth_needed = false;
         }
+        strip_http_header(request_msg);
     } else {
         p = strchr(request_msg, 3);
         if (p) {

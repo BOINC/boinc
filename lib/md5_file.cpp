@@ -125,10 +125,10 @@ std::string md5_string(const unsigned char* data, int nbytes) {
     return std::string(output);
 }
 
-// make a random 32-char string
-// (the MD5 of some quasi-random bits)
+// make a secure (i.e. hard to guess)
+// 32-char string using OS-supplied random bits
 //
-int make_random_string(char* out) {
+int make_secure_random_string_os(char* out) {
     char buf[256];
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
@@ -144,9 +144,7 @@ int make_random_string(char* out) {
         
     CryptReleaseContext(hCryptProv, 0);
 #elif defined ANDROID
-    // /dev/random not available on Android, using stdlib function instead
-    int i = rand();
-    snprintf(buf, sizeof(buf), "%d", i);
+    return -1;
 #else
 #ifndef _USING_FCGI_
     FILE* f = fopen("/dev/random", "r");

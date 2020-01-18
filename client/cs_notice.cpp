@@ -98,7 +98,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
 }
 
 static void write_project_feed_list(PROJ_AM* p) {
-    char buf[256];
+    char buf[MAXPATHLEN];
     project_feed_list_file_name(p, buf, sizeof(buf));
     FILE* f = fopen(buf, "w");
     if (!f) return;
@@ -128,6 +128,9 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
         for (j=0; j<p->proj_feeds.size(); j++) {
             RSS_FEED& rf2 = p->proj_feeds[j];
             if (!strcmp(rf.url, rf2.url)) {
+                if (rf2.poll_interval != rf.poll_interval) {
+                    feed_set_changed = true;
+                }
                 rf2 = rf;
                 rf2.found = true;
                 present = true;
@@ -616,7 +619,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
 void RSS_FEED::feed_file_name(char* path, int len) {
     char buf[256];
     escape_project_url(url_base, buf);
-    snprintf(path, len, NOTICES_DIR"/%s.xml", buf);
+    snprintf(path, len, NOTICES_DIR"/%.128s.xml", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path, int len) {
@@ -921,6 +924,7 @@ void RSS_FEEDS::update_proj_am(PROJ_AM* p) {
         RSS_FEED* rfp = lookup_url(rf.url);
         if (rfp) {
             rfp->found = true;
+            rfp->poll_interval = rf.poll_interval;
         } else {
             rf.found = true;
             safe_strcpy(rf.project_name, p->get_project_name());

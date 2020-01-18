@@ -1227,7 +1227,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // and prune those that can't be assigned
     //
     assign_coprocs(run_list);
-    bool scheduled_mt = false;
+    //bool scheduled_mt = false;
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
@@ -1337,9 +1337,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             continue;
         }
 
+#if 0
         if (rp->avp->avg_ncpus > 1) {
             scheduled_mt = true;
         }
+#endif
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= wss;
