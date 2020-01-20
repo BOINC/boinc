@@ -154,7 +154,7 @@ if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
-    echo "Deployment (release) build for architectures: x86_64"
+    echo "Deployment (release) build for architectures: i386, x86_64"
 fi
 
 echo ""
