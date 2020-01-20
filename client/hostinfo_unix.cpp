@@ -192,6 +192,21 @@ int get_timezone() {
     return 0;
 }
 
+std::string read_upower_status() {
+    char upower_out[256];
+    FILE *f = popen("upower -d", "r");
+    if (f) {
+        while(!std::feof(f)) {
+            if (!fgets(upower_out, sizeof(upower_out), f)) return "";
+            if (strstr(upower_out, "on-battery:")) {
+                return std::string(upower_out);
+            }
+        }
+        fclose(f);
+    }
+    return "";
+}
+
 // Returns true if the host is currently running off battery power
 // If you can't figure out, return false
 //
@@ -223,6 +238,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 #elif LINUX_LIKE_SYSTEM
     static enum {
       Detect,
+      UPower,
       ProcAPM,
       ProcACPI,
       SysClass,
@@ -296,6 +312,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
             }
         }
     }
+    if (Detect == method) {
+        // try UPower
+        if (!read_upower_status().empty()) {
+            method = UPower;
+        }
+    }
     switch (method) {
     case Detect:
         // if we haven't found a method so far, give up
@@ -356,6 +378,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
             // online is 1 if on AC power, 0 if on battery
             return (0 == online);
         }
+    case UPower:
+        {
+            if (strstr(read_upower_status().c_str(), "no")) return true;
+            return false;
+        }        
     case NoBattery:
     default:
          // we have no way to determine if we're on batteries,
