@@ -42,6 +42,7 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 
 #if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
 #include <sys/sysctl.h>
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #include "error_numbers.h"
@@ -100,7 +101,9 @@ void CLIENT_STATE::detect_platforms() {
 
 #ifdef __x86_64__
     add_platform("x86_64-apple-darwin");
-    add_platform("i686-apple-darwin");
+    if (compareOSVersionTo(10, 15) < 0) {
+        add_platform("i686-apple-darwin");
+    }
 #else
 #error Mac client now requires a 64-bit system
 #endif
