@@ -218,48 +218,41 @@
         <name>arm-android-linux-gnu[VFP]</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm-unknown-linux-gnueabihf[NEON]</name>
-        <name>arm-unknown-linux-gnueabihf[NEON_Beta]</name>
-        <name>i686-apple-darwin[BRP4G-Beta-cuda32-OSX]</name>
-        <name>i686-apple-darwin[BRP4G-Beta-opencl-ati-Lion]</name>
-        <name>i686-apple-darwin[BRP4G-cuda32-OSX]</name>
-        <name>i686-apple-darwin[BRP4G-opencl-ati-lion]</name>
-        <name>i686-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
-        <name>i686-pc-linux-gnu[BRP4G-Beta-opencl-ati]</name>
-        <name>i686-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
-        <name>i686-pc-linux-gnu[BRP4G-opencl-ati]</name>
         <name>i686-pc-linux-gnu[FGRPSSE]</name>
         <name>powerpc-apple-darwin[ALTIVEC]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda32]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda32-nv301]</name>
-        <name>windows_intelx86[BRP4G-Beta-cuda55]</name>
-        <name>windows_intelx86[BRP4G-Beta-opencl-ati]</name>
-        <name>windows_intelx86[BRP4G-Beta-opencl-intel_gpu]</name>
-        <name>windows_intelx86[BRP4G-cuda32]</name>
-        <name>windows_intelx86[BRP4G-cuda32-nv301]</name>
-        <name>windows_intelx86[BRP4G-opencl-ati]</name>
         <name>windows_intelx86[FGRPSSE]</name>
         <name>windows_intelx86[opencl-intel_gpu]</name>
+<<<<<<< HEAD
         <name>windows_x86_64</name>
         <name>windows_x86_64[BRP4G-Beta-opencl-ati]</name>
         <name>windows_x86_64[BRP4G-Beta-opencl-intel_gpu]</name>
         <name>windows_x86_64[BRP4G-opencl-ati]</name>
+=======
+        <name>windows_x86_64[BRP4-opencl-intel_gpu-nd]</name>
+>>>>>>> master
         <name>windows_x86_64[FGRPopencl-ati]</name>
+        <name>windows_x86_64[FGRPopencl-intel_gpu]</name>
         <name>windows_x86_64[FGRPopencl-nvidia]</name>
         <name>windows_x86_64[FGRPopencl1K-ati]</name>
         <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
+<<<<<<< HEAD
+=======
+        <name>windows_x86_64[GWnew]</name>
+        <name>windows_x86_64[GWold]</name>
+>>>>>>> master
         <name>windows_x86_64[opencl-intel_gpu]</name>
         <name>windows_x86_64[opencl-intel_gpu-Beta]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
-        <name>x86_64-apple-darwin[BRP4G-Beta-cuda55-Lion]</name>
         <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
         <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[Lion]</name>
+<<<<<<< HEAD
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda32-nv270]</name>
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-cuda55]</name>
@@ -267,6 +260,8 @@
         <name>x86_64-pc-linux-gnu[BRP4G-Beta-opencl-intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[BRP4G-cuda32-nv270]</name>
         <name>x86_64-pc-linux-gnu[BRP4G-opencl-ati]</name>
+=======
+>>>>>>> master
         <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
@@ -275,7 +270,12 @@
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
+<<<<<<< HEAD
         <name>x86_64-pc-linux-gnu[LIBC215]</name>
+=======
+        <name>x86_64-pc-linux-gnu[GWnew]</name>
+        <name>x86_64-pc-linux-gnu[GWold]</name>
+>>>>>>> master
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
       <summary>Help detect pulsars and gravitational waves</summary>
@@ -297,17 +297,22 @@
         <name>windows_intelx86</name>
         <name>windows_intelx86[avx]</name>
         <name>windows_intelx86[sse2]</name>
-        <name>windows_intelx86[vbox32]</name>
         <name>windows_x86_64[avx]</name>
         <name>windows_x86_64[sse2]</name>
         <name>windows_x86_64[vbox64]</name>
-        <name>windows_x86_64[vbox64_mt_mcore]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
+<<<<<<< HEAD
+=======
+        <name>windows_x86_64[vbox64_theory]</name>
+>>>>>>> master
         <name>x86_64-apple-darwin[avx]</name>
         <name>x86_64-apple-darwin[sse2]</name>
         <name>x86_64-apple-darwin[vbox64]</name>
-        <name>x86_64-apple-darwin[vbox64_mt_mcore]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
+<<<<<<< HEAD
+=======
+        <name>x86_64-apple-darwin[vbox64_theory]</name>
+>>>>>>> master
         <name>x86_64-pc-freebsd[avx]</name>
         <name>x86_64-pc-freebsd[sse2]</name>
         <name>x86_64-pc-linux-gnu[avx]</name>
@@ -315,8 +320,11 @@
         <name>x86_64-pc-linux-gnu[native_theory]</name>
         <name>x86_64-pc-linux-gnu[sse2]</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
-        <name>x86_64-pc-linux-gnu[vbox64_mt_mcore]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
+<<<<<<< HEAD
+=======
+        <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
+>>>>>>> master
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
@@ -349,7 +357,7 @@
         <name>arm-android-linux-gnu[armv7-vfpv4]</name>
         <name>arm-android-linux-gnu[armv7-vfpv4-nopie]</name>
         <name>arm-unknown-linux-gnueabihf</name>
-        <name>i686-apple-darwin</name>
+        <name>i686-apple-darwin[mac_intel32]</name>
         <name>i686-apple-darwin[osx_12]</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[sse]</name>
@@ -391,7 +399,7 @@
         <name>x86_64-apple-darwin[opencl_ati_mac]</name>
         <name>x86_64-apple-darwin[opencl_intel_gpu_mac]</name>
         <name>x86_64-apple-darwin[opencl_intel_gpu_sah]</name>
-        <name>x86_64-apple-darwin[opencl_nvidia_mac]</name>
+        <name>x86_64-apple-darwin[opencl_nvidia_mac_old]</name>
         <name>x86_64-apple-darwin[osx_12]</name>
         <name>x86_64-apple-darwin[sse3]</name>
         <name>x86_64-pc-linux-gnu</name>
@@ -473,6 +481,10 @@
         <name>i686-pc-linux-gnu[default]</name>
         <name>windows_intelx86[default]</name>
         <name>windows_x86_64[default]</name>
+<<<<<<< HEAD
+=======
+        <name>windows_x86_64[opencl_amd]</name>
+>>>>>>> master
         <name>windows_x86_64[opencl_nvidia]</name>
         <name>x86_64-apple-darwin[default]</name>
         <name>x86_64-pc-linux-gnu[cuda30]</name>
@@ -493,12 +505,12 @@
         <description><![CDATA[OLDK is building a database of canonical forms of diagonal Latin squares of the 10th order]]></description>
         <home>Independent</home>
     <platforms>
-        <name>i686-pc-freebsd</name>
-        <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>x86_64-pc-freebsd</name>
+        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-freebsd</name>
+        <name>i686-pc-freebsd</name>
     </platforms>
       <summary>Discover Latin Squares</summary>
         <keywords>15 20 44 46</keywords>
@@ -667,8 +679,10 @@
         <name>i686-pc-linux-gnu[cpuGFN19]</name>
         <name>i686-pc-linux-gnu[cpuGFN20]</name>
         <name>i686-pc-linux-gnu[cpuGFN21]</name>
+        <name>i686-pc-linux-gnu[cpuGFN22]</name>
         <name>i686-pc-linux-gnu[cpuPPSsieve]</name>
         <name>i686-pc-linux-gnu[cudaPPSsieve]</name>
+        <name>i686-pc-linux-gnu[mt]</name>
         <name>i686-pc-linux-gnu[OCLcudaGFN]</name>
         <name>i686-pc-linux-gnu[OCLcudaGFN15]</name>
         <name>i686-pc-linux-gnu[OCLcudaGFN16]</name>
@@ -697,8 +711,10 @@
         <name>windows_intelx86[cpuGFN19]</name>
         <name>windows_intelx86[cpuGFN20]</name>
         <name>windows_intelx86[cpuGFN21]</name>
+        <name>windows_intelx86[cpuGFN22]</name>
         <name>windows_intelx86[cpuPPSsieve]</name>
         <name>windows_intelx86[cudaPPSsieve]</name>
+        <name>windows_intelx86[mt]</name>
         <name>windows_intelx86[OCLcudaGFN]</name>
         <name>windows_intelx86[OCLcudaGFN15]</name>
         <name>windows_intelx86[OCLcudaGFN16]</name>
@@ -727,8 +743,10 @@
         <name>windows_x86_64[cpuGFN19]</name>
         <name>windows_x86_64[cpuGFN20]</name>
         <name>windows_x86_64[cpuGFN21]</name>
+        <name>windows_x86_64[cpuGFN22]</name>
         <name>windows_x86_64[cpuPPSsieve]</name>
         <name>windows_x86_64[cpu_AP27]</name>
+        <name>windows_x86_64[mt]</name>
         <name>windows_x86_64[OCL_cuda_AP27]</name>
         <name>windows_x86_64[opencl_ati_AP27]</name>
         <name>x86_64-apple-darwin</name>
@@ -738,9 +756,11 @@
         <name>x86_64-apple-darwin[cpuGFN19]</name>
         <name>x86_64-apple-darwin[cpuGFN20]</name>
         <name>x86_64-apple-darwin[cpuGFN21]</name>
+        <name>x86_64-apple-darwin[cpuGFN22]</name>
         <name>x86_64-apple-darwin[cpuPPSsieve]</name>
         <name>x86_64-apple-darwin[cpu_AP27]</name>
         <name>x86_64-apple-darwin[cudaPPSsieve]</name>
+        <name>x86_64-apple-darwin[mt]</name>
         <name>x86_64-apple-darwin[OCLcudaGFN]</name>
         <name>x86_64-apple-darwin[OCLcudaGFN15]</name>
         <name>x86_64-apple-darwin[OCLcudaGFN16]</name>
@@ -771,9 +791,11 @@
         <name>x86_64-pc-linux-gnu[cpuGFN19]</name>
         <name>x86_64-pc-linux-gnu[cpuGFN20]</name>
         <name>x86_64-pc-linux-gnu[cpuGFN21]</name>
+        <name>x86_64-pc-linux-gnu[cpuGFN22]</name>
         <name>x86_64-pc-linux-gnu[cpuPPSsieve]</name>
         <name>x86_64-pc-linux-gnu[cpu_AP27]</name>
         <name>x86_64-pc-linux-gnu[cudaPPSsieve]</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
         <name>x86_64-pc-linux-gnu[OCLcudaGFN]</name>
         <name>x86_64-pc-linux-gnu[OCLcudaGFN15]</name>
         <name>x86_64-pc-linux-gnu[OCLcudaGFN16]</name>
@@ -857,27 +879,6 @@
         <keywords>15 32</keywords>
     </project>
     <project>
-        <name>Distributed Hardware Evolution Project</name>
-        <id>40</id>
-        <url>https://dhep.ga/boinc/</url>
-        <web_url>https://dhep.ga/boinc/</web_url>
-        <general_area>Mathematics, computing, and games</general_area>
-        <specific_area>Electrical Engineering</specific_area>
-        <description><![CDATA[DHEP uses a Genetic Algorithm in a coevolutionary setting to synthesise future super-reliable electronics such as those used in autonomous vehicles, power stations, medical equipment, aerospace. These are of increasingly paramount importance as more and more human lives rely on well functioning hardware.]]></description>
-        <home>University of Sussex</home>
-    <platforms>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>windows_intelx86</name>
-        <name>windows_x86_64</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-linux-gnu</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/dhep.png</image>
-      <summary>Help design super-reliable electronic circuits</summary>
-        <keywords>15 20 48</keywords>
-    </project>
-    <project>
         <name>RakeSearch</name>
         <id>42</id>
         <url>https://rake.boincfast.ru/rakesearch/</url>
@@ -887,6 +888,8 @@
         <description><![CDATA[The enormous size of the diagonal Latin squares space makes it unfeasible to enumerate all its objects straightforwardly in reasonable time. So, in order to discover the structure of this space, sophisticated search methods are needed. In RakeSearch project, we implement an application that picks up separate pairs of mutually orthogonal DLSs, which allows to reconstruct full graphs of their orthogonality.]]></description>
         <home>Karelian Research Center, Russian Academy of Sciences</home>
     <platforms>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>e2k-linux-gnu</name>
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
@@ -899,7 +902,7 @@
         <name>Climateprediction.net</name>
         <id>8</id>
         <url>https://climateprediction.net/</url>
-        <web_url>https://www.cpdn.org/cpdnboinc/</web_url>
+        <web_url>https://www.cpdn.org/</web_url>
         <general_area>Earth Sciences</general_area>
         <specific_area>Climate study</specific_area>
         <description><![CDATA[Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.]]></description>
@@ -1094,6 +1097,13 @@
         <id>101</id>
         <url>https://scienceunited.org/</url>
         <description>Science United is a simple and friendly interface to BOINC.  You sign up for science areas instead of projects.</description>
+        <image>https://boinc.berkeley.edu/images/</image>
+    </account_manager>
+   <account_manager>
+        <name>GRCPool</name>
+        <id>45</id>
+        <url>https://grcpool.com</url>
+        <description>GRCPool.com is a cryptocurrency mining pool which rewards work performed using BOINC.</description>
         <image>https://boinc.berkeley.edu/images/</image>
     </account_manager>
 </projects>
