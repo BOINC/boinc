@@ -1299,7 +1299,7 @@ int get_processor_info(
     char* p_features, int p_features_size, double& p_cache, int& p_ncpus
 ) {
     int family = 0, model = 0, stepping = 0, cache = 0;
-    char vendor_name[256], processor_name[256], features[256];
+    char vendor_name[256], processor_name[256], features[P_FEATURES_SIZE];
 
     get_processor_vendor(vendor_name, sizeof(vendor_name));
     get_processor_version(family, model, stepping);
