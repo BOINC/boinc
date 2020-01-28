@@ -18,39 +18,39 @@
 
 // client-specific GPU code.  Mostly GPU detection
 //
-//  theory of operation:
-//  there are two ways of detecting GPUs:
+// theory of operation:
+// there are two ways of detecting GPUs:
 //  - vendor-specific libraries like CUDA and CAL,
 //      which detect only that vendor's GPUs
 //  - OpenCL, which can detect multiple types of GPUs,
 //      including nvidia/amd/intel as well was new types
 //      such as ARM integrated GPUs
 //
-//  These libraries sometimes crash,
-//  and we've been unable to trap these via signal and exception handlers.
-//  So we do GPU detection in a separate process (boinc --detect_gpus)
-//  This process writes an XML file "coproc_info.xml" containing
+// These libraries sometimes crash,
+// and we've been unable to trap these via signal and exception handlers.
+// So we do GPU detection in a separate process (boinc --detect_gpus)
+// This process writes an XML file "coproc_info.xml" containing
 //  - lists of GPU detected via CUDA and CAL
 //  - lists of nvidia/amd/intel GPUs detected via OpenCL
 //  - a list of other GPUs detected via OpenCL
 //
-//  When the process finishes, the client parses the info file.
-//  Then for each vendor it "correlates" the GPUs, which includes:
+// Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
+// down the more powerful GPU until all applications which used them exit.
+// Doing GPU detection in a second, short-lived process
+// saves battery life on these laptops.
+//
+// When the process finishes, the client parses the info file.
+// Then for each vendor it "correlates" the GPUs, which includes:
 //  - matching up the OpenCL and vendor-specific descriptions, if both exist
 //  - finding the most capable GPU, and seeing which other GPUs
 //      are similar to it in hardware and RAM.
 //      Other GPUs are not used.
 //  - copy these to the COPROCS structure
 //
-//  Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
-//  down the more powerful GPU until all applications which used
-//  them exit. Doing GPU detection in a second, short-lived process
-//  saves battery life on these laptops.
-//
-//  GPUs can also be explicitly described in cc_config.xml
 
+// GPUs can also be explicitly described in cc_config.xml
 
-// uncomment to do GPU detection in same process (for debugging)
+// comment out to do GPU detection in same process (for debugging)
 //
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
 
@@ -90,6 +90,8 @@ void segv_handler(int) {
 }
 #endif
 
+// the following store GPU instances during initialization
+//
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
 vector<COPROC_INTEL> intel_gpus;
@@ -105,11 +107,16 @@ static char* client_path;
 static char client_dir[MAXPATHLEN];
     // current directory at start of client
 
+// find GPU instances, then correlate (merge) them
+//
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
 #if USE_CHILD_PROCESS_TO_DETECT_GPUS
+    // detect_gpus() can cause crashes even with try/catch,
+    // so do it in a separate process that writes a file
+    //
     int retval = 0;
     char buf[256];
 
@@ -135,7 +142,10 @@ void COPROCS::get(
     correlate_gpus(use_all, descs, ignore_gpu_instance);
 }
 
-
+// populate the global vectors
+// ati_gpus, nvidia_gpus, intel_gpus,
+// nvidia_opencls, etc.
+//
 void COPROCS::detect_gpus(vector<string> &warnings) {
 #ifdef _WIN32
     try {
@@ -194,7 +204,12 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 #endif
 }
 
-
+// for each GPU type, scan the GPUs we detected
+// (e.g. the vector nvidia_gpus).
+// Find the most capable one, and the ones equivalent to it.
+// Also correlate OpenCL GPUs with CUDA/CAL GPUs.
+// Then create a single COPROC (with appropriate count)
+//
 void COPROCS::correlate_gpus(
     bool use_all,
     vector<string> &descs,
@@ -441,6 +456,9 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     return 0;
 }
 
+// if we're using a separate process to find GPUs,
+// read its output file and create data structures
+//
 int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     MIOFILE mf;
     int retval;
