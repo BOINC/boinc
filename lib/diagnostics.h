@@ -104,7 +104,7 @@ extern int diagnostics_set_aborted_via_gui(void);
 
 // Log rotation
 extern int diagnostics_cycle_logs(void);
-extern void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size);
+extern void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size);
 
 // Thread Tracking
 extern int diagnostics_init_thread_list(void);

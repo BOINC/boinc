@@ -397,8 +397,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
@@ -629,8 +629,8 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
-        "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
-        "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
+        "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
+        "        <max_stdout_file_size>%f</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"

@@ -419,8 +419,8 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
