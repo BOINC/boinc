@@ -988,7 +988,7 @@ void boinc_info(const char* pszFormat, ...){
 }
 #endif
 
-void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
+void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size) {
     if (stdout_size) max_stdout_file_size = stdout_size;
     if (stderr_size) max_stderr_file_size = stderr_size;
 }
