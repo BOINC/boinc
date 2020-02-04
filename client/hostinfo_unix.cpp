@@ -447,7 +447,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 static void parse_cpuinfo_linux(HOST_INFO& host) {
-    char buf[1024], features[1024], model_buf[1024];
+    char buf[1024], features[P_FEATURES_SIZE], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
@@ -769,7 +769,7 @@ static void get_cpu_info_mac(HOST_INFO& host) {
     size_t len;
 #if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
-    char features[sizeof(host.p_features)];
+    char features[P_FEATURES_SIZE];
     char *p;
     char *sep=" ";
     int family, stepping, model;

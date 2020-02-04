@@ -48,6 +48,8 @@ const char file_redhatrelease[] = "/etc/redhat-release";
 
 // if you add fields, update clear_host_info()
 
+#define P_FEATURES_SIZE 1024
+
 class HOST_INFO {
 public:
     int timezone;                 // local STANDARD time - UTC time (in seconds)
@@ -59,7 +61,7 @@ public:
     int p_ncpus;
     char p_vendor[256];
     char p_model[256];
-    char p_features[1024];
+    char p_features[P_FEATURES_SIZE];
     double p_fpops;
     double p_iops;
     double p_membw;

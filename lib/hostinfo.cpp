@@ -125,7 +125,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 int HOST_INFO::write(
     MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
-    char pv[265], pm[256], pf[1024], osn[256], osv[256], pn[256];
+    char pv[265], pm[256], pf[P_FEATURES_SIZE], osn[256], osv[256], pn[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
