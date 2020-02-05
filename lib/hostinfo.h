@@ -97,12 +97,9 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
-    HOST_INFO(int){}
-    HOST_INFO(){}
-    void clear() {
-        static const HOST_INFO x(0);
-        *this = x;
-    }
+    void clear_host_info();
+    HOST_INFO();
+
     int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);

@@ -426,7 +426,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        h.clear();
+        h.clear_host_info();
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
