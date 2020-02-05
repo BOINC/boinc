@@ -24,6 +24,7 @@
 #include <string>
 #include <cstring>
 
+#include "version.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "str_util.h"
