@@ -151,7 +151,9 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
 }
 
 bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
-    return daily_quota_exceeded(bavp->avp->id, bavp->host_usage);
+    DB_HOST_APP_VERSION* havp = bavp->host_app_version();
+    if (!havp) return false;
+    return daily_quota_exceeded(havp->app_version_id, bavp->host_usage);
 }
 
 // scan through client's anonymous apps and pick the best one
