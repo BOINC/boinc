@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -314,7 +314,7 @@ public class AcctMgrFragment extends DialogFragment {
         return getString(stringResource);
     }
 
-    private class AttachProjectAsyncTask extends AsyncTask<String, Void, Integer> {
+    private class AttachProjectAsyncTask extends AsyncTask<String, Void, ErrorCodeDescription> {
 
         @Override
         protected void onPreExecute() {
@@ -322,7 +322,7 @@ public class AcctMgrFragment extends DialogFragment {
         }
 
         @Override
-        protected Integer doInBackground(String... arg0) {
+        protected ErrorCodeDescription doInBackground(String... arg0) {
 
             String url = arg0[0];
             String name = arg0[1];
@@ -332,11 +332,11 @@ public class AcctMgrFragment extends DialogFragment {
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
+        protected void onPostExecute(ErrorCodeDescription result) {
             super.onPostExecute(result);
             if (Logging.DEBUG)
                 Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result);
-            if (result == BOINCErrors.ERR_OK) {
+            if (result.code == BOINCErrors.ERR_OK && (result.description == null || result.description.isEmpty())) {
                 dismiss();
                 if (returnToMainActivity) {
                     if (Logging.DEBUG)
@@ -352,7 +352,11 @@ public class AcctMgrFragment extends DialogFragment {
                 ongoingWrapper.setVisibility(View.GONE);
                 continueB.setVisibility(View.VISIBLE);
                 warning.setVisibility(View.VISIBLE);
-                warning.setText(mapErrorNumToString(result));
+                if (result.description != null && !result.description.isEmpty()) {
+                    warning.setText(result.description);
+                } else {
+                    warning.setText(mapErrorNumToString(result.code));
+                }
             }
         }
     }

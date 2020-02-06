@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -56,8 +56,10 @@ int main(int /*argc*/, char** argv) {
     getcwd( current_dir, sizeof(current_dir));
     fprintf(stderr, "current directory = %s\n", current_dir);
 
-    for (int i=0; i<argc; i++) {
+    int i = 0;
+    while(argv[i]) {
         fprintf(stderr, "switcher arg %d: %s\n", i, argv[i]);
+        ++i;
     }
     fflush(stderr);
 #endif

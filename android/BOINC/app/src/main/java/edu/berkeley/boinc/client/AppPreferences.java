@@ -32,7 +32,6 @@ public class AppPreferences {
 
     private Boolean autostart;
     private Boolean showNotificationForNotices;
-    private Boolean showNotificationDuringSuspend;
     private Boolean showAdvanced;
     private Integer logLevel;
     private Boolean powerSourceAc;
@@ -49,8 +48,6 @@ public class AppPreferences {
         autostart = prefs.getBoolean("autostart", ctx.getResources().getBoolean(R.bool.prefs_default_autostart));
         showNotificationForNotices =
                 prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notification_notices));
-        showNotificationDuringSuspend =
-                prefs.getBoolean("showNotificationDuringSuspend", ctx.getResources().getBoolean(R.bool.prefs_default_notification_suspended));
         showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
         logLevel = prefs.getInt("logLevel", ctx.getResources().getInteger(R.integer.prefs_default_loglevel));
         Logging.setLogLevel(logLevel);
@@ -91,17 +88,6 @@ public class AppPreferences {
 
     public Boolean getShowNotificationForNotices() {
         return this.showNotificationForNotices;
-    }
-
-    public void setShowNotificationDuringSuspend(Boolean ns) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("showNotificationDuringSuspend", ns);
-        editor.apply();
-        this.showNotificationDuringSuspend = ns;
-    }
-
-    public Boolean getShowNotificationDuringSuspend() {
-        return this.showNotificationDuringSuspend;
     }
 
     public void setShowAdvanced(Boolean as) {

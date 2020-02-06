@@ -85,8 +85,10 @@ struct OPENCL_DEVICE_PROP {
 #endif
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, int buflen, const char* type);
+    OPENCL_DEVICE_PROP(){}
     void clear() {
-        memset(this, 0, sizeof(*this));
+        static const OPENCL_DEVICE_PROP x;
+        *this = x;
     }
 };
 

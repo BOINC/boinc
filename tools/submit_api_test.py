@@ -198,4 +198,5 @@ def test_get_job_counts():
 
 #test_query_batch(328)
 #test_submit_batch('batch_39')
-#test_create_batch('batch_33')
+set_timeout(10)
+test_create_batch('batch_138')

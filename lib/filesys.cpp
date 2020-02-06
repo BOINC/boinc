@@ -403,7 +403,7 @@ int clean_out_dir(const char* dirpath) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
 
-        snprintf(path, sizeof(path), "%s/%s", dirpath,  filename);
+        snprintf(path, sizeof(path), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
         path[sizeof(path)-1] = 0;
 
         clean_out_dir(path);
@@ -443,7 +443,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 
             dsize = 0.0;
 
-            snprintf(buf, sizeof(buf), "%s/%s", dirpath, findData.cFileName);
+            snprintf(buf, sizeof(buf), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, findData.cFileName);
             buf[sizeof(buf)-1] = 0;
 
             dir_size(buf, dsize, true);
@@ -467,7 +467,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
 
-        snprintf(subdir, sizeof(subdir), "%s/%s", dirpath, filename);
+        snprintf(subdir, sizeof(subdir), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
         subdir[sizeof(subdir)-1] = 0;
 
         if (is_dir(subdir)) {
@@ -773,7 +773,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         p = strchr(q, '/');
         if (!p) break;
         *p = 0;
-        snprintf(newpath, sizeof(newpath), "%s/%s", oldpath, q);
+        snprintf(newpath, sizeof(newpath), "%.*s/%.*s", DIR_LEN, oldpath, FILE_LEN, q);
         newpath[sizeof(newpath)-1] = 0;
         retval = boinc_mkdir(newpath);
         if (retval) return retval;

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2019 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -1176,13 +1176,13 @@ public class Monitor extends Service {
         }
 
         @Override
-        public int addAcctMgrErrorNum(String url, String userName, String pwd)
+        public ErrorCodeDescription addAcctMgrErrorNum(String url, String userName, String pwd)
                 throws RemoteException {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                return acctMgr.error_num;
+                return new ErrorCodeDescription(acctMgr.error_num, acctMgr.messages.isEmpty() ? "" : acctMgr.messages.toString());
             }
-            return -1;
+            return new ErrorCodeDescription(-1);
         }
 
         @Override
@@ -1386,17 +1386,6 @@ public class Monitor extends Service {
         @Override
         public void cancelNoticeNotification() throws RemoteException {
             NoticeNotification.getInstance(getApplicationContext()).cancelNotification();
-        }
-
-        @Override
-        public void setShowNotificationDuringSuspend(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowNotificationDuringSuspend(isShow);
-
-        }
-
-        @Override
-        public boolean getShowNotificationDuringSuspend() throws RemoteException {
-            return Monitor.getAppPrefs().getShowNotificationDuringSuspend();
         }
 
         @Override

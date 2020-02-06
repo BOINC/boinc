@@ -83,7 +83,6 @@ static _CrtMemState difference_snapshot;
 
 #endif
 
-
 static int         diagnostics_initialized = false;
 static int         flags;
 static char        stdout_log[MAXPATHLEN];
@@ -295,10 +294,10 @@ int diagnostics_init(
             boinc_mkdir(user_dir);
         }
 
-        snprintf(stdout_log, sizeof(stdout_log), "%s/%s.txt", user_dir, stdout_prefix);
-        snprintf(stdout_archive, sizeof(stdout_archive), "%s/%s.old", user_dir, stdout_prefix);
-        snprintf(stderr_log, sizeof(stderr_log), "%s/%s.txt", user_dir, stderr_prefix);
-        snprintf(stderr_archive, sizeof(stderr_archive), "%s/%s.old", user_dir, stderr_prefix);
+        snprintf(stdout_log, sizeof(stdout_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
 
     } else {
 
@@ -697,7 +696,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = (void (*)(int))handler;
+        temp.sa_sigaction = handler;
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -756,7 +755,7 @@ static char *xtoa(size_t x) {
 #ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
-void boinc_catch_signal(int signal, struct siginfo *, void *) {
+void boinc_catch_signal(int signal, siginfo_t*, void *) {
 #endif  // ANDROID
 #else
 void boinc_catch_signal(int signal) {
@@ -989,7 +988,7 @@ void boinc_info(const char* pszFormat, ...){
 }
 #endif
 
-void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
+void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size) {
     if (stdout_size) max_stdout_file_size = stdout_size;
     if (stderr_size) max_stderr_file_size = stderr_size;
 }

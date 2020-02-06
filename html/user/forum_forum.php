@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -80,7 +80,7 @@ case 0:
     break;
 case 1:
     $team = BoincTeam::lookup_id($forum->category);
-    page_head(tra("Team message board for %1", "<a href=team_display.php?teamid=$team->id>$team->name</a>"));
+    page_head(tra("Team message board for %1", $team->name));
     show_forum_header($user);
     show_team_forum_title($forum);
     break;

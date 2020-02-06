@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,6 +36,8 @@ extern "C" {
     OSStatus    GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, size_t maxLen);
 
     int         compareOSVersionTo(int toMajor, int toMinor);
+
+#define MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT 15
 
 #ifdef __cplusplus
 }	// extern "C"

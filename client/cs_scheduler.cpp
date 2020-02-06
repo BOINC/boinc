@@ -465,7 +465,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = next_project_sched_rpc_pending();
     if (p) {
         if (log_flags.sched_op_debug) {
-            msg_printf(p, MSG_INFO, "sched RPC pending: %s",
+            msg_printf(p, MSG_INFO, "[sched_op] sched RPC pending: %s",
                 rpc_reason_string(p->sched_rpc_pending)
             );
         }
@@ -662,7 +662,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
-    if (log_flags.sched_op_debug && sr.request_delay) {
+    if (sr.request_delay) {
         msg_printf(project, MSG_INFO,
             "Project requested delay of %.0f seconds", sr.request_delay
         );
@@ -690,7 +690,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
-                    "ignoring prefs from project; using prefs from AM"
+                    "[sched_op] ignoring prefs from project; using prefs from AM"
                 );
             }
         } else if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
@@ -707,7 +707,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
-                    "ignoring prefs from old server; we have host-specific prefs"
+                    "[sched_op] ignoring prefs from old server; we have host-specific prefs"
                 );
             }
         }
@@ -1187,7 +1187,7 @@ void CLIENT_STATE::check_project_timeout() {
         PROJECT* p = projects[i];
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
-            char buf[256];
+            char buf[1024];
             snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name());
             request_work_fetch(buf);
         }
