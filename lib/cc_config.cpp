@@ -39,12 +39,10 @@
 
 using std::string;
 
-LOG_FLAGS::LOG_FLAGS() {
-    init();
-}
-
 void LOG_FLAGS::init() {
-    memset(this, 0, sizeof(LOG_FLAGS));
+    static const LOG_FLAGS x;
+    *this = x;
+
     // on by default (others are off by default)
     //
     task = true;
@@ -55,6 +53,7 @@ void LOG_FLAGS::init() {
 // Parse log flag preferences
 //
 int LOG_FLAGS::parse(XML_PARSER& xp) {
+    init();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
@@ -269,6 +268,7 @@ void CC_CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     vbox_window = false;
+    ignore_tty.clear();
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -313,6 +313,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         ignore_gpu_instance[i].clear();
     }
     exclude_gpus.clear();
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -396,8 +397,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
@@ -432,6 +433,10 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
 
         // The following 3 tags have been moved to nvc_config and
         // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
@@ -624,8 +629,8 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
-        "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
-        "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
+        "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
+        "        <max_stdout_file_size>%f</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"
@@ -685,6 +690,12 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         use_certs_only,
         vbox_window
     );
+    for (i=0; i<ignore_tty.size(); ++i) {
+        out.printf(
+            "        <ignore_tty>%s</ignore_tty>\n",
+            ignore_tty[i].c_str()
+        );
+    }
 
     out.printf("    </options>\n</cc_config>\n");
     return 0;
@@ -719,7 +730,7 @@ int APP_CONFIG::parse_gpu_versions(
             continue;
         }
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
     }
@@ -729,7 +740,8 @@ int APP_CONFIG::parse_gpu_versions(
 
 int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_CONFIG));
+    static const APP_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
@@ -755,7 +767,7 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         // unparsed XML not considered an error; maybe it should be?
         //
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
@@ -768,11 +780,12 @@ int APP_VERSION_CONFIG::parse(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
 ) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_VERSION_CONFIG));
+    static const APP_VERSION_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -783,7 +796,7 @@ int APP_VERSION_CONFIG::parse(
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
         if (xp.parse_double("ngpus", ngpus)) continue;
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_VERSION_CONFIG::parse");
@@ -798,7 +811,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     clear();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -833,7 +846,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
             continue;
         }
-        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %s", xp.parsed_tag);
+        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %.128s", xp.parsed_tag);
         mv.push_back(string(buf));
 
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");

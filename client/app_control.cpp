@@ -542,7 +542,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     snprintf(err_msg, sizeof(err_msg),
                         "process exited with code %d (0x%x, %d)",
                         result->exit_status, result->exit_status,
-                        (-1<<8)|result->exit_status
+                        (~0xff)|result->exit_status
                     );
                     gstate.report_result_error(*result, err_msg);
                 } else {
@@ -1554,7 +1554,7 @@ void ACTIVE_TASK_SET::get_msgs() {
         }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
-                char buf[256];
+                char buf[512];
                 sprintf(buf, "%s checkpointed", atp->result->name);
                 if (atp->overdue_checkpoint) {
                     gstate.request_schedule_cpus(buf);

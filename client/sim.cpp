@@ -761,10 +761,6 @@ void SIM_RESULTS::divide(int n) {
     monotony /= n;
 }
 
-void SIM_RESULTS::clear() {
-    memset(this, 0, sizeof(*this));
-}
-
 void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
     double t = project_results.flops_used;
     double gt = sr.flops_used;

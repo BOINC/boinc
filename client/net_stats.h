@@ -48,7 +48,6 @@ struct NET_INFO {
         // when avg_rate was last updated
     void update(double nbytes, double dt);
         // updates the above vars
-
 };
 
 class NET_STATS {
@@ -56,7 +55,14 @@ public:
     NET_INFO up;
     NET_INFO down;
 
-    NET_STATS();
+    NET_STATS(int){}
+    void clear() {
+        static const NET_STATS x(0);
+        *this = x;
+    }
+    NET_STATS() {
+        clear();
+    }
 
     int write(MIOFILE&);
     int parse(XML_PARSER&);

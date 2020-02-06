@@ -21,9 +21,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define chdir _chdir
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -154,6 +151,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                     perror("chdir");
                     exit(1);
                 }
+                cmdline_dir = true;
             }
         } else if (ARG(exit_after_app_start)) {
             if (i == argc-1) show_options = true;

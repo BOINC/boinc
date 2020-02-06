@@ -87,7 +87,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
         if (user.id == config.dont_search_host_for_userid[i]) {
             return false;
-        }    
+        }
     }
 
     // Only check if all the fields are populated
@@ -1418,10 +1418,12 @@ void process_request(char* code_sign_key) {
                 if (diff < config.min_sendwork_interval) {
                     ok_to_send_work = false;
                     log_messages.printf(MSG_NORMAL,
-                        "Not sending work - last request too recent: %f\n", diff
+                        "Not sending work. Last request too recent. Please wait %d seconds.\n",
+                        (int)(config.min_sendwork_interval - diff)
                     );
                     sprintf(buf,
-                        "Not sending work - last request too recent: %d sec", (int)diff
+                        "Not sending work. Last request too recent. Please wait %d seconds.\n",
+                        (int)(config.min_sendwork_interval - diff)
                     );
                     g_reply->insert_message(buf, "low");
 

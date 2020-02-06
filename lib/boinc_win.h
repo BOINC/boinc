@@ -29,14 +29,15 @@
 #pragma warning(disable: 4996)  // deprecated function names
 #pragma warning(disable: 4127)  // constant conditional expression
 #pragma warning(disable: 4244)  // conversion from int to char
-#define getpid _getpid
+#define chdir       _chdir
+#define getpid      _getpid
 #define getcwd      _getcwd
 #define strdate     _strdate
-#define strdup _strdup
+#define strdup      _strdup
 #define stricmp     _stricmp
 #define strtime     _strtime
 #if _MSC_VER < 1900
-#define snprintf _snprintf
+#define snprintf    _snprintf
 #endif
 #endif
 

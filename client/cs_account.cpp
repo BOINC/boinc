@@ -358,10 +358,6 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
-void DAILY_STATS::clear() {
-    memset(this, 0, sizeof(DAILY_STATS));
-}
-
 int DAILY_STATS::parse(FILE* in) {
     MIOFILE mf;
     XML_PARSER xp(&mf);

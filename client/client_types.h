@@ -226,8 +226,14 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    void clear();
-    DAILY_STATS() {clear();}
+    DAILY_STATS(int){}
+    void clear() {
+        static const DAILY_STATS x(0);
+        *this = x;
+    }
+    DAILY_STATS() {
+        clear();
+    }
     int parse(FILE*);
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
@@ -273,7 +279,14 @@ struct APP {
     bool ignore;
 #endif
 
-    APP() {memset(this, 0, sizeof(APP));}
+    APP(int){}
+    void clear() {
+        static const APP x(0);
+        *this = x;
+    }
+    APP(){
+        clear();
+    }
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
