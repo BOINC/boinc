@@ -109,7 +109,7 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
-    int user_idle_time(bool check_all_logins);
+    long user_idle_time(bool check_all_logins);
         // seconds since last user interaction
     int get_host_info(bool init);
     int get_cpu_info();

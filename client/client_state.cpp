@@ -987,7 +987,7 @@ bool CLIENT_STATE::poll_slow_events() {
 #ifdef ANDROID
     user_active = device_status.user_active;
 #else
-    int idle_time = host_info.user_idle_time(check_all_logins);
+    long idle_time = host_info.user_idle_time(check_all_logins);
     user_active = idle_time < global_prefs.idle_time_to_run * 60;
 #endif
 

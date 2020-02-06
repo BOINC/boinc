@@ -1557,7 +1557,7 @@ int HOST_INFO::get_host_info(bool init) {
     return 0;
 }
 
-inline int device_idle_time(const char *device) {
+inline long device_idle_time(const char *device) {
     struct stat sbuf;
     if (stat(device, &sbuf)) {
         return USER_IDLE_TIME_INF;
@@ -1690,7 +1690,7 @@ int get_system_uptime() {
 // Even with calling IORegistryEntryFromPath() each time, this code is much
 // faster than the previous method, which called IOHIDGetParameter().
 //
-int HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
+long HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
     static bool     error_posted = false;
     int64_t         idleNanoSeconds;
     double          idleTime = 0;
@@ -1728,13 +1728,13 @@ int HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
         }
     }
 
-    return (int)idleTime;
+    return (long)idleTime;
 }
 
 #else  // ! __APPLE__
 
 #if HAVE_UTMP_H
-inline int user_idle_time(struct utmp* u) {
+inline long user_idle_time(struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
 
@@ -1787,10 +1787,10 @@ inline int user_idle_time(struct utmp* u) {
 
   // scan list of logged-in users, and see if they're all idle
   //
-  inline int all_logins_idle() {
+  inline long all_logins_idle() {
       struct utmp* u;
       setutent();
-      int idle_time = USER_IDLE_TIME_INF;
+      long idle_time = USER_IDLE_TIME_INF;
 
       while ((u = getutent()) != NULL) {
           idle_time = min(idle_time, user_idle_time(u));
@@ -1886,8 +1886,8 @@ const vector<string> X_display_values_initialize() {
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
 //
-int xss_idle() {
-    int idle_time = USER_IDLE_TIME_INF;
+long xss_idle() {
+    long idle_time = USER_IDLE_TIME_INF;
     const vector<string> display_values = X_display_values_initialize();
     vector<string>::const_iterator it;
 
@@ -1985,8 +1985,8 @@ int xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
-int HOST_INFO::user_idle_time(bool check_all_logins) {
-    int idle_time = USER_IDLE_TIME_INF;
+long HOST_INFO::user_idle_time(bool check_all_logins) {
+    long idle_time = USER_IDLE_TIME_INF;
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
@@ -2006,10 +2006,10 @@ int HOST_INFO::user_idle_time(bool check_all_logins) {
     // We should find out which of the following are actually relevant
     // on which systems (if any)
     //
-    idle_time = min(idle_time, device_idle(idle_time, "/dev/mouse"));
+    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/mouse"));
         // solaris, linux
-    idle_time = min(idle_time, device_idle(idle_time, "/dev/input/mice"));
-    idle_time = min(idle_time, device_idle(idle_time, "/dev/kbd"));
+    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/input/mice"));
+    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
     return idle_time;
