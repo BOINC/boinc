@@ -739,6 +739,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 // here we don't already have the project.
                 //
+                if (acct.detach || (acct.detach_when_done.present && acct.detach_when_done.value)) {
+                    continue;
+                }
+
                 retval = check_string_signature2(
                     acct.url.c_str(), acct.url_signature, ami.signing_key, verified
                 );
@@ -756,32 +760,30 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                // Attach to it, unless the acct mgr is telling us to detach
+                // Attach to it
                 //
-                if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Attaching to %s", acct.url.c_str()
-                    );
-                    gstate.add_project(
-                        acct.url.c_str(), acct.authenticator.c_str(), "", true
-                    );
-                    pp = gstate.lookup_project(acct.url.c_str());
-                    if (pp) {
-                        for (int j=0; j<MAX_RSC; j++) {
-                            pp->no_rsc_ams[j] = acct.no_rsc[j];
-                        }
-                        if (acct.dont_request_more_work.present) {
-                            pp->dont_request_more_work = acct.dont_request_more_work.value;
-                        }
-                        if (acct.suspend.present && acct.suspend.value) {
-                            pp->suspend();
-                        }
-                    } else {
-                        msg_printf(NULL, MSG_INTERNAL_ERROR,
-                            "Failed to add project: %s",
-                            acct.url.c_str()
-                        );
+                msg_printf(NULL, MSG_INFO,
+                    "Attaching to %s", acct.url.c_str()
+                );
+                gstate.add_project(
+                    acct.url.c_str(), acct.authenticator.c_str(), "", true
+                );
+                pp = gstate.lookup_project(acct.url.c_str());
+                if (pp) {
+                    for (int j=0; j<MAX_RSC; j++) {
+                        pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
+                    if (acct.dont_request_more_work.present) {
+                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    }
+                    if (acct.suspend.present && acct.suspend.value) {
+                        pp->suspend();
+                    }
+                } else {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Failed to add project: %s",
+                        acct.url.c_str()
+                    );
                 }
             }
         }
