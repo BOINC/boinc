@@ -1620,18 +1620,18 @@ vector<string> get_tty_list() {
     return tty_list;
 }
 
-inline int all_tty_idle_time() {
+inline long all_tty_idle_time() {
     static vector<string> tty_list;
     struct stat sbuf;
     unsigned int i;
-    int idle_time = USER_IDLE_TIME_INF;
+    long idle_time = USER_IDLE_TIME_INF;
 
     if (tty_list.size()==0) tty_list=get_tty_list();
     for (i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
             // printf("tty: %s %d %d\n",tty_list[i].c_str(), sbuf.st_atime, t);
-            idle_time = min(idle_time, (int)(gstate.now-sbuf.st_atime));
+            idle_time = min(idle_time, (long)(gstate.now-sbuf.st_atime));
         }
     }
     return idle_time;
