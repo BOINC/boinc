@@ -21,7 +21,7 @@ function boincwork_admin_prefs_options_form(&$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable the privacy link for privacy preferences.'),
     '#description' => t('This option deals with the specific consent question \'Do you consent to exporting your data to BOINC statisitcs aggregation Web sites?\' If this question is enabled in the BOINC admin-interface, it will appear in the Privacy Preferences forms. Enable this checkbox to add an additional sentence below this question, with a link to the privacy policy page. Specify the path to the privacy page in Page to privacy page below.'),
-    '#default_value' => variable_get('boinc_privacypref_enable_link'),
+    '#default_value' => variable_get('boinc_privacypref_enable_link', ''),
     '#required' => TRUE
   );
   $form['privacylink_path'] = array(
