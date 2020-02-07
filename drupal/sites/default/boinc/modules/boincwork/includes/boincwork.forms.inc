@@ -1753,10 +1753,12 @@ function boincwork_privacyprefs_form(&$form_state) {
   $default = array(
     'privacy' => array(
       'send_email' => ($boincuser->send_email) ? 1 : 0,
-      'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
+      'show_hosts' => ($boincuser->show_hosts) ? 1 : 0,
+      'enableprivacylink' => variable_get('boinc_privacypref_enable_link', 0),
+      'privacylinkpath' => variable_get('boinc_privacypref_privacylink_path', ''),
     )
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
@@ -1800,6 +1802,26 @@ function boincwork_privacyprefs_form(&$form_state) {
       '#attributes' => array('class' => 'fancy'),
       '#default_value' => $currstate,
     );
+
+    // Add a description with link to the question 'Do you consent to
+    // exporting your data...'. There are two administration options
+    // in 'Preferences: General' that control this link. The first
+    // 'Enable the privacy link' enables/disables the description
+    // below. The second, 'Path to privacy page', allows the admin to
+    // give the druapl path to the privacy policy.
+    if ($default['privacy']['enableprivacylink']) {
+      $mypatt = '/Do you consent to exporting your data to BOINC statistics aggregation Web sites/';
+      if (preg_match($mypatt, $ct['description']) ) {
+        $form['privacy']['privacyconsent_'.$ct['shortname']]['#description'] = bts('See our !privacy_policy_link for the current list of statistics providers.',
+        array(
+          '!privacy_policy_link' => l(
+            bts('privacy policy', array(), NULL, 'boinc:account-preferences-privacy'),
+            $default['privacy']['privacylinkpath']
+          )
+        ),
+        NULL, 'boinc:account-preferences-privacy');
+      }
+    }
   }
 
   // Ignore and block users

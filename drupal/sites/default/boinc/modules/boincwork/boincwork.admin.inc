@@ -17,6 +17,19 @@ function boincwork_admin_prefs_options_form(&$form_state) {
     '#default_value' => variable_get('boinc_prefs_options_beta', 0),
     '#required' => TRUE
   );
+  $form['enable_privacy_link'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable the privacy link for privacy preferences.'),
+    '#description' => t('This option deals with the specific consent question \'Do you consent to exporting your data to BOINC statisitcs aggregation Web sites?\' If this question is enabled in the BOINC admin-interface, it will appear in the Privacy Preferences forms. Enable this checkbox to add an additional sentence below this question, with a link to the privacy policy page. Specify the path to the privacy page in Page to privacy page below.'),
+    '#default_value' => variable_get('boinc_privacypref_enable_link'),
+    '#required' => TRUE
+  );
+  $form['privacylink_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to privacy page'),
+    '#description' => t('A Drupal path to the privacy page for this Web site, e.g. /privacy'),
+    '#default_value' => variable_get('boinc_privacypref_privacylink_path', '')
+  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit')
@@ -37,6 +50,8 @@ function boincwork_admin_prefs_options_form_validate($form, &$form_state) {
   */
 function boincwork_admin_prefs_options_form_submit($form, &$form_state) {
   variable_set('boinc_prefs_options_beta', $form_state['values']['beta']);
+  variable_set('boinc_privacypref_enable_link', $form_state['values']['enable_privacy_link']);
+  variable_set('boinc_privacypref_privacylink_path', $form_state['values']['privacylink_path']);
   drupal_set_message('Preference options have been updated.');
 }
 
