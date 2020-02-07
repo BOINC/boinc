@@ -100,6 +100,20 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'boinc_privacypref_enable_link';
+  $strongarm->value = 1;
+  $export['boinc_privacypref_enable_link'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'boinc_privacypref_privacylink_path';
+  $strongarm->value = '/privacy';
+  $export['boinc_privacypref_privacylink_path'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'boinctranslate_filter_debug_4';
   $strongarm->value = '0';
   $export['boinctranslate_filter_debug_4'] = $strongarm;
