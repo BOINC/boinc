@@ -304,7 +304,7 @@ struct COPROC_NVIDIA : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_NVIDIA(): COPROC() {}
+    COPROC_NVIDIA(): COPROC() {clear();}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,
@@ -339,7 +339,7 @@ struct COPROC_ATI : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_ATI(): COPROC() {}
+    COPROC_ATI(): COPROC() {clear();}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,
@@ -361,7 +361,7 @@ struct COPROC_INTEL : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_INTEL(): COPROC() {}
+    COPROC_INTEL(): COPROC() {clear();}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,

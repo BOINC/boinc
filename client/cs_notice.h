@@ -122,7 +122,7 @@ struct RSS_FEED {
 
 struct RSS_FEED_OP: public GUI_HTTP_OP {
     int error_num;
-    RSS_FEED* rfp;
+    bool canceled;
 
     RSS_FEED_OP();
     virtual ~RSS_FEED_OP(){}
