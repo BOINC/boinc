@@ -311,7 +311,13 @@ void CLIENT_STATE::check_if_need_benchmarks() {
     if (diff < 0) {
         run_cpu_benchmarks = true;
     } else if (diff > BENCHMARK_PERIOD) {
-        msg_printf(NULL, MSG_INFO, "Last benchmark was %s ago", timediff_format(diff).c_str());
+        if (host_info.p_calculated) {
+            msg_printf(NULL, MSG_INFO,
+                "Last CPU benchmark was %s ago", timediff_format(diff).c_str()
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "No CPU benchmark yet");
+        }
         run_cpu_benchmarks = true;
     }
 }
@@ -584,4 +590,5 @@ void CLIENT_STATE::cpu_benchmarks_set_defaults() {
     if (!host_info.p_iops) host_info.p_iops = DEFAULT_IOPS;
     if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
     if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
+    host_info.p_calculated = now;
 }
