@@ -408,7 +408,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_NVIDIA::clear() {
-    static const COPROC_NVIDIA x;
+    static const COPROC_NVIDIA x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU));
     estimated_delay = -1;   // mark as absent
@@ -717,7 +717,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_ATI::clear() {
-    static const COPROC_ATI x;
+    static const COPROC_ATI x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_AMD_GPU));
     estimated_delay = -1;
@@ -924,7 +924,7 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
 #endif
 
 void COPROC_INTEL::clear() {
-    static const COPROC_INTEL x;
+    static const COPROC_INTEL x(0);
     *this = x;
     safe_strcpy(type, proc_type_name_xml(PROC_TYPE_INTEL_GPU));
     estimated_delay = -1;
