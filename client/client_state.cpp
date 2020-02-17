@@ -954,9 +954,6 @@ bool CLIENT_STATE::poll_slow_events() {
     static bool tasks_restarted = false;
     static bool first=true;
     double old_now = now;
-#ifdef __APPLE__
-    double idletime;
-#endif
 
     set_now();
 
@@ -990,12 +987,8 @@ bool CLIENT_STATE::poll_slow_events() {
 #ifdef ANDROID
     user_active = device_status.user_active;
 #else
-    user_active = !host_info.users_idle(
-        check_all_logins, global_prefs.idle_time_to_run
-#ifdef __APPLE__
-         , &idletime
-#endif
-    );
+    long idle_time = host_info.user_idle_time(check_all_logins);
+    user_active = idle_time < global_prefs.idle_time_to_run * 60;
 #endif
 
     if (user_active != old_user_active) {
@@ -1022,7 +1015,7 @@ bool CLIENT_STATE::poll_slow_events() {
     // If screensaver started client, this code tells client
     // to exit when user becomes active, accounting for all these factors.
     //
-    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+    if (started_by_screensaver && (idle_time < 30) && (getppid() == 1)) {
         // pid is 1 if parent has exited
         requested_exit = true;
     }

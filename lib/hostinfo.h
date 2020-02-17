@@ -36,6 +36,8 @@
 #include "wslinfo.h"
 #endif
 
+#define USER_IDLE_TIME_INF   86400
+
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -107,14 +109,8 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
-#ifdef __APPLE__
-    bool users_idle(
-        bool check_all_logins, double idle_time_to_run,
-        double *actual_idle_time=NULL
-    );
-#else
-    bool users_idle(bool check_all_logins, double idle_time_to_run);
-#endif
+    long user_idle_time(bool check_all_logins);
+        // seconds since last user interaction
     int get_host_info(bool init);
     int get_cpu_info();
     int get_cpu_count();
