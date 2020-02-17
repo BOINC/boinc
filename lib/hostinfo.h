@@ -99,6 +99,10 @@ public:
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
+#ifdef _WIN32
+    int n_processor_groups;
+#endif
+
     void clear_host_info();
     HOST_INFO();
 
@@ -138,12 +142,16 @@ public:
         char* os_name, const int os_name_size, char* os_version,
         const int os_version_size
     );
+#ifdef _WIN32
+    void win_get_processor_info();
+#endif
 };
 
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
 int get_wsl_information(bool& wsl_available, WSLS& wsls);
+int get_processor_group(HANDLE);
 #endif
 
 #ifdef __APPLE__

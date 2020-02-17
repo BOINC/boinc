@@ -1418,6 +1418,56 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
+// get info about processor groups
+//
+static void show_proc_info(SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX &pi) {
+    for (int i=0; i<pi.Group.ActiveGroupCount; i++) {
+        PROCESSOR_GROUP_INFO &pgi = pi.Group.GroupInfo[i];
+        msg_printf(NULL, MSG_INFO, "Windows processor group %d: %d processors",
+            i, pgi.ActiveProcessorCount
+        );
+    }
+}
+
+typedef BOOL (WINAPI *GLPI)(
+    LOGICAL_PROCESSOR_RELATIONSHIP, PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX, PDWORD
+);
+void HOST_INFO::win_get_processor_info() {
+    n_processor_groups = 0;
+    GLPI glpi = (GLPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetLogicalProcessorInformationEx");
+    if (!glpi) return;
+    SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX buf[64];
+    DWORD size = sizeof(buf);
+    glpi(
+        RelationGroup,
+        buf,
+        &size
+    );
+    char *p = (char*)buf;
+    while (size > 0) {
+        PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX pi = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)p;
+        show_proc_info(*pi);
+        p += pi->Size;
+        size -= pi->Size;
+        n_processor_groups++;
+    }
+}
+
+typedef BOOL (WINAPI *GPGA)(HANDLE, PUSHORT, PUSHORT);
+int get_processor_group(HANDLE process_handle) {
+    USHORT groups[1], count;
+    static GPGA gpga = 0;
+    if (!gpga) {
+        gpga = (GPGA) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProcessGroupAffinity");
+    }
+    if (!gpga) return 0;
+    count = 1;
+    BOOL ret = gpga(process_handle, &count, groups);
+    if (ret && count>0) {
+        return groups[0];
+    }
+    return -1;
+}
 
 // Gets host information; called on startup and before each sched RPC
 //
@@ -1459,6 +1509,7 @@ int HOST_INFO::get_host_info(bool init) {
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }
+    win_get_processor_info();
     return 0;
 }
 
