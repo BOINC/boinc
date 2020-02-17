@@ -172,7 +172,7 @@ public class ProjectsFragment extends Fragment {
         for(int x = 0; x < data.size(); x++) {
             if(data.get(x).isMgr) {
                 mgrIndex = x;
-                //break; // This function has to be revised. Are we searching the firs or the last account manager? Are there more or only one possible?
+                break;
             }
         }
         if(mgrIndex < 0) { // no manager present until now
@@ -204,14 +204,14 @@ public class ProjectsFragment extends Fragment {
         //loop through all received Result items to add new projects
         for(Project rpcResult : latestRpcProjectsList) {
             //check whether this project is new
-            Integer index = null;
+            int index = -1;
             for(int x = 0; x < data.size(); x++) {
                 if(rpcResult.master_url.equals(data.get(x).id)) {
                     index = x;
-                    //break; // Need more further investigation.
+                    break;
                 }
             }
-            if(index == null) { // Project is new, add
+            if(index < 0) { // Project is new, add
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "New project found, id: " + rpcResult.master_url + ", managed: " +
                                        rpcResult.attached_via_acct_mgr);
