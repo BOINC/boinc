@@ -1756,7 +1756,7 @@ function boincwork_privacyprefs_form(&$form_state) {
       'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
     )
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
@@ -1778,7 +1778,7 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#default_value' => $default['privacy']['send_email']
   );
   $form['privacy']['show_hosts'] = array(
-    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Should @project show your computers on its website?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
     '#description' => bts('At times, you may be asked to enable this option in order to receive help from the forums. Advanced users may need to be able to inspect your computers\' information in order to help diagnose any problems.', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
@@ -1800,6 +1800,20 @@ function boincwork_privacyprefs_form(&$form_state) {
       '#attributes' => array('class' => 'fancy'),
       '#default_value' => $currstate,
     );
+
+    // Add a description with link to the question 'Do you consent to
+    // exporting your data...'.
+    $mypatt = '/Do you consent to exporting your data/';
+    if (preg_match($mypatt, $ct['description']) ) {
+      $form['privacy']['privacyconsent_'.$ct['shortname']]['#description'] = bts('See our !privacy_policy_link for the current list of statistics exports.',
+      array(
+        '!privacy_policy_link' => l(
+          bts('privacy policy', array(), NULL, 'boinc:account-preferences-privacy'),
+          '/privacy'
+        )
+      ),
+      NULL, 'boinc:account-preferences-privacy');
+    }
   }
 
   // Ignore and block users

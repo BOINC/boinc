@@ -237,10 +237,10 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
         if (global_prefs.suspend_if_no_recent_input) {
-            bool idle = host_info.users_idle(
-                check_all_logins, global_prefs.suspend_if_no_recent_input
-            );
-            if (idle) {
+            long idle_time = host_info.user_idle_time(check_all_logins);
+            if (idle_time != USER_IDLE_TIME_INF
+                && idle_time > global_prefs.suspend_if_no_recent_input*60
+            ) {
                 return SUSPEND_REASON_NO_RECENT_INPUT;
             }
         }

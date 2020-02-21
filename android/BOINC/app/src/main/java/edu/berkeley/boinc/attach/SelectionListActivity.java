@@ -40,6 +40,7 @@ import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.Logging;
 
@@ -284,8 +285,25 @@ public class SelectionListActivity extends FragmentActivity {
             if(result == null) {
                 return;
             }
+            
+            // If AccountManager is already connected, user should not be able to connect more AMs
+            // Hide 'Add Account Manager' option
+            boolean statusAcctMgrPresent = false;
+            try
+            {
+                AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
+                statusAcctMgrPresent = statusAcctMgr.present;
+            }
+            catch(Exception e) {
+                // data retrieval failed, continue...
+                if(Logging.ERROR) {
+                    Log.d(Logging.TAG, "AcctMgrInfo data retrieval failed.");
+                }
+            }
 
-            SelectionListActivity.this.entries.add(new ProjectListEntry()); // add account manager option to bottom of list
+            if (!statusAcctMgrPresent) {
+                SelectionListActivity.this.entries.add(new ProjectListEntry()); // add account manager option to bottom of list
+            }
             SelectionListAdapter listAdapter =
                     new SelectionListAdapter(SelectionListActivity.this, R.id.listview, entries);
             lv.setAdapter(listAdapter);
