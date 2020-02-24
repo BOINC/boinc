@@ -181,6 +181,11 @@ function retire_batch($batch) {
         $wu->update(
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
+        // remove output template if it's a temporary
+        //
+        if (strstr($wu->result_template_file, "templates/tmp/")) {
+            @unlink($wu->result_template_file);
+        }
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
 }

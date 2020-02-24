@@ -85,7 +85,6 @@ public class Monitor extends Service {
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
-    private String fileNameCLI;
     private String fileNameCABundle;
     private String fileNameClientConfig;
     private String fileNameGuiAuthentication;
@@ -120,7 +119,6 @@ public class Monitor extends Service {
         // populate attributes with XML resource values
         boincWorkingDir = getString(R.string.client_path);
         fileNameClient = getString(R.string.client_name);
-        fileNameCLI = getString(R.string.client_cli);
         fileNameCABundle = getString(R.string.client_cabundle);
         fileNameClientConfig = getString(R.string.client_config);
         fileNameGuiAuthentication = getString(R.string.auth_file_name);
@@ -686,10 +684,6 @@ public class Monitor extends Service {
 
         if (!installFile(fileNameClient, true, true, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
-            return false;
-        }
-        if (!installFile(fileNameCLI, true, true, "")) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCLI);
             return false;
         }
         if (!installFile(fileNameCABundle, true, false, "")) {

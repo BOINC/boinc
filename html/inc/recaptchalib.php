@@ -45,7 +45,7 @@ function boinc_recaptcha_get_html($publickey) {
 function boinc_recaptcha_isValidated($privatekey) {
     if ($privatekey) {
         // tells ReCaptcha to use fsockopen() instead of get_file_contents()
-        $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\SocketPost());
+        $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\CurlPost());
         $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
         return $resp->isSuccess();
     }
