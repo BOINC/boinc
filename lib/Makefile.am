@@ -96,6 +96,7 @@ if OS_DARWIN
 mac_sources = \
     procinfo_mac.cpp \
     mac/mac_backtrace.cpp \
+    mac/mac_branding.cpp \
     mac/mac_spawn.cpp \
     mac/QBacktrace.c \
     mac/QCrashReport.c \
@@ -106,6 +107,7 @@ mac_sources = \
 mac_headers = \
     mac/dyld_gdb.h \
     mac/mac_backtrace.h \
+    mac/mac_branding.h \
     mac/mac_spawn.h \
     mac/QBacktrace.h \
     mac/QCrashReport.h \
