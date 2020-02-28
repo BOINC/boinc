@@ -35,10 +35,6 @@ AC_CONFIG_SRCDIR(lib/shmem.cpp)
 AC_REVISION([$Revision$])
 REV=`echo '$Revision$' | awk "{print $2}"`
 RDATE=`date '+%Y.%m.%d'`
-if test -d .svn ; then
-  REV=`svn info | grep Revision | awk '{print $2}'`
-  RDATE=`svn info | grep "Last Changed Date:" | awk '{print $4}' | sed 's/-/./g'`
-fi
 AC_SUBST(REV)
 AC_SUBST(RDATE)
 
