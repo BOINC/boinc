@@ -214,30 +214,80 @@ int CScreensaver::launch_screensaver(RESULT* rp, GFXAPP_ID& graphics_application
     if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
 #ifdef __APPLE__
-        // For sandbox security, use gfx_switcher to launch gfx app 
-        // as user boinc_project and group boinc_project.
-        //
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        char* argv[5];
-        argv[0] = "gfx_Switcher";
-        argv[1] = "-launch_gfx";
-        argv[2] = strrchr(rp->slot_path, '/');
-        if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
-        
-        argv[3] = "--fullscreen";
-        argv[4] = 0;
+        if (gUseLaunchAgent) {
+            // As of OS 10.15 (Catalina) screensavers can no longer:
+            //  - launch apps that run setuid or setgid
+            //  - launch apps downloaded from the Internet which have not been 
+            //    specifically approved by the user via Gatekeeper.
+            // So instead of launching graphics apps via gfx_switcher, we write 
+            // a file containing the information. The file is detected by 
+            // a LaunchAgent which then launches gfx_switcher for us. Though we
+            // confirmed it works on OS 10.13 High Sierra, we don't use it there.
+            //TODO: Can we use the LaunchAgent method on all our supported
+            //TODO: versions of OS X (OS < 10.13) to simplify this code?
+            //
+            int thePID = -5;
 
-       retval = run_program(
-            rp->slot_path,
-            m_gfx_Switcher_Path,
-            4,
-            argv,
-            0,
-            graphics_application
-        );
+            FILE *f;
+            char *p;
+           
+            safe_strcpy(helper_app_path, helper_app_dir);
+            safe_strcat(helper_app_path, "BOINCSSHelper.txt");
+            f = fopen(helper_app_path, "w");
+            if (!f) return -1;
+            fputs(rp->slot_path, f);
+            fputs("\n-launch_gfx\n", f);
+            p = strrchr(rp->slot_path, '/');
+            if (*p) p++;    // Point to the slot number in ascii
+            fprintf(f, "%s\n", p);
+            fputs("--fullscreen\n", f);
+            fclose(f);
 
+           for (int i=0; i<200; i++) {
+                boinc_sleep(0.1);
+                f = fopen(BOINCPidFilePath, "r");
+                if (f) {
+                    fscanf(f, "%d", &thePID);
+                    if (thePID > 0) {
+                        break;
+                    }
+                }
+            }
+            if (f) {
+                fclose(f);
+            }
+            
+            if (thePID < 1) retval = -1;
+            graphics_application = thePID;
+            // Inform our helper app what we launched 
+            fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
+            fflush(m_gfx_Cleanup_IPC);
+        } else {
+            // For sandbox security, use gfx_switcher to launch gfx app 
+            // as user boinc_project and group boinc_project.
+            //
+            // For unknown reasons, the graphics application exits with 
+            // "RegisterProcess failed (error = -50)" unless we pass its 
+            // full path twice in the argument list to execv.
+            char* argv[5];
+            argv[0] = "gfx_Switcher";
+            argv[1] = "-launch_gfx";
+            argv[2] = strrchr(rp->slot_path, '/');
+            if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
+            
+            argv[3] = "--fullscreen";
+            argv[4] = 0;
+
+           retval = run_program(
+                rp->slot_path,
+                m_gfx_Switcher_Path,
+                4,
+                argv,
+                0,
+                graphics_application
+            );
+    }
+    
     if (graphics_application) {
         launchedGfxApp(rp->graphics_exec_path, graphics_application, rp->slot);
     }
@@ -496,6 +546,23 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
 #ifdef __APPLE__
     m_vIncompatibleGfxApps.clear();
     default_ss_dir_path = "/Library/Application Support/BOINC Data";
+    if (gIsCatalina) {
+        helper_app_base_path = "Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/";
+    } else {
+        helper_app_base_path = "";
+    }
+    if (gUseLaunchAgent) {
+         if (boinc_file_exists(BOINCPidFilePath)) {
+            boinc_delete_file(BOINCPidFilePath);
+        }
+
+        snprintf(helper_app_dir, sizeof(helper_app_dir), "/Users/%s/Library/%sApplication Support/BOINC/", getenv("USER"), helper_app_base_path);
+        safe_strcpy(helper_app_path, helper_app_dir);
+        safe_strcat(helper_app_path, "BOINCSSHelper.txt");
+        if (boinc_file_exists(helper_app_path)) {
+            boinc_delete_file(helper_app_path);
+        }
+    }
 #else
     default_ss_dir_path = (char*)m_strBOINCInstallDirectory.c_str();
 #endif

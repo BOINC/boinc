@@ -1071,7 +1071,8 @@ void print_to_log_file(const char *format, ...) {
     char buf[256];
     time_t t;
 #if USE_SPECIAL_LOG_FILE
-    safe_strcpy(buf, getenv("HOME"));
+    safe_strcpy(buf, "/Users/");
+    safe_strcat(buf, getenv("USER"));
     safe_strcat(buf, "/Documents/test_log.txt");
     FILE *f;
     f = fopen(buf, "a");

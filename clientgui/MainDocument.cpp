@@ -1258,7 +1258,7 @@ bool CMainDocument::IsUserAuthorized() {
                 return true;
             }
 
-            userName = getlogin();
+            userName = getenv("USER");
             if (userName) {
                 for (i=0; ; i++) {              // Step through all users in group boinc_master
                     groupMember = grp->gr_mem[i];
