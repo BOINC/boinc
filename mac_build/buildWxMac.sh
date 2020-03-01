@@ -38,7 +38,7 @@
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
 # Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
-# Add patches to build with Xcode 11 and OS 10.15 sdk 2/29/20
+# Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
 #
 ## This script requires OS 10.6 or later
 ##
@@ -123,7 +123,7 @@ fi
 echo ""
 
 # Patch src/html/htmlctrl/webkit/webkit.mm
-if [ ! -f /src/html/htmlctrl/webkit/webkit.mm.orig ]; then
+if [ ! -f src/html/htmlctrl/webkit/webkit.mm.orig ]; then
     cat >> /tmp/webkit_mm_diff << ENDOFFILE
 --- /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit.mm    2016-02-28 13:33:37.000000000 -0800
 +++ /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit_patched.mm    2020-02-29 03:04:07.000000000 -0800
@@ -142,7 +142,7 @@ ENDOFFILE
     patch -bfi /tmp/webkit_mm_diff src/html/htmlctrl/webkit/webkit.mm
     rm -f /tmp/webkit_mm_diff
 else
-    echo "src/osx/webview_webkit.mm already patched"
+    echo "src/html/htmlctrl/webkit/webkit.mm already patched"
 fi
 
 echo ""
