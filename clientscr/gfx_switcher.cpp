@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,14 +29,19 @@
 #if HAVE_SYS_PARAM_H
 #include <sys/param.h>  // for MAXPATHLEN
 #endif
-#include <pwd.h>	// getpwuid
+#include <pwd.h>	    // getpwuid
 #include <grp.h>
-#include <signal.h> // For kill()
+#include <signal.h>     // For kill()
+#include <sys/stat.h>   // for chmod
+#include <pthread.h>
 
 #include "boinc_api.h"
 #include "common_defs.h"
+#include "util.h"
+#include "mac_util.h"
 
 #define CREATE_LOG 0
+#define VERBOSE_DEBUG 0 
 
 #if CREATE_LOG
 #ifdef __cplusplus
@@ -50,17 +55,85 @@ static void strip_cr(char *buf);
 #endif
 #endif  // if CREATE_LOG
 
+void * MonitorScreenSaverEngine(void* param);
+
+#define MAXARGS 16
+
 int main(int argc, char** argv) {
+    char        *args[MAXARGS];
+    char        argString[MAXARGS][MAXPATHLEN];
+    Boolean     useScreenSaverLaunchAgent = false;
+    FILE        *f = NULL;
+    char        helper_app_dir[MAXPATHLEN], helper_app_path[MAXPATHLEN];
+    char        *helper_app_base_path;
+    char        *ptr;
+    int         argsCount = 0;
     passwd      *pw;
     group       *grp;
     char        user_name[256], group_name[256];
-    char	gfx_app_path[MAXPATHLEN], resolved_path[MAXPATHLEN];
+    char        gfx_app_path[MAXPATHLEN], resolved_path[MAXPATHLEN];
     char        *BOINCDatSlotsPath = "/Library/Application Support/BOINC Data/slots/";
-    int         retval;
+    char        *BOINCPidFilePath = "/Users/Shared/BOINC/BOINCGfxPid.txt";
+    int         retval = 0;
     int         pid;
+    pthread_t   monitorScreenSaverEngineThread = 0;
 
-    if (argc < 2) return EINVAL;
+    // As of OS 10.15 (Catalina) screensavers can no longer:
+    //  - launch apps that run setuid or setgid
+    //  - launch apps downloaded from the Internet which have not been 
+    //    specifically approved by the user via Gatekeeper.
+    // So instead of launching graphics apps via gfx_switcher, we write 
+    // a file containing the information. The file is detected by 
+    // a LaunchAgent which then launches gfx_switcher for us. Though we
+    // confirmed it works on OS 10.13 High Sierra, we don't use it there.
+    //
+    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
+    useScreenSaverLaunchAgent = compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0;
+ 
+    if (useScreenSaverLaunchAgent) {
+        if (compareOSVersionTo(10, 15) >= 0) {
+            helper_app_base_path = "Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/";
+        } else {
+            helper_app_base_path = "";
+        }
 
+        pw = getpwuid(getuid());
+        if (pw) {
+            snprintf(helper_app_dir, sizeof(helper_app_dir), "/Users/%s/Library/%sApplication Support/BOINC/", pw->pw_name, helper_app_base_path);
+        }
+#if 0
+        safe_strcpy(helper_app_path, BOINCPidFilePath);
+        if (boinc_file_exists(helper_app_path)) {
+            boinc_delete_file(helper_app_path);
+        }
+#endif
+        safe_strcpy(helper_app_path, helper_app_dir);
+        safe_strcat(helper_app_path, "BOINCSSHelper.txt");
+        f = fopen(helper_app_path, "r");
+        if (f) {
+            for (argsCount=0; argsCount<MAXARGS; argsCount++) {
+                args[argsCount] = fgets(argString[argsCount], sizeof(argString[argsCount]), f);
+                if (args[argsCount]) {
+                    ptr = strrchr(args[argsCount], '\n');
+                    if (ptr) *ptr = '\0';  // Remove newline character if present
+                    ptr = strrchr(args[argsCount], '\r');
+                    if (ptr) *ptr = '\0';  // Remove return character if present
+                }
+                if (argsCount) chdir(argString[0]);
+            }
+            fclose(f);
+            f = NULL;
+        } else {
+            retval = -1;
+        }
+        boinc_delete_file(helper_app_path);
+        if (retval) return EINVAL;
+    } else {
+        for (argsCount=0; argsCount<=argc; argsCount++) {
+            args[argsCount] = argv[argsCount];
+        }
+    }
+    
     strlcpy(user_name, "boinc_project", sizeof(user_name));
     strlcpy(group_name, user_name, sizeof(group_name));
 
@@ -69,8 +142,7 @@ int main(int argc, char** argv) {
     pw = getpwuid(getuid());
     if (pw) strlcpy(user_name, pw->pw_name, sizeof(user_name));
     grp = getgrgid(getgid());
-    if (grp) strlcpy(group_name, grp->gr_gid, sizeof(group_name));
-
+    if (grp) strlcpy(group_name, grp->gr_name, sizeof(group_name));
 #endif
 
     // We are running setuid root, so setgid() sets real group ID, 
@@ -84,66 +156,131 @@ int main(int argc, char** argv) {
     if (pw) setuid(pw->pw_uid);
 
     // NOTE: call print_to_log_file only after switching user and group
-#if 0           // For debugging only
+#if VERBOSE_DEBUG           // For debugging only
     char	current_dir[MAXPATHLEN];
 
     getcwd( current_dir, sizeof(current_dir));
     print_to_log_file( "current directory = %s", current_dir);
     
-    for (int i=0; i<argc; i++) {
-         print_to_log_file("switcher arg %d: %s", i, argv[i]);
+    for (int i=0; i<argsCount; i++) {
+         print_to_log_file("gfx_switcher arg %d: %s", i, args[i]);
+         if (!args[i]) break;
     }
 #endif
 
-    if (strcmp(argv[1], "-default_gfx") == 0) {
+    if (strcmp(args[1], "-default_gfx") == 0) {
         strlcpy(resolved_path, "/Library/Application Support/BOINC Data/boincscr", sizeof(resolved_path));
-        argv[2] = resolved_path;
-        
-#if 0           // For debugging only
-    for (int i=2; i<argc; i++) {
-         print_to_log_file("calling execv with arg %d: %s", i-2, argv[i]);
-    }
-#endif
 
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        execv(resolved_path, argv+2);
-        // If we got here execv failed
-        fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-        return errno;
+        args[2] = resolved_path;
+        
+#if VERBOSE_DEBUG           // For debugging only
+        for (int i=2; i<argc; i++) {
+            print_to_log_file("calling execv with arg %d: %s", i-2, args[i]);
+        }
+#endif
+        if (! useScreenSaverLaunchAgent) {
+            // For unknown reasons, the graphics application exits with 
+            // "RegisterProcess failed (error = -50)" unless we pass its 
+            // full path twice in the argument list to execv.
+            execv(resolved_path, args+2);
+            // If we got here execv failed
+            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+            return errno;
+        } else {   // if useScreenSaverLaunchAgent
+            int pid = fork();
+            if (pid == 0) {
+               // For unknown reasons, the graphics application exits with 
+                // "RegisterProcess failed (error = -50)" unless we pass its 
+                // full path twice in the argument list to execv.
+                execv(resolved_path, args+2);
+                // If we got here execv failed
+                fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+                return errno;
+            } else {
+                if (!boinc_file_exists("/Users/Shared/BOINC")) {
+                    boinc_mkdir("/Users/Shared/BOINC");
+                    chmod("/Users/Shared/BOINC", 0777);
+                }
+                safe_strcpy(helper_app_path, BOINCPidFilePath);
+                f = fopen(helper_app_path, "w");
+                if (f) {
+                    fprintf(f, "%d\n", pid);
+                    fclose(f);
+                    f = NULL;
+                    chmod(helper_app_path, 0644);
+                }
+
+                pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
+                waitpid(pid, 0, 0);
+                boinc_delete_file(helper_app_path);
+                pthread_cancel(monitorScreenSaverEngineThread);
+                return 0;
+            }
+        }
     }
     
-    if (strcmp(argv[1], "-launch_gfx") == 0) {
+    if (strcmp(args[1], "-launch_gfx") == 0) {
         strlcpy(gfx_app_path, BOINCDatSlotsPath, sizeof(gfx_app_path));
-        strlcat(gfx_app_path, argv[2], sizeof(gfx_app_path));
+        strlcat(gfx_app_path, args[2], sizeof(gfx_app_path));
         strlcat(gfx_app_path, "/", sizeof(gfx_app_path));
         strlcat(gfx_app_path, GRAPHICS_APP_FILENAME, sizeof(gfx_app_path));
         retval = boinc_resolve_filename(gfx_app_path, resolved_path, sizeof(resolved_path));
         if (retval) return retval;
         
-        argv[2] = resolved_path;
-        
-#if 0           // For debugging only
-    for (int i=2; i<argc; i++) {
-         print_to_log_file("calling execv with arg %d: %s", i-2, argv[i]);
-    }
+        args[2] = resolved_path;
+
+#if VERBOSE_DEBUG   // For debugging only
+            for (int i=2; i<argc; i++) {
+                print_to_log_file("calling execv with arg %d: %s", i-2, args[i]);
+            }
 #endif
+        if (! useScreenSaverLaunchAgent) {
+            // For unknown reasons, the graphics application exits with 
+            // "RegisterProcess failed (error = -50)" unless we pass its 
+            // full path twice in the argument list to execv.
+            execv(resolved_path, args+2);
+            // If we got here execv failed
+            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+            return errno;
+        } else {   // if useScreenSaverLaunchAgent            
+            int pid = fork();
+            if (pid == 0) {
+                   // For unknown reasons, the graphics application exits with 
+                    // "RegisterProcess failed (error = -50)" unless we pass its 
+                    // full path twice in the argument list to execv.
+                    execv(resolved_path, args+2);
+                    // If we got here execv failed
+                    fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+                    return errno;
+                } else {
+                    if (!boinc_file_exists("/Users/Shared/BOINC")) {
+                        boinc_mkdir("/Users/Shared/BOINC");
+                        chmod("/Users/Shared/BOINC", 0777);
+                    }
+                    safe_strcpy(helper_app_path, BOINCPidFilePath);
+                    f = fopen(helper_app_path, "w");
+                    if (f) {
+                        fprintf(f, "%d\n", pid);
+                        fclose(f);
+                        f = NULL;
+                        chmod(helper_app_path, 0644);
+                    }
+                
+                    pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
 
-        // For unknown reasons, the graphics application exits with 
-        // "RegisterProcess failed (error = -50)" unless we pass its 
-        // full path twice in the argument list to execv.
-        execv(resolved_path, argv+2);
-        // If we got here execv failed
-        fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-        return errno;
+                    waitpid(pid, 0, 0);
+                    boinc_delete_file(helper_app_path);
+                    pthread_cancel(monitorScreenSaverEngineThread);
+                    return 0;
+                }
+            }
     }
-
-    if (strcmp(argv[1], "-kill_gfx") == 0) {
-        pid = atoi(argv[2]);
+    
+    if (strcmp(args[1], "-kill_gfx") == 0) {
+        pid = atoi(args[2]);
         if (! pid) return EINVAL;
         if ( kill(pid, SIGKILL)) {
-#if 0           // For debugging only
+#if VERBOSE_DEBUG           // For debugging only
      print_to_log_file("kill(%d, SIGKILL) returned error %d", pid, errno);
 #endif
             return errno;
@@ -154,15 +291,33 @@ int main(int argc, char** argv) {
     return EINVAL;  // Unknown command
 }
 
+// For extra safety, kill our graphics app if ScreenSaverEngine has exited
+void * MonitorScreenSaverEngine(void* param) {
+    pid_t ScreenSaverEngine_Pid = 0;
+    pid_t graphics_Pid = *(pid_t*)param;
+    
+    while (true) {
+        boinc_sleep(1.0);  // Test every second
+        ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine");
+        if (ScreenSaverEngine_Pid == 0) {
+            kill(graphics_Pid, SIGKILL);
+#if VERBOSE_DEBUG           // For debugging only
+            print_to_log_file("MonitorScreenSaverEngine calling kill(%d, SIGKILL", graphics_Pid);
+#endif
+            return 0;
+        }
+    }
+}
 
 #if CREATE_LOG
+
 static void print_to_log_file(const char *format, ...) {
     FILE *f;
     va_list args;
     char buf[256];
     time_t t;
     
-    f = fopen("/Users/Shared/test_log.txt", "a");
+    f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
@@ -182,6 +337,7 @@ static void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
+    chmod("/Users/Shared/test_log_gfx_switcher.txt", 0666);
 }
 
 static void strip_cr(char *buf)

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -170,6 +170,7 @@ static char                     tempDirName[MAXPATHLEN];
 static time_t                   waitPermissionsStartTime;
 static vector<string>           human_user_names;
 static vector<uid_t>            human_user_IDs;
+static Boolean                  useScreenSaverLaunchAgent = false;
 
 
 enum { launchWhenDone,
@@ -217,6 +218,9 @@ int main(int argc, char *argv[])
         ShowMessage(false, (char *)_("Could not get user login name"));
         return 0;
     }
+
+    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
+    useScreenSaverLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
 
     printf("login name = %s\n", loginName);
     fflush(stdout);
@@ -1149,7 +1153,6 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
         fprintf(f, "\t\t<string>-a</string>\n");
         fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
     }
-    fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
@@ -1970,6 +1973,24 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
+
+    if (useScreenSaverLaunchAgent) {
+        if (currentUserCanRunBOINC) {
+            pw = getpwnam(loginName);
+            setuid(pw->pw_uid);
+            setgid(pw->pw_gid);
+            printf("[2] loading screensaver LaunchAgent edu.berkeley.boinc-sshelper.plist for current user\n");
+            fflush(stdout);
+            snprintf(cmd, sizeof(cmd), 
+                "launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+                loginName);
+            err = callPosixSpawn(cmd);
+            REPORT_ERROR(err);
+            printf("[2] %s returned %d\n", cmd, err);
+            fflush(stdout);
+        }
+    }
+    
     ResynchDSSystem();
     
     BOINCTranslationCleanup();
