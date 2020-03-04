@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2019 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -49,6 +49,7 @@
 ## updated 11/11/17 by Charlie Fenton make all user-writable to help auto-attach
 ## updated 11/6/18 by Charlie Fenton to code sign for Apple "notarization"
 ## updated 11/4/19 by Charlie Fenton to code sign for new gfx_cleanup helper app
+## updated 3/4/20 by Charlie Fenton to copy symbol tables directly from build
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -479,7 +480,8 @@ cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_$1_$2_$3/bo
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
-cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/BOINCManager.app.dSYM" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 ## If you wish to code sign the installer and uninstaller, create a file 
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
