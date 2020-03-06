@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -38,6 +38,7 @@
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
 # Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
+# Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
 #
 ## This script requires OS 10.6 or later
 ##
@@ -92,6 +93,56 @@ ENDOFFILE
     rm -f /tmp/pngstruct_h_diff
 else
     echo "src/png/pngstruct.h already patched"
+fi
+
+echo ""
+
+# Patch src/osx/webview_webkit.mm
+if [ ! -f src/osx/webview_webkit.mm.orig ]; then
+    cat >> /tmp/webview_webkit_mm_diff << ENDOFFILE
+--- webview_webkit.mm    2016-02-28 13:33:37.000000000 -0800
++++ webview_webkit_patched.mm    2020-02-29 03:04:08.000000000 -0800
+@@ -32,8 +32,8 @@
+ #include <UIKit/UIWebView.h>
+ #else
+ #include <WebKit/WebKit.h>
+-#include <WebKit/HIWebView.h>
+-#include <WebKit/CarbonUtils.h>
++//#include <WebKit/HIWebView.h>
++//#include <WebKit/CarbonUtils.h>
+ #endif
+ #include <Foundation/NSURLError.h>
+ 
+ENDOFFILE
+    patch -bfi /tmp/webview_webkit_mm_diff src/osx/webview_webkit.mm
+    rm -f /tmp/webview_webkit_mm_diff
+else
+    echo "src/osx/webview_webkit.mm already patched"
+fi
+
+echo ""
+
+# Patch src/html/htmlctrl/webkit/webkit.mm
+if [ ! -f src/html/htmlctrl/webkit/webkit.mm.orig ]; then
+    cat >> /tmp/webkit_mm_diff << ENDOFFILE
+--- /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit.mm    2016-02-28 13:33:37.000000000 -0800
++++ /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit_patched.mm    2020-02-29 03:04:07.000000000 -0800
+@@ -21,8 +21,8 @@
+ #include "wx/osx/private.h"
+ 
+ #include <WebKit/WebKit.h>
+-#include <WebKit/HIWebView.h>
+-#include <WebKit/CarbonUtils.h>
++//#include <WebKit/HIWebView.h>
++//#include <WebKit/CarbonUtils.h>
+ 
+ #include "wx/html/webkit.h"
+ 
+ENDOFFILE
+    patch -bfi /tmp/webkit_mm_diff src/html/htmlctrl/webkit/webkit.mm
+    rm -f /tmp/webkit_mm_diff
+else
+    echo "src/html/htmlctrl/webkit/webkit.mm already patched"
 fi
 
 echo ""
