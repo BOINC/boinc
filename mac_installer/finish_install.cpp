@@ -58,14 +58,22 @@
 int callPosixSpawn(const char *cmd);
 long GetBrandID(char *path);
 static void FixLaunchServicesDataBase(void);
-void print_to_log_file(const char *format, ...);
+static Boolean IsUserActive(const char *userName);
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
 int main(int argc, const char * argv[]) {
     int                     i, err;
     char                    cmd[2048];
+    char                    *userName;
     passwd                  *pw;
 
+    // Wait until we are the active login (in case of fast user switching)
+    userName = getenv("USER");
+    while (!IsUserActive(userName)) {
+        sleep(1);
+    }
+    
     for (i=0; i<NUMBRANDS; i++) {
         snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
         err = callPosixSpawn(cmd);
@@ -205,6 +213,41 @@ registerOurApp:
         print_to_log_file("*** lsregister call returned error %d for %s", err, appPath[brandID]);
         fflush(stdout);
     }
+}
+
+
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    int len = (int)buflen;
+    size_t datalen = 0;
+    memset(buf, 0, buflen);
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
+static Boolean IsUserActive(const char *userName){
+    char s[1024];
+
+    FILE *f = popen("ls -l /dev/console", "r");
+    if (f) {
+        while (PersistentFGets(s, sizeof(s), f) != NULL) {
+            if (strstr(s, userName)) {
+                pclose (f);         
+                return true;
+            }
+        } 
+        pclose (f);         
+    }
+    return false;
 }
 
 
