@@ -3,7 +3,7 @@
     <project>
         <name>DENIS@Home</name>
         <id>4</id>
-        <url>http://denis.usj.es/denisathome/</url>
+        <url>https://denis.usj.es/denisathome/</url>
         <web_url>https://denis.usj.es/denisathome/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Medical physiology</specific_area>
@@ -23,8 +23,8 @@
     <project>
         <name>RNA World</name>
         <id>5</id>
-        <url>http://www.rnaworld.de/rnaworld/</url>
-        <web_url>http://www.rnaworld.de/rnaworld/</web_url>
+        <url>https://www.rnaworld.de/rnaworld/</url>
+        <web_url>https://www.rnaworld.de/rnaworld/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular biology</specific_area>
         <description><![CDATA[RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.]]></description>
@@ -46,8 +46,8 @@
     <project>
         <name>GPUGrid.net</name>
         <id>6</id>
-        <url>http://www.gpugrid.net/</url>
-        <web_url>http://www.gpugrid.net/</web_url>
+        <url>https://www.gpugrid.net/</url>
+        <web_url>https://www.gpugrid.net/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular simulations of proteins</specific_area>
         <description><![CDATA[GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.]]></description>
@@ -71,8 +71,8 @@
     <project>
         <name>Rosetta@home</name>
         <id>7</id>
-        <url>http://boinc.bakerlab.org/rosetta/</url>
-        <web_url>http://boinc.bakerlab.org/rosetta/</web_url>
+        <url>https://boinc.bakerlab.org/rosetta/</url>
+        <web_url>https://boinc.bakerlab.org/rosetta/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Biology</specific_area>
         <description><![CDATA[Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, malaria, cancer, and Alzheimer's]]></description>
@@ -92,8 +92,8 @@
     <project>
         <name>Asteroids@home</name>
         <id>11</id>
-        <url>http://asteroidsathome.net/boinc/</url>
-        <web_url>http://asteroidsathome.net/boinc/</web_url>
+        <url>https://asteroidsathome.net/boinc/</url>
+        <web_url>https://asteroidsathome.net/boinc/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
@@ -134,8 +134,8 @@
     <project>
         <name>Cosmology@Home</name>
         <id>12</id>
-        <url>http://www.cosmologyathome.org/</url>
-        <web_url>http://www.cosmologyathome.org/</web_url>
+        <url>https://www.cosmologyathome.org/</url>
+        <web_url>https://www.cosmologyathome.org/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data.]]></description>
@@ -176,8 +176,8 @@
     <project>
         <name>Milkyway@home</name>
         <id>14</id>
-        <url>http://milkyway.cs.rpi.edu/milkyway/</url>
-        <web_url>http://milkyway.cs.rpi.edu/milkyway/</web_url>
+        <url>https://milkyway.cs.rpi.edu/milkyway/</url>
+        <web_url>https://milkyway.cs.rpi.edu/milkyway/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astronomy</specific_area>
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
@@ -208,7 +208,7 @@
     <project>
         <name>Einstein@home</name>
         <id>16</id>
-        <url>http://einstein.phys.uwm.edu/</url>
+        <url>https://einstein.phys.uwm.edu/</url>
         <web_url>https://einsteinathome.org/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
@@ -303,8 +303,8 @@
     <project>
         <name>SETI@home</name>
         <id>18</id>
-        <url>http://setiathome.berkeley.edu/</url>
-        <web_url>http://setiathome.berkeley.edu/</web_url>
+        <url>https://setiathome.berkeley.edu/</url>
+        <web_url>https://setiathome.berkeley.edu/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics, astrobiology</specific_area>
         <description><![CDATA[SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology.]]></description>
@@ -485,8 +485,8 @@
     <project>
         <name>ODLK1</name>
         <id>39</id>
-        <url>http://boinc.multi-pool.info/latinsquares/</url>
-        <web_url>http://boinc.multi-pool.info/latinsquares/</web_url>
+        <url>https://boinc.multi-pool.info/latinsquares/</url>
+        <web_url>https://boinc.multi-pool.info/latinsquares/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[OLDK is building a database of canonical forms of diagonal Latin squares of the 10th order]]></description>
@@ -505,8 +505,8 @@
     <project>
         <name>Moo! Wrapper</name>
         <id>26</id>
-        <url>http://moowrap.net/</url>
-        <web_url>http://moowrap.net/</web_url>
+        <url>https://moowrap.net/</url>
+        <web_url>https://moowrap.net/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Cryptography and combinatorics</specific_area>
         <description><![CDATA[Run applications from distributed.net]]></description>
@@ -632,8 +632,8 @@
     <project>
         <name>PrimeGrid</name>
         <id>30</id>
-        <url>http://www.primegrid.com/</url>
-        <web_url>http://www.primegrid.com/</web_url>
+        <url>https://www.primegrid.com/</url>
+        <web_url>https://www.primegrid.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number.]]></description>
@@ -794,8 +794,8 @@
     <project>
         <name>primaboinca</name>
         <id>31</id>
-        <url>http://www.primaboinca.com/</url>
-        <web_url>http://www.primaboinca.com/</web_url>
+        <url>https://www.primaboinca.com/</url>
+        <web_url>https://www.primaboinca.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
         <description><![CDATA[Search for counterexamples to two conjectures related to the identification of prime numbers]]></description>
@@ -924,8 +924,8 @@
     <project>
         <name>Yoyo@home</name>
         <id>21</id>
-        <url>http://www.rechenkraft.net/yoyo/</url>
-        <web_url>http://www.rechenkraft.net/yoyo/</web_url>
+        <url>https://www.rechenkraft.net/yoyo/</url>
+        <web_url>https://www.rechenkraft.net/yoyo/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Mathematics, physics, evolution</specific_area>
         <description><![CDATA[Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net]]></description>
@@ -952,8 +952,8 @@
     <project>
         <name>World Community Grid</name>
         <id>22</id>
-        <url>http://www.worldcommunitygrid.org/</url>
-        <web_url>http://www.worldcommunitygrid.org/</web_url>
+        <url>https://www.worldcommunitygrid.org/</url>
+        <web_url>https://www.worldcommunitygrid.org/</web_url>
         <general_area>Multiple applications</general_area>
         <specific_area>Medical, environmental and other humanitarian research</specific_area>
         <description><![CDATA[To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more.]]></description>
@@ -1012,8 +1012,8 @@
     <project>
         <name>Quake Catcher Network</name>
         <id>1</id>
-        <url>http://quakecatcher.net/sensor/</url>
-        <web_url>http://quakecatcher.net/sensor</web_url>
+        <url>https://quakecatcher.net/sensor/</url>
+        <web_url>https://quakecatcher.net/sensor/</web_url>
         <general_area>Distributed sensing</general_area>
         <specific_area>Seismology</specific_area>
         <description><![CDATA[Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves.]]></description>
@@ -1055,7 +1055,7 @@
    <account_manager>
         <name>Gridrepublic</name>
         <id>36</id>
-        <url>http://www.gridrepublic.org/</url>
+        <url>https://www.gridrepublic.org/</url>
         <description>Gridrepublic lets you connect your computer to multiple projects, set preferences, and view your credit history.</description>
         <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
     </account_manager>
