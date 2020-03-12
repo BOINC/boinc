@@ -19,18 +19,11 @@
 
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
-
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -42,6 +35,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.fragment.app.DialogFragment;
+
+import java.util.ArrayList;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.utils.Logging;
 
 public class IndividualCredentialInputFragment extends DialogFragment {
 
@@ -140,12 +141,12 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (IndividualCredentialInputFragmentListener) activity;
+            mListener = (IndividualCredentialInputFragmentListener) context;
         }
-        catch(ClassCastException e) {
+        catch (ClassCastException e) {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "IndividualCredentialInputFragment.onAttach The activity doesn't implement the interface. Error: ", e);
             }
