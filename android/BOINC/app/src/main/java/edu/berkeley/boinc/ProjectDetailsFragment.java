@@ -44,7 +44,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -244,20 +243,12 @@ public class ProjectDetailsFragment extends Fragment {
             confirm.setText(R.string.projects_confirm_reset_confirm);
         }
 
-        confirm.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ProjectOperationAsync().execute(operation);
-                dialog.dismiss();
-            }
+        confirm.setOnClickListener(view -> {
+            new ProjectOperationAsync().execute(operation);
+            dialog.dismiss();
         });
         Button cancel = dialog.findViewById(R.id.cancel);
-        cancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        cancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
@@ -282,12 +273,9 @@ public class ProjectDetailsFragment extends Fragment {
         SpannableString content = new SpannableString(project.master_url);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         website.setText(content);
-        website.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.master_url));
-                startActivity(i);
-            }
+        website.setOnClickListener(view -> {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.master_url));
+            startActivity(i);
         });
 
         // set general area
