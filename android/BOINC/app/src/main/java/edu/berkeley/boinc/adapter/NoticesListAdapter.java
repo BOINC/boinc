@@ -27,7 +27,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -83,18 +82,14 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(
                 (long) listItem.create_time * 1000)));
 
-        v.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "noticeClick: " + listItem.link);
-                }
+        v.setOnClickListener(view -> {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "noticeClick: " + listItem.link);
+            }
 
-                if(listItem.link != null && !listItem.link.isEmpty()) {
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.link));
-                    activity.startActivity(i);
-                }
-
+            if(listItem.link != null && !listItem.link.isEmpty()) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.link));
+                activity.startActivity(i);
             }
         });
 
