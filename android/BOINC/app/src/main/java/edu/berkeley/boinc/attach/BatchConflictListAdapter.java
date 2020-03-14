@@ -91,15 +91,12 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             status.setVisibility(View.VISIBLE);
             status.setText(listItem.getResultDescription());
             resolveIv.setVisibility(View.VISIBLE);
-            itemWrapper.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(Logging.DEBUG) {
-                        Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-                    }
-                    IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
-                    dialog.show(fmgr, listItem.name);
+            itemWrapper.setOnClickListener(view -> {
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
                 }
+                IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
+                dialog.show(fmgr, listItem.name);
             });
         }
         else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
@@ -117,15 +114,12 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             status.setVisibility(View.VISIBLE);
             status.setText(listItem.getResultDescription());
             resolveIv.setVisibility(View.VISIBLE);
-            itemWrapper.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(Logging.DEBUG) {
-                        Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-                    }
-                    IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
-                    dialog.show(fmgr, listItem.name);
+            itemWrapper.setOnClickListener(view -> {
+                if(Logging.DEBUG) {
+                    Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
                 }
+                IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
+                dialog.show(fmgr, listItem.name);
             });
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
