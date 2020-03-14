@@ -269,19 +269,11 @@ public class StatusFragment extends Fragment {
         }
     }
 
-    private OnClickListener runModeOnClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
-        }
-    };
+    private OnClickListener runModeOnClickListener =
+            view -> new WriteClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
 
-    private OnClickListener addProjectOnClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(getActivity(), SelectionListActivity.class));
-        }
-    };
+    private OnClickListener addProjectOnClickListener =
+            view -> startActivity(new Intent(getActivity(), SelectionListActivity.class));
 
     private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
 
