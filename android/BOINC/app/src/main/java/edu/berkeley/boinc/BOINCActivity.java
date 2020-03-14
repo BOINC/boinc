@@ -39,9 +39,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -121,12 +119,9 @@ public class BOINCActivity extends AppCompatActivity {
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerList = findViewById(R.id.list_slidermenu);
-        mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // display view for selected nav drawer item
-                dispatchNavBarOnClick(mDrawerListAdapter.getItem(position), false);
-            }
+        mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
+            // display view for selected nav drawer item
+            dispatchNavBarOnClick(mDrawerListAdapter.getItem(position), false);
         });
         mDrawerListAdapter = new NavDrawerListAdapter(getApplicationContext());
         mDrawerList.setAdapter(mDrawerListAdapter);
@@ -329,12 +324,7 @@ public class BOINCActivity extends AppCompatActivity {
                         }
                     }
 
-                    returnB.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
+                    returnB.setOnClickListener(view -> dialog.dismiss());
                     dialog.show();
                     break;
                 case R.string.menu_eventlog:
