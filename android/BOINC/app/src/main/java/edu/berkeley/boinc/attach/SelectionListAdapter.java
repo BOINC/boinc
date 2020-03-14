@@ -25,7 +25,7 @@ import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
 import edu.berkeley.boinc.utils.Logging;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

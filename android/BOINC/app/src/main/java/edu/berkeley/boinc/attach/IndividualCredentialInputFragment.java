@@ -30,7 +30,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;

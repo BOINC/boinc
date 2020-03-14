@@ -18,11 +18,11 @@
  */
 package edu.berkeley.boinc;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.*;
-import android.support.v7.app.ActionBar.Tab;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.*;
+import androidx.appcompat.app.ActionBar.Tab;
 
 public class EventLogActivityTabListener<T extends Fragment> implements ActionBar.TabListener {
 
