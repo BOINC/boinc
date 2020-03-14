@@ -36,14 +36,13 @@
  */
 
 #define WIN32_LEAN_AND_MEAN
-#define UNZIP_INTERNAL
-#include "../unzip.h"
 #include <windows.h>
 #ifdef __RSXNT__
 #  include "../win32/rsxntwin.h"
 #endif
+#define UNZIP_INTERNAL
+#include "../unzip.h"
 #include "../win32/nt.h"
-
 
 #ifdef NTSD_EAS         /* This file is only needed for NTSD handling */
 

@@ -13,6 +13,11 @@
  */
 #define __ZIPFILE_C
 
+#ifdef WIN32
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+#endif
+
 #include "zip.h"
 #include "revision.h"
 #ifdef UNICODE_SUPPORT
@@ -31,11 +36,6 @@
 #  include "vms/vms.h"
 #  include "vms/vmsmunch.h"
 #  include "vms/vmsdefs.h"
-#endif
-
-#ifdef WIN32
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
 #endif
 
 /*
