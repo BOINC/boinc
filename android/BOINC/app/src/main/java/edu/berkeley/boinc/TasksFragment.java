@@ -41,7 +41,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
@@ -219,60 +218,49 @@ public class TasksFragment extends Fragment {
             }
         }
 
-        public final OnClickListener iconClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    final Integer operation = (Integer) v.getTag();
-                    switch(operation) {
-                        case RpcClient.RESULT_SUSPEND:
-                            nextState = BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
-                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
-                            break;
-                        case RpcClient.RESULT_RESUME:
-                            nextState = BOINCDefs.PROCESS_EXECUTING;
-                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
-                            break;
-                        case RpcClient.RESULT_ABORT:
-                            final Dialog dialog = new Dialog(getActivity());
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setContentView(R.layout.dialog_confirm);
-                            Button confirm = dialog.findViewById(R.id.confirm);
-                            TextView tvTitle = dialog.findViewById(R.id.title);
-                            TextView tvMessage = dialog.findViewById(R.id.message);
+        public final OnClickListener iconClickListener = view -> {
+            try {
+                final Integer operation = (Integer) view.getTag();
+                switch(operation) {
+                    case RpcClient.RESULT_SUSPEND:
+                        nextState = BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
+                        new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                        break;
+                    case RpcClient.RESULT_RESUME:
+                        nextState = BOINCDefs.PROCESS_EXECUTING;
+                        new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                        break;
+                    case RpcClient.RESULT_ABORT:
+                        final Dialog dialog = new Dialog(getActivity());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_confirm);
+                        Button confirm = dialog.findViewById(R.id.confirm);
+                        TextView tvTitle = dialog.findViewById(R.id.title);
+                        TextView tvMessage = dialog.findViewById(R.id.message);
 
-                            tvTitle.setText(R.string.confirm_abort_task_title);
-                            tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
-                                              + result.name);
-                            confirm.setText(R.string.confirm_abort_task_confirm);
-                            confirm.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    nextState = BOINCDefs.RESULT_ABORTED;
-                                    new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
-                                    dialog.dismiss();
-                                }
-                            });
-                            Button cancel = dialog.findViewById(R.id.cancel);
-                            cancel.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            dialog.show();
-                            break;
-                        default:
-                            if(Logging.WARNING) {
-                                Log.w(Logging.TAG, "could not map operation tag");
-                            }
-                    }
-                    listAdapter.notifyDataSetChanged(); //force list adapter to refresh
+                        tvTitle.setText(R.string.confirm_abort_task_title);
+                        tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
+                                          + result.name);
+                        confirm.setText(R.string.confirm_abort_task_confirm);
+                        confirm.setOnClickListener(view1 -> {
+                            nextState = BOINCDefs.RESULT_ABORTED;
+                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                            dialog.dismiss();
+                        });
+                        Button cancel = dialog.findViewById(R.id.cancel);
+                        cancel.setOnClickListener(view1 -> dialog.dismiss());
+                        dialog.show();
+                        break;
+                    default:
+                        if(Logging.WARNING) {
+                            Log.w(Logging.TAG, "could not map operation tag");
+                        }
                 }
-                catch(Exception e) {
-                    if(Logging.WARNING) {
-                        Log.w(Logging.TAG, "failed parsing view tag");
-                    }
+                listAdapter.notifyDataSetChanged(); //force list adapter to refresh
+            }
+            catch(Exception e) {
+                if(Logging.WARNING) {
+                    Log.w(Logging.TAG, "failed parsing view tag");
                 }
             }
         };
@@ -301,13 +289,10 @@ public class TasksFragment extends Fragment {
         }
     }
 
-    public final OnItemClickListener itemClickListener = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
-            TaskData task = listAdapter.getItem(position);
-            task.expanded = !task.expanded;
-            listAdapter.notifyDataSetChanged();
-        }
+    public final OnItemClickListener itemClickListener = (adapterView, view, position, arg3) -> {
+        TaskData task = listAdapter.getItem(position);
+        task.expanded = !task.expanded;
+        listAdapter.notifyDataSetChanged();
     };
 
     private final class ResultOperationAsync extends AsyncTask<String, Void, Boolean> {

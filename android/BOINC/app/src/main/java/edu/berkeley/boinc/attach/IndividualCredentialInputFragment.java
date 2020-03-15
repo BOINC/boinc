@@ -36,7 +36,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -89,63 +88,51 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         pwdET = v.findViewById(R.id.pwd_input);
 
         Button loginButton = v.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
-                }
-                mListener.onFinish(project, true, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+        loginButton.setOnClickListener(view -> {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
+            }
+            mListener.onFinish(project, true, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+            dismiss();
+        });
+
+        Button registerButton = v.findViewById(R.id.register_button);
+        registerButton.setOnClickListener(view -> {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG,
+                      "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
+                      project.config.clientAccountCreationDisabled);
+            }
+            if(project.config.clientAccountCreationDisabled) {
+                // cannot register in client, open website
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(project.config.masterUrl));
+                startActivity(i);
+            }
+            else {
+                mListener.onFinish(project, false, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
                 dismiss();
             }
         });
 
-        Button registerButton = v.findViewById(R.id.register_button);
-        registerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG,
-                          "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
-                          project.config.clientAccountCreationDisabled);
-                }
-                if(project.config.clientAccountCreationDisabled) {
-                    // cannot register in client, open website
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(project.config.masterUrl));
-                    startActivity(i);
-                }
-                else {
-                    mListener.onFinish(project, false, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
-                    dismiss();
-                }
-            }
-        });
-
         TextView forgotPwdButton = v.findViewById(R.id.forgotpwd_text);
-        forgotPwdButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
-                }
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(forgotPwdLink));
-                startActivity(i);
+        forgotPwdButton.setOnClickListener(view -> {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
             }
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(forgotPwdLink));
+            startActivity(i);
         });
 
         CheckBox showPwdCb = v.findViewById(R.id.show_pwd_cb);
-        showPwdCb.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CheckBox) v).isChecked()) {
-                    pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                }
-                else {
-                    pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
+        showPwdCb.setOnClickListener(view -> {
+            if(((CheckBox) view).isChecked()) {
+                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            }
+            else {
+                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
 

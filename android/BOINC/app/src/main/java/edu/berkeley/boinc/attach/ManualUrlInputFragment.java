@@ -32,7 +32,6 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -50,24 +49,21 @@ public class ManualUrlInputFragment extends DialogFragment {
         urlInputET = v.findViewById(R.id.url_input);
 
         Button continueButton = v.findViewById(R.id.continue_button);
-        continueButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
-                }
-
-                if(!checkDeviceOnline()) {
-                    return;
-                }
-
-                //startActivity
-                Intent intent = new Intent(getActivity(), BatchConflictListActivity.class);
-                intent.putExtra("conflicts", false);
-                intent.putExtra("manualUrl", urlInputET.getText().toString());
-                startActivity(intent);
-                dismiss();
+        continueButton.setOnClickListener(view -> {
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
             }
+
+            if(!checkDeviceOnline()) {
+                return;
+            }
+
+            //startActivity
+            Intent intent = new Intent(getActivity(), BatchConflictListActivity.class);
+            intent.putExtra("conflicts", false);
+            intent.putExtra("manualUrl", urlInputET.getText().toString());
+            startActivity(intent);
+            dismiss();
         });
 
         return v;
