@@ -229,18 +229,24 @@ public class ProjectDetailsFragment extends Fragment {
         TextView tvTitle = dialog.findViewById(R.id.title);
         TextView tvMessage = dialog.findViewById(R.id.message);
 
-        // operation dependend texts
+        // operation-dependent texts
         if(operation == RpcClient.PROJECT_DETACH) {
-            tvTitle.setText(R.string.projects_confirm_detach_title);
-            tvMessage.setText(getString(R.string.projects_confirm_detach_message) + " "
-                              + project.project_name + " " + getString(R.string.projects_confirm_detach_message2));
-            confirm.setText(R.string.projects_confirm_detach_confirm);
+            final String removeStr = getString(R.string.projects_confirm_detach_confirm);
+
+            tvTitle.setText(getString(R.string.projects_confirm_title, removeStr));
+            tvMessage.setText(getString(R.string.projects_confirm_message,
+                                        removeStr.toLowerCase(),
+                                        project.project_name + " "
+                                        + getString(R.string.projects_confirm_detach_message2)));
+            confirm.setText(removeStr);
         }
         else if(operation == RpcClient.PROJECT_RESET) {
-            tvTitle.setText(R.string.projects_confirm_reset_title);
-            tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
-                              + project.project_name + getString(R.string.projects_confirm_reset_message2));
-            confirm.setText(R.string.projects_confirm_reset_confirm);
+            final String resetStr = getString(R.string.projects_confirm_reset_confirm);
+
+            tvTitle.setText(getString(R.string.projects_confirm_title, resetStr));
+            tvMessage.setText(getString(R.string.projects_confirm_message, resetStr.toLowerCase(),
+                                        project.project_name));
+            confirm.setText(resetStr);
         }
 
         confirm.setOnClickListener(view -> {
