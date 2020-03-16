@@ -442,7 +442,7 @@ public class ProjectsFragment extends Fragment {
                     tvMessage.setText(getString(R.string.projects_confirm_message,
                                                 removeStr.toLowerCase(),
                                                 data.project.project_name + " "
-                                                + getString(R.string.projects_confirm_detach_message2)));
+                                                + getString(R.string.projects_confirm_detach_message)));
                     confirm.setText(removeStr);
                 }
                 else if(operation == RpcClient.PROJECT_RESET) {
