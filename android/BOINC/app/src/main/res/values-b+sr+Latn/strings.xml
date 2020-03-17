@@ -328,7 +328,7 @@
     <string name="about_button">Povratak</string>
     <string name="about_title">O</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Verzija</string>
+    <string name="about_version">Verzija %1$s</string>
     <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija</string>
     <string name="about_copyright_reserved">Sva prava zadržana.</string>
     <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC Korporaciji na njihovoj podršci.</string>

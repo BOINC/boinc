@@ -353,7 +353,7 @@
     <string name="about_button">Vissza</string>
     <string name="about_title">Névjegy</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Verzió</string>
+    <string name="about_version">Verzió %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a
         Hálózati Számításért)
     </string>

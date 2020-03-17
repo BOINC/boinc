@@ -338,7 +338,7 @@
   <string name="about_button">返回</string>
   <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">版本</string>
+  <string name="about_version">版本 %1$s</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
   <string name="about_copyright">\u00A9 2003–2019 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>

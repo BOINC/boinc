@@ -361,7 +361,7 @@
     <string name="about_button">Връщане</string>
     <string name="about_title">Относно</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Версия</string>
+    <string name="about_version">Версия %1$s</string>
     <string name="about_name_long">Бъркли Отворена Инфраструктура за Споделени Изчисления</string>
     <string name="about_copyright_reserved">Всички Права Запазени.</string>
     <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC

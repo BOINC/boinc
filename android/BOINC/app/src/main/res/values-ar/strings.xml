@@ -345,7 +345,7 @@
     <string name="about_button">العودة</string>
     <string name="about_title">عن</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">اصدار</string>
+    <string name="about_version">اصدار %1$s</string>
     <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network
         Computing
     </string>

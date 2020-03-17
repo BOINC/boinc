@@ -357,7 +357,7 @@
     <string name="about_button">დაბრუნება</string>
     <string name="about_title">პროგრამის შესახებ</string>
     <string name="about_name">BOINC-ი</string>
-    <string name="about_version">ვერსია</string>
+    <string name="about_version">ვერსია %1$s</string>
     <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
     <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
     <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი

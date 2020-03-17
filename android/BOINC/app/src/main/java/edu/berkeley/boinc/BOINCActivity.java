@@ -315,8 +315,8 @@ public class BOINCActivity extends AppCompatActivity {
                     Button returnB = dialog.findViewById(R.id.returnB);
                     TextView tvVersion = dialog.findViewById(R.id.version);
                     try {
-                        tvVersion.setText(getString(R.string.about_version) + " "
-                                          + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                        tvVersion.setText(getString(R.string.about_version,
+                                                    getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
                     }
                     catch(NameNotFoundException e) {
                         if(Logging.WARNING) {

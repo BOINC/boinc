@@ -356,7 +356,7 @@
   <string name="about_button">Повернутися</string>
   <string name="about_title">Про додаток</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Версія</string>
+  <string name="about_version">Версія %1$s</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
   <string name="about_copyright">\u00A9 2003–2019 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>

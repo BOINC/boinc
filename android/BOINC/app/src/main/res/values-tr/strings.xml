@@ -326,7 +326,7 @@
     <string name="about_button">Geri dön</string>
     <string name="about_title">Hakkında</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Sürüm</string>
+    <string name="about_version">Sürüm %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
     <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM ve HTC şirketlerine teşekkürler.</string>

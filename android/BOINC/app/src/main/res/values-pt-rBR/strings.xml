@@ -334,7 +334,7 @@
   <string name="about_button">Voltar</string>
   <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versão</string>
+  <string name="about_version">Versão %1$s</string>
   <string name="about_name_long">Infraestrutura Aberta para Computação em Rede de Berkeley</string>
   <string name="about_copyright">\u00A9 2003-2019 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>

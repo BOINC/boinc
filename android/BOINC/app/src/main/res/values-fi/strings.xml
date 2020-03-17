@@ -354,7 +354,7 @@
   <string name="about_button">Takaisin</string>
   <string name="about_title">Tietoja</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versio</string>
+  <string name="about_version">Versio %1$s</string>
   <string name="about_name_long">Berkeleyn avoin infrastruktuuri verkkolaskentaan</string>
   <string name="about_copyright">\u00A9 2003–2019 Kalifornian yliopisto, Berkeley.</string>
   <string name="about_copyright_reserved">Kaikki oikeudet pidätetään.</string>

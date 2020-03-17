@@ -339,7 +339,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_button">Grįžti</string>
   <string name="about_title">Apie</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versija</string>
+  <string name="about_version">Versija %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>

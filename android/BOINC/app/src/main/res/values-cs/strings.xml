@@ -345,7 +345,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="about_button">Návrat</string>
   <string name="about_title">O programu</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Verze</string>
+  <string name="about_version">Verze %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
   <string name="about_copyright">/u00A9 2003-2019 Univerzita v Kalifornii, Berkeley.</string>

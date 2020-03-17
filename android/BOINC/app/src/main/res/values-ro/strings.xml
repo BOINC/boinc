@@ -326,7 +326,7 @@
     <string name="about_button">Înapoi</string>
     <string name="about_title">Despre</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versiune</string>
+    <string name="about_version">Versiune %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
     <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>

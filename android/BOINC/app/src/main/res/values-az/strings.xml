@@ -354,7 +354,7 @@
     <string name="about_button">Qayıt</string>
     <string name="about_title">Haqqında</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versiya</string>
+    <string name="about_version">Versiya %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Bütün hüquqlar qorunur.</string>
     <string name="about_credits">Dəstək üçün Max Planck Qravitasiya Fizika İnstitutu, IBM və HTC şirkətlərinəsayəsində

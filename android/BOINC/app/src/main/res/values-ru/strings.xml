@@ -334,7 +334,7 @@
   <string name="about_button">Вернуться</string>
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Версия</string>
+  <string name="about_version">Версия %1$s</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
   <string name="about_copyright">\u00A9 2003–2019 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>

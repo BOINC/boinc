@@ -360,7 +360,7 @@
     <string name="about_button">Retorna</string>
     <string name="about_title">Sobre</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versió</string>
+    <string name="about_version">Versió %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Reservats tots els drets.</string>
     <string name="about_credits">Gràcies a l\'Institut Max Planck de Física Gravitacional, IBM Corporation i HTC

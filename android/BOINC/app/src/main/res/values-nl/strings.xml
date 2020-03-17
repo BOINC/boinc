@@ -334,7 +334,7 @@
   <string name="about_button">Terug</string>
   <string name="about_title">Over</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versie</string>
+  <string name="about_version">Versie %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>

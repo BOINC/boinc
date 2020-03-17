@@ -300,7 +300,7 @@
     <!--about dialog-->
     <string name="about_title">О</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Različica</string>
+    <string name="about_version">Različica %1$s</string>
     <string name="about_name_long">Berkeleyeva odprta infrastruktura za mrežno računanje</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->

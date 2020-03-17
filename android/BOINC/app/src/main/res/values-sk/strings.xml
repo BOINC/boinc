@@ -340,7 +340,7 @@
   <string name="about_button">Návrat</string>
   <string name="about_title">O</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Verzia</string>
+  <string name="about_version">Verzia %1$s</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>

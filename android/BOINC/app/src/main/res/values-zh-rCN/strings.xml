@@ -355,7 +355,7 @@ BOINC应当暂停运算？
   <string name="about_button">返回</string>
   <string name="about_title">关于</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">版本</string>
+  <string name="about_version">版本 %1$s</string>
   <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
   <string name="about_copyright">\u00A9 2003–2019 加州大学伯克利分校。</string>
   <string name="about_copyright_reserved">所有权利保留。</string>
