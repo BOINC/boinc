@@ -247,17 +247,11 @@
     <string name="projects_control_sync_acctmgr">Sinhronizēt</string>
     <string name="projects_control_remove_acctmgr">Atspējot</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Vai noņemt projektu?</string>
     <string name="projects_confirm_detach_message">Vai tiešām vēlaties noņemt projektu</string>
-    <string name="projects_confirm_detach_message2">no BOINC?</string>
     <string name="projects_confirm_detach_confirm">Izņemt</string>
-    <string name="projects_confirm_reset_title">Atjaunināt projektu</string>
-    <string name="projects_confirm_reset_message">Vai tiešām vēlaties atiestatīt projektu</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Atiestatīt</string>
     <string name="projects_confirm_remove_acctmgr_title">Atspējot konta pārvaldnieku</string>
     <string name="projects_confirm_remove_acctmgr_message">Vai tiešām vēlaties pārtraukt lietot</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Atspējot</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Uzdevuma nosaukums:</string>

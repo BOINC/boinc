@@ -224,17 +224,11 @@
     <string name="projects_control_sync_acctmgr">Synchronizuj</string>
     <string name="projects_control_remove_acctmgr">Wyłącz</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Usuwanie projektu</string>
     <string name="projects_confirm_detach_message">Czy na pewno chcesz usunąć</string>
-    <string name="projects_confirm_detach_message2">z BOINC?</string>
     <string name="projects_confirm_detach_confirm">Usuń</string>
-    <string name="projects_confirm_reset_title">Wyzerowanie projektu</string>
-    <string name="projects_confirm_reset_message">Czy na pewno chcesz wyzerować</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Wyzeruj</string>
     <string name="projects_confirm_remove_acctmgr_title">Wyłączenie zarządcy kont</string>
     <string name="projects_confirm_remove_acctmgr_message">Czy na pewno chcesz przestać używać</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Wyłącz</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Nazwa zadania:</string>

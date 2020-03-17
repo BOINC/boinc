@@ -242,17 +242,11 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="projects_control_sync_acctmgr">Synchronizovat</string>
   <string name="projects_control_remove_acctmgr">Zakázat</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Odebrat projekt?</string>
   <string name="projects_confirm_detach_message">Jste si jisti, že chcete odstranit</string>
-  <string name="projects_confirm_detach_message2">z BOINCu?</string>
   <string name="projects_confirm_detach_confirm">Odebrat</string>
-  <string name="projects_confirm_reset_title">Restartovat projekt</string>
-  <string name="projects_confirm_reset_message">Jste si jisti, že chcete restartovat</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Restartovat</string>
   <string name="projects_confirm_remove_acctmgr_title">Vypnout správce účtu</string>
   <string name="projects_confirm_remove_acctmgr_message">Jste si jisti, že chcete přestat používat</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Zakázat</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Název úkolu:</string>

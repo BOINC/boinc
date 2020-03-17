@@ -253,17 +253,11 @@
   <string name="projects_control_sync_acctmgr">Синхронізувати</string>
   <string name="projects_control_remove_acctmgr">Відключити</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Видалити проект?</string>
   <string name="projects_confirm_detach_message">Ви справді хочете видалити</string>
-  <string name="projects_confirm_detach_message2">із BOINC?</string>
   <string name="projects_confirm_detach_confirm">Видалити</string>
-  <string name="projects_confirm_reset_title">Перезапустити проект</string>
-  <string name="projects_confirm_reset_message">Ви справді хочете перезапустити</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Перезапустити</string>
   <string name="projects_confirm_remove_acctmgr_title">Відключити менеджер проектів</string>
   <string name="projects_confirm_remove_acctmgr_message">Ви впевнені, що бажаєте припинити використання</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Відключити</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Назва завдання:</string>

@@ -227,17 +227,11 @@
     <string name="projects_control_sync_acctmgr">同期</string>
     <string name="projects_control_remove_acctmgr">無効</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">プロジェクトを削除しますか？</string>
     <string name="projects_confirm_detach_message">本当に削除しますか</string>
-    <string name="projects_confirm_detach_message2">BOINCから?</string>
     <string name="projects_confirm_detach_confirm">削除</string>
-    <string name="projects_confirm_reset_title">プロジェクトをリセット</string>
-    <string name="projects_confirm_reset_message">本当にリセットしますか</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">リセット</string>
     <string name="projects_confirm_remove_acctmgr_title">アカウント・マネージャを無効にする</string>
     <string name="projects_confirm_remove_acctmgr_message">本当に使用を停止しますか</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">無効</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">タスク名:</string>

@@ -252,17 +252,11 @@ BOINC应当暂停运算？
   <string name="projects_control_sync_acctmgr">同步</string>
   <string name="projects_control_remove_acctmgr">已禁用</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">移除项目？</string>
   <string name="projects_confirm_detach_message">您确定要删除项目吗？</string>
-  <string name="projects_confirm_detach_message2">移除？</string>
   <string name="projects_confirm_detach_confirm">删除</string>
-  <string name="projects_confirm_reset_title">重置项目</string>
-  <string name="projects_confirm_reset_message">您确定要重置项目吗？</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">重置</string>
   <string name="projects_confirm_remove_acctmgr_title">禁用帐户管理器</string>
   <string name="projects_confirm_remove_acctmgr_message">您确定要重置</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">已禁用</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">任务名称：</string>

@@ -252,17 +252,11 @@
   <string name="projects_control_sync_acctmgr">Synkronoi</string>
   <string name="projects_control_remove_acctmgr">Poista</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Poista projekti?</string>
   <string name="projects_confirm_detach_message">Haluatko varmasti poistaa</string>
-  <string name="projects_confirm_detach_message2">BOINCista?</string>
   <string name="projects_confirm_detach_confirm">Poista</string>
-  <string name="projects_confirm_reset_title">Nollaa projekti</string>
-  <string name="projects_confirm_reset_message">Haluatko varmasti nollata</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Nollaa</string>
   <string name="projects_confirm_remove_acctmgr_title">Poista tilihallitsija käytöstä</string>
   <string name="projects_confirm_remove_acctmgr_message">Haluatko lopettaa käyttämästä</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Poista käytöstä</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Tehtävän nimi:</string>

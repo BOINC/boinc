@@ -228,17 +228,11 @@
     <string name="projects_control_sync_acctmgr">동기화</string>
     <string name="projects_control_remove_acctmgr">비활성</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">프로젝트를 제거할까요?</string>
     <string name="projects_confirm_detach_message">BOINC상에서 정말로 프로젝트명:</string>
-    <string name="projects_confirm_detach_message2">를 제거하시겠습니까?</string>
     <string name="projects_confirm_detach_confirm">제거</string>
-    <string name="projects_confirm_reset_title">프로젝트 재설정</string>
-    <string name="projects_confirm_reset_message">다음 프로젝트가 재설정됩니다 괘찮습니까:</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">재설정</string>
     <string name="projects_confirm_remove_acctmgr_title">계정 관리자 비활성화</string>
     <string name="projects_confirm_remove_acctmgr_message">정말로 다음 항목 사용을 중지합니까</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">비활성화</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">태스크 이름:</string>

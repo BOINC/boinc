@@ -224,17 +224,11 @@
     <string name="projects_control_sync_acctmgr">Eşitle</string>
     <string name="projects_control_remove_acctmgr">Devredışı bırak</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
     <string name="projects_confirm_detach_message">Kaldırmak istediğinizden emin misiniz?</string>
-    <string name="projects_confirm_detach_message2">BOINC\'ten?</string>
     <string name="projects_confirm_detach_confirm">Kaldır</string>
-    <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
-    <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Sıfırla</string>
     <string name="projects_confirm_remove_acctmgr_title">Hesap Yöneticisini devredışı bırak</string>
     <string name="projects_confirm_remove_acctmgr_message">Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Devredışı bırak</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">İş adı:</string>

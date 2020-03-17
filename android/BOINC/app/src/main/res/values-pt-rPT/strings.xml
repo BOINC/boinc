@@ -237,17 +237,11 @@ permitido que o BOINC utilize?</string>
   <string name="projects_control_sync_acctmgr">Sincronizar</string>
   <string name="projects_control_remove_acctmgr">Desativar</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Remover projeto?</string>
   <string name="projects_confirm_detach_message">Tem a certeza que deseja remover</string>
-  <string name="projects_confirm_detach_message2">do BOINC?</string>
   <string name="projects_confirm_detach_confirm">Remover</string>
-  <string name="projects_confirm_reset_title">Reiniciar projeto</string>
-  <string name="projects_confirm_reset_message">Tem a certeza que deseja reiniciar</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Reiniciar</string>
   <string name="projects_confirm_remove_acctmgr_title">Desativar gestor de conta</string>
   <string name="projects_confirm_remove_acctmgr_message">Tem a certeza que deseja parar de utilizar o</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Desativar</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nome da tarefa:</string>

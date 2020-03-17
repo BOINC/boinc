@@ -236,17 +236,11 @@
     <string name="projects_control_sync_acctmgr">סנכרן</string>
     <string name="projects_control_remove_acctmgr">השבת</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">להסיר את המיזם?</string>
     <string name="projects_confirm_detach_message">האם אתה בטוח שברצונך להסיר</string>
-    <string name="projects_confirm_detach_message2">מ-BOINC?</string>
     <string name="projects_confirm_detach_confirm">הסר</string>
-    <string name="projects_confirm_reset_title">אפס את המיזם</string>
-    <string name="projects_confirm_reset_message">האם אתה בטוח שברצונך לאפס</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">אפס</string>
     <string name="projects_confirm_remove_acctmgr_title">השבת את מנהל חשבונות</string>
     <string name="projects_confirm_remove_acctmgr_message">האם אתה בטוח שברצונך להפסיק את השימוש ב-</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">השבת</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">שם המשימה:</string>

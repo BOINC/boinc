@@ -252,17 +252,11 @@ gehigarria
   <string name="projects_control_sync_acctmgr">Sinkronizatu</string>
   <string name="projects_control_remove_acctmgr">Desgaitu</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Proiektua kendu?</string>
   <string name="projects_confirm_detach_message">Ziur al zaude ezabatu nahi duzula</string>
-  <string name="projects_confirm_detach_message2">BOINCetik?</string>
   <string name="projects_confirm_detach_confirm">Kendu</string>
-  <string name="projects_confirm_reset_title">Berrabiarazi proiektua </string>
-  <string name="projects_confirm_reset_message">Ziur al zaude berrabiarazi nahi duzula</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Berrezarri</string>
   <string name="projects_confirm_remove_acctmgr_title">Desgaitu kontu-administratzailea</string>
   <string name="projects_confirm_remove_acctmgr_message">Ziur al zaude erabiltzeari utzi nahi diozula</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Desgaitu</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Atazaren izena: </string>

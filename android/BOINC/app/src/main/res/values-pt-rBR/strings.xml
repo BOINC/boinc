@@ -231,17 +231,11 @@
   <string name="projects_control_sync_acctmgr">Sincronizar</string>
   <string name="projects_control_remove_acctmgr">Desativar</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Remover projeto?</string>
   <string name="projects_confirm_detach_message">Você tem certeza que quer remover</string>
-  <string name="projects_confirm_detach_message2">do BOINC?</string>
   <string name="projects_confirm_detach_confirm">Remover</string>
-  <string name="projects_confirm_reset_title">Reiniciar projeto</string>
-  <string name="projects_confirm_reset_message">Você tem certeza que quer reiniciar</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Reiniciar</string>
   <string name="projects_confirm_remove_acctmgr_title">Desabilitar gerenciador de conta</string>
   <string name="projects_confirm_remove_acctmgr_message">Você tem certeza que quer parar de usar</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Desativar</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nome da Tarefa:</string>

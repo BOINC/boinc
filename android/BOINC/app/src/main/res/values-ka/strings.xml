@@ -255,17 +255,11 @@
     <string name="projects_control_sync_acctmgr">სინქრონიზირება</string>
     <string name="projects_control_remove_acctmgr">გათიშვა</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">გსურთ პროექტის წაშლა?</string>
     <string name="projects_confirm_detach_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ</string>
-    <string name="projects_confirm_detach_message2">BOINC-იდან?</string>
     <string name="projects_confirm_detach_confirm">წაშლა</string>
-    <string name="projects_confirm_reset_title">პროექტის ჩამოგდება</string>
-    <string name="projects_confirm_reset_message">დარწმუნებული ხართ, რომ გსურთ ჩამოაგდოთ</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">ჩამოგდება</string>
     <string name="projects_confirm_remove_acctmgr_title">ანგარიშის მმართველის გათიშვა</string>
     <string name="projects_confirm_remove_acctmgr_message">დარწმუნებული ხართ, რომ გსურთ აღარ გამოიყენოთ</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">გათიშვა</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">დავალების სახელი:</string>

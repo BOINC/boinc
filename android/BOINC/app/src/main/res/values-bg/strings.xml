@@ -257,17 +257,11 @@
     <string name="projects_control_sync_acctmgr">Синхронизирай</string>
     <string name="projects_control_remove_acctmgr">Деактивирай</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Премахване на проект?</string>
     <string name="projects_confirm_detach_message">Сигурни ли сте, че искате да премахнете</string>
-    <string name="projects_confirm_detach_message2">от BOINC?</string>
     <string name="projects_confirm_detach_confirm">Премахни</string>
-    <string name="projects_confirm_reset_title">Нулиране на проект</string>
-    <string name="projects_confirm_reset_message">Сигурни ли сте, че искате да нулирате</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Нулиране</string>
     <string name="projects_confirm_remove_acctmgr_title">Деактивирайте акаунт мениджъра</string>
     <string name="projects_confirm_remove_acctmgr_message">Сигурни ли сте, че искате да спрете да използвате</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Деактивирай</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Име на Задача:</string>

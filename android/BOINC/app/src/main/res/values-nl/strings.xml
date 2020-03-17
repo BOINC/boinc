@@ -231,17 +231,11 @@
   <string name="projects_control_sync_acctmgr">Bijwerken</string>
   <string name="projects_control_remove_acctmgr">Uitzetten</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Project verwijderen?</string>
   <string name="projects_confirm_detach_message">Weet je zeker dat je</string>
-  <string name="projects_confirm_detach_message2">uit BOINC wilt verwijderen?</string>
   <string name="projects_confirm_detach_confirm">Verwijderen</string>
-  <string name="projects_confirm_reset_title">Project resetten</string>
-  <string name="projects_confirm_reset_message">Weet je zeker dat je</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Resetten</string>
   <string name="projects_confirm_remove_acctmgr_title">Accountmanager uitzetten</string>
   <string name="projects_confirm_remove_acctmgr_message">Weet je zeker dat je wilt stoppen met het gebruik van</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Uitzetten</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Taaknaam:</string>
