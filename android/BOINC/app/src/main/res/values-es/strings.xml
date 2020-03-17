@@ -249,17 +249,11 @@
     <string name="projects_control_sync_acctmgr">Sincronizar</string>
     <string name="projects_control_remove_acctmgr">Deshabilitar</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">¿Borrar proyecto?</string>
     <string name="projects_confirm_detach_message">Seguro que quieres borrarlo</string>
-    <string name="projects_confirm_detach_message2">de BOINC?</string>
     <string name="projects_confirm_detach_confirm">Eliminar</string>
-    <string name="projects_confirm_reset_title">Reiniciar proyecto</string>
-    <string name="projects_confirm_reset_message">Seguro que quieres reinciar</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Reset</string>
     <string name="projects_confirm_remove_acctmgr_title">Deshabilitar el administrador de cuentas</string>
     <string name="projects_confirm_remove_acctmgr_message">Está seguro de que quiere dejar de usar</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Deshabilitar</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Nombre de la tarea:</string>
@@ -357,7 +351,7 @@
     <string name="about_button">Volver</string>
     <string name="about_title">Acerca de</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versión</string>
+    <string name="about_version">Versión %1$s</string>
     <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
     <string name="about_copyright_reserved">Todos los derechos reservados.</string>
     <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC

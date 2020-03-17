@@ -231,17 +231,11 @@
   <string name="projects_control_sync_acctmgr">Синхронизировать</string>
   <string name="projects_control_remove_acctmgr">Отключить</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Удалить проект?</string>
   <string name="projects_confirm_detach_message">Вы действительно хотите удалить</string>
-  <string name="projects_confirm_detach_message2">из BOINC?</string>
   <string name="projects_confirm_detach_confirm">Удалить</string>
-  <string name="projects_confirm_reset_title">Перезапустить проект</string>
-  <string name="projects_confirm_reset_message">Вы действительно хотите перезапустить</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Сбросить</string>
   <string name="projects_confirm_remove_acctmgr_title">Отключить менеджер проектов</string>
   <string name="projects_confirm_remove_acctmgr_message">Вы уверены, что хотите прекратить использование</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Отключить</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Название задания:</string>
@@ -340,7 +334,7 @@
   <string name="about_button">Вернуться</string>
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Версия</string>
+  <string name="about_version">Версия %1$s</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
   <string name="about_copyright">\u00A9 2003–2019 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>

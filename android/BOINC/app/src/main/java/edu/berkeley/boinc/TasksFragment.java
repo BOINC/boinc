@@ -239,8 +239,7 @@ public class TasksFragment extends Fragment {
                         TextView tvMessage = dialog.findViewById(R.id.message);
 
                         tvTitle.setText(R.string.confirm_abort_task_title);
-                        tvMessage.setText(getString(R.string.confirm_abort_task_message) + " "
-                                          + result.name);
+                        tvMessage.setText(getString(R.string.confirm_abort_task_message, result.name));
                         confirm.setText(R.string.confirm_abort_task_confirm);
                         confirm.setOnClickListener(view1 -> {
                             nextState = BOINCDefs.RESULT_ABORTED;

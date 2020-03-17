@@ -257,17 +257,11 @@
     <string name="projects_control_sync_acctmgr">Sincronitzar</string>
     <string name="projects_control_remove_acctmgr">Desactivar</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Eliminar el projecte?</string>
     <string name="projects_confirm_detach_message">Estàs segur que voleu eliminar</string>
-    <string name="projects_confirm_detach_message2">de BOINC?</string>
     <string name="projects_confirm_detach_confirm">Elimina</string>
-    <string name="projects_confirm_reset_title">Reinicia el projecte</string>
-    <string name="projects_confirm_reset_message">Estàs segur que vols reiniciar</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Reinicia</string>
     <string name="projects_confirm_remove_acctmgr_title">Desactivar el gestor de comptes</string>
     <string name="projects_confirm_remove_acctmgr_message">Està segur de voler finalitzar la utilització de</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Desactivar</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Nom de la tasca:</string>
@@ -366,7 +360,7 @@
     <string name="about_button">Retorna</string>
     <string name="about_title">Sobre</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versió</string>
+    <string name="about_version">Versió %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Reservats tots els drets.</string>
     <string name="about_credits">Gràcies a l\'Institut Max Planck de Física Gravitacional, IBM Corporation i HTC
