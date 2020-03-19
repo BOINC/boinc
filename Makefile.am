@@ -58,7 +58,8 @@ EXTRA_DIST =                                    \
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
     version.h \
-    svn_version.h
+    svn_version.h \
+    project_specific_defines.h
 endif
 
 # svn_version.h should always be rebuilt.

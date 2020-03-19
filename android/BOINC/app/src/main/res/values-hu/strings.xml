@@ -251,17 +251,11 @@
     <string name="projects_control_sync_acctmgr">Szinkronizáció</string>
     <string name="projects_control_remove_acctmgr">Kikapcsolva</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Törlöd a projektet?</string>
     <string name="projects_confirm_detach_message">Biztosan le akarod törölni</string>
-    <string name="projects_confirm_detach_message2">BOINC-ról?</string>
     <string name="projects_confirm_detach_confirm">Eltávolítás</string>
-    <string name="projects_confirm_reset_title">Projekt nullázása</string>
-    <string name="projects_confirm_reset_message">Biztosan újrakezded</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Visszaállítás</string>
     <string name="projects_confirm_remove_acctmgr_title">Fiókkezelő kikapcsolása</string>
     <string name="projects_confirm_remove_acctmgr_message">Biztosan le akarod állítani a használatot</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Kikapcsolva</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Feladat neve:</string>
@@ -359,7 +353,7 @@
     <string name="about_button">Vissza</string>
     <string name="about_title">Névjegy</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Verzió</string>
+    <string name="about_version">Verzió %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a
         Hálózati Számításért)
     </string>

@@ -235,17 +235,11 @@
   <string name="projects_control_sync_acctmgr">同步</string>
   <string name="projects_control_remove_acctmgr">停用</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">移除專案?</string>
   <string name="projects_confirm_detach_message">您確定從BOINC將</string>
-  <string name="projects_confirm_detach_message2">移除?</string>
   <string name="projects_confirm_detach_confirm">移除</string>
-  <string name="projects_confirm_reset_title">重置專案</string>
-  <string name="projects_confirm_reset_message">您確定要重置</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">重置</string>
   <string name="projects_confirm_remove_acctmgr_title">來自帳號管理員的請求</string>
   <string name="projects_confirm_remove_acctmgr_message">您確定要重置</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">停用</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">任務名稱:</string>
@@ -344,7 +338,7 @@
   <string name="about_button">返回</string>
   <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">版本</string>
+  <string name="about_version">版本 %1$s</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
   <string name="about_copyright">\u00A9 2003–2019 美國加州大學柏克萊分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>

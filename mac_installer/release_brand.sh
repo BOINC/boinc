@@ -443,7 +443,8 @@ cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_${SHORTBRAN
 sudo chown -R root:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
-cp -fpRL "${BUILDPATH}/SymbolTables/" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
+cp -fpRL "${BUILDPATH}/BOINCManager.app.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/"${MANAGERAPPNAME}.app.dSYM"
 
 ## If you wish to code sign the installer and uninstaller, create a file 
 ## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity

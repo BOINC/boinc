@@ -220,8 +220,6 @@
     <string name="projects_control_remove_acctmgr">Dezactivează</string>
     <!--project confirm dialog-->
     <string name="projects_confirm_detach_confirm">Odstrani</string>
-    <string name="projects_confirm_reset_title">Перезапустить проект</string>
-    <string name="projects_confirm_reset_message">Вы действительно хотите перезапустить</string>
     <string name="projects_confirm_reset_confirm">Сбросить</string>
     <string name="projects_confirm_remove_acctmgr_title">Dezactivează manager de cont</string>
     <string name="projects_confirm_remove_acctmgr_message">Sunteţi sigur că doriţi să nu mai folosiţi</string>
@@ -302,7 +300,7 @@
     <!--about dialog-->
     <string name="about_title">О</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Različica</string>
+    <string name="about_version">Različica %1$s</string>
     <string name="about_name_long">Berkeleyeva odprta infrastruktura za mrežno računanje</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->
