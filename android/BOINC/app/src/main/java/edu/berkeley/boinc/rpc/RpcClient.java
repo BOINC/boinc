@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.xml.sax.SAXException;
@@ -1065,7 +1066,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized ArrayList<AccountManager> getAccountManagersList() {
+    public synchronized List<AccountManager> getAccountManagersList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");

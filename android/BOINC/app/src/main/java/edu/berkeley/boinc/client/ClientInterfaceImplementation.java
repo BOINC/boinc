@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import android.util.Log;
 
@@ -586,8 +587,8 @@ public class ClientInterfaceImplementation extends RpcClient {
      *
      * @return list of account managers
      */
-    public ArrayList<AccountManager> getAccountManagers() {
-        ArrayList<AccountManager> accountManagers = getAccountManagersList(); // from all_proejcts_list.xml
+    public List<AccountManager> getAccountManagers() {
+        List<AccountManager> accountManagers = getAccountManagersList(); // from all_proejcts_list.xml
 
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAccountManagers: number of account managers found: " + accountManagers.size());

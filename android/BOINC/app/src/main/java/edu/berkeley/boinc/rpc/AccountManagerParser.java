@@ -26,19 +26,22 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
-public class AccountManagerParser extends BaseParser{
+public class AccountManagerParser extends BaseParser {
+    static final String ACCOUNT_MGR_TAG = "account_manager";
+    static final String IMAGE_TAG = "image";
 
-	private ArrayList<AccountManager> mAcctMgrInfos = new ArrayList<>();
+    private List<AccountManager> mAcctMgrInfos = new ArrayList<>();
 	private AccountManager mAcctMgrInfo = null;
 
-	public ArrayList<AccountManager> getAccountManagerInfo() {
+	List<AccountManager> getAccountManagerInfo() {
 		return mAcctMgrInfos;
 	}
 
-	public static ArrayList<AccountManager> parse(String rpcResult) {
+	public static List<AccountManager> parse(String rpcResult) {
 		try {
 			AccountManagerParser parser = new AccountManagerParser();
 			Xml.parse(rpcResult, parser);
@@ -51,7 +54,7 @@ public class AccountManagerParser extends BaseParser{
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
-		if (localName.equalsIgnoreCase("account_manager")) {
+		if (localName.equalsIgnoreCase(ACCOUNT_MGR_TAG)) {
 			mAcctMgrInfo = new AccountManager();
 		} else {
 			mElementStarted = true;
@@ -65,9 +68,9 @@ public class AccountManagerParser extends BaseParser{
 		try {
 			if (mAcctMgrInfo != null) {
 				// inside <acct_mgr_info>
-				if (localName.equalsIgnoreCase("account_manager")) {
+				if (localName.equalsIgnoreCase(ACCOUNT_MGR_TAG)) {
 					// Closing tag of <account_manager> - add to vector and be ready for next one
-					if (!mAcctMgrInfo.name.equals("")) {
+					if (!mAcctMgrInfo.name.isEmpty()) {
 						// name is a must
 						mAcctMgrInfos.add(mAcctMgrInfo);
 					}
@@ -76,16 +79,16 @@ public class AccountManagerParser extends BaseParser{
 				else {
 					// Not the closing tag - we decode possible inner tags
 					trimEnd();
-					if (localName.equalsIgnoreCase("name")) { //project name
+					if (localName.equalsIgnoreCase(AccountManager.Fields.name)) { //project name
 						mAcctMgrInfo.name = mCurrentElement.toString();
 					}
-					else if (localName.equalsIgnoreCase("url")) {
+					else if (localName.equalsIgnoreCase(AccountManager.Fields.url)) {
 						mAcctMgrInfo.url = mCurrentElement.toString();
 					}
-					else if (localName.equalsIgnoreCase("description")) {
+					else if (localName.equalsIgnoreCase(AccountManager.Fields.description)) {
 						mAcctMgrInfo.description = mCurrentElement.toString();
 					}
-					else if (localName.equalsIgnoreCase("image")) {
+					else if (localName.equalsIgnoreCase(IMAGE_TAG)) {
 						mAcctMgrInfo.imageUrl = mCurrentElement.toString();
 					}
 				}
