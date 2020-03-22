@@ -20,8 +20,20 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class AcctMgrRPCReply {
-    public int error_num = 0;
-    public ArrayList<String> messages = new ArrayList<>();
+    public int error_num;
+    public final List<String> messages = new ArrayList<>();
+
+    AcctMgrRPCReply() {
+        this(0);
+    }
+
+    AcctMgrRPCReply(int error_num) {
+        this.error_num = error_num;
+    }
 }
