@@ -19,22 +19,23 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.net.LocalSocket;
+import android.net.LocalSocketAddress;
+import android.util.Log;
+import android.util.Xml;
+
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import android.net.LocalSocket;
-import android.net.LocalSocketAddress;
-import android.util.Log;
-import android.util.Xml;
 
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
@@ -558,7 +559,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Result> getActiveResults() {
+    public synchronized List<Result> getActiveResults() {
         mLastErrorMessage = null;
         final String request =
                 "<get_results>\n" +
@@ -569,7 +570,7 @@ public class RpcClient {
             return ResultsParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getActiveResults()", e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -578,14 +579,14 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Result> getResults() {
+    public synchronized List<Result> getResults() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_results/>\n");
             return ResultsParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getResults()", e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
