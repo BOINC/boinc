@@ -1,6 +1,7 @@
 package edu.berkeley.boinc.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
@@ -29,7 +30,7 @@ public class ClientNotification {
 
     private int mOldComputingStatus = -1;
     private int mOldSuspendReason = -1;
-    private ArrayList<Result> mOldActiveTasks = new ArrayList<>();
+    private List<Result> mOldActiveTasks = new ArrayList<>();
     private boolean notificationShown = false;
     // debug foreground state by running
     // adb shell: dumpsys activity services edu.berkeley.boinc
@@ -66,16 +67,15 @@ public class ClientNotification {
      * @param active        indicator whether BOINC should stay in foreground (during computing and idle, i.e. not suspended)
      */
     public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
-
         // nop if data is not present
         if(service == null || updatedStatus == null) {
             return;
         }
 
         //check if active tasks have changed to force update
-        Boolean activeTasksChanged = false;
+        boolean activeTasksChanged = false;
         if(active && updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
-            ArrayList<Result> activeTasks = updatedStatus.getExecutingTasks();
+            List<Result> activeTasks = updatedStatus.getExecutingTasks();
             if(activeTasks.size() != mOldActiveTasks.size()) {
                 activeTasksChanged = true;
             }
@@ -83,7 +83,7 @@ public class ClientNotification {
                 for(int x = 0; x < activeTasks.size(); x++) {
                     if(!activeTasks.get(x).name.equals(mOldActiveTasks.get(x).name)) {
                         activeTasksChanged = true;
-                        Log.d("blub", "bla " + activeTasks.get(x).name + " vs. " + mOldActiveTasks.get(x).name); //TODO
+                        Log.d("blub", "bla " + activeTasks.get(x).name + " vs. " + mOldActiveTasks.get(x).name);
                         break;
                     }
                 }
@@ -155,7 +155,7 @@ public class ClientNotification {
     }
 
     @SuppressLint("InlinedApi")
-    private Notification buildNotification(ClientStatus status, Boolean active, ArrayList<Result> activeTasks) {
+    private Notification buildNotification(ClientStatus status, Boolean active, List<Result> activeTasks) {
         // get current client computingstatus
         Integer computingStatus = status.computingStatus;
         // get status strings from ClientStatus
