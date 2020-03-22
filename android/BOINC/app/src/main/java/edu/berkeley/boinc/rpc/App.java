@@ -26,11 +26,37 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
+import lombok.experimental.FieldNameConstants;
+
+@FieldNameConstants
 public class App implements Parcelable {
-    public String name = "";
-    public String user_friendly_name = "";
-    public int non_cpu_intensive = 0;
-    public Project project;
+    public String name;
+    public String user_friendly_name;
+    public int non_cpu_intensive;
+    @FieldNameConstants.Exclude public Project project;
+
+    App(String name, String user_friendly_name, int non_cpu_intensive) {
+        this.name = name;
+        this.user_friendly_name = user_friendly_name;
+        this.non_cpu_intensive = non_cpu_intensive;
+    }
+
+    public App() {
+        this("", "", 0);
+    }
+
+    App(String name) {
+        this(name, "", 0);
+    }
+
+    App(String name, String user_friendly_name) {
+        this(name, user_friendly_name, 0);
+    }
+
+    private App(Parcel in) {
+        this(in.readString(), in.readString(), in.readInt());
+        project = (Project) in.readValue(Project.class.getClassLoader());
+    }
 
     public final String getName() {
         return StringUtils.isEmpty(user_friendly_name) ? name : user_friendly_name;
@@ -68,16 +94,6 @@ public class App implements Parcelable {
         dest.writeString(user_friendly_name);
         dest.writeInt(non_cpu_intensive);
         dest.writeValue(project);
-    }
-
-    public App() {
-    }
-
-    private App(Parcel in) {
-        name = in.readString();
-        user_friendly_name = in.readString();
-        non_cpu_intensive = in.readInt();
-        project = (Project) in.readValue(Project.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<App> CREATOR = new Parcelable.Creator<App>() {
