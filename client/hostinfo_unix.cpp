@@ -1950,7 +1950,7 @@ long xss_idle() {
         //
         no_available_x_display = false;
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-        idle_time = xssInfo->idle;
+        display_idle_time = xssInfo->idle;
 
         // Close the connection to the XServer
         //
@@ -1962,10 +1962,11 @@ long xss_idle() {
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
+                "[idle_detection] XSS idle detection succeeded on display '%s'.",
+                it->c_str()
             );
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] idle_time: %ld", idle_time
+                "[idle_detection] display idle time: %ld sec", display_idle_time
             );
         }
 
