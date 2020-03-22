@@ -19,20 +19,20 @@
 
 package edu.berkeley.boinc.rpc;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
 import android.util.Log;
 import android.util.Xml;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
 import edu.berkeley.boinc.utils.Logging;
 
-
 public class HostInfoParser extends BaseParser {
+    static final String HOST_INFO_TAG = "host_info";
+
     private HostInfo mHostInfo = null;
 
-
-    public final HostInfo getHostInfo() {
+    HostInfo getHostInfo() {
         return mHostInfo;
     }
 
@@ -56,7 +56,7 @@ public class HostInfoParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("host_info")) {
+        if(localName.equalsIgnoreCase(HOST_INFO_TAG)) {
             mHostInfo = new HostInfo();
         }
         else {
@@ -69,8 +69,6 @@ public class HostInfoParser extends BaseParser {
 
     // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
     // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -78,73 +76,73 @@ public class HostInfoParser extends BaseParser {
         try {
             if(mHostInfo != null) {
                 // we are inside <host_info>
-                if(localName.equalsIgnoreCase("host_info")) {
+                if(localName.equalsIgnoreCase(HOST_INFO_TAG)) {
                     // Closing tag of <host_info> - nothing to do at the moment
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("timezone")) {
+                    if(localName.equalsIgnoreCase(HostInfo.Fields.timezone)) {
                         mHostInfo.timezone = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("domain_name")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.domain_name)) {
                         mHostInfo.domain_name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("ip_addr")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.ip_addr)) {
                         mHostInfo.ip_addr = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("host_cpid")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.host_cpid)) {
                         mHostInfo.host_cpid = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("p_ncpus")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_ncpus)) {
                         mHostInfo.p_ncpus = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("p_vendor")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_vendor)) {
                         mHostInfo.p_vendor = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("p_model")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_model)) {
                         mHostInfo.p_model = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("p_features")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_features)) {
                         mHostInfo.p_features = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("p_fpops")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_fpops)) {
                         mHostInfo.p_fpops = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("p_iops")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_iops)) {
                         mHostInfo.p_iops = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("p_membw")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_membw)) {
                         mHostInfo.p_membw = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("p_calculated")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_calculated)) {
                         mHostInfo.p_calculated = (long) Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("product_name")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.product_name)) {
                         mHostInfo.product_name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("m_nbytes")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_nbytes)) {
                         mHostInfo.m_nbytes = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("m_cache")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_cache)) {
                         mHostInfo.m_cache = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("m_swap")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_swap)) {
                         mHostInfo.m_swap = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("d_total")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.d_total)) {
                         mHostInfo.d_total = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("d_free")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.d_free)) {
                         mHostInfo.d_free = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("os_name")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.os_name)) {
                         mHostInfo.os_name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("os_version")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.os_version)) {
                         mHostInfo.os_version = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("virtualbox_version")) {
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.virtualbox_version)) {
                         mHostInfo.virtualbox_version = mCurrentElement.toString();
                     }
                 }

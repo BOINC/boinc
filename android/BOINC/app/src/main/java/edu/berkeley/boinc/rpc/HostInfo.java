@@ -22,7 +22,11 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
+@EqualsAndHashCode
+@FieldNameConstants
 public class HostInfo implements Parcelable {
     // all attributes are public for simple access
     /**
@@ -54,16 +58,43 @@ public class HostInfo implements Parcelable {
      */
     public double m_swap;
     /**
-     * Total amount of disk in bytes
+     * Total amount of disk space in bytes
      */
     public double d_total;
     /**
-     * Total amount of free disk in bytes
+     * Total amount of free disk space in bytes
      */
     public double d_free;
     public String os_name;
     public String os_version;
     public String virtualbox_version = null;
+
+    public HostInfo() {
+    }
+
+    private HostInfo(Parcel in) {
+        timezone = in.readInt();
+        domain_name = in.readString();
+        ip_addr = in.readString();
+        host_cpid = in.readString();
+        p_ncpus = in.readInt();
+        p_vendor = in.readString();
+        p_model = in.readString();
+        p_features = in.readString();
+        p_fpops = in.readDouble();
+        p_iops = in.readDouble();
+        p_membw = in.readDouble();
+        product_name = in.readString();
+        p_calculated = in.readLong();
+        m_nbytes = in.readDouble();
+        m_cache = in.readDouble();
+        m_swap = in.readDouble();
+        d_total = in.readDouble();
+        d_free = in.readDouble();
+        os_name = in.readString();
+        os_version = in.readString();
+        virtualbox_version = in.readString();
+    }
 
     @Override
     public int describeContents() {
@@ -94,34 +125,6 @@ public class HostInfo implements Parcelable {
         dest.writeString(os_name);
         dest.writeString(os_version);
         dest.writeString(virtualbox_version);
-    }
-
-    public HostInfo() {
-    }
-
-    private HostInfo(Parcel in) {
-        timezone = in.readInt();
-        domain_name = in.readString();
-        ip_addr = in.readString();
-        host_cpid = in.readString();
-        p_ncpus = in.readInt();
-        p_vendor = in.readString();
-        p_model = in.readString();
-        p_features = in.readString();
-        p_fpops = in.readDouble();
-        p_iops = in.readDouble();
-        p_membw = in.readDouble();
-        product_name = in.readString();
-        p_calculated = in.readLong();
-        m_nbytes = in.readDouble();
-        m_cache = in.readDouble();
-        m_swap = in.readDouble();
-        d_total = in.readDouble();
-        d_free = in.readDouble();
-        os_name = in.readString();
-        os_version = in.readString();
-        virtualbox_version = in.readString();
-
     }
 
     public static final Parcelable.Creator<HostInfo> CREATOR = new Parcelable.Creator<HostInfo>() {
