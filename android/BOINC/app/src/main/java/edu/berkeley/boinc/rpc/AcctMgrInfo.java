@@ -22,22 +22,60 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
+
 /**
  * Holds information about the currently used account manager.
  */
+@EqualsAndHashCode
+@FieldNameConstants
 public class AcctMgrInfo implements Parcelable {
     public String acct_mgr_name;
     public String acct_mgr_url;
+    public String cookie_failure_url;
     public boolean have_credentials;
     public boolean cookie_required;
-    public String cookie_failure_url;
-
-    public boolean present;
+    @EqualsAndHashCode.Exclude public boolean present;
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
+    }
+
+    AcctMgrInfo(String acct_mgr_name, String acct_mgr_url, String cookie_failure_url,
+                        boolean have_credentials, boolean cookie_required, boolean present) {
+        this.acct_mgr_name = acct_mgr_name;
+        this.acct_mgr_url = acct_mgr_url;
+        this.cookie_failure_url = cookie_failure_url;
+        this.have_credentials = have_credentials;
+        this.cookie_required = cookie_required;
+        this.present = present;
+    }
+
+    AcctMgrInfo(String acct_mgr_name) {
+        this(acct_mgr_name, "", "", false, false, false);
+    }
+
+    AcctMgrInfo(String acct_mgr_name, String acct_mgr_url) {
+        this(acct_mgr_name, acct_mgr_url, "", false, false, false);
+    }
+
+    AcctMgrInfo(String acct_mgr_name, String acct_mgr_url, String cookie_failure_url) {
+        this(acct_mgr_name, acct_mgr_url, cookie_failure_url, false, false, false);
+    }
+
+    public AcctMgrInfo() {
+        this("", "", "", false, false, false);
+    }
+
+    private AcctMgrInfo(Parcel in) {
+        this(in.readString(), in.readString(), in.readString());
+
+        boolean[] bArray = in.createBooleanArray();
+        have_credentials = bArray[0];
+        cookie_required = bArray[1];
+        present = bArray[2];
     }
 
     @Override
@@ -50,30 +88,16 @@ public class AcctMgrInfo implements Parcelable {
                 have_credentials,
                 cookie_required,
                 present});
-
     }
 
-    public AcctMgrInfo() {
-    }
+    public static final Parcelable.Creator<AcctMgrInfo> CREATOR =
+            new Parcelable.Creator<AcctMgrInfo>() {
+                public AcctMgrInfo createFromParcel(Parcel in) {
+                    return new AcctMgrInfo(in);
+                }
 
-    private AcctMgrInfo(Parcel in) {
-        acct_mgr_name = in.readString();
-        acct_mgr_url = in.readString();
-        cookie_failure_url = in.readString();
-
-        boolean[] bArray = in.createBooleanArray();
-        have_credentials = bArray[0];
-        cookie_required = bArray[1];
-        present = bArray[2];
-    }
-
-    public static final Parcelable.Creator<AcctMgrInfo> CREATOR = new Parcelable.Creator<AcctMgrInfo>() {
-        public AcctMgrInfo createFromParcel(Parcel in) {
-            return new AcctMgrInfo(in);
-        }
-
-        public AcctMgrInfo[] newArray(int size) {
-            return null;
-        }
-    };
+                public AcctMgrInfo[] newArray(int size) {
+                    return null;
+                }
+            };
 }
