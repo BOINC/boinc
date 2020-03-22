@@ -23,6 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 /**
@@ -30,6 +31,7 @@ import lombok.experimental.FieldNameConstants;
  */
 @EqualsAndHashCode
 @FieldNameConstants
+@ToString
 public class AcctMgrInfo implements Parcelable {
     public String acct_mgr_name;
     public String acct_mgr_url;

@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode
+@ToString
 public class AcctMgrRPCReply {
     public int error_num;
     public final List<String> messages = new ArrayList<>();

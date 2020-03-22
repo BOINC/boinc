@@ -23,10 +23,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 @EqualsAndHashCode
 @FieldNameConstants(onlyExplicitlyIncluded = true)
+@ToString
 public class AppVersion implements Parcelable {
     @FieldNameConstants.Include public String app_name;
     @FieldNameConstants.Include public int version_num;

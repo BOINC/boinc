@@ -23,10 +23,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 @EqualsAndHashCode
 @FieldNameConstants
+@ToString
 public class HostInfo implements Parcelable {
     // all attributes are public for simple access
     /**

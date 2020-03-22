@@ -22,10 +22,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 @EqualsAndHashCode
 @FieldNameConstants
+@ToString
 public class AccountOut implements Parcelable {
     public int error_num = 0;
     public String error_msg = "";

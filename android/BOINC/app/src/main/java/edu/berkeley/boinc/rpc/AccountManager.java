@@ -21,9 +21,9 @@ package edu.berkeley.boinc.rpc;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 /**
@@ -32,6 +32,7 @@ import lombok.experimental.FieldNameConstants;
  */
 @EqualsAndHashCode
 @FieldNameConstants
+@ToString
 public class AccountManager implements Parcelable {
     public String name;
     public String url;
@@ -51,14 +52,6 @@ public class AccountManager implements Parcelable {
 
     private AccountManager(Parcel in) {
         this(in.readString(), in.readString(), in.readString(), in.readString());
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        String platformString = "";
-        return "AccountManager: " + name + " ; " + url + " ; " + " ; " + " ; " + description +
-               " ; " + " ; " + platformString + " ; " + imageUrl;
     }
 
     @Override

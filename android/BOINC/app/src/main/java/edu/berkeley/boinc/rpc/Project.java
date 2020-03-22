@@ -28,9 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 @FieldNameConstants
+@ToString
 public class Project implements Parcelable {
     // all attributes are public for simple access
     public String master_url = "";

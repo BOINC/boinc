@@ -26,9 +26,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
+import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 @FieldNameConstants
+@ToString
 public class App implements Parcelable {
     public String name;
     public String user_friendly_name;
