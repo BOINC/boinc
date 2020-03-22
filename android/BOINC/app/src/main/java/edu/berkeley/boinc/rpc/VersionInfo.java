@@ -20,21 +20,33 @@
 package edu.berkeley.boinc.rpc;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 
 @EqualsAndHashCode
+@FieldNameConstants
+@ToString
 public class VersionInfo {
     // all attributes are public for simple access
     public int major;
     public int minor;
     public int release;
 
-    VersionInfo() {
-        major = minor = release = 0;
-    }
-
-    public VersionInfo(int major, int minor, int release) {
+    VersionInfo(int major, int minor, int release) {
         this.major = major;
         this.minor = minor;
         this.release = release;
+    }
+
+    VersionInfo() {
+        this(0, 0, 0);
+    }
+
+    VersionInfo(int major) {
+        this(major, 0, 0);
+    }
+
+    VersionInfo(int major, int minor) {
+        this(major, minor, 0);
     }
 }
