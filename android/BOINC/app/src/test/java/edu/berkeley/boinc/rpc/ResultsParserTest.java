@@ -928,7 +928,8 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, Result.Fields.name, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, Result.Fields.name, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
+        resultsParser.endElement(null, Result.Fields.name, null);
+        resultsParser.startElement(null, Result.Fields.active_task, null, null);
         resultsParser.startElement(null, Result.Fields.pid, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
         resultsParser.endElement(null, Result.Fields.pid, null);
@@ -949,7 +950,8 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, Result.Fields.name, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, Result.Fields.name, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
+        resultsParser.endElement(null, Result.Fields.name, null);
+        resultsParser.startElement(null, Result.Fields.active_task, null, null);
         resultsParser.startElement(null, Result.Fields.slot, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
         resultsParser.endElement(null, Result.Fields.slot, null);
@@ -970,7 +972,8 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, Result.Fields.name, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, Result.Fields.name, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
+        resultsParser.endElement(null, Result.Fields.name, null);
+        resultsParser.startElement(null, Result.Fields.active_task, null, null);
         resultsParser.startElement(null, Result.Fields.graphics_exec_path, null, null);
         resultsParser.characters("/path/to/graphics".toCharArray(), 0, "/path/to/graphics".length());
         resultsParser.endElement(null, Result.Fields.graphics_exec_path, null);
@@ -991,7 +994,8 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, Result.Fields.name, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, Result.Fields.name, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
+        resultsParser.endElement(null, Result.Fields.name, null);
+        resultsParser.startElement(null, Result.Fields.active_task, null, null);
         resultsParser.startElement(null, Result.Fields.slot_path, null, null);
         resultsParser.characters("/path/to/slot".toCharArray(), 0, "/path/to/slot".length());
         resultsParser.endElement(null, Result.Fields.slot_path, null);

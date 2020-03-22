@@ -20,17 +20,26 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants(onlyExplicitlyIncluded = true)
+@ToString
 public class CcState {
     public VersionInfo version_info;
     public HostInfo host_info;
-    public ArrayList<Project> projects = new ArrayList<>();
-    public ArrayList<App> apps = new ArrayList<>();
-    public ArrayList<AppVersion> app_versions = new ArrayList<>();
-    public ArrayList<Workunit> workunits = new ArrayList<>();
-    public ArrayList<Result> results = new ArrayList<>();
-    public boolean have_ati;
-    public boolean have_cuda;
+    @FieldNameConstants.Include public boolean have_ati;
+    @FieldNameConstants.Include public boolean have_cuda;
+
+    public final List<Project> projects = new ArrayList<>();
+    public final List<App> apps = new ArrayList<>();
+    public final List<AppVersion> app_versions = new ArrayList<>();
+    public final List<Workunit> workunits = new ArrayList<>();
+    public final List<Result> results = new ArrayList<>();
 
     public void clearArrays() {
         projects.clear();
@@ -64,7 +73,6 @@ public class CcState {
     public Workunit lookup_wu(Project project, String wu_name) {
         for(int i = 0; i < workunits.size(); i++) {
             if(!workunits.get(i).project.equals(project)) {
-                //if(Logging.DEBUG) Log.d("Workunit", "Projects Do not compare");
                 continue;
             }
             if(workunits.get(i).name.equalsIgnoreCase(wu_name)) {

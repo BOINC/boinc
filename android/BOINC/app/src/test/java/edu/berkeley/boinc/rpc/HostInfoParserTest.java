@@ -507,9 +507,9 @@ public class HostInfoParserTest {
         expected.p_membw = 1.5;
         expected.p_calculated = 0L;
         expected.product_name = PRODUCT_NAME;
-        expected.m_nbytes = 1_073_741_824.0;
-        expected.m_cache = 1_073_741_824.0;
-        expected.m_swap = 1_073_741_824.0;
+        expected.m_nbytes = BYTES_IN_1_GB;
+        expected.m_cache = BYTES_IN_1_GB;
+        expected.m_swap = BYTES_IN_1_GB;
         expected.d_total = TOTAL_SPACE;
         expected.d_free = FREE_SPACE;
         expected.os_name = OS_NAME;
