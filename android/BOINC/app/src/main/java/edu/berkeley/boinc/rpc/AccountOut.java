@@ -21,6 +21,11 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants
 public class AccountOut implements Parcelable {
     public int error_num = 0;
     public String error_msg = "";
@@ -36,27 +41,23 @@ public class AccountOut implements Parcelable {
         }
     };
 
-    public AccountOut() {
-        super();
-    }
+    public AccountOut() {}
 
     private AccountOut(Parcel in) {
-        readFromParcel(in);
+        error_num = in.readInt();
+        error_msg = in.readString();
+        authenticator = in.readString();
     }
 
+    @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(error_num);
         out.writeString(error_msg);
         out.writeString(authenticator);
-    }
-
-    public void readFromParcel(Parcel in) {
-        error_num = in.readInt();
-        error_msg = in.readString();
-        authenticator = in.readString();
     }
 }
