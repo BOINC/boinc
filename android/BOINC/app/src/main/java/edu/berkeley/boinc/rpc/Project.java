@@ -19,15 +19,18 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import lombok.experimental.FieldNameConstants;
+
+@FieldNameConstants
 public class Project implements Parcelable {
     // all attributes are public for simple access
     public String master_url = "";
@@ -36,9 +39,9 @@ public class Project implements Parcelable {
     public String project_name = "";
     public String user_name = "";
     public String team_name = "";
-    public String venue = "";
+    public String host_venue = "";
     public int hostid = 0;
-    public final List<GuiUrl> gui_urls = new ArrayList<>();
+    @FieldNameConstants.Exclude public final List<GuiUrl> gui_urls = new ArrayList<>();
     public double user_total_credit = 0.0;
     public double user_expavg_credit = 0.0;
 
@@ -50,7 +53,7 @@ public class Project implements Parcelable {
      * As reported by server
      */
     public double host_expavg_credit = 0;
-    public double disk_usage = 0;
+    @FieldNameConstants.Exclude public double disk_usage = 0;
 
     //	/** # of consecutive times we've failed to contact all scheduling servers */
     public int nrpc_failures = 0;
@@ -62,8 +65,8 @@ public class Project implements Parcelable {
     public double min_rpc_time = 0;
     public double download_backoff = 0;
     public double upload_backoff = 0;
-    public double cpu_short_term_debt = 0;
-    public double cpu_long_term_debt = 0;
+    @FieldNameConstants.Exclude public double cpu_short_term_debt = 0;
+    @FieldNameConstants.Exclude public double cpu_long_term_debt = 0;
     public double cpu_backoff_time = 0;
     public double cpu_backoff_interval = 0;
     public double cuda_debt = 0;
@@ -114,7 +117,7 @@ public class Project implements Parcelable {
         if(this == o) {
             return true;
         }
-        if(o == null || getClass() != o.getClass()) {
+        if(!(o instanceof Project)) {
             return false;
         }
         Project project = (Project) o;
@@ -165,14 +168,14 @@ public class Project implements Parcelable {
                Objects.equals(project_name, project.project_name) &&
                StringUtils.equalsIgnoreCase(user_name, project.user_name) &&
                Objects.equals(team_name, project.team_name) &&
-               Objects.equals(venue, project.venue) &&
+               Objects.equals(host_venue, project.host_venue) &&
                gui_urls.equals(project.gui_urls);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(master_url, project_dir, resource_share, project_name, user_name,
-                            team_name, venue, hostid, gui_urls, user_total_credit, user_expavg_credit,
+                            team_name, host_venue, hostid, gui_urls, user_total_credit, user_expavg_credit,
                             host_total_credit, host_expavg_credit, disk_usage, nrpc_failures,
                             master_fetch_failures, min_rpc_time, download_backoff, upload_backoff,
                             cpu_short_term_debt, cpu_long_term_debt, cpu_backoff_time,
@@ -199,7 +202,7 @@ public class Project implements Parcelable {
         dest.writeString(project_name);
         dest.writeString(user_name);
         dest.writeString(team_name);
-        dest.writeString(venue);
+        dest.writeString(host_venue);
         dest.writeInt(hostid);
         dest.writeList(gui_urls);
         dest.writeDouble(user_total_credit);
@@ -258,7 +261,7 @@ public class Project implements Parcelable {
         project_name = in.readString();
         user_name = in.readString();
         team_name = in.readString();
-        venue = in.readString();
+        host_venue = in.readString();
         hostid = in.readInt();
         in.readList(gui_urls, GuiUrl.class.getClassLoader());
         user_total_credit = in.readDouble();

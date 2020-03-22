@@ -542,7 +542,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Project> getProjectStatus() {
+    public synchronized List<Project> getProjectStatus() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_project_status/>\n");

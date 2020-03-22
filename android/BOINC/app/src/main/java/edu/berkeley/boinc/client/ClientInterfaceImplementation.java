@@ -222,7 +222,7 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     public Boolean checkProjectAttached(String url) {
         try {
-            ArrayList<Project> attachedProjects = getProjectStatus();
+            List<Project> attachedProjects = getProjectStatus();
             for (Project project : attachedProjects) {
                 if (Logging.DEBUG) {
                     Log.d(Logging.TAG, project.master_url + " vs " + url);
@@ -542,16 +542,16 @@ public class ClientInterfaceImplementation extends RpcClient {
      *
      * @return list of attachable projects
      */
-    public ArrayList<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
+    public List<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
         ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
-        ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
+        List<Project> attachedProjects = getState().projects; // currently attached projects
 
         ArrayList<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 
-        if (allProjectsList == null || attachedProjects == null) return null;
+        if (allProjectsList == null) return null;
 
         //filter projects that do not support Android
         for (ProjectInfo candidate : allProjectsList) {
