@@ -51,7 +51,7 @@ public class CcState {
 
     public App lookup_app(Project project, String appname) {
         for(int i = 0; i < apps.size(); i++) {
-            if(!apps.get(i).project.compare(project)) {
+            if(!apps.get(i).project.equals(project)) {
                 continue;
             }
             if(apps.get(i).name.equalsIgnoreCase(appname)) {
@@ -63,7 +63,7 @@ public class CcState {
 
     public Workunit lookup_wu(Project project, String wu_name) {
         for(int i = 0; i < workunits.size(); i++) {
-            if(!workunits.get(i).project.compare(project)) {
+            if(!workunits.get(i).project.equals(project)) {
                 //if(Logging.DEBUG) Log.d("Workunit", "Projects Do not compare");
                 continue;
             }
@@ -77,11 +77,11 @@ public class CcState {
     public AppVersion lookup_app_version(Project project, App app, int version_num, String plan_class) {
         for(int i = 0; i < app_versions.size(); i++) {
             //Check if projects match...
-            if(!app_versions.get(i).project.compare(project)) {
+            if(!app_versions.get(i).project.equals(project)) {
                 continue;
             }
             //Check if app matches
-            if(!app_versions.get(i).app.compare(app)) {
+            if(!app_versions.get(i).app.equals(app)) {
                 continue;
             }
             //checks version_num

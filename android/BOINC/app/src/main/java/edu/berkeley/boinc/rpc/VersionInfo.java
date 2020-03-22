@@ -19,30 +19,22 @@
 
 package edu.berkeley.boinc.rpc;
 
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class VersionInfo {
     // all attributes are public for simple access
-    public int major = 0;
-    public int minor = 0;
-    public int release = 0;
-    public boolean prerelease = false;
+    public int major;
+    public int minor;
+    public int release;
 
-    public boolean greater_than(VersionInfo vi) {
-        if(major > vi.major) {
-            return true;
-        }
-        else if(major < vi.major) {
-            return false;
-        }
-        else if(minor > vi.minor) {
-            return true;
-        }
-        else if(minor < vi.minor) {
-            return false;
-        }
-        else {
-            return (release > vi.release);
-        }
+    VersionInfo() {
+        major = minor = release = 0;
     }
 
+    public VersionInfo(int major, int minor, int release) {
+        this.major = major;
+        this.minor = minor;
+        this.release = release;
+    }
 }

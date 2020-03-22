@@ -22,19 +22,38 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
+
 public class App implements Parcelable {
     public String name = "";
     public String user_friendly_name = "";
     public int non_cpu_intensive = 0;
     public Project project;
 
-    public boolean compare(App myapp) {
-        //Check if name is the same
-        return this.name.equalsIgnoreCase(myapp.name);
+    public final String getName() {
+        return StringUtils.isEmpty(user_friendly_name) ? name : user_friendly_name;
     }
 
-    public final String getName() {
-        return user_friendly_name.equals("") ? name : user_friendly_name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof App)) {
+            return false;
+        }
+
+        App app = (App) o;
+        return StringUtils.equalsIgnoreCase(name, app.name) &&
+               StringUtils.equalsIgnoreCase(user_friendly_name, app.user_friendly_name) &&
+               non_cpu_intensive == app.non_cpu_intensive && Objects.equals(project, app.project);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, user_friendly_name, non_cpu_intensive, project);
     }
 
     @Override
@@ -59,7 +78,6 @@ public class App implements Parcelable {
         user_friendly_name = in.readString();
         non_cpu_intensive = in.readInt();
         project = (Project) in.readValue(Project.class.getClassLoader());
-
     }
 
     public static final Parcelable.Creator<App> CREATOR = new Parcelable.Creator<App>() {
