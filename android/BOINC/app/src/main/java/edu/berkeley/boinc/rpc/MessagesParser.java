@@ -21,38 +21,42 @@ package edu.berkeley.boinc.rpc;
 
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
 public class MessagesParser {
+    private List<Message> mMessages = new ArrayList<>();
 
-    private ArrayList<Message> mMessages = new ArrayList<>();
-    //private Message mMessage = null;
-
-
-    public final ArrayList<Message> getMessages() {
+    private List<Message> getMessages() {
         return mMessages;
     }
 
     /**
-     * Parse the RPC result (app_version) and generate corresponding vector
+     * Parse the RPC result (messages) and generate corresponding list.
      *
      * @param rpcResult String returned by RPC call of core client
-     * @return vector of application version
+     * @return list of messages
      */
-    public static ArrayList<Message> parse(String rpcResult) {
+    public static List<Message> parse(String rpcResult) {
         MessagesParser parser = new MessagesParser();
         try {
             parser.parseMessages(rpcResult);
+            return parser.getMessages();
         }
-        catch(Exception ex) {
-            return null;
+        catch (MessageParseException ex) {
+            return Collections.emptyList();
         }
-        return parser.getMessages();
     }
 
-    public void parseMessages(String xml) {
+    private void parseMessages(String xml) throws MessageParseException {
+        // Removes whitespace at the start of the string.
+        xml = StringUtils.stripStart(xml, null);
+
         int pos = 0;
         int end = xml.length();
         boolean inMsgs = false;
@@ -62,22 +66,15 @@ public class MessagesParser {
 
         try {
             while(pos < end) {
-                /* skip spaces */
-                while(pos < end) {
-                    if(!Character.isWhitespace(xml.charAt(pos))) {
-                        break;
-                    }
-                    pos++;
-                }
                 if(!inMsgs) {
                     newPos = xml.indexOf("<msgs>");
                     if(newPos == -1) {
-                        throw new RuntimeException("Cant parse messages");
+                        throw new MessageParseException();
                     }
                     pos = newPos + 6;
                     inMsgs = true;
                 }
-                else if(inMsgs && message == null && xml.startsWith("<msg>", pos)) {
+                else if(message == null && xml.startsWith("<msg>", pos)) {
                     pos += 5;
                     message = new Message();
                 }
@@ -86,7 +83,7 @@ public class MessagesParser {
                     message = null;
                     pos += 6;
                 }
-                else if(inMsgs && xml.startsWith("</msgs>", pos)) {
+                else if(xml.startsWith("</msgs>", pos)) {
                     break; // end
                 }
                 else if(message != null) {
@@ -94,7 +91,7 @@ public class MessagesParser {
                         pos += 9;
                         newPos = xml.indexOf("</project>", pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         message.project = xml.substring(pos, newPos).trim();
                         pos = newPos + 10;
@@ -103,7 +100,7 @@ public class MessagesParser {
                         pos += 7;
                         newPos = xml.indexOf("</seqno>", pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         message.seqno = Integer.parseInt(xml.substring(pos, newPos).trim());
                         pos = newPos + 8;
@@ -112,7 +109,7 @@ public class MessagesParser {
                         pos += 5;
                         newPos = xml.indexOf("</pri>", pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         message.priority = Integer.parseInt(xml.substring(pos, newPos).trim());
                         pos = newPos + 6;
@@ -121,16 +118,17 @@ public class MessagesParser {
                         pos += 6;
                         newPos = xml.indexOf("</time>", pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
-                        message.timestamp = (long) Double.parseDouble(xml.substring(pos, newPos).trim());
+                        message.timestamp = (long) Double.parseDouble(
+                                xml.substring(pos, newPos).trim());
                         pos = newPos + 7;
                     }
                     else if(xml.startsWith("<body>", pos)) {
                         pos += 6;
                         newPos = xml.indexOf("</body>", pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         message.body = xml.substring(pos, newPos).trim();
                         pos = newPos + 7;
@@ -138,16 +136,16 @@ public class MessagesParser {
                     else {
                         // skip unknown tag
                         pos++;
-                        int endTagIndex = xml.indexOf(">", pos);
+                        int endTagIndex = xml.indexOf('>', pos);
                         if(endTagIndex == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         String tag = xml.substring(pos, endTagIndex);
                         pos = endTagIndex + 1;
                         String endString = "</" + tag + ">";
                         newPos = xml.indexOf(endString, pos);
                         if(newPos == -1) {
-                            throw new RuntimeException("Cant parse messages");
+                            throw new MessageParseException();
                         }
                         pos = newPos + endString.length();
                     }
@@ -155,7 +153,7 @@ public class MessagesParser {
             }
         }
         catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+            if(Logging.ERROR.equals(Boolean.TRUE)) {
                 Log.e(Logging.TAG, "MessagesParser.parseMessages error: ", e);
             }
         }

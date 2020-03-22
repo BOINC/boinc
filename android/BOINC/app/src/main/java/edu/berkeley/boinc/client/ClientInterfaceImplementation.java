@@ -504,33 +504,35 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     // returns given number of client messages, older than provided seqNo
     // if seqNo <= 0 initial data retrieval
-    public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
+    List<Message> getEventLogMessages(int seqNo, int number) {
         // determine oldest message seqNo for data retrieval
         int lowerBound;
-        if (seqNo > 0) lowerBound = seqNo - number - 2;
+        if (seqNo > 0)
+            lowerBound = seqNo - number - 2;
         else
             lowerBound = getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
 
         // less than desired number of messsages available, adapt lower bound
-        if (lowerBound < 0) lowerBound = 0;
-        ArrayList<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-        if (msgs == null)
-            msgs = new ArrayList<>(); // getMessages might return null in case of parsing or IO error
+        if (lowerBound < 0)
+            lowerBound = 0;
+        List<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
 
         if (seqNo > 0) {
             // remove messages that are >= seqNo
             Iterator<Message> it = msgs.iterator();
             while (it.hasNext()) {
                 Message tmp = it.next();
-                if (tmp.seqno >= seqNo) it.remove();
+                if (tmp.seqno >= seqNo)
+                    it.remove();
             }
         }
 
         if (!msgs.isEmpty())
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": " + msgs.get(msgs.size() - 1).seqno);
-            else if (Logging.DEBUG)
-                Log.d(Logging.TAG, "getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
+            if (Logging.DEBUG.equals(Boolean.TRUE))
+                Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
+                                   + " entries. for lowerBound: " + lowerBound + " at 0: "
+                                   + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": "
+                                   + msgs.get(msgs.size() - 1).seqno);
         return msgs;
     }
 

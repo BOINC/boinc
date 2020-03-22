@@ -488,7 +488,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Message> getMessages(int seqNo) {
+    public synchronized List<Message> getMessages(int seqNo) {
         mLastErrorMessage = null;
         try {
             String request;
@@ -504,8 +504,9 @@ public class RpcClient {
             sendRequest(request);
             return MessagesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getMessages()", e);
+            return Collections.emptyList();
         }
     }
 
