@@ -1055,7 +1055,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized ArrayList<ProjectInfo> getAllProjectsList() {
+    protected synchronized List<ProjectInfo> getAllProjectsList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
@@ -1063,8 +1063,9 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             return ProjectInfoParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getAllProjectsList()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getAllProjectsList()", e);
+            return Collections.emptyList();
         }
     }
 

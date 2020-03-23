@@ -69,11 +69,6 @@ public class AppsParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
