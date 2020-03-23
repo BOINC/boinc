@@ -252,17 +252,11 @@
     <string name="projects_control_sync_acctmgr">Sinxronizasiya</string>
     <string name="projects_control_remove_acctmgr">Çıxarın</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Layihə silinsin?</string>
     <string name="projects_confirm_detach_message">Silmək istədiyizdən əminsinizmi?</string>
-    <string name="projects_confirm_detach_message2">BOINC-dan?</string>
     <string name="projects_confirm_detach_confirm">Sil</string>
-    <string name="projects_confirm_reset_title">Layihəni sıfırla</string>
-    <string name="projects_confirm_reset_message">Sifariş etmək istədiyinizə əminsinizmi?</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Sıfırla</string>
     <string name="projects_confirm_remove_acctmgr_title">Hesab menecerini söndürün</string>
     <string name="projects_confirm_remove_acctmgr_message">Istifadəni dayandırmaq istədiyinizə əminsinizmi?</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Çıxarın</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">İşin adı:</string>
@@ -360,7 +354,7 @@
     <string name="about_button">Qayıt</string>
     <string name="about_title">Haqqında</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versiya</string>
+    <string name="about_version">Versiya %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Bütün hüquqlar qorunur.</string>
     <string name="about_credits">Dəstək üçün Max Planck Qravitasiya Fizika İnstitutu, IBM və HTC şirkətlərinəsayəsində

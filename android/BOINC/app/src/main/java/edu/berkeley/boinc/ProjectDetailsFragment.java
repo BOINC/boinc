@@ -44,7 +44,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -230,34 +229,32 @@ public class ProjectDetailsFragment extends Fragment {
         TextView tvTitle = dialog.findViewById(R.id.title);
         TextView tvMessage = dialog.findViewById(R.id.message);
 
-        // operation dependend texts
+        // operation-dependent texts
         if(operation == RpcClient.PROJECT_DETACH) {
-            tvTitle.setText(R.string.projects_confirm_detach_title);
-            tvMessage.setText(getString(R.string.projects_confirm_detach_message) + " "
-                              + project.project_name + " " + getString(R.string.projects_confirm_detach_message2));
-            confirm.setText(R.string.projects_confirm_detach_confirm);
+            final String removeStr = getString(R.string.projects_confirm_detach_confirm);
+
+            tvTitle.setText(getString(R.string.projects_confirm_title, removeStr));
+            tvMessage.setText(getString(R.string.projects_confirm_message,
+                                        removeStr.toLowerCase(),
+                                        project.project_name + " "
+                                        + getString(R.string.projects_confirm_detach_message)));
+            confirm.setText(removeStr);
         }
         else if(operation == RpcClient.PROJECT_RESET) {
-            tvTitle.setText(R.string.projects_confirm_reset_title);
-            tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
-                              + project.project_name + getString(R.string.projects_confirm_reset_message2));
-            confirm.setText(R.string.projects_confirm_reset_confirm);
+            final String resetStr = getString(R.string.projects_confirm_reset_confirm);
+
+            tvTitle.setText(getString(R.string.projects_confirm_title, resetStr));
+            tvMessage.setText(getString(R.string.projects_confirm_message, resetStr.toLowerCase(),
+                                        project.project_name));
+            confirm.setText(resetStr);
         }
 
-        confirm.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ProjectOperationAsync().execute(operation);
-                dialog.dismiss();
-            }
+        confirm.setOnClickListener(view -> {
+            new ProjectOperationAsync().execute(operation);
+            dialog.dismiss();
         });
         Button cancel = dialog.findViewById(R.id.cancel);
-        cancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        cancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
@@ -282,12 +279,9 @@ public class ProjectDetailsFragment extends Fragment {
         SpannableString content = new SpannableString(project.master_url);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         website.setText(content);
-        website.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.master_url));
-                startActivity(i);
-            }
+        website.setOnClickListener(view -> {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.master_url));
+            startActivity(i);
         });
 
         // set general area

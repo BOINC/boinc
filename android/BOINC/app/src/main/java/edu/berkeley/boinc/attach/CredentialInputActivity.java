@@ -35,7 +35,6 @@ import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -61,16 +60,13 @@ public class CredentialInputActivity extends Activity {
         pwdET = findViewById(R.id.pwd_input);
 
         CheckBox showPwdCb = findViewById(R.id.show_pwd_cb);
-        showPwdCb.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CheckBox) v).isChecked()) {
-                    pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                }
-                else {
-                    pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
+        showPwdCb.setOnClickListener(view -> {
+            if(((CheckBox) view).isChecked()) {
+                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            }
+            else {
+                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
     }

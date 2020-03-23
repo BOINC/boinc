@@ -252,17 +252,11 @@
   <string name="projects_control_sync_acctmgr">Synchroniser</string>
   <string name="projects_control_remove_acctmgr">Désactiver</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Supprimer le projet ?</string>
   <string name="projects_confirm_detach_message">Êtes-vous sûr de vouloir supprimer </string>
-  <string name="projects_confirm_detach_message2">de BOINC ?</string>
   <string name="projects_confirm_detach_confirm">Supprimer</string>
-  <string name="projects_confirm_reset_title">Recommencer le projet</string>
-  <string name="projects_confirm_reset_message">Êtes-vous sûr de vouloir recommencer </string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Réinitialiser</string>
   <string name="projects_confirm_remove_acctmgr_title">Désactiver le gestionnaire de compte</string>
   <string name="projects_confirm_remove_acctmgr_message">Êtes-vous sûr de vouloir cesser d\'utiliser </string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Désactiver</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nom de la tâche :</string>
@@ -361,7 +355,7 @@
   <string name="about_button">Retour</string>
   <string name="about_title">À propos</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Version</string>
+  <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2019 Université de Californie, Berkeley.</string>
   <string name="about_copyright_reserved">Tous droits réservés.</string>

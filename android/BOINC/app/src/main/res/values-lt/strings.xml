@@ -236,17 +236,11 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="projects_control_sync_acctmgr">Sinchronizuoti</string>
   <string name="projects_control_remove_acctmgr">Išjungti</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Pašalinti projektą?</string>
   <string name="projects_confirm_detach_message">Ar tikrai norite pašalinti </string>
-  <string name="projects_confirm_detach_message2">iš BOINC?</string>
   <string name="projects_confirm_detach_confirm">Pašalinti</string>
-  <string name="projects_confirm_reset_title">Perkrauti projektą</string>
-  <string name="projects_confirm_reset_message">Ar tikrai norite perkrauti</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Atstatyti</string>
   <string name="projects_confirm_remove_acctmgr_title">Išjungti abonemento valdiklį</string>
   <string name="projects_confirm_remove_acctmgr_message">Ar tikrai norite nebenaudoti</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Išjungti</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Užduoties pavadinimas:</string>
@@ -345,7 +339,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_button">Grįžti</string>
   <string name="about_title">Apie</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versija</string>
+  <string name="about_version">Versija %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>

@@ -239,17 +239,11 @@ arbete</string>
   <string name="projects_control_sync_acctmgr">Synkronisera</string>
   <string name="projects_control_remove_acctmgr">Koppla bort</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Ta bort projekt?</string>
   <string name="projects_confirm_detach_message">Är du säker på att du vill ta bort</string>
-  <string name="projects_confirm_detach_message2">från BOINC?</string>
   <string name="projects_confirm_detach_confirm">Ta bort</string>
-  <string name="projects_confirm_reset_title">Återställ projekt</string>
-  <string name="projects_confirm_reset_message">Är du säker på att du vill återställa</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Nollställ</string>
   <string name="projects_confirm_remove_acctmgr_title">Avaktivera kontohanterare</string>
   <string name="projects_confirm_remove_acctmgr_message">Är du säker på att du vill sluta använda</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Avaktivera</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Uppgiftsnamn:</string>
@@ -348,7 +342,7 @@ arbete</string>
   <string name="about_button">Återvänd</string>
   <string name="about_title">Om</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Version</string>
+  <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2019 Kaliforniens universitet, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>

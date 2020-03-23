@@ -409,7 +409,7 @@ if test "${enable_server}" = yes; then
    if test "${no_mysql}" = yes; then
       AC_MSG_ERROR([
 ================================================================================
-ERROR: trying to build BOINC-server, but MYSQL was not be found.
+ERROR: trying to build BOINC-server, but MYSQL was not found.
 
 If you do not want to build the server you should use --disable-server.
 

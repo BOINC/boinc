@@ -246,17 +246,11 @@
     <string name="projects_control_sync_acctmgr">Synkroniser</string>
     <string name="projects_control_remove_acctmgr">Deaktiver</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Fjern prosjekt?</string>
     <string name="projects_confirm_detach_message">Er du sikker på at du vil fjerne</string>
-    <string name="projects_confirm_detach_message2">fra BOINC</string>
     <string name="projects_confirm_detach_confirm">Fjern</string>
-    <string name="projects_confirm_reset_title">Nullstill prosjekt</string>
-    <string name="projects_confirm_reset_message">Er du sikker på at du vil nullstille</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Nullstill</string>
     <string name="projects_confirm_remove_acctmgr_title">Deaktiver kontobehandler</string>
     <string name="projects_confirm_remove_acctmgr_message">Er du sikker på at du vil slutte å bruke</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Deaktiver</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Oppgavenavn:</string>
@@ -353,7 +347,7 @@
     <string name="about_button">Returner</string>
     <string name="about_title">Om</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versjon</string>
+    <string name="about_version">Versjon %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Takk til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC

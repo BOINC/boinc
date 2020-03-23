@@ -224,17 +224,11 @@
     <string name="projects_control_sync_acctmgr">Sincronizează</string>
     <string name="projects_control_remove_acctmgr">Dezactivează</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Şterge proiect?</string>
     <string name="projects_confirm_detach_message">Sunteţi sigur că doriţi să ştergeţi</string>
-    <string name="projects_confirm_detach_message2">din BOINC?</string>
     <string name="projects_confirm_detach_confirm">Șterge</string>
-    <string name="projects_confirm_reset_title">Resetează proiect</string>
-    <string name="projects_confirm_reset_message">Sunteţi sigur că doriţi să resetaţi</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Resetează</string>
     <string name="projects_confirm_remove_acctmgr_title">Dezactivează manager de cont</string>
     <string name="projects_confirm_remove_acctmgr_message">Sunteţi sigur că doriţi să nu mai folosiţi</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Dezactivează</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Nume Task:</string>
@@ -332,7 +326,7 @@
     <string name="about_button">Înapoi</string>
     <string name="about_title">Despre</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Versiune</string>
+    <string name="about_version">Versiune %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
     <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>

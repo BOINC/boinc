@@ -244,17 +244,11 @@
     <string name="projects_control_sync_acctmgr">مزامنة</string>
     <string name="projects_control_remove_acctmgr">معطّل</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">إزالة المشروع؟</string>
     <string name="projects_confirm_detach_message">هل أنت متأكد من رغبتك في إزالة</string>
-    <string name="projects_confirm_detach_message2">من BOINC؟</string>
     <string name="projects_confirm_detach_confirm">إزالة</string>
-    <string name="projects_confirm_reset_title">صفِّر المشروع</string>
-    <string name="projects_confirm_reset_message">هل أنت متأكد من رغبتك فى إعادة الضبط؟</string>
-    <string name="projects_confirm_reset_message2">/؟</string>
     <string name="projects_confirm_reset_confirm">إعادة الضبط</string>
     <string name="projects_confirm_remove_acctmgr_title">تعطيل مدير الحسابات</string>
     <string name="projects_confirm_remove_acctmgr_message">هل انت متأكد من رغبتك في إيقاف استخدام</string>
-    <string name="projects_confirm_remove_acctmgr_message2">/؟</string>
     <string name="projects_confirm_remove_acctmgr_confirm">معطّل</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">اسم المهمة:</string>
@@ -351,7 +345,7 @@
     <string name="about_button">العودة</string>
     <string name="about_title">عن</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">اصدار</string>
+    <string name="about_version">اصدار %1$s</string>
     <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network
         Computing
     </string>

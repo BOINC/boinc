@@ -1,4 +1,5 @@
 language: cpp
+os: linux
 compiler:
   - gcc
 
@@ -8,7 +9,6 @@ branches:
     - coverity_scan
 
 dist: trusty
-sudo: required
 
 cache:
   timeout: 600
@@ -30,7 +30,7 @@ env:
     # secret API keys for Coverity and bintray
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
     - secure: dYJhIQi9mB00HsyjNEbyyeh7ChHxbg9o6dkBvub/4dRwJKN+KAReU7yHshUTpHI+Nn4TdCjpwHcDMDOklRTSeUFz79jGEmCVqvnz0DynZFroryX3rdAnc/kW4QkupgLZk4JKCN0JRPOM/j9RS2zLxkqrDc7gibF7BNgIhu1jUXk=
-  matrix:
+  jobs:
     - BOINC_TYPE=libs
     - BOINC_TYPE=server
     - BOINC_TYPE=client
@@ -40,7 +40,7 @@ env:
     - BOINC_TYPE=apps-mingw
     - BOINC_TYPE=unit-test
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - language: php

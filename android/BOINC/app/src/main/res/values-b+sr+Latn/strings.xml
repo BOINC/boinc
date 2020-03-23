@@ -226,17 +226,11 @@
     <string name="projects_control_sync_acctmgr">Sinhronizuj</string>
     <string name="projects_control_remove_acctmgr">Isključi</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Ukloni projekat?</string>
     <string name="projects_confirm_detach_message">Sigurno želite da uklonite</string>
-    <string name="projects_confirm_detach_message2">od BOINC?</string>
     <string name="projects_confirm_detach_confirm">Ukloni</string>
-    <string name="projects_confirm_reset_title">Počni projekat ispočetka</string>
-    <string name="projects_confirm_reset_message">Jeste li sigurni da želite sve ispočetka</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Počni ispočetka</string>
     <string name="projects_confirm_remove_acctmgr_title">Isključi menadžer naloga</string>
     <string name="projects_confirm_remove_acctmgr_message">Jeste li sigurni da želite da prekinete upotrebu</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Isključi</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Ime zadatka:</string>
@@ -334,7 +328,7 @@
     <string name="about_button">Povratak</string>
     <string name="about_title">O</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Verzija</string>
+    <string name="about_version">Verzija %1$s</string>
     <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija</string>
     <string name="about_copyright_reserved">Sva prava zadržana.</string>
     <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC Korporaciji na njihovoj podršci.</string>

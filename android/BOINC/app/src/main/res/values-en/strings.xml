@@ -243,17 +243,13 @@
     <string name="projects_control_sync_acctmgr">Synchronize</string>
     <string name="projects_control_remove_acctmgr">Disable</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_title">Remove project?</string>
+    <string name="projects_confirm_title">%1$s project?</string>
+    <string name="projects_confirm_message">Are you sure you want to %1$s %2$s?</string>
     <string name="projects_confirm_detach_message">Are you sure you want to remove</string>
-    <string name="projects_confirm_detach_message2">from BOINC?</string>
     <string name="projects_confirm_detach_confirm">Remove</string>
-    <string name="projects_confirm_reset_title">Reset project</string>
-    <string name="projects_confirm_reset_message">Are you sure you want to reset</string>
-    <string name="projects_confirm_reset_message2">\?</string>
     <string name="projects_confirm_reset_confirm">Reset</string>
     <string name="projects_confirm_remove_acctmgr_title">Disable account manager</string>
-    <string name="projects_confirm_remove_acctmgr_message">Are you sure you want to stop using</string>
-    <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+    <string name="projects_confirm_remove_acctmgr_message">stop using</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Disable</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Task Name:</string>
@@ -351,7 +347,7 @@
     <string name="about_button">Return</string>
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
-    <string name="about_version">Version</string>
+    <string name="about_version">Version %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>

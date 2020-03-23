@@ -41,7 +41,6 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -122,42 +121,38 @@ public class AcctMgrFragment extends DialogFragment {
             }
         });
 
-        continueB.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked");
-                if (!checkDeviceOnline()) return;
-                if (asIsBound) {
+        continueB.setOnClickListener(view -> {
+            if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked");
+            if (!checkDeviceOnline()) return;
+            if (asIsBound) {
 
-                    // get user input
-                    String url = urlInput.getText().toString();
-                    String name = nameInput.getText().toString();
-                    String pwd = pwdInput.getText().toString();
+                // get user input
+                String url = urlInput.getText().toString();
+                String name = nameInput.getText().toString();
+                String pwd = pwdInput.getText().toString();
 
-                    // verify input
-                    int res;
-                    if ((res = verifyInput(url, name, pwd)) != 0) {
-                        warning.setText(res);
-                        warning.setVisibility(View.VISIBLE);
-                        return;
-                    }
+                // verify input
+                int res;
+                if ((res = verifyInput(url, name, pwd)) != 0) {
+                    warning.setText(res);
+                    warning.setVisibility(View.VISIBLE);
+                    return;
+                }
 
-                    // adapt layout
-                    continueB.setVisibility(View.GONE);
-                    warning.setVisibility(View.GONE);
-                    ongoingWrapper.setVisibility(View.VISIBLE);
+                // adapt layout
+                continueB.setVisibility(View.GONE);
+                warning.setVisibility(View.GONE);
+                ongoingWrapper.setVisibility(View.VISIBLE);
 
-                    String[] params = new String[3];
-                    params[0] = url;
-                    params[1] = name;
-                    params[2] = pwd;
-                    asyncTask = new AttachProjectAsyncTask();
-                    asyncTask.execute(params);
+                String[] params = new String[3];
+                params[0] = url;
+                params[1] = name;
+                params[2] = pwd;
+                asyncTask = new AttachProjectAsyncTask();
+                asyncTask.execute(params);
 
-                } else if (Logging.DEBUG)
-                    Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing...");
-            }
-
+            } else if (Logging.DEBUG)
+                Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing...");
         });
 
         doBindService();
