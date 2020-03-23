@@ -19,19 +19,26 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
-// according to http://boinc.berkeley.edu/trac/wiki/WebRpc
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+// according to http://boinc.berkeley.edu/trac/wiki/WebRpc
+@EqualsAndHashCode
+@ToString
 public class ProjectConfig implements Parcelable {
-    public Integer error_num = 0; // if results are not present yet. (polling)
+    public Integer error_num = 0; // if results are not present yet (polling)
     public String name = "";
     public String masterUrl = "";
     public String webRpcUrlBase = "";
-    public String localRevision = ""; // e.g. 4.3.2 can't be parse as int or float.
+    public String localRevision = ""; // e.g. 4.3.2 can't be parsed as int or float.
     public Integer minPwdLength = 0;
     public Boolean usesName = false;
     public Boolean webStopped = false;
@@ -41,35 +48,52 @@ public class ProjectConfig implements Parcelable {
     public Boolean accountManager = false;
     public Integer minClientVersion = 0;
     public String rpcPrefix = "";
-    public ArrayList<PlatformInfo> platforms = new ArrayList<>();
+    public List<PlatformInfo> platforms = new ArrayList<>();
     public String termsOfUse;
 
+    public ProjectConfig() {
+    }
+
+    private ProjectConfig(Parcel in) {
+        error_num = in.readInt();
+        name = in.readString();
+        masterUrl = in.readString();
+        webRpcUrlBase = in.readString();
+        localRevision = in.readString();
+        minPwdLength = in.readInt();
+        minClientVersion = in.readInt();
+        rpcPrefix = in.readString();
+        in.readList(platforms, PlatformInfo.class.getClassLoader());
+        termsOfUse = in.readString();
+
+        boolean[] bArray = in.createBooleanArray();
+        assert bArray != null;
+        usesName = bArray[0];
+        webStopped = bArray[1];
+        schedulerStopped = bArray[2];
+        accountCreationDisabled = bArray[3];
+        clientAccountCreationDisabled = bArray[4];
+        accountManager = bArray[5];
+    }
+
     /**
-     * Returns the URL for HTTPS requests, if available.
-     * master URL otherwise.
-     * Use HTTPS URL for account look up and registration
+     * Returns the URL for HTTPS requests, if available; otherwise the master URL is returned.
+     * Use HTTPS URL for account lookup and registration.
      * CAUTION: DO NOT use HTTPS URL for attach!
      *
-     * @return URL for accoutn look up and registration RPCs
+     * @return URL for account lookup and registration RPCs
      */
     public String getSecureUrlIfAvailable() {
-        if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) {
-            return webRpcUrlBase;
-        }
-        else {
-            return masterUrl;
-        }
+        return StringUtils.isNotEmpty(webRpcUrlBase) ? webRpcUrlBase : masterUrl;
     }
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        // TODO Auto-generated method stub
         dest.writeInt(error_num);
         dest.writeString(name);
         dest.writeString(masterUrl);
@@ -88,31 +112,6 @@ public class ProjectConfig implements Parcelable {
                 accountCreationDisabled,
                 clientAccountCreationDisabled,
                 accountManager});
-
-    }
-
-    public ProjectConfig() {
-    }
-
-    private ProjectConfig(Parcel in) {
-        error_num = in.readInt();
-        name = in.readString();
-        masterUrl = in.readString();
-        webRpcUrlBase = in.readString();
-        localRevision = in.readString();
-        minPwdLength = in.readInt();
-        minClientVersion = in.readInt();
-        rpcPrefix = in.readString();
-        in.readList(platforms, PlatformInfo.class.getClassLoader());
-        termsOfUse = in.readString();
-
-        boolean[] bArray = in.createBooleanArray();
-        usesName = bArray[0];
-        webStopped = bArray[1];
-        schedulerStopped = bArray[2];
-        accountCreationDisabled = bArray[3];
-        clientAccountCreationDisabled = bArray[4];
-        accountManager = bArray[5];
     }
 
     public static final Parcelable.Creator<ProjectConfig> CREATOR = new Parcelable.Creator<ProjectConfig>() {
@@ -121,7 +120,27 @@ public class ProjectConfig implements Parcelable {
         }
 
         public ProjectConfig[] newArray(int size) {
-            return null;
+            return new ProjectConfig[size];
         }
     };
+
+    @SuppressWarnings("java:S115")
+    public static final class Fields {
+        private Fields() {}
+
+        static final String error_num = "error_num";
+        static final String name = "name";
+        static final String masterUrl = "master_url";
+        static final String webRpcUrlBase = "web_rpc_url_base";
+        static final String localRevision = "local_revision";
+        static final String minPwdLength = "min_pwd_length";
+        static final String webStopped = "web_stopped";
+        static final String schedulerStopped = "scheduler_stopped";
+        static final String clientAccountCreationDisabled = "client_account_creation_disabled";
+        static final String accountManager = "account_manager";
+        static final String minClientVersion = "min_client_version";
+        static final String rpcPrefix = "rpc_prefix";
+        static final String platforms = "platforms";
+        static final String termsOfUse = "terms_of_use";
+    }
 }
