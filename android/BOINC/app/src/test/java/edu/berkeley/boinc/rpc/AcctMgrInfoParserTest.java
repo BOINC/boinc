@@ -42,10 +42,12 @@ public class AcctMgrInfoParserTest {
     private static final String COOKIE_FAIL_URL = "Cookie Failure URL";
 
     private AcctMgrInfoParser acctMgrInfoParser;
+    private AcctMgrInfo expected;
 
     @Before
     public void setUp() {
         acctMgrInfoParser = new AcctMgrInfoParser();
+        expected = new AcctMgrInfo();
     }
 
     @Test
@@ -97,7 +99,7 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        assertEquals(new AcctMgrInfo(), acctMgrInfoParser.getAccountMgrInfo());
+        assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
 
     @Test
@@ -109,7 +111,9 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        assertEquals(new AcctMgrInfo(ACCT_MGR_NAME), acctMgrInfoParser.getAccountMgrInfo());
+        expected.acct_mgr_name = ACCT_MGR_NAME;
+
+        assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
 
     @Test
@@ -124,7 +128,10 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_url, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        assertEquals(new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL), acctMgrInfoParser.getAccountMgrInfo());
+        expected.acct_mgr_name = ACCT_MGR_NAME;
+        expected.acct_mgr_url = ACCT_MGR_URL;
+
+        assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
 
     @Test
@@ -142,8 +149,11 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_failure_url, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        assertEquals(new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL),
-                     acctMgrInfoParser.getAccountMgrInfo());
+        expected.acct_mgr_name = ACCT_MGR_NAME;
+        expected.acct_mgr_url = ACCT_MGR_URL;
+        expected.cookie_failure_url = COOKIE_FAIL_URL;
+
+        assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
 
     @Test
@@ -164,9 +174,8 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.have_credentials, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        final AcctMgrInfo expected =
-                new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,
-                                true, false, true);
+        expected = new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,
+                                   true, false, true);
 
         assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
@@ -192,9 +201,8 @@ public class AcctMgrInfoParserTest {
         acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_required, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        final AcctMgrInfo expected =
-                new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,
-                                true, true, true);
+        expected = new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,
+                                   true, true, true);
 
         assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }

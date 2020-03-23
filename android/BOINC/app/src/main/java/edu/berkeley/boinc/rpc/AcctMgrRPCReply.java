@@ -32,10 +32,6 @@ public class AcctMgrRPCReply {
     public final List<String> messages = new ArrayList<>();
 
     AcctMgrRPCReply() {
-        this(0);
-    }
-
-    AcctMgrRPCReply(int error_num) {
-        this.error_num = error_num;
+        this.error_num = 0;
     }
 }

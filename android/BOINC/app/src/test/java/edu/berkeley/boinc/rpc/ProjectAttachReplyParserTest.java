@@ -34,10 +34,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Xml.class)
 public class ProjectAttachReplyParserTest {
     private ProjectAttachReplyParser projectAttachReplyParser;
+    private ProjectAttachReply expected;
 
     @Before
     public void setUp() {
         projectAttachReplyParser = new ProjectAttachReplyParser();
+        expected = new ProjectAttachReply();
     }
 
     @Test
@@ -85,7 +87,7 @@ public class ProjectAttachReplyParserTest {
         projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                             null);
 
-        final ProjectAttachReply expected = new ProjectAttachReply(1);
+        expected.error_num = 1;
 
         assertEquals(expected, projectAttachReplyParser.getProjectAttachReply());
     }
@@ -103,7 +105,6 @@ public class ProjectAttachReplyParserTest {
         projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                             null);
 
-        final ProjectAttachReply expected = new ProjectAttachReply();
         expected.messages.add("Message");
 
         assertEquals(expected, projectAttachReplyParser.getProjectAttachReply());

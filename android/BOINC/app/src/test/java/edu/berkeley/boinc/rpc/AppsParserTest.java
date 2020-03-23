@@ -42,10 +42,12 @@ public class AppsParserTest {
     private static final String USER_FRIENDLY_NAME = "User-friendly name";
 
     private AppsParser appsParser;
+    private App expected;
 
     @Before
     public void setUp() {
         appsParser = new AppsParser();
+        expected = new App();
     }
 
     @Test
@@ -95,7 +97,9 @@ public class AppsParserTest {
         appsParser.endElement(null, App.Fields.name, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
-        assertEquals(Collections.singletonList(new App("Name")),  appsParser.getApps());
+        expected.name = "Name";
+
+        assertEquals(Collections.singletonList(expected), appsParser.getApps());
     }
 
     @Test
@@ -110,8 +114,10 @@ public class AppsParserTest {
         appsParser.endElement(null, App.Fields.user_friendly_name, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
-        assertEquals(Collections.singletonList(new App("Name", USER_FRIENDLY_NAME)),
-                     appsParser.getApps());
+        expected.name = "Name";
+        expected.user_friendly_name = USER_FRIENDLY_NAME;
+
+        assertEquals(Collections.singletonList(expected), appsParser.getApps());
     }
 
     @Test
@@ -129,8 +135,11 @@ public class AppsParserTest {
         appsParser.endElement(null, App.Fields.non_cpu_intensive, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
-        assertEquals(Collections.singletonList(new App("Name", USER_FRIENDLY_NAME, 1)),
-                     appsParser.getApps());
+        expected.name = "Name";
+        expected.user_friendly_name = USER_FRIENDLY_NAME;
+        expected.non_cpu_intensive = 1;
+
+        assertEquals(Collections.singletonList(expected), appsParser.getApps());
     }
 
     @Test
@@ -141,7 +150,8 @@ public class AppsParserTest {
         appsParser.characters("Name 1".toCharArray(), 0, 6);
         appsParser.endElement(null, App.Fields.name, null);
         appsParser.startElement(null, App.Fields.user_friendly_name, null, null);
-        appsParser.characters((USER_FRIENDLY_NAME + " 1").toCharArray(), 0, (USER_FRIENDLY_NAME + " 1").length());
+        appsParser.characters((USER_FRIENDLY_NAME + " 1").toCharArray(), 0, (USER_FRIENDLY_NAME +
+                                                                             " 1").length());
         appsParser.endElement(null, App.Fields.user_friendly_name, null);
         appsParser.startElement(null, App.Fields.non_cpu_intensive, null, null);
         appsParser.characters("1".toCharArray(), 0, 1);
@@ -153,17 +163,21 @@ public class AppsParserTest {
         appsParser.characters("Name 2".toCharArray(), 0, 6);
         appsParser.endElement(null, App.Fields.name, null);
         appsParser.startElement(null, App.Fields.user_friendly_name, null, null);
-        appsParser.characters((USER_FRIENDLY_NAME + " 2").toCharArray(), 0, (USER_FRIENDLY_NAME + " 2").length());
+        appsParser.characters((USER_FRIENDLY_NAME + " 2").toCharArray(), 0, (USER_FRIENDLY_NAME +
+                                                                             " 2").length());
         appsParser.endElement(null, App.Fields.user_friendly_name, null);
         appsParser.startElement(null, App.Fields.non_cpu_intensive, null, null);
         appsParser.characters("1".toCharArray(), 0, 1);
         appsParser.endElement(null, App.Fields.non_cpu_intensive, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
-        List<App> apps = Arrays.asList(new App("Name 1", USER_FRIENDLY_NAME + " 1",
-                                               1),
-                                       new App("Name 2", USER_FRIENDLY_NAME + " 2",
-                                               1));
+        expected.name = "Name 1";
+        expected.user_friendly_name = USER_FRIENDLY_NAME + " 1";
+        expected.non_cpu_intensive = 1;
+
+        List<App> apps = Arrays.asList(expected, new App("Name 2",
+                                                         USER_FRIENDLY_NAME + " 2",
+                                                         1));
 
         assertEquals(apps, appsParser.getApps());
     }

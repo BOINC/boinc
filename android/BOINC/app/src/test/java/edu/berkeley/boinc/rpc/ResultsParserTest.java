@@ -44,10 +44,12 @@ public class ResultsParserTest {
     private static final String NAME = "Result";
 
     private ResultsParser resultsParser;
+    private Result expected;
 
     @Before
     public void setUp() {
         resultsParser = new ResultsParser();
+        expected = new Result();
     }
 
     @Test
@@ -110,10 +112,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.name, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        Result result = new Result();
-        result.name = NAME;
+        expected.name = NAME;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -145,11 +146,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.wu_name, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.wu_name = "Work Unit";
+        expected.name = NAME;
+        expected.wu_name = "Work Unit";
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -164,11 +164,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.project_url, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.project_url = "Project URL";
+        expected.name = NAME;
+        expected.project_url = "Project URL";
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -183,10 +182,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.version_num, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
+        expected.name = NAME;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -201,11 +199,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.version_num, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.version_num = 1;
+        expected.name = NAME;
+        expected.version_num = 1;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -220,11 +217,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ready_to_report, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.ready_to_report = false;
+        expected.name = NAME;
+        expected.ready_to_report = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -239,11 +235,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ready_to_report, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.ready_to_report = true;
+        expected.name = NAME;
+        expected.ready_to_report = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -258,11 +253,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.got_server_ack, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.got_server_ack = false;
+        expected.name = NAME;
+        expected.got_server_ack = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -277,11 +271,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.got_server_ack, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.got_server_ack = true;
+        expected.name = NAME;
+        expected.got_server_ack = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -296,11 +289,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.final_cpu_time, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.final_cpu_time = 1_000_000;
+        expected.name = NAME;
+        expected.final_cpu_time = 1_000_000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -315,11 +307,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.final_elapsed_time, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.final_elapsed_time = TEN_BILLION;
+        expected.name = NAME;
+        expected.final_elapsed_time = TEN_BILLION;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -334,11 +325,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.state, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.state = 1000;
+        expected.name = NAME;
+        expected.state = 1000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -353,11 +343,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.report_deadline, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.report_deadline = TEN_BILLION;
+        expected.name = NAME;
+        expected.report_deadline = TEN_BILLION;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -372,11 +361,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.received_time, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.received_time = TEN_BILLION;
+        expected.name = NAME;
+        expected.received_time = TEN_BILLION;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -391,11 +379,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.estimated_cpu_time_remaining, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.estimated_cpu_time_remaining = TEN_BILLION;
+        expected.name = NAME;
+        expected.estimated_cpu_time_remaining = TEN_BILLION;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -410,11 +397,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.exit_status, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.exit_status = 0;
+        expected.name = NAME;
+        expected.exit_status = 0;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -429,11 +415,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.suspended_via_gui, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.suspended_via_gui = false;
+        expected.name = NAME;
+        expected.suspended_via_gui = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -448,11 +433,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.suspended_via_gui, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.suspended_via_gui = true;
+        expected.name = NAME;
+        expected.suspended_via_gui = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -467,11 +451,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.project_suspended_via_gui, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.project_suspended_via_gui = false;
+        expected.name = NAME;
+        expected.project_suspended_via_gui = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -486,11 +469,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.project_suspended_via_gui, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.project_suspended_via_gui = true;
+        expected.name = NAME;
+        expected.project_suspended_via_gui = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -505,11 +487,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.resources, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.resources = "Resources";
+        expected.name = NAME;
+        expected.resources = "Resources";
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -525,12 +506,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.active_task_state = 1;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.active_task_state = 1;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -546,12 +526,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.app_version_num = 10;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.app_version_num = 10;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -567,12 +546,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.scheduler_state = 1000;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.scheduler_state = 1000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -588,12 +566,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.checkpoint_cpu_time = 150_000;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.checkpoint_cpu_time = 150_000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -609,12 +586,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.current_cpu_time = 100_000;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.current_cpu_time = 100_000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -630,12 +606,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.fraction_done = 0.67f;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.fraction_done = 0.67f;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -651,12 +626,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.elapsed_time = 2500;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.elapsed_time = 2500;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -672,12 +646,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.swap_size = 2500;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.swap_size = 2500;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -694,12 +667,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.working_set_size_smoothed = 2500;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.working_set_size_smoothed = 2500;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -716,12 +688,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.estimated_cpu_time_remaining = 1000;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.estimated_cpu_time_remaining = 1000;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -738,12 +709,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.supports_graphics = false;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.supports_graphics = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -760,12 +730,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.supports_graphics = true;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.supports_graphics = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -782,12 +751,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.graphics_mode_acked = 1;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.graphics_mode_acked = 1;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -804,12 +772,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.too_large = false;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.too_large = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -826,12 +793,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.too_large = true;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.too_large = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -848,12 +814,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.needs_shmem = false;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.needs_shmem = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -870,12 +835,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.needs_shmem = true;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.needs_shmem = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -892,12 +856,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.edf_scheduled = false;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.edf_scheduled = false;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -914,12 +877,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.edf_scheduled = true;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.edf_scheduled = true;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -936,12 +898,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.pid = 1;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.pid = 1;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -958,12 +919,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.slot = 1;
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.slot = 1;
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -980,12 +940,11 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.graphics_exec_path = "/path/to/graphics";
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.graphics_exec_path = "/path/to/graphics";
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 
     @Test
@@ -1002,11 +961,10 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.active_task, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        final Result result = new Result();
-        result.name = NAME;
-        result.active_task = true;
-        result.slot_path = "/path/to/slot";
+        expected.name = NAME;
+        expected.active_task = true;
+        expected.slot_path = "/path/to/slot";
 
-        assertEquals(Collections.singletonList(result), resultsParser.getResults());
+        assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
 }

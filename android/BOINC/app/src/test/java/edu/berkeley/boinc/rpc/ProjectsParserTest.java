@@ -44,10 +44,12 @@ public class ProjectsParserTest {
     private static final String MASTER_URL = "Master URL";
 
     private ProjectsParser projectsParser;
+    private Project expected;
 
     @Before
     public void setUp() {
         projectsParser = new ProjectsParser();
+        expected = new Project();
     }
 
     @Test
@@ -98,7 +100,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.master_url, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
@@ -118,13 +119,12 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expectedProject = new Project();
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expectedProject.master_url = MASTER_URL;
+        expected.master_url = MASTER_URL;
         expectedGuiUrl.name = GUI_URL_NAME;
-        expectedProject.gui_urls.add(expectedGuiUrl);
+        expected.gui_urls.add(expectedGuiUrl);
 
-        assertEquals(Collections.singletonList(expectedProject), projectsParser.getProjects());
+        assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
 
     @Test
@@ -141,13 +141,12 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expectedProject = new Project();
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expectedProject.master_url = MASTER_URL;
+        expected.master_url = MASTER_URL;
         expectedGuiUrl.description = GUI_URL_DESCRIPTION;
-        expectedProject.gui_urls.add(expectedGuiUrl);
+        expected.gui_urls.add(expectedGuiUrl);
 
-        assertEquals(Collections.singletonList(expectedProject), projectsParser.getProjects());
+        assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
 
     @Test
@@ -164,13 +163,12 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expectedProject = new Project();
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expectedProject.master_url = MASTER_URL;
+        expected.master_url = MASTER_URL;
         expectedGuiUrl.url = GUI_URL_URL;
-        expectedProject.gui_urls.add(expectedGuiUrl);
+        expected.gui_urls.add(expectedGuiUrl);
 
-        assertEquals(Collections.singletonList(expectedProject), projectsParser.getProjects());
+        assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
 
     @Test
@@ -193,12 +191,11 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expectedProject = new Project();
         final GuiUrl expectedGuiUrl = new GuiUrl(GUI_URL_NAME, GUI_URL_DESCRIPTION, GUI_URL_URL);
-        expectedProject.master_url = MASTER_URL;
-        expectedProject.gui_urls.add(expectedGuiUrl);
+        expected.master_url = MASTER_URL;
+        expected.gui_urls.add(expectedGuiUrl);
 
-        assertEquals(Collections.singletonList(expectedProject), projectsParser.getProjects());
+        assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
 
     @Test
@@ -213,7 +210,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.project_dir, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.project_dir = "/path/to/project";
 
@@ -232,7 +228,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.resource_share, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.resource_share = 1.5f;
 
@@ -251,7 +246,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.project_name, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.project_name = "Project Name";
 
@@ -270,7 +264,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.user_name, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.user_name = "John";
 
@@ -289,7 +282,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.team_name, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.team_name = "Team Name";
 
@@ -308,7 +300,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.host_venue, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.host_venue = "Host Venue";
 
@@ -327,7 +318,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.hostid, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.hostid = 1;
 
@@ -346,7 +336,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.user_total_credit, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.user_total_credit = 100.5;
 
@@ -365,7 +354,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.user_expavg_credit, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.user_expavg_credit = 50.5;
 
@@ -384,7 +372,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.host_total_credit, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.host_total_credit = 200.5;
 
@@ -403,7 +390,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.host_expavg_credit, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.host_expavg_credit = 100.5;
 
@@ -422,7 +408,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.nrpc_failures, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.nrpc_failures = 1;
 
@@ -441,7 +426,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.master_fetch_failures, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.master_fetch_failures = 1;
 
@@ -460,7 +444,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.min_rpc_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.min_rpc_time = 1;
 
@@ -479,7 +462,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.download_backoff, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.download_backoff = 1;
 
@@ -498,7 +480,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.upload_backoff, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.upload_backoff = 1;
 
@@ -517,7 +498,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.SHORT_TERM_DEBT_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cpu_short_term_debt = 1;
 
@@ -536,7 +516,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.LONG_TERM_DEBT_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cpu_long_term_debt = 1;
 
@@ -555,7 +534,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cpu_backoff_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cpu_backoff_time = 1;
 
@@ -574,7 +552,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cpu_backoff_interval, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cpu_backoff_interval = 1;
 
@@ -593,7 +570,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cuda_debt, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cuda_debt = 1;
 
@@ -612,7 +588,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cuda_short_term_debt, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cuda_short_term_debt = 1;
 
@@ -631,7 +606,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cuda_backoff_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cuda_backoff_time = 1;
 
@@ -650,7 +624,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.cuda_backoff_interval, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.cuda_backoff_interval = 1;
 
@@ -669,7 +642,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ati_debt, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ati_debt = 1;
 
@@ -688,7 +660,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ati_short_term_debt, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ati_short_term_debt = 1;
 
@@ -707,7 +678,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ati_backoff_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ati_backoff_time = 1;
 
@@ -726,7 +696,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ati_backoff_interval, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ati_backoff_interval = 1;
 
@@ -745,7 +714,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.duration_correction_factor, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.duration_correction_factor = 1;
 
@@ -764,7 +732,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.master_url_fetch_pending = false;
 
@@ -783,7 +750,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.master_url_fetch_pending = true;
 
@@ -802,7 +768,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.sched_rpc_pending, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.sched_rpc_pending = 1;
 
@@ -821,7 +786,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.non_cpu_intensive, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.non_cpu_intensive = false;
 
@@ -840,7 +804,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.non_cpu_intensive, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.non_cpu_intensive = true;
 
@@ -859,7 +822,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.suspended_via_gui = false;
 
@@ -878,7 +840,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.suspended_via_gui = true;
 
@@ -897,7 +858,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.dont_request_more_work = false;
 
@@ -916,7 +876,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.dont_request_more_work = true;
 
@@ -935,7 +894,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.scheduler_rpc_in_progress = false;
 
@@ -954,7 +912,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.scheduler_rpc_in_progress = true;
 
@@ -973,7 +930,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.attached_via_acct_mgr = false;
 
@@ -992,7 +948,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.attached_via_acct_mgr = true;
 
@@ -1011,7 +966,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.detach_when_done, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.detach_when_done = false;
 
@@ -1030,7 +984,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.detach_when_done, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.detach_when_done = true;
 
@@ -1049,7 +1002,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ended, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ended = false;
 
@@ -1068,7 +1020,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.ended, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.ended = true;
 
@@ -1087,7 +1038,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.trickle_up_pending = false;
 
@@ -1106,7 +1056,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.trickle_up_pending = true;
 
@@ -1125,7 +1074,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.project_files_downloaded_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.project_files_downloaded_time = 10;
 
@@ -1144,7 +1092,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.last_rpc_time, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.last_rpc_time = 1;
 
@@ -1163,7 +1110,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_cpu_pref = false;
 
@@ -1182,7 +1128,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_cpu_pref = true;
 
@@ -1201,7 +1146,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_cuda_pref = false;
 
@@ -1220,7 +1164,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_cuda_pref = true;
 
@@ -1239,7 +1182,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_ati_pref = false;
 
@@ -1258,7 +1200,6 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
-        final Project expected = new Project();
         expected.master_url = MASTER_URL;
         expected.no_ati_pref = true;
 

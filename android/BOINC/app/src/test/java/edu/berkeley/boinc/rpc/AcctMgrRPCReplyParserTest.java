@@ -36,10 +36,12 @@ public class AcctMgrRPCReplyParserTest {
     private static final String MESSAGE = "Message";
 
     private AcctMgrRPCReplyParser acctMgrRPCReplyParser;
+    private AcctMgrRPCReply expected;
 
     @Before
     public void setUp() {
         acctMgrRPCReplyParser = new AcctMgrRPCReplyParser();
+        expected = new AcctMgrRPCReply();
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        assertEquals(new AcctMgrRPCReply(), acctMgrRPCReplyParser.getAccountMgrRPCReply());
+        assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
     }
 
     @Test
@@ -96,7 +98,9 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        assertEquals(new AcctMgrRPCReply(1), acctMgrRPCReplyParser.getAccountMgrRPCReply());
+        expected.error_num = 1;
+
+        assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
     }
 
     @Test
@@ -111,7 +115,7 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        final AcctMgrRPCReply expected = new AcctMgrRPCReply(1);
+        expected.error_num = 1;
         expected.messages.add(MESSAGE);
 
         assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
@@ -132,7 +136,7 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        final AcctMgrRPCReply expected = new AcctMgrRPCReply(1);
+        expected.error_num = 1;
         expected.messages.add(MESSAGE + " 1");
         expected.messages.add(MESSAGE + " 2");
 

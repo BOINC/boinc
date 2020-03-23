@@ -37,10 +37,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Xml.class)
 public class VersionInfoParserTest {
     private VersionInfoParser versionInfoParser;
+    private VersionInfo expected;
 
     @Before
     public void setUp() {
         versionInfoParser = new VersionInfoParser();
+        expected = new VersionInfo();
     }
 
     @Test
@@ -78,7 +80,7 @@ public class VersionInfoParserTest {
         versionInfoParser.startElement(null, VersionInfoParser.SERVER_VERSION_TAG, null, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        assertEquals(new VersionInfo(), versionInfoParser.getVersionInfo());
+        assertEquals(expected, versionInfoParser.getVersionInfo());
     }
 
     @Test
@@ -90,7 +92,7 @@ public class VersionInfoParserTest {
         versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        assertEquals(new VersionInfo(), versionInfoParser.getVersionInfo());
+        assertEquals(expected, versionInfoParser.getVersionInfo());
     }
 
     @Test
@@ -102,7 +104,7 @@ public class VersionInfoParserTest {
         versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        final VersionInfo expected = new VersionInfo(1);
+        expected.major = 1;
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }
@@ -119,7 +121,8 @@ public class VersionInfoParserTest {
         versionInfoParser.endElement(null, VersionInfo.Fields.minor, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        final VersionInfo expected = new VersionInfo(1, 1);
+        expected.major = 1;
+        expected.minor = 1;
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }
@@ -139,7 +142,9 @@ public class VersionInfoParserTest {
         versionInfoParser.endElement(null, VersionInfo.Fields.release, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        final VersionInfo expected = new VersionInfo(1, 1, 1);
+        expected.major = 1;
+        expected.minor = 1;
+        expected.release = 1;
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }

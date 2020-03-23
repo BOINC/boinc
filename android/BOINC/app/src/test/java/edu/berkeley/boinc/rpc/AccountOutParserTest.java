@@ -38,10 +38,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Xml.class)
 public class AccountOutParserTest {
     private AccountOutParser accountOutParser;
+    private AccountOut expected;
 
     @Before
     public void setUp() {
         accountOutParser = new AccountOutParser();
+        expected = new AccountOut();
     }
 
     @Test
@@ -92,7 +94,6 @@ public class AccountOutParserTest {
         accountOutParser.endElement(null, AccountOut.Fields.error_num, null);
         accountOutParser.endElement(null, "?>", null);
 
-        final AccountOut expected = new AccountOut();
         expected.error_num = 1;
 
         assertEquals(expected, accountOutParser.getAccountOut());
@@ -106,7 +107,6 @@ public class AccountOutParserTest {
         accountOutParser.endElement(null, AccountOut.Fields.error_msg, null);
         accountOutParser.endElement(null, "?>", null);
 
-        final AccountOut expected = new AccountOut();
         expected.error_msg = "Error message";
 
         assertEquals(expected, accountOutParser.getAccountOut());
@@ -120,7 +120,6 @@ public class AccountOutParserTest {
         accountOutParser.endElement(null, AccountOut.Fields.authenticator, null);
         accountOutParser.endElement(null, "?>", null);
 
-        final AccountOut expected = new AccountOut();
         expected.authenticator = "Authenticator";
 
         assertEquals(expected, accountOutParser.getAccountOut());

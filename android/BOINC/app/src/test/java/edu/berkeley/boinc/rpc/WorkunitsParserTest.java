@@ -38,10 +38,12 @@ public class WorkunitsParserTest {
     private static final String WORK_UNIT_NAME = "Work Unit";
 
     private WorkunitsParser workunitsParser;
+    private Workunit expected;
 
     @Before
     public void setUp() {
         workunitsParser = new WorkunitsParser();
+        expected = new Workunit();
     }
 
     @Test
@@ -104,10 +106,9 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.name, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = "Work Unit";
+        expected.name = "Work Unit";
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -122,11 +123,10 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.app_name, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.app_name = "App";
+        expected.name = WORK_UNIT_NAME;
+        expected.app_name = "App";
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -141,10 +141,9 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.version_num, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
+        expected.name = WORK_UNIT_NAME;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -159,11 +158,10 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.version_num, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.version_num = 1;
+        expected.name = WORK_UNIT_NAME;
+        expected.version_num = 1;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -178,11 +176,10 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.rsc_fpops_est, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.rsc_fpops_est = 1.5;
+        expected.name = WORK_UNIT_NAME;
+        expected.rsc_fpops_est = 1.5;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -197,11 +194,10 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.rsc_fpops_bound, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.rsc_fpops_bound = 1.5;
+        expected.name = WORK_UNIT_NAME;
+        expected.rsc_fpops_bound = 1.5;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -216,11 +212,10 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.rsc_memory_bound, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.rsc_memory_bound = 1.5;
+        expected.name = WORK_UNIT_NAME;
+        expected.rsc_memory_bound = 1.5;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 
     @Test
@@ -235,10 +230,9 @@ public class WorkunitsParserTest {
         workunitsParser.endElement(null, Workunit.Fields.rsc_disk_bound, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
-        final Workunit workunit = new Workunit();
-        workunit.name = WORK_UNIT_NAME;
-        workunit.rsc_disk_bound = 1.5;
+        expected.name = WORK_UNIT_NAME;
+        expected.rsc_disk_bound = 1.5;
 
-        assertEquals(Collections.singletonList(workunit), workunitsParser.getWorkunits());
+        assertEquals(Collections.singletonList(expected), workunitsParser.getWorkunits());
     }
 }

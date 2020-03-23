@@ -41,12 +41,4 @@ public class VersionInfo {
     VersionInfo() {
         this(0, 0, 0);
     }
-
-    VersionInfo(int major) {
-        this(major, 0, 0);
-    }
-
-    VersionInfo(int major, int minor) {
-        this(major, minor, 0);
-    }
 }

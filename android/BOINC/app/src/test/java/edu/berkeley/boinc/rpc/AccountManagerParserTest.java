@@ -45,11 +45,13 @@ public class AccountManagerParserTest {
 
     private AccountManagerParser accountManagerParser;
     private List<AccountManager> accountManagers;
+    private AccountManager expected;
 
     @Before
     public void setUp() {
         accountManagerParser = new AccountManagerParser();
         accountManagers = accountManagerParser.getAccountManagerInfo();
+        expected = new AccountManager();
     }
 
     @Test
@@ -125,7 +127,6 @@ public class AccountManagerParserTest {
         accountManagerParser.endElement(null, AccountManager.Fields.name, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        final AccountManager expected = new AccountManager();
         expected.name = ACCOUNT_MANAGER;
 
         assertEquals(1, accountManagers.size());
@@ -144,7 +145,6 @@ public class AccountManagerParserTest {
         accountManagerParser.endElement(null, AccountManager.Fields.url, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        final AccountManager expected = new AccountManager();
         expected.name = ACCOUNT_MANAGER;
         expected.url = "URL";
 
@@ -167,7 +167,6 @@ public class AccountManagerParserTest {
         accountManagerParser.endElement(null, AccountManager.Fields.description, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        final AccountManager expected = new AccountManager();
         expected.name = ACCOUNT_MANAGER;
         expected.url = "URL";
         expected.description = DESCRIPTION;
@@ -194,9 +193,13 @@ public class AccountManagerParserTest {
         accountManagerParser.endElement(null, AccountManagerParser.IMAGE_TAG, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
+        expected.name = ACCOUNT_MANAGER;
+        expected.url = "URL";
+        expected.description = DESCRIPTION;
+        expected.imageUrl = IMAGE_URL;
+
         assertEquals(1, accountManagers.size());
-        assertEquals(new AccountManager(ACCOUNT_MANAGER, "URL", DESCRIPTION, IMAGE_URL),
-                     accountManagers.get(0));
+        assertEquals(expected, accountManagers.get(0));
     }
 
     @Test
@@ -235,15 +238,17 @@ public class AccountManagerParserTest {
         accountManagerParser.endElement(null, AccountManagerParser.IMAGE_TAG, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        final AccountManager expected1 =
-                new AccountManager(
-                        ACCOUNT_MANAGER + " 1", "URL 1", DESCRIPTION + " 1", "Image URL 1");
-        final AccountManager expected2 =
-                new AccountManager(
-                        ACCOUNT_MANAGER + " 2", "URL 2", DESCRIPTION + " 2", "Image URL 2");
+        expected.name = ACCOUNT_MANAGER + " 1";
+        expected.url = "URL 1";
+        expected.description = DESCRIPTION + " 1";
+        expected.imageUrl = IMAGE_URL + " 1";
+        final AccountManager expected2 = new AccountManager(ACCOUNT_MANAGER + " 2",
+                                                            "URL 2",
+                                                            DESCRIPTION + " 2",
+                                                            IMAGE_URL + " 2");
 
         assertEquals(2, accountManagers.size());
-        assertEquals(expected1, accountManagers.get(0));
+        assertEquals(expected, accountManagers.get(0));
         assertEquals(expected2, accountManagers.get(1));
     }
 }

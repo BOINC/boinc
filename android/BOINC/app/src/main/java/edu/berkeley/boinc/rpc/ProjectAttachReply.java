@@ -27,14 +27,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class ProjectAttachReply {
-    public int error_num;
+    public int error_num = 0;
     public final List<String> messages = new ArrayList<>();
-
-    ProjectAttachReply(int error_num) {
-        this.error_num = error_num;
-    }
-
-    ProjectAttachReply() {
-        this(0);
-    }
 }

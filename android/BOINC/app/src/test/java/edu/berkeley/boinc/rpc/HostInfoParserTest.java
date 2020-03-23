@@ -56,10 +56,12 @@ public class HostInfoParserTest {
     private static final String VIRTUALBOX_VERSION = "6.0.18";
 
     private HostInfoParser hostInfoParser;
+    private HostInfo expected;
 
     @Before
     public void setUp() {
         hostInfoParser = new HostInfoParser();
+        expected = new HostInfo();
     }
 
     @Test
@@ -109,7 +111,7 @@ public class HostInfoParserTest {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        assertEquals(new HostInfo(), hostInfoParser.getHostInfo());
+        assertEquals(expected, hostInfoParser.getHostInfo());
     }
 
     @Test
@@ -120,7 +122,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.timezone, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.timezone = 1;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -138,7 +139,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.timezone, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.domain_name = DOMAIN_NAME;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -152,7 +152,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.domain_name, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.domain_name = DOMAIN_NAME;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -166,7 +165,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.ip_addr, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.ip_addr = IP_ADDRESS;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -180,7 +178,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.host_cpid, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.host_cpid = HOST_CPID;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -194,7 +191,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_ncpus, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_ncpus = 1;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -208,7 +204,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_vendor, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_vendor = VENDOR;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -222,7 +217,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_model, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_model = MODEL;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -236,7 +230,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_features, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_features = FEATURES;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -250,7 +243,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_fpops, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_fpops = 1.5;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -264,7 +256,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_iops, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_iops = 1.5;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -278,7 +269,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_membw, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_membw = 1.5;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -292,7 +282,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.p_calculated, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.p_calculated = 0L;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -306,7 +295,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.product_name, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.product_name = PRODUCT_NAME;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -320,7 +308,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.m_nbytes, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.m_nbytes = 1_073_741_824.0;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -334,7 +321,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.m_cache, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.m_cache = 1_073_741_824.0;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -348,7 +334,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.m_swap, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.m_swap = 1_073_741_824.0;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -362,7 +347,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.d_total, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.d_total = TOTAL_SPACE;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -376,7 +360,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.d_free, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.d_free = FREE_SPACE;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -390,7 +373,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.os_name, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.os_name = OS_NAME;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -404,7 +386,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.os_version, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.os_version = OS_VERSION;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -418,7 +399,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.virtualbox_version, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.virtualbox_version = VIRTUALBOX_VERSION;
 
         assertEquals(expected, hostInfoParser.getHostInfo());
@@ -493,7 +473,6 @@ public class HostInfoParserTest {
         hostInfoParser.endElement(null, HostInfo.Fields.virtualbox_version, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        final HostInfo expected = new HostInfo();
         expected.timezone = 1;
         expected.domain_name = DOMAIN_NAME;
         expected.ip_addr = IP_ADDRESS;

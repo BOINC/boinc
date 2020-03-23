@@ -45,24 +45,26 @@ public class CcStateParserTest {
     private static final String FREE_SPACE_STR = Long.toString(FREE_SPACE);
 
     private CcStateParser ccStateParser;
+    private CcState expected;
 
     @Before
     public void setUp() {
         ccStateParser = new CcStateParser();
+        expected = new CcState();
     }
 
     @Test
     public void testParse_whenRpcStringIsNull_thenExpectDefaultCcState() {
         mockStatic(Xml.class);
 
-        assertEquals(new CcState(), CcStateParser.parse(null));
+        assertEquals(expected, CcStateParser.parse(null));
     }
 
     @Test
     public void testParse_whenRpcStringIsEmpty_thenExpectDefaultCcState() {
         mockStatic(Xml.class);
 
-        assertEquals(new CcState(), CcStateParser.parse(""));
+        assertEquals(expected, CcStateParser.parse(""));
     }
 
     @Test
@@ -85,7 +87,7 @@ public class CcStateParserTest {
     public void testParser_whenLocalNameIsEmpty_thenExpectDefaultCcState() throws SAXException {
         ccStateParser.startElement(null, "", null, null);
 
-        assertEquals(new CcState(), ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -93,7 +95,7 @@ public class CcStateParserTest {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
-        assertEquals(new CcState(), ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -136,10 +138,9 @@ public class CcStateParserTest {
         final App expectedApp = new App("App", "App (Friendly Name)", 1);
         expectedApp.project = new Project();
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.apps.add(expectedApp);
+        expected.apps.add(expectedApp);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -159,10 +160,9 @@ public class CcStateParserTest {
         final AppVersion expectedAppVersion = new AppVersion("App", 1);
         expectedAppVersion.project = new Project();
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.app_versions.add(expectedAppVersion);
+        expected.app_versions.add(expectedAppVersion);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -259,10 +259,9 @@ public class CcStateParserTest {
         expectedHostInfo.os_version = "Q";
         expectedHostInfo.virtualbox_version = "6.0.18";
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.host_info = expectedHostInfo;
+        expected.host_info = expectedHostInfo;
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -295,10 +294,9 @@ public class CcStateParserTest {
         expectedProject.gui_urls.add(new GuiUrl("GUI URL Name", "GUI URL Description", "GUI URL URL"));
         expectedProject.no_ati_pref = true;
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.projects.add(expectedProject);
+        expected.projects.add(expectedProject);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -323,10 +321,9 @@ public class CcStateParserTest {
         expectedResult.project = new Project();
         expectedResult.slot_path = "/path/to/slot";
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.results.add(expectedResult);
+        expected.results.add(expectedResult);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -344,10 +341,9 @@ public class CcStateParserTest {
         ccStateParser.endElement(null, CcStateParser.CORE_CLIENT_RELEASE_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.version_info = new VersionInfo(1, 1, 1);
+        expected.version_info = new VersionInfo(1, 1, 1);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 
     @Test
@@ -368,9 +364,8 @@ public class CcStateParserTest {
         expectedWorkUnit.rsc_disk_bound = 1.5;
         expectedWorkUnit.project = new Project();
 
-        final CcState expectedCcState = new CcState();
-        expectedCcState.workunits.add(expectedWorkUnit);
+        expected.workunits.add(expectedWorkUnit);
 
-        assertEquals(expectedCcState, ccStateParser.getCcState());
+        assertEquals(expected, ccStateParser.getCcState());
     }
 }

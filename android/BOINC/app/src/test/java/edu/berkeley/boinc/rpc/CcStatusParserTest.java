@@ -37,10 +37,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Xml.class)
 public class CcStatusParserTest {
     private CcStatusParser ccStatusParser;
+    private CcStatus expected;
 
     @Before
     public void setUp() {
         ccStatusParser = new CcStatusParser();
+        expected = new CcStatus();
     }
 
     @Test
@@ -96,7 +98,7 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.task_mode, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        assertEquals(new CcStatus(), ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -107,10 +109,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.task_mode, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.task_mode = 1;
+        expected.task_mode = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -121,10 +122,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.task_mode_perm, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.task_mode_perm = 1;
+        expected.task_mode_perm = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -135,10 +135,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.task_mode_delay, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.task_mode_delay = 1.5;
+        expected.task_mode_delay = 1.5;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -149,10 +148,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.task_suspend_reason, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.task_suspend_reason = 1;
+        expected.task_suspend_reason = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -163,10 +161,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.network_mode, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.network_mode = 1;
+        expected.network_mode = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -177,10 +174,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.network_mode_perm, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.network_mode_perm = 1;
+        expected.network_mode_perm = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -191,10 +187,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.network_mode_delay, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.network_mode_delay = 1.5;
+        expected.network_mode_delay = 1.5;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -205,10 +200,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.network_suspend_reason, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.network_suspend_reason = 1;
+        expected.network_suspend_reason = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -219,10 +213,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.network_status, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.network_status = 1;
+        expected.network_status = 1;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -233,10 +226,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.ams_password_error = true;
+        expected.ams_password_error = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -247,10 +239,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.ams_password_error = false;
+        expected.ams_password_error = false;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -261,10 +252,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.ams_password_error = true;
+        expected.ams_password_error = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -275,10 +265,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.manager_must_quit = true;
+        expected.manager_must_quit = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -289,10 +278,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.manager_must_quit = false;
+        expected.manager_must_quit = false;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -303,10 +291,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.manager_must_quit = true;
+        expected.manager_must_quit = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -317,10 +304,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.disallow_attach = true;
+        expected.disallow_attach = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -331,10 +317,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.disallow_attach = false;
+        expected.disallow_attach = false;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -345,10 +330,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.disallow_attach = true;
+        expected.disallow_attach = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -359,10 +343,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.simple_gui_only = true;
+        expected.simple_gui_only = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -373,10 +356,9 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.simple_gui_only = false;
+        expected.simple_gui_only = false;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 
     @Test
@@ -387,9 +369,8 @@ public class CcStatusParserTest {
         ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        final CcStatus expectedCcStatus = new CcStatus();
-        expectedCcStatus.simple_gui_only = true;
+        expected.simple_gui_only = true;
 
-        assertEquals(expectedCcStatus, ccStatusParser.getCcStatus());
+        assertEquals(expected, ccStatusParser.getCcStatus());
     }
 }

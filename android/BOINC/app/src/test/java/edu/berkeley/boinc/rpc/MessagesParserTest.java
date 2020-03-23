@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -27,6 +28,13 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 public class MessagesParserTest {
+    private Message expected;
+
+    @Before
+    public void setUp() {
+        expected = new Message();
+    }
+
     @Test
     public void testParse_whenRpcResultIsNull_thenExpectNullPointerException() {
         assertThrows(NullPointerException.class, () -> MessagesParser.parse(null));
@@ -44,47 +52,44 @@ public class MessagesParserTest {
 
     @Test
     public void testParse_whenRpcResultHasOneMessage_thenExpectListWithMatchingMessage() {
-        final Message expectedMessage = new Message();
-        expectedMessage.body = "Body";
-        expectedMessage.timestamp = 10;
-        expectedMessage.seqno = 1;
-        expectedMessage.priority = 1;
-        expectedMessage.project = "Project";
+        expected.body = "Body";
+        expected.timestamp = 10;
+        expected.seqno = 1;
+        expected.priority = 1;
+        expected.project = "Project";
 
         final String input = "<msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
                              "<pri>1</pri><project>Project</project></msg></msgs>";
 
-        assertEquals(Collections.singletonList(expectedMessage), MessagesParser.parse(input));
+        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
     }
 
     @Test
     public void testParse_whenRpcResultHasOneMessageWithLeadingWhitespace_thenExpectListWithMatchingMessage() {
-        final Message expectedMessage = new Message();
-        expectedMessage.body = "Body";
-        expectedMessage.timestamp = 10;
-        expectedMessage.seqno = 1;
-        expectedMessage.priority = 1;
-        expectedMessage.project = "Project";
+        expected.body = "Body";
+        expected.timestamp = 10;
+        expected.seqno = 1;
+        expected.priority = 1;
+        expected.project = "Project";
 
         final String input = "       <msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
                              "<pri>1</pri><project>Project</project></msg></msgs>";
 
-        assertEquals(Collections.singletonList(expectedMessage), MessagesParser.parse(input));
+        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
     }
 
     @Test
     public void testParse_whenRpcResultHasOneMessageWithUnknownTag_thenExpectListWithMatchingMessage() {
-        final Message expectedMessage = new Message();
-        expectedMessage.body = "Body";
-        expectedMessage.timestamp = 10;
-        expectedMessage.seqno = 1;
-        expectedMessage.priority = 1;
-        expectedMessage.project = "Project";
+        expected.body = "Body";
+        expected.timestamp = 10;
+        expected.seqno = 1;
+        expected.priority = 1;
+        expected.project = "Project";
 
         final String input = "<msgs><msg><tag></tag><body>Body</body><time>10</time><seqno>1</seqno>"
                              + "<pri>1</pri><project>Project</project></msg></msgs>";
 
-        assertEquals(Collections.singletonList(expectedMessage), MessagesParser.parse(input));
+        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
     }
 
     @Test

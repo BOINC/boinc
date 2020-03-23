@@ -34,10 +34,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Xml.class)
 public class GlobalPreferencesParserTest {
     private GlobalPreferencesParser globalPreferencesParser;
+    private GlobalPreferences expected;
 
     @Before
     public void setUp() {
         globalPreferencesParser = new GlobalPreferencesParser();
+        expected = new GlobalPreferences();
     }
 
     @Test
@@ -87,7 +89,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        assertEquals(new GlobalPreferences(), globalPreferencesParser.getGlobalPreferences());
+        assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
 
     @Test
@@ -103,7 +105,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_on_batteries = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -122,7 +123,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_on_batteries = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -157,7 +157,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.battery_charge_min_pct = 50.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -176,7 +175,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.battery_max_temperature = 35.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -195,7 +193,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_gpu_if_user_active = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -214,7 +211,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_gpu_if_user_active = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -233,7 +229,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_if_user_active = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -252,7 +247,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.run_if_user_active = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -271,7 +265,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.idle_time_to_run = 10.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -290,7 +283,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.suspend_cpu_usage = 60.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -309,7 +301,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.leave_apps_in_memory = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -328,7 +319,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.leave_apps_in_memory = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -347,7 +337,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.dont_verify_images = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -366,7 +355,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.dont_verify_images = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -385,7 +373,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.work_buf_min_days = 0.00001;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -404,7 +391,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.work_buf_min_days = 1.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -423,7 +409,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.work_buf_additional_days = 0.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -442,7 +427,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.work_buf_additional_days = 1.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -461,7 +445,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.max_ncpus_pct = 0.75;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -480,7 +463,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.cpu_scheduling_period_minutes = 60.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -499,7 +481,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.cpu_scheduling_period_minutes = 1.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -518,7 +499,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.disk_interval = 1.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -537,7 +517,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.disk_max_used_gb = 10.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -556,7 +535,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.disk_max_used_pct = 10.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -575,7 +553,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.disk_min_free_gb = 5.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -594,7 +571,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.ram_max_used_busy_frac = 0.5;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -613,7 +589,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.ram_max_used_idle_frac = 0.5;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -632,7 +607,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.max_bytes_sec_up = 0.5;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -651,7 +625,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.max_bytes_sec_down = 0.5;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -670,7 +643,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.cpu_usage_limit = 60.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -689,7 +661,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.daily_xfer_limit_mb = 250.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -708,7 +679,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.daily_xfer_period_days = 2;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -727,7 +697,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.cpu_times.start_hour = 7.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -746,7 +715,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.cpu_times.end_hour = 18.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -765,7 +733,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.net_times.start_hour = 7.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -784,7 +751,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.net_times.end_hour = 18.0;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -803,7 +769,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.override_file_present = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -822,7 +787,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.override_file_present = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -841,7 +805,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.network_wifi_only = false;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -860,7 +823,6 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expected = new GlobalPreferences();
         expected.network_wifi_only = true;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
@@ -888,12 +850,11 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expectedGlobalPreferences = new GlobalPreferences();
         final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
         expectedTimeSpan.start_hour = 7.0;
-        expectedGlobalPreferences.cpu_times.week_prefs[1] = expectedTimeSpan;
+        expected.cpu_times.week_prefs[1] = expectedTimeSpan;
 
-        assertEquals(expectedGlobalPreferences, globalPreferencesParser.getGlobalPreferences());
+        assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
 
     @Test
@@ -918,12 +879,11 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expectedGlobalPreferences = new GlobalPreferences();
         final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
         expectedTimeSpan.end_hour = 18.0;
-        expectedGlobalPreferences.cpu_times.week_prefs[1] = expectedTimeSpan;
+        expected.cpu_times.week_prefs[1] = expectedTimeSpan;
 
-        assertEquals(expectedGlobalPreferences, globalPreferencesParser.getGlobalPreferences());
+        assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
 
     @Test
@@ -948,12 +908,11 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expectedGlobalPreferences = new GlobalPreferences();
         final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
         expectedTimeSpan.start_hour = 7.0;
-        expectedGlobalPreferences.net_times.week_prefs[2] = expectedTimeSpan;
+        expected.net_times.week_prefs[2] = expectedTimeSpan;
 
-        assertEquals(expectedGlobalPreferences, globalPreferencesParser.getGlobalPreferences());
+        assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
 
     @Test
@@ -978,11 +937,10 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final GlobalPreferences expectedGlobalPreferences = new GlobalPreferences();
         final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
         expectedTimeSpan.end_hour = 18.0;
-        expectedGlobalPreferences.net_times.week_prefs[2] = expectedTimeSpan;
+        expected.net_times.week_prefs[2] = expectedTimeSpan;
 
-        assertEquals(expectedGlobalPreferences, globalPreferencesParser.getGlobalPreferences());
+        assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
 }

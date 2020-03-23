@@ -42,10 +42,12 @@ public class AppVersionsParserTest {
     private static final String APP_NAME = "App Name";
 
     private AppVersionsParser appVersionsParser;
+    private AppVersion expected;
 
     @Before
     public void setUp() {
         appVersionsParser = new AppVersionsParser();
+        expected = new AppVersion();
     }
 
     @Test
@@ -80,8 +82,9 @@ public class AppVersionsParserTest {
         appVersionsParser.endElement(null, AppVersion.Fields.app_name, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        assertEquals(Collections.singletonList(new AppVersion(APP_NAME)),
-                     appVersionsParser.getAppVersions());
+        expected.app_name = APP_NAME;
+
+        assertEquals(Collections.singletonList(expected), appVersionsParser.getAppVersions());
     }
 
     @Test
@@ -96,8 +99,10 @@ public class AppVersionsParserTest {
         appVersionsParser.endElement(null, AppVersion.Fields.version_num, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        assertEquals(Collections.singletonList(new AppVersion(APP_NAME, 1)),
-                     appVersionsParser.getAppVersions());
+        expected.app_name = APP_NAME;
+        expected.version_num = 1;
+
+        assertEquals(Collections.singletonList(expected), appVersionsParser.getAppVersions());
     }
 
     @Test
@@ -121,8 +126,11 @@ public class AppVersionsParserTest {
         appVersionsParser.endElement(null, AppVersion.Fields.version_num, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        List<AppVersion> appVersions = Arrays.asList(new AppVersion(APP_NAME + " 1", 1),
-                                                     new AppVersion(APP_NAME + " 2", 1));
+        expected.app_name = APP_NAME + " 1";
+        expected.version_num = 1;
+
+        List<AppVersion> appVersions =
+                Arrays.asList(expected, new AppVersion(APP_NAME + " 2", 1));
 
         assertEquals(appVersions, appVersionsParser.getAppVersions());
     }

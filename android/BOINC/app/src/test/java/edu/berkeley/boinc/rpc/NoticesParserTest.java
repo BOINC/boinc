@@ -40,10 +40,12 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({Xml.class, Log.class})
 public class NoticesParserTest {
     private NoticesParser noticesParser;
+    private Notice expected;
 
     @Before
     public void setUp() {
         noticesParser = new NoticesParser();
+        expected = new Notice();
     }
 
     @Test
@@ -113,7 +115,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.seqno, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
@@ -131,7 +132,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.title, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.title = "Notice";
 
@@ -150,7 +150,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.description, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.description = "This is a notice.";
 
@@ -169,7 +168,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.create_time, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.create_time = 1.5;
 
@@ -188,7 +186,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.arrival_time, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.arrival_time = 1.5;
 
@@ -207,7 +204,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.category, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.category = "unknown";
 
@@ -226,7 +222,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.category, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.category = "server";
         expected.isServerNotice = true;
@@ -246,7 +241,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.category, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.category = "scheduler";
         expected.isServerNotice = true;
@@ -266,7 +260,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.category, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.category = "client";
         expected.isClientNotice = true;
@@ -286,7 +279,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.link, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.link = "Link";
 
@@ -305,7 +297,6 @@ public class NoticesParserTest {
         noticesParser.endElement(null, Notice.Fields.project_name, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        final Notice expected = new Notice();
         expected.seqno = 1;
         expected.project_name = "Project Name";
 
