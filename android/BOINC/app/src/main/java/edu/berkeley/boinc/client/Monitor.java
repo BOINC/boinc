@@ -415,7 +415,7 @@ public class Monitor extends Service {
                 CcState state = clientInterface.getState();
                 ArrayList<Transfer> transfers = clientInterface.getFileTransfers();
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
-                ArrayList<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
+                List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 
                 if (status != null && state != null && transfers != null &&
                     state.host_info != null && acctMgrInfo != null) {

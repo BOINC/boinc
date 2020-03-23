@@ -20,7 +20,10 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -28,15 +31,16 @@ import android.util.Log;
 import android.util.Xml;
 
 public class NoticesParser extends BaseParser {
+    static final String NOTICE_TAG = "notice";
 
     private Notice mNotice = null;
-    private ArrayList<Notice> mNotices = new ArrayList<>();
+    private List<Notice> mNotices = new ArrayList<>();
 
-    public final ArrayList<Notice> getNotices() {
+    public final List<Notice> getNotices() {
         return mNotices;
     }
 
-    public static ArrayList<Notice> parse(String rpcResult) {
+    public static List<Notice> parse(String rpcResult) {
         try {
             NoticesParser parser = new NoticesParser();
             Xml.parse(rpcResult.replace("&", "&amp;"), parser);
@@ -44,14 +48,14 @@ public class NoticesParser extends BaseParser {
         }
         catch(SAXException e) {
             Log.d("NoticesParser", "SAXException " + e.getMessage() + e.getException());
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("notice")) {
+        if(localName.equalsIgnoreCase(NOTICE_TAG)) {
             mNotice = new Notice();
         }
         else {
@@ -67,7 +71,7 @@ public class NoticesParser extends BaseParser {
         try {
             if(mNotice != null) {
                 // inside <notice>
-                if(localName.equalsIgnoreCase("notice")) {
+                if(localName.equalsIgnoreCase(NOTICE_TAG)) {
                     // Closing tag
                     if(mNotice.seqno != -1) {
                         // seqno is a must
@@ -77,37 +81,34 @@ public class NoticesParser extends BaseParser {
                 }
                 else {
                     // decode inner tags
-                    if(localName.equalsIgnoreCase("seqno")) {
+                    if(localName.equalsIgnoreCase(Notice.Fields.seqno)) {
                         mNotice.seqno = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("title")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.title)) {
                         mNotice.title = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("description")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.description)) {
                         mNotice.description = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("create_time")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.create_time)) {
                         mNotice.create_time = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("arrival_time")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.arrival_time)) {
                         mNotice.arrival_time = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("category")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.category)) {
                         mNotice.category = mCurrentElement.toString();
-                        if(mNotice.category.equals("server")) {
-                            mNotice.isServerNotice = true;
-                        }
-                        if(mNotice.category.equals("scheduler")) {
+                        if(StringUtils.equalsAny(mNotice.category, "server", "scheduler")) {
                             mNotice.isServerNotice = true;
                         }
                         if(mNotice.category.equals("client")) {
                             mNotice.isClientNotice = true;
                         }
                     }
-                    else if(localName.equalsIgnoreCase("link")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.link)) {
                         mNotice.link = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("project_name")) {
+                    else if(localName.equalsIgnoreCase(Notice.Fields.project_name)) {
                         mNotice.project_name = mCurrentElement.toString();
                     }
                 }
@@ -115,7 +116,8 @@ public class NoticesParser extends BaseParser {
             mElementStarted = false;
         }
         catch(NumberFormatException e) {
-            Log.d("NoticesParser", "NumberFormatException " + localName + " " + mCurrentElement.toString());
+            Log.d("NoticesParser", "NumberFormatException " + localName + " "
+                                   + mCurrentElement.toString());
         }
     }
 }

@@ -516,7 +516,7 @@ public class RpcClient {
      *
      * @return List of Notices
      */
-    public synchronized ArrayList<Notice> getNotices(int seqNo) {
+    public synchronized List<Notice> getNotices(int seqNo) {
         mLastErrorMessage = null;
         try {
             String request;
@@ -530,11 +530,10 @@ public class RpcClient {
                                 "</get_notices>\n";
             }
             sendRequest(request);
-            ArrayList<Notice> notices = NoticesParser.parse(receiveReply());
-            if (notices == null) notices = new ArrayList<>(); // do not return null
-            return notices;
+            return NoticesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getMessages()", e);
             return new ArrayList<>();
         }
     }
