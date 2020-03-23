@@ -64,12 +64,11 @@ public class PlatformInfo implements Parcelable {
         }
     };
 
-    @SuppressWarnings("java:S115")
     public static final class Fields {
         private Fields() {}
 
-        static final String name = "platform_name";
-        static final String friendlyName = "user_friendly_name";
-        static final String planClass = "plan_class";
+        static final String NAME = "platform_name";
+        static final String FRIENDLY_NAME = "user_friendly_name";
+        static final String PLAN_CLASS = "plan_class";
     }
 }

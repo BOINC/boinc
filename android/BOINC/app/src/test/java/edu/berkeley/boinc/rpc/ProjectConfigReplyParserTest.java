@@ -79,11 +79,11 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.name,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.NAME,
                                               null, null);
         projectConfigReplyParser.characters("Project Config".toCharArray(), 0,
                                             "Project Config".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.name,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.NAME,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -98,10 +98,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.masterUrl,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.MASTER_URL,
                                               null, null);
         projectConfigReplyParser.characters("Master URL".toCharArray(), 0, "Master URL".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.masterUrl,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.MASTER_URL,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -116,11 +116,11 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.webRpcUrlBase,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.WEB_RPC_URL_BASE,
                                               null, null);
         projectConfigReplyParser.characters("Web RPC URL Base".toCharArray(), 0,
                                             "Web RPC URL Base".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.webRpcUrlBase,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.WEB_RPC_URL_BASE,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -135,11 +135,11 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.localRevision,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.LOCAL_REVISION,
                                               null, null);
         projectConfigReplyParser.characters("Local Revision".toCharArray(), 0,
                                             "Local Revision".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.localRevision,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.LOCAL_REVISION,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -154,10 +154,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.minPwdLength,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.MIN_PWD_LENGTH,
                                               null, null);
         projectConfigReplyParser.characters("Eight".toCharArray(), 0, 5);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.minPwdLength,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.MIN_PWD_LENGTH,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -170,10 +170,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.minPwdLength,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.MIN_PWD_LENGTH,
                                               null, null);
         projectConfigReplyParser.characters("8".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.minPwdLength,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.MIN_PWD_LENGTH,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -222,10 +222,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.webStopped,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.WEB_STOPPED,
                                               null, null);
         projectConfigReplyParser.characters("0".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.webStopped,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.WEB_STOPPED,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -240,10 +240,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.webStopped,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.WEB_STOPPED,
                                               null, null);
         projectConfigReplyParser.characters("1".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.webStopped,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.WEB_STOPPED,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -258,10 +258,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.schedulerStopped,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.SCHEDULER_STOPPED,
                                               null, null);
         projectConfigReplyParser.characters("0".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.schedulerStopped,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.SCHEDULER_STOPPED,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -276,10 +276,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.schedulerStopped,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.SCHEDULER_STOPPED,
                                               null, null);
         projectConfigReplyParser.characters("1".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.schedulerStopped,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.SCHEDULER_STOPPED,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -294,9 +294,9 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.clientAccountCreationDisabled,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED,
                                               null, null);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.clientAccountCreationDisabled,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -311,10 +311,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.minClientVersion,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.MIN_CLIENT_VERSION,
                                               null, null);
         projectConfigReplyParser.characters("1".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.minClientVersion,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.MIN_CLIENT_VERSION,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -329,10 +329,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.rpcPrefix,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.RPC_PREFIX,
                                               null, null);
         projectConfigReplyParser.characters("RPC Prefix".toCharArray(), 0, "RPC Prefix".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.rpcPrefix,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.RPC_PREFIX,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -347,10 +347,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.error_num,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.ERROR_NUM,
                                               null, null);
         projectConfigReplyParser.characters("1".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.error_num,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.ERROR_NUM,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -365,9 +365,9 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.accountManager,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.ACCOUNT_MANAGER,
                                               null, null);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.accountManager,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.ACCOUNT_MANAGER,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -382,11 +382,11 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.termsOfUse,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.TERMS_OF_USE,
                                               null, null);
         projectConfigReplyParser.characters("Terms of Use".toCharArray(), 0,
                                             "Terms of Use".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.termsOfUse,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.TERMS_OF_USE,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -401,31 +401,31 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.platforms,
+        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.PLATFORMS,
                                               null, null);
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PLATFORM_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.name,
+        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.NAME,
                                               null, null);
         projectConfigReplyParser.characters("Platform Name".toCharArray(), 0,
                                             "Platform Name".length());
-        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.name,
+        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.NAME,
                                             null);
-        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.friendlyName,
+        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.FRIENDLY_NAME,
                                               null, null);
         projectConfigReplyParser.characters("Platform Friendly Name".toCharArray(), 0,
                                             "Platform Friendly Name".length());
-        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.friendlyName,
+        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.FRIENDLY_NAME,
                                             null);
-        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.planClass,
+        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.PLAN_CLASS,
                                               null, null);
         projectConfigReplyParser.characters("Plan Class".toCharArray(), 0,
                                             "Plan Class".length());
-        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.planClass,
+        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.PLAN_CLASS,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PLATFORM_TAG,
                                             null);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.platforms,
+        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.PLATFORMS,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);

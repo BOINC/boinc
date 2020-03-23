@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,18 +97,17 @@ public class ProjectInfo implements Serializable, Parcelable {
                 }
             };
 
-    @SuppressWarnings("java:S115")
     public static final class Fields {
         private Fields() {}
 
-        static final String name = "name";
-        static final String url = "url";
-        static final String generalArea = "general_area";
-        static final String specificArea = "specific_area";
-        static final String description = "description";
-        static final String home = "home";
-        static final String platforms = "platforms";
-        static final String imageUrl = "image_url";
-        static final String summary = "summary";
+        static final String NAME = "name";
+        static final String URL = "url";
+        static final String GENERAL_AREA = "general_area";
+        static final String SPECIFIC_AREA = "specific_area";
+        static final String DESCRIPTION = "description";
+        static final String HOME = "home";
+        static final String PLATFORMS = "platforms";
+        static final String IMAGE_URL = "image_url";
+        static final String SUMMARY = "summary";
     }
 }

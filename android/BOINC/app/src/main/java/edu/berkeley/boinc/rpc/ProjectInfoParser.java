@@ -56,7 +56,7 @@ public class ProjectInfoParser extends BaseParser {
         if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
             mProjectInfo = new ProjectInfo();
         }
-        else if(localName.equalsIgnoreCase(ProjectInfo.Fields.platforms)) {
+        else if(localName.equalsIgnoreCase(ProjectInfo.Fields.PLATFORMS)) {
             mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
             withinPlatforms = true;
         }
@@ -80,7 +80,7 @@ public class ProjectInfoParser extends BaseParser {
                 }
                 mProjectInfo = null;
             }
-            else if(localName.equalsIgnoreCase(ProjectInfo.Fields.platforms)) {
+            else if(localName.equalsIgnoreCase(ProjectInfo.Fields.PLATFORMS)) {
                 // closing tag of platform names
                 mProjectInfo.platforms = mPlatforms;
                 withinPlatforms = false;
@@ -88,35 +88,35 @@ public class ProjectInfoParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase(ProjectInfo.Fields.name) &&
+                if(localName.equalsIgnoreCase(ProjectInfo.Fields.NAME) &&
                    withinPlatforms.equals(Boolean.FALSE)) {
                     //project name
                     mProjectInfo.name = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.url)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.URL)) {
                     mProjectInfo.url = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.generalArea)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.GENERAL_AREA)) {
                     mProjectInfo.generalArea = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.specificArea)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.SPECIFIC_AREA)) {
                     mProjectInfo.specificArea = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.description)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.DESCRIPTION)) {
                     mProjectInfo.description = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.home)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.HOME)) {
                     mProjectInfo.home = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.name) &&
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.NAME) &&
                         withinPlatforms.equals(Boolean.TRUE)) {
                     //platform name
                     mPlatforms.add(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.imageUrl)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.IMAGE_URL)) {
                     mProjectInfo.imageUrl = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.summary)) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.SUMMARY)) {
                     mProjectInfo.summary = mCurrentElement.toString();
                 }
             }

@@ -192,7 +192,6 @@ public class Project implements Parcelable {
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -298,6 +297,7 @@ public class Project implements Parcelable {
 
         boolean[] bArray = in.createBooleanArray();
 
+        assert bArray != null;
         master_url_fetch_pending = bArray[0];
         non_cpu_intensive = bArray[1];
         suspended_via_gui = bArray[2];
@@ -310,7 +310,6 @@ public class Project implements Parcelable {
         no_cpu_pref = bArray[9];
         no_cuda_pref = bArray[10];
         no_ati_pref = bArray[11];
-
     }
 
     public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {

@@ -76,7 +76,7 @@ public class ProjectConfigReplyParser extends BaseParser {
         if(localName.equalsIgnoreCase(PROJECT_CONFIG_TAG)) {
             mProjectConfig = new ProjectConfig();
         }
-        else if(localName.equalsIgnoreCase(ProjectConfig.Fields.platforms)) {
+        else if(localName.equalsIgnoreCase(ProjectConfig.Fields.PLATFORMS)) {
             withinPlatforms = true;
             mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
         }
@@ -93,7 +93,7 @@ public class ProjectConfigReplyParser extends BaseParser {
         super.endElement(uri, localName, qName);
         try {
             if(mProjectConfig != null) {
-                if(localName.equalsIgnoreCase(ProjectConfig.Fields.platforms)) {
+                if(localName.equalsIgnoreCase(ProjectConfig.Fields.PLATFORMS)) {
                     // closing tag of platform names
                     mProjectConfig.platforms = mPlatforms;
                     withinPlatforms = false;
@@ -101,53 +101,53 @@ public class ProjectConfigReplyParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(ProjectConfig.Fields.name)) {
+                    if(localName.equalsIgnoreCase(ProjectConfig.Fields.NAME)) {
                         mProjectConfig.name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.masterUrl)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MASTER_URL)) {
                         mProjectConfig.masterUrl = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.webRpcUrlBase)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.WEB_RPC_URL_BASE)) {
                         mProjectConfig.webRpcUrlBase = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.localRevision)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.LOCAL_REVISION)) {
                         mProjectConfig.localRevision = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.minPwdLength)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MIN_PWD_LENGTH)) {
                         mProjectConfig.minPwdLength = Integer.parseInt(mCurrentElement.toString());
                     }
                     else if(StringUtils.equalsAnyIgnoreCase(localName, USER_NAME_TAG,
                                                             USES_USER_NAME_TAG)) {
                         mProjectConfig.usesName = true;
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.webStopped)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.WEB_STOPPED)) {
                         mProjectConfig.webStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.schedulerStopped)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.SCHEDULER_STOPPED)) {
                         mProjectConfig.schedulerStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.clientAccountCreationDisabled)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED)) {
                         mProjectConfig.clientAccountCreationDisabled = true;
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.minClientVersion)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MIN_CLIENT_VERSION)) {
                         mProjectConfig.minClientVersion = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.rpcPrefix)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.RPC_PREFIX)) {
                         mProjectConfig.rpcPrefix = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.name) &&
+                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.NAME) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.friendlyName) &&
+                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.FRIENDLY_NAME) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformFriendlyName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.planClass) &&
+                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.PLAN_CLASS) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformPlanClass = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.termsOfUse)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.TERMS_OF_USE)) {
                         mProjectConfig.termsOfUse = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(PLATFORM_TAG) &&
@@ -159,11 +159,11 @@ public class ProjectConfigReplyParser extends BaseParser {
                         platformName = "";
                         platformPlanClass = "";
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.error_num)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.ERROR_NUM)) {
                         // reply is not present yet
                         mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.accountManager)) {
+                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.ACCOUNT_MANAGER)) {
                         mProjectConfig.accountManager = true;
                     }
                 }

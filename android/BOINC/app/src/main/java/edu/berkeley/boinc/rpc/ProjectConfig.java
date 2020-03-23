@@ -124,23 +124,22 @@ public class ProjectConfig implements Parcelable {
         }
     };
 
-    @SuppressWarnings("java:S115")
     public static final class Fields {
         private Fields() {}
 
-        static final String error_num = "error_num";
-        static final String name = "name";
-        static final String masterUrl = "master_url";
-        static final String webRpcUrlBase = "web_rpc_url_base";
-        static final String localRevision = "local_revision";
-        static final String minPwdLength = "min_pwd_length";
-        static final String webStopped = "web_stopped";
-        static final String schedulerStopped = "scheduler_stopped";
-        static final String clientAccountCreationDisabled = "client_account_creation_disabled";
-        static final String accountManager = "account_manager";
-        static final String minClientVersion = "min_client_version";
-        static final String rpcPrefix = "rpc_prefix";
-        static final String platforms = "platforms";
-        static final String termsOfUse = "terms_of_use";
+        static final String ERROR_NUM = "error_num";
+        static final String NAME = "name";
+        static final String MASTER_URL = "master_url";
+        static final String WEB_RPC_URL_BASE = "web_rpc_url_base";
+        static final String LOCAL_REVISION = "local_revision";
+        static final String MIN_PWD_LENGTH = "min_pwd_length";
+        static final String WEB_STOPPED = "web_stopped";
+        static final String SCHEDULER_STOPPED = "scheduler_stopped";
+        static final String CLIENT_ACCOUNT_CREATION_DISABLED = "client_account_creation_disabled";
+        static final String ACCOUNT_MANAGER = "account_manager";
+        static final String MIN_CLIENT_VERSION = "min_client_version";
+        static final String RPC_PREFIX = "rpc_prefix";
+        static final String PLATFORMS = "platforms";
+        static final String TERMS_OF_USE = "terms_of_use";
     }
 }
