@@ -19,13 +19,21 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.EqualsAndHashCode;
 
 // needs to be serializable to be put into Activity start Intent
+@EqualsAndHashCode
 public class ProjectInfo implements Serializable, Parcelable {
     private static final long serialVersionUID = -5944047529950035455L; // auto generated
     public String name = "";
@@ -34,39 +42,9 @@ public class ProjectInfo implements Serializable, Parcelable {
     public String specificArea;
     public String description;
     public String home;
-    public ArrayList<String> platforms;
+    public List<String> platforms;
     public String imageUrl;
     public String summary;
-
-    @Override
-    public String toString() {
-        StringBuilder platformString = new StringBuilder();
-        for(String platform : platforms) {
-            platformString.append(platform).append("/");
-        }
-        return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea + " ; " + description +
-               " ; " + home + " ; " + platformString.toString() + " ; " + imageUrl;
-    }
-
-    @Override
-    public int describeContents() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int arg1) {
-        dest.writeString(name);
-        dest.writeString(url);
-        dest.writeString(generalArea);
-        dest.writeString(specificArea);
-        dest.writeString(description);
-        dest.writeString(home);
-        //dest.writeList(platforms);
-        dest.writeSerializable(platforms);
-        dest.writeString(imageUrl);
-        dest.writeString(summary);
-    }
 
     public ProjectInfo() {
     }
@@ -78,20 +56,60 @@ public class ProjectInfo implements Serializable, Parcelable {
         specificArea = in.readString();
         description = in.readString();
         home = in.readString();
-        //in.readList(platforms, String.class.getClassLoader());
         platforms = (ArrayList<String>) in.readSerializable();
         imageUrl = in.readString();
         summary = in.readString();
-
     }
 
-    public static final Parcelable.Creator<ProjectInfo> CREATOR = new Parcelable.Creator<ProjectInfo>() {
-        public ProjectInfo createFromParcel(Parcel in) {
-            return new ProjectInfo(in);
-        }
+    @NonNull
+    @Override
+    public String toString() {
+        return "ProjectInfo: " + name + " ; " + url + " ; " + generalArea + " ; " + specificArea
+               + " ; " + description + " ; " + home + " ; " + StringUtils.join(platforms, '/')
+               + " ; " + imageUrl;
+    }
 
-        public ProjectInfo[] newArray(int size) {
-            return new ProjectInfo[size];
-        }
-    };
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int arg1) {
+        dest.writeString(name);
+        dest.writeString(url);
+        dest.writeString(generalArea);
+        dest.writeString(specificArea);
+        dest.writeString(description);
+        dest.writeString(home);
+        dest.writeSerializable(new ArrayList<>(platforms));
+        dest.writeString(imageUrl);
+        dest.writeString(summary);
+    }
+
+    public static final Parcelable.Creator<ProjectInfo> CREATOR =
+            new Parcelable.Creator<ProjectInfo>() {
+                public ProjectInfo createFromParcel(Parcel in) {
+                    return new ProjectInfo(in);
+                }
+
+                public ProjectInfo[] newArray(int size) {
+                    return new ProjectInfo[size];
+                }
+            };
+
+    @SuppressWarnings("java:S115")
+    public static final class Fields {
+        private Fields() {}
+
+        static final String name = "name";
+        static final String url = "url";
+        static final String generalArea = "general_area";
+        static final String specificArea = "specific_area";
+        static final String description = "description";
+        static final String home = "home";
+        static final String platforms = "platforms";
+        static final String imageUrl = "image_url";
+        static final String summary = "summary";
+    }
 }

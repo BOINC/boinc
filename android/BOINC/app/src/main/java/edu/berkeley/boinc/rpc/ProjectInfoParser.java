@@ -20,26 +20,25 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import android.util.Xml;
 
-
 public class ProjectInfoParser extends BaseParser {
-
-    private ArrayList<ProjectInfo> mProjectInfos = new ArrayList<>();
+    private List<ProjectInfo> mProjectInfos = new ArrayList<>();
     private ProjectInfo mProjectInfo = null;
-    private ArrayList<String> mPlatforms;
-    Boolean withinPlatforms = false;
+    private List<String> mPlatforms;
+    private Boolean withinPlatforms = false;
 
-
-    public final ArrayList<ProjectInfo> getProjectInfos() {
+    List<ProjectInfo> getProjectInfos() {
         return mProjectInfos;
     }
 
-    public static ArrayList<ProjectInfo> parse(String rpcResult) {
+    public static List<ProjectInfo> parse(String rpcResult) {
         try {
             ProjectInfoParser parser = new ProjectInfoParser();
             // report malformated XML to BOINC and remove String.replace here...
@@ -47,17 +46,17 @@ public class ProjectInfoParser extends BaseParser {
             return parser.getProjectInfos();
         }
         catch(SAXException e) {
-            return null;
+            return Collections.emptyList();
         }
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("project")) {
+        if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
             mProjectInfo = new ProjectInfo();
         }
-        else if(localName.equalsIgnoreCase("platforms")) {
+        else if(localName.equalsIgnoreCase(ProjectInfo.Fields.platforms)) {
             mPlatforms = new ArrayList<>(); //initialize new list (flushing old elements)
             withinPlatforms = true;
         }
@@ -69,55 +68,55 @@ public class ProjectInfoParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         if(mProjectInfo != null) {
-            if(localName.equalsIgnoreCase("project")) {
-                // Closing tag of <project> - add to vector and be ready for next one
-                if(!mProjectInfo.name.equals("")) {
+            if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
+                // Closing tag of <project> - add to list and be ready for next one
+                if(!mProjectInfo.name.isEmpty()) {
                     // name is a must
                     mProjectInfos.add(mProjectInfo);
                 }
                 mProjectInfo = null;
             }
-            else if(localName.equalsIgnoreCase("platforms")) { // closing tag of platform names
+            else if(localName.equalsIgnoreCase(ProjectInfo.Fields.platforms)) {
+                // closing tag of platform names
                 mProjectInfo.platforms = mPlatforms;
                 withinPlatforms = false;
             }
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase("name") && !withinPlatforms) { //project name
+                if(localName.equalsIgnoreCase(ProjectInfo.Fields.name) &&
+                   withinPlatforms.equals(Boolean.FALSE)) {
+                    //project name
                     mProjectInfo.name = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("url")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.url)) {
                     mProjectInfo.url = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("general_area")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.generalArea)) {
                     mProjectInfo.generalArea = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("specific_area")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.specificArea)) {
                     mProjectInfo.specificArea = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("description")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.description)) {
                     mProjectInfo.description = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("home")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.home)) {
                     mProjectInfo.home = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("name") && withinPlatforms) { //platform name
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.name) &&
+                        withinPlatforms.equals(Boolean.TRUE)) {
+                    //platform name
                     mPlatforms.add(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase("image")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.imageUrl)) {
                     mProjectInfo.imageUrl = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("summary")) {
+                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.summary)) {
                     mProjectInfo.summary = mCurrentElement.toString();
                 }
             }
