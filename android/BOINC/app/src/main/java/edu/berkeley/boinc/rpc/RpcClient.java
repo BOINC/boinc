@@ -436,14 +436,15 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Transfer> getFileTransfers() {
+    public synchronized List<Transfer> getFileTransfers() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_file_transfers/>\n");
             return TransfersParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getFileTransfers()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getFileTransfers()", e);
+            return Collections.emptyList();
         }
     }
 

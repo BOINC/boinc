@@ -413,12 +413,11 @@ public class Monitor extends Service {
                     Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
                 status = clientInterface.getCcStatus();
                 CcState state = clientInterface.getState();
-                ArrayList<Transfer> transfers = clientInterface.getFileTransfers();
+                List<Transfer> transfers = clientInterface.getFileTransfers();
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
                 List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 
-                if (status != null && state != null && transfers != null &&
-                    state.host_info != null && acctMgrInfo != null) {
+                if (status != null && state != null && state.host_info != null && acctMgrInfo != null) {
                     Monitor.getClientStatus().setClientStatus(status, state.results, state.projects,
                                                               transfers, state.host_info, acctMgrInfo,
                                                               newNotices);

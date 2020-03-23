@@ -24,10 +24,17 @@ import java.io.Serializable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants
+@ToString
 public class Transfer implements Serializable, Parcelable {
     private static final long serialVersionUID = 1L;
-    public String name;
-    public String project_url;
+    public String name = "";
+    public String project_url = "";
     public boolean generated_locally;
     public long nbytes;
     public boolean xfer_active;
@@ -38,32 +45,6 @@ public class Transfer implements Serializable, Parcelable {
     public long bytes_xferred;
     public float xfer_speed;
     public long project_backoff;
-
-    @Override
-    public int describeContents() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        // TODO Auto-generated method stub
-        dest.writeString(name);
-        dest.writeString(project_url);
-        dest.writeLong(nbytes);
-        dest.writeInt(status);
-        dest.writeLong(next_request_time);
-        dest.writeLong(time_so_far);
-        dest.writeLong(bytes_xferred);
-        dest.writeFloat(xfer_speed);
-        dest.writeLong(project_backoff);
-
-        dest.writeBooleanArray(new boolean[]{
-                generated_locally,
-                xfer_active,
-                is_upload
-        });
-    }
 
     public Transfer() {
     }
@@ -80,9 +61,34 @@ public class Transfer implements Serializable, Parcelable {
         project_backoff = in.readLong();
 
         boolean[] bArray = in.createBooleanArray();
+        assert bArray != null;
         generated_locally = bArray[0];
         xfer_active = bArray[1];
         is_upload = bArray[2];
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(project_url);
+        dest.writeLong(nbytes);
+        dest.writeInt(status);
+        dest.writeLong(next_request_time);
+        dest.writeLong(time_so_far);
+        dest.writeLong(bytes_xferred);
+        dest.writeFloat(xfer_speed);
+        dest.writeLong(project_backoff);
+
+        dest.writeBooleanArray(new boolean[]{
+                generated_locally,
+                xfer_active,
+                is_upload
+        });
     }
 
     public static final Parcelable.Creator<Transfer> CREATOR = new Parcelable.Creator<Transfer>() {
