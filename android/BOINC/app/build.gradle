@@ -73,6 +73,12 @@ android {
     }
 }
 
+tasks.withType(Test) {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 ext.powermock_version = '2.0.5'
 ext.lombok_version = '1.18.12'
 
