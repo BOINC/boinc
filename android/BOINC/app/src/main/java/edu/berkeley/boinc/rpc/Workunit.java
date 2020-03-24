@@ -22,6 +22,13 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants
+@ToString
 public class Workunit implements Parcelable {
     public String name = "";
     public String app_name = "";
@@ -31,8 +38,8 @@ public class Workunit implements Parcelable {
     public double rsc_memory_bound;
     public double rsc_disk_bound;
 
-    public Project project;
-    public App app;
+    @FieldNameConstants.Exclude public Project project;
+    @FieldNameConstants.Exclude public App app;
 
     @Override
     public int describeContents() {

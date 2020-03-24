@@ -19,21 +19,22 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
+import android.util.Xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.util.Xml;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AppsParser extends BaseParser {
+    static final String APP_TAG = "app";
 
-    private ArrayList<App> mApps = new ArrayList<>();
+    private List<App> mApps = new ArrayList<>();
     private App mApp = null;
 
-
-    public final ArrayList<App> getApps() {
+    public final List<App> getApps() {
         return mApps;
     }
 
@@ -43,7 +44,7 @@ public class AppsParser extends BaseParser {
      * @param rpcResult String returned by RPC call of core client
      * @return vector of app
      */
-    public static ArrayList<App> parse(String rpcResult) {
+    public static List<App> parse(String rpcResult) {
         try {
             AppsParser parser = new AppsParser();
             Xml.parse(rpcResult, parser);
@@ -57,7 +58,7 @@ public class AppsParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("app")) {
+        if(localName.equalsIgnoreCase(APP_TAG)) {
             mApp = new App();
         }
         else {
@@ -68,17 +69,12 @@ public class AppsParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         if(mApp != null) {
             // We are inside <app>
-            if(localName.equalsIgnoreCase("app")) {
+            if(localName.equalsIgnoreCase(APP_TAG)) {
                 // Closing tag of <app> - add to vector and be ready for next one
                 if(!mApp.name.equals("")) {
                     // name is a must
@@ -89,13 +85,13 @@ public class AppsParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase("name")) {
+                if(localName.equalsIgnoreCase(App.Fields.name)) {
                     mApp.name = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("user_friendly_name")) {
+                else if(localName.equalsIgnoreCase(App.Fields.user_friendly_name)) {
                     mApp.user_friendly_name = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("non_cpu_intensive")) {
+                else if(localName.equalsIgnoreCase(App.Fields.non_cpu_intensive)) {
                     mApp.non_cpu_intensive = Integer.parseInt(mCurrentElement.toString());
                 }
             }

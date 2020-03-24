@@ -19,23 +19,25 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.util.Log;
-import android.util.Xml;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
 public class WorkunitsParser extends BaseParser {
+    static final String WORKUNIT_TAG = "workunit";
 
-    private ArrayList<Workunit> mWorkunits = new ArrayList<>();
+    private List<Workunit> mWorkunits = new ArrayList<>();
     private Workunit mWorkunit = null;
 
-
-    public final ArrayList<Workunit> getWorkunits() {
+    final List<Workunit> getWorkunits() {
         return mWorkunits;
     }
 
@@ -45,21 +47,21 @@ public class WorkunitsParser extends BaseParser {
      * @param rpcResult String returned by RPC call of core client
      * @return vector of workunits
      */
-    public static ArrayList<Workunit> parse(String rpcResult) {
+    public static List<Workunit> parse(String rpcResult) {
         try {
             WorkunitsParser parser = new WorkunitsParser();
             Xml.parse(rpcResult, parser);
             return parser.getWorkunits();
         }
         catch(SAXException e) {
-            return null;
+            return Collections.emptyList();
         }
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("workunit")) {
+        if(localName.equalsIgnoreCase(WORKUNIT_TAG)) {
             mWorkunit = new Workunit();
         }
         else {
@@ -70,18 +72,13 @@ public class WorkunitsParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
             if(mWorkunit != null) {
                 // We are inside <workunit>
-                if(localName.equalsIgnoreCase("workunit")) {
+                if(localName.equalsIgnoreCase(WORKUNIT_TAG)) {
                     // Closing tag of <workunit> - add to vector and be ready for next one
                     if(!mWorkunit.name.equals("")) {
                         // name is a must
@@ -92,25 +89,25 @@ public class WorkunitsParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("name")) {
+                    if(localName.equalsIgnoreCase(Workunit.Fields.name)) {
                         mWorkunit.name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("app_name")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.app_name)) {
                         mWorkunit.app_name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("version_num")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.version_num)) {
                         mWorkunit.version_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("rsc_fpops_est")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_fpops_est)) {
                         mWorkunit.rsc_fpops_est = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("rsc_fpops_bound")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_fpops_bound)) {
                         mWorkunit.rsc_fpops_bound = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("rsc_memory_bound")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_memory_bound)) {
                         mWorkunit.rsc_memory_bound = Double.parseDouble(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("rsc_disk_bound")) {
+                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_disk_bound)) {
                         mWorkunit.rsc_disk_bound = Double.parseDouble(mCurrentElement.toString());
                     }
                 }

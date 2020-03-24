@@ -195,7 +195,7 @@ public class Monitor extends Service {
             // when previous executions are delayed (e.g. during clientSetup() )
             updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
         }
-        if (!mutex.acquired) if (Logging.ERROR)
+        if (!mutex.acquired && Logging.ERROR)
             Log.e(Logging.TAG, "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC.");
 
         // execute action if one is explicitly requested (e.g. from notification)
@@ -413,20 +413,20 @@ public class Monitor extends Service {
                     Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
                 status = clientInterface.getCcStatus();
                 CcState state = clientInterface.getState();
-                ArrayList<Transfer> transfers = clientInterface.getFileTransfers();
+                List<Transfer> transfers = clientInterface.getFileTransfers();
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
-                ArrayList<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
+                List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 
-                if ((status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
-                    Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
+                if (status != null && state != null && state.host_info != null && acctMgrInfo != null) {
+                    Monitor.getClientStatus().setClientStatus(status, state.results, state.projects,
+                                                              transfers, state.host_info, acctMgrInfo,
+                                                              newNotices);
                 } else {
                     String nullValues = "";
 
                     if (state == null) {
                         nullValues += "state ";
                     } else {
-                        if (state.results == null) nullValues += "state.results ";
-                        if (state.projects == null) nullValues += "state.projects ";
                         if (state.host_info == null) nullValues += "state.host_info ";
                     }
                     if (transfers == null) nullValues += "transfers ";

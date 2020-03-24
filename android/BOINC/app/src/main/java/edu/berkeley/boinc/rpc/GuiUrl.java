@@ -22,10 +22,31 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants
+@ToString
 public class GuiUrl implements Parcelable {
     public String name;
     public String description;
     public String url;
+
+    GuiUrl(String name, String description, String url) {
+        this.name = name;
+        this.description = description;
+        this.url = url;
+    }
+
+    GuiUrl() {
+        this("", "", "");
+    }
+
+    private GuiUrl(Parcel in) {
+        this(in.readString(), in.readString(), in.readString());
+    }
 
     @Override
     public int describeContents() {
@@ -38,15 +59,6 @@ public class GuiUrl implements Parcelable {
         dest.writeString(name);
         dest.writeString(description);
         dest.writeString(url);
-    }
-
-    public GuiUrl() {
-    }
-
-    private GuiUrl(Parcel in) {
-        name = in.readString();
-        description = in.readString();
-        url = in.readString();
     }
 
     public static final Parcelable.Creator<GuiUrl> CREATOR = new Parcelable.Creator<GuiUrl>() {

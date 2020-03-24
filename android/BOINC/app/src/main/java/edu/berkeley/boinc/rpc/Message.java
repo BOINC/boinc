@@ -20,18 +20,20 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.Serializable;
+
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class Message implements Serializable, Parcelable {
     private static final long serialVersionUID = 1L;
-    public static final int MSG_INFO = 1;
-    public static final int MSG_USER_ALERT = 2;
-    public static final int MSG_INTERNAL_ERROR = 3;
-    // internally used by client
-    public static final int MSG_SCHEDULER_ALERT = 4;
 
     public String project = "";
     public int priority;
@@ -41,13 +43,11 @@ public class Message implements Serializable, Parcelable {
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        // TODO Auto-generated method stub
         dest.writeString(project);
         dest.writeInt(priority);
         dest.writeInt(seqno);
@@ -63,7 +63,10 @@ public class Message implements Serializable, Parcelable {
         priority = in.readInt();
         seqno = in.readInt();
         timestamp = in.readLong();
-        body = in.readString();
+
+        // Returns an empty string if in.readString() returns null.
+        body = StringUtils.defaultString(in.readString());
+
         body = body.replace("<![CDATA[", "");
         body = body.replace("]]>", "");
     }

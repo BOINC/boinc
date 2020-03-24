@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -27,10 +28,9 @@ import android.util.Xml;
 import edu.berkeley.boinc.utils.Logging;
 
 public class AccountOutParser extends BaseParser {
-
     private AccountOut mAccountOut = null;
 
-    public AccountOut getAccountOut() {
+    AccountOut getAccountOut() {
         return mAccountOut;
     }
 
@@ -59,9 +59,8 @@ public class AccountOutParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("error_num") ||
-           localName.equalsIgnoreCase("error_msg") ||
-           localName.equalsIgnoreCase("authenticator")) {
+        if(StringUtils.equalsAnyIgnoreCase(localName, AccountOut.Fields.error_num,
+                                           AccountOut.Fields.error_msg, AccountOut.Fields.authenticator)) {
             if(mAccountOut == null) {
                 mAccountOut = new AccountOut();
             }
@@ -78,13 +77,13 @@ public class AccountOutParser extends BaseParser {
         try {
             if(mAccountOut != null) {
                 trimEnd();
-                if(localName.equalsIgnoreCase("error_num")) {
+                if(localName.equalsIgnoreCase(AccountOut.Fields.error_num)) {
                     mAccountOut.error_num = Integer.parseInt(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase("error_msg")) {
+                else if(localName.equalsIgnoreCase(AccountOut.Fields.error_msg)) {
                     mAccountOut.error_msg = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase("authenticator")) {
+                else if(localName.equalsIgnoreCase(AccountOut.Fields.authenticator)) {
                     mAccountOut.authenticator = mCurrentElement.toString();
                 }
             }

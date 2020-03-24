@@ -35,9 +35,9 @@ import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.utils.Logging;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoticeNotification {
-
     private static NoticeNotification noticeNotification = null;
 
     private Context context;
@@ -48,8 +48,6 @@ public class NoticeNotification {
 
     private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<>();
     private Boolean isNotificationShown = false;
-
-    //private Boolean debug = true;
 
     /**
      * Returns a reference to a singleton noticeNotification object.
@@ -90,8 +88,7 @@ public class NoticeNotification {
     /**
      * Updates notification with current notices
      */
-    public void update(ArrayList<Notice> notices, Boolean isPreferenceEnabled) {
-
+    public void update(List<Notice> notices, Boolean isPreferenceEnabled) {
         if(!isPreferenceEnabled) {
             if(isNotificationShown) {
                 nm.cancel(notificationId);
@@ -104,11 +101,7 @@ public class NoticeNotification {
         Boolean newNotice = false;
         double mostRecentSeenArrivalTime = 0;
         double lastNotifiedArrivalTime = store.getLastNotifiedNoticeArrivalTime();
-		/*
-		if(debug) {
-			lastNotifiedArrivalTime = 0;
-			debug = false;
-		}*/
+
         for(Notice tmp : notices) {
             if(tmp.arrival_time > lastNotifiedArrivalTime) {
                 // multiple new notices might have same arrival time -> write back after adding all

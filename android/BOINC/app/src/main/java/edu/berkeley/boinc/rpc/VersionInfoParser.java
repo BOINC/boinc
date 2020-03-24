@@ -28,9 +28,11 @@ import android.util.Xml;
 import edu.berkeley.boinc.utils.Logging;
 
 public class VersionInfoParser extends BaseParser {
+    static final String SERVER_VERSION_TAG = "server_version";
+
     private VersionInfo mVersionInfo = null;
 
-    public final VersionInfo getVersionInfo() {
+    final VersionInfo getVersionInfo() {
         return mVersionInfo;
     }
 
@@ -54,7 +56,7 @@ public class VersionInfoParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("server_version")) {
+        if(localName.equalsIgnoreCase(SERVER_VERSION_TAG)) {
             mVersionInfo = new VersionInfo();
         }
         else {
@@ -65,30 +67,25 @@ public class VersionInfoParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
             if(mVersionInfo != null) {
                 // we are inside <server_version>
-                if(localName.equalsIgnoreCase("server_version")) {
+                if(localName.equalsIgnoreCase(SERVER_VERSION_TAG)) {
                     // Closing tag of <server_version> - nothing to do at the moment
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase("major")) {
+                    if(localName.equalsIgnoreCase(VersionInfo.Fields.major)) {
                         mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("minor")) {
+                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.minor)) {
                         mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("release")) {
+                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.release)) {
                         mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
                     }
                 }

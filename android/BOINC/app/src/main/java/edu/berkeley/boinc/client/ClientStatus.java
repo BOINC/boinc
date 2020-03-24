@@ -27,6 +27,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,9 +69,9 @@ public class ClientStatus {
 
     //RPC wrapper
     private CcStatus status;
-    private ArrayList<Result> results;
-    private ArrayList<Project> projects;
-    private ArrayList<Transfer> transfers;
+    private List<Result> results;
+    private List<Project> projects;
+    private List<Transfer> transfers;
     private GlobalPreferences prefs;
     private HostInfo hostinfo;
     private AcctMgrInfo acctMgrInfo;
@@ -109,22 +110,25 @@ public class ClientStatus {
     private Boolean networkParseError = false;
 
     // notices
-    private ArrayList<Notice> rssNotices = new ArrayList<>();
-    private ArrayList<Notice> serverNotices = new ArrayList<>();
+    private List<Notice> rssNotices = new ArrayList<>();
+    private List<Notice> serverNotices = new ArrayList<>();
     private int mostRecentNoticeSeqNo = 0;
 
     public ClientStatus(Context ctx) {
         this.ctx = ctx;
 
-        // set up CPU Wake Lock
+        // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.TAG);
-        wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.WAKELOCK);
+        // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+        wakeLock.setReferenceCounted(false);
 
-        // Set up Wifi wake lock
-        // On versions prior to Android N (24), initializing the WifiManager via Context#getSystemService can cause a memory leak if the context is not the application context.
-        // You should consider using context.getApplicationContext().getSystemService() rather then context.getSystemService()
+        // Set up WiFi wakelock
+        // On versions prior to Android N (24), initializing the WifiManager via Context#getSystemService
+        // can cause a memory leak if the context is not the application context.
+        // You should consider using context.getApplicationContext().getSystemService() rather than
+        // context.getSystemService()
         WifiManager wm = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
@@ -208,7 +212,7 @@ public class ClientStatus {
     /*
      * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
      */
-    public synchronized void setClientStatus(CcStatus status, ArrayList<Result> results, ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, ArrayList<Notice> newNotices) {
+    public synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
         this.status = status;
         this.results = results;
         this.projects = projects;
@@ -252,7 +256,6 @@ public class ClientStatus {
      * called after reading global preferences, e.g. during ClientStartAsync
      */
     public synchronized void setPrefs(GlobalPreferences prefs) {
-        //if(Logging.DEBUG) Log.d(Logging.TAG, "setPrefs");
         this.prefs = prefs;
     }
 
@@ -260,11 +263,11 @@ public class ClientStatus {
         return mostRecentNoticeSeqNo;
     }
 
-    public synchronized ArrayList<Notice> getRssNotices() {
+    public synchronized List<Notice> getRssNotices() {
         return rssNotices;
     }
 
-    public synchronized ArrayList<Notice> getServerNotices() {
+    public synchronized List<Notice> getServerNotices() {
         return serverNotices;
     }
 
@@ -278,7 +281,7 @@ public class ClientStatus {
         return status;
     }
 
-    public synchronized ArrayList<Result> getTasks() {
+    public synchronized List<Result> getTasks() {
         if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "state is null");
@@ -288,7 +291,7 @@ public class ClientStatus {
         return results;
     }
 
-    public synchronized ArrayList<Transfer> getTransfers() {
+    public synchronized List<Transfer> getTransfers() {
         if(transfers == null) { //check in case monitor is not set up yet (e.g. while logging in)
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "transfers is null");
@@ -308,7 +311,7 @@ public class ClientStatus {
         return prefs;
     }
 
-    public synchronized ArrayList<Project> getProjects() {
+    public synchronized List<Project> getProjects() {
         if(projects == null) { //check in case monitor is not set up yet (e.g. while logging in)
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "getProject() state is null");
@@ -389,24 +392,21 @@ public class ClientStatus {
     // returns all slideshow images for given project
     // images: 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
     // not aware of application!
-    public synchronized ArrayList<ImageWrapper> getSlideshowForProject(String masterUrl) {
-        ArrayList<ImageWrapper> images = new ArrayList<>();
+    public synchronized List<ImageWrapper> getSlideshowForProject(String masterUrl) {
+        List<ImageWrapper> images = new ArrayList<>();
         for(Project project : projects) {
             if(!project.master_url.equals(masterUrl)) {
                 continue;
             }
             // get file paths of soft link files
             File dir = new File(project.project_dir);
-            File[] foundFiles = dir.listFiles(new FilenameFilter() {
-                public boolean accept(File dir, String name) {
-                    return name.startsWith("slideshow_") && !name.endsWith(".png");
-                }
-            });
+            File[] foundFiles = dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
+                                                              && !name.endsWith(".png"));
             if(foundFiles == null) {
                 continue; // prevent NPE
             }
 
-            ArrayList<String> allImagePaths = new ArrayList<>();
+            List<String> allImagePaths = new ArrayList<>();
             for(File file : foundFiles) {
                 String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
                 //check whether path is not empty, and avoid duplicates (slideshow images can
@@ -415,9 +415,7 @@ public class ClientStatus {
                    !allImagePaths.contains(slideshowImagePath)) {
                     allImagePaths.add(slideshowImagePath);
                 }
-                //if(Logging.DEBUG) Log.d(Logging.TAG, "getSlideshowImages() path: " + slideshowImagePath);
             }
-            //if(Logging.DEBUG) Log.d(Logging.TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
 
             // load images from paths
             for(String filePath : allImagePaths) {
@@ -452,7 +450,6 @@ public class ClientStatus {
                         }
                         return null;
                     }
-                    //if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
                     return BitmapFactory.decodeFile(iconAbsPath);
                 }
             }
@@ -488,7 +485,6 @@ public class ClientStatus {
                         }
                         return null;
                     }
-                    //if(Logging.DEBUG) Log.d(Logging.TAG, "getProjectIcons() absolute path to icon: " + iconAbsPath);
                     return BitmapFactory.decodeFile(iconAbsPath);
                 }
             }
@@ -504,8 +500,8 @@ public class ClientStatus {
         return null;
     }
 
-    public ArrayList<Result> getExecutingTasks() {
-        ArrayList<Result> activeTasks = new ArrayList<>();
+    public List<Result> getExecutingTasks() {
+        List<Result> activeTasks = new ArrayList<>();
         for(Result tmp : results) {
             if(tmp.active_task && tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
                 activeTasks.add(tmp);
@@ -670,7 +666,7 @@ public class ClientStatus {
 
     private void parseProjectStatus() {
         try {
-            if(projects.size() > 0) {
+            if(!projects.isEmpty()) {
                 setupStatus = SETUP_STATUS_AVAILABLE;
                 setupStatusParseError = false;
             }
@@ -727,13 +723,11 @@ public class ClientStatus {
                     computingStatus = COMPUTING_STATUS_COMPUTING;
                     computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
-                    return;
                 }
                 else { // client "is able but idle"
                     computingStatus = COMPUTING_STATUS_IDLE;
                     computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
-                    return;
                 }
             }
         }
@@ -768,7 +762,6 @@ public class ClientStatus {
                 networkStatus = NETWORK_STATUS_AVAILABLE;
                 networkSuspendReason = status.network_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
                 networkParseError = false;
-                return;
             }
         }
         catch(Exception e) {
@@ -781,7 +774,7 @@ public class ClientStatus {
         }
     }
 
-    private void appendNewNotices(ArrayList<Notice> newNotices) {
+    private void appendNewNotices(List<Notice> newNotices) {
         for(Notice newNotice : newNotices) {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " + newNotice.seqno +
@@ -803,7 +796,6 @@ public class ClientStatus {
     // reads the symbolic link provided in pathOfSoftLink file
     // and returns absolute path to an image file.
     private String parseSoftLinkToAbsPath(String pathOfSoftLink, String projectDir) {
-        //if(Logging.DEBUG) Log.d(Logging.TAG,"parseSoftLinkToAbsPath() for path: " + pathOfSoftLink);
         // setup file
         File softLink = new File(pathOfSoftLink);
         if(!softLink.exists()) {
@@ -827,10 +819,8 @@ public class ClientStatus {
         }
         catch(Exception e) {
             // probably FileNotFoundException
-            // if(Logging.DEBUG) Log.d(Logging.TAG,"Exception in parseSoftLinkToAbsPath() " + e.getMessage());
             return null;
         }
-        //if(Logging.DEBUG) Log.d(Logging.TAG,"parseSoftLinkToAbsPath() softLinkContent: " + softLinkContent);
 
         // matching relevant path of String
         // matching 1+ word characters and 0 or 1 dot . and 0+ word characters
@@ -845,20 +835,7 @@ public class ClientStatus {
             return null;
         }
         String fileName = m.group(1);
-        //if(Logging.DEBUG) Log.d(Logging.TAG, "parseSoftLinkToAbsPath() fileName: " + fileName);
 
         return projectDir + "/" + fileName;
     }
-
-    // Wrapper for slideshow images
-    //	public class ImageWrapper {
-    //		public Bitmap image;
-    //		public String projectName;
-    //		public String path;
-    //		public ImageWrapper(Bitmap image, String projectName, String path) {
-    //			this.image = image;
-    //			this.projectName = projectName;
-    //			this.path = path;
-    //		}
-    //	}
 }

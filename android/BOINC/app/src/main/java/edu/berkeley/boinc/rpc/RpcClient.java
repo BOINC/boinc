@@ -19,21 +19,23 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.net.LocalSocket;
+import android.net.LocalSocketAddress;
+import android.util.Log;
+import android.util.Xml;
+
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import android.net.LocalSocket;
-import android.net.LocalSocketAddress;
-import android.util.Log;
-import android.util.Xml;
 
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
@@ -434,14 +436,15 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Transfer> getFileTransfers() {
+    public synchronized List<Transfer> getFileTransfers() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_file_transfers/>\n");
             return TransfersParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getFileTransfers()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getFileTransfers()", e);
+            return Collections.emptyList();
         }
     }
 
@@ -486,7 +489,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Message> getMessages(int seqNo) {
+    public synchronized List<Message> getMessages(int seqNo) {
         mLastErrorMessage = null;
         try {
             String request;
@@ -502,8 +505,9 @@ public class RpcClient {
             sendRequest(request);
             return MessagesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getMessages()", e);
+            return Collections.emptyList();
         }
     }
 
@@ -513,7 +517,7 @@ public class RpcClient {
      *
      * @return List of Notices
      */
-    public synchronized ArrayList<Notice> getNotices(int seqNo) {
+    public synchronized List<Notice> getNotices(int seqNo) {
         mLastErrorMessage = null;
         try {
             String request;
@@ -527,11 +531,10 @@ public class RpcClient {
                                 "</get_notices>\n";
             }
             sendRequest(request);
-            ArrayList<Notice> notices = NoticesParser.parse(receiveReply());
-            if (notices == null) notices = new ArrayList<>(); // do not return null
-            return notices;
+            return NoticesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getMessages()", e);
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getMessages()", e);
             return new ArrayList<>();
         }
     }
@@ -541,7 +544,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Project> getProjectStatus() {
+    public synchronized List<Project> getProjectStatus() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_project_status/>\n");
@@ -557,7 +560,7 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Result> getActiveResults() {
+    public synchronized List<Result> getActiveResults() {
         mLastErrorMessage = null;
         final String request =
                 "<get_results>\n" +
@@ -568,7 +571,7 @@ public class RpcClient {
             return ResultsParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getActiveResults()", e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -577,14 +580,14 @@ public class RpcClient {
      *
      * @return result of RPC call in case of success, null otherwise
      */
-    public synchronized ArrayList<Result> getResults() {
+    public synchronized List<Result> getResults() {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_results/>\n");
             return ResultsParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getResults()", e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -1052,7 +1055,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized ArrayList<ProjectInfo> getAllProjectsList() {
+    protected synchronized List<ProjectInfo> getAllProjectsList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
@@ -1060,12 +1063,13 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             return ProjectInfoParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getAllProjectsList()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getAllProjectsList()", e);
+            return Collections.emptyList();
         }
     }
 
-    public synchronized ArrayList<AccountManager> getAccountManagersList() {
+    public synchronized List<AccountManager> getAccountManagersList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
