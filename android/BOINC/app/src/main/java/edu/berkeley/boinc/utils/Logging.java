@@ -22,6 +22,7 @@ public class Logging {
     private Logging() {}
 
     public static final String TAG = "BOINC_GUI";
+    public static final String WAKELOCK = TAG + ":MyPowerLock";
 
     public static int LOGLEVEL = -1;
     public static Boolean ERROR = false;

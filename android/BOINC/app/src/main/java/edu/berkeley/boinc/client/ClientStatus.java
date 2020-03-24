@@ -117,15 +117,18 @@ public class ClientStatus {
     public ClientStatus(Context ctx) {
         this.ctx = ctx;
 
-        // set up CPU Wake Lock
+        // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.TAG);
-        wakeLock.setReferenceCounted(false); // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.WAKELOCK);
+        // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
+        wakeLock.setReferenceCounted(false);
 
-        // Set up Wifi wake lock
-        // On versions prior to Android N (24), initializing the WifiManager via Context#getSystemService can cause a memory leak if the context is not the application context.
-        // You should consider using context.getApplicationContext().getSystemService() rather then context.getSystemService()
+        // Set up WiFi wakelock
+        // On versions prior to Android N (24), initializing the WifiManager via Context#getSystemService
+        // can cause a memory leak if the context is not the application context.
+        // You should consider using context.getApplicationContext().getSystemService() rather than
+        // context.getSystemService()
         WifiManager wm = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
