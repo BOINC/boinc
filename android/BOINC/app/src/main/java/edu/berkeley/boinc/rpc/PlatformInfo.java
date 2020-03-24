@@ -22,15 +22,24 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class PlatformInfo implements Parcelable {
     public String name;
     public String friendlyName;
     public String planClass;
 
-    public PlatformInfo(String name, String friendlyName, String planClass) {
+    PlatformInfo(String name, String friendlyName, String planClass) {
         this.name = name;
         this.friendlyName = friendlyName;
         this.planClass = planClass;
+    }
+
+    private PlatformInfo(Parcel in) {
+        this(in.readString(), in.readString(), in.readString());
     }
 
     @Override
@@ -45,15 +54,6 @@ public class PlatformInfo implements Parcelable {
         dest.writeString(planClass);
     }
 
-    public PlatformInfo() {
-    }
-
-    private PlatformInfo(Parcel in) {
-        name = in.readString();
-        friendlyName = in.readString();
-        planClass = in.readString();
-    }
-
     public static final Parcelable.Creator<PlatformInfo> CREATOR = new Parcelable.Creator<PlatformInfo>() {
         public PlatformInfo createFromParcel(Parcel in) {
             return new PlatformInfo(in);
@@ -64,4 +64,11 @@ public class PlatformInfo implements Parcelable {
         }
     };
 
+    public static final class Fields {
+        private Fields() {}
+
+        static final String NAME = "platform_name";
+        static final String FRIENDLY_NAME = "user_friendly_name";
+        static final String PLAN_CLASS = "plan_class";
+    }
 }

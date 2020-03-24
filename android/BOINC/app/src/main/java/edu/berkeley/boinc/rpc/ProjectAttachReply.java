@@ -19,8 +19,14 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class ProjectAttachReply {
     public int error_num = 0;
-    public ArrayList<String> messages = new ArrayList<>();
+    public final List<String> messages = new ArrayList<>();
 }

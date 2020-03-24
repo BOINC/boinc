@@ -19,26 +19,27 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import android.util.Log;
-import android.util.Xml;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
 
 public class AppVersionsParser extends DefaultHandler {
+    static final String APP_VERSION_TAG = "app_version";
 
-    private ArrayList<AppVersion> mAppVersions = new ArrayList<>();
+    private List<AppVersion> mAppVersions = new ArrayList<>();
     private AppVersion mAppVersion = null;
     private StringBuilder mCurrentElement = new StringBuilder();
 
-
-    public final ArrayList<AppVersion> getAppVersions() {
+    final List<AppVersion> getAppVersions() {
         return mAppVersions;
     }
 
@@ -48,7 +49,7 @@ public class AppVersionsParser extends DefaultHandler {
      * @param rpcResult String returned by RPC call of core client
      * @return vector of application version
      */
-    public static ArrayList<AppVersion> parse(String rpcResult) {
+    public static List<AppVersion> parse(String rpcResult) {
         try {
             AppVersionsParser parser = new AppVersionsParser();
             Xml.parse(rpcResult, parser);
@@ -62,7 +63,7 @@ public class AppVersionsParser extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("app_version")) {
+        if(localName.equalsIgnoreCase(APP_VERSION_TAG)) {
             mAppVersion = new AppVersion();
         }
     }
@@ -92,9 +93,9 @@ public class AppVersionsParser extends DefaultHandler {
             trimEnd();
             if(mAppVersion != null) {
                 // We are inside <app_version>
-                if(localName.equalsIgnoreCase("app_version")) {
+                if(localName.equalsIgnoreCase(APP_VERSION_TAG)) {
                     // Closing tag of <app_version> - add to vector and be ready for next one
-                    if(!mAppVersion.app_name.equals("")) {
+                    if(!mAppVersion.app_name.isEmpty()) {
                         // app_name is a must
                         mAppVersions.add(mAppVersion);
                     }
@@ -102,10 +103,10 @@ public class AppVersionsParser extends DefaultHandler {
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
-                    if(localName.equalsIgnoreCase("app_name")) {
+                    if(localName.equalsIgnoreCase(AppVersion.Fields.app_name)) {
                         mAppVersion.app_name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase("version_num")) {
+                    else if(localName.equalsIgnoreCase(AppVersion.Fields.version_num)) {
                         mAppVersion.version_num = Integer.parseInt(mCurrentElement.toString());
                     }
                 }

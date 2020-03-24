@@ -21,7 +21,13 @@ package edu.berkeley.boinc.rpc;
 
 import java.io.Serializable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 
+@EqualsAndHashCode
+@FieldNameConstants
+@ToString
 public class CcStatus implements Serializable {
     private static final long serialVersionUID = 1L;
     // all attributes are public for simple access

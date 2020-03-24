@@ -28,10 +28,13 @@ import android.util.Log;
 import android.util.Xml;
 
 public class AcctMgrRPCReplyParser extends BaseParser {
+    static final String ACCT_MGR_RPC_REPLY_TAG = "acct_mgr_rpc_reply";
+    static final String ERROR_NUM_TAG = "error_num";
+    static final String MESSAGE_TAG = "message";
 
     private AcctMgrRPCReply mAcctMgrRPCReply;
 
-    public AcctMgrRPCReply getAccountMgrRPCReply() {
+    AcctMgrRPCReply getAccountMgrRPCReply() {
         return mAcctMgrRPCReply;
     }
 
@@ -52,7 +55,7 @@ public class AcctMgrRPCReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
+        if(localName.equalsIgnoreCase(ACCT_MGR_RPC_REPLY_TAG)) {
             mAcctMgrRPCReply = new AcctMgrRPCReply();
         }
         else {
@@ -67,15 +70,15 @@ public class AcctMgrRPCReplyParser extends BaseParser {
         try {
             if(mAcctMgrRPCReply != null) {
                 // inside <acct_mgr_rpc_reply>
-                if(localName.equalsIgnoreCase("acct_mgr_rpc_reply")) {
+                if(localName.equalsIgnoreCase(ACCT_MGR_RPC_REPLY_TAG)) {
                     // closing tag
                 }
                 else {
                     // decode inner tags
-                    if(localName.equalsIgnoreCase("error_num")) {
+                    if(localName.equalsIgnoreCase(ERROR_NUM_TAG)) {
                         mAcctMgrRPCReply.error_num = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase("message")) {
+                    else if(localName.equalsIgnoreCase(MESSAGE_TAG)) {
                         mAcctMgrRPCReply.messages.add(mCurrentElement.toString());
                     }
                 }

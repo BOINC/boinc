@@ -20,17 +20,26 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants(onlyExplicitlyIncluded = true)
+@ToString
 public class CcState {
     public VersionInfo version_info;
     public HostInfo host_info;
-    public ArrayList<Project> projects = new ArrayList<>();
-    public ArrayList<App> apps = new ArrayList<>();
-    public ArrayList<AppVersion> app_versions = new ArrayList<>();
-    public ArrayList<Workunit> workunits = new ArrayList<>();
-    public ArrayList<Result> results = new ArrayList<>();
-    public boolean have_ati;
-    public boolean have_cuda;
+    @FieldNameConstants.Include public boolean have_ati;
+    @FieldNameConstants.Include public boolean have_cuda;
+
+    public final List<Project> projects = new ArrayList<>();
+    public final List<App> apps = new ArrayList<>();
+    public final List<AppVersion> app_versions = new ArrayList<>();
+    public final List<Workunit> workunits = new ArrayList<>();
+    public final List<Result> results = new ArrayList<>();
 
     public void clearArrays() {
         projects.clear();
@@ -51,7 +60,7 @@ public class CcState {
 
     public App lookup_app(Project project, String appname) {
         for(int i = 0; i < apps.size(); i++) {
-            if(!apps.get(i).project.compare(project)) {
+            if(!apps.get(i).project.equals(project)) {
                 continue;
             }
             if(apps.get(i).name.equalsIgnoreCase(appname)) {
@@ -63,8 +72,7 @@ public class CcState {
 
     public Workunit lookup_wu(Project project, String wu_name) {
         for(int i = 0; i < workunits.size(); i++) {
-            if(!workunits.get(i).project.compare(project)) {
-                //if(Logging.DEBUG) Log.d("Workunit", "Projects Do not compare");
+            if(!workunits.get(i).project.equals(project)) {
                 continue;
             }
             if(workunits.get(i).name.equalsIgnoreCase(wu_name)) {
@@ -77,11 +85,11 @@ public class CcState {
     public AppVersion lookup_app_version(Project project, App app, int version_num, String plan_class) {
         for(int i = 0; i < app_versions.size(); i++) {
             //Check if projects match...
-            if(!app_versions.get(i).project.compare(project)) {
+            if(!app_versions.get(i).project.equals(project)) {
                 continue;
             }
             //Check if app matches
-            if(!app_versions.get(i).app.compare(app)) {
+            if(!app_versions.get(i).app.equals(app)) {
                 continue;
             }
             //checks version_num

@@ -27,10 +27,13 @@ import android.util.Xml;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectAttachReplyParser extends BaseParser {
+    static final String PROJECT_ATTACH_REPLY_TAG = "project_attach_reply";
+    static final String ERROR_NUM_TAG = "error_num";
+    static final String MESSAGE_TAG = "message";
 
     private ProjectAttachReply mPAR;
 
-    public ProjectAttachReply getProjectAttachReply() {
+    ProjectAttachReply getProjectAttachReply() {
         return mPAR;
     }
 
@@ -48,7 +51,7 @@ public class ProjectAttachReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("project_attach_reply")) {
+        if(localName.equalsIgnoreCase(PROJECT_ATTACH_REPLY_TAG)) {
             mPAR = new ProjectAttachReply();
         }
         else {
@@ -63,25 +66,23 @@ public class ProjectAttachReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mPAR != null) {
-                // we are inside <project_attach_reply>
-                if(localName.equalsIgnoreCase("project_attach_reply")) {
-                    // Closing tag of <project_attach_reply> - nothing to do at the moment
+            if(mPAR != null && // we are inside <project_attach_reply>
+               !localName.equalsIgnoreCase(PROJECT_ATTACH_REPLY_TAG)
+                // Closing tag of <project_attach_reply> - nothing to do at the moment
+                // inside it, so it should be ignored
+            ) {
+                // Not the closing tag - we decode possible inner tags
+                trimEnd();
+                if(localName.equalsIgnoreCase(ERROR_NUM_TAG)) {
+                    mPAR.error_num = Integer.parseInt(mCurrentElement.toString());
                 }
-                else {
-                    // Not the closing tag - we decode possible inner tags
-                    trimEnd();
-                    if(localName.equalsIgnoreCase("error_num")) {
-                        mPAR.error_num = Integer.parseInt(mCurrentElement.toString());
-                    }
-                    else if(localName.equalsIgnoreCase("message")) {
-                        mPAR.messages.add(mCurrentElement.toString());
-                    }
+                else if(localName.equalsIgnoreCase(MESSAGE_TAG)) {
+                    mPAR.messages.add(mCurrentElement.toString());
                 }
             }
         }
         catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+            if(Logging.ERROR.equals(Boolean.TRUE)) {
                 Log.e(Logging.TAG, "ProjectAttachReplyParser.endElement error: ", e);
             }
         }

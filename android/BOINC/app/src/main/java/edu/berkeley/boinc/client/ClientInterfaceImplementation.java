@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import android.util.Log;
 
@@ -221,7 +223,7 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     public Boolean checkProjectAttached(String url) {
         try {
-            ArrayList<Project> attachedProjects = getProjectStatus();
+            List<Project> attachedProjects = getProjectStatus();
             for (Project project : attachedProjects) {
                 if (Logging.DEBUG) {
                     Log.d(Logging.TAG, project.master_url + " vs " + url);
@@ -503,33 +505,35 @@ public class ClientInterfaceImplementation extends RpcClient {
 
     // returns given number of client messages, older than provided seqNo
     // if seqNo <= 0 initial data retrieval
-    public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
+    List<Message> getEventLogMessages(int seqNo, int number) {
         // determine oldest message seqNo for data retrieval
         int lowerBound;
-        if (seqNo > 0) lowerBound = seqNo - number - 2;
+        if (seqNo > 0)
+            lowerBound = seqNo - number - 2;
         else
             lowerBound = getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
 
         // less than desired number of messsages available, adapt lower bound
-        if (lowerBound < 0) lowerBound = 0;
-        ArrayList<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-        if (msgs == null)
-            msgs = new ArrayList<>(); // getMessages might return null in case of parsing or IO error
+        if (lowerBound < 0)
+            lowerBound = 0;
+        List<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
 
         if (seqNo > 0) {
             // remove messages that are >= seqNo
             Iterator<Message> it = msgs.iterator();
             while (it.hasNext()) {
                 Message tmp = it.next();
-                if (tmp.seqno >= seqNo) it.remove();
+                if (tmp.seqno >= seqNo)
+                    it.remove();
             }
         }
 
-        if (!msgs.isEmpty())
-            if (Logging.DEBUG)
-                Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": " + msgs.get(msgs.size() - 1).seqno);
-            else if (Logging.DEBUG)
-                Log.d(Logging.TAG, "getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
+        if(!msgs.isEmpty() && Logging.DEBUG.equals(Boolean.TRUE)) {
+            Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
+                               + " entries. for lowerBound: " + lowerBound + " at 0: "
+                               + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": "
+                               + msgs.get(msgs.size() - 1).seqno);
+        }
         return msgs;
     }
 
@@ -541,28 +545,30 @@ public class ClientInterfaceImplementation extends RpcClient {
      *
      * @return list of attachable projects
      */
-    public ArrayList<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
-        if (Logging.DEBUG)
+    List<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
+        if (Logging.DEBUG.equals(Boolean.TRUE))
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
-        ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
-        ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
+        List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
+        List<Project> attachedProjects = getState().projects; // currently attached projects
 
-        ArrayList<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
+        List<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 
-        if (allProjectsList == null || attachedProjects == null) return null;
+        if (allProjectsList == null)
+            return Collections.emptyList();
 
         //filter projects that do not support Android
         for (ProjectInfo candidate : allProjectsList) {
             // check whether already attached
-            Boolean alreadyAttached = false;
+            boolean alreadyAttached = false;
             for (Project attachedProject : attachedProjects) {
                 if (attachedProject.master_url.equals(candidate.url)) {
                     alreadyAttached = true;
                     break;
                 }
             }
-            if (alreadyAttached) continue;
+            if (alreadyAttached)
+                continue;
 
             // project is not yet attached, check whether it supports CPU architecture
             for (String supportedPlatform : candidate.platforms) {
@@ -570,14 +576,16 @@ public class ClientInterfaceImplementation extends RpcClient {
                    (!boincAltPlatformName.isEmpty() && supportedPlatform.contains(boincAltPlatformName))) {
                     // project is not yet attached and does support platform
                     // add to list, if not already in it
-                    if (!attachableProjects.contains(candidate)) attachableProjects.add(candidate);
+                    if (!attachableProjects.contains(candidate))
+                        attachableProjects.add(candidate);
                     break;
                 }
             }
         }
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: " + attachableProjects.size());
+        if (Logging.DEBUG.equals(Boolean.TRUE))
+            Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: "
+                               + attachableProjects.size());
         return attachableProjects;
     }
 
@@ -586,27 +594,30 @@ public class ClientInterfaceImplementation extends RpcClient {
      *
      * @return list of account managers
      */
-    public ArrayList<AccountManager> getAccountManagers() {
-        ArrayList<AccountManager> accountManagers = getAccountManagersList(); // from all_proejcts_list.xml
+    List<AccountManager> getAccountManagers() {
+        List<AccountManager> accountManagers = getAccountManagersList(); // from all_projects_list.xml
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAccountManagers: number of account managers found: " + accountManagers.size());
+        if (Logging.DEBUG.equals(Boolean.TRUE))
+            Log.d(Logging.TAG, "getAccountManagers: number of account managers found: "
+                               + accountManagers.size());
         return accountManagers;
     }
 
-    public ProjectInfo getProjectInfo(String url) {
-        ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
+    ProjectInfo getProjectInfo(String url) {
+        List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
         for (ProjectInfo tmp : allProjectsList) {
-            if (tmp.url.equals(url)) return tmp;
+            if (tmp.url.equals(url))
+                return tmp;
         }
-        if (Logging.ERROR) Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
+        if (Logging.ERROR.equals(Boolean.TRUE))
+            Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
         return null;
     }
 
-    public boolean setDomainName(String deviceName) {
+    boolean setDomainName(String deviceName) {
         boolean success = setDomainNameRpc(deviceName);
-        if (Logging.DEBUG) Log.d(Logging.TAG, "setDomainName: success " + success);
+        if (Logging.DEBUG.equals(Boolean.TRUE))
+            Log.d(Logging.TAG, "setDomainName: success " + success);
         return success;
     }
-
 }

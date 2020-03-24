@@ -19,12 +19,20 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@FieldNameConstants
+@ToString
 public class Project implements Parcelable {
     // all attributes are public for simple access
     public String master_url = "";
@@ -33,9 +41,9 @@ public class Project implements Parcelable {
     public String project_name = "";
     public String user_name = "";
     public String team_name = "";
-    public String venue = "";
+    public String host_venue = "";
     public int hostid = 0;
-    public ArrayList<GuiUrl> gui_urls = new ArrayList<>();
+    @FieldNameConstants.Exclude public final List<GuiUrl> gui_urls = new ArrayList<>();
     public double user_total_credit = 0.0;
     public double user_expavg_credit = 0.0;
 
@@ -47,7 +55,7 @@ public class Project implements Parcelable {
      * As reported by server
      */
     public double host_expavg_credit = 0;
-    public double disk_usage = 0;
+    @FieldNameConstants.Exclude public double disk_usage = 0;
 
     //	/** # of consecutive times we've failed to contact all scheduling servers */
     public int nrpc_failures = 0;
@@ -59,8 +67,8 @@ public class Project implements Parcelable {
     public double min_rpc_time = 0;
     public double download_backoff = 0;
     public double upload_backoff = 0;
-    public double cpu_short_term_debt = 0;
-    public double cpu_long_term_debt = 0;
+    @FieldNameConstants.Exclude public double cpu_short_term_debt = 0;
+    @FieldNameConstants.Exclude public double cpu_long_term_debt = 0;
     public double cpu_backoff_time = 0;
     public double cpu_backoff_interval = 0;
     public double cuda_debt = 0;
@@ -103,22 +111,87 @@ public class Project implements Parcelable {
     public boolean no_ati_pref = false;
 
     public final String getName() {
-        return project_name.equals("") ? master_url : project_name;
+        return project_name.isEmpty() ? master_url : project_name;
     }
 
-    public boolean compare(Project proj) {
-        //Test that master_url's match...
-        if(!this.master_url.equalsIgnoreCase(proj.master_url)) {
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(!(o instanceof Project)) {
             return false;
         }
+        Project project = (Project) o;
+        return Float.compare(project.resource_share, resource_share) == 0 &&
+               hostid == project.hostid &&
+               Double.compare(project.user_total_credit, user_total_credit) == 0 &&
+               Double.compare(project.user_expavg_credit, user_expavg_credit) == 0 &&
+               Double.compare(project.host_total_credit, host_total_credit) == 0 &&
+               Double.compare(project.host_expavg_credit, host_expavg_credit) == 0 &&
+               Double.compare(project.disk_usage, disk_usage) == 0 &&
+               nrpc_failures == project.nrpc_failures &&
+               master_fetch_failures == project.master_fetch_failures &&
+               Double.compare(project.min_rpc_time, min_rpc_time) == 0 &&
+               Double.compare(project.download_backoff, download_backoff) == 0 &&
+               Double.compare(project.upload_backoff, upload_backoff) == 0 &&
+               Double.compare(project.cpu_short_term_debt, cpu_short_term_debt) == 0 &&
+               Double.compare(project.cpu_long_term_debt, cpu_long_term_debt) == 0 &&
+               Double.compare(project.cpu_backoff_time, cpu_backoff_time) == 0 &&
+               Double.compare(project.cpu_backoff_interval, cpu_backoff_interval) == 0 &&
+               Double.compare(project.cuda_debt, cuda_debt) == 0 &&
+               Double.compare(project.cuda_short_term_debt, cuda_short_term_debt) == 0 &&
+               Double.compare(project.cuda_backoff_time, cuda_backoff_time) == 0 &&
+               Double.compare(project.cuda_backoff_interval, cuda_backoff_interval) == 0 &&
+               Double.compare(project.ati_debt, ati_debt) == 0 &&
+               Double.compare(project.ati_short_term_debt, ati_short_term_debt) == 0 &&
+               Double.compare(project.ati_backoff_time, ati_backoff_time) == 0 &&
+               Double.compare(project.ati_backoff_interval, ati_backoff_interval) == 0 &&
+               Double.compare(project.duration_correction_factor, duration_correction_factor) ==
+               0 &&
+               master_url_fetch_pending == project.master_url_fetch_pending &&
+               sched_rpc_pending == project.sched_rpc_pending &&
+               non_cpu_intensive == project.non_cpu_intensive &&
+               suspended_via_gui == project.suspended_via_gui &&
+               dont_request_more_work == project.dont_request_more_work &&
+               scheduler_rpc_in_progress == project.scheduler_rpc_in_progress &&
+               attached_via_acct_mgr == project.attached_via_acct_mgr &&
+               detach_when_done == project.detach_when_done &&
+               ended == project.ended &&
+               trickle_up_pending == project.trickle_up_pending &&
+               Double.compare(project.project_files_downloaded_time, project_files_downloaded_time) ==
+               0 &&
+               Double.compare(project.last_rpc_time, last_rpc_time) == 0 &&
+               no_cpu_pref == project.no_cpu_pref &&
+               no_cuda_pref == project.no_cuda_pref &&
+               no_ati_pref == project.no_ati_pref &&
+               StringUtils.equalsIgnoreCase(master_url, project.master_url) &&
+               Objects.equals(project_dir, project.project_dir) &&
+               Objects.equals(project_name, project.project_name) &&
+               StringUtils.equalsIgnoreCase(user_name, project.user_name) &&
+               Objects.equals(team_name, project.team_name) &&
+               Objects.equals(host_venue, project.host_venue) &&
+               gui_urls.equals(project.gui_urls);
+    }
 
-        //Test if user_name matches
-        return this.user_name.equalsIgnoreCase(proj.user_name);
+    @Override
+    public int hashCode() {
+        return Objects.hash(master_url, project_dir, resource_share, project_name, user_name,
+                            team_name, host_venue, hostid, gui_urls, user_total_credit, user_expavg_credit,
+                            host_total_credit, host_expavg_credit, disk_usage, nrpc_failures,
+                            master_fetch_failures, min_rpc_time, download_backoff, upload_backoff,
+                            cpu_short_term_debt, cpu_long_term_debt, cpu_backoff_time,
+                            cpu_backoff_interval, cuda_debt, cuda_short_term_debt, cuda_backoff_time,
+                            cuda_backoff_interval, ati_debt, ati_short_term_debt, ati_backoff_time,
+                            ati_backoff_interval, duration_correction_factor, master_url_fetch_pending,
+                            sched_rpc_pending, non_cpu_intensive, suspended_via_gui,
+                            dont_request_more_work, scheduler_rpc_in_progress, attached_via_acct_mgr,
+                            detach_when_done, ended, trickle_up_pending, project_files_downloaded_time,
+                            last_rpc_time, no_cpu_pref, no_cuda_pref, no_ati_pref);
     }
 
     @Override
     public int describeContents() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -130,7 +203,7 @@ public class Project implements Parcelable {
         dest.writeString(project_name);
         dest.writeString(user_name);
         dest.writeString(team_name);
-        dest.writeString(venue);
+        dest.writeString(host_venue);
         dest.writeInt(hostid);
         dest.writeList(gui_urls);
         dest.writeDouble(user_total_credit);
@@ -189,7 +262,7 @@ public class Project implements Parcelable {
         project_name = in.readString();
         user_name = in.readString();
         team_name = in.readString();
-        venue = in.readString();
+        host_venue = in.readString();
         hostid = in.readInt();
         in.readList(gui_urls, GuiUrl.class.getClassLoader());
         user_total_credit = in.readDouble();
@@ -224,6 +297,7 @@ public class Project implements Parcelable {
 
         boolean[] bArray = in.createBooleanArray();
 
+        assert bArray != null;
         master_url_fetch_pending = bArray[0];
         non_cpu_intensive = bArray[1];
         suspended_via_gui = bArray[2];
@@ -236,7 +310,6 @@ public class Project implements Parcelable {
         no_cpu_pref = bArray[9];
         no_cuda_pref = bArray[10];
         no_ati_pref = bArray[11];
-
     }
 
     public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {

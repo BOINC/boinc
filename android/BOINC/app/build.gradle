@@ -71,8 +71,25 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+
+    tasks.withType(Test) {
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
 }
+
+ext.powermock_version = '2.0.5'
+ext.lombok_version = '1.18.12'
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    testImplementation 'junit:junit:4.13'
+    testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
+    testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
+
+    // The line below is needed for access to the Lombok annotations.
+    compileOnly "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }

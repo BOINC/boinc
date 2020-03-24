@@ -19,23 +19,26 @@
 
 package edu.berkeley.boinc.rpc;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.util.Xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.util.Log;
-import android.util.Xml;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
 public class ResultsParser extends BaseParser {
+    static final String RESULT_TAG = "result";
 
-    private ArrayList<Result> mResults = new ArrayList<>();
+    private List<Result> mResults = new ArrayList<>();
     private Result mResult = null;
     private boolean mInActiveTask = false;
 
-    public ArrayList<Result> getResults() {
+    public List<Result> getResults() {
         return mResults;
     }
 
@@ -45,25 +48,24 @@ public class ResultsParser extends BaseParser {
      * @param rpcResult String returned by RPC call of core client
      * @return vector of results info
      */
-    public static ArrayList<Result> parse(String rpcResult) {
+    public static List<Result> parse(String rpcResult) {
         try {
             ResultsParser parser = new ResultsParser();
             Xml.parse(rpcResult, parser);
             return parser.getResults();
         }
         catch(SAXException e) {
-            return null;
+            return Collections.emptyList();
         }
-
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("result")) {
+        if(localName.equalsIgnoreCase(RESULT_TAG)) {
             mResult = new Result();
         }
-        else if(localName.equalsIgnoreCase("active_task")) {
+        else if(localName.equalsIgnoreCase(Result.Fields.active_task)) {
             mInActiveTask = true;
         }
         else {
@@ -74,21 +76,16 @@ public class ResultsParser extends BaseParser {
         }
     }
 
-    // Method characters(char[] ch, int start, int length) is implemented by BaseParser,
-    // filling mCurrentElement (including stripping of leading whitespaces)
-    //@Override
-    //public void characters(char[] ch, int start, int length) throws SAXException { }
-
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
             if(mResult != null) {
                 // We are inside <result>
-                if(localName.equalsIgnoreCase("result")) {
+                if(localName.equalsIgnoreCase(RESULT_TAG)) {
                     // Closing tag of <result> - add to vector and be ready for
                     // next one
-                    if(!mResult.name.equals("")) {
+                    if(!mResult.name.isEmpty()) {
                         // name is a must
                         mResults.add(mResult);
                     }
@@ -99,117 +96,117 @@ public class ResultsParser extends BaseParser {
                     trimEnd();
                     if(mInActiveTask) {
                         // we are in <active_task>
-                        if(localName.equalsIgnoreCase("active_task")) {
+                        if(localName.equalsIgnoreCase(Result.Fields.active_task)) {
                             // Closing of <active_task>
                             mResult.active_task = true;
                             mInActiveTask = false;
                         }
-                        else if(localName.equalsIgnoreCase("active_task_state")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.active_task_state)) {
                             mResult.active_task_state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("app_version_num")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.app_version_num)) {
                             mResult.app_version_num = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("scheduler_state")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.scheduler_state)) {
                             mResult.scheduler_state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("checkpoint_cpu_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.checkpoint_cpu_time)) {
                             mResult.checkpoint_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("current_cpu_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.current_cpu_time)) {
                             mResult.current_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("fraction_done")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.fraction_done)) {
                             mResult.fraction_done = Float.parseFloat(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("elapsed_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.elapsed_time)) {
                             mResult.elapsed_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("swap_size")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.swap_size)) {
                             mResult.swap_size = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("working_set_size_smoothed")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.working_set_size_smoothed)) {
                             mResult.working_set_size_smoothed = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.estimated_cpu_time_remaining)) {
                             mResult.estimated_cpu_time_remaining = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("supports_graphics")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.supports_graphics)) {
                             mResult.supports_graphics = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("graphic_mode_acked")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.graphics_mode_acked)) {
                             mResult.graphics_mode_acked = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("too_large")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.too_large)) {
                             mResult.too_large = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("needs_shmem")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.needs_shmem)) {
                             mResult.needs_shmem = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("edf_scheduled")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.edf_scheduled)) {
                             mResult.edf_scheduled = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("pid")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.pid)) {
                             mResult.pid = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("slot")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.slot)) {
                             mResult.slot = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("graphics_exec_path")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.graphics_exec_path)) {
                             mResult.graphics_exec_path = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("slot_path")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.slot_path)) {
                             mResult.slot_path = mCurrentElement.toString();
                         }
                     }
                     else {
                         // Not in <active_task>
-                        if(localName.equalsIgnoreCase("name")) {
+                        if(localName.equalsIgnoreCase(Result.Fields.name)) {
                             mResult.name = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("wu_name")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.wu_name)) {
                             mResult.wu_name = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("project_url")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.project_url)) {
                             mResult.project_url = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase("version_num")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.version_num)) {
                             mResult.version_num = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("ready_to_report")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.ready_to_report)) {
                             mResult.ready_to_report = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("got_server_ack")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.got_server_ack)) {
                             mResult.got_server_ack = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("final_cpu_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.final_cpu_time)) {
                             mResult.final_cpu_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("final_elapsed_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.final_elapsed_time)) {
                             mResult.final_elapsed_time = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("state")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.state)) {
                             mResult.state = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("report_deadline")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.report_deadline)) {
                             mResult.report_deadline = (long) Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("received_time")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.received_time)) {
                             mResult.received_time = (long) Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("estimated_cpu_time_remaining")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.estimated_cpu_time_remaining)) {
                             mResult.estimated_cpu_time_remaining = Double.parseDouble(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("exit_status")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.exit_status)) {
                             mResult.exit_status = Integer.parseInt(mCurrentElement.toString());
                         }
-                        else if(localName.equalsIgnoreCase("suspended_via_gui")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.suspended_via_gui)) {
                             mResult.suspended_via_gui = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("project_suspended_via_gui")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.project_suspended_via_gui)) {
                             mResult.project_suspended_via_gui = !mCurrentElement.toString().equals("0");
                         }
-                        else if(localName.equalsIgnoreCase("resources")) {
+                        else if(localName.equalsIgnoreCase(Result.Fields.resources)) {
                             mResult.resources = mCurrentElement.toString();
                         }
                     }

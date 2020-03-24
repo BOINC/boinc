@@ -25,31 +25,35 @@ import org.xml.sax.SAXException;
 import android.util.Log;
 import android.util.Xml;
 
+import java.util.List;
+
 import edu.berkeley.boinc.utils.Logging;
 
 public class CcStateParser extends BaseParser {
+    static final String CLIENT_STATE_TAG = "client_state";
+    static final String CORE_CLIENT_MAJOR_VERSION_TAG = "core_client_major_version";
+    static final String CORE_CLIENT_MINOR_VERSION_TAG = "core_client_minor_version";
+    static final String CORE_CLIENT_RELEASE_TAG = "core_client_release";
 
     private CcState mCcState = new CcState();
-    private VersionInfo mVersionInfo = new VersionInfo();
-    private HostInfoParser mHostInfoParser = new HostInfoParser();
-    private boolean mInHostInfo = false;
-    private ProjectsParser mProjectsParser = new ProjectsParser();
-    private boolean mInProject = false;
     private Project myProject = new Project();
-    private AppsParser mAppsParser = new AppsParser();
-    private boolean mInApp = false;
-    private App myApp = new App();
-    private AppVersionsParser mAppVersionsParser = new AppVersionsParser();
-    private boolean mInAppVersion = false;
-    private AppVersion myAppVersion = new AppVersion();
-    private WorkunitsParser mWorkunitsParser = new WorkunitsParser();
-    private boolean mInWorkunit = false;
-    private Workunit myWorkunit = new Workunit();
-    private ResultsParser mResultsParser = new ResultsParser();
-    private boolean mInResult = false;
-    private Result myResult = new Result();
+    private VersionInfo mVersionInfo = new VersionInfo();
 
-    public final CcState getCcState() {
+    private AppsParser mAppsParser = new AppsParser();
+    private AppVersionsParser mAppVersionsParser = new AppVersionsParser();
+    private HostInfoParser mHostInfoParser = new HostInfoParser();
+    private ProjectsParser mProjectsParser = new ProjectsParser();
+    private ResultsParser mResultsParser = new ResultsParser();
+    private WorkunitsParser mWorkunitsParser = new WorkunitsParser();
+
+    private boolean mInApp = false;
+    private boolean mInAppVersion = false;
+    private boolean mInHostInfo = false;
+    private boolean mInProject = false;
+    private boolean mInResult = false;
+    private boolean mInWorkunit = false;
+
+    final CcState getCcState() {
         return mCcState;
     }
 
@@ -68,76 +72,62 @@ public class CcStateParser extends BaseParser {
         catch(SAXException e) {
             return null;
         }
-
-    }
-
-    @Override
-    public void endDocument() {
-        // Commit sub-parsers data to resulting CcState
-        mCcState.version_info = mVersionInfo;
-        mCcState.host_info = mHostInfoParser.getHostInfo();
-        //mCcState.projects = mProjectsParser.getProjects();
-        //mCcState.apps = mAppsParser.getApps();
-        //mCcState.app_versions = mAppVersionsParser.getAppVersions();
-        //mCcState.workunits = mWorkunitsParser.getWorkunits();
-        //mCcState.results = mResultsParser.getResults();
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("client_state")) {
+        if(localName.equalsIgnoreCase(CLIENT_STATE_TAG)) {
             //Starting the query, clear mCcState
             mCcState.clearArrays();
         }
-        if(localName.equalsIgnoreCase("host_info")) {
+        if(localName.equalsIgnoreCase(HostInfoParser.HOST_INFO_TAG)) {
             // Just stepped inside <host_info>
             mInHostInfo = true;
         }
         if(mInHostInfo) {
             mHostInfoParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("project")) {
+        if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
             // Just stepped inside <project>
             mInProject = true;
         }
         if(mInProject) {
             mProjectsParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("app")) {
+        if(localName.equalsIgnoreCase(AppsParser.APP_TAG)) {
             // Just stepped inside <app>
             mInApp = true;
         }
         if(mInApp) {
             mAppsParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("app_version")) {
+        if(localName.equalsIgnoreCase(AppVersionsParser.APP_VERSION_TAG)) {
             // Just stepped inside <app_version>
             mInAppVersion = true;
         }
         if(mInAppVersion) {
             mAppVersionsParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("workunit")) {
+        if(localName.equalsIgnoreCase(WorkunitsParser.WORKUNIT_TAG)) {
             // Just stepped inside <workunit>
             mInWorkunit = true;
         }
         if(mInWorkunit) {
             mWorkunitsParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("result")) {
+        if(localName.equalsIgnoreCase(ResultsParser.RESULT_TAG)) {
             // Just stepped inside <result>
             mInResult = true;
         }
         if(mInResult) {
             mResultsParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase("core_client_major_version") ||
-           localName.equalsIgnoreCase("core_client_minor_version") ||
-           localName.equalsIgnoreCase("core_client_release") ||
-           localName.equalsIgnoreCase("have_ati") ||
-           localName.equalsIgnoreCase("have_cuda")
-                ) {
+        if(localName.equalsIgnoreCase(CORE_CLIENT_MAJOR_VERSION_TAG) ||
+           localName.equalsIgnoreCase(CORE_CLIENT_MINOR_VERSION_TAG) ||
+           localName.equalsIgnoreCase(CORE_CLIENT_RELEASE_TAG) ||
+           localName.equalsIgnoreCase(CcState.Fields.have_ati) ||
+           localName.equalsIgnoreCase(CcState.Fields.have_cuda)) {
             // VersionInfo elements
             mElementStarted = true;
             mCurrentElement.setLength(0);
@@ -182,7 +172,8 @@ public class CcStateParser extends BaseParser {
                 // We are inside <host_info>
                 // parse it by sub-parser in any case (to parse also closing element)
                 mHostInfoParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("host_info")) {
+                mCcState.host_info = mHostInfoParser.getHostInfo();
+                if(localName.equalsIgnoreCase(HostInfoParser.HOST_INFO_TAG)) {
                     mInHostInfo = false;
                 }
             }
@@ -190,11 +181,13 @@ public class CcStateParser extends BaseParser {
                 // We are inside <project>
                 // parse it by sub-parser in any case (must parse also closing element!)
                 mProjectsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("project")) {
+                if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
                     // Closing tag of <project>
                     mInProject = false;
-                    if(mProjectsParser.getProjects().size() > 0) {
-                        myProject = mProjectsParser.getProjects().get(mProjectsParser.getProjects().size() - 1);
+                    final List<Project> projects = mProjectsParser.getProjects();
+
+                    if(!projects.isEmpty()) {
+                        myProject = projects.get(projects.size() - 1);
                         mCcState.projects.add(myProject);
                     }
                 }
@@ -203,11 +196,13 @@ public class CcStateParser extends BaseParser {
                 // We are inside <app>
                 // parse it by sub-parser in any case (must parse also closing element!)
                 mAppsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("app")) {
+                if(localName.equalsIgnoreCase(AppsParser.APP_TAG)) {
                     // Closing tag of <app>
                     mInApp = false;
-                    if(mAppsParser.getApps().size() > 0) {
-                        myApp = mAppsParser.getApps().get(mAppsParser.getApps().size() - 1);
+                    final List<App> apps = mAppsParser.getApps();
+
+                    if(!apps.isEmpty()) {
+                        final App myApp = apps.get(apps.size() - 1);
                         myApp.project = myProject;
                         mCcState.apps.add(myApp);
                     }
@@ -215,14 +210,15 @@ public class CcStateParser extends BaseParser {
             }
             if(mInAppVersion) {
                 // We are inside <app_version>
-                // parse it by sub-parser in any case (must parse also closing element!)
-                mAppsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("app_version")) {
+                // parse it by sub-parser in any case (must also parse closing element!)
+                mAppVersionsParser.endElement(uri, localName, qName);
+                if(localName.equalsIgnoreCase(AppVersionsParser.APP_VERSION_TAG)) {
                     // Closing tag of <app_version>
                     mInAppVersion = false;
-                    if(mAppVersionsParser.getAppVersions().size() > 0) {
-                        myAppVersion =
-                                mAppVersionsParser.getAppVersions().get(mAppVersionsParser.getAppVersions().size() - 1);
+                    final List<AppVersion> appVersions = mAppVersionsParser.getAppVersions();
+
+                    if(!appVersions.isEmpty()) {
+                        final AppVersion myAppVersion = appVersions.get(appVersions.size() - 1);
                         myAppVersion.project = myProject;
                         myAppVersion.app = mCcState.lookup_app(myProject, myAppVersion.app_name);
                         mCcState.app_versions.add(myAppVersion);
@@ -233,11 +229,13 @@ public class CcStateParser extends BaseParser {
                 // We are inside <workunit>
                 // parse it by sub-parser in any case (must parse also closing element!)
                 mWorkunitsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("workunit")) {
+                if(localName.equalsIgnoreCase(WorkunitsParser.WORKUNIT_TAG)) {
                     // Closing tag of <workunit>
                     mInWorkunit = false;
-                    if(mWorkunitsParser.getWorkunits().size() > 0) {
-                        myWorkunit = mWorkunitsParser.getWorkunits().get(mWorkunitsParser.getWorkunits().size() - 1);
+                    final List<Workunit> workunits = mWorkunitsParser.getWorkunits();
+
+                    if(!workunits.isEmpty()) {
+                        final Workunit myWorkunit = workunits.get(workunits.size() - 1);
                         myWorkunit.project = myProject;
                         myWorkunit.app = mCcState.lookup_app(myProject, myWorkunit.app_name);
                         mCcState.workunits.add(myWorkunit);
@@ -248,18 +246,21 @@ public class CcStateParser extends BaseParser {
                 // We are inside <result>
                 // parse it by sub-parser in any case (must parse also closing element!)
                 mResultsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase("result")) {
+                if(localName.equalsIgnoreCase(ResultsParser.RESULT_TAG)) {
                     // Closing tag of <result>
                     mInResult = false;
+                    final List<Result> results = mResultsParser.getResults();
 
-                    if(mResultsParser.getResults().size() > 0) {
-                        myResult = mResultsParser.getResults().get(mResultsParser.getResults().size() - 1);
+                    if(!results.isEmpty()) {
+                        final Result myResult = results.get(results.size() - 1);
                         myResult.project = myProject;
                         myResult.wup = mCcState.lookup_wu(myProject, myResult.wu_name);
                         if(myResult.wup != null) {
                             myResult.app = myResult.wup.app;
                             myResult.avp =
-                                    mCcState.lookup_app_version(myProject, myResult.app, myResult.version_num, myResult.plan_class);
+                                    mCcState.lookup_app_version(myProject, myResult.app,
+                                                                myResult.version_num,
+                                                                myResult.plan_class);
 
                         }
                         mCcState.results.add(myResult);
@@ -269,22 +270,23 @@ public class CcStateParser extends BaseParser {
             if(mElementStarted) {
                 trimEnd();
                 // VersionInfo?
-                if(localName.equalsIgnoreCase("core_client_major_version")) {
+                if(localName.equalsIgnoreCase(CORE_CLIENT_MAJOR_VERSION_TAG)) {
                     mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase("core_client_minor_version")) {
+                else if(localName.equalsIgnoreCase(CORE_CLIENT_MINOR_VERSION_TAG)) {
                     mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase("core_client_release")) {
+                else if(localName.equalsIgnoreCase(CORE_CLIENT_RELEASE_TAG)) {
                     mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase("have_ati")) {
+                else if(localName.equalsIgnoreCase(CcState.Fields.have_ati)) {
                     mCcState.have_ati = !mCurrentElement.toString().equals("0");
                 }
-                else if(localName.equalsIgnoreCase("have_cuda")) {
+                else if(localName.equalsIgnoreCase(CcState.Fields.have_cuda)) {
                     mCcState.have_cuda = !mCurrentElement.toString().equals("0");
                 }
                 mElementStarted = false;
+                mCcState.version_info = mVersionInfo;
             }
         }
         catch(NumberFormatException e) {

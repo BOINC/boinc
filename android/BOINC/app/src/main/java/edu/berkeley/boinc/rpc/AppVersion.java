@@ -22,9 +22,16 @@ package edu.berkeley.boinc.rpc;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@EqualsAndHashCode
+@FieldNameConstants(onlyExplicitlyIncluded = true)
+@ToString
 public class AppVersion implements Parcelable {
-    public String app_name;
-    public int version_num;
+    @FieldNameConstants.Include public String app_name;
+    @FieldNameConstants.Include public int version_num;
     public String platform;
     public String plan_class;
     public String api_version;
@@ -35,6 +42,31 @@ public class AppVersion implements Parcelable {
 
     App app;
     Project project;
+
+    AppVersion() {
+    }
+
+    AppVersion(String app_name) {
+        this.app_name = app_name;
+    }
+
+    AppVersion(String app_name, int version_num) {
+        this(app_name);
+        this.version_num = version_num;
+    }
+
+    private AppVersion(Parcel in) {
+        this(in.readString(), in.readInt());
+        platform = in.readString();
+        plan_class = in.readString();
+        api_version = in.readString();
+        avg_ncpus = in.readDouble();
+        max_ncpus = in.readDouble();
+        gpu_ram = in.readDouble();
+
+        app = (App) in.readValue(App.class.getClassLoader());
+        project = (Project) in.readValue(Project.class.getClassLoader());
+    }
 
     @Override
     public int describeContents() {
@@ -55,23 +87,6 @@ public class AppVersion implements Parcelable {
 
         dest.writeValue(app);
         dest.writeValue(project);
-    }
-
-    public AppVersion() {
-    }
-
-    private AppVersion(Parcel in) {
-        app_name = in.readString();
-        version_num = in.readInt();
-        platform = in.readString();
-        plan_class = in.readString();
-        api_version = in.readString();
-        avg_ncpus = in.readDouble();
-        max_ncpus = in.readDouble();
-        gpu_ram = in.readDouble();
-
-        app = (App) in.readValue(App.class.getClassLoader());
-        project = (Project) in.readValue(Project.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<AppVersion> CREATOR = new Parcelable.Creator<AppVersion>() {
