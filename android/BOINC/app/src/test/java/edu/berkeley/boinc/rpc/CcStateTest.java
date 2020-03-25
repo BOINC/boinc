@@ -64,26 +64,26 @@ public class CcStateTest {
         appVersion.project = project;
         appVersion.version_num = 1;
 
-        ccState.apps.add(app);
-        ccState.workunits.add(workunit);
-        ccState.app_versions.add(appVersion);
+        ccState.getApps().add(app);
+        ccState.getWorkunits().add(workunit);
+        ccState.getAppVersions().add(appVersion);
     }
 
     @Test
     public void testLookupApp_whenAppListIsEmpty_thenExpectNull() {
         ccState.clearArrays();
 
-        assertNull(ccState.lookup_app(null, null));
+        assertNull(ccState.lookupApp(null, null));
     }
 
     @Test
     public void testLookupApp_whenAppListHasOneAppAndParametersAreNull_thenExpectNull() {
-        assertNull(ccState.lookup_app(null, null));
+        assertNull(ccState.lookupApp(null, null));
     }
 
     @Test
     public void testLookupApp_whenAppListHasOneAppAndProjectMatchesAppProjectAndAppNameIsNull_thenExpectNull() {
-        assertNull(ccState.lookup_app(project, null));
+        assertNull(ccState.lookupApp(project, null));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class CcStateTest {
         Project project1 = new Project();
         project1.master_url = URL_2;
 
-        assertNull(ccState.lookup_app(project1, "App"));
+        assertNull(ccState.lookupApp(project1, "App"));
     }
 
     @Test
@@ -99,12 +99,12 @@ public class CcStateTest {
         Project project1 = new Project();
         project1.master_url = URL_1;
 
-        assertNull(ccState.lookup_app(project1, "App 2"));
+        assertNull(ccState.lookupApp(project1, "App 2"));
     }
 
     @Test
     public void testLookupApp_whenAppListHasOneAppAndProjectMatchesAppProjectAndNameMatchesAppName_thenExpectApp() {
-        final App appFound = ccState.lookup_app(project, "App");
+        final App appFound = ccState.lookupApp(project, "App");
 
         assertNotNull(appFound);
         assertEquals("App", appFound.name);
@@ -115,29 +115,29 @@ public class CcStateTest {
     public void testLookupWorkUnit_whenWorkUnitListIsEmpty_thenExpectNull() {
         ccState.clearArrays();
 
-        assertNull(ccState.lookup_wu(null, null));
+        assertNull(ccState.lookupWorkUnit(null, null));
     }
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndParametersAreNull_thenExpectNull() {
-        assertNull(ccState.lookup_wu(null, null));
+        assertNull(ccState.lookupWorkUnit(null, null));
     }
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndProjectDoesntMatch_thenExpectNull() {
         project1.master_url = URL_2;
 
-        assertNull(ccState.lookup_wu(project1, "Work Unit"));
+        assertNull(ccState.lookupWorkUnit(project1, "Work Unit"));
     }
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndWorkUnitNameDoesntMatch_thenExpectNull() {
-        assertNull(ccState.lookup_wu(project1, "Work Unit 2"));
+        assertNull(ccState.lookupWorkUnit(project1, "Work Unit 2"));
     }
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndParametersMatch_thenExpectWorkUnit() {
-        final Workunit workUnitFound = ccState.lookup_wu(project1, "Work Unit");
+        final Workunit workUnitFound = ccState.lookupWorkUnit(project1, "Work Unit");
 
         assertNotNull(workUnitFound);
         assertEquals(project, workUnitFound.project);
@@ -148,42 +148,42 @@ public class CcStateTest {
     public void testLookupAppVersion_whenAppVersionListIsEmpty_thenExpectNull() {
         ccState.clearArrays();
 
-        assertNull(ccState.lookup_app_version(null, null, 0, null));
+        assertNull(ccState.lookupAppVersion(null, null, 0, null));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndParametersAreNull_thenExpectNull() {
-        assertNull(ccState.lookup_app_version(null, null, 0, null));
+        assertNull(ccState.lookupAppVersion(null, null, 0, null));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndProjectDoesntMatch_thenExpectNull() {
         project1.master_url = URL_2;
 
-        assertNull(ccState.lookup_app_version(project1, app1, 1, "Plan Class"));
+        assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndAppDoesntMatch_thenExpectNull() {
         app1.name = "App 2";
 
-        assertNull(ccState.lookup_app_version(project1, app1, 1, "Plan Class"));
+        assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndVersionNumDoesntMatch_thenExpectNull() {
-        assertNull(ccState.lookup_app_version(project1, app1, 0, "Plan Class"));
+        assertNull(ccState.lookupAppVersion(project1, app1, 0, "Plan Class"));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndPlanClassDoesntMatch_thenExpectNull() {
-        assertNull(ccState.lookup_app_version(project1, app1, 0, "Plan Class 2"));
+        assertNull(ccState.lookupAppVersion(project1, app1, 0, "Plan Class 2"));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndParametersMatch_thenExpectAppVersion() {
         final AppVersion foundAppVersion =
-                ccState.lookup_app_version(project1, app1, 1, "Plan Class");
+                ccState.lookupAppVersion(project1, app1, 1, "Plan Class");
 
         assertNotNull(foundAppVersion);
         assertEquals(project, foundAppVersion.project);

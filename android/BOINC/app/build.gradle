@@ -4,6 +4,8 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 import org.ajoberstar.grgit.Grgit
 
@@ -85,6 +87,8 @@ ext.lombok_version = '1.18.12'
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.13'
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
@@ -92,4 +96,7 @@ dependencies {
     // The line below is needed for access to the Lombok annotations.
     compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
+}
+repositories {
+    mavenCentral()
 }

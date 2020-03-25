@@ -417,9 +417,9 @@ public class Monitor extends Service {
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
                 List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 
-                if (status != null && state != null && state.host_info != null && acctMgrInfo != null) {
-                    Monitor.getClientStatus().setClientStatus(status, state.results, state.projects,
-                                                              transfers, state.host_info, acctMgrInfo,
+                if (status != null && state != null && state.getHostInfo() != null && acctMgrInfo != null) {
+                    Monitor.getClientStatus().setClientStatus(status, state.getResults(), state.getProjects(),
+                                                              transfers, state.getHostInfo(), acctMgrInfo,
                                                               newNotices);
                 } else {
                     String nullValues = "";
@@ -427,7 +427,7 @@ public class Monitor extends Service {
                     if (state == null) {
                         nullValues += "state ";
                     } else {
-                        if (state.host_info == null) nullValues += "state.host_info ";
+                        if (state.getHostInfo() == null) nullValues += "state.host_info ";
                     }
                     if (transfers == null) nullValues += "transfers ";
                     if (acctMgrInfo == null) nullValues += "acctMgrInfo ";
