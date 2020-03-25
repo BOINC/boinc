@@ -29,7 +29,7 @@ import org.xml.sax.SAXException
 class ProjectConfigReplyParser : BaseParser() {
     lateinit var projectConfig: ProjectConfig
         private set
-    private var mPlatforms: MutableList<PlatformInfo?>? = null
+    private lateinit var mPlatforms: MutableList<PlatformInfo>
     private var withinPlatforms = false
     private var platformName = ""
     private var platformFriendlyName = ""
@@ -60,7 +60,7 @@ class ProjectConfigReplyParser : BaseParser() {
         super.endElement(uri, localName, qName)
         try {
             if (localName.equals(ProjectConfig.Fields.PLATFORMS, ignoreCase = true)) { // closing tag of platform names
-                projectConfig.platforms = mPlatforms!!
+                projectConfig.platforms = mPlatforms
                 withinPlatforms = false
             } else { // Not the closing tag - we decode possible inner tags
                 trimEnd()
@@ -98,8 +98,7 @@ class ProjectConfigReplyParser : BaseParser() {
                     projectConfig.termsOfUse = mCurrentElement.toString()
                 } else if (localName.equals(PLATFORM_TAG, ignoreCase = true) && withinPlatforms) {
                     // finish platform object and add to array
-                    mPlatforms!!.add(PlatformInfo(platformName, platformFriendlyName,
-                            platformPlanClass))
+                    mPlatforms.add(PlatformInfo(platformName, platformFriendlyName, platformPlanClass))
                     platformFriendlyName = ""
                     platformName = ""
                     platformPlanClass = ""

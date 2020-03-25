@@ -35,7 +35,7 @@ data class ProjectConfig(
         var minPwdLength: Int = 0,
         var minClientVersion: Int = 0,
         var rpcPrefix: String = "",
-        var platforms: MutableList<PlatformInfo?> = mutableListOf(),
+        var platforms: MutableList<PlatformInfo> = mutableListOf(),
         var termsOfUse: String? = null,
         var usesName: Boolean = false,
         var webStopped: Boolean = false,
@@ -48,7 +48,7 @@ data class ProjectConfig(
             this(parcel.readInt(), parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
-        parcel.readList(platforms.toList(), PlatformInfo::class.java.classLoader)
+        parcel.readList(platforms as List<*>, PlatformInfo::class.java.classLoader)
         termsOfUse = parcel.readString()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
