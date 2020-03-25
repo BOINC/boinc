@@ -550,7 +550,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
         List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
-        List<Project> attachedProjects = getState().projects; // currently attached projects
+        List<Project> attachedProjects = getState().getProjects(); // currently attached projects
 
         List<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
 

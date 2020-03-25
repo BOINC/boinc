@@ -64,9 +64,9 @@ public class CcStateTest {
         appVersion.project = project;
         appVersion.version_num = 1;
 
-        ccState.apps.add(app);
-        ccState.workunits.add(workunit);
-        ccState.app_versions.add(appVersion);
+        ccState.getApps().add(app);
+        ccState.getWorkunits().add(workunit);
+        ccState.getAppVersions().add(appVersion);
     }
 
     @Test

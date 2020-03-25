@@ -21,29 +21,20 @@ package edu.berkeley.boinc.rpc
 import java.util.ArrayList
 
 data class CcState(
-        @JvmField
-        var version_info: VersionInfo? = null,
-        @JvmField
-        var host_info: HostInfo? = null,
-        @JvmField
-        var have_ati: Boolean = false,
-        @JvmField
-        var have_cuda: Boolean = false,
-        @JvmField
+        var versionInfo: VersionInfo? = null,
+        var hostInfo: HostInfo? = null,
+        var haveAti: Boolean = false,
+        var haveCuda: Boolean = false,
         val projects: MutableList<Project> = ArrayList(),
-        @JvmField
         val apps: MutableList<App> = ArrayList(),
-        @JvmField
-        val app_versions: MutableList<AppVersion> = ArrayList(),
-        @JvmField
+        val appVersions: MutableList<AppVersion> = ArrayList(),
         val workunits: MutableList<Workunit> = ArrayList(),
-        @JvmField
         val results: MutableList<Result> = ArrayList()
 ) {
     fun clearArrays() {
         projects.clear()
         apps.clear()
-        app_versions.clear()
+        appVersions.clear()
         workunits.clear()
         results.clear()
     }
@@ -61,7 +52,7 @@ data class CcState(
     fun lookupAppVersion(project: Project?, app: App?, versionNum: Int, planClass: String?): AppVersion? {
         // Sequences process elements lazily, which can improve performance with large collections and
         // complex operations.
-        return app_versions.asSequence()
+        return appVersions.asSequence()
                 .filter { it.project == project } //Check if projects match
                 .filter { it.app == app } //Check if app matches
                 .filter { it.version_num == versionNum } //Check version_num
