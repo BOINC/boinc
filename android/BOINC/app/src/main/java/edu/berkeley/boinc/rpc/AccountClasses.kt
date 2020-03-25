@@ -32,7 +32,7 @@ import android.os.Parcelable
  * @param teamName name of team, account shall get associated to
  * @param usesName if true, id represents a user name, if not, the user's email address
  */
-class AccountIn(
+data class AccountIn(
         var url: String? = null,
         var emailAddress: String? = null,
         var userName: String? = null,
