@@ -284,7 +284,7 @@
     <string name="tasks_custom_ready_to_report">მზად არის გასაგზავნად</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">გსურთ დავალების შეწყვეტა?</string>
-    <string name="confirm_abort_task_message">დავალების შეწყვეტა:</string>
+    <string name="confirm_abort_task_message">დავალების შეწყვეტა: %1$s</string>
     <string name="confirm_abort_task_confirm">შეწყვეტა</string>
     <string name="confirm_cancel">გაუქმება</string>
     <string name="confirm_image_desc">დასტურის ფანჯარა</string>

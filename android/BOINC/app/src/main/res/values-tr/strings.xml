@@ -253,7 +253,7 @@
     <string name="tasks_custom_ready_to_report">raporlanmaya hazır</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">İş iptal edilsin mi?</string>
-    <string name="confirm_abort_task_message">Bu iş iptal edilsin :</string>
+    <string name="confirm_abort_task_message">Bu iş iptal edilsin : %1$s</string>
     <string name="confirm_abort_task_confirm">İptal</string>
     <string name="confirm_cancel">Vazgeç</string>
     <string name="confirm_image_desc">Onaylama sorusu</string>

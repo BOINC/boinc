@@ -260,7 +260,7 @@
   <string name="tasks_custom_ready_to_report">klaar om te rapporteren</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Taak afbreken?</string>
-  <string name="confirm_abort_task_message">Taak afbreken:</string>
+  <string name="confirm_abort_task_message">Taak afbreken: %1$s</string>
   <string name="confirm_abort_task_confirm">Afbreken</string>
   <string name="confirm_cancel">Annuleren</string>
   <string name="confirm_image_desc">Bevestigingsdialoog</string>

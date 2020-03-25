@@ -265,7 +265,7 @@
     <string name="tasks_custom_ready_to_report">מוכן לדווח</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">האם לבטל משימה?</string>
-    <string name="confirm_abort_task_message">בטל משימה:</string>
+    <string name="confirm_abort_task_message">בטל משימה: %1$s</string>
     <string name="confirm_abort_task_confirm">בטל</string>
     <string name="confirm_cancel">ביטול</string>
     <string name="confirm_image_desc">תיבת דו-שיח לאישור</string>

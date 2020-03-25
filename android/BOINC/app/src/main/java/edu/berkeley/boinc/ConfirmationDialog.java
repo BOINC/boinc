@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.content.DialogInterface.OnClickListener;
 
-public class ConfirmationDialog extends android.support.v4.app.DialogFragment {
+import androidx.fragment.app.DialogFragment;
+
+public class ConfirmationDialog extends DialogFragment {
     private OnClickListener mConfirmClickListener = null;
 
     public static ConfirmationDialog newInstance(String title, String message, String confirm) {

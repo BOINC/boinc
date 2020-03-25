@@ -266,7 +266,7 @@
   <string name="tasks_custom_ready_to_report">pripravená na odoslanie</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Zrušiť úlohu?</string>
-  <string name="confirm_abort_task_message">Zrušiť úlohu:</string>
+  <string name="confirm_abort_task_message">Zrušiť úlohu: %1$s</string>
   <string name="confirm_abort_task_confirm">Zrušiť</string>
   <string name="confirm_cancel">Späť</string>
   <string name="confirm_image_desc">Potvrdenie</string>

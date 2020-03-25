@@ -73,7 +73,7 @@
                 android:onClick="nextHintClicked"/>
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
             android:id="@+id/hint_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

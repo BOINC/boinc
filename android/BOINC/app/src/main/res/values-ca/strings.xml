@@ -286,7 +286,7 @@
     <string name="tasks_custom_ready_to_report">a punt per informar</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Avortar la tasca?</string>
-    <string name="confirm_abort_task_message">Avortar la tasca:</string>
+    <string name="confirm_abort_task_message">Avortar la tasca: %1$s</string>
     <string name="confirm_abort_task_confirm">Avorta</string>
     <string name="confirm_cancel">Cancel·la</string>
     <string name="confirm_image_desc">Diàleg de confirmació</string>

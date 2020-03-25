@@ -266,7 +266,7 @@ permitido que o BOINC utilize?</string>
   <string name="tasks_custom_ready_to_report">pronto para reportar</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Abortar tarefa?</string>
-  <string name="confirm_abort_task_message">Abortar tarefa:</string>
+  <string name="confirm_abort_task_message">Abortar tarefa: %1$s</string>
   <string name="confirm_abort_task_confirm">Abortar</string>
   <string name="confirm_cancel">Cancelar</string>
   <string name="confirm_image_desc">Janela de confirmação</string>

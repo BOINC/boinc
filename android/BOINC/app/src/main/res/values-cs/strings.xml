@@ -271,7 +271,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="tasks_custom_ready_to_report">připraven k nahlášení</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Zrušit úkol?</string>
-  <string name="confirm_abort_task_message">Zrušit úkol:</string>
+  <string name="confirm_abort_task_message">Zrušit úkol: %1$s</string>
   <string name="confirm_abort_task_confirm">Zrušit</string>
   <string name="confirm_cancel">Zpět</string>
   <string name="confirm_image_desc">Potvrzovací dialog</string>

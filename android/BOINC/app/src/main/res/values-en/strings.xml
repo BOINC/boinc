@@ -274,7 +274,7 @@
     <string name="tasks_custom_ready_to_report">ready to report</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Abort task?</string>
-    <string name="confirm_abort_task_message">Abort task:</string>
+    <string name="confirm_abort_task_message">Abort task: %1$s</string>
     <string name="confirm_abort_task_confirm">Abort</string>
     <string name="confirm_cancel">Cancel</string>
     <string name="confirm_image_desc">Confirmation dialog</string>
