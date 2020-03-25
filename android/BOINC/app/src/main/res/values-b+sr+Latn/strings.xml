@@ -255,7 +255,7 @@
     <string name="tasks_custom_ready_to_report">spremno za izveštaj</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Prekini zadatak?</string>
-    <string name="confirm_abort_task_message">Prekini zadatak:</string>
+    <string name="confirm_abort_task_message">Prekini zadatak: %1$s</string>
     <string name="confirm_abort_task_confirm">Prekini</string>
     <string name="confirm_cancel">Poništi</string>
     <string name="confirm_image_desc">Prozor za potvrđivanje</string>

@@ -281,7 +281,7 @@
     <string name="tasks_custom_ready_to_report">hesabat verməyə hazırdır</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">İş ləğv edilsin?</string>
-    <string name="confirm_abort_task_message">Bu iş ləğv edilsin:</string>
+    <string name="confirm_abort_task_message">Bu iş ləğv edilsin: %1$s</string>
     <string name="confirm_abort_task_confirm">Ləğv</string>
     <string name="confirm_cancel">İmtina</string>
     <string name="confirm_image_desc">Təsdiq informasiya qutusu</string>

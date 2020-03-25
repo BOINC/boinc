@@ -273,7 +273,7 @@
     <string name="tasks_custom_ready_to_report">جاهز للتسليم</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">إحباط المهمة؟</string>
-    <string name="confirm_abort_task_message">إحباط المهمة:</string>
+    <string name="confirm_abort_task_message">إحباط المهمة: %1$s</string>
     <string name="confirm_abort_task_confirm">إحباط</string>
     <string name="confirm_cancel">إلغاء</string>
     <string name="confirm_image_desc">محادثة التأكيد</string>

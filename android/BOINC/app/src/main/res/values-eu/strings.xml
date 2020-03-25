@@ -281,7 +281,7 @@ gehigarria
   <string name="tasks_custom_ready_to_report">emaitzak bidaltzeko prest</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Ataza bertan behera utzi?</string>
-  <string name="confirm_abort_task_message">Bertan behera utzi ataza:</string>
+  <string name="confirm_abort_task_message">Bertan behera utzi ataza: %1$s</string>
   <string name="confirm_abort_task_confirm">Bertan behera utzi</string>
   <string name="confirm_cancel">Utzi</string>
   <string name="confirm_image_desc">Berresteko elkarrizketa-koadroa</string>

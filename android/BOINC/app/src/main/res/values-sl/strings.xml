@@ -234,7 +234,7 @@
     <string name="tasks_custom_ready_to_report">готово для подтверждения</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Прервать задание?</string>
-    <string name="confirm_abort_task_message">Прервать задание:</string>
+    <string name="confirm_abort_task_message">Прервать задание: %1$s</string>
     <string name="confirm_abort_task_confirm">Opusti</string>
     <string name="confirm_cancel">Prekliči</string>
     <string name="confirm_image_desc">Диалог подтверждения</string>

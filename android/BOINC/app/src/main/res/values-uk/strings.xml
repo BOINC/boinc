@@ -282,7 +282,7 @@
   <string name="tasks_custom_ready_to_report">готовий до звітування</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Перервати завдання?</string>
-  <string name="confirm_abort_task_message">Перервати завдання:</string>
+  <string name="confirm_abort_task_message">Перервати завдання: %1$s</string>
   <string name="confirm_abort_task_confirm">Перервати</string>
   <string name="confirm_cancel">Скасувати</string>
   <string name="confirm_image_desc">Діалог підтвердження</string>

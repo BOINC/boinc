@@ -276,7 +276,7 @@
     <string name="tasks_custom_ready_to_report">gatavs ziņošanai</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Vai atteikties no uzdevuma?</string>
-    <string name="confirm_abort_task_message">Atteikties no uzdevuma:</string>
+    <string name="confirm_abort_task_message">Atteikties no uzdevuma: %1$s</string>
     <string name="confirm_abort_task_confirm">Pārtraukt</string>
     <string name="confirm_cancel">Atcelt</string>
     <string name="confirm_image_desc">Apstiprināšanas logs</string>

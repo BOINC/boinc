@@ -264,7 +264,7 @@
   <string name="tasks_custom_ready_to_report">準備回報</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">停止任務?</string>
-  <string name="confirm_abort_task_message">停止任務：</string>
+  <string name="confirm_abort_task_message">停止任務：%1$s</string>
   <string name="confirm_abort_task_confirm">停止</string>
   <string name="confirm_cancel">取消</string>
   <string name="confirm_image_desc">確認對話框</string>

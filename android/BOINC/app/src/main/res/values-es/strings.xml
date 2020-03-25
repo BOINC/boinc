@@ -278,7 +278,7 @@
     <string name="tasks_custom_ready_to_report">listo para informar</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">¿Cancelar tarea?</string>
-    <string name="confirm_abort_task_message">Cancelar tarea:</string>
+    <string name="confirm_abort_task_message">Cancelar tarea: %1$s</string>
     <string name="confirm_abort_task_confirm">Cancelar</string>
     <string name="confirm_cancel">Cancelar</string>
     <string name="confirm_image_desc">Mensaje de confirmación</string>

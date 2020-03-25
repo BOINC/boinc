@@ -281,7 +281,7 @@ BOINC应当暂停运算？
   <string name="tasks_custom_ready_to_report">等待上报</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">中止任务？</string>
-  <string name="confirm_abort_task_message">中止任务：</string>
+  <string name="confirm_abort_task_message">中止任务：%1$s</string>
   <string name="confirm_abort_task_confirm">中止</string>
   <string name="confirm_cancel">取消</string>
   <string name="confirm_image_desc">验证对话框</string>

@@ -281,7 +281,7 @@
   <string name="tasks_custom_ready_to_report">valmis raportoitavaksi</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Hylkää tehtävä?</string>
-  <string name="confirm_abort_task_message">Hylkää tehtävä:</string>
+  <string name="confirm_abort_task_message">Hylkää tehtävä: %1$s</string>
   <string name="confirm_abort_task_confirm">Hylkää</string>
   <string name="confirm_cancel">Peruuta</string>
   <string name="confirm_image_desc">Vahvistusikkuna</string>

@@ -286,7 +286,7 @@
     <string name="tasks_custom_ready_to_report">готов за докладване</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Прекратяване на задача?</string>
-    <string name="confirm_abort_task_message">Прекратяване на задача:</string>
+    <string name="confirm_abort_task_message">Прекратяване на задача: %1$s</string>
     <string name="confirm_abort_task_confirm">Прекрати</string>
     <string name="confirm_cancel">Откажи</string>
     <string name="confirm_image_desc">Диалог за потвърждение</string>

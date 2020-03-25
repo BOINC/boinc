@@ -276,7 +276,7 @@
     <string name="tasks_custom_ready_to_report">klar til at rapportere</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Afbryd opgave?</string>
-    <string name="confirm_abort_task_message">Afbryd opgave:</string>
+    <string name="confirm_abort_task_message">Afbryd opgave: %1$s</string>
     <string name="confirm_abort_task_confirm">Afbryd</string>
     <string name="confirm_cancel">Annullér</string>
     <string name="confirm_image_desc">Bekræftelsesdialog</string>

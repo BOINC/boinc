@@ -257,7 +257,7 @@
     <string name="tasks_custom_ready_to_report">보고 준비 완료</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">태스크를 중단할까요?</string>
-    <string name="confirm_abort_task_message">중단할 태스크:</string>
+    <string name="confirm_abort_task_message">중단할 태스크: %1$s</string>
     <string name="confirm_abort_task_confirm">중단</string>
     <string name="confirm_cancel">취소</string>
     <string name="confirm_image_desc">확인 대화상자</string>
