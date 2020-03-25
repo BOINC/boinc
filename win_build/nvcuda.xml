@@ -210,6 +210,14 @@
         Name="20"
         DisplayName="sm_20"
         Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+      <EnumValue
+        Name="30"
+        DisplayName="sm_30"
+        Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;" />
+      <EnumValue
+        Name="32"
+        DisplayName="sm_32"
+        Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="Arch2"
@@ -240,6 +248,14 @@
         Name="20"
         DisplayName="sm_20"
         Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+        <EnumValue
+        Name="30"
+        DisplayName="sm_30"
+        Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;" />
+      <EnumValue
+        Name="32"
+        DisplayName="sm_32"
+        Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="Arch3"
@@ -270,6 +286,14 @@
         Name="20"
         DisplayName="sm_20"
         Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+        <EnumValue
+        Name="30"
+        DisplayName="sm_30"
+        Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;" />
+      <EnumValue
+        Name="32"
+        DisplayName="sm_32"
+        Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="CompilerPath"

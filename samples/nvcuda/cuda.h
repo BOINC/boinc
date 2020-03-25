@@ -39,7 +39,6 @@
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
-#include "graphics2.h"
 #include "cuda_config.h"
 
 #define CHECKPOINT_FILE "matrix_inversion_state"
