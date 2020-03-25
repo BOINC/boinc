@@ -126,8 +126,8 @@ public class CcStateParser extends BaseParser {
         if(localName.equalsIgnoreCase(CORE_CLIENT_MAJOR_VERSION_TAG) ||
            localName.equalsIgnoreCase(CORE_CLIENT_MINOR_VERSION_TAG) ||
            localName.equalsIgnoreCase(CORE_CLIENT_RELEASE_TAG) ||
-           localName.equalsIgnoreCase(CcState.Fields.have_ati) ||
-           localName.equalsIgnoreCase(CcState.Fields.have_cuda)) {
+           localName.equalsIgnoreCase(CcState.Fields.HAVE_ATI) ||
+           localName.equalsIgnoreCase(CcState.Fields.HAVE_CUDA)) {
             // VersionInfo elements
             mElementStarted = true;
             mCurrentElement.setLength(0);
@@ -279,10 +279,10 @@ public class CcStateParser extends BaseParser {
                 else if(localName.equalsIgnoreCase(CORE_CLIENT_RELEASE_TAG)) {
                     mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(CcState.Fields.have_ati)) {
+                else if(localName.equalsIgnoreCase(CcState.Fields.HAVE_ATI)) {
                     mCcState.have_ati = !mCurrentElement.toString().equals("0");
                 }
-                else if(localName.equalsIgnoreCase(CcState.Fields.have_cuda)) {
+                else if(localName.equalsIgnoreCase(CcState.Fields.HAVE_CUDA)) {
                     mCcState.have_cuda = !mCurrentElement.toString().equals("0");
                 }
                 mElementStarted = false;
