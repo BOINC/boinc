@@ -220,7 +220,7 @@ public class CcStateParser extends BaseParser {
                     if(!appVersions.isEmpty()) {
                         final AppVersion myAppVersion = appVersions.get(appVersions.size() - 1);
                         myAppVersion.project = myProject;
-                        myAppVersion.app = mCcState.lookup_app(myProject, myAppVersion.app_name);
+                        myAppVersion.app = mCcState.lookupApp(myProject, myAppVersion.app_name);
                         mCcState.app_versions.add(myAppVersion);
                     }
                 }
@@ -237,7 +237,7 @@ public class CcStateParser extends BaseParser {
                     if(!workunits.isEmpty()) {
                         final Workunit myWorkunit = workunits.get(workunits.size() - 1);
                         myWorkunit.project = myProject;
-                        myWorkunit.app = mCcState.lookup_app(myProject, myWorkunit.app_name);
+                        myWorkunit.app = mCcState.lookupApp(myProject, myWorkunit.app_name);
                         mCcState.workunits.add(myWorkunit);
                     }
                 }
@@ -254,13 +254,13 @@ public class CcStateParser extends BaseParser {
                     if(!results.isEmpty()) {
                         final Result myResult = results.get(results.size() - 1);
                         myResult.project = myProject;
-                        myResult.wup = mCcState.lookup_wu(myProject, myResult.wu_name);
+                        myResult.wup = mCcState.lookupWorkUnit(myProject, myResult.wu_name);
                         if(myResult.wup != null) {
                             myResult.app = myResult.wup.app;
                             myResult.avp =
-                                    mCcState.lookup_app_version(myProject, myResult.app,
-                                                                myResult.version_num,
-                                                                myResult.plan_class);
+                                    mCcState.lookupAppVersion(myProject, myResult.app,
+                                                              myResult.version_num,
+                                                              myResult.plan_class);
 
                         }
                         mCcState.results.add(myResult);

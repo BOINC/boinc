@@ -48,51 +48,24 @@ data class CcState(
         results.clear()
     }
 
-    fun lookup_app(project: Project?, appname: String?): App? {
-        for (i in apps.indices) {
-            if (apps[i].project != project) {
-                continue
-            }
-            if (apps[i].name.equals(appname, ignoreCase = true)) {
-                return apps[i]
-            }
-        }
-        return null
+    fun lookupApp(project: Project?, appName: String?): App? {
+        return apps.filter { it.project == project }
+                .firstOrNull { it.name.equals(appName, ignoreCase = true) }
     }
 
-    fun lookup_wu(project: Project?, wu_name: String?): Workunit? {
-        for (i in workunits.indices) {
-            if (workunits[i].project != project) {
-                continue
-            }
-            if (workunits[i].name.equals(wu_name, ignoreCase = true)) {
-                return workunits[i]
-            }
-        }
-        return null
+    fun lookupWorkUnit(project: Project?, workUnitName: String?): Workunit? {
+        return workunits.filter { it.project == project }
+                .firstOrNull { it.name.equals(workUnitName, ignoreCase = true) }
     }
 
-    fun lookup_app_version(project: Project?, app: App, version_num: Int, plan_class: String?): AppVersion? {
-        for (i in app_versions.indices) {
-            //Check if projects match...
-            if (app_versions[i].project != project) {
-                continue
-            }
-            //Check if app matches
-            if (app_versions[i].app != app) {
-                continue
-            }
-            //checks version_num
-            if (app_versions[i].version_num != version_num) {
-                continue
-            }
-            //Checks plan class
-            if (!app_versions[i].plan_class.equals(plan_class, ignoreCase = true)) {
-                continue
-            }
-            return app_versions[i]
-        }
-        return null
+    fun lookupAppVersion(project: Project?, app: App?, versionNum: Int, planClass: String?): AppVersion? {
+        // Sequences process elements lazily, which can improve performance with large collections and
+        // complex operations.
+        return app_versions.asSequence()
+                .filter { it.project == project } //Check if projects match
+                .filter { it.app == app } //Check if app matches
+                .filter { it.version_num == versionNum } //Check version_num
+                .firstOrNull { it.plan_class.equals(planClass, ignoreCase = true) } //Check plan class
     }
 
     object Fields {
