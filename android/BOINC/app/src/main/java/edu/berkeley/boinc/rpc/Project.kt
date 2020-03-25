@@ -108,7 +108,7 @@ data class Project(
                     atiBackoffInterval = parcel.readDouble(), durationCorrectionFactor = parcel.readDouble(),
                     scheduledRPCPending = parcel.readInt(), projectFilesDownloadedTime = parcel.readDouble(),
                     lastRPCTime = parcel.readDouble()) {
-        parcel.readList(guiURLs.toList(), GuiUrl::class.java.classLoader)
+        parcel.readList(guiURLs as List<*>, GuiUrl::class.java.classLoader)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             val bArray = parcel.createBooleanArray()!!
             masterURLFetchPending = bArray[0]
