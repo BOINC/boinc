@@ -57,6 +57,8 @@ android {
         targetSdkVersion 29
         versionCode buildVersionCode()
         versionName buildVersionName()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -109,6 +111,10 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit5:$kotlin_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'com.google.truth:truth:1.0.1'
 }
 repositories {
     mavenCentral()
