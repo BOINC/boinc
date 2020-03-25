@@ -95,7 +95,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -148,7 +148,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
