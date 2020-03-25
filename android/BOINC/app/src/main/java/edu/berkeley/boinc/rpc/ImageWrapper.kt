@@ -22,7 +22,11 @@ import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 
-class ImageWrapper(var image: Bitmap?, var projectName: String?, var path: String?) : Parcelable {
+data class ImageWrapper(
+        var image: Bitmap? = null,
+        var projectName: String? = null,
+        var path: String? = null
+) : Parcelable {
     private constructor(parcel: Parcel) : this(parcel.readValue(Bitmap::class.java.classLoader) as Bitmap?,
             parcel.readString(), parcel.readString())
 
