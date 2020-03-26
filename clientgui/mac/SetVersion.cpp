@@ -39,7 +39,6 @@
 #include <sys/stat.h>
 #include "version.h"
 
-int IsFileCurrent(char* filePath);
 int file_exists(const char* path);
 int FixInfoPlistFile(char* name);
 int FixInfoPlist_Strings(char* myPath, char* name);
@@ -112,28 +111,6 @@ int main(int argc, char** argv) {
 }
 
 
-int IsFileCurrent(char* filePath) {
-    FILE *f;
-    char *c, buf[1024];
-    
-    f = fopen(filePath, "r");
-    if (f == 0)
-        return false;
-    for (;;) {
-        c = fgets(buf, sizeof(buf), f);
-        if (c == NULL)
-            break;   // EOF reached without finding correct version string
-        c = strstr(buf, BOINC_VERSION_STRING);
-        if (c) {
-            fclose(f);
-            return true;  // File contains current version string
-        }
-    }
-    fclose(f);
-    return false;  // File does not contain current version string
-}
-
-
 int file_exists(const char* path) {
     struct stat buf;
     if (stat(path, &buf)) {
@@ -152,9 +129,6 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
     
-    if (IsFileCurrent(myPath))
-        return 0;
-
     f = fopen(myPath, "w");
     if (f)
     {
@@ -185,9 +159,6 @@ int FixInfoPlistFile(char* name) {
     strcpy(srcPath, "../clientgui/mac/templates/");
     strcat(srcPath, name);
     
-    if (IsFileCurrent(dstPath))
-        return 0;
-
     // Save the old file in case there is an error updating it
     if (file_exists(dstPath)) {
         rename(dstPath, "./temp");
@@ -272,9 +243,6 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
     
-    if (IsFileCurrent(myPath))
-        return 0;
-
     f = fopen(myPath, "w");
     if (f)
     {
@@ -318,9 +286,6 @@ int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
     
-    if (IsFileCurrent(myPath))
-        return 0;
-
     f = fopen(myPath, "w");
     if (f)
     {
@@ -369,9 +334,6 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
     
-    if (IsFileCurrent(myPath))
-        return 0;
-
     f = fopen(myPath, "w");
     if (f)
     {
