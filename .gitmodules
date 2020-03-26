@@ -1,0 +1,21 @@
+[submodule "vendor/wxWidgets"]
+	path = vendor/wxWidgets
+	url = https://github.com/wxWidgets/wxWidgets.git
+[submodule "vendor/sqlite"]
+	path = vendor/sqlite
+	url = https://github.com/sqlite/sqlite.git
+[submodule "vendor/curl"]
+	path = vendor/curl
+	url = https://github.com/curl/curl.git
+[submodule "vendor/c-ares"]
+	path = vendor/c-ares
+	url = https://github.com/c-ares/c-ares.git
+[submodule "vendor/openssl"]
+	path = vendor/openssl
+	url = https://github.com/openssl/openssl.git
+[submodule "vendor/freetype"]
+	path = vendor/freetype
+	url = https://github.com/aseprite/freetype2.git
+[submodule "vendor/ftgl"]
+	path = vendor/ftgl
+	url = https://github.com/ulrichard/ftgl.git
