@@ -23,29 +23,27 @@ package edu.berkeley.boinc.utils;
  */
 
 public class BOINCErrors {
+    private BOINCErrors() {}
 
     // Function return values.
     // NOTE:  add new errors to the end of the list and don't change
     // old error numbers to avoid confusion between versions.
     // Add a text description of your error to boincerror() in util.C.
     //
-    public final static int ERR_OK = 0;
-    public final static int ERR_CONNECT = -107; // connection problems
-    public final static int ERR_XML_PARSE = -112; // XML parsing error on client side
-    public final static int ERR_GETHOSTBYNAME = -113; // can not resolve name. no DNS -> no Internet?!
-    public static final int ERR_GIVEUP_DOWNLOAD = -114;
-    public static final int ERR_GIVEUP_UPLOAD = -115;
-    public final static int ERR_DB_NOT_FOUND = -136; // e.g. eMail invalid
-    public final static int ERR_DB_NOT_UNIQUE = -137; // name not unique, i.e. email already in use
-    public final static int ERR_PROJECT_DOWN = -183; // i.e. project error
-    public final static int ERR_HTTP_TRANSIENT = -184; // connection problems
-    public final static int ERR_BAD_USER_NAME = -188; // i.e. user name required
-    public final static int ERR_INVALID_URL = -189;
-    public final static int ERR_RETRY = -199; // i.e. client currently busy with another GUI HTTP request
-    public final static int ERR_IN_PROGRESS = -204;
-    public final static int ERR_BAD_EMAIL_ADDR = -205; // i.e. email has invalid syntax
-    public final static int ERR_BAD_PASSWD = -206;
-    public final static int ERR_NONUNIQUE_EMAIL = -207;
-    public final static int ERR_ACCT_CREATION_DISABLED = -208; // i.e. account creation currently disabled
-    public final static int ERR_ACCT_REQUIRE_CONSENT = -242; // project requires consent
+    public static final int ERR_OK = 0;
+    public static final int ERR_CONNECT = -107; // connection problems
+    public static final int ERR_GETHOSTBYNAME = -113;
+            // can not resolve name. no DNS -> no Internet?!
+    public static final int ERR_DB_NOT_FOUND = -136; // e.g. eMail invalid
+    public static final int ERR_DB_NOT_UNIQUE = -137; // name not unique, i.e. email already in use
+    public static final int ERR_PROJECT_DOWN = -183; // i.e. project error
+    public static final int ERR_HTTP_TRANSIENT = -184; // connection problems
+    public static final int ERR_BAD_USER_NAME = -188; // i.e. user name required
+    public static final int ERR_INVALID_URL = -189;
+    public static final int ERR_RETRY = -199; // i.e. client currently busy with another GUI HTTP request
+    public static final int ERR_IN_PROGRESS = -204;
+    public static final int ERR_BAD_EMAIL_ADDR = -205; // i.e. email has invalid syntax
+    public static final int ERR_BAD_PASSWD = -206;
+    public static final int ERR_NONUNIQUE_EMAIL = -207;
+    public static final int ERR_ACCT_CREATION_DISABLED = -208; // i.e. account creation currently disabled
 }

@@ -23,8 +23,7 @@ package edu.berkeley.boinc.utils;
  */
 
 public class BOINCDefs {
-
-    public static final int GUI_RPC_PORT = 31416;
+    private BOINCDefs() {}
 
     // run modes for CPU, GPU, network,
     // controlled by Activity menu and snooze button
@@ -34,56 +33,6 @@ public class BOINCDefs {
     public static final int RUN_MODE_NEVER = 3;
     public static final int RUN_MODE_RESTORE = 4;
     // restore permanent mode - used only in set_X_mode() GUI RPC
-
-    // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
-    // "SCHEDULED" is synonymous with "executing" except when CPU throttling
-    // is in use.
-    public static final int CPU_SCHED_UNINITIALIZED = 0;
-    public static final int CPU_SCHED_PREEMPTED = 1;
-    public static final int CPU_SCHED_SCHEDULED = 2;
-
-    // official HTTP status codes
-
-    public static final int HTTP_STATUS_CONTINUE = 100;
-    public static final int HTTP_STATUS_OK = 200;
-    public static final int HTTP_STATUS_PARTIAL_CONTENT = 206;
-    public static final int HTTP_STATUS_MOVED_PERM = 301;
-    public static final int HTTP_STATUS_MOVED_TEMP = 302;
-    public static final int HTTP_STATUS_NOT_FOUND = 404;
-    public static final int HTTP_STATUS_PROXY_AUTH_REQ = 407;
-    public static final int HTTP_STATUS_RANGE_REQUEST_ERROR = 416;
-    public static final int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500;
-    public static final int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
-
-    // graphics messages
-    //
-    public static final int MODE_UNSUPPORTED = 0;
-    public static final int MODE_HIDE_GRAPHICS = 1;
-    public static final int MODE_WINDOW = 2;
-    public static final int MODE_FULLSCREEN = 3;
-    public static final int MODE_BLANKSCREEN = 4;
-    public static final int MODE_REREAD_PREFS = 5;
-    public static final int MODE_QUIT = 6;
-    public static final int NGRAPHICS_MSGS = 7;
-
-    // priorities for client messages
-    //
-    public static final int MSG_INFO = 1;
-    // write to stdout
-    // GUI: show in event log
-    public static final int MSG_USER_ALERT = 2;
-    // Conditions that require user intervention.
-    // Text should be user-friendly.
-    // write to stdout
-    // GUI: show in event log in bold or red; show in notices tab
-    public static final int MSG_INTERNAL_ERROR = 3;
-    // Conditions that indicate a problem or bug with BOINC itself,
-    // or with a BOINC project or account manager.
-    // treat same as MSG_INFO, but prepend with [error]
-    public static final int MSG_SCHEDULER_ALERT = 4;
-    // high-priority message from scheduler
-    // (used internally within the client;
-    // changed to MSG_USER_ALERT before passing to manager)
 
     // bitmap defs for task_suspend_reason, network_suspend_reason
     // Note: doesn't need to be a bitmap, but keep for compatibility
@@ -105,7 +54,6 @@ public class BOINCDefs {
     public static final int SUSPEND_REASON_WIFI_STATE = 4097;
     public static final int SUSPEND_REASON_BATTERY_CHARGING = 4098;
     public static final int SUSPEND_REASON_BATTERY_OVERHEATED = 4099;
-    public static final int SUSPEND_REASON_NO_GUI_KEEPALIVE = 4100;
 
     // Values of RESULT::state
     // THESE MUST BE IN NUMERICAL ORDER
@@ -147,32 +95,16 @@ public class BOINCDefs {
     public static final int RESULT_PROJECT_SUSPENDED = 101;
     public static final int RESULT_READY_TO_REPORT = 102;
 
-
-    // states in which the process has exited
-    public static final int PROCESS_EXITED = 2;
-    public static final int PROCESS_WAS_SIGNALED = 3;
-    public static final int PROCESS_EXIT_UNKNOWN = 4;
     public static final int PROCESS_ABORTED = 6;
     // aborted process has exited
-    public static final int PROCESS_COULDNT_START = 7;
-
-    // values of "network status"
-    //
-    public static final int NETWORK_STATUS_ONLINE = 0;
-    public static final int NETWORK_STATUS_WANT_CONNECTION = 1;
-    public static final int NETWORK_STATUS_WANT_DISCONNECT = 2;
-    public static final int NETWORK_STATUS_LOOKUP_PENDING = 3;
 
     // reasons for making a scheduler RPC:
     //
-    public static final int RPC_REASON_USER_REQ = 1;
-    public static final int RPC_REASON_RESULTS_DUE = 2;
-    public static final int RPC_REASON_NEED_WORK = 3;
-    public static final int RPC_REASON_TRICKLE_UP = 4;
-    public static final int RPC_REASON_ACCT_MGR_REQ = 5;
-    public static final int RPC_REASON_INIT = 6;
-    public static final int RPC_REASON_PROJECT_REQ = 7;
-
-    public static final String CLIENT_AUTH_FILENAME = "client_auth.xml";
-    public static final String GUI_RPC_PASSWD_FILE = "gui_rpc_auth.cfg";
+    static final int RPC_REASON_USER_REQ = 1;
+    static final int RPC_REASON_RESULTS_DUE = 2;
+    static final int RPC_REASON_NEED_WORK = 3;
+    static final int RPC_REASON_TRICKLE_UP = 4;
+    static final int RPC_REASON_ACCT_MGR_REQ = 5;
+    static final int RPC_REASON_INIT = 6;
+    static final int RPC_REASON_PROJECT_REQ = 7;
 }
