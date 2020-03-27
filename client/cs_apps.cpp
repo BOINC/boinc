@@ -328,3 +328,13 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
     }
     return NULL;
 }
+
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_slot(int slot) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
+        if (atp->slot == slot) {
+            return atp;
+        }
+    }
+    return NULL;
+}

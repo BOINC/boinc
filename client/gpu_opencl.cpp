@@ -145,7 +145,7 @@ static bool compare_pci_slots(int NVIDIA_GPU_Index1, int NVIDIA_GPU_Index2) {
 // -1 if the OS version we are running on is less than x.y
 //  0 if the OS version we are running on is equal to x.y
 // +1 if the OS version we are running on is lgreater than x.y
-static int compareOSVersionTo(int toMajor, int toMinor) {
+int compareOSVersionTo(int toMajor, int toMinor) {
     static SInt32 major = -1;
     static SInt32 minor = -1;
 
