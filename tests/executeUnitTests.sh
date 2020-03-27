@@ -56,7 +56,6 @@ command -v cmake >/dev/null 2>&1 || { echo >&2 "cmake is needed but not installe
 
 if [ "${report}" = "yes" ]; then
     command -v gcov >/dev/null 2>&1 || { echo >&2 "gcov (lcov) is needed but not installed.  Aborting."; exit 1; }
-    command -v codecov >/dev/null 2>&1 || { echo >&2 "codecov (pip install codecov) is needed but not installed.  Aborting."; exit 1; }
 fi
 
 cd tests || exit 1
@@ -81,5 +80,5 @@ if [ "${report}" = "yes" ]; then
     #for T in lib sched; do
     #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     #done
-    codecov
+    bash <(curl -s https://codecov.io/bash)
 fi
