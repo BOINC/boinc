@@ -74,10 +74,10 @@ public class ProjectAttachReplyParser extends BaseParser {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
                 if(localName.equalsIgnoreCase(ERROR_NUM_TAG)) {
-                    mPAR.error_num = Integer.parseInt(mCurrentElement.toString());
+                    mPAR.setErrorNum(Integer.parseInt(mCurrentElement.toString()));
                 }
                 else if(localName.equalsIgnoreCase(MESSAGE_TAG)) {
-                    mPAR.messages.add(mCurrentElement.toString());
+                    mPAR.getMessages().add(mCurrentElement.toString());
                 }
             }
         }

@@ -196,15 +196,15 @@ public class ClientInterfaceImplementation extends RpcClient {
         if (success) {
             // verify success of projectAttach with poll function
             ProjectAttachReply reply = projectAttachPoll();
-            while (reply != null && reply.error_num ==
-                    BOINCErrors.ERR_IN_PROGRESS) { // loop as long as reply.error_num == BOINCErrors.ERR_IN_PROGRESS
+            while (reply != null && reply.getErrorNum() ==
+                                    BOINCErrors.ERR_IN_PROGRESS) { // loop as long as reply.error_num == BOINCErrors.ERR_IN_PROGRESS
                 try {
                     Thread.sleep(minRetryInterval);
                 } catch (Exception ignored) {
                 }
                 reply = projectAttachPoll();
             }
-            return (reply != null && reply.error_num == BOINCErrors.ERR_OK);
+            return (reply != null && reply.getErrorNum() == BOINCErrors.ERR_OK);
         } else if (Logging.DEBUG) {
             Log.d(Logging.TAG, "rpc.projectAttach failed.");
         }

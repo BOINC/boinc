@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,17 +16,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.rpc;
+package edu.berkeley.boinc.rpc
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-@EqualsAndHashCode
-@ToString
-public class ProjectAttachReply {
-    public int error_num = 0;
-    public final List<String> messages = new ArrayList<>();
-}
+data class ProjectAttachReply(var errorNum: Int = 0, val messages: MutableList<String> = mutableListOf())
