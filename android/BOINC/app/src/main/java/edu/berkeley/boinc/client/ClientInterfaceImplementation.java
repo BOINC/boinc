@@ -561,7 +561,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             // check whether already attached
             boolean alreadyAttached = false;
             for (Project attachedProject : attachedProjects) {
-                if (attachedProject.master_url.equals(candidate.url)) {
+                if (attachedProject.master_url.equals(candidate.getUrl())) {
                     alreadyAttached = true;
                     break;
                 }
@@ -570,7 +570,7 @@ public class ClientInterfaceImplementation extends RpcClient {
                 continue;
 
             // project is not yet attached, check whether it supports CPU architecture
-            for (String supportedPlatform : candidate.platforms) {
+            for (String supportedPlatform : candidate.getPlatforms()) {
                 if (supportedPlatform.contains(boincPlatformName) ||
                    (!boincAltPlatformName.isEmpty() && supportedPlatform.contains(boincAltPlatformName))) {
                     // project is not yet attached and does support platform
@@ -605,7 +605,7 @@ public class ClientInterfaceImplementation extends RpcClient {
     ProjectInfo getProjectInfo(String url) {
         List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
         for (ProjectInfo tmp : allProjectsList) {
-            if (tmp.url.equals(url))
+            if (tmp.getUrl().equals(url))
                 return tmp;
         }
         if (Logging.ERROR.equals(Boolean.TRUE))

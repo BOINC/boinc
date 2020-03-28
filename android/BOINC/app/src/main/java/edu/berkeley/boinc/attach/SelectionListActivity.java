@@ -134,7 +134,7 @@ public class SelectionListActivity extends FragmentActivity {
         for(ProjectListEntry tmp : entries) {
             if(tmp.checked) {
                 selected.add(tmp.info);
-                selectedProjectsDebug.append(tmp.info.name).append(",");
+                selectedProjectsDebug.append(tmp.info.getName()).append(",");
             }
         }
         if(Logging.DEBUG) {
@@ -344,21 +344,23 @@ public class SelectionListActivity extends FragmentActivity {
 
         /**
          * Compares this {@code ProjectListEntry} instance to {@code p} based
-         * on {@link ProjectInfo#name}. The comparison is <i>case-insensitive</i>.
+         * on {@link ProjectInfo#getName()}. The comparison is <i>case-insensitive</i>.
          *
          * @param p the {@code ProjectListEntry} to compare to
-         * @return {@code 0} if both {@link ProjectInfo#name}s are equal,<br>
-         * {@code -1} if {@code this} {@link ProjectInfo#name} comes before
-         * {@code p}'s {@link ProjectInfo#name} in the current locale's
+         * @return {@code 0} if both {@link ProjectInfo#getName()}s are equal,<br>
+         * {@code -1} if {@code this} {@link ProjectInfo#getName()} comes before
+         * {@code p}'s {@link ProjectInfo#getName()} in the current locale's
          * {@link Collator#getInstance() collation},<br>else {@code 1}
          * @see SelectionListActivity.ProjectListEntry#info
-         * @see ProjectInfo#name
+         * @see ProjectInfo#getName()
          * @see Comparable
          */
+        @Override
         public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
             return (SelectionListActivity.ProjectListEntry.collator == null ?
                     SelectionListActivity.ProjectListEntry.getCollator() :
-                    SelectionListActivity.ProjectListEntry.collator).compare(this.info.name, p.info.name);
+                    SelectionListActivity.ProjectListEntry.collator).compare(this.info.getName(),
+                                                                             p.info.getName());
         }
 
         /**
@@ -366,9 +368,9 @@ public class SelectionListActivity extends FragmentActivity {
          *
          * @return the preferred {@link Collator}
          */
-        static final Collator getCollator() {
-            final Collator collator;
-            (collator = Collator.getInstance()).setStrength(Collator.SECONDARY);
+        static Collator getCollator() {
+            final Collator collator = Collator.getInstance();
+            collator.setStrength(Collator.SECONDARY);
             collator.setDecomposition(Collator.NO_DECOMPOSITION);
             return collator;
         }

@@ -100,7 +100,7 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, RPCCommonTags.NAME, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
+        expected.setName(PROJECT_INFO_NAME);
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -117,8 +117,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, RPCCommonTags.URL, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.url = "Project URL";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setUrl("Project URL");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -137,8 +137,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.GENERAL_AREA, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.generalArea = "Project General Area";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setGeneralArea("Project General Area");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -157,8 +157,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.SPECIFIC_AREA, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.specificArea = "Project Specific Area";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setSpecificArea("Project Specific Area");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -177,8 +177,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.description = "Project Description";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setDescription("Project Description");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -196,8 +196,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.HOME, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.home = "Project Home";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setHome("Project Home");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -216,8 +216,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.IMAGE_URL, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.imageUrl = "Project Image URL";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setImageUrl("Project Image URL");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -236,8 +236,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.SUMMARY, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.summary = "Project Summary";
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setSummary("Project Summary");
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }
@@ -256,8 +256,8 @@ public class ProjectInfoParserTest {
         projectInfoParser.endElement(null, ProjectInfo.Fields.PLATFORMS, null);
         projectInfoParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.name = PROJECT_INFO_NAME;
-        expected.platforms = Collections.singletonList("Platform Name");
+        expected.setName(PROJECT_INFO_NAME);
+        expected.setPlatforms(Collections.singletonList("Platform Name"));
 
         assertEquals(Collections.singletonList(expected), projectInfoParser.getProjectInfos());
     }

@@ -74,7 +74,7 @@ public class ProjectInfoParser extends BaseParser {
         if(mProjectInfo != null) {
             if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
                 // Closing tag of <project> - add to list and be ready for next one
-                if(!mProjectInfo.name.isEmpty()) {
+                if(!mProjectInfo.getName().isEmpty()) {
                     // name is a must
                     mProjectInfos.add(mProjectInfo);
                 }
@@ -82,7 +82,7 @@ public class ProjectInfoParser extends BaseParser {
             }
             else if(localName.equalsIgnoreCase(ProjectInfo.Fields.PLATFORMS)) {
                 // closing tag of platform names
-                mProjectInfo.platforms = mPlatforms;
+                mProjectInfo.setPlatforms(mPlatforms);
                 withinPlatforms = false;
             }
             else {
@@ -91,22 +91,22 @@ public class ProjectInfoParser extends BaseParser {
                 if(localName.equalsIgnoreCase(RPCCommonTags.NAME) &&
                    withinPlatforms.equals(Boolean.FALSE)) {
                     //project name
-                    mProjectInfo.name = mCurrentElement.toString();
+                    mProjectInfo.setName(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(RPCCommonTags.URL)) {
-                    mProjectInfo.url = mCurrentElement.toString();
+                    mProjectInfo.setUrl(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.GENERAL_AREA)) {
-                    mProjectInfo.generalArea = mCurrentElement.toString();
+                    mProjectInfo.setGeneralArea(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.SPECIFIC_AREA)) {
-                    mProjectInfo.specificArea = mCurrentElement.toString();
+                    mProjectInfo.setSpecificArea(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
-                    mProjectInfo.description = mCurrentElement.toString();
+                    mProjectInfo.setDescription(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.HOME)) {
-                    mProjectInfo.home = mCurrentElement.toString();
+                    mProjectInfo.setHome(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(RPCCommonTags.NAME) &&
                         withinPlatforms.equals(Boolean.TRUE)) {
@@ -114,10 +114,10 @@ public class ProjectInfoParser extends BaseParser {
                     mPlatforms.add(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.IMAGE_URL)) {
-                    mProjectInfo.imageUrl = mCurrentElement.toString();
+                    mProjectInfo.setImageUrl(mCurrentElement.toString());
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.SUMMARY)) {
-                    mProjectInfo.summary = mCurrentElement.toString();
+                    mProjectInfo.setSummary(mCurrentElement.toString());
                 }
             }
         }

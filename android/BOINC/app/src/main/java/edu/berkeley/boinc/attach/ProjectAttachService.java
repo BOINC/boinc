@@ -420,8 +420,8 @@ public class ProjectAttachService extends Service {
 
         public ProjectAttachWrapper(ProjectInfo info) {
             this.info = info;
-            this.name = info.name;
-            this.url = info.url;
+            this.name = info.getName();
+            this.url = info.getUrl();
         }
 
         public ProjectAttachWrapper(String url) {

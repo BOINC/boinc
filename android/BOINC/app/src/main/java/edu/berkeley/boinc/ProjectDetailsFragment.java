@@ -285,9 +285,9 @@ public class ProjectDetailsFragment extends Fragment {
         });
 
         // set general area
-        if(projectInfo != null && projectInfo.generalArea != null) {
+        if(projectInfo != null && projectInfo.getGeneralArea() != null) {
             TextView generalArea = v.findViewById(R.id.general_area);
-            generalArea.setText(projectInfo.generalArea);
+            generalArea.setText(projectInfo.getGeneralArea());
         }
         else {
             LinearLayout wrapper = v.findViewById(R.id.general_area_wrapper);
@@ -295,9 +295,9 @@ public class ProjectDetailsFragment extends Fragment {
         }
 
         // set specific area
-        if(projectInfo != null && projectInfo.specificArea != null) {
+        if(projectInfo != null && projectInfo.getSpecificArea() != null) {
             TextView specificArea = v.findViewById(R.id.specific_area);
-            specificArea.setText(projectInfo.specificArea);
+            specificArea.setText(projectInfo.getSpecificArea());
         }
         else {
             LinearLayout wrapper = v.findViewById(R.id.specific_area_wrapper);
@@ -305,9 +305,9 @@ public class ProjectDetailsFragment extends Fragment {
         }
 
         // set description
-        if(projectInfo != null && projectInfo.description != null) {
+        if(projectInfo != null && projectInfo.getDescription() != null) {
             TextView description = v.findViewById(R.id.description);
-            description.setText(projectInfo.description);
+            description.setText(projectInfo.getDescription());
         }
         else {
             LinearLayout wrapper = v.findViewById(R.id.description_wrapper);
@@ -315,9 +315,9 @@ public class ProjectDetailsFragment extends Fragment {
         }
 
         // set home
-        if(projectInfo != null && projectInfo.home != null) {
+        if(projectInfo != null && projectInfo.getHome() != null) {
             TextView home = v.findViewById(R.id.based_at);
-            home.setText(projectInfo.home);
+            home.setText(projectInfo.getHome());
         }
         else {
             LinearLayout wrapper = v.findViewById(R.id.based_at_wrapper);
