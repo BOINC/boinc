@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,29 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
+package edu.berkeley.boinc.rpc
 
-package edu.berkeley.boinc.rpc;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.experimental.FieldNameConstants;
-
-@EqualsAndHashCode
-@FieldNameConstants
-@ToString
-public class VersionInfo {
-    // all attributes are public for simple access
-    public int major;
-    public int minor;
-    public int release;
-
-    VersionInfo(int major, int minor, int release) {
-        this.major = major;
-        this.minor = minor;
-        this.release = release;
-    }
-
-    VersionInfo() {
-        this(0, 0, 0);
+data class VersionInfo(
+        var major: Int = 0,
+        var minor: Int = 0,
+        var release: Int = 0
+) {
+    object Fields {
+        const val MAJOR = "major"
+        const val MINOR = "minor"
+        const val RELEASE = "release"
     }
 }

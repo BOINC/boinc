@@ -271,13 +271,13 @@ public class CcStateParser extends BaseParser {
                 trimEnd();
                 // VersionInfo?
                 if(localName.equalsIgnoreCase(CORE_CLIENT_MAJOR_VERSION_TAG)) {
-                    mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
+                    mVersionInfo.setMajor(Integer.parseInt(mCurrentElement.toString()));
                 }
                 else if(localName.equalsIgnoreCase(CORE_CLIENT_MINOR_VERSION_TAG)) {
-                    mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
+                    mVersionInfo.setMinor(Integer.parseInt(mCurrentElement.toString()));
                 }
                 else if(localName.equalsIgnoreCase(CORE_CLIENT_RELEASE_TAG)) {
-                    mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
+                    mVersionInfo.setRelease(Integer.parseInt(mCurrentElement.toString()));
                 }
                 else if(localName.equalsIgnoreCase(CcState.Fields.HAVE_ATI)) {
                     mCcState.setHaveAti(!mCurrentElement.toString().equals("0"));

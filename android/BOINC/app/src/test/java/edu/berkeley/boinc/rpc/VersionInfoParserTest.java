@@ -87,9 +87,9 @@ public class VersionInfoParserTest {
     public void testParser_whenXmlVersionInfoHasInvalidMajorVersion_thenExpectVersionInfoWithoutMajorVersion()
             throws SAXException {
         versionInfoParser.startElement(null, VersionInfoParser.SERVER_VERSION_TAG, null, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.major, null, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MAJOR, null, null);
         versionInfoParser.characters("One".toCharArray(), 0, 3);
-        versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MAJOR, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
@@ -99,12 +99,12 @@ public class VersionInfoParserTest {
     public void testParser_whenXmlVersionInfoHasMajorVersion_thenExpectMatchingVersionInfo()
             throws SAXException {
         versionInfoParser.startElement(null, VersionInfoParser.SERVER_VERSION_TAG, null, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.major, null, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MAJOR, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MAJOR, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        expected.major = 1;
+        expected.setMajor(1);
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }
@@ -113,16 +113,16 @@ public class VersionInfoParserTest {
     public void testParser_whenXmlVersionInfoHasMajorAndMinorVersions_thenExpectMatchingVersionInfo()
             throws SAXException {
         versionInfoParser.startElement(null, VersionInfoParser.SERVER_VERSION_TAG, null, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.major, null, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MAJOR, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.minor, null, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MAJOR, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MINOR, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.minor, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MINOR, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        expected.major = 1;
-        expected.minor = 1;
+        expected.setMajor(1);
+        expected.setMinor(1);
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }
@@ -131,20 +131,20 @@ public class VersionInfoParserTest {
     public void testParser_whenXmlVersionInfoHasMajorMinorAndReleaseVersions_thenExpectMatchingVersionInfo()
             throws SAXException {
         versionInfoParser.startElement(null, VersionInfoParser.SERVER_VERSION_TAG, null, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.major, null, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MAJOR, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.major, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.minor, null, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MAJOR, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.MINOR, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.minor, null);
-        versionInfoParser.startElement(null, VersionInfo.Fields.release, null, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.MINOR, null);
+        versionInfoParser.startElement(null, VersionInfo.Fields.RELEASE, null, null);
         versionInfoParser.characters("1".toCharArray(), 0, 1);
-        versionInfoParser.endElement(null, VersionInfo.Fields.release, null);
+        versionInfoParser.endElement(null, VersionInfo.Fields.RELEASE, null);
         versionInfoParser.endElement(null, VersionInfoParser.SERVER_VERSION_TAG, null);
 
-        expected.major = 1;
-        expected.minor = 1;
-        expected.release = 1;
+        expected.setMajor(1);
+        expected.setMinor(1);
+        expected.setRelease(1);
 
         assertEquals(expected, versionInfoParser.getVersionInfo());
     }
