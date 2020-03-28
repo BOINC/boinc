@@ -19,14 +19,13 @@
 
 package edu.berkeley.boinc.rpc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class BaseParser extends DefaultHandler {
-
     protected StringBuilder mCurrentElement = new StringBuilder();
     protected boolean mElementStarted = false;
-
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
@@ -34,16 +33,8 @@ public class BaseParser extends DefaultHandler {
         if(mElementStarted) {
             // put it into StringBuilder
             if(mCurrentElement.length() == 0) {
-                // still empty - trim leading white-spaces
-                int newStart = start;
-                int newLength = length;
-                for(; newLength > 0; ++newStart, --newLength) {
-                    if(!Character.isWhitespace(ch[newStart])) {
-                        // First non-white-space character
-                        mCurrentElement.append(ch, newStart, newLength);
-                        break;
-                    }
-                }
+                // still empty - trim leading whitespace characters and append
+                mCurrentElement.append(StringUtils.stripStart(new String(ch), null));
             }
             else {
                 // Non-empty - add everything
@@ -53,14 +44,9 @@ public class BaseParser extends DefaultHandler {
     }
 
     protected void trimEnd() {
-        int length = mCurrentElement.length();
         // Trim trailing spaces
-        for(int i = length - 1; i >= 0; --i) {
-            if(!Character.isWhitespace(mCurrentElement.charAt(i))) {
-                // All trailing white-spaces are skipped, i is position of last character
-                mCurrentElement.setLength(i + 1);
-                break;
-            }
-        }
+        String str = StringUtils.stripEnd(mCurrentElement.toString(), null);
+        mCurrentElement.setLength(0);
+        mCurrentElement.append(str);
     }
 }
