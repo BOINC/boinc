@@ -506,8 +506,9 @@ public class ProjectAttachService extends Service {
             }
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG,
-                      "AttachProjectAsyncTask: retrieving credentials returned: " + statusCredentials.error_num + ":" +
-                      statusCredentials.error_msg + ". for: " + config.name);
+                      "AttachProjectAsyncTask: retrieving credentials returned: " +
+                      statusCredentials.getErrorNum() + ":" + statusCredentials.getErrorMsg() +
+                      ". for: " + config.name);
             }
 
             // check success
@@ -518,12 +519,12 @@ public class ProjectAttachService extends Service {
                 result = RESULT_UNDEFINED;
                 return RESULT_UNDEFINED;
             }
-            else if(statusCredentials.error_num != BOINCErrors.ERR_OK) {
+            else if(statusCredentials.getErrorNum() != BOINCErrors.ERR_OK) {
                 if(Logging.ERROR) {
                     Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
-                                       statusCredentials.error_num);
+                                       statusCredentials.getErrorNum());
                 }
-                switch(statusCredentials.error_num) {
+                switch(statusCredentials.getErrorNum()) {
                     case BOINCErrors.ERR_DB_NOT_UNIQUE:
                         result = RESULT_NAME_NOT_UNIQUE;
                         return RESULT_NAME_NOT_UNIQUE;
@@ -536,15 +537,15 @@ public class ProjectAttachService extends Service {
                     default:
                         if(Logging.WARNING) {
                             Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " +
-                                               statusCredentials.error_num);
+                                               statusCredentials.getErrorNum());
                         }
                         result = RESULT_UNDEFINED;
                         return RESULT_UNDEFINED;
                 }
             }
 
-            // attach project;
-            boolean statusAttach = attach(statusCredentials.authenticator);
+            // attach project
+            boolean statusAttach = attach(statusCredentials.getAuthenticator());
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG,
                       "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config.name);
@@ -600,12 +601,8 @@ public class ProjectAttachService extends Service {
                     }
                     switch(config.error_num) {
                         case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
-                            attemptCounter++; // limit number of retries
-                            break;
                         case BOINCErrors.ERR_CONNECT: // connection problems
-                            attemptCounter++; // limit number of retries
-                            break;
-                        case BOINCErrors.ERR_HTTP_TRANSIENT: // connection problems
+                        case BOINCErrors.ERR_HTTP_TRANSIENT:
                             attemptCounter++; // limit number of retries
                             break;
                         case BOINCErrors.ERR_RETRY: // client currently busy with another HTTP request, retry unlimited
