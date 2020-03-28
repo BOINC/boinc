@@ -20,11 +20,7 @@ package edu.berkeley.boinc.rpc
 
 import android.os.Parcel
 import android.os.Parcelable
-import lombok.EqualsAndHashCode
-import lombok.ToString
 
-@EqualsAndHashCode
-@ToString
 data class PlatformInfo internal constructor(
         var name: String?,
         var friendlyName: String?,

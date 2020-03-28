@@ -18,11 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
-data class VersionInfo(
-        var major: Int = 0,
-        var minor: Int = 0,
-        var release: Int = 0
-) {
+data class VersionInfo(var major: Int = 0, var minor: Int = 0, var release: Int = 0) {
     object Fields {
         const val MAJOR = "major"
         const val MINOR = "minor"
