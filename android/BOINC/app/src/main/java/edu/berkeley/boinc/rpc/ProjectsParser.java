@@ -105,14 +105,14 @@ public class ProjectsParser extends BaseParser {
                             mGuiUrl = null;
                         }
                         else {
-                            if(localName.equalsIgnoreCase(GuiUrl.Fields.name)) {
-                                mGuiUrl.name = mCurrentElement.toString();
+                            if(localName.equalsIgnoreCase(GuiUrl.Fields.NAME)) {
+                                mGuiUrl.setName(mCurrentElement.toString());
                             }
-                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.description)) {
-                                mGuiUrl.description = mCurrentElement.toString();
+                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.DESCRIPTION)) {
+                                mGuiUrl.setDescription(mCurrentElement.toString());
                             }
-                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.url)) {
-                                mGuiUrl.url = mCurrentElement.toString();
+                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.URL)) {
+                                mGuiUrl.setUrl(mCurrentElement.toString());
                             }
                         }
                     }

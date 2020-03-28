@@ -273,15 +273,15 @@ public class CcStateParserTest {
         ccStateParser.characters("Master URL".toCharArray(), 0, "Master URL".length());
         ccStateParser.endElement(null, Project.Fields.master_url, null);
         ccStateParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.name, null, null);
+        ccStateParser.startElement(null, GuiUrl.Fields.NAME, null, null);
         ccStateParser.characters("GUI URL Name".toCharArray(), 0, "GUI URL Name".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.name, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.description, null, null);
+        ccStateParser.endElement(null, GuiUrl.Fields.NAME, null);
+        ccStateParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
         ccStateParser.characters("GUI URL Description".toCharArray(), 0, "GUI URL Description".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.description, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.url, null, null);
+        ccStateParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
+        ccStateParser.startElement(null, GuiUrl.Fields.URL, null, null);
         ccStateParser.characters("GUI URL URL".toCharArray(), 0, "GUI URL URL".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.url, null);
+        ccStateParser.endElement(null, GuiUrl.Fields.URL, null);
         ccStateParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         ccStateParser.startElement(null, Project.Fields.no_ati_pref, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
@@ -291,7 +291,8 @@ public class CcStateParserTest {
 
         final Project expectedProject = new Project();
         expectedProject.master_url = "Master URL";
-        expectedProject.gui_urls.add(new GuiUrl("GUI URL Name", "GUI URL Description", "GUI URL URL"));
+        expectedProject.gui_urls.add(new GuiUrl("GUI URL Name", "GUI URL Description",
+                                                "GUI URL URL"));
         expectedProject.no_ati_pref = true;
 
         expected.getProjects().add(expectedProject);

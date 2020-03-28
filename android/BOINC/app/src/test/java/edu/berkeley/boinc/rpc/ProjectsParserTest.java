@@ -113,15 +113,15 @@ public class ProjectsParserTest {
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, Project.Fields.master_url, null);
         projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.name, null, null);
+        projectsParser.startElement(null, GuiUrl.Fields.NAME, null, null);
         projectsParser.characters(GUI_URL_NAME.toCharArray(), 0, GUI_URL_NAME.length());
-        projectsParser.endElement(null, GuiUrl.Fields.name, null);
+        projectsParser.endElement(null, GuiUrl.Fields.NAME, null);
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
-        expectedGuiUrl.name = GUI_URL_NAME;
+        expectedGuiUrl.setName(GUI_URL_NAME);
         expected.gui_urls.add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
@@ -135,15 +135,15 @@ public class ProjectsParserTest {
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, Project.Fields.master_url, null);
         projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.description, null, null);
+        projectsParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
         projectsParser.characters(GUI_URL_DESCRIPTION.toCharArray(), 0, GUI_URL_DESCRIPTION.length());
-        projectsParser.endElement(null, GuiUrl.Fields.description, null);
+        projectsParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
-        expectedGuiUrl.description = GUI_URL_DESCRIPTION;
+        expectedGuiUrl.setDescription(GUI_URL_DESCRIPTION);
         expected.gui_urls.add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
@@ -157,15 +157,15 @@ public class ProjectsParserTest {
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, Project.Fields.master_url, null);
         projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.url, null, null);
+        projectsParser.startElement(null, GuiUrl.Fields.URL, null, null);
         projectsParser.characters(GUI_URL_URL.toCharArray(), 0, GUI_URL_URL.length());
-        projectsParser.endElement(null, GuiUrl.Fields.url, null);
+        projectsParser.endElement(null, GuiUrl.Fields.URL, null);
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
-        expectedGuiUrl.url = GUI_URL_URL;
+        expectedGuiUrl.setUrl(GUI_URL_URL);
         expected.gui_urls.add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
@@ -179,15 +179,15 @@ public class ProjectsParserTest {
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, Project.Fields.master_url, null);
         projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.name, null, null);
+        projectsParser.startElement(null, GuiUrl.Fields.NAME, null, null);
         projectsParser.characters(GUI_URL_NAME.toCharArray(), 0, GUI_URL_NAME.length());
-        projectsParser.endElement(null, GuiUrl.Fields.name, null);
-        projectsParser.startElement(null, GuiUrl.Fields.description, null, null);
+        projectsParser.endElement(null, GuiUrl.Fields.NAME, null);
+        projectsParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
         projectsParser.characters(GUI_URL_DESCRIPTION.toCharArray(), 0, GUI_URL_DESCRIPTION.length());
-        projectsParser.endElement(null, GuiUrl.Fields.description, null);
-        projectsParser.startElement(null, GuiUrl.Fields.url, null, null);
+        projectsParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
+        projectsParser.startElement(null, GuiUrl.Fields.URL, null, null);
         projectsParser.characters(GUI_URL_URL.toCharArray(), 0, GUI_URL_URL.length());
-        projectsParser.endElement(null, GuiUrl.Fields.url, null);
+        projectsParser.endElement(null, GuiUrl.Fields.URL, null);
         projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
         projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
 
