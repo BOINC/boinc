@@ -689,15 +689,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, TimePreferences.Fields.start_hour,
+        globalPreferencesParser.startElement(null, TimePreferences.Fields.START_HOUR,
                                              null, null);
         globalPreferencesParser.characters("7".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, TimePreferences.Fields.start_hour,
+        globalPreferencesParser.endElement(null, TimePreferences.Fields.START_HOUR,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_times.start_hour = 7.0;
+        expected.cpu_times.setStartHour(7.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -707,15 +707,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, TimePreferences.Fields.end_hour,
+        globalPreferencesParser.startElement(null, TimePreferences.Fields.END_HOUR,
                                              null, null);
         globalPreferencesParser.characters("18".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, TimePreferences.Fields.end_hour,
+        globalPreferencesParser.endElement(null, TimePreferences.Fields.END_HOUR,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_times.end_hour = 18.0;
+        expected.cpu_times.setEndHour(18.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -733,7 +733,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.net_times.start_hour = 7.0;
+        expected.net_times.setStartHour(7.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -751,7 +751,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.net_times.end_hour = 18.0;
+        expected.net_times.setEndHour(18.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -840,19 +840,19 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.DAY_OF_WEEK_TAG,
                                            null);
-        globalPreferencesParser.startElement(null, TimePreferences.Fields.start_hour,
+        globalPreferencesParser.startElement(null, TimePreferences.Fields.START_HOUR,
                                              null, null);
         globalPreferencesParser.characters("7".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, TimePreferences.Fields.start_hour,
+        globalPreferencesParser.endElement(null, TimePreferences.Fields.START_HOUR,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.DAY_PREFS_TAG,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
-        expectedTimeSpan.start_hour = 7.0;
-        expected.cpu_times.week_prefs[1] = expectedTimeSpan;
+        final TimeSpan expectedTimeSpan = new TimeSpan();
+        expectedTimeSpan.setStartHour(7.0);
+        expected.cpu_times.getWeekPrefs()[1] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -869,19 +869,19 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.DAY_OF_WEEK_TAG,
                                            null);
-        globalPreferencesParser.startElement(null, TimePreferences.Fields.end_hour,
+        globalPreferencesParser.startElement(null, TimePreferences.Fields.END_HOUR,
                                              null, null);
         globalPreferencesParser.characters("18".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, TimePreferences.Fields.end_hour,
+        globalPreferencesParser.endElement(null, TimePreferences.Fields.END_HOUR,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.DAY_PREFS_TAG,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
-        expectedTimeSpan.end_hour = 18.0;
-        expected.cpu_times.week_prefs[1] = expectedTimeSpan;
+        final TimeSpan expectedTimeSpan = new TimeSpan();
+        expectedTimeSpan.setEndHour(18.0);
+        expected.cpu_times.getWeekPrefs()[1] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -908,9 +908,9 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
-        expectedTimeSpan.start_hour = 7.0;
-        expected.net_times.week_prefs[2] = expectedTimeSpan;
+        final TimeSpan expectedTimeSpan = new TimeSpan();
+        expectedTimeSpan.setStartHour(7.0);
+        expected.net_times.getWeekPrefs()[2] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -937,9 +937,9 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        final TimePreferences.TimeSpan expectedTimeSpan = new TimePreferences.TimeSpan();
-        expectedTimeSpan.end_hour = 18.0;
-        expected.net_times.week_prefs[2] = expectedTimeSpan;
+        final TimeSpan expectedTimeSpan = new TimeSpan();
+        expectedTimeSpan.setEndHour(18.0);
+        expected.net_times.getWeekPrefs()[2] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }

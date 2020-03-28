@@ -1130,13 +1130,13 @@ public class RpcClient {
             mRequest.append("</idle_time_to_run>\n  <suspend_cpu_usage>");
             mRequest.append(globalPrefs.suspend_cpu_usage);
             mRequest.append("</suspend_cpu_usage>\n  <start_hour>");
-            mRequest.append(globalPrefs.cpu_times.start_hour);
+            mRequest.append(globalPrefs.cpu_times.getStartHour());
             mRequest.append("</start_hour>\n  <end_hour>");
-            mRequest.append(globalPrefs.cpu_times.end_hour);
+            mRequest.append(globalPrefs.cpu_times.getEndHour());
             mRequest.append("</end_hour>\n  <net_start_hour>");
-            mRequest.append(globalPrefs.net_times.start_hour);
+            mRequest.append(globalPrefs.net_times.getStartHour());
             mRequest.append("</net_start_hour>\n  <net_end_hour>");
-            mRequest.append(globalPrefs.net_times.end_hour);
+            mRequest.append(globalPrefs.net_times.getEndHour());
             mRequest.append("</net_end_hour>\n  <max_ncpus_pct>");
             mRequest.append(globalPrefs.max_ncpus_pct);
             mRequest.append("</max_ncpus_pct>\n  <leave_apps_in_memory>");
@@ -1176,29 +1176,29 @@ public class RpcClient {
             mRequest.append("</network_wifi_only>\n");
 
             // write days prefs
-            TimePreferences.TimeSpan[] weekPrefs = globalPrefs.cpu_times.week_prefs;
+            TimeSpan[] weekPrefs = globalPrefs.cpu_times.getWeekPrefs();
             for (int i = 0; i < weekPrefs.length; i++) {
-                TimePreferences.TimeSpan timeSpan = weekPrefs[i];
+                TimeSpan timeSpan = weekPrefs[i];
                 if (timeSpan == null) continue;
                 mRequest.append("  <day_prefs>\n    <day_of_week>");
                 mRequest.append(i);
                 mRequest.append("</day_of_week>\n    <start_hour>");
-                mRequest.append(timeSpan.start_hour);
+                mRequest.append(timeSpan.getStartHour());
                 mRequest.append("</start_hour>\n    <end_hour>");
-                mRequest.append(timeSpan.end_hour);
+                mRequest.append(timeSpan.getEndHour());
                 mRequest.append("</end_hour>\n  </day_prefs>\n");
             }
 
-            weekPrefs = globalPrefs.net_times.week_prefs;
+            weekPrefs = globalPrefs.net_times.getWeekPrefs();
             for (int i = 0; i < weekPrefs.length; i++) {
-                TimePreferences.TimeSpan timeSpan = weekPrefs[i];
+                TimeSpan timeSpan = weekPrefs[i];
                 if (timeSpan == null) continue;
                 mRequest.append("  <day_prefs>\n    <day_of_week>");
                 mRequest.append(i);
                 mRequest.append("</day_of_week>\n    <net_start_hour>");
-                mRequest.append(timeSpan.start_hour);
+                mRequest.append(timeSpan.getStartHour());
                 mRequest.append("</net_start_hour>\n    <net_end_hour>");
-                mRequest.append(timeSpan.end_hour);
+                mRequest.append(timeSpan.getEndHour());
                 mRequest.append("</net_end_hour>\n  </day_prefs>\n");
             }
 

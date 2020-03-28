@@ -37,8 +37,8 @@ public class GlobalPreferencesParser extends BaseParser {
 
     private boolean mInsideDayPrefs = false;
     private int mDayOfWeek = 0;
-    private TimePreferences.TimeSpan mTempCpuTimeSpan = null;
-    private TimePreferences.TimeSpan mTempNetTimeSpan = null;
+    private TimeSpan mTempCpuTimeSpan = null;
+    private TimeSpan mTempNetTimeSpan = null;
 
     GlobalPreferences getGlobalPreferences() {
         return mPreferences;
@@ -78,14 +78,13 @@ public class GlobalPreferencesParser extends BaseParser {
         try {
             if(mPreferences != null) {
                 // we are inside <global_preferences>
-                if(localName.equalsIgnoreCase(GLOBAL_PREFERENCES_TAG)) {
-                    // Closing tag of <global_preferences> - nothing to do at the moment
-                }
-                else if(localName.equalsIgnoreCase(DAY_PREFS_TAG)) {
+                // Closing tag of <global_preferences> - nothing to do at the moment
+                if(!localName.equalsIgnoreCase(GLOBAL_PREFERENCES_TAG) &&
+                   localName.equalsIgnoreCase(DAY_PREFS_TAG)) {
                     // closing <day_prefs>
                     if(mDayOfWeek >= 0 && mDayOfWeek <= 6) {
-                        mPreferences.cpu_times.week_prefs[mDayOfWeek] = mTempCpuTimeSpan;
-                        mPreferences.net_times.week_prefs[mDayOfWeek] = mTempNetTimeSpan;
+                        mPreferences.cpu_times.getWeekPrefs()[mDayOfWeek] = mTempCpuTimeSpan;
+                        mPreferences.net_times.getWeekPrefs()[mDayOfWeek] = mTempNetTimeSpan;
                     }
 
                     mTempCpuTimeSpan = null;
@@ -97,29 +96,29 @@ public class GlobalPreferencesParser extends BaseParser {
                     if(localName.equalsIgnoreCase(DAY_OF_WEEK_TAG)) {
                         mDayOfWeek = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.start_hour)) {
+                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.START_HOUR)) {
                         if(mTempCpuTimeSpan == null) {
-                            mTempCpuTimeSpan = new TimePreferences.TimeSpan();
+                            mTempCpuTimeSpan = new TimeSpan();
                         }
-                        mTempCpuTimeSpan.start_hour = Double.parseDouble(mCurrentElement.toString());
+                        mTempCpuTimeSpan.setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.end_hour)) {
+                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.END_HOUR)) {
                         if(mTempCpuTimeSpan == null) {
-                            mTempCpuTimeSpan = new TimePreferences.TimeSpan();
+                            mTempCpuTimeSpan = new TimeSpan();
                         }
-                        mTempCpuTimeSpan.end_hour = Double.parseDouble(mCurrentElement.toString());
+                        mTempCpuTimeSpan.setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_START_HOUR_TAG)) {
                         if(mTempNetTimeSpan == null) {
-                            mTempNetTimeSpan = new TimePreferences.TimeSpan();
+                            mTempNetTimeSpan = new TimeSpan();
                         }
-                        mTempNetTimeSpan.start_hour = Double.parseDouble(mCurrentElement.toString());
+                        mTempNetTimeSpan.setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_END_HOUR_TAG)) {
                         if(mTempNetTimeSpan == null) {
-                            mTempNetTimeSpan = new TimePreferences.TimeSpan();
+                            mTempNetTimeSpan = new TimeSpan();
                         }
-                        mTempNetTimeSpan.end_hour = Double.parseDouble(mCurrentElement.toString());
+                        mTempNetTimeSpan.setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                 }
                 else {
@@ -202,17 +201,17 @@ public class GlobalPreferencesParser extends BaseParser {
                     else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.daily_xfer_period_days)) {
                         mPreferences.daily_xfer_period_days = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.start_hour)) {
-                        mPreferences.cpu_times.start_hour = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.START_HOUR)) {
+                        mPreferences.cpu_times.setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.end_hour)) {
-                        mPreferences.cpu_times.end_hour = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(TimePreferences.Fields.END_HOUR)) {
+                        mPreferences.cpu_times.setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_START_HOUR_TAG)) {
-                        mPreferences.net_times.start_hour = Double.parseDouble(mCurrentElement.toString());
+                        mPreferences.net_times.setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_END_HOUR_TAG)) {
-                        mPreferences.net_times.end_hour = Double.parseDouble(mCurrentElement.toString());
+                        mPreferences.net_times.setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.override_file_present)) {
                         mPreferences.override_file_present = Integer.parseInt(mCurrentElement.toString()) != 0;
