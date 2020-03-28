@@ -59,10 +59,10 @@ public class CcStateTest {
         workunit.name = "Work Unit";
         workunit.project = project;
 
-        appVersion.plan_class = "Plan Class";
-        appVersion.app = app;
-        appVersion.project = project;
-        appVersion.version_num = 1;
+        appVersion.setPlanClass("Plan Class");
+        appVersion.setApp(app);
+        appVersion.setProject(project);
+        appVersion.setVersionNum(1);
 
         ccState.getApps().add(app);
         ccState.getWorkunits().add(workunit);
@@ -186,8 +186,8 @@ public class CcStateTest {
                 ccState.lookupAppVersion(project1, app1, 1, "Plan Class");
 
         assertNotNull(foundAppVersion);
-        assertEquals(project, foundAppVersion.project);
-        assertEquals(app, foundAppVersion.app);
-        assertEquals("Plan Class", foundAppVersion.plan_class);
+        assertEquals(project, foundAppVersion.getProject());
+        assertEquals(app, foundAppVersion.getApp());
+        assertEquals("Plan Class", foundAppVersion.getPlanClass());
     }
 }

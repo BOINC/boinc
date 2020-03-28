@@ -148,17 +148,17 @@ public class CcStateParserTest {
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
-        ccStateParser.startElement(null, AppVersion.Fields.app_name, null, null);
+        ccStateParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         ccStateParser.characters("App".toCharArray(), 0, 3);
-        ccStateParser.endElement(null, AppVersion.Fields.app_name, null);
-        ccStateParser.startElement(null, AppVersion.Fields.version_num, null, null);
+        ccStateParser.endElement(null, AppVersion.Fields.APP_NAME, null);
+        ccStateParser.startElement(null, AppVersion.Fields.VERSION_NUM, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
-        ccStateParser.endElement(null, AppVersion.Fields.version_num, null);
+        ccStateParser.endElement(null, AppVersion.Fields.VERSION_NUM, null);
         ccStateParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
         final AppVersion expectedAppVersion = new AppVersion("App", 1);
-        expectedAppVersion.project = new Project();
+        expectedAppVersion.setProject(new Project());
 
         expected.getAppVersions().add(expectedAppVersion);
 

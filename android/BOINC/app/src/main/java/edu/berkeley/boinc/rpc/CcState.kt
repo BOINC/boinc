@@ -55,8 +55,8 @@ data class CcState(
         return appVersions.asSequence()
                 .filter { it.project == project } //Check if projects match
                 .filter { it.app == app } //Check if app matches
-                .filter { it.version_num == versionNum } //Check version_num
-                .firstOrNull { it.plan_class.equals(planClass, ignoreCase = true) } //Check plan class
+                .filter { it.versionNum == versionNum } //Check version_num
+                .firstOrNull { it.planClass.equals(planClass, ignoreCase = true) } //Check plan class
     }
 
     object Fields {

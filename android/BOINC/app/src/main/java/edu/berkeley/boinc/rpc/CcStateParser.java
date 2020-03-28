@@ -219,8 +219,8 @@ public class CcStateParser extends BaseParser {
 
                     if(!appVersions.isEmpty()) {
                         final AppVersion myAppVersion = appVersions.get(appVersions.size() - 1);
-                        myAppVersion.project = myProject;
-                        myAppVersion.app = mCcState.lookupApp(myProject, myAppVersion.app_name);
+                        myAppVersion.setProject(myProject);
+                        myAppVersion.setApp(mCcState.lookupApp(myProject, myAppVersion.getAppName()));
                         mCcState.getAppVersions().add(myAppVersion);
                     }
                 }
