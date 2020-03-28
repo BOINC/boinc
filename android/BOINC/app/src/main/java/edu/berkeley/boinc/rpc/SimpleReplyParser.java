@@ -35,8 +35,8 @@ public class SimpleReplyParser extends BaseParser {
         return errorMessage;
     }
 
-    // Disable direct instantiation of this class
-    private SimpleReplyParser() {
+    // Needs to be accessible for testing.
+    SimpleReplyParser() {
     }
 
     public final boolean result() {
@@ -57,7 +57,7 @@ public class SimpleReplyParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase(MessageCountParser.REPLY_TAG)) {
             mInReply = true;
         }
         else {
@@ -69,7 +69,7 @@ public class SimpleReplyParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
 
-        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase(MessageCountParser.REPLY_TAG)) {
             mInReply = false;
         }
         else if(mInReply && !mParsed) {
