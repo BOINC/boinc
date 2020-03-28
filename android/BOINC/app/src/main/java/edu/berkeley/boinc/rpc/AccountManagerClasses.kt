@@ -22,6 +22,45 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
+ * Holds information about the attachable account managers.
+ * The source of the account managers is all_projects_list.xml.
+ */
+data class AccountManager internal constructor(
+        var name: String = "",
+        var url: String = "",
+        var description: String = "",
+        var imageUrl: String = ""
+) : Parcelable {
+    private constructor(parcel: Parcel) :
+            this(parcel.readString() ?: "", parcel.readString() ?: "",
+                    parcel.readString() ?: "", parcel.readString() ?: "")
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, arg1: Int) {
+        dest.writeString(name)
+        dest.writeString(url)
+        dest.writeString(description)
+        dest.writeString(imageUrl)
+    }
+
+    object Fields {
+        const val NAME = "name"
+        const val URL = "url"
+        const val DESCRIPTION = "description"
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<AccountManager> = object : Parcelable.Creator<AccountManager> {
+            override fun createFromParcel(parcel: Parcel) = AccountManager(parcel)
+
+            override fun newArray(size: Int) = arrayOfNulls<AccountManager>(size)
+        }
+    }
+}
+
+/**
  * Holds information about the currently used account manager.
  */
 data class AcctMgrInfo internal constructor(
@@ -80,3 +119,5 @@ data class AcctMgrInfo internal constructor(
         }
     }
 }
+
+data class AcctMgrRPCReply(var errorNum: Int = 0, val messages: MutableList<String> = arrayListOf())
