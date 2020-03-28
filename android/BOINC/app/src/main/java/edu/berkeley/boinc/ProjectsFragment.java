@@ -259,7 +259,7 @@ public class ProjectsFragment extends Fragment {
                 }
                 boolean noticeFound = false;
                 for(Notice serverNotice : serverNotices) {
-                    if(project.project.project_name.equals(serverNotice.project_name)) {
+                    if(project.project.project_name.equals(serverNotice.getProjectName())) {
                         project.addServerNotice(serverNotice);
                         noticeFound = true;
                         mappedServerNotices++;

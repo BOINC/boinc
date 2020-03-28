@@ -73,7 +73,7 @@ public class NoticesParser extends BaseParser {
                 // inside <notice>
                 if(localName.equalsIgnoreCase(NOTICE_TAG)) {
                     // Closing tag
-                    if(mNotice.seqno != -1) {
+                    if(mNotice.getSeqno() != -1) {
                         // seqno is a must
                         mNotices.add(mNotice);
                     }
@@ -81,35 +81,35 @@ public class NoticesParser extends BaseParser {
                 }
                 else {
                     // decode inner tags
-                    if(localName.equalsIgnoreCase(Notice.Fields.seqno)) {
-                        mNotice.seqno = Integer.parseInt(mCurrentElement.toString());
+                    if(localName.equalsIgnoreCase(Notice.Fields.SEQNO)) {
+                        mNotice.setSeqno(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.title)) {
-                        mNotice.title = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Notice.Fields.TITLE)) {
+                        mNotice.setTitle(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
-                        mNotice.description = mCurrentElement.toString();
+                        mNotice.setDescription(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.create_time)) {
-                        mNotice.create_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Notice.Fields.CREATE_TIME)) {
+                        mNotice.setCreateTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.arrival_time)) {
-                        mNotice.arrival_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Notice.Fields.ARRIVAL_TIME)) {
+                        mNotice.setArrivalTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.category)) {
-                        mNotice.category = mCurrentElement.toString();
-                        if(StringUtils.equalsAny(mNotice.category, "server", "scheduler")) {
-                            mNotice.isServerNotice = true;
+                    else if(localName.equalsIgnoreCase(Notice.Fields.CATEGORY)) {
+                        mNotice.setCategory(mCurrentElement.toString());
+                        if(StringUtils.equalsAny(mNotice.getCategory(), "server", "scheduler")) {
+                            mNotice.setServerNotice(true);
                         }
-                        if(mNotice.category.equals("client")) {
-                            mNotice.isClientNotice = true;
+                        if(mNotice.getCategory().equals("client")) {
+                            mNotice.setClientNotice(true);
                         }
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.link)) {
-                        mNotice.link = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Notice.Fields.LINK)) {
+                        mNotice.setLink(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_NAME)) {
-                        mNotice.project_name = mCurrentElement.toString();
+                        mNotice.setProjectName(mCurrentElement.toString());
                     }
                 }
             }

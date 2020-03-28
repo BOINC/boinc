@@ -301,7 +301,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
             else {
                 tvNotice.setVisibility(View.VISIBLE);
-                String noticeText = notice.description.trim();
+                String noticeText = notice.getDescription().trim();
                 tvNotice.setText(noticeText);
             }
 

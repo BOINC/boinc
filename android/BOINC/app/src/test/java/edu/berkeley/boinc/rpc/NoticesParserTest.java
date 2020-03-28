@@ -99,9 +99,9 @@ public class NoticesParserTest {
         mockStatic(Log.class);
 
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("One".toCharArray(), 0, 3);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
         assertTrue(noticesParser.getNotices().isEmpty());
@@ -110,12 +110,12 @@ public class NoticesParserTest {
     @Test
     public void testParser_whenXmlNoticeHasSeqno_thenExpectListWithMatchingNotice() throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
+        expected.setSeqno(1);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -124,16 +124,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndTitle_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.title, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.TITLE, null, null);
         noticesParser.characters("Notice".toCharArray(), 0, 6);
-        noticesParser.endElement(null, Notice.Fields.title, null);
+        noticesParser.endElement(null, Notice.Fields.TITLE, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.title = "Notice";
+        expected.setSeqno(1);
+        expected.setTitle("Notice");
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -142,16 +142,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndDescription_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
         noticesParser.startElement(null, RPCCommonTags.DESCRIPTION, null, null);
         noticesParser.characters("This is a notice.".toCharArray(), 0, "This is a notice.".length());
         noticesParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.description = "This is a notice.";
+        expected.setSeqno(1);
+        expected.setDescription("This is a notice.");
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -160,16 +160,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndCreateTime_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.create_time, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.CREATE_TIME, null, null);
         noticesParser.characters("1.5".toCharArray(), 0, 3);
-        noticesParser.endElement(null, Notice.Fields.create_time, null);
+        noticesParser.endElement(null, Notice.Fields.CREATE_TIME, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.create_time = 1.5;
+        expected.setSeqno(1);
+        expected.setCreateTime(1.5);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -178,16 +178,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndArrivalTime_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.arrival_time, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.ARRIVAL_TIME, null, null);
         noticesParser.characters("1.5".toCharArray(), 0, 3);
-        noticesParser.endElement(null, Notice.Fields.arrival_time, null);
+        noticesParser.endElement(null, Notice.Fields.ARRIVAL_TIME, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.arrival_time = 1.5;
+        expected.setSeqno(1);
+        expected.setArrivalTime(1.5);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -196,16 +196,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndCategoryUnknown_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.category, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null);
         noticesParser.characters("unknown".toCharArray(), 0, 7);
-        noticesParser.endElement(null, Notice.Fields.category, null);
+        noticesParser.endElement(null, Notice.Fields.CATEGORY, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.category = "unknown";
+        expected.setSeqno(1);
+        expected.setCategory("unknown");
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -214,17 +214,17 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndCategoryServer_thenExpectListWithMatchingServerNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.category, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null);
         noticesParser.characters("server".toCharArray(), 0, 6);
-        noticesParser.endElement(null, Notice.Fields.category, null);
+        noticesParser.endElement(null, Notice.Fields.CATEGORY, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.category = "server";
-        expected.isServerNotice = true;
+        expected.setSeqno(1);
+        expected.setCategory("server");
+        expected.setServerNotice(true);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -233,17 +233,17 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndCategoryScheduler_thenExpectListWithMatchingServerNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.category, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null);
         noticesParser.characters("scheduler".toCharArray(), 0, 9);
-        noticesParser.endElement(null, Notice.Fields.category, null);
+        noticesParser.endElement(null, Notice.Fields.CATEGORY, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.category = "scheduler";
-        expected.isServerNotice = true;
+        expected.setSeqno(1);
+        expected.setCategory("scheduler");
+        expected.setServerNotice(true);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -252,17 +252,17 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndCategoryClient_thenExpectListWithMatchingClientNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.category, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null);
         noticesParser.characters("client".toCharArray(), 0, 6);
-        noticesParser.endElement(null, Notice.Fields.category, null);
+        noticesParser.endElement(null, Notice.Fields.CATEGORY, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.category = "client";
-        expected.isClientNotice = true;
+        expected.setSeqno(1);
+        expected.setCategory("client");
+        expected.setClientNotice(true);
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -271,16 +271,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndLink_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.link, null, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
+        noticesParser.startElement(null, Notice.Fields.LINK, null, null);
         noticesParser.characters("Link".toCharArray(), 0, 4);
-        noticesParser.endElement(null, Notice.Fields.link, null);
+        noticesParser.endElement(null, Notice.Fields.LINK, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.link = "Link";
+        expected.setSeqno(1);
+        expected.setLink("Link");
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }
@@ -289,16 +289,16 @@ public class NoticesParserTest {
     public void testParser_whenXmlNoticeHasSeqnoAndProjectName_thenExpectListWithMatchingNotice()
             throws SAXException {
         noticesParser.startElement(null, NoticesParser.NOTICE_TAG, null, null);
-        noticesParser.startElement(null, Notice.Fields.seqno, null, null);
+        noticesParser.startElement(null, Notice.Fields.SEQNO, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
-        noticesParser.endElement(null, Notice.Fields.seqno, null);
+        noticesParser.endElement(null, Notice.Fields.SEQNO, null);
         noticesParser.startElement(null, RPCCommonTags.PROJECT_NAME, null, null);
         noticesParser.characters("Project Name".toCharArray(), 0, "Project Name".length());
         noticesParser.endElement(null, RPCCommonTags.PROJECT_NAME, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
-        expected.seqno = 1;
-        expected.project_name = "Project Name";
+        expected.setSeqno(1);
+        expected.setProjectName("Project Name");
 
         assertEquals(Collections.singletonList(expected), noticesParser.getNotices());
     }

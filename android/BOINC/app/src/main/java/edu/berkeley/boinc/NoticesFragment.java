@@ -109,7 +109,8 @@ public class NoticesFragment extends Fragment {
             data = (ArrayList<Notice>) BOINCActivity.monitor.getRssNotices();
             // sorting policy:
             // latest arrival first.
-            Collections.sort(data, (lhs, rhs) -> ((Double) (rhs.create_time - lhs.create_time)).intValue());
+            Collections.sort(data, (lhs, rhs) ->
+                    ((Double) (rhs.getCreateTime() - lhs.getCreateTime())).intValue());
         }
         catch(Exception e) {
             if(Logging.ERROR) {

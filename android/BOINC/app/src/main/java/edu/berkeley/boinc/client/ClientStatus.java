@@ -776,17 +776,18 @@ public class ClientStatus {
     private void appendNewNotices(List<Notice> newNotices) {
         for(Notice newNotice : newNotices) {
             if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " + newNotice.seqno +
-                                   " is server notice: " + newNotice.isServerNotice);
+                Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " +
+                                   newNotice.getSeqno() + " is server notice: " +
+                                   newNotice.isServerNotice());
             }
-            if(newNotice.seqno > mostRecentNoticeSeqNo) {
-                if(!newNotice.isClientNotice && !newNotice.isServerNotice) {
+            if(newNotice.getSeqno() > mostRecentNoticeSeqNo) {
+                if(!newNotice.isClientNotice() && !newNotice.isServerNotice()) {
                     rssNotices.add(newNotice);
                 }
-                if(newNotice.isServerNotice) {
+                if(newNotice.isServerNotice()) {
                     serverNotices.add(newNotice);
                 }
-                mostRecentNoticeSeqNo = newNotice.seqno;
+                mostRecentNoticeSeqNo = newNotice.getSeqno();
             }
         }
     }
