@@ -29,13 +29,15 @@ import android.util.Xml;
 import edu.berkeley.boinc.utils.Logging;
 
 public class MessageCountParser extends DefaultHandler {
+    static final String REPLY_TAG = "boinc_gui_rpc_reply";
+
     private boolean mParsed = false;
     private boolean mInReply = false;
     private int mSeqno = -1;
-    private StringBuilder mCurrentElement = new StringBuilder();
+    protected StringBuilder mCurrentElement = new StringBuilder();
 
-    // Disable direct instantiation of this class
-    private MessageCountParser() {
+    // Needs to be accessible for testing.
+    MessageCountParser() {
     }
 
     public final int seqno() {
@@ -57,7 +59,7 @@ public class MessageCountParser extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase(REPLY_TAG)) {
             mInReply = true;
         }
     }
@@ -86,7 +88,7 @@ public class MessageCountParser extends DefaultHandler {
 
         try {
             trimEnd();
-            if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+            if(localName.equalsIgnoreCase(REPLY_TAG)) {
                 mInReply = false;
             }
             else if(mInReply && !mParsed) {
