@@ -77,6 +77,7 @@ data class TimePreferences(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<TimePreferences> = object : Parcelable.Creator<TimePreferences> {
             override fun createFromParcel(parcel: Parcel) = TimePreferences(parcel)
 

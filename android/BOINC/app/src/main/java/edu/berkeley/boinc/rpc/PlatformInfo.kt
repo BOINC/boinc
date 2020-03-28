@@ -41,6 +41,7 @@ data class PlatformInfo internal constructor(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<PlatformInfo> = object : Parcelable.Creator<PlatformInfo> {
             override fun createFromParcel(parcel: Parcel) = PlatformInfo(parcel)
 

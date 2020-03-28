@@ -71,6 +71,7 @@ data class AppVersion(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<AppVersion> = object : Parcelable.Creator<AppVersion> {
             override fun createFromParcel(parcel: Parcel) = AppVersion(parcel)
 

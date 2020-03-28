@@ -62,6 +62,7 @@ data class WorkUnit(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<WorkUnit> = object : Parcelable.Creator<WorkUnit> {
             override fun createFromParcel(parcel: Parcel) = WorkUnit(parcel)
 

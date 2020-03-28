@@ -38,6 +38,7 @@ data class GuiUrl(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<GuiUrl> = object : Parcelable.Creator<GuiUrl> {
             override fun createFromParcel(parcel: Parcel) = GuiUrl(parcel)
 

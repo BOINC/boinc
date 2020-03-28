@@ -65,6 +65,7 @@ constructor(
     }
 
     companion object {
+        @JvmField
         val CREATOR: Parcelable.Creator<App> = object : Parcelable.Creator<App> {
             override fun createFromParcel(parcel: Parcel) = App(parcel)
 
