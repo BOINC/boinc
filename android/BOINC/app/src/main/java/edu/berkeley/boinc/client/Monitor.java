@@ -1196,7 +1196,7 @@ public class Monitor extends Service {
 
         @Override
         public boolean getAcctMgrInfoPresent() throws RemoteException {
-            return clientStatus.getAcctMgrInfo().present;
+            return clientStatus.getAcctMgrInfo().isPresent();
         }
 
         @Override

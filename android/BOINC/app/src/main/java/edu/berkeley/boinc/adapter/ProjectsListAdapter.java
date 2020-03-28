@@ -152,11 +152,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // populate name
             TextView tvName = vi.findViewById(R.id.name);
-            tvName.setText(data.acctMgrInfo.acct_mgr_name);
+            tvName.setText(data.acctMgrInfo.getAcctMgrName());
 
             // populate url
             TextView tvUrl = vi.findViewById(R.id.url);
-            tvUrl.setText(data.acctMgrInfo.acct_mgr_url);
+            tvUrl.setText(data.acctMgrInfo.getAcctMgrUrl());
 
         }
         else {

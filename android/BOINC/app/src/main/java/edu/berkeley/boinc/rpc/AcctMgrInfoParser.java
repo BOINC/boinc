@@ -22,6 +22,7 @@ package edu.berkeley.boinc.rpc;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -70,27 +71,28 @@ public class AcctMgrInfoParser extends BaseParser {
                 // inside <acct_mgr_info>
                 if(localName.equalsIgnoreCase(ACCT_MGR_INFO_TAG)) {
                     // closing tag
-                    if(!mAcctMgrInfo.acct_mgr_name.isEmpty() && !mAcctMgrInfo.acct_mgr_url.isEmpty() &&
-                       mAcctMgrInfo.have_credentials) {
-                        mAcctMgrInfo.present = true;
+                    if(!StringUtils.isAllEmpty(mAcctMgrInfo.getAcctMgrName(),
+                                              mAcctMgrInfo.getAcctMgrUrl()) &&
+                       mAcctMgrInfo.isHavingCredentials()) {
+                        mAcctMgrInfo.setPresent(true);
                     }
                 }
                 else {
                     // decode inner tags
-                    if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.acct_mgr_name)) {
-                        mAcctMgrInfo.acct_mgr_name = mCurrentElement.toString();
+                    if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.ACCT_MGR_NAME)) {
+                        mAcctMgrInfo.setAcctMgrName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.acct_mgr_url)) {
-                        mAcctMgrInfo.acct_mgr_url = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.ACCT_MGR_URL)) {
+                        mAcctMgrInfo.setAcctMgrUrl(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.have_credentials)) {
-                        mAcctMgrInfo.have_credentials = true;
+                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.HAVING_CREDENTIALS)) {
+                        mAcctMgrInfo.setHavingCredentials(true);
                     }
-                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.cookie_required)) {
-                        mAcctMgrInfo.cookie_required = true;
+                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.COOKIE_REQUIRED)) {
+                        mAcctMgrInfo.setCookieRequired(true);
                     }
-                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.cookie_failure_url)) {
-                        mAcctMgrInfo.cookie_failure_url = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(AcctMgrInfo.Fields.COOKIE_FAILURE_URL)) {
+                        mAcctMgrInfo.setCookieFailureUrl(mCurrentElement.toString());
                     }
                 }
             }

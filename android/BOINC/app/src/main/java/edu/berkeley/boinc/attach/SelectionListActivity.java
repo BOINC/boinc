@@ -292,7 +292,7 @@ public class SelectionListActivity extends FragmentActivity {
             try
             {
                 AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
-                statusAcctMgrPresent = statusAcctMgr.present;
+                statusAcctMgrPresent = statusAcctMgr.isPresent();
             }
             catch(Exception e) {
                 // data retrieval failed, continue...

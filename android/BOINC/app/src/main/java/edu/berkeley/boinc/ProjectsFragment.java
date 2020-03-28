@@ -177,13 +177,14 @@ public class ProjectsFragment extends Fragment {
         }
         if(mgrIndex < 0) { // no manager present until now
             if(Logging.VERBOSE) {
-                Log.d(Logging.TAG, "No manager found in layout list. New entry available: " + acctMgrInfo.present);
+                Log.d(Logging.TAG, "No manager found in layout list. New entry available: " +
+                                   acctMgrInfo.isPresent());
             }
-            if(acctMgrInfo.present) {
+            if(acctMgrInfo.isPresent()) {
                 // add new manager entry, at top of the list
                 data.add(new ProjectsListData(null, acctMgrInfo, null));
                 if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "New acct mgr found: " + acctMgrInfo.acct_mgr_name);
+                    Log.d(Logging.TAG, "New acct mgr found: " + acctMgrInfo.getAcctMgrName());
                 }
             }
         }
@@ -191,7 +192,7 @@ public class ProjectsFragment extends Fragment {
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "Manager found in layout list at index: " + mgrIndex);
             }
-            if(!acctMgrInfo.present) {
+            if(!acctMgrInfo.isPresent()) {
                 // manager got detached, remove from list
                 data.remove(mgrIndex);
                 if(Logging.DEBUG) {
@@ -303,18 +304,18 @@ public class ProjectsFragment extends Fragment {
         public boolean isMgr;
         public ProjectsListData listEntry = this;
 
-        public ProjectsListData(Project data, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
-            this.project = data;
+        public ProjectsListData(Project project, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
+            this.project = project;
             this.acctMgrInfo = acctMgrInfo;
             this.projectTransfers = projectTransfers;
             if(this.project == null && this.acctMgrInfo != null) {
                 isMgr = true;
             }
             if(isMgr) {
-                this.id = acctMgrInfo.acct_mgr_url;
+                this.id = acctMgrInfo.getAcctMgrUrl();
             }
             else {
-                this.id = data.master_url;
+                this.id = project.master_url;
             }
         }
 
@@ -457,7 +458,7 @@ public class ProjectsFragment extends Fragment {
                     tvTitle.setText(R.string.projects_confirm_remove_acctmgr_title);
                     tvMessage.setText(getString(R.string.projects_confirm_message,
                                                 getString(R.string.projects_confirm_remove_acctmgr_message),
-                                                data.acctMgrInfo.acct_mgr_name));
+                                                data.acctMgrInfo.getAcctMgrName()));
                     confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm);
                 }
 
@@ -513,9 +514,10 @@ public class ProjectsFragment extends Fragment {
 
                     // acct mgr operations
                     case RpcClient.MGR_SYNC:
-                        return BOINCActivity.monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
+                        return BOINCActivity.monitor.synchronizeAcctMgr(data.acctMgrInfo.getAcctMgrUrl());
                     case RpcClient.MGR_DETACH:
-                        return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "").code == BOINCErrors.ERR_OK;
+                        return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "")
+                                       .code == BOINCErrors.ERR_OK;
 
                     // transfer operations
                     case RpcClient.TRANSFER_RETRY:

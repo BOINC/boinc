@@ -385,8 +385,8 @@ public class ProjectAttachService extends Service {
 
         if(Logging.DEBUG) {
             Log.d(Logging.TAG,
-                  "ProjectAttachService.attachAcctMgr successful: " + info.acct_mgr_url + info.acct_mgr_name +
-                  info.have_credentials);
+                  "ProjectAttachService.attachAcctMgr successful: " + info.getAcctMgrUrl() +
+                  info.getAcctMgrName() + info.isHavingCredentials());
         }
         return new ErrorCodeDescription(BOINCErrors.ERR_OK);
     }
