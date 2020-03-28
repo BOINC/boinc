@@ -382,7 +382,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             Boolean loop = true;
             while (loop) {
                 reply = acctMgrRPCPoll();
-                if (reply == null || reply.error_num != BOINCErrors.ERR_IN_PROGRESS) {
+                if (reply == null || reply.getErrorNum() != BOINCErrors.ERR_IN_PROGRESS) {
                     loop = false;
                     //final result ready
                     if (reply == null) {
@@ -390,7 +390,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: failed, reply null.");
                     } else {
                         if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned " + reply.error_num);
+                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned "
+                                               + reply.getErrorNum());
                     }
                 } else {
                     try {
@@ -464,18 +465,18 @@ public class ClientInterfaceImplementation extends RpcClient {
                 if (reply2 == null) {
                     if (Logging.ERROR)
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acctMgrRPCPoll returned null.");
-                    return null;
+                    return false;
                 }
-                if (reply2.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if (reply2.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
                 } else {
                     //final result ready
-                    if (reply2.error_num == 0) {
+                    if (reply2.getErrorNum() == 0) {
                         if (Logging.DEBUG)
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acct mngr reply retrieved.");
                     } else {
                         if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply2.error_num);
+                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply2.getErrorNum());
                     }
                 }
             }

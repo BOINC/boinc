@@ -1170,11 +1170,12 @@ public class Monitor extends Service {
         }
 
         @Override
-        public ErrorCodeDescription addAcctMgrErrorNum(String url, String userName, String pwd)
-                throws RemoteException {
+        public ErrorCodeDescription addAcctMgrErrorNum(String url, String userName, String pwd) {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                return new ErrorCodeDescription(acctMgr.error_num, acctMgr.messages.isEmpty() ? "" : acctMgr.messages.toString());
+                return new ErrorCodeDescription(acctMgr.getErrorNum(),
+                                                acctMgr.getMessages().isEmpty() ? "" :
+                                                acctMgr.getMessages().toString());
             }
             return new ErrorCodeDescription(-1);
         }
