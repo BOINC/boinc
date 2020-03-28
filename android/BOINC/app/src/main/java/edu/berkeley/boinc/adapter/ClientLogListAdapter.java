@@ -67,7 +67,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
     }
 
     public String getDate(int position) {
-        this.date.setTime(this.entries.get(position).timestamp * 1000);
+        this.date.setTime(this.entries.get(position).getTimestamp() * 1000);
         return DateFormat.getDateTimeInstance().format(this.date);
     }
 
@@ -82,11 +82,11 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
     }
 
     public String getMessage(int position) {
-        return entries.get(position).body;
+        return entries.get(position).getBody();
     }
 
     public String getProject(int position) {
-        return entries.get(position).project;
+        return entries.get(position).getProject();
     }
 
     @Override

@@ -93,7 +93,7 @@ public class MessagesParser {
                         if(newPos == -1) {
                             throw new MessageParseException();
                         }
-                        message.project = xml.substring(pos, newPos).trim();
+                        message.setProject(xml.substring(pos, newPos).trim());
                         pos = newPos + 10;
                     }
                     else if(xml.startsWith("<seqno>", pos)) {
@@ -102,7 +102,7 @@ public class MessagesParser {
                         if(newPos == -1) {
                             throw new MessageParseException();
                         }
-                        message.seqno = Integer.parseInt(xml.substring(pos, newPos).trim());
+                        message.setSeqno(Integer.parseInt(xml.substring(pos, newPos).trim()));
                         pos = newPos + 8;
                     }
                     else if(xml.startsWith("<pri>", pos)) {
@@ -111,7 +111,7 @@ public class MessagesParser {
                         if(newPos == -1) {
                             throw new MessageParseException();
                         }
-                        message.priority = Integer.parseInt(xml.substring(pos, newPos).trim());
+                        message.setPriority(Integer.parseInt(xml.substring(pos, newPos).trim()));
                         pos = newPos + 6;
                     }
                     else if(xml.startsWith("<time>", pos)) {
@@ -120,8 +120,8 @@ public class MessagesParser {
                         if(newPos == -1) {
                             throw new MessageParseException();
                         }
-                        message.timestamp = (long) Double.parseDouble(
-                                xml.substring(pos, newPos).trim());
+                        message.setTimestamp((long) Double.parseDouble(
+                                xml.substring(pos, newPos).trim()));
                         pos = newPos + 7;
                     }
                     else if(xml.startsWith("<body>", pos)) {
@@ -130,7 +130,7 @@ public class MessagesParser {
                         if(newPos == -1) {
                             throw new MessageParseException();
                         }
-                        message.body = xml.substring(pos, newPos).trim();
+                        message.setBody(xml.substring(pos, newPos).trim());
                         pos = newPos + 7;
                     }
                     else {

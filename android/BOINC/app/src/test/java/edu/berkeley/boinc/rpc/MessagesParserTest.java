@@ -52,11 +52,11 @@ public class MessagesParserTest {
 
     @Test
     public void testParse_whenRpcResultHasOneMessage_thenExpectListWithMatchingMessage() {
-        expected.body = "Body";
-        expected.timestamp = 10;
-        expected.seqno = 1;
-        expected.priority = 1;
-        expected.project = "Project";
+        expected.setBody("Body");
+        expected.setTimestamp(10);
+        expected.setSeqno(1);
+        expected.setPriority(1);
+        expected.setProject("Project");
 
         final String input = "<msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
                              "<pri>1</pri><project>Project</project></msg></msgs>";
@@ -66,11 +66,11 @@ public class MessagesParserTest {
 
     @Test
     public void testParse_whenRpcResultHasOneMessageWithLeadingWhitespace_thenExpectListWithMatchingMessage() {
-        expected.body = "Body";
-        expected.timestamp = 10;
-        expected.seqno = 1;
-        expected.priority = 1;
-        expected.project = "Project";
+        expected.setBody("Body");
+        expected.setTimestamp(10);
+        expected.setSeqno(1);
+        expected.setPriority(1);
+        expected.setProject("Project");
 
         final String input = "       <msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
                              "<pri>1</pri><project>Project</project></msg></msgs>";
@@ -80,11 +80,11 @@ public class MessagesParserTest {
 
     @Test
     public void testParse_whenRpcResultHasOneMessageWithUnknownTag_thenExpectListWithMatchingMessage() {
-        expected.body = "Body";
-        expected.timestamp = 10;
-        expected.seqno = 1;
-        expected.priority = 1;
-        expected.project = "Project";
+        expected.setBody("Body");
+        expected.setTimestamp(10);
+        expected.setSeqno(1);
+        expected.setPriority(1);
+        expected.setProject("Project");
 
         final String input = "<msgs><msg><tag></tag><body>Body</body><time>10</time><seqno>1</seqno>"
                              + "<pri>1</pri><project>Project</project></msg></msgs>";

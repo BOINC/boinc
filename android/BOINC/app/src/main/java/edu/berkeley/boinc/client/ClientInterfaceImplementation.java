@@ -522,7 +522,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             Iterator<Message> it = msgs.iterator();
             while (it.hasNext()) {
                 Message tmp = it.next();
-                if (tmp.seqno >= seqNo)
+                if (tmp.getSeqno() >= seqNo)
                     it.remove();
             }
         }
@@ -530,8 +530,8 @@ public class ClientInterfaceImplementation extends RpcClient {
         if(!msgs.isEmpty() && Logging.DEBUG.equals(Boolean.TRUE)) {
             Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
                                + " entries. for lowerBound: " + lowerBound + " at 0: "
-                               + msgs.get(0).seqno + " at " + (msgs.size() - 1) + ": "
-                               + msgs.get(msgs.size() - 1).seqno);
+                               + msgs.get(0).getSeqno() + " at " + (msgs.size() - 1) + ": "
+                               + msgs.get(msgs.size() - 1).getSeqno());
         }
         return msgs;
     }
