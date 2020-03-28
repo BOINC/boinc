@@ -20,7 +20,6 @@ package edu.berkeley.boinc.client;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -689,24 +688,24 @@ public class ClientStatus {
     private void parseComputingStatus() {
         computingParseError = true;
         try {
-            if(status.task_mode == BOINCDefs.RUN_MODE_NEVER) {
+            if(status.getTaskMode() == BOINCDefs.RUN_MODE_NEVER) {
                 computingStatus = COMPUTING_STATUS_NEVER;
-                computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
+                computingSuspendReason = status.getTaskSuspendReason(); // = 4 - SUSPEND_REASON_USER_REQ????
                 computingParseError = false;
                 return;
             }
-            if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED) &&
-               (status.task_suspend_reason != BOINCDefs.SUSPEND_REASON_CPU_THROTTLE)) {
+            if((status.getTaskMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getTaskSuspendReason() != BOINCDefs.SUSPEND_NOT_SUSPENDED) &&
+               (status.getTaskSuspendReason() != BOINCDefs.SUSPEND_REASON_CPU_THROTTLE)) {
                 // do not expose cpu throttling as suspension to UI
                 computingStatus = COMPUTING_STATUS_SUSPENDED;
-                computingSuspendReason = status.task_suspend_reason;
+                computingSuspendReason = status.getTaskSuspendReason();
                 computingParseError = false;
                 return;
             }
-            if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               ((status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) ||
-                (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
+            if((status.getTaskMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               ((status.getTaskSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED) ||
+                (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
                 // treat cpu throttling as if client was active (either idle, or computing, depending on tasks)
                 //figure out whether we have an active task
                 Boolean activeTask = false;
@@ -721,12 +720,12 @@ public class ClientStatus {
 
                 if(activeTask) { // client is currently computing
                     computingStatus = COMPUTING_STATUS_COMPUTING;
-                    computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                    computingSuspendReason = status.getTaskSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
                 }
                 else { // client "is able but idle"
                     computingStatus = COMPUTING_STATUS_IDLE;
-                    computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                    computingSuspendReason = status.getTaskSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
                 }
             }
@@ -744,23 +743,23 @@ public class ClientStatus {
     private void parseNetworkStatus() {
         networkParseError = true;
         try {
-            if(status.network_mode == BOINCDefs.RUN_MODE_NEVER) {
+            if(status.getNetworkMode() == BOINCDefs.RUN_MODE_NEVER) {
                 networkStatus = NETWORK_STATUS_NEVER;
-                networkSuspendReason = status.network_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
+                networkSuspendReason = status.getNetworkSuspendReason(); // = 4 - SUSPEND_REASON_USER_REQ????
                 networkParseError = false;
                 return;
             }
-            if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.network_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+            if((status.getNetworkMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getNetworkSuspendReason() != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
                 networkStatus = NETWORK_STATUS_SUSPENDED;
-                networkSuspendReason = status.network_suspend_reason;
+                networkSuspendReason = status.getNetworkSuspendReason();
                 networkParseError = false;
                 return;
             }
-            if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.network_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+            if((status.getNetworkMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getNetworkSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
                 networkStatus = NETWORK_STATUS_AVAILABLE;
-                networkSuspendReason = status.network_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                networkSuspendReason = status.getNetworkSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                 networkParseError = false;
             }
         }

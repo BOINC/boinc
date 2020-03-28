@@ -454,7 +454,9 @@ public class Monitor extends Service {
             // wake locks and foreground enabled when Client is not suspended, therefore also during
             // idle.
             // treat cpu throttling as if it was computing.
-            Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+            assert status != null;
+            Boolean computing = (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED)
+                                || (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
             if (Logging.VERBOSE)
                 Log.d(Logging.TAG, "readClientStatus(): computation enabled: " + computing);
             Monitor.getClientStatus().setWifiLock(computing);
