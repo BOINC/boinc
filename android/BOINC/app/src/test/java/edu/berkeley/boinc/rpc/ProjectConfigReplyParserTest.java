@@ -86,7 +86,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.name = "Project Config";
+        expected.setName("Project Config");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -104,7 +104,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.masterUrl = "Master URL";
+        expected.setMasterUrl("Master URL");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -123,7 +123,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.webRpcUrlBase = "Web RPC URL Base";
+        expected.setWebRpcUrlBase("Web RPC URL Base");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -142,7 +142,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.localRevision = "Local Revision";
+        expected.setLocalRevision("Local Revision");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -176,7 +176,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.minPwdLength = 8;
+        expected.setMinPwdLength(8);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -193,7 +193,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.usesName = true;
+        expected.setUsesName(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -210,7 +210,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.usesName = true;
+        expected.setUsesName(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -228,7 +228,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.webStopped = false;
+        expected.setWebStopped(false);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -246,7 +246,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.webStopped = true;
+        expected.setWebStopped(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -264,7 +264,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.schedulerStopped = false;
+        expected.setSchedulerStopped(false);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -282,7 +282,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.schedulerStopped = true;
+        expected.setSchedulerStopped(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -299,7 +299,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.clientAccountCreationDisabled = true;
+        expected.setClientAccountCreationDisabled(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -317,7 +317,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.minClientVersion = 1;
+        expected.setMinClientVersion(1);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -335,7 +335,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.rpcPrefix = "RPC Prefix";
+        expected.setRpcPrefix("RPC Prefix");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -351,7 +351,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.error_num = 1;
+        expected.setErrorNum(1);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -368,7 +368,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.accountManager = true;
+        expected.setAccountManager(true);
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -387,7 +387,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.termsOfUse = "Terms of Use";
+        expected.setTermsOfUse("Terms of Use");
 
         assertEquals(expected, projectConfigReplyParser.getProjectConfig());
     }
@@ -426,7 +426,7 @@ public class ProjectConfigReplyParserTest {
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
-        expected.platforms.add(new PlatformInfo("Platform Name",
+        expected.getPlatforms().add(new PlatformInfo("Platform Name",
                                                 "Platform Friendly Name",
                                                 "Plan Class"));
 

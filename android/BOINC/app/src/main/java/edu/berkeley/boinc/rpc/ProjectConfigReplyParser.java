@@ -95,45 +95,45 @@ public class ProjectConfigReplyParser extends BaseParser {
             if(mProjectConfig != null) {
                 if(localName.equalsIgnoreCase(ProjectConfig.Fields.PLATFORMS)) {
                     // closing tag of platform names
-                    mProjectConfig.platforms = mPlatforms;
+                    mProjectConfig.setPlatforms(mPlatforms);
                     withinPlatforms = false;
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
                     if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
-                        mProjectConfig.name = mCurrentElement.toString();
+                        mProjectConfig.setName(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.MASTER_URL)) {
-                        mProjectConfig.masterUrl = mCurrentElement.toString();
+                        mProjectConfig.setMasterUrl(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.WEB_RPC_URL_BASE)) {
-                        mProjectConfig.webRpcUrlBase = mCurrentElement.toString();
+                        mProjectConfig.setWebRpcUrlBase(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.LOCAL_REVISION)) {
-                        mProjectConfig.localRevision = mCurrentElement.toString();
+                        mProjectConfig.setLocalRevision(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MIN_PWD_LENGTH)) {
-                        mProjectConfig.minPwdLength = Integer.parseInt(mCurrentElement.toString());
+                        mProjectConfig.setMinPwdLength(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(StringUtils.equalsAnyIgnoreCase(localName, USER_NAME_TAG,
                                                             USES_USER_NAME_TAG)) {
-                        mProjectConfig.usesName = true;
+                        mProjectConfig.setUsesName(true);
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.WEB_STOPPED)) {
-                        mProjectConfig.webStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
+                        mProjectConfig.setWebStopped(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.SCHEDULER_STOPPED)) {
-                        mProjectConfig.schedulerStopped = Integer.parseInt(mCurrentElement.toString()) != 0;
+                        mProjectConfig.setSchedulerStopped(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED)) {
-                        mProjectConfig.clientAccountCreationDisabled = true;
+                        mProjectConfig.setClientAccountCreationDisabled(true);
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MIN_CLIENT_VERSION)) {
-                        mProjectConfig.minClientVersion = Integer.parseInt(mCurrentElement.toString());
+                        mProjectConfig.setMinClientVersion(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.RPC_PREFIX)) {
-                        mProjectConfig.rpcPrefix = mCurrentElement.toString();
+                        mProjectConfig.setRpcPrefix(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(PlatformInfo.Fields.NAME) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
@@ -148,7 +148,7 @@ public class ProjectConfigReplyParser extends BaseParser {
                         platformPlanClass = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.TERMS_OF_USE)) {
-                        mProjectConfig.termsOfUse = mCurrentElement.toString();
+                        mProjectConfig.setTermsOfUse(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(PLATFORM_TAG) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
@@ -161,10 +161,10 @@ public class ProjectConfigReplyParser extends BaseParser {
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.ERROR_NUM)) {
                         // reply is not present yet
-                        mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
+                        mProjectConfig.setErrorNum(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.ACCOUNT_MANAGER)) {
-                        mProjectConfig.accountManager = true;
+                        mProjectConfig.setAccountManager(true);
                     }
                 }
             }

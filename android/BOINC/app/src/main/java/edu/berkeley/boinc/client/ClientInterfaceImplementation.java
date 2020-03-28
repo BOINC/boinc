@@ -159,21 +159,21 @@ public class ClientInterfaceImplementation extends RpcClient {
                     }
                     return null;
                 }
-                if (config.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if (config.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
                 } else {
                     //final result ready
-                    if (config.error_num == 0) {
+                    if (config.getErrorNum() == 0) {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG,
                                     "ClientInterfaceImplementation.getProjectConfigPolling: ProjectConfig retrieved: " +
-                                            config.name);
+                                            config.getName());
                         }
                     } else {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG,
                                     "ClientInterfaceImplementation.getProjectConfigPolling: final result with error_num: " +
-                                            config.error_num);
+                                            config.getErrorNum());
                         }
                     }
                 }
@@ -414,13 +414,12 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param url URL of account manager
      * @return success
      */
-    public Boolean synchronizeAcctMgr(String url) {
-
+    boolean synchronizeAcctMgr(String url) {
         // 1st get_project_config for account manager url
-        Boolean success = getProjectConfig(url);
+        boolean success = getProjectConfig(url);
         ProjectConfig reply;
         if (success) {
-            Boolean loop = true;
+            boolean loop = true;
             while (loop) {
                 loop = false;
                 try {
@@ -431,18 +430,19 @@ public class ClientInterfaceImplementation extends RpcClient {
                 if (reply == null) {
                     if (Logging.ERROR)
                         Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: getProjectConfigreturned null.");
-                    return null;
+                    return false;
                 }
-                if (reply.error_num == BOINCErrors.ERR_IN_PROGRESS) {
+                if (reply.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
                     loop = true; //no result yet, keep looping
                 } else {
                     //final result ready
-                    if (reply.error_num == 0) {
+                    if (reply.getErrorNum() == 0) {
                         if (Logging.DEBUG)
                             Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: project config retrieved.");
                     } else {
                         if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply.error_num);
+                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronize" +
+                                               "AcctMgr: final result with error_num: " + reply.getErrorNum());
                     }
                 }
             }
@@ -454,7 +454,7 @@ public class ClientInterfaceImplementation extends RpcClient {
         AcctMgrRPCReply reply2;
         success = acctMgrRPC(); //asynchronous call to synchronize account manager
         if (success) {
-            Boolean loop = true;
+            boolean loop = true;
             while (loop) {
                 loop = false;
                 try {
