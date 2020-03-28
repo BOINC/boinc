@@ -106,7 +106,7 @@ public class CcStateParserTest {
         ccState.getAppVersions().add(new AppVersion());
         ccState.getProjects().add(new Project());
         ccState.getResults().add(new Result());
-        ccState.getWorkunits().add(new Workunit());
+        ccState.getWorkUnits().add(new WorkUnit());
 
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
@@ -115,7 +115,7 @@ public class CcStateParserTest {
         assertTrue(ccState.getAppVersions().isEmpty());
         assertTrue(ccState.getProjects().isEmpty());
         assertTrue(ccState.getResults().isEmpty());
-        assertTrue(ccState.getWorkunits().isEmpty());
+        assertTrue(ccState.getWorkUnits().isEmpty());
     }
 
     @Test
@@ -350,22 +350,22 @@ public class CcStateParserTest {
     @Test
     public void testParser_whenXmlCcStateHasWorkUnit_thenExpectMatchingCcState() throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
-        ccStateParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        ccStateParser.startElement(null, Workunit.Fields.name, null, null);
+        ccStateParser.startElement(null, WorkUnitsParser.WORKUNIT_TAG, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.NAME, null, null);
         ccStateParser.characters("Work unit".toCharArray(), 0, "Work unit".length());
-        ccStateParser.endElement(null, Workunit.Fields.name, null);
-        ccStateParser.startElement(null, Workunit.Fields.rsc_disk_bound, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.NAME, null);
+        ccStateParser.startElement(null, WorkUnit.Fields.RSC_DISK_BOUND, null, null);
         ccStateParser.characters("1.5".toCharArray(), 0, 3);
-        ccStateParser.endElement(null, Workunit.Fields.rsc_disk_bound, null);
-        ccStateParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
+        ccStateParser.endElement(null, WorkUnit.Fields.RSC_DISK_BOUND, null);
+        ccStateParser.endElement(null, WorkUnitsParser.WORKUNIT_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
-        final Workunit expectedWorkUnit = new Workunit();
-        expectedWorkUnit.name = "Work unit";
-        expectedWorkUnit.rsc_disk_bound = 1.5;
-        expectedWorkUnit.project = new Project();
+        final WorkUnit expectedWorkUnit = new WorkUnit();
+        expectedWorkUnit.setName("Work unit");
+        expectedWorkUnit.setRscDiskBound(1.5);
+        expectedWorkUnit.setProject(new Project());
 
-        expected.getWorkunits().add(expectedWorkUnit);
+        expected.getWorkUnits().add(expectedWorkUnit);
 
         assertEquals(expected, ccStateParser.getCcState());
     }

@@ -46,7 +46,7 @@ public class CcStateTest {
         app1 = new App();
 
         AppVersion appVersion = new AppVersion();
-        Workunit workunit = new Workunit();
+        WorkUnit workUnit = new WorkUnit();
 
         project.master_url = URL_1;
         project1.master_url = URL_1;
@@ -56,8 +56,8 @@ public class CcStateTest {
         app.setProject(project);
         app1.setProject(project1);
 
-        workunit.name = "Work Unit";
-        workunit.project = project;
+        workUnit.setName("Work Unit");
+        workUnit.setProject(project);
 
         appVersion.setPlanClass("Plan Class");
         appVersion.setApp(app);
@@ -65,7 +65,7 @@ public class CcStateTest {
         appVersion.setVersionNum(1);
 
         ccState.getApps().add(app);
-        ccState.getWorkunits().add(workunit);
+        ccState.getWorkUnits().add(workUnit);
         ccState.getAppVersions().add(appVersion);
     }
 
@@ -137,11 +137,11 @@ public class CcStateTest {
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndParametersMatch_thenExpectWorkUnit() {
-        final Workunit workUnitFound = ccState.lookupWorkUnit(project1, "Work Unit");
+        final WorkUnit workUnitFound = ccState.lookupWorkUnit(project1, "Work Unit");
 
         assertNotNull(workUnitFound);
-        assertEquals(project, workUnitFound.project);
-        assertEquals("Work Unit", workUnitFound.name);
+        assertEquals(project, workUnitFound.getProject());
+        assertEquals("Work Unit", workUnitFound.getName());
     }
 
     @Test
