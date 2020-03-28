@@ -16,27 +16,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package edu.berkeley.boinc.attach;
+package edu.berkeley.boinc.attach
 
 /**
  * Used in Spinner list to show the account manager's name but use its url as value.
  */
-public class AccountManagerSpinner {
-    public String name;
-    public String url;
-
-    public AccountManagerSpinner(String name, String url) {
-        this.name = name;
-        this.url = url;
-    }
-
+class AccountManagerSpinner(var name: String, var url: String) {
     /**
-     *  Returns what to display in the Spinner list.
+     * Returns what to display in the Spinner list.
      * @return The name of account manager.
      */
-    @Override
-    public String toString() {
-        return this.name;
-    }
+    override fun toString() = name
 }

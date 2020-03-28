@@ -114,7 +114,7 @@ public class AcctMgrFragment extends DialogFragment {
         urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) urlSpinner.getSelectedItem();
-                urlInput.setText(accountManagerSpinner.url);
+                urlInput.setText(accountManagerSpinner.getUrl());
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
