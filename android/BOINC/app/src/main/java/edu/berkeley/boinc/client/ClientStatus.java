@@ -580,7 +580,7 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = ctx.getString(R.string.suspend_battery_charging);
                             try {
-                                Double minCharge = prefs.battery_charge_min_pct;
+                                Double minCharge = prefs.getBatteryChargeMinPct();
                                 Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
                                 statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
                                                minCharge.intValue()

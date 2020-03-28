@@ -97,15 +97,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_on_batteries,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_ON_BATTERIES,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_on_batteries,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_ON_BATTERIES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_on_batteries = false;
+        expected.setRunOnBatteryPower(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -115,15 +115,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_on_batteries,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_ON_BATTERIES,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_on_batteries,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_ON_BATTERIES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_on_batteries = true;
+        expected.setRunOnBatteryPower(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -133,10 +133,10 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.battery_charge_min_pct,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.BATTERY_CHARGE_MIN_PCT,
                                              null, null);
         globalPreferencesParser.characters("Fifty".toCharArray(), 0, 5);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.battery_charge_min_pct,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.BATTERY_CHARGE_MIN_PCT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
@@ -149,15 +149,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.battery_charge_min_pct,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.BATTERY_CHARGE_MIN_PCT,
                                              null, null);
         globalPreferencesParser.characters("50".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.battery_charge_min_pct,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.BATTERY_CHARGE_MIN_PCT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.battery_charge_min_pct = 50.0;
+        expected.setBatteryChargeMinPct(50.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -167,15 +167,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.battery_max_temperature,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.BATTERY_MAX_TEMPERATURE,
                                              null, null);
         globalPreferencesParser.characters("35".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.battery_max_temperature,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.BATTERY_MAX_TEMPERATURE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.battery_max_temperature = 35.0;
+        expected.setBatteryMaxTemperature(35.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -185,15 +185,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_gpu_if_user_active,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_GPU_IF_USER_ACTIVE,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_gpu_if_user_active,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_GPU_IF_USER_ACTIVE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_gpu_if_user_active = false;
+        expected.setRunGpuIfUserActive(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -203,15 +203,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_gpu_if_user_active,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_GPU_IF_USER_ACTIVE,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_gpu_if_user_active,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_GPU_IF_USER_ACTIVE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_gpu_if_user_active = true;
+        expected.setRunGpuIfUserActive(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -221,15 +221,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_if_user_active,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_IF_USER_ACTIVE,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_if_user_active,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_IF_USER_ACTIVE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_if_user_active = false;
+        expected.setRunIfUserActive(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -239,15 +239,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.run_if_user_active,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RUN_IF_USER_ACTIVE,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.run_if_user_active,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RUN_IF_USER_ACTIVE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.run_if_user_active = true;
+        expected.setRunIfUserActive(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -257,15 +257,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.idle_time_to_run,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.IDLE_TIME_TO_RUN,
                                              null, null);
         globalPreferencesParser.characters("10".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.idle_time_to_run,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.IDLE_TIME_TO_RUN,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.idle_time_to_run = 10.0;
+        expected.setIdleTimeToRun(10.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -275,15 +275,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.suspend_cpu_usage,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.SUSPEND_CPU_USAGE,
                                              null, null);
         globalPreferencesParser.characters("60".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.suspend_cpu_usage,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.SUSPEND_CPU_USAGE,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.suspend_cpu_usage = 60.0;
+        expected.setSuspendCpuUsage(60.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -293,15 +293,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.leave_apps_in_memory,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.LEAVE_APPS_IN_MEMORY,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.leave_apps_in_memory,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.LEAVE_APPS_IN_MEMORY,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.leave_apps_in_memory = false;
+        expected.setLeaveAppsInMemory(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -311,15 +311,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.leave_apps_in_memory,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.LEAVE_APPS_IN_MEMORY,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.leave_apps_in_memory,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.LEAVE_APPS_IN_MEMORY,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.leave_apps_in_memory = true;
+        expected.setLeaveAppsInMemory(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -329,15 +329,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.dont_verify_images,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DONT_VERIFY_IMAGES,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.dont_verify_images,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DONT_VERIFY_IMAGES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.dont_verify_images = false;
+        expected.setDoNotVerifyImages(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -347,15 +347,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.dont_verify_images,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DONT_VERIFY_IMAGES,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.dont_verify_images,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DONT_VERIFY_IMAGES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.dont_verify_images = true;
+        expected.setDoNotVerifyImages(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -365,15 +365,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.work_buf_min_days,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.WORK_BUF_MIN_DAYS,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.work_buf_min_days,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.WORK_BUF_MIN_DAYS,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.work_buf_min_days = 0.00001;
+        expected.setWorkBufMinDays(0.00001);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -383,15 +383,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.work_buf_min_days,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.WORK_BUF_MIN_DAYS,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.work_buf_min_days,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.WORK_BUF_MIN_DAYS,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.work_buf_min_days = 1.0;
+        expected.setWorkBufMinDays(1.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -401,15 +401,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.work_buf_additional_days,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.WORK_BUF_ADDITIONAL_DAYS,
                                              null, null);
         globalPreferencesParser.characters("-1".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.work_buf_additional_days,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.WORK_BUF_ADDITIONAL_DAYS,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.work_buf_additional_days = 0.0;
+        expected.setWorkBufAdditionalDays(0.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -419,15 +419,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.work_buf_additional_days,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.WORK_BUF_ADDITIONAL_DAYS,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.work_buf_additional_days,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.WORK_BUF_ADDITIONAL_DAYS,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.work_buf_additional_days = 1.0;
+        expected.setWorkBufAdditionalDays(1.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -437,15 +437,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.max_ncpus_pct,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.MAX_NCPUS_PCT,
                                              null, null);
         globalPreferencesParser.characters("0.75".toCharArray(), 0, 4);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.max_ncpus_pct,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.MAX_NCPUS_PCT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.max_ncpus_pct = 0.75;
+        expected.setMaxNoOfCPUsPct(0.75);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -455,15 +455,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.cpu_scheduling_period_minutes,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.CPU_SCHEDULING_PERIOD_MINUTES,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.cpu_scheduling_period_minutes,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.CPU_SCHEDULING_PERIOD_MINUTES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_scheduling_period_minutes = 60.0;
+        expected.setCpuSchedulingPeriodMinutes(60.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -473,15 +473,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.cpu_scheduling_period_minutes,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.CPU_SCHEDULING_PERIOD_MINUTES,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.cpu_scheduling_period_minutes,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.CPU_SCHEDULING_PERIOD_MINUTES,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_scheduling_period_minutes = 1.0;
+        expected.setCpuSchedulingPeriodMinutes(1.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -491,15 +491,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.disk_interval,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DISK_INTERVAL,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.disk_interval,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DISK_INTERVAL,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.disk_interval = 1.0;
+        expected.setDiskInterval(1.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -509,15 +509,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.disk_max_used_gb,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DISK_MAX_USED_GB,
                                              null, null);
         globalPreferencesParser.characters("10".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.disk_max_used_gb,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DISK_MAX_USED_GB,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.disk_max_used_gb = 10.0;
+        expected.setDiskMaxUsedGB(10.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -527,15 +527,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.disk_max_used_pct,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DISK_MAX_USED_PCT,
                                              null, null);
         globalPreferencesParser.characters("10".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.disk_max_used_pct,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DISK_MAX_USED_PCT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.disk_max_used_pct = 10.0;
+        expected.setDiskMaxUsedPct(10.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -545,15 +545,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.disk_min_free_gb,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DISK_MIN_FREE_GB,
                                              null, null);
         globalPreferencesParser.characters("5".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.disk_min_free_gb,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DISK_MIN_FREE_GB,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.disk_min_free_gb = 5.0;
+        expected.setDiskMinFreeGB(5.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -563,15 +563,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.ram_max_used_busy_frac,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RAM_MAX_USED_BUSY_FRAC,
                                              null, null);
         globalPreferencesParser.characters("0.5".toCharArray(), 0, 3);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.ram_max_used_busy_frac,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RAM_MAX_USED_BUSY_FRAC,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.ram_max_used_busy_frac = 0.5;
+        expected.setRamMaxUsedBusyFrac(0.5);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -581,15 +581,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.ram_max_used_idle_frac,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.RAM_MAX_USED_IDLE_FRAC,
                                              null, null);
         globalPreferencesParser.characters("0.5".toCharArray(), 0, 3);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.ram_max_used_idle_frac,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.RAM_MAX_USED_IDLE_FRAC,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.ram_max_used_idle_frac = 0.5;
+        expected.setRamMaxUsedIdleFrac(0.5);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -599,15 +599,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.max_bytes_sec_up,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.MAX_BYTES_SEC_UP,
                                              null, null);
         globalPreferencesParser.characters("0.5".toCharArray(), 0, 3);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.max_bytes_sec_up,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.MAX_BYTES_SEC_UP,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.max_bytes_sec_up = 0.5;
+        expected.setMaxBytesSecUp(0.5);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -617,15 +617,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.max_bytes_sec_down,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.MAX_BYTES_SEC_DOWN,
                                              null, null);
         globalPreferencesParser.characters("0.5".toCharArray(), 0, 3);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.max_bytes_sec_down,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.MAX_BYTES_SEC_DOWN,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.max_bytes_sec_down = 0.5;
+        expected.setMaxBytesSecDown(0.5);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -635,15 +635,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.cpu_usage_limit,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.CPU_USAGE_LIMIT,
                                              null, null);
         globalPreferencesParser.characters("60".toCharArray(), 0, 2);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.cpu_usage_limit,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.CPU_USAGE_LIMIT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_usage_limit = 60.0;
+        expected.setCpuUsageLimit(60.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -653,15 +653,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.daily_xfer_limit_mb,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DAILY_XFER_PERIOD_MB,
                                              null, null);
         globalPreferencesParser.characters("250".toCharArray(), 0, 3);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.daily_xfer_limit_mb,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DAILY_XFER_PERIOD_MB,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.daily_xfer_limit_mb = 250.0;
+        expected.setDailyTransferLimitMB(250.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -671,15 +671,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.daily_xfer_period_days,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.DAILY_XFER_PERIOD_DAYS,
                                              null, null);
         globalPreferencesParser.characters("2".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.daily_xfer_period_days,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.DAILY_XFER_PERIOD_DAYS,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.daily_xfer_period_days = 2;
+        expected.setDailyTransferPeriodDays(2);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -697,7 +697,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_times.setStartHour(7.0);
+        expected.getCpuTimes().setStartHour(7.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -715,7 +715,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.cpu_times.setEndHour(18.0);
+        expected.getCpuTimes().setEndHour(18.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -733,7 +733,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.net_times.setStartHour(7.0);
+        expected.getNetTimes().setStartHour(7.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -751,7 +751,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.net_times.setEndHour(18.0);
+        expected.getNetTimes().setEndHour(18.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -761,15 +761,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.override_file_present,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.OVERRIDE_FILE_PRESENT,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.override_file_present,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.OVERRIDE_FILE_PRESENT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.override_file_present = false;
+        expected.setOverrideFilePresent(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -779,15 +779,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.override_file_present,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.OVERRIDE_FILE_PRESENT,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.override_file_present,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.OVERRIDE_FILE_PRESENT,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.override_file_present = true;
+        expected.setOverrideFilePresent(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -797,15 +797,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.network_wifi_only,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.NETWORK_WIFI_ONLY,
                                              null, null);
         globalPreferencesParser.characters("0".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.network_wifi_only,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.NETWORK_WIFI_ONLY,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.network_wifi_only = false;
+        expected.setNetworkWiFiOnly(false);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -815,15 +815,15 @@ public class GlobalPreferencesParserTest {
             throws SAXException {
         globalPreferencesParser.startElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                              null, null);
-        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.network_wifi_only,
+        globalPreferencesParser.startElement(null, GlobalPreferences.Fields.NETWORK_WIFI_ONLY,
                                              null, null);
         globalPreferencesParser.characters("1".toCharArray(), 0, 1);
-        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.network_wifi_only,
+        globalPreferencesParser.endElement(null, GlobalPreferences.Fields.NETWORK_WIFI_ONLY,
                                            null);
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.network_wifi_only = true;
+        expected.setNetworkWiFiOnly(true);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -852,7 +852,7 @@ public class GlobalPreferencesParserTest {
 
         final TimeSpan expectedTimeSpan = new TimeSpan();
         expectedTimeSpan.setStartHour(7.0);
-        expected.cpu_times.getWeekPrefs()[1] = expectedTimeSpan;
+        expected.getCpuTimes().getWeekPrefs()[1] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -881,7 +881,7 @@ public class GlobalPreferencesParserTest {
 
         final TimeSpan expectedTimeSpan = new TimeSpan();
         expectedTimeSpan.setEndHour(18.0);
-        expected.cpu_times.getWeekPrefs()[1] = expectedTimeSpan;
+        expected.getCpuTimes().getWeekPrefs()[1] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -910,7 +910,7 @@ public class GlobalPreferencesParserTest {
 
         final TimeSpan expectedTimeSpan = new TimeSpan();
         expectedTimeSpan.setStartHour(7.0);
-        expected.net_times.getWeekPrefs()[2] = expectedTimeSpan;
+        expected.getNetTimes().getWeekPrefs()[2] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }
@@ -939,7 +939,7 @@ public class GlobalPreferencesParserTest {
 
         final TimeSpan expectedTimeSpan = new TimeSpan();
         expectedTimeSpan.setEndHour(18.0);
-        expected.net_times.getWeekPrefs()[2] = expectedTimeSpan;
+        expected.getNetTimes().getWeekPrefs()[2] = expectedTimeSpan;
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }

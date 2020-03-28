@@ -83,8 +83,8 @@ public class GlobalPreferencesParser extends BaseParser {
                    localName.equalsIgnoreCase(DAY_PREFS_TAG)) {
                     // closing <day_prefs>
                     if(mDayOfWeek >= 0 && mDayOfWeek <= 6) {
-                        mPreferences.cpu_times.getWeekPrefs()[mDayOfWeek] = mTempCpuTimeSpan;
-                        mPreferences.net_times.getWeekPrefs()[mDayOfWeek] = mTempNetTimeSpan;
+                        mPreferences.getCpuTimes().getWeekPrefs()[mDayOfWeek] = mTempCpuTimeSpan;
+                        mPreferences.getNetTimes().getWeekPrefs()[mDayOfWeek] = mTempNetTimeSpan;
                     }
 
                     mTempCpuTimeSpan = null;
@@ -124,100 +124,101 @@ public class GlobalPreferencesParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(GlobalPreferences.Fields.run_on_batteries)) {
-                        mPreferences.run_on_batteries = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    if(localName.equalsIgnoreCase(GlobalPreferences.Fields.RUN_ON_BATTERIES)) {
+                        mPreferences.setRunOnBatteryPower(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.battery_charge_min_pct)) {
-                        mPreferences.battery_charge_min_pct = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.BATTERY_CHARGE_MIN_PCT)) {
+                        mPreferences.setBatteryChargeMinPct(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.battery_max_temperature)) {
-                        mPreferences.battery_max_temperature = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.BATTERY_MAX_TEMPERATURE)) {
+                        mPreferences.setBatteryMaxTemperature(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.run_gpu_if_user_active)) {
-                        mPreferences.run_gpu_if_user_active = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.RUN_GPU_IF_USER_ACTIVE)) {
+                        mPreferences.setRunGpuIfUserActive(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.run_if_user_active)) {
-                        mPreferences.run_if_user_active = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.RUN_IF_USER_ACTIVE)) {
+                        mPreferences.setRunIfUserActive(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.idle_time_to_run)) {
-                        mPreferences.idle_time_to_run = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.IDLE_TIME_TO_RUN)) {
+                        mPreferences.setIdleTimeToRun(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.suspend_cpu_usage)) {
-                        mPreferences.suspend_cpu_usage = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.SUSPEND_CPU_USAGE)) {
+                        mPreferences.setSuspendCpuUsage(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.leave_apps_in_memory)) {
-                        mPreferences.leave_apps_in_memory = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.LEAVE_APPS_IN_MEMORY)) {
+                        mPreferences.setLeaveAppsInMemory(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.dont_verify_images)) {
-                        mPreferences.dont_verify_images = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DONT_VERIFY_IMAGES)) {
+                        mPreferences.setDoNotVerifyImages(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.work_buf_min_days)) {
-                        mPreferences.work_buf_min_days =
-                                Math.max(0.00001, Double.parseDouble(mCurrentElement.toString()));
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.WORK_BUF_MIN_DAYS)) {
+                        mPreferences.setWorkBufMinDays(
+                                Math.max(0.00001, Double.parseDouble(mCurrentElement.toString())));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.work_buf_additional_days)) {
-                        mPreferences.work_buf_additional_days =
-                                Math.max(0.0, Double.parseDouble(mCurrentElement.toString()));
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.WORK_BUF_ADDITIONAL_DAYS)) {
+                        mPreferences.setWorkBufAdditionalDays(
+                                Math.max(0.0, Double.parseDouble(mCurrentElement.toString())));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.max_ncpus_pct)) {
-                        mPreferences.max_ncpus_pct = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.MAX_NCPUS_PCT)) {
+                        mPreferences.setMaxNoOfCPUsPct(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.cpu_scheduling_period_minutes)) {
-                        mPreferences.cpu_scheduling_period_minutes = Double.parseDouble(mCurrentElement.toString());
-                        if(mPreferences.cpu_scheduling_period_minutes < 0.00001) {
-                            mPreferences.cpu_scheduling_period_minutes = 60;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.CPU_SCHEDULING_PERIOD_MINUTES)) {
+                        double value = Double.parseDouble(mCurrentElement.toString());
+                        if (value < 0.00001) {
+                            value = 60;
                         }
+                        mPreferences.setCpuSchedulingPeriodMinutes(value);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.disk_interval)) {
-                        mPreferences.disk_interval = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DISK_INTERVAL)) {
+                        mPreferences.setDiskInterval(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.disk_max_used_gb)) {
-                        mPreferences.disk_max_used_gb = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DISK_MAX_USED_GB)) {
+                        mPreferences.setDiskMaxUsedGB(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.disk_max_used_pct)) {
-                        mPreferences.disk_max_used_pct = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DISK_MAX_USED_PCT)) {
+                        mPreferences.setDiskMaxUsedPct(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.disk_min_free_gb)) {
-                        mPreferences.disk_min_free_gb = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DISK_MIN_FREE_GB)) {
+                        mPreferences.setDiskMinFreeGB(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.ram_max_used_busy_frac)) {
-                        mPreferences.ram_max_used_busy_frac = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.RAM_MAX_USED_BUSY_FRAC)) {
+                        mPreferences.setRamMaxUsedBusyFrac(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.ram_max_used_idle_frac)) {
-                        mPreferences.ram_max_used_idle_frac = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.RAM_MAX_USED_IDLE_FRAC)) {
+                        mPreferences.setRamMaxUsedIdleFrac(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.max_bytes_sec_up)) {
-                        mPreferences.max_bytes_sec_up = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.MAX_BYTES_SEC_UP)) {
+                        mPreferences.setMaxBytesSecUp(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.max_bytes_sec_down)) {
-                        mPreferences.max_bytes_sec_down = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.MAX_BYTES_SEC_DOWN)) {
+                        mPreferences.setMaxBytesSecDown(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.cpu_usage_limit)) {
-                        mPreferences.cpu_usage_limit = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.CPU_USAGE_LIMIT)) {
+                        mPreferences.setCpuUsageLimit(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.daily_xfer_limit_mb)) {
-                        mPreferences.daily_xfer_limit_mb = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DAILY_XFER_PERIOD_MB)) {
+                        mPreferences.setDailyTransferLimitMB(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.daily_xfer_period_days)) {
-                        mPreferences.daily_xfer_period_days = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.DAILY_XFER_PERIOD_DAYS)) {
+                        mPreferences.setDailyTransferPeriodDays(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(TimePreferences.Fields.START_HOUR)) {
-                        mPreferences.cpu_times.setStartHour(Double.parseDouble(mCurrentElement.toString()));
+                        mPreferences.getCpuTimes().setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(TimePreferences.Fields.END_HOUR)) {
-                        mPreferences.cpu_times.setEndHour(Double.parseDouble(mCurrentElement.toString()));
+                        mPreferences.getCpuTimes().setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_START_HOUR_TAG)) {
-                        mPreferences.net_times.setStartHour(Double.parseDouble(mCurrentElement.toString()));
+                        mPreferences.getNetTimes().setStartHour(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(NET_END_HOUR_TAG)) {
-                        mPreferences.net_times.setEndHour(Double.parseDouble(mCurrentElement.toString()));
+                        mPreferences.getNetTimes().setEndHour(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.override_file_present)) {
-                        mPreferences.override_file_present = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.OVERRIDE_FILE_PRESENT)) {
+                        mPreferences.setOverrideFilePresent(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
-                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.network_wifi_only)) {
-                        mPreferences.network_wifi_only = Integer.parseInt(mCurrentElement.toString()) != 0;
+                    else if(localName.equalsIgnoreCase(GlobalPreferences.Fields.NETWORK_WIFI_ONLY)) {
+                        mPreferences.setNetworkWiFiOnly(Integer.parseInt(mCurrentElement.toString()) != 0);
                     }
                 }
             }
