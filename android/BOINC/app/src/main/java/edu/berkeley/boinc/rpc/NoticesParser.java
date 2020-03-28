@@ -87,7 +87,7 @@ public class NoticesParser extends BaseParser {
                     else if(localName.equalsIgnoreCase(Notice.Fields.title)) {
                         mNotice.title = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.description)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
                         mNotice.description = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(Notice.Fields.create_time)) {
@@ -108,7 +108,7 @@ public class NoticesParser extends BaseParser {
                     else if(localName.equalsIgnoreCase(Notice.Fields.link)) {
                         mNotice.link = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(Notice.Fields.project_name)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_NAME)) {
                         mNotice.project_name = mCurrentElement.toString();
                     }
                 }

@@ -33,7 +33,6 @@ data class AccountOut(var errorNum: Int = 0, var errorMsg: String? = "", var aut
     }
 
     object Fields {
-        const val ERROR_NUM = "error_num"
         const val ERROR_MSG = "error_msg"
         const val AUTHENTICATOR = "authenticator"
     }

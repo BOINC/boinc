@@ -92,9 +92,9 @@ public class AppsParserTest {
     public void testParser_whenXmlAppHasOnlyName_thenExpectMatchingApp()
             throws SAXException {
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
-        appsParser.startElement(null, App.Fields.NAME, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name".toCharArray(), 0, 4);
-        appsParser.endElement(null, App.Fields.NAME, null);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
         expected.setName("Name");
@@ -106,12 +106,12 @@ public class AppsParserTest {
     public void testParser_whenXmlAppHasOnlyNameAndUserFriendlyName_thenExpectMatchingApp()
             throws SAXException {
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
-        appsParser.startElement(null, App.Fields.NAME, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name".toCharArray(), 0, 4);
-        appsParser.endElement(null, App.Fields.NAME, null);
-        appsParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
+        appsParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
         appsParser.characters(USER_FRIENDLY_NAME.toCharArray(), 0, USER_FRIENDLY_NAME.length());
-        appsParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
+        appsParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
         expected.setName("Name");
@@ -124,15 +124,15 @@ public class AppsParserTest {
     public void testParser_whenXmlAppHasNameUserFriendlyNameAndNonCpuIntensive_thenExpectMatchingApp()
             throws SAXException {
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
-        appsParser.startElement(null, App.Fields.NAME, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name".toCharArray(), 0, 4);
-        appsParser.endElement(null, App.Fields.NAME, null);
-        appsParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
+        appsParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
         appsParser.characters(USER_FRIENDLY_NAME.toCharArray(), 0, USER_FRIENDLY_NAME.length());
-        appsParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
-        appsParser.startElement(null, App.Fields.NON_CPU_INTENSIVE, null, null);
+        appsParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
+        appsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         appsParser.characters("1".toCharArray(), 0, 1);
-        appsParser.endElement(null, App.Fields.NON_CPU_INTENSIVE, null);
+        appsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
         expected.setName("Name");
@@ -146,29 +146,29 @@ public class AppsParserTest {
     public void testParser_whenTwoXmlAppsHaveNameUserFriendlyNameAndNonCpuIntensive_thenExpectTwoMatchingApps()
             throws SAXException {
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
-        appsParser.startElement(null, App.Fields.NAME, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name 1".toCharArray(), 0, 6);
-        appsParser.endElement(null, App.Fields.NAME, null);
-        appsParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
+        appsParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
         appsParser.characters((USER_FRIENDLY_NAME + " 1").toCharArray(), 0, (USER_FRIENDLY_NAME +
                                                                              " 1").length());
-        appsParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
-        appsParser.startElement(null, App.Fields.NON_CPU_INTENSIVE, null, null);
+        appsParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
+        appsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         appsParser.characters("1".toCharArray(), 0, 1);
-        appsParser.endElement(null, App.Fields.NON_CPU_INTENSIVE, null);
+        appsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
-        appsParser.startElement(null, App.Fields.NAME, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name 2".toCharArray(), 0, 6);
-        appsParser.endElement(null, App.Fields.NAME, null);
-        appsParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
+        appsParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
         appsParser.characters((USER_FRIENDLY_NAME + " 2").toCharArray(), 0, (USER_FRIENDLY_NAME +
                                                                              " 2").length());
-        appsParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
-        appsParser.startElement(null, App.Fields.NON_CPU_INTENSIVE, null, null);
+        appsParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
+        appsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         appsParser.characters("1".toCharArray(), 0, 1);
-        appsParser.endElement(null, App.Fields.NON_CPU_INTENSIVE, null);
+        appsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         appsParser.endElement(null, AppsParser.APP_TAG, null);
 
         expected.setName("Name 1");

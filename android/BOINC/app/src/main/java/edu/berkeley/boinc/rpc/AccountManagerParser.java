@@ -22,7 +22,6 @@ package edu.berkeley.boinc.rpc;
 import android.util.Log;
 import android.util.Xml;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -33,7 +32,6 @@ import java.util.List;
 import edu.berkeley.boinc.utils.Logging;
 
 public class AccountManagerParser extends BaseParser {
-    static final String ACCOUNT_MGR_TAG = "account_manager";
     static final String IMAGE_TAG = "image";
 
     private List<AccountManager> mAcctMgrInfos = new ArrayList<>();
@@ -56,7 +54,7 @@ public class AccountManagerParser extends BaseParser {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
-		if (localName.equalsIgnoreCase(ACCOUNT_MGR_TAG)) {
+		if (localName.equalsIgnoreCase(RPCCommonTags.ACCOUNT_MANAGER)) {
 			mAcctMgrInfo = new AccountManager();
 		} else {
 			mElementStarted = true;
@@ -70,7 +68,7 @@ public class AccountManagerParser extends BaseParser {
 		try {
 			if (mAcctMgrInfo != null) {
 				// inside <acct_mgr_info>
-				if (localName.equalsIgnoreCase(ACCOUNT_MGR_TAG)) {
+				if (localName.equalsIgnoreCase(RPCCommonTags.ACCOUNT_MANAGER)) {
 					// Closing tag of <account_manager> - add to vector and be ready for next one
 					if (!mAcctMgrInfo.getName().isEmpty()) {
 						// name is a must
@@ -81,13 +79,13 @@ public class AccountManagerParser extends BaseParser {
 				else {
 					// Not the closing tag - we decode possible inner tags
 					trimEnd();
-					if (localName.equalsIgnoreCase(AccountManager.Fields.NAME)) { //project name
+					if (localName.equalsIgnoreCase(RPCCommonTags.NAME)) { //project name
 						mAcctMgrInfo.setName(mCurrentElement.toString());
 					}
-					else if (localName.equalsIgnoreCase(AccountManager.Fields.URL)) {
+					else if (localName.equalsIgnoreCase(RPCCommonTags.URL)) {
 						mAcctMgrInfo.setUrl(mCurrentElement.toString());
 					}
-					else if (localName.equalsIgnoreCase(AccountManager.Fields.DESCRIPTION)) {
+					else if (localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
 						mAcctMgrInfo.setDescription(mCurrentElement.toString());
 					}
 					else if (localName.equalsIgnoreCase(IMAGE_TAG)) {

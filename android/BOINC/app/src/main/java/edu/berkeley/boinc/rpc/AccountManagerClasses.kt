@@ -44,12 +44,6 @@ data class AccountManager internal constructor(
         dest.writeString(imageUrl)
     }
 
-    object Fields {
-        const val NAME = "name"
-        const val URL = "url"
-        const val DESCRIPTION = "description"
-    }
-
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<AccountManager> = object : Parcelable.Creator<AccountManager> {

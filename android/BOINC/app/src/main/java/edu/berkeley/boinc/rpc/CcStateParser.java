@@ -88,7 +88,7 @@ public class CcStateParser extends BaseParser {
         if(mInHostInfo) {
             mHostInfoParser.startElement(uri, localName, qName, attributes);
         }
-        if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
+        if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
             // Just stepped inside <project>
             mInProject = true;
         }
@@ -181,7 +181,7 @@ public class CcStateParser extends BaseParser {
                 // We are inside <project>
                 // parse it by sub-parser in any case (must parse also closing element!)
                 mProjectsParser.endElement(uri, localName, qName);
-                if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
+                if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
                     // Closing tag of <project>
                     mInProject = false;
                     final List<Project> projects = mProjectsParser.getProjects();

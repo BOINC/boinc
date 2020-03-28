@@ -101,11 +101,8 @@ public class ProjectInfo implements Serializable, Parcelable {
     public static final class Fields {
         private Fields() {}
 
-        static final String NAME = "name";
-        static final String URL = "url";
         static final String GENERAL_AREA = "general_area";
         static final String SPECIFIC_AREA = "specific_area";
-        static final String DESCRIPTION = "description";
         static final String HOME = "home";
         static final String PLATFORMS = "platforms";
         static final String IMAGE_URL = "image_url";

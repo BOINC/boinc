@@ -123,15 +123,15 @@ public class CcStateParserTest {
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.startElement(null, AppsParser.APP_TAG, null, null);
-        ccStateParser.startElement(null, App.Fields.NAME, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.NAME, null, null);
         ccStateParser.characters("App".toCharArray(), 0, 3);
-        ccStateParser.endElement(null, App.Fields.NAME, null);
-        ccStateParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.NAME, null);
+        ccStateParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
         ccStateParser.characters("App (Friendly Name)".toCharArray(), 0, "App (Friendly Name)".length());
-        ccStateParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
-        ccStateParser.startElement(null, App.Fields.NON_CPU_INTENSIVE, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
+        ccStateParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
-        ccStateParser.endElement(null, App.Fields.NON_CPU_INTENSIVE, null);
+        ccStateParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         ccStateParser.endElement(null, AppsParser.APP_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
@@ -268,25 +268,25 @@ public class CcStateParserTest {
     public void testParser_whenXmlCcStateHasProject_thenExpectMatchingCcState()
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
-        ccStateParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        ccStateParser.startElement(null, Project.Fields.master_url, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         ccStateParser.characters("Master URL".toCharArray(), 0, "Master URL".length());
-        ccStateParser.endElement(null, Project.Fields.master_url, null);
-        ccStateParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.NAME, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        ccStateParser.startElement(null, RPCCommonTags.GUI_URL, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.NAME, null, null);
         ccStateParser.characters("GUI URL Name".toCharArray(), 0, "GUI URL Name".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.NAME, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.NAME, null);
+        ccStateParser.startElement(null, RPCCommonTags.DESCRIPTION, null, null);
         ccStateParser.characters("GUI URL Description".toCharArray(), 0, "GUI URL Description".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
-        ccStateParser.startElement(null, GuiUrl.Fields.URL, null, null);
+        ccStateParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
+        ccStateParser.startElement(null, RPCCommonTags.URL, null, null);
         ccStateParser.characters("GUI URL URL".toCharArray(), 0, "GUI URL URL".length());
-        ccStateParser.endElement(null, GuiUrl.Fields.URL, null);
-        ccStateParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
+        ccStateParser.endElement(null, RPCCommonTags.URL, null);
+        ccStateParser.endElement(null, RPCCommonTags.GUI_URL, null);
         ccStateParser.startElement(null, Project.Fields.no_ati_pref, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
         ccStateParser.endElement(null, Project.Fields.no_ati_pref, null);
-        ccStateParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        ccStateParser.endElement(null, RPCCommonTags.PROJECT, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
         final Project expectedProject = new Project();
@@ -305,9 +305,9 @@ public class CcStateParserTest {
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
-        ccStateParser.startElement(null, Result.Fields.name, null, null);
+        ccStateParser.startElement(null, RPCCommonTags.NAME, null, null);
         ccStateParser.characters("Result".toCharArray(), 0, "Result".length());
-        ccStateParser.endElement(null, Result.Fields.name, null);
+        ccStateParser.endElement(null, RPCCommonTags.NAME, null);
         ccStateParser.startElement(null, Result.Fields.active_task, null, null);
         ccStateParser.startElement(null, Result.Fields.slot_path, null, null);
         ccStateParser.characters("/path/to/slot".toCharArray(), 0, "/path/to/slot".length());

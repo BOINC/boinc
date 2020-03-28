@@ -89,7 +89,7 @@ public class WorkunitsParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(Workunit.Fields.name)) {
+                    if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                         mWorkunit.name = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(Workunit.Fields.app_name)) {

@@ -145,9 +145,9 @@ public class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.seqno, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
         noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.description, null, null);
+        noticesParser.startElement(null, RPCCommonTags.DESCRIPTION, null, null);
         noticesParser.characters("This is a notice.".toCharArray(), 0, "This is a notice.".length());
-        noticesParser.endElement(null, Notice.Fields.description, null);
+        noticesParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
         expected.seqno = 1;
@@ -292,9 +292,9 @@ public class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.seqno, null, null);
         noticesParser.characters("1".toCharArray(), 0, 1);
         noticesParser.endElement(null, Notice.Fields.seqno, null);
-        noticesParser.startElement(null, Notice.Fields.project_name, null, null);
+        noticesParser.startElement(null, RPCCommonTags.PROJECT_NAME, null, null);
         noticesParser.characters("Project Name".toCharArray(), 0, "Project Name".length());
-        noticesParser.endElement(null, Notice.Fields.project_name, null);
+        noticesParser.endElement(null, RPCCommonTags.PROJECT_NAME, null);
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null);
 
         expected.seqno = 1;

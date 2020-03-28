@@ -89,9 +89,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasBlankName_thenExpectEmptyList()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters("".toCharArray(), 0, 0);
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
         assertTrue(workunitsParser.getWorkunits().isEmpty());
@@ -101,9 +101,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasOnlyName_thenExpectListWithMatchingWorkUnit()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.endElement(null, WorkunitsParser.WORKUNIT_TAG, null);
 
         expected.name = "Work Unit";
@@ -115,9 +115,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasOnlyNameAndAppName_thenExpectListWithMatchingWorkUnit()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.app_name, null, null);
         workunitsParser.characters("App".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.app_name, null);
@@ -133,9 +133,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndInvalidVersionNum_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.version_num, null, null);
         workunitsParser.characters("One".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.version_num, null);
@@ -150,9 +150,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndVersionNum_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.version_num, null, null);
         workunitsParser.characters("1".toCharArray(), 0, 1);
         workunitsParser.endElement(null, Workunit.Fields.version_num, null);
@@ -168,9 +168,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndRscFloatingPointOpsEst_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.rsc_fpops_est, null, null);
         workunitsParser.characters("1.5".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.rsc_fpops_est, null);
@@ -186,9 +186,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndRscFloatingPointOpsBound_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.rsc_fpops_bound, null, null);
         workunitsParser.characters("1.5".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.rsc_fpops_bound, null);
@@ -204,9 +204,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndRscMemoryBound_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.rsc_memory_bound, null, null);
         workunitsParser.characters("1.5".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.rsc_memory_bound, null);
@@ -222,9 +222,9 @@ public class WorkunitsParserTest {
     public void testParser_whenXmlWorkUnitHasNameAndRscDiskBound_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
         workunitsParser.startElement(null, WorkunitsParser.WORKUNIT_TAG, null, null);
-        workunitsParser.startElement(null, Workunit.Fields.name, null, null);
+        workunitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workunitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());
-        workunitsParser.endElement(null, Workunit.Fields.name, null);
+        workunitsParser.endElement(null, RPCCommonTags.NAME, null);
         workunitsParser.startElement(null, Workunit.Fields.rsc_disk_bound, null, null);
         workunitsParser.characters("1.5".toCharArray(), 0, 3);
         workunitsParser.endElement(null, Workunit.Fields.rsc_disk_bound, null);

@@ -64,12 +64,6 @@ constructor(
         dest.writeValue(project)
     }
 
-    object Fields {
-        const val NAME = "name"
-        const val USER_FRIENDLY_NAME = "user_friendly_name"
-        const val NON_CPU_INTENSIVE = "non_cpu_intensive"
-    }
-
     companion object {
         val CREATOR: Parcelable.Creator<App> = object : Parcelable.Creator<App> {
             override fun createFromParcel(parcel: Parcel) = App(parcel)

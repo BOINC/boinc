@@ -53,7 +53,7 @@ public class ProjectInfoParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
+        if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
             mProjectInfo = new ProjectInfo();
         }
         else if(localName.equalsIgnoreCase(ProjectInfo.Fields.PLATFORMS)) {
@@ -72,7 +72,7 @@ public class ProjectInfoParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         if(mProjectInfo != null) {
-            if(localName.equalsIgnoreCase(ProjectsParser.PROJECT_TAG)) {
+            if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
                 // Closing tag of <project> - add to list and be ready for next one
                 if(!mProjectInfo.name.isEmpty()) {
                     // name is a must
@@ -88,12 +88,12 @@ public class ProjectInfoParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase(ProjectInfo.Fields.NAME) &&
+                if(localName.equalsIgnoreCase(RPCCommonTags.NAME) &&
                    withinPlatforms.equals(Boolean.FALSE)) {
                     //project name
                     mProjectInfo.name = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.URL)) {
+                else if(localName.equalsIgnoreCase(RPCCommonTags.URL)) {
                     mProjectInfo.url = mCurrentElement.toString();
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.GENERAL_AREA)) {
@@ -102,13 +102,13 @@ public class ProjectInfoParser extends BaseParser {
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.SPECIFIC_AREA)) {
                     mProjectInfo.specificArea = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.DESCRIPTION)) {
+                else if(localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
                     mProjectInfo.description = mCurrentElement.toString();
                 }
                 else if(localName.equalsIgnoreCase(ProjectInfo.Fields.HOME)) {
                     mProjectInfo.home = mCurrentElement.toString();
                 }
-                else if(localName.equalsIgnoreCase(ProjectInfo.Fields.NAME) &&
+                else if(localName.equalsIgnoreCase(RPCCommonTags.NAME) &&
                         withinPlatforms.equals(Boolean.TRUE)) {
                     //platform name
                     mPlatforms.add(mCurrentElement.toString());

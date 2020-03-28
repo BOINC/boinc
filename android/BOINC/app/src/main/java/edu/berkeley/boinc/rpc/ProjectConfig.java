@@ -127,9 +127,6 @@ public class ProjectConfig implements Parcelable {
     public static final class Fields {
         private Fields() {}
 
-        static final String ERROR_NUM = "error_num";
-        static final String NAME = "name";
-        static final String MASTER_URL = "master_url";
         static final String WEB_RPC_URL_BASE = "web_rpc_url_base";
         static final String LOCAL_REVISION = "local_revision";
         static final String MIN_PWD_LENGTH = "min_pwd_length";

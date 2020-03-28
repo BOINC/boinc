@@ -37,12 +37,6 @@ data class GuiUrl(
         dest.writeString(url)
     }
 
-    object Fields {
-        const val NAME = "name"
-        const val DESCRIPTION = "description"
-        const val URL = "url"
-    }
-
     companion object {
         val CREATOR: Parcelable.Creator<GuiUrl> = object : Parcelable.Creator<GuiUrl> {
             override fun createFromParcel(parcel: Parcel) = GuiUrl(parcel)

@@ -28,7 +28,6 @@ import org.xml.sax.SAXException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AppsParser extends BaseParser {
     static final String APP_TAG = "app";
 
@@ -86,13 +85,13 @@ public class AppsParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase(App.Fields.NAME)) {
+                if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                     mApp.setName(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(App.Fields.USER_FRIENDLY_NAME)) {
+                else if(localName.equalsIgnoreCase(RPCCommonTags.USER_FRIENDLY_NAME)) {
                     mApp.setUserFriendlyName(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(App.Fields.NON_CPU_INTENSIVE)) {
+                else if(localName.equalsIgnoreCase(RPCCommonTags.NON_CPU_INTENSIVE)) {
                     mApp.setNonCpuIntensive(Integer.parseInt(mCurrentElement.toString()));
                 }
             }

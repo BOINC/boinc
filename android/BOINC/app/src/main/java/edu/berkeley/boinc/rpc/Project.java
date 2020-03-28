@@ -35,10 +35,10 @@ import lombok.experimental.FieldNameConstants;
 @ToString
 public class Project implements Parcelable {
     // all attributes are public for simple access
-    public String master_url = "";
+    @FieldNameConstants.Exclude public String master_url = "";
     public String project_dir = "";
     public float resource_share = 0;
-    public String project_name = "";
+    @FieldNameConstants.Exclude public String project_name = "";
     public String user_name = "";
     public String team_name = "";
     public String host_venue = "";

@@ -89,9 +89,9 @@ public class AccountOutParserTest {
     @Test
     public void testParser_whenXmlDocumentHasErrorNum_thenExpectAccountOutWithErrorNum() throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
-        accountOutParser.startElement(null, AccountOut.Fields.ERROR_NUM, null, null);
+        accountOutParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         accountOutParser.characters("1".toCharArray(), 0, 1);
-        accountOutParser.endElement(null, AccountOut.Fields.ERROR_NUM, null);
+        accountOutParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         accountOutParser.endElement(null, "?>", null);
 
         expected.setErrorNum(1);

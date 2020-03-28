@@ -31,7 +31,6 @@ import android.util.Xml;
 
 import edu.berkeley.boinc.utils.Logging;
 
-
 public class TransfersParser extends BaseParser {
     static final String FILE_TRANSFER_TAG = "file_transfer";
     static final String FILE_XFER_TAG = "file_xfer";
@@ -103,10 +102,10 @@ public class TransfersParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(Transfer.Fields.project_url)) {
+                    if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_URL)) {
                         mTransfer.project_url = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.name)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                         mTransfer.name = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(Transfer.Fields.generated_locally)) {

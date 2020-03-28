@@ -101,10 +101,10 @@ public class ProjectConfigReplyParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(ProjectConfig.Fields.NAME)) {
+                    if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                         mProjectConfig.name = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.MASTER_URL)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.MASTER_URL)) {
                         mProjectConfig.masterUrl = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(ProjectConfig.Fields.WEB_RPC_URL_BASE)) {
@@ -139,11 +139,11 @@ public class ProjectConfigReplyParser extends BaseParser {
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.FRIENDLY_NAME) &&
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.USER_FRIENDLY_NAME) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformFriendlyName = mCurrentElement.toString();
                     }
-                    else if(localName.equalsIgnoreCase(PlatformInfo.Fields.PLAN_CLASS) &&
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.PLAN_CLASS) &&
                             withinPlatforms.equals(Boolean.TRUE)) {
                         platformPlanClass = mCurrentElement.toString();
                     }
@@ -159,7 +159,7 @@ public class ProjectConfigReplyParser extends BaseParser {
                         platformName = "";
                         platformPlanClass = "";
                     }
-                    else if(localName.equalsIgnoreCase(ProjectConfig.Fields.ERROR_NUM)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.ERROR_NUM)) {
                         // reply is not present yet
                         mProjectConfig.error_num = Integer.parseInt(mCurrentElement.toString());
                     }

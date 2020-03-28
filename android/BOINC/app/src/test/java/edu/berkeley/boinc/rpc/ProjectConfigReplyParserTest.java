@@ -79,12 +79,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.NAME,
-                                              null, null);
+        projectConfigReplyParser.startElement(null, RPCCommonTags.NAME, null, null);
         projectConfigReplyParser.characters("Project Config".toCharArray(), 0,
                                             "Project Config".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.NAME,
-                                            null);
+        projectConfigReplyParser.endElement(null, RPCCommonTags.NAME, null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
@@ -98,10 +96,10 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.MASTER_URL,
+        projectConfigReplyParser.startElement(null, RPCCommonTags.MASTER_URL,
                                               null, null);
         projectConfigReplyParser.characters("Master URL".toCharArray(), 0, "Master URL".length());
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.MASTER_URL,
+        projectConfigReplyParser.endElement(null, RPCCommonTags.MASTER_URL,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
@@ -347,11 +345,9 @@ public class ProjectConfigReplyParserTest {
             throws SAXException {
         projectConfigReplyParser.startElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                               null, null);
-        projectConfigReplyParser.startElement(null, ProjectConfig.Fields.ERROR_NUM,
-                                              null, null);
+        projectConfigReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         projectConfigReplyParser.characters("1".toCharArray(), 0, 1);
-        projectConfigReplyParser.endElement(null, ProjectConfig.Fields.ERROR_NUM,
-                                            null);
+        projectConfigReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PROJECT_CONFIG_TAG,
                                             null);
 
@@ -411,17 +407,17 @@ public class ProjectConfigReplyParserTest {
                                             "Platform Name".length());
         projectConfigReplyParser.endElement(null, PlatformInfo.Fields.NAME,
                                             null);
-        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.FRIENDLY_NAME,
+        projectConfigReplyParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME,
                                               null, null);
         projectConfigReplyParser.characters("Platform Friendly Name".toCharArray(), 0,
                                             "Platform Friendly Name".length());
-        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.FRIENDLY_NAME,
+        projectConfigReplyParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME,
                                             null);
-        projectConfigReplyParser.startElement(null, PlatformInfo.Fields.PLAN_CLASS,
+        projectConfigReplyParser.startElement(null, RPCCommonTags.PLAN_CLASS,
                                               null, null);
         projectConfigReplyParser.characters("Plan Class".toCharArray(), 0,
                                             "Plan Class".length());
-        projectConfigReplyParser.endElement(null, PlatformInfo.Fields.PLAN_CLASS,
+        projectConfigReplyParser.endElement(null, RPCCommonTags.PLAN_CLASS,
                                             null);
         projectConfigReplyParser.endElement(null, ProjectConfigReplyParser.PLATFORM_TAG,
                                             null);

@@ -33,8 +33,8 @@ import lombok.experimental.FieldNameConstants;
 @ToString
 public class Transfer implements Serializable, Parcelable {
     private static final long serialVersionUID = 1L;
-    public String name = "";
-    public String project_url = "";
+    @FieldNameConstants.Exclude public String name = "";
+    @FieldNameConstants.Exclude public String project_url = "";
     public boolean generated_locally;
     public long nbytes;
     public boolean xfer_active;

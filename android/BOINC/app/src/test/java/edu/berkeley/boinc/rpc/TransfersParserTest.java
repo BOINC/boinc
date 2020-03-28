@@ -93,13 +93,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.endElement(null, TransfersParser.FILE_TRANSFER_TAG, null);
 
         expected.name = TRANSFER_NAME;
@@ -113,13 +113,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.generated_locally, null,
                                      null);
         transfersParser.characters("0".toCharArray(), 0, 1);
@@ -138,13 +138,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.generated_locally, null,
                                      null);
         transfersParser.characters("1".toCharArray(), 0, 1);
@@ -163,13 +163,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.is_upload, null,
                                      null);
         transfersParser.characters("0".toCharArray(), 0, 1);
@@ -188,13 +188,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.is_upload, null,
                                      null);
         transfersParser.characters("1".toCharArray(), 0, 1);
@@ -213,13 +213,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.nbytes, null, null);
         transfersParser.characters("One thousand and five hundred".toCharArray(), 0,
                                    "One thousand and five hundred".length());
@@ -237,13 +237,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.nbytes, null, null);
         transfersParser.characters("1500.5".toCharArray(), 0, 6);
         transfersParser.endElement(null, Transfer.Fields.nbytes, null);
@@ -261,13 +261,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.status, null, null);
         transfersParser.characters("1".toCharArray(), 0, 1);
         transfersParser.endElement(null, Transfer.Fields.status, null);
@@ -285,13 +285,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.time_so_far, null,
                                      null);
         transfersParser.characters("1500.5".toCharArray(), 0, 6);
@@ -310,13 +310,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.next_request_time, null,
                                      null);
         transfersParser.characters("1500.5".toCharArray(), 0, 6);
@@ -335,13 +335,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, TransfersParser.LAST_BYTES_XFERRED_TAG, null,
                                      null);
         transfersParser.characters("1500.5".toCharArray(), 0, 6);
@@ -360,13 +360,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.project_backoff, null,
                                      null);
         transfersParser.characters("1500.5".toCharArray(), 0, 6);
@@ -385,13 +385,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, TransfersParser.FILE_XFER_TAG, null, null);
         transfersParser.endElement(null, TransfersParser.FILE_XFER_TAG, null);
         transfersParser.endElement(null, TransfersParser.FILE_TRANSFER_TAG, null);
@@ -408,13 +408,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, Transfer.Fields.bytes_xferred, null,
                                      null);
         transfersParser.startElement(null, TransfersParser.FILE_XFER_TAG, null,
@@ -441,13 +441,13 @@ public class TransfersParserTest {
             throws SAXException {
         transfersParser.startElement(null, TransfersParser.FILE_TRANSFER_TAG, null,
                                      null);
-        transfersParser.startElement(null, Transfer.Fields.name, null, null);
+        transfersParser.startElement(null, RPCCommonTags.NAME, null, null);
         transfersParser.characters(TRANSFER_NAME.toCharArray(), 0, TRANSFER_NAME.length());
-        transfersParser.endElement(null, Transfer.Fields.name, null);
-        transfersParser.startElement(null, Transfer.Fields.project_url, null,
+        transfersParser.endElement(null, RPCCommonTags.NAME, null);
+        transfersParser.startElement(null, RPCCommonTags.PROJECT_URL, null,
                                      null);
         transfersParser.characters(PROJECT_URL.toCharArray(), 0, PROJECT_URL.length());
-        transfersParser.endElement(null, Transfer.Fields.project_url, null);
+        transfersParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         transfersParser.startElement(null, TransfersParser.FILE_XFER_TAG, null,
                                      null);
         transfersParser.startElement(null, Transfer.Fields.xfer_speed, null,

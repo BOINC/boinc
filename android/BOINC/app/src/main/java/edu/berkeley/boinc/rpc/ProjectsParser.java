@@ -30,11 +30,7 @@ import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
-
 public class ProjectsParser extends BaseParser {
-    static final String GUI_URL_TAG = "gui_url";
-
-    static final String PROJECT_TAG = "project";
     static final String SHORT_TERM_DEBT_TAG = "short_term_debt";
     static final String LONG_TERM_DEBT_TAG = "long_term_debt";
 
@@ -66,10 +62,10 @@ public class ProjectsParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase(PROJECT_TAG)) {
+        if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
             mProject = new Project();
         }
-        else if(localName.equalsIgnoreCase(GUI_URL_TAG)) {
+        else if(localName.equalsIgnoreCase(RPCCommonTags.GUI_URL)) {
             mGuiUrl = new GuiUrl();
         }
         else {
@@ -86,7 +82,7 @@ public class ProjectsParser extends BaseParser {
         try {
             if(mProject != null) {
                 // We are inside <project>
-                if(localName.equalsIgnoreCase(PROJECT_TAG)) {
+                if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
                     // Closing tag of <project> - add to vector and be ready for next one
                     if(!mProject.master_url.isEmpty()) {
                         // master_url is a must
@@ -99,24 +95,24 @@ public class ProjectsParser extends BaseParser {
                     trimEnd();
                     if(mGuiUrl != null) {
                         // We are inside <gui_url> element
-                        if(localName.equalsIgnoreCase(GUI_URL_TAG)) {
+                        if(localName.equalsIgnoreCase(RPCCommonTags.GUI_URL)) {
                             // finish of this <gui_url> element
                             mProject.gui_urls.add(mGuiUrl);
                             mGuiUrl = null;
                         }
                         else {
-                            if(localName.equalsIgnoreCase(GuiUrl.Fields.NAME)) {
+                            if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                                 mGuiUrl.setName(mCurrentElement.toString());
                             }
-                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.DESCRIPTION)) {
+                            else if(localName.equalsIgnoreCase(RPCCommonTags.DESCRIPTION)) {
                                 mGuiUrl.setDescription(mCurrentElement.toString());
                             }
-                            else if(localName.equalsIgnoreCase(GuiUrl.Fields.URL)) {
+                            else if(localName.equalsIgnoreCase(RPCCommonTags.URL)) {
                                 mGuiUrl.setUrl(mCurrentElement.toString());
                             }
                         }
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.master_url)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.MASTER_URL)) {
                         mProject.master_url = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(Project.Fields.project_dir)) {
@@ -125,7 +121,7 @@ public class ProjectsParser extends BaseParser {
                     else if(localName.equalsIgnoreCase(Project.Fields.resource_share)) {
                         mProject.resource_share = Float.parseFloat(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.project_name)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_NAME)) {
                         mProject.project_name = mCurrentElement.toString();
                     }
                     else if(localName.equalsIgnoreCase(Project.Fields.user_name)) {
@@ -212,7 +208,7 @@ public class ProjectsParser extends BaseParser {
                     else if(localName.equalsIgnoreCase(Project.Fields.sched_rpc_pending)) {
                         mProject.sched_rpc_pending = Integer.parseInt(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.non_cpu_intensive)) {
+                    else if(localName.equalsIgnoreCase(RPCCommonTags.NON_CPU_INTENSIVE)) {
                         mProject.non_cpu_intensive = !mCurrentElement.toString().equals("0");
                     }
                     else if(localName.equalsIgnoreCase(Project.Fields.suspended_via_gui)) {

@@ -69,8 +69,8 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenBothStartElementAndEndElementAreRun_thenExpectElementNotStarted()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         assertFalse(projectsParser.mElementStarted);
     }
@@ -85,8 +85,8 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasNoElements_thenExpectEmptyList()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         assertTrue(projectsParser.getProjects().isEmpty());
     }
@@ -94,11 +94,11 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrl_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
 
@@ -108,16 +108,16 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndGuiUrlWithName_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.NAME, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.GUI_URL, null, null);
+        projectsParser.startElement(null, RPCCommonTags.NAME, null, null);
         projectsParser.characters(GUI_URL_NAME.toCharArray(), 0, GUI_URL_NAME.length());
-        projectsParser.endElement(null, GuiUrl.Fields.NAME, null);
-        projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.NAME, null);
+        projectsParser.endElement(null, RPCCommonTags.GUI_URL, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
@@ -130,16 +130,16 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndGuiUrlWithDescription_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.GUI_URL, null, null);
+        projectsParser.startElement(null, RPCCommonTags.DESCRIPTION, null, null);
         projectsParser.characters(GUI_URL_DESCRIPTION.toCharArray(), 0, GUI_URL_DESCRIPTION.length());
-        projectsParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
-        projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
+        projectsParser.endElement(null, RPCCommonTags.GUI_URL, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
@@ -152,16 +152,16 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndGuiUrlWithUrl_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.URL, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.GUI_URL, null, null);
+        projectsParser.startElement(null, RPCCommonTags.URL, null, null);
         projectsParser.characters(GUI_URL_URL.toCharArray(), 0, GUI_URL_URL.length());
-        projectsParser.endElement(null, GuiUrl.Fields.URL, null);
-        projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.URL, null);
+        projectsParser.endElement(null, RPCCommonTags.GUI_URL, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
         expected.master_url = MASTER_URL;
@@ -174,22 +174,22 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndGuiUrlWithAllAttributes_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, ProjectsParser.GUI_URL_TAG, null, null);
-        projectsParser.startElement(null, GuiUrl.Fields.NAME, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.GUI_URL, null, null);
+        projectsParser.startElement(null, RPCCommonTags.NAME, null, null);
         projectsParser.characters(GUI_URL_NAME.toCharArray(), 0, GUI_URL_NAME.length());
-        projectsParser.endElement(null, GuiUrl.Fields.NAME, null);
-        projectsParser.startElement(null, GuiUrl.Fields.DESCRIPTION, null, null);
+        projectsParser.endElement(null, RPCCommonTags.NAME, null);
+        projectsParser.startElement(null, RPCCommonTags.DESCRIPTION, null, null);
         projectsParser.characters(GUI_URL_DESCRIPTION.toCharArray(), 0, GUI_URL_DESCRIPTION.length());
-        projectsParser.endElement(null, GuiUrl.Fields.DESCRIPTION, null);
-        projectsParser.startElement(null, GuiUrl.Fields.URL, null, null);
+        projectsParser.endElement(null, RPCCommonTags.DESCRIPTION, null);
+        projectsParser.startElement(null, RPCCommonTags.URL, null, null);
         projectsParser.characters(GUI_URL_URL.toCharArray(), 0, GUI_URL_URL.length());
-        projectsParser.endElement(null, GuiUrl.Fields.URL, null);
-        projectsParser.endElement(null, ProjectsParser.GUI_URL_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.URL, null);
+        projectsParser.endElement(null, RPCCommonTags.GUI_URL, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl(GUI_URL_NAME, GUI_URL_DESCRIPTION, GUI_URL_URL);
         expected.master_url = MASTER_URL;
@@ -201,14 +201,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndProjectDir_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.project_dir, null, null);
         projectsParser.characters("/path/to/project".toCharArray(), 0, "/path/to/project".length());
         projectsParser.endElement(null, Project.Fields.project_dir, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.project_dir = "/path/to/project";
@@ -219,14 +219,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndResourceShare_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.resource_share, null, null);
         projectsParser.characters("1.5".toCharArray(), 0, 3);
         projectsParser.endElement(null, Project.Fields.resource_share, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.resource_share = 1.5f;
@@ -237,14 +237,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndProjectName_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, Project.Fields.project_name, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT_NAME, null, null);
         projectsParser.characters("Project Name".toCharArray(), 0, "Project Name".length());
-        projectsParser.endElement(null, Project.Fields.project_name, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT_NAME, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.project_name = "Project Name";
@@ -255,14 +255,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndUserName_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.user_name, null, null);
         projectsParser.characters("John".toCharArray(), 0, 4);
         projectsParser.endElement(null, Project.Fields.user_name, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.user_name = "John";
@@ -273,14 +273,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndTeamName_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.team_name, null, null);
         projectsParser.characters("Team Name".toCharArray(), 0, 9);
         projectsParser.endElement(null, Project.Fields.team_name, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.team_name = "Team Name";
@@ -291,14 +291,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndHostVenue_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.host_venue, null, null);
         projectsParser.characters("Host Venue".toCharArray(), 0, 10);
         projectsParser.endElement(null, Project.Fields.host_venue, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.host_venue = "Host Venue";
@@ -309,14 +309,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndHostID_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.hostid, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.hostid, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.hostid = 1;
@@ -327,14 +327,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndUserTotalCredit_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.user_total_credit, null, null);
         projectsParser.characters("100.5".toCharArray(), 0, 5);
         projectsParser.endElement(null, Project.Fields.user_total_credit, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.user_total_credit = 100.5;
@@ -345,14 +345,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndUserExpAvgCredit_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.user_expavg_credit, null, null);
         projectsParser.characters("50.5".toCharArray(), 0, 4);
         projectsParser.endElement(null, Project.Fields.user_expavg_credit, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.user_expavg_credit = 50.5;
@@ -363,14 +363,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndHostTotalCredit_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.host_total_credit, null, null);
         projectsParser.characters("200.5".toCharArray(), 0, 5);
         projectsParser.endElement(null, Project.Fields.host_total_credit, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.host_total_credit = 200.5;
@@ -381,14 +381,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndHostExpAvgCredit_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.host_expavg_credit, null, null);
         projectsParser.characters("100.5".toCharArray(), 0, 5);
         projectsParser.endElement(null, Project.Fields.host_expavg_credit, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.host_expavg_credit = 100.5;
@@ -399,14 +399,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoOfRpcFailures_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.nrpc_failures, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.nrpc_failures, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.nrpc_failures = 1;
@@ -417,14 +417,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndMasterFetchFailures_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.master_fetch_failures, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.master_fetch_failures, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.master_fetch_failures = 1;
@@ -435,14 +435,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndMinRpcTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.min_rpc_time, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.min_rpc_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.min_rpc_time = 1;
@@ -453,14 +453,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDownloadBackoff_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.download_backoff, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.download_backoff, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.download_backoff = 1;
@@ -471,14 +471,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndUploadBackoff_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.upload_backoff, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.upload_backoff, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.upload_backoff = 1;
@@ -489,14 +489,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndShortTermDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, ProjectsParser.SHORT_TERM_DEBT_TAG, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, ProjectsParser.SHORT_TERM_DEBT_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cpu_short_term_debt = 1;
@@ -507,14 +507,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndLongTermDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, ProjectsParser.LONG_TERM_DEBT_TAG, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, ProjectsParser.LONG_TERM_DEBT_TAG, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cpu_long_term_debt = 1;
@@ -525,14 +525,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCpuBackoffTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cpu_backoff_time, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cpu_backoff_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cpu_backoff_time = 1;
@@ -543,14 +543,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCpuBackoffInterval_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cpu_backoff_interval, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cpu_backoff_interval, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cpu_backoff_interval = 1;
@@ -561,14 +561,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCudaDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cuda_debt, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cuda_debt, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cuda_debt = 1;
@@ -579,14 +579,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCudaShortTermDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cuda_short_term_debt, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cuda_short_term_debt, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cuda_short_term_debt = 1;
@@ -597,14 +597,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCudaBackoffTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cuda_backoff_time, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cuda_backoff_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cuda_backoff_time = 1;
@@ -615,14 +615,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndCudaBackoffInterval_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.cuda_backoff_interval, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.cuda_backoff_interval, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.cuda_backoff_interval = 1;
@@ -633,14 +633,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAtiDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ati_debt, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ati_debt, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ati_debt = 1;
@@ -651,14 +651,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAtiShortTermDebt_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ati_short_term_debt, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ati_short_term_debt, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ati_short_term_debt = 1;
@@ -669,14 +669,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAtiBackoffTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ati_backoff_time, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ati_backoff_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ati_backoff_time = 1;
@@ -687,14 +687,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAtiBackoffInterval_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ati_backoff_interval, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ati_backoff_interval, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ati_backoff_interval = 1;
@@ -705,14 +705,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDurationCorrectionFactor_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.duration_correction_factor, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.duration_correction_factor, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.duration_correction_factor = 1;
@@ -723,14 +723,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndMasterUrlFetchPendingIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.master_url_fetch_pending, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.master_url_fetch_pending = false;
@@ -741,14 +741,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndMasterUrlFetchPendingIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.master_url_fetch_pending, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.master_url_fetch_pending = true;
@@ -759,14 +759,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndSchedRpcPending_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.sched_rpc_pending, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.sched_rpc_pending, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.sched_rpc_pending = 1;
@@ -777,14 +777,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNonCpuIntensiveIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, Project.Fields.non_cpu_intensive, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.non_cpu_intensive, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.non_cpu_intensive = false;
@@ -795,14 +795,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNonCpuIntensiveIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
-        projectsParser.startElement(null, Project.Fields.non_cpu_intensive, null, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
+        projectsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.non_cpu_intensive, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.non_cpu_intensive = true;
@@ -813,14 +813,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndSuspendedViaGuiIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.suspended_via_gui, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.suspended_via_gui = false;
@@ -831,14 +831,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndSuspendedViaGuiIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.suspended_via_gui, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.suspended_via_gui = true;
@@ -849,14 +849,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDontRequestMoreWorkIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.dont_request_more_work, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.dont_request_more_work = false;
@@ -867,14 +867,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDontRequestMoreWorkIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.dont_request_more_work, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.dont_request_more_work = true;
@@ -885,14 +885,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndSchedulerRpcInProgressIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.scheduler_rpc_in_progress, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.scheduler_rpc_in_progress = false;
@@ -903,14 +903,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndSchedulerRpcInProgressIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.scheduler_rpc_in_progress, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.scheduler_rpc_in_progress = true;
@@ -921,14 +921,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAttachedViaAcctMgrIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.attached_via_acct_mgr, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.attached_via_acct_mgr = false;
@@ -939,14 +939,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndAttachedViaAcctMgrIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.attached_via_acct_mgr, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.attached_via_acct_mgr = true;
@@ -957,14 +957,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDetachWhenDoneIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.detach_when_done, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.detach_when_done, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.detach_when_done = false;
@@ -975,14 +975,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndDetachWhenDoneIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.detach_when_done, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.detach_when_done, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.detach_when_done = true;
@@ -993,14 +993,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndEndedIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ended, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ended, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ended = false;
@@ -1011,14 +1011,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndEndedIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.ended, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.ended, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.ended = true;
@@ -1029,14 +1029,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndTrickleUpPendingIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.trickle_up_pending, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.trickle_up_pending = false;
@@ -1047,14 +1047,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndTrickleUpPendingIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.trickle_up_pending, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.trickle_up_pending = true;
@@ -1065,14 +1065,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndProjectFilesDownloadedTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.project_files_downloaded_time, null, null);
         projectsParser.characters("10".toCharArray(), 0, 2);
         projectsParser.endElement(null, Project.Fields.project_files_downloaded_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.project_files_downloaded_time = 10;
@@ -1083,14 +1083,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndLastRpcTime_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.last_rpc_time, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.last_rpc_time, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.last_rpc_time = 1;
@@ -1101,14 +1101,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoCpuPrefIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_cpu_pref, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_cpu_pref = false;
@@ -1119,14 +1119,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoCpuPrefIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_cpu_pref, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_cpu_pref = true;
@@ -1137,14 +1137,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoCudaPrefIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_cuda_pref, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_cuda_pref = false;
@@ -1155,14 +1155,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoCudaPrefIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_cuda_pref, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_cuda_pref = true;
@@ -1173,14 +1173,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoAtiPrefIs0_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_ati_pref, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_ati_pref = false;
@@ -1191,14 +1191,14 @@ public class ProjectsParserTest {
     @Test
     public void testParser_whenXmlProjectHasMasterUrlAndNoAtiPrefIs1_thenExpectListWithMatchingProject()
             throws SAXException {
-        projectsParser.startElement(null, ProjectsParser.PROJECT_TAG, null, null);
-        projectsParser.startElement(null, Project.Fields.master_url, null, null);
+        projectsParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
-        projectsParser.endElement(null, Project.Fields.master_url, null);
+        projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.startElement(null, Project.Fields.no_ati_pref, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
         projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
-        projectsParser.endElement(null, ProjectsParser.PROJECT_TAG, null);
+        projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         expected.master_url = MASTER_URL;
         expected.no_ati_pref = true;

@@ -30,9 +30,9 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @ToString
 public class Result implements Parcelable {
-    public String name = "";
+    @FieldNameConstants.Exclude public String name = "";
     public String wu_name = "";
-    public String project_url = "";
+    @FieldNameConstants.Exclude public String project_url = "";
     public int version_num;
     @FieldNameConstants.Exclude public String plan_class;
     public long report_deadline;

@@ -68,7 +68,5 @@ public class PlatformInfo implements Parcelable {
         private Fields() {}
 
         static final String NAME = "platform_name";
-        static final String FRIENDLY_NAME = "user_friendly_name";
-        static final String PLAN_CLASS = "plan_class";
     }
 }
