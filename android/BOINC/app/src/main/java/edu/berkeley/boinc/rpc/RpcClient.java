@@ -1069,7 +1069,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized List<AccountManager> getAccountManagersList() {
+    protected synchronized List<AccountManager> getAccountManagersList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
@@ -1077,8 +1077,9 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             return AccountManagerParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getAccountManagersList()", e);
-            return null;
+            if (Logging.WARNING.equals(Boolean.TRUE))
+                Log.w(Logging.TAG, "error in getAccountManagersList()", e);
+            return Collections.emptyList();
         }
     }
 

@@ -22,10 +22,12 @@ package edu.berkeley.boinc.rpc;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
@@ -47,7 +49,7 @@ public class AccountManagerParser extends BaseParser {
 			Xml.parse(rpcResult, parser);
 			return parser.getAccountManagerInfo();
 		} catch (SAXException e) {
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
@@ -70,7 +72,7 @@ public class AccountManagerParser extends BaseParser {
 				// inside <acct_mgr_info>
 				if (localName.equalsIgnoreCase(ACCOUNT_MGR_TAG)) {
 					// Closing tag of <account_manager> - add to vector and be ready for next one
-					if (!mAcctMgrInfo.name.isEmpty()) {
+					if (!mAcctMgrInfo.getName().isEmpty()) {
 						// name is a must
 						mAcctMgrInfos.add(mAcctMgrInfo);
 					}
@@ -79,17 +81,17 @@ public class AccountManagerParser extends BaseParser {
 				else {
 					// Not the closing tag - we decode possible inner tags
 					trimEnd();
-					if (localName.equalsIgnoreCase(AccountManager.Fields.name)) { //project name
-						mAcctMgrInfo.name = mCurrentElement.toString();
+					if (localName.equalsIgnoreCase(AccountManager.Fields.NAME)) { //project name
+						mAcctMgrInfo.setName(mCurrentElement.toString());
 					}
-					else if (localName.equalsIgnoreCase(AccountManager.Fields.url)) {
-						mAcctMgrInfo.url = mCurrentElement.toString();
+					else if (localName.equalsIgnoreCase(AccountManager.Fields.URL)) {
+						mAcctMgrInfo.setUrl(mCurrentElement.toString());
 					}
-					else if (localName.equalsIgnoreCase(AccountManager.Fields.description)) {
-						mAcctMgrInfo.description = mCurrentElement.toString();
+					else if (localName.equalsIgnoreCase(AccountManager.Fields.DESCRIPTION)) {
+						mAcctMgrInfo.setDescription(mCurrentElement.toString());
 					}
 					else if (localName.equalsIgnoreCase(IMAGE_TAG)) {
-						mAcctMgrInfo.imageUrl = mCurrentElement.toString();
+						mAcctMgrInfo.setImageUrl(mCurrentElement.toString());
 					}
 				}
 			}

@@ -98,7 +98,7 @@ public class AccountManagerParserTest {
     public void testParser_whenXmlAccountManagerHasOnlyNameWithoutClosingTag_thenExpectElementNotStarted()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
         accountManagerParser.endElement(null, "", null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
@@ -110,7 +110,7 @@ public class AccountManagerParserTest {
     public void testParser_whenXmlAccountManagerHasOnlyNameWithoutClosingTag_thenExpectEmptyList()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
         accountManagerParser.endElement(null, "", null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
@@ -122,12 +122,12 @@ public class AccountManagerParserTest {
     public void testParser_whenOneAccountManagerWithOnlyName_thenExpectElementWithOnlyName()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.name, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.NAME, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        expected.name = ACCOUNT_MANAGER;
+        expected.setName(ACCOUNT_MANAGER);
 
         assertEquals(1, accountManagers.size());
         assertEquals(expected, accountManagers.get(0));
@@ -137,16 +137,16 @@ public class AccountManagerParserTest {
     public void testParser_whenXmlAccountManagerHasOnlyNameAndUrl_thenExpectMatchingAccountManager()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.name, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.url, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.NAME, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.URL, null, null);
         accountManagerParser.characters("URL".toCharArray(), 0, 3);
-        accountManagerParser.endElement(null, AccountManager.Fields.url, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.URL, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        expected.name = ACCOUNT_MANAGER;
-        expected.url = "URL";
+        expected.setName(ACCOUNT_MANAGER);
+        expected.setUrl("URL");
 
         assertEquals(1, accountManagers.size());
         assertEquals(expected, accountManagers.get(0));
@@ -156,20 +156,20 @@ public class AccountManagerParserTest {
     public void testParser_whenXmlAccountManagerWithOnlyNameUrlAndDescription_thenExpectMatchingAccountManager()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.name, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.url, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.NAME, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.URL, null, null);
         accountManagerParser.characters("URL".toCharArray(), 0, 3);
-        accountManagerParser.endElement(null, AccountManager.Fields.url, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.description, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.URL, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.DESCRIPTION, null, null);
         accountManagerParser.characters(DESCRIPTION.toCharArray(), 0, DESCRIPTION.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.description, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.DESCRIPTION, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        expected.name = ACCOUNT_MANAGER;
-        expected.url = "URL";
-        expected.description = DESCRIPTION;
+        expected.setName(ACCOUNT_MANAGER);
+        expected.setUrl("URL");
+        expected.setDescription(DESCRIPTION);
 
         assertEquals(1, accountManagers.size());
         assertEquals(expected, accountManagers.get(0));
@@ -179,24 +179,24 @@ public class AccountManagerParserTest {
     public void testParser_whenXmlAccountManagerHasAllAttributes_thenExpectMatchingAccountManager()
             throws SAXException {
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters(ACCOUNT_MANAGER.toCharArray(), 0, ACCOUNT_MANAGER.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.name, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.url, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.NAME, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.URL, null, null);
         accountManagerParser.characters("URL".toCharArray(), 0, 3);
-        accountManagerParser.endElement(null, AccountManager.Fields.url, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.description, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.URL, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.DESCRIPTION, null, null);
         accountManagerParser.characters(DESCRIPTION.toCharArray(), 0, DESCRIPTION.length());
-        accountManagerParser.endElement(null, AccountManager.Fields.description, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.DESCRIPTION, null);
         accountManagerParser.startElement(null, AccountManagerParser.IMAGE_TAG, null, null);
         accountManagerParser.characters(IMAGE_URL.toCharArray(), 0, IMAGE_URL.length());
         accountManagerParser.endElement(null, AccountManagerParser.IMAGE_TAG, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        expected.name = ACCOUNT_MANAGER;
-        expected.url = "URL";
-        expected.description = DESCRIPTION;
-        expected.imageUrl = IMAGE_URL;
+        expected.setName(ACCOUNT_MANAGER);
+        expected.setUrl("URL");
+        expected.setDescription(DESCRIPTION);
+        expected.setImageUrl(IMAGE_URL);
 
         assertEquals(1, accountManagers.size());
         assertEquals(expected, accountManagers.get(0));
@@ -213,35 +213,35 @@ public class AccountManagerParserTest {
         accountManagerParser.startElement(null, "url", null, null);
         accountManagerParser.characters("URL 1".toCharArray(), 0, 5);
         accountManagerParser.endElement(null, "url", null);
-        accountManagerParser.startElement(null, AccountManager.Fields.description, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.DESCRIPTION, null, null);
         accountManagerParser.characters((DESCRIPTION + " 1").toCharArray(), 0,
                                         DESCRIPTION.length() + 2);
-        accountManagerParser.endElement(null, AccountManager.Fields.description, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.DESCRIPTION, null);
         accountManagerParser.startElement(null, AccountManagerParser.IMAGE_TAG, null, null);
         accountManagerParser.characters((IMAGE_URL + " 1").toCharArray(), 0, IMAGE_URL.length() + 2);
         accountManagerParser.endElement(null, AccountManagerParser.IMAGE_TAG, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
         accountManagerParser.startElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.name, null, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.NAME, null, null);
         accountManagerParser.characters((ACCOUNT_MANAGER + " 2").toCharArray(), 0, 17);
-        accountManagerParser.endElement(null, AccountManager.Fields.name, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.url, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.NAME, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.URL, null, null);
         accountManagerParser.characters("URL 2".toCharArray(), 0, 5);
-        accountManagerParser.endElement(null, AccountManager.Fields.url, null);
-        accountManagerParser.startElement(null, AccountManager.Fields.description, null, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.URL, null);
+        accountManagerParser.startElement(null, AccountManager.Fields.DESCRIPTION, null, null);
         accountManagerParser.characters((DESCRIPTION + " 2").toCharArray(), 0,
                                         DESCRIPTION.length() + 2);
-        accountManagerParser.endElement(null, AccountManager.Fields.description, null);
+        accountManagerParser.endElement(null, AccountManager.Fields.DESCRIPTION, null);
         accountManagerParser.startElement(null, AccountManagerParser.IMAGE_TAG, null, null);
         accountManagerParser.characters((IMAGE_URL + " 2").toCharArray(), 0, IMAGE_URL.length() + 2);
         accountManagerParser.endElement(null, AccountManagerParser.IMAGE_TAG, null);
         accountManagerParser.endElement(null, AccountManagerParser.ACCOUNT_MGR_TAG, null);
 
-        expected.name = ACCOUNT_MANAGER + " 1";
-        expected.url = "URL 1";
-        expected.description = DESCRIPTION + " 1";
-        expected.imageUrl = IMAGE_URL + " 1";
+        expected.setName(ACCOUNT_MANAGER + " 1");
+        expected.setUrl("URL 1");
+        expected.setDescription(DESCRIPTION + " 1");
+        expected.setImageUrl(IMAGE_URL + " 1");
         final AccountManager expected2 = new AccountManager(ACCOUNT_MANAGER + " 2",
                                                             "URL 2",
                                                             DESCRIPTION + " 2",
