@@ -200,7 +200,7 @@ public class ClientNotification {
             // set names in list
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             for(Result task : activeTasks) {
-                inboxStyle.addLine(task.project.getName() + ": " + task.app.getName());
+                inboxStyle.addLine(task.project.getName() + ": " + task.app.getDisplayName());
             }
             nb.setStyle(inboxStyle);
         }

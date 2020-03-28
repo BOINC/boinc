@@ -119,7 +119,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             }
         }
 
-        String headerT = listItem.result.app.getName();
+        String headerT = listItem.result.app.getDisplayName();
         header.setText(headerT);
 
         // set project name

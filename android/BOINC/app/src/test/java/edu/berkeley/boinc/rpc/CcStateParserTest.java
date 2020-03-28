@@ -123,20 +123,20 @@ public class CcStateParserTest {
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.startElement(null, AppsParser.APP_TAG, null, null);
-        ccStateParser.startElement(null, App.Fields.name, null, null);
+        ccStateParser.startElement(null, App.Fields.NAME, null, null);
         ccStateParser.characters("App".toCharArray(), 0, 3);
-        ccStateParser.endElement(null, App.Fields.name, null);
-        ccStateParser.startElement(null, App.Fields.user_friendly_name, null, null);
+        ccStateParser.endElement(null, App.Fields.NAME, null);
+        ccStateParser.startElement(null, App.Fields.USER_FRIENDLY_NAME, null, null);
         ccStateParser.characters("App (Friendly Name)".toCharArray(), 0, "App (Friendly Name)".length());
-        ccStateParser.endElement(null, App.Fields.user_friendly_name, null);
-        ccStateParser.startElement(null, App.Fields.non_cpu_intensive, null, null);
+        ccStateParser.endElement(null, App.Fields.USER_FRIENDLY_NAME, null);
+        ccStateParser.startElement(null, App.Fields.NON_CPU_INTENSIVE, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
-        ccStateParser.endElement(null, App.Fields.non_cpu_intensive, null);
+        ccStateParser.endElement(null, App.Fields.NON_CPU_INTENSIVE, null);
         ccStateParser.endElement(null, AppsParser.APP_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
         final App expectedApp = new App("App", "App (Friendly Name)", 1);
-        expectedApp.project = new Project();
+        expectedApp.setProject(new Project());
 
         expected.getApps().add(expectedApp);
 

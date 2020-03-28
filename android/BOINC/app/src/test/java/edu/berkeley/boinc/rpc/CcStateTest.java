@@ -51,10 +51,10 @@ public class CcStateTest {
         project.master_url = URL_1;
         project1.master_url = URL_1;
 
-        app.name = "App";
-        app1.name = "App";
-        app.project = project;
-        app1.project = project1;
+        app.setName("App");
+        app1.setName("App");
+        app.setProject(project);
+        app1.setProject(project1);
 
         workunit.name = "Work Unit";
         workunit.project = project;
@@ -107,8 +107,8 @@ public class CcStateTest {
         final App appFound = ccState.lookupApp(project, "App");
 
         assertNotNull(appFound);
-        assertEquals("App", appFound.name);
-        assertEquals(project, appFound.project);
+        assertEquals("App", appFound.getName());
+        assertEquals(project, appFound.getProject());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class CcStateTest {
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndAppDoesntMatch_thenExpectNull() {
-        app1.name = "App 2";
+        app1.setName("App 2");
 
         assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }

@@ -203,7 +203,7 @@ public class CcStateParser extends BaseParser {
 
                     if(!apps.isEmpty()) {
                         final App myApp = apps.get(apps.size() - 1);
-                        myApp.project = myProject;
+                        myApp.setProject(myProject);
                         mCcState.getApps().add(myApp);
                     }
                 }
