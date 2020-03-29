@@ -328,6 +328,26 @@ public class CcStateParserTest {
     }
 
     @Test
+    public void testParser_whenXmlCcStateHasVersionInfoWithInvalidMajorVersion_thenExpectCcStateWithDefaultMajorVersion()
+            throws SAXException {
+        ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
+        ccStateParser.startElement(null, CcStateParser.CORE_CLIENT_MAJOR_VERSION_TAG, null, null);
+        ccStateParser.characters("One".toCharArray(), 0, 3);
+        ccStateParser.endElement(null, CcStateParser.CORE_CLIENT_MAJOR_VERSION_TAG, null);
+        ccStateParser.startElement(null, CcStateParser.CORE_CLIENT_MINOR_VERSION_TAG, null, null);
+        ccStateParser.characters("1".toCharArray(), 0, 1);
+        ccStateParser.endElement(null, CcStateParser.CORE_CLIENT_MINOR_VERSION_TAG, null);
+        ccStateParser.startElement(null, CcStateParser.CORE_CLIENT_RELEASE_TAG, null, null);
+        ccStateParser.characters("1".toCharArray(), 0, 1);
+        ccStateParser.endElement(null, CcStateParser.CORE_CLIENT_RELEASE_TAG, null);
+        ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
+
+        expected.setVersionInfo(new VersionInfo(0, 1, 1));
+
+        assertEquals(expected, ccStateParser.getCcState());
+    }
+
+    @Test
     public void testParser_whenXmlCcStateHasVersionInfo_thenExpectMatchingCcState()
             throws SAXException {
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);

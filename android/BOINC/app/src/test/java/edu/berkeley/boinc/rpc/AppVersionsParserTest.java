@@ -87,6 +87,23 @@ public class AppVersionsParserTest {
     }
 
     @Test
+    public void testParser_whenXmlAppVersionHasAppNameAndInvalidVersionNum_thenExpectAppVersionWithoutVersionNum()
+            throws SAXException {
+        appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
+        appVersionsParser.characters(APP_NAME.toCharArray(), 0, APP_NAME.length());
+        appVersionsParser.endElement(null, AppVersion.Fields.APP_NAME, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.VERSION_NUM, null, null);
+        appVersionsParser.characters("One".toCharArray(), 0, 3);
+        appVersionsParser.endElement(null, AppVersion.Fields.VERSION_NUM, null);
+        appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
+
+        expected.setAppName(APP_NAME);
+
+        assertEquals(Collections.singletonList(expected), appVersionsParser.getAppVersions());
+    }
+
+    @Test
     public void testParser_whenXmlAppVersionHasAppNameAndVersionNum_thenExpectMatchingAppVersion()
             throws SAXException {
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
