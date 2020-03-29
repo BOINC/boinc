@@ -128,10 +128,12 @@ public class RpcClientTest {
         assertEquals("Nonce", auth1Parser.mResult.toString());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testAuth2Parser_whenTagIsNull_thenExpectNullPointerException() throws SAXException {
+    @Test
+    public void testAuth2Parser_whenTagIsNull_thenExpectEmptyResult() throws SAXException {
         auth2Parser.startElement(null, null, null, null);
         auth2Parser.endElement(null, null, null);
+
+        assertEquals(0, auth2Parser.mResult.length());
     }
 
     @Test

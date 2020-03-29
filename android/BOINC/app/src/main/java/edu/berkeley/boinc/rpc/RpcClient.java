@@ -24,6 +24,7 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -129,11 +130,8 @@ public class RpcClient {
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            if (localName.equalsIgnoreCase(AUTHORIZED) && !mParsed) {
-                mResult.append(AUTHORIZED);
-                mParsed = true;
-            } else if (localName.equalsIgnoreCase(UNAUTHORIZED) && !mParsed) {
-                mResult.append(UNAUTHORIZED);
+            if (StringUtils.equalsAnyIgnoreCase(localName, AUTHORIZED, UNAUTHORIZED) && !mParsed) {
+                mResult.append(localName.toLowerCase());
                 mParsed = true;
             }
         }
