@@ -25,6 +25,8 @@ import org.xml.sax.SAXException;
 import android.util.Log;
 import android.util.Xml;
 
+import java.util.Objects;
+
 import edu.berkeley.boinc.utils.Logging;
 
 public class CcStatusParser extends BaseParser {
@@ -43,7 +45,7 @@ public class CcStatusParser extends BaseParser {
             return parser.getCcStatus();
         }
         catch(SAXException e) {
-            Log.v("Larry", e.getMessage());
+            Log.v("Larry", Objects.requireNonNull(e.getMessage()));
             return null;
         }
     }

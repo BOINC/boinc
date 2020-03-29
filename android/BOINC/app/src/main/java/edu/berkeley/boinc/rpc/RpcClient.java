@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,21 +46,20 @@ import static org.apache.commons.lang3.BooleanUtils.toInteger;
 
 
 /**
- * GUI RPC - the way how GUI can manage BOINC core client and retrieve the information
+ * GUI RPC - the way the GUI can manage the BOINC core client and retrieve the information
  * from the client.
- * This tries to be the same as original BOINC C++ GUI, but the names are rewritten
- * for the sake of naming convention. Therefore original RPC_CLIENT becomes RpcClient,
- * get_cc_status() becomes getCcStatus() etc.
+ * This tries to be the same as the original BOINC C++ GUI, but the names are rewritten
+ * for the sake of naming conventions. Therefore, the original RPC_CLIENT becomes RpcClient,
+ * get_cc_status() becomes getCcStatus(), etc.
  */
 public class RpcClient {
+    static final String AUTHORIZED = "authorized";
+    static final String UNAUTHORIZED = "unauthorized";
+
     private static final int READ_TIMEOUT = 15000;         // 15s
     private static final int READ_BUF_SIZE = 2048;
     private static final int RESULT_BUILDER_INIT_SIZE = 131072; // Yes, 128K
     private static final int REQUEST_BUILDER_INIT_SIZE = 80;
-
-    public static final int SUCCESS = 0;
-    public static final int ERR_RETRY = -199;
-    public static final int ERR_IN_PROGRESS = -204;
 
     public static final int PROJECT_UPDATE = 1;
     public static final int PROJECT_SUSPEND = 2;
@@ -91,17 +91,12 @@ public class RpcClient {
     public RpcClient() {
     }
 
-
-    /*
-     * Private classes - Helpers
-     */
-
-    private class Auth1Parser extends DefaultHandler {
-        private StringBuilder mResult;
+    static class Auth1Parser extends DefaultHandler {
+        StringBuilder mResult;
         private String mCurrentElement = null;
         private boolean mNonceParsed = false;
 
-        public Auth1Parser(StringBuilder result) {
+        Auth1Parser(StringBuilder result) {
             mResult = result;
         }
 
@@ -123,22 +118,22 @@ public class RpcClient {
         }
     }
 
-    private class Auth2Parser extends DefaultHandler {
-        private StringBuilder mResult;
+    static class Auth2Parser extends DefaultHandler {
+        StringBuilder mResult;
         private boolean mParsed = false;
 
-        public Auth2Parser(StringBuilder result) {
+        Auth2Parser(StringBuilder result) {
             mResult = result;
         }
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            if (localName.equalsIgnoreCase("authorized") && !mParsed) {
-                mResult.append("authorized");
+            if (localName.equalsIgnoreCase(AUTHORIZED) && !mParsed) {
+                mResult.append(AUTHORIZED);
                 mParsed = true;
-            } else if (localName.equalsIgnoreCase("unauthorized") && !mParsed) {
-                mResult.append("unauthorized");
+            } else if (localName.equalsIgnoreCase(UNAUTHORIZED) && !mParsed) {
+                mResult.append(UNAUTHORIZED);
                 mParsed = true;
             }
         }
@@ -147,8 +142,7 @@ public class RpcClient {
     /*
      * Helper methods
      */
-
-    private static final String modeName(int mode) {
+    private static String modeName(int mode) {
         switch (mode) {
             case BOINCDefs.RUN_MODE_ALWAYS:
                 return "<always/>";
@@ -175,7 +169,7 @@ public class RpcClient {
     public boolean open(String socketAddress) {
         if (isConnected()) {
             // Already connected
-            if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+            if (Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "Attempt to connect when already connected");
             // We better close current connection and reconnect (address/port could be different)
             close();
@@ -185,7 +179,7 @@ public class RpcClient {
             mSocket.connect(new LocalSocketAddress(socketAddress));
             mSocket.setSoTimeout(READ_TIMEOUT);
             mInput = mSocket.getInputStream();
-            mOutput = new OutputStreamWriter(mSocket.getOutputStream(), "ISO8859_1");
+            mOutput = new OutputStreamWriter(mSocket.getOutputStream(), StandardCharsets.ISO_8859_1);
         } catch (IllegalArgumentException e) {
             if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "connect failure: illegal argument", e);
@@ -231,10 +225,6 @@ public class RpcClient {
         mSocket = null;
     }
 
-    public String getLastErrorMessage() {
-        return mLastErrorMessage;
-    }
-
     /**
      * Performs the BOINC authorization towards currently connected client.
      * The authorization uses MD5 hash of client's password and random value.
@@ -244,10 +234,9 @@ public class RpcClient {
      * @return true for success, false for failure
      */
     public synchronized boolean authorize(String password) {
-        if (!isConnected()) {
+        if (!isConnected() || password.isEmpty()) {
             return false;
         }
-        if (password.length() == 0) return false;
         try {
             // Phase 1: get nonce
             sendRequest("<auth1/>\n");
@@ -266,7 +255,7 @@ public class RpcClient {
             String auth2Rsp = receiveReply();
             mRequest.setLength(0);
             Xml.parse(auth2Rsp, new Auth2Parser(mRequest));
-            if (!mRequest.toString().equals("authorized")) {
+            if (!mRequest.toString().equals(AUTHORIZED)) {
                 if (Logging.DEBUG) Log.d(Logging.TAG, "authorize() - Failure");
                 return false;
             }
@@ -305,7 +294,7 @@ public class RpcClient {
             String result = receiveReply();
             // If end of stream reached and no data were received in reply
             // we assume that socket is closed on the other side, most probably client shut down
-            return (result.length() != 0);
+            return !result.isEmpty();
         } catch (IOException e) {
             return false;
         }
@@ -322,10 +311,10 @@ public class RpcClient {
      * @throws IOException if error occurs when sending the request
      */
     protected void sendRequest(String request) throws IOException {
-        if (Logging.RPC_PERFORMANCE)
-            if (Logging.DEBUG) Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
-        if (Logging.RPC_DATA)
-            if (Logging.DEBUG) Log.d(Logging.TAG, "Sending request: \n" + request);
+        if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
+            Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
+        if (Logging.RPC_DATA && Logging.DEBUG)
+            Log.d(Logging.TAG, "Sending request: \n" + request);
         if (mOutput == null)
             return;
         mOutput.write("<boinc_gui_rpc_request>\n");
@@ -342,8 +331,8 @@ public class RpcClient {
      */
     protected String receiveReply() throws IOException {
         mResult.setLength(0);
-        if (Logging.RPC_PERFORMANCE)
-            if (Logging.DEBUG) Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
+        if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
+            Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
         long readStart = System.nanoTime();
 
@@ -370,7 +359,9 @@ public class RpcClient {
             long bytesCount = mResult.length();
             if (duration == 0) duration = 0.001F;
             if (Logging.DEBUG)
-                Log.d(Logging.TAG, "Reading from socket took " + duration + " seconds, " + bytesCount + " bytes read (" + (bytesCount / duration) + " bytes/second)");
+                Log.d(Logging.TAG, "Reading from socket took " + duration + " seconds, " +
+                                   bytesCount + " bytes read (" + (bytesCount / duration) +
+                                   " bytes/second)");
         }
 
         if (Logging.RPC_PERFORMANCE)
@@ -395,26 +386,6 @@ public class RpcClient {
     /*
      * GUI RPC calls
      */
-
-    public synchronized VersionInfo exchangeVersions() {
-        mLastErrorMessage = null;
-        mRequest.setLength(0);
-        mRequest.append("<exchange_versions>\n  <major>");
-        mRequest.append(Boinc.MAJOR_VERSION);
-        mRequest.append("</major>\n  <minor>");
-        mRequest.append(Boinc.MINOR_VERSION);
-        mRequest.append("</minor>\n  <release>");
-        mRequest.append(Boinc.RELEASE);
-        mRequest.append("</release>\n</exchange_versions>\n");
-        try {
-            sendRequest(mRequest.toString());
-            return VersionInfoParser.parse(receiveReply());
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in exchangeVersions()", e);
-            return null;
-        }
-    }
-
 
     /**
      * Performs get_cc_status RPC towards BOINC client
@@ -447,22 +418,6 @@ public class RpcClient {
             if (Logging.WARNING.equals(Boolean.TRUE))
                 Log.w(Logging.TAG, "error in getFileTransfers()", e);
             return Collections.emptyList();
-        }
-    }
-
-    /**
-     * Performs get_host_info RPC towards BOINC client
-     *
-     * @return result of RPC call in case of success, null otherwise
-     */
-    public synchronized HostInfo getHostInfo() {
-        mLastErrorMessage = null;
-        try {
-            sendRequest("<get_host_info/>\n");
-            return HostInfoParser.parse(receiveReply());
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getHostInfo()", e);
-            return null;
         }
     }
 
@@ -558,26 +513,6 @@ public class RpcClient {
     }
 
     /**
-     * Performs get_results RPC towards BOINC client (only active results)
-     *
-     * @return result of RPC call in case of success, null otherwise
-     */
-    public synchronized List<Result> getActiveResults() {
-        mLastErrorMessage = null;
-        final String request =
-                "<get_results>\n" +
-                        "<active_only>1</active_only>\n" +
-                        "</get_results>\n";
-        try {
-            sendRequest(request);
-            return ResultsParser.parse(receiveReply());
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getActiveResults()", e);
-            return Collections.emptyList();
-        }
-    }
-
-    /**
      * Performs get_results RPC towards BOINC client (all results)
      *
      * @return result of RPC call in case of success, null otherwise
@@ -649,9 +584,8 @@ public class RpcClient {
     /**
      * Reports the Android model as host info to the client
      *
-     * @return true for success, false for failure
      */
-    public synchronized boolean setHostInfo(String hostInfo, String version) {
+    public synchronized void setHostInfo(String hostInfo, String version) {
         mLastErrorMessage = null;
         mRequest.setLength(0);
         mRequest.append("<set_host_info>\n");
@@ -669,12 +603,10 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
             if (parser == null)
-                return false;
+                return;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setHostInfo() error: ", e);
-            return false;
         }
     }
 
@@ -703,27 +635,6 @@ public class RpcClient {
             return parser.result();
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setDomainNameRpc() error: ", e);
-            return false;
-        }
-    }
-
-    /**
-     * Tells the BOINC core client that a network connection is available,
-     * and that it should do as much network activity as it can.
-     *
-     * @return true for success, false for failure
-     */
-    public synchronized boolean networkAvailable() {
-        mLastErrorMessage = null;
-        try {
-            sendRequest("<network_available/>\n");
-            SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
-            if (parser == null)
-                return false;
-            mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in networkAvailable()", e);
             return false;
         }
     }
@@ -792,7 +703,7 @@ public class RpcClient {
      * @param accountIn - account info
      * @return true for success, false for failure
      */
-    public synchronized boolean createAccount(AccountIn accountIn) {
+    protected synchronized boolean createAccount(AccountIn accountIn) {
         try {
             mRequest.setLength(0);
             mRequest.append("<create_account>\n   <url>");
@@ -807,7 +718,7 @@ public class RpcClient {
             mRequest.append("</user_name>\n   <team_name>");
             if (accountIn.team_name != null)
                 mRequest.append(accountIn.team_name);
-            mRequest.append("</team_name>\n<create_account>\n");
+            mRequest.append("</team_name>\n</create_account>\n");
 
             sendRequest(mRequest.toString());
 
@@ -849,8 +760,10 @@ public class RpcClient {
     public synchronized boolean lookupAccount(AccountIn accountIn) {
         try {
             String id;
-            if (accountIn.uses_name) id = accountIn.user_name;
-            else id = accountIn.email_addr;
+            if (accountIn.uses_name)
+                id = accountIn.user_name;
+            else
+                id = accountIn.email_addr;
             mRequest.setLength(0);
             mRequest.append("<lookup_account>\n <url>");
             mRequest.append(accountIn.url);
@@ -996,7 +909,7 @@ public class RpcClient {
      *
      * @return status class AcctMgrRPCReply
      */
-    public synchronized AcctMgrRPCReply acctMgrRPCPoll() {
+    protected synchronized AcctMgrRPCReply acctMgrRPCPoll() {
         try {
             mRequest.setLength(0);
             mRequest.append("<acct_mgr_rpc_poll/>");
@@ -1079,7 +992,7 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             return AccountManagerParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING.equals(Boolean.TRUE))
+            if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getAccountManagersList()", e);
             return Collections.emptyList();
         }
@@ -1098,23 +1011,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized boolean setGlobalPrefsOverride(String globalPrefs) {
-        try {
-            mRequest.setLength(0);
-            mRequest.append("<set_global_prefs_override>\n");
-            mRequest.append(globalPrefs);
-            mRequest.append("</set_global_prefs_override>\n");
-
-            sendRequest(mRequest.toString());
-            receiveReply();
-            return true;
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in setGlobalPrefsOverride()", e);
-            return false;
-        }
-    }
-
-    public synchronized boolean setGlobalPrefsOverrideStruct(GlobalPreferences globalPrefs) {
+    protected synchronized boolean setGlobalPrefsOverrideStruct(GlobalPreferences globalPrefs) {
         try {
             mRequest.setLength(0);
             mRequest.append("<set_global_prefs_override>\n<global_preferences>\n  <run_on_batteries>");
@@ -1214,7 +1111,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized boolean readGlobalPrefsOverride() {
+    protected synchronized boolean readGlobalPrefsOverride() {
         try {
             mRequest.setLength(0);
             mRequest.append("<read_global_prefs_override/>");
@@ -1231,20 +1128,16 @@ public class RpcClient {
 
     /**
      * Tells the BOINC core client to exit.
-     *
-     * @return true for success, false for failure
      */
-    public synchronized boolean quit() {
+    public synchronized void quit() {
         try {
             sendRequest("<quit/>\n");
             SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
             if (parser == null)
-                return false;
+                return;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in quit()", e);
-            return false;
         }
     }
 
@@ -1321,7 +1214,7 @@ public class RpcClient {
                     opTag = "abort_file_transfer";
                     break;
                 default:
-                    if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+                    if (Logging.LOGLEVEL <= 4)
                         Log.e(Logging.TAG, "transferOp() - unsupported operation: " + operation);
                     return false;
             }
@@ -1412,7 +1305,6 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setCcConfig()", e);
             return false;
         }
-
     }
 
     public synchronized String getCcConfig() {
@@ -1448,7 +1340,7 @@ public class RpcClient {
         }
     }
 
-    public synchronized Boolean runBenchmarks() {
+    public synchronized boolean runBenchmarks() {
         try {
             mRequest.setLength(0);
             mRequest.append("<run_benchmarks/>");
@@ -1463,6 +1355,5 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
             return false;
         }
-
     }
 }
