@@ -411,6 +411,7 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
+      printf( "Another instance of BOINC Manager already running.\n");
             return false;
     }
 
