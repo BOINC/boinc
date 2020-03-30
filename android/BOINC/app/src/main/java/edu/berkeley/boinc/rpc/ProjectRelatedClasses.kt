@@ -34,7 +34,7 @@ data class ProjectConfig(
         var minPwdLength: Int = 0,
         var minClientVersion: Int = 0,
         var rpcPrefix: String = "",
-        var platforms: List<PlatformInfo?> = mutableListOf(),
+        var platforms: MutableList<PlatformInfo?> = mutableListOf(),
         var termsOfUse: String? = null,
         var usesName: Boolean = false,
         var webStopped: Boolean = false,
@@ -47,7 +47,7 @@ data class ProjectConfig(
             this(parcel.readInt(), parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
-        parcel.readList(platforms, PlatformInfo::class.java.classLoader)
+        parcel.readList(platforms.toList(), PlatformInfo::class.java.classLoader)
         termsOfUse = parcel.readString()
         val bArray = parcel.createBooleanArray()!!
         usesName = bArray[0]
@@ -79,7 +79,7 @@ data class ProjectConfig(
         dest.writeInt(minPwdLength)
         dest.writeInt(minClientVersion)
         dest.writeString(rpcPrefix)
-        dest.writeList(platforms)
+        dest.writeList(platforms.toList())
         dest.writeString(termsOfUse)
         dest.writeBooleanArray(booleanArrayOf(usesName, webStopped, schedulerStopped,
                 accountCreationDisabled, clientAccountCreationDisabled, accountManager))
