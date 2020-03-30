@@ -32,20 +32,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class NoticesListAdapter extends ArrayAdapter<Notice> {
-    private ArrayList<Notice> entries;
+    private List<Notice> entries;
     private Activity activity;
 
-    public NoticesListAdapter(Activity a, int textViewResourceId, ArrayList<Notice> entries) {
+    public NoticesListAdapter(Activity a, int textViewResourceId, List<Notice> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
