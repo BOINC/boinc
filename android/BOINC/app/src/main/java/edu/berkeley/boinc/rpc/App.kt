@@ -20,6 +20,7 @@ package edu.berkeley.boinc.rpc
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.*
 
 data class App
 @JvmOverloads // generates overloaded constructors
@@ -48,8 +49,8 @@ constructor(
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + userFriendlyName.hashCode()
+        var result = name?.toLowerCase(Locale.ROOT).hashCode()
+        result = 31 * result + userFriendlyName?.toLowerCase(Locale.ROOT).hashCode()
         result = 31 * result + nonCpuIntensive
         result = 31 * result + project.hashCode()
         return result
