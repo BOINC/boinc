@@ -1850,33 +1850,7 @@ const vector<string> X_display_values_initialize() {
         }
     }
 
-    // if the display_values vector is empty, assume something went wrong
-    // (couldn't open directory, no apparent Xn files). Test a static list of
-    // DISPLAY values instead that is likely to catch most common use cases.
-    // (I don't know of many environments where there will simultaneously be
-    // more than seven active, local Xservers. I'm sure they exist... somewhere.
-    // But seven was the magic number for me).
-    //
-    if ( display_values.size() == 0 ) {
-        if ( log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/."
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Using static DISPLAY list, :{0..6}."
-            );
-        }
-        display_values.push_back(":0");
-        display_values.push_back(":1");
-        display_values.push_back(":2");
-        display_values.push_back(":3");
-        display_values.push_back(":4");
-        display_values.push_back(":5");
-        display_values.push_back(":6");
-        return display_values;
-    } else {
-        return display_values;
-    }
+    return display_values;
 }
 
 // Ask the X server for user idle time (using XScreenSaver API)
