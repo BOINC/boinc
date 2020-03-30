@@ -21,13 +21,8 @@ package edu.berkeley.boinc.rpc
 import android.os.Parcel
 import android.os.Parcelable
 
-data class GuiUrl(
-        var name: String? = "",
-        var description: String? = "",
-        var url: String? = ""
-) : Parcelable {
-    private constructor(parcel: Parcel) :
-            this(parcel.readString(), parcel.readString(), parcel.readString())
+data class GuiUrl(var name: String? = "", var description: String? = "", var url: String? = "") : Parcelable {
+    private constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
 
     override fun describeContents() = 0
 
