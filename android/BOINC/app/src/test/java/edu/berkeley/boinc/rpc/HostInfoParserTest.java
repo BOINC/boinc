@@ -117,12 +117,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasTimezone_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.timezone, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.TIMEZONE, null, null);
         hostInfoParser.characters("1".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.timezone, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.TIMEZONE, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.timezone = 1;
+        expected.setTimezone(1);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -131,15 +131,15 @@ public class HostInfoParserTest {
     public void testParser_whenXmlHostInfoHasDomainNameAndInvalidTimezone_thenExpectHostInfoWithOnlyDomainName()
             throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.domain_name, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.DOMAIN_NAME, null, null);
         hostInfoParser.characters(DOMAIN_NAME.toCharArray(), 0, 11);
-        hostInfoParser.endElement(null, HostInfo.Fields.domain_name, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.timezone, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.DOMAIN_NAME, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.TIMEZONE, null, null);
         hostInfoParser.characters("One".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.timezone, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.TIMEZONE, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.domain_name = DOMAIN_NAME;
+        expected.setDomainName(DOMAIN_NAME);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -147,12 +147,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasDomainName_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.domain_name, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.DOMAIN_NAME, null, null);
         hostInfoParser.characters(DOMAIN_NAME.toCharArray(), 0, 11);
-        hostInfoParser.endElement(null, HostInfo.Fields.domain_name, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.DOMAIN_NAME, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.domain_name = DOMAIN_NAME;
+        expected.setDomainName(DOMAIN_NAME);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -160,12 +160,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasIpAddress_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.ip_addr, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.IP_ADDR, null, null);
         hostInfoParser.characters(IP_ADDRESS.toCharArray(), 0, IP_ADDRESS.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.ip_addr, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.IP_ADDR, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.ip_addr = IP_ADDRESS;
+        expected.setIpAddress(IP_ADDRESS);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -173,12 +173,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasHostCpid_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.host_cpid, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.HOST_CPID, null, null);
         hostInfoParser.characters(HOST_CPID.toCharArray(), 0, HOST_CPID.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.host_cpid, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.HOST_CPID, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.host_cpid = HOST_CPID;
+        expected.setHostCpid(HOST_CPID);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -186,12 +186,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasNoOfCPUs_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_ncpus, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_NCPUS, null, null);
         hostInfoParser.characters("1".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_ncpus, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_NCPUS, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_ncpus = 1;
+        expected.setNoOfCPUs(1);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -199,12 +199,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasVendor_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_vendor, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_VENDOR, null, null);
         hostInfoParser.characters(VENDOR.toCharArray(), 0, VENDOR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_vendor, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_VENDOR, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_vendor = VENDOR;
+        expected.setCpuVendor(VENDOR);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -212,12 +212,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasModel_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_model, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_MODEL, null, null);
         hostInfoParser.characters(MODEL.toCharArray(), 0, MODEL.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_model, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_MODEL, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_model = MODEL;
+        expected.setCpuModel(MODEL);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -225,12 +225,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasFeatures_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_features, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_FEATURES, null, null);
         hostInfoParser.characters(FEATURES.toCharArray(), 0, FEATURES.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_features, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_FEATURES, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_features = FEATURES;
+        expected.setCpuFeatures(FEATURES);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -238,12 +238,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasFloatingPointOps_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_fpops, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_FPOPS, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_fpops, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_FPOPS, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_fpops = 1.5;
+        expected.setCpuFloatingPointOps(1.5);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -251,12 +251,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasIntegerOps_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_iops, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_IOPS, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_iops, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_IOPS, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_iops = 1.5;
+        expected.setCpuIntegerOps(1.5);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -264,12 +264,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasMembw_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_membw, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_MEMBW, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_membw, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_MEMBW, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_membw = 1.5;
+        expected.setCpuMembw(1.5);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -277,12 +277,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasCalculated_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_calculated, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_CALCULATED, null, null);
         hostInfoParser.characters("0".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_calculated, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_CALCULATED, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.p_calculated = 0L;
+        expected.setCpuCalculated(0L);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -290,12 +290,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasProductName_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.product_name, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.PRODUCT_NAME, null, null);
         hostInfoParser.characters(PRODUCT_NAME.toCharArray(), 0, PRODUCT_NAME.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.product_name, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.PRODUCT_NAME, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.product_name = PRODUCT_NAME;
+        expected.setProductName(PRODUCT_NAME);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -303,12 +303,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasMemInBytes_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_nbytes, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_NBYTES, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_nbytes, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_NBYTES, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.m_nbytes = 1_073_741_824.0;
+        expected.setMemoryInBytes(1_073_741_824.0);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -316,12 +316,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasMemCache_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_cache, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_CACHE, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_cache, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_CACHE, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.m_cache = 1_073_741_824.0;
+        expected.setMemoryCache(1_073_741_824.0);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -329,12 +329,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasMemSwap_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_swap, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_SWAP, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_swap, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_SWAP, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.m_swap = 1_073_741_824.0;
+        expected.setMemorySwap(1_073_741_824.0);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -342,12 +342,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasDiskTotal_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.d_total, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.D_TOTAL, null, null);
         hostInfoParser.characters(TOTAL_SPACE_STR.toCharArray(), 0, TOTAL_SPACE_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.d_total, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.D_TOTAL, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.d_total = TOTAL_SPACE;
+        expected.setTotalDiskSpace(TOTAL_SPACE);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -355,12 +355,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasDiskFree_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.d_free, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.D_FREE, null, null);
         hostInfoParser.characters(FREE_SPACE_STR.toCharArray(), 0, FREE_SPACE_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.d_free, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.D_FREE, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.d_free = FREE_SPACE;
+        expected.setFreeDiskSpace(FREE_SPACE);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -368,12 +368,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasOsName_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.os_name, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.OS_NAME, null, null);
         hostInfoParser.characters(OS_NAME.toCharArray(), 0, OS_NAME.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.os_name, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.OS_NAME, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.os_name = OS_NAME;
+        expected.setOsName(OS_NAME);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -381,12 +381,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasOsVersion_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.os_version, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.OS_VERSION, null, null);
         hostInfoParser.characters(OS_VERSION.toCharArray(), 0, OS_VERSION.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.os_version, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.OS_VERSION, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.os_version = OS_VERSION;
+        expected.setOsVersion(OS_VERSION);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -394,12 +394,12 @@ public class HostInfoParserTest {
     @Test
     public void testParser_whenXmlHostInfoHasVirtualBoxVersion_thenExpectMatchingHostInfo() throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.virtualbox_version, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.VIRTUALBOX_VERSION, null, null);
         hostInfoParser.characters(VIRTUALBOX_VERSION.toCharArray(), 0, VIRTUALBOX_VERSION.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.virtualbox_version, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.VIRTUALBOX_VERSION, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.virtualbox_version = VIRTUALBOX_VERSION;
+        expected.setVirtualBoxVersion(VIRTUALBOX_VERSION);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }
@@ -408,92 +408,92 @@ public class HostInfoParserTest {
     public void testParser_whenXmlHostInfoHasAllAttributes_thenExpectMatchingHostInfo()
             throws SAXException {
         hostInfoParser.startElement(null, HostInfoParser.HOST_INFO_TAG, null, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.timezone, null, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.TIMEZONE, null, null);
         hostInfoParser.characters("1".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.timezone, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.domain_name, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.TIMEZONE, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.DOMAIN_NAME, null, null);
         hostInfoParser.characters(DOMAIN_NAME.toCharArray(), 0, 11);
-        hostInfoParser.endElement(null, HostInfo.Fields.domain_name, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.ip_addr, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.DOMAIN_NAME, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.IP_ADDR, null, null);
         hostInfoParser.characters(IP_ADDRESS.toCharArray(), 0, IP_ADDRESS.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.ip_addr, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.host_cpid, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.IP_ADDR, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.HOST_CPID, null, null);
         hostInfoParser.characters(HOST_CPID.toCharArray(), 0, HOST_CPID.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.host_cpid, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_ncpus, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.HOST_CPID, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_NCPUS, null, null);
         hostInfoParser.characters("1".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_ncpus, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_vendor, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_NCPUS, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_VENDOR, null, null);
         hostInfoParser.characters(VENDOR.toCharArray(), 0, VENDOR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_vendor, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_model, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_VENDOR, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_MODEL, null, null);
         hostInfoParser.characters(MODEL.toCharArray(), 0, MODEL.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_model, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_features, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_MODEL, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_FEATURES, null, null);
         hostInfoParser.characters(FEATURES.toCharArray(), 0, FEATURES.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.p_features, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_fpops, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_FEATURES, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_FPOPS, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_fpops, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_iops, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_FPOPS, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_IOPS, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_iops, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_membw, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_IOPS, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_MEMBW, null, null);
         hostInfoParser.characters("1.5".toCharArray(), 0, 3);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_membw, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.p_calculated, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_MEMBW, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.P_CALCULATED, null, null);
         hostInfoParser.characters("0".toCharArray(), 0, 1);
-        hostInfoParser.endElement(null, HostInfo.Fields.p_calculated, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.product_name, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.P_CALCULATED, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.PRODUCT_NAME, null, null);
         hostInfoParser.characters(PRODUCT_NAME.toCharArray(), 0, PRODUCT_NAME.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.product_name, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_nbytes, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.PRODUCT_NAME, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_NBYTES, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_nbytes, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_cache, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_NBYTES, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_CACHE, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_cache, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.m_swap, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_CACHE, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.M_SWAP, null, null);
         hostInfoParser.characters(BYTES_IN_1_GB_STR.toCharArray(), 0, BYTES_IN_1_GB_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.m_swap, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.d_total, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.M_SWAP, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.D_TOTAL, null, null);
         hostInfoParser.characters(TOTAL_SPACE_STR.toCharArray(), 0, TOTAL_SPACE_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.d_total, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.d_free, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.D_TOTAL, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.D_FREE, null, null);
         hostInfoParser.characters(FREE_SPACE_STR.toCharArray(), 0, FREE_SPACE_STR.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.d_free, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.os_name, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.D_FREE, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.OS_NAME, null, null);
         hostInfoParser.characters(OS_NAME.toCharArray(), 0, OS_NAME.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.os_name, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.os_version, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.OS_NAME, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.OS_VERSION, null, null);
         hostInfoParser.characters(OS_VERSION.toCharArray(), 0, OS_VERSION.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.os_version, null);
-        hostInfoParser.startElement(null, HostInfo.Fields.virtualbox_version, null, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.OS_VERSION, null);
+        hostInfoParser.startElement(null, HostInfo.Fields.VIRTUALBOX_VERSION, null, null);
         hostInfoParser.characters(VIRTUALBOX_VERSION.toCharArray(), 0, VIRTUALBOX_VERSION.length());
-        hostInfoParser.endElement(null, HostInfo.Fields.virtualbox_version, null);
+        hostInfoParser.endElement(null, HostInfo.Fields.VIRTUALBOX_VERSION, null);
         hostInfoParser.endElement(null, HostInfoParser.HOST_INFO_TAG, null);
 
-        expected.timezone = 1;
-        expected.domain_name = DOMAIN_NAME;
-        expected.ip_addr = IP_ADDRESS;
-        expected.host_cpid = HOST_CPID;
-        expected.p_ncpus = 1;
-        expected.p_vendor = VENDOR;
-        expected.p_model = MODEL;
-        expected.p_features = FEATURES;
-        expected.p_fpops = 1.5;
-        expected.p_iops = 1.5;
-        expected.p_membw = 1.5;
-        expected.p_calculated = 0L;
-        expected.product_name = PRODUCT_NAME;
-        expected.m_nbytes = BYTES_IN_1_GB;
-        expected.m_cache = BYTES_IN_1_GB;
-        expected.m_swap = BYTES_IN_1_GB;
-        expected.d_total = TOTAL_SPACE;
-        expected.d_free = FREE_SPACE;
-        expected.os_name = OS_NAME;
-        expected.os_version = OS_VERSION;
-        expected.virtualbox_version = VIRTUALBOX_VERSION;
+        expected.setTimezone(1);
+        expected.setDomainName(DOMAIN_NAME);
+        expected.setIpAddress(IP_ADDRESS);
+        expected.setHostCpid(HOST_CPID);
+        expected.setNoOfCPUs(1);
+        expected.setCpuVendor(VENDOR);
+        expected.setCpuModel(MODEL);
+        expected.setCpuFeatures(FEATURES);
+        expected.setCpuFloatingPointOps(1.5);
+        expected.setCpuIntegerOps(1.5);
+        expected.setCpuMembw(1.5);
+        expected.setCpuCalculated(0L);
+        expected.setProductName(PRODUCT_NAME);
+        expected.setMemoryInBytes(BYTES_IN_1_GB);
+        expected.setMemoryCache(BYTES_IN_1_GB);
+        expected.setMemorySwap(BYTES_IN_1_GB);
+        expected.setTotalDiskSpace(TOTAL_SPACE);
+        expected.setFreeDiskSpace(FREE_SPACE);
+        expected.setOsName(OS_NAME);
+        expected.setOsVersion(OS_VERSION);
+        expected.setVirtualBoxVersion(VIRTUALBOX_VERSION);
 
         assertEquals(expected, hostInfoParser.getHostInfo());
     }

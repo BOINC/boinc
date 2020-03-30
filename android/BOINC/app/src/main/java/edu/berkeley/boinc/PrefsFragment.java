@@ -210,7 +210,7 @@ public class PrefsFragment extends Fragment {
         }
         data.add(new PrefsListItemWrapperText(getActivity(), R.string.prefs_general_device_name_header,
                                               R.string.prefs_category_general,
-                                              BOINCActivity.monitor.getHostInfo().domain_name));
+                                              BOINCActivity.monitor.getHostInfo().getDomainName()));
 
         // Network
         data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_network,
@@ -252,7 +252,7 @@ public class PrefsFragment extends Fragment {
         // CPU
         if(advanced) {
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_cpu, true));
-            if(hostinfo.p_ncpus > 1) {
+            if(hostinfo.getNoOfCPUs() > 1) {
                 data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                         R.string.prefs_cpu_number_cpus_header,
                                                         R.string.prefs_category_cpu,
@@ -411,7 +411,7 @@ public class PrefsFragment extends Fragment {
                 }
                 return;
             }
-            slider.setMax(hostinfo.p_ncpus <= 1 ? 0 : hostinfo.p_ncpus - 1);
+            slider.setMax(hostinfo.getNoOfCPUs() <= 1 ? 0 : hostinfo.getNoOfCPUs() - 1);
             final int statusValue;
             slider.setProgress((statusValue = prefsListItemWrapperNumber.status.intValue()) <= 0 ?
                                0 :
@@ -677,19 +677,15 @@ public class PrefsFragment extends Fragment {
     }
 
     private double numberCpuCoresToPct(double ncpus) {
-        double pct = (ncpus / (double) hostinfo.p_ncpus) * 100;
+        double pct = (ncpus / (double) hostinfo.getNoOfCPUs()) * 100;
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "numberCpuCoresToPct: " + ncpus + hostinfo.p_ncpus + pct);
+            Log.d(Logging.TAG, "numberCpuCoresToPct: " + ncpus + hostinfo.getNoOfCPUs() + pct);
         }
         return pct;
     }
 
     private double pctCpuCoresToNumber(double pct) {
-        double ncpus = (double) hostinfo.p_ncpus * (pct / 100.0);
-        if(ncpus < 1.0) {
-            ncpus = 1.0;
-        }
-        return ncpus;
+        return Math.max(1.0, (double) hostinfo.getNoOfCPUs() * (pct / 100.0));
     }
 
     public Double parseInputValueToDouble(String input) {
