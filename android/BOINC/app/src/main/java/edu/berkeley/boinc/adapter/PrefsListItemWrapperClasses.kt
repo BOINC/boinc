@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -23,12 +23,34 @@ import android.util.Log
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
 
+open class PrefsListItemWrapper(var context: Context, var id: Int, val isCategory: Boolean) {
+    enum class DialogButtonType {
+        SLIDER, NUMBER, TEXT
+    }
+
+    var dialogButtonType: DialogButtonType? = null
+    var header: String? = null
+    var description = ""
+
+    // Constructor for elements
+    constructor(context: Context, id: Int) : this(context, id, false) {
+        header = context.getString(id)
+        if (id == R.string.prefs_power_source_header) {
+            description = context.getString(R.string.prefs_power_source_description)
+        }
+        // further description mapping see PrefsListItemWrapperNumber class
+    }
+}
+
+class PrefsListItemWrapperBool(context: Context?, id: Int?, var status: Boolean)
+    : PrefsListItemWrapper(context!!, id!!)
+
 class PrefsListItemWrapperNumber(
         context: Context?,
-        ID: Int,
+        id: Int,
         var status: Double,
         dialogButtonType: DialogButtonType?
-) : PrefsListItemWrapper(context!!, ID) {
+) : PrefsListItemWrapper(context!!, id) {
     enum class Unit {
         NONE, PERCENT, SECONDS, CELSIUS, MEGABYTES, GIGABYTES, DECIMAL
     }
@@ -36,7 +58,7 @@ class PrefsListItemWrapperNumber(
 
     init {
         super.dialogButtonType = dialogButtonType
-        mapStrings(ID)
+        mapStrings(id)
     }
 
     private fun mapStrings(id: Int) {
@@ -95,6 +117,23 @@ class PrefsListItemWrapperNumber(
             }
             else -> if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "PrefsListItemWrapperNumber map failed!")
+            }
+        }
+    }
+}
+
+class PrefsListItemWrapperText(context: Context?, id: Int, var status: String)
+    : PrefsListItemWrapper(context!!, id) {
+    init {
+        dialogButtonType = DialogButtonType.TEXT
+        mapStrings(id)
+    }
+
+    private fun mapStrings(id: Int) {
+        when (id) {
+            R.string.prefs_general_device_name_header -> description = ""
+            else -> if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "PrefsListItemWrapperText map failed!")
             }
         }
     }
