@@ -91,35 +91,35 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
 
                 // set status value or hide if 0
                 LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
-                if(item.status > 0) {
+                if(item.getStatus() > 0) {
                     statusWrapper.setVisibility(View.VISIBLE);
                     final String value;
-                    switch(item.unit) {
+                    switch(item.getUnit()) {
                         case NONE:
-                            value = NumberFormat.getIntegerInstance().format(item.status);
+                            value = NumberFormat.getIntegerInstance().format(item.getStatus());
                             break;
                         case PERCENT:
-                            value = NumberFormat.getPercentInstance().format(item.status / 100.0);
+                            value = NumberFormat.getPercentInstance().format(item.getStatus() / 100.0);
                             break;
                         case SECONDS:
-                            value = NumberFormat.getIntegerInstance().format(item.status) +
+                            value = NumberFormat.getIntegerInstance().format(item.getStatus()) +
                                     this.activity.getString(R.string.prefs_unit_seconds);
                             break;
                         case CELSIUS:
-                            value = NumberFormat.getInstance().format(item.status) +
+                            value = NumberFormat.getInstance().format(item.getStatus()) +
                                     this.activity.getString(R.string.prefs_unit_celsius);
                             break;
                         case MEGABYTES:
-                            value = Formatter.formatShortFileSize(this.activity, (long) (item.status * 0x100000));
+                            value = Formatter.formatShortFileSize(this.activity, (long) (item.getStatus() * 0x100000));
                             break;
                         case GIGABYTES:
-                            value = Formatter.formatShortFileSize(this.activity, (long) (item.status * 0x40000000));
+                            value = Formatter.formatShortFileSize(this.activity, (long) (item.getStatus() * 0x40000000));
                             break;
                         case DECIMAL:
-                            value = DecimalFormat.getNumberInstance().format(item.status);
+                            value = DecimalFormat.getNumberInstance().format(item.getStatus());
                             break;
                         default:
-                            value = NumberFormat.getInstance().format(item.status);
+                            value = NumberFormat.getInstance().format(item.getStatus());
                     }
                     ((TextView) v.findViewById(R.id.status)).setText(value);
                 }

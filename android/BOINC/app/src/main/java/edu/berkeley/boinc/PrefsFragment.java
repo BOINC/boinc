@@ -57,6 +57,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PrefsFragment extends Fragment {
+    private static final String VALUE_LOG = " value: ";
 
     private ListView lv;
     private PrefsListAdapter listAdapter;
@@ -314,7 +315,7 @@ public class PrefsFragment extends Fragment {
     // Requires updateLayout to be called afterwards
     private void updateBoolPreference(int ID, Boolean newValue) {
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + " value: " + newValue);
+            Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + VALUE_LOG + newValue);
         }
         for(PrefsListItemWrapper item : data) {
             if(item.getId() == ID) {
@@ -328,11 +329,11 @@ public class PrefsFragment extends Fragment {
     // Requires updateLayout to be called afterwards
     private void updateNumberPreference(int ID, Double newValue) {
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + " value: " + newValue);
+            Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + VALUE_LOG + newValue);
         }
         for(PrefsListItemWrapper item : data) {
             if(item.getId() == ID) {
-                ((PrefsListItemWrapperNumber) item).status = newValue;
+                ((PrefsListItemWrapperNumber) item).setStatus(newValue);
                 break; // The preferences updated one by one.
             }
         }
@@ -341,7 +342,7 @@ public class PrefsFragment extends Fragment {
     // Updates list item of text preference
     private void updateTextPreference(int ID, String newValue) {
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + " value: " + newValue);
+            Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + VALUE_LOG + newValue);
         }
         for(PrefsListItemWrapper item : data) {
             if(item.getId() == ID) {
@@ -361,8 +362,8 @@ public class PrefsFragment extends Fragment {
            prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_time_max_header ||
            prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_other_load_suspension_header ||
            prefsListItemWrapperNumber.getId() == R.string.prefs_memory_max_idle_header) {
-            Double seekBarDefault = prefsListItemWrapperNumber.status / 10;
-            slider.setProgress(seekBarDefault.intValue());
+            double seekBarDefault = prefsListItemWrapperNumber.getStatus() / 10;
+            slider.setProgress((int) seekBarDefault);
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
@@ -380,7 +381,7 @@ public class PrefsFragment extends Fragment {
                 }
             };
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener);
-            onSeekBarChangeListener.onProgressChanged(slider, seekBarDefault.intValue(), false);
+            onSeekBarChangeListener.onProgressChanged(slider, (int) seekBarDefault, false);
         }
         else if(prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_number_cpus_header) {
             if(!getHostInfo()) {
@@ -390,12 +391,8 @@ public class PrefsFragment extends Fragment {
                 return;
             }
             slider.setMax(hostinfo.getNoOfCPUs() <= 1 ? 0 : hostinfo.getNoOfCPUs() - 1);
-            final int statusValue;
-            slider.setProgress((statusValue = prefsListItemWrapperNumber.status.intValue()) <= 0 ?
-                               0 :
-                               statusValue - 1 > slider.getMax() ?
-                               slider.getMax() :
-                               statusValue - 1);
+            final int statusValue = (int) prefsListItemWrapperNumber.getStatus();
+            slider.setProgress(statusValue <= 0 ? 0 : Math.min(statusValue - 1, slider.getMax()));
             Log.d(Logging.TAG, String.format("statusValue == %,d", statusValue));
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -419,7 +416,7 @@ public class PrefsFragment extends Fragment {
         }
         else if(prefsListItemWrapperNumber.getId() == R.string.prefs_gui_log_level_header) {
             slider.setMax(5);
-            slider.setProgress(prefsListItemWrapperNumber.status.intValue());
+            slider.setProgress((int) prefsListItemWrapperNumber.getStatus());
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
@@ -437,13 +434,15 @@ public class PrefsFragment extends Fragment {
                 }
             };
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener);
-            onSeekBarChangeListener.onProgressChanged(slider, prefsListItemWrapperNumber.status.intValue(), false);
+            onSeekBarChangeListener.onProgressChanged(slider, (int) prefsListItemWrapperNumber.getStatus(),
+                                                      false);
         }
 
         setupDialogButtons(item, dialog);
     }
 
-    private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog) throws RemoteException {
+    private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog)
+            throws RemoteException {
         dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 
         if(item.getId() == R.string.prefs_client_log_flags_header) {
