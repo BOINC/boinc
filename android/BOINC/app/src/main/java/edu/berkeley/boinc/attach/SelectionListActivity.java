@@ -25,11 +25,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +43,7 @@ import android.widget.Toast;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.callbacks.BOINCNetworkCallback;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -47,18 +53,22 @@ import edu.berkeley.boinc.utils.Logging;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SelectionListActivity extends FragmentActivity {
 
     private ListView lv;
-    ArrayList<ProjectListEntry> entries = new ArrayList<>();
-    ArrayList<ProjectInfo> selected = new ArrayList<>();
+    List<ProjectListEntry> entries = new ArrayList<>();
+    List<ProjectInfo> selected = new ArrayList<>();
 
     // services
     private IMonitor monitor = null;
     private boolean mIsBound = false;
     private ProjectAttachService attachService = null;
     private boolean asIsBound = false;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private BOINCNetworkCallback networkCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,18 @@ public class SelectionListActivity extends FragmentActivity {
         }
 
         doBindService();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkCallback = new BOINCNetworkCallback();
+
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+            connectivityManager.registerNetworkCallback(
+                    new NetworkRequest.Builder()
+                            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                            .build(), networkCallback
+            );
+        }
 
         // setup layout
         setContentView(R.layout.attach_project_list_layout);
@@ -81,12 +103,19 @@ public class SelectionListActivity extends FragmentActivity {
             Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
         }
         doUnbindService();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+
+            connectivityManager.unregisterNetworkCallback(networkCallback);
+        }
         super.onDestroy();
     }
 
     // check whether user has checked at least a single project
     // shows toast otherwise
-    private Boolean checkProjectChecked() {
+    private boolean checkProjectChecked() {
         for(ProjectListEntry tmp : entries) {
             if(tmp.checked) {
                 return true;
@@ -104,10 +133,20 @@ public class SelectionListActivity extends FragmentActivity {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not guarantee connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    private boolean checkDeviceOnline() {
+        final boolean online;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            online = networkCallback.isOnline();
+        }
+        else {
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        }
+
         if(!online) {
             Toast toast =
                     Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
@@ -222,15 +261,15 @@ public class SelectionListActivity extends FragmentActivity {
         }
     }
 
-    private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, ArrayList<ProjectInfo>> {
+    private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, List<ProjectInfo>> {
         @Override
-        protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
-            ArrayList<ProjectInfo> data = null;
+        protected List<ProjectInfo> doInBackground(Void... arg0) {
+            List<ProjectInfo> data = null;
             boolean retry = true;
             // Try to get the project list for as long as the AsyncTask has not been canceled
             while(retry) {
                 try {
-                    data = (ArrayList<ProjectInfo>) monitor.getAttachableProjects();
+                    data = monitor.getAttachableProjects();
                 }
                 catch(RemoteException e) {
                     if(Log.isLoggable(Logging.TAG, Log.WARN)) {
@@ -281,7 +320,7 @@ public class SelectionListActivity extends FragmentActivity {
             return data;
         }
 
-        protected final void onPostExecute(final ArrayList<ProjectInfo> result) {
+        protected final void onPostExecute(final List<ProjectInfo> result) {
             if(result == null) {
                 return;
             }
@@ -310,7 +349,7 @@ public class SelectionListActivity extends FragmentActivity {
         }
     }
 
-    static final class ProjectListEntry implements Comparable<SelectionListActivity.ProjectListEntry> {
+    static final class ProjectListEntry implements Comparable<ProjectListEntry> {
         public ProjectInfo info;
         public boolean checked;
         public boolean am; //indicates that element is account manager entry
@@ -355,6 +394,7 @@ public class SelectionListActivity extends FragmentActivity {
          * @see ProjectInfo#name
          * @see Comparable
          */
+        @Override
         public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
             return (SelectionListActivity.ProjectListEntry.collator == null ?
                     SelectionListActivity.ProjectListEntry.getCollator() :
@@ -366,9 +406,9 @@ public class SelectionListActivity extends FragmentActivity {
          *
          * @return the preferred {@link Collator}
          */
-        static final Collator getCollator() {
-            final Collator collator;
-            (collator = Collator.getInstance()).setStrength(Collator.SECONDARY);
+        static Collator getCollator() {
+            final Collator collator = Collator.getInstance();
+            collator.setStrength(Collator.SECONDARY);
             collator.setDecomposition(Collator.NO_DECOMPOSITION);
             return collator;
         }

@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
@@ -39,10 +40,10 @@ import android.widget.TextView;
 
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
 
-    private ArrayList<ProjectListEntry> entries;
+    private List<ProjectListEntry> entries;
     private FragmentActivity activity;
 
-    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
+    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, List<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -50,7 +51,6 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View v;
 
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -100,7 +100,6 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
                 ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
                 dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
             });
-
         }
         return v;
     }
