@@ -60,10 +60,10 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
 
         PrefsListItemWrapper listItem = entries.get(position);
 
-        if(listItem.isCategory) { // item is category
+        if(listItem.isCategory()) { // item is category
             v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
             TextView header = v.findViewById(R.id.category_header);
-            header.setText(listItem.ID);
+            header.setText(listItem.getId());
         }
         else { // item is element
             // CheckBoxes
@@ -71,12 +71,12 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
                 CheckBox cb = v.findViewById(R.id.checkbox);
                 cb.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
-                BoolOnClick listener = frag.new BoolOnClick(listItem.ID, cb);
+                BoolOnClick listener = frag.new BoolOnClick(listItem.getId(), cb);
                 RelativeLayout wrapper = v.findViewById(R.id.checkbox_wrapper);
                 wrapper.setClickable(true);
                 wrapper.setOnClickListener(listener);
                 TextView header = v.findViewById(R.id.checkbox_text);
-                header.setText(((PrefsListItemWrapperBool) listItem).header);
+                header.setText(((PrefsListItemWrapperBool) listItem).getHeader());
             }
             // Number based items
             else if(listItem instanceof PrefsListItemWrapperNumber) {
@@ -85,9 +85,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 RelativeLayout wrapper = v.findViewById(R.id.wrapper);
                 wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
                 TextView header = v.findViewById(R.id.header);
-                header.setText(item.header);
+                header.setText(item.getHeader());
                 TextView description = v.findViewById(R.id.description);
-                description.setText(item.description);
+                description.setText(item.getDescription());
 
                 // set status value or hide if 0
                 LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
@@ -134,9 +134,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 RelativeLayout wrapper = v.findViewById(R.id.wrapper);
                 wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
                 TextView header = v.findViewById(R.id.header);
-                header.setText(item.header);
+                header.setText(item.getHeader());
                 TextView description = v.findViewById(R.id.description);
-                description.setText(item.description);
+                description.setText(item.getDescription());
 
                 LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                 statusWrapper.setVisibility(View.VISIBLE);
@@ -149,16 +149,16 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 RelativeLayout wrapper = v.findViewById(R.id.wrapper);
                 wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
                 TextView header = v.findViewById(R.id.header);
-                header.setText(listItem.header);
-                if(listItem.ID == R.string.prefs_client_log_flags_header) {
+                header.setText(listItem.getHeader());
+                if(listItem.getId() == R.string.prefs_client_log_flags_header) {
                     TextView description = v.findViewById(R.id.description);
                     description.setVisibility(View.GONE);
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                     statusWrapper.setVisibility(View.GONE);
                 }
-                else if(listItem.ID == R.string.prefs_power_source_header) {
+                else if(listItem.getId() == R.string.prefs_power_source_header) {
                     TextView description = v.findViewById(R.id.description);
-                    description.setText(listItem.description);
+                    description.setText(listItem.getDescription());
                     LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                     statusWrapper.setVisibility(View.GONE);
                 }

@@ -31,14 +31,14 @@ public class PrefsListItemWrapperText extends PrefsListItemWrapper {
     public PrefsListItemWrapperText(Context ctx, Integer ID, String status) {
         super(ctx, ID);
         this.status = status;
-        this.dialogButtonType = DialogButtonType.TEXT;
+        setDialogButtonType(DialogButtonType.TEXT);
         mapStrings(ID);
     }
 
     private void mapStrings(Integer id) {
         switch(id) {
             case R.string.prefs_general_device_name_header:
-                description = "";
+                setDescription("");
                 break;
             default:
                 if(Logging.DEBUG) {

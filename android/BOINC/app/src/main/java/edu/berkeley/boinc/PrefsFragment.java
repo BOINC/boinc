@@ -317,7 +317,7 @@ public class PrefsFragment extends Fragment {
             Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + " value: " + newValue);
         }
         for(PrefsListItemWrapper item : data) {
-            if(item.ID == ID) {
+            if(item.getId() == ID) {
                 ((PrefsListItemWrapperBool) item).setStatus(newValue);
                 break; // The preferences updated one by one.
             }
@@ -331,7 +331,7 @@ public class PrefsFragment extends Fragment {
             Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + " value: " + newValue);
         }
         for(PrefsListItemWrapper item : data) {
-            if(item.ID == ID) {
+            if(item.getId() == ID) {
                 ((PrefsListItemWrapperNumber) item).status = newValue;
                 break; // The preferences updated one by one.
             }
@@ -344,7 +344,7 @@ public class PrefsFragment extends Fragment {
             Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + " value: " + newValue);
         }
         for(PrefsListItemWrapper item : data) {
-            if(item.ID == ID) {
+            if(item.getId() == ID) {
                 ((PrefsListItemWrapperText) item).status = newValue;
                 break; // The preferences updated one by one.
             }
@@ -356,11 +356,11 @@ public class PrefsFragment extends Fragment {
         dialog.setContentView(R.layout.prefs_layout_dialog_pct);
         SeekBar slider = dialog.findViewById(R.id.seekbar);
 
-        if(prefsListItemWrapperNumber.ID == R.string.battery_charge_min_pct_header ||
-           prefsListItemWrapperNumber.ID == R.string.prefs_disk_max_pct_header ||
-           prefsListItemWrapperNumber.ID == R.string.prefs_cpu_time_max_header ||
-           prefsListItemWrapperNumber.ID == R.string.prefs_cpu_other_load_suspension_header ||
-           prefsListItemWrapperNumber.ID == R.string.prefs_memory_max_idle_header) {
+        if(prefsListItemWrapperNumber.getId() == R.string.battery_charge_min_pct_header ||
+           prefsListItemWrapperNumber.getId() == R.string.prefs_disk_max_pct_header ||
+           prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_time_max_header ||
+           prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_other_load_suspension_header ||
+           prefsListItemWrapperNumber.getId() == R.string.prefs_memory_max_idle_header) {
             Double seekBarDefault = prefsListItemWrapperNumber.status / 10;
             slider.setProgress(seekBarDefault.intValue());
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -382,7 +382,7 @@ public class PrefsFragment extends Fragment {
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener);
             onSeekBarChangeListener.onProgressChanged(slider, seekBarDefault.intValue(), false);
         }
-        else if(prefsListItemWrapperNumber.ID == R.string.prefs_cpu_number_cpus_header) {
+        else if(prefsListItemWrapperNumber.getId() == R.string.prefs_cpu_number_cpus_header) {
             if(!getHostInfo()) {
                 if(Logging.WARNING) {
                     Log.w(Logging.TAG, "onItemClick missing hostInfo");
@@ -417,7 +417,7 @@ public class PrefsFragment extends Fragment {
             slider.setOnSeekBarChangeListener(onSeekBarChangeListener);
             onSeekBarChangeListener.onProgressChanged(slider, statusValue - 1, false);
         }
-        else if(prefsListItemWrapperNumber.ID == R.string.prefs_gui_log_level_header) {
+        else if(prefsListItemWrapperNumber.getId() == R.string.prefs_gui_log_level_header) {
             slider.setMax(5);
             slider.setProgress(prefsListItemWrapperNumber.status.intValue());
             final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -446,7 +446,7 @@ public class PrefsFragment extends Fragment {
     private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog) throws RemoteException {
         dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 
-        if(item.ID == R.string.prefs_client_log_flags_header) {
+        if(item.getId() == R.string.prefs_client_log_flags_header) {
             final ArrayList<SelectionDialogOption> options = new ArrayList<>();
             String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
             for(String option : array) {
@@ -471,7 +471,7 @@ public class PrefsFragment extends Fragment {
                 dialog.dismiss();
             });
         }
-        else if(item.ID == R.string.prefs_power_source_header) {
+        else if(item.getId() == R.string.prefs_power_source_header) {
             final List<SelectionDialogOption> options = Arrays.asList(
                     new SelectionDialogOption(R.string.prefs_power_source_ac,
                                               BOINCActivity.monitor.getPowerSourceAc()),
@@ -527,17 +527,17 @@ public class PrefsFragment extends Fragment {
         Button confirm = dialog.findViewById(R.id.confirm);
         confirm.setOnClickListener(view -> {
             // Sliders
-            if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.SLIDER) {
+            if(item.getDialogButtonType() == PrefsListItemWrapper.DialogButtonType.SLIDER) {
                 SeekBar slider = dialog.findViewById(R.id.seekbar);
                 int sliderProgress = slider.getProgress();
                 double value;
 
                 // Calculate value based on Slider Progress
-                if(item.ID == R.string.prefs_cpu_number_cpus_header) {
+                if(item.getId() == R.string.prefs_cpu_number_cpus_header) {
                     value = numberCpuCoresToPct(sliderProgress <= 0 ? 1 : sliderProgress + 1);
-                    writeClientNumberPreference(item.ID, value);
+                    writeClientNumberPreference(item.getId(), value);
                 }
-                else if(item.ID == R.string.prefs_gui_log_level_header) {
+                else if(item.getId() == R.string.prefs_gui_log_level_header) {
                     try {
                         // Monitor and UI in two different processes. set static variable in both
                         Logging.setLogLevel(sliderProgress);
@@ -550,16 +550,16 @@ public class PrefsFragment extends Fragment {
                                   e);
                         }
                     }
-                    updateNumberPreference(item.ID, (double) sliderProgress);
+                    updateNumberPreference(item.getId(), (double) sliderProgress);
                     updateLayout();
                 }
                 else {
                     value = sliderProgress * 10;
-                    writeClientNumberPreference(item.ID, value);
+                    writeClientNumberPreference(item.getId(), value);
                 }
             }
             // Numbers
-            else if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.NUMBER) {
+            else if(item.getDialogButtonType() == PrefsListItemWrapper.DialogButtonType.NUMBER) {
                 EditText edit = dialog.findViewById(R.id.Input);
                 String input = edit.getText().toString();
                 Double valueTmp = parseInputValueToDouble(input);
@@ -567,13 +567,13 @@ public class PrefsFragment extends Fragment {
                     return;
                 }
                 double value = valueTmp;
-                writeClientNumberPreference(item.ID, value);
+                writeClientNumberPreference(item.getId(), value);
             }
             // Texts
-            else if(item.dialogButtonType == PrefsListItemWrapper.DialogButtonType.TEXT) {
+            else if(item.getDialogButtonType() == PrefsListItemWrapper.DialogButtonType.TEXT) {
                 EditText input = dialog.findViewById(R.id.Input);
 
-                if(item.ID == R.string.prefs_general_device_name_header) {
+                if(item.getId() == R.string.prefs_general_device_name_header) {
                     try {
                         if(!BOINCActivity.monitor.setDomainName(input.getText().toString())) {
                             if(Logging.DEBUG) {
@@ -588,7 +588,7 @@ public class PrefsFragment extends Fragment {
                     }
                 }
 
-                updateTextPreference(item.ID, input.getText().toString());
+                updateTextPreference(item.getId(), input.getText().toString());
             }
             dialog.dismiss();
         });
@@ -698,7 +698,6 @@ public class PrefsFragment extends Fragment {
     }
 
     public class BoolOnClick implements OnClickListener {
-
         private Integer ID;
         private CheckBox cb;
 
@@ -772,15 +771,15 @@ public class PrefsFragment extends Fragment {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             // setup dialog layout
-            switch(item.ID) {
+            switch(item.getId()) {
                 case R.string.prefs_general_device_name_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_text);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_network_daily_xfer_limit_mb_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_power_source_header:
@@ -795,51 +794,51 @@ public class PrefsFragment extends Fragment {
                     break;
                 case R.string.battery_charge_min_pct_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.battery_temperature_max_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_cpu_number_cpus_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.prefs_cpu_time_max_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.prefs_cpu_other_load_suspension_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.prefs_disk_max_pct_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.prefs_disk_min_free_gb_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_disk_access_interval_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_memory_max_idle_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 case R.string.prefs_other_store_at_least_x_days_of_work_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_client_log_flags_header:
@@ -854,11 +853,11 @@ public class PrefsFragment extends Fragment {
                     break;
                 case R.string.prefs_gui_log_level_header:
                     setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.ID);
+                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
                 default:
                     if(Logging.ERROR) {
-                        Log.d(Logging.TAG, "PrefsActivity onItemClick: could not map ID: " + item.ID);
+                        Log.d(Logging.TAG, "PrefsActivity onItemClick: could not map ID: " + item.getId());
                     }
                     return;
             }
