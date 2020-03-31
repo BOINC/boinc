@@ -27,6 +27,7 @@ import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -47,12 +48,13 @@ import edu.berkeley.boinc.utils.Logging;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SelectionListActivity extends FragmentActivity {
 
     private ListView lv;
-    ArrayList<ProjectListEntry> entries = new ArrayList<>();
-    ArrayList<ProjectInfo> selected = new ArrayList<>();
+    List<ProjectListEntry> entries = new ArrayList<>();
+    List<ProjectInfo> selected = new ArrayList<>();
 
     // services
     private IMonitor monitor = null;
@@ -104,10 +106,19 @@ public class SelectionListActivity extends FragmentActivity {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not guarantee connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    private boolean checkDeviceOnline() {
+        final ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+
+        final boolean online;
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        }
+        else {
+            online = connectivityManager.getActiveNetwork() != null;
+        }
         if(!online) {
             Toast toast =
                     Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);

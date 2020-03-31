@@ -40,11 +40,10 @@ import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
 import edu.berkeley.boinc.utils.Logging;
 
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
-
     private List<ProjectListEntry> entries;
     private FragmentActivity activity;
 
-    SelectionListAdapter(FragmentActivity a, int textViewResourceId, List<ProjectListEntry> entries) {
+    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, List<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
