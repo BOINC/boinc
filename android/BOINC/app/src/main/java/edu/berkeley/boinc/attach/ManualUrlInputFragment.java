@@ -20,14 +20,21 @@
 package edu.berkeley.boinc.attach;
 
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.callbacks.BOINCNetworkCallback;
 import edu.berkeley.boinc.utils.*;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,12 +46,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ManualUrlInputFragment extends DialogFragment {
-
     private EditText urlInputET;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private BOINCNetworkCallback networkCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.attach_project_manual_url_input_dialog, container, false);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkCallback = new BOINCNetworkCallback();
+
+            final Activity activity = getActivity();
+            assert activity != null;
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+            connectivityManager.registerNetworkCallback(
+                    new NetworkRequest.Builder()
+                            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                            .build(), networkCallback
+            );
+        }
 
         urlInputET = v.findViewById(R.id.url_input);
 
@@ -70,6 +94,21 @@ public class ManualUrlInputFragment extends DialogFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final Activity activity = getActivity();
+            assert activity != null;
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+
+            connectivityManager.unregisterNetworkCallback(networkCallback);
+        }
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
@@ -82,11 +121,22 @@ public class ManualUrlInputFragment extends DialogFragment {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not imply connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    private boolean checkDeviceOnline() {
+        final boolean online;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            online = networkCallback.isOnline();
+        }
+        else {
+            final Activity activity = getActivity();
+            assert activity != null;
+            final ConnectivityManager connectivityManager =
+                    (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert connectivityManager != null;
+            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        }
+
         if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
