@@ -25,10 +25,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 public class DeviceStatus {
 
@@ -81,8 +86,8 @@ public class DeviceStatus {
         this.screenOn = screenOn;
 
         Boolean change = determineBatteryStatus();
-        change = change | determineNetworkStatus();
-        change = change | determineUserActive();
+        change |= determineNetworkStatus();
+        change |= determineUserActive();
 
         if(change) {
             if(Logging.DEBUG) {
@@ -130,7 +135,7 @@ public class DeviceStatus {
      * @throws Exception if error occurs
      */
     private Boolean determineUserActive() throws Exception {
-        Boolean newUserActive = status.user_active;
+        Boolean newUserActive;
         int telStatus = telManager.getCallState();
 
         if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
@@ -149,36 +154,62 @@ public class DeviceStatus {
     }
 
     /**
-     * Determines type of currently active network. Treats Ethernet as Wifi.
+     * Determines type of currently active network. Treats Ethernet as WiFi.
      *
-     * @return true, if change since last run
-     * @throws Exception if error occurs
+     * @return true, if changed since last run
      */
-    private Boolean determineNetworkStatus() throws Exception {
-        Boolean change = false;
-        NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
-        int networkType = -1;
-        if(activeNetwork != null) {
-            networkType = activeNetwork.getType();
+    private boolean determineNetworkStatus() {
+        boolean change = false;
+        final boolean isWiFiOrEthernet;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isWiFiOrEthernet = isNetworkTypeWiFiOrEthernetOnAPI23AndHigher();
         }
-        if(networkType == ConnectivityManager.TYPE_WIFI || networkType == 9) { // 9 = ConnectivityManager.TYPE_ETHERNET
-            //wifi or ethernet is online
+        else {
+            int networkType = -1;
+            final NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+            if(activeNetwork != null) {
+                networkType = activeNetwork.getType();
+            }
+            isWiFiOrEthernet = networkType == ConnectivityManager.TYPE_WIFI ||
+                               networkType == ConnectivityManager.TYPE_ETHERNET;
+        }
+
+        if(isWiFiOrEthernet) {
+            // WiFi or ethernet is online
             if(!status.wifi_online) {
                 change = true; // if different from before, set flag
                 if(Logging.ERROR) {
-                    Log.d(Logging.TAG, "Unlmited internet connection - wifi or ethernet - found. type: " + networkType);
+                    Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
                 }
             }
             status.wifi_online = true;
         }
         else {
-            //wifi and ethernet are offline
+            // WiFi and ethernet are offline
             if(status.wifi_online) {
                 change = true; // if different from before, set flag
             }
             status.wifi_online = false;
         }
+
         return change;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isNetworkTypeWiFiOrEthernetOnAPI23AndHigher() {
+        final Network network = connManager.getActiveNetwork();
+
+        if (network != null) {
+            final NetworkCapabilities networkCapabilities = connManager
+                    .getNetworkCapabilities(network);
+            if (networkCapabilities != null) {
+                return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                       networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -246,7 +277,7 @@ public class DeviceStatus {
                 // treat all charging modes uniformly on client side,
                 // adapt on_ac_power according to power source preferences defined in manager
                 int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-                change = change | setAttributesForChargerType(plugged);
+                change |= setAttributesForChargerType(plugged);
             }
         }
         else {
