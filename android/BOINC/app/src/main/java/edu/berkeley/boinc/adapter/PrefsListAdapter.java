@@ -140,7 +140,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
 
                 LinearLayout statusWrapper = v.findViewById(R.id.status_wrapper);
                 statusWrapper.setVisibility(View.VISIBLE);
-                final String value = item.status;
+                final String value = item.getStatus();
                 ((TextView) v.findViewById(R.id.status)).setText(value);
             }
             // Lists

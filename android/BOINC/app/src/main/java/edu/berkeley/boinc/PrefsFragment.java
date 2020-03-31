@@ -346,7 +346,7 @@ public class PrefsFragment extends Fragment {
         }
         for(PrefsListItemWrapper item : data) {
             if(item.getId() == ID) {
-                ((PrefsListItemWrapperText) item).status = newValue;
+                ((PrefsListItemWrapperText) item).setStatus(newValue);
                 break; // The preferences updated one by one.
             }
         }
