@@ -314,8 +314,9 @@ public class ClientInterfaceImplementation extends RpcClient {
     public Boolean transferOperation(ArrayList<Transfer> transfers, int operation) {
         Boolean success = true;
         for (Transfer transfer : transfers) {
-            success = success && transferOp(operation, transfer.project_url, transfer.name);
-            if (Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.name + " " + success);
+            success = success && transferOp(operation, transfer.getProjectUrl(), transfer.getName());
+            if (Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.getName() + " " +
+                                                  success);
         }
         return success;
     }

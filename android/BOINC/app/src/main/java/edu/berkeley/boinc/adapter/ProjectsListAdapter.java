@@ -224,7 +224,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 Boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
                 for(Transfer trans : data.projectTransfers) {
-                    if(trans.is_upload) {
+                    if(trans.isUpload()) {
                         numberTransfersUpload++;
                         uploadsPresent = true;
                     }
@@ -232,11 +232,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                         numberTransfersDownload++;
                         downloadsPresent = true;
                     }
-                    if(trans.xfer_active) {
+                    if(trans.isTransferActive()) {
                         transfersActive = true;
                     }
-                    else if(trans.next_request_time < nextRetryS || nextRetryS == 0) {
-                        nextRetryS = trans.next_request_time;
+                    else if(trans.getNextRequestTime() < nextRetryS || nextRetryS == 0) {
+                        nextRetryS = trans.getNextRequestTime();
                     }
                 }
 

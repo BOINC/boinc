@@ -281,7 +281,7 @@ public class ProjectsFragment extends Fragment {
     private ArrayList<Transfer> mapTransfersToProject(String id, ArrayList<Transfer> allTransfers) {
         ArrayList<Transfer> projectTransfers = new ArrayList<>();
         for(Transfer trans : allTransfers) {
-            if(trans.project_url.equals(id)) {
+            if(trans.getProjectUrl().equals(id)) {
                 // project id matches url in transfer, add to list
                 projectTransfers.add(trans);
             }

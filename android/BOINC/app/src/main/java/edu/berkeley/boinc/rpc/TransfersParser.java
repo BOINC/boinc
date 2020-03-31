@@ -69,7 +69,7 @@ public class TransfersParser extends BaseParser {
         else if(localName.equalsIgnoreCase(FILE_XFER_TAG)) {
             // Just constructor, flag should be set if it's present
             if(mTransfer != null) {
-                mTransfer.xfer_active = true;
+                mTransfer.setTransferActive(true);
             }
         }
         else if(localName.equalsIgnoreCase("persistent_file_xfer")) {
@@ -93,7 +93,7 @@ public class TransfersParser extends BaseParser {
                 // We are inside <file_transfer>
                 if(localName.equalsIgnoreCase(FILE_TRANSFER_TAG)) {
                     // Closing tag of <project> - add to list and be ready for next one
-                    if(!mTransfer.project_url.isEmpty() && !mTransfer.name.isEmpty()) {
+                    if(!mTransfer.getProjectUrl().isEmpty() && !mTransfer.getName().isEmpty()) {
                         // project_url is a must
                         mTransfers.add(mTransfer);
                     }
@@ -103,51 +103,51 @@ public class TransfersParser extends BaseParser {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
                     if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_URL)) {
-                        mTransfer.project_url = mCurrentElement.toString();
+                        mTransfer.setProjectUrl(mCurrentElement.toString());
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
-                        mTransfer.name = mCurrentElement.toString();
+                        mTransfer.setName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.generated_locally)) {
-                        mTransfer.generated_locally = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.GENERATED_LOCALLY)) {
+                        mTransfer.setGeneratedLocally(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.is_upload)) {
-                        mTransfer.is_upload = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.IS_UPLOAD)) {
+                        mTransfer.setUpload(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.nbytes)) {
-                        mTransfer.nbytes = (long) Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.NBYTES)) {
+                        mTransfer.setNoOfBytes((long) Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.status)) {
-                        mTransfer.status = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.STATUS)) {
+                        mTransfer.setStatus(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.time_so_far)) {
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.TIME_SO_FAR)) {
                         // inside <persistent_file_xfer>
-                        mTransfer.time_so_far = (long) Double.parseDouble(mCurrentElement.toString());
+                        mTransfer.setTimeSoFar((long) Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.next_request_time)) {
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.NEXT_REQUEST_TIME)) {
                         // inside <persistent_file_xfer>
-                        mTransfer.next_request_time = (long) Double.parseDouble(mCurrentElement.toString());
+                        mTransfer.setNextRequestTime((long) Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(LAST_BYTES_XFERRED_TAG)) {
                         // inside <persistent_file_xfer>
                         // See also <bytes_xferred> below, both are setting the same parameters
-                        if(mTransfer.bytes_xferred == 0) {
+                        if(mTransfer.getBytesTransferred() == 0) {
                             // Not set yet
-                            mTransfer.bytes_xferred = (long) Double.parseDouble(mCurrentElement.toString());
+                            mTransfer.setBytesTransferred((long) Double.parseDouble(mCurrentElement.toString()));
                         }
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.bytes_xferred)) {
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.BYTES_XFERRED)) {
                         // Total bytes transferred, but this info is not available if networking
                         // is suspended. This info is present only inside <file_xfer> (active transfer)
                         // In such case we overwrite value set by <last_bytes_xferred>
-                        mTransfer.bytes_xferred = (long) Double.parseDouble(mCurrentElement.toString());
+                        mTransfer.setBytesTransferred((long) Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.xfer_speed)) {
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.XFER_SPEED)) {
                         // inside <file_xfer>
-                        mTransfer.xfer_speed = Float.parseFloat(mCurrentElement.toString());
+                        mTransfer.setTransferSpeed(Float.parseFloat(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Transfer.Fields.project_backoff)) {
-                        mTransfer.project_backoff = (long) Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Transfer.Fields.PROJECT_BACKOFF)) {
+                        mTransfer.setProjectBackoff((long) Double.parseDouble(mCurrentElement.toString()));
                     }
                 }
             }
