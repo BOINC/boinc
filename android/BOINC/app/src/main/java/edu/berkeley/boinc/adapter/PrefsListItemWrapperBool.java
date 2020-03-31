@@ -21,13 +21,10 @@ package edu.berkeley.boinc.adapter;
 import android.content.Context;
 
 public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
-
-    //private final String TAG = "PrefsListItemWrapperBool";
-
     private Boolean status;
 
-    public PrefsListItemWrapperBool(Context ctx, Integer ID, Integer categoryID, Boolean status) {
-        super(ctx, ID, categoryID);
+    public PrefsListItemWrapperBool(Context ctx, Integer ID, Boolean status) {
+        super(ctx, ID);
         this.status = status;
     }
 

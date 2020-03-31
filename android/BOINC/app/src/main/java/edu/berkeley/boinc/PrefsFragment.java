@@ -195,33 +195,26 @@ public class PrefsFragment extends Fragment {
         // General
         data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_general, true));
         data.add(new PrefsListItemWrapperBool(getActivity(), R.string.prefs_autostart_header,
-                                              R.string.prefs_category_general,
                                               BOINCActivity.monitor.getAutostart()));
         data.add(new PrefsListItemWrapperBool(getActivity(), R.string.prefs_show_notification_notices_header,
-                                              R.string.prefs_category_general,
                                               BOINCActivity.monitor.getShowNotificationForNotices()));
         data.add(new PrefsListItemWrapperBool(getActivity(), R.string.prefs_show_advanced_header,
-                                              R.string.prefs_category_general,
                                               BOINCActivity.monitor.getShowAdvanced()));
         if(!stationaryDeviceMode) {
             data.add(new PrefsListItemWrapperBool(getActivity(), R.string.prefs_suspend_when_screen_on,
-                                                  R.string.prefs_category_general,
                                                   BOINCActivity.monitor.getSuspendWhenScreenOn()));
         }
         data.add(new PrefsListItemWrapperText(getActivity(), R.string.prefs_general_device_name_header,
-                                              R.string.prefs_category_general,
                                               BOINCActivity.monitor.getHostInfo().getDomainName()));
 
         // Network
         data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_network,
                                           true));
         data.add(new PrefsListItemWrapperBool(getActivity(), R.string.prefs_network_wifi_only_header,
-                                              R.string.prefs_category_network,
                                               clientPrefs.getNetworkWiFiOnly()));
         if(advanced) {
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_network_daily_xfer_limit_mb_header,
-                                                    R.string.prefs_category_network,
                                                     clientPrefs.getDailyTransferLimitMB(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
         }
@@ -231,19 +224,15 @@ public class PrefsFragment extends Fragment {
         if(stationaryDeviceSuspected) { // API indicates that there is no battery, offer opt-in preference for stationary device mode
             data.add(new PrefsListItemWrapperBool(getActivity(),
                                                   R.string.prefs_stationary_device_mode_header,
-                                                  R.string.prefs_category_power,
                                                   BOINCActivity.monitor.getStationaryDeviceMode()));
         }
         if(!stationaryDeviceMode) { // Client would compute regardless of battery preferences, so only show if that is not the case
-            data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_power_source_header,
-                                              R.string.prefs_category_power));
+            data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_power_source_header));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.battery_charge_min_pct_header,
-                                                    R.string.prefs_category_power,
                                                     clientPrefs.getBatteryChargeMinPct(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
             if(advanced) {
                 data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.battery_temperature_max_header,
-                                                        R.string.prefs_category_power,
                                                         clientPrefs.getBatteryMaxTemperature(),
                                                         PrefsListItemWrapper.DialogButtonType.NUMBER));
             }
@@ -255,16 +244,13 @@ public class PrefsFragment extends Fragment {
             if(hostinfo.getNoOfCPUs() > 1) {
                 data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                         R.string.prefs_cpu_number_cpus_header,
-                                                        R.string.prefs_category_cpu,
                                                         pctCpuCoresToNumber(clientPrefs.getMaxNoOfCPUsPct()),
                                                         PrefsListItemWrapper.DialogButtonType.SLIDER));
             }
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_cpu_time_max_header,
-                                                    R.string.prefs_category_cpu,
                                                     clientPrefs.getCpuUsageLimit(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_cpu_other_load_suspension_header,
-                                                    R.string.prefs_category_cpu,
                                                     clientPrefs.getSuspendCpuUsage(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
         }
@@ -273,15 +259,12 @@ public class PrefsFragment extends Fragment {
         if(advanced) {
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_storage, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_max_pct_header,
-                                                    R.string.prefs_category_storage,
                                                     clientPrefs.getDiskMaxUsedPct(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_min_free_gb_header,
-                                                    R.string.prefs_category_storage,
                                                     clientPrefs.getDiskMinFreeGB(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_access_interval_header,
-                                                    R.string.prefs_category_storage,
                                                     clientPrefs.getDiskInterval(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
         }
@@ -292,7 +275,6 @@ public class PrefsFragment extends Fragment {
                                               true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_memory_max_idle_header,
-                                                    R.string.prefs_category_memory,
                                                     clientPrefs.getRamMaxUsedIdleFrac(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
         }
@@ -302,12 +284,10 @@ public class PrefsFragment extends Fragment {
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_other, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_other_store_at_least_x_days_of_work_header,
-                                                    R.string.prefs_category_other,
                                                     clientPrefs.getWorkBufMinDays(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,
-                                                    R.string.prefs_category_other,
                                                     clientPrefs.getWorkBufAdditionalDays(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
         }
@@ -316,10 +296,8 @@ public class PrefsFragment extends Fragment {
         if(advanced) {
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_debug,
                                               true));
-            data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_client_log_flags_header,
-                                              R.string.prefs_category_debug));
+            data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_client_log_flags_header));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_gui_log_level_header,
-                                                    R.string.prefs_category_debug,
                                                     (double) BOINCActivity.monitor.getLogLevel(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
         }

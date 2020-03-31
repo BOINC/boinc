@@ -28,8 +28,8 @@ import edu.berkeley.boinc.utils.Logging;
 public class PrefsListItemWrapperText extends PrefsListItemWrapper {
     public String status;
 
-    public PrefsListItemWrapperText(Context ctx, Integer ID, Integer categoryID, String status) {
-        super(ctx, ID, categoryID);
+    public PrefsListItemWrapperText(Context ctx, Integer ID, String status) {
+        super(ctx, ID);
         this.status = status;
         this.dialogButtonType = DialogButtonType.TEXT;
         mapStrings(ID);

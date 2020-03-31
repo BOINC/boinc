@@ -29,26 +29,23 @@ public class PrefsListItemWrapper {
         TEXT
     }
 
-    public PrefsListItemWrapperNumber.DialogButtonType dialogButtonType;
+    public DialogButtonType dialogButtonType;
 
     public Context ctx;
     public Integer ID;
-    public Integer categoryID;
     public Boolean isCategory;
     public String header;
     public String description = "";
 
     // Constructor for elements
-    public PrefsListItemWrapper(Context ctx, Integer ID, Integer categoryID) {
+    public PrefsListItemWrapper(Context ctx, Integer ID) {
         this.ctx = ctx;
         this.ID = ID;
         this.header = ctx.getString(ID);
-        this.categoryID = categoryID;
         this.isCategory = false;
 
-        switch(ID) {
-            case R.string.prefs_power_source_header:
-                description = ctx.getString(R.string.prefs_power_source_description);
+        if(ID == R.string.prefs_power_source_header) {
+            description = ctx.getString(R.string.prefs_power_source_description);
         }
         // further description mapping see PrefsListItemWrapperNumber class
     }
