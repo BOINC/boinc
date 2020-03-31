@@ -506,7 +506,7 @@ public class RpcClient {
             return ProjectsParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getProjectStatus()", e);
-            return null;
+            return Collections.emptyList();
         }
     }
 
