@@ -73,12 +73,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     }
 
     public String getName(int position) {
-        return entries.get(position).project.project_name;
+        return entries.get(position).project.getProjectName();
     }
 
     public String getUser(int position) {
-        String user = entries.get(position).project.user_name;
-        String team = entries.get(position).project.team_name;
+        String user = entries.get(position).project.getUserName();
+        String team = entries.get(position).project.getTeamName();
 
         if(!team.isEmpty()) {
             return (user + " (" + team + ")");
@@ -178,7 +178,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             String statusText = "";
             try {
-                statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);
+                statusText = BOINCActivity.monitor.getProjectStatus(data.project.getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.ERROR) {
@@ -287,8 +287,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // credits
-            final long userCredit = Math.round(data.project.user_total_credit),
-                    hostCredit = Math.round(data.project.host_total_credit);
+            final long userCredit = Math.round(data.project.getUserTotalCredit()),
+                    hostCredit = Math.round(data.project.getHostTotalCredit());
             ((TextView) vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
                                                                        NumberFormat.getIntegerInstance().format(hostCredit) :
                                                                        this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
@@ -307,7 +307,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
-            if(data.project.attached_via_acct_mgr) {
+            if(data.project.getAttachedViaAcctMgr()) {
                 iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
             }
             else {

@@ -38,12 +38,11 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class NavDrawerListAdapter extends BaseAdapter {
-
-    //private final String TAG = "NavDrawerListAdapter";
     private Context context;
-    private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<>();
+    private List<NavDrawerItem> navDrawerItems = new ArrayList<>();
 
     public int selectedMenuId = 0;
 
@@ -188,7 +187,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
      * @param projects Project list
      * @return Returns number of project items in nav bar after adding
      */
-    public Integer compareAndAddProjects(ArrayList<Project> projects) {
+    public Integer compareAndAddProjects(List<Project> projects) {
         // delete all old projects from nav items
         Iterator<NavDrawerItem> it = navDrawerItems.iterator();
         while(it.hasNext()) {
@@ -202,7 +201,9 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
         for(Project project : projects) {
             NavDrawerItem newProjectItem =
-                    new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
+                    new NavDrawerItem(project.getProjectName(),
+                                      getProjectIconForMasterUrl(project.getMasterURL()),
+                                      project.getMasterURL());
             navDrawerItems.add(3, newProjectItem);
             numberAdded++;
         }

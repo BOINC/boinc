@@ -48,8 +48,8 @@ public class CcStateTest {
         AppVersion appVersion = new AppVersion();
         WorkUnit workUnit = new WorkUnit();
 
-        project.master_url = URL_1;
-        project1.master_url = URL_1;
+        project.setMasterURL(URL_1);
+        project1.setMasterURL(URL_1);
 
         app.setName("App");
         app1.setName("App");
@@ -89,7 +89,7 @@ public class CcStateTest {
     @Test
     public void testLookupApp_whenAppListHasOneAppAndProjectDoesntMatch_thenExpectNull() {
         Project project1 = new Project();
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupApp(project1, "App"));
     }
@@ -97,7 +97,7 @@ public class CcStateTest {
     @Test
     public void testLookupApp_whenAppListHasOneAppAndAppNameDoesntMatch_thenExpectNull() {
         Project project1 = new Project();
-        project1.master_url = URL_1;
+        project1.setMasterURL(URL_1);
 
         assertNull(ccState.lookupApp(project1, "App 2"));
     }
@@ -125,7 +125,7 @@ public class CcStateTest {
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndProjectDoesntMatch_thenExpectNull() {
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupWorkUnit(project1, "Work Unit"));
     }
@@ -158,7 +158,7 @@ public class CcStateTest {
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndProjectDoesntMatch_thenExpectNull() {
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }

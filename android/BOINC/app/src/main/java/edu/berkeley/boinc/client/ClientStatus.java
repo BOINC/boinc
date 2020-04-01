@@ -323,36 +323,36 @@ public class ClientStatus {
     public synchronized String getProjectStatus(String master_url) {
         StringBuffer sb = new StringBuffer();
         for(Project project : projects) {
-            if(!project.master_url.equals(master_url)) {
+            if(!project.getMasterURL().equals(master_url)) {
                 continue;
             }
 
-            if(project.suspended_via_gui) {
+            if(project.getSuspendedViaGUI()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
             }
-            if(project.dont_request_more_work) {
+            if(project.getDoNotRequestMoreWork()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_dontrequestmorework));
             }
-            if(project.ended) {
+            if(project.getEnded()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_ended));
             }
-            if(project.detach_when_done) {
+            if(project.getDetachWhenDone()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_detachwhendone));
             }
-            if(project.sched_rpc_pending > 0) {
+            if(project.getScheduledRPCPending() > 0) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcpending));
-                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.sched_rpc_pending));
+                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.getScheduledRPCPending()));
             }
-            if(project.scheduler_rpc_in_progress) {
+            if(project.getSchedulerRPCInProgress()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcinprogress));
             }
-            if(project.trickle_up_pending) {
+            if(project.getTrickleUpPending()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
             }
 
             Calendar minRPCTime = Calendar.getInstance();
             Calendar now = Calendar.getInstance();
-            minRPCTime.setTimeInMillis((long) project.min_rpc_time * 1000);
+            minRPCTime.setTimeInMillis((long) project.getMinRPCTime() * 1000);
             if(minRPCTime.compareTo(now) > 0) {
                 appendToStatus(
                         sb,
@@ -394,11 +394,11 @@ public class ClientStatus {
     public synchronized List<ImageWrapper> getSlideshowForProject(String masterUrl) {
         List<ImageWrapper> images = new ArrayList<>();
         for(Project project : projects) {
-            if(!project.master_url.equals(masterUrl)) {
+            if(!project.getMasterURL().equals(masterUrl)) {
                 continue;
             }
             // get file paths of soft link files
-            File dir = new File(project.project_dir);
+            File dir = new File(project.getProjectDir());
             File[] foundFiles = dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
                                                               && !name.endsWith(".png"));
             if(foundFiles == null) {
@@ -407,7 +407,8 @@ public class ClientStatus {
 
             List<String> allImagePaths = new ArrayList<>();
             for(File file : foundFiles) {
-                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
+                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(),
+                                                                   project.getProjectDir());
                 //check whether path is not empty, and avoid duplicates (slideshow images can
                 //re-occur for multiple apps, since we do not distinct apps, skip duplicates.
                 if(slideshowImagePath != null && !slideshowImagePath.isEmpty() &&
@@ -420,7 +421,7 @@ public class ClientStatus {
             for(String filePath : allImagePaths) {
                 Bitmap tmp = BitmapFactory.decodeFile(filePath);
                 if(tmp != null) {
-                    images.add(new ImageWrapper(tmp, project.project_name, filePath));
+                    images.add(new ImageWrapper(tmp, project.getProjectName(), filePath));
                 }
                 else if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "loadSlideshowImagesFromFile(): null for path: " + filePath);
@@ -439,13 +440,15 @@ public class ClientStatus {
         try {
             // loop through all projects
             for(Project project : projects) {
-                if(project.master_url.equals(masterUrl)) {
+                if(project.getMasterURL().equals(masterUrl)) {
                     // read file name of icon
                     String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
                     if(iconAbsPath == null) {
                         if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " + masterUrl);
+                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
+                                               masterUrl);
                         }
                         return null;
                     }
@@ -473,14 +476,16 @@ public class ClientStatus {
         try {
             // loop through all projects
             for(Project project : projects) {
-                if(project.project_name.equals(projectName)) {
+                if(project.getProjectName().equals(projectName)) {
                     // read file name of icon
                     String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
                     if(iconAbsPath == null) {
                         if(Logging.VERBOSE) {
                             Log.v(Logging.TAG,
-                                  "getProjectIconByName could not parse sym link for project: " + projectName);
+                                  "getProjectIconByName could not parse sym link for project: " +
+                                  projectName);
                         }
                         return null;
                     }

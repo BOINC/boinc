@@ -21,6 +21,7 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -34,6 +35,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -59,11 +62,10 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.RpcClient;
 
 public class ProjectDetailsFragment extends Fragment {
-
     private String url;
     private ProjectInfo projectInfo; // might be null for projects added via manual URL attach
     private Project project;
-    private ArrayList<ImageWrapper> slideshowImages = new ArrayList<>();
+    private List<ImageWrapper> slideshowImages = new ArrayList<>();
 
     private LayoutInflater li;
     private View root;
@@ -84,7 +86,6 @@ public class ProjectDetailsFragment extends Fragment {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatusChange - onReceive()");
             getCurrentProjectData();
             if(retryLayout) {
                 populateLayout();
@@ -92,7 +93,6 @@ public class ProjectDetailsFragment extends Fragment {
             else {
                 updateChangingItems(root);
             }
-
         }
     };
 
@@ -107,7 +107,7 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "ProjectDetailsFragment onCreateView");
         }
@@ -161,7 +161,7 @@ public class ProjectDetailsFragment extends Fragment {
 
         // no new tasks, adapt based on status
         MenuItem nnt = menu.findItem(R.id.projects_control_nonewtasks);
-        if(project.dont_request_more_work) {
+        if(project.getDoNotRequestMoreWork()) {
             nnt.setTitle(R.string.projects_control_allownewtasks);
         }
         else {
@@ -170,7 +170,7 @@ public class ProjectDetailsFragment extends Fragment {
 
         // project suspension, adapt based on status
         MenuItem suspend = menu.findItem(R.id.projects_control_suspend);
-        if(project.suspended_via_gui) {
+        if(project.getSuspendedViaGUI()) {
             suspend.setTitle(R.string.projects_control_resume);
         }
         else {
@@ -179,7 +179,7 @@ public class ProjectDetailsFragment extends Fragment {
 
         // detach, only show when project not managed
         MenuItem remove = menu.findItem(R.id.projects_control_remove);
-        if(project.attached_via_acct_mgr) {
+        if(project.getAttachedViaAcctMgr()) {
             remove.setVisible(false);
         }
     }
@@ -191,7 +191,7 @@ public class ProjectDetailsFragment extends Fragment {
                 new ProjectOperationAsync().execute(RpcClient.PROJECT_UPDATE);
                 break;
             case R.id.projects_control_suspend:
-                if(project.suspended_via_gui) {
+                if(project.getSuspendedViaGUI()) {
                     new ProjectOperationAsync().execute(RpcClient.PROJECT_RESUME);
                 }
                 else {
@@ -199,7 +199,7 @@ public class ProjectDetailsFragment extends Fragment {
                 }
                 break;
             case R.id.projects_control_nonewtasks:
-                if(project.dont_request_more_work) {
+                if(project.getDoNotRequestMoreWork()) {
                     new ProjectOperationAsync().execute(RpcClient.PROJECT_ANW);
                 }
                 else {
@@ -236,7 +236,7 @@ public class ProjectDetailsFragment extends Fragment {
             tvTitle.setText(getString(R.string.projects_confirm_title, removeStr));
             tvMessage.setText(getString(R.string.projects_confirm_message,
                                         removeStr.toLowerCase(),
-                                        project.project_name + " "
+                                        project.getProjectName() + " "
                                         + getString(R.string.projects_confirm_detach_message)));
             confirm.setText(removeStr);
         }
@@ -245,7 +245,7 @@ public class ProjectDetailsFragment extends Fragment {
 
             tvTitle.setText(getString(R.string.projects_confirm_title, resetStr));
             tvMessage.setText(getString(R.string.projects_confirm_message, resetStr.toLowerCase(),
-                                        project.project_name));
+                                        project.getProjectName()));
             confirm.setText(resetStr);
         }
 
@@ -259,7 +259,6 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     private void populateLayout() {
-
         if(project == null) {
             retryLayout = true;
             return; // if data not available yet, return. frequently retrys with onReceive
@@ -276,11 +275,11 @@ public class ProjectDetailsFragment extends Fragment {
 
         // set website
         TextView website = v.findViewById(R.id.project_url);
-        SpannableString content = new SpannableString(project.master_url);
+        SpannableString content = new SpannableString(project.getMasterURL());
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         website.setText(content);
         website.setOnClickListener(view -> {
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.master_url));
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(project.getMasterURL()));
             startActivity(i);
         });
 
@@ -332,7 +331,7 @@ public class ProjectDetailsFragment extends Fragment {
         try {
             ArrayList<Project> allProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
             for(Project tmpP : allProjects) {
-                if(tmpP.master_url.equals(url)) {
+                if(tmpP.getMasterURL().equals(url)) {
                     this.project = tmpP;
                 }
             }
@@ -361,7 +360,7 @@ public class ProjectDetailsFragment extends Fragment {
     private void updateChangingItems(View v) {
         try {
             // status
-            String newStatus = BOINCActivity.monitor.getProjectStatus(project.master_url);
+            String newStatus = BOINCActivity.monitor.getProjectStatus(project.getMasterURL());
             LinearLayout wrapper = v.findViewById(R.id.status_wrapper);
             if(!newStatus.isEmpty()) {
                 wrapper.setVisibility(View.VISIBLE);
@@ -390,7 +389,7 @@ public class ProjectDetailsFragment extends Fragment {
             }
             try {
                 Integer operation = (Integer) params[0];
-                return BOINCActivity.monitor.projectOp(operation, project.master_url);
+                return BOINCActivity.monitor.projectOp(operation, project.getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.WARNING) {
@@ -424,12 +423,12 @@ public class ProjectDetailsFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG,
-                      "UpdateSlideshowImagesAsync updating images in new thread. project: " + project.master_url);
+                      "UpdateSlideshowImagesAsync updating images in new thread. project: " +
+                      project.getMasterURL());
             }
             try {
-                //status  = Monitor.getClientStatus();
                 slideshowImages =
-                        (ArrayList<ImageWrapper>) BOINCActivity.monitor.getSlideshowForProject(project.master_url);
+                        BOINCActivity.monitor.getSlideshowForProject(project.getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.WARNING) {
@@ -437,9 +436,7 @@ public class ProjectDetailsFragment extends Fragment {
                 }
                 return false;
             }
-            // load slideshow images
-            // slideshowImages = status.getSlideshowForProject(project.master_url);
-            return (slideshowImages != null && slideshowImages.size() != 0);
+            return !slideshowImages.isEmpty();
         }
 
         @Override
@@ -449,7 +446,7 @@ public class ProjectDetailsFragment extends Fragment {
                       "UpdateSlideshowImagesAsync success: " + success + " images: " + slideshowImages.size());
             }
 
-            if(success && slideshowImages.size() > 0) {
+            if(success && !slideshowImages.isEmpty()) {
                 slideshowLoading.setVisibility(View.GONE);
                 for(ImageWrapper image : slideshowImages) {
                     ImageView iv = (ImageView) li.inflate(R.layout.project_details_slideshow_image_layout, null);

@@ -283,17 +283,17 @@ public class CcStateParserTest {
         ccStateParser.characters("GUI URL URL".toCharArray(), 0, "GUI URL URL".length());
         ccStateParser.endElement(null, RPCCommonTags.URL, null);
         ccStateParser.endElement(null, RPCCommonTags.GUI_URL, null);
-        ccStateParser.startElement(null, Project.Fields.no_ati_pref, null, null);
+        ccStateParser.startElement(null, Project.Fields.NO_ATI_PREF, null, null);
         ccStateParser.characters("1".toCharArray(), 0, 1);
-        ccStateParser.endElement(null, Project.Fields.no_ati_pref, null);
+        ccStateParser.endElement(null, Project.Fields.NO_ATI_PREF, null);
         ccStateParser.endElement(null, RPCCommonTags.PROJECT, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
         final Project expectedProject = new Project();
-        expectedProject.master_url = "Master URL";
-        expectedProject.gui_urls.add(new GuiUrl("GUI URL Name", "GUI URL Description",
-                                                "GUI URL URL"));
-        expectedProject.no_ati_pref = true;
+        expectedProject.setMasterURL("Master URL");
+        expectedProject.getGuiURLs().add(new GuiUrl("GUI URL Name", "GUI URL Description",
+                                               "GUI URL URL"));
+        expectedProject.setNoATIPref(true);
 
         expected.getProjects().add(expectedProject);
 

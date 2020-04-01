@@ -22,6 +22,7 @@ import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -164,8 +165,8 @@ public class ProjectsFragment extends Fragment {
         }
     }
 
-    private void updateData(ArrayList<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo, ArrayList<Notice> serverNotices, ArrayList<Transfer> ongoingTransfers) {
-
+    private void updateData(List<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo,
+                            List<Notice> serverNotices, List<Transfer> ongoingTransfers) {
         // ACCOUNT MANAGER
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
         int mgrIndex = -1;
@@ -207,25 +208,31 @@ public class ProjectsFragment extends Fragment {
             //check whether this project is new
             int index = -1;
             for(int x = 0; x < data.size(); x++) {
-                if(rpcResult.master_url.equals(data.get(x).id)) {
+                if(rpcResult.getMasterURL().equals(data.get(x).id)) {
                     index = x;
                     break;
                 }
             }
             if(index < 0) { // Project is new, add
                 if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "New project found, id: " + rpcResult.master_url + ", managed: " +
-                                       rpcResult.attached_via_acct_mgr);
+                    Log.d(Logging.TAG, "New project found, id: " + rpcResult.getMasterURL() +
+                                       ", managed: " + rpcResult.getAttachedViaAcctMgr());
                 }
-                if(rpcResult.attached_via_acct_mgr) {
-                    data.add(new ProjectsListData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // append to end of list (after manager)
+                if(rpcResult.getAttachedViaAcctMgr()) {
+                    data.add(new ProjectsListData(rpcResult, null,
+                                                  mapTransfersToProject(rpcResult.getMasterURL(),
+                                                                        ongoingTransfers))); // append to end of list (after manager)
                 }
                 else {
-                    data.add(0, new ProjectsListData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers))); // put at top of list (before manager)
+                    data.add(0, new ProjectsListData(rpcResult, null,
+                                                     mapTransfersToProject(rpcResult.getMasterURL(),
+                                                                           ongoingTransfers))); // put at top of list (before manager)
                 }
             }
             else { // Project was present before, update its data
-                data.get(index).updateProjectData(rpcResult, null, mapTransfersToProject(rpcResult.master_url, ongoingTransfers));
+                data.get(index).updateProjectData(rpcResult, null,
+                                                  mapTransfersToProject(rpcResult.getMasterURL(),
+                                                                        ongoingTransfers));
             }
         }
 
@@ -239,7 +246,7 @@ public class ProjectsFragment extends Fragment {
                 continue;
             }
             for(Project rpcResult : latestRpcProjectsList) {
-                if(listItem.id.equals(rpcResult.master_url)) {
+                if(listItem.id.equals(rpcResult.getMasterURL())) {
                     found = true;
                     break;
                 }
@@ -259,7 +266,7 @@ public class ProjectsFragment extends Fragment {
                 }
                 boolean noticeFound = false;
                 for(Notice serverNotice : serverNotices) {
-                    if(project.project.project_name.equals(serverNotice.getProjectName())) {
+                    if(project.project.getProjectName().equals(serverNotice.getProjectName())) {
                         project.addServerNotice(serverNotice);
                         noticeFound = true;
                         mappedServerNotices++;
@@ -278,8 +285,8 @@ public class ProjectsFragment extends Fragment {
     }
 
     // takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
-    private ArrayList<Transfer> mapTransfersToProject(String id, ArrayList<Transfer> allTransfers) {
-        ArrayList<Transfer> projectTransfers = new ArrayList<>();
+    private List<Transfer> mapTransfersToProject(String id, List<Transfer> allTransfers) {
+        List<Transfer> projectTransfers = new ArrayList<>();
         for(Transfer trans : allTransfers) {
             if(trans.getProjectUrl().equals(id)) {
                 // project id matches url in transfer, add to list
@@ -299,12 +306,12 @@ public class ProjectsFragment extends Fragment {
         public Project project;
         public Notice lastServerNotice = null;
         public AcctMgrInfo acctMgrInfo;
-        public ArrayList<Transfer> projectTransfers;
+        public List<Transfer> projectTransfers;
         public String id; // == url
         public boolean isMgr;
         public ProjectsListData listEntry = this;
 
-        public ProjectsListData(Project project, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
+        public ProjectsListData(Project project, AcctMgrInfo acctMgrInfo, List<Transfer> projectTransfers) {
             this.project = project;
             this.acctMgrInfo = acctMgrInfo;
             this.projectTransfers = projectTransfers;
@@ -315,11 +322,11 @@ public class ProjectsFragment extends Fragment {
                 this.id = acctMgrInfo.getAcctMgrUrl();
             }
             else {
-                this.id = project.master_url;
+                this.id = project.getMasterURL();
             }
         }
 
-        public void updateProjectData(Project data, AcctMgrInfo acctMgrInfo, ArrayList<Transfer> projectTransfers) {
+        public void updateProjectData(Project data, AcctMgrInfo acctMgrInfo, List<Transfer> projectTransfers) {
             if(isMgr) {
                 this.acctMgrInfo = acctMgrInfo;
             }
@@ -367,7 +374,7 @@ public class ProjectsFragment extends Fragment {
                     controls.add(new ProjectControl(listEntry, RpcClient.TRANSFER_RETRY));
                 }
                 controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));
-                if(project.suspended_via_gui) {
+                if(project.getSuspendedViaGUI()) {
                     controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESUME));
                 }
                 else {
@@ -380,16 +387,15 @@ public class ProjectsFragment extends Fragment {
                 catch(RemoteException e) {
                     isShowAdvanced = false;
                 }
-                if(isShowAdvanced && project.dont_request_more_work) {
-                    controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_ANW));
-                }
-                if(isShowAdvanced && !project.dont_request_more_work) {
-                    controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_NNW));
-                }
                 if(isShowAdvanced) {
+                    if (project.getDoNotRequestMoreWork()) {
+                        controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_ANW));
+                    } else {
+                        controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_NNW));
+                    }
                     controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESET));
                 }
-                if(!project.attached_via_acct_mgr) {
+                if(!project.getAttachedViaAcctMgr()) {
                     controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_DETACH));
                 }
             }
@@ -442,7 +448,7 @@ public class ProjectsFragment extends Fragment {
                     tvTitle.setText(getString(R.string.projects_confirm_title, removeStr));
                     tvMessage.setText(getString(R.string.projects_confirm_message,
                                                 removeStr.toLowerCase(),
-                                                data.project.project_name + " "
+                                                data.project.getProjectName() + " "
                                                 + getString(R.string.projects_confirm_detach_message)));
                     confirm.setText(removeStr);
                 }
@@ -451,7 +457,7 @@ public class ProjectsFragment extends Fragment {
 
                     tvTitle.setText(getString(R.string.projects_confirm_title, resetStr));
                     tvMessage.setText(getString(R.string.projects_confirm_message, resetStr.toLowerCase(),
-                                                data.project.project_name));
+                                                data.project.getProjectName()));
                     confirm.setText(resetStr);
                 }
                 else if(operation == RpcClient.MGR_DETACH) {

@@ -26,6 +26,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
@@ -55,7 +56,7 @@ public class ProjectsParser extends BaseParser {
             return parser.getProjects();
         }
         catch(SAXException e) {
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -84,7 +85,7 @@ public class ProjectsParser extends BaseParser {
                 // We are inside <project>
                 if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT)) {
                     // Closing tag of <project> - add to vector and be ready for next one
-                    if(!mProject.master_url.isEmpty()) {
+                    if(!mProject.getMasterURL().isEmpty()) {
                         // master_url is a must
                         mProjects.add(mProject);
                     }
@@ -97,7 +98,7 @@ public class ProjectsParser extends BaseParser {
                         // We are inside <gui_url> element
                         if(localName.equalsIgnoreCase(RPCCommonTags.GUI_URL)) {
                             // finish of this <gui_url> element
-                            mProject.gui_urls.add(mGuiUrl);
+                            mProject.getGuiURLs().add(mGuiUrl);
                             mGuiUrl = null;
                         }
                         else {
@@ -113,139 +114,139 @@ public class ProjectsParser extends BaseParser {
                         }
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.MASTER_URL)) {
-                        mProject.master_url = mCurrentElement.toString();
+                        mProject.setMasterURL(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.project_dir)) {
-                        mProject.project_dir = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Project.Fields.PROJECT_DIR)) {
+                        mProject.setProjectDir(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.resource_share)) {
-                        mProject.resource_share = Float.parseFloat(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.RESOURCE_SHARE)) {
+                        mProject.setResourceShare(Float.parseFloat(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_NAME)) {
-                        mProject.project_name = mCurrentElement.toString();
+                        mProject.setProjectName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.user_name)) {
-                        mProject.user_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Project.Fields.USER_NAME)) {
+                        mProject.setUserName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.team_name)) {
-                        mProject.team_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Project.Fields.TEAM_NAME)) {
+                        mProject.setTeamName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.hostid)) {
-                        mProject.hostid = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.HOSTID)) {
+                        mProject.setHostId(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.host_venue)) {
-                        mProject.host_venue = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(Project.Fields.HOST_VENUE)) {
+                        mProject.setHostVenue(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.user_total_credit)) {
-                        mProject.user_total_credit = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.USER_TOTAL_CREDIT)) {
+                        mProject.setUserTotalCredit(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.user_expavg_credit)) {
-                        mProject.user_expavg_credit = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.USER_EXPAVG_CREDIT)) {
+                        mProject.setUserExpAvgCredit(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.host_total_credit)) {
-                        mProject.host_total_credit = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.HOST_TOTAL_CREDIT)) {
+                        mProject.setHostTotalCredit(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.host_expavg_credit)) {
-                        mProject.host_expavg_credit = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.HOST_EXPAVG_CREDIT)) {
+                        mProject.setHostExpAvgCredit(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.nrpc_failures)) {
-                        mProject.nrpc_failures = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.NRPC_FAILURES)) {
+                        mProject.setNoOfRPCFailures(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.master_fetch_failures)) {
-                        mProject.master_fetch_failures = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.MASTER_FETCH_FAILURES)) {
+                        mProject.setMasterFetchFailures(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.min_rpc_time)) {
-                        mProject.min_rpc_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.MIN_RPC_TIME)) {
+                        mProject.setMinRPCTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.download_backoff)) {
-                        mProject.download_backoff = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.DOWNLOAD_BACKOFF)) {
+                        mProject.setDownloadBackoff(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.upload_backoff)) {
-                        mProject.upload_backoff = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.UPLOAD_BACKOFF)) {
+                        mProject.setUploadBackoff(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(SHORT_TERM_DEBT_TAG)) {
-                        mProject.cpu_short_term_debt = Double.parseDouble(mCurrentElement.toString());
+                        mProject.setCpuShortTermDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(LONG_TERM_DEBT_TAG)) {
-                        mProject.cpu_long_term_debt = Double.parseDouble(mCurrentElement.toString());
+                        mProject.setCpuLongTermDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cpu_backoff_time)) {
-                        mProject.cpu_backoff_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CPU_BACKOFF_TIME)) {
+                        mProject.setCpuBackoffTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cpu_backoff_interval)) {
-                        mProject.cpu_backoff_interval = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CPU_BACKOFF_INTERVAL)) {
+                        mProject.setCpuBackoffInterval(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cuda_debt)) {
-                        mProject.cuda_debt = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CUDA_DEBT)) {
+                        mProject.setCudaDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cuda_short_term_debt)) {
-                        mProject.cuda_short_term_debt = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CUDA_SHORT_TERM_DEBT)) {
+                        mProject.setCudaShortTermDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cuda_backoff_time)) {
-                        mProject.cuda_backoff_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CUDA_BACKOFF_TIME)) {
+                        mProject.setCudaBackoffTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.cuda_backoff_interval)) {
-                        mProject.cuda_backoff_interval = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.CUDA_BACKOFF_INTERVAL)) {
+                        mProject.setCudaBackoffInterval(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.ati_debt)) {
-                        mProject.ati_debt = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.ATI_DEBT)) {
+                        mProject.setAtiDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.ati_short_term_debt)) {
-                        mProject.ati_short_term_debt = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.ATI_SHORT_TERM_DEBT)) {
+                        mProject.setAtiShortTermDebt(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.ati_backoff_time)) {
-                        mProject.ati_backoff_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.ATI_BACKOFF_TIME)) {
+                        mProject.setAtiBackoffTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.ati_backoff_interval)) {
-                        mProject.ati_backoff_interval = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.ATI_BACKOFF_INTERVAL)) {
+                        mProject.setAtiBackoffInterval(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.duration_correction_factor)) {
-                        mProject.duration_correction_factor = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.DURATION_CORRECTION_FACTOR)) {
+                        mProject.setDurationCorrectionFactor(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.master_url_fetch_pending)) {
-                        mProject.master_url_fetch_pending = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.MASTER_URL_FETCH_PENDING)) {
+                        mProject.setMasterURLFetchPending(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.sched_rpc_pending)) {
-                        mProject.sched_rpc_pending = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.SCHED_RPC_PENDING)) {
+                        mProject.setScheduledRPCPending(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(RPCCommonTags.NON_CPU_INTENSIVE)) {
-                        mProject.non_cpu_intensive = !mCurrentElement.toString().equals("0");
+                        mProject.setNonCPUIntensive(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.suspended_via_gui)) {
-                        mProject.suspended_via_gui = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.SUSPENDED_VIA_GUI)) {
+                        mProject.setSuspendedViaGUI(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.dont_request_more_work)) {
-                        mProject.dont_request_more_work = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.DONT_REQUEST_MORE_WORK)) {
+                        mProject.setDoNotRequestMoreWork(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.scheduler_rpc_in_progress)) {
-                        mProject.scheduler_rpc_in_progress = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.SCHEDULER_RPC_IN_PROGRESS)) {
+                        mProject.setSchedulerRPCInProgress(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.attached_via_acct_mgr)) {
-                        mProject.attached_via_acct_mgr = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.ATTACHED_VIA_ACCT_MGR)) {
+                        mProject.setAttachedViaAcctMgr(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.detach_when_done)) {
-                        mProject.detach_when_done = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.DETACH_WHEN_DONE)) {
+                        mProject.setDetachWhenDone(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.ended)) {
-                        mProject.ended = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.ENDED)) {
+                        mProject.setEnded(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.trickle_up_pending)) {
-                        mProject.trickle_up_pending = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.TRICKLE_UP_PENDING)) {
+                        mProject.setTrickleUpPending(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.project_files_downloaded_time)) {
-                        mProject.project_files_downloaded_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.PROJECT_FILES_DOWNLOADED_TIME)) {
+                        mProject.setProjectFilesDownloadedTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.last_rpc_time)) {
-                        mProject.last_rpc_time = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(Project.Fields.LAST_RPC_TIME)) {
+                        mProject.setLastRPCTime(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.no_cpu_pref)) {
-                        mProject.no_cpu_pref = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.NO_CPU_PREF)) {
+                        mProject.setNoCPUPref(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.no_cuda_pref)) {
-                        mProject.no_cuda_pref = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.NO_CUDA_PREF)) {
+                        mProject.setNoCUDAPref(!mCurrentElement.toString().equals("0"));
                     }
-                    else if(localName.equalsIgnoreCase(Project.Fields.no_ati_pref)) {
-                        mProject.no_ati_pref = !mCurrentElement.toString().equals("0");
+                    else if(localName.equalsIgnoreCase(Project.Fields.NO_ATI_PREF)) {
+                        mProject.setNoATIPref(!mCurrentElement.toString().equals("0"));
                     }
                 }
             }

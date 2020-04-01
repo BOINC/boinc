@@ -383,9 +383,8 @@ public class BOINCActivity extends AppCompatActivity {
                 }
                 if(numberProjectsInNavList != monitor.getProjects().size()) {
                     numberProjectsInNavList =
-                            mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>) monitor.getProjects());
+                            mDrawerListAdapter.compareAndAddProjects(monitor.getProjects());
                 }
-                //setAppTitle();
             }
         }
         catch(Exception e) {

@@ -100,7 +100,7 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
+        expected.setMasterURL(MASTER_URL);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -120,9 +120,9 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expected.master_url = MASTER_URL;
+        expected.setMasterURL(MASTER_URL);
         expectedGuiUrl.setName(GUI_URL_NAME);
-        expected.gui_urls.add(expectedGuiUrl);
+        expected.getGuiURLs().add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -142,9 +142,9 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expected.master_url = MASTER_URL;
+        expected.setMasterURL(MASTER_URL);
         expectedGuiUrl.setDescription(GUI_URL_DESCRIPTION);
-        expected.gui_urls.add(expectedGuiUrl);
+        expected.getGuiURLs().add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -164,9 +164,9 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl();
-        expected.master_url = MASTER_URL;
+        expected.setMasterURL(MASTER_URL);
         expectedGuiUrl.setUrl(GUI_URL_URL);
-        expected.gui_urls.add(expectedGuiUrl);
+        expected.getGuiURLs().add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -192,8 +192,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
         final GuiUrl expectedGuiUrl = new GuiUrl(GUI_URL_NAME, GUI_URL_DESCRIPTION, GUI_URL_URL);
-        expected.master_url = MASTER_URL;
-        expected.gui_urls.add(expectedGuiUrl);
+        expected.setMasterURL(MASTER_URL);
+        expected.getGuiURLs().add(expectedGuiUrl);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -205,13 +205,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.project_dir, null, null);
+        projectsParser.startElement(null, Project.Fields.PROJECT_DIR, null, null);
         projectsParser.characters("/path/to/project".toCharArray(), 0, "/path/to/project".length());
-        projectsParser.endElement(null, Project.Fields.project_dir, null);
+        projectsParser.endElement(null, Project.Fields.PROJECT_DIR, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.project_dir = "/path/to/project";
+        expected.setMasterURL(MASTER_URL);
+        expected.setProjectDir("/path/to/project");
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -223,13 +223,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.resource_share, null, null);
+        projectsParser.startElement(null, Project.Fields.RESOURCE_SHARE, null, null);
         projectsParser.characters("1.5".toCharArray(), 0, 3);
-        projectsParser.endElement(null, Project.Fields.resource_share, null);
+        projectsParser.endElement(null, Project.Fields.RESOURCE_SHARE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.resource_share = 1.5f;
+        expected.setMasterURL(MASTER_URL);
+        expected.setResourceShare(1.5f);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -246,8 +246,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.PROJECT_NAME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.project_name = "Project Name";
+        expected.setMasterURL(MASTER_URL);
+        expected.setProjectName("Project Name");
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -259,13 +259,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.user_name, null, null);
+        projectsParser.startElement(null, Project.Fields.USER_NAME, null, null);
         projectsParser.characters("John".toCharArray(), 0, 4);
-        projectsParser.endElement(null, Project.Fields.user_name, null);
+        projectsParser.endElement(null, Project.Fields.USER_NAME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.user_name = "John";
+        expected.setMasterURL(MASTER_URL);
+        expected.setUserName("John");
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -277,13 +277,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.team_name, null, null);
+        projectsParser.startElement(null, Project.Fields.TEAM_NAME, null, null);
         projectsParser.characters("Team Name".toCharArray(), 0, 9);
-        projectsParser.endElement(null, Project.Fields.team_name, null);
+        projectsParser.endElement(null, Project.Fields.TEAM_NAME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.team_name = "Team Name";
+        expected.setMasterURL(MASTER_URL);
+        expected.setTeamName("Team Name");
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -295,13 +295,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.host_venue, null, null);
+        projectsParser.startElement(null, Project.Fields.HOST_VENUE, null, null);
         projectsParser.characters("Host Venue".toCharArray(), 0, 10);
-        projectsParser.endElement(null, Project.Fields.host_venue, null);
+        projectsParser.endElement(null, Project.Fields.HOST_VENUE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.host_venue = "Host Venue";
+        expected.setMasterURL(MASTER_URL);
+        expected.setHostVenue("Host Venue");
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -313,13 +313,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.hostid, null, null);
+        projectsParser.startElement(null, Project.Fields.HOSTID, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.hostid, null);
+        projectsParser.endElement(null, Project.Fields.HOSTID, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.hostid = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setHostId(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -331,13 +331,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.user_total_credit, null, null);
+        projectsParser.startElement(null, Project.Fields.USER_TOTAL_CREDIT, null, null);
         projectsParser.characters("100.5".toCharArray(), 0, 5);
-        projectsParser.endElement(null, Project.Fields.user_total_credit, null);
+        projectsParser.endElement(null, Project.Fields.USER_TOTAL_CREDIT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.user_total_credit = 100.5;
+        expected.setMasterURL(MASTER_URL);
+        expected.setUserTotalCredit(100.5);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -349,13 +349,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.user_expavg_credit, null, null);
+        projectsParser.startElement(null, Project.Fields.USER_EXPAVG_CREDIT, null, null);
         projectsParser.characters("50.5".toCharArray(), 0, 4);
-        projectsParser.endElement(null, Project.Fields.user_expavg_credit, null);
+        projectsParser.endElement(null, Project.Fields.USER_EXPAVG_CREDIT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.user_expavg_credit = 50.5;
+        expected.setMasterURL(MASTER_URL);
+        expected.setUserExpAvgCredit(50.5);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -367,13 +367,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.host_total_credit, null, null);
+        projectsParser.startElement(null, Project.Fields.HOST_TOTAL_CREDIT, null, null);
         projectsParser.characters("200.5".toCharArray(), 0, 5);
-        projectsParser.endElement(null, Project.Fields.host_total_credit, null);
+        projectsParser.endElement(null, Project.Fields.HOST_TOTAL_CREDIT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.host_total_credit = 200.5;
+        expected.setMasterURL(MASTER_URL);
+        expected.setHostTotalCredit(200.5);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -385,13 +385,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.host_expavg_credit, null, null);
+        projectsParser.startElement(null, Project.Fields.HOST_EXPAVG_CREDIT, null, null);
         projectsParser.characters("100.5".toCharArray(), 0, 5);
-        projectsParser.endElement(null, Project.Fields.host_expavg_credit, null);
+        projectsParser.endElement(null, Project.Fields.HOST_EXPAVG_CREDIT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.host_expavg_credit = 100.5;
+        expected.setMasterURL(MASTER_URL);
+        expected.setHostExpAvgCredit(100.5);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -403,13 +403,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.nrpc_failures, null, null);
+        projectsParser.startElement(null, Project.Fields.NRPC_FAILURES, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.nrpc_failures, null);
+        projectsParser.endElement(null, Project.Fields.NRPC_FAILURES, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.nrpc_failures = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoOfRPCFailures(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -421,13 +421,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.master_fetch_failures, null, null);
+        projectsParser.startElement(null, Project.Fields.MASTER_FETCH_FAILURES, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.master_fetch_failures, null);
+        projectsParser.endElement(null, Project.Fields.MASTER_FETCH_FAILURES, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.master_fetch_failures = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setMasterFetchFailures(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -439,13 +439,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.min_rpc_time, null, null);
+        projectsParser.startElement(null, Project.Fields.MIN_RPC_TIME, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.min_rpc_time, null);
+        projectsParser.endElement(null, Project.Fields.MIN_RPC_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.min_rpc_time = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setMinRPCTime(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -457,13 +457,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.download_backoff, null, null);
+        projectsParser.startElement(null, Project.Fields.DOWNLOAD_BACKOFF, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.download_backoff, null);
+        projectsParser.endElement(null, Project.Fields.DOWNLOAD_BACKOFF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.download_backoff = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDownloadBackoff(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -475,13 +475,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.upload_backoff, null, null);
+        projectsParser.startElement(null, Project.Fields.UPLOAD_BACKOFF, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.upload_backoff, null);
+        projectsParser.endElement(null, Project.Fields.UPLOAD_BACKOFF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.upload_backoff = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setUploadBackoff(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -498,8 +498,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.SHORT_TERM_DEBT_TAG, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cpu_short_term_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCpuShortTermDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -516,8 +516,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, ProjectsParser.LONG_TERM_DEBT_TAG, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cpu_long_term_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCpuLongTermDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -529,13 +529,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cpu_backoff_time, null, null);
+        projectsParser.startElement(null, Project.Fields.CPU_BACKOFF_TIME, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cpu_backoff_time, null);
+        projectsParser.endElement(null, Project.Fields.CPU_BACKOFF_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cpu_backoff_time = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCpuBackoffTime(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -547,13 +547,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cpu_backoff_interval, null, null);
+        projectsParser.startElement(null, Project.Fields.CPU_BACKOFF_INTERVAL, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cpu_backoff_interval, null);
+        projectsParser.endElement(null, Project.Fields.CPU_BACKOFF_INTERVAL, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cpu_backoff_interval = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCpuBackoffInterval(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -565,13 +565,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cuda_debt, null, null);
+        projectsParser.startElement(null, Project.Fields.CUDA_DEBT, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cuda_debt, null);
+        projectsParser.endElement(null, Project.Fields.CUDA_DEBT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cuda_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCudaDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -583,13 +583,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cuda_short_term_debt, null, null);
+        projectsParser.startElement(null, Project.Fields.CUDA_SHORT_TERM_DEBT, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cuda_short_term_debt, null);
+        projectsParser.endElement(null, Project.Fields.CUDA_SHORT_TERM_DEBT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cuda_short_term_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCudaShortTermDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -601,13 +601,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cuda_backoff_time, null, null);
+        projectsParser.startElement(null, Project.Fields.CUDA_BACKOFF_TIME, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cuda_backoff_time, null);
+        projectsParser.endElement(null, Project.Fields.CUDA_BACKOFF_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cuda_backoff_time = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCudaBackoffTime(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -619,13 +619,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.cuda_backoff_interval, null, null);
+        projectsParser.startElement(null, Project.Fields.CUDA_BACKOFF_INTERVAL, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.cuda_backoff_interval, null);
+        projectsParser.endElement(null, Project.Fields.CUDA_BACKOFF_INTERVAL, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.cuda_backoff_interval = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setCudaBackoffInterval(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -637,13 +637,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ati_debt, null, null);
+        projectsParser.startElement(null, Project.Fields.ATI_DEBT, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ati_debt, null);
+        projectsParser.endElement(null, Project.Fields.ATI_DEBT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ati_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAtiDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -655,13 +655,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ati_short_term_debt, null, null);
+        projectsParser.startElement(null, Project.Fields.ATI_SHORT_TERM_DEBT, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ati_short_term_debt, null);
+        projectsParser.endElement(null, Project.Fields.ATI_SHORT_TERM_DEBT, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ati_short_term_debt = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAtiShortTermDebt(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -673,13 +673,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ati_backoff_time, null, null);
+        projectsParser.startElement(null, Project.Fields.ATI_BACKOFF_TIME, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ati_backoff_time, null);
+        projectsParser.endElement(null, Project.Fields.ATI_BACKOFF_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ati_backoff_time = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAtiBackoffTime(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -691,13 +691,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ati_backoff_interval, null, null);
+        projectsParser.startElement(null, Project.Fields.ATI_BACKOFF_INTERVAL, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ati_backoff_interval, null);
+        projectsParser.endElement(null, Project.Fields.ATI_BACKOFF_INTERVAL, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ati_backoff_interval = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAtiBackoffInterval(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -709,13 +709,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.duration_correction_factor, null, null);
+        projectsParser.startElement(null, Project.Fields.DURATION_CORRECTION_FACTOR, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.duration_correction_factor, null);
+        projectsParser.endElement(null, Project.Fields.DURATION_CORRECTION_FACTOR, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.duration_correction_factor = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDurationCorrectionFactor(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -727,13 +727,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.master_url_fetch_pending, null, null);
+        projectsParser.startElement(null, Project.Fields.MASTER_URL_FETCH_PENDING, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
+        projectsParser.endElement(null, Project.Fields.MASTER_URL_FETCH_PENDING, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.master_url_fetch_pending = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setMasterURLFetchPending(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -745,13 +745,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.master_url_fetch_pending, null, null);
+        projectsParser.startElement(null, Project.Fields.MASTER_URL_FETCH_PENDING, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.master_url_fetch_pending, null);
+        projectsParser.endElement(null, Project.Fields.MASTER_URL_FETCH_PENDING, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.master_url_fetch_pending = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setMasterURLFetchPending(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -763,13 +763,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.sched_rpc_pending, null, null);
+        projectsParser.startElement(null, Project.Fields.SCHED_RPC_PENDING, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.sched_rpc_pending, null);
+        projectsParser.endElement(null, Project.Fields.SCHED_RPC_PENDING, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.sched_rpc_pending = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setScheduledRPCPending(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -786,8 +786,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.non_cpu_intensive = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNonCPUIntensive(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -804,8 +804,8 @@ public class ProjectsParserTest {
         projectsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.non_cpu_intensive = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNonCPUIntensive(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -817,13 +817,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.suspended_via_gui, null, null);
+        projectsParser.startElement(null, Project.Fields.SUSPENDED_VIA_GUI, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
+        projectsParser.endElement(null, Project.Fields.SUSPENDED_VIA_GUI, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.suspended_via_gui = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setSuspendedViaGUI(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -835,13 +835,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.suspended_via_gui, null, null);
+        projectsParser.startElement(null, Project.Fields.SUSPENDED_VIA_GUI, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.suspended_via_gui, null);
+        projectsParser.endElement(null, Project.Fields.SUSPENDED_VIA_GUI, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.suspended_via_gui = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setSuspendedViaGUI(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -853,13 +853,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.dont_request_more_work, null, null);
+        projectsParser.startElement(null, Project.Fields.DONT_REQUEST_MORE_WORK, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
+        projectsParser.endElement(null, Project.Fields.DONT_REQUEST_MORE_WORK, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.dont_request_more_work = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDoNotRequestMoreWork(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -871,13 +871,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.dont_request_more_work, null, null);
+        projectsParser.startElement(null, Project.Fields.DONT_REQUEST_MORE_WORK, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.dont_request_more_work, null);
+        projectsParser.endElement(null, Project.Fields.DONT_REQUEST_MORE_WORK, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.dont_request_more_work = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDoNotRequestMoreWork(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -889,13 +889,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.scheduler_rpc_in_progress, null, null);
+        projectsParser.startElement(null, Project.Fields.SCHEDULER_RPC_IN_PROGRESS, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
+        projectsParser.endElement(null, Project.Fields.SCHEDULER_RPC_IN_PROGRESS, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.scheduler_rpc_in_progress = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setSchedulerRPCInProgress(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -907,13 +907,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.scheduler_rpc_in_progress, null, null);
+        projectsParser.startElement(null, Project.Fields.SCHEDULER_RPC_IN_PROGRESS, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.scheduler_rpc_in_progress, null);
+        projectsParser.endElement(null, Project.Fields.SCHEDULER_RPC_IN_PROGRESS, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.scheduler_rpc_in_progress = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setSchedulerRPCInProgress(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -925,13 +925,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.attached_via_acct_mgr, null, null);
+        projectsParser.startElement(null, Project.Fields.ATTACHED_VIA_ACCT_MGR, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
+        projectsParser.endElement(null, Project.Fields.ATTACHED_VIA_ACCT_MGR, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.attached_via_acct_mgr = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAttachedViaAcctMgr(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -943,13 +943,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.attached_via_acct_mgr, null, null);
+        projectsParser.startElement(null, Project.Fields.ATTACHED_VIA_ACCT_MGR, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.attached_via_acct_mgr, null);
+        projectsParser.endElement(null, Project.Fields.ATTACHED_VIA_ACCT_MGR, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.attached_via_acct_mgr = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setAttachedViaAcctMgr(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -961,13 +961,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.detach_when_done, null, null);
+        projectsParser.startElement(null, Project.Fields.DETACH_WHEN_DONE, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.detach_when_done, null);
+        projectsParser.endElement(null, Project.Fields.DETACH_WHEN_DONE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.detach_when_done = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDetachWhenDone(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -979,13 +979,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.detach_when_done, null, null);
+        projectsParser.startElement(null, Project.Fields.DETACH_WHEN_DONE, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.detach_when_done, null);
+        projectsParser.endElement(null, Project.Fields.DETACH_WHEN_DONE, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.detach_when_done = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setDetachWhenDone(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -997,13 +997,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ended, null, null);
+        projectsParser.startElement(null, Project.Fields.ENDED, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ended, null);
+        projectsParser.endElement(null, Project.Fields.ENDED, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ended = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setEnded(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1015,13 +1015,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.ended, null, null);
+        projectsParser.startElement(null, Project.Fields.ENDED, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.ended, null);
+        projectsParser.endElement(null, Project.Fields.ENDED, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.ended = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setEnded(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1033,13 +1033,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.trickle_up_pending, null, null);
+        projectsParser.startElement(null, Project.Fields.TRICKLE_UP_PENDING, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
+        projectsParser.endElement(null, Project.Fields.TRICKLE_UP_PENDING, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.trickle_up_pending = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setTrickleUpPending(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1051,13 +1051,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.trickle_up_pending, null, null);
+        projectsParser.startElement(null, Project.Fields.TRICKLE_UP_PENDING, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.trickle_up_pending, null);
+        projectsParser.endElement(null, Project.Fields.TRICKLE_UP_PENDING, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.trickle_up_pending = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setTrickleUpPending(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1069,13 +1069,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.project_files_downloaded_time, null, null);
+        projectsParser.startElement(null, Project.Fields.PROJECT_FILES_DOWNLOADED_TIME, null, null);
         projectsParser.characters("10".toCharArray(), 0, 2);
-        projectsParser.endElement(null, Project.Fields.project_files_downloaded_time, null);
+        projectsParser.endElement(null, Project.Fields.PROJECT_FILES_DOWNLOADED_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.project_files_downloaded_time = 10;
+        expected.setMasterURL(MASTER_URL);
+        expected.setProjectFilesDownloadedTime(10);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1087,13 +1087,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.last_rpc_time, null, null);
+        projectsParser.startElement(null, Project.Fields.LAST_RPC_TIME, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.last_rpc_time, null);
+        projectsParser.endElement(null, Project.Fields.LAST_RPC_TIME, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.last_rpc_time = 1;
+        expected.setMasterURL(MASTER_URL);
+        expected.setLastRPCTime(1);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1105,13 +1105,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_cpu_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_CPU_PREF, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_CPU_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_cpu_pref = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoCPUPref(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1123,13 +1123,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_cpu_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_CPU_PREF, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_cpu_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_CPU_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_cpu_pref = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoCPUPref(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1141,13 +1141,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_cuda_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_CUDA_PREF, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_CUDA_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_cuda_pref = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoCUDAPref(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1159,13 +1159,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_cuda_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_CUDA_PREF, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_cuda_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_CUDA_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_cuda_pref = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoCUDAPref(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1177,13 +1177,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_ati_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_ATI_PREF, null, null);
         projectsParser.characters("0".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_ATI_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_ati_pref = false;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoATIPref(false);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }
@@ -1195,13 +1195,13 @@ public class ProjectsParserTest {
         projectsParser.startElement(null, RPCCommonTags.MASTER_URL, null, null);
         projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length());
         projectsParser.endElement(null, RPCCommonTags.MASTER_URL, null);
-        projectsParser.startElement(null, Project.Fields.no_ati_pref, null, null);
+        projectsParser.startElement(null, Project.Fields.NO_ATI_PREF, null, null);
         projectsParser.characters("1".toCharArray(), 0, 1);
-        projectsParser.endElement(null, Project.Fields.no_ati_pref, null);
+        projectsParser.endElement(null, Project.Fields.NO_ATI_PREF, null);
         projectsParser.endElement(null, RPCCommonTags.PROJECT, null);
 
-        expected.master_url = MASTER_URL;
-        expected.no_ati_pref = true;
+        expected.setMasterURL(MASTER_URL);
+        expected.setNoATIPref(true);
 
         assertEquals(Collections.singletonList(expected), projectsParser.getProjects());
     }

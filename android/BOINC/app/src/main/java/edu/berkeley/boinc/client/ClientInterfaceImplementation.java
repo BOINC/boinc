@@ -223,9 +223,9 @@ public class ClientInterfaceImplementation extends RpcClient {
             List<Project> attachedProjects = getProjectStatus();
             for (Project project : attachedProjects) {
                 if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, project.master_url + " vs " + url);
+                    Log.d(Logging.TAG, project.getMasterURL() + " vs " + url);
                 }
-                if (project.master_url.equals(url)) {
+                if (project.getMasterURL().equals(url)) {
                     return true;
                 }
             }
@@ -562,7 +562,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             // check whether already attached
             boolean alreadyAttached = false;
             for (Project attachedProject : attachedProjects) {
-                if (attachedProject.master_url.equals(candidate.getUrl())) {
+                if (attachedProject.getMasterURL().equals(candidate.getUrl())) {
                     alreadyAttached = true;
                     break;
                 }
