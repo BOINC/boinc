@@ -14,6 +14,7 @@ var SearchReplaceDialog = {
 		mcTabs.onChange.add(function(tab_id, panel_id) {
 			t.switchMode(tab_id.substring(0, tab_id.indexOf('_')));
 		});
+
 	},
 
 	switchMode : function(m) {
@@ -39,6 +40,10 @@ var SearchReplaceDialog = {
 	searchNext : function(a) {
 		var ed = tinyMCEPopup.editor, se = ed.selection, r = se.getRng(), f, m = this.lastMode, s, b, fl = 0, w = ed.getWin(), wm = ed.windowManager, fo = 0;
 
+		function createTextRange() {
+			return ed.getDoc().selection ? ed.getDoc().selection.createRange() : ed.getDoc().body.createTextRange();
+		}
+
 		// Get input
 		f = document.forms[0];
 		s = f[m + '_panel_searchstring'].value;
@@ -47,7 +52,7 @@ var SearchReplaceDialog = {
 		rs = f['replace_panel_replacestring'].value;
 
 		if (tinymce.isIE) {
-			r = ed.getDoc().selection.createRange();
+			r = createTextRange();
 		}
 
 		if (s == '')
@@ -77,7 +82,7 @@ var SearchReplaceDialog = {
 
 				if (tinymce.isIE) {
 					ed.focus();
-					r = ed.getDoc().selection.createRange();
+					r = createTextRange();
 
 					while (r.findText(s, b ? -1 : 1, fl)) {
 						r.scrollIntoView();
@@ -87,6 +92,10 @@ var SearchReplaceDialog = {
 
 						if (b) {
 							r.moveEnd("character", -(rs.length)); // Otherwise will loop forever
+						} else {
+							// to avoid looping for ever in MSIE 9/10 when just
+							// changing the case
+							r.moveStart("character", rs.length);
 						}
 					}
 
@@ -121,7 +130,7 @@ var SearchReplaceDialog = {
 
 		if (tinymce.isIE) {
 			ed.focus();
-			r = ed.getDoc().selection.createRange();
+			r = createTextRange();
 
 			if (r.findText(s, b ? -1 : 1, fl)) {
 				r.scrollIntoView();
