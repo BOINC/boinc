@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
@@ -163,7 +164,7 @@ public class ProjectAttachService extends Service {
      * @param selected list of selected projects
      * @return success
      */
-    public boolean setSelectedProjects(ArrayList<ProjectInfo> selected) {
+    public boolean setSelectedProjects(List<ProjectInfo> selected) {
         if(!projectConfigRetrievalFinished) {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: stop, async task already running.");

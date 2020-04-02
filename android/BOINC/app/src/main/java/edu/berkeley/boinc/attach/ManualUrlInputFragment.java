@@ -22,11 +22,13 @@ package edu.berkeley.boinc.attach;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -82,11 +84,21 @@ public class ManualUrlInputFragment extends DialogFragment {
     // as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
     // note: available internet does not imply connection to project server
     // is possible!
-    private Boolean checkDeviceOnline() {
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    private boolean checkDeviceOnline() {
+        final Activity activity = getActivity();
+        assert activity != null;
+        final ConnectivityManager connectivityManager =
+                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+
+        final boolean online;
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        }
+        else {
+            online = connectivityManager.getActiveNetwork() != null;
+        }
         if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
