@@ -45,7 +45,7 @@ public class CcStatusParser extends BaseParser {
             return parser.getCcStatus();
         }
         catch(SAXException e) {
-            Log.v("Larry", Objects.requireNonNull(e.getMessage()));
+            Log.v(Logging.TAG, Objects.requireNonNull(e.getMessage()));
             return null;
         }
     }
