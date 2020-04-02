@@ -67,6 +67,16 @@ function get_element_id(){
 <body>
   <script type="text/javascript">
     $(document).ready(function () {
+      if (typeof(Drupal.ckeditorToolbarToArray) == 'undefined') {
+        Drupal.ckeditorToolbarToArray = function (toolbar) {
+          toolbar = toolbar.replace(/\r?\n|\r/gmi, '')
+              .replace(/\s/gmi, '')
+              .replace(/([a-zA-Z0-9]+?):/g, '"$1":')
+              .replace(/'/g, '"');
+
+          return JSON.parse(toolbar);
+        };
+      }
       var textarea_id=get_element_id();
       $(".content_editor").attr("id", textarea_id);
       if (teaser=Drupal.ckeditorTeaserInfo(textarea_id)) {
@@ -87,7 +97,9 @@ function get_element_id(){
       else {
         Drupal.settings.ckeditor.settings[textarea_id].toolbar = Drupal.settings.ckeditor.settings[textarea_id].toolbar_orig;
       }
-      Drupal.settings.ckeditor.settings[textarea_id].toolbar = eval(Drupal.settings.ckeditor.settings[textarea_id].toolbar);
+      if (typeof(Drupal.settings.ckeditor.settings[textarea_id].toolbar) != 'object') {
+        Drupal.settings.ckeditor.settings[textarea_id].toolbar = Drupal.ckeditorToolbarToArray(Drupal.settings.ckeditor.settings[textarea_id].toolbar);
+      }
 
       if (($("#" + textarea_id).val().length > 0) && (window.opener.$("#" + textarea_id).attr('class').indexOf("filterxss1") != -1 || window.opener.$("#" + textarea_id).attr('class').indexOf("filterxss2") != -1)) {
         if (typeof Drupal.settings.ckeditor.settings[textarea_id].input_format == 'undefined') {

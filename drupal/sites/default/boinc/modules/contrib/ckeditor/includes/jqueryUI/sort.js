@@ -76,18 +76,18 @@ jQuery(document).ready(function() {
         jQuery("li.sortableItem").mouseout(function(){
             jQuery(".sortableList").sortable("enable");
         });
-    }
+    };
 
     Drupal.ckeditorToolbarReload = function() {
         jQuery(".sortableList").sortable('destroy');
         jQuery(".sortableRow").sortable('destroy');
         jQuery("li.sortableItem").unbind();
         Drupal.ckeditorToolbaInit();
-    }
+    };
 
     Drupal.ckeditorToolbarUsedRender = function() {
         var toolbar = jQuery('#edit-toolbar').val();
-        toolbar = eval(toolbar);
+        toolbar = Drupal.ckeditorToolbarToArray(toolbar);
         var html = '<div class="sortableListDiv"><span class="sortableListSpan"><ul class="sortableRow">';
         var group = false;
 
@@ -115,13 +115,13 @@ jQuery(document).ready(function() {
         }
         html += '</ul></span></div>';
         jQuery('#groupLayout').empty().append(html);
-    }
+    };
 
     Drupal.ckeditorToolbarAllRender = function() {
         var toolbarUsed = jQuery('#edit-toolbar').val();
         var toolbarAll = Drupal.settings.cke_toolbar_buttons_all;
 
-        var htmlArray = new Array();
+        var htmlArray = [];
         var html = '';
 
         for (var i in toolbarAll) {
@@ -144,6 +144,17 @@ jQuery(document).ready(function() {
             html += '<div class="sortableListDiv"><span class="sortableListSpan"><ul class="sortableRow">' + htmlArray[j] + '</ul></span></div>';
         }
         jQuery('#allButtons').empty().append(html);
+    };
+
+    if (typeof(Drupal.ckeditorToolbarToArray) == 'undefined') {
+        Drupal.ckeditorToolbarToArray = function (toolbar) {
+            toolbar = toolbar.replace(/\r?\n|\r/gmi, '')
+                .replace(/\s/gmi, '')
+                .replace(/([a-zA-Z0-9]+?):/g, '"$1":')
+                .replace(/'/g, '"');
+
+            return JSON.parse(toolbar);
+        };
     }
 
     Drupal.ckeditorToolbaInit();

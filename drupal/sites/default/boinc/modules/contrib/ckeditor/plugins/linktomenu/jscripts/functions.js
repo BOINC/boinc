@@ -62,7 +62,7 @@ function loadCategories(obj) {
 		},
 		success : function(data) {
 			try {
-				var results = eval('(' + data + ');');
+				var results = JSON.parse(data);
 				_clearNodeList();
 				if ((obj == null) || ($(obj).get(0).value > -1)) {
 					_fillDropdown(obj, results);

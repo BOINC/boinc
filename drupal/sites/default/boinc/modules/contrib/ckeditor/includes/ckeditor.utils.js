@@ -36,7 +36,9 @@ Drupal.ckeditorInit = function(textarea_id) {
   $("#" + textarea_id).addClass("ckeditor-processed");
 
   var textarea_settings = false;
-  Drupal.settings.ckeditor.settings[textarea_id].toolbar = eval(Drupal.settings.ckeditor.settings[textarea_id].toolbar);
+  if (typeof(Drupal.settings.ckeditor.settings[textarea_id].toolbar) != 'object') {
+    Drupal.settings.ckeditor.settings[textarea_id].toolbar = Drupal.ckeditorToolbarToArray(Drupal.settings.ckeditor.settings[textarea_id].toolbar);
+  }
   textarea_settings = Drupal.settings.ckeditor.settings[textarea_id];
   textarea_settings['on'] =
   {
@@ -86,7 +88,16 @@ Drupal.ckeditorInit = function(textarea_id) {
 
   if (typeof textarea_settings['js_conf'] != 'undefined'){
       for (var add_conf in textarea_settings['js_conf']){
-          textarea_settings[add_conf] = eval(textarea_settings['js_conf'][add_conf]);
+          var data;
+          if (add_conf == 'toolbar') {
+            data = Drupal.ckeditorToolbarToArray(textarea_settings['js_conf'][add_conf]);
+          } else if (typeof textarea_settings['js_conf'][add_conf] === "boolean" ) {
+            data = textarea_settings['js_conf'][add_conf];
+          } else {
+            data = JSON.parse(textarea_settings['js_conf'][add_conf].replace(/'/g, '"'));
+          }
+
+          textarea_settings[add_conf] = data;
       }
   }
 
@@ -359,6 +370,17 @@ Drupal.ckeditorLinebreakConvert = function(textarea_id, text) {
     text = enterMode.startTag +  text.replace(/\r\n|\n\r/g, '\n').replace(/\n\n/g, enterMode.endTag+enterMode.startTag).replace(/\n/g, '<br />')  + enterMode.endTag;
   }
   return text;
+}
+
+if (typeof(Drupal.ckeditorToolbarToArray) == 'undefined') {
+  Drupal.ckeditorToolbarToArray = function (toolbar) {
+    toolbar = toolbar.replace(/\r?\n|\r/gmi, '')
+        .replace(/\s/gmi, '')
+        .replace(/([a-zA-Z0-9]+?):/g, '"$1":')
+        .replace(/'/g, '"');
+
+    return JSON.parse(toolbar);
+  };
 }
 
 /**
