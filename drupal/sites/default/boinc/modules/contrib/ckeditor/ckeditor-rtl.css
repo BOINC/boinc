@@ -1,0 +1,34 @@
+/* Indent & Justify classes */
+
+.rteindent1 {
+  margin-right: 40px;
+  margin-left: 0;
+}
+.rteindent2 {
+  margin-right: 80px;
+  margin-left: 0;
+}
+.rteindent3 {
+  margin-right: 120px;
+  margin-left: 0;
+}
+.rteindent4 {
+  margin-right: 160px;
+  margin-left: 0;
+}
+.rteindent1[dir=ltr] {
+  margin-left: 40px;
+  margin-right: 0;
+}
+.rteindent2[dir=ltr] {
+  margin-left: 80px;
+  margin-right: 0;
+}
+.rteindent3[dir=ltr] {
+  margin-left: 120px;
+  margin-right: 0;
+}
+.rteindent4[dir=ltr] {
+  margin-left: 160px;
+  margin-right: 0;
+}
