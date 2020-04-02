@@ -121,6 +121,27 @@ public class AppsParserTest {
     }
 
     @Test
+    public void testParser_whenXmlAppHasNameUserFriendlyNameAndInvalidNonCpuIntensive_thenExpectAppWithoutNonCpuIntensive()
+            throws SAXException {
+        appsParser.startElement(null, AppsParser.APP_TAG, null, null);
+        appsParser.startElement(null, RPCCommonTags.NAME, null, null);
+        appsParser.characters("Name".toCharArray(), 0, 4);
+        appsParser.endElement(null, RPCCommonTags.NAME, null);
+        appsParser.startElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null, null);
+        appsParser.characters(USER_FRIENDLY_NAME.toCharArray(), 0, USER_FRIENDLY_NAME.length());
+        appsParser.endElement(null, RPCCommonTags.USER_FRIENDLY_NAME, null);
+        appsParser.startElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null, null);
+        appsParser.characters("One".toCharArray(), 0, 3);
+        appsParser.endElement(null, RPCCommonTags.NON_CPU_INTENSIVE, null);
+        appsParser.endElement(null, AppsParser.APP_TAG, null);
+
+        expected.setName("Name");
+        expected.setUserFriendlyName(USER_FRIENDLY_NAME);
+
+        assertEquals(Collections.singletonList(expected), appsParser.getApps());
+    }
+
+    @Test
     public void testParser_whenXmlAppHasNameUserFriendlyNameAndNonCpuIntensive_thenExpectMatchingApp()
             throws SAXException {
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);

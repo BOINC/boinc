@@ -22,9 +22,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class PlatformInfo internal constructor(
-        var name: String?,
-        var friendlyName: String?,
-        var planClass: String?
+        var name: String? = "",
+        var friendlyName: String? = "",
+        var planClass: String? = ""
 ) : Parcelable {
     private constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
 

@@ -19,30 +19,31 @@
 
 package edu.berkeley.boinc.rpc;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
 import edu.berkeley.boinc.utils.Logging;
 
-public class MessageCountParser extends DefaultHandler {
+public class MessageCountParser extends BaseParser {
+    static final String REPLY_TAG = "boinc_gui_rpc_reply";
+
     private boolean mParsed = false;
     private boolean mInReply = false;
     private int mSeqno = -1;
-    private StringBuilder mCurrentElement = new StringBuilder();
 
-    // Disable direct instantiation of this class
-    private MessageCountParser() {
+    // Needs to be accessible for testing.
+    MessageCountParser() {
     }
 
     public final int seqno() {
         return mSeqno;
     }
 
-    public static int getSeqno(String reply) {
+    static int getSeqno(String reply) {
         try {
             MessageCountParser parser = new MessageCountParser();
             Xml.parse(reply, parser);
@@ -51,13 +52,12 @@ public class MessageCountParser extends DefaultHandler {
         catch(SAXException e) {
             return -1;
         }
-
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+        if(localName.equalsIgnoreCase(REPLY_TAG)) {
             mInReply = true;
         }
     }
@@ -65,19 +65,9 @@ public class MessageCountParser extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-        // put it into StringBuilder
-        int myStart = start;
-        int myLength = length;
-        if(mCurrentElement.length() == 0) {
-            // still empty - trim leading white-spaces
-            for(; myStart < length; ++myStart, --myLength) {
-                if(!Character.isWhitespace(ch[myStart])) {
-                    // First non-white-space character
-                    break;
-                }
-            }
-        }
-        mCurrentElement.append(ch, myStart, myLength);
+        mCurrentElement.setLength(0); // clear buffer after superclass operation
+        // still empty - trim leading whitespace characters and append
+        mCurrentElement.append(StringUtils.stripStart(new String(ch), null));
     }
 
     @Override
@@ -86,14 +76,12 @@ public class MessageCountParser extends DefaultHandler {
 
         try {
             trimEnd();
-            if(localName.equalsIgnoreCase("boinc_gui_rpc_reply")) {
+            if(localName.equalsIgnoreCase(REPLY_TAG)) {
                 mInReply = false;
             }
-            else if(mInReply && !mParsed) {
-                if(localName.equalsIgnoreCase("seqno")) {
-                    mSeqno = Integer.parseInt(mCurrentElement.toString());
-                    mParsed = true;
-                }
+            else if(mInReply && !mParsed && localName.equalsIgnoreCase("seqno")) {
+                mSeqno = Integer.parseInt(mCurrentElement.toString());
+                mParsed = true;
             }
         }
         catch(NumberFormatException e) {
@@ -102,19 +90,5 @@ public class MessageCountParser extends DefaultHandler {
             }
         }
         mCurrentElement.setLength(0);
-    }
-
-    private void trimEnd() {
-        int length = mCurrentElement.length();
-        int i;
-        // Trim trailing spaces
-        for(i = length - 1; i >= 0; --i) {
-            if(!Character.isWhitespace(mCurrentElement.charAt(i))) {
-                // All trailing white-spaces are skipped, i is position of last character
-                break;
-            }
-        }
-        // i is position of last character
-        mCurrentElement.setLength(i + 1);
     }
 }

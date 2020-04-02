@@ -25,20 +25,18 @@ import android.util.Xml;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
-
-public class AppVersionsParser extends DefaultHandler {
+public class AppVersionsParser extends BaseParser {
     static final String APP_VERSION_TAG = "app_version";
 
     private List<AppVersion> mAppVersions = new ArrayList<>();
     private AppVersion mAppVersion = null;
-    private StringBuilder mCurrentElement = new StringBuilder();
 
     final List<AppVersion> getAppVersions() {
         return mAppVersions;
@@ -57,7 +55,7 @@ public class AppVersionsParser extends DefaultHandler {
             return parser.getAppVersions();
         }
         catch(SAXException e) {
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -72,19 +70,9 @@ public class AppVersionsParser extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-        // put it into StringBuilder
-        int myStart = start;
-        int myLength = length;
-        if(mCurrentElement.length() == 0) {
-            // still empty - trim leading white-spaces
-            for(; myStart < length; ++myStart, --myLength) {
-                if(!Character.isWhitespace(ch[myStart])) {
-                    // First non-white-space character
-                    break;
-                }
-            }
-        }
-        mCurrentElement.append(ch, myStart, myLength);
+        mCurrentElement.setLength(0); // clear buffer after superclass operation
+        // still empty - trim leading whitespace characters and append
+        mCurrentElement.append(StringUtils.stripStart(new String(ch), null));
     }
 
     @Override
@@ -114,24 +102,10 @@ public class AppVersionsParser extends DefaultHandler {
             }
         }
         catch(NumberFormatException e) {
-            if(Logging.ERROR) {
+            if(Logging.ERROR.equals(Boolean.TRUE)) {
                 Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e);
             }
         }
         mCurrentElement.setLength(0); // to be clean for next one
-    }
-
-    private void trimEnd() {
-        int length = mCurrentElement.length();
-        int i;
-        // Trim trailing spaces
-        for(i = length - 1; i >= 0; --i) {
-            if(!Character.isWhitespace(mCurrentElement.charAt(i))) {
-                // All trailing white-spaces are skipped, i is position of last character
-                break;
-            }
-        }
-        // i is position of last character
-        mCurrentElement.setLength(i + 1);
     }
 }

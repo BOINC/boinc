@@ -90,6 +90,18 @@ public class AcctMgrRPCReplyParserTest {
     }
 
     @Test
+    public void testParser_whenXmlAccountManagerRPCReplyWithInvalidErrorNum_thenExpectDefaultEntity()
+            throws SAXException {
+        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null, null);
+        acctMgrRPCReplyParser.characters("One".toCharArray(), 0, 3);
+        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
+
+        assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
+    }
+
+    @Test
     public void testParser_whenXmlAccountManagerRPCReplyWithOnlyErrorNum_thenExpectMatchingEntity()
             throws SAXException {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);

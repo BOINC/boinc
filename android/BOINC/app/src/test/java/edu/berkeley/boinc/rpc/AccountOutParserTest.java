@@ -87,7 +87,19 @@ public class AccountOutParserTest {
     }
 
     @Test
-    public void testParser_whenXmlDocumentHasErrorNum_thenExpectAccountOutWithErrorNum() throws SAXException {
+    public void testParser_whenXmlDocumentHasInvalidErrorNum_thenExpectDefaultAccountOut() throws SAXException {
+        accountOutParser.startElement(null, "<?xml", null, null);
+        accountOutParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
+        accountOutParser.characters("One".toCharArray(), 0, 3);
+        accountOutParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
+        accountOutParser.endElement(null, "?>", null);
+
+        assertEquals(expected, accountOutParser.getAccountOut());
+    }
+
+    @Test
+    public void testParser_whenXmlDocumentHasErrorNum_thenExpectAccountOutWithErrorNum()
+            throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
         accountOutParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         accountOutParser.characters("1".toCharArray(), 0, 1);

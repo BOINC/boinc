@@ -18,18 +18,18 @@
  */
 package edu.berkeley.boinc.rpc
 
-import java.util.ArrayList
-
-data class CcState(
+data class CcState
+@JvmOverloads // generates overloaded constructors
+constructor(
         var versionInfo: VersionInfo? = null,
         var hostInfo: HostInfo? = null,
         var haveAti: Boolean = false,
         var haveCuda: Boolean = false,
-        val projects: MutableList<Project> = ArrayList(),
-        val apps: MutableList<App> = ArrayList(),
-        val appVersions: MutableList<AppVersion> = ArrayList(),
-        val workUnits: MutableList<WorkUnit> = ArrayList(),
-        val results: MutableList<Result> = ArrayList()
+        val projects: MutableList<Project> = mutableListOf(),
+        val apps: MutableList<App> = mutableListOf(),
+        val appVersions: MutableList<AppVersion> = mutableListOf(),
+        val workUnits: MutableList<WorkUnit> = mutableListOf(),
+        val results: MutableList<Result> = mutableListOf()
 ) {
     fun clearArrays() {
         projects.clear()

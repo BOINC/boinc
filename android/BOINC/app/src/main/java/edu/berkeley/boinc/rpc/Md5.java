@@ -41,7 +41,7 @@ public class Md5 {
      * @param text The text to be hashed
      * @return The hash of the input converted to string
      */
-    public final static String hash(String text) {
+    static String hash(String text) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());

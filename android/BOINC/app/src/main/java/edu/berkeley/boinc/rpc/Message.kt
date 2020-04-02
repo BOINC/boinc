@@ -31,8 +31,7 @@ data class Message(
 ) : Serializable, Parcelable {
     private constructor(parcel: Parcel) :
             this(parcel.readString() ?: "", parcel.readInt(), parcel.readInt(), parcel.readLong(),
-                    parcel.readString()?.replace("<![CDATA[", "")
-                            ?.replace("]]>", ""))
+                    parcel.readString()?.removePrefix("<![CDATA[")?.removeSuffix("]]>"))
 
     override fun describeContents() = 0
 
