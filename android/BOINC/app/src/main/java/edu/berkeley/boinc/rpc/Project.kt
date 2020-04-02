@@ -21,8 +21,6 @@ package edu.berkeley.boinc.rpc
 import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.List
 
 data class Project(
         var masterURL: String = "",
@@ -33,7 +31,7 @@ data class Project(
         var teamName: String = "",
         var hostVenue: String = "",
         var hostId: Int = 0,
-        val guiURLs: List<GuiUrl?> = ArrayList(),
+        val guiURLs: MutableList<GuiUrl?> = mutableListOf(),
         var userTotalCredit: Double = 0.0,
         var userExpAvgCredit: Double = 0.0,
         /**
@@ -92,24 +90,36 @@ data class Project(
         get() = if (projectName.isEmpty()) masterURL else projectName
 
     private constructor(parcel: Parcel) :
-            this(parcel.readString() ?: "", parcel.readString() ?: "",
-                    parcel.readFloat(), parcel.readString() ?: "",
-                    parcel.readString() ?: "", parcel.readString() ?: "",
-                    parcel.readString() ?: "", parcel.readInt(),
-                    userTotalCredit = parcel.readDouble(), userExpAvgCredit = parcel.readDouble(),
-                    hostTotalCredit = parcel.readDouble(), hostExpAvgCredit = parcel.readDouble(),
-                    diskUsage = parcel.readDouble(), noOfRPCFailures = parcel.readInt(),
-                    masterFetchFailures = parcel.readInt(), minRPCTime = parcel.readDouble(),
-                    downloadBackoff = parcel.readDouble(), uploadBackoff = parcel.readDouble(),
-                    cpuShortTermDebt = parcel.readDouble(), cpuBackoffTime = parcel.readDouble(),
-                    cpuBackoffInterval = parcel.readDouble(), cudaDebt = parcel.readDouble(),
-                    cudaShortTermDebt = parcel.readDouble(), cudaBackoffTime = parcel.readDouble(),
-                    cudaBackoffInterval = parcel.readDouble(), atiDebt = parcel.readDouble(),
-                    atiShortTermDebt = parcel.readDouble(), atiBackoffTime = parcel.readDouble(),
-                    atiBackoffInterval = parcel.readDouble(), durationCorrectionFactor = parcel.readDouble(),
-                    scheduledRPCPending = parcel.readInt(), projectFilesDownloadedTime = parcel.readDouble(),
-                    lastRPCTime = parcel.readDouble()) {
-        parcel.readList(guiURLs, GuiUrl::class.java.classLoader)
+            this(masterURL = parcel.readString() ?: "", projectDir = parcel.readString() ?: "",
+                    resourceShare = parcel.readFloat(), projectName = parcel.readString() ?: "",
+                    userName = parcel.readString() ?: "", teamName = parcel.readString() ?: "",
+                    hostVenue = parcel.readString() ?: "", hostId = parcel.readInt()) {
+        parcel.readList(guiURLs.toList(), GuiUrl::class.java.classLoader)
+        userTotalCredit = parcel.readDouble()
+        userExpAvgCredit = parcel.readDouble()
+        hostTotalCredit = parcel.readDouble()
+        hostExpAvgCredit = parcel.readDouble()
+        diskUsage = parcel.readDouble()
+        noOfRPCFailures = parcel.readInt()
+        masterFetchFailures = parcel.readInt()
+        minRPCTime = parcel.readDouble()
+        downloadBackoff = parcel.readDouble()
+        uploadBackoff = parcel.readDouble()
+        cpuShortTermDebt = parcel.readDouble()
+        cpuBackoffTime = parcel.readDouble()
+        cpuBackoffInterval = parcel.readDouble()
+        cudaDebt = parcel.readDouble()
+        cudaShortTermDebt = parcel.readDouble()
+        cudaBackoffTime = parcel.readDouble()
+        cudaBackoffInterval = parcel.readDouble()
+        atiDebt = parcel.readDouble()
+        atiShortTermDebt = parcel.readDouble()
+        atiBackoffTime = parcel.readDouble()
+        atiBackoffInterval = parcel.readDouble()
+        durationCorrectionFactor = parcel.readDouble()
+        scheduledRPCPending = parcel.readInt()
+        projectFilesDownloadedTime = parcel.readDouble()
+        lastRPCTime = parcel.readDouble()
         val bArray = parcel.createBooleanArray()!!
         masterURLFetchPending = bArray[0]
         nonCPUIntensive = bArray[1]
@@ -178,7 +188,7 @@ data class Project(
         dest.writeString(teamName)
         dest.writeString(hostVenue)
         dest.writeInt(hostId)
-        dest.writeList(guiURLs)
+        dest.writeList(guiURLs.toList())
         dest.writeDouble(userTotalCredit)
         dest.writeDouble(userExpAvgCredit)
         dest.writeDouble(hostTotalCredit)
