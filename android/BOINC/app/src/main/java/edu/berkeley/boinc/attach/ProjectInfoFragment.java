@@ -76,16 +76,17 @@ public class ProjectInfoFragment extends DialogFragment {
         }
 
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.name);
+            Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.getName());
         }
 
         // set texts
-        ((TextView) v.findViewById(R.id.project_name)).setText(info.name);
-        ((TextView) v.findViewById(R.id.project_summary)).setText(info.summary);
-        ((TextView) v.findViewById(R.id.project_area)).setText(info.generalArea + ": " + info.specificArea);
-        ((TextView) v.findViewById(R.id.project_desc)).setText(info.description);
+        ((TextView) v.findViewById(R.id.project_name)).setText(info.getName());
+        ((TextView) v.findViewById(R.id.project_summary)).setText(info.getSummary());
+        ((TextView) v.findViewById(R.id.project_area)).setText(info.getGeneralArea() + ": " +
+                                                               info.getSpecificArea());
+        ((TextView) v.findViewById(R.id.project_desc)).setText(info.getDescription());
         ((TextView) v.findViewById(R.id.project_home)).setText(
-                getResources().getString(R.string.attachproject_login_header_home) + " " + info.home);
+                getResources().getString(R.string.attachproject_login_header_home) + " " + info.getHome());
 
         // find view elements for later use in image download
         logoWrapper = v.findViewById(R.id.project_logo_wrapper);
@@ -102,9 +103,9 @@ public class ProjectInfoFragment extends DialogFragment {
         });
 
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl);
+            Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.getImageUrl());
         }
-        new DownloadLogoAsync().execute(info.imageUrl);
+        new DownloadLogoAsync().execute(info.getImageUrl());
 
         return v;
     }

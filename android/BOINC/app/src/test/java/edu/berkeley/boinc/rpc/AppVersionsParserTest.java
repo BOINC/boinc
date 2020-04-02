@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -65,24 +64,24 @@ public class AppVersionsParserTest {
     }
 
     @Test
-    public void testParser_whenXmlAppVersionHasNoElements_thenExpectNullPointerExceptionOnEndElement()
+    public void testParser_whenXmlAppVersionHasNoElements_thenExpectEmptyList()
             throws SAXException {
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
+        appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        assertThrows(NullPointerException.class,
-                     () -> appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null));
+        assertTrue(appVersionsParser.getAppVersions().isEmpty());
     }
 
     @Test
     public void testParser_whenXmlAppVersionHasOnlyAppName_thenExpectMatchingAppVersion()
             throws SAXException {
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.app_name, null, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         appVersionsParser.characters(APP_NAME.toCharArray(), 0, APP_NAME.length());
-        appVersionsParser.endElement(null, AppVersion.Fields.app_name, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.APP_NAME, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        expected.app_name = APP_NAME;
+        expected.setAppName(APP_NAME);
 
         assertEquals(Collections.singletonList(expected), appVersionsParser.getAppVersions());
     }
@@ -91,16 +90,16 @@ public class AppVersionsParserTest {
     public void testParser_whenXmlAppVersionHasAppNameAndVersionNum_thenExpectMatchingAppVersion()
             throws SAXException {
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.app_name, null, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         appVersionsParser.characters(APP_NAME.toCharArray(), 0, APP_NAME.length());
-        appVersionsParser.endElement(null, AppVersion.Fields.app_name, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.version_num, null, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.APP_NAME, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.VERSION_NUM, null, null);
         appVersionsParser.characters("1".toCharArray(), 0, 1);
-        appVersionsParser.endElement(null, AppVersion.Fields.version_num, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.VERSION_NUM, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        expected.app_name = APP_NAME;
-        expected.version_num = 1;
+        expected.setAppName(APP_NAME);
+        expected.setVersionNum(1);
 
         assertEquals(Collections.singletonList(expected), appVersionsParser.getAppVersions());
     }
@@ -109,25 +108,25 @@ public class AppVersionsParserTest {
     public void testParser_whenTwoXmlAppVersionsHaveAppNameAndVersionNum_thenExpectTwoMatchingAppVersions()
             throws SAXException {
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.app_name, null, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         appVersionsParser.characters((APP_NAME + " 1").toCharArray(), 0, (APP_NAME + " 1").length());
-        appVersionsParser.endElement(null, AppVersion.Fields.app_name, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.version_num, null, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.APP_NAME, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.VERSION_NUM, null, null);
         appVersionsParser.characters("1".toCharArray(), 0, 1);
-        appVersionsParser.endElement(null, AppVersion.Fields.version_num, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.VERSION_NUM, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.app_name, null, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         appVersionsParser.characters((APP_NAME + " 2").toCharArray(), 0, (APP_NAME + " 2").length());
-        appVersionsParser.endElement(null, AppVersion.Fields.app_name, null);
-        appVersionsParser.startElement(null, AppVersion.Fields.version_num, null, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.APP_NAME, null);
+        appVersionsParser.startElement(null, AppVersion.Fields.VERSION_NUM, null, null);
         appVersionsParser.characters("1".toCharArray(), 0, 1);
-        appVersionsParser.endElement(null, AppVersion.Fields.version_num, null);
+        appVersionsParser.endElement(null, AppVersion.Fields.VERSION_NUM, null);
         appVersionsParser.endElement(null, AppVersionsParser.APP_VERSION_TAG, null);
 
-        expected.app_name = APP_NAME + " 1";
-        expected.version_num = 1;
+        expected.setAppName(APP_NAME + " 1");
+        expected.setVersionNum(1);
 
         List<AppVersion> appVersions =
                 Arrays.asList(expected, new AppVersion(APP_NAME + " 2", 1));

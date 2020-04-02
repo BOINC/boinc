@@ -89,12 +89,12 @@ public class AccountOutParserTest {
     @Test
     public void testParser_whenXmlDocumentHasErrorNum_thenExpectAccountOutWithErrorNum() throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
-        accountOutParser.startElement(null, AccountOut.Fields.error_num, null, null);
+        accountOutParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         accountOutParser.characters("1".toCharArray(), 0, 1);
-        accountOutParser.endElement(null, AccountOut.Fields.error_num, null);
+        accountOutParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         accountOutParser.endElement(null, "?>", null);
 
-        expected.error_num = 1;
+        expected.setErrorNum(1);
 
         assertEquals(expected, accountOutParser.getAccountOut());
     }
@@ -102,12 +102,12 @@ public class AccountOutParserTest {
     @Test
     public void testParser_whenXmlDocumentHasErrorMessage_thenExpectAccountOutWithErrorMessage() throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
-        accountOutParser.startElement(null, AccountOut.Fields.error_msg, null, null);
+        accountOutParser.startElement(null, AccountOut.Fields.ERROR_MSG, null, null);
         accountOutParser.characters("Error message".toCharArray(), 0, 13);
-        accountOutParser.endElement(null, AccountOut.Fields.error_msg, null);
+        accountOutParser.endElement(null, AccountOut.Fields.ERROR_MSG, null);
         accountOutParser.endElement(null, "?>", null);
 
-        expected.error_msg = "Error message";
+        expected.setErrorMsg("Error message");
 
         assertEquals(expected, accountOutParser.getAccountOut());
     }
@@ -115,12 +115,12 @@ public class AccountOutParserTest {
     @Test
     public void testParser_whenXmlDocumentHasAuthenticator_thenExpectAccountOutWithAuthenticator() throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
-        accountOutParser.startElement(null, AccountOut.Fields.authenticator, null, null);
+        accountOutParser.startElement(null, AccountOut.Fields.AUTHENTICATOR, null, null);
         accountOutParser.characters("Authenticator".toCharArray(), 0, 13);
-        accountOutParser.endElement(null, AccountOut.Fields.authenticator, null);
+        accountOutParser.endElement(null, AccountOut.Fields.AUTHENTICATOR, null);
         accountOutParser.endElement(null, "?>", null);
 
-        expected.authenticator = "Authenticator";
+        expected.setAuthenticator("Authenticator");
 
         assertEquals(expected, accountOutParser.getAccountOut());
     }

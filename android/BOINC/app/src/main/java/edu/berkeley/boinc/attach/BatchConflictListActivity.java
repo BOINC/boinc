@@ -214,7 +214,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         @Override
         protected void onPreExecute() {
             if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: " + project.config.name);
+                Log.d(Logging.TAG, "AttachProjectAsyncTask: " + project.config.getName());
             }
             if(asIsBound) {
                 project.result = ProjectAttachWrapper.RESULT_ONGOING;

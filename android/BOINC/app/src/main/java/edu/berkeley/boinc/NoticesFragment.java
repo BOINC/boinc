@@ -22,6 +22,8 @@ import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import edu.berkeley.boinc.adapter.NoticesListAdapter;
 import edu.berkeley.boinc.rpc.Notice;
@@ -30,6 +32,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -39,10 +42,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class NoticesFragment extends Fragment {
-
     private ListView noticesList;
     private NoticesListAdapter noticesListAdapter;
-    private ArrayList<Notice> data = new ArrayList<>();
+    private List<Notice> data = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,9 +98,7 @@ public class NoticesFragment extends Fragment {
             // data retrieval
             updateNotices();
             noticesListAdapter.clear();
-            for(Notice tmp : data) { // addAll only in API 11
-                noticesListAdapter.add(tmp);
-            }
+            noticesListAdapter.addAll(data);
             noticesListAdapter.notifyDataSetChanged();
         }
     };
@@ -106,10 +106,11 @@ public class NoticesFragment extends Fragment {
 
     private void updateNotices() {
         try {
-            data = (ArrayList<Notice>) BOINCActivity.monitor.getRssNotices();
+            data = BOINCActivity.monitor.getRssNotices();
             // sorting policy:
             // latest arrival first.
-            Collections.sort(data, (lhs, rhs) -> ((Double) (rhs.create_time - lhs.create_time)).intValue());
+            Collections.sort(data, (lhs, rhs) ->
+                    Double.compare(rhs.getCreateTime(), lhs.getCreateTime()));
         }
         catch(Exception e) {
             if(Logging.ERROR) {

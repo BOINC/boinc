@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,26 +16,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.adapter;
+package edu.berkeley.boinc.rpc
 
-import android.content.Context;
-
-public class PrefsListItemWrapperBool extends PrefsListItemWrapper {
-
-    //private final String TAG = "PrefsListItemWrapperBool";
-
-    private Boolean status;
-
-    public PrefsListItemWrapperBool(Context ctx, Integer ID, Integer categoryID, Boolean status) {
-        super(ctx, ID, categoryID);
-        this.status = status;
-    }
-
-    public void setStatus(Boolean newStatus) {
-        this.status = newStatus;
-    }
-
-    public Boolean getStatus() {
-        return this.status;
+data class VersionInfo(var major: Int = 0, var minor: Int = 0, var release: Int = 0) {
+    object Fields {
+        const val MAJOR = "major"
+        const val MINOR = "minor"
+        const val RELEASE = "release"
     }
 }

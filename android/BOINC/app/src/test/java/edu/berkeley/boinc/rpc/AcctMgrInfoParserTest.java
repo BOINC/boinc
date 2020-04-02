@@ -106,12 +106,12 @@ public class AcctMgrInfoParserTest {
     public void testParser_whenXmlAccountManagerInfoHasOnlyName_thenExpectMatchingAccountManagerInfo()
             throws SAXException {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_name, null, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_NAME.toCharArray(), 0, ACCT_MGR_NAME.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        expected.acct_mgr_name = ACCT_MGR_NAME;
+        expected.setAcctMgrName(ACCT_MGR_NAME);
 
         assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
@@ -120,16 +120,16 @@ public class AcctMgrInfoParserTest {
     public void testParser_whenXmlAccountManagerInfoHasOnlyNameAndUrl_thenExpectMatchingAccountManagerInfo()
             throws SAXException {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_name, null, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_NAME.toCharArray(), 0, ACCT_MGR_NAME.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_URL.toCharArray(), 0, ACCT_MGR_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_url, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        expected.acct_mgr_name = ACCT_MGR_NAME;
-        expected.acct_mgr_url = ACCT_MGR_URL;
+        expected.setAcctMgrName(ACCT_MGR_NAME);
+        expected.setAcctMgrUrl(ACCT_MGR_URL);
 
         assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
@@ -138,20 +138,20 @@ public class AcctMgrInfoParserTest {
     public void testParser_whenXmlAccountManagerInfoHasOnlyNameUrlAndCookieFailureUrl_thenExpectMatchingAccountManagerInfo()
             throws SAXException {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_name, null, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_NAME.toCharArray(), 0, ACCT_MGR_NAME.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_URL.toCharArray(), 0, ACCT_MGR_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_url, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.cookie_failure_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null, null);
         acctMgrInfoParser.characters(COOKIE_FAIL_URL.toCharArray(), 0, COOKIE_FAIL_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_failure_url, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
-        expected.acct_mgr_name = ACCT_MGR_NAME;
-        expected.acct_mgr_url = ACCT_MGR_URL;
-        expected.cookie_failure_url = COOKIE_FAIL_URL;
+        expected.setAcctMgrName(ACCT_MGR_NAME);
+        expected.setAcctMgrUrl(ACCT_MGR_URL);
+        expected.setCookieFailureUrl(COOKIE_FAIL_URL);
 
         assertEquals(expected, acctMgrInfoParser.getAccountMgrInfo());
     }
@@ -160,18 +160,18 @@ public class AcctMgrInfoParserTest {
     public void testParser_whenXmlAccountManagerInfoHasOnlyNameUrlCookieFailureUrlAndHaveCredentials_thenExpectMatchingAccountManagerInfo()
             throws SAXException {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_name, null, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_NAME.toCharArray(), 0, ACCT_MGR_NAME.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_URL.toCharArray(), 0, ACCT_MGR_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_url, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.cookie_failure_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null, null);
         acctMgrInfoParser.characters(COOKIE_FAIL_URL.toCharArray(), 0, COOKIE_FAIL_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_failure_url, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.have_credentials, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.HAVING_CREDENTIALS, null, null);
         acctMgrInfoParser.characters("true".toCharArray(), 0, 4);
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.have_credentials, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.HAVING_CREDENTIALS, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
         expected = new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,
@@ -184,21 +184,21 @@ public class AcctMgrInfoParserTest {
     public void testParser_whenXmlAccountManagerInfoHasOnlyNameUrlCookieFailureUrlHaveCredentialsAndCookieRequired_thenExpectMatchingAccountManagerInfo()
             throws SAXException {
         acctMgrInfoParser.startElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_name, null, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_NAME.toCharArray(), 0, ACCT_MGR_NAME.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_name, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.acct_mgr_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_NAME, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null, null);
         acctMgrInfoParser.characters(ACCT_MGR_URL.toCharArray(), 0, ACCT_MGR_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.acct_mgr_url, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.cookie_failure_url, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.ACCT_MGR_URL, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null, null);
         acctMgrInfoParser.characters(COOKIE_FAIL_URL.toCharArray(), 0, COOKIE_FAIL_URL.length());
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_failure_url, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.have_credentials, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.COOKIE_FAILURE_URL, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.HAVING_CREDENTIALS, null, null);
         acctMgrInfoParser.characters("true".toCharArray(), 0, 4);
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.have_credentials, null);
-        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.cookie_required, null, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.HAVING_CREDENTIALS, null);
+        acctMgrInfoParser.startElement(null, AcctMgrInfo.Fields.COOKIE_REQUIRED, null, null);
         acctMgrInfoParser.characters("true".toCharArray(), 0, 4);
-        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.cookie_required, null);
+        acctMgrInfoParser.endElement(null, AcctMgrInfo.Fields.COOKIE_REQUIRED, null);
         acctMgrInfoParser.endElement(null, AcctMgrInfoParser.ACCT_MGR_INFO_TAG, null);
 
         expected = new AcctMgrInfo(ACCT_MGR_NAME, ACCT_MGR_URL, COOKIE_FAIL_URL,

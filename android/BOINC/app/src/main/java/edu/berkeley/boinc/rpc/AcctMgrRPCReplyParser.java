@@ -70,16 +70,13 @@ public class AcctMgrRPCReplyParser extends BaseParser {
         try {
             if(mAcctMgrRPCReply != null) {
                 // inside <acct_mgr_rpc_reply>
-                if(localName.equalsIgnoreCase(ACCT_MGR_RPC_REPLY_TAG)) {
-                    // closing tag
-                }
-                else {
+                if(!localName.equalsIgnoreCase(ACCT_MGR_RPC_REPLY_TAG)) { // not closing tag
                     // decode inner tags
                     if(localName.equalsIgnoreCase(ERROR_NUM_TAG)) {
-                        mAcctMgrRPCReply.error_num = Integer.parseInt(mCurrentElement.toString());
+                        mAcctMgrRPCReply.setErrorNum(Integer.parseInt(mCurrentElement.toString()));
                     }
                     else if(localName.equalsIgnoreCase(MESSAGE_TAG)) {
-                        mAcctMgrRPCReply.messages.add(mCurrentElement.toString());
+                        mAcctMgrRPCReply.getMessages().add(mCurrentElement.toString());
                     }
                 }
             }
@@ -91,5 +88,4 @@ public class AcctMgrRPCReplyParser extends BaseParser {
         }
         mElementStarted = false;
     }
-
 }

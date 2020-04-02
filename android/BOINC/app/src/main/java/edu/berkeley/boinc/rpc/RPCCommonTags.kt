@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,17 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.rpc;
+@file:JvmName("RPCCommonTags")
 
-import java.util.ArrayList;
-import java.util.List;
+package edu.berkeley.boinc.rpc
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-@EqualsAndHashCode
-@ToString
-public class ProjectAttachReply {
-    public int error_num = 0;
-    public final List<String> messages = new ArrayList<>();
-}
+const val ACCOUNT_MANAGER = "account_manager"
+const val DESCRIPTION = "description"
+const val ERROR_NUM = "error_num"
+const val GUI_URL = "gui_url"
+const val MASTER_URL = "master_url"
+const val NAME = "name"
+const val NON_CPU_INTENSIVE = "non_cpu_intensive"
+const val PLAN_CLASS = "plan_class"
+const val PROJECT = "project"
+const val PROJECT_NAME = "project_name"
+const val PROJECT_URL = "project_url"
+const val URL = "url"
+const val USER_FRIENDLY_NAME = "user_friendly_name"

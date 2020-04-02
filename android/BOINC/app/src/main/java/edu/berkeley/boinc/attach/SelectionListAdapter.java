@@ -18,14 +18,7 @@
  */
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.content.Context;
-import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,26 +30,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.List;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
+import edu.berkeley.boinc.utils.Logging;
+
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
 
-    private ArrayList<ProjectListEntry> entries;
+    private List<ProjectListEntry> entries;
     private FragmentActivity activity;
 
-    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
+    SelectionListAdapter(FragmentActivity a, int textViewResourceId, List<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v;
-
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         final ProjectListEntry listItem = entries.get(position);
 
+        assert vi != null;
         v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
         TextView name = v.findViewById(R.id.name);
         TextView description = v.findViewById(R.id.description);
@@ -87,14 +88,15 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         }
         else {
             // element is project option
-            name.setText(listItem.info.name);
-            description.setText(listItem.info.generalArea);
-            summary.setText(listItem.info.summary);
+            name.setText(listItem.info.getName());
+            description.setText(listItem.info.getGeneralArea());
+            summary.setText(listItem.info.getSummary());
             cb.setChecked(listItem.checked);
             cb.setOnClickListener(view -> listItem.checked = !listItem.checked);
             textWrapper.setOnClickListener(view -> {
                 if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+                    Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
+                                       listItem.info.getName());
                 }
 
                 ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);

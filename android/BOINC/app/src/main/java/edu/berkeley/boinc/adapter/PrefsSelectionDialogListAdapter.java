@@ -18,8 +18,6 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -33,16 +31,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import edu.berkeley.boinc.PrefsFragment.SelectionDialogOption;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialogOption> implements OnClickListener {
 
-    private ArrayList<SelectionDialogOption> entries;
+    private List<SelectionDialogOption> entries;
     private Activity activity;
 
-    public PrefsSelectionDialogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<SelectionDialogOption> entries) {
+    public PrefsSelectionDialogListAdapter(Activity activity, ListView listView, int textViewResourceId,
+                                           List<SelectionDialogOption> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -86,8 +87,6 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
             wrapper.setTag(position);
             if(getItem(position).highlighted) {
                 v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
-                //v.setBackgroundDrawable(activity.getResources().getDrawable());
-                //cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
             }
         }
         return v;
@@ -99,7 +98,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         RelativeLayout wrapper = (RelativeLayout) v;
         Integer position = (Integer) v.getTag();
         CheckBox cb = wrapper.findViewById(R.id.checkbox);
-        Boolean previousState = cb.isChecked();
+        boolean previousState = cb.isChecked();
         cb.setChecked(!previousState);
         entries.get(position).selected = cb.isChecked();
     }

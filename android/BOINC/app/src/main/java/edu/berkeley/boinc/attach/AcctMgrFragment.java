@@ -53,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AcctMgrFragment extends DialogFragment {
@@ -75,18 +76,18 @@ public class AcctMgrFragment extends DialogFragment {
 
     private AttachProjectAsyncTask asyncTask;
 
-
     private void fillAdapterData() {
-        ArrayList<AccountManager> accountManagers = null;
+        List<AccountManager> accountManagers = null;
         if (mIsBound) {
             try {
-                accountManagers = (ArrayList<AccountManager>) monitor.getAccountManagers();
+                accountManagers = monitor.getAccountManagers();
             } catch (Exception e) {
                 if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: " + e);
+                accountManagers = Collections.emptyList();
             }
             List<AccountManagerSpinner> adapterData = new ArrayList<>();
             for (AccountManager accountManager : accountManagers) {
-                adapterData.add(new AccountManagerSpinner(accountManager.name, accountManager.url));
+                adapterData.add(new AccountManagerSpinner(accountManager.getName(), accountManager.getUrl()));
             }
             ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, adapterData);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -113,7 +114,7 @@ public class AcctMgrFragment extends DialogFragment {
         urlSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 AccountManagerSpinner accountManagerSpinner = (AccountManagerSpinner) urlSpinner.getSelectedItem();
-                urlInput.setText(accountManagerSpinner.url);
+                urlInput.setText(accountManagerSpinner.getUrl());
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {

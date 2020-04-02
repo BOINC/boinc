@@ -103,12 +103,12 @@ public class NoticeNotification {
         double lastNotifiedArrivalTime = store.getLastNotifiedNoticeArrivalTime();
 
         for(Notice tmp : notices) {
-            if(tmp.arrival_time > lastNotifiedArrivalTime) {
+            if(tmp.getArrivalTime() > lastNotifiedArrivalTime) {
                 // multiple new notices might have same arrival time -> write back after adding all
                 currentlyNotifiedNotices.add(tmp);
                 newNotice = true;
-                if(tmp.arrival_time > mostRecentSeenArrivalTime) {
-                    mostRecentSeenArrivalTime = tmp.arrival_time;
+                if(tmp.getArrivalTime() > mostRecentSeenArrivalTime) {
+                    mostRecentSeenArrivalTime = tmp.getArrivalTime();
                 }
             }
         }
@@ -125,25 +125,19 @@ public class NoticeNotification {
     private Notification buildNotification() {
         // build new notification from scratch every time a notice arrives
         final NotificationCompat.Builder nb;
-        final int notices;
-        final String projectName;
+        final int notices = currentlyNotifiedNotices.size();
+        final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
 
-        nb = new NotificationCompat.Builder(this.context, "main-channel");
-        nb.setContentTitle(this.context.getResources().getQuantityString(
-                R.plurals.notice_notification,
-                notices = this.currentlyNotifiedNotices.size(),
-                projectName = this.currentlyNotifiedNotices.get(0).project_name,
-                notices)).
+        nb = new NotificationCompat.Builder(context, "main-channel");
+        nb.setContentTitle(context.getResources().getQuantityString(
+                R.plurals.notice_notification, notices, projectName, notices)).
                   setSmallIcon(R.drawable.mailw).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
             // single notice view
-            nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
-                    setLargeIcon(NoticeNotification.getLargeProjectIcon(
-                            this.context,
-                            projectName)
-                    );
+            nb.setContentText(currentlyNotifiedNotices.get(0).getTitle()).
+                    setLargeIcon(NoticeNotification.getLargeProjectIcon(context, projectName));
         }
         else {
             // multi notice view
@@ -157,8 +151,8 @@ public class NoticeNotification {
             final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             for(int i = 0; i < notices; i++) {
                 final Notice notice;
-                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).project_name +
-                                   ": " + notice.title);
+                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).getProjectName() +
+                                   ": " + notice.getTitle());
             }
             nb.setStyle(inboxStyle);
         }

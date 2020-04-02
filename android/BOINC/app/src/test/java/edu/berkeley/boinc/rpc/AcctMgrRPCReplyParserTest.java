@@ -98,7 +98,7 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        expected.error_num = 1;
+        expected.setErrorNum(1);
 
         assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
     }
@@ -115,8 +115,8 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        expected.error_num = 1;
-        expected.messages.add(MESSAGE);
+        expected.setErrorNum(1);
+        expected.getMessages().add(MESSAGE);
 
         assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
     }
@@ -136,9 +136,9 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
-        expected.error_num = 1;
-        expected.messages.add(MESSAGE + " 1");
-        expected.messages.add(MESSAGE + " 2");
+        expected.setErrorNum(1);
+        expected.getMessages().add(MESSAGE + " 1");
+        expected.getMessages().add(MESSAGE + " 2");
 
         assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
     }

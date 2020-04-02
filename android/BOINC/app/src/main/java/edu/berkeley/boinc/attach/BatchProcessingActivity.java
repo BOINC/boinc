@@ -83,7 +83,7 @@ public class BatchProcessingActivity extends FragmentActivity {
         mPager = findViewById(R.id.hint_container);
         mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        mPager.setOnPageChangeListener(new OnPageChangeListener() {
+        mPager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }
@@ -274,7 +274,7 @@ public class BatchProcessingActivity extends FragmentActivity {
                 if(selectedProject.result != ProjectAttachWrapper.RESULT_READY) {
                     continue; // skip already tried projects in batch processing
                 }
-                publishProgress(selectedProject.info.name);
+                publishProgress(selectedProject.info.getName());
                 int conflict = selectedProject.lookupAndAttach(false);
                 if(conflict != ProjectAttachWrapper.RESULT_SUCCESS) {
                     if(Logging.ERROR) {

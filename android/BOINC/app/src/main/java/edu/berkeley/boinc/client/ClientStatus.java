@@ -20,7 +20,6 @@ package edu.berkeley.boinc.client;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -324,36 +323,36 @@ public class ClientStatus {
     public synchronized String getProjectStatus(String master_url) {
         StringBuffer sb = new StringBuffer();
         for(Project project : projects) {
-            if(!project.master_url.equals(master_url)) {
+            if(!project.getMasterURL().equals(master_url)) {
                 continue;
             }
 
-            if(project.suspended_via_gui) {
+            if(project.getSuspendedViaGUI()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
             }
-            if(project.dont_request_more_work) {
+            if(project.getDoNotRequestMoreWork()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_dontrequestmorework));
             }
-            if(project.ended) {
+            if(project.getEnded()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_ended));
             }
-            if(project.detach_when_done) {
+            if(project.getDetachWhenDone()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_detachwhendone));
             }
-            if(project.sched_rpc_pending > 0) {
+            if(project.getScheduledRPCPending() > 0) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcpending));
-                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.sched_rpc_pending));
+                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.getScheduledRPCPending()));
             }
-            if(project.scheduler_rpc_in_progress) {
+            if(project.getSchedulerRPCInProgress()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcinprogress));
             }
-            if(project.trickle_up_pending) {
+            if(project.getTrickleUpPending()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
             }
 
             Calendar minRPCTime = Calendar.getInstance();
             Calendar now = Calendar.getInstance();
-            minRPCTime.setTimeInMillis((long) project.min_rpc_time * 1000);
+            minRPCTime.setTimeInMillis((long) project.getMinRPCTime() * 1000);
             if(minRPCTime.compareTo(now) > 0) {
                 appendToStatus(
                         sb,
@@ -395,11 +394,11 @@ public class ClientStatus {
     public synchronized List<ImageWrapper> getSlideshowForProject(String masterUrl) {
         List<ImageWrapper> images = new ArrayList<>();
         for(Project project : projects) {
-            if(!project.master_url.equals(masterUrl)) {
+            if(!project.getMasterURL().equals(masterUrl)) {
                 continue;
             }
             // get file paths of soft link files
-            File dir = new File(project.project_dir);
+            File dir = new File(project.getProjectDir());
             File[] foundFiles = dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
                                                               && !name.endsWith(".png"));
             if(foundFiles == null) {
@@ -408,7 +407,8 @@ public class ClientStatus {
 
             List<String> allImagePaths = new ArrayList<>();
             for(File file : foundFiles) {
-                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
+                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(),
+                                                                   project.getProjectDir());
                 //check whether path is not empty, and avoid duplicates (slideshow images can
                 //re-occur for multiple apps, since we do not distinct apps, skip duplicates.
                 if(slideshowImagePath != null && !slideshowImagePath.isEmpty() &&
@@ -421,7 +421,7 @@ public class ClientStatus {
             for(String filePath : allImagePaths) {
                 Bitmap tmp = BitmapFactory.decodeFile(filePath);
                 if(tmp != null) {
-                    images.add(new ImageWrapper(tmp, project.project_name, filePath));
+                    images.add(new ImageWrapper(tmp, project.getProjectName(), filePath));
                 }
                 else if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "loadSlideshowImagesFromFile(): null for path: " + filePath);
@@ -440,13 +440,15 @@ public class ClientStatus {
         try {
             // loop through all projects
             for(Project project : projects) {
-                if(project.master_url.equals(masterUrl)) {
+                if(project.getMasterURL().equals(masterUrl)) {
                     // read file name of icon
                     String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
                     if(iconAbsPath == null) {
                         if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " + masterUrl);
+                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
+                                               masterUrl);
                         }
                         return null;
                     }
@@ -474,14 +476,16 @@ public class ClientStatus {
         try {
             // loop through all projects
             for(Project project : projects) {
-                if(project.project_name.equals(projectName)) {
+                if(project.getProjectName().equals(projectName)) {
                     // read file name of icon
                     String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.project_dir + "/stat_icon", project.project_dir);
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
                     if(iconAbsPath == null) {
                         if(Logging.VERBOSE) {
                             Log.v(Logging.TAG,
-                                  "getProjectIconByName could not parse sym link for project: " + projectName);
+                                  "getProjectIconByName could not parse sym link for project: " +
+                                  projectName);
                         }
                         return null;
                     }
@@ -581,7 +585,7 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = ctx.getString(R.string.suspend_battery_charging);
                             try {
-                                Double minCharge = prefs.battery_charge_min_pct;
+                                Double minCharge = prefs.getBatteryChargeMinPct();
                                 Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
                                 statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
                                                minCharge.intValue()
@@ -689,24 +693,24 @@ public class ClientStatus {
     private void parseComputingStatus() {
         computingParseError = true;
         try {
-            if(status.task_mode == BOINCDefs.RUN_MODE_NEVER) {
+            if(status.getTaskMode() == BOINCDefs.RUN_MODE_NEVER) {
                 computingStatus = COMPUTING_STATUS_NEVER;
-                computingSuspendReason = status.task_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
+                computingSuspendReason = status.getTaskSuspendReason(); // = 4 - SUSPEND_REASON_USER_REQ????
                 computingParseError = false;
                 return;
             }
-            if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.task_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED) &&
-               (status.task_suspend_reason != BOINCDefs.SUSPEND_REASON_CPU_THROTTLE)) {
+            if((status.getTaskMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getTaskSuspendReason() != BOINCDefs.SUSPEND_NOT_SUSPENDED) &&
+               (status.getTaskSuspendReason() != BOINCDefs.SUSPEND_REASON_CPU_THROTTLE)) {
                 // do not expose cpu throttling as suspension to UI
                 computingStatus = COMPUTING_STATUS_SUSPENDED;
-                computingSuspendReason = status.task_suspend_reason;
+                computingSuspendReason = status.getTaskSuspendReason();
                 computingParseError = false;
                 return;
             }
-            if((status.task_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               ((status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) ||
-                (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
+            if((status.getTaskMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               ((status.getTaskSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED) ||
+                (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
                 // treat cpu throttling as if client was active (either idle, or computing, depending on tasks)
                 //figure out whether we have an active task
                 Boolean activeTask = false;
@@ -721,12 +725,12 @@ public class ClientStatus {
 
                 if(activeTask) { // client is currently computing
                     computingStatus = COMPUTING_STATUS_COMPUTING;
-                    computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                    computingSuspendReason = status.getTaskSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
                 }
                 else { // client "is able but idle"
                     computingStatus = COMPUTING_STATUS_IDLE;
-                    computingSuspendReason = status.task_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                    computingSuspendReason = status.getTaskSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                     computingParseError = false;
                 }
             }
@@ -744,23 +748,23 @@ public class ClientStatus {
     private void parseNetworkStatus() {
         networkParseError = true;
         try {
-            if(status.network_mode == BOINCDefs.RUN_MODE_NEVER) {
+            if(status.getNetworkMode() == BOINCDefs.RUN_MODE_NEVER) {
                 networkStatus = NETWORK_STATUS_NEVER;
-                networkSuspendReason = status.network_suspend_reason; // = 4 - SUSPEND_REASON_USER_REQ????
+                networkSuspendReason = status.getNetworkSuspendReason(); // = 4 - SUSPEND_REASON_USER_REQ????
                 networkParseError = false;
                 return;
             }
-            if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.network_suspend_reason != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+            if((status.getNetworkMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getNetworkSuspendReason() != BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
                 networkStatus = NETWORK_STATUS_SUSPENDED;
-                networkSuspendReason = status.network_suspend_reason;
+                networkSuspendReason = status.getNetworkSuspendReason();
                 networkParseError = false;
                 return;
             }
-            if((status.network_mode == BOINCDefs.RUN_MODE_AUTO) &&
-               (status.network_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
+            if((status.getNetworkMode() == BOINCDefs.RUN_MODE_AUTO) &&
+               (status.getNetworkSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED)) {
                 networkStatus = NETWORK_STATUS_AVAILABLE;
-                networkSuspendReason = status.network_suspend_reason; // = 0 - SUSPEND_NOT_SUSPENDED
+                networkSuspendReason = status.getNetworkSuspendReason(); // = 0 - SUSPEND_NOT_SUSPENDED
                 networkParseError = false;
             }
         }
@@ -777,17 +781,18 @@ public class ClientStatus {
     private void appendNewNotices(List<Notice> newNotices) {
         for(Notice newNotice : newNotices) {
             if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " + newNotice.seqno +
-                                   " is server notice: " + newNotice.isServerNotice);
+                Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " +
+                                   newNotice.getSeqno() + " is server notice: " +
+                                   newNotice.isServerNotice());
             }
-            if(newNotice.seqno > mostRecentNoticeSeqNo) {
-                if(!newNotice.isClientNotice && !newNotice.isServerNotice) {
+            if(newNotice.getSeqno() > mostRecentNoticeSeqNo) {
+                if(!newNotice.isClientNotice() && !newNotice.isServerNotice()) {
                     rssNotices.add(newNotice);
                 }
-                if(newNotice.isServerNotice) {
+                if(newNotice.isServerNotice()) {
                     serverNotices.add(newNotice);
                 }
-                mostRecentNoticeSeqNo = newNotice.seqno;
+                mostRecentNoticeSeqNo = newNotice.getSeqno();
             }
         }
     }

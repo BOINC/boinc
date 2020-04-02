@@ -50,16 +50,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
-import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
+import edu.berkeley.boinc.adapter.NavDrawerItem;
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.client.IMonitor;
-import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
-
-import java.util.ArrayList;
 
 public class BOINCActivity extends AppCompatActivity {
 
@@ -249,18 +246,6 @@ public class BOINCActivity extends AppCompatActivity {
             mIsBound = false;
         }
     }
-	/*
-	public IMonitor getMonitorService() {
-		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in BOINCActivity");
-		return monitor;
-	}*/
-
-    public void startAttachProjectListActivity() {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "BOINCActivity attempt to start ");
-        }
-        startActivity(new Intent(this, SelectionListActivity.class));
-    }
 
     /**
      * React to selection of nav bar item
@@ -278,8 +263,8 @@ public class BOINCActivity extends AppCompatActivity {
         }
         if(Logging.DEBUG) {
             Log.d(Logging.TAG,
-                  "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() +
-                  " is project? " + item.isProjectItem());
+                  "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " +
+                  item.getTitle() + " is project? " + item.isProjectItem());
         }
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -341,7 +326,8 @@ public class BOINCActivity extends AppCompatActivity {
                 default:
                     if(Logging.ERROR) {
                         Log.d(Logging.TAG,
-                              "dispatchNavBarOnClick() could not find corresponding fragment for " + item.getTitle());
+                              "dispatchNavBarOnClick() could not find corresponding fragment for " +
+                              item.getTitle());
                     }
                     break;
             }
@@ -383,9 +369,8 @@ public class BOINCActivity extends AppCompatActivity {
                 }
                 if(numberProjectsInNavList != monitor.getProjects().size()) {
                     numberProjectsInNavList =
-                            mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>) monitor.getProjects());
+                            mDrawerListAdapter.compareAndAddProjects(monitor.getProjects());
                 }
-                //setAppTitle();
             }
         }
         catch(Exception e) {

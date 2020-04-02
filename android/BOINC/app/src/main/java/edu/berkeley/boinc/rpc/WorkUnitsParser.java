@@ -31,14 +31,14 @@ import java.util.List;
 
 import edu.berkeley.boinc.utils.Logging;
 
-public class WorkunitsParser extends BaseParser {
+public class WorkUnitsParser extends BaseParser {
     static final String WORKUNIT_TAG = "workunit";
 
-    private List<Workunit> mWorkunits = new ArrayList<>();
-    private Workunit mWorkunit = null;
+    private List<WorkUnit> mWorkUnits = new ArrayList<>();
+    private WorkUnit mWorkUnit = null;
 
-    final List<Workunit> getWorkunits() {
-        return mWorkunits;
+    final List<WorkUnit> getWorkUnits() {
+        return mWorkUnits;
     }
 
     /**
@@ -47,11 +47,11 @@ public class WorkunitsParser extends BaseParser {
      * @param rpcResult String returned by RPC call of core client
      * @return vector of workunits
      */
-    public static List<Workunit> parse(String rpcResult) {
+    public static List<WorkUnit> parse(String rpcResult) {
         try {
-            WorkunitsParser parser = new WorkunitsParser();
+            WorkUnitsParser parser = new WorkUnitsParser();
             Xml.parse(rpcResult, parser);
-            return parser.getWorkunits();
+            return parser.getWorkUnits();
         }
         catch(SAXException e) {
             return Collections.emptyList();
@@ -62,7 +62,7 @@ public class WorkunitsParser extends BaseParser {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
         if(localName.equalsIgnoreCase(WORKUNIT_TAG)) {
-            mWorkunit = new Workunit();
+            mWorkUnit = new WorkUnit();
         }
         else {
             // Another element, hopefully primitive and not constructor
@@ -76,39 +76,39 @@ public class WorkunitsParser extends BaseParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         try {
-            if(mWorkunit != null) {
+            if(mWorkUnit != null) {
                 // We are inside <workunit>
                 if(localName.equalsIgnoreCase(WORKUNIT_TAG)) {
                     // Closing tag of <workunit> - add to vector and be ready for next one
-                    if(!mWorkunit.name.equals("")) {
+                    if(!mWorkUnit.getName().isEmpty()) {
                         // name is a must
-                        mWorkunits.add(mWorkunit);
+                        mWorkUnits.add(mWorkUnit);
                     }
-                    mWorkunit = null;
+                    mWorkUnit = null;
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(Workunit.Fields.name)) {
-                        mWorkunit.name = mCurrentElement.toString();
+                    if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
+                        mWorkUnit.setName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.app_name)) {
-                        mWorkunit.app_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.APP_NAME)) {
+                        mWorkUnit.setAppName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.version_num)) {
-                        mWorkunit.version_num = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.VERSION_NUM)) {
+                        mWorkUnit.setVersionNum(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_fpops_est)) {
-                        mWorkunit.rsc_fpops_est = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.RSC_FPOPS_EST)) {
+                        mWorkUnit.setRscFloatingPointOpsEst(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_fpops_bound)) {
-                        mWorkunit.rsc_fpops_bound = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.RSC_FPOPS_BOUND)) {
+                        mWorkUnit.setRscFloatingPointOpsBound(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_memory_bound)) {
-                        mWorkunit.rsc_memory_bound = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.RSC_MEMORY_BOUND)) {
+                        mWorkUnit.setRscMemoryBound(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(Workunit.Fields.rsc_disk_bound)) {
-                        mWorkunit.rsc_disk_bound = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(WorkUnit.Fields.RSC_DISK_BOUND)) {
+                        mWorkUnit.setRscDiskBound(Double.parseDouble(mCurrentElement.toString()));
                     }
                 }
             }

@@ -21,12 +21,12 @@ package edu.berkeley.boinc.rpc;
 
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class AppsParser extends BaseParser {
     static final String APP_TAG = "app";
@@ -76,7 +76,7 @@ public class AppsParser extends BaseParser {
             // We are inside <app>
             if(localName.equalsIgnoreCase(APP_TAG)) {
                 // Closing tag of <app> - add to vector and be ready for next one
-                if(!mApp.name.equals("")) {
+                if(StringUtils.isNotEmpty(mApp.getName())) {
                     // name is a must
                     mApps.add(mApp);
                 }
@@ -85,14 +85,14 @@ public class AppsParser extends BaseParser {
             else {
                 // Not the closing tag - we decode possible inner tags
                 trimEnd();
-                if(localName.equalsIgnoreCase(App.Fields.name)) {
-                    mApp.name = mCurrentElement.toString();
+                if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
+                    mApp.setName(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(App.Fields.user_friendly_name)) {
-                    mApp.user_friendly_name = mCurrentElement.toString();
+                else if(localName.equalsIgnoreCase(RPCCommonTags.USER_FRIENDLY_NAME)) {
+                    mApp.setUserFriendlyName(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(App.Fields.non_cpu_intensive)) {
-                    mApp.non_cpu_intensive = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(RPCCommonTags.NON_CPU_INTENSIVE)) {
+                    mApp.setNonCpuIntensive(Integer.parseInt(mCurrentElement.toString()));
                 }
             }
         }

@@ -73,74 +73,72 @@ public class HostInfoParser extends BaseParser {
         try {
             if(mHostInfo != null) {
                 // we are inside <host_info>
-                if(localName.equalsIgnoreCase(HOST_INFO_TAG)) {
-                    // Closing tag of <host_info> - nothing to do at the moment
-                }
-                else {
+                // Closing tag of <host_info> - nothing to do at the moment
+                if (!localName.equalsIgnoreCase(HOST_INFO_TAG)) {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(HostInfo.Fields.timezone)) {
-                        mHostInfo.timezone = Integer.parseInt(mCurrentElement.toString());
+                    if(localName.equalsIgnoreCase(HostInfo.Fields.TIMEZONE)) {
+                        mHostInfo.setTimezone(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.domain_name)) {
-                        mHostInfo.domain_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.DOMAIN_NAME)) {
+                        mHostInfo.setDomainName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.ip_addr)) {
-                        mHostInfo.ip_addr = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.IP_ADDR)) {
+                        mHostInfo.setIpAddress(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.host_cpid)) {
-                        mHostInfo.host_cpid = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.HOST_CPID)) {
+                        mHostInfo.setHostCpid(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_ncpus)) {
-                        mHostInfo.p_ncpus = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_NCPUS)) {
+                        mHostInfo.setNoOfCPUs(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_vendor)) {
-                        mHostInfo.p_vendor = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_VENDOR)) {
+                        mHostInfo.setCpuVendor(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_model)) {
-                        mHostInfo.p_model = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_MODEL)) {
+                        mHostInfo.setCpuModel(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_features)) {
-                        mHostInfo.p_features = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_FEATURES)) {
+                        mHostInfo.setCpuFeatures(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_fpops)) {
-                        mHostInfo.p_fpops = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_FPOPS)) {
+                        mHostInfo.setCpuFloatingPointOps(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_iops)) {
-                        mHostInfo.p_iops = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_IOPS)) {
+                        mHostInfo.setCpuIntegerOps(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_membw)) {
-                        mHostInfo.p_membw = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_MEMBW)) {
+                        mHostInfo.setCpuMembw(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.p_calculated)) {
-                        mHostInfo.p_calculated = (long) Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.P_CALCULATED)) {
+                        mHostInfo.setCpuCalculated((long) Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.product_name)) {
-                        mHostInfo.product_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.PRODUCT_NAME)) {
+                        mHostInfo.setProductName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_nbytes)) {
-                        mHostInfo.m_nbytes = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.M_NBYTES)) {
+                        mHostInfo.setMemoryInBytes(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_cache)) {
-                        mHostInfo.m_cache = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.M_CACHE)) {
+                        mHostInfo.setMemoryCache(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.m_swap)) {
-                        mHostInfo.m_swap = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.M_SWAP)) {
+                        mHostInfo.setMemorySwap(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.d_total)) {
-                        mHostInfo.d_total = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.D_TOTAL)) {
+                        mHostInfo.setTotalDiskSpace(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.d_free)) {
-                        mHostInfo.d_free = Double.parseDouble(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.D_FREE)) {
+                        mHostInfo.setFreeDiskSpace(Double.parseDouble(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.os_name)) {
-                        mHostInfo.os_name = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.OS_NAME)) {
+                        mHostInfo.setOsName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.os_version)) {
-                        mHostInfo.os_version = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.OS_VERSION)) {
+                        mHostInfo.setOsVersion(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(HostInfo.Fields.virtualbox_version)) {
-                        mHostInfo.virtualbox_version = mCurrentElement.toString();
+                    else if(localName.equalsIgnoreCase(HostInfo.Fields.VIRTUALBOX_VERSION)) {
+                        mHostInfo.setVirtualBoxVersion(mCurrentElement.toString());
                     }
                 }
             }

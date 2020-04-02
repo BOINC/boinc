@@ -46,26 +46,26 @@ public class CcStateTest {
         app1 = new App();
 
         AppVersion appVersion = new AppVersion();
-        Workunit workunit = new Workunit();
+        WorkUnit workUnit = new WorkUnit();
 
-        project.master_url = URL_1;
-        project1.master_url = URL_1;
+        project.setMasterURL(URL_1);
+        project1.setMasterURL(URL_1);
 
-        app.name = "App";
-        app1.name = "App";
-        app.project = project;
-        app1.project = project1;
+        app.setName("App");
+        app1.setName("App");
+        app.setProject(project);
+        app1.setProject(project1);
 
-        workunit.name = "Work Unit";
-        workunit.project = project;
+        workUnit.setName("Work Unit");
+        workUnit.setProject(project);
 
-        appVersion.plan_class = "Plan Class";
-        appVersion.app = app;
-        appVersion.project = project;
-        appVersion.version_num = 1;
+        appVersion.setPlanClass("Plan Class");
+        appVersion.setApp(app);
+        appVersion.setProject(project);
+        appVersion.setVersionNum(1);
 
         ccState.getApps().add(app);
-        ccState.getWorkunits().add(workunit);
+        ccState.getWorkUnits().add(workUnit);
         ccState.getAppVersions().add(appVersion);
     }
 
@@ -89,7 +89,7 @@ public class CcStateTest {
     @Test
     public void testLookupApp_whenAppListHasOneAppAndProjectDoesntMatch_thenExpectNull() {
         Project project1 = new Project();
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupApp(project1, "App"));
     }
@@ -97,7 +97,7 @@ public class CcStateTest {
     @Test
     public void testLookupApp_whenAppListHasOneAppAndAppNameDoesntMatch_thenExpectNull() {
         Project project1 = new Project();
-        project1.master_url = URL_1;
+        project1.setMasterURL(URL_1);
 
         assertNull(ccState.lookupApp(project1, "App 2"));
     }
@@ -107,8 +107,8 @@ public class CcStateTest {
         final App appFound = ccState.lookupApp(project, "App");
 
         assertNotNull(appFound);
-        assertEquals("App", appFound.name);
-        assertEquals(project, appFound.project);
+        assertEquals("App", appFound.getName());
+        assertEquals(project, appFound.getProject());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class CcStateTest {
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndProjectDoesntMatch_thenExpectNull() {
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupWorkUnit(project1, "Work Unit"));
     }
@@ -137,11 +137,11 @@ public class CcStateTest {
 
     @Test
     public void testLookupWorkUnit_whenWorkUnitListHasOneWorkUnitAndParametersMatch_thenExpectWorkUnit() {
-        final Workunit workUnitFound = ccState.lookupWorkUnit(project1, "Work Unit");
+        final WorkUnit workUnitFound = ccState.lookupWorkUnit(project1, "Work Unit");
 
         assertNotNull(workUnitFound);
-        assertEquals(project, workUnitFound.project);
-        assertEquals("Work Unit", workUnitFound.name);
+        assertEquals(project, workUnitFound.getProject());
+        assertEquals("Work Unit", workUnitFound.getName());
     }
 
     @Test
@@ -158,14 +158,14 @@ public class CcStateTest {
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndProjectDoesntMatch_thenExpectNull() {
-        project1.master_url = URL_2;
+        project1.setMasterURL(URL_2);
 
         assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }
 
     @Test
     public void testLookupAppVersion_whenAppVersionListHasOneAppVersionAndAppDoesntMatch_thenExpectNull() {
-        app1.name = "App 2";
+        app1.setName("App 2");
 
         assertNull(ccState.lookupAppVersion(project1, app1, 1, "Plan Class"));
     }
@@ -186,8 +186,8 @@ public class CcStateTest {
                 ccState.lookupAppVersion(project1, app1, 1, "Plan Class");
 
         assertNotNull(foundAppVersion);
-        assertEquals(project, foundAppVersion.project);
-        assertEquals(app, foundAppVersion.app);
-        assertEquals("Plan Class", foundAppVersion.plan_class);
+        assertEquals(project, foundAppVersion.getProject());
+        assertEquals(app, foundAppVersion.getApp());
+        assertEquals("Plan Class", foundAppVersion.getPlanClass());
     }
 }

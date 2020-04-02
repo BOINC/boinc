@@ -59,8 +59,8 @@ public class AccountOutParser extends BaseParser {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if(StringUtils.equalsAnyIgnoreCase(localName, AccountOut.Fields.error_num,
-                                           AccountOut.Fields.error_msg, AccountOut.Fields.authenticator)) {
+        if(StringUtils.equalsAnyIgnoreCase(localName, RPCCommonTags.ERROR_NUM,
+                                           AccountOut.Fields.ERROR_MSG, AccountOut.Fields.AUTHENTICATOR)) {
             if(mAccountOut == null) {
                 mAccountOut = new AccountOut();
             }
@@ -77,14 +77,14 @@ public class AccountOutParser extends BaseParser {
         try {
             if(mAccountOut != null) {
                 trimEnd();
-                if(localName.equalsIgnoreCase(AccountOut.Fields.error_num)) {
-                    mAccountOut.error_num = Integer.parseInt(mCurrentElement.toString());
+                if(localName.equalsIgnoreCase(RPCCommonTags.ERROR_NUM)) {
+                    mAccountOut.setErrorNum(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(AccountOut.Fields.error_msg)) {
-                    mAccountOut.error_msg = mCurrentElement.toString();
+                else if(localName.equalsIgnoreCase(AccountOut.Fields.ERROR_MSG)) {
+                    mAccountOut.setErrorMsg(mCurrentElement.toString());
                 }
-                else if(localName.equalsIgnoreCase(AccountOut.Fields.authenticator)) {
-                    mAccountOut.authenticator = mCurrentElement.toString();
+                else if(localName.equalsIgnoreCase(AccountOut.Fields.AUTHENTICATOR)) {
+                    mAccountOut.setAuthenticator(mCurrentElement.toString());
                 }
             }
         }

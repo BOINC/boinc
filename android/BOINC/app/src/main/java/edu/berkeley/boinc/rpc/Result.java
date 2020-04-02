@@ -30,9 +30,9 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @ToString
 public class Result implements Parcelable {
-    public String name = "";
+    @FieldNameConstants.Exclude public String name = "";
     public String wu_name = "";
-    public String project_url = "";
+    @FieldNameConstants.Exclude public String project_url = "";
     public int version_num;
     @FieldNameConstants.Exclude public String plan_class;
     public long report_deadline;
@@ -83,7 +83,7 @@ public class Result implements Parcelable {
     @FieldNameConstants.Exclude public Project project;
     @FieldNameConstants.Exclude public AppVersion avp;
     @FieldNameConstants.Exclude public App app;
-    @FieldNameConstants.Exclude public Workunit wup;
+    @FieldNameConstants.Exclude public WorkUnit wup;
 
     public Result() {
     }
@@ -126,7 +126,7 @@ public class Result implements Parcelable {
         project = (Project) in.readValue(Project.class.getClassLoader());
         avp = (AppVersion) in.readValue(AppVersion.class.getClassLoader());
         app = (App) in.readValue(App.class.getClassLoader());
-        wup = (Workunit) in.readValue(Workunit.class.getClassLoader());
+        wup = (WorkUnit) in.readValue(WorkUnit.class.getClassLoader());
 
         boolean[] bArray = in.createBooleanArray();
         ready_to_report = bArray[0];

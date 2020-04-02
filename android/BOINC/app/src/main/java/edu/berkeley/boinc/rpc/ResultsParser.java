@@ -161,13 +161,13 @@ public class ResultsParser extends BaseParser {
                     }
                     else {
                         // Not in <active_task>
-                        if(localName.equalsIgnoreCase(Result.Fields.name)) {
+                        if(localName.equalsIgnoreCase(RPCCommonTags.NAME)) {
                             mResult.name = mCurrentElement.toString();
                         }
                         else if(localName.equalsIgnoreCase(Result.Fields.wu_name)) {
                             mResult.wu_name = mCurrentElement.toString();
                         }
-                        else if(localName.equalsIgnoreCase(Result.Fields.project_url)) {
+                        else if(localName.equalsIgnoreCase(RPCCommonTags.PROJECT_URL)) {
                             mResult.project_url = mCurrentElement.toString();
                         }
                         else if(localName.equalsIgnoreCase(Result.Fields.version_num)) {

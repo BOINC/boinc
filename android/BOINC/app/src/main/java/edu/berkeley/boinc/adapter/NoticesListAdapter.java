@@ -32,20 +32,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class NoticesListAdapter extends ArrayAdapter<Notice> {
-    private ArrayList<Notice> entries;
+    private List<Notice> entries;
     private Activity activity;
 
-    public NoticesListAdapter(Activity a, int textViewResourceId, ArrayList<Notice> entries) {
+    public NoticesListAdapter(Activity a, int textViewResourceId, List<Notice> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -70,25 +70,26 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         }
 
         TextView tvProjectName = v.findViewById(R.id.projectName);
-        tvProjectName.setText(listItem.project_name);
+        tvProjectName.setText(listItem.getProjectName());
 
         TextView tvNoticeTitle = v.findViewById(R.id.noticeTitle);
-        tvNoticeTitle.setText(listItem.title);
+        tvNoticeTitle.setText(listItem.getTitle());
 
         TextView tvNoticeContent = v.findViewById(R.id.noticeContent);
-        tvNoticeContent.setText(Html.fromHtml(listItem.description));
+        tvNoticeContent.setText(Html.fromHtml(listItem.getDescription()));
 
         TextView tvNoticeTime = v.findViewById(R.id.noticeTime);
         tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(
-                (long) listItem.create_time * 1000)));
+                (long) listItem.getCreateTime() * 1000)));
 
         v.setOnClickListener(view -> {
             if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "noticeClick: " + listItem.link);
+                Log.d(Logging.TAG, "noticeClick: " + listItem.getLink());
             }
 
-            if(listItem.link != null && !listItem.link.isEmpty()) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.link));
+            listItem.getLink();
+            if(!listItem.getLink().isEmpty()) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.getLink()));
                 activity.startActivity(i);
             }
         });
@@ -97,11 +98,8 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
     }
 
     private Bitmap getIcon(int position) {
-        // try to get current client status from monitor
-        //ClientStatus status;
         try {
-            //status  = Monitor.getClientStatus();
-            return BOINCActivity.monitor.getProjectIconByName(entries.get(position).project_name);
+            return BOINCActivity.monitor.getProjectIconByName(entries.get(position).getProjectName());
         }
         catch(Exception e) {
             if(Logging.WARNING) {
@@ -109,7 +107,6 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
             }
             return null;
         }
-        //return status.getProjectIconByName(entries.get(position).project_name);
     }
 
 }

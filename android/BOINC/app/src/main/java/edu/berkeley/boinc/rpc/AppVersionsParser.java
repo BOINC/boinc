@@ -22,6 +22,7 @@ package edu.berkeley.boinc.rpc;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -95,7 +96,7 @@ public class AppVersionsParser extends DefaultHandler {
                 // We are inside <app_version>
                 if(localName.equalsIgnoreCase(APP_VERSION_TAG)) {
                     // Closing tag of <app_version> - add to vector and be ready for next one
-                    if(!mAppVersion.app_name.isEmpty()) {
+                    if(StringUtils.isNotEmpty(mAppVersion.getAppName())) {
                         // app_name is a must
                         mAppVersions.add(mAppVersion);
                     }
@@ -103,11 +104,11 @@ public class AppVersionsParser extends DefaultHandler {
                 }
                 else {
                     // Not the closing tag - we decode possible inner tags
-                    if(localName.equalsIgnoreCase(AppVersion.Fields.app_name)) {
-                        mAppVersion.app_name = mCurrentElement.toString();
+                    if(localName.equalsIgnoreCase(AppVersion.Fields.APP_NAME)) {
+                        mAppVersion.setAppName(mCurrentElement.toString());
                     }
-                    else if(localName.equalsIgnoreCase(AppVersion.Fields.version_num)) {
-                        mAppVersion.version_num = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(AppVersion.Fields.VERSION_NUM)) {
+                        mAppVersion.setVersionNum(Integer.parseInt(mCurrentElement.toString()));
                     }
                 }
             }

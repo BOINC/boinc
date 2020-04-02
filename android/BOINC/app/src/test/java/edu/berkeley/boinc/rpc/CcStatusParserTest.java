@@ -93,9 +93,9 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasInvalidTaskMode_thenExpectDefaultCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.task_mode, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.TASK_MODE, null, null);
         ccStatusParser.characters("One".toCharArray(), 0, 3);
-        ccStatusParser.endElement(null, CcStatus.Fields.task_mode, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.TASK_MODE, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
@@ -104,12 +104,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasTaskMode_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.task_mode, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.TASK_MODE, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.task_mode, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.TASK_MODE, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.task_mode = 1;
+        expected.setTaskMode(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -117,12 +117,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasTaskModePerm_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.task_mode_perm, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.TASK_MODE_PERM, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.task_mode_perm, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.TASK_MODE_PERM, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.task_mode_perm = 1;
+        expected.setTaskModePerm(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -130,12 +130,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasTaskModeDelay_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.task_mode_delay, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.TASK_MODE_DELAY, null, null);
         ccStatusParser.characters("1.5".toCharArray(), 0, 3);
-        ccStatusParser.endElement(null, CcStatus.Fields.task_mode_delay, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.TASK_MODE_DELAY, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.task_mode_delay = 1.5;
+        expected.setTaskModeDelay(1.5);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -143,12 +143,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasTaskSuspendReason_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.task_suspend_reason, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.TASK_SUSPEND_REASON, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.task_suspend_reason, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.TASK_SUSPEND_REASON, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.task_suspend_reason = 1;
+        expected.setTaskSuspendReason(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -156,12 +156,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasNetworkMode_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.network_mode, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.NETWORK_MODE, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.network_mode, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.NETWORK_MODE, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.network_mode = 1;
+        expected.setNetworkMode(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -169,12 +169,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasNetworkModePerm_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.network_mode_perm, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.NETWORK_MODE_PERM, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.network_mode_perm, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.NETWORK_MODE_PERM, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.network_mode_perm = 1;
+        expected.setNetworkModePerm(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -182,12 +182,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasNetworkModeDelay_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.network_mode_delay, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.NETWORK_MODE_DELAY, null, null);
         ccStatusParser.characters("1.5".toCharArray(), 0, 3);
-        ccStatusParser.endElement(null, CcStatus.Fields.network_mode_delay, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.NETWORK_MODE_DELAY, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.network_mode_delay = 1.5;
+        expected.setNetworkModeDelay(1.5);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -195,12 +195,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasNetworkSuspendReason_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.network_suspend_reason, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.NETWORK_SUSPEND_REASON, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.network_suspend_reason, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.NETWORK_SUSPEND_REASON, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.network_suspend_reason = 1;
+        expected.setNetworkSuspendReason(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -208,12 +208,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasNetworkStatus_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.network_status, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.NETWORK_STATUS, null, null);
         ccStatusParser.characters("1".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.network_status, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.NETWORK_STATUS, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.network_status = 1;
+        expected.setNetworkStatus(1);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -221,12 +221,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasAmsPasswordError0_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.ams_password_error, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null, null);
         ccStatusParser.characters("0".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.ams_password_error = true;
+        expected.setAmsPasswordError(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -234,12 +234,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasAmsPasswordError00_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.ams_password_error, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null, null);
         ccStatusParser.characters("00".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.ams_password_error = false;
+        expected.setAmsPasswordError(false);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -247,12 +247,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasAmsPasswordError11_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.ams_password_error, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null, null);
         ccStatusParser.characters("11".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.ams_password_error, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.AMS_PASSWORD_ERROR, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.ams_password_error = true;
+        expected.setAmsPasswordError(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -260,12 +260,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasManagerMustQuit0_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.manager_must_quit, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null, null);
         ccStatusParser.characters("0".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.manager_must_quit = true;
+        expected.setManagerMustQuit(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -273,12 +273,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasManagerMustQuit00_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.manager_must_quit, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null, null);
         ccStatusParser.characters("00".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.manager_must_quit = false;
+        expected.setManagerMustQuit(false);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -286,12 +286,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasManagerMustQuit11_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.manager_must_quit, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null, null);
         ccStatusParser.characters("11".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.manager_must_quit, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.MANAGER_MUST_QUIT, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.manager_must_quit = true;
+        expected.setManagerMustQuit(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -299,12 +299,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasDisallowAttach0_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.disallow_attach, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.DISALLOW_ATTACH, null, null);
         ccStatusParser.characters("0".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.DISALLOW_ATTACH, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.disallow_attach = true;
+        expected.setDisallowAttach(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -312,12 +312,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasDisallowAttach00_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.disallow_attach, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.DISALLOW_ATTACH, null, null);
         ccStatusParser.characters("00".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.DISALLOW_ATTACH, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.disallow_attach = false;
+        expected.setDisallowAttach(false);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -325,12 +325,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasDisallowAttach11_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.disallow_attach, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.DISALLOW_ATTACH, null, null);
         ccStatusParser.characters("11".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.disallow_attach, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.DISALLOW_ATTACH, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.disallow_attach = true;
+        expected.setDisallowAttach(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -338,12 +338,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasSimpleGuiOnly0_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.simple_gui_only, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null, null);
         ccStatusParser.characters("0".toCharArray(), 0, 1);
-        ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.simple_gui_only = true;
+        expected.setSimpleGuiOnly(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -351,12 +351,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasSimpleGuiOnly00_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.simple_gui_only, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null, null);
         ccStatusParser.characters("00".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.simple_gui_only = false;
+        expected.setSimpleGuiOnly(false);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }
@@ -364,12 +364,12 @@ public class CcStatusParserTest {
     @Test
     public void testParser_whenXmlCcStatusHasSimpleGuiOnly11_thenExpectMatchingCcStatus() throws SAXException {
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
-        ccStatusParser.startElement(null, CcStatus.Fields.simple_gui_only, null, null);
+        ccStatusParser.startElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null, null);
         ccStatusParser.characters("11".toCharArray(), 0, 2);
-        ccStatusParser.endElement(null, CcStatus.Fields.simple_gui_only, null);
+        ccStatusParser.endElement(null, CcStatus.Fields.SIMPLE_GUI_ONLY, null);
         ccStatusParser.endElement(null, CcStatusParser.CC_STATUS_TAG, null);
 
-        expected.simple_gui_only = true;
+        expected.setSimpleGuiOnly(true);
 
         assertEquals(expected, ccStatusParser.getCcStatus());
     }

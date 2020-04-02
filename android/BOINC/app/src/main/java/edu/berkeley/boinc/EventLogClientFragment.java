@@ -136,14 +136,14 @@ public class EventLogClientFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             if(!a.clientLogData.isEmpty()) {
-                mostRecentSeqNo = a.clientLogData.get(0).seqno;
+                mostRecentSeqNo = a.clientLogData.get(0).getSeqno();
             }
         }
 
         @Override
-        protected ArrayList<edu.berkeley.boinc.rpc.Message> doInBackground(Void... params) {
+        protected ArrayList<Message> doInBackground(Void... params) {
             try {
-                return (ArrayList<edu.berkeley.boinc.rpc.Message>) ((EventLogActivity) getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
+                return (ArrayList<Message>) ((EventLogActivity) getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
             }
             catch(RemoteException e) {
                 // TODO Auto-generated catch block
@@ -168,7 +168,7 @@ public class EventLogClientFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             if(!a.clientLogData.isEmpty()) {
-                pastSeqNo = a.clientLogData.get(a.clientLogData.size() - 1).seqno;
+                pastSeqNo = a.clientLogData.get(a.clientLogData.size() - 1).getSeqno();
                 if(pastSeqNo == 0) {
                     if(Logging.DEBUG) {
                         Log.d("RetrievePastMsgs", "cancel, oldest messages already loaded");

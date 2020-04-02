@@ -79,14 +79,14 @@ public class VersionInfoParser extends BaseParser {
                 else {
                     // Not the closing tag - we decode possible inner tags
                     trimEnd();
-                    if(localName.equalsIgnoreCase(VersionInfo.Fields.major)) {
-                        mVersionInfo.major = Integer.parseInt(mCurrentElement.toString());
+                    if(localName.equalsIgnoreCase(VersionInfo.Fields.MAJOR)) {
+                        mVersionInfo.setMajor(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.minor)) {
-                        mVersionInfo.minor = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.MINOR)) {
+                        mVersionInfo.setMinor(Integer.parseInt(mCurrentElement.toString()));
                     }
-                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.release)) {
-                        mVersionInfo.release = Integer.parseInt(mCurrentElement.toString());
+                    else if(localName.equalsIgnoreCase(VersionInfo.Fields.RELEASE)) {
+                        mVersionInfo.setRelease(Integer.parseInt(mCurrentElement.toString()));
                     }
                 }
             }

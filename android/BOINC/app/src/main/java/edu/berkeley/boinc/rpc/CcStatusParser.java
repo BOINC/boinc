@@ -71,67 +71,63 @@ public class CcStatusParser extends BaseParser {
             ) {
                 trimEnd();
                 // Not the closing tag - we decode possible inner tags
-                if(localName.equalsIgnoreCase(CcStatus.Fields.task_mode)) {
-                    mCcStatus.task_mode = Integer.parseInt(mCurrentElement.toString());
+                if(localName.equalsIgnoreCase(CcStatus.Fields.TASK_MODE)) {
+                    mCcStatus.setTaskMode(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.task_mode_perm)) {
-                    mCcStatus.task_mode_perm = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.TASK_MODE_PERM)) {
+                    mCcStatus.setTaskModePerm(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.task_mode_delay)) {
-                    mCcStatus.task_mode_delay = Double.parseDouble(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.TASK_MODE_DELAY)) {
+                    mCcStatus.setTaskModeDelay(Double.parseDouble(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.task_suspend_reason)) {
-                    mCcStatus.task_suspend_reason = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.TASK_SUSPEND_REASON)) {
+                    mCcStatus.setTaskSuspendReason(Integer.parseInt(mCurrentElement.toString()));
                 }
-                if(localName.equalsIgnoreCase(CcStatus.Fields.network_mode)) {
-                    mCcStatus.network_mode = Integer.parseInt(mCurrentElement.toString());
+                if(localName.equalsIgnoreCase(CcStatus.Fields.NETWORK_MODE)) {
+                    mCcStatus.setNetworkMode(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.network_mode_perm)) {
-                    mCcStatus.network_mode_perm = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.NETWORK_MODE_PERM)) {
+                    mCcStatus.setNetworkModePerm(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.network_mode_delay)) {
-                    mCcStatus.network_mode_delay = Double.parseDouble(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.NETWORK_MODE_DELAY)) {
+                    mCcStatus.setNetworkModeDelay(Double.parseDouble(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.network_suspend_reason)) {
-                    mCcStatus.network_suspend_reason = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.NETWORK_SUSPEND_REASON)) {
+                    mCcStatus.setNetworkSuspendReason(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.network_status)) {
-                    mCcStatus.network_status = Integer.parseInt(mCurrentElement.toString());
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.NETWORK_STATUS)) {
+                    mCcStatus.setNetworkStatus(Integer.parseInt(mCurrentElement.toString()));
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.ams_password_error)) {
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.AMS_PASSWORD_ERROR)) {
                     if(mCurrentElement.length() > 1) {
-                        mCcStatus.ams_password_error =
-                                0 != Integer.parseInt(mCurrentElement.toString());
+                        mCcStatus.setAmsPasswordError(0 != Integer.parseInt(mCurrentElement.toString()));
                     }
                     else {
-                        mCcStatus.ams_password_error = true;
+                        mCcStatus.setAmsPasswordError(true);
                     }
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.manager_must_quit)) {
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.MANAGER_MUST_QUIT)) {
                     if(mCurrentElement.length() > 1) {
-                        mCcStatus.manager_must_quit =
-                                0 != Integer.parseInt(mCurrentElement.toString());
+                        mCcStatus.setManagerMustQuit(0 != Integer.parseInt(mCurrentElement.toString()));
                     }
                     else {
-                        mCcStatus.manager_must_quit = true;
+                        mCcStatus.setManagerMustQuit(true);
                     }
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.disallow_attach)) {
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.DISALLOW_ATTACH)) {
                     if(mCurrentElement.length() > 1) {
-                        mCcStatus.disallow_attach =
-                                0 != Integer.parseInt(mCurrentElement.toString());
+                        mCcStatus.setDisallowAttach(0 != Integer.parseInt(mCurrentElement.toString()));
                     }
                     else {
-                        mCcStatus.disallow_attach = true;
+                        mCcStatus.setDisallowAttach(true);
                     }
                 }
-                else if(localName.equalsIgnoreCase(CcStatus.Fields.simple_gui_only)) {
+                else if(localName.equalsIgnoreCase(CcStatus.Fields.SIMPLE_GUI_ONLY)) {
                     if(mCurrentElement.length() > 1) {
-                        mCcStatus.simple_gui_only =
-                                0 != Integer.parseInt(mCurrentElement.toString());
+                        mCcStatus.setSimpleGuiOnly(0 != Integer.parseInt(mCurrentElement.toString()));
                     }
                     else {
-                        mCcStatus.simple_gui_only = true;
+                        mCcStatus.setSimpleGuiOnly(true);
                     }
                 }
             }

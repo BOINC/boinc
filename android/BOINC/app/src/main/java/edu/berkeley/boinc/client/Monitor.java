@@ -454,7 +454,9 @@ public class Monitor extends Service {
             // wake locks and foreground enabled when Client is not suspended, therefore also during
             // idle.
             // treat cpu throttling as if it was computing.
-            Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+            assert status != null;
+            Boolean computing = (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_NOT_SUSPENDED)
+                                || (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
             if (Logging.VERBOSE)
                 Log.d(Logging.TAG, "readClientStatus(): computation enabled: " + computing);
             Monitor.getClientStatus().setWifiLock(computing);
@@ -1170,11 +1172,12 @@ public class Monitor extends Service {
         }
 
         @Override
-        public ErrorCodeDescription addAcctMgrErrorNum(String url, String userName, String pwd)
-                throws RemoteException {
+        public ErrorCodeDescription addAcctMgrErrorNum(String url, String userName, String pwd) {
             AcctMgrRPCReply acctMgr = clientInterface.addAcctMgr(url, userName, pwd);
             if (acctMgr != null) {
-                return new ErrorCodeDescription(acctMgr.error_num, acctMgr.messages.isEmpty() ? "" : acctMgr.messages.toString());
+                return new ErrorCodeDescription(acctMgr.getErrorNum(),
+                                                acctMgr.getMessages().isEmpty() ? "" :
+                                                acctMgr.getMessages().toString());
             }
             return new ErrorCodeDescription(-1);
         }
@@ -1196,7 +1199,7 @@ public class Monitor extends Service {
 
         @Override
         public boolean getAcctMgrInfoPresent() throws RemoteException {
-            return clientStatus.getAcctMgrInfo().present;
+            return clientStatus.getAcctMgrInfo().isPresent();
         }
 
         @Override

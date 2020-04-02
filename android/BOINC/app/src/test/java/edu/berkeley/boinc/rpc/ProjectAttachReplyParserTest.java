@@ -87,7 +87,7 @@ public class ProjectAttachReplyParserTest {
         projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                             null);
 
-        expected.error_num = 1;
+        expected.setErrorNum(1);
 
         assertEquals(expected, projectAttachReplyParser.getProjectAttachReply());
     }
@@ -105,7 +105,7 @@ public class ProjectAttachReplyParserTest {
         projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                             null);
 
-        expected.messages.add("Message");
+        expected.getMessages().add("Message");
 
         assertEquals(expected, projectAttachReplyParser.getProjectAttachReply());
     }
