@@ -26,12 +26,12 @@ import org.xml.sax.SAXException
 
 class AppsParser : BaseParser() {
     val apps: MutableList<App> = mutableListOf()
-    private var mApp: App? = null
+    private lateinit var mApp: App
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(APP_TAG, ignoreCase = true)) {
+        if (localName.equals(APP_TAG, ignoreCase = true) && !this::mApp.isInitialized) {
             mApp = App()
         } else {
             // Another element, hopefully primitive and not constructor
@@ -45,24 +45,22 @@ class AppsParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (mApp != null) { // We are inside <app>
-                if (localName.equals(APP_TAG, ignoreCase = true)) { // Closing tag of <app> - add to vector and be ready for next one
-                    if (!mApp!!.name.isNullOrEmpty()) { // name is a must
-                        apps.add(mApp!!)
+            if (localName.equals(APP_TAG, ignoreCase = true)) { // Closing tag of <app> - add to vector and be ready for next one
+                if (!mApp.name.isNullOrEmpty()) { // name is a must
+                    apps.add(mApp)
+                }
+                mApp = App()
+            } else { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                when {
+                    localName.equals(NAME, ignoreCase = true) -> {
+                        mApp.name = mCurrentElement.toString()
                     }
-                    mApp = null
-                } else { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    when {
-                        localName.equals(NAME, ignoreCase = true) -> {
-                            mApp!!.name = mCurrentElement.toString()
-                        }
-                        localName.equals(USER_FRIENDLY_NAME, ignoreCase = true) -> {
-                            mApp!!.userFriendlyName = mCurrentElement.toString()
-                        }
-                        localName.equals(NON_CPU_INTENSIVE, ignoreCase = true) -> {
-                            mApp!!.nonCpuIntensive = mCurrentElement.toInt()
-                        }
+                    localName.equals(USER_FRIENDLY_NAME, ignoreCase = true) -> {
+                        mApp.userFriendlyName = mCurrentElement.toString()
+                    }
+                    localName.equals(NON_CPU_INTENSIVE, ignoreCase = true) -> {
+                        mApp.nonCpuIntensive = mCurrentElement.toInt()
                     }
                 }
             }
