@@ -25,7 +25,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class AccountOutParser : BaseParser() {
-    var accountOut: AccountOut? = null
+    lateinit var accountOut: AccountOut
         private set
 
     @Throws(SAXException::class)
@@ -33,9 +33,7 @@ class AccountOutParser : BaseParser() {
         super.startElement(uri, localName, qName, attributes)
         if (localName.equalsAny(ERROR_NUM, AccountOut.Fields.ERROR_MSG,
                         AccountOut.Fields.AUTHENTICATOR, ignoreCase = true)) {
-            if (accountOut == null) {
-                accountOut = AccountOut()
-            }
+            accountOut = AccountOut()
         } else {
             mElementStarted = true
             mCurrentElement.setLength(0)
@@ -46,18 +44,16 @@ class AccountOutParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (accountOut != null) {
-                trimEnd()
-                when {
-                    localName.equals(ERROR_NUM, ignoreCase = true) -> {
-                        accountOut!!.errorNum = mCurrentElement.toInt()
-                    }
-                    localName.equals(AccountOut.Fields.ERROR_MSG, ignoreCase = true) -> {
-                        accountOut!!.errorMsg = mCurrentElement.toString()
-                    }
-                    localName.equals(AccountOut.Fields.AUTHENTICATOR, ignoreCase = true) -> {
-                        accountOut!!.authenticator = mCurrentElement.toString()
-                    }
+            trimEnd()
+            when {
+                localName.equals(ERROR_NUM, ignoreCase = true) -> {
+                    accountOut.errorNum = mCurrentElement.toInt()
+                }
+                localName.equals(AccountOut.Fields.ERROR_MSG, ignoreCase = true) -> {
+                    accountOut.errorMsg = mCurrentElement.toString()
+                }
+                localName.equals(AccountOut.Fields.AUTHENTICATOR, ignoreCase = true) -> {
+                    accountOut.authenticator = mCurrentElement.toString()
                 }
             }
         } catch (e: NumberFormatException) {
