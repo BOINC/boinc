@@ -24,7 +24,6 @@ import org.junit.Test;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 public class MessagesParserTest {
@@ -35,9 +34,9 @@ public class MessagesParserTest {
         expected = new Message();
     }
 
-    @Test
-    public void testParse_whenRpcResultIsNull_thenExpectNullPointerException() {
-        assertThrows(NullPointerException.class, () -> MessagesParser.parse(null));
+    @Test(expected = IllegalArgumentException.class)
+    public void testParse_whenRpcResultIsNull_thenExpectIllegalArgumentException() {
+        MessagesParser.parse(null);
     }
 
     @Test
