@@ -27,6 +27,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -51,11 +53,11 @@ public class AcctMgrRPCReplyParserTest {
         AcctMgrRPCReplyParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(AcctMgrRPCReplyParser.parse(""));
+        AcctMgrRPCReplyParser.parse("");
     }
 
     @Test
@@ -73,11 +75,11 @@ public class AcctMgrRPCReplyParserTest {
         assertFalse(acctMgrRPCReplyParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNullEntity() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         acctMgrRPCReplyParser.startElement(null, "", null, null);
 
-        assertNull(acctMgrRPCReplyParser.getAccountMgrRPCReply());
+        acctMgrRPCReplyParser.getAccountMgrRPCReply();
     }
 
     @Test

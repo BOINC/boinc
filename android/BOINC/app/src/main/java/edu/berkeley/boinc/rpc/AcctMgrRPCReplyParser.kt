@@ -25,7 +25,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class AcctMgrRPCReplyParser : BaseParser() {
-    var accountMgrRPCReply: AcctMgrRPCReply? = null
+    lateinit var accountMgrRPCReply: AcctMgrRPCReply
         private set
 
     @Throws(SAXException::class)
@@ -43,14 +43,12 @@ class AcctMgrRPCReplyParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (accountMgrRPCReply != null) { // inside <acct_mgr_rpc_reply>
-                if (!localName.equals(ACCT_MGR_RPC_REPLY_TAG, ignoreCase = true)) {
-                    // not closing tag, decode inner tags
-                    if (localName.equals(ERROR_NUM, ignoreCase = true)) {
-                        accountMgrRPCReply!!.errorNum = mCurrentElement.toInt()
-                    } else if (localName.equals(MESSAGE_TAG, ignoreCase = true)) {
-                        accountMgrRPCReply!!.messages.add(mCurrentElement.toString())
-                    }
+            if (!localName.equals(ACCT_MGR_RPC_REPLY_TAG, ignoreCase = true)) {
+                // not closing tag, decode inner tags
+                if (localName.equals(ERROR_NUM, ignoreCase = true)) {
+                    accountMgrRPCReply.errorNum = mCurrentElement.toInt()
+                } else if (localName.equals(MESSAGE_TAG, ignoreCase = true)) {
+                    accountMgrRPCReply.messages.add(mCurrentElement.toString())
                 }
             }
         } catch (e: Exception) {
