@@ -42,11 +42,11 @@ public class ProjectConfigReplyParserTest {
         expected = new ProjectConfig();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectIllegalArgumentException() {
         mockStatic(Xml.class);
 
-        assertThrows(NullPointerException.class, () -> ProjectConfigReplyParser.parse(null));
+        ProjectConfigReplyParser.parse(null);
     }
 
     @Test
