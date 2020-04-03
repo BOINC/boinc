@@ -27,7 +27,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class ProjectConfigReplyParser : BaseParser() {
-    var projectConfig: ProjectConfig? = ProjectConfig()
+    lateinit var projectConfig: ProjectConfig
         private set
     private var mPlatforms: MutableList<PlatformInfo?>? = null
     private var withinPlatforms = false
@@ -59,56 +59,54 @@ class ProjectConfigReplyParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (projectConfig != null) {
-                if (localName.equals(ProjectConfig.Fields.PLATFORMS, ignoreCase = true)) { // closing tag of platform names
-                    projectConfig!!.platforms = mPlatforms!!
-                    withinPlatforms = false
-                } else { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    if (localName.equals(NAME, ignoreCase = true)) {
-                        projectConfig!!.name = mCurrentElement.toString()
-                    } else if (localName.equals(MASTER_URL, ignoreCase = true)) {
-                        projectConfig!!.masterUrl = mCurrentElement.toString()
-                    } else if (localName.equals(ProjectConfig.Fields.WEB_RPC_URL_BASE, ignoreCase = true)) {
-                        projectConfig!!.webRpcUrlBase = mCurrentElement.toString()
-                    } else if (localName.equals(ProjectConfig.Fields.LOCAL_REVISION, ignoreCase = true)) {
-                        projectConfig!!.localRevision = mCurrentElement.toString()
-                    } else if (localName.equals(ProjectConfig.Fields.MIN_PWD_LENGTH, ignoreCase = true)) {
-                        projectConfig!!.minPwdLength = mCurrentElement.toInt()
-                    } else if (localName.equalsAny(USER_NAME_TAG, USES_USER_NAME_TAG, ignoreCase = true)) {
-                        projectConfig!!.usesName = true
-                    } else if (localName.equals(ProjectConfig.Fields.WEB_STOPPED, ignoreCase = true)) {
-                        projectConfig!!.webStopped = mCurrentElement.toInt() != 0
-                    } else if (localName.equals(ProjectConfig.Fields.SCHEDULER_STOPPED, ignoreCase = true)) {
-                        projectConfig!!.schedulerStopped = mCurrentElement.toInt() != 0
-                    } else if (localName.equals(ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED,
-                                    ignoreCase = true)) {
-                        projectConfig!!.clientAccountCreationDisabled = true
-                    } else if (localName.equals(ProjectConfig.Fields.MIN_CLIENT_VERSION, ignoreCase = true)) {
-                        projectConfig!!.minClientVersion = mCurrentElement.toInt()
-                    } else if (localName.equals(ProjectConfig.Fields.RPC_PREFIX, ignoreCase = true)) {
-                        projectConfig!!.rpcPrefix = mCurrentElement.toString()
-                    } else if (localName.equals(PlatformInfo.Fields.NAME, ignoreCase = true) &&
-                            withinPlatforms) {
-                        platformName = mCurrentElement.toString()
-                    } else if (localName.equals(USER_FRIENDLY_NAME, ignoreCase = true) && withinPlatforms) {
-                        platformFriendlyName = mCurrentElement.toString()
-                    } else if (localName.equals(PLAN_CLASS, ignoreCase = true) && withinPlatforms) {
-                        platformPlanClass = mCurrentElement.toString()
-                    } else if (localName.equals(ProjectConfig.Fields.TERMS_OF_USE, ignoreCase = true)) {
-                        projectConfig!!.termsOfUse = mCurrentElement.toString()
-                    } else if (localName.equals(PLATFORM_TAG, ignoreCase = true) && withinPlatforms) {
-                        // finish platform object and add to array
-                        mPlatforms!!.add(PlatformInfo(platformName, platformFriendlyName,
-                                platformPlanClass))
-                        platformFriendlyName = ""
-                        platformName = ""
-                        platformPlanClass = ""
-                    } else if (localName.equals(ERROR_NUM, ignoreCase = true)) { // reply is not present yet
-                        projectConfig!!.errorNum = mCurrentElement.toInt()
-                    } else if (localName.equals(ProjectConfig.Fields.ACCOUNT_MANAGER, ignoreCase = true)) {
-                        projectConfig!!.accountManager = true
-                    }
+            if (localName.equals(ProjectConfig.Fields.PLATFORMS, ignoreCase = true)) { // closing tag of platform names
+                projectConfig.platforms = mPlatforms!!
+                withinPlatforms = false
+            } else { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                if (localName.equals(NAME, ignoreCase = true)) {
+                    projectConfig.name = mCurrentElement.toString()
+                } else if (localName.equals(MASTER_URL, ignoreCase = true)) {
+                    projectConfig.masterUrl = mCurrentElement.toString()
+                } else if (localName.equals(ProjectConfig.Fields.WEB_RPC_URL_BASE, ignoreCase = true)) {
+                    projectConfig.webRpcUrlBase = mCurrentElement.toString()
+                } else if (localName.equals(ProjectConfig.Fields.LOCAL_REVISION, ignoreCase = true)) {
+                    projectConfig.localRevision = mCurrentElement.toString()
+                } else if (localName.equals(ProjectConfig.Fields.MIN_PWD_LENGTH, ignoreCase = true)) {
+                    projectConfig.minPwdLength = mCurrentElement.toInt()
+                } else if (localName.equalsAny(USER_NAME_TAG, USES_USER_NAME_TAG, ignoreCase = true)) {
+                    projectConfig.usesName = true
+                } else if (localName.equals(ProjectConfig.Fields.WEB_STOPPED, ignoreCase = true)) {
+                    projectConfig.webStopped = mCurrentElement.toInt() != 0
+                } else if (localName.equals(ProjectConfig.Fields.SCHEDULER_STOPPED, ignoreCase = true)) {
+                    projectConfig.schedulerStopped = mCurrentElement.toInt() != 0
+                } else if (localName.equals(ProjectConfig.Fields.CLIENT_ACCOUNT_CREATION_DISABLED,
+                                ignoreCase = true)) {
+                    projectConfig.clientAccountCreationDisabled = true
+                } else if (localName.equals(ProjectConfig.Fields.MIN_CLIENT_VERSION, ignoreCase = true)) {
+                    projectConfig.minClientVersion = mCurrentElement.toInt()
+                } else if (localName.equals(ProjectConfig.Fields.RPC_PREFIX, ignoreCase = true)) {
+                    projectConfig.rpcPrefix = mCurrentElement.toString()
+                } else if (localName.equals(PlatformInfo.Fields.NAME, ignoreCase = true) &&
+                        withinPlatforms) {
+                    platformName = mCurrentElement.toString()
+                } else if (localName.equals(USER_FRIENDLY_NAME, ignoreCase = true) && withinPlatforms) {
+                    platformFriendlyName = mCurrentElement.toString()
+                } else if (localName.equals(PLAN_CLASS, ignoreCase = true) && withinPlatforms) {
+                    platformPlanClass = mCurrentElement.toString()
+                } else if (localName.equals(ProjectConfig.Fields.TERMS_OF_USE, ignoreCase = true)) {
+                    projectConfig.termsOfUse = mCurrentElement.toString()
+                } else if (localName.equals(PLATFORM_TAG, ignoreCase = true) && withinPlatforms) {
+                    // finish platform object and add to array
+                    mPlatforms!!.add(PlatformInfo(platformName, platformFriendlyName,
+                            platformPlanClass))
+                    platformFriendlyName = ""
+                    platformName = ""
+                    platformPlanClass = ""
+                } else if (localName.equals(ERROR_NUM, ignoreCase = true)) { // reply is not present yet
+                    projectConfig.errorNum = mCurrentElement.toInt()
+                } else if (localName.equals(ProjectConfig.Fields.ACCOUNT_MANAGER, ignoreCase = true)) {
+                    projectConfig.accountManager = true
                 }
             }
             mElementStarted = false

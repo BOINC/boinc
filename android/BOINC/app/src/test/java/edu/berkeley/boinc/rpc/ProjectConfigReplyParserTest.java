@@ -27,6 +27,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -49,11 +51,11 @@ public class ProjectConfigReplyParserTest {
         ProjectConfigReplyParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertEquals(expected, ProjectConfigReplyParser.parse(""));
+        ProjectConfigReplyParser.parse("");
     }
 
     @Test
