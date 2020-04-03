@@ -27,9 +27,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -45,18 +46,18 @@ public class CcStatusParserTest {
         expected = new CcStatus();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(CcStatusParser.parse(null));
+        CcStatusParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(CcStatusParser.parse(""));
+        CcStatusParser.parse("");
     }
 
     @Test
@@ -75,11 +76,11 @@ public class CcStatusParserTest {
         assertFalse(ccStatusParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNull() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         ccStatusParser.startElement(null, "", null, null);
 
-        assertNull(ccStatusParser.getCcStatus());
+        ccStatusParser.getCcStatus();
     }
 
     @Test

@@ -26,7 +26,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class CcStatusParser : BaseParser() {
-    var ccStatus: CcStatus? = null
+    lateinit var ccStatus: CcStatus
         private set
 
     @Throws(SAXException::class)
@@ -45,53 +45,57 @@ class CcStatusParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (ccStatus != null &&  // We are inside <cc_status>
-                    !localName.equals(CC_STATUS_TAG, ignoreCase = true) // Closing tag of <cc_status> - nothing to do at the moment
-            ) {
+            // Closing tag of <cc_status> - nothing to do at the moment
+            if (!localName.equals(CC_STATUS_TAG, ignoreCase = true)) {
                 trimEnd()
                 // Not the closing tag - we decode possible inner tags
-                if (localName.equals(CcStatus.Fields.TASK_MODE, ignoreCase = true)) {
-                    ccStatus!!.taskMode = mCurrentElement.toInt()
-                } else if (localName.equals(CcStatus.Fields.TASK_MODE_PERM, ignoreCase = true)) {
-                    ccStatus!!.taskModePerm = mCurrentElement.toInt()
-                } else if (localName.equals(CcStatus.Fields.TASK_MODE_DELAY, ignoreCase = true)) {
-                    ccStatus!!.taskModeDelay = mCurrentElement.toDouble()
-                } else if (localName.equals(CcStatus.Fields.TASK_SUSPEND_REASON, ignoreCase = true)) {
-                    ccStatus!!.taskSuspendReason = mCurrentElement.toInt()
+                when {
+                    localName.equals(CcStatus.Fields.TASK_MODE, ignoreCase = true) -> {
+                        ccStatus.taskMode = mCurrentElement.toInt()
+                    }
+                    localName.equals(CcStatus.Fields.TASK_MODE_PERM, ignoreCase = true) -> {
+                        ccStatus.taskModePerm = mCurrentElement.toInt()
+                    }
+                    localName.equals(CcStatus.Fields.TASK_MODE_DELAY, ignoreCase = true) -> {
+                        ccStatus.taskModeDelay = mCurrentElement.toDouble()
+                    }
+                    localName.equals(CcStatus.Fields.TASK_SUSPEND_REASON, ignoreCase = true) -> {
+                        ccStatus.taskSuspendReason = mCurrentElement.toInt()
+                    }
                 }
                 if (localName.equals(CcStatus.Fields.NETWORK_MODE, ignoreCase = true)) {
-                    ccStatus!!.networkMode = mCurrentElement.toInt()
+                    ccStatus.networkMode = mCurrentElement.toInt()
                 } else if (localName.equals(CcStatus.Fields.NETWORK_MODE_PERM, ignoreCase = true)) {
-                    ccStatus!!.networkModePerm = mCurrentElement.toInt()
+                    ccStatus.networkModePerm = mCurrentElement.toInt()
                 } else if (localName.equals(CcStatus.Fields.NETWORK_MODE_DELAY, ignoreCase = true)) {
-                    ccStatus!!.networkModeDelay = mCurrentElement.toDouble()
+                    ccStatus.networkModeDelay = mCurrentElement.toDouble()
                 } else if (localName.equals(CcStatus.Fields.NETWORK_SUSPEND_REASON, ignoreCase = true)) {
-                    ccStatus!!.networkSuspendReason = mCurrentElement.toInt()
+                    ccStatus.networkSuspendReason = mCurrentElement.toInt()
                 } else if (localName.equals(CcStatus.Fields.NETWORK_STATUS, ignoreCase = true)) {
-                    ccStatus!!.networkStatus = mCurrentElement.toInt()
+                    ccStatus.networkStatus = mCurrentElement.toInt()
                 } else if (localName.equals(CcStatus.Fields.AMS_PASSWORD_ERROR, ignoreCase = true)) {
                     if (mCurrentElement.length > 1) {
-                        ccStatus!!.amsPasswordError = 0 != mCurrentElement.toInt()
+                        ccStatus.amsPasswordError = 0 != mCurrentElement.toInt()
                     } else {
-                        ccStatus!!.amsPasswordError = true
+                        ccStatus.amsPasswordError = true
                     }
                 } else if (localName.equals(CcStatus.Fields.MANAGER_MUST_QUIT, ignoreCase = true)) {
                     if (mCurrentElement.length > 1) {
-                        ccStatus!!.managerMustQuit = 0 != mCurrentElement.toInt()
+                        ccStatus.managerMustQuit = 0 != mCurrentElement.toInt()
                     } else {
-                        ccStatus!!.managerMustQuit = true
+                        ccStatus.managerMustQuit = true
                     }
                 } else if (localName.equals(CcStatus.Fields.DISALLOW_ATTACH, ignoreCase = true)) {
                     if (mCurrentElement.length > 1) {
-                        ccStatus!!.disallowAttach = 0 != mCurrentElement.toInt()
+                        ccStatus.disallowAttach = 0 != mCurrentElement.toInt()
                     } else {
-                        ccStatus!!.disallowAttach = true
+                        ccStatus.disallowAttach = true
                     }
                 } else if (localName.equals(CcStatus.Fields.SIMPLE_GUI_ONLY, ignoreCase = true)) {
                     if (mCurrentElement.length > 1) {
-                        ccStatus!!.simpleGuiOnly = 0 != mCurrentElement.toInt()
+                        ccStatus.simpleGuiOnly = 0 != mCurrentElement.toInt()
                     } else {
-                        ccStatus!!.simpleGuiOnly = true
+                        ccStatus.simpleGuiOnly = true
                     }
                 }
             }
