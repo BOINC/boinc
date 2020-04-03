@@ -77,7 +77,7 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
-        if (count($remote) == 1) {
+        if ($remote && count($remote) == 1) {
             $remote = array($remote);
         }
 
