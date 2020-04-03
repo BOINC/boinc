@@ -25,13 +25,13 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class NoticesParser : BaseParser() {
-    private var mNotice: Notice? = null
+    private lateinit var mNotice: Notice
     val notices: MutableList<Notice> = mutableListOf()
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(NOTICE_TAG, ignoreCase = true)) {
+        if (localName.equals(NOTICE_TAG, ignoreCase = true) && !this::mNotice.isInitialized) {
             mNotice = Notice()
         } else { // primitive
             mElementStarted = true
@@ -43,37 +43,35 @@ class NoticesParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (mNotice != null) { // inside <notice>
-                if (localName.equals(NOTICE_TAG, ignoreCase = true)) { // Closing tag
-                    if (mNotice!!.seqno != -1) { // seqno is a must
-                        notices.add(mNotice!!)
+            if (localName.equals(NOTICE_TAG, ignoreCase = true)) { // Closing tag
+                if (mNotice.seqno != -1) { // seqno is a must
+                    notices.add(mNotice)
+                }
+                mNotice = Notice()
+            } else { // decode inner tags
+                if (localName.equals(Notice.Fields.SEQNO, ignoreCase = true)) {
+                    mNotice.seqno = mCurrentElement.toString().toInt()
+                } else if (localName.equals(Notice.Fields.TITLE, ignoreCase = true)) {
+                    mNotice.title = mCurrentElement.toString()
+                } else if (localName.equals(DESCRIPTION, ignoreCase = true)) {
+                    mNotice.description = mCurrentElement.toString()
+                } else if (localName.equals(Notice.Fields.CREATE_TIME, ignoreCase = true)) {
+                    mNotice.createTime = mCurrentElement.toDouble()
+                } else if (localName.equals(Notice.Fields.ARRIVAL_TIME, ignoreCase = true)) {
+                    mNotice.arrivalTime = mCurrentElement.toDouble()
+                } else if (localName.equals(Notice.Fields.CATEGORY, ignoreCase = true)) {
+                    mNotice.category = mCurrentElement.toString()
+                    if (mNotice.category.equalsAny("server", "scheduler",
+                                    ignoreCase = false)) {
+                        mNotice.isServerNotice = true
                     }
-                    mNotice = null
-                } else { // decode inner tags
-                    if (localName.equals(Notice.Fields.SEQNO, ignoreCase = true)) {
-                        mNotice!!.seqno = mCurrentElement.toString().toInt()
-                    } else if (localName.equals(Notice.Fields.TITLE, ignoreCase = true)) {
-                        mNotice!!.title = mCurrentElement.toString()
-                    } else if (localName.equals(DESCRIPTION, ignoreCase = true)) {
-                        mNotice!!.description = mCurrentElement.toString()
-                    } else if (localName.equals(Notice.Fields.CREATE_TIME, ignoreCase = true)) {
-                        mNotice!!.createTime = mCurrentElement.toDouble()
-                    } else if (localName.equals(Notice.Fields.ARRIVAL_TIME, ignoreCase = true)) {
-                        mNotice!!.arrivalTime = mCurrentElement.toDouble()
-                    } else if (localName.equals(Notice.Fields.CATEGORY, ignoreCase = true)) {
-                        mNotice!!.category = mCurrentElement.toString()
-                        if (mNotice!!.category.equalsAny("server", "scheduler",
-                                        ignoreCase = false)) {
-                            mNotice!!.isServerNotice = true
-                        }
-                        if (mNotice!!.category == "client") {
-                            mNotice!!.isClientNotice = true
-                        }
-                    } else if (localName.equals(Notice.Fields.LINK, ignoreCase = true)) {
-                        mNotice!!.link = mCurrentElement.toString()
-                    } else if (localName.equals(PROJECT_NAME, ignoreCase = true)) {
-                        mNotice!!.projectName = mCurrentElement.toString()
+                    if (mNotice.category == "client") {
+                        mNotice.isClientNotice = true
                     }
+                } else if (localName.equals(Notice.Fields.LINK, ignoreCase = true)) {
+                    mNotice.link = mCurrentElement.toString()
+                } else if (localName.equals(PROJECT_NAME, ignoreCase = true)) {
+                    mNotice.projectName = mCurrentElement.toString()
                 }
             }
             mElementStarted = false
