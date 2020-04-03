@@ -26,12 +26,12 @@ import org.xml.sax.SAXException
 
 class WorkUnitsParser : BaseParser() {
     val workUnits: MutableList<WorkUnit> = mutableListOf()
-    private var mWorkUnit: WorkUnit? = null
+    private lateinit var mWorkUnit: WorkUnit
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(WORKUNIT_TAG, ignoreCase = true)) {
+        if (localName.equals(WORKUNIT_TAG, ignoreCase = true) && !this::mWorkUnit.isInitialized) {
             mWorkUnit = WorkUnit()
         } else {
             // Another element, hopefully primitive and not constructor
@@ -45,36 +45,35 @@ class WorkUnitsParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (mWorkUnit != null) { // We are inside <workunit>
-                if (localName.equals(WORKUNIT_TAG, ignoreCase = true)) { // Closing tag of <workunit> - add to vector and be ready for next one
-                    if (mWorkUnit!!.name.isNotEmpty()) { // name is a must
-                        this.workUnits.add(mWorkUnit!!)
+            if (localName.equals(WORKUNIT_TAG, ignoreCase = true)) {
+                // Closing tag of <workunit> - add to vector and be ready for next one
+                if (mWorkUnit.name.isNotEmpty()) { // name is a must
+                    this.workUnits.add(mWorkUnit)
+                }
+                mWorkUnit = WorkUnit()
+            } else { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                when {
+                    localName.equals(NAME, ignoreCase = true) -> {
+                        mWorkUnit.name = mCurrentElement.toString()
                     }
-                    mWorkUnit = null
-                } else { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    when {
-                        localName.equals(NAME, ignoreCase = true) -> {
-                            mWorkUnit!!.name = mCurrentElement.toString()
-                        }
-                        localName.equals(WorkUnit.Fields.APP_NAME, ignoreCase = true) -> {
-                            mWorkUnit!!.appName = mCurrentElement.toString()
-                        }
-                        localName.equals(WorkUnit.Fields.VERSION_NUM, ignoreCase = true) -> {
-                            mWorkUnit!!.versionNum = mCurrentElement.toInt()
-                        }
-                        localName.equals(WorkUnit.Fields.RSC_FPOPS_EST, ignoreCase = true) -> {
-                            mWorkUnit!!.rscFloatingPointOpsEst = mCurrentElement.toDouble()
-                        }
-                        localName.equals(WorkUnit.Fields.RSC_FPOPS_BOUND, ignoreCase = true) -> {
-                            mWorkUnit!!.rscFloatingPointOpsBound = mCurrentElement.toDouble()
-                        }
-                        localName.equals(WorkUnit.Fields.RSC_MEMORY_BOUND, ignoreCase = true) -> {
-                            mWorkUnit!!.rscMemoryBound = mCurrentElement.toDouble()
-                        }
-                        localName.equals(WorkUnit.Fields.RSC_DISK_BOUND, ignoreCase = true) -> {
-                            mWorkUnit!!.rscDiskBound = mCurrentElement.toDouble()
-                        }
+                    localName.equals(WorkUnit.Fields.APP_NAME, ignoreCase = true) -> {
+                        mWorkUnit.appName = mCurrentElement.toString()
+                    }
+                    localName.equals(WorkUnit.Fields.VERSION_NUM, ignoreCase = true) -> {
+                        mWorkUnit.versionNum = mCurrentElement.toInt()
+                    }
+                    localName.equals(WorkUnit.Fields.RSC_FPOPS_EST, ignoreCase = true) -> {
+                        mWorkUnit.rscFloatingPointOpsEst = mCurrentElement.toDouble()
+                    }
+                    localName.equals(WorkUnit.Fields.RSC_FPOPS_BOUND, ignoreCase = true) -> {
+                        mWorkUnit.rscFloatingPointOpsBound = mCurrentElement.toDouble()
+                    }
+                    localName.equals(WorkUnit.Fields.RSC_MEMORY_BOUND, ignoreCase = true) -> {
+                        mWorkUnit.rscMemoryBound = mCurrentElement.toDouble()
+                    }
+                    localName.equals(WorkUnit.Fields.RSC_DISK_BOUND, ignoreCase = true) -> {
+                        mWorkUnit.rscDiskBound = mCurrentElement.toDouble()
                     }
                 }
             }
