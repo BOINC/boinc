@@ -79,8 +79,8 @@ public class HostInfoParserTest {
     }
 
     @Test
-    public void testParser_whenLocalNameIsNull_thenExpectNullPointerExceptionAndNullHostInfo() {
-        assertThrows(NullPointerException.class, () -> hostInfoParser.startElement(null, null, null, null));
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndNullHostInfo() {
+        assertThrows(IllegalArgumentException.class, () -> hostInfoParser.startElement(null, null, null, null));
         assertNull(hostInfoParser.getHostInfo());
     }
 
