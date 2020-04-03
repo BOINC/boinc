@@ -27,18 +27,16 @@ import org.xml.sax.SAXException
 
 class TransfersParser : BaseParser() {
     val transfers: MutableList<Transfer> = mutableListOf()
-    private var mTransfer: Transfer? = null
+    private lateinit var mTransfer: Transfer
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(FILE_TRANSFER_TAG, ignoreCase = true)) {
+        if (localName.equals(FILE_TRANSFER_TAG, ignoreCase = true) && !this::mTransfer.isInitialized) {
             mTransfer = Transfer()
         } else if (localName.equals(FILE_XFER_TAG, ignoreCase = true)) {
             // Just constructor, flag should be set if it's present
-            if (mTransfer != null) {
-                mTransfer!!.isTransferActive = true
-            }
+            mTransfer.isTransferActive = true
         } else if (!localName.equals("persistent_file_xfer", ignoreCase = true)) {
             // Another element, hopefully primitive and not constructor
             // (although unknown constructor does not hurt, because there will be primitive start anyway)
@@ -51,49 +49,47 @@ class TransfersParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (mTransfer != null) { // We are inside <file_transfer>
-                if (localName.equals(FILE_TRANSFER_TAG, ignoreCase = true)) {
-                    // Closing tag of <project> - add to list and be ready for next one
-                    if (mTransfer!!.projectUrl.isNotEmpty() && mTransfer!!.name.isNotEmpty()) { // project_url is a must
-                        transfers.add(mTransfer!!)
+            if (localName.equals(FILE_TRANSFER_TAG, ignoreCase = true)) {
+                // Closing tag of <project> - add to list and be ready for next one
+                if (mTransfer.projectUrl.isNotEmpty() && mTransfer.name.isNotEmpty()) { // project_url is a must
+                    transfers.add(mTransfer)
+                }
+                mTransfer = Transfer()
+            } else { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                if (localName.equals(PROJECT_URL, ignoreCase = true)) {
+                    mTransfer.projectUrl = mCurrentElement.toString()
+                } else if (localName.equals(NAME, ignoreCase = true)) {
+                    mTransfer.name = mCurrentElement.toString()
+                } else if (localName.equals(Transfer.Fields.GENERATED_LOCALLY, ignoreCase = true)) {
+                    mTransfer.generatedLocally = mCurrentElement.toString() != "0"
+                } else if (localName.equals(Transfer.Fields.IS_UPLOAD, ignoreCase = true)) {
+                    mTransfer.isUpload = mCurrentElement.toString() != "0"
+                } else if (localName.equals(Transfer.Fields.NBYTES, ignoreCase = true)) {
+                    mTransfer.noOfBytes = mCurrentElement.toDouble().toLong()
+                } else if (localName.equals(Transfer.Fields.STATUS, ignoreCase = true)) {
+                    mTransfer.status = mCurrentElement.toInt()
+                } else if (localName.equals(Transfer.Fields.TIME_SO_FAR, ignoreCase = true)) {
+                    // inside <persistent_file_xfer>
+                    mTransfer.timeSoFar = mCurrentElement.toDouble().toLong()
+                } else if (localName.equals(Transfer.Fields.NEXT_REQUEST_TIME, ignoreCase = true)) {
+                    // inside <persistent_file_xfer>
+                    mTransfer.nextRequestTime = mCurrentElement.toDouble().toLong()
+                } else if (localName.equals(LAST_BYTES_XFERRED_TAG, ignoreCase = true)) {
+                    // inside <persistent_file_xfer>
+                    // See also <bytes_xferred> below, both are setting the same parameters
+                    if (mTransfer.bytesTransferred == 0L) { // Not set yet
+                        mTransfer.bytesTransferred = mCurrentElement.toDouble().toLong()
                     }
-                    mTransfer = null
-                } else { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    if (localName.equals(PROJECT_URL, ignoreCase = true)) {
-                        mTransfer!!.projectUrl = mCurrentElement.toString()
-                    } else if (localName.equals(NAME, ignoreCase = true)) {
-                        mTransfer!!.name = mCurrentElement.toString()
-                    } else if (localName.equals(Transfer.Fields.GENERATED_LOCALLY, ignoreCase = true)) {
-                        mTransfer!!.generatedLocally = mCurrentElement.toString() != "0"
-                    } else if (localName.equals(Transfer.Fields.IS_UPLOAD, ignoreCase = true)) {
-                        mTransfer!!.isUpload = mCurrentElement.toString() != "0"
-                    } else if (localName.equals(Transfer.Fields.NBYTES, ignoreCase = true)) {
-                        mTransfer!!.noOfBytes = mCurrentElement.toDouble().toLong()
-                    } else if (localName.equals(Transfer.Fields.STATUS, ignoreCase = true)) {
-                        mTransfer!!.status = mCurrentElement.toInt()
-                    } else if (localName.equals(Transfer.Fields.TIME_SO_FAR, ignoreCase = true)) {
-                        // inside <persistent_file_xfer>
-                        mTransfer!!.timeSoFar = mCurrentElement.toDouble().toLong()
-                    } else if (localName.equals(Transfer.Fields.NEXT_REQUEST_TIME, ignoreCase = true)) {
-                        // inside <persistent_file_xfer>
-                        mTransfer!!.nextRequestTime = mCurrentElement.toDouble().toLong()
-                    } else if (localName.equals(LAST_BYTES_XFERRED_TAG, ignoreCase = true)) {
-                        // inside <persistent_file_xfer>
-                        // See also <bytes_xferred> below, both are setting the same parameters
-                        if (mTransfer!!.bytesTransferred == 0L) { // Not set yet
-                            mTransfer!!.bytesTransferred = mCurrentElement.toDouble().toLong()
-                        }
-                    } else if (localName.equals(Transfer.Fields.BYTES_XFERRED, ignoreCase = true)) {
-                        // Total bytes transferred, but this info is not available if networking
-                        // is suspended. This info is present only inside <file_xfer> (active transfer)
-                        // In such case we overwrite value set by <last_bytes_xferred>
-                        mTransfer!!.bytesTransferred = mCurrentElement.toDouble().toLong()
-                    } else if (localName.equals(Transfer.Fields.XFER_SPEED, ignoreCase = true)) { // inside <file_xfer>
-                        mTransfer!!.transferSpeed = mCurrentElement.toFloat()
-                    } else if (localName.equals(Transfer.Fields.PROJECT_BACKOFF, ignoreCase = true)) {
-                        mTransfer!!.projectBackoff = mCurrentElement.toDouble().toLong()
-                    }
+                } else if (localName.equals(Transfer.Fields.BYTES_XFERRED, ignoreCase = true)) {
+                    // Total bytes transferred, but this info is not available if networking
+                    // is suspended. This info is present only inside <file_xfer> (active transfer)
+                    // In such case we overwrite value set by <last_bytes_xferred>
+                    mTransfer.bytesTransferred = mCurrentElement.toDouble().toLong()
+                } else if (localName.equals(Transfer.Fields.XFER_SPEED, ignoreCase = true)) { // inside <file_xfer>
+                    mTransfer.transferSpeed = mCurrentElement.toFloat()
+                } else if (localName.equals(Transfer.Fields.PROJECT_BACKOFF, ignoreCase = true)) {
+                    mTransfer.projectBackoff = mCurrentElement.toDouble().toLong()
                 }
             }
         } catch (e: NumberFormatException) {
