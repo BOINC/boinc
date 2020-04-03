@@ -24,17 +24,15 @@ import android.os.Parcelable;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import lombok.experimental.FieldNameConstants;
 
 @EqualsAndHashCode
-@FieldNameConstants
 @ToString
 public class Result implements Parcelable {
-    @FieldNameConstants.Exclude public String name = "";
+    public String name = "";
     public String wu_name = "";
-    @FieldNameConstants.Exclude public String project_url = "";
+    public String project_url = "";
     public int version_num;
-    @FieldNameConstants.Exclude public String plan_class;
+    public String plan_class;
     public long report_deadline;
     public long received_time;
     public boolean ready_to_report;
@@ -80,10 +78,10 @@ public class Result implements Parcelable {
 
     public String resources = null;
 
-    @FieldNameConstants.Exclude public Project project;
-    @FieldNameConstants.Exclude public AppVersion avp;
-    @FieldNameConstants.Exclude public App app;
-    @FieldNameConstants.Exclude public WorkUnit wup;
+    public Project project;
+    public AppVersion avp;
+    public App app;
+    public WorkUnit wup;
 
     public Result() {
     }
@@ -212,4 +210,40 @@ public class Result implements Parcelable {
             return new Result[size];
         }
     };
+
+    public static final class Fields {
+        public static final String WU_NAME = "wu_name";
+        public static final String VERSION_NUM = "version_num";
+        public static final String REPORT_DEADLINE = "report_deadline";
+        public static final String RECEIVED_TIME = "received_time";
+        public static final String READY_TO_REPORT = "ready_to_report";
+        public static final String GOT_SERVER_ACK = "got_server_ack";
+        public static final String FINAL_CPU_TIME = "final_cpu_time";
+        public static final String FINAL_ELAPSED_TIME = "final_elapsed_time";
+        public static final String STATE = "state";
+        public static final String SCHEDULER_STATE = "scheduler_state";
+        public static final String EXIT_STATUS = "exit_status";
+        public static final String SUSPENDED_VIA_GUI = "suspended_via_gui";
+        public static final String PROJECT_SUSPENDED_VIA_GUI = "project_suspended_via_gui";
+        public static final String ACTIVE_TASK = "active_task";
+        public static final String ACTIVE_TASK_STATE = "active_task_state";
+        public static final String APP_VERSION_NUM = "app_version_num";
+        public static final String SLOT = "slot";
+        public static final String PID = "pid";
+        public static final String CHECKPOINT_CPU_TIME = "checkpoint_cpu_time";
+        public static final String CURRENT_CPU_TIME = "current_cpu_time";
+        public static final String FRACTION_DONE = "fraction_done";
+        public static final String ELAPSED_TIME = "elapsed_time";
+        public static final String SWAP_SIZE = "swap_size";
+        public static final String WORKING_SET_SIZE_SMOOTHED = "working_set_size_smoothed";
+        public static final String ESTIMATED_CPU_TIME_REMAINING = "estimated_cpu_time_remaining";
+        public static final String SUPPORTS_GRAPHICS = "supports_graphics";
+        public static final String GRAPHICS_MODE_ACKED = "graphics_mode_acked";
+        public static final String TOO_LARGE = "too_large";
+        public static final String NEEDS_SHMEM = "needs_shmem";
+        public static final String EDF_SCHEDULED = "edf_scheduled";
+        public static final String GRAPHICS_EXEC_PATH = "graphics_exec_path";
+        public static final String SLOT_PATH = "slot_path";
+        public static final String RESOURCES = "resources";
+    }
 }

@@ -27,6 +27,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -44,18 +46,18 @@ public class AcctMgrRPCReplyParserTest {
         expected = new AcctMgrRPCReply();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectIllegalArgumentException() {
         mockStatic(Xml.class);
 
-        assertThrows(NullPointerException.class, () -> AcctMgrRPCReplyParser.parse(null));
+        AcctMgrRPCReplyParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(AcctMgrRPCReplyParser.parse(""));
+        AcctMgrRPCReplyParser.parse("");
     }
 
     @Test
@@ -73,11 +75,11 @@ public class AcctMgrRPCReplyParserTest {
         assertFalse(acctMgrRPCReplyParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNullEntity() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         acctMgrRPCReplyParser.startElement(null, "", null, null);
 
-        assertNull(acctMgrRPCReplyParser.getAccountMgrRPCReply());
+        acctMgrRPCReplyParser.getAccountMgrRPCReply();
     }
 
     @Test
@@ -93,9 +95,9 @@ public class AcctMgrRPCReplyParserTest {
     public void testParser_whenXmlAccountManagerRPCReplyWithInvalidErrorNum_thenExpectDefaultEntity()
             throws SAXException {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("One".toCharArray(), 0, 3);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
         assertEquals(expected, acctMgrRPCReplyParser.getAccountMgrRPCReply());
@@ -105,9 +107,9 @@ public class AcctMgrRPCReplyParserTest {
     public void testParser_whenXmlAccountManagerRPCReplyWithOnlyErrorNum_thenExpectMatchingEntity()
             throws SAXException {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("1".toCharArray(), 0, 1);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
         expected.setErrorNum(1);
@@ -119,9 +121,9 @@ public class AcctMgrRPCReplyParserTest {
     public void testParser_whenXmlAccountManagerRPCReplyHasErrorNumAndOneMessage_thenExpectMatchingEntity()
             throws SAXException {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("1".toCharArray(), 0, 1);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null, null);
         acctMgrRPCReplyParser.characters(MESSAGE.toCharArray(), 0, MESSAGE.length());
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
@@ -137,9 +139,9 @@ public class AcctMgrRPCReplyParserTest {
     public void testParser_whenXmlAccountManagerRPCReplyHasErrorNumAndTwoMessages_thenExpectMatchingEntity()
             throws SAXException {
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("1".toCharArray(), 0, 1);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ERROR_NUM_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null, null);
         acctMgrRPCReplyParser.characters((MESSAGE + " 1").toCharArray(), 0, MESSAGE.length() + 2);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);

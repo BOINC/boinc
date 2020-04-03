@@ -27,10 +27,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -50,25 +50,23 @@ public class AcctMgrInfoParserTest {
         expected = new AcctMgrInfo();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(AcctMgrInfoParser.parse(null));
+        AcctMgrInfoParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(AcctMgrInfoParser.parse(""));
+        AcctMgrInfoParser.parse("");
     }
 
-    @Test
-    public void testParser_whenLocalNameIsNull_thenExpectNullPointerExceptionAndNullAccountManagerInfo() {
-        assertThrows(NullPointerException.class, () ->
-                acctMgrInfoParser.startElement(null, null, null, null));
-        assertNull(acctMgrInfoParser.getAccountMgrInfo());
+    @Test(expected = IllegalArgumentException.class)
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentException() throws SAXException {
+        acctMgrInfoParser.startElement(null, null, null, null);
     }
 
     @Test
@@ -86,11 +84,11 @@ public class AcctMgrInfoParserTest {
         assertFalse(acctMgrInfoParser.mElementStarted);
     }
 
-    @Test
+    @Test(expected = UninitializedPropertyAccessException.class)
     public void testParser_whenLocalNameIsEmpty_thenExpectNullAccountManagerInfo() throws SAXException {
         acctMgrInfoParser.startElement(null, "", null, null);
 
-        assertNull(acctMgrInfoParser.getAccountMgrInfo());
+        acctMgrInfoParser.getAccountMgrInfo();
     }
 
     @Test

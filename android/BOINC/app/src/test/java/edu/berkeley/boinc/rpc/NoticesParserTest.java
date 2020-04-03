@@ -48,11 +48,11 @@ public class NoticesParserTest {
         expected = new Notice();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
         mockStatic(Xml.class);
 
-        assertThrows(NullPointerException.class, () -> NoticesParser.parse(null));
+        NoticesParser.parse(null);
     }
 
     @Test

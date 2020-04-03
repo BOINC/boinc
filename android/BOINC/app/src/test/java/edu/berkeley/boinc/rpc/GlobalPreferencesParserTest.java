@@ -27,6 +27,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -42,18 +44,18 @@ public class GlobalPreferencesParserTest {
         expected = new GlobalPreferences();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(GlobalPreferencesParser.parse(null));
+        GlobalPreferencesParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(GlobalPreferencesParser.parse(""));
+        GlobalPreferencesParser.parse("");
     }
 
     @Test
@@ -74,11 +76,11 @@ public class GlobalPreferencesParserTest {
         assertFalse(globalPreferencesParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNull() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         globalPreferencesParser.startElement(null, "", null, null);
 
-        assertNull(globalPreferencesParser.getGlobalPreferences());
+        globalPreferencesParser.getGlobalPreferences();
     }
 
     @Test

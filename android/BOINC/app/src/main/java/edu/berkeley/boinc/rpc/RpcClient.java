@@ -429,7 +429,7 @@ public class RpcClient {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_message_count/>\n");
-            int seqNo = MessageCountParser.getSeqno(receiveReply());
+            int seqNo = MessageCountParser.getSeqnoOfReply(receiveReply());
             if (Logging.DEBUG) Log.d(Logging.TAG, "RpcClient.getMessageCount returning: " + seqNo);
             return seqNo;
         } catch (IOException e) {
@@ -572,7 +572,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "RpcClient.reportDeviceStatus() error: ", e);
             return false;
@@ -630,7 +630,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "RpcClient.setDomainNameRpc() error: ", e);
             return false;
@@ -684,7 +684,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in projectOp()", e);
             return false;
@@ -724,7 +724,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in createAccount()", e);
             return false;
@@ -776,7 +776,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in lookupAccount()", e);
             return false;
@@ -825,7 +825,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in projectAttach()", e);
             return false;
@@ -874,7 +874,7 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPC()", e);
             return false;
@@ -894,7 +894,7 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in acctMgrRPC()", e);
             return false;
@@ -948,7 +948,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in getProjectConfig()", e);
             return false;
@@ -1159,7 +1159,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setNetworkMode()", e);
             return false;
@@ -1186,7 +1186,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setRunMode()", e);
             return false;
@@ -1232,7 +1232,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in transferOp()", e);
             return false;
@@ -1280,7 +1280,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in transferOp()", e);
             return false;
@@ -1298,7 +1298,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setCcConfig()", e);
             return false;
@@ -1331,7 +1331,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in readCcConfig()", e);
             return false;
@@ -1348,7 +1348,7 @@ public class RpcClient {
             if (parser == null)
                 return false;
             mLastErrorMessage = parser.getErrorMessage();
-            return parser.result();
+            return parser.getResult();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
             return false;

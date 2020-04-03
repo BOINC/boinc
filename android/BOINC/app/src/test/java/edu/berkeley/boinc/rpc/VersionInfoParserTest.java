@@ -27,6 +27,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -45,11 +47,11 @@ public class VersionInfoParserTest {
         expected = new VersionInfo();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullVersionInfo() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(VersionInfoParser.parse(null));
+        VersionInfoParser.parse(null);
     }
 
     @Test
@@ -68,11 +70,12 @@ public class VersionInfoParserTest {
         assertFalse(versionInfoParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNullVersionInfo() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException()
+            throws SAXException {
         versionInfoParser.startElement(null, "", null, null);
 
-        assertNull(versionInfoParser.getVersionInfo());
+        versionInfoParser.getVersionInfo();
     }
 
     @Test

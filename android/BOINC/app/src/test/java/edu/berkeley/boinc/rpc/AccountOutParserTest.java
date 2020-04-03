@@ -27,11 +27,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -47,43 +47,38 @@ public class AccountOutParserTest {
     }
 
     @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
+    public void testParse_whenRpcStringIsNull_thenExpectIllegalArgumentException() {
         mockStatic(Xml.class);
 
-        assertThrows(NullPointerException.class, () -> AccountOutParser.parse(null));
+        assertThrows(IllegalArgumentException.class, () -> AccountOutParser.parse(null));
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
         assertNull(AccountOutParser.parse(""));
     }
 
-    @Test
-    public void testParser_whenLocalNameIsNull_thenExpectNullAccountOutAndElementStarted()
+    @Test(expected = IllegalArgumentException.class)
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentException()
             throws SAXException {
         accountOutParser.startElement(null, null, null, null);
-
-        assertNull(accountOutParser.getAccountOut());
-        assertTrue(accountOutParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNullAccountOutAndElementStarted() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         accountOutParser.startElement(null, "", null, null);
 
-        assertNull(accountOutParser.getAccountOut());
-        assertTrue(accountOutParser.mElementStarted);
+        accountOutParser.getAccountOut();
     }
 
-    @Test
-    public void testParser_whenXmlDocumentIsEmpty_thenExpectNullAccountOutAndElementNotStarted() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenXmlDocumentIsEmpty_thenExpectUninitializedPropertyAccessException() throws SAXException {
         accountOutParser.startElement(null, "<?xml", null, null);
         accountOutParser.endElement(null, "?>", null);
 
-        assertNull(accountOutParser.getAccountOut());
-        assertFalse(accountOutParser.mElementStarted);
+        accountOutParser.getAccountOut();
     }
 
     @Test

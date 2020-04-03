@@ -124,8 +124,8 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         final List<Result> results = resultsParser.getResults();
@@ -141,9 +141,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.wu_name, null, null);
+        resultsParser.startElement(null, Result.Fields.WU_NAME, null, null);
         resultsParser.characters("Work Unit".toCharArray(), 0, "Work Unit".length());
-        resultsParser.endElement(null, Result.Fields.wu_name, null);
+        resultsParser.endElement(null, Result.Fields.WU_NAME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -177,9 +177,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.version_num, null, null);
+        resultsParser.startElement(null, Result.Fields.VERSION_NUM, null, null);
         resultsParser.characters("One".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.version_num, null);
+        resultsParser.endElement(null, Result.Fields.VERSION_NUM, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -194,9 +194,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.version_num, null, null);
+        resultsParser.startElement(null, Result.Fields.VERSION_NUM, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.version_num, null);
+        resultsParser.endElement(null, Result.Fields.VERSION_NUM, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -212,9 +212,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.ready_to_report, null, null);
+        resultsParser.startElement(null, Result.Fields.READY_TO_REPORT, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.ready_to_report, null);
+        resultsParser.endElement(null, Result.Fields.READY_TO_REPORT, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -230,9 +230,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.ready_to_report, null, null);
+        resultsParser.startElement(null, Result.Fields.READY_TO_REPORT, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.ready_to_report, null);
+        resultsParser.endElement(null, Result.Fields.READY_TO_REPORT, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -248,9 +248,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.got_server_ack, null, null);
+        resultsParser.startElement(null, Result.Fields.GOT_SERVER_ACK, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.got_server_ack, null);
+        resultsParser.endElement(null, Result.Fields.GOT_SERVER_ACK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -266,9 +266,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.got_server_ack, null, null);
+        resultsParser.startElement(null, Result.Fields.GOT_SERVER_ACK, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.got_server_ack, null);
+        resultsParser.endElement(null, Result.Fields.GOT_SERVER_ACK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -284,9 +284,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.final_cpu_time, null, null);
+        resultsParser.startElement(null, Result.Fields.FINAL_CPU_TIME, null, null);
         resultsParser.characters("1000000".toCharArray(), 0, "1000000".length());
-        resultsParser.endElement(null, Result.Fields.final_cpu_time, null);
+        resultsParser.endElement(null, Result.Fields.FINAL_CPU_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -302,9 +302,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.final_elapsed_time, null, null);
+        resultsParser.startElement(null, Result.Fields.FINAL_ELAPSED_TIME, null, null);
         resultsParser.characters(TEN_BILLION_STR.toCharArray(), 0, TEN_BILLION_STR.length());
-        resultsParser.endElement(null, Result.Fields.final_elapsed_time, null);
+        resultsParser.endElement(null, Result.Fields.FINAL_ELAPSED_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -320,9 +320,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.state, null, null);
+        resultsParser.startElement(null, Result.Fields.STATE, null, null);
         resultsParser.characters("1000".toCharArray(), 0, "1000".length());
-        resultsParser.endElement(null, Result.Fields.state, null);
+        resultsParser.endElement(null, Result.Fields.STATE, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -338,9 +338,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.report_deadline, null, null);
+        resultsParser.startElement(null, Result.Fields.REPORT_DEADLINE, null, null);
         resultsParser.characters(TEN_BILLION_STR.toCharArray(), 0, TEN_BILLION_STR.length());
-        resultsParser.endElement(null, Result.Fields.report_deadline, null);
+        resultsParser.endElement(null, Result.Fields.REPORT_DEADLINE, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -356,9 +356,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.received_time, null, null);
+        resultsParser.startElement(null, Result.Fields.RECEIVED_TIME, null, null);
         resultsParser.characters(TEN_BILLION_STR.toCharArray(), 0, TEN_BILLION_STR.length());
-        resultsParser.endElement(null, Result.Fields.received_time, null);
+        resultsParser.endElement(null, Result.Fields.RECEIVED_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -374,9 +374,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.estimated_cpu_time_remaining, null, null);
+        resultsParser.startElement(null, Result.Fields.ESTIMATED_CPU_TIME_REMAINING, null, null);
         resultsParser.characters(TEN_BILLION_STR.toCharArray(), 0, TEN_BILLION_STR.length());
-        resultsParser.endElement(null, Result.Fields.estimated_cpu_time_remaining, null);
+        resultsParser.endElement(null, Result.Fields.ESTIMATED_CPU_TIME_REMAINING, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -392,9 +392,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.exit_status, null, null);
+        resultsParser.startElement(null, Result.Fields.EXIT_STATUS, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.exit_status, null);
+        resultsParser.endElement(null, Result.Fields.EXIT_STATUS, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -410,9 +410,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.suspended_via_gui, null, null);
+        resultsParser.startElement(null, Result.Fields.SUSPENDED_VIA_GUI, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.suspended_via_gui, null);
+        resultsParser.endElement(null, Result.Fields.SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -428,9 +428,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.suspended_via_gui, null, null);
+        resultsParser.startElement(null, Result.Fields.SUSPENDED_VIA_GUI, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.suspended_via_gui, null);
+        resultsParser.endElement(null, Result.Fields.SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -446,9 +446,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.project_suspended_via_gui, null, null);
+        resultsParser.startElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.project_suspended_via_gui, null);
+        resultsParser.endElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -464,9 +464,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.project_suspended_via_gui, null, null);
+        resultsParser.startElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.project_suspended_via_gui, null);
+        resultsParser.endElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -482,9 +482,9 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.resources, null, null);
+        resultsParser.startElement(null, Result.Fields.RESOURCES, null, null);
         resultsParser.characters("Resources".toCharArray(), 0, "Resources".length());
-        resultsParser.endElement(null, Result.Fields.resources, null);
+        resultsParser.endElement(null, Result.Fields.RESOURCES, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -499,11 +499,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.active_task_state, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK_STATE, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.active_task_state, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK_STATE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -519,11 +519,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.app_version_num, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.APP_VERSION_NUM, null, null);
         resultsParser.characters("10".toCharArray(), 0, 2);
-        resultsParser.endElement(null, Result.Fields.app_version_num, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.APP_VERSION_NUM, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -539,11 +539,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.scheduler_state, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SCHEDULER_STATE, null, null);
         resultsParser.characters("1000".toCharArray(), 0, "1000".length());
-        resultsParser.endElement(null, Result.Fields.scheduler_state, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SCHEDULER_STATE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -559,11 +559,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.checkpoint_cpu_time, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.CHECKPOINT_CPU_TIME, null, null);
         resultsParser.characters("150000".toCharArray(), 0, "150000".length());
-        resultsParser.endElement(null, Result.Fields.checkpoint_cpu_time, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.CHECKPOINT_CPU_TIME, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -579,11 +579,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.current_cpu_time, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.CURRENT_CPU_TIME, null, null);
         resultsParser.characters("100000".toCharArray(), 0, "100000".length());
-        resultsParser.endElement(null, Result.Fields.current_cpu_time, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.CURRENT_CPU_TIME, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -599,11 +599,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.fraction_done, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.FRACTION_DONE, null, null);
         resultsParser.characters("0.67".toCharArray(), 0, 4);
-        resultsParser.endElement(null, Result.Fields.fraction_done, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.FRACTION_DONE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -619,11 +619,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.elapsed_time, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.ELAPSED_TIME, null, null);
         resultsParser.characters("2500".toCharArray(), 0, 4);
-        resultsParser.endElement(null, Result.Fields.elapsed_time, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.ELAPSED_TIME, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -639,11 +639,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
-        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.swap_size, null, null);
+        resultsParser.endElement(null, RPCCommonTags.NAME, null);resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SWAP_SIZE, null, null);
         resultsParser.characters("2500".toCharArray(), 0, 4);
-        resultsParser.endElement(null, Result.Fields.swap_size, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SWAP_SIZE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -660,11 +660,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.working_set_size_smoothed, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.WORKING_SET_SIZE_SMOOTHED, null, null);
         resultsParser.characters("2500".toCharArray(), 0, 4);
-        resultsParser.endElement(null, Result.Fields.working_set_size_smoothed, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.WORKING_SET_SIZE_SMOOTHED, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -681,11 +681,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.estimated_cpu_time_remaining, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.ESTIMATED_CPU_TIME_REMAINING, null, null);
         resultsParser.characters("1000".toCharArray(), 0, 4);
-        resultsParser.endElement(null, Result.Fields.estimated_cpu_time_remaining, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.ESTIMATED_CPU_TIME_REMAINING, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -702,11 +702,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.supports_graphics, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SUPPORTS_GRAPHICS, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.supports_graphics, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SUPPORTS_GRAPHICS, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -723,11 +723,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.supports_graphics, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SUPPORTS_GRAPHICS, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.supports_graphics, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SUPPORTS_GRAPHICS, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -744,11 +744,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.graphics_mode_acked, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.GRAPHICS_MODE_ACKED, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.graphics_mode_acked, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.GRAPHICS_MODE_ACKED, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -765,11 +765,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.too_large, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.TOO_LARGE, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.too_large, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.TOO_LARGE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -786,11 +786,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.too_large, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.TOO_LARGE, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.too_large, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.TOO_LARGE, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -807,11 +807,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.needs_shmem, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.NEEDS_SHMEM, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.needs_shmem, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.NEEDS_SHMEM, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -828,11 +828,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.needs_shmem, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.NEEDS_SHMEM, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.needs_shmem, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.NEEDS_SHMEM, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -849,11 +849,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.edf_scheduled, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.EDF_SCHEDULED, null, null);
         resultsParser.characters("0".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.edf_scheduled, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.EDF_SCHEDULED, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -870,11 +870,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.edf_scheduled, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.EDF_SCHEDULED, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.edf_scheduled, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.EDF_SCHEDULED, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -891,11 +891,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.pid, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.PID, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.pid, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.PID, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -912,11 +912,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.slot, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SLOT, null, null);
         resultsParser.characters("1".toCharArray(), 0, 1);
-        resultsParser.endElement(null, Result.Fields.slot, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SLOT, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -933,11 +933,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.graphics_exec_path, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.GRAPHICS_EXEC_PATH, null, null);
         resultsParser.characters("/path/to/graphics".toCharArray(), 0, "/path/to/graphics".length());
-        resultsParser.endElement(null, Result.Fields.graphics_exec_path, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.GRAPHICS_EXEC_PATH, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
@@ -954,11 +954,11 @@ public class ResultsParserTest {
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
-        resultsParser.startElement(null, Result.Fields.active_task, null, null);
-        resultsParser.startElement(null, Result.Fields.slot_path, null, null);
+        resultsParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        resultsParser.startElement(null, Result.Fields.SLOT_PATH, null, null);
         resultsParser.characters("/path/to/slot".toCharArray(), 0, "/path/to/slot".length());
-        resultsParser.endElement(null, Result.Fields.slot_path, null);
-        resultsParser.endElement(null, Result.Fields.active_task, null);
+        resultsParser.endElement(null, Result.Fields.SLOT_PATH, null);
+        resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
         expected.name = NAME;
