@@ -18,4 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
+fun StringBuilder.toDouble() = toString().toDouble()
+
 fun StringBuilder.toInt() = toString().toInt()
