@@ -26,14 +26,14 @@ import org.xml.sax.SAXException
 
 class ResultsParser : BaseParser() {
     val results: MutableList<Result> = mutableListOf()
-    private var mResult: Result? = null
+    private lateinit var mResult: Result
     private var mInActiveTask = false
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
         when {
-            localName.equals(RESULT_TAG, ignoreCase = true) -> {
+            localName.equals(RESULT_TAG, ignoreCase = true) && !this::mResult.isInitialized -> {
                 mResult = Result()
             }
             localName.equals(Result.Fields.ACTIVE_TASK, ignoreCase = true) -> {
@@ -52,129 +52,127 @@ class ResultsParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (mResult != null) { // We are inside <result>
-                if (localName.equals(RESULT_TAG, ignoreCase = true)) {
-                    // Closing tag of <result> - add to list and be ready for next one
-                    if (mResult!!.name.isNotEmpty()) { // name is a must
-                        results.add(mResult!!)
-                    }
-                    mResult = null
-                } else { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    if (mInActiveTask) { // we are in <active_task>
-                        when {
-                            localName.equals(Result.Fields.ACTIVE_TASK, ignoreCase = true) -> { // Closing of <active_task>
-                                mResult!!.active_task = true
-                                mInActiveTask = false
-                            }
-                            localName.equals(Result.Fields.ACTIVE_TASK_STATE, ignoreCase = true) -> {
-                                mResult!!.active_task_state = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.APP_VERSION_NUM, ignoreCase = true) -> {
-                                mResult!!.app_version_num = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.SCHEDULER_STATE, ignoreCase = true) -> {
-                                mResult!!.scheduler_state = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.CHECKPOINT_CPU_TIME, ignoreCase = true) -> {
-                                mResult!!.checkpoint_cpu_time = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.CURRENT_CPU_TIME, ignoreCase = true) -> {
-                                mResult!!.current_cpu_time = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.FRACTION_DONE, ignoreCase = true) -> {
-                                mResult!!.fraction_done = mCurrentElement.toFloat()
-                            }
-                            localName.equals(Result.Fields.ELAPSED_TIME, ignoreCase = true) -> {
-                                mResult!!.elapsed_time = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.SWAP_SIZE, ignoreCase = true) -> {
-                                mResult!!.swap_size = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.WORKING_SET_SIZE_SMOOTHED, ignoreCase = true) -> {
-                                mResult!!.working_set_size_smoothed = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.ESTIMATED_CPU_TIME_REMAINING, ignoreCase = true) -> {
-                                mResult!!.estimated_cpu_time_remaining = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.SUPPORTS_GRAPHICS, ignoreCase = true) -> {
-                                mResult!!.supports_graphics = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.GRAPHICS_MODE_ACKED, ignoreCase = true) -> {
-                                mResult!!.graphics_mode_acked = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.TOO_LARGE, ignoreCase = true) -> {
-                                mResult!!.too_large = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.NEEDS_SHMEM, ignoreCase = true) -> {
-                                mResult!!.needs_shmem = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.EDF_SCHEDULED, ignoreCase = true) -> {
-                                mResult!!.edf_scheduled = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.PID, ignoreCase = true) -> {
-                                mResult!!.pid = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.SLOT, ignoreCase = true) -> {
-                                mResult!!.slot = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.GRAPHICS_EXEC_PATH, ignoreCase = true) -> {
-                                mResult!!.graphics_exec_path = mCurrentElement.toString()
-                            }
-                            localName.equals(Result.Fields.SLOT_PATH, ignoreCase = true) -> {
-                                mResult!!.slot_path = mCurrentElement.toString()
-                            }
+            if (localName.equals(RESULT_TAG, ignoreCase = true)) {
+                // Closing tag of <result> - add to list and be ready for next one
+                if (mResult.name.isNotEmpty()) { // name is a must
+                    results.add(mResult)
+                }
+                mResult = Result()
+            } else { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                if (mInActiveTask) { // we are in <active_task>
+                    when {
+                        localName.equals(Result.Fields.ACTIVE_TASK, ignoreCase = true) -> { // Closing of <active_task>
+                            mResult.active_task = true
+                            mInActiveTask = false
                         }
-                    } else { // Not in <active_task>
-                        when {
-                            localName.equals(NAME, ignoreCase = true) -> {
-                                mResult!!.name = mCurrentElement.toString()
-                            }
-                            localName.equals(Result.Fields.WU_NAME, ignoreCase = true) -> {
-                                mResult!!.wu_name = mCurrentElement.toString()
-                            }
-                            localName.equals(PROJECT_URL, ignoreCase = true) -> {
-                                mResult!!.project_url = mCurrentElement.toString()
-                            }
-                            localName.equals(Result.Fields.VERSION_NUM, ignoreCase = true) -> {
-                                mResult!!.version_num = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.READY_TO_REPORT, ignoreCase = true) -> {
-                                mResult!!.ready_to_report = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.GOT_SERVER_ACK, ignoreCase = true) -> {
-                                mResult!!.got_server_ack = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.FINAL_CPU_TIME, ignoreCase = true) -> {
-                                mResult!!.final_cpu_time = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.FINAL_ELAPSED_TIME, ignoreCase = true) -> {
-                                mResult!!.final_elapsed_time = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.STATE, ignoreCase = true) -> {
-                                mResult!!.state = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.REPORT_DEADLINE, ignoreCase = true) -> {
-                                mResult!!.report_deadline = mCurrentElement.toDouble().toLong()
-                            }
-                            localName.equals(Result.Fields.RECEIVED_TIME, ignoreCase = true) -> {
-                                mResult!!.received_time = mCurrentElement.toDouble().toLong()
-                            }
-                            localName.equals(Result.Fields.ESTIMATED_CPU_TIME_REMAINING, ignoreCase = true) -> {
-                                mResult!!.estimated_cpu_time_remaining = mCurrentElement.toDouble()
-                            }
-                            localName.equals(Result.Fields.EXIT_STATUS, ignoreCase = true) -> {
-                                mResult!!.exit_status = mCurrentElement.toInt()
-                            }
-                            localName.equals(Result.Fields.SUSPENDED_VIA_GUI, ignoreCase = true) -> {
-                                mResult!!.suspended_via_gui = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.PROJECT_SUSPENDED_VIA_GUI, ignoreCase = true) -> {
-                                mResult!!.project_suspended_via_gui = mCurrentElement.toString() != "0"
-                            }
-                            localName.equals(Result.Fields.RESOURCES, ignoreCase = true) -> {
-                                mResult!!.resources = mCurrentElement.toString()
-                            }
+                        localName.equals(Result.Fields.ACTIVE_TASK_STATE, ignoreCase = true) -> {
+                            mResult.active_task_state = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.APP_VERSION_NUM, ignoreCase = true) -> {
+                            mResult.app_version_num = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.SCHEDULER_STATE, ignoreCase = true) -> {
+                            mResult.scheduler_state = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.CHECKPOINT_CPU_TIME, ignoreCase = true) -> {
+                            mResult.checkpoint_cpu_time = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.CURRENT_CPU_TIME, ignoreCase = true) -> {
+                            mResult.current_cpu_time = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.FRACTION_DONE, ignoreCase = true) -> {
+                            mResult.fraction_done = mCurrentElement.toFloat()
+                        }
+                        localName.equals(Result.Fields.ELAPSED_TIME, ignoreCase = true) -> {
+                            mResult.elapsed_time = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.SWAP_SIZE, ignoreCase = true) -> {
+                            mResult.swap_size = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.WORKING_SET_SIZE_SMOOTHED, ignoreCase = true) -> {
+                            mResult.working_set_size_smoothed = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.ESTIMATED_CPU_TIME_REMAINING, ignoreCase = true) -> {
+                            mResult.estimated_cpu_time_remaining = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.SUPPORTS_GRAPHICS, ignoreCase = true) -> {
+                            mResult.supports_graphics = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.GRAPHICS_MODE_ACKED, ignoreCase = true) -> {
+                            mResult.graphics_mode_acked = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.TOO_LARGE, ignoreCase = true) -> {
+                            mResult.too_large = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.NEEDS_SHMEM, ignoreCase = true) -> {
+                            mResult.needs_shmem = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.EDF_SCHEDULED, ignoreCase = true) -> {
+                            mResult.edf_scheduled = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.PID, ignoreCase = true) -> {
+                            mResult.pid = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.SLOT, ignoreCase = true) -> {
+                            mResult.slot = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.GRAPHICS_EXEC_PATH, ignoreCase = true) -> {
+                            mResult.graphics_exec_path = mCurrentElement.toString()
+                        }
+                        localName.equals(Result.Fields.SLOT_PATH, ignoreCase = true) -> {
+                            mResult.slot_path = mCurrentElement.toString()
+                        }
+                    }
+                } else { // Not in <active_task>
+                    when {
+                        localName.equals(NAME, ignoreCase = true) -> {
+                            mResult.name = mCurrentElement.toString()
+                        }
+                        localName.equals(Result.Fields.WU_NAME, ignoreCase = true) -> {
+                            mResult.wu_name = mCurrentElement.toString()
+                        }
+                        localName.equals(PROJECT_URL, ignoreCase = true) -> {
+                            mResult.project_url = mCurrentElement.toString()
+                        }
+                        localName.equals(Result.Fields.VERSION_NUM, ignoreCase = true) -> {
+                            mResult.version_num = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.READY_TO_REPORT, ignoreCase = true) -> {
+                            mResult.ready_to_report = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.GOT_SERVER_ACK, ignoreCase = true) -> {
+                            mResult.got_server_ack = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.FINAL_CPU_TIME, ignoreCase = true) -> {
+                            mResult.final_cpu_time = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.FINAL_ELAPSED_TIME, ignoreCase = true) -> {
+                            mResult.final_elapsed_time = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.STATE, ignoreCase = true) -> {
+                            mResult.state = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.REPORT_DEADLINE, ignoreCase = true) -> {
+                            mResult.report_deadline = mCurrentElement.toDouble().toLong()
+                        }
+                        localName.equals(Result.Fields.RECEIVED_TIME, ignoreCase = true) -> {
+                            mResult.received_time = mCurrentElement.toDouble().toLong()
+                        }
+                        localName.equals(Result.Fields.ESTIMATED_CPU_TIME_REMAINING, ignoreCase = true) -> {
+                            mResult.estimated_cpu_time_remaining = mCurrentElement.toDouble()
+                        }
+                        localName.equals(Result.Fields.EXIT_STATUS, ignoreCase = true) -> {
+                            mResult.exit_status = mCurrentElement.toInt()
+                        }
+                        localName.equals(Result.Fields.SUSPENDED_VIA_GUI, ignoreCase = true) -> {
+                            mResult.suspended_via_gui = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.PROJECT_SUSPENDED_VIA_GUI, ignoreCase = true) -> {
+                            mResult.project_suspended_via_gui = mCurrentElement.toString() != "0"
+                        }
+                        localName.equals(Result.Fields.RESOURCES, ignoreCase = true) -> {
+                            mResult.resources = mCurrentElement.toString()
                         }
                     }
                 }
