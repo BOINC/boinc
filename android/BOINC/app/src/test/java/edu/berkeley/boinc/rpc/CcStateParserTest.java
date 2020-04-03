@@ -308,11 +308,11 @@ public class CcStateParserTest {
         ccStateParser.startElement(null, RPCCommonTags.NAME, null, null);
         ccStateParser.characters("Result".toCharArray(), 0, "Result".length());
         ccStateParser.endElement(null, RPCCommonTags.NAME, null);
-        ccStateParser.startElement(null, Result.Fields.active_task, null, null);
-        ccStateParser.startElement(null, Result.Fields.slot_path, null, null);
+        ccStateParser.startElement(null, Result.Fields.ACTIVE_TASK, null, null);
+        ccStateParser.startElement(null, Result.Fields.SLOT_PATH, null, null);
         ccStateParser.characters("/path/to/slot".toCharArray(), 0, "/path/to/slot".length());
-        ccStateParser.endElement(null, Result.Fields.slot_path, null);
-        ccStateParser.endElement(null, Result.Fields.active_task, null);
+        ccStateParser.endElement(null, Result.Fields.SLOT_PATH, null);
+        ccStateParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         ccStateParser.endElement(null, ResultsParser.RESULT_TAG, null);
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
