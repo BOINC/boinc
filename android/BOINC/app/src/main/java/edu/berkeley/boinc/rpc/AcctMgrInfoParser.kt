@@ -26,7 +26,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class AcctMgrInfoParser : BaseParser() {
-    var accountMgrInfo: AcctMgrInfo? = null
+    lateinit var accountMgrInfo: AcctMgrInfo
         private set
 
     @Throws(SAXException::class)
@@ -44,30 +44,28 @@ class AcctMgrInfoParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (accountMgrInfo != null) { // inside <acct_mgr_info>
-                if (localName.equals(ACCT_MGR_INFO_TAG, ignoreCase = true)) { // closing tag
-                    if (arrayOf(accountMgrInfo!!.acctMgrName, accountMgrInfo!!.acctMgrUrl)
-                                    .none { it.isEmpty() } &&
-                            accountMgrInfo!!.isHavingCredentials) {
-                        accountMgrInfo!!.isPresent = true
+            if (localName.equals(ACCT_MGR_INFO_TAG, ignoreCase = true)) { // closing tag
+                if (arrayOf(accountMgrInfo.acctMgrName, accountMgrInfo.acctMgrUrl)
+                                .none { it.isEmpty() } &&
+                        accountMgrInfo.isHavingCredentials) {
+                    accountMgrInfo.isPresent = true
+                }
+            } else { // decode inner tags
+                when {
+                    localName.equals(AcctMgrInfo.Fields.ACCT_MGR_NAME, ignoreCase = true) -> {
+                        accountMgrInfo.acctMgrName = mCurrentElement.toString()
                     }
-                } else { // decode inner tags
-                    when {
-                        localName.equals(AcctMgrInfo.Fields.ACCT_MGR_NAME, ignoreCase = true) -> {
-                            accountMgrInfo!!.acctMgrName = mCurrentElement.toString()
-                        }
-                        localName.equals(AcctMgrInfo.Fields.ACCT_MGR_URL, ignoreCase = true) -> {
-                            accountMgrInfo!!.acctMgrUrl = mCurrentElement.toString()
-                        }
-                        localName.equals(AcctMgrInfo.Fields.HAVING_CREDENTIALS, ignoreCase = true) -> {
-                            accountMgrInfo!!.isHavingCredentials = true
-                        }
-                        localName.equals(AcctMgrInfo.Fields.COOKIE_REQUIRED, ignoreCase = true) -> {
-                            accountMgrInfo!!.isCookieRequired = true
-                        }
-                        localName.equals(AcctMgrInfo.Fields.COOKIE_FAILURE_URL, ignoreCase = true) -> {
-                            accountMgrInfo!!.cookieFailureUrl = mCurrentElement.toString()
-                        }
+                    localName.equals(AcctMgrInfo.Fields.ACCT_MGR_URL, ignoreCase = true) -> {
+                        accountMgrInfo.acctMgrUrl = mCurrentElement.toString()
+                    }
+                    localName.equals(AcctMgrInfo.Fields.HAVING_CREDENTIALS, ignoreCase = true) -> {
+                        accountMgrInfo.isHavingCredentials = true
+                    }
+                    localName.equals(AcctMgrInfo.Fields.COOKIE_REQUIRED, ignoreCase = true) -> {
+                        accountMgrInfo.isCookieRequired = true
+                    }
+                    localName.equals(AcctMgrInfo.Fields.COOKIE_FAILURE_URL, ignoreCase = true) -> {
+                        accountMgrInfo.cookieFailureUrl = mCurrentElement.toString()
                     }
                 }
             }
