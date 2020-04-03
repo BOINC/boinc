@@ -28,12 +28,12 @@ import org.xml.sax.SAXException
 
 class AppVersionsParser : BaseParser() {
     val appVersions: MutableList<AppVersion> = mutableListOf()
-    private var mAppVersion: AppVersion? = null
+    private lateinit var mAppVersion: AppVersion
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(APP_VERSION_TAG, ignoreCase = true)) {
+        if (localName.equals(APP_VERSION_TAG, ignoreCase = true) && !this::mAppVersion.isInitialized) {
             mAppVersion = AppVersion()
         }
     }
@@ -51,18 +51,16 @@ class AppVersionsParser : BaseParser() {
         super.endElement(uri, localName, qName)
         try {
             trimEnd()
-            if (mAppVersion != null) { // We are inside <app_version>
-                if (localName.equals(APP_VERSION_TAG, ignoreCase = true)) { // Closing tag of <app_version> - add to vector and be ready for next one
-                    if (!mAppVersion!!.appName.isNullOrEmpty()) { // appName is a must
-                        appVersions.add(mAppVersion!!)
-                    }
-                    mAppVersion = null
-                } else { // Not the closing tag - we decode possible inner tags
-                    if (localName.equals(AppVersion.Fields.APP_NAME, ignoreCase = true)) {
-                        mAppVersion!!.appName = mCurrentElement.toString()
-                    } else if (localName.equals(AppVersion.Fields.VERSION_NUM, ignoreCase = true)) {
-                        mAppVersion!!.versionNum = mCurrentElement.toInt()
-                    }
+            if (localName.equals(APP_VERSION_TAG, ignoreCase = true)) { // Closing tag of <app_version> - add to vector and be ready for next one
+                if (!mAppVersion.appName.isNullOrEmpty()) { // appName is a must
+                    appVersions.add(mAppVersion)
+                }
+                mAppVersion = AppVersion()
+            } else { // Not the closing tag - we decode possible inner tags
+                if (localName.equals(AppVersion.Fields.APP_NAME, ignoreCase = true)) {
+                    mAppVersion.appName = mCurrentElement.toString()
+                } else if (localName.equals(AppVersion.Fields.VERSION_NUM, ignoreCase = true)) {
+                    mAppVersion.versionNum = mCurrentElement.toInt()
                 }
             }
         } catch (e: NumberFormatException) {
