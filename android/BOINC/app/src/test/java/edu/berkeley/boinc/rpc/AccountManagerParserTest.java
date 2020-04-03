@@ -50,7 +50,7 @@ public class AccountManagerParserTest {
     @Before
     public void setUp() {
         accountManagerParser = new AccountManagerParser();
-        accountManagers = accountManagerParser.getAccountManagerInfo();
+        accountManagers = accountManagerParser.getAccountManagerInfos();
         expected = new AccountManager();
     }
 
@@ -65,8 +65,8 @@ public class AccountManagerParserTest {
     }
 
     @Test
-    public void testParser_whenLocalNameIsNull_thenExpectNullPointerExceptionAndEmptyList() {
-        assertThrows(NullPointerException.class, () ->
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndEmptyList() {
+        assertThrows(IllegalArgumentException.class, () ->
                 accountManagerParser.startElement(null, null, null, null));
 
         assertTrue(accountManagers.isEmpty());
