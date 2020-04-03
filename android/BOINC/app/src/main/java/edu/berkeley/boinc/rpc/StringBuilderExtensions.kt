@@ -20,4 +20,6 @@ package edu.berkeley.boinc.rpc
 
 fun StringBuilder.toDouble() = toString().toDouble()
 
+fun StringBuilder.toFloat() = toString().toFloat()
+
 fun StringBuilder.toInt() = toString().toInt()
