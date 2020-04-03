@@ -25,7 +25,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class VersionInfoParser : BaseParser() {
-    var versionInfo: VersionInfo? = null
+    lateinit var versionInfo: VersionInfo
         private set
 
     @Throws(SAXException::class)
@@ -45,19 +45,17 @@ class VersionInfoParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (versionInfo != null) { // we are inside <server_version>
-                if (!localName.equals(SERVER_VERSION_TAG, ignoreCase = true)) { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    when {
-                        localName.equals(VersionInfo.Fields.MAJOR, ignoreCase = true) -> {
-                            versionInfo!!.major = mCurrentElement.toInt()
-                        }
-                        localName.equals(VersionInfo.Fields.MINOR, ignoreCase = true) -> {
-                            versionInfo!!.minor = mCurrentElement.toInt()
-                        }
-                        localName.equals(VersionInfo.Fields.RELEASE, ignoreCase = true) -> {
-                            versionInfo!!.release = mCurrentElement.toInt()
-                        }
+            if (!localName.equals(SERVER_VERSION_TAG, ignoreCase = true)) { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                when {
+                    localName.equals(VersionInfo.Fields.MAJOR, ignoreCase = true) -> {
+                        versionInfo.major = mCurrentElement.toInt()
+                    }
+                    localName.equals(VersionInfo.Fields.MINOR, ignoreCase = true) -> {
+                        versionInfo.minor = mCurrentElement.toInt()
+                    }
+                    localName.equals(VersionInfo.Fields.RELEASE, ignoreCase = true) -> {
+                        versionInfo.release = mCurrentElement.toInt()
                     }
                 }
             }
