@@ -25,7 +25,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class ProjectAttachReplyParser : BaseParser() {
-    var projectAttachReply: ProjectAttachReply? = null
+    lateinit var projectAttachReply: ProjectAttachReply
         private set
 
     @Throws(SAXException::class)
@@ -45,14 +45,13 @@ class ProjectAttachReplyParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (projectAttachReply != null &&  // we are inside <project_attach_reply>
-                    !localName.equals(PROJECT_ATTACH_REPLY_TAG, ignoreCase = true)
-            ) { // Not the closing tag - we decode possible inner tags
+            if (!localName.equals(PROJECT_ATTACH_REPLY_TAG, ignoreCase = true)) {
+                // Not the closing tag - we decode possible inner tags
                 trimEnd()
                 if (localName.equals(ERROR_NUM_TAG, ignoreCase = true)) {
-                    projectAttachReply!!.errorNum = mCurrentElement.toInt()
+                    projectAttachReply.errorNum = mCurrentElement.toInt()
                 } else if (localName.equals(MESSAGE_TAG, ignoreCase = true)) {
-                    projectAttachReply!!.messages.add(mCurrentElement.toString())
+                    projectAttachReply.messages.add(mCurrentElement.toString())
                 }
             }
         } catch (e: NumberFormatException) {
