@@ -26,7 +26,7 @@ import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
 class HostInfoParser : BaseParser() {
-    var hostInfo: HostInfo? = null
+    lateinit var hostInfo: HostInfo
         private set
 
     @Throws(SAXException::class)
@@ -46,75 +46,71 @@ class HostInfoParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (hostInfo != null) {
-                // we are inside <host_info>
-                // Closing tag of <host_info> - nothing to do at the moment
-                if (!localName.equals(HOST_INFO_TAG, ignoreCase = true)) { // Not the closing tag - we decode possible inner tags
-                    trimEnd()
-                    when {
-                        localName.equals(HostInfo.Fields.TIMEZONE, ignoreCase = true) -> {
-                            hostInfo!!.timezone = mCurrentElement.toInt()
-                        }
-                        localName.equals(HostInfo.Fields.DOMAIN_NAME, ignoreCase = true) -> {
-                            hostInfo!!.domainName = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.IP_ADDR, ignoreCase = true) -> {
-                            hostInfo!!.ipAddress = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.HOST_CPID, ignoreCase = true) -> {
-                            hostInfo!!.hostCpid = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.P_NCPUS, ignoreCase = true) -> {
-                            hostInfo!!.noOfCPUs = mCurrentElement.toInt()
-                        }
-                        localName.equals(HostInfo.Fields.P_VENDOR, ignoreCase = true) -> {
-                            hostInfo!!.cpuVendor = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.P_MODEL, ignoreCase = true) -> {
-                            hostInfo!!.cpuModel = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.P_FEATURES, ignoreCase = true) -> {
-                            hostInfo!!.cpuFeatures = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.P_FPOPS, ignoreCase = true) -> {
-                            hostInfo!!.cpuFloatingPointOps = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.P_IOPS, ignoreCase = true) -> {
-                            hostInfo!!.cpuIntegerOps = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.P_MEMBW, ignoreCase = true) -> {
-                            hostInfo!!.cpuMembw = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.P_CALCULATED, ignoreCase = true) -> {
-                            hostInfo!!.cpuCalculated = mCurrentElement.toDouble().toLong()
-                        }
-                        localName.equals(HostInfo.Fields.PRODUCT_NAME, ignoreCase = true) -> {
-                            hostInfo!!.productName = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.M_NBYTES, ignoreCase = true) -> {
-                            hostInfo!!.memoryInBytes = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.M_CACHE, ignoreCase = true) -> {
-                            hostInfo!!.memoryCache = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.M_SWAP, ignoreCase = true) -> {
-                            hostInfo!!.memorySwap = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.D_TOTAL, ignoreCase = true) -> {
-                            hostInfo!!.totalDiskSpace = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.D_FREE, ignoreCase = true) -> {
-                            hostInfo!!.freeDiskSpace = mCurrentElement.toDouble()
-                        }
-                        localName.equals(HostInfo.Fields.OS_NAME, ignoreCase = true) -> {
-                            hostInfo!!.osName = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.OS_VERSION, ignoreCase = true) -> {
-                            hostInfo!!.osVersion = mCurrentElement.toString()
-                        }
-                        localName.equals(HostInfo.Fields.VIRTUALBOX_VERSION, ignoreCase = true) -> {
-                            hostInfo!!.virtualBoxVersion = mCurrentElement.toString()
-                        }
+            if (!localName.equals(HOST_INFO_TAG, ignoreCase = true)) { // Not the closing tag - we decode possible inner tags
+                trimEnd()
+                when {
+                    localName.equals(HostInfo.Fields.TIMEZONE, ignoreCase = true) -> {
+                        hostInfo.timezone = mCurrentElement.toInt()
+                    }
+                    localName.equals(HostInfo.Fields.DOMAIN_NAME, ignoreCase = true) -> {
+                        hostInfo.domainName = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.IP_ADDR, ignoreCase = true) -> {
+                        hostInfo.ipAddress = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.HOST_CPID, ignoreCase = true) -> {
+                        hostInfo.hostCpid = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.P_NCPUS, ignoreCase = true) -> {
+                        hostInfo.noOfCPUs = mCurrentElement.toInt()
+                    }
+                    localName.equals(HostInfo.Fields.P_VENDOR, ignoreCase = true) -> {
+                        hostInfo.cpuVendor = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.P_MODEL, ignoreCase = true) -> {
+                        hostInfo.cpuModel = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.P_FEATURES, ignoreCase = true) -> {
+                        hostInfo.cpuFeatures = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.P_FPOPS, ignoreCase = true) -> {
+                        hostInfo.cpuFloatingPointOps = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.P_IOPS, ignoreCase = true) -> {
+                        hostInfo.cpuIntegerOps = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.P_MEMBW, ignoreCase = true) -> {
+                        hostInfo.cpuMembw = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.P_CALCULATED, ignoreCase = true) -> {
+                        hostInfo.cpuCalculated = mCurrentElement.toDouble().toLong()
+                    }
+                    localName.equals(HostInfo.Fields.PRODUCT_NAME, ignoreCase = true) -> {
+                        hostInfo.productName = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.M_NBYTES, ignoreCase = true) -> {
+                        hostInfo.memoryInBytes = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.M_CACHE, ignoreCase = true) -> {
+                        hostInfo.memoryCache = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.M_SWAP, ignoreCase = true) -> {
+                        hostInfo.memorySwap = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.D_TOTAL, ignoreCase = true) -> {
+                        hostInfo.totalDiskSpace = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.D_FREE, ignoreCase = true) -> {
+                        hostInfo.freeDiskSpace = mCurrentElement.toDouble()
+                    }
+                    localName.equals(HostInfo.Fields.OS_NAME, ignoreCase = true) -> {
+                        hostInfo.osName = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.OS_VERSION, ignoreCase = true) -> {
+                        hostInfo.osVersion = mCurrentElement.toString()
+                    }
+                    localName.equals(HostInfo.Fields.VIRTUALBOX_VERSION, ignoreCase = true) -> {
+                        hostInfo.virtualBoxVersion = mCurrentElement.toString()
                     }
                 }
             }

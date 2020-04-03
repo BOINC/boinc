@@ -27,10 +27,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.SAXException;
 
+import kotlin.UninitializedPropertyAccessException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -64,24 +64,23 @@ public class HostInfoParserTest {
         expected = new HostInfo();
     }
 
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(HostInfoParser.parse(null));
+        HostInfoParser.parse(null);
     }
 
-    @Test
-    public void testParse_whenRpcStringIsEmpty_thenExpectNull() {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParse_whenRpcStringIsEmpty_thenExpectUninitializedPropertyAccessException() {
         mockStatic(Xml.class);
 
-        assertNull(HostInfoParser.parse(""));
+        HostInfoParser.parse("");
     }
 
-    @Test
-    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndNullHostInfo() {
-        assertThrows(IllegalArgumentException.class, () -> hostInfoParser.startElement(null, null, null, null));
-        assertNull(hostInfoParser.getHostInfo());
+    @Test(expected = IllegalArgumentException.class)
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentException() throws SAXException {
+        hostInfoParser.startElement(null, null, null, null);
     }
 
     @Test
@@ -99,11 +98,12 @@ public class HostInfoParserTest {
         assertFalse(hostInfoParser.mElementStarted);
     }
 
-    @Test
-    public void testParser_whenLocalNameIsEmpty_thenExpectNullHostInfo() throws SAXException {
+    @Test(expected = UninitializedPropertyAccessException.class)
+    public void testParser_whenLocalNameIsEmpty_thenExpectUninitializedPropertyAccessException()
+            throws SAXException {
         hostInfoParser.startElement(null, "", null, null);
 
-        assertNull(hostInfoParser.getHostInfo());
+        hostInfoParser.getHostInfo();
     }
 
     @Test
