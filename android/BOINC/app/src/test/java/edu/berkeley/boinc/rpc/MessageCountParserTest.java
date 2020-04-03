@@ -44,14 +44,14 @@ public class MessageCountParserTest {
     public void testParse_whenRpcStringIsNull_thenExpectMinus1() {
         mockStatic(Xml.class);
 
-        assertEquals(-1, MessageCountParser.getSeqno(null));
+        assertEquals(-1, MessageCountParser.getSeqnoOfReply(null));
     }
 
     @Test
     public void testParse_whenRpcStringIsEmpty_thenExpectMinus1() {
         mockStatic(Xml.class);
 
-        assertEquals(-1, MessageCountParser.getSeqno(""));
+        assertEquals(-1, MessageCountParser.getSeqnoOfReply(""));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class MessageCountParserTest {
         messageCountParser.startElement(null, MessageCountParser.REPLY_TAG, null, null);
         messageCountParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
-        assertEquals(-1, messageCountParser.seqno());
+        assertEquals(-1, messageCountParser.getSeqno());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MessageCountParserTest {
         messageCountParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
         assertEquals(0, messageCountParser.mCurrentElement.length());
-        assertEquals(-1, messageCountParser.seqno());
+        assertEquals(-1, messageCountParser.getSeqno());
     }
 
     @Test
@@ -84,6 +84,6 @@ public class MessageCountParserTest {
         messageCountParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
         assertEquals(0, messageCountParser.mCurrentElement.length());
-        assertEquals(2, messageCountParser.seqno());
+        assertEquals(2, messageCountParser.getSeqno());
     }
 }
