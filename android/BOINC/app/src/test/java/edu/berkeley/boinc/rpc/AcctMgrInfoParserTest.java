@@ -65,8 +65,8 @@ public class AcctMgrInfoParserTest {
     }
 
     @Test
-    public void testParser_whenLocalNameIsNull_thenExpectNullPointerExceptionAndNullAccountManagerInfo() {
-        assertThrows(NullPointerException.class, () ->
+    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndNullAccountManagerInfo() {
+        assertThrows(IllegalArgumentException.class, () ->
                 acctMgrInfoParser.startElement(null, null, null, null));
         assertNull(acctMgrInfoParser.getAccountMgrInfo());
     }
