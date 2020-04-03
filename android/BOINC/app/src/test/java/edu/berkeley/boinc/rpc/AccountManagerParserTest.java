@@ -59,28 +59,6 @@ public class AccountManagerParserTest {
     }
 
     @Test
-    public void testParse_whenRpcStringIsNull_thenExpectEmptyList() {
-        mockStatic(Xml.class);
-
-        List<AccountManager> accountManagers = AccountManagerParser.parse(null);
-
-        assertNotNull(accountManagers);
-        assertTrue(accountManagers.isEmpty());
-    }
-
-    @Test
-    public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
-        mockStatic(Xml.class);
-
-        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
-
-        List<AccountManager> accountManagers = AccountManagerParser.parse(null);
-
-        assertNotNull(accountManagers);
-        assertTrue(accountManagers.isEmpty());
-    }
-
-    @Test
     public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndEmptyList() {
         assertThrows(IllegalArgumentException.class, () ->
                 accountManagerParser.startElement(null, null, null, null));

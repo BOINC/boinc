@@ -74,7 +74,7 @@ class AccountManagerParser : BaseParser() {
     companion object {
         const val IMAGE_TAG = "image"
         @JvmStatic
-		fun parse(rpcResult: String?): List<AccountManager> {
+		fun parse(rpcResult: String): List<AccountManager> {
             return try {
                 val parser = AccountManagerParser()
                 Xml.parse(rpcResult, parser)
