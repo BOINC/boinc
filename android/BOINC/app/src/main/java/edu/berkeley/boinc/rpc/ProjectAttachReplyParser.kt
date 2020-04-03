@@ -50,7 +50,7 @@ class ProjectAttachReplyParser : BaseParser() {
                 trimEnd()
                 if (localName.equals(ERROR_NUM_TAG, ignoreCase = true)) {
                     projectAttachReply.errorNum = mCurrentElement.toInt()
-                } else if (localName.equals(MESSAGE_TAG, ignoreCase = true)) {
+                } else if (localName.equals(MESSAGE, ignoreCase = true)) {
                     projectAttachReply.messages.add(mCurrentElement.toString())
                 }
             }
@@ -65,7 +65,7 @@ class ProjectAttachReplyParser : BaseParser() {
     companion object {
         const val PROJECT_ATTACH_REPLY_TAG = "project_attach_reply"
         const val ERROR_NUM_TAG = "error_num"
-        const val MESSAGE_TAG = "message"
+
         @JvmStatic
         fun parse(rpcResult: String?): ProjectAttachReply? {
             return try {

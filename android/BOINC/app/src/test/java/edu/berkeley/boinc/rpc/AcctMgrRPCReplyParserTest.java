@@ -124,9 +124,9 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("1".toCharArray(), 0, 1);
         acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.MESSAGE, null, null);
         acctMgrRPCReplyParser.characters(MESSAGE.toCharArray(), 0, MESSAGE.length());
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.MESSAGE, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
         expected.setErrorNum(1);
@@ -142,12 +142,12 @@ public class AcctMgrRPCReplyParserTest {
         acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("1".toCharArray(), 0, 1);
         acctMgrRPCReplyParser.endElement(null, RPCCommonTags.ERROR_NUM, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.MESSAGE, null, null);
         acctMgrRPCReplyParser.characters((MESSAGE + " 1").toCharArray(), 0, MESSAGE.length() + 2);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
-        acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.MESSAGE, null);
+        acctMgrRPCReplyParser.startElement(null, RPCCommonTags.MESSAGE, null, null);
         acctMgrRPCReplyParser.characters((MESSAGE + " 2").toCharArray(), 0, MESSAGE.length() + 2);
-        acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.MESSAGE_TAG, null);
+        acctMgrRPCReplyParser.endElement(null, RPCCommonTags.MESSAGE, null);
         acctMgrRPCReplyParser.endElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null);
 
         expected.setErrorNum(1);
