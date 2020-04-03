@@ -164,7 +164,7 @@ public class RpcClientTest {
 
         PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
-        Mockito.when(simpleReplyParser.result()).thenReturn(true);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
         final String expected = String.format(CREATE_ACCOUNT_TEMPLATE, null, null,
                                               "24d794dfc756320ffadb905d526299bc", "", "");
@@ -180,7 +180,7 @@ public class RpcClientTest {
 
         PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
-        Mockito.when(simpleReplyParser.result()).thenReturn(true);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
         final String expected = String.format(CREATE_ACCOUNT_TEMPLATE, "URL", "Email",
                                               "1604225a81748244d19bf2e787d6ee6e", "User", "Team");
@@ -204,7 +204,7 @@ public class RpcClientTest {
         PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(mockRpcClient).sendRequest(anyString());
-        Mockito.when(simpleReplyParser.result()).thenReturn(false);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(false);
         Mockito.when(mockRpcClient.createAccount(any())).thenCallRealMethod();
 
         assertFalse(mockRpcClient.createAccount(new AccountIn()));
@@ -258,7 +258,7 @@ public class RpcClientTest {
 
         PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
-        Mockito.when(simpleReplyParser.result()).thenReturn(true);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
         final String expected = "<lookup_account>\n <url>URL</url>\n" +
                                 " <email_addr>user</email_addr>\n" +
@@ -307,7 +307,7 @@ public class RpcClientTest {
         PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(mockRpcClient).sendRequest(anyString());
-        Mockito.when(simpleReplyParser.result()).thenReturn(false);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(false);
         Mockito.when(mockRpcClient.lookupAccount(any())).thenCallRealMethod();
 
         final AccountIn accountIn = new AccountIn();
@@ -461,7 +461,7 @@ public class RpcClientTest {
         mockStatic(SimpleReplyParser.class);
 
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
-        Mockito.when(simpleReplyParser.result()).thenReturn(true);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
         assertTrue(rpcClient.runBenchmarks());
     }
@@ -481,7 +481,7 @@ public class RpcClientTest {
         mockStatic(SimpleReplyParser.class);
 
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
-        Mockito.when(simpleReplyParser.result()).thenReturn(true);
+        Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
         Mockito.doThrow(new IOException()).when(mockRpcClient).sendRequest(anyString());
         Mockito.when(mockRpcClient.runBenchmarks()).thenCallRealMethod();
 

@@ -47,7 +47,7 @@ public class SimpleReplyParserTest {
         SimpleReplyParser result = SimpleReplyParser.parse(null);
 
         assertNotNull(result);
-        assertFalse(result.result());
+        assertFalse(result.getResult());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class SimpleReplyParserTest {
         SimpleReplyParser result = SimpleReplyParser.parse("");
 
         assertNotNull(result);
-        assertFalse(result.result());
+        assertFalse(result.getResult());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class SimpleReplyParserTest {
         simpleReplyParser.startElement(null, MessageCountParser.REPLY_TAG, null, null);
         simpleReplyParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
-        assertFalse(simpleReplyParser.result());
+        assertFalse(simpleReplyParser.getResult());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class SimpleReplyParserTest {
         simpleReplyParser.endElement(null, "success", null);
         simpleReplyParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
-        assertTrue(simpleReplyParser.result());
+        assertTrue(simpleReplyParser.getResult());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class SimpleReplyParserTest {
         simpleReplyParser.endElement(null, "failure", null);
         simpleReplyParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
-        assertFalse(simpleReplyParser.result());
+        assertFalse(simpleReplyParser.getResult());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class SimpleReplyParserTest {
         simpleReplyParser.endElement(null, "error", null);
         simpleReplyParser.endElement(null, MessageCountParser.REPLY_TAG, null);
 
-        assertFalse(simpleReplyParser.result());
+        assertFalse(simpleReplyParser.getResult());
         assertEquals("Error message", simpleReplyParser.mCurrentElement.toString());
     }
 }
