@@ -24,8 +24,7 @@ import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
-class MessageCountParser  // Needs to be accessible for testing.
-internal constructor() : BaseParser() {
+class MessageCountParser : BaseParser() {
     private var mParsed = false
     private var mInReply = false
     var seqno = -1
