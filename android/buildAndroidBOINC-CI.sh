@@ -19,7 +19,7 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-export OPENSSL_VERSION=1.0.2s
+export OPENSSL_VERSION=1.1.1f
 export CURL_VERSION=7.62.0
 export NDK_VERSION=18b
 

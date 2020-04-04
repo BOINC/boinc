@@ -10,7 +10,7 @@ set -e
 COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
-MAKECLEAN="yes"
+MAKECLEAN=""
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
 
