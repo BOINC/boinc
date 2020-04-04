@@ -19,7 +19,7 @@ export ANDROIDTC="${ANDROID_TC_X86:-$ANDROID_TC/x86}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/i686-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+export STDCPPTC="$ANDROIDTC/sysroot/usr/lib/i686-linux-android/libc++_static.a"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=i686-linux-android-clang
