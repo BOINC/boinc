@@ -77,6 +77,10 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+    packagingOptions {
+        exclude 'LICENSE-EPL-1.0.txt'
+        exclude 'LICENSE-EDL-1.0.txt'
+    }
 
     tasks.withType(Test) {
         testLogging {
@@ -94,6 +98,8 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0"
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.eclipse.collections:eclipse-collections:10.2.0'
+
     testImplementation 'junit:junit:4.13'
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
