@@ -18,11 +18,6 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -35,14 +30,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.MutableList;
+
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
     private Context context;
-    private List<NavDrawerItem> navDrawerItems = new ArrayList<>();
+    private MutableList<NavDrawerItem> navDrawerItems;
 
     public int selectedMenuId = 0;
 
@@ -50,15 +51,17 @@ public class NavDrawerListAdapter extends BaseAdapter {
         this.context = context;
 
         // populate items
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_tasks, R.drawable.tabtaskb, true));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_notices, R.drawable.mailb, true));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_projects, R.drawable.projectsb));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.projects_add, R.drawable.sqplusb, false, true));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_preferences, R.drawable.cogsb));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_help, R.drawable.helpb));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_report_issue, R.drawable.bugb));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_about, R.drawable.infob));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_eventlog, R.drawable.attentionb));
+        navDrawerItems = Lists.mutable.of(
+                new NavDrawerItem(this, R.string.tab_tasks, R.drawable.tabtaskb, true),
+                new NavDrawerItem(this, R.string.tab_notices, R.drawable.mailb, true),
+                new NavDrawerItem(this, R.string.tab_projects, R.drawable.projectsb),
+                new NavDrawerItem(this, R.string.projects_add, R.drawable.sqplusb, false, true),
+                new NavDrawerItem(this, R.string.tab_preferences, R.drawable.cogsb),
+                new NavDrawerItem(this, R.string.menu_help, R.drawable.helpb),
+                new NavDrawerItem(this, R.string.menu_report_issue, R.drawable.bugb),
+                new NavDrawerItem(this, R.string.menu_about, R.drawable.infob),
+                new NavDrawerItem(this, R.string.menu_eventlog, R.drawable.attentionb)
+        );
     }
 
     public Context getContext() {
@@ -81,12 +84,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public NavDrawerItem getItemForId(int id) {
-        for(NavDrawerItem item : navDrawerItems) {
-            if(item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
+        return navDrawerItems.detect(item -> item.getId() == id);
     }
 
     @Override
@@ -98,7 +96,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
                                navDrawerItems.get(position).isSubItem() +
                                navDrawerItems.get(position).isProjectItem());
         }
-        if(convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).getTitle())) {
+        if(convertView == null ||
+           !(convertView.getTag()).equals(navDrawerItems.get(position).getTitle())) {
             int layoutId = R.layout.navlist_listitem;
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
@@ -197,13 +196,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
      */
     public int compareAndAddProjects(List<Project> projects) {
         // delete all old projects from nav items
-        Iterator<NavDrawerItem> it = navDrawerItems.iterator();
-        while(it.hasNext()) {
-            NavDrawerItem item = it.next();
-            if(item.isProjectItem()) {
-                it.remove();
-            }
-        }
+        navDrawerItems.removeIf(NavDrawerItem::isProjectItem);
 
         int numberAdded = 0;
         for(Project project : projects) {
@@ -216,7 +209,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
         }
 
         if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
+            Log.d(Logging.TAG,
+                  "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
         }
         this.notifyDataSetChanged();
         return numberAdded;
