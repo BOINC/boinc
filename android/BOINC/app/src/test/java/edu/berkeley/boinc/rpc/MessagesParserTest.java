@@ -18,84 +18,181 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
+import android.util.Xml;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.SAXException;
 
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Xml.class, Log.class})
 public class MessagesParserTest {
+    private MessagesParser messagesParser;
     private Message expected;
 
     @Before
     public void setUp() {
+        messagesParser = new MessagesParser();
         expected = new Message();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testParse_whenRpcResultIsNull_thenExpectIllegalArgumentException() {
+        mockStatic(Xml.class);
+
         MessagesParser.parse(null);
     }
 
     @Test
     public void testParse_whenRpcResultIsEmpty_thenExpectEmptyList() {
+        mockStatic(Xml.class);
+
         assertTrue(MessagesParser.parse("").isEmpty());
     }
 
     @Test
-    public void testParse_whenRpcResultHasOnlyOpeningAndClosingMsgsTags_thenExpectEmptyList() {
-        assertTrue(MessagesParser.parse("<msgs></msgs>").isEmpty());
+    public void testParser_whenOnlyStartElementIsRun_thenExpectElementStarted() throws SAXException {
+        messagesParser.startElement(null, "", null, null);
+
+        assertTrue(messagesParser.mElementStarted);
     }
 
     @Test
-    public void testParse_whenRpcResultHasOneMessage_thenExpectListWithMatchingMessage() {
+    public void testParser_whenBothStartElementAndEndElementAreRun_thenExpectElementNotStarted()
+            throws SAXException {
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        assertFalse(messagesParser.mElementStarted);
+    }
+
+    @Test
+    public void testParser_whenLocalNameIsEmpty_thenExpectEmptyList() throws SAXException {
+        messagesParser.startElement(null, "", null, null);
+
+        assertTrue(messagesParser.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasNoElements_thenExpectEmptyList() throws SAXException {
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        assertTrue(messagesParser.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasInvalidSeqno_thenExpectEmptyList() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("One".toCharArray(), 0, 3);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        assertTrue(messagesParser.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasSeqno_thenExpectListWithMatchingMessage() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        expected.setSeqno(1);
+
+        assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasSeqnoAndBody_thenExpectListWithMatchingMessage() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.startElement(null, Message.Fields.BODY, null, null);
+        messagesParser.characters("Body".toCharArray(), 0, 4);
+        messagesParser.endElement(null, Message.Fields.BODY, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        expected.setSeqno(1);
         expected.setBody("Body");
-        expected.setTimestamp(10);
+
+        assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasSeqnoAndPriority_thenExpectListWithMatchingMessage() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.startElement(null, Message.Fields.PRIORITY, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, Message.Fields.PRIORITY, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
         expected.setSeqno(1);
         expected.setPriority(1);
-        expected.setProject("Project");
 
-        final String input = "<msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
-                             "<pri>1</pri><project>Project</project></msg></msgs>";
-
-        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
+        assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
     }
 
     @Test
-    public void testParse_whenRpcResultHasOneMessageWithLeadingWhitespace_thenExpectListWithMatchingMessage() {
-        expected.setBody("Body");
-        expected.setTimestamp(10);
+    public void testParser_whenXmlMessageHasSeqnoAndProject_thenExpectListWithMatchingMessage() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.startElement(null, RPCCommonTags.PROJECT, null, null);
+        messagesParser.characters("Project".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.PROJECT, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
         expected.setSeqno(1);
-        expected.setPriority(1);
         expected.setProject("Project");
 
-        final String input = "       <msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>" +
-                             "<pri>1</pri><project>Project</project></msg></msgs>";
-
-        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
+        assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
     }
 
     @Test
-    public void testParse_whenRpcResultHasOneMessageWithUnknownTag_thenExpectListWithMatchingMessage() {
-        expected.setBody("Body");
-        expected.setTimestamp(10);
+    public void testParser_whenXmlMessageHasSeqnoAndTimestamp_thenExpectListWithMatchingMessage() throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, RPCCommonTags.SEQNO, null);
+        messagesParser.startElement(null, Message.Fields.TIMESTAMP, null, null);
+        messagesParser.characters("1.5".toCharArray(), 0, 1);
+        messagesParser.endElement(null, Message.Fields.TIMESTAMP, null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
         expected.setSeqno(1);
-        expected.setPriority(1);
-        expected.setProject("Project");
+        expected.setTimestamp(1);
 
-        final String input = "<msgs><msg><tag></tag><body>Body</body><time>10</time><seqno>1</seqno>"
-                             + "<pri>1</pri><project>Project</project></msg></msgs>";
-
-        assertEquals(Collections.singletonList(expected), MessagesParser.parse(input));
-    }
-
-    @Test
-    public void testParse_whenRpcResultHasOneMessageWithInvalidPriority_thenExpectEmptyList() {
-        final String input = "<msgs><msg><body>Body</body><time>10</time><seqno>1</seqno>"
-                             + "<pri>One</pri><project>Project</project></msg></msgs>";
-
-        assertTrue(MessagesParser.parse(input).isEmpty());
+        assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
     }
 }
