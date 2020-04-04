@@ -30,22 +30,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.List;
+
 import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
 import edu.berkeley.boinc.R;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-
 public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
-
-    //private final String TAG = "PrefsListAdapter";
-    private ArrayList<PrefsListItemWrapper> entries;
+    private List<PrefsListItemWrapper> entries;
     private Activity activity;
     private PrefsFragment frag;
 
-    public PrefsListAdapter(Activity a, PrefsFragment frag, int textViewResourceId, ArrayList<PrefsListItemWrapper> entries) {
+    public PrefsListAdapter(Activity a, PrefsFragment frag, int textViewResourceId, List<PrefsListItemWrapper> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
