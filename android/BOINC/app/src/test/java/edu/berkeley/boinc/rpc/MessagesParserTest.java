@@ -121,7 +121,22 @@ public class MessagesParserTest {
     }
 
     @Test
-    public void testParser_whenXmlMessageHasSeqnoAndBody_thenExpectListWithMatchingMessage() throws SAXException {
+    public void testParser_whenXmlMessageHasSeqnoWithoutClosingTag_thenExpectEmptyList()
+            throws SAXException {
+        mockStatic(Log.class);
+
+        messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
+        messagesParser.startElement(null, RPCCommonTags.SEQNO, null, null);
+        messagesParser.characters("1".toCharArray(), 0, 1);
+        messagesParser.endElement(null, "", null);
+        messagesParser.endElement(null, MessagesParser.MESSAGE, null);
+
+        assertTrue(messagesParser.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testParser_whenXmlMessageHasSeqnoAndBody_thenExpectListWithMatchingMessage()
+            throws SAXException {
         mockStatic(Log.class);
 
         messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
@@ -140,7 +155,8 @@ public class MessagesParserTest {
     }
 
     @Test
-    public void testParser_whenXmlMessageHasSeqnoAndPriority_thenExpectListWithMatchingMessage() throws SAXException {
+    public void testParser_whenXmlMessageHasSeqnoAndPriority_thenExpectListWithMatchingMessage()
+            throws SAXException {
         mockStatic(Log.class);
 
         messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
@@ -159,7 +175,8 @@ public class MessagesParserTest {
     }
 
     @Test
-    public void testParser_whenXmlMessageHasSeqnoAndProject_thenExpectListWithMatchingMessage() throws SAXException {
+    public void testParser_whenXmlMessageHasSeqnoAndProject_thenExpectListWithMatchingMessage()
+            throws SAXException {
         mockStatic(Log.class);
 
         messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
@@ -178,7 +195,8 @@ public class MessagesParserTest {
     }
 
     @Test
-    public void testParser_whenXmlMessageHasSeqnoAndTimestamp_thenExpectListWithMatchingMessage() throws SAXException {
+    public void testParser_whenXmlMessageHasSeqnoAndTimestamp_thenExpectListWithMatchingMessage()
+            throws SAXException {
         mockStatic(Log.class);
 
         messagesParser.startElement(null, MessagesParser.MESSAGE, null, null);
