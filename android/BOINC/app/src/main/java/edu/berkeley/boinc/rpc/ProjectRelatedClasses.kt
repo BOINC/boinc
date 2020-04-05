@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
@@ -49,13 +50,23 @@ data class ProjectConfig(
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
         parcel.readList(platforms.toList(), PlatformInfo::class.java.classLoader)
         termsOfUse = parcel.readString()
-        val bArray = parcel.createBooleanArray()!!
-        usesName = bArray[0]
-        webStopped = bArray[1]
-        schedulerStopped = bArray[2]
-        accountCreationDisabled = bArray[3]
-        clientAccountCreationDisabled = bArray[4]
-        accountManager = bArray[5]
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            usesName = bArray[0]
+            webStopped = bArray[1]
+            schedulerStopped = bArray[2]
+            accountCreationDisabled = bArray[3]
+            clientAccountCreationDisabled = bArray[4]
+            accountManager = bArray[5]
+        } else {
+            usesName = parcel.readBoolean()
+            webStopped = parcel.readBoolean()
+            schedulerStopped = parcel.readBoolean()
+            accountCreationDisabled = parcel.readBoolean()
+            clientAccountCreationDisabled = parcel.readBoolean()
+            accountCreationDisabled = parcel.readBoolean()
+        }
     }
 
     /**
@@ -81,8 +92,18 @@ data class ProjectConfig(
         dest.writeString(rpcPrefix)
         dest.writeList(platforms.toList())
         dest.writeString(termsOfUse)
-        dest.writeBooleanArray(booleanArrayOf(usesName, webStopped, schedulerStopped,
-                accountCreationDisabled, clientAccountCreationDisabled, accountManager))
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(usesName, webStopped, schedulerStopped,
+                    accountCreationDisabled, clientAccountCreationDisabled, accountManager))
+        } else {
+            dest.writeBoolean(usesName)
+            dest.writeBoolean(webStopped)
+            dest.writeBoolean(schedulerStopped)
+            dest.writeBoolean(accountCreationDisabled)
+            dest.writeBoolean(clientAccountCreationDisabled)
+            dest.writeBoolean(accountManager)
+        }
     }
 
     object Fields {
