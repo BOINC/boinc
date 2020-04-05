@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
@@ -44,29 +45,29 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.impl.list.mutable.FastList;
+
 public class EventLogActivity extends AppCompatActivity {
 
     private IMonitor monitor;
     private Boolean mIsBound = false;
 
-    public EventLogClientFragment clientFrag;
     public ListView clientLogList;
     public ClientLogListAdapter clientLogListAdapter;
-    public ArrayList<Message> clientLogData = new ArrayList<>();
+    public List<Message> clientLogData = new ArrayList<>();
 
-    public EventLogGuiFragment guiFrag;
     public ListView guiLogList;
     public ArrayAdapter<String> guiLogListAdapter;
-    public ArrayList<String> guiLogData = new ArrayList<>();
+    public List<String> guiLogData = new ArrayList<>();
 
-    private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<>();
+    private MutableList<EventLogActivityTabListener<?>> listeners = new FastList<>();
 
-    final static int GUI_LOG_TAB_ACTIVE = 1;
-    final static int CLIENT_LOG_TAB_ACTIVE = 2;
+    static final int GUI_LOG_TAB_ACTIVE = 1;
+    static final int CLIENT_LOG_TAB_ACTIVE = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         // setup action bar
@@ -77,7 +78,7 @@ public class EventLogActivity extends AppCompatActivity {
 
         EventLogActivityTabListener<EventLogClientFragment> clientListener =
                 new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
-        listener.add(clientListener);
+        listeners.add(clientListener);
         Tab tab = actionBar.newTab()
                            .setText(R.string.eventlog_client_header)
                            .setTabListener(clientListener);
@@ -85,7 +86,7 @@ public class EventLogActivity extends AppCompatActivity {
 
         EventLogActivityTabListener<EventLogGuiFragment> guiListener =
                 new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
-        listener.add(guiListener);
+        listeners.add(guiListener);
         tab = actionBar.newTab()
                        .setText(R.string.eventlog_gui_header)
                        .setTabListener(guiListener);
@@ -166,34 +167,33 @@ public class EventLogActivity extends AppCompatActivity {
             case R.id.copy:
                 onCopy();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private int getActiveLog() {
-        for(EventLogActivityTabListener<?> tmp : listener) {
-            if(tmp.currentlySelected) {
-                if(tmp.mClass == EventLogClientFragment.class) {
-                    return CLIENT_LOG_TAB_ACTIVE;
-                }
-                else if(tmp.mClass == EventLogGuiFragment.class) {
-                    return GUI_LOG_TAB_ACTIVE;
-                }
+        final EventLogActivityTabListener<?> activeListener =
+                listeners.detect(listener -> listener.currentlySelected);
+        if (activeListener != null) {
+            if (activeListener.mClass == EventLogClientFragment.class) {
+                return CLIENT_LOG_TAB_ACTIVE;
+            } else if (activeListener.mClass == EventLogGuiFragment.class) {
+                return GUI_LOG_TAB_ACTIVE;
             }
         }
         return -1;
     }
 
     private void updateCurrentFragment() {
-        for(EventLogActivityTabListener<?> tmp : listener) {
-            if(tmp.currentlySelected) {
-                if(tmp.mClass == EventLogClientFragment.class) {
-                    ((EventLogClientFragment) tmp.mFragment).update();
-                }
-                else if(tmp.mClass == EventLogGuiFragment.class) {
-                    ((EventLogGuiFragment) tmp.mFragment).update();
-                }
-                break;
+        final EventLogActivityTabListener<?> activeListener =
+                listeners.detect(listener -> listener.currentlySelected);
+        if (activeListener != null) {
+            if(activeListener.mClass == EventLogClientFragment.class) {
+                ((EventLogClientFragment) activeListener.mFragment).update();
+            }
+            else if(activeListener.mClass == EventLogGuiFragment.class) {
+                ((EventLogGuiFragment) activeListener.mFragment).update();
             }
         }
     }
