@@ -18,8 +18,6 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,17 +27,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
 
 public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
-    //private final String TAG = "ProjectControlsListAdapter";
-
-    private ArrayList<ProjectControl> entries; // ID of control texts in strings.xml
+    private List<ProjectControl> entries; // ID of control texts in strings.xml
     private Activity activity;
 
-    public ProjectControlsListAdapter(Activity activity, ListView listView, int layoutId, ArrayList<ProjectControl> entries) {
+    public ProjectControlsListAdapter(Activity activity, ListView listView, int layoutId, List<ProjectControl> entries) {
         super(activity, layoutId, entries);
         this.entries = entries;
         this.activity = activity;

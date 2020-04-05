@@ -18,12 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,7 +27,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,20 +40,33 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.impl.list.mutable.FastList;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
 import edu.berkeley.boinc.attach.ManualUrlInputFragment;
-import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.utils.BOINCErrors;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectsFragment extends Fragment {
 
     private ListView lv;
     private ProjectsListAdapter listAdapter;
-    private ArrayList<ProjectsListData> data = new ArrayList<>();
+    private MutableList<ProjectsListData> data = new FastList<>();
 
     // controls popup dialog
     Dialog dialogControls;
@@ -72,7 +78,6 @@ public class ProjectsFragment extends Fragment {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatusChange - onReceive()");
             populateLayout();
         }
     };
@@ -84,7 +89,7 @@ public class ProjectsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "ProjectsFragment onCreateView");
         }
@@ -118,14 +123,14 @@ public class ProjectsFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         // appends the project specific menu to the main menu.
         inflater.inflate(R.menu.projects_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()");
         }
@@ -143,19 +148,18 @@ public class ProjectsFragment extends Fragment {
     private void populateLayout() {
         try {
             // read projects from state saved in ClientStatus
-            ArrayList<Project> statusProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
+            List<Project> statusProjects = BOINCActivity.monitor.getProjects();
             AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
-            ArrayList<Transfer> statusTransfers = (ArrayList<Transfer>) BOINCActivity.monitor.getTransfers();
+            List<Transfer> statusTransfers = BOINCActivity.monitor.getTransfers();
 
             // get server / scheduler notices to display if device does not meet
-            ArrayList<Notice> serverNotices = (ArrayList<Notice>) BOINCActivity.monitor.getServerNotices();
+            List<Notice> serverNotices = BOINCActivity.monitor.getServerNotices();
 
             // Update Project data
             updateData(statusProjects, statusAcctMgr, serverNotices, statusTransfers);
 
             // Force list adapter to refresh
             listAdapter.notifyDataSetChanged();
-
         }
         catch(Exception e) {
             // data retrieval failed, set layout to loading...
@@ -169,13 +173,7 @@ public class ProjectsFragment extends Fragment {
                             List<Notice> serverNotices, List<Transfer> ongoingTransfers) {
         // ACCOUNT MANAGER
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
-        int mgrIndex = -1;
-        for(int x = 0; x < data.size(); x++) {
-            if(data.get(x).isMgr) {
-                mgrIndex = x;
-                break;
-            }
-        }
+        int mgrIndex = data.detectIndex(item -> item.isMgr);
         if(mgrIndex < 0) { // no manager present until now
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "No manager found in layout list. New entry available: " +
@@ -206,14 +204,8 @@ public class ProjectsFragment extends Fragment {
         //loop through all received Result items to add new projects
         for(Project rpcResult : latestRpcProjectsList) {
             //check whether this project is new
-            int index = -1;
-            for(int x = 0; x < data.size(); x++) {
-                if(rpcResult.getMasterURL().equals(data.get(x).id)) {
-                    index = x;
-                    break;
-                }
-            }
-            if(index < 0) { // Project is new, add
+            int index = data.detectIndex(item -> item.id.equals(rpcResult.getMasterURL()));
+            if(index == -1) { // Project is new, add
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "New project found, id: " + rpcResult.getMasterURL() +
                                        ", managed: " + rpcResult.getAttachedViaAcctMgr());
@@ -240,17 +232,12 @@ public class ProjectsFragment extends Fragment {
         // use iterator to safely remove while iterating
         Iterator<ProjectsListData> iData = data.iterator();
         while(iData.hasNext()) {
-            Boolean found = false;
             ProjectsListData listItem = iData.next();
             if(listItem.isMgr) {
                 continue;
             }
-            for(Project rpcResult : latestRpcProjectsList) {
-                if(listItem.id.equals(rpcResult.getMasterURL())) {
-                    found = true;
-                    break;
-                }
-            }
+            boolean found =
+                    Lists.immutable.ofAll(latestRpcProjectsList).anySatisfy(project -> project.getMasterURL().equals(listItem.id));
             if(!found) {
                 iData.remove();
             }
@@ -286,13 +273,9 @@ public class ProjectsFragment extends Fragment {
 
     // takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
     private List<Transfer> mapTransfersToProject(String id, List<Transfer> allTransfers) {
-        List<Transfer> projectTransfers = new ArrayList<>();
-        for(Transfer trans : allTransfers) {
-            if(trans.getProjectUrl().equals(id)) {
-                // project id matches url in transfer, add to list
-                projectTransfers.add(trans);
-            }
-        }
+        // if project ID matches URL in transfer, add to list
+        List<Transfer> projectTransfers =
+                Lists.mutable.ofAll(allTransfers).select(transfer -> transfer.getProjectUrl().equals(id));
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() +
                                " transfers to project " + id);
@@ -358,7 +341,7 @@ public class ProjectsFragment extends Fragment {
             // - client status, e.g. either suspend or resume
             // - show advanced preference
             // - project attached via account manager (e.g. hide Remove)
-            ArrayList<ProjectControl> controls = new ArrayList<>();
+            List<ProjectControl> controls = new ArrayList<>();
             if(isMgr) {
                 ((TextView) dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
 
@@ -417,12 +400,12 @@ public class ProjectsFragment extends Fragment {
 
     public class ProjectControl {
         public ProjectsListData data;
-        public Integer operation;
+        public int operation;
 
         // operation that do not imply an RPC are defined here
         public static final int VISIT_WEBSITE = 100;
 
-        public ProjectControl(ProjectsListData data, Integer operation) {
+        public ProjectControl(ProjectsListData data, int operation) {
             this.operation = operation;
             this.data = data;
         }

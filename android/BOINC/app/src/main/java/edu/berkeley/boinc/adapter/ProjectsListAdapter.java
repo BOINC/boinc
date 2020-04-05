@@ -32,24 +32,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
+import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
-    //private final String TAG = "ProjectsListAdapter";
-
-    private ArrayList<ProjectsListData> entries;
+    private List<ProjectsListData> entries;
     private Activity activity;
 
-    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectsListData> entries) {
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, List<ProjectsListData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -97,9 +95,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
     public Bitmap getIcon(int position) {
         // try to get current client status from monitor
-        //ClientStatus status;
         try {
-            //status  = Monitor.getClientStatus();
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
         }
         catch(Exception e) {
@@ -108,20 +104,18 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
             return null;
         }
-        //return status.getProjectIcon(entries.get(position).id);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ProjectsListData data = entries.get(position);
-        Boolean isAcctMgr = data.isMgr;
+        boolean isAcctMgr = data.isMgr;
 
         View vi = convertView;
         // setup new view, if:
         // - view is null, has not been here before
         // - view has different id
-        Boolean setup = false;
+        boolean setup = false;
         if(vi == null) {
             setup = true;
         }
@@ -212,16 +206,16 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // transfers
-            Integer numberTransfers = data.projectTransfers.size();
+            int numberTransfers = data.projectTransfers.size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
             if(numberTransfers > 0) { // ongoing transfers
                 // summarize information for compact representation
-                Integer numberTransfersUpload = 0;
-                Boolean uploadsPresent = false;
-                Integer numberTransfersDownload = 0;
-                Boolean downloadsPresent = false;
-                Boolean transfersActive = false; // true if at least one transfer is active
+                int numberTransfersUpload = 0;
+                boolean uploadsPresent = false;
+                int numberTransfersDownload = 0;
+                boolean downloadsPresent = false;
+                boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
                 for(Transfer trans : data.projectTransfers) {
                     if(trans.isUpload()) {
