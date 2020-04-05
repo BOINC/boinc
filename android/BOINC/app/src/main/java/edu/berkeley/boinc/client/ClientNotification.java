@@ -102,7 +102,7 @@ public class ClientNotification {
         }
 
         // update notification, only if it hasn't been shown before, or after change in status
-        if(Logging.VERBOSE.equals(Boolean.TRUE)) {
+        if(Logging.VERBOSE) {
             Log.d(Logging.TAG,
                   "ClientNotification: notification needs update? "
                   + (clientNotification.mOldComputingStatus == -1)
@@ -121,7 +121,7 @@ public class ClientNotification {
 
             // update, build and notify
             nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
-            if(Logging.DEBUG.equals(Boolean.TRUE)) {
+            if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ClientNotification: update");
             }
             notificationShown = true;

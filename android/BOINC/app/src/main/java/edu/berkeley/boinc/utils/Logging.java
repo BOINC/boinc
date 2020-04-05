@@ -25,16 +25,15 @@ public class Logging {
     public static final String WAKELOCK = TAG + ":MyPowerLock";
 
     public static int LOGLEVEL = -1;
-    public static Boolean ERROR = false;
-    public static Boolean WARNING = false;
-    public static Boolean INFO = false;
-    public static Boolean DEBUG = false;
-    public static Boolean VERBOSE = false;
+    public static boolean ERROR = false;
+    public static boolean WARNING = false;
+    public static boolean INFO = false;
+    public static boolean DEBUG = false;
+    public static boolean VERBOSE = false;
+    public static boolean RPC_PERFORMANCE = false;
+    public static boolean RPC_DATA = false;
 
-    public static Boolean RPC_PERFORMANCE = false;
-    public static Boolean RPC_DATA = false;
-
-    public static void setLogLevel(Integer logLevel) {
+    public static void setLogLevel(int logLevel) {
         LOGLEVEL = logLevel;
         ERROR = LOGLEVEL > 0;
         WARNING = LOGLEVEL > 1;

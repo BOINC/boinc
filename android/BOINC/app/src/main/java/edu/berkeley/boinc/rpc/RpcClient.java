@@ -362,8 +362,8 @@ public class RpcClient {
                                    " bytes/second)");
         }
 
-        if (Logging.RPC_PERFORMANCE)
-            if (Logging.DEBUG) Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
+        if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
+            Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
         if (Logging.RPC_DATA) {
             BufferedReader dbr = new BufferedReader(new StringReader(mResult.toString()));
@@ -413,7 +413,7 @@ public class RpcClient {
             sendRequest("<get_file_transfers/>\n");
             return TransfersParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING.equals(Boolean.TRUE))
+            if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getFileTransfers()", e);
             return Collections.emptyList();
         }
@@ -460,7 +460,7 @@ public class RpcClient {
             sendRequest(request);
             return MessagesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING.equals(Boolean.TRUE))
+            if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getMessages()", e);
             return Collections.emptyList();
         }
@@ -488,7 +488,7 @@ public class RpcClient {
             sendRequest(request);
             return NoticesParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING.equals(Boolean.TRUE))
+            if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getMessages()", e);
             return new ArrayList<>();
         }
@@ -976,7 +976,7 @@ public class RpcClient {
             sendRequest(mRequest.toString());
             return ProjectInfoParser.parse(receiveReply());
         } catch (IOException e) {
-            if (Logging.WARNING.equals(Boolean.TRUE))
+            if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getAllProjectsList()", e);
             return Collections.emptyList();
         }
