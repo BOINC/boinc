@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
@@ -93,46 +94,49 @@ data class Project(
             this(masterURL = parcel.readString() ?: "", projectDir = parcel.readString() ?: "",
                     resourceShare = parcel.readFloat(), projectName = parcel.readString() ?: "",
                     userName = parcel.readString() ?: "", teamName = parcel.readString() ?: "",
-                    hostVenue = parcel.readString() ?: "", hostId = parcel.readInt()) {
+                    hostVenue = parcel.readString() ?: "", hostId = parcel.readInt(),
+                    userTotalCredit = parcel.readDouble(), userExpAvgCredit = parcel.readDouble(),
+                    hostTotalCredit = parcel.readDouble(), hostExpAvgCredit = parcel.readDouble(),
+                    diskUsage = parcel.readDouble(), noOfRPCFailures = parcel.readInt(),
+                    masterFetchFailures = parcel.readInt(), minRPCTime = parcel.readDouble(),
+                    downloadBackoff = parcel.readDouble(), uploadBackoff = parcel.readDouble(),
+                    cpuShortTermDebt = parcel.readDouble(), cpuBackoffTime = parcel.readDouble(),
+                    cpuBackoffInterval = parcel.readDouble(), cudaDebt = parcel.readDouble(),
+                    cudaShortTermDebt = parcel.readDouble(), cudaBackoffTime = parcel.readDouble(),
+                    cudaBackoffInterval = parcel.readDouble(), atiDebt = parcel.readDouble(),
+                    atiShortTermDebt = parcel.readDouble(), atiBackoffTime = parcel.readDouble(),
+                    atiBackoffInterval = parcel.readDouble(), durationCorrectionFactor = parcel.readDouble(),
+                    scheduledRPCPending = parcel.readInt(), projectFilesDownloadedTime = parcel.readDouble(),
+                    lastRPCTime = parcel.readDouble()) {
         parcel.readList(guiURLs.toList(), GuiUrl::class.java.classLoader)
-        userTotalCredit = parcel.readDouble()
-        userExpAvgCredit = parcel.readDouble()
-        hostTotalCredit = parcel.readDouble()
-        hostExpAvgCredit = parcel.readDouble()
-        diskUsage = parcel.readDouble()
-        noOfRPCFailures = parcel.readInt()
-        masterFetchFailures = parcel.readInt()
-        minRPCTime = parcel.readDouble()
-        downloadBackoff = parcel.readDouble()
-        uploadBackoff = parcel.readDouble()
-        cpuShortTermDebt = parcel.readDouble()
-        cpuBackoffTime = parcel.readDouble()
-        cpuBackoffInterval = parcel.readDouble()
-        cudaDebt = parcel.readDouble()
-        cudaShortTermDebt = parcel.readDouble()
-        cudaBackoffTime = parcel.readDouble()
-        cudaBackoffInterval = parcel.readDouble()
-        atiDebt = parcel.readDouble()
-        atiShortTermDebt = parcel.readDouble()
-        atiBackoffTime = parcel.readDouble()
-        atiBackoffInterval = parcel.readDouble()
-        durationCorrectionFactor = parcel.readDouble()
-        scheduledRPCPending = parcel.readInt()
-        projectFilesDownloadedTime = parcel.readDouble()
-        lastRPCTime = parcel.readDouble()
-        val bArray = parcel.createBooleanArray()!!
-        masterURLFetchPending = bArray[0]
-        nonCPUIntensive = bArray[1]
-        suspendedViaGUI = bArray[2]
-        doNotRequestMoreWork = bArray[3]
-        schedulerRPCInProgress = bArray[4]
-        attachedViaAcctMgr = bArray[5]
-        detachWhenDone = bArray[6]
-        ended = bArray[7]
-        trickleUpPending = bArray[8]
-        noCPUPref = bArray[9]
-        noCUDAPref = bArray[10]
-        noATIPref = bArray[11]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            masterURLFetchPending = bArray[0]
+            nonCPUIntensive = bArray[1]
+            suspendedViaGUI = bArray[2]
+            doNotRequestMoreWork = bArray[3]
+            schedulerRPCInProgress = bArray[4]
+            attachedViaAcctMgr = bArray[5]
+            detachWhenDone = bArray[6]
+            ended = bArray[7]
+            trickleUpPending = bArray[8]
+            noCPUPref = bArray[9]
+            noCUDAPref = bArray[10]
+            noATIPref = bArray[11]
+        } else {
+            masterURLFetchPending = parcel.readBoolean()
+            nonCPUIntensive = parcel.readBoolean()
+            suspendedViaGUI = parcel.readBoolean()
+            doNotRequestMoreWork = parcel.readBoolean()
+            schedulerRPCInProgress = parcel.readBoolean()
+            attachedViaAcctMgr = parcel.readBoolean()
+            detachWhenDone = parcel.readBoolean()
+            ended = parcel.readBoolean()
+            trickleUpPending = parcel.readBoolean()
+            noCPUPref = parcel.readBoolean()
+            noCUDAPref = parcel.readBoolean()
+            noATIPref = parcel.readBoolean()
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -188,7 +192,6 @@ data class Project(
         dest.writeString(teamName)
         dest.writeString(hostVenue)
         dest.writeInt(hostId)
-        dest.writeList(guiURLs.toList())
         dest.writeDouble(userTotalCredit)
         dest.writeDouble(userExpAvgCredit)
         dest.writeDouble(hostTotalCredit)
@@ -214,9 +217,26 @@ data class Project(
         dest.writeInt(scheduledRPCPending)
         dest.writeDouble(projectFilesDownloadedTime)
         dest.writeDouble(lastRPCTime)
-        dest.writeBooleanArray(booleanArrayOf(masterURLFetchPending, nonCPUIntensive,
-                suspendedViaGUI, doNotRequestMoreWork, schedulerRPCInProgress, attachedViaAcctMgr,
-                detachWhenDone, ended, trickleUpPending, noCPUPref, noCUDAPref, noATIPref))
+        dest.writeList(guiURLs.toList())
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(masterURLFetchPending, nonCPUIntensive,
+                    suspendedViaGUI, doNotRequestMoreWork, schedulerRPCInProgress, attachedViaAcctMgr,
+                    detachWhenDone, ended, trickleUpPending, noCPUPref, noCUDAPref, noATIPref))
+        } else {
+            dest.writeBoolean(masterURLFetchPending)
+            dest.writeBoolean(nonCPUIntensive)
+            dest.writeBoolean(suspendedViaGUI)
+            dest.writeBoolean(doNotRequestMoreWork)
+            dest.writeBoolean(schedulerRPCInProgress)
+            dest.writeBoolean(attachedViaAcctMgr)
+            dest.writeBoolean(detachWhenDone)
+            dest.writeBoolean(ended)
+            dest.writeBoolean(trickleUpPending)
+            dest.writeBoolean(noCPUPref)
+            dest.writeBoolean(noCUDAPref)
+            dest.writeBoolean(noATIPref)
+        }
     }
 
     object Fields {
