@@ -42,8 +42,8 @@ open class PrefsListItemWrapper(var context: Context, var id: Int, val isCategor
     }
 }
 
-class PrefsListItemWrapperBool(context: Context?, id: Int?, var status: Boolean)
-    : PrefsListItemWrapper(context!!, id!!)
+class PrefsListItemWrapperBool(context: Context, id: Int, var status: Boolean)
+    : PrefsListItemWrapper(context, id)
 
 class PrefsListItemWrapperNumber(
         context: Context?,
@@ -122,8 +122,8 @@ class PrefsListItemWrapperNumber(
     }
 }
 
-class PrefsListItemWrapperText(context: Context?, id: Int, var status: String)
-    : PrefsListItemWrapper(context!!, id) {
+class PrefsListItemWrapperText(context: Context, id: Int, var status: String)
+    : PrefsListItemWrapper(context, id) {
     init {
         dialogButtonType = DialogButtonType.TEXT
         mapStrings(id)
