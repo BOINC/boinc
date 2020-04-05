@@ -504,10 +504,10 @@ public class ClientStatus {
         return null;
     }
 
-    public List<Result> getExecutingTasks() {
+    List<Result> getExecutingTasks() {
         List<Result> activeTasks = new ArrayList<>();
         for(Result tmp : results) {
-            if(tmp.active_task && tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
+            if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
                 activeTasks.add(tmp);
             }
         }
@@ -713,10 +713,10 @@ public class ClientStatus {
                 (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
                 // treat cpu throttling as if client was active (either idle, or computing, depending on tasks)
                 //figure out whether we have an active task
-                Boolean activeTask = false;
+                boolean activeTask = false;
                 if(results != null) {
                     for(Result task : results) {
-                        if(task.active_task) { // this result has corresponding "active task" in RPC XML
+                        if(task.isActiveTask()) { // this result has corresponding "active task" in RPC XML
                             activeTask = true;
                             break; // amount of active tasks does not matter.
                         }

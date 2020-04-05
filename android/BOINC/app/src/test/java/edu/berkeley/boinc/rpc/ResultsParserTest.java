@@ -112,7 +112,7 @@ public class ResultsParserTest {
         resultsParser.endElement(null, RPCCommonTags.NAME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
+        expected.setName(NAME);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -131,7 +131,7 @@ public class ResultsParserTest {
         final List<Result> results = resultsParser.getResults();
 
         assertEquals(1, results.size());
-        assertTrue(results.get(0).active_task);
+        assertTrue(results.get(0).isActiveTask());
     }
 
     @Test
@@ -146,8 +146,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.WU_NAME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.wu_name = "Work Unit";
+        expected.setName(NAME);
+        expected.setWorkUnitName("Work Unit");
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -164,8 +164,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, RPCCommonTags.PROJECT_URL, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.project_url = "Project URL";
+        expected.setName(NAME);
+        expected.setProjectURL("Project URL");
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -182,7 +182,7 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.VERSION_NUM, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
+        expected.setName(NAME);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -199,8 +199,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.VERSION_NUM, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.version_num = 1;
+        expected.setName(NAME);
+        expected.setVersionNum(1);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -217,8 +217,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.READY_TO_REPORT, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.ready_to_report = false;
+        expected.setName(NAME);
+        expected.setReadyToReport(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -235,8 +235,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.READY_TO_REPORT, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.ready_to_report = true;
+        expected.setName(NAME);
+        expected.setReadyToReport(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -253,8 +253,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.GOT_SERVER_ACK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.got_server_ack = false;
+        expected.setName(NAME);
+        expected.setGotServerAck(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -271,8 +271,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.GOT_SERVER_ACK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.got_server_ack = true;
+        expected.setName(NAME);
+        expected.setGotServerAck(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -289,8 +289,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.FINAL_CPU_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.final_cpu_time = 1_000_000;
+        expected.setName(NAME);
+        expected.setFinalCPUTime(1_000_000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -307,8 +307,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.FINAL_ELAPSED_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.final_elapsed_time = TEN_BILLION;
+        expected.setName(NAME);
+        expected.setFinalElapsedTime(TEN_BILLION);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -325,8 +325,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.STATE, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.state = 1000;
+        expected.setName(NAME);
+        expected.setState(1000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -343,8 +343,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.REPORT_DEADLINE, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.report_deadline = TEN_BILLION;
+        expected.setName(NAME);
+        expected.setReportDeadline(TEN_BILLION);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -361,8 +361,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.RECEIVED_TIME, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.received_time = TEN_BILLION;
+        expected.setName(NAME);
+        expected.setReceivedTime(TEN_BILLION);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -379,8 +379,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ESTIMATED_CPU_TIME_REMAINING, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.estimated_cpu_time_remaining = TEN_BILLION;
+        expected.setName(NAME);
+        expected.setEstimatedCPUTimeRemaining(TEN_BILLION);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -397,8 +397,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.EXIT_STATUS, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.exit_status = 0;
+        expected.setName(NAME);
+        expected.setExitStatus(0);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -415,8 +415,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.suspended_via_gui = false;
+        expected.setName(NAME);
+        expected.setSuspendedViaGUI(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -433,8 +433,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.suspended_via_gui = true;
+        expected.setName(NAME);
+        expected.setSuspendedViaGUI(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -451,8 +451,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.project_suspended_via_gui = false;
+        expected.setName(NAME);
+        expected.setProjectSuspendedViaGUI(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -469,8 +469,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.PROJECT_SUSPENDED_VIA_GUI, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.project_suspended_via_gui = true;
+        expected.setName(NAME);
+        expected.setProjectSuspendedViaGUI(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -487,8 +487,8 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.RESOURCES, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.resources = "Resources";
+        expected.setName(NAME);
+        expected.setResources("Resources");
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -506,9 +506,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.active_task_state = 1;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setActiveTaskState(1);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -526,9 +526,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.app_version_num = 10;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setAppVersionNum(10);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -546,9 +546,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.scheduler_state = 1000;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSchedulerState(1000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -566,9 +566,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.checkpoint_cpu_time = 150_000;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setCheckpointCPUTime(150_000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -586,9 +586,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.current_cpu_time = 100_000;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setCurrentCPUTime(100_000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -606,9 +606,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.fraction_done = 0.67f;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setFractionDone(0.67f);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -626,9 +626,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.elapsed_time = 2500;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setElapsedTime(2500);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -646,9 +646,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.swap_size = 2500;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSwapSize(2500);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -667,9 +667,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.working_set_size_smoothed = 2500;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setWorkingSetSizeSmoothed(2500);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -688,9 +688,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.estimated_cpu_time_remaining = 1000;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setEstimatedCPUTimeRemaining(1000);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -709,9 +709,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.supports_graphics = false;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSupportsGraphics(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -730,9 +730,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.supports_graphics = true;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSupportsGraphics(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -751,9 +751,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.graphics_mode_acked = 1;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setGraphicsModeAcked(1);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -772,9 +772,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.too_large = false;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setTooLarge(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -793,9 +793,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.too_large = true;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setTooLarge(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -814,9 +814,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.needs_shmem = false;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setNeedsShmem(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -835,9 +835,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.needs_shmem = true;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setNeedsShmem(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -856,9 +856,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.edf_scheduled = false;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setEdfScheduled(false);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -877,9 +877,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.edf_scheduled = true;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setEdfScheduled(true);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -898,9 +898,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.pid = 1;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setPid(1);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -919,9 +919,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.slot = 1;
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSlot(1);
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -940,9 +940,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.graphics_exec_path = "/path/to/graphics";
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setGraphicsExecPath("/path/to/graphics");
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
@@ -961,9 +961,9 @@ public class ResultsParserTest {
         resultsParser.endElement(null, Result.Fields.ACTIVE_TASK, null);
         resultsParser.endElement(null, ResultsParser.RESULT_TAG, null);
 
-        expected.name = NAME;
-        expected.active_task = true;
-        expected.slot_path = "/path/to/slot";
+        expected.setName(NAME);
+        expected.setActiveTask(true);
+        expected.setSlotPath("/path/to/slot");
 
         assertEquals(Collections.singletonList(expected), resultsParser.getResults());
     }
