@@ -450,11 +450,12 @@ public class ProjectDetailsFragment extends Fragment {
                 slideshowLoading.setVisibility(View.GONE);
                 for(ImageWrapper image : slideshowImages) {
                     ImageView iv = (ImageView) li.inflate(R.layout.project_details_slideshow_image_layout, null);
-                    Bitmap bitmap = image.image;
+                    Bitmap bitmap = image.getImage();
+                    assert bitmap != null;
                     if(scaleImages(bitmap.getHeight(), bitmap.getWidth())) {
-                        bitmap = Bitmap.createScaledBitmap(image.image,
-                                                           image.image.getWidth() * 2,
-                                                           image.image.getHeight() * 2, false);
+                        bitmap = Bitmap.createScaledBitmap(image.getImage(),
+                                                           image.getImage().getWidth() * 2,
+                                                           image.getImage().getHeight() * 2, false);
                     }
                     iv.setImageBitmap(bitmap);
                     slideshowHook.addView(iv);
