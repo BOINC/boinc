@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -25,19 +26,20 @@ public class AccountIn implements Parcelable {
     public String url; // either master_url or web_rpc_url_base (HTTPS), if present
     public String email_addr;
     public String user_name;
-    public boolean uses_name;
     public String passwd;
     public String team_name;
+    public boolean uses_name;
 
-    public static final Parcelable.Creator<AccountIn> CREATOR = new Parcelable.Creator<AccountIn>() {
-        public AccountIn createFromParcel(Parcel in) {
-            return new AccountIn(in);
-        }
+    public static final Parcelable.Creator<AccountIn> CREATOR =
+            new Parcelable.Creator<AccountIn>() {
+                public AccountIn createFromParcel(Parcel in) {
+                    return new AccountIn(in);
+                }
 
-        public AccountIn[] newArray(int size) {
-            return null;
-        }
-    };
+                public AccountIn[] newArray(int size) {
+                    return null;
+                }
+            };
 
     public AccountIn() {
         super();
@@ -53,18 +55,27 @@ public class AccountIn implements Parcelable {
      * @param password password
      * @param teamName name of team, account shall get associated to
      */
-    public AccountIn(String url, String email, String userName, boolean usesName, String password,
-                     String teamName) {
+    public AccountIn(String url, String email, String userName, String password, String teamName,
+                     boolean usesName) {
         this.url = url;
         this.email_addr = email;
         this.user_name = userName;
-        this.uses_name = usesName;
         this.passwd = password;
         this.team_name = teamName;
+        this.uses_name = usesName;
     }
 
     private AccountIn(Parcel in) {
-        readFromParcel(in);
+        this(in.readString(), in.readString(), in.readString(), in.readString(), in.readString(), false);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            boolean[] bArray = in.createBooleanArray();
+            assert bArray != null;
+            uses_name = bArray[0];
+        }
+        else {
+            uses_name = in.readBoolean();
+        }
     }
 
     public int describeContents() {
@@ -77,17 +88,12 @@ public class AccountIn implements Parcelable {
         out.writeString(user_name);
         out.writeString(passwd);
         out.writeString(team_name);
-        out.writeBooleanArray(new boolean[]{
-                uses_name});
-    }
 
-    public void readFromParcel(Parcel in) {
-        url = in.readString();
-        email_addr = in.readString();
-        user_name = in.readString();
-        passwd = in.readString();
-        team_name = in.readString();
-        boolean[] bArray = in.createBooleanArray();
-        uses_name = bArray[0];
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            out.writeBooleanArray(new boolean[]{uses_name});
+        }
+        else {
+            out.writeBoolean(uses_name);
+        }
     }
 }
