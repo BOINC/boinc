@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -81,10 +82,16 @@ data class AcctMgrInfo internal constructor(
             this(parcel.readString() ?: "",
                     parcel.readString() ?: "",
                     parcel.readString() ?: "") {
-        val bArray = parcel.createBooleanArray()!!
-        isHavingCredentials = bArray[0]
-        isCookieRequired = bArray[1]
-        isPresent = bArray[2]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            isHavingCredentials = bArray[0]
+            isCookieRequired = bArray[1]
+            isPresent = bArray[2]
+        } else {
+            isHavingCredentials = parcel.readBoolean()
+            isCookieRequired = parcel.readBoolean()
+            isPresent = parcel.readBoolean()
+        }
     }
 
     override fun describeContents() = 0
@@ -93,7 +100,14 @@ data class AcctMgrInfo internal constructor(
         dest.writeString(acctMgrName)
         dest.writeString(acctMgrUrl)
         dest.writeString(cookieFailureUrl)
-        dest.writeBooleanArray(booleanArrayOf(isHavingCredentials, isCookieRequired, isPresent))
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(isHavingCredentials, isCookieRequired, isPresent))
+        } else {
+            dest.writeBoolean(isHavingCredentials)
+            dest.writeBoolean(isCookieRequired)
+            dest.writeBoolean(isPresent)
+        }
     }
 
     object Fields {
