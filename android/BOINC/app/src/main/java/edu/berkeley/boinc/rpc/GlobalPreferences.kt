@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -60,14 +61,24 @@ data class GlobalPreferences(
             parcel.readValue(TimePreferences::class.java.classLoader) as TimePreferences,
             parcel.readValue(TimePreferences::class.java.classLoader) as TimePreferences
     ) {
-        val bArray = parcel.createBooleanArray()!!
-        runOnBatteryPower = bArray[0]
-        runIfUserActive = bArray[1]
-        runGpuIfUserActive = bArray[2]
-        leaveAppsInMemory = bArray[3]
-        doNotVerifyImages = bArray[4]
-        overrideFilePresent = bArray[5]
-        networkWiFiOnly = bArray[6]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            runOnBatteryPower = bArray[0]
+            runIfUserActive = bArray[1]
+            runGpuIfUserActive = bArray[2]
+            leaveAppsInMemory = bArray[3]
+            doNotVerifyImages = bArray[4]
+            overrideFilePresent = bArray[5]
+            networkWiFiOnly = bArray[6]
+        } else {
+            runOnBatteryPower = parcel.readBoolean()
+            runIfUserActive = parcel.readBoolean()
+            runGpuIfUserActive = parcel.readBoolean()
+            leaveAppsInMemory = parcel.readBoolean()
+            doNotVerifyImages = parcel.readBoolean()
+            overrideFilePresent = parcel.readBoolean()
+            networkWiFiOnly = parcel.readBoolean()
+        }
     }
 
     override fun describeContents() = 0
@@ -94,8 +105,19 @@ data class GlobalPreferences(
         dest.writeInt(dailyTransferPeriodDays)
         dest.writeValue(cpuTimes)
         dest.writeValue(netTimes)
-        dest.writeBooleanArray(booleanArrayOf(runOnBatteryPower, runIfUserActive, runGpuIfUserActive,
-                leaveAppsInMemory, doNotVerifyImages, overrideFilePresent, networkWiFiOnly))
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(runOnBatteryPower, runIfUserActive, runGpuIfUserActive,
+                    leaveAppsInMemory, doNotVerifyImages, overrideFilePresent, networkWiFiOnly))
+        } else {
+            dest.writeBoolean(runOnBatteryPower)
+            dest.writeBoolean(runIfUserActive)
+            dest.writeBoolean(runGpuIfUserActive)
+            dest.writeBoolean(leaveAppsInMemory)
+            dest.writeBoolean(doNotVerifyImages)
+            dest.writeBoolean(overrideFilePresent)
+            dest.writeBoolean(networkWiFiOnly)
+        }
     }
 
     object Fields {
