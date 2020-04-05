@@ -173,7 +173,7 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
         if (retval == EAI_SYSTEM) {
             perror(buf);
         } else {
-            fprintf(stderr, "%s: %s", buf, gai_strerror(retval));
+            fprintf(stderr, "%s: %s\n", buf, gai_strerror(retval));
         }
         return ERR_GETADDRINFO;
     }
