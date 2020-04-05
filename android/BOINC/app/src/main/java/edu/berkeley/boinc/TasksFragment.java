@@ -18,14 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import edu.berkeley.boinc.adapter.TasksListAdapter;
-import edu.berkeley.boinc.rpc.Result;
-import edu.berkeley.boinc.rpc.RpcClient;
-import edu.berkeley.boinc.utils.*;
-
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -34,23 +26,35 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class TasksFragment extends Fragment {
+import androidx.fragment.app.Fragment;
 
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.impl.list.mutable.FastList;
+
+import java.util.List;
+
+import edu.berkeley.boinc.adapter.TasksListAdapter;
+import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.rpc.RpcClient;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.Logging;
+
+public class TasksFragment extends Fragment {
     private ListView lv;
     private TasksListAdapter listAdapter;
-    private ArrayList<TaskData> data = new ArrayList<>();
+    private MutableList<TaskData> data = new FastList<>();
 
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
@@ -98,11 +102,9 @@ public class TasksFragment extends Fragment {
 
     private void loadData() {
         // try to get current client status from monitor
-        //ClientStatus status;
-        ArrayList<Result> tmpA;
+        List<Result> tmpA;
         try {
-            //status  = Monitor.getClientStatus();
-            tmpA = (ArrayList<Result>) BOINCActivity.monitor.getTasks();
+            tmpA = BOINCActivity.monitor.getTasks();
         }
         catch(Exception e) {
             if(Logging.WARNING) {
@@ -124,18 +126,12 @@ public class TasksFragment extends Fragment {
         }
     }
 
-    private void updateData(ArrayList<Result> newData) {
+    private void updateData(List<Result> newData) {
         //loop through all received Result items to add new results
         for(Result rpcResult : newData) {
             //check whether this Result is new
-            Integer index = null;
-            for(int x = 0; x < data.size(); x++) {
-                if(rpcResult.getName().equals(data.get(x).id)) {
-                    index = x;
-                    break;
-                }
-            }
-            if(index == null) { // result is new, add
+            int index = data.detectIndex(item -> item.id.equals(rpcResult.getName()));
+            if(index == -1) { // result is new, add
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "new result found, id: " + rpcResult.getName());
                 }
@@ -147,21 +143,8 @@ public class TasksFragment extends Fragment {
         }
 
         //loop through the list adapter to find removed (ready/aborted) Results
-        // use iterator to safely remove while iterating
-        Iterator<TaskData> iData = data.iterator();
-        while(iData.hasNext()) {
-            Boolean found = false;
-            TaskData listItem = iData.next();
-            for(Result rpcResult : newData) {
-                if(listItem.id.equals(rpcResult.getName())) {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found) {
-                iData.remove();
-            }
-        }
+        data.removeIf(listItem -> Lists.immutable.ofAll(newData)
+                                                 .noneSatisfy(rpcResult -> listItem.id.equals(rpcResult.getName())));
     }
 
     public class TaskData {
@@ -180,8 +163,8 @@ public class TasksFragment extends Fragment {
                     getResources().getInteger(R.integer.tasks_transistion_timeout_number_monitor_loops);
         }
 
-        public void updateResultData(Result result) {
-            this.result = result;
+        public void updateResultData(Result data) {
+            this.result = data;
             int currentState = determineState();
             if(nextState == -1) {
                 return;
@@ -300,7 +283,7 @@ public class TasksFragment extends Fragment {
             try {
                 String url = params[0];
                 String name = params[1];
-                Integer operation = Integer.parseInt(params[2]);
+                int operation = Integer.parseInt(params[2]);
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "url: " + url + " Name: " + name + " operation: " + operation);
                 }

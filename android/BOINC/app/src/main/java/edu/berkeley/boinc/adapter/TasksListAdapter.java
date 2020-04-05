@@ -35,6 +35,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksFragment.TaskData;
@@ -42,13 +47,8 @@ import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class TasksListAdapter extends ArrayAdapter<TaskData> {
-    private ArrayList<TaskData> entries;
+    private List<TaskData> entries;
     private Activity activity;
     /**
      * This member eliminates reallocation of a {@link Date} object in {@link #getView(int, View, ViewGroup)}.
@@ -64,13 +64,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private final StringBuilder elapsedTimeStringBuilder;
     private final NumberFormat percentNumberFormat;
 
-    public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
-        super(a, textViewResourceId, entries);
+    public TasksListAdapter(Activity activity, int textViewResourceId, List<TaskData> entries) {
+        super(activity, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = a;
+        this.activity = activity;
         this.deadlineDate = new Date();
         this.elapsedTimeStringBuilder = new StringBuilder();
-        (this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
+        percentNumberFormat = NumberFormat.getPercentInstance();
+        percentNumberFormat.setMinimumFractionDigits(1);
     }
 
     @NonNull
