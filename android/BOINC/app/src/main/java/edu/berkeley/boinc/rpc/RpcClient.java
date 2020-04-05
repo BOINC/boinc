@@ -691,7 +691,7 @@ public class RpcClient {
         }
     }
 
-    private String getPasswdHash(String passwd, String email_addr) {
+    private String getPasswordHash(String passwd, String email_addr) {
         return Md5.hash(passwd + email_addr);
     }
 
@@ -705,17 +705,17 @@ public class RpcClient {
         try {
             mRequest.setLength(0);
             mRequest.append("<create_account>\n   <url>");
-            mRequest.append(accountIn.url);
+            mRequest.append(accountIn.getUrl());
             mRequest.append("</url>\n   <email_addr>");
-            mRequest.append(accountIn.email_addr);
+            mRequest.append(accountIn.getEmailAddress());
             mRequest.append("</email_addr>\n   <passwd_hash>");
-            mRequest.append(getPasswdHash(accountIn.passwd, accountIn.email_addr));
+            mRequest.append(getPasswordHash(accountIn.getPassword(), accountIn.getEmailAddress()));
             mRequest.append("</passwd_hash>\n   <user_name>");
-            if (accountIn.user_name != null)
-                mRequest.append(accountIn.user_name);
+            if (accountIn.getUserName() != null)
+                mRequest.append(accountIn.getUserName());
             mRequest.append("</user_name>\n   <team_name>");
-            if (accountIn.team_name != null)
-                mRequest.append(accountIn.team_name);
+            if (accountIn.getTeamName() != null)
+                mRequest.append(accountIn.getTeamName());
             mRequest.append("</team_name>\n</create_account>\n");
 
             sendRequest(mRequest.toString());
@@ -758,17 +758,17 @@ public class RpcClient {
     public synchronized boolean lookupAccount(AccountIn accountIn) {
         try {
             String id;
-            if (accountIn.uses_name)
-                id = accountIn.user_name;
+            if (accountIn.getUsesName())
+                id = accountIn.getUserName();
             else
-                id = accountIn.email_addr;
+                id = accountIn.getEmailAddress();
             mRequest.setLength(0);
             mRequest.append("<lookup_account>\n <url>");
-            mRequest.append(accountIn.url);
+            mRequest.append(accountIn.getUrl());
             mRequest.append("</url>\n <email_addr>");
             mRequest.append(id.toLowerCase(Locale.US));
             mRequest.append("</email_addr>\n <passwd_hash>");
-            mRequest.append(getPasswdHash(accountIn.passwd, id.toLowerCase(Locale.US)));
+            mRequest.append(getPasswordHash(accountIn.getPassword(), id.toLowerCase(Locale.US)));
             mRequest.append("</passwd_hash>\n</lookup_account>\n");
             sendRequest(mRequest.toString());
 
