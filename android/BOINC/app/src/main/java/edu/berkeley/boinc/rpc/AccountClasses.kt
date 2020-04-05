@@ -74,3 +74,29 @@ class AccountIn(
         }
     }
 }
+
+data class AccountOut(var errorNum: Int = 0, var errorMsg: String? = "", var authenticator: String? = "") : Parcelable {
+    private constructor(parcel: Parcel) : this(parcel.readInt(), parcel.readString(), parcel.readString())
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(out: Parcel, flags: Int) {
+        out.writeInt(errorNum)
+        out.writeString(errorMsg)
+        out.writeString(authenticator)
+    }
+
+    object Fields {
+        const val ERROR_MSG = "error_msg"
+        const val AUTHENTICATOR = "authenticator"
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<AccountOut> = object : Parcelable.Creator<AccountOut> {
+            override fun createFromParcel(parcel: Parcel) = AccountOut(parcel)
+
+            override fun newArray(size: Int) = arrayOfNulls<AccountOut>(size)
+        }
+    }
+}
