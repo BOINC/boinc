@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -51,10 +52,16 @@ data class Notice(
             parcel.readString() ?: "", parcel.readString() ?: "",
             parcel.readString()
     ) {
-        val bArray = parcel.createBooleanArray()!!
-        isPrivate = bArray[0]
-        isServerNotice = bArray[1]
-        isClientNotice = bArray[2]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            isPrivate = bArray[0]
+            isServerNotice = bArray[1]
+            isClientNotice = bArray[2]
+        } else {
+            isPrivate = parcel.readBoolean()
+            isServerNotice = parcel.readBoolean()
+            isClientNotice = parcel.readBoolean()
+        }
     }
 
     override fun describeContents() = 0
@@ -68,7 +75,14 @@ data class Notice(
         dest.writeString(category)
         dest.writeString(link)
         dest.writeString(projectName)
-        dest.writeBooleanArray(booleanArrayOf(isPrivate, isServerNotice, isClientNotice))
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(isPrivate, isServerNotice, isClientNotice))
+        } else {
+            dest.writeBoolean(isPrivate)
+            dest.writeBoolean(isServerNotice)
+            dest.writeBoolean(isClientNotice)
+        }
     }
 
     object Fields {

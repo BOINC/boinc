@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
@@ -40,10 +41,16 @@ data class Transfer(
             this(parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readLong(), parcel.readInt(), parcel.readLong(), parcel.readLong(),
                     parcel.readLong(), parcel.readFloat(), parcel.readLong()) {
-        val bArray = parcel.createBooleanArray()!!
-        generatedLocally = bArray[0]
-        isTransferActive = bArray[1]
-        isUpload = bArray[2]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            generatedLocally = bArray[0]
+            isTransferActive = bArray[1]
+            isUpload = bArray[2]
+        } else {
+            generatedLocally = parcel.readBoolean()
+            isTransferActive = parcel.readBoolean()
+            isUpload = parcel.readBoolean()
+        }
     }
 
     override fun describeContents() = 0
@@ -58,7 +65,14 @@ data class Transfer(
         dest.writeLong(bytesTransferred)
         dest.writeFloat(transferSpeed)
         dest.writeLong(projectBackoff)
-        dest.writeBooleanArray(booleanArrayOf(generatedLocally, isTransferActive, isUpload))
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(booleanArrayOf(generatedLocally, isTransferActive, isUpload))
+        } else {
+            dest.writeBoolean(generatedLocally)
+            dest.writeBoolean(isTransferActive)
+            dest.writeBoolean(isUpload)
+        }
     }
 
     object Fields {

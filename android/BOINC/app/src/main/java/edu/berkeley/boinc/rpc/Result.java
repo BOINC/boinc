@@ -19,6 +19,7 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -126,18 +127,34 @@ public class Result implements Parcelable {
         app = (App) in.readValue(App.class.getClassLoader());
         wup = (WorkUnit) in.readValue(WorkUnit.class.getClassLoader());
 
-        boolean[] bArray = in.createBooleanArray();
-        ready_to_report = bArray[0];
-        got_server_ack = bArray[1];
-        suspended_via_gui = bArray[2];
-        project_suspended_via_gui = bArray[3];
-        coproc_missing = bArray[4];
-        gpu_mem_wait = bArray[5];
-        active_task = bArray[6];
-        supports_graphics = bArray[7];
-        too_large = bArray[8];
-        needs_shmem = bArray[9];
-        edf_scheduled = bArray[10];
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            boolean[] bArray = in.createBooleanArray();
+            assert bArray != null;
+            ready_to_report = bArray[0];
+            got_server_ack = bArray[1];
+            suspended_via_gui = bArray[2];
+            project_suspended_via_gui = bArray[3];
+            coproc_missing = bArray[4];
+            gpu_mem_wait = bArray[5];
+            active_task = bArray[6];
+            supports_graphics = bArray[7];
+            too_large = bArray[8];
+            needs_shmem = bArray[9];
+            edf_scheduled = bArray[10];
+        }
+        else {
+            ready_to_report = in.readBoolean();
+            got_server_ack = in.readBoolean();
+            suspended_via_gui = in.readBoolean();
+            project_suspended_via_gui = in.readBoolean();
+            coproc_missing = in.readBoolean();
+            gpu_mem_wait = in.readBoolean();
+            active_task = in.readBoolean();
+            supports_graphics = in.readBoolean();
+            too_large = in.readBoolean();
+            needs_shmem = in.readBoolean();
+            edf_scheduled = in.readBoolean();
+        }
     }
 
     @Override
@@ -186,19 +203,25 @@ public class Result implements Parcelable {
         dest.writeValue(app);
         dest.writeValue(wup);
 
-        dest.writeBooleanArray(new boolean[]{
-                ready_to_report,
-                got_server_ack,
-                suspended_via_gui,
-                project_suspended_via_gui,
-                coproc_missing,
-                gpu_mem_wait,
-                active_task,
-                supports_graphics,
-                too_large,
-                needs_shmem,
-                edf_scheduled
-        });
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dest.writeBooleanArray(new boolean[]{ready_to_report, got_server_ack, suspended_via_gui,
+                                                 project_suspended_via_gui, coproc_missing, gpu_mem_wait,
+                                                 active_task, supports_graphics, too_large, needs_shmem,
+                                                 edf_scheduled});
+        }
+        else {
+            dest.writeBoolean(ready_to_report);
+            dest.writeBoolean(got_server_ack);
+            dest.writeBoolean(suspended_via_gui);
+            dest.writeBoolean(project_suspended_via_gui);
+            dest.writeBoolean(coproc_missing);
+            dest.writeBoolean(gpu_mem_wait);
+            dest.writeBoolean(active_task);
+            dest.writeBoolean(supports_graphics);
+            dest.writeBoolean(too_large);
+            dest.writeBoolean(needs_shmem);
+            dest.writeBoolean(edf_scheduled);
+        }
     }
 
     public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
