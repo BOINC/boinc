@@ -117,17 +117,17 @@ public class ClientInterfaceImplementation extends RpcClient {
                 buf = new char[1024];
             }
         } catch (FileNotFoundException fnfe) {
-            if (Logging.ERROR.equals(Boolean.TRUE)) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "auth file not found", fnfe);
             }
         } catch (IOException ioe) {
-            if (Logging.ERROR.equals(Boolean.TRUE)) {
+            if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ioexception", ioe);
             }
         }
 
         String authKey = fileData.toString();
-        if (Logging.DEBUG.equals(Boolean.TRUE)) {
+        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "authentication key acquired. length: " + authKey.length());
         }
         return authKey;
@@ -528,7 +528,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             }
         }
 
-        if(!msgs.isEmpty() && Logging.DEBUG.equals(Boolean.TRUE)) {
+        if(!msgs.isEmpty() && Logging.DEBUG) {
             Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
                                + " entries. for lowerBound: " + lowerBound + " at 0: "
                                + msgs.get(0).getSeqno() + " at " + (msgs.size() - 1) + ": "
@@ -546,7 +546,7 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @return list of attachable projects
      */
     List<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
-        if (Logging.DEBUG.equals(Boolean.TRUE))
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
         List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
@@ -583,7 +583,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             }
         }
 
-        if (Logging.DEBUG.equals(Boolean.TRUE))
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: "
                                + attachableProjects.size());
         return attachableProjects;
@@ -597,7 +597,7 @@ public class ClientInterfaceImplementation extends RpcClient {
     List<AccountManager> getAccountManagers() {
         List<AccountManager> accountManagers = getAccountManagersList(); // from all_projects_list.xml
 
-        if (Logging.DEBUG.equals(Boolean.TRUE))
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAccountManagers: number of account managers found: "
                                + accountManagers.size());
         return accountManagers;
@@ -609,14 +609,14 @@ public class ClientInterfaceImplementation extends RpcClient {
             if (tmp.getUrl().equals(url))
                 return tmp;
         }
-        if (Logging.ERROR.equals(Boolean.TRUE))
+        if (Logging.ERROR)
             Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
         return null;
     }
 
     boolean setDomainName(String deviceName) {
         boolean success = setDomainNameRpc(deviceName);
-        if (Logging.DEBUG.equals(Boolean.TRUE))
+        if (Logging.DEBUG)
             Log.d(Logging.TAG, "setDomainName: success " + success);
         return success;
     }
