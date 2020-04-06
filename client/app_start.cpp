@@ -1105,7 +1105,7 @@ int ACTIVE_TASK::start(bool test) {
                 struct sched_param sp;
                 sp.sched_priority = 0;
                 if (sched_setscheduler(0, SCHED_IDLE, &sp)) {
-                    perror("sched_setscheduler");
+                    perror("app_start sched_setscheduler(SCHED_IDLE)");
                 }
             }
 #endif
