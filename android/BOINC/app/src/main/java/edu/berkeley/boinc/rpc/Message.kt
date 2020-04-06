@@ -25,7 +25,7 @@ import java.io.Serializable
 data class Message(
         var project: String = "",
         var priority: Int = 0,
-        var seqno: Int = 0,
+        var seqno: Int = -1,
         var timestamp: Long = 0,
         var body: String? = null
 ) : Serializable, Parcelable {
@@ -41,6 +41,12 @@ data class Message(
         dest.writeInt(seqno)
         dest.writeLong(timestamp)
         dest.writeString(body)
+    }
+
+    object Fields {
+        const val PRIORITY = "pri"
+        const val TIMESTAMP = "time"
+        const val BODY = "body"
     }
 
     companion object {

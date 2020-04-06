@@ -99,11 +99,9 @@ public class ProjectAttachReplyParserTest {
             throws SAXException {
         projectAttachReplyParser.startElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                               null, null);
-        projectAttachReplyParser.startElement(null, ProjectAttachReplyParser.MESSAGE_TAG,
-                                              null, null);
+        projectAttachReplyParser.startElement(null, RPCCommonTags.MESSAGE, null, null);
         projectAttachReplyParser.characters("Message".toCharArray(), 0, 7);
-        projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.MESSAGE_TAG,
-                                            null);
+        projectAttachReplyParser.endElement(null, RPCCommonTags.MESSAGE, null);
         projectAttachReplyParser.endElement(null, ProjectAttachReplyParser.PROJECT_ATTACH_REPLY_TAG,
                                             null);
 

@@ -47,7 +47,7 @@ class AcctMgrRPCReplyParser : BaseParser() {
                 // not closing tag, decode inner tags
                 if (localName.equals(ERROR_NUM, ignoreCase = true)) {
                     accountMgrRPCReply.errorNum = mCurrentElement.toInt()
-                } else if (localName.equals(MESSAGE_TAG, ignoreCase = true)) {
+                } else if (localName.equals(MESSAGE, ignoreCase = true)) {
                     accountMgrRPCReply.messages.add(mCurrentElement.toString())
                 }
             }
@@ -61,7 +61,6 @@ class AcctMgrRPCReplyParser : BaseParser() {
 
     companion object {
         const val ACCT_MGR_RPC_REPLY_TAG = "acct_mgr_rpc_reply"
-        const val MESSAGE_TAG = "message"
 
         @JvmStatic
         fun parse(rpcResult: String): AcctMgrRPCReply? {
