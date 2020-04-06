@@ -203,12 +203,11 @@ class CcStateParser : BaseParser() {
                     if (results.isNotEmpty()) {
                         val myResult = results.last()
                         myResult.project = myProject
-                        myResult.wup = ccState.lookupWorkUnit(myProject, myResult.wu_name)
-                        if (myResult.wup != null) {
-                            myResult.app = myResult.wup.app
-                            myResult.avp = ccState.lookupAppVersion(myProject, myResult.app,
-                                    myResult.version_num,
-                                    myResult.plan_class)
+                        myResult.workUnit = ccState.lookupWorkUnit(myProject, myResult.workUnitName)
+                        if (myResult.workUnit != null) {
+                            myResult.app = myResult.workUnit!!.app
+                            myResult.appVersion = ccState.lookupAppVersion(myProject, myResult.app,
+                                    myResult.versionNum, myResult.planClass)
                         }
                         ccState.results.add(myResult)
                     }

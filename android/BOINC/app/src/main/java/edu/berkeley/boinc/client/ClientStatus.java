@@ -504,10 +504,10 @@ public class ClientStatus {
         return null;
     }
 
-    public List<Result> getExecutingTasks() {
+    List<Result> getExecutingTasks() {
         List<Result> activeTasks = new ArrayList<>();
         for(Result tmp : results) {
-            if(tmp.active_task && tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING) {
+            if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
                 activeTasks.add(tmp);
             }
         }
@@ -585,10 +585,10 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = ctx.getString(R.string.suspend_battery_charging);
                             try {
-                                Double minCharge = prefs.getBatteryChargeMinPct();
-                                Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
+                                double minCharge = prefs.getBatteryChargeMinPct();
+                                int currentCharge = Monitor.getDeviceStatus().getStatus().getBatteryChargePct();
                                 statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
-                                               minCharge.intValue()
+                                               (int) minCharge
                                                + "% (" + ctx.getString(R.string.suspend_battery_charging_current) +
                                                " " + currentCharge + "%) "
                                                + ctx.getString(R.string.suspend_battery_charging_long2);
@@ -603,7 +603,7 @@ public class ClientStatus {
                             statusString = ctx.getString(R.string.suspend_battery_overheating);
                             break;
                         case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                            Boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+                            boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
                             if(suspendDueToScreenOn) {
                                 statusString = ctx.getString(R.string.suspend_screen_on);
                             }
@@ -713,10 +713,10 @@ public class ClientStatus {
                 (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE))) {
                 // treat cpu throttling as if client was active (either idle, or computing, depending on tasks)
                 //figure out whether we have an active task
-                Boolean activeTask = false;
+                boolean activeTask = false;
                 if(results != null) {
                     for(Result task : results) {
-                        if(task.active_task) { // this result has corresponding "active task" in RPC XML
+                        if(task.isActiveTask()) { // this result has corresponding "active task" in RPC XML
                             activeTask = true;
                             break; // amount of active tasks does not matter.
                         }

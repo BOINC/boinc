@@ -96,10 +96,6 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testImplementation 'com.google.guava:guava-testlib:28.2-jre'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-
-    // The line below is needed for access to the Lombok annotations.
-    compileOnly "org.projectlombok:lombok:$lombok_version"
-    annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
 repositories {
     mavenCentral()

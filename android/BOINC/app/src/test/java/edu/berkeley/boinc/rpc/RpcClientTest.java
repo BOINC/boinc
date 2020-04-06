@@ -186,11 +186,11 @@ public class RpcClientTest {
                                               "1604225a81748244d19bf2e787d6ee6e", "User", "Team");
 
         final AccountIn accountIn = new AccountIn();
-        accountIn.url = "URL";
-        accountIn.email_addr = "Email";
-        accountIn.passwd = "Password";
-        accountIn.user_name = "User";
-        accountIn.team_name = "Team";
+        accountIn.setUrl("URL");
+        accountIn.setEmailAddress("Email");
+        accountIn.setPassword("Password");
+        accountIn.setUserName("User");
+        accountIn.setTeamName("Team");
 
         assertTrue(rpcClient.createAccount(accountIn));
         assertEquals(expected, rpcClient.mRequest.toString());
@@ -266,10 +266,10 @@ public class RpcClientTest {
                                 "</lookup_account>\n";
 
         final AccountIn accountIn = new AccountIn();
-        accountIn.url = "URL";
-        accountIn.user_name = "User";
-        accountIn.uses_name = true;
-        accountIn.passwd = "Password";
+        accountIn.setUrl("URL");
+        accountIn.setUserName("User");
+        accountIn.setUsesName(true);
+        accountIn.setPassword("Password");
 
         assertTrue(rpcClient.lookupAccount(accountIn));
         assertEquals(expected, rpcClient.mRequest.toString());
@@ -289,10 +289,10 @@ public class RpcClientTest {
                                 "</lookup_account>\n";
 
         final AccountIn accountIn = new AccountIn();
-        accountIn.url = "URL";
-        accountIn.user_name = "User";
-        accountIn.uses_name = true;
-        accountIn.passwd = "Password";
+        accountIn.setUrl("URL");
+        accountIn.setUserName("User");
+        accountIn.setUsesName(true);
+        accountIn.setPassword("Password");
 
         assertFalse(rpcClient.lookupAccount(accountIn));
         assertEquals(expected, rpcClient.mRequest.toString());
@@ -311,10 +311,10 @@ public class RpcClientTest {
         Mockito.when(mockRpcClient.lookupAccount(any())).thenCallRealMethod();
 
         final AccountIn accountIn = new AccountIn();
-        accountIn.url = "URL";
-        accountIn.user_name = "User";
-        accountIn.uses_name = true;
-        accountIn.passwd = "Password";
+        accountIn.setUrl("URL");
+        accountIn.setUserName("User");
+        accountIn.setUsesName(true);
+        accountIn.setPassword("Password");
 
         assertFalse(mockRpcClient.lookupAccount(accountIn));
     }

@@ -47,6 +47,7 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperNumber;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperText;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
+import edu.berkeley.boinc.adapter.SelectionDialogOption;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.utils.Logging;
@@ -457,10 +458,10 @@ public class PrefsFragment extends Fragment {
             // Setup confirm button action
             Button confirm = dialog.findViewById(R.id.confirm);
             confirm.setOnClickListener(view -> {
-                ArrayList<String> selectedOptions = new ArrayList<>();
+                List<String> selectedOptions = new ArrayList<>();
                 for(SelectionDialogOption option : options) {
-                    if(option.selected) {
-                        selectedOptions.add(option.name);
+                    if(option.isSelected()) {
+                        selectedOptions.add(option.getName());
                     }
                 }
                 if(Logging.DEBUG) {
@@ -472,13 +473,13 @@ public class PrefsFragment extends Fragment {
         }
         else if(item.getId() == R.string.prefs_power_source_header) {
             final List<SelectionDialogOption> options = Arrays.asList(
-                    new SelectionDialogOption(R.string.prefs_power_source_ac,
+                    new SelectionDialogOption(this, R.string.prefs_power_source_ac,
                                               BOINCActivity.monitor.getPowerSourceAc()),
-                    new SelectionDialogOption(R.string.prefs_power_source_usb,
+                    new SelectionDialogOption(this, R.string.prefs_power_source_usb,
                                               BOINCActivity.monitor.getPowerSourceUsb()),
-                    new SelectionDialogOption(R.string.prefs_power_source_wireless,
+                    new SelectionDialogOption(this, R.string.prefs_power_source_wireless,
                                               BOINCActivity.monitor.getPowerSourceWireless()),
-                    new SelectionDialogOption(R.string.prefs_power_source_battery,
+                    new SelectionDialogOption(this, R.string.prefs_power_source_battery,
                                               clientPrefs.getRunOnBatteryPower(),
                                               true)
             );
@@ -490,18 +491,18 @@ public class PrefsFragment extends Fragment {
             confirm.setOnClickListener(view -> {
                 try {
                     for(SelectionDialogOption option : options) {
-                        switch(option.ID) {
+                        switch(option.getId()) {
                             case R.string.prefs_power_source_ac:
-                                BOINCActivity.monitor.setPowerSourceAc(option.selected);
+                                BOINCActivity.monitor.setPowerSourceAc(option.isSelected());
                                 break;
                             case R.string.prefs_power_source_usb:
-                                BOINCActivity.monitor.setPowerSourceUsb(option.selected);
+                                BOINCActivity.monitor.setPowerSourceUsb(option.isSelected());
                                 break;
                             case R.string.prefs_power_source_wireless:
-                                BOINCActivity.monitor.setPowerSourceWireless(option.selected);
+                                BOINCActivity.monitor.setPowerSourceWireless(option.isSelected());
                                 break;
                             case R.string.prefs_power_source_battery:
-                                clientPrefs.setRunOnBatteryPower(option.selected);
+                                clientPrefs.setRunOnBatteryPower(option.isSelected());
                                 new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
                                 break;
                         }
@@ -686,7 +687,7 @@ public class PrefsFragment extends Fragment {
         }
     }
 
-    private String formatOptionsToCcConfig(ArrayList<String> options) {
+    private String formatOptionsToCcConfig(List<String> options) {
         StringBuilder builder = new StringBuilder();
         builder.append("<cc_config>\n <log_flags>\n");
         for(String option : options) {
@@ -710,9 +711,9 @@ public class PrefsFragment extends Fragment {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "onCbClick");
             }
-            Boolean previousState = cb.isChecked();
+            boolean previousState = cb.isChecked();
             cb.setChecked(!previousState);
-            Boolean isSet = cb.isChecked();
+            boolean isSet = cb.isChecked();
             try {
                 switch(ID) {
                     case R.string.prefs_autostart_header: //app pref
@@ -777,69 +778,16 @@ public class PrefsFragment extends Fragment {
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_network_daily_xfer_limit_mb_header:
-                    dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    setupDialogButtons(item, dialog);
-                    break;
-                case R.string.prefs_power_source_header:
-                    try {
-                        setupSelectionListDialog(item, dialog);
-                    }
-                    catch(RemoteException e) {
-                        if(Logging.ERROR) {
-                            Log.e(Logging.TAG, "PrefsFragment.ValueOnClick.onClick() error: ", e);
-                        }
-                    }
-                    break;
-                case R.string.battery_charge_min_pct_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
                 case R.string.battery_temperature_max_header:
-                    dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    setupDialogButtons(item, dialog);
-                    break;
-                case R.string.prefs_cpu_number_cpus_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
-                case R.string.prefs_cpu_time_max_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
-                case R.string.prefs_cpu_other_load_suspension_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
-                case R.string.prefs_disk_max_pct_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
                 case R.string.prefs_disk_min_free_gb_header:
-                    dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    setupDialogButtons(item, dialog);
-                    break;
                 case R.string.prefs_disk_access_interval_header:
-                    dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    setupDialogButtons(item, dialog);
-                    break;
-                case R.string.prefs_memory_max_idle_header:
-                    setupSliderDialog(item, dialog);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    break;
                 case R.string.prefs_other_store_at_least_x_days_of_work_header:
-                    dialog.setContentView(R.layout.prefs_layout_dialog_number);
-                    ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
-                    setupDialogButtons(item, dialog);
-                    break;
                 case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
                     ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
                     break;
+                case R.string.prefs_power_source_header:
                 case R.string.prefs_client_log_flags_header:
                     try {
                         setupSelectionListDialog(item, dialog);
@@ -850,6 +798,12 @@ public class PrefsFragment extends Fragment {
                         }
                     }
                     break;
+                case R.string.battery_charge_min_pct_header:
+                case R.string.prefs_cpu_number_cpus_header:
+                case R.string.prefs_cpu_time_max_header:
+                case R.string.prefs_cpu_other_load_suspension_header:
+                case R.string.prefs_disk_max_pct_header:
+                case R.string.prefs_memory_max_idle_header:
                 case R.string.prefs_gui_log_level_header:
                     setupSliderDialog(item, dialog);
                     ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
@@ -898,37 +852,6 @@ public class PrefsFragment extends Fragment {
             catch(RemoteException e) {
                 return false;
             }
-        }
-    }
-
-    public class SelectionDialogOption {
-        public String name;
-        public Integer ID = null;
-        public Boolean selected = false;
-        public Boolean highlighted = false;
-
-        public SelectionDialogOption(String name) {
-            this.name = name;
-        }
-
-        public SelectionDialogOption(String name, Boolean selected) {
-            this(name);
-            this.selected = selected;
-        }
-
-        public SelectionDialogOption(String name, Boolean selected, Boolean highlighted) {
-            this(name, selected);
-            this.highlighted = highlighted;
-        }
-
-        public SelectionDialogOption(int ID, Boolean selected) {
-            this(getResources().getString(ID), selected);
-            this.ID = ID;
-        }
-
-        public SelectionDialogOption(int ID, Boolean selected, Boolean highlighted) {
-            this(getResources().getString(ID), selected, highlighted);
-            this.ID = ID;
         }
     }
 }

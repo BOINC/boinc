@@ -18,31 +18,28 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 
-data class AccountOut(var errorNum: Int = 0, var errorMsg: String? = "", var authenticator: String? = "") : Parcelable {
-    private constructor(parcel: Parcel) : this(parcel.readInt(), parcel.readString(), parcel.readString())
+class ImageWrapper(var image: Bitmap?, var projectName: String?, var path: String?) : Parcelable {
+    private constructor(parcel: Parcel) : this(parcel.readValue(Bitmap::class.java.classLoader) as Bitmap?,
+            parcel.readString(), parcel.readString())
 
     override fun describeContents() = 0
 
-    override fun writeToParcel(out: Parcel, flags: Int) {
-        out.writeInt(errorNum)
-        out.writeString(errorMsg)
-        out.writeString(authenticator)
-    }
-
-    object Fields {
-        const val ERROR_MSG = "error_msg"
-        const val AUTHENTICATOR = "authenticator"
+    override fun writeToParcel(dest: Parcel, arg1: Int) {
+        dest.writeValue(image)
+        dest.writeString(projectName)
+        dest.writeString(path)
     }
 
     companion object {
         @JvmField
-        val CREATOR: Parcelable.Creator<AccountOut> = object : Parcelable.Creator<AccountOut> {
-            override fun createFromParcel(parcel: Parcel) = AccountOut(parcel)
+        val CREATOR: Parcelable.Creator<ImageWrapper> = object : Parcelable.Creator<ImageWrapper> {
+            override fun createFromParcel(parcel: Parcel) = ImageWrapper(parcel)
 
-            override fun newArray(size: Int) = arrayOfNulls<AccountOut>(size)
+            override fun newArray(size: Int) = arrayOfNulls<ImageWrapper>(size)
         }
     }
 }

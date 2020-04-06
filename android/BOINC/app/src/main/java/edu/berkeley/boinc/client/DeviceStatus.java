@@ -36,7 +36,6 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 public class DeviceStatus {
-
     // variables describing device status in RPC
     private DeviceStatusData status = new DeviceStatusData();
 
@@ -64,7 +63,7 @@ public class DeviceStatus {
      *
      * @param ctx Application Context
      */
-    public DeviceStatus(Context ctx, AppPreferences appPrefs) {
+    DeviceStatus(Context ctx, AppPreferences appPrefs) {
         this.ctx = ctx;
         this.connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
@@ -85,20 +84,16 @@ public class DeviceStatus {
         }
         this.screenOn = screenOn;
 
-        Boolean change = determineBatteryStatus();
+        boolean change = determineBatteryStatus();
         change |= determineNetworkStatus();
         change |= determineUserActive();
 
-        if(change) {
-            if(Logging.DEBUG) {
-                Log.i(Logging.TAG, "change: " + change +
-                                   " - stationary device: " + stationaryDeviceMode +
-                                   " ; ac: " + status.on_ac_power +
-                                   " ; level: " + status.battery_charge_pct +
-                                   " ; temperature: " + status.battery_temperature_celsius +
-                                   " ; wifi: " + status.wifi_online +
-                                   " ; user active: " + status.user_active);
-            }
+        if(change && Logging.DEBUG) {
+            Log.i(Logging.TAG,
+                  "change: " + " - stationary device: " + stationaryDeviceMode + " ; ac: " +
+                  status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
+                  " ; temperature: " + status.getBatteryTemperatureCelsius() + " ; wifi: " +
+                  status.isWiFiOnline() + " ; user active: " + status.isUserActive());
         }
 
         return status;
@@ -121,7 +116,7 @@ public class DeviceStatus {
      *
      * @return true, if Android indicates absence of battery
      */
-    public Boolean isStationaryDeviceSuspected() {
+    boolean isStationaryDeviceSuspected() {
         return stationaryDeviceSuspected;
     }
 
@@ -132,10 +127,9 @@ public class DeviceStatus {
      * - screen is on AND preference "suspendWhenScreenOn" set AND NOT preference "stationaryDeviceMode" set
      *
      * @return true, if change since last run
-     * @throws Exception if error occurs
      */
-    private Boolean determineUserActive() throws Exception {
-        Boolean newUserActive;
+    private boolean determineUserActive() {
+        boolean newUserActive;
         int telStatus = telManager.getCallState();
 
         if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
@@ -145,8 +139,8 @@ public class DeviceStatus {
             newUserActive = (screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode());
         }
 
-        if(status.user_active != newUserActive) {
-            status.user_active = newUserActive;
+        if(status.isUserActive() != newUserActive) {
+            status.setUserActive(newUserActive);
             return true;
         }
 
@@ -177,20 +171,20 @@ public class DeviceStatus {
 
         if(isWiFiOrEthernet) {
             // WiFi or ethernet is online
-            if(!status.wifi_online) {
+            if(!status.isWiFiOnline()) {
                 change = true; // if different from before, set flag
                 if(Logging.ERROR) {
                     Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
                 }
             }
-            status.wifi_online = true;
+            status.setWiFiOnline(true);
         }
         else {
             // WiFi and ethernet are offline
-            if(status.wifi_online) {
+            if(status.isWiFiOnline()) {
                 change = true; // if different from before, set flag
             }
-            status.wifi_online = false;
+            status.setWiFiOnline(false);
         }
 
         return change;
@@ -218,9 +212,9 @@ public class DeviceStatus {
      * @return true, if change since last run
      * @throws Exception if error occurs
      */
-    private Boolean determineBatteryStatus() throws Exception {
+    private boolean determineBatteryStatus() throws Exception {
         // check battery
-        Boolean change = false;
+        boolean change = false;
         batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if(batteryStatus != null) {
             stationaryDeviceSuspected =
@@ -257,8 +251,8 @@ public class DeviceStatus {
                 if(batteryPct < 0 || batteryPct > 100) {
                     throw new Exception("battery level parsing error");
                 }
-                if(batteryPct != status.battery_charge_pct) {
-                    status.battery_charge_pct = batteryPct;
+                if(batteryPct != status.getBatteryChargePct()) {
+                    status.setBatteryChargePct(batteryPct);
                     change = true;
                 }
 
@@ -268,8 +262,8 @@ public class DeviceStatus {
                 if(temperature < 0) {
                     throw new Exception("temperature parsing error");
                 }
-                if(temperature != status.battery_temperature_celsius) {
-                    status.battery_temperature_celsius = temperature;
+                if(temperature != status.getBatteryTemperatureCelsius()) {
+                    status.setBatteryTemperatureCelsius(temperature);
                     change = true;
                 }
 
@@ -293,9 +287,9 @@ public class DeviceStatus {
      * The policy might be subject to change.
      */
     private void setAttributesForStationaryDevice() {
-        status.on_ac_power = true;
-        status.battery_temperature_celsius = 0;
-        status.battery_charge_pct = 100;
+        status.setOnACPower(true);
+        status.setBatteryTemperatureCelsius(0);
+        status.setBatteryChargePct(100);
     }
 
     /**
@@ -307,9 +301,9 @@ public class DeviceStatus {
      * @param chargerType BatteryManager class
      * @return true, if change since last run
      */
-    private Boolean setAttributesForChargerType(int chargerType) {
-        Boolean change = false;
-        Boolean enabled = false;
+    private boolean setAttributesForChargerType(int chargerType) {
+        boolean change = false;
+        boolean enabled = false;
 
         switch(chargerType) {
             case BatteryManager.BATTERY_PLUGGED_AC:
@@ -321,19 +315,21 @@ public class DeviceStatus {
             case BatteryManager.BATTERY_PLUGGED_USB:
                 enabled = appPrefs.getPowerSourceUsb();
                 break;
+            default:
+                break;
         }
 
         if(enabled) {
-            if(!status.on_ac_power) {
+            if(!status.isOnACPower()) {
                 change = true; // if different from before, set flag
             }
-            status.on_ac_power = true;
+            status.setOnACPower(true);
         }
         else {
-            if(status.on_ac_power) {
+            if(status.isOnACPower()) {
                 change = true;
             }
-            status.on_ac_power = false;
+            status.setOnACPower(false);
         }
 
         return change;

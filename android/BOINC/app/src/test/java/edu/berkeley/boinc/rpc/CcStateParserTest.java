@@ -317,10 +317,10 @@ public class CcStateParserTest {
         ccStateParser.endElement(null, CcStateParser.CLIENT_STATE_TAG, null);
 
         final Result expectedResult = new Result();
-        expectedResult.active_task = true;
-        expectedResult.name = "Result";
-        expectedResult.project = new Project();
-        expectedResult.slot_path = "/path/to/slot";
+        expectedResult.setActiveTask(true);
+        expectedResult.setName("Result");
+        expectedResult.setProject(new Project());
+        expectedResult.setSlotPath("/path/to/slot");
 
         expected.getResults().add(expectedResult);
 

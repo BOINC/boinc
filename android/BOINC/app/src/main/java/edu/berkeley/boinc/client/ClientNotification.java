@@ -84,10 +84,10 @@ public class ClientNotification {
             }
             else {
                 for(int x = 0; x < activeTasks.size(); x++) {
-                    if(!activeTasks.get(x).name.equals(mOldActiveTasks.get(x).name)) {
+                    if(!activeTasks.get(x).getName().equals(mOldActiveTasks.get(x).getName())) {
                         activeTasksChanged = true;
-                        Log.d(Logging.TAG, "Active task: " + activeTasks.get(x).name
-                                           + ", old active task: " + mOldActiveTasks.get(x).name);
+                        Log.d(Logging.TAG, "Active task: " + activeTasks.get(x).getName()
+                                           + ", old active task: " + mOldActiveTasks.get(x).getName());
                         break;
                     }
                 }
@@ -200,7 +200,7 @@ public class ClientNotification {
             // set names in list
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             for(Result task : activeTasks) {
-                inboxStyle.addLine(task.project.getName() + ": " + task.app.getDisplayName());
+                inboxStyle.addLine(task.getProject().getName() + ": " + task.getApp().getDisplayName());
             }
             nb.setStyle(inboxStyle);
         }

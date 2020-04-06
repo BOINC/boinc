@@ -111,15 +111,11 @@ public class TasksFragment extends Fragment {
             return;
         }
         //setup list and adapter
-        //ArrayList<Result> tmpA = status.getTasks();
         if(tmpA != null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
-
             //deep copy, so ArrayList adapter actually recognizes the difference
             updateData(tmpA);
 
-            //if(Logging.DEBUG) Log.d(Logging.TAG,"loadData: data set contains " + data.size() + " results.");
             listAdapter.notifyDataSetChanged(); //force list adapter to refresh
-
         }
         else {
             if(Logging.WARNING) {
@@ -134,14 +130,14 @@ public class TasksFragment extends Fragment {
             //check whether this Result is new
             Integer index = null;
             for(int x = 0; x < data.size(); x++) {
-                if(rpcResult.name.equals(data.get(x).id)) {
+                if(rpcResult.getName().equals(data.get(x).id)) {
                     index = x;
                     break;
                 }
             }
             if(index == null) { // result is new, add
                 if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "new result found, id: " + rpcResult.name);
+                    Log.d(Logging.TAG, "new result found, id: " + rpcResult.getName());
                 }
                 data.add(new TaskData(rpcResult));
             }
@@ -157,7 +153,7 @@ public class TasksFragment extends Fragment {
             Boolean found = false;
             TaskData listItem = iData.next();
             for(Result rpcResult : newData) {
-                if(listItem.id.equals(rpcResult.name)) {
+                if(listItem.id.equals(rpcResult.getName())) {
                     found = true;
                     break;
                 }
@@ -174,19 +170,19 @@ public class TasksFragment extends Fragment {
         public String id;
         public int nextState = -1;
         public int loopCounter = 0;
-        public int transistionTimeout; // amount of refresh, until transition times out
+        public int transitionTimeout; // amount of refresh, until transition times out
 
-        public TaskData(Result data) {
-            this.result = data;
+        public TaskData(Result result) {
+            this.result = result;
             this.expanded = false;
-            this.id = data.name;
-            this.transistionTimeout =
+            this.id = result.getName();
+            this.transitionTimeout =
                     getResources().getInteger(R.integer.tasks_transistion_timeout_number_monitor_loops);
         }
 
-        public void updateResultData(Result data) {
-            this.result = data;
-            Integer currentState = determineState();
+        public void updateResultData(Result result) {
+            this.result = result;
+            int currentState = determineState();
             if(nextState == -1) {
                 return;
             }
@@ -198,7 +194,7 @@ public class TasksFragment extends Fragment {
                 loopCounter = 0;
             }
             else {
-                if(loopCounter < transistionTimeout) {
+                if(loopCounter < transitionTimeout) {
                     if(Logging.DEBUG) {
                         Log.d(Logging.TAG,
                               "nextState not met yet! " + nextState + " vs " + currentState + " loopCounter: " +
@@ -224,11 +220,13 @@ public class TasksFragment extends Fragment {
                 switch(operation) {
                     case RpcClient.RESULT_SUSPEND:
                         nextState = BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
-                        new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                        new ResultOperationAsync().execute(result.getProjectURL(), result.getName(),
+                                                           operation.toString());
                         break;
                     case RpcClient.RESULT_RESUME:
                         nextState = BOINCDefs.PROCESS_EXECUTING;
-                        new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                        new ResultOperationAsync().execute(result.getProjectURL(), result.getName(),
+                                                           operation.toString());
                         break;
                     case RpcClient.RESULT_ABORT:
                         final Dialog dialog = new Dialog(getActivity());
@@ -239,11 +237,12 @@ public class TasksFragment extends Fragment {
                         TextView tvMessage = dialog.findViewById(R.id.message);
 
                         tvTitle.setText(R.string.confirm_abort_task_title);
-                        tvMessage.setText(getString(R.string.confirm_abort_task_message, result.name));
+                        tvMessage.setText(getString(R.string.confirm_abort_task_message, result.getName()));
                         confirm.setText(R.string.confirm_abort_task_confirm);
                         confirm.setOnClickListener(view1 -> {
                             nextState = BOINCDefs.RESULT_ABORTED;
-                            new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
+                            new ResultOperationAsync().execute(result.getProjectURL(), result.getName(),
+                                                               operation.toString());
                             dialog.dismiss();
                         });
                         Button cancel = dialog.findViewById(R.id.cancel);
@@ -265,26 +264,26 @@ public class TasksFragment extends Fragment {
         };
 
         public int determineState() {
-            if(result.suspended_via_gui) {
+            if(result.isSuspendedViaGUI()) {
                 return BOINCDefs.RESULT_SUSPENDED_VIA_GUI;
             }
-            if(result.project_suspended_via_gui) {
+            if(result.isProjectSuspendedViaGUI()) {
                 return BOINCDefs.RESULT_PROJECT_SUSPENDED;
             }
-            if(result.ready_to_report && result.state != BOINCDefs.RESULT_ABORTED &&
-               result.state != BOINCDefs.RESULT_COMPUTE_ERROR) {
+            if(result.isReadyToReport() && result.getState() != BOINCDefs.RESULT_ABORTED &&
+               result.getState() != BOINCDefs.RESULT_COMPUTE_ERROR) {
                 return BOINCDefs.RESULT_READY_TO_REPORT;
             }
-            if(result.active_task) {
-                return result.active_task_state;
+            if(result.isActiveTask()) {
+                return result.getActiveTaskState();
             }
             else {
-                return result.state;
+                return result.getState();
             }
         }
 
         public boolean isTaskActive() {
-            return result.active_task;
+            return result.isActiveTask();
         }
     }
 
