@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.rpc;
+package edu.berkeley.boinc.rpc
 
-public class DeviceStatusData {
-    public boolean on_ac_power = false;
-    public boolean on_usb_power = false; // not used
-    public int battery_charge_pct = 0;
-    public int battery_state = -1; //not used
-    public int battery_temperature_celsius = -1;
-    public boolean wifi_online = false;
-    public boolean user_active = true;
+class DeviceStatusData {
+    var isOnACPower = false
+    var isOnUSBPower = false // not used
+    var batteryChargePct = 0
+    var batteryState = -1 //not used
+    var batteryTemperatureCelsius = -1
+    var isWiFiOnline = false
+    var isUserActive = true
 }

@@ -1137,7 +1137,7 @@ public class Monitor extends Service {
         @Override
         public int getBatteryChargeStatus() throws RemoteException {
             try {
-                return getDeviceStatus().getStatus().battery_charge_pct;
+                return getDeviceStatus().getStatus().getBatteryChargePct();
             } catch (Exception e) {
                 if (Logging.ERROR)
                     Log.e(Logging.TAG, "Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);

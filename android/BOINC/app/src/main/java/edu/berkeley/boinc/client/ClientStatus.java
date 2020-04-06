@@ -585,10 +585,10 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = ctx.getString(R.string.suspend_battery_charging);
                             try {
-                                Double minCharge = prefs.getBatteryChargeMinPct();
-                                Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
+                                double minCharge = prefs.getBatteryChargeMinPct();
+                                int currentCharge = Monitor.getDeviceStatus().getStatus().getBatteryChargePct();
                                 statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
-                                               minCharge.intValue()
+                                               (int) minCharge
                                                + "% (" + ctx.getString(R.string.suspend_battery_charging_current) +
                                                " " + currentCharge + "%) "
                                                + ctx.getString(R.string.suspend_battery_charging_long2);
@@ -603,7 +603,7 @@ public class ClientStatus {
                             statusString = ctx.getString(R.string.suspend_battery_overheating);
                             break;
                         case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                            Boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+                            boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
                             if(suspendDueToScreenOn) {
                                 statusString = ctx.getString(R.string.suspend_screen_on);
                             }
