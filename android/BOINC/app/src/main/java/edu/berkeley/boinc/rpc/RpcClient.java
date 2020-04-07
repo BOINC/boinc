@@ -25,6 +25,8 @@ import android.util.Log;
 import android.util.Xml;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.ImmutableList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -968,17 +970,17 @@ public class RpcClient {
         }
     }
 
-    protected synchronized List<ProjectInfo> getAllProjectsList() {
+    protected synchronized ImmutableList<ProjectInfo> getAllProjectsList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
 
             sendRequest(mRequest.toString());
-            return ProjectInfoParser.parse(receiveReply());
+            return Lists.immutable.ofAll(ProjectInfoParser.parse(receiveReply()));
         } catch (IOException e) {
             if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getAllProjectsList()", e);
-            return Collections.emptyList();
+            return Lists.immutable.empty();
         }
     }
 

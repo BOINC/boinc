@@ -27,15 +27,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class ClientLogListAdapter extends ArrayAdapter<Message> {
-    private ArrayList<Message> entries;
+    private List<Message> entries;
     private Activity activity;
     /**
      * This member eliminates reallocation of a {@link Date} object in {@link #getDate(int)}.
@@ -51,7 +53,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         TextView tvProjectName;
     }
 
-    public ClientLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
+    public ClientLogListAdapter(Activity activity, ListView listView, int textViewResourceId, List<Message> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -89,16 +91,16 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         return entries.get(position).getProject();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View vi = convertView;
         ViewEventLog viewEventLog;
 
         // Only inflate a new view if the ListView does not already have a view assigned.
         if(convertView == null) {
-
-            vi =
-                    ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
+            vi = ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                    .inflate(R.layout.eventlog_client_listitem_layout, null);
 
             viewEventLog = new ViewEventLog();
             viewEventLog.tvMessage = vi.findViewById(R.id.msgs_message);
@@ -106,12 +108,9 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
             viewEventLog.tvProjectName = vi.findViewById(R.id.msgs_project);
 
             vi.setTag(viewEventLog);
-
         }
         else {
-
             viewEventLog = (ViewEventLog) vi.getTag();
-
         }
 
         // Populate UI Elements

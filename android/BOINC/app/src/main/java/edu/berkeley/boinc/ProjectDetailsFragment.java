@@ -18,11 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -35,9 +30,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -56,10 +48,20 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.RpcClient;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectDetailsFragment extends Fragment {
     private String url;
@@ -329,12 +331,8 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void getCurrentProjectData() {
         try {
-            ArrayList<Project> allProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
-            for(Project tmpP : allProjects) {
-                if(tmpP.getMasterURL().equals(url)) {
-                    this.project = tmpP;
-                }
-            }
+            ImmutableList<Project> allProjects = Lists.immutable.ofAll(BOINCActivity.monitor.getProjects());
+            this.project = allProjects.detect(tmpProject -> tmpProject.getMasterURL().equals(url));
             this.projectInfo = BOINCActivity.monitor.getProjectInfo(url);
         }
         catch(Exception e) {

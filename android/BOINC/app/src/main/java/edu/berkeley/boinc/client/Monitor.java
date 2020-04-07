@@ -1036,7 +1036,7 @@ public class Monitor extends Service {
 
         @Override
         public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
-            return clientInterface.transferOperation((ArrayList<Transfer>) list, op);
+            return clientInterface.transferOperation(list, op);
         }
 
         @Override

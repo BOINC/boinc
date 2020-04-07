@@ -1,16 +1,19 @@
 package edu.berkeley.boinc.client;
 
+import android.util.Log;
+
+import org.eclipse.collections.api.block.predicate.Predicate;
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.list.MutableList;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-
-import android.util.Log;
 
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountManager;
@@ -288,21 +291,6 @@ public class ClientInterfaceImplementation extends RpcClient {
     }
 
     /**
-     * Sets cc_config.xml entries and triggers activation in BOINC client.
-     * Used to set debug log flags.
-     *
-     * @param ccConfig string of all cc_config flags
-     */
-    public void setCcConfigAndActivate(String ccConfig) {
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "Monitor.setCcConfig: current cc_config: " + getCcConfig());
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "Monitor.setCcConfig: setting new cc_config: " + ccConfig);
-        setCcConfig(ccConfig);
-        readCcConfig();
-    }
-
-    /**
      * Runs transferOp for a list of given transfers.
      * E.g. batch pausing of transfers
      *
@@ -311,8 +299,8 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @return success
      */
 
-    public Boolean transferOperation(ArrayList<Transfer> transfers, int operation) {
-        Boolean success = true;
+    boolean transferOperation(List<Transfer> transfers, int operation) {
+        boolean success = true;
         for (Transfer transfer : transfers) {
             success = success && transferOp(operation, transfer.getProjectUrl(), transfer.getName());
             if (Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.getName() + " " +
@@ -516,25 +504,22 @@ public class ClientInterfaceImplementation extends RpcClient {
         // less than desired number of messsages available, adapt lower bound
         if (lowerBound < 0)
             lowerBound = 0;
-        List<Message> msgs = getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
+
+        // returns every message with seqNo > lowerBound
+        MutableList<Message> messages = Lists.mutable.ofAll(getMessages(lowerBound));
 
         if (seqNo > 0) {
             // remove messages that are >= seqNo
-            Iterator<Message> it = msgs.iterator();
-            while (it.hasNext()) {
-                Message tmp = it.next();
-                if (tmp.getSeqno() >= seqNo)
-                    it.remove();
-            }
+            messages.removeIf(message -> message.getSeqno() >= seqNo);
         }
 
-        if(!msgs.isEmpty() && Logging.DEBUG) {
-            Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
+        if(!messages.isEmpty() && Logging.DEBUG) {
+            Log.d(Logging.TAG, "getEventLogMessages: returning array with " + messages.size()
                                + " entries. for lowerBound: " + lowerBound + " at 0: "
-                               + msgs.get(0).getSeqno() + " at " + (msgs.size() - 1) + ": "
-                               + msgs.get(msgs.size() - 1).getSeqno());
+                               + messages.get(0).getSeqno() + " at " + (messages.size() - 1) + ": "
+                               + messages.getLast().getSeqno());
         }
-        return msgs;
+        return messages;
     }
 
     /**
@@ -549,39 +534,24 @@ public class ClientInterfaceImplementation extends RpcClient {
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
-        List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
-        List<Project> attachedProjects = getState().getProjects(); // currently attached projects
+        // currently attached projects
+        final ImmutableList<Project> attachedProjects = Lists.immutable.ofAll(getState().getProjects());
 
-        List<ProjectInfo> attachableProjects = new ArrayList<>(); // array to be filled and returned
+        // filter out projects that are already attached
+        final ImmutableList<ProjectInfo> filteredProjectsList = getAllProjectsList() // all_projects_list.xml
+                .select(candidate -> attachedProjects
+                        .noneSatisfy(attachedProject ->
+                                             attachedProject.getMasterURL().equals(candidate.getUrl())));
 
-        if (allProjectsList == null)
-            return Collections.emptyList();
-
-        //filter projects that do not support Android
-        for (ProjectInfo candidate : allProjectsList) {
-            // check whether already attached
-            boolean alreadyAttached = false;
-            for (Project attachedProject : attachedProjects) {
-                if (attachedProject.getMasterURL().equals(candidate.getUrl())) {
-                    alreadyAttached = true;
-                    break;
-                }
-            }
-            if (alreadyAttached)
-                continue;
-
-            // project is not yet attached, check whether it supports CPU architecture
-            for (String supportedPlatform : candidate.getPlatforms()) {
-                if (supportedPlatform.contains(boincPlatformName) ||
-                   (!boincAltPlatformName.isEmpty() && supportedPlatform.contains(boincAltPlatformName))) {
-                    // project is not yet attached and does support platform
-                    // add to list, if not already in it
-                    if (!attachableProjects.contains(candidate))
-                        attachableProjects.add(candidate);
-                    break;
-                }
-            }
-        }
+        final Predicate<String> supportedPlatformPredicate = supportedPlatform -> supportedPlatform.contains(boincPlatformName) ||
+                                                                                  (!boincAltPlatformName.isEmpty()
+                                                                                   && supportedPlatform.contains(boincAltPlatformName));
+        final List<ProjectInfo> attachableProjects = filteredProjectsList
+                //filter out projects that do not support Android
+                .select(candidate -> Lists.immutable.ofAll(candidate.getPlatforms())
+                                                    // project is not yet attached, check whether it supports CPU architecture
+                                                    .anySatisfy(supportedPlatformPredicate))
+                .distinct().toList();
 
         if (Logging.DEBUG)
             Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: "
@@ -604,14 +574,13 @@ public class ClientInterfaceImplementation extends RpcClient {
     }
 
     ProjectInfo getProjectInfo(String url) {
-        List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
-        for (ProjectInfo tmp : allProjectsList) {
-            if (tmp.getUrl().equals(url))
-                return tmp;
-        }
-        if (Logging.ERROR)
+        // all_projects_list.xml
+        ProjectInfo projectInfo = getAllProjectsList().detect(tmp -> tmp.getUrl().equals(url));
+
+        if (projectInfo == null && Logging.ERROR)
             Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
-        return null;
+
+        return projectInfo;
     }
 
     boolean setDomainName(String deviceName) {

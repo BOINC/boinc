@@ -26,13 +26,12 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -40,6 +39,16 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.impl.list.mutable.FastList;
+
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
@@ -52,11 +61,6 @@ import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class PrefsFragment extends Fragment {
     private static final String VALUE_LOG = " value: ";
 
@@ -64,7 +68,7 @@ public class PrefsFragment extends Fragment {
     private PrefsListAdapter listAdapter;
 
     // Data for the PrefsListAdapter. This is should be HashMap!
-    private ArrayList<PrefsListItemWrapper> data = new ArrayList<>();
+    private MutableList<PrefsListItemWrapper> data = new FastList<>();
     // Android specific preferences of the client, read on every onResume via RPC
     private GlobalPreferences clientPrefs = null;
     private HostInfo hostinfo = null;
@@ -240,8 +244,8 @@ public class PrefsFragment extends Fragment {
             }
         }
 
-        // CPU
         if(advanced) {
+            // CPU
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_cpu, true));
             if(hostinfo.getNoOfCPUs() > 1) {
                 data.add(new PrefsListItemWrapperNumber(getActivity(),
@@ -255,10 +259,8 @@ public class PrefsFragment extends Fragment {
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_cpu_other_load_suspension_header,
                                                     clientPrefs.getSuspendCpuUsage(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
-        }
 
-        // Storage
-        if(advanced) {
+            // Storage
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_storage, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_max_pct_header,
                                                     clientPrefs.getDiskMaxUsedPct(),
@@ -269,20 +271,16 @@ public class PrefsFragment extends Fragment {
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_access_interval_header,
                                                     clientPrefs.getDiskInterval(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
-        }
 
-        // Memory
-        if(advanced) {
+            // Memory
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_memory,
                                               true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_memory_max_idle_header,
                                                     clientPrefs.getRamMaxUsedIdleFrac(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
-        }
 
-        // Other
-        if(advanced) {
+            // Other
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_other, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_other_store_at_least_x_days_of_work_header,
@@ -292,10 +290,8 @@ public class PrefsFragment extends Fragment {
                                                     R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header,
                                                     clientPrefs.getWorkBufAdditionalDays(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
-        }
 
-        // Debug
-        if(advanced) {
+            // Debug
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_debug,
                                               true));
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_client_log_flags_header));
@@ -318,11 +314,9 @@ public class PrefsFragment extends Fragment {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "updateBoolPreference for ID: " + ID + VALUE_LOG + newValue);
         }
-        for(PrefsListItemWrapper item : data) {
-            if(item.getId() == ID) {
-                ((PrefsListItemWrapperBool) item).setStatus(newValue);
-                break; // The preferences updated one by one.
-            }
+        PrefsListItemWrapper itemWrapper = data.detect(item -> item.getId() == ID);
+        if(itemWrapper != null) {
+            ((PrefsListItemWrapperBool) itemWrapper).setStatus(newValue);
         }
     }
 
@@ -332,11 +326,9 @@ public class PrefsFragment extends Fragment {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "updateNumberPreference for ID: " + ID + VALUE_LOG + newValue);
         }
-        for(PrefsListItemWrapper item : data) {
-            if(item.getId() == ID) {
-                ((PrefsListItemWrapperNumber) item).setStatus(newValue);
-                break; // The preferences updated one by one.
-            }
+        PrefsListItemWrapper itemWrapper = data.detect(item -> item.getId() == ID);
+        if(itemWrapper != null) {
+            ((PrefsListItemWrapperNumber) itemWrapper).setStatus(newValue);
         }
     }
 
@@ -345,11 +337,9 @@ public class PrefsFragment extends Fragment {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "updateTextPreference for ID: " + ID + VALUE_LOG + newValue);
         }
-        for(PrefsListItemWrapper item : data) {
-            if(item.getId() == ID) {
-                ((PrefsListItemWrapperText) item).setStatus(newValue);
-                break; // The preferences updated one by one.
-            }
+        PrefsListItemWrapper itemWrapper = data.detect(item -> item.getId() == ID);
+        if(itemWrapper != null) {
+            ((PrefsListItemWrapperText) itemWrapper).setStatus(newValue);
         }
     }
 
@@ -447,23 +437,17 @@ public class PrefsFragment extends Fragment {
         dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 
         if(item.getId() == R.string.prefs_client_log_flags_header) {
-            final ArrayList<SelectionDialogOption> options = new ArrayList<>();
-            String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
-            for(String option : array) {
-                options.add(new SelectionDialogOption(option));
-            }
+            String[] optionsStr = getResources().getStringArray(R.array.prefs_client_log_flags);
+            final MutableList<SelectionDialogOption> options =
+                    Lists.mutable.of(optionsStr).collect(SelectionDialogOption::new);
             ListView lv = dialog.findViewById(R.id.selection);
             new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 
             // Setup confirm button action
             Button confirm = dialog.findViewById(R.id.confirm);
             confirm.setOnClickListener(view -> {
-                List<String> selectedOptions = new ArrayList<>();
-                for(SelectionDialogOption option : options) {
-                    if(option.isSelected()) {
-                        selectedOptions.add(option.getName());
-                    }
-                }
+                List<String> selectedOptions = options.select(SelectionDialogOption::isSelected)
+                                                      .collect(SelectionDialogOption::getName);
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, selectedOptions.size() + " log flags selected");
                 }
@@ -754,7 +738,6 @@ public class PrefsFragment extends Fragment {
                 }
             }
         }
-
     }
 
     public class ValueOnClick implements OnClickListener {
@@ -778,11 +761,11 @@ public class PrefsFragment extends Fragment {
                     setupDialogButtons(item, dialog);
                     break;
                 case R.string.prefs_network_daily_xfer_limit_mb_header:
-                case R.string.battery_temperature_max_header:
-                case R.string.prefs_disk_min_free_gb_header:
-                case R.string.prefs_disk_access_interval_header:
-                case R.string.prefs_other_store_at_least_x_days_of_work_header:
                 case R.string.prefs_other_store_up_to_an_additional_x_days_of_work_header:
+                case R.string.prefs_other_store_at_least_x_days_of_work_header:
+                case R.string.prefs_disk_access_interval_header:
+                case R.string.prefs_disk_min_free_gb_header:
+                case R.string.battery_temperature_max_header:
                     dialog.setContentView(R.layout.prefs_layout_dialog_number);
                     ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     setupDialogButtons(item, dialog);
@@ -799,12 +782,6 @@ public class PrefsFragment extends Fragment {
                     }
                     break;
                 case R.string.battery_charge_min_pct_header:
-                case R.string.prefs_cpu_number_cpus_header:
-                case R.string.prefs_cpu_time_max_header:
-                case R.string.prefs_cpu_other_load_suspension_header:
-                case R.string.prefs_disk_max_pct_header:
-                case R.string.prefs_memory_max_idle_header:
-                case R.string.prefs_gui_log_level_header:
                     setupSliderDialog(item, dialog);
                     ((TextView) dialog.findViewById(R.id.pref)).setText(item.getId());
                     break;
