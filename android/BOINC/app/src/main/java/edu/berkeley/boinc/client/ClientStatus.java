@@ -18,18 +18,6 @@
  */
 package edu.berkeley.boinc.client;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -41,24 +29,44 @@ import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.list.MutableList;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
-import edu.berkeley.boinc.rpc.HostInfo;
-import edu.berkeley.boinc.utils.*;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 
 /*
  * Singleton that holds the client status data, as determined by the Monitor.
  * To get instance call Monitor.getClientStatus()
  */
 public class ClientStatus {
-
     private Context ctx; // application context in order to fire broadcast events
 
     // CPU WakeLock
@@ -68,8 +76,8 @@ public class ClientStatus {
 
     //RPC wrapper
     private CcStatus status;
-    private List<Result> results;
-    private List<Project> projects;
+    private MutableList<Result> results;
+    private MutableList<Project> projects;
     private List<Transfer> transfers;
     private GlobalPreferences prefs;
     private HostInfo hostinfo;
@@ -211,10 +219,10 @@ public class ClientStatus {
     /*
      * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
      */
-    public synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
+    synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
         this.status = status;
-        this.results = results;
-        this.projects = projects;
+        this.results = Lists.mutable.ofAll(results);
+        this.projects = Lists.mutable.ofAll(projects);
         this.transfers = transfers;
         this.hostinfo = hostinfo;
         this.acctMgrInfo = acctMgrInfo;
@@ -285,7 +293,7 @@ public class ClientStatus {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "state is null");
             }
-            return null;
+            return Collections.emptyList();
         }
         return results;
     }
@@ -295,7 +303,7 @@ public class ClientStatus {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "transfers is null");
             }
-            return null;
+            return Collections.emptyList();
         }
         return transfers;
     }
@@ -315,18 +323,16 @@ public class ClientStatus {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "getProject() state is null");
             }
-            return null;
+            return Collections.emptyList();
         }
         return projects;
     }
 
-    public synchronized String getProjectStatus(String master_url) {
+    synchronized String getProjectStatus(String masterURL) {
         StringBuffer sb = new StringBuffer();
-        for(Project project : projects) {
-            if(!project.getMasterURL().equals(master_url)) {
-                continue;
-            }
-
+        final ImmutableList<Project> filteredProjects = projects
+                .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
+        for(Project project : filteredProjects) {
             if(project.getSuspendedViaGUI()) {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
             }
@@ -391,31 +397,26 @@ public class ClientStatus {
     // returns all slideshow images for given project
     // images: 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
     // not aware of application!
-    public synchronized List<ImageWrapper> getSlideshowForProject(String masterUrl) {
+    synchronized List<ImageWrapper> getSlideshowForProject(String masterURL) {
         List<ImageWrapper> images = new ArrayList<>();
-        for(Project project : projects) {
-            if(!project.getMasterURL().equals(masterUrl)) {
-                continue;
-            }
+        final ImmutableList<Project> filteredProjects = projects
+                .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
+        for(Project project : filteredProjects) {
             // get file paths of soft link files
             File dir = new File(project.getProjectDir());
-            File[] foundFiles = dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
-                                                              && !name.endsWith(".png"));
-            if(foundFiles == null) {
-                continue; // prevent NPE
-            }
 
-            List<String> allImagePaths = new ArrayList<>();
-            for(File file : foundFiles) {
-                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(),
-                                                                   project.getProjectDir());
-                //check whether path is not empty, and avoid duplicates (slideshow images can
-                //re-occur for multiple apps, since we do not distinct apps, skip duplicates.
-                if(slideshowImagePath != null && !slideshowImagePath.isEmpty() &&
-                   !allImagePaths.contains(slideshowImagePath)) {
-                    allImagePaths.add(slideshowImagePath);
-                }
-            }
+            // prevent NPE
+            File[] foundFiles = ArrayUtils.nullToEmpty(dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
+                                                                                     && !name.endsWith(".png")),
+                                                       File[].class);
+
+            // check whether path is not empty, and avoid duplicates (slideshow images can
+            // re-occur for multiple apps. Since we do not distinguish between apps, skip
+            // duplicates.
+            ImmutableList<String> allImagePaths = Lists.immutable.of(foundFiles)
+                                                      .collect(file -> parseSoftLinkToAbsPath(file.getAbsolutePath(),
+                                                                                              project.getProjectDir()))
+                                                      .select(StringUtils::isNotEmpty).distinct();
 
             // load images from paths
             for(String filePath : allImagePaths) {
@@ -433,27 +434,27 @@ public class ClientStatus {
 
     // returns project icon for given master url
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
-    public synchronized Bitmap getProjectIcon(String masterUrl) {
+    public synchronized Bitmap getProjectIcon(String masterURL) {
         if(Logging.VERBOSE) {
-            Log.v(Logging.TAG, "getProjectIcon for: " + masterUrl);
+            Log.v(Logging.TAG, "getProjectIcon for: " + masterURL);
         }
         try {
-            // loop through all projects
-            for(Project project : projects) {
-                if(project.getMasterURL().equals(masterUrl)) {
-                    // read file name of icon
-                    String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
-                                                   project.getProjectDir());
-                    if(iconAbsPath == null) {
-                        if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
-                                               masterUrl);
-                        }
-                        return null;
+            final ImmutableList<Project> filteredProjects = projects
+                    .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
+            // loop through filtered projects
+            for(Project project : filteredProjects) {
+                // read file name of icon
+                String iconAbsPath =
+                        parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                               project.getProjectDir());
+                if(iconAbsPath == null) {
+                    if(Logging.VERBOSE) {
+                        Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
+                                           masterURL);
                     }
-                    return BitmapFactory.decodeFile(iconAbsPath);
+                    return null;
                 }
+                return BitmapFactory.decodeFile(iconAbsPath);
             }
         }
         catch(Exception e) {
@@ -474,23 +475,23 @@ public class ClientStatus {
             Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
         }
         try {
-            // loop through all projects
-            for(Project project : projects) {
-                if(project.getProjectName().equals(projectName)) {
-                    // read file name of icon
-                    String iconAbsPath =
-                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
-                                                   project.getProjectDir());
-                    if(iconAbsPath == null) {
-                        if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG,
-                                  "getProjectIconByName could not parse sym link for project: " +
-                                  projectName);
-                        }
-                        return null;
+            final ImmutableList<Project> filteredProjects = projects
+                    .select(project -> project.getProjectName().equals(projectName)).toImmutable();
+            // loop through filtered projects
+            for(Project project : filteredProjects) {
+                // read file name of icon
+                String iconAbsPath =
+                        parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                               project.getProjectDir());
+                if(iconAbsPath == null) {
+                    if(Logging.VERBOSE) {
+                        Log.v(Logging.TAG,
+                              "getProjectIconByName could not parse sym link for project: " +
+                              projectName);
                     }
-                    return BitmapFactory.decodeFile(iconAbsPath);
+                    return null;
                 }
+                return BitmapFactory.decodeFile(iconAbsPath);
             }
         }
         catch(Exception e) {
@@ -505,13 +506,8 @@ public class ClientStatus {
     }
 
     List<Result> getExecutingTasks() {
-        List<Result> activeTasks = new ArrayList<>();
-        for(Result tmp : results) {
-            if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
-                activeTasks.add(tmp);
-            }
-        }
-        return activeTasks;
+        return results.select(Result::isActiveTask)
+                      .select(result -> result.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING);
     }
 
     public String getCurrentStatusTitle() {
@@ -715,12 +711,8 @@ public class ClientStatus {
                 //figure out whether we have an active task
                 boolean activeTask = false;
                 if(results != null) {
-                    for(Result task : results) {
-                        if(task.isActiveTask()) { // this result has corresponding "active task" in RPC XML
-                            activeTask = true;
-                            break; // amount of active tasks does not matter.
-                        }
-                    }
+                    // this result has corresponding "active task" in RPC XML
+                    activeTask = results.anySatisfy(Result::isActiveTask);
                 }
 
                 if(activeTask) { // client is currently computing
