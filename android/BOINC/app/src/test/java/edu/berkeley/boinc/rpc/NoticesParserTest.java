@@ -26,18 +26,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Xml.class, Log.class})
+@PrepareForTest({Log.class, Xml.class})
 public class NoticesParserTest {
     private NoticesParser noticesParser;
     private Notice expected;
@@ -58,6 +61,16 @@ public class NoticesParserTest {
     @Test
     public void testParse_whenRpcStringIsEmpty_thenExpectEmptyList() {
         mockStatic(Xml.class);
+
+        assertTrue(NoticesParser.parse("").isEmpty());
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
+        mockStatic(Log.class);
+        mockStatic(Xml.class);
+
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 
         assertTrue(NoticesParser.parse("").isEmpty());
     }
