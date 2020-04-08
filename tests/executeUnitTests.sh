@@ -80,5 +80,7 @@ if [ "${report}" = "yes" ]; then
     #for T in lib sched; do
     #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     #done
+    find -iname '*.gcno'
+    find -iname '*.gcda'
     bash <(curl -s https://raw.githubusercontent.com/AenBleidd/codecov-bash/vko_fix_gcov/codecov)
 fi
