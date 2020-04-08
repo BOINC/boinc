@@ -25,11 +25,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -65,6 +70,15 @@ public class CcStateParserTest {
         mockStatic(Xml.class);
 
         assertEquals(expected, CcStateParser.parse(""));
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrown_thenExpectNull() throws Exception {
+        mockStatic(Xml.class);
+
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
+
+        assertNull(CcStateParser.parse(""));
     }
 
     @Test
