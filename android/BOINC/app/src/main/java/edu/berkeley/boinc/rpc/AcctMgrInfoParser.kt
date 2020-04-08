@@ -87,7 +87,7 @@ class AcctMgrInfoParser : BaseParser() {
                 parser.accountMgrInfo
             } catch (e: SAXException) {
                 if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformated XML")
+                    Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformatted XML")
                 }
                 null
             }

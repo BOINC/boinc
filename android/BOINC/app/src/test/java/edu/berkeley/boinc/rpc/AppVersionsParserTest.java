@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import java.util.Arrays;
@@ -33,6 +34,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -53,7 +57,16 @@ public class AppVersionsParserTest {
     public void testParse_whenRpcStringIsNull_thenExpectEmptyList() {
         mockStatic(Xml.class);
 
-        assertEquals(Collections.emptyList(), AppVersionsParser.parse(null));
+        assertTrue(AppVersionsParser.parse(null).isEmpty());
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
+        mockStatic(Xml.class);
+
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
+
+        assertTrue(AppVersionsParser.parse("").isEmpty());
     }
 
     @Test

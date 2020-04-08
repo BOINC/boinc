@@ -25,9 +25,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -58,6 +62,15 @@ public class SimpleReplyParserTest {
 
         assertNotNull(result);
         assertFalse(result.getResult());
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrown_thenExpectNull() throws Exception {
+        mockStatic(Xml.class);
+
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
+
+        assertNull(SimpleReplyParser.parse(""));
     }
 
     @Test
