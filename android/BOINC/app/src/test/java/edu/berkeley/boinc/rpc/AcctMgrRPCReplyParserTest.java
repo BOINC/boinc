@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -25,15 +26,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import edu.berkeley.boinc.utils.Logging;
 import kotlin.UninitializedPropertyAccessException;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class AcctMgrRPCReplyParserTest {
     private static final String MESSAGE = "Message";
 
@@ -58,6 +64,28 @@ public class AcctMgrRPCReplyParserTest {
         mockStatic(Xml.class);
 
         AcctMgrRPCReplyParser.parse("");
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrownAndLogLevelIs1_thenExpectNull() throws Exception {
+        mockStatic(Log.class);
+        mockStatic(Xml.class);
+
+        Logging.setLogLevel(1);
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
+
+        assertNull(AcctMgrRPCReplyParser.parse(""));
+    }
+
+    @Test
+    public void testParse_whenSAXExceptionIsThrownAndLogLevelIs2_thenExpectNull() throws Exception {
+        mockStatic(Log.class);
+        mockStatic(Xml.class);
+
+        Logging.setLogLevel(2);
+        doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
+
+        assertNull(AcctMgrRPCReplyParser.parse(""));
     }
 
     @Test
@@ -94,6 +122,8 @@ public class AcctMgrRPCReplyParserTest {
     @Test
     public void testParser_whenXmlAccountManagerRPCReplyWithInvalidErrorNum_thenExpectDefaultEntity()
             throws SAXException {
+        mockStatic(Log.class);
+
         acctMgrRPCReplyParser.startElement(null, AcctMgrRPCReplyParser.ACCT_MGR_RPC_REPLY_TAG, null, null);
         acctMgrRPCReplyParser.startElement(null, RPCCommonTags.ERROR_NUM, null, null);
         acctMgrRPCReplyParser.characters("One".toCharArray(), 0, 3);
