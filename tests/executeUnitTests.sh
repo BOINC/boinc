@@ -80,5 +80,5 @@ if [ "${report}" = "yes" ]; then
     #for T in lib sched; do
     #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     #done
-    bash <(curl -s https://codecov.io/bash) -G db -G lib -G sched
+    bash <(curl -s https://github.com/AenBleidd/codecov-bash/blob/vko_fix_gcov/codecov)
 fi
