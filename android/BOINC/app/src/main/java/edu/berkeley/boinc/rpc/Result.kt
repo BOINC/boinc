@@ -89,18 +89,32 @@ data class Result(
             parcel.readValue(AppVersion::class.java.classLoader) as AppVersion?,
             parcel.readValue(App::class.java.classLoader) as App?,
             parcel.readValue(WorkUnit::class.java.classLoader) as WorkUnit?) {
-        val bArray = parcel.createBooleanArray()!!
-        isReadyToReport = bArray[0]
-        gotServerAck = bArray[1]
-        isSuspendedViaGUI = bArray[2]
-        isProjectSuspendedViaGUI = bArray[3]
-        isCoprocMissing = bArray[4]
-        gpuMemWait = bArray[5]
-        isActiveTask = bArray[6]
-        supportsGraphics = bArray[7]
-        isTooLarge = bArray[8]
-        needsShmem = bArray[9]
-        isEdfScheduled = bArray[10]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            val bArray = parcel.createBooleanArray()!!
+            isReadyToReport = bArray[0]
+            gotServerAck = bArray[1]
+            isSuspendedViaGUI = bArray[2]
+            isProjectSuspendedViaGUI = bArray[3]
+            isCoprocMissing = bArray[4]
+            gpuMemWait = bArray[5]
+            isActiveTask = bArray[6]
+            supportsGraphics = bArray[7]
+            isTooLarge = bArray[8]
+            needsShmem = bArray[9]
+            isEdfScheduled = bArray[10]
+        } else {
+            isReadyToReport = parcel.readBoolean()
+            gotServerAck = parcel.readBoolean()
+            isSuspendedViaGUI = parcel.readBoolean()
+            isProjectSuspendedViaGUI = parcel.readBoolean()
+            isCoprocMissing = parcel.readBoolean()
+            gpuMemWait = parcel.readBoolean()
+            isActiveTask = parcel.readBoolean()
+            supportsGraphics = parcel.readBoolean()
+            isTooLarge = parcel.readBoolean()
+            needsShmem = parcel.readBoolean()
+            isEdfScheduled = parcel.readBoolean()
+        }
     }
 
     override fun describeContents() = 0
@@ -140,30 +154,21 @@ data class Result(
         dest.writeValue(app)
         dest.writeValue(workUnit)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val bArray: BooleanArray = dest.createBooleanArray()!!
-            isReadyToReport = bArray[0]
-            gotServerAck = bArray[1]
-            isSuspendedViaGUI = bArray[2]
-            isProjectSuspendedViaGUI = bArray[3]
-            isCoprocMissing = bArray[4]
-            gpuMemWait = bArray[5]
-            isActiveTask = bArray[6]
-            supportsGraphics = bArray[7]
-            isTooLarge = bArray[8]
-            needsShmem = bArray[9]
-            isEdfScheduled = bArray[10]
+            dest.writeBooleanArray(booleanArrayOf(isReadyToReport, gotServerAck, isSuspendedViaGUI,
+                    isProjectSuspendedViaGUI, isCoprocMissing, gpuMemWait, isActiveTask, supportsGraphics,
+                    isTooLarge, needsShmem, isEdfScheduled))
         } else {
-            isReadyToReport = dest.readBoolean()
-            gotServerAck = dest.readBoolean()
-            isSuspendedViaGUI = dest.readBoolean()
-            isProjectSuspendedViaGUI = dest.readBoolean()
-            isCoprocMissing = dest.readBoolean()
-            gpuMemWait = dest.readBoolean()
-            isActiveTask = dest.readBoolean()
-            supportsGraphics = dest.readBoolean()
-            isTooLarge = dest.readBoolean()
-            needsShmem = dest.readBoolean()
-            isEdfScheduled = dest.readBoolean()
+            dest.writeBoolean(isReadyToReport)
+            dest.writeBoolean(gotServerAck)
+            dest.writeBoolean(isSuspendedViaGUI)
+            dest.writeBoolean(isProjectSuspendedViaGUI)
+            dest.writeBoolean(isCoprocMissing)
+            dest.writeBoolean(gpuMemWait)
+            dest.writeBoolean(isActiveTask)
+            dest.writeBoolean(supportsGraphics)
+            dest.writeBoolean(isTooLarge)
+            dest.writeBoolean(needsShmem)
+            dest.writeBoolean(isEdfScheduled)
         }
     }
 
