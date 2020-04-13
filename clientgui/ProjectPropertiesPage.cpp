@@ -420,19 +420,29 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             if (
                 !iReturnValue
                 && (!pc->error_num || pc->error_num == ERR_ACCT_CREATION_DISABLED)
-            ) {
-                // We either successfully retrieved the project's
-                // account creation policies or we were able to talk
-                // to the web server and found out they do not support
-                // account creation through the wizard.
-                // In either case, claim success and set the correct flags
-                // to show the correct 'next' page.
-                //
-                SetProjectPropertiesSucceeded(true);
-                SetProjectAccountCreationDisabled(pc->account_creation_disabled);
-                SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
-                SetTermsOfUseRequired(!pc->terms_of_use.empty());
-
+                ) {
+                if (pc->account_manager) {
+                    // user tried to attach an account manager as a project
+                    //
+                    SetProjectPropertiesSucceeded(false);
+                    SetServerReportedError(true);
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer += wxString(pc->name);
+                    strBuffer += wxString(wxT(" is an account manager, not a project.\nSelect Tools / Use account manager.\n"));
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                } else {
+                    // We either successfully retrieved the project's
+                    // account creation policies or we were able to talk
+                    // to the web server and found out they do not support
+                    // account creation through the wizard.
+                    // In either case, claim success and set the correct flags
+                    // to show the correct 'next' page.
+                    //
+                    SetProjectPropertiesSucceeded(true);
+                    SetProjectAccountCreationDisabled(pc->account_creation_disabled);
+                    SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
+                    SetTermsOfUseRequired(!pc->terms_of_use.empty());
+                }
             } else {
 
                 SetProjectPropertiesSucceeded(false);
