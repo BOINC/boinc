@@ -51,7 +51,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ImmutableList;
 
 import java.util.ArrayList;
@@ -61,6 +60,7 @@ import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.RpcClient;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectDetailsFragment extends Fragment {
@@ -331,7 +331,7 @@ public class ProjectDetailsFragment extends Fragment {
 
     private void getCurrentProjectData() {
         try {
-            ImmutableList<Project> allProjects = Lists.immutable.ofAll(BOINCActivity.monitor.getProjects());
+            ImmutableList<Project> allProjects = ECLists.immutable.ofAll(BOINCActivity.monitor.getProjects());
             this.project = allProjects.detect(tmpProject -> tmpProject.getMasterURL().equals(url));
             this.projectInfo = BOINCActivity.monitor.getProjectInfo(url);
         }
