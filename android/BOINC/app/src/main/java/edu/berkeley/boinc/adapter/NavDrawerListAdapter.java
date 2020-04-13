@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 
 import java.text.NumberFormat;
@@ -39,6 +38,7 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
@@ -51,7 +51,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         this.context = context;
 
         // populate items
-        navDrawerItems = Lists.mutable.of(
+        navDrawerItems = ECLists.mutable.of(
                 new NavDrawerItem(this, R.string.tab_tasks, R.drawable.tabtaskb, true),
                 new NavDrawerItem(this, R.string.tab_notices, R.drawable.mailb, true),
                 new NavDrawerItem(this, R.string.tab_projects, R.drawable.projectsb),

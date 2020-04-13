@@ -43,7 +43,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
@@ -60,6 +59,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCErrors;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectsFragment extends Fragment {
@@ -237,7 +237,7 @@ public class ProjectsFragment extends Fragment {
                 continue;
             }
             boolean found =
-                    Lists.immutable.ofAll(latestRpcProjectsList).anySatisfy(project -> project.getMasterURL().equals(listItem.id));
+                    ECLists.immutable.ofAll(latestRpcProjectsList).anySatisfy(project -> project.getMasterURL().equals(listItem.id));
             if(!found) {
                 iData.remove();
             }
@@ -275,7 +275,7 @@ public class ProjectsFragment extends Fragment {
     private List<Transfer> mapTransfersToProject(String id, List<Transfer> allTransfers) {
         // if project ID matches URL in transfer, add to list
         List<Transfer> projectTransfers =
-                Lists.mutable.ofAll(allTransfers).select(transfer -> transfer.getProjectUrl().equals(id));
+                ECLists.mutable.ofAll(allTransfers).select(transfer -> transfer.getProjectUrl().equals(id));
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() +
                                " transfers to project " + id);

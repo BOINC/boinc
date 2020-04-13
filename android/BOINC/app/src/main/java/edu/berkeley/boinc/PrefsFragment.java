@@ -42,7 +42,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
@@ -59,6 +58,7 @@ import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
 import edu.berkeley.boinc.adapter.SelectionDialogOption;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsFragment extends Fragment {
@@ -67,7 +67,7 @@ public class PrefsFragment extends Fragment {
     private ListView lv;
     private PrefsListAdapter listAdapter;
 
-    // Data for the PrefsListAdapter. This is should be HashMap!
+    // Data for the PrefsListAdapter. This should be HashMap!
     private MutableList<PrefsListItemWrapper> data = new FastList<>();
     // Android specific preferences of the client, read on every onResume via RPC
     private GlobalPreferences clientPrefs = null;
@@ -439,7 +439,7 @@ public class PrefsFragment extends Fragment {
         if(item.getId() == R.string.prefs_client_log_flags_header) {
             String[] optionsStr = getResources().getStringArray(R.array.prefs_client_log_flags);
             final MutableList<SelectionDialogOption> options =
-                    Lists.mutable.of(optionsStr).collect(SelectionDialogOption::new);
+                    ECLists.mutable.of(optionsStr).collect(SelectionDialogOption::new);
             ListView lv = dialog.findViewById(R.id.selection);
             new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
 

@@ -3,7 +3,6 @@ package edu.berkeley.boinc.client;
 import android.util.Log;
 
 import org.eclipse.collections.api.block.predicate.Predicate;
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
 
@@ -12,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -28,6 +26,7 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCErrors;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 /**
@@ -506,7 +505,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             lowerBound = 0;
 
         // returns every message with seqNo > lowerBound
-        MutableList<Message> messages = Lists.mutable.ofAll(getMessages(lowerBound));
+        MutableList<Message> messages = ECLists.mutable.ofAll(getMessages(lowerBound));
 
         if (seqNo > 0) {
             // remove messages that are >= seqNo
@@ -535,7 +534,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
         // currently attached projects
-        final ImmutableList<Project> attachedProjects = Lists.immutable.ofAll(getState().getProjects());
+        final ImmutableList<Project> attachedProjects = ECLists.immutable.ofAll(getState().getProjects());
 
         // filter out projects that are already attached
         final ImmutableList<ProjectInfo> filteredProjectsList = getAllProjectsList() // all_projects_list.xml
@@ -548,9 +547,9 @@ public class ClientInterfaceImplementation extends RpcClient {
                                                                                    && supportedPlatform.contains(boincAltPlatformName));
         final List<ProjectInfo> attachableProjects = filteredProjectsList
                 //filter out projects that do not support Android
-                .select(candidate -> Lists.immutable.ofAll(candidate.getPlatforms())
-                                                    // project is not yet attached, check whether it supports CPU architecture
-                                                    .anySatisfy(supportedPlatformPredicate))
+                .select(candidate -> ECLists.immutable.ofAll(candidate.getPlatforms())
+                                                      // project is not yet attached, check whether it supports CPU architecture
+                                                      .anySatisfy(supportedPlatformPredicate))
                 .distinct().toList();
 
         if (Logging.DEBUG)

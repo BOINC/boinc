@@ -39,7 +39,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
@@ -49,6 +48,7 @@ import edu.berkeley.boinc.adapter.TasksListAdapter;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class TasksFragment extends Fragment {
@@ -143,8 +143,8 @@ public class TasksFragment extends Fragment {
         }
 
         //loop through the list adapter to find removed (ready/aborted) Results
-        data.removeIf(listItem -> Lists.immutable.ofAll(newData)
-                                                 .noneSatisfy(rpcResult -> listItem.id.equals(rpcResult.getName())));
+        data.removeIf(listItem -> ECLists.immutable.ofAll(newData)
+                                                   .noneSatisfy(rpcResult -> listItem.id.equals(rpcResult.getName())));
     }
 
     public class TaskData {

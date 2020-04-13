@@ -31,7 +31,6 @@ import android.util.Log;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
 
@@ -60,6 +59,7 @@ import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 /*
@@ -221,8 +221,8 @@ public class ClientStatus {
      */
     synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
         this.status = status;
-        this.results = Lists.mutable.ofAll(results);
-        this.projects = Lists.mutable.ofAll(projects);
+        this.results = ECLists.mutable.ofAll(results);
+        this.projects = ECLists.mutable.ofAll(projects);
         this.transfers = transfers;
         this.hostinfo = hostinfo;
         this.acctMgrInfo = acctMgrInfo;
@@ -413,7 +413,7 @@ public class ClientStatus {
             // check whether path is not empty, and avoid duplicates (slideshow images can
             // re-occur for multiple apps. Since we do not distinguish between apps, skip
             // duplicates.
-            ImmutableList<String> allImagePaths = Lists.immutable.of(foundFiles)
+            ImmutableList<String> allImagePaths = ECLists.immutable.of(foundFiles)
                                                       .collect(file -> parseSoftLinkToAbsPath(file.getAbsolutePath(),
                                                                                               project.getProjectDir()))
                                                       .select(StringUtils::isNotEmpty).distinct();

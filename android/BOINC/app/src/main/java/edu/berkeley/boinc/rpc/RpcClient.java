@@ -25,7 +25,6 @@ import android.util.Log;
 import android.util.Xml;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -43,6 +42,7 @@ import java.util.Locale;
 
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
@@ -976,11 +976,11 @@ public class RpcClient {
             mRequest.append("<get_all_projects_list/>");
 
             sendRequest(mRequest.toString());
-            return Lists.immutable.ofAll(ProjectInfoParser.parse(receiveReply()));
+            return ECLists.immutable.ofAll(ProjectInfoParser.parse(receiveReply()));
         } catch (IOException e) {
             if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getAllProjectsList()", e);
-            return Lists.immutable.empty();
+            return ECLists.immutable.empty();
         }
     }
 
