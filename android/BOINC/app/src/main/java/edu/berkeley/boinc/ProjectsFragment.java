@@ -43,6 +43,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
@@ -353,7 +354,7 @@ public class ProjectsFragment extends Fragment {
                 ((TextView) dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
 
                 controls.add(new ProjectControl(listEntry, ProjectControl.VISIT_WEBSITE));
-                if(projectTransfers != null && !projectTransfers.isEmpty()) {
+                if(ObjectUtils.isNotEmpty(projectTransfers)) {
                     controls.add(new ProjectControl(listEntry, RpcClient.TRANSFER_RETRY));
                 }
                 controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));

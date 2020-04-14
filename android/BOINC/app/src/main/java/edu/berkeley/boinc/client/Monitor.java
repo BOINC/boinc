@@ -18,24 +18,6 @@
  */
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.rpc.AccountManager;
-import edu.berkeley.boinc.utils.*;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -49,10 +31,29 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.mutex.BoincMutex;
 import edu.berkeley.boinc.rpc.AccountIn;
+import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
@@ -65,7 +66,9 @@ import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
-import edu.berkeley.boinc.rpc.AcctMgrInfo;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.ErrorCodeDescription;
+import edu.berkeley.boinc.utils.Logging;
 
 /**
  * Main Service of BOINC on Android
@@ -275,16 +278,6 @@ public class Monitor extends Service {
 // public methods for Activities
 
     /**
-     * Indicates whether service was able to obtain BOINC mutex.
-     * If not, BOINC has not started and all other calls will fail.
-     *
-     * @return BOINC mutex acquisition successful
-     */
-    public boolean boincMutexAcquired() {
-        return mutex.acquired;
-    }
-
-    /**
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
     public void forceRefresh() {
@@ -306,13 +299,15 @@ public class Monitor extends Service {
     public int getBoincPlatform() {
         int platformId;
         String arch = System.getProperty("os.arch");
-        String normalizedArch = arch.toUpperCase(Locale.US);
-        if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
-        else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
-        else if (normalizedArch.contains("X86_64"))
+        String normalizedArch = StringUtils.upperCase(arch, Locale.US);
+        if (StringUtils.containsAny(normalizedArch, "ARM64", "AARCH64"))
+            platformId = R.string.boinc_platform_name_arm64;
+        else if (StringUtils.contains(normalizedArch, "X86_64"))
             platformId = R.string.boinc_platform_name_x86_64;
-        else if (normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
-        else if (normalizedArch.contains("86")) platformId = R.string.boinc_platform_name_x86;
+        else if (StringUtils.contains(normalizedArch, "ARM"))
+            platformId = R.string.boinc_platform_name_arm;
+        else if (StringUtils.contains(normalizedArch, "86"))
+            platformId = R.string.boinc_platform_name_x86;
         else {
             if (Logging.ERROR)
                 Log.w(Logging.TAG, "could not map os.arch (" + arch + ") to platform, default to arm.");
@@ -332,12 +327,10 @@ public class Monitor extends Service {
     public String getBoincAltPlatform() {
         String platformName = "";
         String arch = System.getProperty("os.arch");
-        String normalizedArch = arch.toUpperCase(Locale.US);
-        if (normalizedArch.contains("AARCH64"))
+        String normalizedArch = StringUtils.upperCase(arch, Locale.US);
+        if (StringUtils.containsAny(normalizedArch, "ARM64", "AARCH64"))
             platformName = getString(R.string.boinc_platform_name_arm);
-        else if (normalizedArch.contains("ARM64"))
-            platformName = getString(R.string.boinc_platform_name_arm);
-        else if (normalizedArch.contains("X86_64"))
+        else if (StringUtils.contains(normalizedArch, "X86_64"))
             platformName = getString(R.string.boinc_platform_name_x86);
 
         if (Logging.ERROR)
@@ -417,7 +410,7 @@ public class Monitor extends Service {
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
                 List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 
-                if (status != null && state != null && state.getHostInfo() != null && acctMgrInfo != null) {
+                if (ObjectUtils.allNotNull(status, state, state.getHostInfo(), acctMgrInfo)) {
                     Monitor.getClientStatus().setClientStatus(status, state.getResults(), state.getProjects(),
                                                               transfers, state.getHostInfo(), acctMgrInfo,
                                                               newNotices);
@@ -520,10 +513,7 @@ public class Monitor extends Service {
         String clientProcessName = boincWorkingDir + fileNameClient;
 
         String md5AssetClient = computeMd5(fileNameClient, true);
-        //if(Logging.DEBUG) Log.d(Logging.TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
-
         String md5InstalledClient = computeMd5(clientProcessName, false);
-        //if(Logging.DEBUG) Log.d(Logging.TAG, "Hash of client (File): '" + md5InstalledClient + "'");
 
         // If client hashes do not match, we need to install the one that is a part
         // of the package. Shutdown the currently running client if needed.
@@ -999,14 +989,14 @@ public class Monitor extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+            if (StringUtils.equals(action, Intent.ACTION_SCREEN_OFF)) {
                 screenOn = false;
                 // forces report of device status at next scheduled update
                 // allows timely reaction to screen off for resume of computation
                 screenOffStatusOmitCounter = deviceStatusIntervalScreenOff;
                 if (Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off");
             }
-            if (action.equals(Intent.ACTION_SCREEN_ON)) {
+            if (StringUtils.equals(action, Intent.ACTION_SCREEN_ON)) {
                 screenOn = true;
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...");

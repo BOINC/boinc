@@ -86,12 +86,10 @@ public class CredentialInputActivity extends Activity {
 
         // set credentials in service
         if(asIsBound) {
-            // verfiy input, return if failed.
-            if(!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
-                return;
+            // verify input and set credentials if valid.
+            if(attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
+                attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
             }
-            // set credentials
-            attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
         }
         else {
             if(Logging.ERROR) {

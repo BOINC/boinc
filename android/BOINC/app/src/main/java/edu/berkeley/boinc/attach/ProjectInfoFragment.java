@@ -43,6 +43,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ProjectInfoFragment extends DialogFragment {
 
     ProjectInfo info;
@@ -124,7 +126,7 @@ public class ProjectInfoFragment extends DialogFragment {
         @Override
         protected Bitmap doInBackground(String... params) {
             String url = params[0];
-            if(url == null || url.isEmpty()) {
+            if(StringUtils.isEmpty(url)) {
                 if(Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync url is empty, return.");
                 }

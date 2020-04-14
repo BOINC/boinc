@@ -52,6 +52,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -348,7 +350,7 @@ public class AcctMgrFragment extends DialogFragment {
                 ongoingWrapper.setVisibility(View.GONE);
                 continueB.setVisibility(View.VISIBLE);
                 warning.setVisibility(View.VISIBLE);
-                if (result.description != null && !result.description.isEmpty()) {
+                if (StringUtils.isNotEmpty(result.description)) {
                     warning.setText(result.description);
                 } else {
                     warning.setText(mapErrorNumToString(result.code));
@@ -356,5 +358,4 @@ public class AcctMgrFragment extends DialogFragment {
             }
         }
     }
-
 }

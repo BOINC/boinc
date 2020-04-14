@@ -35,6 +35,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
@@ -110,7 +112,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // --- set up view elements that are independent of "active" and "expanded" state
         ImageView ivIcon = v.findViewById(R.id.projectIcon);
         String finalIconId = (String) ivIcon.getTag();
-        if(finalIconId == null || !finalIconId.equals(listItem.id)) {
+        if(!StringUtils.equals(finalIconId, listItem.id)) {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
             if(icon == null) {
