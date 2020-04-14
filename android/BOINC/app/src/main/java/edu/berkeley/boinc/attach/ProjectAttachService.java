@@ -45,6 +45,8 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ProjectAttachService extends Service {
 
     // life-cycle
@@ -268,20 +270,20 @@ public class ProjectAttachService extends Service {
      * @param pwd   password
      * @return true if input verified
      */
-    public Boolean verifyInput(String email, String user, String pwd) {
+    public boolean verifyInput(String email, String user, String pwd) {
         int stringResource = 0;
 
         // check input
-        if(email.length() == 0) {
+        if(email.isEmpty()) {
             stringResource = R.string.attachproject_error_no_email;
         }
-        else if(user.length() == 0) {
+        else if(user.isEmpty()) {
             stringResource = R.string.attachproject_error_no_name;
         }
-        else if(pwd != null && pwd.length() == 0) {
+        else if(StringUtils.isEmpty(pwd)) {
             stringResource = R.string.attachproject_error_no_pwd;
         }
-        else if(pwd != null && pwd.length() < 6) { // appropriate for min pwd length?!
+        else if(pwd.length() < 6) { // appropriate for min pwd length?!
             stringResource = R.string.attachproject_error_short_pwd;
         }
 
@@ -367,7 +369,7 @@ public class ProjectAttachService extends Service {
             }
         }
 
-        if(reply.code != BOINCErrors.ERR_OK || (reply.description != null && !reply.description.isEmpty())) {
+        if(reply.code != BOINCErrors.ERR_OK || StringUtils.isNotEmpty(reply.description)) {
             return reply;
         }
 

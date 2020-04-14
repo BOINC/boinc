@@ -44,6 +44,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class BatchConflictListActivity extends FragmentActivity implements IndividualCredentialInputFragmentListener {
 
     private ListView lv;
@@ -134,7 +136,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
             asIsBound = true;
 
             // set data, if manual url
-            if(manualUrl != null && !manualUrl.isEmpty()) {
+            if(StringUtils.isNotEmpty(manualUrl)) {
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "BatchConflictListActivity manual URL found: " + manualUrl);
                 }

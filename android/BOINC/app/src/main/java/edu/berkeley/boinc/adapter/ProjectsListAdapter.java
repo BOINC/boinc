@@ -32,6 +32,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -190,11 +192,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             ImageView ivIcon = vi.findViewById(R.id.project_icon);
             String finalIconId = (String) ivIcon.getTag();
-            if(finalIconId == null || !finalIconId.equals(data.id)) {
+            if(!StringUtils.equals(finalIconId, data.id)) {
                 Bitmap icon = getIcon(position);
                 // if available set icon, if not boinc logo
                 if(icon == null) {
-                    // boinc logo
+                    // BOINC logo
                     ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
                 }
                 else {
