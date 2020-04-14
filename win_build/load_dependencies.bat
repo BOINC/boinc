@@ -1,5 +1,5 @@
 @echo off
-set dependencies_git_path=%1
+set dependencies_zip_path=%1
 set dependencies_path=%2
 set revision_lst_path=%dependencies_path%\revision.lst
 set platform=%3
@@ -9,7 +9,7 @@ if exist %revision_lst_path% (
   set /p temp_saved_revision=<%dependencies_path%\revision.lst
   set saved_revision=%temp_saved_revision%
 
-  for /f %%i in ('git ls-remote %dependencies_git_path% HEAD') do (
+  for /f "tokens=*" %%i in ('curl -sI %dependencies_zip_path% ^| findstr "Last-Modified:"') do (
     set last_revision=%%i
     if "%last_revision%" == "%saved_revision%" (
        echo Dependencies are up-to-date
@@ -25,7 +25,8 @@ if exist %dependencies_path% (
   rd /s /q %dependencies_path%
 )
 
-git clone -q --branch=master %dependencies_git_path% %dependencies_path%
+curl %dependencies_zip_path% --output %TEMP%\boinc_depends_win_vs2013.zip
+7z x %TEMP%\boinc_depends_win_vs2013.zip -o%dependencies_path%\..\
   
 rd /s /q %dependencies_path%\.git
 
