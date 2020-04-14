@@ -110,6 +110,11 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
                 LIBCURL="${LIBCURL} ${SSL_LIBS}"
               fi
 
+              # fix cannot find -lssl
+              if test "x`echo \""$SSL_LIBS"\" | grep '\-L/'`" != 'x' ; then
+                LIBCURL="${LIBCURL} ${SSL_LIBS}"
+              fi
+
               # This is so silly, but Apple actually has a bug in their
 	      # curl-config script.  Fixed in Tiger, but there are still
 	      # lots of Panther installs around.
