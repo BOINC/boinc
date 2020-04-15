@@ -19,29 +19,29 @@
 package edu.berkeley.boinc.rpc
 
 import com.google.common.testing.EqualsTester
-import org.junit.Test
-import kotlin.test.junit.JUnitAsserter
+import org.junit.jupiter.api.Test
+import kotlin.test.junit5.JUnit5Asserter
 
 class AppTest {
     @Test
     fun `Expect name when user-friendly name is null`() {
         val app = App("Name", null)
 
-        JUnitAsserter.assertEquals("Expected 'Name'", "Name", app.displayName)
+        JUnit5Asserter.assertEquals("Expected 'Name'", "Name", app.displayName)
     }
 
     @Test
     fun `Expect name when user-friendly name is empty`() {
         val app = App("Name")
 
-        JUnitAsserter.assertEquals("Expected 'Name'", "Name", app.displayName)
+        JUnit5Asserter.assertEquals("Expected 'Name'", "Name", app.displayName)
     }
 
     @Test
     fun `Expect user-friendly name when user-friendly name is not empty`() {
         val app = App("Name", "User-friendly name")
 
-        JUnitAsserter.assertEquals("Expected 'User-friendly name'", "User-friendly name", app.displayName)
+        JUnit5Asserter.assertEquals("Expected 'User-friendly name'", "User-friendly name", app.displayName)
     }
 
     @Test

@@ -18,26 +18,19 @@
  */
 package edu.berkeley.boinc.rpc
 
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.junit.JUnitAsserter
+import org.junit.jupiter.api.Test
+import kotlin.test.junit5.JUnit5Asserter
 
 class ProjectTest {
-    private lateinit var project: Project
-
-    @Before
-    fun setUp() {
-        project = Project(masterURL = "Master URL")
-    }
-
     @Test
     fun `Expect getName() to return master URL when project name is empty`() {
-        JUnitAsserter.assertEquals("Expected to be equal.","Master URL", project.name)
+        val project = Project(masterURL = "Master URL")
+        JUnit5Asserter.assertEquals("Expected to be equal.","Master URL", project.name)
     }
 
     @Test
     fun `Expect getName() to return project name when project name is not empty`() {
-        project.projectName = "Project"
-        JUnitAsserter.assertEquals("Expected to be equal.","Project", project.name)
+        val project = Project(masterURL = "Master URL", projectName = "Project")
+        JUnit5Asserter.assertEquals("Expected to be equal.","Project", project.name)
     }
 }

@@ -18,24 +18,24 @@
  */
 package edu.berkeley.boinc.rpc;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BaseParserTest {
+class BaseParserTest {
     private static final String TEST_STRING = "This is a test string.";
 
     private BaseParser baseParser;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         baseParser = new BaseParser();
     }
 
     @Test
-    public void testCharacters_whenBufferIsEmptyAndStringHasNoLeadingWhitespace_thenExpectIdenticalStringToInput()
+    void testCharacters_whenBufferIsEmptyAndStringHasNoLeadingWhitespace_thenExpectIdenticalStringToInput()
             throws SAXException {
         baseParser.mElementStarted = true;
         baseParser.characters(TEST_STRING.toCharArray(), 0, TEST_STRING.length());
@@ -44,7 +44,7 @@ public class BaseParserTest {
     }
 
     @Test
-    public void testCharacters_whenBufferIsEmptyAndStringHasLeadingWhitespace_thenExpectStringWithoutLeadingWhitespace()
+    void testCharacters_whenBufferIsEmptyAndStringHasLeadingWhitespace_thenExpectStringWithoutLeadingWhitespace()
             throws SAXException {
         baseParser.mElementStarted = true;
         baseParser.characters((" " + TEST_STRING).toCharArray(), 0, TEST_STRING.length() + 1);
@@ -53,7 +53,7 @@ public class BaseParserTest {
     }
 
     @Test
-    public void testCharacters_whenBufferIsNotEmptyAndStringHasNoLeadingWhitespace_thenExpectConcatenatedString()
+    void testCharacters_whenBufferIsNotEmptyAndStringHasNoLeadingWhitespace_thenExpectConcatenatedString()
             throws SAXException {
         baseParser.mCurrentElement.append(TEST_STRING);
         baseParser.mElementStarted = true;
@@ -63,7 +63,7 @@ public class BaseParserTest {
     }
 
     @Test
-    public void testCharacters_whenBufferIsNotEmptyAndStringHasLeadingWhitespace_thenExpectConcatenatedStringSeparatedBySpace()
+    void testCharacters_whenBufferIsNotEmptyAndStringHasLeadingWhitespace_thenExpectConcatenatedStringSeparatedBySpace()
             throws SAXException {
         baseParser.mCurrentElement.append(TEST_STRING);
         baseParser.mElementStarted = true;
@@ -73,7 +73,7 @@ public class BaseParserTest {
     }
 
     @Test
-    public void testTrimEnd_whenStringHasNoTrailingWhitespace_thenExpectIdenticalStringToInput() {
+    void testTrimEnd_whenStringHasNoTrailingWhitespace_thenExpectIdenticalStringToInput() {
         baseParser.mCurrentElement.append(TEST_STRING);
         baseParser.trimEnd();
 
@@ -81,7 +81,7 @@ public class BaseParserTest {
     }
 
     @Test
-    public void testTrimEnd_whenStringHasTrailingWhitespace_thenExpectStringWithoutTrailingWhitespace() {
+    void testTrimEnd_whenStringHasTrailingWhitespace_thenExpectStringWithoutTrailingWhitespace() {
         baseParser.mCurrentElement.append(TEST_STRING + " ");
         baseParser.trimEnd();
 
