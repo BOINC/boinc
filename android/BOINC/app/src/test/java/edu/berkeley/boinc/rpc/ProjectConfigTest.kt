@@ -19,33 +19,25 @@
 package edu.berkeley.boinc.rpc
 
 import com.google.common.testing.EqualsTester
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.junit.JUnitAsserter
+import org.junit.jupiter.api.Test
+import kotlin.test.junit5.JUnit5Asserter
 
 class ProjectConfigTest {
-    private lateinit var projectConfig: ProjectConfig
-
-    @Before
-    fun setUp() {
-        projectConfig = ProjectConfig(masterUrl = MASTER_URL)
-    }
-
     @Test
     fun `Expect master URL when RPC URL base is empty`() {
-        JUnitAsserter.assertEquals("Expected $MASTER_URL", MASTER_URL, projectConfig.secureUrlIfAvailable)
+        val projectConfig = ProjectConfig(masterUrl = MASTER_URL)
+        JUnit5Asserter.assertEquals("Expected $MASTER_URL", MASTER_URL, projectConfig.secureUrlIfAvailable)
     }
 
     @Test
     fun `Expect RPC URL base when RPC URL base is not empty`() {
-        projectConfig.webRpcUrlBase = RPC_URL_BASE
-        JUnitAsserter.assertEquals("Expected $RPC_URL_BASE", RPC_URL_BASE, projectConfig.secureUrlIfAvailable)
+        val projectConfig = ProjectConfig(masterUrl = MASTER_URL, webRpcUrlBase = RPC_URL_BASE)
+        JUnit5Asserter.assertEquals("Expected $RPC_URL_BASE", RPC_URL_BASE, projectConfig.secureUrlIfAvailable)
     }
 
     @Test
     fun `Test equals() and hashCode()`() {
-        projectConfig.masterUrl = ""
-        EqualsTester().addEqualityGroup(this.projectConfig, ProjectConfig())
+        EqualsTester().addEqualityGroup(ProjectConfig(), ProjectConfig())
                 .addEqualityGroup(ProjectConfig(1))
                 .addEqualityGroup(ProjectConfig(name = "Name"))
                 .addEqualityGroup(ProjectConfig(masterUrl = MASTER_URL))

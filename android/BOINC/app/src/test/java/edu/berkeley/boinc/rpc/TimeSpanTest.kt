@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.rpc
 
 import com.google.common.testing.EqualsTester
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class TimeSpanTest {
     @Test
