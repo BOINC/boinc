@@ -2,6 +2,7 @@ package edu.berkeley.boinc.client;
 
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.collections.api.block.predicate.Predicate;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
@@ -109,28 +110,21 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @return GUI RPC authentication code
      */
     String readAuthToken(String authFilePath) {
-        StringBuilder fileData = new StringBuilder(100);
-        char[] buf = new char[1024];
-        int read;
+        String authKey = "";
         try (BufferedReader br = new BufferedReader(new FileReader(new File(authFilePath)))) {
-            while ((read = br.read(buf)) != -1) {
-                String readData = String.valueOf(buf, 0, read);
-                fileData.append(readData);
-                buf = new char[1024];
-            }
+            authKey = br.readLine();
         } catch (FileNotFoundException fnfe) {
             if (Logging.ERROR) {
-                Log.e(Logging.TAG, "auth file not found", fnfe);
+                Log.e(Logging.TAG, "Auth file not found: ", fnfe);
             }
         } catch (IOException ioe) {
             if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ioexception", ioe);
+                Log.e(Logging.TAG, "IOException: ", ioe);
             }
         }
 
-        String authKey = fileData.toString();
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "authentication key acquired. length: " + authKey.length());
+            Log.d(Logging.TAG, "Authentication key acquired. length: " + StringUtils.length(authKey));
         }
         return authKey;
     }
