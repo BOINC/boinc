@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -78,6 +79,7 @@ import edu.berkeley.boinc.utils.Logging;
  * - holds singleton of client status data model and applications persistent preferences
  */
 public class Monitor extends Service {
+    private static final String INSTALL_FAILED = "Failed to install: ";
 
     private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
     private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
@@ -212,6 +214,8 @@ public class Monitor extends Service {
                     break;
                 case 2: // resume
                     new SetClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+                    break;
+                default:
                     break;
             }
         }
@@ -367,12 +371,10 @@ public class Monitor extends Service {
      */
     private void updateStatus() {
         // check whether RPC client connection is alive
-        if (!clientInterface.connectionAlive()) {
-            if (clientSetup()) { // start setup routine
-                // interact with client only if connection established successfully
-                reportDeviceStatus();
-                readClientStatus(true); // read initial data
-            }
+        if(!clientInterface.connectionAlive() && clientSetup()) { // start setup routine
+            // interact with client only if connection established successfully
+            reportDeviceStatus();
+            readClientStatus(true); // read initial data
         }
 
         if (!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff)
@@ -392,7 +394,7 @@ public class Monitor extends Service {
      *
      * @param forceCompleteUpdate forces update of entire status information, regardless of screen status
      */
-    private void readClientStatus(Boolean forceCompleteUpdate) {
+    private void readClientStatus(boolean forceCompleteUpdate) {
         try {
             CcStatus status; // read independently of screen status
 
@@ -474,8 +476,9 @@ public class Monitor extends Service {
         try {
             // set devices status
             if (deviceStatus != null) { // make sure deviceStatus is initialized
-                Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
-                if (reportStatusSuccess) screenOffStatusOmitCounter = 0;
+                boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
+                if (reportStatusSuccess)
+                    screenOffStatusOmitCounter = 0;
                 else if (Logging.DEBUG)
                     Log.d(Logging.TAG, "reporting device status returned false.");
             } else if (Logging.WARNING)
@@ -496,7 +499,7 @@ public class Monitor extends Service {
      *
      * @return Boolean whether connection established successfully
      */
-    private Boolean clientSetup() {
+    private boolean clientSetup() {
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup()");
 
         // try to get current client status from monitor
@@ -523,21 +526,25 @@ public class Monitor extends Service {
                 Log.d(Logging.TAG, "Hashes of installed client does not match binary in assets - re-install.");
 
             // try graceful shutdown using RPC (faster)
-            if (getPidForProcessName(clientProcessName) != null) {
-                if (connectClient()) {
-                    clientInterface.quit();
-                    Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-                    Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-                    for (int x = 0; x < attempts; x++) {
-                        try {
-                            Thread.sleep(sleepPeriod);
-                        } catch (Exception ignored) {
+            if(getPidForProcessName(clientProcessName) != null && connectClient()) {
+                clientInterface.quit();
+                int attempts =
+                        getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+                int sleepPeriod =
+                        getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+                for(int x = 0; x < attempts; x++) {
+                    try {
+                        Thread.sleep(sleepPeriod);
+                    }
+                    catch(Exception ignored) {
+                    }
+                    if(getPidForProcessName(clientProcessName) == null) { //client is now closed
+                        if(Logging.DEBUG) {
+                            Log.d(Logging.TAG,
+                                  "quitClient: gracefull RPC shutdown successful after " + x +
+                                  " seconds");
                         }
-                        if (getPidForProcessName(clientProcessName) == null) { //client is now closed
-                            if (Logging.DEBUG)
-                                Log.d(Logging.TAG, "quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-                            x = attempts;
-                        }
+                        x = attempts;
                     }
                 }
             }
@@ -567,9 +574,9 @@ public class Monitor extends Service {
 
         // Try to connect to executed Client in loop
         //
-        Integer retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
+        int retryRate = getResources().getInteger(R.integer.monitor_setup_connection_retry_rate_ms);
         Integer retryAttempts = getResources().getInteger(R.integer.monitor_setup_connection_retry_attempts);
-        Boolean connected = false;
+        boolean connected = false;
         Integer counter = 0;
         while (!connected && (counter < retryAttempts)) {
             if (Logging.DEBUG) Log.d(Logging.TAG, "Attempting BOINC client connection...");
@@ -582,7 +589,7 @@ public class Monitor extends Service {
             }
         }
 
-        Boolean init = false;
+        boolean init = false;
         if (connected) { // connection established
             try {
                 // read preferences for GUI to be able to display data
@@ -625,8 +632,8 @@ public class Monitor extends Service {
      *
      * @return Boolean success
      */
-    private Boolean runClient() {
-        Boolean success = false;
+    private boolean runClient() {
+        boolean success = false;
         try {
             String[] cmd = new String[3];
 
@@ -651,17 +658,17 @@ public class Monitor extends Service {
      *
      * @return Boolean success
      */
-    private Boolean connectClient() {
-        Boolean success = clientInterface.open(clientSocketAddress);
+    private boolean connectClient() {
+        boolean success = clientInterface.open(clientSocketAddress);
         if (!success) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
-            return success;
+            if (Logging.ERROR) Log.e(Logging.TAG, "Connection failed!");
+            return false;
         }
 
         //authorize
         success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
-        if (!success) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
+        if (!success && Logging.ERROR) {
+            Log.e(Logging.TAG, "Authorization failed!");
         }
         return success;
     }
@@ -672,26 +679,25 @@ public class Monitor extends Service {
      *
      * @return Boolean success
      */
-    private Boolean installClient() {
-
+    private boolean installClient() {
         if (!installFile(fileNameClient, true, true, "")) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
+            if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameClient);
             return false;
         }
         if (!installFile(fileNameCABundle, true, false, "")) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCABundle);
+            if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameCABundle);
             return false;
         }
         if (!installFile(fileNameClientConfig, true, false, "")) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClientConfig);
+            if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameClientConfig);
             return false;
         }
         if (!installFile(fileNameAllProjectsList, true, false, "")) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameAllProjectsList);
+            if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameAllProjectsList);
             return false;
         }
         if (!installFile(fileNameNoMedia, false, false, "." + fileNameNoMedia)) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameNoMedia);
+            if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameNoMedia);
             return false;
         }
 
@@ -707,19 +713,23 @@ public class Monitor extends Service {
      * @param targetFile name of target file 
      * @return Boolean success
      */
-    private Boolean installFile(String file, Boolean override, Boolean executable, String targetFile) {
-        Boolean success = false;
+    @SuppressWarnings("java:S4042") // SonarLint warning for invoking File.delete()
+    private boolean installFile(String file, boolean override, boolean executable, String targetFile) {
+        boolean success = false;
         byte[] b = new byte[1024];
         int count;
 
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
         String source;
-        if (executable) source = getAssestsDirForCpuArchitecture() + file;
-        else source = file;
+        if (executable)
+            source = getAssetsDirForCpuArchitecture() + file;
+        else
+            source = file;
 
         try {
-            if (Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
+            if (Logging.ERROR)
+                Log.d(Logging.TAG, "installing: " + source);
 
             File target;
             if (!targetFile.isEmpty()) {
@@ -731,26 +741,30 @@ public class Monitor extends Service {
             // Check path and create it
             File installDir = new File(boincWorkingDir);
             if (!installDir.exists()) {
-                if (!installDir.mkdir()) {
-                    if (Logging.ERROR)
-                        Log.d(Logging.TAG, "Monitor.installFile(): mkdir() was not successful.");
+                if(!installDir.mkdir() && Logging.ERROR) {
+                    Log.d(Logging.TAG, "Monitor.installFile(): mkdir() was not successful.");
                 }
 
-                if (!installDir.setWritable(true)) {
-                    if (Logging.ERROR)
-                        Log.d(Logging.TAG, "Monitor.installFile(): setWritable() was not successful.");
+                if(!installDir.setWritable(true) && Logging.ERROR) {
+                    Log.d(Logging.TAG, "Monitor.installFile(): setWritable() was not successful.");
                 }
             }
 
             if (target.exists()) {
+                boolean deleteSuccessful;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    deleteSuccessful = target.delete();
+                } else {
+                    Files.delete(target.toPath());
+                    deleteSuccessful = true;
+                }
                 if (override) {
-                    if (!target.delete()) {
-                        if (Logging.ERROR)
-                            Log.d(Logging.TAG, "Monitor.installFile(): delete() was not successful.");
+                    if (!deleteSuccessful && Logging.ERROR) {
+                        Log.d(Logging.TAG, "Monitor.installFile(): delete() was not successful.");
                     }
                 } else {
                     if (Logging.DEBUG)
-                        Log.d(Logging.TAG, "skipped file, exists and ovverride is false");
+                        Log.d(Logging.TAG, "Skipped file, exists and override is false.");
                     return true;
                 }
             }
@@ -772,11 +786,18 @@ public class Monitor extends Service {
             }
 
             if (Logging.ERROR)
-                Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + success);
-
-        } catch (IOException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-            if (Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
+                Log.d(Logging.TAG, "Installation of " + source + " successful. Executable: " +
+                                   executable + "/" + success);
+        } catch (IOException ioe) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, "IOException: " + ioe.getMessage());
+                Log.d(Logging.TAG, "Install of " + source + " failed.");
+            }
+        } catch (SecurityException se) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
+                Log.d(Logging.TAG, "Install of " + source + " failed.");
+            }
         }
 
         return success;
@@ -787,7 +808,7 @@ public class Monitor extends Service {
      *
      * @return name of assets directory for given platform, not an absolute path.
      */
-    private String getAssestsDirForCpuArchitecture() {
+    private String getAssetsDirForCpuArchitecture() {
         String archAssetsDirectory = "";
         switch (getBoincPlatform()) {
             case R.string.boinc_platform_name_arm:
@@ -802,6 +823,8 @@ public class Monitor extends Service {
             case R.string.boinc_platform_name_x86_64:
                 archAssetsDirectory = getString(R.string.assets_dir_x86_64);
                 break;
+            default:
+                break;
         }
         return archAssetsDirectory;
     }
@@ -813,7 +836,7 @@ public class Monitor extends Service {
      * @param inAssets if true, fileName is file name in assets directory, if not, absolute path
      * @return md5 hash of file
      */
-    private String computeMd5(String fileName, Boolean inAssets) {
+    private String computeMd5(String fileName, boolean inAssets) {
         byte[] b = new byte[1024];
         int count;
 
@@ -822,7 +845,8 @@ public class Monitor extends Service {
 
             InputStream fs;
             if (inAssets)
-                fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName);
+                fs = getApplicationContext().getAssets().open(
+                        getAssetsDirForCpuArchitecture() + fileName);
             else fs = new FileInputStream(new File(fileName));
 
             while ((count = fs.read(b)) != -1) {
@@ -879,24 +903,24 @@ public class Monitor extends Service {
 
         // figure out what index PID has
         String[] headers = processLinesAr[0].split("[\\s]+");
-        Integer PidIndex = -1;
+        int pidIndex = -1;
         for (int x = 0; x < headers.length; x++) {
             if (headers[x].equals("PID")) {
-                PidIndex = x;
+                pidIndex = x;
                 break;
             }
         }
 
-        if (PidIndex == -1) {
+        if (pidIndex == -1) {
             return null;
         }
 
         if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + PidIndex + " for output: " + processLinesAr[0]);
+            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + pidIndex + " for output: " + processLinesAr[0]);
 
         Integer pid = null;
         for (int y = 1; y < processLinesAr.length; y++) {
-            Boolean found = false;
+            boolean found = false;
             String[] comps = processLinesAr[y].split("[\\s]+");
             for (String arg : comps) {
                 if (arg.equals(processName)) {
@@ -908,19 +932,18 @@ public class Monitor extends Service {
             }
             if (found) {
                 try {
-                    pid = Integer.parseInt(comps[PidIndex]);
+                    pid = Integer.parseInt(comps[pidIndex]);
                     if (Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): pid: " + pid);
                 } catch (NumberFormatException e) {
                     if (Logging.ERROR)
-                        Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);
+                        Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[pidIndex] + " at index: " + pidIndex);
                 }
                 break;// Break out of outer for (processLinesAr) loop
             }
         }
         // if not happen in ps output, not running?!
-        if (pid == null)
-            if (Logging.ERROR)
-                Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " not found in ps output!");
+        if (pid == null && Logging.ERROR)
+            Log.d(Logging.TAG, "getPidForProcessName(): " + processName + " not found in ps output!");
 
         // Find required pid
         return pid;
@@ -953,7 +976,7 @@ public class Monitor extends Service {
 
         // Wait for the client to shutdown gracefully
         Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_attempts);
-        Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
+        int sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_os_check_rate_ms);
         for (int x = 0; x < attempts; x++) {
             try {
                 Thread.sleep(sleepPeriod);
@@ -974,8 +997,8 @@ public class Monitor extends Service {
         }
 
         clientPid = getPidForProcessName(processName);
-        if (clientPid != null) {
-            if (Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
+        if (clientPid != null && Logging.ERROR) {
+            Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
         }
     }
 // --end-- BOINC client installation and run-time management
