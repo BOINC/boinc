@@ -96,9 +96,7 @@ function boinc_standard_ckeditor_profile_defaults() {
         'excl_regex' => '',
         'simple_incl_regex' => '',
       ),
-      'roles' => array(
-        '' => NULL,
-      ),
+      'roles' => array(),
     ),
     'CKEditor Global Profile' => array(
       'name' => 'CKEditor Global Profile',

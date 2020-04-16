@@ -17,9 +17,6 @@ function boinc_standard_ctools_plugin_api() {
   elseif ($module == "strongarm" && $api == "strongarm") {
     return array("version" => 1);
   }
-  elseif ($module == "wysiwyg" && $api == "wysiwyg") {
-    return array("version" => 2);
-  }
 }
 
 /**
