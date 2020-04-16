@@ -121,17 +121,19 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        // first time fragment can get a valid context (before this, getActivity() will return null!)
-        Display display = activity.getWindowManager().getDefaultDisplay();
+    public void onAttach(@NonNull Context context) {
+        if (context instanceof Activity) {
+            final Activity activity = (Activity) context;
+            final Display display = activity.getWindowManager().getDefaultDisplay();
 
-        Point size = new Point();
-        display.getSize(size);
+            Point size = new Point();
+            display.getSize(size);
 
-        width = size.x;
-        height = size.y;
+            width = size.x;
+            height = size.y;
+        }
 
-        super.onAttach(activity);
+        super.onAttach(context);
     }
 
     @Override
@@ -147,14 +149,14 @@ public class ProjectDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         // appends the project specific menu to the main menu.
         inflater.inflate(R.menu.project_details_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
 
         super.onPrepareOptionsMenu(menu);
         if(project == null) {
