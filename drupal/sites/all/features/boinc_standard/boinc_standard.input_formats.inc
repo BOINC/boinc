@@ -47,7 +47,7 @@ function boinc_standard_input_formats() {
       // Maximum heading level
       'tableofcontents_maxlevel' => '3',
       // Include link to hide/show table of contents
-      'tableofcontents_hide_show' => 0,
+      'tableofcontents_hide_show' => 1,
       // Start with the table of content collapsed
       'tableofcontents_collapsed' => 0,
       // Select what is stripped from the header titles
