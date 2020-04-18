@@ -30,9 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Objects;
 
 import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
@@ -50,14 +53,15 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
         this.frag = frag;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v;
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         PrefsListItemWrapper listItem = entries.get(position);
 
+        assert vi != null;
         if(listItem.isCategory()) { // item is category
             v = vi.inflate(R.layout.prefs_layout_listitem_category, null);
             TextView header = v.findViewById(R.id.category_header);
@@ -92,7 +96,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
                 if(item.getStatus() > 0) {
                     statusWrapper.setVisibility(View.VISIBLE);
                     final String value;
-                    switch(item.getUnit()) {
+                    switch(Objects.requireNonNull(item.getUnit())) {
                         case NONE:
                             value = NumberFormat.getIntegerInstance().format(item.getStatus());
                             break;
