@@ -19,9 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -30,7 +27,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +36,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ManualUrlInputFragment extends DialogFragment {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
+
+public class ManualUrlInputFragment extends DialogFragment {
     private EditText urlInputET;
 
     @Override
@@ -71,6 +72,7 @@ public class ManualUrlInputFragment extends DialogFragment {
         return v;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
