@@ -19,15 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener;
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -38,19 +29,27 @@ import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+
 import org.apache.commons.lang3.StringUtils;
 
-public class BatchConflictListActivity extends FragmentActivity implements IndividualCredentialInputFragmentListener {
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener;
+import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.utils.Logging;
+
+public class BatchConflictListActivity extends FragmentActivity implements IndividualCredentialInputFragmentListener {
     private ListView lv;
     private BatchConflictListAdapter listAdapter;
-    private ArrayList<ProjectAttachWrapper> results = new ArrayList<>();
 
     private ProjectAttachService attachService = null;
     private boolean asIsBound = false;
@@ -69,7 +68,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
         lv = findViewById(R.id.listview);
         // adapt text
         Intent intent = getIntent();
-        Boolean conflicts = intent.getBooleanExtra("conflicts", false);
+        boolean conflicts = intent.getBooleanExtra("conflicts", false);
         manualUrl = intent.getStringExtra("manualUrl");
         TextView title = findViewById(R.id.desc);
         if(conflicts) {
@@ -129,6 +128,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     }
 
     private ServiceConnection mASConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -145,7 +145,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
             }
 
             // retrieve data
-            results = attachService.getSelectedProjects();
+            List<ProjectAttachWrapper> results = attachService.getSelectedProjects();
             listAdapter =
                     new BatchConflictListAdapter(BatchConflictListActivity.this, R.id.listview, results, getSupportFragmentManager());
             lv.setAdapter(listAdapter);
@@ -155,6 +155,7 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
             }
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             attachService = null;
@@ -198,14 +199,13 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     }
 
     private class AttachProjectAsyncTask extends AsyncTask<Void, String, Void> {
-
         ProjectAttachWrapper project;
         Boolean login;
         String email;
         String name;
         String pwd;
 
-        public AttachProjectAsyncTask(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
+        AttachProjectAsyncTask(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
             this.project = project;
             this.login = login;
             this.email = email;

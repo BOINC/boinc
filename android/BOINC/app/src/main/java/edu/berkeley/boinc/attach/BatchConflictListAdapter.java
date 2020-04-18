@@ -18,19 +18,11 @@
  */
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.app.Activity;
 import android.content.Context;
-import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -38,22 +30,30 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper> {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
-    private ArrayList<ProjectAttachWrapper> entries;
+import java.util.List;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.utils.Logging;
+
+public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper> {
+    private List<ProjectAttachWrapper> entries;
     private Activity activity;
     private FragmentManager fmgr;
 
-    public BatchConflictListAdapter(Activity a, int textViewResourceId, ArrayList<ProjectAttachWrapper> entries, FragmentManager fm) {
+    BatchConflictListAdapter(Activity a, int textViewResourceId, List<ProjectAttachWrapper> entries, FragmentManager fm) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
         this.fmgr = fm;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ProjectAttachWrapper listItem = entries.get(position);
 
         if(Logging.VERBOSE) {
@@ -62,6 +62,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
         }
 
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert vi != null;
         View v = vi.inflate(R.layout.attach_project_batch_conflicts_listitem, null);
         TextView name = v.findViewById(R.id.name);
         name.setText(listItem.name);
