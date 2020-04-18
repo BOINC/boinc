@@ -190,8 +190,8 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
     }
 
     @Override
-    public ArrayList<String> getDefaultInput() {
-        ArrayList<String> values = new ArrayList<>();
+    public List<String> getDefaultInput() {
+        List<String> values = new ArrayList<>();
         if(asIsBound) {
             values = attachService.getUserDefaultValues();
         }
