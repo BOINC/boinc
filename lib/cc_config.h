@@ -45,11 +45,11 @@ struct LOG_FLAGS {
 
     // on by default; intended for all users
     //
-    bool file_xfer;
+    bool file_xfer = true;
         // file transfer start and finish
-    bool sched_ops;
+    bool sched_ops = true;
         // interactions with schedulers
-    bool task;
+    bool task = true;
         // task start and finish, and suspend/resume
 
     // off by default; intended for developers and testers

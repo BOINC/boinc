@@ -39,15 +39,10 @@
 
 using std::string;
 
-void LOG_FLAGS::init() {
-    static const LOG_FLAGS x;
-    *this = x;
+static const LOG_FLAGS log_flag_defaults;
 
-    // on by default (others are off by default)
-    //
-    task = true;
-    file_xfer = true;
-    sched_ops = true;
+void LOG_FLAGS::init() {
+	*this = log_flag_defaults;
 }
 
 // Parse log flag preferences
