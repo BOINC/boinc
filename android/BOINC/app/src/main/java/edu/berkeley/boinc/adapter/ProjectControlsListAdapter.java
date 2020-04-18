@@ -27,6 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
@@ -60,8 +62,9 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         return entries.get(position).operation;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectControl data = entries.get(position);
 
         View vi =
@@ -105,6 +108,8 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
                 break;
             case ProjectControl.VISIT_WEBSITE:
                 text = activity.getResources().getString(R.string.projects_control_visit_website);
+                break;
+            default:
                 break;
         }
 
