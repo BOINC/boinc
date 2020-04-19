@@ -151,6 +151,7 @@ protected:
     wxPanel* m_panelControls;
     wxNotebook* m_Notebook;
     wxPanel* m_panelProcessor;
+    wxTextCtrl* m_txtDeviceName;
     wxTextCtrl* m_txtProcUseProcessors;
     wxTextCtrl* m_txtProcUseCPUTime;
     wxCheckBox* m_chkProcOnBatteries;

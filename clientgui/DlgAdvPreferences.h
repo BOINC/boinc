@@ -59,6 +59,7 @@ public:
     void OnHelp(wxCommandEvent& event);
     void OnClear(wxCommandEvent& event);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
+    void DisplayValue(char* value, wxTextCtrl* textCtrl, wxCheckBox* checkBox = NULL);
     bool OKToShow() { return m_bOKToShow; }
 private:
     GLOBAL_PREFS      prefs;

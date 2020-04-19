@@ -223,6 +223,7 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     max_bytes_sec_up = 0;
     max_ncpus = 0;
+    strcpy(device_name, "");
 #ifdef ANDROID
     max_ncpus_pct = 50;
 #else

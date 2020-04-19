@@ -123,6 +123,9 @@ void CDlgAdvPreferences::SetValidators() {
     m_vTimeValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST);
     m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
 
+    // ######### proc device name
+    m_txtDeviceName->SetValidator(wxTextValidator(wxFILTER_ASCII));
+
     // ######### proc usage page
     m_txtProcUseProcessors->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -256,6 +259,22 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     textCtrl->Enable();
 }
 
+void CDlgAdvPreferences::DisplayValue(char* value, wxTextCtrl* textCtrl, wxCheckBox* checkBox) {
+    wxString buffer;
+
+    wxASSERT(textCtrl);
+
+    if (checkBox) {
+        if (!checkBox->IsChecked()) {
+            textCtrl->Clear();
+            textCtrl->Disable();
+            return;
+        }
+    }
+    buffer.Printf(wxT("%s"), value);
+    textCtrl->ChangeValue(buffer);
+    textCtrl->Enable();
+}
 
 /* read preferences from core client and initialize control values */
 void CDlgAdvPreferences::ReadPreferenceSettings() {
@@ -278,6 +297,9 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     }
     
     m_bOKToShow = true;
+
+    // ######### proc device name
+    DisplayValue(prefs.device_name, m_txtDeviceName);
 
     // ######### proc usage page
     // max cpus
@@ -420,6 +442,10 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     double td;
 
     mask.clear();
+
+    const char* device_name = m_txtDeviceName->GetValue().c_str().AsChar();
+    strcpy(prefs.device_name,device_name);
+    mask.device_name = true;
 
     // ######### proc usage page
     m_txtProcUseProcessors->GetValue().ToDouble(&td);
