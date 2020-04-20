@@ -96,6 +96,9 @@ int HOST_INFO::get_local_network_info() {
         inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), ip_addr, 256);
     }
 #endif
+    if (!cc_config.device_name.empty()) {
+        strncpy(domain_name, cc_config.device_name.c_str(), sizeof(domain_name)-1);
+    }
     return 0;
 }
 

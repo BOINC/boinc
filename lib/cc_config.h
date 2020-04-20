@@ -201,6 +201,7 @@ struct CC_CONFIG {
         // overrides use_certs
     bool vbox_window;
     std::vector<std::string> ignore_tty;
+    std::string device_name;
 
     CC_CONFIG();
     void defaults();
