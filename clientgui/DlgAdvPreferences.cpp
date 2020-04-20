@@ -443,8 +443,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 
     mask.clear();
 
-    const char* device_name = m_txtDeviceName->GetValue().c_str().AsChar();
-    strcpy(prefs.device_name,device_name);
+    strcpy(prefs.device_name, m_txtDeviceName->GetValue().mb_str());
     mask.device_name = true;
 
     // ######### proc usage page
