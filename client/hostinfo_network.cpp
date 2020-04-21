@@ -97,7 +97,7 @@ int HOST_INFO::get_local_network_info() {
     }
 #endif
     if (!cc_config.device_name.empty()) {
-        strncpy(domain_name, cc_config.device_name.c_str(), sizeof(domain_name)-1);
+        safe_strcpy(domain_name, cc_config.device_name.c_str());
     }
     return 0;
 }
