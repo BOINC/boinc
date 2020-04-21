@@ -21,9 +21,6 @@ package edu.berkeley.boinc.rpc
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
 
-fun String.equalsAny(vararg strings: String, ignoreCase: Boolean) =
-    strings.firstOrNull { this.equals(it, ignoreCase = ignoreCase) } != null
-
 open class BaseParser : DefaultHandler() {
     @JvmField
     protected var mCurrentElement = StringBuilder()

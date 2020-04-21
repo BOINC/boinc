@@ -41,7 +41,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({AccountOutParser.class, AcctMgrRPCReplyParser.class, GlobalPreferencesParser.class,
-                 SimpleReplyParser.class, Md5.class})
+                 SimpleReplyParser.class, StringExtensions.class})
 public class RpcClientTest {
     private static final String CREATE_ACCOUNT_TEMPLATE = "<create_account>\n" +
                                                           "   <url>%s</url>\n" +
@@ -159,10 +159,10 @@ public class RpcClientTest {
 
     @Test
     public void testCreateAccount_whenAccountInIsDefault_thenExpectMatchingXmlStringAndSuccessToBeTrue() {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
@@ -175,10 +175,10 @@ public class RpcClientTest {
 
     @Test
     public void testCreateAccount_whenAccountInHasValuesSet_thenExpectMatchingXmlStringAndSuccessToBeTrue() {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
@@ -198,10 +198,10 @@ public class RpcClientTest {
 
     @Test
     public void testCreateAccount_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse() throws IOException {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(mockRpcClient).sendRequest(anyString());
         Mockito.when(simpleReplyParser.getResult()).thenReturn(false);
@@ -212,10 +212,10 @@ public class RpcClientTest {
 
     @Test
     public void testCreateAccount_whenSimpleReplyParserIsNull_thenExpectSuccessToBeFalse() {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(null);
         Mockito.when(mockRpcClient.createAccount(any())).thenCallRealMethod();
 
@@ -253,10 +253,10 @@ public class RpcClientTest {
 
     @Test
     public void testLookupAccount_whenAccountInHasValuesSet_thenExpectMatchingXmlStringAndSuccessToBeTrue() {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.when(simpleReplyParser.getResult()).thenReturn(true);
 
@@ -277,10 +277,10 @@ public class RpcClientTest {
 
     @Test
     public void testLookupAccount_whenAccountInHasValuesSetAndSimpleReplyParserIsNull_thenExpectMatchingXmlStringAndSuccessToBeFalse() {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(null);
 
         final String expected = "<lookup_account>\n <url>URL</url>\n" +
@@ -301,10 +301,10 @@ public class RpcClientTest {
     @Test
     public void testLookupAccount_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse()
             throws IOException {
-        mockStatic(Md5.class);
+        mockStatic(StringExtensions.class);
         mockStatic(SimpleReplyParser.class);
 
-        PowerMockito.when(Md5.hash(any())).thenCallRealMethod();
+        PowerMockito.when(StringExtensions.hash(any())).thenCallRealMethod();
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(mockRpcClient).sendRequest(anyString());
         Mockito.when(simpleReplyParser.getResult()).thenReturn(false);
