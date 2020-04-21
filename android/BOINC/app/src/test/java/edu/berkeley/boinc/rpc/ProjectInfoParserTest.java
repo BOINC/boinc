@@ -30,7 +30,9 @@ import org.xml.sax.SAXException;
 
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
@@ -48,13 +50,6 @@ public class ProjectInfoParserTest {
     public void setUp() {
         projectInfoParser = new ProjectInfoParser();
         expected = new ProjectInfo();
-    }
-
-    @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
-        mockStatic(Xml.class);
-
-        assertThrows(NullPointerException.class, () -> ProjectInfoParser.parse(null));
     }
 
     @Test
