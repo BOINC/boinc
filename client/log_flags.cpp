@@ -295,6 +295,9 @@ void CC_CONFIG::show() {
             "Config: ignore tty: %s", ignore_tty[i].c_str()
         );
     }
+    if (!device_name.empty()) {
+        msg_printf(NULL, MSG_INFO, "Config: device name is %s", device_name.c_str());
+    }
 }
 
 // This is used by the BOINC client.
@@ -462,11 +465,13 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             ignore_tty.push_back(s);
             continue;
         }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients 
         // may have written their default values to CONFIG_FILE. 
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
