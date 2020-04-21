@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -60,8 +62,9 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         return entries.get(position).operation;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectControl data = entries.get(position);
 
         View vi =
@@ -105,6 +108,8 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
                 break;
             case ProjectControl.VISIT_WEBSITE:
                 text = activity.getResources().getString(R.string.projects_control_visit_website);
+                break;
+            default:
                 break;
         }
 

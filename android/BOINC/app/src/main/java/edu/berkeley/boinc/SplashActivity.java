@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -17,12 +17,6 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
 package edu.berkeley.boinc;
-
-import edu.berkeley.boinc.attach.SelectionListActivity;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.IMonitor;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.utils.Logging;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -44,6 +38,12 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.ImageView;
 
+import edu.berkeley.boinc.attach.SelectionListActivity;
+import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.Logging;
+
 /**
  * Activity shown at start. Forwards to BOINCActivity automatically, once Monitor has connected to Client and received first data via RPCs.
  * This Activity can not be navigated to, it is also not part of the history stack.
@@ -53,12 +53,12 @@ import android.widget.ImageView;
  * @author Joachim Fritzsch
  */
 public class SplashActivity extends Activity {
-
-    private Boolean mIsBound = false;
+    private boolean mIsBound = false;
     private Activity activity = this;
     private static IMonitor monitor = null;
 
     private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established
             mIsBound = true;
@@ -76,6 +76,7 @@ public class SplashActivity extends Activity {
             }
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             mIsBound = false;
@@ -86,8 +87,6 @@ public class SplashActivity extends Activity {
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity ClientStatusChange - onReceive()");
-
             if(mIsBound) {
                 try {
                     int setupStatus = SplashActivity.monitor.getSetupStatus();

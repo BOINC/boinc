@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,11 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
@@ -38,8 +33,12 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class CredentialInputActivity extends Activity {
+import java.util.List;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
+
+public class CredentialInputActivity extends Activity {
     private EditText emailET;
     private EditText nameET;
     private EditText pwdET;
@@ -115,24 +114,25 @@ public class CredentialInputActivity extends Activity {
             attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
         }
 
-        //startActivity(new Intent(this, IndividualAttachActivity.class));
         Intent intent = new Intent(this, BatchConflictListActivity.class);
         intent.putExtra("conflicts", false);
         startActivity(new Intent(this, BatchConflictListActivity.class));
     }
 
     private ServiceConnection mASConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
             attachService = ((ProjectAttachService.LocalBinder) service).getService();
             asIsBound = true;
 
-            ArrayList<String> values = attachService.getUserDefaultValues();
+            List<String> values = attachService.getUserDefaultValues();
             emailET.setText(values.get(0));
             nameET.setText(values.get(1));
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             attachService = null;

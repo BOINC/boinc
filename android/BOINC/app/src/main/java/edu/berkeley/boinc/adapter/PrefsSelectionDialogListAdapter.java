@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -31,6 +31,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +40,6 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialogOption> implements OnClickListener {
-
     private List<SelectionDialogOption> entries;
     private Activity activity;
 
@@ -67,14 +68,15 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         return position;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
         SelectionDialogOption listItem = entries.get(position);
 
         if(v == null) {
             LayoutInflater li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert li != null;
             v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
             CheckBox cb = v.findViewById(R.id.checkbox);
             cb.setChecked(listItem.isSelected());

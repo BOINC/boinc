@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2019 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -31,11 +31,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
+
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
@@ -45,13 +51,7 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class SelectionListActivity extends FragmentActivity {
-
     private ListView lv;
     List<ProjectListEntry> entries = new ArrayList<>();
     List<ProjectInfo> selected = new ArrayList<>();
@@ -88,7 +88,7 @@ public class SelectionListActivity extends FragmentActivity {
 
     // check whether user has checked at least a single project
     // shows toast otherwise
-    private Boolean checkProjectChecked() {
+    private boolean checkProjectChecked() {
         for(ProjectListEntry tmp : entries) {
             if(tmp.checked) {
                 return true;
@@ -179,6 +179,7 @@ public class SelectionListActivity extends FragmentActivity {
     }
 
     private ServiceConnection mMonitorConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -189,6 +190,7 @@ public class SelectionListActivity extends FragmentActivity {
             task.execute();
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             monitor = null;
@@ -197,6 +199,7 @@ public class SelectionListActivity extends FragmentActivity {
     };
 
     private ServiceConnection mASConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -204,6 +207,7 @@ public class SelectionListActivity extends FragmentActivity {
             asIsBound = true;
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             attachService = null;
@@ -233,15 +237,15 @@ public class SelectionListActivity extends FragmentActivity {
         }
     }
 
-    private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, ArrayList<ProjectInfo>> {
+    private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, List<ProjectInfo>> {
         @Override
-        protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
-            ArrayList<ProjectInfo> data = null;
+        protected List<ProjectInfo> doInBackground(Void... arg0) {
+            List<ProjectInfo> data = null;
             boolean retry = true;
             // Try to get the project list for as long as the AsyncTask has not been canceled
             while(retry) {
                 try {
-                    data = (ArrayList<ProjectInfo>) monitor.getAttachableProjects();
+                    data = monitor.getAttachableProjects();
                 }
                 catch(RemoteException e) {
                     if(Log.isLoggable(Logging.TAG, Log.WARN)) {
@@ -262,6 +266,7 @@ public class SelectionListActivity extends FragmentActivity {
                         if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
                             Log.d(Logging.TAG, e.getLocalizedMessage(), e);
                         }
+                        Thread.currentThread().interrupt();
                     }
                 }
                 else {
@@ -292,7 +297,7 @@ public class SelectionListActivity extends FragmentActivity {
             return data;
         }
 
-        protected final void onPostExecute(final ArrayList<ProjectInfo> result) {
+        protected final void onPostExecute(final List<ProjectInfo> result) {
             if(result == null) {
                 return;
             }
@@ -300,8 +305,7 @@ public class SelectionListActivity extends FragmentActivity {
             // If AccountManager is already connected, user should not be able to connect more AMs
             // Hide 'Add Account Manager' option
             boolean statusAcctMgrPresent = false;
-            try
-            {
+            try {
                 AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
                 statusAcctMgrPresent = statusAcctMgr.isPresent();
             }
@@ -323,8 +327,8 @@ public class SelectionListActivity extends FragmentActivity {
 
     static final class ProjectListEntry implements Comparable<SelectionListActivity.ProjectListEntry> {
         public ProjectInfo info;
-        public boolean checked;
-        public boolean am; //indicates that element is account manager entry
+        boolean checked;
+        boolean am; //indicates that element is account manager entry
 
         /**
          * The {@link Collator} used when comparing {@code ProjectListEntry}s.
@@ -341,7 +345,7 @@ public class SelectionListActivity extends FragmentActivity {
          */
         static Collator collator;
 
-        public ProjectListEntry(ProjectInfo info) {
+        ProjectListEntry(ProjectInfo info) {
             this.info = info;
             this.checked = false;
         }
@@ -349,7 +353,7 @@ public class SelectionListActivity extends FragmentActivity {
         /**
          * Creates Account manager list object
          */
-        public ProjectListEntry() {
+        ProjectListEntry() {
             this.am = true;
         }
 

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,10 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-import edu.berkeley.boinc.attach.SelectionListActivity;
-import edu.berkeley.boinc.client.ClientStatus;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +25,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +34,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class StatusFragment extends Fragment {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
+import edu.berkeley.boinc.attach.SelectionListActivity;
+import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.Logging;
+
+public class StatusFragment extends Fragment {
     // keep computingStatus and suspend reason to only adapt layout when changes occur
     private Integer computingStatus = -1;
     private Integer computingSuspendReason = -1;
@@ -53,11 +55,12 @@ public class StatusFragment extends Fragment {
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()");
             }
-            loadLayout(false);
+            loadLayout();
         }
     };
     private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 
+    @Override
     public void onResume() {
         //register noisy clientStatusChangeReceiver here, so only active when Activity is visible
         if(Logging.VERBOSE) {
@@ -65,10 +68,10 @@ public class StatusFragment extends Fragment {
         }
         getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
 
-        //loadLayout(true);
         super.onResume();
     }
 
+    @Override
     public void onPause() {
         //unregister receiver, so there are not multiple intents flying in
         if(Logging.VERBOSE) {
@@ -79,7 +82,7 @@ public class StatusFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "StatusFragment onCreateView");
         }
@@ -87,11 +90,10 @@ public class StatusFragment extends Fragment {
         return inflater.inflate(R.layout.status_layout, container, false);
     }
 
-    private void loadLayout(Boolean forceUpdate) {
+    private void loadLayout() {
         //load layout, if if ClientStatus can be accessed.
         //if this is not the case, the broadcast receiver will call "loadLayout" again
         try {
-
             int currentSetupStatus = BOINCActivity.monitor.getSetupStatus();
             int currentComputingStatus = BOINCActivity.monitor.getComputingStatus();
             int currentComputingSuspendReason = BOINCActivity.monitor.getComputingSuspendReason();
@@ -101,11 +103,9 @@ public class StatusFragment extends Fragment {
             // otherwise BOINCActivity does not start Tabs
             if(currentSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) {
                 // return in cases nothing has changed
-                if(forceUpdate ||
-                   computingStatus != currentComputingStatus ||
+                if(computingStatus != currentComputingStatus ||
                    currentComputingSuspendReason != computingSuspendReason ||
                    currentNetworkSuspendReason != networkSuspendReason) {
-
                     // set layout and retrieve elements
                     LinearLayout statusWrapper = getView().findViewById(R.id.status_wrapper);
                     LinearLayout centerWrapper = getView().findViewById(R.id.center_wrapper);
@@ -143,7 +143,7 @@ public class StatusFragment extends Fragment {
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                                    Boolean suspendDueToScreenOn = false;
+                                    boolean suspendDueToScreenOn = false;
                                     try {
                                         suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();
                                     }
@@ -163,46 +163,12 @@ public class StatusFragment extends Fragment {
                                     centerWrapper.setVisibility(View.GONE);
                                     restartingWrapper.setVisibility(View.VISIBLE);
                                     break;
-                                case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
                                 case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
                                     statusImage.setImageResource(R.drawable.watchb48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
-                                case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_OS:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
-                                case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
-                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.batteryb48);
-                                    statusHeader.setVisibility(View.GONE);
-                                    break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
                                     statusImage.setImageResource(R.drawable.batteryb48);
@@ -225,6 +191,8 @@ public class StatusFragment extends Fragment {
                             break;
                         case ClientStatus.COMPUTING_STATUS_COMPUTING:
                             statusWrapper.setVisibility(View.GONE);
+                            break;
+                        default:
                             break;
                     }
                     //save new computing status
@@ -276,7 +244,6 @@ public class StatusFragment extends Fragment {
             view -> startActivity(new Intent(getActivity(), SelectionListActivity.class));
 
     private final class WriteClientRunModeAsync extends AsyncTask<Integer, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(Integer... params) {
             // setting provided mode for both, CPU computation and network.
@@ -299,7 +266,7 @@ public class StatusFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if(success) {
+            if(Boolean.TRUE.equals(success)) {
                 try {
                     BOINCActivity.monitor.forceRefresh();
                 }

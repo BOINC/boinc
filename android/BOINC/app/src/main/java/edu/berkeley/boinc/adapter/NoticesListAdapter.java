@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -32,6 +32,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,12 +53,13 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         this.activity = a;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final Notice listItem = entries.get(position);
 
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert vi != null;
         View v = vi.inflate(R.layout.notices_layout_listitem, null);
 
         ImageView ivIcon = v.findViewById(R.id.projectIcon);
@@ -108,5 +111,4 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
             return null;
         }
     }
-
 }

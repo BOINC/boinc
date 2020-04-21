@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import org.eclipse.collections.api.list.MutableList;
@@ -52,7 +53,6 @@ import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class TasksFragment extends Fragment {
-    private ListView lv;
     private TasksListAdapter listAdapter;
     private MutableList<TaskData> data = new FastList<>();
 
@@ -68,19 +68,20 @@ public class TasksFragment extends Fragment {
     private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "TasksFragment onCreateView");
         }
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.tasks_layout, container, false);
-        lv = layout.findViewById(R.id.tasksList);
+        ListView lv = layout.findViewById(R.id.tasksList);
         listAdapter = new TasksListAdapter(getActivity(), R.id.tasksList, data);
         lv.setAdapter(listAdapter);
         lv.setOnItemClickListener(itemClickListener);
         return layout;
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         //register noisy clientStatusChangeReceiver here, so only active when Activity is visible
@@ -91,6 +92,7 @@ public class TasksFragment extends Fragment {
         loadData();
     }
 
+    @Override
     public void onPause() {
         //unregister receiver, so there are not multiple intents flying in
         if(Logging.DEBUG) {
@@ -300,7 +302,7 @@ public class TasksFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if(success) {
+            if(Boolean.TRUE.equals(success)) {
                 try {
                     BOINCActivity.monitor.forceRefresh();
                 }

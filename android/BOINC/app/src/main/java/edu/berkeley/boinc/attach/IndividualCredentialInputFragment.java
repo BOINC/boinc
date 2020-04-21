@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -36,16 +36,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
 import edu.berkeley.boinc.utils.Logging;
 
 public class IndividualCredentialInputFragment extends DialogFragment {
-
     private String projectName;
     private String errorMessage;
     private String forgotPwdLink;
@@ -67,10 +67,10 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     public interface IndividualCredentialInputFragmentListener {
         void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd);
 
-        ArrayList<String> getDefaultInput();
+        List<String> getDefaultInput();
     }
 
-    IndividualCredentialInputFragmentListener mListener;
+    private IndividualCredentialInputFragmentListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         TextView message = v.findViewById(R.id.message);
         message.setText(errorMessage);
 
-        ArrayList<String> defaultValues = mListener.getDefaultInput();
+        List<String> defaultValues = mListener.getDefaultInput();
         emailET = v.findViewById(R.id.email_input);
         emailET.setText(defaultValues.get(0));
         nameET = v.findViewById(R.id.name_input);
@@ -141,7 +141,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mListener = (IndividualCredentialInputFragmentListener) context;
@@ -153,6 +153,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);

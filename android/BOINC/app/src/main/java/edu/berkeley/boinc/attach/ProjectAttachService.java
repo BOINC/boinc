@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2019 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,7 +18,21 @@
  */
 package edu.berkeley.boinc.attach;
 
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.util.Log;
+import android.widget.Toast;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.berkeley.boinc.R;
@@ -34,25 +48,11 @@ import edu.berkeley.boinc.utils.BOINCErrors;
 import edu.berkeley.boinc.utils.ErrorCodeDescription;
 import edu.berkeley.boinc.utils.Logging;
 
-import android.app.Service;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
-import android.os.RemoteException;
-import android.util.Log;
-import android.widget.Toast;
-
-import org.apache.commons.lang3.StringUtils;
-
 public class ProjectAttachService extends Service {
-
     // life-cycle
     private IBinder mBinder = new LocalBinder();
 
-    public class LocalBinder extends Binder {
+    class LocalBinder extends Binder {
         ProjectAttachService getService() {
             return ProjectAttachService.this;
         }
@@ -89,6 +89,7 @@ public class ProjectAttachService extends Service {
     private boolean mIsBound = false;
 
     private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -96,6 +97,7 @@ public class ProjectAttachService extends Service {
             mIsBound = true;
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             monitor = null;
@@ -119,7 +121,7 @@ public class ProjectAttachService extends Service {
 
     private PersistentStorage store;
 
-    private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
+    private List<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
 
     public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
 
@@ -151,11 +153,8 @@ public class ProjectAttachService extends Service {
      *
      * @return array of values, index 0: email address, index 1: user name
      */
-    public ArrayList<String> getUserDefaultValues() {
-        ArrayList<String> values = new ArrayList<>();
-        values.add(store.getLastEmailAddress());
-        values.add(store.getLastUserName());
-        return values;
+    public List<String> getUserDefaultValues() {
+        return Arrays.asList(store.getLastEmailAddress(), store.getLastUserName());
     }
 
     /**
@@ -164,14 +163,13 @@ public class ProjectAttachService extends Service {
      * Check projectConfigRetrievalFinished to see whether job finished.
      *
      * @param selected list of selected projects
-     * @return success
      */
-    public boolean setSelectedProjects(List<ProjectInfo> selected) {
+    public void setSelectedProjects(List<ProjectInfo> selected) {
         if(!projectConfigRetrievalFinished) {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: stop, async task already running.");
             }
-            return false;
+            return;
         }
 
         selectedProjects.clear();
@@ -186,14 +184,13 @@ public class ProjectAttachService extends Service {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound.");
             }
-            return false;
+            return;
         }
 
         if(Logging.DEBUG) {
             Log.d(Logging.TAG,
                   "ProjectAttachService.setSelectedProjects: number of selected projects: " + selectedProjects.size());
         }
-        return true;
     }
 
     /**
@@ -202,14 +199,13 @@ public class ProjectAttachService extends Service {
      * Check projectConfigRetrievalFinished to see whether job finished.
      *
      * @param url URL of project
-     * @return success
      */
-    public boolean setManuallySelectedProject(String url) {
+    public void setManuallySelectedProject(String url) {
         if(!projectConfigRetrievalFinished) {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: stop, async task already running.");
             }
-            return false;
+            return;
         }
 
         selectedProjects.clear();
@@ -223,7 +219,7 @@ public class ProjectAttachService extends Service {
             if(Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound.");
             }
-            return false;
+            return;
         }
 
         if(Logging.DEBUG) {
@@ -231,7 +227,6 @@ public class ProjectAttachService extends Service {
                   "ProjectAttachService.setManuallySelectedProject: url of selected project: " + url + ", list size: " +
                   selectedProjects.size());
         }
-        return true;
 
     }
 
@@ -239,7 +234,7 @@ public class ProjectAttachService extends Service {
         return selectedProjects.size();
     }
 
-    public ArrayList<ProjectAttachWrapper> getSelectedProjects() {
+    public List<ProjectAttachWrapper> getSelectedProjects() {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG,
                   "ProjectAttachService.getSelectedProjects: returning list of size: " + selectedProjects.size());
@@ -325,7 +320,7 @@ public class ProjectAttachService extends Service {
         ErrorCodeDescription reply = new ErrorCodeDescription();
         Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
         Integer attemptCounter = 0;
-        Boolean retry = true;
+        boolean retry = true;
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "account manager with: " + url + name + maxAttempts);
         }
@@ -346,12 +341,8 @@ public class ProjectAttachService extends Service {
             }
             switch(reply.code) {
                 case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
-                    attemptCounter++; // limit number of retries
-                    break;
                 case BOINCErrors.ERR_CONNECT: // connection problems
-                    attemptCounter++; // limit number of retries
-                    break;
-                case BOINCErrors.ERR_HTTP_TRANSIENT: // connection problems
+                case BOINCErrors.ERR_HTTP_TRANSIENT:
                     attemptCounter++; // limit number of retries
                     break;
                 case BOINCErrors.ERR_RETRY: // client currently busy with another HTTP request, retry unlimited
@@ -432,7 +423,7 @@ public class ProjectAttachService extends Service {
             this.name = url;
         }
 
-        public String getResultDescription() {
+        String getResultDescription() {
             switch(result) {
                 case RESULT_UNINITIALIZED:
                     return getString(R.string.attachproject_login_loading);
@@ -454,8 +445,9 @@ public class ProjectAttachService extends Service {
                     else {
                         return getString(R.string.attachproject_conflict_unknown_user);
                     }
+                default:
+                    return "";
             }
-            return "";
         }
 
         /**
@@ -474,7 +466,7 @@ public class ProjectAttachService extends Service {
          *
          * @return returns status conflict
          */
-        public int lookupAndAttach(boolean forceLookup) {
+        int lookupAndAttach(boolean forceLookup) {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachWrapper.attach: attempting: " + name);
             }
@@ -571,7 +563,7 @@ public class ProjectAttachService extends Service {
          *
          * @return credentials
          */
-        public AccountOut register() {
+        AccountOut register() {
             AccountOut credentials = null;
             boolean retry = true;
             Integer attemptCounter = 0;
@@ -703,8 +695,7 @@ public class ProjectAttachService extends Service {
     }
 
     private class GetProjectConfigsAsync extends AsyncTask<Void, Void, Void> {
-
-        Integer maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
+        int maxAttempts = getResources().getInteger(R.integer.attach_get_project_config_retries);
 
         @Override
         protected void onPreExecute() {
@@ -811,6 +802,5 @@ public class ProjectAttachService extends Service {
             projectConfigRetrievalFinished = true;
             super.onPostExecute(result);
         }
-
     }
 }

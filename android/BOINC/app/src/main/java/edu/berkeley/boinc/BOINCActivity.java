@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -43,27 +43,28 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import androidx.legacy.app.ActionBarDrawerToggle;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.legacy.app.ActionBarDrawerToggle;
 
-import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
 import edu.berkeley.boinc.adapter.NavDrawerItem;
+import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 
 public class BOINCActivity extends AppCompatActivity {
-
     public static IMonitor monitor;
     private Integer clientComputingStatus = -1;
     private Integer numberProjectsInNavList = 0;
-    static Boolean mIsBound = false;
+    static boolean mIsBound = false;
 
     // app title (changes with nav bar selection)
     private CharSequence mTitle;
@@ -76,6 +77,7 @@ public class BOINCActivity extends AppCompatActivity {
     private NavDrawerListAdapter mDrawerListAdapter;
 
     private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -84,6 +86,7 @@ public class BOINCActivity extends AppCompatActivity {
             determineStatus();
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             monitor = null;
@@ -133,12 +136,14 @@ public class BOINCActivity extends AppCompatActivity {
                                                   R.string.app_name, // nav drawer open - description for accessibility
                                                   R.string.app_name // nav drawer close - description for accessibility
         ) {
+            @Override
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 supportInvalidateOptionsMenu();
             }
 
+            @Override
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
                 mDrawerListAdapter.notifyDataSetChanged(); // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
@@ -147,7 +152,6 @@ public class BOINCActivity extends AppCompatActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
 
         // pre-select fragment
         // 1. check if explicitly requested fragment present
@@ -269,7 +273,7 @@ public class BOINCActivity extends AppCompatActivity {
         }
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Boolean fragmentChanges = false;
+        boolean fragmentChanges = false;
         if(init) {
             // if init, setup status fragment
             ft.replace(R.id.status_container, new StatusFragment());
@@ -428,7 +432,7 @@ public class BOINCActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(Logging.DEBUG) {
             Log.d(Logging.TAG, "BOINCActivity onOptionsItemSelected()");
         }
@@ -472,7 +476,7 @@ public class BOINCActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
@@ -485,7 +489,6 @@ public class BOINCActivity extends AppCompatActivity {
     }
 
     private final class WriteClientModeAsync extends AsyncTask<Integer, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(Integer... params) {
             // setting provided mode for both, CPU computation and network.
@@ -508,7 +511,7 @@ public class BOINCActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if(success) {
+            if(Boolean.TRUE.equals(success)) {
                 try {
                     monitor.forceRefresh();
                 }

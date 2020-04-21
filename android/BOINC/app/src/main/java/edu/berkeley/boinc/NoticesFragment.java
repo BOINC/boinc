@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,41 +18,39 @@
  */
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import edu.berkeley.boinc.adapter.NoticesListAdapter;
-import edu.berkeley.boinc.rpc.Notice;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import edu.berkeley.boinc.adapter.NoticesListAdapter;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.Logging;
+
 public class NoticesFragment extends Fragment {
-    private ListView noticesList;
     private NoticesListAdapter noticesListAdapter;
     private List<Notice> data = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "NoticesFragment onCreateView");
         }
         View layout = inflater.inflate(R.layout.notices_layout, container, false);
-        noticesList = layout.findViewById(R.id.noticesList);
+        ListView noticesList = layout.findViewById(R.id.noticesList);
         updateNotices();
         noticesListAdapter = new NoticesListAdapter(getActivity(), R.id.noticesList, data);
         noticesList.setAdapter(noticesListAdapter);
