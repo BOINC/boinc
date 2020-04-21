@@ -42,12 +42,12 @@ fun Reader.readLineLimit(limit: Int): String? {
 }
 
 fun Context.translateRPCReason(reason: Int) = when (reason) {
-    BOINCDefs.RPC_REASON_USER_REQ -> resources.getString(R.string.rpcreason_userreq)
-    BOINCDefs.RPC_REASON_NEED_WORK -> resources.getString(R.string.rpcreason_needwork)
-    BOINCDefs.RPC_REASON_RESULTS_DUE -> resources.getString(R.string.rpcreason_resultsdue)
-    BOINCDefs.RPC_REASON_TRICKLE_UP -> resources.getString(R.string.rpcreason_trickleup)
-    BOINCDefs.RPC_REASON_ACCT_MGR_REQ -> resources.getString(R.string.rpcreason_acctmgrreq)
-    BOINCDefs.RPC_REASON_INIT -> resources.getString(R.string.rpcreason_init)
-    BOINCDefs.RPC_REASON_PROJECT_REQ -> resources.getString(R.string.rpcreason_projectreq)
+    RPC_REASON_USER_REQ -> resources.getString(R.string.rpcreason_userreq)
+    RPC_REASON_NEED_WORK -> resources.getString(R.string.rpcreason_needwork)
+    RPC_REASON_RESULTS_DUE -> resources.getString(R.string.rpcreason_resultsdue)
+    RPC_REASON_TRICKLE_UP -> resources.getString(R.string.rpcreason_trickleup)
+    RPC_REASON_ACCT_MGR_REQ -> resources.getString(R.string.rpcreason_acctmgrreq)
+    RPC_REASON_INIT -> resources.getString(R.string.rpcreason_init)
+    RPC_REASON_PROJECT_REQ -> resources.getString(R.string.rpcreason_projectreq)
     else -> resources.getString(R.string.rpcreason_unknown)
 }
