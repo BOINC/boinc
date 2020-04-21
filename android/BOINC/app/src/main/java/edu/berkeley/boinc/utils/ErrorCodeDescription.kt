@@ -25,7 +25,7 @@ class ErrorCodeDescription @JvmOverloads constructor(val code: Int = 0, val desc
     private constructor(parcel: Parcel) : this(parcel.readInt(), parcel.readString())
 
     val isOK: Boolean
-        get() = code == BOINCErrors.ERR_OK && description.isNullOrEmpty()
+        get() = code == ERR_OK && description.isNullOrEmpty()
 
     override fun describeContents() = 0
 
