@@ -18,19 +18,14 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat.readBoolean
+import androidx.core.os.ParcelCompat.writeBoolean
 
 /**
- * Account credentials
- *
- * @param url      URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
- * @param email    email address of user
- * @param userName user name
- * @param password password
- * @param teamName name of team, account shall get associated to
- * @param usesName if true, id represents a user name, if not, the user's email address
+ * Account credentials, consisting of a [url], [emailAddress], [userName], [password], [teamName]
+ * and [usesName] (if true, ID represents a user name, otherwise the user's email address).
  */
 class AccountIn(
         var url: String? = null,
@@ -42,13 +37,7 @@ class AccountIn(
 ) : Parcelable {
     private constructor(parcel: Parcel) :
             this(parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString(),
-                    parcel.readString()) {
-        usesName = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            parcel.createBooleanArray()!![0]
-        } else {
-            parcel.readBoolean()
-        }
-    }
+                    parcel.readString(), readBoolean(parcel))
 
     override fun describeContents() = 0
 
@@ -58,11 +47,7 @@ class AccountIn(
         parcel.writeString(userName)
         parcel.writeString(password)
         parcel.writeString(teamName)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            parcel.writeBooleanArray(booleanArrayOf(usesName))
-        } else {
-            parcel.writeBoolean(usesName)
-        }
+        writeBoolean(parcel, usesName)
     }
 
     companion object {
