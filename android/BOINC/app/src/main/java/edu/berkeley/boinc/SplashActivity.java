@@ -149,10 +149,17 @@ public class SplashActivity extends Activity {
 
         // Use BOINC logo in Recent Apps Switcher
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
-            String label = (String) activity.getTitle();
-            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
+            final String label = activity.getTitle().toString();
+            final ActivityManager.TaskDescription taskDescription;
 
-            activity.setTaskDescription(new ActivityManager.TaskDescription(label, icon));
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.P) { // API 28
+                Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
+                taskDescription = new ActivityManager.TaskDescription(label, icon);
+            } else {
+                taskDescription = new ActivityManager.TaskDescription(label, R.drawable.boinc);
+            }
+
+            activity.setTaskDescription(taskDescription);
         }
 
         //initialize logging with highest verbosity, read actual value when monitor connected.
