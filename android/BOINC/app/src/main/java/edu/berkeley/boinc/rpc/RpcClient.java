@@ -245,7 +245,7 @@ public class RpcClient {
             Xml.parse(auth1Rsp, new Auth1Parser(mRequest)); // get nonce value
             // Operation: combine nonce & password, make MD5 hash
             mRequest.append(password);
-            String nonceHash = Md5.hash(mRequest.toString());
+            String nonceHash = StringExtensions.hash(mRequest.toString());
             // Phase 2: send hash to client
             mRequest.setLength(0);
             mRequest.append("<auth2>\n<nonce_hash>");
@@ -694,7 +694,7 @@ public class RpcClient {
     }
 
     private String getPasswordHash(String passwd, String email_addr) {
-        return Md5.hash(passwd + email_addr);
+        return StringExtensions.hash(passwd + email_addr);
     }
 
     /**
