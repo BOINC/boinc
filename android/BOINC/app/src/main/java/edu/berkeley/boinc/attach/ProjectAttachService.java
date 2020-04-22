@@ -339,7 +339,7 @@ public class ProjectAttachService extends Service {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: " + reply);
             }
-            switch(reply.code) {
+            switch(reply.getCode()) {
                 case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
                 case BOINCErrors.ERR_CONNECT: // connection problems
                 case BOINCErrors.ERR_HTTP_TRANSIENT:
@@ -360,7 +360,7 @@ public class ProjectAttachService extends Service {
             }
         }
 
-        if(reply.code != BOINCErrors.ERR_OK || StringUtils.isNotEmpty(reply.description)) {
+        if(reply.isOK()) {
             return reply;
         }
 
