@@ -77,6 +77,9 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     packagingOptions {
         exclude 'LICENSE-EPL-1.0.txt'
         exclude 'LICENSE-EDL-1.0.txt'
