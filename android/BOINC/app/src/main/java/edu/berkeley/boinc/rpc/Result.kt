@@ -18,13 +18,10 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import edu.berkeley.boinc.rpc.App
-import edu.berkeley.boinc.rpc.AppVersion
-import edu.berkeley.boinc.rpc.Project
-import edu.berkeley.boinc.rpc.WorkUnit
+import androidx.core.os.ParcelCompat.readBoolean
+import androidx.core.os.ParcelCompat.writeBoolean
 
 data class Result(
         var name: String = "",
@@ -78,44 +75,25 @@ data class Result(
         var needsShmem: Boolean = false,
         var isEdfScheduled: Boolean = false
 ) : Parcelable {
-    private constructor(parcel: Parcel) : this(parcel.readString() ?: "", parcel.readString() ?: "",
-            parcel.readString() ?: "", parcel.readInt(), parcel.readString(), parcel.readLong(),
-            parcel.readLong(), parcel.readDouble(), parcel.readDouble(), parcel.readInt(), parcel.readInt(),
-            parcel.readInt(), parcel.readInt(), parcel.readString(), parcel.readInt(), parcel.readInt(),
-            parcel.readInt(), parcel.readInt(), parcel.readDouble(), parcel.readDouble(), parcel.readFloat(),
-            parcel.readDouble(), parcel.readDouble(), parcel.readDouble(), parcel.readDouble(),
-            parcel.readInt(), parcel.readString(), parcel.readString(), parcel.readString(),
-            parcel.readValue(Project::class.java.classLoader) as Project?,
-            parcel.readValue(AppVersion::class.java.classLoader) as AppVersion?,
-            parcel.readValue(App::class.java.classLoader) as App?,
-            parcel.readValue(WorkUnit::class.java.classLoader) as WorkUnit?) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val bArray = parcel.createBooleanArray()!!
-            isReadyToReport = bArray[0]
-            gotServerAck = bArray[1]
-            isSuspendedViaGUI = bArray[2]
-            isProjectSuspendedViaGUI = bArray[3]
-            isCoprocMissing = bArray[4]
-            gpuMemWait = bArray[5]
-            isActiveTask = bArray[6]
-            supportsGraphics = bArray[7]
-            isTooLarge = bArray[8]
-            needsShmem = bArray[9]
-            isEdfScheduled = bArray[10]
-        } else {
-            isReadyToReport = parcel.readBoolean()
-            gotServerAck = parcel.readBoolean()
-            isSuspendedViaGUI = parcel.readBoolean()
-            isProjectSuspendedViaGUI = parcel.readBoolean()
-            isCoprocMissing = parcel.readBoolean()
-            gpuMemWait = parcel.readBoolean()
-            isActiveTask = parcel.readBoolean()
-            supportsGraphics = parcel.readBoolean()
-            isTooLarge = parcel.readBoolean()
-            needsShmem = parcel.readBoolean()
-            isEdfScheduled = parcel.readBoolean()
-        }
-    }
+    private constructor(parcel: Parcel) : this(name = parcel.readString() ?: "", workUnitName = parcel.readString() ?: "",
+            projectURL = parcel.readString() ?: "", versionNum = parcel.readInt(), planClass = parcel.readString(),
+            reportDeadline = parcel.readLong(), receivedTime = parcel.readLong(), finalCPUTime = parcel.readDouble(),
+            finalElapsedTime = parcel.readDouble(), state = parcel.readInt(), schedulerState = parcel.readInt(),
+            exitStatus = parcel.readInt(), signal = parcel.readInt(), stderrOut = parcel.readString(),
+            activeTaskState = parcel.readInt(), appVersionNum = parcel.readInt(), slot = parcel.readInt(),
+            pid = parcel.readInt(), checkpointCPUTime = parcel.readDouble(), currentCPUTime = parcel.readDouble(),
+            fractionDone = parcel.readFloat(), elapsedTime = parcel.readDouble(), swapSize = parcel.readDouble(),
+            workingSetSizeSmoothed = parcel.readDouble(), estimatedCPUTimeRemaining = parcel.readDouble(),
+            graphicsModeAcked = parcel.readInt(), graphicsExecPath = parcel.readString(), slotPath = parcel.readString(),
+            resources = parcel.readString(), project = parcel.readValue(Project::class.java.classLoader) as Project?,
+            appVersion = parcel.readValue(AppVersion::class.java.classLoader) as AppVersion?,
+            app = parcel.readValue(App::class.java.classLoader) as App?,
+            workUnit = parcel.readValue(WorkUnit::class.java.classLoader) as WorkUnit?,
+            isReadyToReport = readBoolean(parcel), gotServerAck = readBoolean(parcel),
+            isSuspendedViaGUI = readBoolean(parcel), isProjectSuspendedViaGUI = readBoolean(parcel),
+            isCoprocMissing = readBoolean(parcel), gpuMemWait = readBoolean(parcel),
+            isActiveTask = readBoolean(parcel), supportsGraphics = readBoolean(parcel),
+            isTooLarge = readBoolean(parcel), needsShmem = readBoolean(parcel), isEdfScheduled = readBoolean(parcel))
 
     override fun describeContents() = 0
 
@@ -153,23 +131,17 @@ data class Result(
         dest.writeValue(appVersion)
         dest.writeValue(app)
         dest.writeValue(workUnit)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            dest.writeBooleanArray(booleanArrayOf(isReadyToReport, gotServerAck, isSuspendedViaGUI,
-                    isProjectSuspendedViaGUI, isCoprocMissing, gpuMemWait, isActiveTask, supportsGraphics,
-                    isTooLarge, needsShmem, isEdfScheduled))
-        } else {
-            dest.writeBoolean(isReadyToReport)
-            dest.writeBoolean(gotServerAck)
-            dest.writeBoolean(isSuspendedViaGUI)
-            dest.writeBoolean(isProjectSuspendedViaGUI)
-            dest.writeBoolean(isCoprocMissing)
-            dest.writeBoolean(gpuMemWait)
-            dest.writeBoolean(isActiveTask)
-            dest.writeBoolean(supportsGraphics)
-            dest.writeBoolean(isTooLarge)
-            dest.writeBoolean(needsShmem)
-            dest.writeBoolean(isEdfScheduled)
-        }
+        writeBoolean(dest, isReadyToReport)
+        writeBoolean(dest, gotServerAck)
+        writeBoolean(dest, isSuspendedViaGUI)
+        writeBoolean(dest, isProjectSuspendedViaGUI)
+        writeBoolean(dest, isCoprocMissing)
+        writeBoolean(dest, gpuMemWait)
+        writeBoolean(dest, isActiveTask)
+        writeBoolean(dest, supportsGraphics)
+        writeBoolean(dest, isTooLarge)
+        writeBoolean(dest, needsShmem)
+        writeBoolean(dest, isEdfScheduled)
     }
 
     object Fields {
