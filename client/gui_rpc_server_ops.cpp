@@ -23,7 +23,6 @@
 #include <Carbon/Carbon.h>
 #include <libproc.h>
 #include "sandbox.h"
-#include "mac_branding.h"
 #endif
 
 #ifdef _WIN32
@@ -1334,94 +1333,43 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
-static void stop_graphics_app(pid_t thePID, 
-                            long iBrandID, 
-                            char current_dir[], 
-                            char switcher_path[], 
-                            string theScreensaverLoginUser, 
-                            GUI_RPC_CONN& grc
-                            ) {
-    char* argv[16];
-    int argc;
-    char screensaverLoginUser[256];
-    int newPID = 0;
-    int retval;
-
-    if (g_use_sandbox) {
-        char pidString[10];
-        
-        snprintf(pidString, sizeof(pidString), "%d", thePID);
-    #if 1
-        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
-        argv[1] = saverName[iBrandID];
-        argv[2] = "-kill_gfx";
-        argv[3] = pidString;
-        argc = 4;
-    #else 
-        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
-        argv[1] = "/bin/kill";
-        argv[2] = "-kill";
-        argv[3] = (char *)pidString;
-        argc = 4;
-    #endif
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
-        }
-        argv[argc] = 0;
-
-        retval = run_program(
-            current_dir, switcher_path,
-            argc, argv, 0, newPID
-        );
-    } else {
-        retval = kill_program(thePID);
-    }
-    if (retval) {
-        grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
-        return;
-    }
-    grc.mfout.printf("<success/>\n");
-    return;
-}
-
 // start, stop or get status of a graphics app on behalf of the screensaver.
-// (needed for Mac OS X 10.15+; "stop & "test" are used for Mac OS X 10.13+)
+// (needed for Mac OS X 10.5+)
 //
 // <slot>n</slot> { <run/> | <runfullscreen/> }
 // <graphics_pid>p</graphics_pid> { <stop/> | <test/> }
 //
 // n is the slot number:
 //   if slot = -1, start the default screensaver
-// p is the process id to stop
+// p is the process id to stop or test
 //   test returns 0 for the pid if it has exited, else returns the child's pid
+//
+// As of 3 November 2019, only the "stop" verb is being used, because the client 
+// can't launch or test gfx apps outside the user session within which the client
+// is running. So if another user is logged in and runs the screensaver, that
+// sure would not see the graphics. But I'm leaving code for all the verbs for 
+// now as a possible starting point for future development.
+//
+// The stop verb still works because it calls kill_via_switcher(), which calls 
+// kill(pid, SIGKILL) after setting user and group to pbionc_project. That does 
+// work across different login sessions.
 //
 static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
 #ifndef __APPLE__
     grc.mfout.printf("<error>run_graphics_app RPC is currently available only on Mac OS</error>\n");
 #else
+    static int boincscr_pid = 0;
     bool run = false;
     bool runfullscreen = false;
     bool stop = false;
     bool test = false;
     int slot = -2, retval;
+    int status;
     pid_t p;
-    char* argv[16];
+    char* argv[5];
     int argc;
     int thePID = 0;
-    FILE *f;
-    long iBrandID;
-    string theScreensaverLoginUser;
-    char screensaverLoginUser[256];
-    char switcher_path[MAXPATHLEN];
-    char *execName, *execPath;
-    char current_dir[MAXPATHLEN];
-    char *execDir;
-    int newPID = 0;
-    ACTIVE_TASK* atp = NULL;
-    char cmd[256];
-    
+
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
         if (grc.xp.parse_int("slot", slot)) continue;
@@ -1430,7 +1378,6 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_bool("stop", stop)) continue;
         if (grc.xp.parse_bool("test", test)) continue;
         if (grc.xp.parse_int("graphics_pid", thePID)) continue;
-        if (grc.xp.parse_string("ScreensaverLoginUser", theScreensaverLoginUser)) continue;
     }
     
     if (stop || test) {
@@ -1450,137 +1397,134 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
 
     if (test) {
         // returns 0 for the pid if it has exited, else returns the child's pid
-        p = 0;
-        snprintf(cmd, sizeof(cmd), "ps -p %d -o pid", thePID);
-        f = popen(cmd, "r");
-        if (f) {
-            fgets(cmd, sizeof(cmd), f); // Skip the header line
-            fscanf(f, "%d", &p);
-            pclose(f);
-            grc.mfout.printf(
-                "<graphics_pid>%d</graphics_pid>\n<success/>\n",
-                p
-            );
-        }
+        p = waitpid(thePID, &status, WNOHANG);
+        if (p != 0) thePID = 0;
+        grc.mfout.printf(
+            "<graphics_pid>%d</graphics_pid>\n",
+            thePID
+        );
         return;
     }
 
-    // For branded installs, the Mac installer put a branding file in our data directory
-    iBrandID = 0;   // Default value
-    f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
-    if (f) {
-        fscanf(f, "BrandId=%ld\n", &iBrandID);
-        fclose(f);
-    }
-    if ((iBrandID < 0) || (iBrandID > (NUMBRANDS-1))) {
-        iBrandID = 0;
-    }
-
-    getcwd(current_dir, sizeof(current_dir));
-
-    if (g_use_sandbox) {
-        snprintf(switcher_path, sizeof(switcher_path), 
-            "%s/%s/%s",
-            current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
-        );
-    }
-
     if (stop) {
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
-                            theScreensaverLoginUser, grc);
+        if (g_use_sandbox && (thePID != boincscr_pid )) {
+            retval = kill_via_switcher(thePID);
+        } else {
+            retval = kill_program(thePID);
+        }
+        if (retval) {
+            grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
+            return;
+        }
+        if (thePID == boincscr_pid) boincscr_pid = 0;
         grc.mfout.printf("<success/>\n");
         return;
     }
 
+    // start boincscr
+    //
     if (slot == -1) {
-        // start boincscr
-        //
-        execPath = (char*)"./boincscr";
-        execName = (char*)"boincscr";
-        execDir = current_dir;
-    } else {   // if (slot != -1)
-        // start a graphics app
-        //
-        atp = gstate.active_tasks.lookup_slot(slot);
-        if (!atp) {
-            grc.mfout.printf("<error>no job in slot</error>\n");
-            return;
-        }
-        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
-            grc.mfout.printf("<error>job not running</error>\n");
-            return;
-        }
-        if (!strlen(atp->app_version->graphics_exec_path)) {
-            grc.mfout.printf("<error>job has no graphics app</error>\n");
-            return;
-        }
-        
-        execPath = atp->app_version->graphics_exec_path;
-        execName = atp->app_version->graphics_exec_file;
-        execDir = atp->slot_path;
-    }
+        char path[MAXPATHLEN];
 
-    if (g_use_sandbox) {
-        if (slot == -1) {
-            argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
-            argv[1] = execDir;
-            argv[2] = saverName[iBrandID];
-            argv[3] = "-default_gfx";
-            argv[4] = "boincscr";
-            argc = 5;
-        } else {
-            char theSlot[10];
-            sprintf(theSlot, "%d", slot);
-            argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
-            argv[1] = execDir;
-            argv[2] = saverName[iBrandID];
-            argv[3] = "-launch_gfx";
-            argv[4] = (char *)theSlot;
-            argc = 5;
+#ifdef __APPLE__
+        safe_strcpy(path, "./boincscr");
+#else
+        if (get_real_executable_path(path, sizeof(path))) {
+            grc.mfout.printf("<error>can't get client path</error>\n");
+            return;
         }
-        
-        if (runfullscreen) {
-            argv[argc++] = "--fullscreen";
+        char *p = strrchr(path, '/');
+        if (!p) {
+            grc.mfout.printf("<error>no / in client path</error>\n");
+            return;
         }
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
-        }
-        argv[argc] = 0;
-
-        retval = run_program(
-            execDir, switcher_path,
-            argc, argv, 0, newPID
-        );
-    } else {    // not g_use_sandbox
-        argv[0] = execName;
+        safe_strcpy(p, "/boincscr");
+#endif
+        argv[0] = (char*)"boincscr";
         if (runfullscreen) {
             argv[1] = (char*)"--fullscreen";
             argc = 2;
         } else {
+            argv[1] = 0;
             argc = 1;
         }
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
+        argv[2] = 0;
+        retval = run_program(NULL, path, argc, argv, 0, boincscr_pid);
+    
+        if (retval) {
+            grc.mfout.printf("<error>couldn't run boincscr</error>\n");
+            return;
         }
-        argv[argc] = 0;
+        grc.mfout.printf(
+            "<graphics_pid>%d</graphics_pid>\n",
+            boincscr_pid
+        );
+        return;
+    }   // end if (slot == -1)
+
+    // start a graphics app
+    //
+    ACTIVE_TASK* atp = gstate.active_tasks.lookup_slot(slot);
+    if (!atp) {
+        grc.mfout.printf("<error>no job in slot</error>\n");
+        return;
+    }
+    if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
+        grc.mfout.printf("<error>job not running</error>\n");
+        return;
+    }
+    if (!strlen(atp->app_version->graphics_exec_path)) {
+        grc.mfout.printf("<error>job has no graphics app</error>\n");
+        return;
+    }
+
+    if (g_use_sandbox) {
+        char current_dir[MAXPATHLEN], switcher_path[MAXPATHLEN];
+        getcwd( current_dir, sizeof(current_dir));
+        snprintf(switcher_path, sizeof(switcher_path), 
+            "%s/%s/%s",
+            current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
+        );
+        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+        argv[1] = atp->app_version->graphics_exec_path;
+        argv[2] = atp->app_version->graphics_exec_file;
+        if (runfullscreen) {
+            argv[3] = (char*)"--fullscreen";
+            argc = 3;
+        } else {
+            argv[3] = 0;
+            argc = 2;
+        }
+        argv[4] = 0;
         retval = run_program(
-            execDir, execPath,
-            argc, argv, 0, newPID
+            atp->slot_path, switcher_path,
+            argc, argv, 0, atp->graphics_pid
+        );
+    } else {    // not g_use_sandbox
+        argv[0] = atp->app_version->graphics_exec_file;
+        if (runfullscreen) {
+            argv[1] = (char*)"--fullscreen";
+            argc = 2;
+        } else {
+            argv[2] = 0;
+            argc = 1;
+        }
+        argv[2] = 0;
+        retval = run_program(
+            atp->slot_path, atp->app_version->graphics_exec_path,
+            argc, argv, 0, atp->graphics_pid
         );
     }
     
     if (retval) {
         grc.mfout.printf("<error>couldn't run graphics app</error>\n");
-        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
-                            theScreensaverLoginUser, grc);
-    } else {
-        grc.mfout.printf("<success/>\n");
+        return;
     }
-    return;
+    
+    grc.mfout.printf(
+        "<graphics_pid>%d</graphics_pid>\n",
+        atp->graphics_pid
+    );
 #endif  // __APPLE__
 }
 
