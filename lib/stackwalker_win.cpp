@@ -349,7 +349,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
     }
 
     fprintf(stderr, "ModLoad: ");
-    fprintf(stderr, "%.16x "                                , Module.BaseOfImage);
+    fprintf(stderr, "%.16" PRIx64 " "                       , Module.BaseOfImage);
     fprintf(stderr, "%.16x "                                , Module.ImageSize);
     fprintf(stderr, "%s "                                   , Module.LoadedImageName);
     if (bFileVersionSupported && bFileVersionRetrieved) {
@@ -729,15 +729,15 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     // Dump the Context data
 #if defined(_WIN64) && defined(_M_X64)
     fprintf(stderr, 
-        "rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n",
+        "rax=%.16" PRIx64 " rbx=%.16" PRIx64 " rcx=%.16" PRIx64 " rdx=%.16" PRIx64 " rsi=%.16" PRIx64 " rdi=%.16" PRIx64 "\n",
         Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
     );
     fprintf(stderr, 
-        "r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n",
+        "r8=%.16" PRIx64 " r9=%.16" PRIx64 " r10=%.16" PRIx64 " r11=%.16" PRIx64 " r12=%.16" PRIx64 " r13=%.16" PRIx64 "\n",
         Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
     );
     fprintf(stderr, 
-        "r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n",
+        "r14=%.16" PRIx64 " r15=%.16" PRIx64 " rip=%.16" PRIx64 " rsp=%.16" PRIx64 " rbp=%.16" PRIx64 "\n",
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
     fprintf(stderr, 
