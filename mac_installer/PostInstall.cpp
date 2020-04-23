@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -114,9 +114,9 @@ Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw);
-Boolean SetScreenSaverLaunchAgent(passwd *pw, char *theSaverName);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
+static void DeleteScreenSaverLaunchAgent(passwd *pw);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
 static void FixLaunchServicesDataBase(uid_t userID, long brandID);
@@ -170,7 +170,6 @@ static char                     tempDirName[MAXPATHLEN];
 static time_t                   waitPermissionsStartTime;
 static vector<string>           human_user_names;
 static vector<uid_t>            human_user_IDs;
-static Boolean                  useScreenSaverLaunchAgent = false;
 
 
 enum { launchWhenDone,
@@ -218,9 +217,6 @@ int main(int argc, char *argv[])
         ShowMessage(false, (char *)_("Could not get user login name"));
         return 0;
     }
-
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    useScreenSaverLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
 
     printf("login name = %s\n", loginName);
     fflush(stdout);
@@ -1173,69 +1169,20 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
 }
 
 
-Boolean SetScreenSaverLaunchAgent(passwd *pw, char *theSaverName)
-{
-    struct stat             sbuf;
-    char                    s[2048];
-    char                    *helper_app_base_path;
+void DeleteScreenSaverLaunchAgent(passwd *pw) {
+    char                    cmd[MAXPATHLEN];
 
-    // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
-    // SetScreenSaverLaunchAgent will run helper app which will run gfx_switcher whenever 
-    // BOINCSaver writes a file BOINCSSHelper.txt. gfx_switcher reads its command from 
-    // that file and writes a file /Users/Shared/BOINCGfxPid.txt with the new pid if it 
-    // succesfully launched a gfx app.
-    //
-    // Create LaunchAgents directory for this user if it does not yet exist
-    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
-    if (stat(s, &sbuf) != 0) {  // stat() returns zero on success
-        mkdir(s, 0755);
-        chown(s, pw->pw_uid, pw->pw_gid);
+    sprintf(cmd, "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
+    if (boinc_file_exists(cmd)) {
+        sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), 
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+            pw->pw_name);
+        boinc_delete_file(cmd);
     }
-
-    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
-    if (stat(s, &sbuf) == 0) {
-        sprintf(s, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
-        callPosixSpawn(s);
-    }
-
-    snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
-    FILE* f = fopen(s, "w");
-    if (!f) return false;
-    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
-    fprintf(f, "<plist version=\"1.0\">\n");
-    fprintf(f, "<dict>\n");
-    fprintf(f, "\t<key>Label</key>\n");
-    fprintf(f, "\t<string>edu.berkeley.boinc-sshelper</string>\n");
-    fprintf(f, "\t<key>ProgramArguments</key>\n");
-    fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher</string>\n", theSaverName);
-    fprintf(f, "\t</array>\n");
-    fprintf(f, "\t<key>WatchPaths</key>\n");
-    fprintf(f, "\t<array>\n");
-    if (compareOSVersionTo(10, 15) >= 0) {
-        helper_app_base_path = "Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/";
-    } else {
-        helper_app_base_path = "";
-    }
-    fprintf(f, "\t\t<string>/Users/%s/Library/%sApplication Support/BOINC/BOINCSSHelper.txt</string>\n", pw->pw_name, helper_app_base_path);
-    fprintf(f, "\t</array>\n");
-    fprintf(f, "</dict>\n");
-    fprintf(f, "</plist>\n");
-    fclose(f);
-
-    chmod(s, 0644);
-    chown(s, pw->pw_uid, pw->pw_gid);
-
-    if (IsUserLoggedIn(pw->pw_name)) {
-        sprintf(s, "su -l \"%s\" -c 'launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
-        callPosixSpawn(s);
-    }
-    
-    return true;
 }
-
 
 
 // Sets the skin selection in the specified user's preferences to the specified skin
@@ -1898,37 +1845,23 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 // callPosixSpawn(s);
             }
             
-            // Set the screensaver launch agent even if they have not selected the
-            // BOINC screensaver now, so BOINC screensaver will work if selected later 
-            // via System Preferences.
-            if (useScreenSaverLaunchAgent) {
-                printf("[2] calling SetScreenSaverLaunchAgent for user %s, euid = %d\n", 
-                    pw->pw_name, geteuid());
-                fflush(stdout);
-                // SetScreenSaverLaunchAgent will run helper app which will run gfx_switcher whenever 
-                // BOINCSaver writes a file BOINCSSHelper.txt. gfx_switcher reads its command from 
-                // that file and writes a file /Users/Shared/BOINCGfxPid.txt with the new pid if it 
-                // succesfully launched a gfx app.
-                //
-                SetScreenSaverLaunchAgent(pw, saverName[brandID]);
-             
-                if (compareOSVersionTo(10, 15) >= 0) {
-                    // Under Catalina, Screensaver output files are put in the user's Containers 
-                    // directory. Create the directory if it doesn't exist and create a symbolic
-                    // link to it in the normal per-user BOINC directory 
-                    snprintf(s, sizeof(s), 
-                        "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
-                    if (stat(s, &sbuf) != 0) {
-                        snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
-                                pw->pw_name, pw->pw_name);
-                        err = callPosixSpawn(cmd);
-                        REPORT_ERROR(err);
-                        printf("[2] %s returned %d\n", cmd, err);
-                        fflush(stdout);
-                    }
-                        
-                    snprintf(s, sizeof(s), "/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC", 
-                            pw->pw_name);
+            if (compareOSVersionTo(10, 15) >= 0) {
+                // Under Catalina, Screensaver output files are put in the user's Containers 
+                // directory. Create the directory if it doesn't exist and create a symbolic
+                // link to it in the normal per-user BOINC directory 
+                snprintf(s, sizeof(s), 
+                    "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
+                if (stat(s, &sbuf) != 0) {
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
+                            pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
+                }
+                    
+                snprintf(s, sizeof(s), "/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC", 
+                        pw->pw_name);
                     if (stat(s, &sbuf) != 0) {
                         // mkdir -p creates intermediate directories as required
                         snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0700 \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support\"",
@@ -1938,27 +1871,30 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                         printf("[2] %s returned %d\n", cmd, err);
                         fflush(stdout);
 
-                        snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -m 0775 \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\"",
-                                pw->pw_name, pw->pw_name);
-                        err = callPosixSpawn(cmd);
-                        REPORT_ERROR(err);
-                        printf("[2] %s returned %d\n", cmd, err);
-                        fflush(stdout);
-                    }
-                    snprintf(s, sizeof(s), 
-                        "/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs", 
-                        pw->pw_name);
-                    if (lstat(s, &sbuf) != 0) {
-                        snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" ln -s \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\" \"/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs\"", pw->pw_name, pw->pw_name, pw->pw_name);
-                        err = callPosixSpawn(cmd);
-                        REPORT_ERROR(err);
-                        printf("[2] %s returned %d\n", cmd, err);
-                        fflush(stdout);
-                    }
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -m 0775 \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\"",
+                            pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
+                }
+                snprintf(s, sizeof(s), 
+                    "/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs", 
+                    pw->pw_name);
+                if (lstat(s, &sbuf) != 0) {
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" ln -s \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\" \"/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs\"", pw->pw_name, pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
                 }
             }
         }
 
+        // We no longer use a ScreenSaver LaunchAgent. 
+        // Delete it if it was installed by an older version of BOINC
+        DeleteScreenSaverLaunchAgent(pw);
+    
         // Delete the BOINC Manager's wxSingleInstanceChecker lock file, in case
         // it was not deleted (such as due to a crash.)
         // Lock file name always has "BOINC Manager" even if the application is
@@ -1973,24 +1909,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
-
-    if (useScreenSaverLaunchAgent) {
-        if (currentUserCanRunBOINC) {
-            pw = getpwnam(loginName);
-            setuid(pw->pw_uid);
-            setgid(pw->pw_gid);
-            printf("[2] loading screensaver LaunchAgent edu.berkeley.boinc-sshelper.plist for current user\n");
-            fflush(stdout);
-            snprintf(cmd, sizeof(cmd), 
-                "launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
-                loginName);
-            err = callPosixSpawn(cmd);
-            REPORT_ERROR(err);
-            printf("[2] %s returned %d\n", cmd, err);
-            fflush(stdout);
-        }
-    }
-    
     ResynchDSSystem();
     
     BOINCTranslationCleanup();
