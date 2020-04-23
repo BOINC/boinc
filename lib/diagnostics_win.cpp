@@ -1430,13 +1430,21 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
                 switch(pExPtrs->ExceptionRecord->ExceptionInformation[0]) {
                 case 0: // read attempt
                     snprintf(substatus, sizeof(substatus),
-                        "read attempt to address 0x%8.8X",
+#ifdef _WIN64
+                        "read attempt to address 0x%16.16" PRIxPTR,
+#else
+                        "read attempt to address 0x%8.8" PRIxPTR,
+#endif
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
                 case 1: // write attempt
                     snprintf(substatus, sizeof(substatus),
-                        "write attempt to address 0x%8.8X",
+#ifdef _WIN64
+                        "write attempt to address 0x%16.16" PRIxPTR,
+#else
+                        "write attempt to address 0x%8.8" PRIxPTR,
+#endif
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
