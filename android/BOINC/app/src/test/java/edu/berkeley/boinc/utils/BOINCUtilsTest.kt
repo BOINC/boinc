@@ -19,49 +19,42 @@
 package edu.berkeley.boinc.utils
 
 import org.apache.commons.io.input.CharSequenceReader
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.Reader
-import kotlin.test.junit5.JUnit5Asserter
 
 const val THIS = "This"
 const val STRING = "This is a string."
 
-internal class BOINCUtilsTest {
-    private lateinit var stringBuilder: StringBuilder
-    private lateinit var reader: Reader
-
-    @BeforeEach
-    fun setUp() {
-        stringBuilder = StringBuilder(STRING)
-        reader = CharSequenceReader(stringBuilder)
-    }
+class BOINCUtilsTest {
+    private var stringBuilder = StringBuilder(STRING)
+    private var reader: Reader = CharSequenceReader(stringBuilder)
 
     @Test
     fun testReadLineLimit_whenReaderHasEmptyStringAndLimitIs1_thenExpectNull() {
         stringBuilder.setLength(0)
-        JUnit5Asserter.assertNull("Expected null", reader.readLineLimit(1))
+        Assertions.assertNull(reader.readLineLimit(1))
     }
 
     @Test
     fun testReadLineLimit_whenReaderHasNonEmptyStringAndLimitIsLengthOfString_thenExpectReaderString() {
-        JUnit5Asserter.assertEquals("Expected $STRING", STRING, reader.readLineLimit(stringBuilder.length))
+        Assertions.assertEquals(STRING, reader.readLineLimit(stringBuilder.length))
     }
 
     @Test
     fun testReadLineLimit_whenReaderHasNonEmptyStringAndLimitIsLengthOfStringPlus1_thenExpectReaderString() {
-        JUnit5Asserter.assertEquals("Expected $STRING", STRING, reader.readLineLimit(stringBuilder.length + 1))
+        Assertions.assertEquals(STRING, reader.readLineLimit(stringBuilder.length + 1))
     }
 
     @Test
     fun testReadLineLimit_whenReaderHasStringWithNewlineAndLimitIsLengthOfString_thenExpectStringWithoutNewline() {
         stringBuilder.setCharAt(4, '\n')
-        JUnit5Asserter.assertEquals("Expected $THIS", THIS, reader.readLineLimit(stringBuilder.length))
+        Assertions.assertEquals(THIS, reader.readLineLimit(stringBuilder.length))
     }
 
     @Test
     fun testReadLineLimit_whenReaderHasStringWithCarriageReturnAndLimitIsLengthOfString_thenExpectStringWithoutCarriageReturn() {
         stringBuilder.setCharAt(4, '\r')
-        JUnit5Asserter.assertEquals("Expected $THIS", THIS, reader.readLineLimit(stringBuilder.length))
+        Assertions.assertEquals(THIS, reader.readLineLimit(stringBuilder.length))
     }
 }

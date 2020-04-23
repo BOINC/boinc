@@ -18,19 +18,30 @@
  */
 package edu.berkeley.boinc.rpc
 
-import org.junit.jupiter.api.Test
-import kotlin.test.junit5.JUnit5Asserter
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
+
+private class ProjectArgumentsProvider : ArgumentsProvider {
+    override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
+        return Stream.of(
+                Arguments.of(Project(masterURL = "Master URL")),
+                Arguments.of(Project(masterURL = "Master URL", projectName = "Project"))
+        )
+    }
+}
 
 class ProjectTest {
-    @Test
-    fun `Expect getName() to return master URL when project name is empty`() {
-        val project = Project(masterURL = "Master URL")
-        JUnit5Asserter.assertEquals("Expected to be equal.","Master URL", project.name)
-    }
-
-    @Test
-    fun `Expect getName() to return project name when project name is not empty`() {
-        val project = Project(masterURL = "Master URL", projectName = "Project")
-        JUnit5Asserter.assertEquals("Expected to be equal.","Project", project.name)
+    @ParameterizedTest
+    @ArgumentsSource(ProjectArgumentsProvider::class)
+    fun `Test name property`(project: Project) {
+        if (project.projectName.isEmpty())
+            Assertions.assertEquals(project.masterURL, project.name)
+        else
+            Assertions.assertEquals(project.projectName, project.name)
     }
 }
