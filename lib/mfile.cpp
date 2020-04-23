@@ -21,12 +21,13 @@
 #include "stdwx.h"
 #else
 #include "config.h"
+#include <cerrno>
+#include <cinttypes>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
 #include <cstring>
 #include <string>
-#include <cerrno>
 #include <unistd.h>
 #endif
 
