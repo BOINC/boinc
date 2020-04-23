@@ -297,7 +297,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", lpVar);
+                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", static_cast<const char*>(lpVar));
                     if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
                         szCompanyName[255] = '\0';
                     }
@@ -311,7 +311,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", lpVar);
+                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", static_cast<const char*>(lpVar));
                     if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
                         szProductName[255] = '\0';
                     }
@@ -325,7 +325,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", lpVar);
+                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", static_cast<const char*>(lpVar));
                     if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
                         szFileVersion[255] = '\0';
                     }
@@ -337,7 +337,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                     lpTranslate[0].wCodePage
                 );
                 if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
-                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", lpVar);
+                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", static_cast<const char*>(lpVar));
                     if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
                         szProductVersion[255] = '\0';
                     }
