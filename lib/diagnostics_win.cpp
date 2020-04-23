@@ -1298,29 +1298,29 @@ int diagnostics_dump_process_information() {
     fprintf(
         stderr, 
         "- Paged Pool Usage -\n"
-        "QuotaPagedPoolUsage: %d, QuotaPeakPagedPoolUsage: %d\n"
-        "QuotaNonPagedPoolUsage: %d, QuotaPeakNonPagedPoolUsage: %d\n"
+        "QuotaPagedPoolUsage: %" PRIuMAX ", QuotaPeakPagedPoolUsage: %" PRIuMAX "\n"
+        "QuotaNonPagedPoolUsage: %" PRIuMAX ", QuotaPeakNonPagedPoolUsage: %" PRIuMAX "\n"
         "\n"
         "- Virtual Memory Usage -\n"
-        "VirtualSize: %d, PeakVirtualSize: %d\n"
+        "VirtualSize: %" PRIuMAX ", PeakVirtualSize: %" PRIuMAX "\n"
         "\n"
         "- Pagefile Usage -\n"
-        "PagefileUsage: %d, PeakPagefileUsage: %d\n"
+        "PagefileUsage: %" PRIuMAX ", PeakPagefileUsage: %" PRIuMAX "\n"
         "\n"
         "- Working Set Size -\n"
-        "WorkingSetSize: %d, PeakWorkingSetSize: %d, PageFaultCount: %d\n"
+        "WorkingSetSize: %" PRIuMAX ", PeakWorkingSetSize: %" PRIuMAX ", PageFaultCount: %" PRIuMAX "\n"
         "\n",
-        diagnostics_process.vm_counters.QuotaPagedPoolUsage,
-        diagnostics_process.vm_counters.QuotaPeakPagedPoolUsage,
-        diagnostics_process.vm_counters.QuotaNonPagedPoolUsage,
-        diagnostics_process.vm_counters.QuotaPeakNonPagedPoolUsage,
-        diagnostics_process.vm_counters.VirtualSize,
-        diagnostics_process.vm_counters.PeakVirtualSize,
-        diagnostics_process.vm_counters.PagefileUsage,
-        diagnostics_process.vm_counters.PeakPagefileUsage,
-        diagnostics_process.vm_counters.WorkingSetSize,
-        diagnostics_process.vm_counters.PeakWorkingSetSize,
-        diagnostics_process.vm_counters.PageFaultCount
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.QuotaPagedPoolUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.QuotaPeakPagedPoolUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.QuotaNonPagedPoolUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.QuotaPeakNonPagedPoolUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.VirtualSize),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.PeakVirtualSize),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.PagefileUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.PeakPagefileUsage),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.WorkingSetSize),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.PeakWorkingSetSize),
+        static_cast<uintmax_t>(diagnostics_process.vm_counters.PageFaultCount)
     );
 
     return 0;
