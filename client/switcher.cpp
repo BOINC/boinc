@@ -87,6 +87,7 @@ int main(int /*argc*/, char** argv) {
 
 #endif
 
+#ifdef __APPLE__
     // Under fast user switching, the BOINC client may be running under a
     // different login than the screensaver 
     //
@@ -100,6 +101,7 @@ int main(int /*argc*/, char** argv) {
         }
         ++i;
     }
+#endif
  
     if (!screensaverLoginUser) {
         // Satisfy an error / warning from rpmlint: ensure that
@@ -120,6 +122,7 @@ int main(int /*argc*/, char** argv) {
             (void) setuid(pw->pw_uid);
         }
     }
+
     // For unknown reasons, the LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
     // environment variables are not passed in to switcher, though all
     // other environment variables do get propagated.  So we recreate
@@ -163,6 +166,7 @@ int main(int /*argc*/, char** argv) {
 #endif
     }
 
+#ifdef __APPLE__
    if (screensaverLoginUser) {
        // Used under OS 10.15 Catalina and later to launch screensaver graphics apps
        //
@@ -203,13 +207,13 @@ int main(int /*argc*/, char** argv) {
 
         if (!strcmp(argv[2], "-kill_gfx")) {
             snprintf(cmd, sizeof(cmd), "\"/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher\" %s %s", argv[1], argv[2], argv[3]);
-            retval = callPosixSpawn((const char*)cmd);
+            retval = callPosixSpawn(cmd);
             return retval;
        } else {
             // A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason 
             // edu.berkeley.boinc-ss_helper is still loaded, so ensure it is removed.
             snprintf(cmd, sizeof(cmd), "su -l \"%s\" -c 'launchctl remove edu.berkeley.boinc-ss_helper'", screensaverLoginUser);
-            retval = callPosixSpawn((const char*)cmd);
+            retval = callPosixSpawn(cmd);
 
             snprintf(cmd, sizeof(cmd), "su -l \"%s\" -c 'launchctl submit -l edu.berkeley.boinc-ss_helper -- \"/Library/Screen Savers/%s.saver/Contents/Resources/boinc_ss_helper.sh\" \"%s\"", screensaverLoginUser, argv[2], argv[1]);
             i = 2;
@@ -227,10 +231,10 @@ int main(int /*argc*/, char** argv) {
             // Suppress "killed" message from bash in stderrdae.txt
             freopen("/dev/null", "a", stderr);
         }
-        retval = callPosixSpawn((const char*)cmd);
+        retval = callPosixSpawn(cmd);
         return retval;
     }
-
+#endif
 
     retval = execv(argv[1], argv+2);
     if (retval == -1) {
