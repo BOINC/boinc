@@ -200,7 +200,7 @@ public class Monitor extends Service {
             // when previous executions are delayed (e.g. during clientSetup() )
             updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
         }
-        if (!mutex.acquired && Logging.ERROR)
+        if (!mutex.isAcquired() && Logging.ERROR)
             Log.e(Logging.TAG, "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC.");
 
         // execute action if one is explicitly requested (e.g. from notification)
@@ -285,7 +285,7 @@ public class Monitor extends Service {
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
     public void forceRefresh() {
-        if (!mutex.acquired) return; // do not try to update if client is not running
+        if (!mutex.isAcquired()) return; // do not try to update if client is not running
         if (Logging.DEBUG) Log.d(Logging.TAG, "forceRefresh()");
         try {
             updateTimer.schedule(new StatusUpdateTimerTask(), 0);
@@ -1410,7 +1410,7 @@ public class Monitor extends Service {
 
         @Override
         public boolean boincMutexAcquired() throws RemoteException {
-            return mutex.acquired;
+            return mutex.isAcquired();
         }
     };
 // --end-- remote service
