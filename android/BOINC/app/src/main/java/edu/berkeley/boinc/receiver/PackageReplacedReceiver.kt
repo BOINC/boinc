@@ -16,39 +16,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.receiver;
+package edu.berkeley.boinc.receiver
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.utils.Logging
 
-import org.apache.commons.lang3.StringUtils;
-
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.utils.Logging;
-
-public class PackageReplacedReceiver extends BroadcastReceiver {
+class PackageReplacedReceiver : BroadcastReceiver() {
     /*
      * Receiver for android.intent.action.PACKAGE_REPLACED
      * This intent is protected and can only be triggered by the system
      * To test this code run ADB with the following command:
      * adb install -r yourapp.apk
      */
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if(StringUtils.equals(intent.getAction(), Intent.ACTION_PACKAGE_REPLACED)) {
-            if(StringUtils.contains(intent.getDataString(), "edu.berkeley.boinc")) {
-                if(Logging.ERROR) {
-                    Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...");
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == Intent.ACTION_PACKAGE_REPLACED) {
+            if (intent.dataString.toString().contains("edu.berkeley.boinc")) {
+                if (Logging.ERROR) {
+                    Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...")
                 }
-                Intent startServiceIntent = new Intent(context, Monitor.class);
-                context.startService(startServiceIntent);
-            }
-            else if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.getDataString());
+                context.startService(Intent(context, Monitor::class.java))
+            } else if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.dataString)
             }
         }
     }
-
 }
