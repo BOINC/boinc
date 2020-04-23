@@ -93,7 +93,7 @@ Commands:\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
- --run_graphics_app id op         run, test or stop graphics app\n\
+ --run_graphics_app id op         (Macintosh only) run, test or stop graphics app\n\
    op = run | runfullscreen | stop | test\n\
    id = slot # for run or runfullscreen, process ID for stop or test\n\
    id = -1 for default screensaver (boincscr)\n\
@@ -548,12 +548,14 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+#ifdef __APPLE__
     } else if (!strcmp(cmd, "--run_graphics_app")) {
         int operand = atoi(argv[2]);
         retval = rpc.run_graphics_app(argv[3], operand, getlogin());
         if (!strcmp(argv[3], "test") & !retval) {
             printf("pid: %d\n", operand);
         }
+#endif
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));
