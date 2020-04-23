@@ -878,12 +878,12 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         } // we seem to have a valid PC
 
 
-        fprintf(stderr, "%.8x ", StackFrame.AddrFrame.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.AddrReturn.Offset);
-        fprintf(stderr, "%.8x ", StackFrame.Params[0]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[1]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[2]);
-        fprintf(stderr, "%.8x ", StackFrame.Params[3]);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.AddrFrame.Offset);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.AddrReturn.Offset);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.Params[0]);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.Params[1]);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.Params[2]);
+        fprintf(stderr, "%.16" PRIx64 " ", StackFrame.Params[3]);
         fprintf(stderr, "%s",    Module.ModuleName);
         fprintf(stderr, "!%s+",  undName);
         fprintf(stderr, "0x%x ", offsetFromLine);
@@ -911,7 +911,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         if (strlen(szMsgSymFromAddr) || strlen(szMsgSymGetLineFromAddr) || strlen(szMsgSymGetModuleInfo)) {
             fprintf(
                 stderr,
-                "%s %s %s Address = '%.8x'",
+                "%s %s %s Address = '%.16" PRIx64 "'",
                 szMsgSymFromAddr,
                 szMsgSymGetLineFromAddr,
                 szMsgSymGetModuleInfo,
