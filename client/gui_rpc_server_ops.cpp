@@ -1334,6 +1334,7 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
+#ifdef __APPLE__
 static void stop_graphics_app(pid_t thePID, 
                             long iBrandID, 
                             char current_dir[], 
@@ -1385,6 +1386,7 @@ static void stop_graphics_app(pid_t thePID,
     grc.mfout.printf("<success/>\n");
     return;
 }
+#endif
 
 // start, stop or get status of a graphics app on behalf of the screensaver.
 // (needed for Mac OS X 10.15+; "stop & "test" are used for Mac OS X 10.13+)
