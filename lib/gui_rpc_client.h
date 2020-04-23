@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -222,7 +222,6 @@ struct APP_VERSION {
     PROJECT* project;
 
     APP_VERSION();
-    APP_VERSION(int) {}
 
     int parse(XML_PARSER&);
     int parse_coproc(XML_PARSER&);
@@ -661,7 +660,6 @@ struct OLD_RESULT {
     double completed_time;
     double create_time;
 
-    OLD_RESULT(){}
     int parse(XML_PARSER&);
     void print();
 };
@@ -713,7 +711,7 @@ struct RPC_CLIENT {
     int set_network_mode(int mode, double duration);
     int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int run_benchmarks();
-    int run_graphics_app(int slot, int& id, const char *operation);
+    int run_graphics_app(const char *operation, int& operand, const char *screensaverLoginUser);
     int set_proxy_settings(GR_PROXY_INFO&);
     int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&, bool translatable=false);

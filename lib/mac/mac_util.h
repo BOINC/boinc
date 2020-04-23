@@ -37,8 +37,6 @@ extern "C" {
 
     int         compareOSVersionTo(int toMajor, int toMinor);
 
-#define MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT 15
-
 #ifdef __cplusplus
 }	// extern "C"
 #endif
