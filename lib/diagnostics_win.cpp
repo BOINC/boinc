@@ -1281,10 +1281,10 @@ int diagnostics_dump_process_information() {
     fprintf(
         stderr, 
         "- I/O Operations Counters -\n"
-        "Read: %d, Write: %d, Other %d\n"
+        "Read: %" PRIu64 ", Write: %" PRIu64 ", Other %" PRIu64 "\n"
         "\n"
         "- I/O Transfers Counters -\n"
-        "Read: %d, Write: %d, Other %d\n"
+        "Read: %" PRIu64 ", Write: %" PRIu64 ", Other %" PRIu64 "\n"
         "\n",
         diagnostics_process.io_counters.ReadOperationCount,
         diagnostics_process.io_counters.WriteOperationCount,
