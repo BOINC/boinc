@@ -203,13 +203,13 @@ int main(int /*argc*/, char** argv) {
 
         if (!strcmp(argv[2], "-kill_gfx")) {
             snprintf(cmd, sizeof(cmd), "\"/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher\" %s %s", argv[1], argv[2], argv[3]);
-            retval = callPosixSpawn(cmd);
+            retval = callPosixSpawn((const char*)cmd);
             return retval;
        } else {
             // A new submit of edu.berkeley.boinc-ss_helper will be ignored if for some reason 
             // edu.berkeley.boinc-ss_helper is still loaded, so ensure it is removed.
             snprintf(cmd, sizeof(cmd), "su -l \"%s\" -c 'launchctl remove edu.berkeley.boinc-ss_helper'", screensaverLoginUser);
-            retval = callPosixSpawn(cmd);
+            retval = callPosixSpawn((const char*)cmd);
 
             snprintf(cmd, sizeof(cmd), "su -l \"%s\" -c 'launchctl submit -l edu.berkeley.boinc-ss_helper -- \"/Library/Screen Savers/%s.saver/Contents/Resources/boinc_ss_helper.sh\" \"%s\"", screensaverLoginUser, argv[2], argv[1]);
             i = 2;
@@ -227,7 +227,7 @@ int main(int /*argc*/, char** argv) {
             // Suppress "killed" message from bash in stderrdae.txt
             freopen("/dev/null", "a", stderr);
         }
-        retval = callPosixSpawn(cmd);
+        retval = callPosixSpawn((const char*)cmd);
         return retval;
     }
 
