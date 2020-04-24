@@ -48,6 +48,14 @@
         <user_friendly_name>Android running on ARM</user_friendly_name>
     </platform>
     <platform>
+        <name>arm-unknown-linux-gnu</name>
+        <user_friendly_name>Linux running on ARM</user_friendly_name>
+    </platform>
+    <platform>
+        <name>aarch64-unknown-linux-gnu</name>
+        <user_friendly_name>Linux running on ARM64</user_friendly_name>
+    </platform>
+    <platform>
         <name>anonymous</name>
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
