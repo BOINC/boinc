@@ -85,6 +85,11 @@ android {
         exclude 'LICENSE-EDL-1.0.txt'
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
     tasks.withType(Test) {
         testLogging {
             events "passed", "skipped", "failed"
@@ -112,6 +117,7 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
 }
 repositories {
     mavenCentral()
