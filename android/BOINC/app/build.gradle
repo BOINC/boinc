@@ -108,9 +108,9 @@ dependencies {
     testImplementation 'commons-io:commons-io:2.6'
     testImplementation 'junit:junit:4.13'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit5:$kotlin_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
 }
 repositories {
