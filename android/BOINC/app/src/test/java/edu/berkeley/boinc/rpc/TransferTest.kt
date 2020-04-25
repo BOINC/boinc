@@ -20,8 +20,8 @@ package edu.berkeley.boinc.rpc
 
 import com.google.common.testing.EqualsTester
 import org.apache.commons.lang3.SerializationUtils
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.test.junit5.JUnit5Asserter
 
 class TransferTest {
     @Test
@@ -46,6 +46,7 @@ class TransferTest {
     fun `Test serialization`() {
         val original = Transfer()
         val copy = SerializationUtils.clone(original)
-        JUnit5Asserter.assertEquals("Expected to be identical", original, copy)
+
+        Assertions.assertEquals(original, copy)
     }
 }

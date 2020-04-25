@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,20 +19,20 @@
 
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -40,20 +40,22 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.utils.Logging;
 
 public class BatchProcessingActivity extends FragmentActivity {
-
     private ProjectAttachService attachService = null;
     private boolean asIsBound = false;
 
     private static final int NUM_HINTS = 3; // number of available hint screens
     private ViewPager mPager; // pager widget, handles animation and horizontal swiping gestures
-    private PagerAdapter mPagerAdapter; // provides content to pager
-    private ArrayList<HintFragment> hints = new ArrayList<>(); // hint fragments
+    private List<HintFragment> hints = new ArrayList<>(); // hint fragments
 
     //header
     private TextView hintTv;
@@ -81,7 +83,8 @@ public class BatchProcessingActivity extends FragmentActivity {
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = findViewById(R.id.hint_container);
-        mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
+        // provides content to pager
+        PagerAdapter mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
@@ -162,7 +165,7 @@ public class BatchProcessingActivity extends FragmentActivity {
 
         // Add data to the intent, the receiving app will decide what to do with it.
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title));
-        if(android.os.Build.MANUFACTURER.toUpperCase().equals("AMAZON")) {
+        if(Build.MANUFACTURER.equalsIgnoreCase("Amazon")) {
             intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url_amazon)));
         }
         else {
@@ -210,6 +213,7 @@ public class BatchProcessingActivity extends FragmentActivity {
     }
 
     private ServiceConnection mASConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
@@ -220,6 +224,7 @@ public class BatchProcessingActivity extends FragmentActivity {
             new AttachProjectAsyncTask().execute();
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             attachService = null;
@@ -241,7 +246,6 @@ public class BatchProcessingActivity extends FragmentActivity {
     }
 
     private class AttachProjectAsyncTask extends AsyncTask<Void, String, Void> {
-
         @Override
         protected void onPreExecute() {
             if(Logging.DEBUG) {
@@ -269,7 +273,7 @@ public class BatchProcessingActivity extends FragmentActivity {
                 Log.d(Logging.TAG, "AttachProjectAsyncTask: project config retrieval finished, continue with attach.");
             }
             // attach projects, one at a time
-            ArrayList<ProjectAttachWrapper> selectedProjects = attachService.getSelectedProjects();
+            List<ProjectAttachWrapper> selectedProjects = attachService.getSelectedProjects();
             for(ProjectAttachWrapper selectedProject : selectedProjects) {
                 if(selectedProject.result != ProjectAttachWrapper.RESULT_READY) {
                     continue; // skip already tried projects in batch processing
@@ -308,11 +312,11 @@ public class BatchProcessingActivity extends FragmentActivity {
     }
 
     private class HintPagerAdapter extends FragmentStatePagerAdapter {
-
-        public HintPagerAdapter(FragmentManager fm) {
-            super(fm);
+        HintPagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return hints.get(position);

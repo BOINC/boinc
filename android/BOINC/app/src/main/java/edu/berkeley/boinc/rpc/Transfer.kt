@@ -18,9 +18,10 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat.readBoolean
+import androidx.core.os.ParcelCompat.writeBoolean
 import java.io.Serializable
 
 data class Transfer(
@@ -40,18 +41,8 @@ data class Transfer(
     private constructor (parcel: Parcel) :
             this(parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readLong(), parcel.readInt(), parcel.readLong(), parcel.readLong(),
-                    parcel.readLong(), parcel.readFloat(), parcel.readLong()) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val bArray = parcel.createBooleanArray()!!
-            generatedLocally = bArray[0]
-            isTransferActive = bArray[1]
-            isUpload = bArray[2]
-        } else {
-            generatedLocally = parcel.readBoolean()
-            isTransferActive = parcel.readBoolean()
-            isUpload = parcel.readBoolean()
-        }
-    }
+                    parcel.readLong(), parcel.readFloat(), parcel.readLong(), readBoolean(parcel),
+                    readBoolean(parcel), readBoolean(parcel))
 
     override fun describeContents() = 0
 
@@ -65,14 +56,9 @@ data class Transfer(
         dest.writeLong(bytesTransferred)
         dest.writeFloat(transferSpeed)
         dest.writeLong(projectBackoff)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            dest.writeBooleanArray(booleanArrayOf(generatedLocally, isTransferActive, isUpload))
-        } else {
-            dest.writeBoolean(generatedLocally)
-            dest.writeBoolean(isTransferActive)
-            dest.writeBoolean(isUpload)
-        }
+        writeBoolean(dest, generatedLocally)
+        writeBoolean(dest, isTransferActive)
+        writeBoolean(dest, isUpload)
     }
 
     object Fields {

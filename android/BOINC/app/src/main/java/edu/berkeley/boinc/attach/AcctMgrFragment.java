@@ -344,7 +344,7 @@ public class AcctMgrFragment extends DialogFragment {
             super.onPostExecute(result);
             if (Logging.DEBUG)
                 Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result);
-            if (result.code == BOINCErrors.ERR_OK && (result.description == null || result.description.isEmpty())) {
+            if (result.isOK()) {
                 dismiss();
                 if (returnToMainActivity) {
                     if (Logging.DEBUG)
@@ -360,10 +360,10 @@ public class AcctMgrFragment extends DialogFragment {
                 ongoingWrapper.setVisibility(View.GONE);
                 continueB.setVisibility(View.VISIBLE);
                 warning.setVisibility(View.VISIBLE);
-                if (StringUtils.isNotEmpty(result.description)) {
-                    warning.setText(result.description);
+                if (StringUtils.isNotEmpty(result.getDescription())) {
+                    warning.setText(result.getDescription());
                 } else {
-                    warning.setText(mapErrorNumToString(result.code));
+                    warning.setText(mapErrorNumToString(result.getCode()));
                 }
             }
         }

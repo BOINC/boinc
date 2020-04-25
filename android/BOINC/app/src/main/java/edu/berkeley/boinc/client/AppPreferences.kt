@@ -21,6 +21,7 @@ package edu.berkeley.boinc.client
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.core.content.edit
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
 
@@ -44,9 +45,8 @@ class AppPreferences {
         }
     var logLevel = 0
         set(value) {
-            val editor = prefs!!.edit()
-            editor.putInt("logLevel", value)
-            editor.apply()
+            // Commit a new value synchronously
+            prefs?.edit(commit = true) { putInt("logLevel", value) }
             field = value
             Logging.setLogLevel(value)
         }
@@ -77,9 +77,7 @@ class AppPreferences {
         }
 
     private fun putBooleanToPrefs(key: String, value: Boolean) {
-        val editor = prefs!!.edit()
-        editor.putBoolean(key, value)
-        editor.apply()
+        prefs?.edit(commit = true) { putBoolean(key, value) }
     }
 
     fun readPrefs(ctx: Context) {

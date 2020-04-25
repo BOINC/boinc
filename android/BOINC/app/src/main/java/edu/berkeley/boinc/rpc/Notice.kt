@@ -18,9 +18,10 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat.readBoolean
+import androidx.core.os.ParcelCompat.writeBoolean
 
 data class Notice(
         var seqno: Int = -1,
@@ -47,22 +48,12 @@ data class Notice(
         var isClientNotice: Boolean = false
 ) : Parcelable {
     private constructor(parcel: Parcel)
-            : this(parcel.readInt(), parcel.readString() ?: "",
-            parcel.readString() ?: "", parcel.readDouble(), parcel.readDouble(),
-            parcel.readString() ?: "", parcel.readString() ?: "",
-            parcel.readString()
-    ) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val bArray = parcel.createBooleanArray()!!
-            isPrivate = bArray[0]
-            isServerNotice = bArray[1]
-            isClientNotice = bArray[2]
-        } else {
-            isPrivate = parcel.readBoolean()
-            isServerNotice = parcel.readBoolean()
-            isClientNotice = parcel.readBoolean()
-        }
-    }
+            : this(seqno = parcel.readInt(), title = parcel.readString() ?: "",
+            description = parcel.readString() ?: "", createTime = parcel.readDouble(),
+            arrivalTime = parcel.readDouble(), category = parcel.readString() ?: "",
+            link = parcel.readString() ?: "", projectName = parcel.readString(),
+            isPrivate = readBoolean(parcel), isServerNotice = readBoolean(parcel),
+            isClientNotice = readBoolean(parcel))
 
     override fun describeContents() = 0
 
@@ -75,14 +66,9 @@ data class Notice(
         dest.writeString(category)
         dest.writeString(link)
         dest.writeString(projectName)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            dest.writeBooleanArray(booleanArrayOf(isPrivate, isServerNotice, isClientNotice))
-        } else {
-            dest.writeBoolean(isPrivate)
-            dest.writeBoolean(isServerNotice)
-            dest.writeBoolean(isClientNotice)
-        }
+        writeBoolean(dest, isPrivate)
+        writeBoolean(dest, isServerNotice)
+        writeBoolean(dest, isClientNotice)
     }
 
     object Fields {

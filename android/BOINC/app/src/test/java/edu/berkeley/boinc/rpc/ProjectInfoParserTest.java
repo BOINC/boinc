@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -30,14 +31,16 @@ import org.xml.sax.SAXException;
 
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class ProjectInfoParserTest {
     private static final String PROJECT_INFO_NAME = "Project Info";
 
@@ -51,13 +54,6 @@ public class ProjectInfoParserTest {
     }
 
     @Test
-    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
-        mockStatic(Xml.class);
-
-        assertThrows(NullPointerException.class, () -> ProjectInfoParser.parse(null));
-    }
-
-    @Test
     public void testParse_whenRpcStringIsEmpty_thenExpectEmptyList() {
         mockStatic(Xml.class);
 
@@ -66,6 +62,7 @@ public class ProjectInfoParserTest {
 
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
+        mockStatic(Log.class);
         mockStatic(Xml.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));

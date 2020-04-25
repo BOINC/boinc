@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1044,6 +1044,8 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     return true;
 }
 
+// Some older versions of BOINC installed a Screensaver LaunchAgent for each user.
+// Even though we no longer do this, delete it if it exists, for backward compatibility
 void DeleteScreenSaverLaunchAgent(passwd *pw) {
     char                    cmd[MAXPATHLEN];
 

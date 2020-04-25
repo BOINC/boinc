@@ -507,7 +507,7 @@ public class ProjectsFragment extends Fragment {
                         return BOINCActivity.monitor.synchronizeAcctMgr(data.acctMgrInfo.getAcctMgrUrl());
                     case RpcClient.MGR_DETACH:
                         return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "")
-                                       .code == BOINCErrors.ERR_OK;
+                                       .getCode() == BOINCErrors.ERR_OK;
 
                     // transfer operations
                     case RpcClient.TRANSFER_RETRY:

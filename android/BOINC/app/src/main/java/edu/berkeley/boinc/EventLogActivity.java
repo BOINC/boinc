@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,28 @@
  */
 package edu.berkeley.boinc;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBar.Tab;
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.impl.list.mutable.FastList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,33 +47,11 @@ import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
-import edu.berkeley.boinc.utils.*;
-
-import android.content.ClipData;
-import android.content.ComponentName;
-import android.content.ClipboardManager;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.ActionBar.Tab;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import org.eclipse.collections.api.list.MutableList;
-import org.eclipse.collections.impl.list.mutable.FastList;
+import edu.berkeley.boinc.utils.Logging;
 
 public class EventLogActivity extends AppCompatActivity {
-
     private IMonitor monitor;
-    private Boolean mIsBound = false;
+    private boolean mIsBound = false;
 
     public ListView clientLogList;
     public ClientLogListAdapter clientLogListAdapter;
@@ -108,6 +108,7 @@ public class EventLogActivity extends AppCompatActivity {
      * only necessary, when function on monitor instance has to be called
      */
     private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "EventLogActivity onServiceConnected");
@@ -119,6 +120,7 @@ public class EventLogActivity extends AppCompatActivity {
             ((EventLogClientFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.eventlog_client_header))).init();
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             monitor = null;
             mIsBound = false;
@@ -139,10 +141,8 @@ public class EventLogActivity extends AppCompatActivity {
     }
 
     public IMonitor getMonitorService() {
-        if(!mIsBound) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
-            }
+        if(!mIsBound && Logging.WARNING) {
+            Log.w(Logging.TAG, "Fragment trying to obtain service reference, but Monitor not bound in EventLogActivity");
         }
         return monitor;
     }

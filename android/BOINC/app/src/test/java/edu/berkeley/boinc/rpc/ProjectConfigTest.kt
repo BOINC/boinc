@@ -19,20 +19,35 @@
 package edu.berkeley.boinc.rpc
 
 import com.google.common.testing.EqualsTester
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.test.junit5.JUnit5Asserter
+import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
+
+private const val MASTER_URL = "Master URL"
+private const val RPC_URL_BASE = "RPC URL Base"
+
+private class ProjectConfigArgumentsProvider : ArgumentsProvider {
+    override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
+        return Stream.of(
+                Arguments.of(ProjectConfig(masterUrl = MASTER_URL)),
+                Arguments.of(ProjectConfig(masterUrl = MASTER_URL, webRpcUrlBase = RPC_URL_BASE))
+        )
+    }
+}
 
 class ProjectConfigTest {
-    @Test
-    fun `Expect master URL when RPC URL base is empty`() {
-        val projectConfig = ProjectConfig(masterUrl = MASTER_URL)
-        JUnit5Asserter.assertEquals("Expected $MASTER_URL", MASTER_URL, projectConfig.secureUrlIfAvailable)
-    }
-
-    @Test
-    fun `Expect RPC URL base when RPC URL base is not empty`() {
-        val projectConfig = ProjectConfig(masterUrl = MASTER_URL, webRpcUrlBase = RPC_URL_BASE)
-        JUnit5Asserter.assertEquals("Expected $RPC_URL_BASE", RPC_URL_BASE, projectConfig.secureUrlIfAvailable)
+    @ParameterizedTest
+    @ArgumentsSource(ProjectConfigArgumentsProvider::class)
+    fun `Test secureUrlIfAvailable property`(projectConfig: ProjectConfig) {
+        if (projectConfig.webRpcUrlBase.isEmpty())
+            Assertions.assertEquals(projectConfig.secureUrlIfAvailable, projectConfig.masterUrl)
+        else
+            Assertions.assertEquals(projectConfig.secureUrlIfAvailable, projectConfig.webRpcUrlBase)
     }
 
     @Test
@@ -55,10 +70,5 @@ class ProjectConfigTest {
                 .addEqualityGroup(ProjectConfig(clientAccountCreationDisabled = true))
                 .addEqualityGroup(ProjectConfig(accountManager = true))
                 .testEquals()
-    }
-
-    companion object {
-        private const val MASTER_URL = "Master URL"
-        private const val RPC_URL_BASE = "RPC URL Base"
     }
 }

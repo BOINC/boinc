@@ -18,9 +18,10 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat.readBoolean
+import androidx.core.os.ParcelCompat.writeBoolean
 import java.util.*
 
 data class Project(
@@ -107,36 +108,13 @@ data class Project(
                     atiShortTermDebt = parcel.readDouble(), atiBackoffTime = parcel.readDouble(),
                     atiBackoffInterval = parcel.readDouble(), durationCorrectionFactor = parcel.readDouble(),
                     scheduledRPCPending = parcel.readInt(), projectFilesDownloadedTime = parcel.readDouble(),
-                    lastRPCTime = parcel.readDouble()) {
+                    lastRPCTime = parcel.readDouble(), masterURLFetchPending = readBoolean(parcel),
+                    nonCPUIntensive = readBoolean(parcel), suspendedViaGUI = readBoolean(parcel),
+                    doNotRequestMoreWork = readBoolean(parcel), schedulerRPCInProgress = readBoolean(parcel),
+                    attachedViaAcctMgr = readBoolean(parcel), detachWhenDone = readBoolean(parcel),
+                    ended = readBoolean(parcel), trickleUpPending = readBoolean(parcel),
+                    noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel)) {
         parcel.readList(guiURLs.toList(), GuiUrl::class.java.classLoader)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val bArray = parcel.createBooleanArray()!!
-            masterURLFetchPending = bArray[0]
-            nonCPUIntensive = bArray[1]
-            suspendedViaGUI = bArray[2]
-            doNotRequestMoreWork = bArray[3]
-            schedulerRPCInProgress = bArray[4]
-            attachedViaAcctMgr = bArray[5]
-            detachWhenDone = bArray[6]
-            ended = bArray[7]
-            trickleUpPending = bArray[8]
-            noCPUPref = bArray[9]
-            noCUDAPref = bArray[10]
-            noATIPref = bArray[11]
-        } else {
-            masterURLFetchPending = parcel.readBoolean()
-            nonCPUIntensive = parcel.readBoolean()
-            suspendedViaGUI = parcel.readBoolean()
-            doNotRequestMoreWork = parcel.readBoolean()
-            schedulerRPCInProgress = parcel.readBoolean()
-            attachedViaAcctMgr = parcel.readBoolean()
-            detachWhenDone = parcel.readBoolean()
-            ended = parcel.readBoolean()
-            trickleUpPending = parcel.readBoolean()
-            noCPUPref = parcel.readBoolean()
-            noCUDAPref = parcel.readBoolean()
-            noATIPref = parcel.readBoolean()
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -217,26 +195,19 @@ data class Project(
         dest.writeInt(scheduledRPCPending)
         dest.writeDouble(projectFilesDownloadedTime)
         dest.writeDouble(lastRPCTime)
+        writeBoolean(dest, masterURLFetchPending)
+        writeBoolean(dest, nonCPUIntensive)
+        writeBoolean(dest, suspendedViaGUI)
+        writeBoolean(dest, doNotRequestMoreWork)
+        writeBoolean(dest, schedulerRPCInProgress)
+        writeBoolean(dest, attachedViaAcctMgr)
+        writeBoolean(dest, detachWhenDone)
+        writeBoolean(dest, ended)
+        writeBoolean(dest, trickleUpPending)
+        writeBoolean(dest, noCPUPref)
+        writeBoolean(dest, noCUDAPref)
+        writeBoolean(dest, noATIPref)
         dest.writeList(guiURLs.toList())
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            dest.writeBooleanArray(booleanArrayOf(masterURLFetchPending, nonCPUIntensive,
-                    suspendedViaGUI, doNotRequestMoreWork, schedulerRPCInProgress, attachedViaAcctMgr,
-                    detachWhenDone, ended, trickleUpPending, noCPUPref, noCUDAPref, noATIPref))
-        } else {
-            dest.writeBoolean(masterURLFetchPending)
-            dest.writeBoolean(nonCPUIntensive)
-            dest.writeBoolean(suspendedViaGUI)
-            dest.writeBoolean(doNotRequestMoreWork)
-            dest.writeBoolean(schedulerRPCInProgress)
-            dest.writeBoolean(attachedViaAcctMgr)
-            dest.writeBoolean(detachWhenDone)
-            dest.writeBoolean(ended)
-            dest.writeBoolean(trickleUpPending)
-            dest.writeBoolean(noCPUPref)
-            dest.writeBoolean(noCUDAPref)
-            dest.writeBoolean(noATIPref)
-        }
     }
 
     object Fields {

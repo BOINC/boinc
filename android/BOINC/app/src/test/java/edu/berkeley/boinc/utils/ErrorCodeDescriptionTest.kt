@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.rpc
+package edu.berkeley.boinc.utils
 
-import com.google.common.testing.EqualsTester
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -28,31 +26,23 @@ import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
-private class AppArgumentsProvider : ArgumentsProvider {
+private class ErrorCodeDescriptionArgumentsProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         return Stream.of(
-                Arguments.of(App("Name", null)),
-                Arguments.of(App("Name", "")),
-                Arguments.of(App("Name", "User-friendly name"))
+                Arguments.of(ErrorCodeDescription()),
+                Arguments.of(ErrorCodeDescription(code = 1)),
+                Arguments.of(ErrorCodeDescription(description = "Error"))
         )
     }
 }
 
-class AppTest {
+class ErrorCodeDescriptionTest {
     @ParameterizedTest
-    @ArgumentsSource(AppArgumentsProvider::class)
-    fun `Test displayName property`(app: App) {
-        if (app.userFriendlyName.isNullOrEmpty())
-            Assertions.assertEquals(app.displayName, app.name)
+    @ArgumentsSource(ErrorCodeDescriptionArgumentsProvider::class)
+    fun `Test isOK property`(errorCodeDescription: ErrorCodeDescription) {
+        if (errorCodeDescription.code == ERR_OK && errorCodeDescription.description.isNullOrEmpty())
+            Assertions.assertTrue(errorCodeDescription.isOK)
         else
-            Assertions.assertEquals(app.displayName, app.userFriendlyName)
-    }
-
-    @Test
-    fun `Test equals() and hashCode()`() {
-        EqualsTester().addEqualityGroup(App("Name"), App("NAME"))
-                .addEqualityGroup(App(userFriendlyName = "User-friendly name"),
-                        App(userFriendlyName = "USER-FRIENDLY NAME"))
-                .testEquals()
+            Assertions.assertFalse(errorCodeDescription.isOK)
     }
 }

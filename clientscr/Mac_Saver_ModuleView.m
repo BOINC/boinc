@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -206,10 +206,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsHighSierra = (compareOSVersionTo(10, 13) >= 0);
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
-
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    gUseLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
-
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
@@ -220,7 +216,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     
     // OpenGL apps built under Xcode 11 apparently use window dimensions based 
     // on the number of backing store pixels. That is, they double the window 
-    // dimensiona for Retina displays (which have two pixels per point.) But 
+    // dimensions for Retina displays (which have two pixels per point.) But 
     // OpenGL apps built under earlier versions of Xcode don't.
     // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
     // older builds at half width and height, unless we compensate in our code.
@@ -391,6 +387,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [imageView removeFromSuperview];   // Releases imageView
         imageView = nil;
     }
+
     if (!myIsPreview) {
         closeBOINCSaver();
     }

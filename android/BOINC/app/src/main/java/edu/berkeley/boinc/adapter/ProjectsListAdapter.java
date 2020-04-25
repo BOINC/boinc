@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -76,7 +78,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         return entries.get(position).project.getProjectName();
     }
 
-    public String getUser(int position) {
+    private String getUser(int position) {
         String user = entries.get(position).project.getUserName();
         String team = entries.get(position).project.getTeamName();
 
@@ -87,15 +89,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         return user;
     }
 
-    public Boolean getIsAcctMgr(int position) {
-        return entries.get(position).isMgr;
-    }
-
-    public String getURL(int position) {
-        return entries.get(position).id;
-    }
-
-    public Bitmap getIcon(int position) {
+    private Bitmap getIcon(int position) {
         // try to get current client status from monitor
         try {
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
@@ -108,8 +102,9 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectsListData data = entries.get(position);
         boolean isAcctMgr = data.isMgr;
 
@@ -129,14 +124,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
 
         if(setup) {
+            final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert layoutInflater != null;
             // first time getView is called for this element
             if(isAcctMgr) {
-                vi =
-                        ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem_acctmgr, null);
+                vi = layoutInflater.inflate(R.layout.projects_layout_listitem_acctmgr, null);
             }
             else {
-                vi =
-                        ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+                vi = layoutInflater.inflate(R.layout.projects_layout_listitem, null);
             }
             //set onclicklistener for expansion
             vi.setOnClickListener(entries.get(position).projectsListClickListener);
@@ -153,11 +148,9 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             // populate url
             TextView tvUrl = vi.findViewById(R.id.url);
             tvUrl.setText(data.acctMgrInfo.getAcctMgrUrl());
-
         }
         else {
             // element is project
-
             // set data of standard elements
             TextView tvName = vi.findViewById(R.id.project_name);
             tvName.setText(getName(position));

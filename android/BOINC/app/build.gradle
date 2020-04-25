@@ -63,13 +63,14 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
             // Without this, a build error occurs for debug.
             minifyEnabled true
             debuggable true
-            testCoverageEnabled true
+            testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -77,11 +78,19 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     packagingOptions {
         exclude 'LICENSE-EPL-1.0.txt'
         exclude 'LICENSE-EDL-1.0.txt'
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
     tasks.withType(Test) {
         testLogging {
             events "passed", "skipped", "failed"
@@ -105,10 +114,11 @@ dependencies {
     testImplementation 'commons-io:commons-io:2.6'
     testImplementation 'junit:junit:4.13'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit5:$kotlin_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
 }
 repositories {
     mavenCentral()
