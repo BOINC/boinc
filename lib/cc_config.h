@@ -121,7 +121,11 @@ struct LOG_FLAGS {
     bool work_fetch_debug;
         // work fetch policy 
 
-    LOG_FLAGS(){}
+    LOG_FLAGS() {
+        task = true;
+        file_xfer = true;
+        sched_ops = true;
+    }
     void init();
     int parse(XML_PARSER&);
     void show();
