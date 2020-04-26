@@ -59,7 +59,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         navDrawerItems.add(new NavDrawerItem(this, R.string.menu_help, R.drawable.helpb));
         navDrawerItems.add(new NavDrawerItem(this, R.string.menu_report_issue, R.drawable.bugb));
         navDrawerItems.add(new NavDrawerItem(this, R.string.menu_about, R.drawable.infob));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_eventlog, R.drawable.attentionb));
+        navDrawerItems.add(new NavDrawerItem(this, R.string.menu_eventlog, R.drawable.ic_baseline_warning_24));
     }
 
     public Context getContext() {
