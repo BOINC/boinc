@@ -58,9 +58,9 @@
                 android:id="@+id/hint_contribution_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/wirelessb"
+                app:srcCompat="@drawable/ic_baseline_wifi_48"
                 android:contentDescription="@string/attachproject_hint_contribtion_wifi"/>
     </RelativeLayout>
 
