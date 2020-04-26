@@ -139,7 +139,7 @@ public class StatusFragment extends Fragment {
                             switch(currentComputingSuspendReason) {
                                 case BOINCDefs.SUSPEND_REASON_BATTERIES:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.notconnectedb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_power_off_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
