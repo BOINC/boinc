@@ -165,7 +165,7 @@ public class StatusFragment extends Fragment {
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.watchb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_timer_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
