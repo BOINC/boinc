@@ -51,7 +51,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         this.context = context;
 
         // populate items
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_tasks, R.drawable.tabtaskb, true));
+        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_tasks, R.drawable.ic_baseline_list_48, true));
         navDrawerItems.add(new NavDrawerItem(this, R.string.tab_notices,
                                              R.drawable.ic_baseline_email_black_32, true));
         navDrawerItems.add(new NavDrawerItem(this, R.string.tab_projects, R.drawable.ic_projects));
