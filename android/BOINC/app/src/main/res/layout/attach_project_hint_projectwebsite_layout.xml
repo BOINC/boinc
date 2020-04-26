@@ -57,9 +57,9 @@
                 android:id="@+id/hint_contribution_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/magnifierb"
+                app:srcCompat="@drawable/ic_baseline_search_48"
                 android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
     </RelativeLayout>
 
