@@ -108,7 +108,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             resolveIv.setVisibility(View.GONE);
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.failedb));
+            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_24));
         }
         else {
             // failed
@@ -124,7 +124,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             });
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.failedb));
+            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_24));
         }
         return v;
     }
