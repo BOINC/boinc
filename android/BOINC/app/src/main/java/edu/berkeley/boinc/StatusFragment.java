@@ -169,9 +169,13 @@ public class StatusFragment extends Fragment {
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
+                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_charging_full_48);
+                                    statusHeader.setVisibility(View.GONE);
+                                    break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.batteryb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_alert_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 default:
