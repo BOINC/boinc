@@ -221,7 +221,7 @@ public class StatusFragment extends Fragment {
                     restartingWrapper.setVisibility(View.GONE);
                     centerWrapper.setVisibility(View.VISIBLE);
                     centerWrapper.setOnClickListener(addProjectOnClickListener);
-                    statusImage.setImageResource(R.drawable.projectsb48);
+                    statusImage.setImageResource(R.drawable.ic_projects);
                     statusHeader.setVisibility(View.GONE);
                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                     setupStatus = ClientStatus.SETUP_STATUS_NOPROJECT;

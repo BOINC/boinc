@@ -54,7 +54,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         navDrawerItems.add(new NavDrawerItem(this, R.string.tab_tasks, R.drawable.tabtaskb, true));
         navDrawerItems.add(new NavDrawerItem(this, R.string.tab_notices,
                                              R.drawable.ic_baseline_email_black_32, true));
-        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_projects, R.drawable.projectsb));
+        navDrawerItems.add(new NavDrawerItem(this, R.string.tab_projects, R.drawable.ic_projects));
         navDrawerItems.add(new NavDrawerItem(this, R.string.projects_add, R.drawable.sqplusb, false, true));
         navDrawerItems.add(new NavDrawerItem(this, R.string.tab_preferences,
                                              R.drawable.ic_baseline_settings_48));
