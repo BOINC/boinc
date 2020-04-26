@@ -153,7 +153,7 @@ public class StatusFragment extends Fragment {
                                         }
                                     }
                                     if(suspendDueToScreenOn) {
-                                        statusImage.setImageResource(R.drawable.screen48b);
+                                        statusImage.setImageResource(R.drawable.ic_stay_current_portrait_black_48dp);
                                         statusHeader.setVisibility(View.GONE);
                                     }
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
