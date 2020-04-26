@@ -83,9 +83,9 @@
                 android:id="@+id/hint_contribution_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/connectchargerb"
+                app:srcCompat="@drawable/ic_baseline_power_48"
                 android:contentDescription="@string/attachproject_hint_contribtion_charger"/>
     </RelativeLayout>
 
