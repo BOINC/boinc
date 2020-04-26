@@ -23,11 +23,11 @@
             android:enabled="true"
             android:visible="true"
             android:title="@string/projects_add"
-            android:icon="@drawable/plusw"
-            yourapp:showAsAction="ifRoom|withText"></item>
+            android:icon="@drawable/ic_baseline_add_circle_32"
+            yourapp:showAsAction="ifRoom|withText" />
     <item
             android:id="@+id/projects_add_url"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/attachproject_list_manual_button"></item>
+            android:title="@string/attachproject_list_manual_button" />
 </menu>
