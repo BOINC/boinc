@@ -122,7 +122,7 @@ public class StatusFragment extends Fragment {
                             statusWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.playb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_play_arrow_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
                             centerWrapper.setVisibility(View.VISIBLE);
@@ -132,7 +132,7 @@ public class StatusFragment extends Fragment {
                             statusWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.pauseb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             centerWrapper.setVisibility(View.VISIBLE);
@@ -184,7 +184,7 @@ public class StatusFragment extends Fragment {
                             centerWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.pauseb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
