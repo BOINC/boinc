@@ -31,7 +31,6 @@ distclean:
 	rm -f $(PROGS) *.o libstdc++.a
 
 install: all
-	@echo "--- The example app $(PROGS) is not installed ---"
 
 .PHONY: install all distclean clean
 
