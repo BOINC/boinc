@@ -100,7 +100,9 @@ tag, please use SHIFT-ENTER.
   You can use tags [h1] to [h6] to format headings corresponding to HTML\'s &lt;h1&gt; to &lt;h6&gt;
 </p>
 
-Examples:
+<p>
+  Examples:
+</p>
 <table width=\"98%\">
   <tr>
     <td>
