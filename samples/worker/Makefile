@@ -14,6 +14,5 @@ worker: worker.o
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
 
 install: all
-	@echo "--- The example app $(PROGS) is not installed ---"
 
 .PHONY: install all distclean clean
