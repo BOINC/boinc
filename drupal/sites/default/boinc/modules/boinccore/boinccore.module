@@ -1671,7 +1671,7 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
       // See how many comments there are before (or after) this comment...
       $comment_offset = db_result(db_query('
         SELECT COUNT(*) FROM {comments}
-        WHERE nid = %d AND status = 0 AND timestamp %s %d',
+        WHERE nid = %d AND (status = 0 OR status = 1) AND timestamp %s %d',
         $object->nid, $gt_lt, $object->timestamp));
       if ($comment_offset) {
         // Get the number of comments per page
