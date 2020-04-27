@@ -30,6 +30,11 @@ clean: distclean
 distclean:
 	rm -f $(PROGS) *.o libstdc++.a
 
+install: all
+	@echo "--- The example app $(PROG) is not installed ---"
+
+.PHONY: install all distclean clean
+
 REGEXP_OBJS = \
 	regexp.o \
 	regsub.o \
