@@ -18,7 +18,6 @@ PROGS = sleeper
 all: $(PROGS)
 
 install: all
-	@echo "--- The example app $(PROGS) is not installed ---"
 
 libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
