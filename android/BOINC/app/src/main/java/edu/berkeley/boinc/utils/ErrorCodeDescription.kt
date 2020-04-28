@@ -21,7 +21,8 @@ package edu.berkeley.boinc.utils
 import android.os.Parcel
 import android.os.Parcelable
 
-class ErrorCodeDescription @JvmOverloads constructor(val code: Int = 0, val description: String? = "") : Parcelable {
+data class ErrorCodeDescription @JvmOverloads constructor(val code: Int = 0, val description: String? = "")
+    : Parcelable {
     private constructor(parcel: Parcel) : this(parcel.readInt(), parcel.readString())
 
     val isOK: Boolean
