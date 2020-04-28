@@ -1,0 +1,135 @@
+/* Indent & Justify classes */
+
+.rteindent1 {
+  margin-left: 40px;
+}
+.rteindent2 {
+  margin-left: 80px;
+}
+.rteindent3 {
+  margin-left: 120px;
+}
+.rteindent4 {
+  margin-left: 160px;
+}
+.rteleft {
+  text-align: left;
+}
+.rteright {
+  text-align: right;
+}
+.rtecenter {
+  text-align: center;
+}
+.rtejustify {
+  text-align: justify;
+}
+.ibimage_left {
+  float: left;
+}
+.ibimage_right {
+  float: right;
+}
+
+/* CKEditor padding in IE */
+table.cke_editor fieldset {
+  padding:0 !important;
+}
+/* hack with ie and garland editing area size fix - [#733512] */
+.cke_editor{
+  display: table !important;
+}
+.cke_editor,#ie#bug {
+  display: inline-table !important;
+}
+
+.cke_panel_listItem {
+    background-image: none;
+    padding-left: 0;
+}
+/* remove top border from tbody - overwrite system.css - [#751672] */
+tbody {
+    border: 0;
+}
+
+/*toolbar wizzard*/
+form#ckeditor-admin-profile-form textarea#edit-toolbar, form#ckeditor-admin-global-profile-form textarea#edit-toolbar {
+    display: none;
+}
+form#ckeditor-admin-profile-form #edit-toolbar + .grippie, form#ckeditor-admin-global-profile-form #edit-toolbar + .grippie {
+    display: none;
+}
+div.sortableList {
+    cursor: n-resize;
+}
+div.widthMarker {
+    height: 20px;
+    border-top: 1px dashed #CCC;
+    margin: 10px 0px 0px 1px;
+    padding-left: 1px;
+    text-align: center;
+}
+div.sortableList.group {
+    margin: 20px 0px 0px 0px;
+}
+div.sortableList div.sortableListDiv {
+    height: 30px;
+    margin-bottom: 3px;
+    width: 900px;
+}
+div.sortableList div.sortableListDiv span.sortableListSpan {
+    background-color: #F0F0EE;
+    height: 30px;
+    border-right: 1px dashed #CCC;
+    display: block;
+}
+div.sortableList div.sortableListDiv span.sortableListSpan ul {
+    background: none;
+    width: 900px;
+    white-space: nowrap;
+    border: 1px solid #CCC;
+    list-style: none;
+    margin:0px;
+    padding: 0px 0px 0px 1px;
+    height: 30px;
+}
+div.sortableList div.sortableListDiv span.sortableListSpan ul li {
+    background: none;
+    list-style: none;
+    cursor: move;
+    height: 18px;
+    min-width: 18px;
+    padding: 2px;
+}
+div.sortableList div.sortableListDiv span.sortableListSpan ul li.group {
+    min-width: 5px;
+    padding-left: 2px;
+}
+div.sortableList div.sortableListDiv span.sortableListSpan ul li img {
+    border: 0;
+    padding: 0;
+    margin: 0
+}
+li.sortableItem {
+    position: relative;
+    float: left;
+    margin: 3px 1px 1px 0px;
+    border: 1px solid #CCC;
+    background-color: #F0F0EE;
+    z-index: 99;
+}
+
+/* Fix for fieldset for-edit-apperance in Firefox*/
+fieldset#edit-appearance div#groupLayout, div#allButtons  {
+  border: 0;
+  padding: 0 0 0 0;
+  margin: 1em 0;
+  overflow: auto;
+}
+
+/**
+ * Fix for double scrollbar on ckeditor menu dropdowns in IE - [#1361894]
+ */
+.cke_browser_ie .cke_panel_block {
+    overflow: hidden !important;
+}
