@@ -20,9 +20,7 @@ package edu.berkeley.boinc.rpc
 
 import android.util.Log
 import android.util.Xml
-import edu.berkeley.boinc.rpc.AppVersion
 import edu.berkeley.boinc.utils.Logging
-import org.apache.commons.lang3.StringUtils
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
