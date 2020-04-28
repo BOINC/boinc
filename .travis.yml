@@ -58,7 +58,10 @@ jobs:
             - android-29
             - extra-google-m2repository
             - extra-android-m2repository
+      dist: xenial
       env: BOINC_TYPE=manager-android
+      jdk:
+        - openjdk9
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
