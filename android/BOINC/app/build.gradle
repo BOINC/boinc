@@ -1,6 +1,6 @@
 plugins {
-    id 'org.ajoberstar.grgit' version '1.7.1'
-    id 'com.palantir.git-version' version '0.7.1'
+    id 'org.ajoberstar.grgit' version '4.0.2'
+    id 'com.palantir.git-version' version '0.12.3'
 }
 
 apply plugin: 'com.android.application'
@@ -55,7 +55,7 @@ android {
         applicationId "edu.berkeley.boinc"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode buildVersionCode()
+        versionCode buildVersionCode().toInteger()
         versionName buildVersionName()
     }
 
