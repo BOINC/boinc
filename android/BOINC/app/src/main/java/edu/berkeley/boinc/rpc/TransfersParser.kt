@@ -20,7 +20,6 @@ package edu.berkeley.boinc.rpc
 
 import android.util.Log
 import android.util.Xml
-import edu.berkeley.boinc.rpc.Transfer
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
