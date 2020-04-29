@@ -443,7 +443,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 
     mask.clear();
 
-    safe_strcpy(prefs.device_name, m_txtDeviceName->GetValue().mb_str());
+    // ######### device name
+    strncpy(prefs.device_name, m_txtDeviceName->GetValue().mb_str(), sizeof(prefs.device_name));
     mask.device_name = true;
 
     // ######### proc usage page

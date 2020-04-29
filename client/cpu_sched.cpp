@@ -1623,7 +1623,6 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
 }
 
 void CLIENT_STATE::set_device_name() {
-    //DebugBreak();
     if (device_status.device_name[0] == '\0')
     {
         if (global_prefs.device_name[0] == '\0')
