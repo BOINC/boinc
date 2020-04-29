@@ -23,3 +23,12 @@
 # Useful for debugging
 -printusage build/usage.txt     # Prints unused APIs removed by ProGuard
 -printmapping build/mapping.txt # Prints mappings of class names to their obfuscated names
+
+# Jackson
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepnames class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.databind.**
+-keep class org.codehaus.** { *; }
+-keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
+    public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *;
+ }
