@@ -347,6 +347,8 @@ struct CLIENT_STATE {
         // - any result op is done via RPC (suspend/resume)
     void set_ncpus();
 
+    void set_device_name();
+
 // --------------- cs_account.cpp:
     int add_project(
         const char* master_url, const char* authenticator,

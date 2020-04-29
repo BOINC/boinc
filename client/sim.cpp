@@ -1495,6 +1495,7 @@ void do_client_simulation() {
     clear_backoff();
 
     gstate.log_show_projects();
+    gstate.set_device_name();
     gstate.set_ncpus();
     work_fetch.init();
 

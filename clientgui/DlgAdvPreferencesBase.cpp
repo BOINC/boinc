@@ -250,6 +250,25 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxBoxSizer* processorTabSizer = new wxBoxSizer( wxVERTICAL );
 
+    wxStaticBox* deviceNameStaticBox = new wxStaticBox(processorTab, -1, _("Device Name"));
+    wxStaticBoxSizer* deviceNameBoxSizer = new wxStaticBoxSizer(deviceNameStaticBox, wxVERTICAL);
+    makeStaticBoxLabelItalic(deviceNameStaticBox);
+
+    /*xgettext:no-c-format*/
+    wxString DeviceNameTT(_("Device Name"));
+    wxStaticText* staticText10 = new wxStaticText(
+        deviceNameStaticBox, ID_DEFAULT, _("Device Name"), wxDefaultPosition, wxDefaultSize, 0);
+
+    m_txtDeviceName = new wxTextCtrl(deviceNameStaticBox, ID_TXTPROCUSEPROCESSORS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT);
+
+    wxStaticText* staticText11 = new wxStaticText(deviceNameStaticBox, ID_DEFAULT, _(""), wxDefaultPosition, wxDefaultSize, 0);
+
+    addNewRowToSizer(deviceNameBoxSizer, DeviceNameTT, staticText10, m_txtDeviceName, staticText11);
+
+    processorTabSizer->AddSpacer(STATICBOXVERTICALSPACER);
+    processorTabSizer->Add(deviceNameBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE);
+
+
     wxStaticBox* usageLimitsStaticBox = new wxStaticBox(processorTab, -1, _("Usage limits") );
     wxStaticBoxSizer* usageLimitsBoxSizer = new wxStaticBoxSizer(usageLimitsStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(usageLimitsStaticBox);

@@ -1622,6 +1622,25 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     return atp;
 }
 
+void CLIENT_STATE::set_device_name() {
+    //DebugBreak();
+    if (device_status.device_name[0] == '\0')
+    {
+        if (global_prefs.device_name[0] == '\0')
+        {
+            safe_strcpy(global_prefs.device_name, host_info.domain_name);
+        }
+        else
+        {
+            if (strcmp(global_prefs.device_name, host_info.domain_name)) 
+            {
+                safe_strcpy(host_info.domain_name, global_prefs.device_name);
+                set_client_state_dirty("Device name changed");
+            }
+        }
+    }
+}
+
 // called at startup (after get_host_info())
 // and when general prefs have been parsed.
 // NOTE: GSTATE.NCPUS MUST BE 1 OR MORE; WE DIVIDE BY IT IN A COUPLE OF PLACES

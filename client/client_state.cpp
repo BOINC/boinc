@@ -632,6 +632,7 @@ int CLIENT_STATE::init() {
     //
     host_info.p_vm_extensions_disabled = false;
 
+    set_device_name();
     set_ncpus();
     show_host_info();
 

@@ -672,6 +672,7 @@ void CLIENT_STATE::read_global_prefs(
         allowed_disk_usage(total_disk_usage)/GIGA
     );
 #endif
+    set_device_name();
     // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();

@@ -1318,6 +1318,7 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     read_config_file(false);
     cc_config.show();
     log_flags.show();
+    gstate.set_device_name();
     gstate.set_ncpus();
     process_gpu_exclusions();
 

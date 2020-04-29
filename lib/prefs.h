@@ -43,6 +43,7 @@ struct GLOBAL_PREFS_MASK {
     bool cpu_usage_limit;
     bool daily_xfer_limit_mb;
     bool daily_xfer_period_days;
+    bool device_name;
     bool disk_interval;
     bool disk_max_used_gb;
     bool disk_max_used_pct;
@@ -154,6 +155,7 @@ struct GLOBAL_PREFS {
         // for CPU throttling.  This is a percentage 0..100
     double daily_xfer_limit_mb;
     int daily_xfer_period_days;
+    char device_name[256];
     double disk_interval;
     double disk_max_used_gb;
     double disk_max_used_pct;

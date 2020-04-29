@@ -223,6 +223,7 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     max_bytes_sec_up = 0;
     max_ncpus = 0;
+    safe_strcpy(device_name, "");
 #ifdef ANDROID
     max_ncpus_pct = 50;
 #else
@@ -514,6 +515,11 @@ int GLOBAL_PREFS::parse_override(
             mask.max_ncpus_pct = true;
             continue;
         }
+        if (xp.parse_str("device_name", device_name, sizeof(device_name)))
+        {
+            mask.device_name = true;
+            continue;
+        }
         if (xp.parse_int("max_cpus", max_ncpus)) {
             if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
@@ -653,6 +659,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <dont_verify_images>%d</dont_verify_images>\n"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
+        "   <device_name>%s</device_name>\n"
         "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
@@ -689,6 +696,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         dont_verify_images?1:0,
         work_buf_min_days,
         work_buf_additional_days,
+        device_name,
         max_ncpus_pct,
         cpu_scheduling_period_minutes,
         disk_interval,
@@ -832,6 +840,9 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.work_buf_additional_days) {
         f.printf("   <work_buf_additional_days>%f</work_buf_additional_days>\n", work_buf_additional_days);
+    }
+    if (mask.device_name) {
+        f.printf("   <device_name>%s</device_name>\n", device_name);
     }
     if (mask.max_ncpus_pct) {
         f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
