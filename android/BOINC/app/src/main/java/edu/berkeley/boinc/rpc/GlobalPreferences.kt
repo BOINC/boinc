@@ -22,7 +22,12 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ParcelCompat.readBoolean
 import androidx.core.os.ParcelCompat.writeBoolean
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
+import edu.berkeley.boinc.rpc.serialization.GlobalPreferencesSerializer
 
+@JacksonXmlRootElement(localName = "global_preferences")
+@JsonSerialize(using = GlobalPreferencesSerializer::class)
 data class GlobalPreferences(
         var batteryChargeMinPct: Double = 0.0,
         var batteryMaxTemperature: Double = 0.0,

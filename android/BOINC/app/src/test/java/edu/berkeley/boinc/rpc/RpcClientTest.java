@@ -371,11 +371,6 @@ public class RpcClientTest {
         assertNull(rpcClient.getGlobalPrefsWorkingStruct());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testSetGlobalPrefsOverrideStruct_whenGlobalPrefsIsNull_thenExpectNullPointerException() {
-        rpcClient.setGlobalPrefsOverrideStruct(null);
-    }
-
     @Test
     public void testSetGlobalPrefsOverrideStruct_whenGlobalPrefsIsDefault_thenExpectMatchingXmlStringAndSuccessToBeTrue() {
         final String expected =

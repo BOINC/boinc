@@ -57,4 +57,16 @@ class GlobalPreferencesTest {
                 .addEqualityGroup(GlobalPreferences(netTimes = timePreferences))
                 .testEquals()
     }
+
+    @Test
+    fun `Test serialization`() {
+        val expected = GlobalPreferences()
+        val timeSpan = TimeSpan()
+
+        expected.cpuTimes.weekPrefs[0] = timeSpan
+        expected.netTimes.weekPrefs[0] = timeSpan
+
+        val xml = mapper.writeValueAsString(expected)
+        println(xml)
+    }
 }

@@ -24,6 +24,10 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.xml.sax.SAXException;
@@ -59,6 +63,8 @@ public class RpcClient {
     static final String AUTHORIZED = "authorized";
     static final String UNAUTHORIZED = "unauthorized";
 
+    private static final ObjectMapper MAPPER = new XmlMapper();
+
     private static final int READ_TIMEOUT = 15000;         // 15s
     private static final int READ_BUF_SIZE = 2048;
     private static final int RESULT_BUILDER_INIT_SIZE = 131072; // Yes, 128K
@@ -90,6 +96,10 @@ public class RpcClient {
     protected StringBuilder mRequest = new StringBuilder(REQUEST_BUILDER_INIT_SIZE);
 
     protected String mLastErrorMessage = null;
+
+    static {
+        MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+    }
 
     public RpcClient() {
     }
@@ -1014,94 +1024,9 @@ public class RpcClient {
     protected synchronized boolean setGlobalPrefsOverrideStruct(GlobalPreferences globalPrefs) {
         try {
             mRequest.setLength(0);
-            mRequest.append("<set_global_prefs_override>\n<global_preferences>\n  <run_on_batteries>");
-            mRequest.append(toInteger(globalPrefs.getRunOnBatteryPower()));
-            mRequest.append("</run_on_batteries>\n  <battery_charge_min_pct>");
-            mRequest.append(globalPrefs.getBatteryChargeMinPct());
-            mRequest.append("</battery_charge_min_pct>\n  <battery_max_temperature>");
-            mRequest.append(globalPrefs.getBatteryMaxTemperature());
-            mRequest.append("</battery_max_temperature>\n  <run_gpu_if_user_active>");
-            mRequest.append(toInteger(globalPrefs.getRunGpuIfUserActive()));
-            mRequest.append("</run_gpu_if_user_active>\n  <run_if_user_active>");
-            mRequest.append(toInteger(globalPrefs.getRunIfUserActive()));
-            mRequest.append("</run_if_user_active>\n  <idle_time_to_run>");
-            mRequest.append(globalPrefs.getIdleTimeToRun());
-            mRequest.append("</idle_time_to_run>\n  <suspend_cpu_usage>");
-            mRequest.append(globalPrefs.getSuspendCpuUsage());
-            mRequest.append("</suspend_cpu_usage>\n  <start_hour>");
-            mRequest.append(globalPrefs.getCpuTimes().getStartHour());
-            mRequest.append("</start_hour>\n  <end_hour>");
-            mRequest.append(globalPrefs.getCpuTimes().getEndHour());
-            mRequest.append("</end_hour>\n  <net_start_hour>");
-            mRequest.append(globalPrefs.getNetTimes().getStartHour());
-            mRequest.append("</net_start_hour>\n  <net_end_hour>");
-            mRequest.append(globalPrefs.getNetTimes().getEndHour());
-            mRequest.append("</net_end_hour>\n  <max_ncpus_pct>");
-            mRequest.append(globalPrefs.getMaxNoOfCPUsPct());
-            mRequest.append("</max_ncpus_pct>\n  <leave_apps_in_memory>");
-            mRequest.append(toInteger(globalPrefs.getLeaveAppsInMemory()));
-            mRequest.append("</leave_apps_in_memory>\n  <dont_verify_images>");
-            mRequest.append(toInteger(globalPrefs.getDoNotVerifyImages()));
-            mRequest.append("</dont_verify_images>\n  <work_buf_min_days>");
-            mRequest.append(globalPrefs.getWorkBufMinDays());
-            mRequest.append("</work_buf_min_days>\n  <work_buf_additional_days>");
-            mRequest.append(globalPrefs.getWorkBufAdditionalDays());
-            mRequest.append("</work_buf_additional_days>\n  <disk_interval>");
-            mRequest.append(globalPrefs.getDiskInterval());
-            mRequest.append("</disk_interval>\n  <cpu_scheduling_period_minutes>");
-            mRequest.append(globalPrefs.getCpuSchedulingPeriodMinutes());
-            mRequest.append("</cpu_scheduling_period_minutes>\n  <disk_max_used_gb>");
-            mRequest.append(globalPrefs.getDiskMaxUsedGB());
-            mRequest.append("</disk_max_used_gb>\n  <disk_max_used_pct>");
-            mRequest.append(globalPrefs.getDiskMaxUsedPct());
-            mRequest.append("</disk_max_used_pct>\n  <disk_min_free_gb>");
-            mRequest.append(globalPrefs.getDiskMinFreeGB());
-            mRequest.append("</disk_min_free_gb>\n  <ram_max_used_busy_pct>");
-            mRequest.append(globalPrefs.getRamMaxUsedBusyFrac());
-            mRequest.append("</ram_max_used_busy_pct>\n  <ram_max_used_idle_pct>");
-            mRequest.append(globalPrefs.getRamMaxUsedIdleFrac());
-            mRequest.append("</ram_max_used_idle_pct>\n  <max_bytes_sec_up>");
-            mRequest.append(globalPrefs.getMaxBytesSecUp());
-            mRequest.append("</max_bytes_sec_up>\n  <max_bytes_sec_down>");
-            mRequest.append(globalPrefs.getMaxBytesSecDown());
-            mRequest.append("</max_bytes_sec_down>\n  <cpu_usage_limit>");
-            mRequest.append(globalPrefs.getCpuUsageLimit());
-            mRequest.append("</cpu_usage_limit>\n  <daily_xfer_limit_mb>");
-            mRequest.append(globalPrefs.getDailyTransferLimitMB());
-            mRequest.append("</daily_xfer_limit_mb>\n  <daily_xfer_period_days>");
-            mRequest.append(globalPrefs.getDailyTransferPeriodDays());
-            mRequest.append("</daily_xfer_period_days>\n  <network_wifi_only>");
-            mRequest.append(toInteger(globalPrefs.getNetworkWiFiOnly()));
-            mRequest.append("</network_wifi_only>\n");
-
-            // write days prefs
-            TimeSpan[] weekPrefs = globalPrefs.getCpuTimes().getWeekPrefs();
-            for (int i = 0; i < weekPrefs.length; i++) {
-                TimeSpan timeSpan = weekPrefs[i];
-                if (timeSpan == null) continue;
-                mRequest.append("  <day_prefs>\n    <day_of_week>");
-                mRequest.append(i);
-                mRequest.append("</day_of_week>\n    <start_hour>");
-                mRequest.append(timeSpan.getStartHour());
-                mRequest.append("</start_hour>\n    <end_hour>");
-                mRequest.append(timeSpan.getEndHour());
-                mRequest.append("</end_hour>\n  </day_prefs>\n");
-            }
-
-            weekPrefs = globalPrefs.getNetTimes().getWeekPrefs();
-            for (int i = 0; i < weekPrefs.length; i++) {
-                TimeSpan timeSpan = weekPrefs[i];
-                if (timeSpan == null) continue;
-                mRequest.append("  <day_prefs>\n    <day_of_week>");
-                mRequest.append(i);
-                mRequest.append("</day_of_week>\n    <net_start_hour>");
-                mRequest.append(timeSpan.getStartHour());
-                mRequest.append("</net_start_hour>\n    <net_end_hour>");
-                mRequest.append(timeSpan.getEndHour());
-                mRequest.append("</net_end_hour>\n  </day_prefs>\n");
-            }
-
-            mRequest.append("</global_preferences>\n</set_global_prefs_override>\n");
+            mRequest.append("<set_global_prefs_override>\n");
+            mRequest.append(MAPPER.writeValueAsString(globalPrefs));
+            mRequest.append("</set_global_prefs_override>\n");
             sendRequest(mRequest.toString());
             receiveReply();
             return true;

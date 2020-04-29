@@ -72,8 +72,8 @@ data class TimePreferences(
     }
 
     object Fields {
-        const val START_HOUR = "startHour"
-        const val END_HOUR = "endHour"
+        const val START_HOUR = "start_hour"
+        const val END_HOUR = "end_hour"
     }
 
     companion object {
