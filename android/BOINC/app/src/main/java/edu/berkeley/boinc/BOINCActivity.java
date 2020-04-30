@@ -45,11 +45,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.legacy.app.ActionBarDrawerToggle;
 
 import edu.berkeley.boinc.adapter.NavDrawerItem;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
@@ -118,6 +119,10 @@ public class BOINCActivity extends AppCompatActivity {
         // setup navigation bar
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mDrawerList = findViewById(R.id.list_slidermenu);
         mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
             // display view for selected nav drawer item
@@ -128,11 +133,8 @@ public class BOINCActivity extends AppCompatActivity {
         // enabling action bar app icon and behaving it as toggle button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
 
-        // TODO: Replace with a non-deprecated class.
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                                                  R.drawable.ic_drawer, //nav menu toggle icon
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                                                   R.string.app_name, // nav drawer open - description for accessibility
                                                   R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -151,7 +153,7 @@ public class BOINCActivity extends AppCompatActivity {
                 supportInvalidateOptionsMenu();
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         // pre-select fragment
         // 1. check if explicitly requested fragment present
