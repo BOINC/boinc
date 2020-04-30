@@ -290,7 +290,7 @@
     <string name="tasks_header_project_paused">(suspended)</string>
     <string name="tasks_header_deadline">Deadline:</string>
     <string name="tasks_result_new">new</string>
-    <string name="tasks_result_files_downloading">waiting for download</string>
+    <string name="tasks_result_files_downloading">downloading</string>
     <string name="tasks_result_files_downloaded">download complete</string>
     <string name="tasks_result_compute_error">computation error</string>
     <string name="tasks_result_files_uploading">uploading</string>
