@@ -24,6 +24,7 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.io.input.CharSequenceReader;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.xml.sax.SAXException;
@@ -33,7 +34,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -368,7 +368,7 @@ public class RpcClient {
             Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
         if (Logging.RPC_DATA) {
-            BufferedReader dbr = new BufferedReader(new StringReader(mResult.toString()));
+            BufferedReader dbr = new BufferedReader(new CharSequenceReader(mResult));
             String dl;
             int ln = 0;
             try {
