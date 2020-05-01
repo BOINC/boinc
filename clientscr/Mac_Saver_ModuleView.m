@@ -207,9 +207,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
 
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    gUseLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
-
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
