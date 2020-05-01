@@ -5,6 +5,7 @@
 # Updated 8/3/12 for TrueType fonts
 # Updated 11/8/12 to add slide_show
 # Updated 4/14/15 for compatibility with Xcode 6
+# Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those 
@@ -24,7 +25,7 @@ FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS = $(VARIANTFLAGS) \
     -g \
-    -stdlib=libstdc++ \
+    -stdlib=libc++ \
     -DAPP_GRAPHICS \
     -I$(BOINC_CONFIG_DIR) \
     -I$(BOINC_DIR) \
@@ -70,11 +71,11 @@ uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2\
-    -framework AppKit -framework GLUT -framework OpenGL
+    -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 
 slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
-    -framework AppKit -framework GLUT -framework OpenGL
+    -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
     
