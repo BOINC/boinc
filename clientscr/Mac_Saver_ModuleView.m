@@ -226,7 +226,13 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     // older builds at half width and height, unless we compensate in our code.
     // This code is part of my attempt to ensure that BOINC graphics apps built on 
     // all versions of Xcode work proprly on different versions of OS X. See also 
-    // MacPassOffscreenBufferToScreenSaver() in lib/magglutfix.m for more info.
+    // MacPassOffscreenBufferToScreenSaver() and MacGLUTFix(bool isScreenSaver) 
+    // in lib/macglutfix.m and for more info.
+    //
+    // NOTES:
+    //   * Graphics apps must be linked with the IOSurface framework
+    //   * The libboinc_graphics2.a library and the graphics app must be built 
+    //     with the same version of Xcode
     //
     if (gIsCatalina) {
         NSArray *allScreens = [ NSScreen screens ];
