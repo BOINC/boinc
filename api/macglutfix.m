@@ -47,6 +47,7 @@ extern int boinc_is_standalone(void);
 // int set_realtime(int period, int computation, int constraint);
 void MacGLUTFix(bool isScreenSaver);
 void BringAppToFront(void);
+int compareOSVersionTo(int toMajor, int toMinor);
 
 // The standard ScreenSaverView class actually sets the window 
 // level to 2002, not the 1000 defined by NSScreenSaverWindowLevel 
@@ -59,11 +60,15 @@ void BringAppToFront(void);
 #define SAVERDELAY 30
 
 void MacGLUTFix(bool isScreenSaver) {
+    static bool done = false;
     static NSMenu * emptyMenu;
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
     NSWindow* myWindow = nil;
 
+    if (done) return;
+    done = true;
+    
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
             emptyMenu = [ NSMenu alloc ];
@@ -74,15 +79,42 @@ void MacGLUTFix(bool isScreenSaver) {
     myContext = [ NSOpenGLContext currentContext ];
     if (myContext)
         myView = [ myContext view ];
-    if (myView)
+    if (myView) {
+#ifdef __MAC_10_15  // Do this only if built under OS 10.15 or later
+        // OpenGL apps built under Xcode 11 apparently use window dimensions based 
+        // on the number of backing store pixels. That is, they double the window 
+        // dimensions for Retina displays (which have 2X2 pixels per point.) But 
+        // OpenGL apps built under earlier versions of Xcode don't.
+        // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
+        // older builds at half width and height, unless we compensate in our code.
+        // This code is part of my attempt to ensure that BOINC graphics apps built on 
+        // all versions of Xcode work properly on different versions of OS X. See also 
+        // [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
+        // and MacPassOffscreenBufferToScreenSaver() 
+        //
+        // NOTES:
+        //   * Graphics apps must be linked with the IOSurface framework
+        //   * The libboinc_graphics2.a library and the graphics app must be built 
+        //     with the same version of Xcode
+        //
+        if (compareOSVersionTo(10, 15) >= 0) {
+            int w = (int)[myView bounds].size.width;
+            int h = (int)[myView bounds].size.height;
+            NSArray *allScreens = [ NSScreen screens ];
+            int DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
+            glViewport(0, 0, w*DPI_multiplier, h*DPI_multiplier);
+        }
+#endif
         myWindow = [ myView window ];
+    }
     if (myWindow == nil)
         return;
-    
+ 
     if (!isScreenSaver) {
         NSButton *closeButton = [myWindow standardWindowButton:NSWindowCloseButton ];
         [closeButton setEnabled:YES];
         [myWindow setDocumentEdited: NO];
+        
         return;
     }
 
@@ -294,13 +326,19 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 
 // OpenGL apps built under Xcode 11 apparently use window dimensions based 
 // on the number of backing store pixels. That is, they double the window 
-// dimensiona for Retina displays (which have two pixels per point.) But 
+// dimensions for Retina displays (which have 2X2 pixels per point.) But 
 // OpenGL apps built under earlier versions of Xcode don't.
 // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
 // older builds at half width and height, unless we compensate in our code.
 // This code is part of my attempt to ensure that BOINC graphics apps built on 
-// all versions of Xcode work proprly on different versions of OS X. See also 
+// all versions of Xcode work properly on different versions of OS X. See also 
 // [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
+// and MacGLUTFix(bool isScreenSaver) above.
+//
+// NOTES:
+//   * Graphics apps must be linked with the IOSurface framework
+//   * The libboinc_graphics2.a library and the graphics app must be built 
+//     with the same version of Xcode
 //
 void MacPassOffscreenBufferToScreenSaver() {
     NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
@@ -387,6 +425,44 @@ void MacPassOffscreenBufferToScreenSaver() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     currentFrameIndex = (currentFrameIndex + 1) % NUM_IOSURFACE_BUFFERS;
+}
+
+// Test OS version number on all versions of OS X without using deprecated Gestalt
+// compareOSVersionTo(x, y) returns:
+// -1 if the OS version we are running on is less than x.y
+//  0 if the OS version we are running on is equal to x.y
+// +1 if the OS version we are running on is lgreater than x.y
+int compareOSVersionTo(int toMajor, int toMinor) {
+    static SInt32 major = -1;
+    static SInt32 minor = -1;
+
+    if (major < 0) {
+        char vers[100], *p1 = NULL;
+        FILE *f;
+        vers[0] = '\0';
+        f = popen("sw_vers -productVersion", "r");
+        if (f) {
+            fscanf(f, "%s", vers);
+            pclose(f);
+        }
+        if (vers[0] == '\0') {
+            fprintf(stderr, "popen(\"sw_vers -productVersion\" failed\n");
+            fflush(stderr);
+            return 0;
+        }
+        // Extract the major system version number
+        major = atoi(vers);
+        // Extract the minor system version number
+        p1 = strchr(vers, '.');
+        minor = atoi(p1+1);
+    }
+    
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    // if (major == toMajor) compare minor version numbers
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }
 
 // Code for debugging:
