@@ -5,6 +5,7 @@
 # Updated 8/3/12 for TrueType fonts
 # Updated 11/8/12 to add slide_show
 # Updated 4/14/15 for compatibility with Xcode 6
+# Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those 
