@@ -24,7 +24,7 @@ FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS = $(VARIANTFLAGS) \
     -g \
-    -stdlib=libstdc++ \
+    -stdlib=libc++ \
     -DAPP_GRAPHICS \
     -I$(BOINC_CONFIG_DIR) \
     -I$(BOINC_DIR) \
@@ -70,11 +70,11 @@ uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2\
-    -framework AppKit -framework GLUT -framework OpenGL
+    -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 
 slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
     -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
-    -framework AppKit -framework GLUT -framework OpenGL
+    -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
     

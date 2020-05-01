@@ -4,6 +4,8 @@ First build the BOINC libraries:
 cd [path]/mac_build
 source BuildMacBOINC.sh -lib
 
+NOTE: The libboinc_graphics2.a library and the graphics app must be built with the same version of Xcode
+
 For more details, see the instructions in that script's comments or at:
 [path]/mac_build/HowToBuildBOINC_XCode.rtf
 
