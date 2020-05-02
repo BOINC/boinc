@@ -10,19 +10,20 @@
 # Enrico B. <enricobe@hotmail.com>, 2019
 # Filippo Rossi <rossi.filippo@gmail.com>, 2018
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
+# Giacomo Rippa <giacomo.rippa@outlook.com>, 2020
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # J M <fire.hi@gmail.com>, 2019
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
-# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019-2020
 # VaiTon <eyadlorenzo@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-09-23 13:34+0000\n"
-"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
+"PO-Revision-Date: 2020-05-01 12:08+0000\n"
+"Last-Translator: SebastianoPistore <SebastianoPistore.info@protonmail.ch>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1363,7 +1364,7 @@ msgstr "Sospendi l'elaborazione quando il tuo computer è impegnato nell'esecuzi
 
 #: html/inc/prefs.inc:107
 msgid "Compute only between"
-msgstr "Elabora solo tra"
+msgstr "Elabora solo tra le"
 
 #: html/inc/prefs.inc:108
 msgid "Compute only during a particular period each day."
@@ -1535,11 +1536,11 @@ msgstr "giorni"
 
 #: html/inc/prefs.inc:216
 msgid "Transfer files only between"
-msgstr "Trasferisci files solo tra"
+msgstr "Trasferisci file solo tra"
 
 #: html/inc/prefs.inc:217
 msgid "Transfer files only during a particular period each day."
-msgstr "Trasferisci i files solo durante un particolare periodo ogni giorno."
+msgstr "Trasferisci i file solo durante un particolare periodo ogni giorno."
 
 #: html/inc/prefs.inc:222
 msgid "Skip data verification for image files"
@@ -2792,7 +2793,7 @@ msgstr "Opzionale; non mostrato ad altri"
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
 msgid "Proof of account ownership results"
-msgstr ""
+msgstr "Risultati della prova di titolarità dell'account"
 
 #. Check that the private key file exists where specified. If not, redirect to
 #. error page.
@@ -2804,7 +2805,7 @@ msgstr ""
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "La prova di titolarità dell'account non è stata impostata correttamente. Contatta l'amministratore del progetto per risolvere il problema."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2819,7 +2820,7 @@ msgstr "Verifica della firma fallita. Contattare l'amministratore del progetto p
 msgid ""
 "An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
-msgstr ""
+msgstr "Si è verificato un errore durante la verifica della firma. Per risolvere il problema contattare l'amministratore del progetto."
 
 #. User data input invalid
 #: html/user/account_ownership.php:115
@@ -2831,7 +2832,7 @@ msgstr "Input non valido. L'input utente deve avere una lunghezza compresa tra 0
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
 msgid "Generate proof of account ownership"
-msgstr ""
+msgstr "Genera una prova di titolarità dell'account"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
@@ -3286,7 +3287,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr "Per fare una donazione, inserisci l'importo che vuoi donare usando i seguenti campi.\nPayPal accetta diverse valute\n(Dollari Canadesi, Euro, Sterline, Dollari U.S.A.,\nYen, Dollari Australiani, Dollari Neozelandesi,\nFranchi Svizzeri, Dollari di Hong Kong, Dollari di Singapore, Corone Svedesi,\nCorone Danesi, Zloty Polacchi, Corone Norvegesi,\nFiorini Ungheresi, Corone Ceche).\nPuoi usare il convertitore di valuta\nper vedere la somma donata equivalente nelle diverse valute\n(per favore nota che i tassi di conversione sono solo stimati\ne la somma reale potrebbe essere differente)."
+msgstr "Per fare una donazione, inserisci l'importo che vuoi donare usando i seguenti campi.\nPayPal accetta diverse valute\n(Dollari canadesi, Euro, Sterline, Dollari U.S.A.,\nYen, Dollari australiani, Dollari neozelandesi,\nFranchi svizzeri, Dollari di Hong Kong, Dollari di Singapore, Corone svedesi,\nCorone danesi, Zloty polacchi, Corone norvegesi,\nFiorini ungheresi, Corone ceche).\nPuoi usare il convertitore di valuta\nper vedere la somma donata equivalente nelle diverse valute\n(i tassi di conversione sono solo stimati\ne la somma reale potrebbe essere differente)."
 
 #: html/user/donations.php:315
 msgid "Amount you would like to donate"
@@ -4468,7 +4469,7 @@ msgstr "Includi solamente i messaggi degli ultimi %1 giorni (predefinito: 30)."
 
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
-msgstr "Solo threads: %1 (include solamente i primi messaggi di ogni discussione)"
+msgstr "Solo thread: %1 (include solamente i primi messaggi di ogni discussione)"
 
 #: html/user/forum_search_action.php:143
 msgid "Forum search results"
