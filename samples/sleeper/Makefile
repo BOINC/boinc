@@ -4,6 +4,7 @@ BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 
+CXX ?= g++
 CXXFLAGS += -g \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
@@ -16,6 +17,8 @@ PROGS = sleeper
 
 all: $(PROGS)
 
+install: all
+
 libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
@@ -25,4 +28,6 @@ distclean:
 	rm -f $(PROGS) *.o libstdc++.a
 
 sleeper: sleeper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc
+
+.PHONY: all install clean distclean
