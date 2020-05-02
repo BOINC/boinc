@@ -63,14 +63,13 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
             // Without this, a build error occurs for debug.
             minifyEnabled true
             debuggable true
-            testCoverageEnabled false
+            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
