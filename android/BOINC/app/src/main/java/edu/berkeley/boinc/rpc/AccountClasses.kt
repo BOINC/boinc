@@ -27,7 +27,7 @@ import androidx.core.os.ParcelCompat.writeBoolean
  * Account credentials, consisting of a [url], [emailAddress], [userName], [password], [teamName]
  * and [usesName] (if true, ID represents a user name, otherwise the user's email address).
  */
-class AccountIn(
+data class AccountIn(
         var url: String? = null,
         var emailAddress: String? = null,
         var userName: String? = null,
