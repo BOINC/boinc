@@ -221,9 +221,10 @@ public class AcctMgrFragment extends DialogFragment {
                 for (AccountManager accountManager : accountManagers) {
                     adapterData.add(new AccountManagerSpinner(accountManager.getName(), accountManager.getUrl()));
                 }
-                final ArrayAdapter adapter = new ArrayAdapter(getActivity(),
-                                                              android.R.layout.simple_spinner_item,
-                                                              adapterData);
+                final ArrayAdapter<AccountManagerSpinner> adapter =
+                        new ArrayAdapter<>(getActivity(),
+                                           android.R.layout.simple_spinner_item,
+                                           adapterData);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 urlSpinner.setAdapter(adapter);
             }
