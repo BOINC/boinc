@@ -238,17 +238,13 @@
   <string name="projects_control_sync_acctmgr">Sychronizovať</string>
   <string name="projects_control_remove_acctmgr">Deaktivovať</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Odstrániť projekt?</string>
+  <string name="projects_confirm_title">%1$s projekt?</string>
+  <string name="projects_confirm_message">Skutočne chcete %1$s %2$s?</string>
   <string name="projects_confirm_detach_message">Skutočne chcete odstrániť</string>
-  <string name="projects_confirm_detach_message2">z BOINC?</string>
   <string name="projects_confirm_detach_confirm">Odobrať</string>
-  <string name="projects_confirm_reset_title">Resetovať projekt</string>
-  <string name="projects_confirm_reset_message">Skutočne chcete resetovať</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Resetovať</string>
   <string name="projects_confirm_remove_acctmgr_title">Deaktivovať Správcu konta</string>
   <string name="projects_confirm_remove_acctmgr_message">Skutočne chcete prestať používať</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Deaktivovať</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Názov úlohy:</string>
