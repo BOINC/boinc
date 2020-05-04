@@ -51,6 +51,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
+import edu.berkeley.boinc.BOINCApplication;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.mutex.BoincMutex;
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -83,12 +86,15 @@ import edu.berkeley.boinc.utils.Logging;
 public class Monitor extends Service {
     private static final String INSTALL_FAILED = "Failed to install: ";
 
-    private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
     private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
     private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
     private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 
-    public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+    @Inject
+    BoincMutex mutex; // holds the BOINC mutex, only compute if acquired
+
+    @Inject
+    ClientInterfaceImplementation clientInterface; //provides functions for interaction with client via RPC
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
@@ -120,6 +126,7 @@ public class Monitor extends Service {
 
     @Override
     public void onCreate() {
+        ((BOINCApplication) getApplication()).getAppComponent().inject(this);
 
         Log.d(Logging.TAG, "Monitor onCreate()");
 

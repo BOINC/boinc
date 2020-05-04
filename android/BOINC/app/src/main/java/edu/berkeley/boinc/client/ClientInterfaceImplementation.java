@@ -14,6 +14,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountManager;
 import edu.berkeley.boinc.rpc.AccountOut;
@@ -30,13 +33,17 @@ import edu.berkeley.boinc.utils.BOINCErrors;
 import edu.berkeley.boinc.utils.Logging;
 
 /**
- * Class implements RPC commands with the client
- * extends RpcClient with polling, re-try and other mechanisms
+ * Class implements RPC commands with the client.
+ * Extends RpcClient with polling, re-try and other mechanisms
  * Most functions can block executing thread, do not call them from UI thread!
  */
+@Singleton
 public class ClientInterfaceImplementation extends RpcClient {
     // interval between polling retries in ms
     private final int minRetryInterval = 1000;
+
+    @Inject
+    public ClientInterfaceImplementation() {}
 
     /**
      * Reads authentication key from specified file path and authenticates GUI for advanced RPCs with the client
