@@ -64,7 +64,8 @@ import edu.berkeley.boinc.utils.Logging;
  * To get instance call Monitor.getClientStatus()
  */
 public class ClientStatus {
-    private Context ctx; // application context in order to fire broadcast events
+    private Context context; // application context in order to fire broadcast events
+    private AppPreferences appPreferences;
 
     // CPU WakeLock
     private WakeLock wakeLock;
@@ -118,12 +119,13 @@ public class ClientStatus {
     private List<Notice> serverNotices = new ArrayList<>();
     private int mostRecentNoticeSeqNo = 0;
 
-    public ClientStatus(Context ctx) {
-        this.ctx = ctx;
+    public ClientStatus(Context context, AppPreferences appPreferences) {
+        this.context = context;
+        this.appPreferences = appPreferences;
 
         // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
-        PowerManager pm = ContextCompat.getSystemService(ctx, PowerManager.class);
+        PowerManager pm = ContextCompat.getSystemService(context, PowerManager.class);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.WAKELOCK);
         // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
         wakeLock.setReferenceCounted(false);
@@ -133,7 +135,7 @@ public class ClientStatus {
         // can cause a memory leak if the context is not the application context.
         // You should consider using context.getApplicationContext().getSystemService() rather than
         // context.getSystemService()
-        WifiManager wm = ContextCompat.getSystemService(ctx.getApplicationContext(), WifiManager.class);
+        WifiManager wm = ContextCompat.getSystemService(context.getApplicationContext(), WifiManager.class);
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
     }
@@ -201,10 +203,10 @@ public class ClientStatus {
      * fires "clientstatuschange" broadcast, so registered Activities can update their model.
      */
     public synchronized void fire() {
-        if(ctx != null) {
+        if(context != null) {
             Intent clientChanged = new Intent();
             clientChanged.setAction("edu.berkeley.boinc.clientstatuschange");
-            ctx.sendBroadcast(clientChanged, null);
+            context.sendBroadcast(clientChanged, null);
         }
         else {
             if(Logging.DEBUG) {
@@ -333,26 +335,26 @@ public class ClientStatus {
             }
 
             if(project.getSuspendedViaGUI()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_suspendedviagui));
             }
             if(project.getDoNotRequestMoreWork()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_dontrequestmorework));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_dontrequestmorework));
             }
             if(project.getEnded()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_ended));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_ended));
             }
             if(project.getDetachWhenDone()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_detachwhendone));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_detachwhendone));
             }
             if(project.getScheduledRPCPending() > 0) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcpending));
-                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.getScheduledRPCPending()));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_schedrpcpending));
+                appendToStatus(sb, BOINCUtils.translateRPCReason(context, project.getScheduledRPCPending()));
             }
             if(project.getSchedulerRPCInProgress()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcinprogress));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_schedrpcinprogress));
             }
             if(project.getTrickleUpPending()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_trickleuppending));
             }
 
             final Instant now = Instant.now();
@@ -360,7 +362,7 @@ public class ClientStatus {
             if(minRPCTime.compareTo(now) > 0) {
                 appendToStatus(
                         sb,
-                        ctx.getResources().getString(R.string.projects_status_backoff) + " " +
+                        context.getResources().getString(R.string.projects_status_backoff) + " " +
                         DateUtils.formatElapsedTime(Duration.between(now, minRPCTime).getSeconds())
                 );
             }
@@ -525,24 +527,24 @@ public class ClientStatus {
                 case SETUP_STATUS_AVAILABLE:
                     switch(computingStatus) {
                         case COMPUTING_STATUS_COMPUTING:
-                            statusTitle = ctx.getString(R.string.status_running);
+                            statusTitle = context.getString(R.string.status_running);
                             break;
                         case COMPUTING_STATUS_IDLE:
-                            statusTitle = ctx.getString(R.string.status_idle);
+                            statusTitle = context.getString(R.string.status_idle);
                             break;
                         case COMPUTING_STATUS_SUSPENDED:
-                            statusTitle = ctx.getString(R.string.status_paused);
+                            statusTitle = context.getString(R.string.status_paused);
                             break;
                         case COMPUTING_STATUS_NEVER:
-                            statusTitle = ctx.getString(R.string.status_computing_disabled);
+                            statusTitle = context.getString(R.string.status_computing_disabled);
                             break;
                     }
                     break;
                 case SETUP_STATUS_LAUNCHING:
-                    statusTitle = ctx.getString(R.string.status_launching);
+                    statusTitle = context.getString(R.string.status_launching);
                     break;
                 case SETUP_STATUS_NOPROJECT:
-                    statusTitle = ctx.getString(R.string.status_noproject);
+                    statusTitle = context.getString(R.string.status_noproject);
                     break;
             }
         }
@@ -559,43 +561,43 @@ public class ClientStatus {
         try {
             switch(computingStatus) {
                 case COMPUTING_STATUS_COMPUTING:
-                    statusString = ctx.getString(R.string.status_running_long);
+                    statusString = context.getString(R.string.status_running_long);
                     break;
                 case COMPUTING_STATUS_IDLE:
                     if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_WIFI_STATE) {
                         // Network suspended due to wifi state
-                        statusString = ctx.getString(R.string.suspend_wifi);
+                        statusString = context.getString(R.string.suspend_wifi);
                     }
                     else if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED) {
                         // network suspend due to traffic quota
-                        statusString = ctx.getString(R.string.suspend_network_quota);
+                        statusString = context.getString(R.string.suspend_network_quota);
                     }
                     else {
-                        statusString = ctx.getString(R.string.status_idle_long);
+                        statusString = context.getString(R.string.status_idle_long);
                     }
                     break;
                 case COMPUTING_STATUS_SUSPENDED:
                     switch(computingSuspendReason) {
                         case BOINCDefs.SUSPEND_REASON_USER_REQ:
                             // restarting after user has previously manually suspended computation
-                            statusString = ctx.getString(R.string.suspend_user_req);
+                            statusString = context.getString(R.string.suspend_user_req);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-                            statusString = ctx.getString(R.string.status_benchmarking);
+                            statusString = context.getString(R.string.status_benchmarking);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERIES:
-                            statusString = ctx.getString(R.string.suspend_batteries);
+                            statusString = context.getString(R.string.suspend_batteries);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
-                            statusString = ctx.getString(R.string.suspend_battery_charging);
+                            statusString = context.getString(R.string.suspend_battery_charging);
                             try {
                                 double minCharge = prefs.getBatteryChargeMinPct();
                                 int currentCharge = Monitor.getDeviceStatus().getStatus().getBatteryChargePct();
-                                statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
+                                statusString = context.getString(R.string.suspend_battery_charging_long) + " " +
                                                (int) minCharge
-                                               + "% (" + ctx.getString(R.string.suspend_battery_charging_current) +
+                                               + "% (" + context.getString(R.string.suspend_battery_charging_current) +
                                                " " + currentCharge + "%) "
-                                               + ctx.getString(R.string.suspend_battery_charging_long2);
+                                               + context.getString(R.string.suspend_battery_charging_long2);
                             }
                             catch(Exception e) {
                                 if(Logging.ERROR) {
@@ -604,54 +606,54 @@ public class ClientStatus {
                             }
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
-                            statusString = ctx.getString(R.string.suspend_battery_overheating);
+                            statusString = context.getString(R.string.suspend_battery_overheating);
                             break;
                         case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                            boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+                            boolean suspendDueToScreenOn = appPreferences.getSuspendWhenScreenOn();
                             if(suspendDueToScreenOn) {
-                                statusString = ctx.getString(R.string.suspend_screen_on);
+                                statusString = context.getString(R.string.suspend_screen_on);
                             }
                             else {
-                                statusString = ctx.getString(R.string.suspend_useractive);
+                                statusString = context.getString(R.string.suspend_useractive);
                             }
                             break;
                         case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
-                            statusString = ctx.getString(R.string.suspend_tod);
+                            statusString = context.getString(R.string.suspend_tod);
                             break;
                         case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
-                            statusString = ctx.getString(R.string.suspend_disksize);
+                            statusString = context.getString(R.string.suspend_disksize);
                             break;
                         case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
-                            statusString = ctx.getString(R.string.suspend_cputhrottle);
+                            statusString = context.getString(R.string.suspend_cputhrottle);
                             break;
                         case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
-                            statusString = ctx.getString(R.string.suspend_noinput);
+                            statusString = context.getString(R.string.suspend_noinput);
                             break;
                         case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
-                            statusString = ctx.getString(R.string.suspend_delay);
+                            statusString = context.getString(R.string.suspend_delay);
                             break;
                         case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
-                            statusString = ctx.getString(R.string.suspend_exclusiveapp);
+                            statusString = context.getString(R.string.suspend_exclusiveapp);
                             break;
                         case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
-                            statusString = ctx.getString(R.string.suspend_cpu);
+                            statusString = context.getString(R.string.suspend_cpu);
                             break;
                         case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
-                            statusString = ctx.getString(R.string.suspend_network_quota);
+                            statusString = context.getString(R.string.suspend_network_quota);
                             break;
                         case BOINCDefs.SUSPEND_REASON_OS:
-                            statusString = ctx.getString(R.string.suspend_os);
+                            statusString = context.getString(R.string.suspend_os);
                             break;
                         case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
-                            statusString = ctx.getString(R.string.suspend_wifi);
+                            statusString = context.getString(R.string.suspend_wifi);
                             break;
                         default:
-                            statusString = ctx.getString(R.string.suspend_unknown);
+                            statusString = context.getString(R.string.suspend_unknown);
                             break;
                     }
                     break;
                 case COMPUTING_STATUS_NEVER:
-                    statusString = ctx.getString(R.string.status_computing_disabled_long);
+                    statusString = context.getString(R.string.status_computing_disabled_long);
                     break;
             }
         }
