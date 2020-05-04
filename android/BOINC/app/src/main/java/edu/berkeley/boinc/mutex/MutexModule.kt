@@ -16,22 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.di
+package edu.berkeley.boinc.mutex
 
-import android.content.Context
-import dagger.BindsInstance
-import dagger.Component
-import edu.berkeley.boinc.client.Monitor
-import edu.berkeley.boinc.mutex.MutexModule
-import javax.inject.Singleton
+import android.net.LocalSocket
+import dagger.Module
+import dagger.Provides
 
-@Singleton
-@Component(modules = [MutexModule::class])
-interface AppComponent {
-    @Component.Factory
-    interface Factory {
-        fun create(@BindsInstance context: Context): AppComponent
-    }
-
-    fun inject(monitor: Monitor)
+@Module
+class MutexModule {
+    @Provides
+    fun provideLocalSocket() = LocalSocket()
 }

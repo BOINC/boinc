@@ -33,8 +33,7 @@ import javax.inject.Singleton
  * @author Joachim Fritzsch
  */
 @Singleton
-class BoincMutex @Inject constructor() {
-    private val socket = LocalSocket()
+class BoincMutex @Inject constructor(private val socket: LocalSocket) {
     var isAcquired = false
         private set
 
