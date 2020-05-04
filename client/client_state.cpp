@@ -431,7 +431,7 @@ static void set_client_priority() {
 #ifdef __linux__
     char buf[1024];
     snprintf(buf, sizeof(buf), "ionice -c 3 -p %d", getpid());
-    system(buf);
+    if (!system(buf)) {}
 #endif
 }
 
@@ -503,9 +503,10 @@ int CLIENT_STATE::init() {
 
     FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
     if (f) {
-        fgets(client_brand, sizeof(client_brand), f);
-        strip_whitespace(client_brand);
-        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        if (fgets(client_brand, sizeof(client_brand), f)) {
+            strip_whitespace(client_brand);
+            msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        }
         fclose(f);
     }
 

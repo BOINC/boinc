@@ -2008,10 +2008,10 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
     // We should find out which of the following are actually relevant
     // on which systems (if any)
     //
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/mouse"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/mouse"));
         // solaris, linux
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/input/mice"));
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/kbd"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/input/mice"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
     return idle_time;
