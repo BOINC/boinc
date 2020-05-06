@@ -1362,10 +1362,8 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
         }
     }
 
-    if (pIfTable != NULL) {
-        free(pIfTable);
-        pIfTable = NULL;
-    }
+    free(pIfTable);
+    pIfTable = NULL;
 
     return iRetVal;
 }
