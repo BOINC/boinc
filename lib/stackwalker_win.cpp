@@ -588,9 +588,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
         strSymbolSearchPath = strSymbolSearchPath.substr( 0, strSymbolSearchPath.size() - 1 );
 
-    if (tt) {
-        free( tt );
-    }
+    free( tt );
 
     // Setting symbol options to the WinDbg defaults.
     symOptions = (DWORD)NULL;
