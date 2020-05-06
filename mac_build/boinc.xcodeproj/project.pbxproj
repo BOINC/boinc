@@ -1283,6 +1283,7 @@
 		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
+		DDDE391224600D05005FCEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemConfiguration.framework; sourceTree = "<group>"; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE1372810DC5E5300161D6B /* cs_notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_notice.cpp; path = ../client/cs_notice.cpp; sourceTree = SOURCE_ROOT; };
@@ -1641,6 +1642,7 @@
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 				DD0BB7A11F62B105000151B2 /* IOSurface.framework */,
+				DDDE391224600D05005FCEFA /* SystemConfiguration.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -3831,6 +3833,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
 			};
 			name = Development;
@@ -3843,6 +3846,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -3891,6 +3895,7 @@
 					"-lpthread",
 					"-lm",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc;
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -3949,6 +3954,7 @@
 					"-lpthread",
 					"-lm",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc;
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -4081,6 +4087,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Uninstaller;
 				PRODUCT_NAME = "Uninstall BOINC";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4094,6 +4101,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Uninstaller;
 				PRODUCT_NAME = "Uninstall BOINC";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4153,6 +4161,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
 					"-Wno-main",
+					"-Wno-shift-negative-value",
 				);
 			};
 			name = Development;
@@ -4168,6 +4177,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
 					"-Wno-main",
+					"-Wno-shift-negative-value",
 				);
 			};
 			name = Deployment;
@@ -4299,6 +4309,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
@@ -4359,6 +4370,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.PostInstall;
 				PRODUCT_NAME = PostInstall;
 			};
 			name = Deployment;
@@ -4465,6 +4477,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
@@ -4524,6 +4537,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.PostInstall;
 				PRODUCT_NAME = PostInstall;
 			};
 			name = Development;

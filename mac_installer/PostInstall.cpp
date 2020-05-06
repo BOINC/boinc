@@ -481,7 +481,7 @@ int main(int argc, char *argv[])
 
     if (compareOSVersionTo(10, 13) >= 0) {
         getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(s)-1);
+        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(path)-1);
         snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
         err = callPosixSpawn(s);
         REPORT_ERROR(err);
