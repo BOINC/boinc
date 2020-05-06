@@ -191,7 +191,7 @@ void COPROCS::summary_string(char* buf, int len) {
     }
     if (ati.count) {
         snprintf(buf2, sizeof(buf2),
-            "[CAL|%s|%d|%dMB|%s|%d]",
+            "[CAL|%s|%d|%uMB|%s|%d]",
             ati.name, ati.count,
             ati.attribs.localRAM, ati.version,
             ati.opencl_prop.opencl_device_version_int
@@ -832,7 +832,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 
 void COPROC_ATI::description(char* buf, int buflen) {
     snprintf(buf, buflen,
-        "%s (CAL version %s, %dMB, %.0fMB available, %.0f GFLOPS peak)",
+        "%s (CAL version %s, %uMB, %.0fMB available, %.0f GFLOPS peak)",
         name, version, attribs.localRAM,
         available_ram/MEGA, peak_flops/1.e9
     );

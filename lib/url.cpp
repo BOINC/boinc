@@ -256,11 +256,11 @@ bool valid_master_url(char* buf) {
         }
     }
     q = p+strlen(bSSL ? "https://" : "http://");
-    p = strstr(q, ".");
+    p = strchr(q, '.');
     if (!p) return false;
     if (p == q) return false;
     q = p+1;
-    p = strstr(q, "/");
+    p = strchr(q, '/');
     if (!p) return false;
     if (p == q) return false;
     n = strlen(buf);
