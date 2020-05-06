@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
+            "boinc_db.open failed: %s\n", boinc_db.error_string()
         );
         exit(1);
     }

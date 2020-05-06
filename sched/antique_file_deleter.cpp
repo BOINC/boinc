@@ -333,7 +333,9 @@ int main(int argc, char** argv) {
         config.replica_db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
