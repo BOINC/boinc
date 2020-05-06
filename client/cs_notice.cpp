@@ -512,7 +512,6 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     MIOFILE fout;
     fout.init_file(f);
     fout.printf("<notices>\n");
-    if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
         if (rfp) {
