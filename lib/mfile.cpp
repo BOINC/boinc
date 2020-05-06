@@ -59,7 +59,7 @@ static inline char* realloc_aux(char* p, size_t len) {
         return (char*)malloc(64*1024);
     }
 #ifdef _WIN32
-    if (_msize(p) >= (unsigned int)len) return p;
+    if (_msize(p) >= len) return p;
     return (char*) realloc(p, len*2);
 #else
     return (char*) realloc(p, len);
