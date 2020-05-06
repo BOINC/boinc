@@ -811,7 +811,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     if (!rfp) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice] RSS feed %s not found", rfp->url
+                "[notice] RSS feed %s not found", gui_http->http_op.m_url
             );
         }
         return;
