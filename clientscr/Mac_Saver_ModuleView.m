@@ -215,21 +215,24 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         myIsPreview = isPreview;
     }
     
-    // OpenGL apps built under Xcode 11 apparently use window dimensions based 
-    // on the number of backing store pixels. That is, they double the window 
-    // dimensions for Retina displays (which have 2X2 pixels per point.) But 
-    // OpenGL apps built under earlier versions of Xcode don't.
-    // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-    // older builds at half width and height, unless we compensate in our code.
-    // This code is part of my attempt to ensure that BOINC graphics apps built on 
-    // all versions of Xcode work properly on different versions of OS X. See also 
-    // MacPassOffscreenBufferToScreenSaver() and MacGLUTFix(bool isScreenSaver) 
-    // in lib/macglutfix.m and for more info.
+    // OpenGL / GLUT apps which call glutFullScreen() and are built using 
+    // Xcode 11 apparently use window dimensions based on the number of 
+    // backing store pixels. That is, they double the window dimensions 
+    // for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+    // apps built under earlier versions of Xcode don't.
     //
-    // NOTES:
-    //   * Graphics apps must be linked with the IOSurface framework
-    //   * The libboinc_graphics2.a library and the graphics app must be built 
-    //     with the same version of Xcode
+    // OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+    // Xcode 11, so it displays older builds at half width and height, 
+    // unless we compensate in our code. 
+    //
+    // To ensure that BOINC graphics apps built on all versions of Xcode work 
+    // properly on different versions of OS X, we set the IOSurface dimensions 
+    // in this module to double the screen dimensions when running under 
+    // OS 10.15 or later. 
+    //
+    // See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+    //
+    // NOTE: Graphics apps must now be linked with the IOSurface framework.
     //
     if (gIsCatalina) {
         NSArray *allScreens = [ NSScreen screens ];
@@ -1337,6 +1340,25 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 }
 
+// OpenGL / GLUT apps which call glutFullScreen() and are built using 
+// Xcode 11 apparently use window dimensions based on the number of 
+// backing store pixels. That is, they double the window dimensions 
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// apps built under earlier versions of Xcode don't.
+//
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+// Xcode 11, so it displays older builds at half width and height, 
+// unless we compensate in our code. 
+//
+// To ensure that BOINC graphics apps built on all versions of Xcode work 
+// properly on different versions of OS X, we set the IOSurface dimensions 
+// in this module to double the screen dimensions when running under 
+// OS 10.15 or later. 
+//
+// See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+//
+// NOTE: Graphics apps must now be linked with the IOSurface framework.
+//
 - (void)drawRect:(NSRect)theRect
 {
     glViewport(0, 0, (GLint)[[self window]frame].size.width*DPI_multiplier, (GLint)[[self window] frame].size.height*DPI_multiplier);
