@@ -71,8 +71,8 @@
     <project>
         <name>Rosetta@home</name>
         <id>7</id>
-        <url>http://boinc.bakerlab.org/rosetta/</url>
-        <web_url>http://boinc.bakerlab.org/rosetta/</web_url>
+        <url>https://boinc.bakerlab.org/rosetta/</url>
+        <web_url>https://boinc.bakerlab.org/rosetta/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Biology</specific_area>
         <description><![CDATA[Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, malaria, cancer, and Alzheimer's]]></description>
