@@ -569,7 +569,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
 
     // Project Symbol Server
 	if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) && (0 < strlen(pszSymbolStore))) {
-		if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
+		if (std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) {
 			strSymbolSearchPath += 
 				std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
 				std::string( pszSymbolStore ) + std::string( ";" );
