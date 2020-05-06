@@ -23,8 +23,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		DD0FAC13245ADFB60015D684 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD69ED6F2459A5840012014C /* IOSurface.framework */; };
-		DD0FAC14245ADFF10015D684 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD69ED6F2459A5840012014C /* IOSurface.framework */; };
 		DD59379F164D16CE001D94A5 /* slide_show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08CB6F164CAC1A005B47DD /* slide_show.cpp */; };
 		DD5937A1164D16CE001D94A5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DD5937A2164D16CE001D94A5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
@@ -37,6 +35,8 @@
 		DDC479B015AC56EB0022401F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DDC479B115AC56EB0022401F /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DDC479B215AC56EB0022401F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
+		DDDE391624600EAF005FCEFA /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDE391524600EAF005FCEFA /* IOSurface.framework */; };
+		DDDE391724600EE9005FCEFA /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDE391524600EAF005FCEFA /* IOSurface.framework */; };
 		DDF8050615CB9C75005473CC /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF8050315CB9C75005473CC /* ttfont.cpp */; };
 /* End PBXBuildFile section */
 
@@ -45,8 +45,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.c;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -55,8 +53,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.cpp;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -65,8 +61,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.asm;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -75,8 +69,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.c;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -85,8 +77,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.cpp;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -95,8 +85,6 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
 			fileType = sourcecode.asm;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -133,13 +121,13 @@
 		DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc2_graphics.cpp; path = ../example_app/uc2_graphics.cpp; sourceTree = SOURCE_ROOT; };
 		DD1194B10F42CB5400C2BC25 /* uc2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc2.cpp; path = ../example_app/uc2.cpp; sourceTree = SOURCE_ROOT; };
 		DD5937A8164D16CE001D94A5 /* slide_show_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "slide_show_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD69ED6F2459A5840012014C /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		DD760E65094E56DB002CACC4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		DD760E66094E56DB002CACC4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		DD760E67094E56DB002CACC4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		DD84C6F90C856C0E000EBEC4 /* uc2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = uc2.h; path = ../example_app/uc2.h; sourceTree = SOURCE_ROOT; };
 		DDC4797515AC56CA0022401F /* UC2_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC479BB15AC56EB0022401F /* UC2_graphics_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_graphics_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDDE391524600EAF005FCEFA /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = ../../../../../../System/Library/Frameworks/IOSurface.framework; sourceTree = "<group>"; };
 		DDF8050315CB9C75005473CC /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../../api/ttfont.cpp; sourceTree = "<group>"; };
 		DDF8050415CB9C75005473CC /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../../api/ttfont.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,7 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD0FAC14245ADFF10015D684 /* IOSurface.framework in Frameworks */,
+				DDDE391624600EAF005FCEFA /* IOSurface.framework in Frameworks */,
 				DD5937A1164D16CE001D94A5 /* GLUT.framework in Frameworks */,
 				DD5937A2164D16CE001D94A5 /* OpenGL.framework in Frameworks */,
 				DD5937A3164D16CE001D94A5 /* AppKit.framework in Frameworks */,
@@ -170,7 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD0FAC13245ADFB60015D684 /* IOSurface.framework in Frameworks */,
+				DDDE391724600EE9005FCEFA /* IOSurface.framework in Frameworks */,
 				DDC479B015AC56EB0022401F /* AppKit.framework in Frameworks */,
 				DDC479B115AC56EB0022401F /* GLUT.framework in Frameworks */,
 				DDC479B215AC56EB0022401F /* OpenGL.framework in Frameworks */,
@@ -227,7 +215,7 @@
 				DD760E65094E56DB002CACC4 /* AppKit.framework */,
 				DD760E66094E56DB002CACC4 /* GLUT.framework */,
 				DD760E67094E56DB002CACC4 /* OpenGL.framework */,
-				DD69ED6F2459A5840012014C /* IOSurface.framework */,
+				DDDE391524600EAF005FCEFA /* IOSurface.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
