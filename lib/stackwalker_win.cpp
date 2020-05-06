@@ -487,7 +487,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     std::string strSymbolSearchPath;
 
     tt = (CHAR*) malloc(sizeof(CHAR) * TTBUFLEN); // Get the temporary buffer
-    if (!tt) return 1;  // not enough memory...
+    if (!tt) goto error;  // not enough memory...
 
     // build symbol search path from:
     strCurrentDirectory = "";
@@ -606,7 +606,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if (!pSI(g_hProcess, strSymbolSearchPath.c_str(), TRUE))
     {
         fprintf(stderr, "SymInitialize(): GetLastError = %lu\n", gle);
-        return 1;
+        goto error;
     }
 
     if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)g_hProcess))
@@ -616,6 +616,10 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
 
     LeaveCriticalSection(&g_csFileOpenClose);
     return 0;
+
+error:
+    LeaveCriticalSection(&g_csFileOpenClose);
+    return 1;
 }
 
 int DebuggerDisplayDiagnostics()
