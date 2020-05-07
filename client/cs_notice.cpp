@@ -50,7 +50,7 @@ RSS_FEED_OP rss_feed_op;
 
 ////////////// UTILITY FUNCTIONS ///////////////
 
-static bool cmp(NOTICE n1, NOTICE n2) {
+static bool cmp(const NOTICE& n1, const NOTICE& n2) {
     if (n1.arrival_time > n2.arrival_time) return true;
     if (n1.arrival_time < n2.arrival_time) return false;
     return (strcmp(n1.guid, n2.guid) > 0);
@@ -683,7 +683,7 @@ void RSS_FEED::write(MIOFILE& fout) {
     );
 }
 
-static inline bool create_time_asc(NOTICE n1, NOTICE n2) {
+static inline bool create_time_asc(const NOTICE& n1, const NOTICE& n2) {
     return n1.create_time < n2.create_time;
 }
 
