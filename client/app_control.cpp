@@ -190,7 +190,7 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
-static void print_descendants(int pid, vector<int>desc, const char* where) {
+static void print_descendants(int pid, const vector<int>& desc, const char* where) {
     msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
         where, pid, (int)desc.size()
     );
