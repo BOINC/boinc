@@ -304,7 +304,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.match_tag("/file_info") || xp.match_tag("/file")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(name, '%')) return ERR_BAD_FILENAME;
             if (gzipped_urls.size() > 0) {
                 download_urls.clear();
                 download_urls.urls = gzipped_urls;
@@ -1054,7 +1054,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_ref")) {
             if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(open_name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(open_name, '%')) return ERR_BAD_FILENAME;
             return 0;
         }
         if (xp.parse_str("file_name", file_name, sizeof(file_name))) continue;

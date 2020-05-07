@@ -501,7 +501,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 }
 
 static inline bool is_weak_auth(const char* auth) {
-    return (strstr(auth, "_") != NULL);
+    return (strchr(auth, '_') != NULL);
 }
 
 #ifdef SIM
