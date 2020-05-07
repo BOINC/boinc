@@ -937,8 +937,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 }
 #endif
 
-USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
-    message = m;
-    priority = p;
+USER_MESSAGE::USER_MESSAGE(char* m, char* p) : message(m), priority(p) {
 }
 
