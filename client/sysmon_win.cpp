@@ -438,7 +438,6 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
     );
 
     if (!g_hWindowsMonitorSystemPowerThread) {
-        g_hWindowsMonitorSystemPowerThread = NULL;
         g_hWndWindowsMonitorSystemPower = NULL;
     }
 
@@ -453,10 +452,6 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
             0,
             NULL
         );
-
-        if (!g_hWindowsMonitorSystemProxyThread) {
-            g_hWindowsMonitorSystemProxyThread = NULL;
-        }
     }
 
     return 0;
