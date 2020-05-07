@@ -801,16 +801,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     // copy new entities to client state
     //
     for (i=0; i<sr.apps.size(); i++) {
-        APP* app = lookup_app(project, sr.apps[i].name);
+        APP& checked_app = sr.apps[i];
+        APP* app = lookup_app(project, checked_app.name);
         if (app) {
             // update app attributes; they may have changed on server
             //
-            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
-            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
-            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
+            safe_strcpy(app->user_friendly_name, checked_app.user_friendly_name);
+            app->non_cpu_intensive = checked_app.non_cpu_intensive;
+            app->fraction_done_exact = checked_app.fraction_done_exact;
         } else {
             app = new APP;
-            *app = sr.apps[i];
+            *app = checked_app;
             retval = link_app(project, app);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
