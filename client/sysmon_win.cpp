@@ -301,7 +301,7 @@ static void windows_detect_autoproxy_settings() {
         WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
     autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
-    network_test_url = boinc_ascii_to_wide(nvc_config.network_test_url).c_str();
+    network_test_url = boinc_ascii_to_wide(nvc_config.network_test_url);
 
     hWinHttp = WinHttpOpen(
         L"BOINC client",
