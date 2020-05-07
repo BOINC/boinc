@@ -44,8 +44,8 @@ void PROJECT::init() {
     safe_strcpy(authenticator, "");
     safe_strcpy(_project_dir, "");
     safe_strcpy(_project_dir_absolute, "");
-    project_specific_prefs = "";
-    gui_urls = "";
+    project_specific_prefs.clear();
+    gui_urls.clear();
     resource_share = 100;
     resource_share_frac = 0.0;
     disk_resource_share = 0.0;

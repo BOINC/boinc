@@ -190,7 +190,7 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
-static void print_descendants(int pid, vector<int>desc, const char* where) {
+static void print_descendants(int pid, const vector<int>& desc, const char* where) {
     msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
         where, pid, (int)desc.size()
     );
@@ -502,7 +502,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             char szError[1024];
             set_task_state(PROCESS_EXITED, "handle_exited_app");
             snprintf(err_msg, sizeof(err_msg),
-                "%s - exit code %d (0x%x)",
+                "%s - exit code %lu (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
             );

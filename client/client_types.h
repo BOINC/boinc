@@ -384,7 +384,7 @@ struct WORKUNIT {
         safe_strcpy(name, "");
         safe_strcpy(app_name, "");
         version_num = 0;
-        command_line = "";
+        command_line.clear();
         input_files.clear();
         job_keyword_ids.clear();
         project = NULL;

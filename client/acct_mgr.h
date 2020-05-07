@@ -194,7 +194,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         via_gui = false;
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
-        global_prefs_xml = "";
+        global_prefs_xml.clear();
         safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }
