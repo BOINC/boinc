@@ -1544,7 +1544,7 @@ int HOST_INFO::get_host_battery_state() {
     SYSTEM_POWER_STATUS Status;
     ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
     if (!GetSystemPowerStatus(&Status)) {
-        return false;
+        return BATTERY_STATE_UNKNOWN;
     }
 
     // Sometimes the system reports the ACLineStatus as an
