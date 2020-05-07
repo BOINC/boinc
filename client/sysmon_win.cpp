@@ -703,7 +703,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg) {
     //
     hEventSource = RegisterEventSource(NULL, TEXT(SZSERVICENAME));
 
-    _stprintf_s(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
+    _stprintf_s(szMsg, TEXT("%s error: %lu"), TEXT(SZSERVICENAME), dwErr);
     lpszStrings[0] = szMsg;
     lpszStrings[1] = lpszMsg;
 

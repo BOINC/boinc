@@ -502,7 +502,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             char szError[1024];
             set_task_state(PROCESS_EXITED, "handle_exited_app");
             snprintf(err_msg, sizeof(err_msg),
-                "%s - exit code %d (0x%x)",
+                "%s - exit code %lu (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
             );
