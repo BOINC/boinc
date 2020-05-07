@@ -138,7 +138,7 @@ bool CreateWslProcess(const std::string& wsl_app, const std::string& command, HA
 
     const std::string cmd = wsl_app + " " + command;
 
-    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) == TRUE);
+    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) != FALSE);
 
     if (res) {
         handle = pi.hProcess;
