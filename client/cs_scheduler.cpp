@@ -940,21 +940,22 @@ int CLIENT_STATE::handle_scheduler_reply(
         got_work_for_rsc[j] = false;
     }
     for (i=0; i<sr.results.size(); i++) {
-        RESULT* rp2 = lookup_result(project, sr.results[i].name);
+        RESULT& checked_result = sr.results[i];
+        RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline
             //
-            if (sr.results[i].report_deadline != rp2->report_deadline) {
-                rp2->report_deadline = sr.results[i].report_deadline;
+            if (checked_result.report_deadline != rp2->report_deadline) {
+                rp2->report_deadline = checked_result.report_deadline;
             } else {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Already have task %s\n", sr.results[i].name
+                    "Already have task %s\n", checked_result.name
                 );
             }
             continue;
         }
         RESULT* rp = new RESULT;
-        *rp = sr.results[i];
+        *rp = checked_result;
         retval = link_result(project, rp);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
