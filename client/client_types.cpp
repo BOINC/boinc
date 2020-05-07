@@ -228,7 +228,7 @@ FILE_INFO::~FILE_INFO() {
 void FILE_INFO::reset() {
     status = FILE_NOT_PRESENT;
     delete_file();
-    error_msg = "";
+    error_msg.clear();
 }
 
 // Set file ownership if using account-based sandbox;
@@ -1106,7 +1106,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     safe_strcpy(name, "");
     safe_strcpy(app_name, "");
     version_num = 0;
-    command_line = "";
+    command_line.clear();
     //strcpy(env_vars, "");
     app = NULL;
     project = NULL;

@@ -80,12 +80,12 @@ void RESULT::clear() {
     intops_cumulative = 0;
     _state = RESULT_NEW;
     exit_status = 0;
-    stderr_out = "";
+    stderr_out.clear();
     suspended_via_gui = false;
     coproc_missing = false;
     report_immediately = false;
     not_started = false;
-    name_md5 = "";
+    name_md5.clear();
     index = 0;
     app = NULL;
     wup = NULL;

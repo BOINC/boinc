@@ -28,7 +28,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
 
     HKEY hKey;
     
-    default_wsl = "";
+    default_wsl.clear();
 
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
         lxss_path.c_str(),
@@ -197,8 +197,8 @@ std::string read_from_pipe(HANDLE handle) {
 
 void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ostype, std::string& osrelease) {
     char buf[256], ostype_found[256], osrelease_found[256];
-    ostype = "";
-    osrelease = "";
+    ostype.clear();
+    osrelease.clear();
     for (size_t i = 0; i < lines.size(); ++i) {
         safe_strcpy(buf, lines[i].c_str());
         strip_whitespace(buf);

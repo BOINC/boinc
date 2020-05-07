@@ -38,7 +38,7 @@ NVC_CONFIG::NVC_CONFIG() {
 //
 void NVC_CONFIG::defaults() {
     client_download_url = "https://boinc.berkeley.edu/download.php";
-    client_new_version_name = "";
+    client_new_version_name.clear();
     client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     network_test_url = "https://www.google.com/";
 };
