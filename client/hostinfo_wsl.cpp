@@ -89,7 +89,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
 
     RegCloseKey(hKey);
 
-    return default_wsl != "";
+    return !default_wsl.empty();
 }
 
 typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
