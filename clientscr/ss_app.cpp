@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -498,7 +498,9 @@ int main(int argc, char** argv) {
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
+#ifndef __APPLE__   // Can't access user's directories under sandbox security
         BOINC_DIAG_PERUSERLOGFILES |
+#endif
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
         BOINC_DIAG_TRACETOSTDOUT;

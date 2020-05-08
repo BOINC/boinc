@@ -207,9 +207,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
 
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    gUseLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
-
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
@@ -218,21 +215,24 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         myIsPreview = isPreview;
     }
     
-    // OpenGL apps built under Xcode 11 apparently use window dimensions based 
-    // on the number of backing store pixels. That is, they double the window 
-    // dimensions for Retina displays (which have 2X2 pixels per point.) But 
-    // OpenGL apps built under earlier versions of Xcode don't.
-    // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-    // older builds at half width and height, unless we compensate in our code.
-    // This code is part of my attempt to ensure that BOINC graphics apps built on 
-    // all versions of Xcode work properly on different versions of OS X. See also 
-    // MacPassOffscreenBufferToScreenSaver() and MacGLUTFix(bool isScreenSaver) 
-    // in lib/macglutfix.m and for more info.
+    // OpenGL / GLUT apps which call glutFullScreen() and are built using 
+    // Xcode 11 apparently use window dimensions based on the number of 
+    // backing store pixels. That is, they double the window dimensions 
+    // for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+    // apps built under earlier versions of Xcode don't.
     //
-    // NOTES:
-    //   * Graphics apps must be linked with the IOSurface framework
-    //   * The libboinc_graphics2.a library and the graphics app must be built 
-    //     with the same version of Xcode
+    // OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+    // Xcode 11, so it displays older builds at half width and height, 
+    // unless we compensate in our code. 
+    //
+    // To ensure that BOINC graphics apps built on all versions of Xcode work 
+    // properly on different versions of OS X, we set the IOSurface dimensions 
+    // in this module to double the screen dimensions when running under 
+    // OS 10.15 or later. 
+    //
+    // See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+    //
+    // NOTE: Graphics apps must now be linked with the IOSurface framework.
     //
     if (gIsCatalina) {
         NSArray *allScreens = [ NSScreen screens ];
@@ -397,6 +397,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [imageView removeFromSuperview];   // Releases imageView
         imageView = nil;
     }
+
     if (!myIsPreview) {
         closeBOINCSaver();
     }
@@ -1182,11 +1183,16 @@ static bool okToDraw;
     IOSurfaceWidth = (int)IOSurfaceGetWidth((IOSurfaceRef)_ioSurfaceBuffers[frameIndex]);
     IOSurfaceHeight = (int)IOSurfaceGetHeight((IOSurfaceRef)_ioSurfaceBuffers[frameIndex]);
 
+fprintf(stderr, "[SharedGraphicsController displayFrame]: IOSurfaceWidth=%d IOSurfaceHeight=%d\n", IOSurfaceWidth, IOSurfaceHeight);
+
     if (openGLView == nil) {
         NSRect theframe;
         theframe.origin.x = theframe.origin.y = 0.0;
         theframe.size.width = IOSurfaceWidth;
         theframe.size.height = IOSurfaceHeight;
+// CAF NSArray *allScreens = [ NSScreen screens ];
+// CAF theframe = [((NSScreen*)allScreens[0]) frame];
+
         
         openGLView = [[saverOpenGLView alloc] initWithFrame:theframe];
         [screenSaverView addSubview:openGLView];
@@ -1240,6 +1246,9 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 	};
 
     NSOpenGLPixelFormat *pix_fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
+
+fprintf(stderr, "In [saverOpenGLView initWithFrame]: frame x==%d y=%d width=%d height=%d\n", (int)frame.origin.x, (int)frame.origin.y, (int)frame.size.width, (int)frame.size.height);
+fflush(stderr);
 
     if(!pix_fmt)
        [ NSApp terminate:nil];
@@ -1339,9 +1348,62 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 }
 
+// OpenGL / GLUT apps which call glutFullScreen() and are built using 
+// Xcode 11 apparently use window dimensions based on the number of 
+// backing store pixels. That is, they double the window dimensions 
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// apps built under earlier versions of Xcode don't.
+//
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+// Xcode 11, so it displays older builds at half width and height, 
+// unless we compensate in our code. 
+//
+// To ensure that BOINC graphics apps built on all versions of Xcode work 
+// properly on different versions of OS X, we set the IOSurface dimensions 
+// in this module to double the screen dimensions when running under 
+// OS 10.15 or later. 
+//
+// See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+//
+// NOTE: Graphics apps must now be linked with the IOSurface framework.
+//
 - (void)drawRect:(NSRect)theRect
 {
-    glViewport(0, 0, (GLint)[[self window]frame].size.width*DPI_multiplier, (GLint)[[self window] frame].size.height*DPI_multiplier);
+    glViewport(0, 0, IOSurfaceWidth, IOSurfaceHeight);
+
+int viewportRect[4];
+glGetIntegerv(GL_VIEWPORT, (GLint*)viewportRect);
+fprintf(stderr, "In [saverOpenGLView drawRect]: viewportRect[0]=%d viewportRect[1]=%d viewportRect[2]=%d viewportRect[3]=%d\n", viewportRect[0], viewportRect[1], viewportRect[2], viewportRect[3]);
+fflush(stderr);
+
+#if 0
+static int pass_count=0;
+fprintf(stderr, "In [saverOpenGLView drawRect] before glutReshapeWindow(+1): viewportRect[0]=%d viewportRect[1]=%d viewportRect[2]=%d viewportRect[3]=%d\n", viewportRect[0], viewportRect[1], viewportRect[2], viewportRect[3]);
+fflush(stderr);
+if (pass_count == 0) {
+glutReshapeWindow(glutGet(GLUT_SCREEN_WIDTH)+1, glutGet(GLUT_SCREEN_HEIGHT));
+fprintf(stderr, "GLUT_SCREEN_WIDTH=%d, GLUT_SCREEN_HEIGHT=%d", glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
+fprintf(stderr, "GLUT_WINDOW_WIDTH=%d, GLUT_WINDOW_HEIGHT=%d", glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+pass_count++;
+
+//glViewport(0, 0, viewportRect[2]+1, (GLint)self.bounds.size.height);
+} else if (pass_count == 1) {
+pass_count++;
+
+fprintf(stderr, "In [saverOpenGLView drawRect] before glutReshapeWindow(0): viewportRect[0]=%d viewportRect[1]=%d viewportRect[2]=%d viewportRect[3]=%d\n", viewportRect[0], viewportRect[1], viewportRect[2], viewportRect[3]);
+fflush(stderr);
+glutReshapeWindow(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
+//glViewport(0, 0, viewportRect[2]-1, (GLint)self.bounds.size.height);}
+} else {
+ //   glViewport(0, 0, (GLint)[[self window]frame].size.width*DPI_multiplier, (GLint)[[self window] frame].size.height*DPI_multiplier);
+//    glViewport(0, 0, (GLint)self.bounds.size.width, (GLint)self.bounds.size.height);
+//glutFullScreen();
+
+fprintf(stderr, "In [saverOpenGLView drawRect] after glutReshapeWindow(0): viewportRect[0]=%d viewportRect[1]=%d viewportRect[2]=%d viewportRect[3]=%d\n", viewportRect[0], viewportRect[1], viewportRect[2], viewportRect[3]);
+fflush(stderr);
+}
+#endif
+
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
