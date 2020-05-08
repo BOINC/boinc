@@ -370,7 +370,7 @@ create table user_submit_app (
     app_id                  integer         not null,
     manage                  tinyint         not null,
         -- can
-        --   create/deprecated app versions of this app
+        --   create/deprecate app versions of this app
         --   grant/revoke permissions (except admin) this app
         --   abort their jobs
     primary key (user_id, app_id)
@@ -816,7 +816,6 @@ create table consent (
     primary key (id)
 ) engine=InnoDB;
 
--- @todo - change 'protect' to 'project_specific'
 create table consent_type (
     id                      integer         not null auto_increment,
     shortname               varchar(255)    not null,
