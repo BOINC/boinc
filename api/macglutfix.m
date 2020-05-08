@@ -60,14 +60,15 @@ int compareOSVersionTo(int toMajor, int toMinor);
 #define SAVERDELAY 30
 
 void MacGLUTFix(bool isScreenSaver) {
-    static bool done = false;
+    static int count = 0;
     static NSMenu * emptyMenu;
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
     NSWindow* myWindow = nil;
+    static int requestedWidth, requestedHeight;
 
-    if (done) return;
-    done = true;
+    if (count > 1) return;   // Do this only twice
+    count++;
     
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
@@ -79,38 +80,37 @@ void MacGLUTFix(bool isScreenSaver) {
     myContext = [ NSOpenGLContext currentContext ];
     if (myContext)
         myView = [ myContext view ];
-    if (myView) {
-#ifdef __MAC_10_15  // Do this only if built under OS 10.15 or later
-        // OpenGL apps built under Xcode 11 apparently use window dimensions based 
-        // on the number of backing store pixels. That is, they double the window 
-        // dimensions for Retina displays (which have 2X2 pixels per point.) But 
-        // OpenGL apps built under earlier versions of Xcode don't.
-        // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-        // older builds at half width and height, unless we compensate in our code.
-        // This code is part of my attempt to ensure that BOINC graphics apps built on 
-        // all versions of Xcode work properly on different versions of OS X. See also 
-        // [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
-        // and MacPassOffscreenBufferToScreenSaver() 
-        //
-        // NOTES:
-        //   * Graphics apps must be linked with the IOSurface framework
-        //   * The libboinc_graphics2.a library and the graphics app must be built 
-        //     with the same version of Xcode
-        //
-        if (compareOSVersionTo(10, 15) >= 0) {
-            int w = (int)[myView bounds].size.width;
-            int h = (int)[myView bounds].size.height;
-            NSArray *allScreens = [ NSScreen screens ];
-            int DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
-            glViewport(0, 0, w*DPI_multiplier, h*DPI_multiplier);
-        }
-#endif
+    if (myView)
         myWindow = [ myView window ];
-    }
     if (myWindow == nil)
         return;
  
+    // Retina displays have 2X2 pixels per point. When OpenGL / GLUT apps built 
+    // using Xcode 11 are run on a Retina display under OS 10.15, they fail to 
+    // adjust their pixel dimensions to double the window size, and so fill only 
+    // 1/4 of the window (display at half width and height.) They do correct
+    // this if resized by calls to glutReshapeWindow(), glutFullScreen(), etc. 
+    // However, they work correctly when run on earlier  versions of OS X.
+    //
+    // OpenGL / GLUT apps built using earlier versions of Xcode do not have this 
+    // problem on OS 10.15. 
+    //
+    // We work around this by calling glutReshapeWindow() twice, first adding one 
+    // to the width and then restoring the  window's original size. This is 
+    // imperceptible to the user, but transparently fixes the problem when 
+    // necessary without actually changing the window's size, and does no harm 
+    // when not necessary.
+    //
+
     if (!isScreenSaver) {
+        if (count == 1) {
+            requestedWidth = glutGet(GLUT_WINDOW_WIDTH);
+            requestedHeight = glutGet(GLUT_WINDOW_HEIGHT);
+            glutReshapeWindow(requestedWidth+1, requestedHeight);
+        } else {
+            glutReshapeWindow(requestedWidth, requestedHeight);
+        }
+        
         NSButton *closeButton = [myWindow standardWindowButton:NSWindowCloseButton ];
         [closeButton setEnabled:YES];
         [myWindow setDocumentEdited: NO];
@@ -324,21 +324,24 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 @end
 
 
-// OpenGL apps built under Xcode 11 apparently use window dimensions based 
-// on the number of backing store pixels. That is, they double the window 
-// dimensions for Retina displays (which have 2X2 pixels per point.) But 
-// OpenGL apps built under earlier versions of Xcode don't.
-// Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-// older builds at half width and height, unless we compensate in our code.
-// This code is part of my attempt to ensure that BOINC graphics apps built on 
-// all versions of Xcode work properly on different versions of OS X. See also 
-// [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
-// and MacGLUTFix(bool isScreenSaver) above.
+// OpenGL / GLUT apps which call glutFullScreen() and are built using 
+// Xcode 11 apparently use window dimensions based on the number of 
+// backing store pixels. That is, they double the window dimensions 
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// apps built under earlier versions of Xcode don't.
 //
-// NOTES:
-//   * Graphics apps must be linked with the IOSurface framework
-//   * The libboinc_graphics2.a library and the graphics app must be built 
-//     with the same version of Xcode
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+// Xcode 11, so it displays older builds at half width and height, 
+// unless we compensate in our code. To ensure that BOINC graphics apps 
+// built on all versions of Xcode work properly on all versions of OS X, 
+// we set the IOSurface dimensions in this module to the viewportRect
+// dimensions.
+//
+// See also:
+// [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleView.m
+// clientscr/Mac_Saver_ModuleCiew.m and MacGLUTFix(bool isScreenSaver) above.
+//
+// NOTE: Graphics apps must now be linked with the IOSurface framework.
 //
 void MacPassOffscreenBufferToScreenSaver() {
     NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
