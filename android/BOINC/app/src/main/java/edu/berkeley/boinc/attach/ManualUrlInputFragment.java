@@ -23,8 +23,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +38,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ManualUrlInputFragment extends DialogFragment {
@@ -92,14 +91,7 @@ public class ManualUrlInputFragment extends DialogFragment {
         final ConnectivityManager connectivityManager = ContextCompat.getSystemService(activity, ConnectivityManager.class);
         assert connectivityManager != null;
 
-        final boolean online;
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        }
-        else {
-            online = connectivityManager.getActiveNetwork() != null;
-        }
+        final boolean online = BOINCUtils.isOnline(connectivityManager);
         if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
