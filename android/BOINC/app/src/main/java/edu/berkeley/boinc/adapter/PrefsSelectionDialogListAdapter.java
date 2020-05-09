@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +75,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
         SelectionDialogOption listItem = entries.get(position);
 
         if(v == null) {
-            LayoutInflater li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater li = ContextCompat.getSystemService(activity, LayoutInflater.class);
             assert li != null;
             v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
             CheckBox cb = v.findViewById(R.id.checkbox);

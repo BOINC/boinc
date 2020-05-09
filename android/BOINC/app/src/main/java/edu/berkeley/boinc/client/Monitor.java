@@ -31,6 +31,8 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -140,8 +142,7 @@ public class Monitor extends Service {
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized");
 
         // set current screen on/off status
-        PowerManager pm = (PowerManager)
-                getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = ContextCompat.getSystemService(this, PowerManager.class);
         screenOn = pm.isScreenOn();
 
         // initialize DeviceStatus wrapper

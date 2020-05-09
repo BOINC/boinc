@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
@@ -67,8 +67,8 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectControl data = entries.get(position);
 
-        View vi =
-                ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
+        View vi = ContextCompat.getSystemService(activity, LayoutInflater.class)
+                               .inflate(R.layout.projects_controls_listitem_layout, null);
 
         TextView tvText = vi.findViewById(R.id.text);
         String text = "";

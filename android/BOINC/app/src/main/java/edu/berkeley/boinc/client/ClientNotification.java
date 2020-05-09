@@ -1,13 +1,5 @@
 package edu.berkeley.boinc.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Result;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,8 +7,18 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ClientNotification {
 
@@ -51,7 +53,7 @@ public class ClientNotification {
 
     private ClientNotification(Context ctx) {
         this.context = ctx;
-        this.nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
@@ -47,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import org.apache.commons.lang3.StringUtils;
@@ -190,7 +190,7 @@ public class AcctMgrFragment extends DialogFragment {
         final Activity activity = getActivity();
         assert activity != null;
         final ConnectivityManager connectivityManager =
-                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                ContextCompat.getSystemService(activity, ConnectivityManager.class);
         assert connectivityManager != null;
         final boolean online;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {

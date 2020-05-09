@@ -18,9 +18,6 @@
  */
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.rpc.DeviceStatusData;
-import edu.berkeley.boinc.utils.*;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -34,6 +31,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+
+import edu.berkeley.boinc.rpc.DeviceStatusData;
+import edu.berkeley.boinc.utils.Logging;
 
 public class DeviceStatus {
     // variables describing device status in RPC
@@ -65,8 +66,8 @@ public class DeviceStatus {
      */
     DeviceStatus(Context ctx, AppPreferences appPrefs) {
         this.ctx = ctx;
-        this.connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+        this.connManager = ContextCompat.getSystemService(ctx, ConnectivityManager.class);
+        this.telManager = ContextCompat.getSystemService(ctx, TelephonyManager.class);
         this.batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         this.appPrefs = appPrefs;
     }

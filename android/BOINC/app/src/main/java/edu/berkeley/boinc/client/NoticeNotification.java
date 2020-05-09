@@ -26,16 +26,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.utils.Logging;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NoticeNotification {
     private static NoticeNotification noticeNotification = null;
@@ -65,7 +67,7 @@ public class NoticeNotification {
     public NoticeNotification(Context ctx) {
         this.context = ctx;
         this.store = new PersistentStorage(ctx);
-        this.nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.notice_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

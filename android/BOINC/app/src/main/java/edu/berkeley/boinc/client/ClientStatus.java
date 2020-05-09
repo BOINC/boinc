@@ -29,6 +29,8 @@ import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -120,7 +122,7 @@ public class ClientStatus {
 
         // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
-        PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = ContextCompat.getSystemService(ctx, PowerManager.class);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.WAKELOCK);
         // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
         wakeLock.setReferenceCounted(false);
@@ -130,7 +132,7 @@ public class ClientStatus {
         // can cause a memory leak if the context is not the application context.
         // You should consider using context.getApplicationContext().getSystemService() rather than
         // context.getSystemService()
-        WifiManager wm = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = ContextCompat.getSystemService(ctx.getApplicationContext(), WifiManager.class);
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
     }

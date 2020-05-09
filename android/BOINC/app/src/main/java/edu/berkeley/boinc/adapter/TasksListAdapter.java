@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -34,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -96,7 +96,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         if(setup) {
-            LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
+            assert vi != null;
             v = vi.inflate(R.layout.tasks_layout_listitem, null);
             v.setTag(listItem.id);
         }

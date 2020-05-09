@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -29,6 +28,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -103,8 +104,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
             }
-            LayoutInflater mInflater =
-                    (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater mInflater = ContextCompat.getSystemService(context, LayoutInflater.class);
             convertView = mInflater.inflate(layoutId, null);
         }
 
