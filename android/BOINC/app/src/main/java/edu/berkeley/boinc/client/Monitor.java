@@ -63,6 +63,7 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectConfig;
@@ -1046,8 +1047,7 @@ public class Monitor extends Service {
 // --end -- async tasks
 
     // remote service
-    private final IMonitor.Stub mBinder = new IMonitor.Stub() {
-
+    final IMonitor.Stub mBinder = new IMonitor.Stub() {
         @Override
         public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
             return clientInterface.transferOperation(list, op);
@@ -1138,13 +1138,12 @@ public class Monitor extends Service {
         }
 
         @Override
-        public List<edu.berkeley.boinc.rpc.Message> getMessages(int seq) throws RemoteException {
+        public List<Message> getMessages(int seq) throws RemoteException {
             return clientInterface.getMessages(seq);
         }
 
         @Override
-        public List<edu.berkeley.boinc.rpc.Message> getEventLogMessages(int seq, int num)
-                throws RemoteException {
+        public List<Message> getEventLogMessages(int seq, int num) throws RemoteException {
             return clientInterface.getEventLogMessages(seq, num);
         }
 

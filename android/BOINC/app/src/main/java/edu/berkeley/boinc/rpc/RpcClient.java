@@ -672,7 +672,7 @@ public class RpcClient {
                     opTag = "project_reset";
                     break;
                 default:
-                    if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+                    if (Logging.LOGLEVEL <= 4)
                         Log.e(Logging.TAG, "projectOp() - unsupported operation: " + operation);
                     return false;
             }
