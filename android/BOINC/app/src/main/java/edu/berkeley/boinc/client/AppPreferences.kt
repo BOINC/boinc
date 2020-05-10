@@ -45,8 +45,7 @@ class AppPreferences {
         }
     var logLevel = 0
         set(value) {
-            // Commit a new value synchronously
-            prefs?.edit(commit = true) { putInt("logLevel", value) }
+            prefs?.edit { putInt("logLevel", value) }
             field = value
             Logging.setLogLevel(value)
         }
@@ -77,7 +76,7 @@ class AppPreferences {
         }
 
     private fun putBooleanToPrefs(key: String, value: Boolean) {
-        prefs?.edit(commit = true) { putBoolean(key, value) }
+        prefs?.edit { putBoolean(key, value) }
     }
 
     fun readPrefs(ctx: Context) {
