@@ -431,7 +431,7 @@ public class RpcClient {
         mLastErrorMessage = null;
         try {
             sendRequest("<get_message_count/>\n");
-            int seqNo = MessageCountParser.getSeqnoOfReply(receiveReply());
+            int seqNo = MessageCountParser.getSeqno(receiveReply());
             if (Logging.DEBUG) Log.d(Logging.TAG, "RpcClient.getMessageCount returning: " + seqNo);
             return seqNo;
         } catch (IOException e) {
