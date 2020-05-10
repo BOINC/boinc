@@ -31,8 +31,19 @@ open class BaseParser : DefaultHandler() {
     override fun characters(ch: CharArray, start: Int, length: Int) {
         super.characters(ch, start, length)
         if (mElementStarted) { // put it into StringBuilder
-            if (mCurrentElement.isEmpty()) { // still empty - trim leading whitespace characters and append
-                mCurrentElement.append(String(ch).trimStart())
+            if (mCurrentElement.isEmpty()) {
+                // still empty - trim leading white-spaces
+                var newStart = start
+                var newLength = length
+                while (newLength > 0) {
+                    if (!ch[newStart].isWhitespace()) {
+                        // First non-white-space character
+                        mCurrentElement.append(ch, newStart, newLength)
+                        break
+                    }
+                    ++newStart
+                    --newLength
+                }
             } else { // Non-empty - add everything
                 mCurrentElement.append(ch, start, length)
             }
@@ -40,9 +51,14 @@ open class BaseParser : DefaultHandler() {
     }
 
     protected fun trimEnd() {
+        val length = mCurrentElement.length
         // Trim trailing spaces
-        val str = mCurrentElement.trimEnd()
-        mCurrentElement.setLength(0)
-        mCurrentElement.append(str)
+        for (i in length - 1 downTo 0) {
+            if (!mCurrentElement[i].isWhitespace()) {
+                // All trailing white-spaces are skipped, i is position of last character
+                mCurrentElement.setLength(i + 1)
+                break
+            }
+        }
     }
 }
