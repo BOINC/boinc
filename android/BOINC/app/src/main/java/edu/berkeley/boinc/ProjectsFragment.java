@@ -44,8 +44,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.eclipse.collections.api.list.MutableList;
-import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -60,14 +58,12 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCErrors;
-import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectsFragment extends Fragment {
-
     private ListView lv;
     private ProjectsListAdapter listAdapter;
-    private MutableList<ProjectsListData> data = new FastList<>();
+    private List<ProjectsListData> data = new ArrayList<>();
 
     // controls popup dialog
     Dialog dialogControls;
@@ -174,7 +170,13 @@ public class ProjectsFragment extends Fragment {
                             List<Notice> serverNotices, List<Transfer> ongoingTransfers) {
         // ACCOUNT MANAGER
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
-        int mgrIndex = data.detectIndex(item -> item.isMgr);
+        int mgrIndex = -1;
+        for(int x = 0; x < data.size(); x++) {
+            if(data.get(x).isMgr) {
+                mgrIndex = x;
+                break;
+            }
+        }
         if(mgrIndex < 0) { // no manager present until now
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "No manager found in layout list. New entry available: " +
@@ -205,8 +207,14 @@ public class ProjectsFragment extends Fragment {
         //loop through all received Result items to add new projects
         for(Project rpcResult : latestRpcProjectsList) {
             //check whether this project is new
-            int index = data.detectIndex(item -> item.id.equals(rpcResult.getMasterURL()));
-            if(index == -1) { // Project is new, add
+            int index = -1;
+            for(int x = 0; x < data.size(); x++) {
+                if(rpcResult.getMasterURL().equals(data.get(x).id)) {
+                    index = x;
+                    break;
+                }
+            }
+            if(index < 0) { // Project is new, add
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "New project found, id: " + rpcResult.getMasterURL() +
                                        ", managed: " + rpcResult.getAttachedViaAcctMgr());
@@ -233,12 +241,17 @@ public class ProjectsFragment extends Fragment {
         // use iterator to safely remove while iterating
         Iterator<ProjectsListData> iData = data.iterator();
         while(iData.hasNext()) {
+            boolean found = false;
             ProjectsListData listItem = iData.next();
             if(listItem.isMgr) {
                 continue;
             }
-            boolean found =
-                    ECLists.immutable.ofAll(latestRpcProjectsList).anySatisfy(project -> project.getMasterURL().equals(listItem.id));
+            for(Project rpcResult : latestRpcProjectsList) {
+                if(listItem.id.equals(rpcResult.getMasterURL())) {
+                    found = true;
+                    break;
+                }
+            }
             if(!found) {
                 iData.remove();
             }
@@ -274,9 +287,13 @@ public class ProjectsFragment extends Fragment {
 
     // takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
     private List<Transfer> mapTransfersToProject(String id, List<Transfer> allTransfers) {
-        // if project ID matches URL in transfer, add to list
-        List<Transfer> projectTransfers =
-                ECLists.mutable.ofAll(allTransfers).select(transfer -> transfer.getProjectUrl().equals(id));
+        List<Transfer> projectTransfers = new ArrayList<>();
+        for(Transfer trans : allTransfers) {
+            if(trans.getProjectUrl().equals(id)) {
+                // project id matches url in transfer, add to list
+                projectTransfers.add(trans);
+            }
+        }
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() +
                                " transfers to project " + id);
