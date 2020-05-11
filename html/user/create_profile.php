@@ -18,7 +18,7 @@
 
 // TODO: the following is organized in a funky way.  Clean it up
 
-require_once("..inc/util.inc");
+require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
 require_once("../inc/recaptchalib.php");
@@ -54,11 +54,11 @@ function show_picture_option($profile) {
     row1(tra("Picture"));
 
     $warning = "";
-    if (profile_screening() && $profile->has_picture) {
+    if (profile_screening() && $profile && $profile->has_picture) {
         $warning = offensive_profile_warning($profile->verification);
     }
 
-    if (($profile) && ($profile->has_picture)) {
+    if ($profile && ($profile->has_picture)) {
         echo "
 <tr><td colspan=2>
 <table border=0 cellpadding=5
