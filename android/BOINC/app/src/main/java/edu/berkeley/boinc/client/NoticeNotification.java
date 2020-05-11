@@ -20,13 +20,19 @@ package edu.berkeley.boinc.client;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+
+import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -121,19 +127,40 @@ public class NoticeNotification {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private String createNotificationChannel(String channelId, String channelName) {
+        NotificationChannel chan = new NotificationChannel(channelId,
+                                                           channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setDescription(context.getString(R.string.main_notification_channel_description));
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager service = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        service.createNotificationChannel(chan);
+        return channelId;
+    }
+
     @SuppressLint("InlinedApi")
     private Notification buildNotification() {
         // build new notification from scratch every time a notice arrives
-        final NotificationCompat.Builder nb;
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
 
-        nb = new NotificationCompat.Builder(context, "main-channel");
+        String channelId;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final String channelName = context.getString(R.string.main_notification_channel_name);
+            channelId = createNotificationChannel("main-channel", channelName);
+        } else {
+            // If earlier version channel ID is not used
+            // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+            channelId = "main-channel";
+        }
+
+        final NotificationCompat.Builder nb = new NotificationCompat.Builder(context, channelId);
         nb.setContentTitle(context.getResources().getQuantityString(
-                R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.mailw).
-                  setAutoCancel(true).
-                  setContentIntent(this.contentIntent);
+                R.plurals.notice_notification, notices, projectName, notices))
+          .setSmallIcon(R.drawable.mailw)
+          .setAutoCancel(true)
+          .setContentIntent(this.contentIntent)
         if(notices == 1) {
             // single notice view
             nb.setContentText(currentlyNotifiedNotices.get(0).getTitle()).
