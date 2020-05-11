@@ -135,18 +135,6 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Create notification channel for use on API 26 and higher.
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            final String name = getString(R.string.main_notification_channel_name);
-
-            final NotificationChannel notificationChannel =
-                    new NotificationChannel("main-channel", name,
-                                            NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription(getString(R.string.main_notification_channel_description));
-
-            getSystemService(NotificationManager.class).createNotificationChannel(notificationChannel);
-        }
-
         // Use BOINC logo in Recent Apps Switcher
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
             final String label = activity.getTitle().toString();

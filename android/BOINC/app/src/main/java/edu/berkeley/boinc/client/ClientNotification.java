@@ -168,6 +168,7 @@ public class ClientNotification {
         NotificationChannel chan = new NotificationChannel(channelId,
                                                            channelName, NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
+        chan.setDescription(context.getString(R.string.main_notification_channel_description));
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager service = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         service.createNotificationChannel(chan);
@@ -184,7 +185,8 @@ public class ClientNotification {
 
         String channelId;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = createNotificationChannel("main-channel", "My Background Service");
+            final String channelName = context.getString(R.string.main_notification_channel_name);
+            channelId = createNotificationChannel("main-channel", channelName);
         } else {
             // If earlier version channel ID is not used
             // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
