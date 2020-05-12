@@ -377,12 +377,11 @@ int file_size(const char* path, double& size) {
 //
 int file_size_alloc(const char* path, double& size) {
 #if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
-    HANDLE h = CreateFileA(path, 0, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, 0, OPEN_EXISTING, 0, 0);
-    if (h == INVALID_HANDLE_VALUE) return ERR_STAT;
-    LARGE_INTEGER lisize;
-    if (GetCompressedFileSizeEx(h, &lisize)) {
-        size = (double) lisize.QuadPart;
-        CloseHandle(h);
+    DWORD hi;
+    DWORD lo = GetCompressedFileSizeA(path, &hi);
+    if (lo != INVALID_FILE_SIZE) {
+        ULONGLONG x = (((ULONGLONG)hi) << 32) + lo;
+        size = (double) x;
         return 0;
     }
     return ERR_STAT;
