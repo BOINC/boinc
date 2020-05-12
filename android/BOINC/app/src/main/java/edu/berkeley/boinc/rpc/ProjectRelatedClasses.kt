@@ -49,7 +49,9 @@ data class ProjectConfig(
             this(parcel.readInt(), parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
-        parcel.readList(platforms.toList(), PlatformInfo::class.java.classLoader)
+        platforms = arrayListOf<PlatformInfo?>().apply {
+            parcel.readList(this, PlatformInfo::class.java.classLoader)
+        }
         termsOfUse = parcel.readString()
 
         usesName = readBoolean(parcel)
