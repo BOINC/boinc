@@ -70,7 +70,7 @@ android {
             minifyEnabled true
             debuggable true
             testCoverageEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
         }
     }
     compileOptions {
