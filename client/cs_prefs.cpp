@@ -119,7 +119,7 @@ int CLIENT_STATE::get_disk_usages() {
 // - each project has a "disk_resource_share" (DRS)
 //   This is the resource share plus .1*(max resource share).
 //   This ensures that backup projects get some disk.
-// - each project as a "desired_disk_usage (DDU)", 
+// - each project has a "desired_disk_usage (DDU)", 
 //   which is either its current usage
 //   or an amount sent from the scheduler.
 // - each project has a "quota": (available space)*(drs/total_drs).

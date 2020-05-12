@@ -99,7 +99,7 @@ void PROJECT::print() {
     printf("   ended: %s\n", ended?"yes":"no");
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
-    printf("   disk usage: %f\n", disk_usage);
+    printf("   disk usage: %.2fMB\n", disk_usage/MEGA);
     time_t foo = (time_t)last_rpc_time;
     printf("   last RPC: %s\n", ctime(&foo));
     printf("   project files downloaded: %f\n", project_files_downloaded_time);
@@ -428,8 +428,8 @@ void PROJECTS::print_urls() {
 void DISK_USAGE::print() {
     unsigned int i;
     printf("======== Disk usage ========\n");
-    printf("total: %f\n", d_total);
-    printf("free: %f\n", d_free);
+    printf("total: %.2fMB\n", d_total/MEGA);
+    printf("free: %.2fMB\n", d_free/MEGA);
     for (i=0; i<projects.size(); i++) {
         printf("%d) -----------\n", i+1);
         projects[i]->print_disk_usage();
