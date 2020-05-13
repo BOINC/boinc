@@ -390,7 +390,11 @@ int file_size_alloc(const char* path, double& size) {
     struct stat sbuf;
     retval = stat(path, &sbuf);
     if (retval) return ERR_NOT_FOUND;
+#ifdef _WIN32 // cygwin, mingw
+    size = (double)sbuf.st_size;
+#else
     size = ((double)sbuf.st_blocks)*512.;
+#endif
     return 0;
 #endif
 }
