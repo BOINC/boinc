@@ -718,9 +718,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #include <sys/types.h>
 #include <sys/cdefs.h>
 #include <machine/cpufunc.h>
+#include <machine/specialreg.h>
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
+    u_int cpu_id;
+    char vendor[13];
     int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
     char capabilities[256];
 
@@ -731,6 +734,11 @@ void use_cpuid(HOST_INFO& host) {
 
         do_cpuid(0x1, p);
 
+        cpu_id = p[0];
+        memcpy(vendor, &p[1], 4);   // copy EBX
+        memcpy(vendor+4, &p[3], 4); // copy EDX
+        memcpy(vendor+8, &p[2], 4); // copy ECX
+        vendor[12] = '\0';
         hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
         hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
         hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
@@ -756,10 +764,12 @@ void use_cpuid(HOST_INFO& host) {
     if (hasAVX) safe_strcat(capabilities, "avx ");
     strip_whitespace(capabilities);
     char buf[1024];
-    snprintf(buf, sizeof(buf), "%s [] [%s]",
-        host.p_model, capabilities
+    snprintf(buf, sizeof(buf), " [Family %u Model %u Stepping %u]",
+        CPUID_TO_FAMILY(cpu_id), CPUID_TO_MODEL(cpu_id), cpu_id & CPUID_STEPPING
     );
     strlcat(host.p_model, buf, sizeof(host.p_model));
+    safe_strcpy(host.p_features, capabilities);
+    safe_strcpy(host.p_vendor, vendor);
 }
 #endif
 #endif
