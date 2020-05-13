@@ -59,6 +59,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                                              R.drawable.ic_baseline_add_box_48, false, true));
         navDrawerItems.add(new NavDrawerItem(R.string.tab_preferences,
                                              R.drawable.ic_baseline_settings_48));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_storage, R.drawable.storageb));
         navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.ic_baseline_help_48));
         navDrawerItems.add(new NavDrawerItem(R.string.menu_report_issue, R.drawable.ic_baseline_bug_report_48));
         navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.ic_baseline_info_48));

@@ -136,6 +136,7 @@
     <string name="tab_preferences">העדפות</string>
     <string name="tab_notices">הודעות</string>
     <string name="tab_desc">ניווט</string>
+    <string name="tab_storage">אחסון</string>
     <!--status strings-->
     <string name="status_running">מחשב</string>
     <string name="status_running_long">תודה על השתתפותך.</string>

@@ -292,6 +292,10 @@ public class BOINCActivity extends AppCompatActivity {
                     ft.replace(R.id.frame_container, new ProjectsFragment());
                     fragmentChanges = true;
                     break;
+                case R.string.tab_storage:
+                    ft.replace(R.id.frame_container, new StorageFragment());
+                    fragmentChanges = true;
+                    break;
                 case R.string.menu_help:
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/wiki/BOINC_Help")));
                     break;
