@@ -79,8 +79,7 @@ class NavDrawerItem internal constructor(
             name: String,
             icon: Bitmap?,
             masterUrl: String
-    ) : this(navDrawerListAdapter, 0, 0, true) {
-        id = masterUrl.hashCode()
+    ) : this(navDrawerListAdapter, masterUrl.hashCode(), 0, true) {
         title = name
         projectIcon = icon
         projectMasterUrl = masterUrl
