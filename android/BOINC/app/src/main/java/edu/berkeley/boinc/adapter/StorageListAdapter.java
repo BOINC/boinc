@@ -134,8 +134,6 @@ public class StorageListAdapter extends ArrayAdapter<StorageListData> {
             else {
                 vi = layoutInflater.inflate(R.layout.projects_layout_listitem, null);
             }
-            //set onclicklistener for expansion
-            vi.setOnClickListener(entries.get(position).projectsListClickListener);
             vi.setTag(data.id);
         }
 

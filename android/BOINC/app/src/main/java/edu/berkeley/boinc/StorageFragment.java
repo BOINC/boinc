@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -33,23 +32,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.berkeley.boinc.adapter.StorageControlsListAdapter;
 import edu.berkeley.boinc.adapter.StorageListAdapter;
 import edu.berkeley.boinc.attach.ManualUrlInputFragment;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -345,151 +337,9 @@ public class StorageFragment extends Fragment {
             return lastServerNotice;
         }
 
-        // handles onClick on list element, could be either project or account manager
-        // sets up dialog with controls
-        public final OnClickListener projectsListClickListener = view -> {
-            dialogControls = new Dialog(getActivity());
-            // layout
-            dialogControls.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogControls.setContentView(R.layout.dialog_list);
-            ListView list = dialogControls.findViewById(R.id.options);
-
-            // add control items depending on:
-            // - type, account manager vs. project
-            // - client status, e.g. either suspend or resume
-            // - show advanced preference
-            // - project attached via account manager (e.g. hide Remove)
-            List<StorageControl> controls = new ArrayList<>();
-            if(isMgr) {
-                ((TextView) dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
-
-                controls.add(new StorageControl(listEntry, StorageControl.VISIT_WEBSITE));
-                controls.add(new StorageControl(listEntry, RpcClient.MGR_SYNC));
-                controls.add(new StorageControl(listEntry, RpcClient.MGR_DETACH));
-            }
-            else {
-                ((TextView) dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
-
-                controls.add(new StorageControl(listEntry, StorageControl.VISIT_WEBSITE));
-                if(ObjectUtils.isNotEmpty(projectTransfers)) {
-                    controls.add(new StorageControl(listEntry, RpcClient.TRANSFER_RETRY));
-                }
-                controls.add(new StorageControl(listEntry, RpcClient.PROJECT_UPDATE));
-                if(project.getSuspendedViaGUI()) {
-                    controls.add(new StorageControl(listEntry, RpcClient.PROJECT_RESUME));
-                }
-                else {
-                    controls.add(new StorageControl(listEntry, RpcClient.PROJECT_SUSPEND));
-                }
-                boolean isShowAdvanced;
-                try {
-                    isShowAdvanced = BOINCActivity.monitor.getShowAdvanced();
-                }
-                catch(RemoteException e) {
-                    isShowAdvanced = false;
-                }
-                if(isShowAdvanced) {
-                    if (project.getDoNotRequestMoreWork()) {
-                        controls.add(new StorageControl(listEntry, RpcClient.PROJECT_ANW));
-                    } else {
-                        controls.add(new StorageControl(listEntry, RpcClient.PROJECT_NNW));
-                    }
-                    controls.add(new StorageControl(listEntry, RpcClient.PROJECT_RESET));
-                }
-                if(!project.getAttachedViaAcctMgr()) {
-                    controls.add(new StorageControl(listEntry, RpcClient.PROJECT_DETACH));
-                }
-            }
-
-            // list adapter
-            list.setAdapter(new StorageControlsListAdapter(getActivity(), list, R.layout.projects_controls_listitem_layout, controls));
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "dialog list adapter entries: " + controls.size());
-            }
-
-            // buttons
-            Button cancelButton = dialogControls.findViewById(R.id.cancel);
-            cancelButton.setOnClickListener(view1 -> dialogControls.dismiss());
-
-            // show dialog
-            dialogControls.show();
-        };
     }
 
-    public class StorageControl {
-        public StorageListData data;
-        public int operation;
 
-        // operation that do not imply an RPC are defined here
-        public static final int VISIT_WEBSITE = 100;
-
-        public StorageControl(StorageListData data, int operation) {
-            this.operation = operation;
-            this.data = data;
-        }
-
-        // handles onClick on list element in control dialog
-        // might show confirmation dialog depending on operation type
-        public final OnClickListener projectCommandClickListener = view -> {
-            //check whether command requires confirmation
-            if(operation == RpcClient.PROJECT_DETACH
-               || operation == RpcClient.PROJECT_RESET
-               || operation == RpcClient.MGR_DETACH) {
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_confirm);
-                Button confirm = dialog.findViewById(R.id.confirm);
-                TextView tvTitle = dialog.findViewById(R.id.title);
-                TextView tvMessage = dialog.findViewById(R.id.message);
-
-                // operation-dependent texts
-                if(operation == RpcClient.PROJECT_DETACH) {
-                    final String removeStr = getString(R.string.projects_confirm_detach_confirm);
-
-                    tvTitle.setText(getString(R.string.projects_confirm_title, removeStr));
-                    tvMessage.setText(getString(R.string.projects_confirm_message,
-                                                removeStr.toLowerCase(),
-                                                data.project.getProjectName() + " "
-                                                + getString(R.string.projects_confirm_detach_message)));
-                    confirm.setText(removeStr);
-                }
-                else if(operation == RpcClient.PROJECT_RESET) {
-                    final String resetStr = getString(R.string.projects_confirm_reset_confirm);
-
-                    tvTitle.setText(getString(R.string.projects_confirm_title, resetStr));
-                    tvMessage.setText(getString(R.string.projects_confirm_message, resetStr.toLowerCase(),
-                                                data.project.getProjectName()));
-                    confirm.setText(resetStr);
-                }
-                else if(operation == RpcClient.MGR_DETACH) {
-                    tvTitle.setText(R.string.projects_confirm_remove_acctmgr_title);
-                    tvMessage.setText(getString(R.string.projects_confirm_message,
-                                                getString(R.string.projects_confirm_remove_acctmgr_message),
-                                                data.acctMgrInfo.getAcctMgrName()));
-                    confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm);
-                }
-
-                confirm.setOnClickListener(view1 -> {
-                    new ProjectOperationAsync().execute(data, operation);
-                    dialog.dismiss();
-                    dialogControls.dismiss();
-                });
-                Button cancel = dialog.findViewById(R.id.cancel);
-                cancel.setOnClickListener(view1 -> dialog.dismiss());
-                dialog.show();
-            }
-            else if(operation ==
-                    StorageControl.VISIT_WEBSITE) { // command does not require confirmation and is not rpc based
-                dialogControls.dismiss();
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(data.id));
-                startActivity(i);
-            }
-            else { // command does not required confirmation, but is rpc based
-                new ProjectOperationAsync().execute(data, operation);
-                dialogControls.dismiss();
-            }
-        };
-    }
 
     // executes project operations in new thread
     private final class ProjectOperationAsync extends AsyncTask<Object, Void, Boolean> {
