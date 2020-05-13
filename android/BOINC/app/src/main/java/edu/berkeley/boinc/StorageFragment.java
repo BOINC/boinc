@@ -113,8 +113,6 @@ public class StorageFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        // appends the project specific menu to the main menu.
-        inflater.inflate(R.menu.projects_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
