@@ -28,8 +28,13 @@ export LD=arm-linux-androideabi-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19 "$CFLAGS
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -D__ANDROID_API__=19 "$CXXFLAGS
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
-export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
+
+if [ ! "$DEBUG" = "ON" ]; then
+    export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+else
+    export GDB_CFLAGS=""
+fi
 
 # Prepare android toolchain and environment
 ./build_androidtc_arm.sh
@@ -51,7 +56,7 @@ if [ -n "$COMPILEBOINC" ]; then
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
-    if [ ! "$BOINC_DEBUG" = "ON" ]; then
+    if [ ! "$DEBUG" = "ON" ]; then
         arm-linux-androideabi-strip *
     fi    
     cd ../../../../

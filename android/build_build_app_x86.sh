@@ -21,7 +21,12 @@ export LD=i686-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -O3 -fomit-frame-pointer -fPIE"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
-export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+
+if [ ! "$DEBUG" = "ON" ]; then
+    export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+else
+    export GDB_CFLAGS=""
+fi
 
 make clean
 
