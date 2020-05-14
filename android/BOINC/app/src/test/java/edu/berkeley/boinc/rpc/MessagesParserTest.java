@@ -202,7 +202,7 @@ public class MessagesParserTest {
         messagesParser.endElement(null, MessagesParser.MESSAGE, null);
 
         expected.setSeqno(1);
-        expected.setProject("Project");
+        expected.setProject("P");
 
         assertEquals(Collections.singletonList(expected), messagesParser.getMessages());
     }

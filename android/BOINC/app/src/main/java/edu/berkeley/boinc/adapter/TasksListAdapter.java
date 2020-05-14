@@ -66,14 +66,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private final StringBuilder elapsedTimeStringBuilder;
     private final NumberFormat percentNumberFormat;
 
-    public TasksListAdapter(Activity activity, int textViewResourceId, List<TaskData> entries) {
-        super(activity, textViewResourceId, entries);
+    public TasksListAdapter(Activity a, int textViewResourceId, List<TaskData> entries) {
+        super(a, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = activity;
+        this.activity = a;
         this.deadlineDate = new Date();
         this.elapsedTimeStringBuilder = new StringBuilder();
-        percentNumberFormat = NumberFormat.getPercentInstance();
-        percentNumberFormat.setMinimumFractionDigits(1);
+        (this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
     }
 
     @NonNull

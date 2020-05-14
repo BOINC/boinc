@@ -40,21 +40,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import org.eclipse.collections.api.list.MutableList;
-import org.eclipse.collections.impl.list.mutable.FastList;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.berkeley.boinc.adapter.TasksListAdapter;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
-import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 public class TasksFragment extends Fragment {
     private TasksListAdapter listAdapter;
-    private MutableList<TaskData> data = new FastList<>();
+    private List<TaskData> data = new ArrayList<>();
 
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
@@ -104,8 +102,10 @@ public class TasksFragment extends Fragment {
 
     private void loadData() {
         // try to get current client status from monitor
+        //ClientStatus status;
         List<Result> tmpA;
         try {
+            //status  = Monitor.getClientStatus();
             tmpA = BOINCActivity.monitor.getTasks();
         }
         catch(Exception e) {
@@ -132,8 +132,14 @@ public class TasksFragment extends Fragment {
         //loop through all received Result items to add new results
         for(Result rpcResult : newData) {
             //check whether this Result is new
-            int index = data.detectIndex(item -> item.id.equals(rpcResult.getName()));
-            if(index == -1) { // result is new, add
+            Integer index = null;
+            for(int x = 0; x < data.size(); x++) {
+                if(rpcResult.getName().equals(data.get(x).id)) {
+                    index = x;
+                    break;
+                }
+            }
+            if(index == null) { // result is new, add
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "new result found, id: " + rpcResult.getName());
                 }
@@ -145,8 +151,21 @@ public class TasksFragment extends Fragment {
         }
 
         //loop through the list adapter to find removed (ready/aborted) Results
-        data.removeIf(listItem -> ECLists.immutable.ofAll(newData)
-                                                   .noneSatisfy(rpcResult -> listItem.id.equals(rpcResult.getName())));
+        // use iterator to safely remove while iterating
+        Iterator<TaskData> iData = data.iterator();
+        while(iData.hasNext()) {
+            boolean found = false;
+            TaskData listItem = iData.next();
+            for(Result rpcResult : newData) {
+                if(listItem.id.equals(rpcResult.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                iData.remove();
+            }
+        }
     }
 
     public class TaskData {
@@ -165,8 +184,8 @@ public class TasksFragment extends Fragment {
                     getResources().getInteger(R.integer.tasks_transistion_timeout_number_monitor_loops);
         }
 
-        public void updateResultData(Result data) {
-            this.result = data;
+        public void updateResultData(Result result) {
+            this.result = result;
             int currentState = determineState();
             if(nextState == -1) {
                 return;
