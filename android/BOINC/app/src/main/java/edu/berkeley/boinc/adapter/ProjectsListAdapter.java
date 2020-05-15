@@ -37,7 +37,8 @@ import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.NumberFormat;
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -249,15 +250,13 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                     activityStatus += activity.getResources().getString(R.string.trans_pending);
 
                     if(nextRetryS > 0) { // next try at defined time
-                        long retryAtMs = nextRetryS * 1000;
-                        long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
-                        if(retryInMs < 0) {
-                        }// timestamp in the past, write nothing
-                        else {
+                        long retryInSeconds = Duration.between(Instant.ofEpochSecond(nextRetryS),
+                                                               Instant.now()).getSeconds();
+                        // if timestamp is in the past, do not write anything
+                        if(retryInSeconds >= 0) {
                             activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-                                                   DateUtils.formatElapsedTime(retryInMs / 1000);
+                                                   DateUtils.formatElapsedTime(retryInSeconds);
                         }
-
                     }
                 }
                 else { // transfers active
