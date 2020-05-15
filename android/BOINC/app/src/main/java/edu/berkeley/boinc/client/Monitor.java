@@ -33,6 +33,7 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -873,32 +874,28 @@ public class Monitor extends Service {
      * @return process id, according to output of "ps"
      */
     private Integer getPidForProcessName(String processName) {
-        int count;
-        char[] buf = new char[1024];
-        StringBuilder sb = new StringBuilder();
+        final List<String> processLines;
 
         //run ps and read output
         try {
             Process p = Runtime.getRuntime().exec("ps");
             p.waitFor();
-            InputStreamReader isr = new InputStreamReader(p.getInputStream());
-            while ((count = isr.read(buf)) != -1) {
-                sb.append(buf, 0, count);
-            }
+            final InputStreamReader isr = new InputStreamReader(p.getInputStream());
+            processLines = IOUtils.readLines(isr);
+            isr.close();
         } catch (Exception e) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
             return null;
         }
 
-        String[] processLinesAr = sb.toString().split("\n");
-        if (processLinesAr.length < 2) {
+        if (processLines.size() < 2) {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "getPidForProcessName(): ps output has less than 2 lines, failure!");
             return null;
         }
 
         // figure out what index PID has
-        String[] headers = processLinesAr[0].split("[\\s]+");
+        String[] headers = processLines.get(0).split("[\\s]+");
         int pidIndex = -1;
         for (int x = 0; x < headers.length; x++) {
             if (headers[x].equals("PID")) {
@@ -912,12 +909,12 @@ public class Monitor extends Service {
         }
 
         if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + pidIndex + " for output: " + processLinesAr[0]);
+            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + pidIndex + " for output: " + processLines.get(0));
 
         Integer pid = null;
-        for (int y = 1; y < processLinesAr.length; y++) {
+        for (int y = 1; y < processLines.size(); y++) {
             boolean found = false;
-            String[] comps = processLinesAr[y].split("[\\s]+");
+            String[] comps = processLines.get(y).split("[\\s]+");
             for (String arg : comps) {
                 if (arg.equals(processName)) {
                     if (Logging.DEBUG)
