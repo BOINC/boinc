@@ -114,6 +114,7 @@ boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD
 boinc_clientdir = $(bindir)
 
 if OS_ARM_LINUX
+EXTRA_boinc_client_DEPENDENCIES = libwhetneon.a libwhetvfp.a
 boinc_client_LDADD += libwhetneon.a libwhetvfp.a
 noinst_LIBRARIES = libwhetneon.a libwhetvfp.a
 libwhetneon_a_SOURCES = whetstone.cpp
