@@ -35,8 +35,9 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -352,14 +353,13 @@ public class ClientStatus {
                 appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
             }
 
-            Calendar minRPCTime = Calendar.getInstance();
-            Calendar now = Calendar.getInstance();
-            minRPCTime.setTimeInMillis((long) project.getMinRPCTime() * 1000);
+            final Instant now = Instant.now();
+            final Instant minRPCTime = Instant.ofEpochSecond((long) project.getMinRPCTime());
             if(minRPCTime.compareTo(now) > 0) {
                 appendToStatus(
                         sb,
                         ctx.getResources().getString(R.string.projects_status_backoff) + " " +
-                        DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+                        DateUtils.formatElapsedTime(Duration.between(now, minRPCTime).getSeconds())
                 );
             }
         }
