@@ -57,6 +57,9 @@ android {
         targetSdkVersion 28
         versionCode buildVersionCode().toInteger()
         versionName buildVersionName()
+
+        // Required when setting minSdkVersion to 20 or lower
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -76,6 +79,9 @@ android {
     compileOptions {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
+
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -105,12 +111,15 @@ ext {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.5'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.apache.commons:commons-lang3:3.10'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'com.google.guava:guava-testlib:28.2-jre'
