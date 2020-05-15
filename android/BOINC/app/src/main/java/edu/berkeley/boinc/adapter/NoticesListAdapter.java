@@ -34,8 +34,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -82,8 +85,10 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         tvNoticeContent.setText(Html.fromHtml(listItem.getDescription()));
 
         TextView tvNoticeTime = v.findViewById(R.id.noticeTime);
-        tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(
-                (long) listItem.getCreateTime() * 1000)));
+        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
+                (long) listItem.getCreateTime()), ZoneId.systemDefault());
+        tvNoticeTime.setText(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT)
+                                              .format(localDateTime));
 
         v.setOnClickListener(view -> {
             if(Logging.DEBUG) {
