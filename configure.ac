@@ -626,10 +626,14 @@ AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1
 
 dnl check for X screen saver lib (X-based idle detection on Linux)
 if test "$enable_xss" = yes; then
-    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-    if test "$have_Xss" = no; then
-        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+    if test "X${no_x}" = "Xyes" ; then
+        AC_MSG_WARN([X Window include files/libs excluded or location unknown, disabling X ScreenSaver user idle detection])
+    else
+        AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+        AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+        if test "$have_Xss" = no; then
+            AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+        fi
     fi
 fi
 
