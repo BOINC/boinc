@@ -716,8 +716,6 @@ public class Monitor extends Service {
     @SuppressWarnings("java:S4042") // SonarLint warning for invoking File.delete()
     private boolean installFile(String file, boolean override, boolean executable, String targetFile) {
         boolean success = false;
-        byte[] b = new byte[1024];
-        int count;
 
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
@@ -771,9 +769,7 @@ public class Monitor extends Service {
             }
 
             // Copy file from the asset manager to clientPath
-            while ((count = asset.read(b)) != -1) {
-                targetData.write(b, 0, count);
-            }
+            IOUtils.copy(asset, targetData);
 
             success = true; //copy succeeded without exception
 
