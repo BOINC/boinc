@@ -65,7 +65,7 @@ void killGfxApp(pid_t thePID) {
     char userName[64];
     RPC_CLIENT *rpc;
     int retval;
-    string msg;
+    std::string msg;
     
     chdir("/Library/Application Support/BOINC Data");
     safe_strcpy(buf, "");
