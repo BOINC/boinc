@@ -550,7 +550,7 @@ class Host:
                 verbose_echo(0, "Couldn't kill pid %d" % self.pid)
             self.pid = 0
 
-    def read_cpu_time_file(filename):
+    def read_cpu_time_file(self, filename):
         try:
             return float(open(self.dir(filename)).readline())
         except:
