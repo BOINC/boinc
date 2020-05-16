@@ -129,6 +129,9 @@ locale/*/*.flag
 3rdParty/linux/
 3rdParty/mac/
 3rdParty/buildCache/
+3rdParty/android*
+3rdParty/curl-*
+3rdParty/openssl-*
 
 .libs/
 svn_version.h
@@ -213,6 +216,12 @@ vda/ssim
 vda/vda
 vda/vdad
 /win_build/*.sdf
+/win_build/*.xml
+/win_build/notices/*.xml
+/win_build/*.txt
+/win_build/*.cfg
+/win_build/*log
+
 
 # OS-specific files
 .DS_Store
