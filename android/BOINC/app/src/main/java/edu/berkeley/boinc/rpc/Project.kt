@@ -114,7 +114,7 @@ data class Project(
                     attachedViaAcctMgr = readBoolean(parcel), detachWhenDone = readBoolean(parcel),
                     ended = readBoolean(parcel), trickleUpPending = readBoolean(parcel),
                     noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel),
-                    guiURLs = arrayListOf<GuiUrl?>().apply { parcel.readList(this, GuiUrl::class.java.classLoader) })
+                    guiURLs = arrayListOf<GuiUrl?>().apply { parcel.readList(this as MutableList<*>, GuiUrl::class.java.classLoader) })
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

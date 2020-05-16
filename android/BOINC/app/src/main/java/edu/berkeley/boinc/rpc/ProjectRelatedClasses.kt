@@ -50,7 +50,7 @@ data class ProjectConfig(
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
         platforms = arrayListOf<PlatformInfo?>().apply {
-            parcel.readList(this, PlatformInfo::class.java.classLoader)
+            parcel.readList(this as MutableList<*>, PlatformInfo::class.java.classLoader)
         }
         termsOfUse = parcel.readString()
 
