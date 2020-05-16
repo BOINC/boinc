@@ -308,7 +308,7 @@ void doBoinc_Sleep(double seconds) {
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     char saved_dir[MAXPATHLEN];
-    string msg;
+    std::string msg;
     
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
