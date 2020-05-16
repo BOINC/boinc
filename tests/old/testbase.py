@@ -27,7 +27,7 @@ def test_init():
 
     if not os.path.exists('testbase.py'):
         # automake sets the srcdir env. variable if srcdir != builddir
-        os.chdir(os.path.join(os.getenv('srcdir'),'test'))
+        os.chdir(os.path.join(os.getenv('srcdir'), 'tests', 'old'))
     if not os.path.exists('testbase.py'):
         raise SystemExit('Could not find testbase.py anywhere')
 
@@ -265,7 +265,7 @@ class TestProject(Project):
 
         kwargs['short_name'] = kwargs.get('short_name') or 'test_'+appname
         kwargs['long_name'] = kwargs.get('long_name') or 'Project ' + kwargs['short_name'].replace('_',' ').capitalize()
-        apply(Project.__init__, [self], kwargs)
+        super(TestProject, self).__init__(**kwargs)
 
         (num_wu, redundancy) = get_redundancy_args(num_wu, redundancy)
         self.resource_share = resource_share or 1
@@ -382,10 +382,10 @@ class TestProject(Project):
 
     def _disable(self, *path):
         '''Temporarily disable a file to test exponential backoff'''
-        path = apply(self.dir, path)
+        path = self.dir(*path)
         os.rename(path, path+'.disabled')
     def _reenable(self, *path):
-        path = apply(self.dir, path)
+        path = self.dir(*path)
         os.rename(path+'.disabled', path)
 
     def disable_masterindex(self):
@@ -502,7 +502,7 @@ class Host:
         self.projects.append(project)
 
     def dir(self, *dirs):
-        return apply(os.path.join,(self.host_dir,)+dirs)
+        return os.path.join(self.host_dir, *dirs)
 
     def install(self):
         rmtree(self.dir())
@@ -513,14 +513,13 @@ class Host:
             filename = self.dir(account_file_name(project.config.config.master_url))
             verbose_echo(2, "Setting up host '%s': writing %s" % (self.name, filename))
 
-            f = open(filename, "w")
-            print >>f, "<account>"
-            print >>f, map_xml(project.config.config, ['master_url'])
-            print >>f, map_xml(user, ['authenticator'])
-            if user.project_prefs:
-                print >>f, user.project_prefs
-            print >>f, "</account>"
-            f.close()
+            with open(filename, "w") as f:
+                f.write("<account>\n")
+                f.write("{}\n".format(map_xml(project.config.config, ['master_url'])))
+                f.write("{}\n".format(map_xml(user, ['authenticator'])))
+                if user.project_prefs:
+                    f.write("{}\n".format(user.project_prefs))
+                f.write("</account>\n")
 
         # copy log flags and global prefs, if any
         if self.cc_config:
@@ -654,7 +653,7 @@ class ResultMeter:
         database.connect()
         prev_s = None
         while True:
-            s = apply(func, args)
+            s = func(*args)
             if s != prev_s:
                 verbose_echo(1, s)
                 prev_s = s
@@ -677,12 +676,12 @@ def run_check_all():
         # (Is there a better way to do this?)
         while (1):
             time.sleep(1)
-        raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
+        raise SystemExit('Stopped due to $TEST_STOP_BEFORE_HOST_RUN')
     # all_hosts.run(asynch=True)
     all_hosts.run()
     all_projects.run_finish_wait()
     all_projects.stop_progress_meter()
-    print
+    print()
     # all_hosts.stop()
     time.sleep(12)
     all_projects.stop()
@@ -694,7 +693,7 @@ def delete_test():
         verbose_echo(1, "Deleting testbed %s."%options.auto_setup_basedir)
         try:
             shutil.rmtree(options.auto_setup_basedir)
-        except e:
+        except Exception as e:
             verbose_echo(0, "Couldn't delete testbed %s: %s"%(options.auto_setup_basedir,e))
 
 class Proxy:
@@ -754,8 +753,7 @@ class AsynchCGIServer:
             self.pid = None
 
 def test_msg(msg):
-    print
-    print "-- Testing", msg, '-'*(66-len(msg))
+    print("\n-- Testing", msg, '-'*(66-len(msg)))
     test_init()
 
 def test_done():
@@ -775,11 +773,11 @@ def test_done():
     else:
         verbose_echo(1, "Passed test!")
         if options.echo_overwrite:
-            print
+            print()
         if options.delete_testbed == 'if-successful' or options.delete_testbed == 'always':
             delete_test()
         if options.echo_overwrite:
-            print
+            print()
         return 0
 
 # Note: this bypasses other cleanup functions - if something goes wrong during
