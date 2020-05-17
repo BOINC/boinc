@@ -95,8 +95,7 @@ class NoticesFragment : Fragment() {
         try {
             data = BOINCActivity.monitor.rssNotices
             // sorting policy: latest arrival first.
-            data.sortWith(compareBy { it.createTime })
-            data.reverse()
+            data.sortWith(compareBy<Notice> { it.createTime }.reversed())
         } catch (e: Exception) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)

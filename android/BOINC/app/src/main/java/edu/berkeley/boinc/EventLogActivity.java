@@ -242,7 +242,7 @@ public class EventLogActivity extends AppCompatActivity {
         if(type == CLIENT_LOG_TAB_ACTIVE) {
             text.append(getString(R.string.eventlog_client_header)).append("\n\n");
             for(int index = 0; index < clientLogList.getCount(); index++) {
-                text.append(clientLogListAdapter.getDate(index));
+                text.append(clientLogListAdapter.getDateTimeString(index));
                 text.append("|");
                 text.append(clientLogListAdapter.getProject(index));
                 text.append("|");

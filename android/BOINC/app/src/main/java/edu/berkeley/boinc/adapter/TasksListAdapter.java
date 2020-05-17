@@ -37,9 +37,12 @@ import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -53,12 +56,6 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private List<TaskData> entries;
     private Activity activity;
     /**
-     * This member eliminates reallocation of a {@link Date} object in {@link #getView(int, View, ViewGroup)}.
-     *
-     * @see #getView(int, View, ViewGroup)
-     */
-    private final Date deadlineDate;
-    /**
      * This member eliminates reallocation of a {@link StringBuilder} object in {@link #getView(int, View, ViewGroup)}.
      *
      * @see #getView(int, View, ViewGroup)
@@ -66,13 +63,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private final StringBuilder elapsedTimeStringBuilder;
     private final NumberFormat percentNumberFormat;
 
-    public TasksListAdapter(Activity a, int textViewResourceId, List<TaskData> entries) {
-        super(a, textViewResourceId, entries);
+    public TasksListAdapter(Activity activity, int textViewResourceId, List<TaskData> entries) {
+        super(activity, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = a;
-        this.deadlineDate = new Date();
+        this.activity = activity;
         this.elapsedTimeStringBuilder = new StringBuilder();
-        (this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
+        percentNumberFormat = NumberFormat.getPercentInstance();
+        percentNumberFormat.setMinimumFractionDigits(1);
     }
 
     @NonNull
@@ -195,8 +192,10 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 
             // set deadline
-            this.deadlineDate.setTime(listItem.result.getReportDeadline() * 1000);
-            final String deadline = DateFormat.getDateTimeInstance().format(this.deadlineDate);
+            final LocalDateTime deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
+                    listItem.result.getReportDeadline()), ZoneId.systemDefault());
+            final String deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                                     .format(deadlineDateTime);
             ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
             // set application friendly name
             if(listItem.result.getApp() != null) {

@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -332,7 +334,7 @@ public class RpcClient {
         if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
             Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
-        long readStart = System.nanoTime();
+        final Instant start = Instant.now();
 
         // Speed is (with large data): ~ 45 KB/s for buffer size 1024
         //                             ~ 90 KB/s for buffer size 2048
@@ -353,7 +355,7 @@ public class RpcClient {
         } while (true);
 
         if (Logging.RPC_PERFORMANCE) {
-            float duration = (System.nanoTime() - readStart) / 1000000000.0F;
+            float duration = Duration.between(Instant.now(), start).getSeconds();
             long bytesCount = mResult.length();
             if (duration == 0) duration = 0.001F;
             if (Logging.DEBUG)
