@@ -29,7 +29,6 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -59,6 +58,10 @@ import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BOINCActivity extends AppCompatActivity {
     public static IMonitor monitor;
@@ -75,6 +78,8 @@ public class BOINCActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavDrawerListAdapter mDrawerListAdapter;
+
+    private Disposable disposable;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -195,6 +200,10 @@ public class BOINCActivity extends AppCompatActivity {
             Log.d(Logging.TAG, "BOINCActivity onDestroy()");
         }
         doUnbindService();
+
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
         super.onDestroy();
     }
 
@@ -448,13 +457,13 @@ public class BOINCActivity extends AppCompatActivity {
                     if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "run mode: disable");
                     }
-                    new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+                    writeClientModeAsync(BOINCDefs.RUN_MODE_NEVER);
                 }
                 else if(item.getTitle().equals(getApplication().getString(R.string.menu_run_mode_enable))) {
                     if(Logging.DEBUG) {
                         Log.d(Logging.TAG, "run mode: enable");
                     }
-                    new WriteClientModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+                    writeClientModeAsync(BOINCDefs.RUN_MODE_AUTO);
                 }
                 else if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "run mode: unrecognized command");
@@ -488,30 +497,27 @@ public class BOINCActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mTitle);
     }
 
-    private final class WriteClientModeAsync extends AsyncTask<Integer, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Integer... params) {
-            // setting provided mode for both, CPU computation and network.
-            Boolean runMode;
+    private void writeClientModeAsync(int mode) {
+        disposable = Observable.fromCallable(() -> {
+            boolean runModeWritten;
             try {
-                runMode = monitor.setRunMode(params[0]);
+                runModeWritten = monitor.setRunMode(mode);
             }
             catch(RemoteException e) {
-                runMode = false;
+                runModeWritten = false;
             }
-            Boolean networkMode;
+            boolean networkModeWritten;
             try {
-                networkMode = monitor.setNetworkMode(params[0]);
+                networkModeWritten = monitor.setNetworkMode(mode);
             }
             catch(RemoteException e) {
-                networkMode = false;
+                networkModeWritten = false;
             }
-            return runMode && networkMode;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if(Boolean.TRUE.equals(success)) {
+            return runModeWritten && networkModeWritten;
+        }).subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(result -> {
+            if(Boolean.TRUE.equals(result)) {
                 try {
                     monitor.forceRefresh();
                 }
@@ -524,6 +530,6 @@ public class BOINCActivity extends AppCompatActivity {
             else if(Logging.WARNING) {
                 Log.w(Logging.TAG, "setting run and network mode failed");
             }
-        }
+        });
     }
 }
