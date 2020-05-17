@@ -51,6 +51,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
+import edu.berkeley.boinc.BOINCApplication;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.mutex.BoincMutex;
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -83,12 +86,17 @@ import edu.berkeley.boinc.utils.Logging;
 public class Monitor extends Service {
     private static final String INSTALL_FAILED = "Failed to install: ";
 
-    private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
     private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
-    private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
     private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 
-    public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+    @Inject
+    AppPreferences appPreferences; //hold the status of the app, controlled by AppPreferences
+
+    @Inject
+    BoincMutex mutex; // holds the BOINC mutex, only compute if acquired
+
+    @Inject
+    ClientInterfaceImplementation clientInterface; //provides functions for interaction with client via RPC
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
@@ -120,6 +128,7 @@ public class Monitor extends Service {
 
     @Override
     public void onCreate() {
+        ((BOINCApplication) getApplication()).getAppComponent().inject(this);
 
         Log.d(Logging.TAG, "Monitor onCreate()");
 
@@ -136,9 +145,9 @@ public class Monitor extends Service {
         clientSocketAddress = getString(R.string.client_socket_address);
 
         // initialize singleton helper classes and provide application context
-        clientStatus = new ClientStatus(this);
-        getAppPrefs().readPrefs(this);
-        deviceStatus = new DeviceStatus(this, getAppPrefs());
+        clientStatus = new ClientStatus(this, appPreferences);
+        appPreferences.readPrefs(this);
+        deviceStatus = new DeviceStatus(this, appPreferences);
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized");
 
         // set current screen on/off status
@@ -146,7 +155,7 @@ public class Monitor extends Service {
         screenOn = pm.isScreenOn();
 
         // initialize DeviceStatus wrapper
-        deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
+        deviceStatus = new DeviceStatus(getApplicationContext(), appPreferences);
 
         // register screen on/off receiver
         IntentFilter onFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
@@ -248,18 +257,6 @@ public class Monitor extends Service {
             throw new Exception("clientStatus not initialized");
         }
         return clientStatus;
-    }
-
-    /**
-     * Retrieve singleton of AppPreferences.
-     *
-     * @return AppPreferences, interface to Android applications persistent key-value store
-     */
-    public static AppPreferences getAppPrefs() { //singleton pattern
-        if (appPrefs == null) {
-            appPrefs = new AppPreferences();
-        }
-        return appPrefs;
     }
 
     /**
@@ -433,7 +430,7 @@ public class Monitor extends Service {
                 }
 
                 // update notices notification
-                NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotificationForNotices());
+                NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), appPreferences.getShowNotificationForNotices());
 
                 // check whether monitor is still intended to update, if not, skip broadcast and exit...
                 if (updateBroadcastEnabled) {
@@ -711,7 +708,7 @@ public class Monitor extends Service {
      * @param file       name of file as it appears in assets directory
      * @param override   define override, if already present in internal storage
      * @param executable set executable flag of file in internal storage
-     * @param targetFile name of target file 
+     * @param targetFile name of target file
      * @return Boolean success
      */
     @SuppressWarnings("java:S4042") // SonarLint warning for invoking File.delete()
@@ -1263,52 +1260,52 @@ public class Monitor extends Service {
 
         @Override
         public void setAutostart(boolean isAutoStart) throws RemoteException {
-            Monitor.getAppPrefs().setAutostart(isAutoStart);
+            appPreferences.setAutostart(isAutoStart);
         }
 
         @Override
         public void setShowNotificationForNotices(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowNotificationForNotices(isShow);
+            appPreferences.setShowNotificationForNotices(isShow);
         }
 
         @Override
         public boolean getShowAdvanced() throws RemoteException {
-            return Monitor.getAppPrefs().getShowAdvanced();
+            return appPreferences.getShowAdvanced();
         }
 
         @Override
         public boolean getAutostart() throws RemoteException {
-            return Monitor.getAppPrefs().getAutostart();
+            return appPreferences.getAutostart();
         }
 
         @Override
         public boolean getShowNotificationForNotices() throws RemoteException {
-            return Monitor.getAppPrefs().getShowNotificationForNotices();
+            return appPreferences.getShowNotificationForNotices();
         }
 
         @Override
         public int getLogLevel() throws RemoteException {
-            return Monitor.getAppPrefs().getLogLevel();
+            return appPreferences.getLogLevel();
         }
 
         @Override
         public void setLogLevel(int level) throws RemoteException {
-            Monitor.getAppPrefs().setLogLevel(level);
+            appPreferences.setLogLevel(level);
         }
 
         @Override
         public void setPowerSourceAc(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceAc(src);
+            appPreferences.setPowerSourceAc(src);
         }
 
         @Override
         public void setPowerSourceUsb(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceUsb(src);
+            appPreferences.setPowerSourceUsb(src);
         }
 
         @Override
         public void setPowerSourceWireless(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceWireless(src);
+            appPreferences.setPowerSourceWireless(src);
         }
 
         @Override
@@ -1334,33 +1331,33 @@ public class Monitor extends Service {
 
         @Override
         public boolean getStationaryDeviceMode() throws RemoteException {
-            return Monitor.getAppPrefs().getStationaryDeviceMode();
+            return appPreferences.getStationaryDeviceMode();
         }
 
         @Override
         public boolean getPowerSourceAc() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceAc();
+            return appPreferences.getPowerSourceAc();
         }
 
         @Override
         public boolean getPowerSourceUsb() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceUsb();
+            return appPreferences.getPowerSourceUsb();
         }
 
         @Override
         public boolean getPowerSourceWireless() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceWireless();
+            return appPreferences.getPowerSourceWireless();
         }
 
         @Override
         public void setShowAdvanced(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowAdvanced(isShow);
+            appPreferences.setShowAdvanced(isShow);
         }
 
         @Override
         public void setStationaryDeviceMode(boolean mode)
                 throws RemoteException {
-            Monitor.getAppPrefs().setStationaryDeviceMode(mode);
+            appPreferences.setStationaryDeviceMode(mode);
 
         }
 
@@ -1376,12 +1373,12 @@ public class Monitor extends Service {
 
         @Override
         public boolean getSuspendWhenScreenOn() throws RemoteException {
-            return Monitor.getAppPrefs().getSuspendWhenScreenOn();
+            return appPreferences.getSuspendWhenScreenOn();
         }
 
         @Override
         public void setSuspendWhenScreenOn(boolean swso) throws RemoteException {
-            Monitor.getAppPrefs().setSuspendWhenScreenOn(swso);
+            appPreferences.setSuspendWhenScreenOn(swso);
         }
 
         @Override

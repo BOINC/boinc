@@ -24,8 +24,11 @@ import android.util.Log
 import androidx.core.content.edit
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppPreferences {
+@Singleton
+class AppPreferences @Inject constructor() {
     private var prefs: SharedPreferences? = null
 
     var autostart = false

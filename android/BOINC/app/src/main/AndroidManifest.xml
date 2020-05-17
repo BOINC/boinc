@@ -61,7 +61,7 @@
             android:theme="@style/Theme.Styled"
             android:largeHeap="true"
             android:banner="@drawable/banner"
-            android:name="androidx.multidex.MultiDexApplication">
+            android:name=".BOINCApplication">
 
         <activity
                 android:name="edu.berkeley.boinc.SplashActivity"
