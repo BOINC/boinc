@@ -720,22 +720,23 @@ public class Monitor extends Service {
 
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
-        String source;
+        final String source;
         if (executable)
             source = getAssetsDirForCpuArchitecture() + file;
         else
             source = file;
 
-        try {
+        final File target;
+        if (!targetFile.isEmpty()) {
+            target = new File(boincWorkingDir + targetFile);
+        } else {
+            target = new File(boincWorkingDir + file);
+        }
+
+        try (InputStream asset = getApplicationContext().getAssets().open(source);
+             OutputStream targetData = new FileOutputStream(target)) {
             if (Logging.ERROR)
                 Log.d(Logging.TAG, "installing: " + source);
-
-            File target;
-            if (!targetFile.isEmpty()) {
-                target = new File(boincWorkingDir + targetFile);
-            } else {
-                target = new File(boincWorkingDir + file);
-            }
 
             // Check path and create it
             File installDir = new File(boincWorkingDir);
@@ -769,13 +770,9 @@ public class Monitor extends Service {
             }
 
             // Copy file from the asset manager to clientPath
-            InputStream asset = getApplicationContext().getAssets().open(source);
-            OutputStream targetData = new FileOutputStream(target);
             while ((count = asset.read(b)) != -1) {
                 targetData.write(b, 0, count);
             }
-            asset.close();
-            targetData.close();
 
             success = true; //copy succeeded without exception
 
