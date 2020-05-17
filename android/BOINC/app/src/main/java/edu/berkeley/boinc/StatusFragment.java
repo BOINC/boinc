@@ -122,7 +122,7 @@ public class StatusFragment extends Fragment {
                             statusWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.playb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_play_arrow_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
                             centerWrapper.setVisibility(View.VISIBLE);
@@ -132,14 +132,14 @@ public class StatusFragment extends Fragment {
                             statusWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.pauseb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             centerWrapper.setVisibility(View.VISIBLE);
                             switch(currentComputingSuspendReason) {
                                 case BOINCDefs.SUSPEND_REASON_BATTERIES:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.notconnectedb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_power_off_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
@@ -153,7 +153,7 @@ public class StatusFragment extends Fragment {
                                         }
                                     }
                                     if(suspendDueToScreenOn) {
-                                        statusImage.setImageResource(R.drawable.screen48b);
+                                        statusImage.setImageResource(R.drawable.ic_stay_current_portrait_black_48dp);
                                         statusHeader.setVisibility(View.GONE);
                                     }
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
@@ -165,13 +165,17 @@ public class StatusFragment extends Fragment {
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.watchb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_timer_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
+                                    statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_charging_full_48);
+                                    statusHeader.setVisibility(View.GONE);
+                                    break;
                                 case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
                                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-                                    statusImage.setImageResource(R.drawable.batteryb48);
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_alert_48);
                                     statusHeader.setVisibility(View.GONE);
                                     break;
                                 default:
@@ -184,7 +188,7 @@ public class StatusFragment extends Fragment {
                             centerWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.pauseb48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
@@ -217,7 +221,7 @@ public class StatusFragment extends Fragment {
                     restartingWrapper.setVisibility(View.GONE);
                     centerWrapper.setVisibility(View.VISIBLE);
                     centerWrapper.setOnClickListener(addProjectOnClickListener);
-                    statusImage.setImageResource(R.drawable.projectsb48);
+                    statusImage.setImageResource(R.drawable.ic_projects);
                     statusHeader.setVisibility(View.GONE);
                     statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                     setupStatus = ClientStatus.SETUP_STATUS_NOPROJECT;

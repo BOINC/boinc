@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/projectsRow"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/projectsRow"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
@@ -36,7 +37,7 @@
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/projects_icon"
-                android:src="@drawable/acctmgrb"
+                app:srcCompat="@drawable/ic_baseline_share_24"
                 android:layout_centerInParent="true"/>
     </RelativeLayout>
 

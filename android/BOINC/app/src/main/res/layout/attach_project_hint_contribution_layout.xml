@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
               android:layout_gravity="center"
@@ -57,9 +58,9 @@
                 android:id="@+id/hint_contribution_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/wirelessb"
+                app:srcCompat="@drawable/ic_baseline_wifi_48"
                 android:contentDescription="@string/attachproject_hint_contribtion_wifi"/>
     </RelativeLayout>
 
@@ -82,9 +83,9 @@
                 android:id="@+id/hint_contribution_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/connectchargerb"
+                app:srcCompat="@drawable/ic_baseline_power_48"
                 android:contentDescription="@string/attachproject_hint_contribtion_charger"/>
     </RelativeLayout>
 
@@ -107,9 +108,9 @@
                 android:id="@+id/hint_contribution_image_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/screenb"
+                app:srcCompat="@drawable/ic_stay_current_portrait_black_48dp"
                 android:contentDescription="@string/attachproject_hint_contribtion_screen"/>
     </RelativeLayout>
 </LinearLayout>

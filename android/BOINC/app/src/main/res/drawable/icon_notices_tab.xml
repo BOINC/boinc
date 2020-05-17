@@ -17,8 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- when selected use dark icons -->
-    <item android:drawable="@drawable/mailb" android:state_selected="true"></item>
+    <!-- when selected, use dark icon -->
+    <item android:drawable="@drawable/ic_baseline_email_black_32" android:state_selected="true" />
     <!-- when not selected, use white -->
-    <item android:drawable="@drawable/mailw"></item>
+    <item android:drawable="@drawable/ic_baseline_email_white_32" />
 </selector>
