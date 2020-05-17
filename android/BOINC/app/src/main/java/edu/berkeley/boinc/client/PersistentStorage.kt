@@ -20,6 +20,7 @@ package edu.berkeley.boinc.client
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 /**
  * This class wraps persistent key value pairs.
@@ -35,24 +36,18 @@ class PersistentStorage(ctx: Context) {
                     defaultValue.toDouble().toRawBits()))
         }
         set(arrivalTime) {
-            val editor = store.edit()
-            editor.putLong("lastNotifiedNoticeArrivalTime", arrivalTime.toRawBits())
-            editor.apply()
+            store.edit { putLong("lastNotifiedNoticeArrivalTime", arrivalTime.toRawBits()) }
         }
 
     var lastEmailAddress: String?
         get() = store.getString("lastEmailAddress", "")
         set(email) {
-            val editor = store.edit()
-            editor.putString("lastEmailAddress", email)
-            editor.apply()
+            store.edit { putString("lastEmailAddress", email) }
         }
 
     var lastUserName: String?
         get() = store.getString("lastUserName", "")
         set(name) {
-            val editor = store.edit()
-            editor.putString("lastUserName", name)
-            editor.apply()
+            store.edit { putString("lastUserName", name) }
         }
 }
