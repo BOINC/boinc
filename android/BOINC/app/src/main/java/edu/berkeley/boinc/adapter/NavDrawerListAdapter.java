@@ -195,7 +195,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
      * @param projects Project list
      * @return Returns number of project items in nav bar after adding
      */
-    public Integer compareAndAddProjects(List<Project> projects) {
+    public int compareAndAddProjects(List<Project> projects) {
         // delete all old projects from nav items
         Iterator<NavDrawerItem> it = navDrawerItems.iterator();
         while(it.hasNext()) {
