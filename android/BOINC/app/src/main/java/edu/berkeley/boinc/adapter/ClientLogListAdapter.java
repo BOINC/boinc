@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -96,7 +96,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
 
         // Only inflate a new view if the ListView does not already have a view assigned.
         if(convertView == null) {
-            vi = ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+            vi = ContextCompat.getSystemService(activity, LayoutInflater.class)
                     .inflate(R.layout.eventlog_client_listitem_layout, null);
 
             viewEventLog = new ViewEventLog();

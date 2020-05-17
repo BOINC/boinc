@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -57,7 +57,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v;
-        LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
 
         PrefsListItemWrapper listItem = entries.get(position);
 

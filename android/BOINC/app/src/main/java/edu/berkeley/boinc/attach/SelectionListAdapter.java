@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.attach;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v;
-        LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
         final ProjectListEntry listItem = entries.get(position);
 
         assert vi != null;

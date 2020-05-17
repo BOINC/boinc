@@ -21,7 +21,6 @@ package edu.berkeley.boinc.attach;
 
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
@@ -36,6 +35,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import java.text.Collator;
@@ -108,7 +108,7 @@ public class SelectionListActivity extends FragmentActivity {
     // is possible!
     private boolean checkDeviceOnline() {
         final ConnectivityManager connectivityManager =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                ContextCompat.getSystemService(this, ConnectivityManager.class);
         assert connectivityManager != null;
 
         final boolean online;

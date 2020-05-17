@@ -21,7 +21,6 @@ package edu.berkeley.boinc.attach;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,6 +36,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import edu.berkeley.boinc.R;
@@ -89,8 +89,7 @@ public class ManualUrlInputFragment extends DialogFragment {
     private boolean checkDeviceOnline() {
         final Activity activity = getActivity();
         assert activity != null;
-        final ConnectivityManager connectivityManager =
-                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager connectivityManager = ContextCompat.getSystemService(activity, ConnectivityManager.class);
         assert connectivityManager != null;
 
         final boolean online;

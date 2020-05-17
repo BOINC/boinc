@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -33,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -125,7 +125,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
 
         if(setup) {
-            final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater layoutInflater = ContextCompat.getSystemService(activity, LayoutInflater.class);
             assert layoutInflater != null;
             // first time getView is called for this element
             if(isAcctMgr) {
