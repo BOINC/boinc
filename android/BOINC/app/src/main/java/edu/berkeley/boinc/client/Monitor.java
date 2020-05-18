@@ -87,6 +87,7 @@ import edu.berkeley.boinc.utils.Logging;
  */
 public class Monitor extends Service {
     private static final String INSTALL_FAILED = "Failed to install: ";
+    private static final String IOEXCEPTION_LOG = "IOException: ";
 
     private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
     private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
@@ -724,6 +725,7 @@ public class Monitor extends Service {
             source = getAssetsDirForCpuArchitecture() + file;
         else
             source = file;
+        final String installFailed = "Install of " + source + " failed.";
 
         final File target;
         if (!targetFile.isEmpty()) {
@@ -732,14 +734,13 @@ public class Monitor extends Service {
             target = new File(boincWorkingDir + file);
         }
 
-        try (InputStream asset = getApplicationContext().getAssets().open(source);
-             OutputStream targetData = new FileOutputStream(target)) {
-            if (Logging.ERROR)
+        try {
+            if(Logging.ERROR)
                 Log.d(Logging.TAG, "installing: " + source);
 
             // Check path and create it
             File installDir = new File(boincWorkingDir);
-            if (!installDir.exists()) {
+            if(!installDir.exists()) {
                 if(!installDir.mkdir() && Logging.ERROR) {
                     Log.d(Logging.TAG, "Monitor.installFile(): mkdir() was not successful.");
                 }
@@ -749,25 +750,40 @@ public class Monitor extends Service {
                 }
             }
 
-            if (target.exists()) {
+            if(target.exists()) {
                 boolean deleteSuccessful;
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                     deleteSuccessful = target.delete();
-                } else {
+                }
+                else {
                     Files.delete(target.toPath());
                     deleteSuccessful = true;
                 }
-                if (override) {
-                    if (!deleteSuccessful && Logging.ERROR) {
+                if(override) {
+                    if(!deleteSuccessful && Logging.ERROR) {
                         Log.d(Logging.TAG, "Monitor.installFile(): delete() was not successful.");
                     }
-                } else {
-                    if (Logging.DEBUG)
+                }
+                else {
+                    if(Logging.DEBUG)
                         Log.d(Logging.TAG, "Skipped file, exists and override is false.");
                     return true;
                 }
             }
+        } catch(IOException ioe) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
+                Log.d(Logging.TAG, installFailed);
+            }
+        } catch (SecurityException se) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
+                Log.d(Logging.TAG, installFailed);
+            }
+        }
 
+        try (InputStream asset = getApplicationContext().getAssets().open(source);
+             OutputStream targetData = new FileOutputStream(target)) {
             // Copy file from the asset manager to clientPath
             IOUtils.copy(asset, targetData);
 
@@ -783,13 +799,8 @@ public class Monitor extends Service {
                                    executable + "/" + success);
         } catch (IOException ioe) {
             if (Logging.ERROR) {
-                Log.e(Logging.TAG, "IOException: " + ioe.getMessage());
-                Log.d(Logging.TAG, "Install of " + source + " failed.");
-            }
-        } catch (SecurityException se) {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
-                Log.d(Logging.TAG, "Install of " + source + " failed.");
+                Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
+                Log.d(Logging.TAG, installFailed);
             }
         }
 
@@ -855,7 +866,7 @@ public class Monitor extends Service {
 
             return sb.toString();
         } catch (IOException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
+            if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             if (Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
         }
