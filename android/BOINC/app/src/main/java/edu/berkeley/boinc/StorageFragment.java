@@ -158,41 +158,6 @@ public class StorageFragment extends Fragment {
 
     private void updateData(List<Project> latestRpcProjectsList, AcctMgrInfo acctMgrInfo,
                             List<Notice> serverNotices, List<Transfer> ongoingTransfers) {
-        // ACCOUNT MANAGER
-        //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
-        int mgrIndex = -1;
-        for(int x = 0; x < data.size(); x++) {
-            if(data.get(x).isMgr) {
-                mgrIndex = x;
-                break;
-            }
-        }
-        if(mgrIndex < 0) { // no manager present until now
-            if(Logging.VERBOSE) {
-                Log.d(Logging.TAG, "No manager found in layout list. New entry available: " +
-                                   acctMgrInfo.isPresent());
-            }
-            if(acctMgrInfo.isPresent()) {
-                // add new manager entry, at top of the list
-                data.add(new StorageListData(null, acctMgrInfo, null));
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "New acct mgr found: " + acctMgrInfo.getAcctMgrName());
-                }
-            }
-        }
-        else { // manager found in existing list
-            if(Logging.VERBOSE) {
-                Log.d(Logging.TAG, "Manager found in layout list at index: " + mgrIndex);
-            }
-            if(!acctMgrInfo.isPresent()) {
-                // manager got detached, remove from list
-                data.remove(mgrIndex);
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "Acct mgr removed from list.");
-                }
-            }
-        }
-
         // ATTACHED PROJECTS
         //loop through all received Result items to add new projects
         for(Project rpcResult : latestRpcProjectsList) {
