@@ -51,8 +51,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.legacy.app.ActionBarDrawerToggle;
 
-import edu.berkeley.boinc.adapter.NavDrawerItem;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
+import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
@@ -268,8 +268,8 @@ public class BOINCActivity extends AppCompatActivity {
         }
         if(Logging.DEBUG) {
             Log.d(Logging.TAG,
-                  "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " +
-                  item.getTitle() + " is project? " + item.isProjectItem());
+                  "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() +
+                  " is project? " + item.isProjectItem());
         }
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -331,8 +331,7 @@ public class BOINCActivity extends AppCompatActivity {
                 default:
                     if(Logging.ERROR) {
                         Log.d(Logging.TAG,
-                              "dispatchNavBarOnClick() could not find corresponding fragment for " +
-                              item.getTitle());
+                              "dispatchNavBarOnClick() could not find corresponding fragment for " + item.getTitle());
                     }
                     break;
             }

@@ -26,12 +26,12 @@ import org.xml.sax.SAXException
 
 class AccountManagerParser : BaseParser() {
     val accountManagerInfos: MutableList<AccountManager> = mutableListOf()
-    private lateinit var mAcctMgrInfo: AccountManager
+    private var mAcctMgrInfo: AccountManager? = null
 
     @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
-        if (localName.equals(ACCOUNT_MANAGER, ignoreCase = true) && !this::mAcctMgrInfo.isInitialized) {
+        if (localName.equals(ACCOUNT_MANAGER, ignoreCase = true)) {
             mAcctMgrInfo = AccountManager()
         } else {
             mElementStarted = true
@@ -43,25 +43,28 @@ class AccountManagerParser : BaseParser() {
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
         try {
-            if (localName.equals(ACCOUNT_MANAGER, ignoreCase = true)) {
-                if (mAcctMgrInfo.name.isNotEmpty()) { // name is a must
-                    accountManagerInfos.add(mAcctMgrInfo)
-                }
-                mAcctMgrInfo = AccountManager()
-            } else { // Not the closing tag - we decode possible inner tags
-                trimEnd()
-                when {
-                    localName.equals(NAME, ignoreCase = true) -> { //project name
-                        mAcctMgrInfo.name = mCurrentElement.toString()
+            if (mAcctMgrInfo != null) { // inside <acct_mgr_info>
+                // Closing tag of <account_manager> - add to list and be ready for next one
+                if (localName.equals(ACCOUNT_MANAGER, ignoreCase = true)) {
+                    if (mAcctMgrInfo!!.name.isNotEmpty()) { // name is a must
+                        accountManagerInfos.add(mAcctMgrInfo!!)
                     }
-                    localName.equals(URL, ignoreCase = true) -> {
-                        mAcctMgrInfo.url = mCurrentElement.toString()
-                    }
-                    localName.equals(DESCRIPTION, ignoreCase = true) -> {
-                        mAcctMgrInfo.description = mCurrentElement.toString()
-                    }
-                    localName.equals(IMAGE_TAG, ignoreCase = true) -> {
-                        mAcctMgrInfo.imageUrl = mCurrentElement.toString()
+                    mAcctMgrInfo = null
+                } else { // Not the closing tag - we decode possible inner tags
+                    trimEnd()
+                    when {
+                        localName.equals(NAME, ignoreCase = true) -> { //project name
+                            mAcctMgrInfo!!.name = mCurrentElement.toString()
+                        }
+                        localName.equals(URL, ignoreCase = true) -> {
+                            mAcctMgrInfo!!.url = mCurrentElement.toString()
+                        }
+                        localName.equals(DESCRIPTION, ignoreCase = true) -> {
+                            mAcctMgrInfo!!.description = mCurrentElement.toString()
+                        }
+                        localName.equals(IMAGE_TAG, ignoreCase = true) -> {
+                            mAcctMgrInfo!!.imageUrl = mCurrentElement.toString()
+                        }
                     }
                 }
             }

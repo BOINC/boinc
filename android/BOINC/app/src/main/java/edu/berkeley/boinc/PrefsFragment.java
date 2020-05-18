@@ -241,8 +241,8 @@ public class PrefsFragment extends Fragment {
             }
         }
 
-        // CPU
         if(advanced) {
+            // CPU
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_cpu, true));
             if(hostinfo.getNoOfCPUs() > 1) {
                 data.add(new PrefsListItemWrapperNumber(getActivity(),
@@ -256,9 +256,8 @@ public class PrefsFragment extends Fragment {
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_cpu_other_load_suspension_header,
                                                     clientPrefs.getSuspendCpuUsage(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
-        }
 
-        // Storage
+            // Storage
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_storage, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_disk_max_pct_header,
                                                     clientPrefs.getDiskMaxUsedPct(),
@@ -270,7 +269,7 @@ public class PrefsFragment extends Fragment {
                                                     clientPrefs.getDiskInterval(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
 
-        // Memory
+            // Memory
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_memory,
                                               true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
@@ -278,7 +277,7 @@ public class PrefsFragment extends Fragment {
                                                     clientPrefs.getRamMaxUsedIdleFrac(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
 
-        // Other
+            // Other
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_other, true));
             data.add(new PrefsListItemWrapperNumber(getActivity(),
                                                     R.string.prefs_other_store_at_least_x_days_of_work_header,
@@ -289,13 +288,14 @@ public class PrefsFragment extends Fragment {
                                                     clientPrefs.getWorkBufAdditionalDays(),
                                                     PrefsListItemWrapper.DialogButtonType.NUMBER));
 
-        // Debug
+            // Debug
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_category_debug,
                                               true));
             data.add(new PrefsListItemWrapper(getActivity(), R.string.prefs_client_log_flags_header));
             data.add(new PrefsListItemWrapperNumber(getActivity(), R.string.prefs_gui_log_level_header,
                                                     (double) BOINCActivity.monitor.getLogLevel(),
                                                     PrefsListItemWrapper.DialogButtonType.SLIDER));
+        }
 
         updateLayout();
         layoutSuccessful = true;
