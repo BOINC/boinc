@@ -1307,22 +1307,6 @@ public class RpcClient {
         }
     }
 
-    public synchronized String getCcConfig() {
-        //TODO: needs proper parsing
-        try {
-            mRequest.setLength(0);
-            mRequest.append("<get_cc_config/>");
-
-            sendRequest(mRequest.toString());
-            String reply = receiveReply();
-            Log.d(Logging.TAG, reply);
-            return reply;
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getCcConfig()", e);
-            return "";
-        }
-    }
-
     public synchronized Boolean readCcConfig() {
         try {
             mRequest.setLength(0);
