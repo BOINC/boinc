@@ -99,7 +99,7 @@ data class AcctMgrInfo internal constructor(
         const val ACCT_MGR_NAME = "acct_mgr_name"
         const val ACCT_MGR_URL = "acct_mgr_url"
         const val COOKIE_FAILURE_URL = "cookie_failure_url"
-        const val HAVING_CREDENTIALS = "having_credentials"
+        const val HAVING_CREDENTIALS = "have_credentials"
         const val COOKIE_REQUIRED = "cookie_required"
     }
 
