@@ -500,19 +500,10 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert(
         if (password_msg.empty()) {
             password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
         }
-        ShowAlert(
-            strDialogTitle,
-            password_msg,
-            wxOK | wxICON_ERROR
-        );
     } else {
-        ShowAlert(
-            strDialogTitle,
-            _("The password you have provided is incorrect, please try again."),
-            wxOK | wxICON_ERROR
-        );
+        password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
     }
-
+    wxMessageBox(wxString(password_msg), strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionBadPasswordAlert - Function End"));
 }
 
@@ -623,12 +614,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     );
 #endif
 
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowDaemonStartFailedAlert - Function End"));
 }
 
@@ -684,12 +670,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
         pSkinAdvanced->GetApplicationShortName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function End"));
 }
 
