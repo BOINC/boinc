@@ -62,45 +62,36 @@ data class AccountManager internal constructor(
 data class AcctMgrInfo internal constructor(
         var acctMgrName: String = "",
         var acctMgrUrl: String = "",
-        var cookieFailureUrl: String = "",
-        var isHavingCredentials: Boolean = false,
-        var isCookieRequired: Boolean = false
+        var isHavingCredentials: Boolean = false
 ) : Parcelable {
     var isPresent: Boolean = false
 
     constructor(
             acctMgrName: String,
             acctMgrUrl: String,
-            cookieFailureUrl: String,
             isHavingCredentials: Boolean,
-            isCookieRequired: Boolean,
             isPresent: Boolean)
-            : this(acctMgrName, acctMgrUrl, cookieFailureUrl, isHavingCredentials, isCookieRequired) {
+            : this(acctMgrName, acctMgrUrl, isHavingCredentials) {
         this.isPresent = isPresent
     }
 
     private constructor(parcel: Parcel) :
             this(parcel.readString() ?: "", parcel.readString() ?: "",
-                    parcel.readString() ?: "", readBoolean(parcel), readBoolean(parcel),
-                    readBoolean(parcel))
+                    readBoolean(parcel), readBoolean(parcel))
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(acctMgrName)
         dest.writeString(acctMgrUrl)
-        dest.writeString(cookieFailureUrl)
         writeBoolean(dest, isHavingCredentials)
-        writeBoolean(dest, isCookieRequired)
         writeBoolean(dest, isPresent)
     }
 
     object Fields {
         const val ACCT_MGR_NAME = "acct_mgr_name"
         const val ACCT_MGR_URL = "acct_mgr_url"
-        const val COOKIE_FAILURE_URL = "cookie_failure_url"
         const val HAVING_CREDENTIALS = "have_credentials"
-        const val COOKIE_REQUIRED = "cookie_required"
     }
 
     companion object {
