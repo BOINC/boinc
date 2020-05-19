@@ -33,7 +33,6 @@ import androidx.core.content.ContextCompat;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -197,13 +196,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
      */
     public int compareAndAddProjects(List<Project> projects) {
         // delete all old projects from nav items
-        Iterator<NavDrawerItem> it = navDrawerItems.iterator();
-        while(it.hasNext()) {
-            NavDrawerItem item = it.next();
-            if(item.isProjectItem) {
-                it.remove();
-            }
-        }
+        navDrawerItems.removeIf(item -> item.isProjectItem);
 
         int numberAdded = 0;
 
