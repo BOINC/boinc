@@ -46,11 +46,11 @@ class PrefsListItemWrapperBool(context: Context, id: Int, var status: Boolean)
     : PrefsListItemWrapper(context, id)
 
 class PrefsListItemWrapperNumber(
-        context: Context?,
+        context: Context,
         id: Int,
         var status: Double,
         dialogButtonType: DialogButtonType?
-) : PrefsListItemWrapper(context!!, id) {
+) : PrefsListItemWrapper(context, id) {
     enum class Unit {
         NONE, PERCENT, SECONDS, CELSIUS, MEGABYTES, GIGABYTES, DECIMAL
     }
