@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -48,7 +49,7 @@
                 android:id="@+id/hint_header_image_left"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/previousb"
+                android:background="@drawable/ic_baseline_arrow_back_48"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:visibility="gone"
@@ -67,7 +68,7 @@
                 android:id="@+id/hint_header_image_right"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/nextb"
+                android:background="@drawable/ic_baseline_arrow_forward_48"
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:onClick="nextHintClicked"/>
