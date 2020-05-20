@@ -16,8 +16,8 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<vector android:height="48dp" android:tint="@android:color/white"
+<vector android:height="48dp" android:tint="@android:color/black"
     android:viewportHeight="24" android:viewportWidth="24"
     android:width="48dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M8,5v14l11,-7z"/>
+    <path android:fillColor="@android:color/black" android:pathData="M6,19h4L10,5L6,5v14zM14,5v14h4L18,5h-4z"/>
 </vector>
