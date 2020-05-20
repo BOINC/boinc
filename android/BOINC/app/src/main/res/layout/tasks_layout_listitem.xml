@@ -210,7 +210,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:background="@color/dark_green"
-                    android:tint="@color/white"
                     android:contentDescription="@drawable/ic_baseline_play_arrow_48"
                     app:srcCompat="@drawable/ic_baseline_play_arrow_48"
                     android:layout_marginTop="5dp"/>
@@ -221,7 +220,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:background="@color/red"
-                    android:tint="@color/white"
                     android:contentDescription="@drawable/ic_baseline_delete_48"
                     app:srcCompat="@drawable/ic_baseline_delete_48"
                     android:layout_marginTop="5dp"
