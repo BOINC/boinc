@@ -36,7 +36,6 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.List;
 
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
 import edu.berkeley.boinc.utils.Logging;
 
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
@@ -64,7 +63,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         CheckBox cb = v.findViewById(R.id.cb);
         LinearLayout textWrapper = v.findViewById(R.id.text_wrapper);
 
-        if(listItem.am) {
+        if(listItem.isAccountManager()) {
             // element is account manager
             name.setText(activity.getString(R.string.attachproject_acctmgr_header));
             description.setText(activity.getString(R.string.attachproject_acctmgr_list_desc));
@@ -87,18 +86,18 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         }
         else {
             // element is project option
-            name.setText(listItem.info.getName());
-            description.setText(listItem.info.getGeneralArea());
-            summary.setText(listItem.info.getSummary());
-            cb.setChecked(listItem.checked);
-            cb.setOnClickListener(view -> listItem.checked = !listItem.checked);
+            name.setText(listItem.getInfo().getName());
+            description.setText(listItem.getInfo().getGeneralArea());
+            summary.setText(listItem.getInfo().getSummary());
+            cb.setChecked(listItem.isChecked());
+            cb.setOnClickListener(view -> listItem.setChecked(!listItem.isChecked()));
             textWrapper.setOnClickListener(view -> {
                 if(Logging.DEBUG) {
                     Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
-                                       listItem.info.getName());
+                                       listItem.getInfo().getName());
                 }
 
-                ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
+                ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.getInfo());
                 dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
             });
 
