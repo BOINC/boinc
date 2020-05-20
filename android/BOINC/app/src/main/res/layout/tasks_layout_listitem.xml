@@ -209,8 +209,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:contentDescription="@drawable/resumetask"
-                    android:src="@drawable/resumetask"
+                    android:background="@color/dark_green"
+                    android:tint="@color/white"
+                    android:contentDescription="@drawable/ic_baseline_play_arrow_48"
+                    app:srcCompat="@drawable/ic_baseline_play_arrow_48"
                     android:layout_marginTop="5dp"/>
 
             <ImageView

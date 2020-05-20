@@ -186,12 +186,12 @@ public class ClientNotification {
         // set action based on computing status
         if(computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // add resume button
-            nb.addAction(R.drawable.ic_baseline_play_arrow_24,
+            nb.addAction(R.drawable.ic_baseline_play_arrow_48,
                          context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
         }
         else {
             // add suspend button
-            nb.addAction(R.drawable.ic_baseline_pause_24,
+            nb.addAction(R.drawable.ic_baseline_pause_48,
                          context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
         }
 

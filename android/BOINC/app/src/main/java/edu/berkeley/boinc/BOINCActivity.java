@@ -419,12 +419,12 @@ public class BOINCActivity extends AppCompatActivity {
         if(clientComputingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // display play button
             runMode.setTitle(R.string.menu_run_mode_enable);
-            runMode.setIcon(R.drawable.ic_baseline_play_arrow_24);
+            runMode.setIcon(R.drawable.ic_baseline_play_arrow_48);
         }
         else {
             // display stop button
             runMode.setTitle(R.string.menu_run_mode_disable);
-            runMode.setIcon(R.drawable.ic_baseline_pause_24);
+            runMode.setIcon(R.drawable.ic_baseline_pause_48);
         }
 
         return super.onPrepareOptionsMenu(menu);
