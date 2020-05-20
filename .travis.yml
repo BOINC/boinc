@@ -81,7 +81,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "libs-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw ) fi
 - if [[ "${BOINC_TYPE}" == "apps-mingw" ]]; then ( cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper ) fi
 - if [[ "${BOINC_TYPE}" == "manager-osx" ]]; then ( ./3rdParty/buildMacDependencies.sh -q && ./mac_build/buildMacBOINC-CI.sh --no_shared_headers ) fi
-- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm --silent && ./buildAndroidBOINC-CI.sh --arch arm64 --silent && ./buildAndroidBOINC-CI.sh --arch x86 --silent && ./buildAndroidBOINC-CI.sh --arch x86_64 --silent && cd BOINC && ./gradlew clean assemble combinedTestReportDebug && bash <(curl -s https://codecov.io/bash) && cd ../../ ) fi
+- if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm --silent && ./buildAndroidBOINC-CI.sh --arch arm64 --silent && ./buildAndroidBOINC-CI.sh --arch x86 --silent && ./buildAndroidBOINC-CI.sh --arch x86_64 --silent && cd BOINC && ./gradlew clean bundle combinedTestReportDebug && bash <(curl -s https://codecov.io/bash) && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0" && make && ./tests/executeUnitTests.sh --report-coverage ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
 
