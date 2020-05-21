@@ -188,7 +188,7 @@ public class StatusFragment extends Fragment {
                             centerWrapper.setVisibility(View.VISIBLE);
                             statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusHeader.setVisibility(View.VISIBLE);
-                            statusImage.setImageResource(R.drawable.ic_baseline_pause_48);
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause_black_48);
                             statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
                             statusImage.setClickable(false);
                             statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
