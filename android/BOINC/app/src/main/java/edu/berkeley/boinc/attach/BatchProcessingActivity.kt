@@ -117,7 +117,7 @@ class BatchProcessingActivity : AppCompatActivity() {
         if (conflicts) {
             // conflicts occurred, bring up resolution screen
             if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectAsyncTask: conflicts exists, open resolution activity...")
+                Log.d(Logging.TAG, "attachProject(): conflicts exists, open resolution activity...")
             }
             startActivity(Intent(this@BatchProcessingActivity,
                     BatchConflictListActivity::class.java).apply {

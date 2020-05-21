@@ -179,7 +179,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
     private suspend fun attachProject(project: ProjectAttachWrapper, login: Boolean, email: String,
                                       name: String, pwd: String) {
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "AttachProjectAsyncTask: " + project.config.name)
+            Log.d(Logging.TAG, "attachProject(): ${project.config.name}")
         }
         if (asIsBound) {
             project.result = ProjectAttachWrapper.RESULT_ONGOING
@@ -187,7 +187,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
             listAdapter.notifyDataSetChanged()
         } else {
             if (Logging.ERROR) {
-                Log.e(Logging.TAG, "AttachProjectAsyncTask: service not bound, cancel.")
+                Log.e(Logging.TAG, "attachProject(): service not bound, cancel.")
             }
             return
         }
@@ -201,7 +201,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
 
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "AttachProjectAsyncTask.onPostExecute: finished, result: " + project.result)
+            Log.d(Logging.TAG, "attachProject(): finished, result: " + project.result)
         }
 
         // adapt layout to changed state

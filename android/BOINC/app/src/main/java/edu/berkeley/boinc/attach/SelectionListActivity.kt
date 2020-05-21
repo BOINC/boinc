@@ -225,7 +225,7 @@ class SelectionListActivity : AppCompatActivity() {
     private suspend fun retrieveProjectList() = withContext(Dispatchers.Default) {
         var data: List<ProjectInfo>? = null
         var retry = true
-        // Try to get the project list for as long as the AsyncTask has not been canceled
+        // Try to get the project list for as long as the coroutine has not been canceled
         while (retry) {
             try {
                 data = monitor!!.attachableProjects
@@ -239,7 +239,7 @@ class SelectionListActivity : AppCompatActivity() {
             }
             if (data == null) {
                 if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "UpdateProjectListAsyncTask: failed to retrieve data, retry....")
+                    Log.w(Logging.TAG, "retrieveProjectList(): failed to retrieve data, retry....")
                 }
                 delay(500)
             } else {
@@ -260,7 +260,6 @@ class SelectionListActivity : AppCompatActivity() {
         }
 
         // Sort ProjectListEntries off the UI thread
-        // Unfortunately, there is no way to stop this sort operation if this AsyncTask gets canceled
         entries.sortWith(Comparator { e1, e2 -> e1.info!!.name.compareTo(e2.info!!.name, ignoreCase = true) })
         return@withContext data
     }
