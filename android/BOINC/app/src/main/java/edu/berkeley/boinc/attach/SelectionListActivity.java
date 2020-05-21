@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -51,7 +52,7 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.Logging;
 
-public class SelectionListActivity extends FragmentActivity {
+public class SelectionListActivity extends AppCompatActivity {
     private ListView lv;
     List<ProjectListEntry> entries = new ArrayList<>();
     List<ProjectInfo> selected = new ArrayList<>();

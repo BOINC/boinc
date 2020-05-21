@@ -38,6 +38,8 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
@@ -52,7 +54,7 @@ import edu.berkeley.boinc.utils.Logging;
  *
  * @author Joachim Fritzsch
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
     private boolean mIsBound = false;
     private Activity activity = this;
     private static IMonitor monitor = null;
