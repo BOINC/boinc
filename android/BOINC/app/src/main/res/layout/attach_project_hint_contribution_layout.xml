@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_stay_current_portrait_black_48_black"
+                app:srcCompat="@drawable/ic_baseline_stay_current_portrait_48_black"
                 android:contentDescription="@string/attachproject_hint_contribtion_screen"/>
     </RelativeLayout>
 </LinearLayout>
