@@ -165,14 +165,25 @@ void GUI_RPC_CONN_SET::get_password() {
             );
         }
     }
-#ifndef _WIN32
-    // Make sure the password file is not world-read or write.
+#ifdef _WIN32
+#elif defined(__APPLE__)
+    // Mac: Make sure the password file is not world-read or write.
     // If someone can read or set the password,
     // they can cause code to execute as this user.
     //
     if (g_use_sandbox) {
         // Allow group access so authorized administrator can modify it
         chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
+    } else {
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+    }
+#else
+    // general case: allow group read if group is "boinc"
+    //
+    gid_t gid = getgid();
+    struct group *g = getgrgid(gid);
+    if (g && !strcmp(g->gr_name, "boinc")) {
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP);
     } else {
         chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
     }
