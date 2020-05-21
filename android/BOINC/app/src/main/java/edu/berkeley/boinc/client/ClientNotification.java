@@ -166,21 +166,6 @@ public class ClientNotification {
         }
     }
 
-    private Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            drawable = (DrawableCompat.wrap(drawable)).mutate();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                                            drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
     @SuppressLint("InlinedApi")
     private Notification buildNotification(ClientStatus status, Boolean active, List<Result> activeTasks) {
         // get current client computingstatus
@@ -193,7 +178,7 @@ public class ClientNotification {
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
           .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
+          .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status

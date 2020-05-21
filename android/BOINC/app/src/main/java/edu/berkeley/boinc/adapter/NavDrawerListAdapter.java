@@ -118,6 +118,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             Bitmap icon = navDrawerItems.get(position).getProjectIcon();
             if(icon == null) {
                 navDrawerItems.get(position).updateProjectIcon();
+                imgIcon.setImageBitmap(BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc));
             }
             if(icon != null) {
                 imgIcon.setImageBitmap(icon);

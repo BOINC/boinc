@@ -191,7 +191,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 // if available set icon, if not boinc logo
                 if(icon == null) {
                     // BOINC logo
-                    ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                    ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
                 }
                 else {
                     // project icon

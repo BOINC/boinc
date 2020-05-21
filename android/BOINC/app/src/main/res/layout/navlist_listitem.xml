@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/listitem"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listitem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:minHeight="60dp"
@@ -28,7 +29,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/boinc"
+            app:srcCompat="@drawable/ic_boinc"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"

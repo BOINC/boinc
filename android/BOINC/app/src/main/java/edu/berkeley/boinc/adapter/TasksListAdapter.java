@@ -115,7 +115,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
             if(icon == null) {
-                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
             }
             else {
                 ivIcon.setImageBitmap(icon);

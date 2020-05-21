@@ -155,10 +155,10 @@ public class SplashActivity extends AppCompatActivity {
             final ActivityManager.TaskDescription taskDescription;
 
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.P) { // API 28
-                Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.boinc);
+                Bitmap icon = BOINCActivity.getBitmapFromVectorDrawable(this, R.drawable.ic_boinc);
                 taskDescription = new ActivityManager.TaskDescription(label, icon);
             } else {
-                taskDescription = new ActivityManager.TaskDescription(label, R.drawable.boinc);
+                taskDescription = new ActivityManager.TaskDescription(label, R.drawable.ic_boinc);
             }
 
             activity.setTaskDescription(taskDescription);

@@ -148,7 +148,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
+              .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -163,21 +163,6 @@ public class NoticeNotification {
         return nb.build();
     }
 
-    private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            drawable = (DrawableCompat.wrap(drawable)).mutate();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                                            drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
     private static final Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
         try {
@@ -188,7 +173,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+                   BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -198,7 +183,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+            return BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
     }
 }
