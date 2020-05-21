@@ -240,7 +240,7 @@ public class ClientNotification {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
+                icon = R.drawable.ic_boinc_paused;
                 break;
             default:
                 icon = R.drawable.ic_boinc;
