@@ -26,10 +26,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,9 +148,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BitmapFactory.decodeResource(
-                      this.context.getResources(),
-                      R.drawable.ic_stat_notify_boinc_normal))
+              .setLargeIcon(getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -161,6 +163,21 @@ public class NoticeNotification {
         return nb.build();
     }
 
+    private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                                            drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     private static final Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
         try {
@@ -171,10 +188,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BitmapFactory.decodeResource(
-                           context.getResources(),
-                           R.drawable.ic_stat_notify_boinc_normal
-                   );
+                   getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -184,10 +198,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_stat_notify_boinc_normal
-            );
+            return getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
     }
 }
