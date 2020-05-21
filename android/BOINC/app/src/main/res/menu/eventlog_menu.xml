@@ -24,19 +24,19 @@
             android:enabled="true"
             android:visible="true"
             android:title="@string/menu_refresh"
-            android:icon="@drawable/ic_baseline_refresh_32" />
+            android:icon="@drawable/ic_baseline_refresh_48_white" />
     <item
             android:id="@+id/email_to"
             yourapp:showAsAction="ifRoom"
             android:enabled="true"
             android:visible="true"
             android:title="@string/menu_emailto"
-            android:icon="@drawable/ic_baseline_email_white_32" />
+            android:icon="@drawable/ic_baseline_email_48_white" />
     <item
             android:id="@+id/copy"
             yourapp:showAsAction="ifRoom"
             android:enabled="true"
             android:visible="true"
             android:title="@string/menu_copy"
-            android:icon="@drawable/ic_baseline_file_copy_32" />
+            android:icon="@drawable/ic_baseline_file_copy_48_white" />
 </menu>

@@ -229,14 +229,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                         suspendResume.setVisibility(View.VISIBLE);
                         suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
                                                                                   theme));
-                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_48);
+                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_48_white);
                         suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
                     }
                     else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
                         suspendResume.setVisibility(View.VISIBLE);
                         suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
                                                                                   theme));
-                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_48);
+                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_48_white);
                         suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
                     }
                     else { // show nothing

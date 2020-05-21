@@ -65,7 +65,7 @@
             android:id="@+id/am_button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_arrow_forward_48"
+            android:background="@drawable/ic_baseline_arrow_forward_48_black"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:visibility="gone"

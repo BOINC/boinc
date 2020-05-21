@@ -18,7 +18,7 @@
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- when selected, use dark icon -->
-    <item android:drawable="@drawable/ic_baseline_email_black_32" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_baseline_email_48_black" android:state_selected="true" />
     <!-- when not selected, use white -->
-    <item android:drawable="@drawable/ic_baseline_email_white_32" />
+    <item android:drawable="@drawable/ic_baseline_email_48_white" />
 </selector>

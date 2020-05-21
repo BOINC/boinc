@@ -210,8 +210,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:background="@color/dark_green"
-                    android:contentDescription="@drawable/ic_baseline_play_arrow_48"
-                    app:srcCompat="@drawable/ic_baseline_play_arrow_48"
+                    android:contentDescription="@drawable/ic_baseline_play_arrow_48_white"
+                    app:srcCompat="@drawable/ic_baseline_play_arrow_48_white"
                     android:layout_marginTop="5dp"/>
 
             <ImageView
@@ -220,8 +220,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:background="@color/red"
-                    android:contentDescription="@drawable/ic_baseline_delete_48"
-                    app:srcCompat="@drawable/ic_baseline_delete_48"
+                    android:contentDescription="@drawable/ic_baseline_delete_48_white"
+                    app:srcCompat="@drawable/ic_baseline_delete_48_white"
                     android:layout_marginTop="5dp"
                     android:layout_below="@+id/suspendResumeTask"/>
 
