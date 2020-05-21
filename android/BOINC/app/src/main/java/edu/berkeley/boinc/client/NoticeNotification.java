@@ -25,15 +25,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +132,7 @@ public class NoticeNotification {
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.ic_baseline_email_48_white).
+                  setSmallIcon(R.drawable.ic_baseline_email_white).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {

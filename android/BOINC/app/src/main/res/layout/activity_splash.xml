@@ -31,6 +31,6 @@
             android:layout_margin="40dp"
             android:maxWidth="400dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_boinc_logo_july_2007"
+            app:srcCompat="@drawable/ic_boinc_logo"
             android:contentDescription="@string/status_launching"/>
 </LinearLayout>
