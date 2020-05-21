@@ -40,7 +40,7 @@
 #define SPDP double
 #endif
 
-#if defined(__arm__) || defined(__aarch64__)
+#if defined(__linux__) && ( defined(__arm__) || defined(__aarch64__) )
   #ifdef ARM_NEON
     namespace arm_neon {
   #else
@@ -290,6 +290,6 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
     return 0;
 }
 
-#if defined(ARM_NEON) || defined(ARM_VFP)
+#if defined(__linux__) && ( defined(ARM_NEON) || defined(ARM_VFP) )
   }
 #endif // namespace closure

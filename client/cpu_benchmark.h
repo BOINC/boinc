@@ -18,7 +18,7 @@
 #define MAX_CPU_BENCHMARKS_SECONDS    300
 #define CPU_BENCHMARKS_RUNNING        0
 #define CPU_BENCHMARKS_COMPLETE       1
-#define CPU_BENCHMARKS_NOT_RUNNING    2    
+#define CPU_BENCHMARKS_NOT_RUNNING    2
 #define CPU_BENCHMARKS_ERROR          3
 
 #define BM_TYPE_FP       0
@@ -37,7 +37,7 @@ extern bool benchmark_time_to_stop(int which);
 // armhf  : -DARM_NEON -mfloat-abi=hard -mfpu=neon
 //          -DARM_VFP -mfloat-abi=hard -mfpu=vfp
 // aarch64: -DARM_NEON
-#if defined(__arm__) || defined(__aarch64__)
+#if defined(__linux__) && ( defined(__arm__) || defined(__aarch64__) )
 #ifdef __ARM_NEON
 #include <arm_neon.h>
 #endif // __ARM_NEON
@@ -52,4 +52,4 @@ namespace arm_vfp {
 }
 #endif // defined(__arm__)
 
-#endif // defined(__arm__) || defined(__aarch64__)
+#endif // defined(__linux__) && ( defined(__arm__) || defined(__aarch64__) )

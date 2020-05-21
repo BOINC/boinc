@@ -176,7 +176,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 
     bdp->error_str[0] = '\0';
 
-#if defined(__arm__)
+#if defined(__linux__) && defined(__arm__)
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)
@@ -190,7 +190,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     } else { // just run normal test
         retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     }
-#elif defined(__aarch64__)
+#elif defined(__linux__) && defined(__aarch64__)
     if (strstr(gstate.host_info.p_features, " asimd ")) {
       // aarch64 shows asimd instead of neon
       retval = arm_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);

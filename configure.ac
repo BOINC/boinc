@@ -1047,7 +1047,7 @@ AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
 
-dnl Cross compile for (and native compile on) ARM
+dnl Cross compile for (and native compile on) ARM Linux
 dnl Enable NEON in benchmark
 AM_CONDITIONAL(OS_LINUX_ARM,
 [$(echo $host_cpu | grep '^arm' > /dev/null) && $(echo $host_os | grep '^linux' > /dev/null)])
