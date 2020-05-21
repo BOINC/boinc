@@ -134,11 +134,11 @@ public class BOINCActivity extends AppCompatActivity {
         // enabling action bar app icon and behaving it as toggle button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_menu_white);
 
         // TODO: Replace with a non-deprecated class.
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                                                  R.drawable.ic_drawer, //nav menu toggle icon
+                                                  R.drawable.ic_baseline_menu_white, //nav menu toggle icon
                                                   R.string.app_name, // nav drawer open - description for accessibility
                                                   R.string.app_name // nav drawer close - description for accessibility
         ) {
