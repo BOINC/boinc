@@ -113,14 +113,25 @@ boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD
 
 boinc_clientdir = $(bindir)
 
-if OS_ARM_LINUX
+if OS_LINUX_ARM
 boinc_client_LDADD += libwhetneon.a libwhetvfp.a
 noinst_LIBRARIES = libwhetneon.a libwhetvfp.a
 libwhetneon_a_SOURCES = whetstone.cpp
-libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
-
 libwhetvfp_a_SOURCES = whetstone.cpp
-libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfp
+if !OS_LINUX_ARMHF
+libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DARM_NEON -mfloat-abi=softfp -mfpu=neon
+libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DARM_VFP -mfloat-abi=softfp -mfpu=vfp
+else
+libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DARM_NEON -mfloat-abi=hard -mfpu=neon
+libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DARM_VFP -mfloat-abi=hard -mfpu=vfp
+endif
+endif
+if OS_LINUX_AARCH64
+EXTRA_boinc_client_DEPENDENCIES = libwhetneon.a
+boinc_client_LDADD += libwhetneon.a
+noinst_LIBRARIES = libwhetneon.a
+libwhetneon_a_SOURCES = whetstone.cpp
+libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DARM_NEON
 endif
 
 switcher_SOURCES = switcher.cpp

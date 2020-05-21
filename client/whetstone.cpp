@@ -40,14 +40,14 @@
 #define SPDP double
 #endif
 
-#ifdef ANDROID
-#ifdef ANDROID_NEON
-    namespace android_neon {
-#else
-  #ifdef ANDROID_VFP
-    namespace android_vfp {
+#if defined(__arm__) || defined(__aarch64__)
+  #ifdef ARM_NEON
+    namespace arm_neon {
+  #else
+  #ifdef ARM_VFP
+    namespace arm_vfp {
   #endif
-#endif
+  #endif
 #endif
 
 // External array; store results here so that optimizing compilers
@@ -290,6 +290,6 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
     return 0;
 }
 
-#if defined(ANDROID_NEON) || defined(ANDROID_VFP)
+#if defined(ARM_NEON) || defined(ARM_VFP)
   }
 #endif // namespace closure

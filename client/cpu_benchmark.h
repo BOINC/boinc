@@ -31,19 +31,25 @@ extern bool benchmark_time_to_stop(int which);
 
 // separate different compilations of whetstone.cpp which will utilize
 // various ARM fp features ie neon, vfp, or "normal"
-#ifdef ANDROID
-#ifdef ANDROID_NEON
-// add CXXFLAGS/CFLAGS for gcc:  -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
+// add CXXFLAGS/CFLAGS for gcc:
+// arm    : -DARM_NEON -mfloat-abi=softfp -mfpu=neon
+//          -DARM_VFP -mfloat-abi=softfp -mfpu=vfp
+// armhf  : -DARM_NEON -mfloat-abi=hard -mfpu=neon
+//          -DARM_VFP -mfloat-abi=hard -mfpu=vfp
+// aarch64: -DARM_NEON
+#if defined(__arm__) || defined(__aarch64__)
+#ifdef __ARM_NEON
 #include <arm_neon.h>
-#endif // ANDROID_NEON
+#endif // __ARM_NEON
 
-namespace android_neon {
+namespace arm_neon {
     int whetstone(double& flops, double& cpu_time, double min_cpu_time);
 }
 
-namespace android_vfp {
+#if defined(__arm__)
+namespace arm_vfp {
     int whetstone(double& flops, double& cpu_time, double min_cpu_time);
 }
+#endif // defined(__arm__)
 
-#endif // ANDROID
-
+#endif // defined(__arm__) || defined(__aarch64__)

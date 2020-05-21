@@ -1046,7 +1046,16 @@ AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
-AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
+
+dnl Cross compile for (and native compile on) ARM
+dnl Enable NEON in benchmark
+AM_CONDITIONAL(OS_LINUX_ARM,
+[$(echo $host_cpu | grep '^arm' > /dev/null) && $(echo $host_os | grep '^linux' > /dev/null)])
+AM_CONDITIONAL(OS_LINUX_ARMHF,
+[$($(echo $host_cpu | grep '^arm' > /dev/null) && $(echo $host_os | grep '^linux.*hf' > /dev/null)) || \
+$($(echo $host_cpu | grep '^armv7hl' > /dev/null) && $(echo $host_os | grep '^linux' > /dev/null))])
+AM_CONDITIONAL(OS_LINUX_AARCH64,
+[$(echo $host_cpu | grep '^aarch64' > /dev/null) && $(echo $host_os | grep '^linux' > /dev/null)])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
