@@ -17,9 +17,9 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="colorPrimary">@android:color/black</color>
-    <color name="colorPrimaryDark">#212121</color>
-    <color name="colorAccent">#484848</color>
+    <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryDark">#007ac1</color>
+    <color name="colorAccent">#67daff</color>
     
     <!-- layout colors -->
     <color name="white">#FFFFFF</color>
