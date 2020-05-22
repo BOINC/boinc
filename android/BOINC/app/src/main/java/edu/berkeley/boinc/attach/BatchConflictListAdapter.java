@@ -77,7 +77,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             resolveIv.setVisibility(View.GONE);
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_check_48_black));
+            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_check_black));
         }
         else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING ||
                 listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
@@ -108,7 +108,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             resolveIv.setVisibility(View.GONE);
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_48_black));
+            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_black));
         }
         else {
             // failed
@@ -124,7 +124,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             });
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_48_black));
+            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear_black));
         }
         return v;
     }

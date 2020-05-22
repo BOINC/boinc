@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
     <LinearLayout
@@ -71,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:maxWidth="400dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/boinc_logo_large"
+                    app:srcCompat="@drawable/ic_boinc_logo"
                     android:contentDescription="@string/app_name"
                     android:visibility="gone"/>
         </LinearLayout>

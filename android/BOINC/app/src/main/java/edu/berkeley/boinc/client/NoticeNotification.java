@@ -25,7 +25,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -133,7 +132,7 @@ public class NoticeNotification {
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.ic_baseline_email_48_white).
+                  setSmallIcon(R.drawable.ic_baseline_email_white).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
@@ -144,9 +143,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BitmapFactory.decodeResource(
-                      this.context.getResources(),
-                      R.drawable.ic_stat_notify_boinc_normal))
+              .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -171,10 +168,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BitmapFactory.decodeResource(
-                           context.getResources(),
-                           R.drawable.ic_stat_notify_boinc_normal
-                   );
+                   BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -184,10 +178,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_stat_notify_boinc_normal
-            );
+            return BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
     }
 }

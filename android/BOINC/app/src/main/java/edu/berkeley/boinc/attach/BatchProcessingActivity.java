@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -49,7 +50,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
 import edu.berkeley.boinc.utils.Logging;
 
-public class BatchProcessingActivity extends FragmentActivity {
+public class BatchProcessingActivity extends AppCompatActivity {
     private ProjectAttachService attachService = null;
     private boolean asIsBound = false;
 

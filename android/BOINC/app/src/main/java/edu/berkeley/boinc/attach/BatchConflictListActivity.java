@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +48,7 @@ import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCre
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
 import edu.berkeley.boinc.utils.Logging;
 
-public class BatchConflictListActivity extends FragmentActivity implements IndividualCredentialInputFragmentListener {
+public class BatchConflictListActivity extends AppCompatActivity implements IndividualCredentialInputFragmentListener {
     private ListView lv;
     private BatchConflictListAdapter listAdapter;
 

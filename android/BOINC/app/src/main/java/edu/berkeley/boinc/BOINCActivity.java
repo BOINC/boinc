@@ -28,8 +28,12 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -46,6 +50,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -128,11 +134,11 @@ public class BOINCActivity extends AppCompatActivity {
         // enabling action bar app icon and behaving it as toggle button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_menu_white);
 
         // TODO: Replace with a non-deprecated class.
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                                                  R.drawable.ic_drawer, //nav menu toggle icon
+                                                  R.drawable.ic_baseline_menu_white, //nav menu toggle icon
                                                   R.string.app_name, // nav drawer open - description for accessibility
                                                   R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -397,6 +403,21 @@ public class BOINCActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, keyEvent);
     }
 
+    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                                            drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(Logging.DEBUG) {
@@ -419,12 +440,12 @@ public class BOINCActivity extends AppCompatActivity {
         if(clientComputingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // display play button
             runMode.setTitle(R.string.menu_run_mode_enable);
-            runMode.setIcon(R.drawable.ic_baseline_play_arrow_48_white);
+            runMode.setIcon(R.drawable.ic_baseline_play_arrow_white);
         }
         else {
             // display stop button
             runMode.setTitle(R.string.menu_run_mode_disable);
-            runMode.setIcon(R.drawable.ic_baseline_pause_48_white);
+            runMode.setIcon(R.drawable.ic_baseline_pause_white);
         }
 
         return super.onPrepareOptionsMenu(menu);

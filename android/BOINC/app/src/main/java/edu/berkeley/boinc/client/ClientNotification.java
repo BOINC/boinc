@@ -6,11 +6,18 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,7 +178,7 @@ public class ClientNotification {
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
           .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
+          .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
@@ -233,10 +240,10 @@ public class ClientNotification {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
+                icon = R.drawable.ic_boinc_paused;
                 break;
             default:
-                icon = R.drawable.ic_stat_notify_boinc_normal;
+                icon = R.drawable.ic_boinc;
         }
         return icon;
     }
