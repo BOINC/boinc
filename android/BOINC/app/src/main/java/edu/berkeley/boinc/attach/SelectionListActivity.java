@@ -24,9 +24,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -49,6 +47,7 @@ import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class SelectionListActivity extends FragmentActivity {
@@ -111,14 +110,7 @@ public class SelectionListActivity extends FragmentActivity {
                 ContextCompat.getSystemService(this, ConnectivityManager.class);
         assert connectivityManager != null;
 
-        final boolean online;
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        }
-        else {
-            online = connectivityManager.getActiveNetwork() != null;
-        }
+        final boolean online = BOINCUtils.isOnline(connectivityManager);
         if(!online) {
             Toast toast =
                     Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);

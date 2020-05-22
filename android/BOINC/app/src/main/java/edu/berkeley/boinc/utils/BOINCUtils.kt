@@ -21,9 +21,20 @@
 package edu.berkeley.boinc.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.os.Build
 import edu.berkeley.boinc.R
 import java.io.IOException
 import java.io.Reader
+
+val ConnectivityManager.isOnline: Boolean
+    get() {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            activeNetworkInfo?.isConnectedOrConnecting == true
+        } else {
+            activeNetwork != null
+        }
+    }
 
 @Throws(IOException::class)
 fun Reader.readLineLimit(limit: Int): String? {
