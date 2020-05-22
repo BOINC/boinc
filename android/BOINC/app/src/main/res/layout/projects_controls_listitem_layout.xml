@@ -20,7 +20,7 @@
           android:id="@+id/text"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textColor="@color/black"
+          android:textColor="?android:attr/textColorPrimary"
           android:textAppearance="?android:attr/textAppearanceMedium"
           android:background="@android:color/transparent"
           android:padding="15dp"/>

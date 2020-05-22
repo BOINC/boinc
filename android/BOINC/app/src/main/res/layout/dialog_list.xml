@@ -28,7 +28,7 @@
             android:padding="10dp"
             android:minWidth="250dp"
             android:singleLine="true"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/shape_light_blue_background"/>
 
