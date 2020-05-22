@@ -25,10 +25,14 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.RemoteException
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.io.Reader
 
@@ -40,6 +44,25 @@ val ConnectivityManager.isOnline: Boolean
             activeNetwork != null
         }
     }
+
+suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
+    val runMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setRunMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+    val networkMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setNetworkMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+
+    return@coroutineScope runMode.await() && networkMode.await()
+}
 
 fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap? {
     var drawable = ContextCompat.getDrawable(this, drawableId)!!
