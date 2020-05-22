@@ -17,10 +17,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="colorPrimary">#03a9f4</color>
-    <color name="colorPrimaryDark">#007ac1</color>
-    <color name="colorAccent">#67daff</color>
-
     <color name="colorTaskProgress">@color/dark_blue</color>
     
     <!-- layout colors -->
