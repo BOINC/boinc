@@ -238,6 +238,16 @@ void canonicalize_master_url(string& url) {
     url = buf;
 }
 
+// return true if url1 and url2 are the same
+// except ur1 is http: and url2 is https:
+//
+bool is_https_transition(const char* url1, const char* url2) {
+    if (strstr(url1, "http://") != url1) return false;
+    if (strstr(url2, "https://") != url2) return false;
+    if (strcmp(url1+strlen("http://"), url2+strlen("https://"))) return false;
+    return true;
+}
+
 // is the string a valid master URL, in canonical form?
 //
 bool valid_master_url(char* buf) {
