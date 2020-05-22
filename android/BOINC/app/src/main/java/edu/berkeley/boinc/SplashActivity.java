@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -44,6 +43,7 @@ import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 /**
@@ -155,7 +155,7 @@ public class SplashActivity extends AppCompatActivity {
             final ActivityManager.TaskDescription taskDescription;
 
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.P) { // API 28
-                Bitmap icon = BOINCActivity.getBitmapFromVectorDrawable(this, R.drawable.ic_boinc);
+                Bitmap icon = BOINCUtils.getBitmapFromVectorDrawable(this, R.drawable.ic_boinc);
                 taskDescription = new ActivityManager.TaskDescription(label, icon);
             } else {
                 taskDescription = new ActivityManager.TaskDescription(label, R.drawable.ic_boinc);
