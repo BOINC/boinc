@@ -19,4 +19,6 @@
 <resources>
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000000</color>
+
+    <color name="colorTaskProgress">@color/dark_grey</color>
 </resources>

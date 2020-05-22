@@ -43,7 +43,7 @@
             android:text="@string/attachproject_conflicts_desc"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorPrimary"
             android:layout_below="@+id/logo"
             android:padding="5dp"
             android:background="@drawable/shape_dark_blue_background_wo_stroke"/>
@@ -62,7 +62,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:text="@string/generic_button_finish"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/shape_button_blue"
             android:minWidth="150dp"

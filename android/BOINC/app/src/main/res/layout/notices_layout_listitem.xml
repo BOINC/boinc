@@ -70,7 +70,7 @@
                 android:id="@+id/noticeTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

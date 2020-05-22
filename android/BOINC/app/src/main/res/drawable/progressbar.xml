@@ -22,13 +22,13 @@
             <solid android:color="@color/lightest_blue"/>
             <stroke
                     android:width="1dip"
-                    android:color="@color/dark_blue"/>
+                    android:color="@color/colorTaskProgress"/>
         </shape>
     </item>
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/dark_blue"/>
+                <solid android:color="@color/colorTaskProgress"/>
             </shape>
         </clip>
     </item>

@@ -89,7 +89,7 @@
         android:padding="5dp"
         android:text="@string/generic_button_continue"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white" />
+        android:textColor="?android:attr/textColorPrimary" />
 
 
     <LinearLayout

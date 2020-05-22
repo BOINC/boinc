@@ -47,7 +47,6 @@
             android:choiceMode="singleChoice"
             android:divider="@color/light_blue"
             android:dividerHeight="1dp"
-            android:listSelector="@drawable/navlist_selector"
-            android:background="@android:color/white"/>
+            android:listSelector="@drawable/navlist_selector" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

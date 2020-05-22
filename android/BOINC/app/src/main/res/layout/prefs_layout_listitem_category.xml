@@ -24,5 +24,6 @@
 
     <TextView
             android:id="@+id/category_header"
+            android:textColor="?android:attr/textColorPrimary"
             style="@style/SubHeader"/>
 </LinearLayout>
