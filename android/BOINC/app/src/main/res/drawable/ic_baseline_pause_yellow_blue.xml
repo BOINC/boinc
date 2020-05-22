@@ -21,7 +21,8 @@
     android:width="48dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <path android:name="square"
-                android:fillColor="#FF245c86"
+                android:strokeColor="#FF245c86"
+                android:strokeWidth="4"
                 android:pathData="M0,0 L24,0 L24,24 L0,24 z" />
     <path android:fillColor="#FFfac134" android:pathData="M6,19h4L10,5L6,5v14zM14,5v14h4L18,5h-4z"/>
     </group>
