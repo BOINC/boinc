@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:singleLine="true"
-                android:textColor="@color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:background="@android:color/transparent"
                 android:text="@string/about_title"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
             android:text="@string/about_name"
             android:gravity="center_horizontal"/>
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:padding="10dp"
             android:gravity="center_horizontal"/>
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/about_copyright"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:text="@string/about_copyright_reserved"
             android:gravity="center_horizontal"/>
 
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:layout_margin="10dp"
             android:text="@string/about_credits"
             android:gravity="center_horizontal"/>
