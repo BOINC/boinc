@@ -46,7 +46,6 @@ import androidx.fragment.app.Fragment;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
@@ -238,24 +237,8 @@ public class ProjectsFragment extends Fragment {
         }
 
         //loop through the list adapter to find removed (ready/aborted) projects
-        // use iterator to safely remove while iterating
-        Iterator<ProjectsListData> iData = data.iterator();
-        while(iData.hasNext()) {
-            boolean found = false;
-            ProjectsListData listItem = iData.next();
-            if(listItem.isMgr) {
-                continue;
-            }
-            for(Project rpcResult : latestRpcProjectsList) {
-                if(listItem.id.equals(rpcResult.getMasterURL())) {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found) {
-                iData.remove();
-            }
-        }
+        data.removeIf(item -> !item.isMgr && latestRpcProjectsList
+                .stream().noneMatch(result -> item.id.equals(result.getMasterURL())));
 
         // SERVER NOTICES
         // loop through active projects to add/remove server notices

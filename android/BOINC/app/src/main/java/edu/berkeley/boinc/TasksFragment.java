@@ -41,7 +41,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.berkeley.boinc.adapter.TasksListAdapter;
@@ -151,21 +150,7 @@ public class TasksFragment extends Fragment {
         }
 
         //loop through the list adapter to find removed (ready/aborted) Results
-        // use iterator to safely remove while iterating
-        Iterator<TaskData> iData = data.iterator();
-        while(iData.hasNext()) {
-            boolean found = false;
-            TaskData listItem = iData.next();
-            for(Result rpcResult : newData) {
-                if(listItem.id.equals(rpcResult.getName())) {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found) {
-                iData.remove();
-            }
-        }
+        data.removeIf(item -> newData.stream().noneMatch(result -> item.id.equals(result.getName())));
     }
 
     public class TaskData {

@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -506,12 +505,7 @@ public class ClientInterfaceImplementation extends RpcClient {
 
         if (seqNo > 0) {
             // remove messages that are >= seqNo
-            Iterator<Message> it = msgs.iterator();
-            while (it.hasNext()) {
-                Message tmp = it.next();
-                if (tmp.getSeqno() >= seqNo)
-                    it.remove();
-            }
+            msgs.removeIf(message -> message.getSeqno() >= seqNo);
         }
 
         if(!msgs.isEmpty() && Logging.DEBUG) {
