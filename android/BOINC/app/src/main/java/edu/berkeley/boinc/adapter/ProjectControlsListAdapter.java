@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
+import edu.berkeley.boinc.ProjectsFragment;
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
@@ -59,7 +60,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
 
     @Override
     public long getItemId(int position) {
-        return entries.get(position).operation;
+        return entries.get(position).getOperation();
     }
 
     @NonNull
@@ -73,7 +74,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
         TextView tvText = vi.findViewById(R.id.text);
         String text = "";
 
-        switch(data.operation) {
+        switch(data.getOperation()) {
             case RpcClient.PROJECT_UPDATE:
                 text = activity.getResources().getString(R.string.projects_control_update);
                 break;
@@ -106,7 +107,7 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
             case RpcClient.TRANSFER_RETRY:
                 text = activity.getResources().getString(R.string.trans_control_retry);
                 break;
-            case ProjectControl.VISIT_WEBSITE:
+            case ProjectsFragment.VISIT_WEBSITE:
                 text = activity.getResources().getString(R.string.projects_control_visit_website);
                 break;
             default:
