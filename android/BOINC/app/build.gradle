@@ -48,6 +48,20 @@ def buildVersionName() {
     return "${version} (${commit})"
 }
 
+preBuild.doFirst {
+    def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
+    def clientName = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
+    def clientCabundle = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
+    def allProjectsList = new XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
+    assert file("src/main/assets/arm64-v8a/"    + clientName).exists()
+    assert file("src/main/assets/armeabi-v7a/"  + clientName).exists()
+    assert file("src/main/assets/x86/"          + clientName).exists()
+    assert file("src/main/assets/x86_64/"       + clientName).exists()
+    assert file("src/main/assets/x86_64/"       + clientName).exists()
+    assert file("src/main/assets/" + clientCabundle).exists()
+    assert file("src/main/assets/" + allProjectsList).exists()
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
