@@ -417,6 +417,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
         "    <resource_share>%f</resource_share>\n"
+        "    <disk_usage>%f</disk_usage>\n"
+        "    <disk_share>%f</disk_share>\n"
         "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -454,6 +456,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
         resource_share,
+        disk_usage, disk_share,
         desired_disk_usage,
         duration_correction_factor,
         sched_rpc_pending,
@@ -557,10 +560,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <cpu_ec>%f</cpu_ec>\n"
             "    <cpu_time>%f</cpu_time>\n"
             "    <gpu_ec>%f</gpu_ec>\n"
-            "    <gpu_time>%f</gpu_time>\n"
-            "    <disk_usage>%f</disk_usage>\n"
-            "    <disk_share>%f</disk_share>\n",
-            cpu_ec, cpu_time, gpu_ec, gpu_time, disk_usage, disk_share
+            "    <gpu_time>%f</gpu_time>\n",
+            cpu_ec, cpu_time, gpu_ec, gpu_time
         );
     }
     out.printf(
