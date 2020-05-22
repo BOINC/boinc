@@ -23,7 +23,7 @@
             android:enabled="true"
             android:visible="true"
             android:title="@string/projects_add"
-            android:icon="@drawable/ic_baseline_add_circle_32"
+            android:icon="@drawable/ic_baseline_add_circle_48_white"
             yourapp:showAsAction="ifRoom|withText" />
     <item
             android:id="@+id/projects_add_url"

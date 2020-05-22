@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="2dp">
@@ -194,8 +195,8 @@
                 android:id="@+id/expandCollapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@drawable/collapse"
-                android:src="@drawable/collapse"/>
+                android:contentDescription="@drawable/ic_baseline_keyboard_arrow_right_48"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_48"/>
 
         <RelativeLayout
                 android:id="@+id/rightColumnExpandWrapper"
@@ -208,8 +209,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:contentDescription="@drawable/resumetask"
-                    android:src="@drawable/resumetask"
+                    android:background="@color/dark_green"
+                    android:contentDescription="@drawable/ic_baseline_play_arrow_48_white"
+                    app:srcCompat="@drawable/ic_baseline_play_arrow_48_white"
                     android:layout_marginTop="5dp"/>
 
             <ImageView
@@ -217,8 +219,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:contentDescription="@drawable/aborttask"
-                    android:src="@drawable/aborttask"
+                    android:background="@color/red"
+                    android:contentDescription="@drawable/ic_baseline_delete_48_white"
+                    app:srcCompat="@drawable/ic_baseline_delete_48_white"
                     android:layout_marginTop="5dp"
                     android:layout_below="@+id/suspendResumeTask"/>
 

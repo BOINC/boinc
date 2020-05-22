@@ -34,7 +34,7 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_warning_24"
+                app:srcCompat="@drawable/ic_baseline_warning_48_black"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/confirm_image_desc"/>
 

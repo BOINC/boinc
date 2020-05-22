@@ -133,7 +133,7 @@ public class NoticeNotification {
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.ic_baseline_email_white_32).
+                  setSmallIcon(R.drawable.ic_baseline_email_48_white).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {

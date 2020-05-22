@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -171,13 +173,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
         if(!listItem.expanded) {
             // view is collapsed
-            expandButton.setImageResource(R.drawable.collapse);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_48);
             rightColumnExpandWrapper.setVisibility(View.GONE);
             centerColumnExpandWrapper.setVisibility(View.GONE);
         }
         else {
             // view is expanded
-            expandButton.setImageResource(R.drawable.expand);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_48);
             rightColumnExpandWrapper.setVisibility(View.VISIBLE);
             centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 
@@ -219,15 +221,22 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
                     (v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
 
+                    final Resources resources = activity.getResources();
+                    final Resources.Theme theme = activity.getTheme();
+
                     // checking what suspendResume button should be shown
                     if(listItem.result.isSuspendedViaGUI()) { // show play
                         suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.resumetask);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_48_white);
                         suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
                     }
                     else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
                         suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.pausetask);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_48_white);
                         suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
                     }
                     else { // show nothing

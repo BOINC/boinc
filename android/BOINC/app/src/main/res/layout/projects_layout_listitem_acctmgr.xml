@@ -37,7 +37,7 @@
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/projects_icon"
-                app:srcCompat="@drawable/ic_baseline_share_24"
+                app:srcCompat="@drawable/ic_baseline_share_48_black"
                 android:layout_centerInParent="true"/>
     </RelativeLayout>
 
