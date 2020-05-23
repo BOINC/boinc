@@ -47,12 +47,11 @@
     </style>
 
     <!--Preference fragment sub header -->
-    <style name="SubHeader">
+    <style name="SubHeader" parent="@style/BackgroundDayNight">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:background">@drawable/shape_dark_blue_background</item>
         <item name="android:textStyle">bold</item>
     </style>
 
