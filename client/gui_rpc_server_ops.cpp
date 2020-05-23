@@ -748,7 +748,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     //
     for (unsigned i=0; i<gstate.projects.size(); i++) { 
         PROJECT* p = gstate.projects[i]; 
-        if (!strcmp(p->master_url, gstate.project_init.url)) { 
+        if (urls_match(p->master_url, gstate.project_init.url)) { 
             gstate.project_init.remove(); 
             break; 
         } 

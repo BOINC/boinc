@@ -248,6 +248,15 @@ bool is_https_transition(const char* url1, const char* url2) {
     return true;
 }
 
+// return true if url1 and url2 are the same except protocol
+//
+bool urls_match(const char* url1, const char* url2) {
+    const char* p = strstr(url1, "//");
+    const char* q = strstr(url2, "//");
+    if (!p || !q) return false;
+    return strcmp(p, q) == 0;
+}
+
 // is the string a valid master URL, in canonical form?
 //
 bool valid_master_url(char* buf) {

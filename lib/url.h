@@ -47,5 +47,5 @@ extern void canonicalize_master_url(char *url, int len);
 extern void canonicalize_master_url(std::string&);
 extern bool is_https(const char*);
 extern bool is_https_transition(const char* ur1l, const char* url2);
-
+extern bool urls_match(const char* url1, const char* url2);
 #endif

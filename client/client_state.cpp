@@ -51,6 +51,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 #include "util.h"
 #ifdef _WIN32
 #include "run_app_windows.h"
@@ -1189,21 +1190,21 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #endif // ifndef SIM
 
-// See if the project specified by master_url already exists
-// in the client state record.  Ignore any trailing "/" characters
+// Find the project with the given master_url.
+// Ignore differences in protocol, case, and trailing /
 //
 PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
-    int len1, len2;
-    char *mu;
+    char buf[256];
 
-    len1 = (int)strlen(master_url);
-    if (master_url[strlen(master_url)-1] == '/') len1--;
+    safe_strcpy(buf, master_url);
+    canonicalize_master_url(buf, sizeof(buf));
+    char* p = strstr(buf, "//");
+    if (!p) return NULL;
 
     for (unsigned int i=0; i<projects.size(); i++) {
-        mu = projects[i]->master_url;
-        len2 = (int)strlen(mu);
-        if (mu[strlen(mu)-1] == '/') len2--;
-        if (!strncmp(master_url, projects[i]->master_url, max(len1,len2))) {
+        char* q = strstr(projects[i]->master_url, "//");
+        if (!q) continue;
+        if (!strcmp(p, q)) {
             return projects[i];
         }
     }
