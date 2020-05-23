@@ -73,7 +73,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_blue"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/confirm_cancel"
                 android:layout_weight="0.5"/>
@@ -87,7 +87,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_red"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_weight="0.5"/>
 

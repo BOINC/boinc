@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/social_invite_button"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:background="@drawable/shape_button_blue"
                 android:minWidth="150dp"

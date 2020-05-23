@@ -18,8 +18,8 @@
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="rectangle">
-    <solid android:color="@color/white_smoke"/>
+    <solid android:color="@android:color/white"/>
     <stroke
             android:width="1dip"
-            android:color="@color/white_smoke"/>
+            android:color="@android:color/white"/>
 </shape>

@@ -61,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:text="@string/generic_button_finish"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/shape_button_blue"
             android:minWidth="150dp"
