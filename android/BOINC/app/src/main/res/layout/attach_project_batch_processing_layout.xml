@@ -37,11 +37,11 @@
             android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
+            style="@style/BackgroundDayNight"
             android:id="@+id/hint_header_wrapper"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
-            android:background="@drawable/shape_light_blue_background"
             android:orientation="horizontal"
             android:padding="5dp">
 
