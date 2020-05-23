@@ -37,6 +37,7 @@
             android:layout_centerHorizontal="true"/>
 
     <TextView
+            style="@style/BackgroundDayNight"
             android:id="@+id/desc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -45,9 +46,7 @@
             android:textStyle="bold"
             android:textColor="?android:attr/textColorPrimary"
             android:layout_below="@+id/logo"
-            android:padding="5dp"
-            android:background="@drawable/shape_dark_blue_background_wo_stroke"/>
-
+            android:padding="5dp"/>
     <ListView
             android:id="@+id/listview"
             android:layout_width="fill_parent"
