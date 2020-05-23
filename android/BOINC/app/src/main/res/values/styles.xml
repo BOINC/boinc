@@ -18,8 +18,8 @@
 -->
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">#000045</item>
-        <item name="colorPrimaryDark">#000020</item>
+        <item name="colorPrimary">#0288d1</item>
+        <item name="colorPrimaryDark">#005b9f</item>
         <item name="colorAccent">#342871</item>
         <item name="colorControlNormal">@color/black</item>
     </style>

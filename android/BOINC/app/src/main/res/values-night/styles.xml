@@ -20,7 +20,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/dark_grey</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
 
