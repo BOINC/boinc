@@ -35,6 +35,10 @@
         <item name="android:background">@drawable/shape_dark_mode_background</item>
     </style>
 
+    <style name="DividerDayNight">
+        <item name="android:divider">@color/dark_blue</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
