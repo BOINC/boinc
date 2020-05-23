@@ -18,7 +18,7 @@
 -->
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimary">#121212</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
@@ -29,6 +29,10 @@
 
     <style name="BackgroundDayNight">
         <item name="android:background">@drawable/shape_dark_blue_background</item>
+    </style>
+
+    <style name="DrawerBackgroundDayNight">
+        <item name="android:background">@drawable/shape_dark_mode_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
