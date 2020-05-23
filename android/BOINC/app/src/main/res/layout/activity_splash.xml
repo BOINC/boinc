@@ -27,7 +27,7 @@
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_marginHorizontal="20dp"
             android:maxWidth="400dp"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/ic_boinc_logo"

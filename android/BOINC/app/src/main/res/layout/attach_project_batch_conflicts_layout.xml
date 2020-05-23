@@ -37,16 +37,16 @@
             android:layout_centerHorizontal="true"/>
 
     <TextView
-            style="@style/BackgroundDayNight"
             android:id="@+id/desc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/attachproject_conflicts_desc"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@android:color/white"
             android:layout_below="@+id/logo"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:background="@drawable/shape_dark_blue_background_wo_stroke"/>/>
     <ListView
             android:id="@+id/listview"
             android:layout_width="fill_parent"
