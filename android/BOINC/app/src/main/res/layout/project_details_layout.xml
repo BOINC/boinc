@@ -167,10 +167,10 @@
         </LinearLayout>
 
         <HorizontalScrollView
+				style="@style/BackgroundDayNight"
                 android:id="@+id/slideshow_wrapper"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@drawable/shape_light_blue_background"
                 android:layout_marginTop="20dp"
                 android:padding="10dp">
 

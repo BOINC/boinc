@@ -17,14 +17,14 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:layout_gravity="center"
-              android:orientation="horizontal"
-              android:paddingTop="20dp"
-              android:paddingBottom="20dp"
-              android:background="@drawable/shape_light_blue_background">
+			style="@style/BackgroundDayNight"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_gravity="center"
+			android:orientation="horizontal"
+			android:paddingTop="20dp"
+			android:paddingBottom="20dp">
 
     <ProgressBar
             android:id="@+id/loading_progressBar"

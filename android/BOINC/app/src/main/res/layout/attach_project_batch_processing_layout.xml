@@ -91,13 +91,13 @@
             android:gravity="center">
 
         <LinearLayout
+				style="@style/BackgroundDayNight"
                 android:id="@+id/attach_status_ongoing_wrapper"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:background="@drawable/shape_light_blue_background">
+                android:paddingLeft="20dp">
 
             <ProgressBar
                     android:id="@+id/attach_status_pb"

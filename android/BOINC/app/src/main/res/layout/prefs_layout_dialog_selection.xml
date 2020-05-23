@@ -22,6 +22,7 @@
               android:orientation="vertical">
 
     <TextView
+			style="@style/BackgroundDayNight"
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -29,7 +30,6 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:padding="10dp"
-            android:background="@drawable/shape_light_blue_background"
             android:text="@string/prefs_dialog_title_selection"/>
 
 

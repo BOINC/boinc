@@ -23,6 +23,7 @@
               android:orientation="horizontal">
 
     <LinearLayout
+			style="@style/BackgroundDayNight"
             android:id="@+id/main_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,8 +31,7 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/shape_light_blue_background">
+            android:paddingBottom="20dp">
 
         <ProgressBar
                 android:id="@+id/loading_progressBar"

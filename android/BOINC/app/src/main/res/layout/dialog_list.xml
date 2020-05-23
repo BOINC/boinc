@@ -22,6 +22,7 @@
               android:orientation="vertical">
 
     <TextView
+			style="@style/BackgroundDayNight"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,8 +30,7 @@
             android:minWidth="250dp"
             android:singleLine="true"
             android:textColor="?android:attr/textColorPrimary"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:background="@drawable/shape_light_blue_background"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <ListView
             android:id="@+id/options"
