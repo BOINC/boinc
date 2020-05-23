@@ -177,6 +177,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
             }
             wrapper.setBackgroundResource(R.drawable.navlist_selector_pressed);
         }
+        else
+        {
+            wrapper.setBackgroundResource(R.drawable.navlist_item_background);
+        }
 
         convertView.setTag(navDrawerItems.get(position).title);
         return convertView;
