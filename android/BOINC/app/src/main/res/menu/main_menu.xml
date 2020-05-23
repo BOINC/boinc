@@ -23,5 +23,5 @@
             android:enabled="true"
             android:visible="true"
             android:title="@string/menu_run_mode_disable"
-            yourapp:showAsAction="ifRoom|withText"></item>
+            yourapp:showAsAction="ifRoom|withText"/>
 </menu>

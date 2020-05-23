@@ -22,25 +22,25 @@
             android:id="@+id/projects_control_update"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/projects_control_update"></item>
+            android:title="@string/projects_control_update"/>
     <item
             android:id="@+id/projects_control_suspend"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/projects_control_suspend"></item>
+            android:title="@string/projects_control_suspend"/>
     <item
             android:id="@+id/projects_control_nonewtasks"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/projects_control_nonewtasks"></item>
+            android:title="@string/projects_control_nonewtasks"/>
     <item
             android:id="@+id/projects_control_reset"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/projects_control_reset"></item>
+            android:title="@string/projects_control_reset"/>
     <item
             android:id="@+id/projects_control_remove"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/projects_control_remove"></item>
+            android:title="@string/projects_control_remove"/>
 </menu>
