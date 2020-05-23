@@ -170,18 +170,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
             txtCount.setVisibility(View.GONE);
         }
 
-        // highlight entry of currently activated item
-        if(navDrawerItems.get(position).id == selectedMenuId) {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "NavDrawerListAdapter.getView() highlighted! ID : " + selectedMenuId);
-            }
-            wrapper.setBackgroundResource(R.drawable.navlist_selector_pressed);
-        }
-        else
-        {
-            wrapper.setBackgroundResource(R.drawable.navlist_item_background);
-        }
-
         convertView.setTag(navDrawerItems.get(position).title);
         return convertView;
     }

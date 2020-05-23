@@ -33,7 +33,7 @@
     </style>
 
     <style name="DrawerBackgroundDayNight">
-        <item name="android:background">@drawable/shape_light_mode_background</item>
+        <item name="android:background">@drawable/navlist_light_selector</item>
     </style>
 
     <style name="DividerDayNight">

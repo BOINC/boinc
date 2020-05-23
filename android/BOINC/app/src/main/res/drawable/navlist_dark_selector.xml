@@ -16,10 +16,14 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-       android:shape="rectangle">
-    <gradient
-            android:startColor="@color/light_blue"
-            android:endColor="@color/yellow"
-            android:angle="0"/>
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:state_pressed="true"
+            android:drawable="@drawable/shape_dark_blue_background" />
+    <item
+            android:state_focused="true"
+            android:drawable="@drawable/shape_dark_blue_background"/>
+    <item
+            android:state_pressed="false"
+            android:drawable="@drawable/shape_dark_mode_background" />
+</selector>
