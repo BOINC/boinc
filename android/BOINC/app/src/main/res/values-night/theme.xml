@@ -46,17 +46,17 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <!-- sub header -->
+    <!--Preference fragment sub header -->
     <style name="SubHeader">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:background">@drawable/shape_light_blue_background</item>
+        <item name="android:background">@drawable/shape_dark_blue_background</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- list view -->
+    <!--Control list view for projects and account manager -->
     <style name="CustomListView" parent="@android:style/Widget.ListView">
         <item name="android:background">@color/dark_grey</item>
         <item name="android:cacheColorHint">@color/lightest_blue</item>
