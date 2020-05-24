@@ -56,6 +56,10 @@
         <item name="android:background">@drawable/shape_light_blue_background</item>
     </style>
 
+    <style name="ActionBarDayNight">
+        <item name="android:background">@drawable/shape_light_primary_background</item>
+    </style>
+
     <style name="DrawerBackgroundDayNight">
         <item name="android:background">@drawable/navlist_light_selector</item>
     </style>

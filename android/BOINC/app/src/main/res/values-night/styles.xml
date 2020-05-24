@@ -27,6 +27,10 @@
         <item name="android:background">@drawable/shape_dark_blue_background</item>
     </style>
 
+    <style name="ActionBarDayNight">
+        <item name="android:background">@drawable/shape_dark_primary_background</item>
+    </style>
+
     <style name="DrawerBackgroundDayNight">
         <item name="android:background">@drawable/navlist_dark_selector</item>
     </style>

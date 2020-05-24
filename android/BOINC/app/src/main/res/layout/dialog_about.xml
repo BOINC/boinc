@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
     <LinearLayout
-			style="@style/BackgroundDayNight"
+			style="@style/ActionBarDayNight"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -34,7 +34,7 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_info"
+                app:srcCompat="@drawable/ic_baseline_info_white"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/menu_about"/>
 
@@ -44,11 +44,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:singleLine="true"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:background="@android:color/transparent"
-                android:text="@string/about_title"
-                android:textStyle="bold"/>
+                android:text="@string/about_title" />
 
     </LinearLayout>
 
