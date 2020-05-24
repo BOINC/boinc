@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,8 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
@@ -126,8 +128,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             }
             String projectName = navDrawerItems.get(position).getTitle();
 
-            if(projectName == null || projectName.isEmpty())
-            {
+            if(StringUtils.isEmpty(projectName)) {
                 navDrawerItems.get(position).updateProjectName();
             }
         }
