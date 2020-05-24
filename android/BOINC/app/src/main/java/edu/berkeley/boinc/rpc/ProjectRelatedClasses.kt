@@ -155,7 +155,7 @@ data class ProjectInfo(
         const val SPECIFIC_AREA = "specific_area"
         const val HOME = "home"
         const val PLATFORMS = "platforms"
-        const val IMAGE_URL = "image_url"
+        const val IMAGE_URL = "image"
         const val SUMMARY = "summary"
     }
 
