@@ -195,8 +195,8 @@
                 android:id="@+id/expandCollapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@drawable/ic_baseline_keyboard_arrow_right_blue"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_blue"/>
+                android:contentDescription="@drawable/ic_baseline_keyboard_arrow_right"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right"/>
 
         <RelativeLayout
                 android:id="@+id/rightColumnExpandWrapper"

@@ -173,13 +173,13 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
         if(!listItem.expanded) {
             // view is collapsed
-            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_blue);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right);
             rightColumnExpandWrapper.setVisibility(View.GONE);
             centerColumnExpandWrapper.setVisibility(View.GONE);
         }
         else {
             // view is expanded
-            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_blue);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down);
             rightColumnExpandWrapper.setVisibility(View.VISIBLE);
             centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 

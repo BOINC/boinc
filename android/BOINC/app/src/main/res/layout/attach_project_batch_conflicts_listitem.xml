@@ -76,7 +76,7 @@
             android:id="@+id/resolve_button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_black"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
 

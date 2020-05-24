@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_search_black"
+                app:srcCompat="@drawable/ic_baseline_search"
                 android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
     </RelativeLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_show_chart_black"
+                app:srcCompat="@drawable/ic_baseline_show_chart"
                 android:contentDescription="@string/attachproject_hint_projectwebsite_stats"/>
     </RelativeLayout>
 
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_chat_black"
+                app:srcCompat="@drawable/ic_baseline_chat"
                 android:contentDescription="@string/attachproject_hint_projectwebsite_community"/>
     </RelativeLayout>
 </LinearLayout>

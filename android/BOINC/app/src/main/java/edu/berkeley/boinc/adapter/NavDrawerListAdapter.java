@@ -54,18 +54,18 @@ public class NavDrawerListAdapter extends BaseAdapter {
         this.context = context;
 
         // populate items
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_tasks, R.drawable.ic_baseline_list_black, true));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_tasks, R.drawable.ic_baseline_list, true));
         navDrawerItems.add(new NavDrawerItem(R.string.tab_notices,
-                                             R.drawable.ic_baseline_email_black, true));
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_projects, R.drawable.ic_projects_black));
+                                             R.drawable.ic_baseline_email, true));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_projects, R.drawable.ic_projects));
         navDrawerItems.add(new NavDrawerItem(R.string.projects_add,
-                                             R.drawable.ic_baseline_add_box_black, false, true));
+                                             R.drawable.ic_baseline_add_box, false, true));
         navDrawerItems.add(new NavDrawerItem(R.string.tab_preferences,
-                                             R.drawable.ic_baseline_settings_black));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.ic_baseline_help_black));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_report_issue, R.drawable.ic_baseline_bug_report_black));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.ic_baseline_info_black));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.ic_baseline_warning_black));
+                                             R.drawable.ic_baseline_settings));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.ic_baseline_help));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_report_issue, R.drawable.ic_baseline_bug_report));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.ic_baseline_info));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.ic_baseline_warning));
     }
 
     public Context getContext() {

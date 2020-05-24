@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_wifi_black"
+                app:srcCompat="@drawable/ic_baseline_wifi"
                 android:contentDescription="@string/attachproject_hint_contribtion_wifi"/>
     </RelativeLayout>
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_power_black"
+                app:srcCompat="@drawable/ic_baseline_power"
                 android:contentDescription="@string/attachproject_hint_contribtion_charger"/>
     </RelativeLayout>
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_stay_current_portrait_black"
+                app:srcCompat="@drawable/ic_baseline_stay_current_portrait"
                 android:contentDescription="@string/attachproject_hint_contribtion_screen"/>
     </RelativeLayout>
 </LinearLayout>
