@@ -39,6 +39,7 @@ import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
@@ -123,6 +124,12 @@ public class NavDrawerListAdapter extends BaseAdapter {
             if(icon != null) {
                 imgIcon.setImageBitmap(icon);
             }
+            String projectName = navDrawerItems.get(position).getTitle();
+
+            if(projectName == null || projectName.isEmpty())
+            {
+                navDrawerItems.get(position).updateProjectName();
+            }
         }
         else {
             imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
@@ -188,6 +195,20 @@ public class NavDrawerListAdapter extends BaseAdapter {
             }
         }
         return bm;
+    }
+
+    public String getProjectNameForMasterUrl(String masterUrl) {
+        String projectName = null;
+        try {
+            ProjectInfo pi = BOINCActivity.monitor.getProjectInfo(masterUrl);
+            projectName = pi.getName();
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e);
+            }
+        }
+        return projectName;
     }
 
     /**
@@ -307,6 +328,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
         void updateProjectIcon() {
             projectIcon = getProjectIconForMasterUrl(projectMasterUrl);
+        }
+
+        void updateProjectName() {
+            title = getProjectNameForMasterUrl(projectMasterUrl);
         }
 
         public void setTitle(String title) {
