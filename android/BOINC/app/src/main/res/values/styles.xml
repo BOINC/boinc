@@ -22,6 +22,24 @@
         <item name="colorPrimaryDark">#005b9f</item>
         <item name="colorAccent">#342871</item>
         <item name="colorControlNormal">@color/black</item>
+        <item name="actionOverflowButtonStyle">@style/BoincActionOverflowButtonStyle</item>
+        <item name="actionBarStyle">@style/myTheme.ActionBar</item>
+    </style>
+
+    <style name="myTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@drawable/shape_light_primary_background</item>
+        <item name="titleTextStyle">@style/myTheme.ActionBar.Text</item>
+    </style>
+
+    <!-- This style is where you define the tint color of your overflow menu button -->
+    <style name="BoincActionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="myTheme.ActionBar.Text" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
