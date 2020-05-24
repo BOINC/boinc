@@ -71,7 +71,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         this.activity = activity;
         this.elapsedTimeStringBuilder = new StringBuilder();
         percentNumberFormat = NumberFormat.getPercentInstance();
-        percentNumberFormat.setMinimumFractionDigits(1);
+        percentNumberFormat.setMinimumFractionDigits(3);
     }
 
     @NonNull
