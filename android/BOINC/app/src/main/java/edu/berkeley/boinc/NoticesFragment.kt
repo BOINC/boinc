@@ -73,7 +73,7 @@ class NoticesFragment : Fragment() {
 
         // clear notice notification
         try {
-            BOINCActivity.monitor.cancelNoticeNotification()
+            BOINCActivity.monitor!!.cancelNoticeNotification()
         } catch (e: Exception) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e)
@@ -93,7 +93,7 @@ class NoticesFragment : Fragment() {
 
     private fun updateNotices() {
         try {
-            data = BOINCActivity.monitor.rssNotices
+            data = BOINCActivity.monitor!!.rssNotices
             // sorting policy: latest arrival first.
             data.sortWith(compareBy<Notice> { it.createTime }.reversed())
         } catch (e: Exception) {

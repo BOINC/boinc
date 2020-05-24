@@ -76,15 +76,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     }
 
     public String getName(int position) {
-        return entries.get(position).project.getProjectName();
+        return entries.get(position).getProject().getProjectName();
     }
 
     private String getUser(int position) {
-        String user = entries.get(position).project.getUserName();
-        String team = entries.get(position).project.getTeamName();
+        String user = entries.get(position).getProject().getUserName();
+        String team = entries.get(position).getProject().getTeamName();
 
         if(!team.isEmpty()) {
-            return (user + " (" + team + ")");
+            return user + " (" + team + ")";
         }
 
         return user;
@@ -144,11 +144,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // populate name
             TextView tvName = vi.findViewById(R.id.name);
-            tvName.setText(data.acctMgrInfo.getAcctMgrName());
+            tvName.setText(data.getAcctMgrInfo().getAcctMgrName());
 
             // populate url
             TextView tvUrl = vi.findViewById(R.id.url);
-            tvUrl.setText(data.acctMgrInfo.getAcctMgrUrl());
+            tvUrl.setText(data.getAcctMgrInfo().getAcctMgrUrl());
         }
         else {
             // element is project
@@ -168,7 +168,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             String statusText = "";
             try {
-                statusText = BOINCActivity.monitor.getProjectStatus(data.project.getMasterURL());
+                statusText = BOINCActivity.monitor.getProjectStatus(data.getProject().getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.ERROR) {
@@ -202,7 +202,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // transfers
-            int numberTransfers = data.projectTransfers.size();
+            int numberTransfers = data.getProjectTransfers().size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
             if(numberTransfers > 0) { // ongoing transfers
@@ -213,7 +213,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 boolean downloadsPresent = false;
                 boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
-                for(Transfer trans : data.projectTransfers) {
+                for(Transfer trans : data.getProjectTransfers()) {
                     if(trans.isUpload()) {
                         numberTransfersUpload++;
                         uploadsPresent = true;
@@ -275,8 +275,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // credits
-            final long userCredit = Math.round(data.project.getUserTotalCredit()),
-                    hostCredit = Math.round(data.project.getHostTotalCredit());
+            final long userCredit = Math.round(data.getProject().getUserTotalCredit());
+            final long hostCredit = Math.round(data.getProject().getHostTotalCredit());
             ((TextView) vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
                                                                        NumberFormat.getIntegerInstance().format(hostCredit) :
                                                                        this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
@@ -295,7 +295,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
-            if(data.project.getAttachedViaAcctMgr()) {
+            if(data.getProject().getAttachedViaAcctMgr()) {
                 iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
             }
             else {

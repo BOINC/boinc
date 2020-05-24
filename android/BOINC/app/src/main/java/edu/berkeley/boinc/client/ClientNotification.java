@@ -6,18 +6,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +17,7 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ClientNotification {
@@ -178,7 +171,7 @@ public class ClientNotification {
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
           .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
+          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status

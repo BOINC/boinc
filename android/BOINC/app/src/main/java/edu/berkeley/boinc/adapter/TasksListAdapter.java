@@ -123,14 +123,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             }
         }
 
-        String headerT = listItem.result.getApp().getDisplayName();
+        String headerT = listItem.getResult().getApp().getDisplayName();
         header.setText(headerT);
 
         // set project name
-        String tempProjectName = listItem.result.getProjectURL();
-        if(listItem.result.getProject() != null) {
-            tempProjectName = listItem.result.getProject().getName();
-            if(listItem.result.isProjectSuspendedViaGUI()) {
+        String tempProjectName = listItem.getResult().getProjectURL();
+        if(listItem.getResult().getProject() != null) {
+            tempProjectName = listItem.getResult().getProject().getName();
+            if(listItem.getResult().isProjectSuspendedViaGUI()) {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
@@ -139,18 +139,18 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // status text
         String statusT = determineStatusText(listItem);
         status.setText(statusT);
-        if(listItem.result.getState() == BOINCDefs.RESULT_ABORTED ||
-           listItem.result.getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_UPLOADED ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
-           listItem.result.getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
-           listItem.result.getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
+        if(listItem.getResult().getState() == BOINCDefs.RESULT_ABORTED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
             statusPercentage.setVisibility(View.GONE);
         }
         else {
             statusPercentage.setVisibility(View.VISIBLE);
-            statusPercentage.setText(this.percentNumberFormat.format(listItem.result.getFractionDone()));
+            statusPercentage.setText(this.percentNumberFormat.format(listItem.getResult().getFractionDone()));
         }
         // --- end of independent view elements
 
@@ -162,7 +162,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             pb.setVisibility(View.VISIBLE);
             pb.setIndeterminate(false);
             pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-            pb.setProgress(Math.round(listItem.result.getFractionDone() * pb.getMax()));
+            pb.setProgress(Math.round(listItem.getResult().getFractionDone() * pb.getMax()));
         }
         else {
             pb.setVisibility(View.GONE);
@@ -186,23 +186,23 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             // elapsed time
             final long elapsedTime;
             // show time depending whether task is active or not
-            if(listItem.result.isActiveTask()) {
-                elapsedTime = (long) listItem.result.getElapsedTime(); //is 0 when task finished
+            if(listItem.getResult().isActiveTask()) {
+                elapsedTime = (long) listItem.getResult().getElapsedTime(); //is 0 when task finished
             }
             else {
-                elapsedTime = (long) listItem.result.getFinalElapsedTime();
+                elapsedTime = (long) listItem.getResult().getFinalElapsedTime();
             }
             time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 
             // set deadline
             final LocalDateTime deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
-                    listItem.result.getReportDeadline()), ZoneId.systemDefault());
+                    listItem.getResult().getReportDeadline()), ZoneId.systemDefault());
             final String deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                                                      .format(deadlineDateTime);
             ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
             // set application friendly name
-            if(listItem.result.getApp() != null) {
-                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.getName());
+            if(listItem.getResult().getApp() != null) {
+                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.getResult().getName());
             }
 
             // buttons
@@ -225,7 +225,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                     final Resources.Theme theme = activity.getTheme();
 
                     // checking what suspendResume button should be shown
-                    if(listItem.result.isSuspendedViaGUI()) { // show play
+                    if(listItem.getResult().isSuspendedViaGUI()) { // show play
                         suspendResume.setVisibility(View.VISIBLE);
                         suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
                                                                                   theme));
@@ -258,7 +258,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private Bitmap getIcon(int position) {
         // try to get current client status from monitor
         try {
-            return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.getProjectURL());
+            return BOINCActivity.monitor.getProjectIcon(entries.get(position).getResult().getProjectURL());
         }
         catch(Exception e) {
             if(Logging.WARNING) {
@@ -284,7 +284,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         //active state
-        if(tmp.result.isActiveTask()) {
+        if(tmp.getResult().isActiveTask()) {
             switch(status) {
                 case BOINCDefs.PROCESS_UNINITIALIZED:
                     return activity.getString(R.string.tasks_active_uninitialized);

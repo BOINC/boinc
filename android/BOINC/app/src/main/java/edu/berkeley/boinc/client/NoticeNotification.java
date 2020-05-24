@@ -36,6 +36,7 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class NoticeNotification {
@@ -143,7 +144,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
+              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -168,7 +169,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+                   BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -178,7 +179,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BOINCActivity.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+            return BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
     }
 }
