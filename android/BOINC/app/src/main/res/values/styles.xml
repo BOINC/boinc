@@ -23,6 +23,7 @@
         <item name="colorAccent">#342871</item>
         <item name="colorControlNormal">@color/black</item>
         <item name="actionOverflowButtonStyle">@style/BoincActionOverflowButtonStyle</item>
+        <item name="toolbarNavigationButtonStyle">@style/BoincActionButtonStyle</item>
         <item name="actionBarStyle">@style/myTheme.ActionBar</item>
     </style>
 
@@ -31,12 +32,16 @@
         <item name="titleTextStyle">@style/myTheme.ActionBar.Text</item>
     </style>
 
+    <style name="BoincActionButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:tint">@color/white</item>
+    </style>
+
     <!-- This style is where you define the tint color of your overflow menu button -->
     <style name="BoincActionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="myTheme.ActionBar.Text" >
+    <style name="myTheme.ActionBar.Text" parent="@style/TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
