@@ -41,7 +41,6 @@ import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
-import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
@@ -121,7 +120,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
             Bitmap icon = navDrawerItems.get(position).getProjectIcon();
             if(icon == null) {
                 navDrawerItems.get(position).updateProjectIcon();
-                imgIcon.setImageBitmap(BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc));
             }
             if(icon != null) {
                 imgIcon.setImageBitmap(icon);

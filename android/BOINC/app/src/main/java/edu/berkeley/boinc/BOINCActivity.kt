@@ -107,7 +107,7 @@ class BOINCActivity : AppCompatActivity() {
             // display view for selected nav drawer item
             dispatchNavBarOnClick(mDrawerListAdapter.getItem(position), false)
         }
-        mDrawerListAdapter = NavDrawerListAdapter(applicationContext)
+        mDrawerListAdapter = NavDrawerListAdapter(this)
         mDrawerList.adapter = mDrawerListAdapter
         // enabling action bar app icon and behaving it as toggle button
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -117,7 +117,7 @@ class BOINCActivity : AppCompatActivity() {
         // TODO: Replace with a non-deprecated class.
         mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_baseline_menu_white,  //nav menu toggle icon
-                R.string.app_name,  // nav drawer open - description for accessibility
+                R.string.app_name,  // nav drawer openapplicationContext - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             override fun onDrawerClosed(view: View) {
