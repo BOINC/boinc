@@ -19,33 +19,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Styled" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/StyledActionBar</item>
-        <item name="android:actionBarTabStyle">@style/StyledActionBarTabView</item>
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:itemBackground">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="Theme.Styled.NoActionBar" parent="Theme.Styled">
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="android:background">@drawable/shape_dark_blue_gradient_background</item>
-        <item name="android:backgroundStacked">@color/dark_blue</item>
-        <item name="android:titleTextStyle">@style/StyledActionBarTitleText</item>
-    </style>
-
-    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
     <!--Preference fragment sub header -->
     <style name="SubHeader" parent="@style/BackgroundDayNight">
         <item name="android:layout_width">fill_parent</item>
