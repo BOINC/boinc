@@ -35,8 +35,9 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.legacy.app.ActionBarDrawerToggle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
@@ -248,20 +249,20 @@ class BOINCActivity : AppCompatActivity() {
         var fragmentChanges = false
         if (init) {
             // if init, setup status fragment
-            ft.replace(R.id.status_container, StatusFragment())
+            ft.replace<StatusFragment>(R.id.status_container)
         }
         if (!item.isProjectItem) {
             when (item.id) {
                 R.string.tab_tasks -> {
-                    ft.replace(R.id.frame_container, TasksFragment())
+                    ft.replace<TasksFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
                 R.string.tab_notices -> {
-                    ft.replace(R.id.frame_container, NoticesFragment())
+                    ft.replace<NoticesFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
                 R.string.tab_projects -> {
-                    ft.replace(R.id.frame_container, ProjectsFragment())
+                    ft.replace<ProjectsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
                 R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/wiki/BOINC_Help")))
@@ -287,7 +288,7 @@ class BOINCActivity : AppCompatActivity() {
                 R.string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
                 R.string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
                 R.string.tab_preferences -> {
-                    ft.replace(R.id.frame_container, PrefsFragment())
+                    ft.replace<PrefsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
                 else -> if (Logging.ERROR) {
@@ -298,11 +299,8 @@ class BOINCActivity : AppCompatActivity() {
             }
         } else {
             // ProjectDetailsFragment. Data shown based on given master URL
-            val args = Bundle()
-            args.putString("url", item.projectMasterUrl)
-            val frag: Fragment = ProjectDetailsFragment()
-            frag.arguments = args
-            ft.replace(R.id.frame_container, frag)
+            ft.replace<ProjectDetailsFragment>(R.id.frame_container,
+                    args = bundleOf("url" to item.projectMasterUrl))
             fragmentChanges = true
         }
         mDrawerLayout.closeDrawer(mDrawerList)
