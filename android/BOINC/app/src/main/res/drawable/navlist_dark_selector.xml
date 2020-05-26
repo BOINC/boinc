@@ -24,6 +24,8 @@
             android:state_focused="true"
             android:drawable="@drawable/shape_dark_blue_background"/>
     <item
-            android:state_pressed="false"
+            android:state_selected="true"
+            android:drawable="@drawable/shape_dark_blue_background"/>
+    <item
             android:drawable="@drawable/shape_dark_mode_background" />
 </selector>

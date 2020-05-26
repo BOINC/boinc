@@ -19,10 +19,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              style="@style/DrawerBackgroundDayNight">
 
     <TextView
-            style="@style/BackgroundDayNight"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +31,10 @@
             android:singleLine="true"
             android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <View
+            style="@style/BackgroundDayNight"
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
 
     <ListView
             android:id="@+id/options"

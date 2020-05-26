@@ -30,9 +30,8 @@
 
     <!--Control list view for projects and account manager -->
     <style name="CustomListView" parent="@android:style/Widget.ListView">
-        <item name="android:background">@color/dark_grey</item>
-        <item name="android:cacheColorHint">@color/lightest_blue</item>
-        <item name="android:divider">@color/lightest_blue</item>
+        <item name="android:cacheColorHint">@color/dark_blue</item>
+        <item name="android:divider">@color/dark_blue</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
 
