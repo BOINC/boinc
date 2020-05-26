@@ -26,6 +26,8 @@ import edu.berkeley.boinc.utils.setAppTheme
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
         val context = preferenceManager.context
         val screen = preferenceManager.createPreferenceScreen(context)
 
@@ -117,8 +119,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         screen.addPreference(debug)
 
         preferenceScreen = screen
-
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
