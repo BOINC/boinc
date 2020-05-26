@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
 import javax.inject.Inject
@@ -84,7 +85,7 @@ class AppPreferences @Inject constructor() {
 
     fun readPrefs(ctx: Context) {
         if (prefs == null) {
-            prefs = ctx.getSharedPreferences("PREFS", 0)
+            prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
         }
         //second parameter of reading function is the initial value after installation.
         autostart = prefs!!.getBoolean("autostart",
