@@ -29,7 +29,10 @@ import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.collection.ArraySet;
 import androidx.core.content.ContextCompat;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +45,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -411,14 +415,13 @@ public class ClientStatus {
                 continue; // prevent NPE
             }
 
-            List<String> allImagePaths = new ArrayList<>();
+            final Set<String> allImagePaths = new ArraySet<>();
             for(File file : foundFiles) {
                 String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(),
                                                                    project.getProjectDir());
                 //check whether path is not empty, and avoid duplicates (slideshow images can
                 //re-occur for multiple apps, since we do not distinct apps, skip duplicates.
-                if(slideshowImagePath != null && !slideshowImagePath.isEmpty() &&
-                   !allImagePaths.contains(slideshowImagePath)) {
+                if(StringUtils.isNotEmpty(slideshowImagePath)) {
                     allImagePaths.add(slideshowImagePath);
                 }
             }
