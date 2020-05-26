@@ -132,6 +132,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.2.4"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.apache.commons:commons-lang3:3.10'
