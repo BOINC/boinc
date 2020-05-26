@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,31 +19,23 @@
 package edu.berkeley.boinc.attach
 
 import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import edu.berkeley.boinc.R
+import edu.berkeley.boinc.attach.glide.ScaleBitmapBy2
 import edu.berkeley.boinc.rpc.ProjectInfo
 import edu.berkeley.boinc.utils.Logging
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.URL
 
 class ProjectInfoFragment : DialogFragment() {
-    private lateinit var logoWrapper: LinearLayout
-    private lateinit var logoPb: ProgressBar
-    private lateinit var logoIv: ImageView
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment onCreateView")
@@ -71,11 +63,6 @@ class ProjectInfoFragment : DialogFragment() {
         v.findViewById<TextView>(R.id.project_home).text =
                 resources.getString(R.string.attachproject_login_header_home) + " ${info.home}"
 
-        // find view elements for later use in image download
-        logoWrapper = v.findViewById(R.id.project_logo_wrapper)
-        logoPb = v.findViewById(R.id.project_logo_loading_pb)
-        logoIv = v.findViewById(R.id.project_logo)
-
         // setup return button
         v.findViewById<Button>(R.id.continue_button).setOnClickListener {
             if (Logging.DEBUG) {
@@ -86,9 +73,8 @@ class ProjectInfoFragment : DialogFragment() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl)
         }
-        lifecycleScope.launch {
-            downloadLogo(info.imageUrl)
-        }
+        Glide.with(this).asBitmap().placeholder(R.drawable.ic_boinc).load(info.imageUrl)
+                .transform(ScaleBitmapBy2()).into(v.findViewById(R.id.project_logo))
         return v
     }
 
@@ -96,49 +82,6 @@ class ProjectInfoFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState).apply {
             // request a window without the title
             window?.requestFeature(Window.FEATURE_NO_TITLE)
-        }
-    }
-
-    private suspend fun downloadLogo(url: String?) {
-        val logo = withContext(Dispatchers.IO) {
-            if (url.isNullOrEmpty()) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync url is empty, return.")
-                }
-                return@withContext null
-            }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync for url: $url")
-            }
-            var logo: Bitmap
-            try {
-                val logoStream = URL(url).openStream()
-                logo = BitmapFactory.decodeStream(logoStream)
-                // scale
-                logo = Bitmap.createScaledBitmap(logo, logo.width * 2, logo.height * 2, false)
-            } catch (e: Exception) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync image download failed")
-                }
-                return@withContext null
-            }
-            return@withContext logo
-        }
-
-        if (logo == null) {
-            // failed.
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync failed.")
-            }
-            logoWrapper.visibility = View.GONE
-        } else {
-            // success.
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "ProjectInfoFragment DownloadLogoAsync successful.")
-            }
-            logoPb.visibility = View.GONE
-            logoIv.visibility = View.VISIBLE
-            logoIv.setImageBitmap(logo)
         }
     }
 
