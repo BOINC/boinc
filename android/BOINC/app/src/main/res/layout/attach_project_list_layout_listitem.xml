@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -65,7 +65,7 @@
             android:id="@+id/am_button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_black"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:visibility="gone"

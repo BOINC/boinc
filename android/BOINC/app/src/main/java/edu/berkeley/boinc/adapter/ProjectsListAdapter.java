@@ -296,7 +296,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
             if(data.getProject().getAttachedViaAcctMgr()) {
-                iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
+                iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_boinc_icon_light_blue_background));
             }
             else {
                 iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));

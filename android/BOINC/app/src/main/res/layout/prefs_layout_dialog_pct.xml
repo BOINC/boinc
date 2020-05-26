@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -19,26 +19,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:background="@android:color/white">
+              android:orientation="vertical">
 
     <TextView
+            style="@style/BackgroundDayNight"
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
-            android:background="@drawable/shape_light_blue_background"
             android:text="@string/prefs_dialog_title"/>
 
     <TextView
             android:id="@+id/pref"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_margin="10dp"
             android:background="@android:color/transparent"/>
@@ -73,7 +72,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_blue"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/confirm_cancel"
                 android:layout_weight="0.5"/>
@@ -87,7 +86,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_red"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/prefs_submit_button"
                 android:layout_weight="0.5"/>

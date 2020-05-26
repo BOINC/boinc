@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -37,11 +37,11 @@
             android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
+            style="@style/BackgroundDayNight"
             android:id="@+id/hint_header_wrapper"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
-            android:background="@drawable/shape_light_blue_background"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -49,7 +49,7 @@
                 android:id="@+id/hint_header_image_left"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_baseline_arrow_back_black"
+                app:srcCompat="@drawable/ic_baseline_arrow_back"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:visibility="gone"
@@ -68,7 +68,7 @@
                 android:id="@+id/hint_header_image_right"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_baseline_arrow_forward_black"
+                app:srcCompat="@drawable/ic_baseline_arrow_forward"
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:onClick="nextHintClicked"/>
@@ -91,13 +91,13 @@
             android:gravity="center">
 
         <LinearLayout
+                style="@style/BackgroundDayNight"
                 android:id="@+id/attach_status_ongoing_wrapper"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:background="@drawable/shape_light_blue_background">
+                android:paddingLeft="20dp">
 
             <ProgressBar
                     android:id="@+id/attach_status_pb"

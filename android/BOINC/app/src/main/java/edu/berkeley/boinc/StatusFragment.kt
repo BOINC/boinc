@@ -106,7 +106,7 @@ class StatusFragment : Fragment() {
                             statusWrapper.visibility = View.VISIBLE
                             statusHeader.text = BOINCActivity.monitor!!.currentStatusTitle
                             statusHeader.visibility = View.VISIBLE
-                            statusImage.setImageResource(R.drawable.ic_baseline_play_arrow_black)
+                            statusImage.setImageResource(R.drawable.ic_baseline_play_arrow)
                             statusImage.contentDescription = BOINCActivity.monitor!!.currentStatusTitle
                             statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
                             centerWrapper.visibility = View.VISIBLE
@@ -116,14 +116,14 @@ class StatusFragment : Fragment() {
                             statusWrapper.visibility = View.VISIBLE
                             statusHeader.text = BOINCActivity.monitor!!.currentStatusTitle
                             statusHeader.visibility = View.VISIBLE
-                            statusImage.setImageResource(R.drawable.ic_baseline_pause_black)
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause)
                             statusImage.contentDescription = BOINCActivity.monitor!!.currentStatusTitle
                             statusImage.isClickable = false
                             centerWrapper.visibility = View.VISIBLE
                             when (currentComputingSuspendReason) {
                                 SUSPEND_REASON_BATTERIES -> {
                                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
-                                    statusImage.setImageResource(R.drawable.ic_baseline_power_off_black)
+                                    statusImage.setImageResource(R.drawable.ic_baseline_power_off)
                                     statusHeader.visibility = View.GONE
                                 }
                                 SUSPEND_REASON_USER_ACTIVE -> {
@@ -136,7 +136,7 @@ class StatusFragment : Fragment() {
                                         }
                                     }
                                     if (suspendDueToScreenOn) {
-                                        statusImage.setImageResource(R.drawable.ic_baseline_stay_current_portrait_black)
+                                        statusImage.setImageResource(R.drawable.ic_baseline_stay_current_portrait)
                                         statusHeader.visibility = View.GONE
                                     }
                                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
@@ -148,17 +148,17 @@ class StatusFragment : Fragment() {
                                 }
                                 SUSPEND_REASON_BENCHMARKS -> {
                                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
-                                    statusImage.setImageResource(R.drawable.ic_baseline_timer_black)
+                                    statusImage.setImageResource(R.drawable.ic_baseline_timer)
                                     statusHeader.visibility = View.GONE
                                 }
                                 SUSPEND_REASON_BATTERY_CHARGING -> {
                                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
-                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_charging_full_black)
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_charging_full)
                                     statusHeader.visibility = View.GONE
                                 }
                                 SUSPEND_REASON_BATTERY_OVERHEATED -> {
                                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
-                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_alert_black)
+                                    statusImage.setImageResource(R.drawable.ic_baseline_battery_alert)
                                     statusHeader.visibility = View.GONE
                                 }
                                 else -> statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
@@ -169,7 +169,7 @@ class StatusFragment : Fragment() {
                             centerWrapper.visibility = View.VISIBLE
                             statusHeader.text = BOINCActivity.monitor!!.currentStatusTitle
                             statusHeader.visibility = View.VISIBLE
-                            statusImage.setImageResource(R.drawable.ic_baseline_pause_black)
+                            statusImage.setImageResource(R.drawable.ic_baseline_pause)
                             statusImage.contentDescription = BOINCActivity.monitor!!.currentStatusTitle
                             statusImage.isClickable = false
                             statusDescriptor.text = BOINCActivity.monitor!!.currentStatusDescription
@@ -195,7 +195,7 @@ class StatusFragment : Fragment() {
                     restartingWrapper.visibility = View.GONE
                     centerWrapper.visibility = View.VISIBLE
                     centerWrapper.setOnClickListener(addProjectOnClickListener)
-                    statusImage.setImageResource(R.drawable.ic_projects_black)
+                    statusImage.setImageResource(R.drawable.ic_projects)
                     statusHeader.visibility = View.GONE
                     statusDescriptor.text = BOINCActivity.monitor!!.currentStatusTitle
                     setupStatus = ClientStatus.SETUP_STATUS_NOPROJECT
