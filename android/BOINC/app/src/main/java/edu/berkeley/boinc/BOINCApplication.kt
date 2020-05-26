@@ -21,8 +21,16 @@ package edu.berkeley.boinc
 import androidx.multidex.MultiDexApplication
 import edu.berkeley.boinc.di.AppComponent
 import edu.berkeley.boinc.di.DaggerAppComponent
+import edu.berkeley.boinc.utils.getDefaultTheme
+import edu.berkeley.boinc.utils.setAppTheme
 
 open class BOINCApplication : MultiDexApplication() {
+    override fun onCreate() {
+        super.onCreate()
+        val sharedPreferences = getSharedPreferences("PREFS", 0)
+        setAppTheme(sharedPreferences.getString("theme", getDefaultTheme())!!)
+    }
+
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(applicationContext)
     }
