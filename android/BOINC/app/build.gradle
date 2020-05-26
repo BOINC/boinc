@@ -102,10 +102,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    packagingOptions {
-        exclude 'LICENSE-EPL-1.0.txt'
-        exclude 'LICENSE-EDL-1.0.txt'
-    }
 
     testOptions {
         unitTests {
