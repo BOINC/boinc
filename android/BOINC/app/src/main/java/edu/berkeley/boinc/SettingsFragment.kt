@@ -20,9 +20,18 @@ package edu.berkeley.boinc
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.RemoteException
+import android.util.Log
+import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
-import edu.berkeley.boinc.utils.getDefaultTheme
+import edu.berkeley.boinc.rpc.GlobalPreferences
+import edu.berkeley.boinc.rpc.HostInfo
+import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onResume() {
@@ -36,102 +45,42 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
+        val prefs = BOINCActivity.monitor!!.prefs
 
-        val context = preferenceManager.context
-        val screen = preferenceManager.createPreferenceScreen(context)
-
-        val autostart = CheckBoxPreference(context)
-        autostart.title = context.getString(R.string.prefs_autostart_header)
-        autostart.key = "autostart"
-        autostart.isIconSpaceReserved = false
-        autostart.setDefaultValue(context.resources.getBoolean(R.bool.prefs_default_autostart))
-
-        val showNotification = CheckBoxPreference(context)
-        showNotification.title = context.getString(R.string.prefs_show_notification_notices_header)
-        showNotification.key = "showNotification"
-        showNotification.isIconSpaceReserved = false
-        showNotification.setDefaultValue(context.resources.getBoolean(R.bool.prefs_default_notification_notices))
-
-        val showAdvanced = CheckBoxPreference(context)
-        showAdvanced.title = context.getString(R.string.prefs_show_advanced_header)
-        showAdvanced.key = "showAdvanced"
-        showAdvanced.isIconSpaceReserved = false
-        showAdvanced.setDefaultValue(context.resources.getBoolean(R.bool.prefs_default_advanced))
-
-        val general = PreferenceCategory(context)
-        general.title = context.getString(R.string.prefs_category_general)
-        general.isIconSpaceReserved = false
-        screen.addPreference(general)
-        general.addPreference(autostart)
-        general.addPreference(showNotification)
-        general.addPreference(showAdvanced)
-
-        if (!BOINCActivity.monitor!!.stationaryDeviceMode) {
-            val suspendWhenScreenOn = CheckBoxPreference(context)
-            suspendWhenScreenOn.title = context.getString(R.string.prefs_suspend_when_screen_on)
-            suspendWhenScreenOn.key = "suspendWhenScreenOn"
-            suspendWhenScreenOn.isIconSpaceReserved = false
-            suspendWhenScreenOn.setDefaultValue(context.resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
-
-            general.addPreference(suspendWhenScreenOn)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!sharedPreferences.contains("usedCpuCores")) {
+            sharedPreferences.edit { putInt("usedCpuCores", pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct)) }
         }
 
-        val deviceName = EditTextPreference(context)
-        deviceName.title = context.getString(R.string.prefs_general_device_name_header)
-        deviceName.isIconSpaceReserved = false
-        deviceName.key = "deviceName"
-        deviceName.text = BOINCActivity.monitor!!.hostInfo.domainName ?: ""
-        general.addPreference(deviceName)
+        val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
+        val stationaryDeviceSuspected = BOINCActivity.monitor!!.isStationaryDeviceSuspected
 
-        val theme = ListPreference(context)
-        theme.title = getString(R.string.prefs_theme_header)
-        theme.isIconSpaceReserved = false
-        theme.key = "theme"
-        theme.setEntries(R.array.theme_entries)
-        theme.setEntryValues(R.array.theme_values)
-        theme.setDefaultValue(getDefaultTheme())
-        general.addPreference(theme)
+        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        val network = PreferenceCategory(context)
-        network.title = context.getString(R.string.prefs_category_network)
-        network.isIconSpaceReserved = false
-        screen.addPreference(network)
+        setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-        val power = PreferenceCategory(context)
-        power.title = context.getString(R.string.prefs_category_power)
-        power.isIconSpaceReserved = false
-        screen.addPreference(power)
+        findPreference<EditTextPreference>("deviceName")?.text = BOINCActivity.monitor!!.hostInfo.domainName
 
-        val cpu = PreferenceCategory(context)
-        cpu.title = context.getString(R.string.prefs_category_cpu)
-        cpu.isIconSpaceReserved = false
-        screen.addPreference(cpu)
+        if (!stationaryDeviceSuspected) {
+            findPreference<CheckBoxPreference>("stationaryDeviceMode")?.isVisible = false
+        }
+        if (stationaryDeviceMode) {
+            findPreference<CheckBoxPreference>("suspendWhenScreenOn")?.isVisible = false
+        }
 
-        val storage = PreferenceCategory(context)
-        storage.title = context.getString(R.string.prefs_category_storage)
-        storage.isIconSpaceReserved = false
-        screen.addPreference(storage)
-
-        val memory = PreferenceCategory(context)
-        memory.title = context.getString(R.string.prefs_category_memory)
-        memory.isIconSpaceReserved = false
-        screen.addPreference(memory)
-
-        val other = PreferenceCategory(context)
-        other.title = context.getString(R.string.prefs_category_other)
-        other.isIconSpaceReserved = false
-        screen.addPreference(other)
-
-        val debug = PreferenceCategory(context)
-        debug.title = context.getString(R.string.prefs_category_debug)
-        debug.isIconSpaceReserved = false
-        screen.addPreference(debug)
-
-        preferenceScreen = screen
+        val usedCpuCores = findPreference<SeekBarPreference>("usedCpuCores")
+        if (hostInfo.noOfCPUs <= 1) {
+            usedCpuCores?.isVisible = false
+        } else {
+            usedCpuCores?.max = hostInfo.noOfCPUs
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        val prefs = BOINCActivity.monitor!!.prefs
+        val hostInfo = BOINCActivity.monitor!!.hostInfo
+
         when (key) {
             // General
             "autostart" -> {
@@ -151,22 +100,33 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                         resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
             }
             "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
-            "theme" -> setAppTheme(sharedPreferences.getString(key, getDefaultTheme())!!)
+            "theme" -> setAppTheme(sharedPreferences.getString(key, "default")!!)
 
             // Network
+            "networkWiFiOnly" -> {
+                prefs.networkWiFiOnly = sharedPreferences.getBoolean(key, true)
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "dailyTransferLimit" -> {
+                prefs.dailyTransferLimitMB = sharedPreferences.getString(key,
+                        prefs.dailyTransferLimitMB.toString())?.toDouble()
+                        ?: 1.0
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
 
             // Power
-            "powerSourceAc" -> {
-                BOINCActivity.monitor!!.powerSourceAc = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_power_source_ac))
-            }
-            "powerSourceUsb" -> {
-                BOINCActivity.monitor!!.powerSourceUsb = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_power_source_usb))
-            }
-            "powerSourceWireless" -> {
-                BOINCActivity.monitor!!.powerSourceWireless = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_power_source_wireless))
+            "powerSources" -> {
+                val powerSources = sharedPreferences.getStringSet(key,
+                        resources.getStringArray(R.array.power_source_default).toSet()) ?: emptySet()
+                Log.d(Logging.TAG, "powerSources: $powerSources")
+                BOINCActivity.monitor!!.powerSourceAc = "wall" in powerSources
+                BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
+                BOINCActivity.monitor!!.powerSourceWireless = "wireless" in powerSources
+                prefs.runOnBatteryPower = "battery" in powerSources
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "stationaryDeviceMode" -> {
                 BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key,
@@ -174,18 +134,99 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             // CPU
+            "usedCpuCores" -> {
+                val usedCpuCores = sharedPreferences.getInt(key, pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct))
+                prefs.maxNoOfCPUsPct = numberCpuCoresToPct(hostInfo, usedCpuCores)
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "cpuUsageLimit" -> {
+                prefs.cpuUsageLimit = sharedPreferences.getInt(key, 100).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "suspendCpuUsage" -> {
+                prefs.suspendCpuUsage = sharedPreferences.getInt(key, 50).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
 
             // Storage
+            "diskMaxUsedPct" -> {
+                prefs.diskMaxUsedPct = sharedPreferences.getInt(key, 90).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "diskMinFreeMB" -> {
+                prefs.diskMinFreeMB = sharedPreferences.getInt(key, 107).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "diskInterval" -> {
+                prefs.diskInterval = sharedPreferences.getInt(key, 60).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
 
             // Memory
+            "maxRamUsedIdle" -> {
+                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 90).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
 
             // Other
+            "workBufMinDays" -> {
+                prefs.workBufMinDays = sharedPreferences.getFloat(key, 0.1f).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "workBufAdditionalDays" -> {
+                prefs.workBufAdditionalDays = sharedPreferences.getFloat(key, 0.5f).toDouble()
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
 
             // Debug
+            "clientLogFlags" -> {
+                lifecycleScope.launch {
+                    val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
+                    BOINCActivity.monitor!!.setCcConfig(formatOptionsToCcConfig(flags))
+                }
+            }
             "logLevel" -> {
                 BOINCActivity.monitor!!.logLevel = sharedPreferences.getInt(key,
                         resources.getInteger(R.integer.prefs_default_loglevel))
             }
+        }
+    }
+
+    private fun pctCpuCoresToNumber(hostInfo: HostInfo, pct: Double) =
+            1.0.coerceAtLeast(hostInfo.noOfCPUs.toDouble() * (pct / 100.0)).toInt()
+
+    private fun numberCpuCoresToPct(hostInfo: HostInfo, ncpus: Int) = ncpus / hostInfo.noOfCPUs.toDouble() * 100
+
+    private fun formatOptionsToCcConfig(options: Set<String>): String {
+        val builder = StringBuilder()
+        builder.append("<cc_config>\n <log_flags>\n")
+        for (option in options) {
+            builder.append("  <").append(option).append("/>\n")
+        }
+        builder.append(" </log_flags>\n <options>\n </options>\n</cc_config>")
+        return builder.toString()
+    }
+
+    private suspend fun writeClientPrefs(prefs: GlobalPreferences) = coroutineScope {
+        val success = async {
+            return@async try {
+                BOINCActivity.monitor!!.setGlobalPreferences(prefs)
+            } catch (e: RemoteException) {
+                false
+            }
+        }
+
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
         }
     }
 }

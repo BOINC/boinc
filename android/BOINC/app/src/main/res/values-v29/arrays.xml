@@ -18,14 +18,8 @@
 -->
 <resources>
     <string-array name="theme_entries">
-        <item>System default</item>
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
-
-    <string-array name="theme_values">
-        <item>system</item>
-        <item>light</item>
-        <item>dark</item>
+        <item>@string/prefs_theme_system</item>
+        <item>@string/prefs_theme_light</item>
+        <item>@string/prefs_theme_dark</item>
     </string-array>
 </resources>

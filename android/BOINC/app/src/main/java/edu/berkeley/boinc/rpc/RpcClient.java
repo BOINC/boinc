@@ -1055,7 +1055,7 @@ public class RpcClient {
             mRequest.append("</disk_max_used_gb>\n  <disk_max_used_pct>");
             mRequest.append(globalPrefs.getDiskMaxUsedPct());
             mRequest.append("</disk_max_used_pct>\n  <disk_min_free_gb>");
-            mRequest.append(globalPrefs.getDiskMinFreeGB());
+            mRequest.append(globalPrefs.getDiskMinFreeMB());
             mRequest.append("</disk_min_free_gb>\n  <ram_max_used_busy_pct>");
             mRequest.append(globalPrefs.getRamMaxUsedBusyFrac());
             mRequest.append("</ram_max_used_busy_pct>\n  <ram_max_used_idle_pct>");

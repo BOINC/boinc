@@ -229,7 +229,7 @@ class PrefsFragment : Fragment() {
                     clientPrefs!!.diskMaxUsedPct,
                     PrefsListItemWrapper.DialogButtonType.SLIDER))
             data.add(PrefsListItemWrapperNumber(activity!!, R.string.prefs_disk_min_free_gb_header,
-                    clientPrefs!!.diskMinFreeGB,
+                    clientPrefs!!.diskMinFreeMB,
                     PrefsListItemWrapper.DialogButtonType.NUMBER))
             data.add(PrefsListItemWrapperNumber(activity!!, R.string.prefs_disk_access_interval_header,
                     clientPrefs!!.diskInterval,
@@ -521,7 +521,7 @@ class PrefsFragment : Fragment() {
         var value = value
         when (id) {
             R.string.prefs_disk_max_pct_header -> clientPrefs!!.diskMaxUsedPct = value
-            R.string.prefs_disk_min_free_gb_header -> clientPrefs!!.diskMinFreeGB = value
+            R.string.prefs_disk_min_free_gb_header -> clientPrefs!!.diskMinFreeMB = value
             R.string.prefs_disk_access_interval_header -> clientPrefs!!.diskInterval = value
             R.string.prefs_network_daily_xfer_limit_mb_header -> {
                 clientPrefs!!.dailyTransferLimitMB = value

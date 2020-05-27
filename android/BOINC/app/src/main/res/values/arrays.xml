@@ -18,14 +18,36 @@
 -->
 <resources>
     <string-array name="theme_entries">
-        <item>Set by Battery Saver</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/prefs_theme_battery_saver</item>
+        <item>@string/prefs_theme_light</item>
+        <item>@string/prefs_theme_dark</item>
     </string-array>
 
-    <string-array name="theme_values">
-        <item>battery_saver</item>
+    <string-array name="theme_values" translatable="false">
+        <item>default</item>
         <item>light</item>
         <item>dark</item>
     </string-array>
+
+    <string-array name="power_source_entries">
+        <item>@string/prefs_power_source_ac</item>
+        <item>@string/prefs_power_source_usb</item>
+        <item>@string/prefs_power_source_wireless</item>
+        <item>@string/prefs_power_source_battery</item>
+    </string-array>
+
+    <string-array name="power_source_values" translatable="false">
+        <item>wall</item>
+        <item>usb</item>
+        <item>wireless</item>
+        <item>battery</item>
+    </string-array>
+
+    <string-array name="power_source_default" translatable="false">
+        <item>wall</item>
+        <item>usb</item>
+        <item>wireless</item>
+    </string-array>
+
+    <string-array name="empty_array" />
 </resources>

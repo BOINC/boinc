@@ -30,7 +30,10 @@ import org.xml.sax.SAXException;
 
 import kotlin.UninitializedPropertyAccessException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
@@ -568,7 +571,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.setDiskMinFreeGB(5.0);
+        expected.setDiskMinFreeMB(5.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }

@@ -150,7 +150,7 @@ class GlobalPreferencesParser : BaseParser() {
                         globalPreferences.diskMaxUsedPct = mCurrentElement.toDouble()
                     }
                     localName.equals(GlobalPreferences.Fields.DISK_MIN_FREE_GB, ignoreCase = true) -> {
-                        globalPreferences.diskMinFreeGB = mCurrentElement.toDouble()
+                        globalPreferences.diskMinFreeMB = mCurrentElement.toDouble()
                     }
                     localName.equals(GlobalPreferences.Fields.RAM_MAX_USED_BUSY_FRAC, ignoreCase = true) -> {
                         globalPreferences.ramMaxUsedBusyFrac = mCurrentElement.toDouble()
