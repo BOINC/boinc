@@ -32,12 +32,14 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.*
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
+import edu.berkeley.boinc.utils.applyTheme
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -178,9 +180,12 @@ class PrefsFragment : Fragment() {
         data.add(PrefsListItemWrapperText(activity!!, R.string.prefs_general_device_name_header,
                 BOINCActivity.monitor!!.hostInfo.domainName!!))
 
+        val sharedPrefs = requireContext().getSharedPreferences("PREFS", 0)
+        val darkTheme = sharedPrefs.getBoolean("darkTheme", false)
+        data.add(PrefsListItemWrapperBool(requireActivity(), R.string.prefs_dark_theme, darkTheme))
+
         // Network
-        data.add(PrefsListItemWrapper(activity!!, R.string.prefs_category_network,
-                true))
+        data.add(PrefsListItemWrapper(activity!!, R.string.prefs_category_network, true))
         data.add(PrefsListItemWrapperBool(activity!!, R.string.prefs_network_wifi_only_header,
                 clientPrefs!!.networkWiFiOnly))
         if (advanced) {
@@ -628,6 +633,11 @@ class PrefsFragment : Fragment() {
                         BOINCActivity.monitor!!.suspendWhenScreenOn = isSet
                         updateBoolPreference(ID, isSet)
                         updateLayout()
+                    }
+                    R.string.prefs_dark_theme -> {
+                        val sharedPrefs = requireContext().getSharedPreferences("PREFS", 0)
+                        sharedPrefs.edit { putBoolean("darkTheme", isSet) }
+                        applyTheme(requireContext())
                     }
                     R.string.prefs_network_wifi_only_header -> {
                         clientPrefs!!.networkWiFiOnly = isSet

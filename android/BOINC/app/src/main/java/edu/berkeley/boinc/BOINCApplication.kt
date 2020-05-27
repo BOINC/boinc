@@ -21,8 +21,14 @@ package edu.berkeley.boinc
 import androidx.multidex.MultiDexApplication
 import edu.berkeley.boinc.di.AppComponent
 import edu.berkeley.boinc.di.DaggerAppComponent
+import edu.berkeley.boinc.utils.applyTheme
 
 open class BOINCApplication : MultiDexApplication() {
+    override fun onCreate() {
+        super.onCreate()
+        applyTheme(this)
+    }
+
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(applicationContext)
     }

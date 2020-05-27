@@ -27,6 +27,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.RemoteException
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import edu.berkeley.boinc.BOINCActivity
@@ -44,6 +45,13 @@ val ConnectivityManager.isOnline: Boolean
             activeNetwork != null
         }
     }
+
+fun applyTheme(context: Context) {
+    val sharedPreferences = context.getSharedPreferences("PREFS", 0)
+    val darkTheme = sharedPreferences.getBoolean("darkTheme", false)
+    val mode = if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+    AppCompatDelegate.setDefaultNightMode(mode)
+}
 
 suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
     val runMode = async {
