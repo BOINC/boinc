@@ -29,8 +29,7 @@ import edu.berkeley.boinc.utils.Logging
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            val prefs = AppPreferences()
-            prefs.readPrefs(context)
+            val prefs = AppPreferences(context)
             if (prefs.autostart) {
                 if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")

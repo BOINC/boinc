@@ -19,9 +19,7 @@
 package edu.berkeley.boinc.client
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
-import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
@@ -29,84 +27,29 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppPreferences @Inject constructor() {
-    private var prefs: SharedPreferences? = null
+class AppPreferences @Inject constructor(val context: Context) {
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-    var autostart = false
+    var autostart = prefs.getBoolean("autostart", context.resources.getBoolean(R.bool.prefs_default_autostart))
+    var showNotificationForNotices = prefs.getBoolean("showNotification",
+            context.resources.getBoolean(R.bool.prefs_default_notification_notices))
+    var showAdvanced = prefs.getBoolean("showAdvanced", context.resources.getBoolean(R.bool.prefs_default_advanced))
+    var logLevel = prefs.getInt("logLevel", context.resources.getInteger(R.integer.prefs_default_loglevel))
         set(value) {
-            putBooleanToPrefs("autostart", value)
-            field = value
-        }
-    var showNotificationForNotices = false
-        set(value) {
-            putBooleanToPrefs("showNotification", value)
-            field = value
-        }
-    var showAdvanced = false
-        set(value) {
-            putBooleanToPrefs("showAdvanced", value)
-            field = value
-        }
-    var logLevel = 0
-        set(value) {
-            prefs?.edit { putInt("logLevel", value) }
             field = value
             Logging.setLogLevel(value)
         }
-    var powerSourceAc = false
-        set(value) {
-            putBooleanToPrefs("powerSourceAc", value)
-            field = value
-        }
-    var powerSourceUsb = false
-        set(value) {
-            putBooleanToPrefs("powerSourceUsb", value)
-            field = value
-        }
-    var powerSourceWireless = false
-        set(value) {
-            putBooleanToPrefs("powerSourceWireless", value)
-            field = value
-        }
-    var stationaryDeviceMode = false
-        set(value) {
-            putBooleanToPrefs("stationaryDeviceMode", value)
-            field = value
-        }
-    var suspendWhenScreenOn = false
-        set(value) {
-            putBooleanToPrefs("suspendWhenScreenOn", value)
-            field = value
-        }
+    var powerSourceAc = prefs.getBoolean("powerSourceAc", context.resources.getBoolean(R.bool.prefs_power_source_ac))
+    var powerSourceUsb = prefs.getBoolean("powerSourceUsb", context.resources.getBoolean(R.bool.prefs_power_source_usb))
+    var powerSourceWireless = prefs.getBoolean("powerSourceWireless",
+            context.resources.getBoolean(R.bool.prefs_power_source_wireless))
+    var stationaryDeviceMode = prefs.getBoolean("stationaryDeviceMode",
+            context.resources.getBoolean(R.bool.prefs_stationary_device_mode))
+    var suspendWhenScreenOn = prefs.getBoolean("suspendWhenScreenOn",
+            context.resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
 
-    private fun putBooleanToPrefs(key: String, value: Boolean) {
-        prefs?.edit { putBoolean(key, value) }
-    }
-
-    fun readPrefs(ctx: Context) {
-        if (prefs == null) {
-            prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
-        }
-        //second parameter of reading function is the initial value after installation.
-        autostart = prefs!!.getBoolean("autostart",
-                ctx.resources.getBoolean(R.bool.prefs_default_autostart))
-        showNotificationForNotices = prefs!!.getBoolean("showNotification",
-                ctx.resources.getBoolean(R.bool.prefs_default_notification_notices))
-        showAdvanced = prefs!!.getBoolean("showAdvanced",
-                ctx.resources.getBoolean(R.bool.prefs_default_advanced))
-        logLevel = prefs!!.getInt("logLevel",
-                ctx.resources.getInteger(R.integer.prefs_default_loglevel))
+    init {
         Logging.setLogLevel(logLevel)
-        powerSourceAc = prefs!!.getBoolean("powerSourceAc",
-                ctx.resources.getBoolean(R.bool.prefs_power_source_ac))
-        powerSourceUsb = prefs!!.getBoolean("powerSourceUsb",
-                ctx.resources.getBoolean(R.bool.prefs_power_source_usb))
-        powerSourceWireless = prefs!!.getBoolean("powerSourceWireless",
-                ctx.resources.getBoolean(R.bool.prefs_power_source_wireless))
-        stationaryDeviceMode = prefs!!.getBoolean("stationaryDeviceMode",
-                ctx.resources.getBoolean(R.bool.prefs_stationary_device_mode))
-        suspendWhenScreenOn = prefs!!.getBoolean("suspendWhenScreenOn",
-                ctx.resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
         if (Logging.DEBUG) {
             Log.d(Logging.TAG,
                     "appPrefs read successful." + autostart + showNotificationForNotices +

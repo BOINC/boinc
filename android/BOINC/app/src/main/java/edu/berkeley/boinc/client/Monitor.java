@@ -149,7 +149,6 @@ public class Monitor extends Service {
 
         // initialize singleton helper classes and provide application context
         clientStatus = new ClientStatus(this, appPreferences);
-        appPreferences.readPrefs(this);
         deviceStatus = new DeviceStatus(this, appPreferences);
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized");
 

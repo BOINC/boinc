@@ -122,8 +122,60 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == "theme") {
-            setAppTheme(sharedPreferences.getString(key, getDefaultTheme())!!)
+        when (key) {
+            // General
+            "autostart" -> {
+                BOINCActivity.monitor!!.autostart = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_default_autostart))
+            }
+            "showNotification" -> {
+                BOINCActivity.monitor!!.showNotificationForNotices =
+                        sharedPreferences.getBoolean(key, resources.getBoolean(R.bool.prefs_default_notification_notices))
+            }
+            "showAdvanced" -> {
+                BOINCActivity.monitor!!.showAdvanced = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_default_advanced))
+            }
+            "suspendWhenScreenOn" -> {
+                BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
+            }
+            "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
+            "theme" -> setAppTheme(sharedPreferences.getString(key, getDefaultTheme())!!)
+
+            // Network
+
+            // Power
+            "powerSourceAc" -> {
+                BOINCActivity.monitor!!.powerSourceAc = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_power_source_ac))
+            }
+            "powerSourceUsb" -> {
+                BOINCActivity.monitor!!.powerSourceUsb = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_power_source_usb))
+            }
+            "powerSourceWireless" -> {
+                BOINCActivity.monitor!!.powerSourceWireless = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_power_source_wireless))
+            }
+            "stationaryDeviceMode" -> {
+                BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key,
+                        resources.getBoolean(R.bool.prefs_stationary_device_mode))
+            }
+
+            // CPU
+
+            // Storage
+
+            // Memory
+
+            // Other
+
+            // Debug
+            "logLevel" -> {
+                BOINCActivity.monitor!!.logLevel = sharedPreferences.getInt(key,
+                        resources.getInteger(R.integer.prefs_default_loglevel))
+            }
         }
     }
 }
