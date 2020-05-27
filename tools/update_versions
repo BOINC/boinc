@@ -171,6 +171,11 @@ function stage_file($a, $v, $p, $fd) {
             die ("Error: files $path and $dl_path differ.\nBOINC files are immutable.\nIf you change a file, you must give it a new name.\n");
         }
     } else {
+        $subdirs = dirname($name);
+        if ($subdirs) {
+            echo 'mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
+            system('mkdir -p '.$download_dir.'/'.$subdirs);
+        }
         echo("cp $path $dl_path\n");
         system("cp $path $dl_path");
     }
