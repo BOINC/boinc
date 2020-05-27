@@ -75,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         general.addPreference(deviceName)
 
         val theme = ListPreference(context)
-        theme.title = "Theme"
+        theme.title = getString(R.string.prefs_theme_header)
         theme.isIconSpaceReserved = false
         theme.key = "theme"
         theme.setEntries(R.array.theme_entries)

@@ -192,6 +192,7 @@
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
     <string name="prefs_general_device_name_header">Device name</string>
+    <string name="prefs_theme_header">Theme</string>
     <string name="prefs_stationary_device_mode_header">Stationary device mode</string>
     <string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only
         enable if device does not have a battery.
