@@ -41,7 +41,6 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
-import edu.berkeley.boinc.rpc.AccountManager
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -65,16 +64,15 @@ class AcctMgrFragment : DialogFragment() {
 
     private val mMonitorConnection: ServiceConnection = object : ServiceConnection {
         private fun fillAdapterData() {
-            var accountManagers: List<AccountManager>? = null
             if (mIsBound) {
-                accountManagers = try {
+                val accountManagers = try {
                     monitor!!.accountManagers
                 } catch (e: Exception) {
                     if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: $e")
                     emptyList()
                 }
-                val adapterData = accountManagers!!.map { AccountManagerSpinner(it.name, it.url) }
-                val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, adapterData)
+                val adapterData = accountManagers.map { AccountManagerSpinner(it.name, it.url) }
+                val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, adapterData)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 urlSpinner.adapter = adapter
             }
@@ -191,7 +189,7 @@ class AcctMgrFragment : DialogFragment() {
     // note: available internet does not imply connection to project server
     // is possible!
     private fun checkDeviceOnline(): Boolean {
-        val connectivityManager = activity!!.getSystemService<ConnectivityManager>()!!
+        val connectivityManager = requireActivity().getSystemService<ConnectivityManager>()!!
         val online = connectivityManager.isOnline
         if (!online) {
             val toast = Toast.makeText(activity, R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT)
@@ -203,23 +201,23 @@ class AcctMgrFragment : DialogFragment() {
 
     private fun doBindService() {
         // start service to allow setForeground later on...
-        activity!!.startService(Intent(activity, Monitor::class.java))
+        requireActivity().startService(Intent(activity, Monitor::class.java))
         // Establish a connection with the service, onServiceConnected gets called when
-        activity!!.bindService(Intent(activity, Monitor::class.java), mMonitorConnection, Service.BIND_AUTO_CREATE)
+        requireActivity().bindService(Intent(activity, Monitor::class.java), mMonitorConnection, Service.BIND_AUTO_CREATE)
 
         // bind to attach service
-        activity!!.bindService(Intent(activity, ProjectAttachService::class.java), mASConnection, Service.BIND_AUTO_CREATE)
+        requireActivity().bindService(Intent(activity, ProjectAttachService::class.java), mASConnection, Service.BIND_AUTO_CREATE)
     }
 
     private fun doUnbindService() {
         if (mIsBound) {
             // Detach existing connection.
-            activity!!.unbindService(mMonitorConnection)
+            requireActivity().unbindService(mMonitorConnection)
             mIsBound = false
         }
         if (asIsBound) {
             // Detach existing connection.
-            activity!!.unbindService(mASConnection)
+            requireActivity().unbindService(mASConnection)
             asIsBound = false
         }
     }
