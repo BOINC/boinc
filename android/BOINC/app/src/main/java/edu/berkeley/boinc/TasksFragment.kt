@@ -84,7 +84,7 @@ class TasksFragment : Fragment() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "TasksFragment register receiver")
         }
-        activity!!.registerReceiver(mClientStatusChangeRec, ifcsc)
+        requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
         loadData()
     }
 
@@ -93,7 +93,7 @@ class TasksFragment : Fragment() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "TasksFragment remove receiver")
         }
-        activity!!.unregisterReceiver(mClientStatusChangeRec)
+        requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
 
