@@ -158,12 +158,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "diskMinFreeMB" -> {
-                prefs.diskMinFreeMB = sharedPreferences.getInt(key, 107).toDouble()
+                prefs.diskMinFreeMB = sharedPreferences.getString(key, "107")?.toDouble() ?: 0.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "diskInterval" -> {
-                prefs.diskInterval = sharedPreferences.getInt(key, 60).toDouble()
+                prefs.diskInterval = sharedPreferences.getString(key, "60")?.toDouble() ?: 0.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -177,12 +177,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Other
             "workBufMinDays" -> {
-                prefs.workBufMinDays = sharedPreferences.getFloat(key, 0.1f).toDouble()
+                prefs.workBufMinDays = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "workBufAdditionalDays" -> {
-                prefs.workBufAdditionalDays = sharedPreferences.getFloat(key, 0.5f).toDouble()
+                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
