@@ -82,7 +82,7 @@ class ProjectsFragment : Fragment() {
         if (Logging.VERBOSE) {
             Log.d(Logging.TAG, "ProjectsFragment onPause()")
         }
-        activity!!.unregisterReceiver(mClientStatusChangeRec)
+        requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
 
@@ -92,7 +92,7 @@ class ProjectsFragment : Fragment() {
         }
         super.onResume()
         populateLayout()
-        activity!!.registerReceiver(mClientStatusChangeRec, ifcsc)
+        requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -108,7 +108,7 @@ class ProjectsFragment : Fragment() {
         return when (item.itemId) {
             R.id.projects_add_url -> {
                 val dialog2 = ManualUrlInputFragment()
-                dialog2.show(fragmentManager!!, activity!!.getString(R.string.attachproject_list_manual_button))
+                dialog2.show(parentFragmentManager, getString(R.string.attachproject_list_manual_button))
                 true
             }
             else -> super.onOptionsItemSelected(item)
