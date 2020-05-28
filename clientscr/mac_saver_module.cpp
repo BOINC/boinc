@@ -308,6 +308,7 @@ void doBoinc_Sleep(double seconds) {
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     char saved_dir[MAXPATHLEN];
+    std::string msg;
     
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
@@ -334,7 +335,7 @@ CScreensaver::CScreensaver() {
     if (gIsCatalina) {
         getcwd(saved_dir, sizeof(saved_dir));
         chdir("/Library/Application Support/BOINC Data");
-        read_gui_rpc_password(passwd_buf);
+        read_gui_rpc_password(passwd_buf, msg);
         chdir(saved_dir);
         
         CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);

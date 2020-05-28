@@ -59,6 +59,8 @@ extern bool g_use_sandbox;
 class CMainDocument;
 class CBOINCClientManager;
 
+// GUI RPC connection to a client (should change the name)
+//
 class CNetworkConnection : public wxObject {
 public:
     CNetworkConnection(CMainDocument* pDocument);
@@ -85,6 +87,7 @@ public:
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
     bool           IsReconnecting() { return m_bReconnecting; };
+    std::string    password_msg;
 
 private:
     CMainDocument* m_pDocument;
