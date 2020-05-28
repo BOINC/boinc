@@ -43,7 +43,7 @@ class ProjectInfoFragment : DialogFragment() {
         val v = inflater.inflate(R.layout.attach_project_info_layout, container, false)
 
         // get data
-        val info: ProjectInfo? = arguments!!.getParcelable("info")
+        val info: ProjectInfo? = requireArguments().getParcelable("info")
         if (info == null) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "ProjectInfoFragment info is null, return.")
