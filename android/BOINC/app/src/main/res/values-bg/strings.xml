@@ -192,18 +192,10 @@
         на батерията. Не е препоръчително да променяте тази стойност.
     </string>
     <string name="prefs_disk_max_pct_header">Макс. използвано пространство за съхранение</string>
-    <string name="prefs_disk_max_pct_description">Колко процента от пространството за съхранение на вашето устройство е
-        позволено на BOINC да използва?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Мин. свободно пространство</string>
-    <string name="prefs_disk_min_free_gb_description">Колко от пространството за съхранение на вашето устройство да
-        остане свободно?
-    </string>
     <string name="prefs_disk_access_interval_header">Интервал за достъп</string>
     <string name="prefs_disk_access_interval_description">Предлага интервал между достъпванията до диска</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Дневен лимит на трансфер</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничава дневния трафик на данни породен от BOINC.
-    </string>
     <string name="prefs_network_wifi_only_header">Прехвърляй задачи само през WiFi</string>
     <string name="prefs_autostart_header">Автоматично стартиране</string>
     <string name="prefs_show_notification_notices_header">Показвай известия за новини</string>

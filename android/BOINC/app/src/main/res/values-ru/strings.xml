@@ -174,13 +174,10 @@
   <string name="battery_temperature_max_header">Макс. температура батареи</string>
   <string name="battery_temperature_max_description">BOINC приостановит расчёты, когда температура батареи превысит указанный уровень. Не рекомендуется менять это значение.</string>
   <string name="prefs_disk_max_pct_header">Макс. используемое пространство памяти</string>
-  <string name="prefs_disk_max_pct_description">Сколько процентов от общего объёма памяти вашего устройства BOINC может использовать?</string>
-  <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство</string>
-  <string name="prefs_disk_min_free_gb_description">Какой объём памяти вашего устройства должен оставаться свободным?</string>
+    <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство</string>
   <string name="prefs_disk_access_interval_header">Период доступа</string>
   <string name="prefs_disk_access_interval_description">Предлагает интервал между обращениями к диску</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Ежедневный предел передачи</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный BOINC.</string>
   <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
   <string name="prefs_show_notification_notices_header">Показывать уведомления о поступлении новых сообщений</string>
@@ -194,9 +191,7 @@
   <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
   <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Хранить не менее X дней работы</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Хранить дополнительно не менее X дней работы</string>
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
   <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
   <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>

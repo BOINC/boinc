@@ -114,7 +114,6 @@
                 app:min="10"
                 app:seekBarIncrement="10"
                 app:showSeekBarValue="true"
-                app:summary="@string/battery_charge_min_pct_description"
                 app:title="@string/battery_charge_min_pct_header" />
 
         <EditTextPreference
@@ -123,7 +122,6 @@
                 app:dependency="stationaryDeviceMode"
                 app:iconSpaceReserved="false"
                 app:key="maxBatteryTemp"
-                app:summary="@string/battery_temperature_max_description"
                 app:title="@string/battery_temperature_max_header" />
 
     </PreferenceCategory>
@@ -180,7 +178,6 @@
                 app:min="0"
                 app:seekBarIncrement="10"
                 app:showSeekBarValue="true"
-                app:summary="@string/prefs_disk_max_pct_description"
                 app:title="@string/prefs_disk_max_pct_header" />
 
         <EditTextPreference
@@ -188,7 +185,6 @@
                 app:defaultValue="107"
                 app:iconSpaceReserved="false"
                 app:key="diskMinFreeMB"
-                app:summary="@string/prefs_disk_min_free_gb_description"
                 app:title="@string/prefs_disk_min_free_gb_header" />
 
         <EditTextPreference
@@ -196,7 +192,6 @@
                 app:defaultValue="60"
                 app:iconSpaceReserved="false"
                 app:key="diskInterval"
-                app:summary="@string/prefs_disk_access_interval_description"
                 app:title="@string/prefs_disk_access_interval_header" />
 
     </PreferenceCategory>
@@ -228,7 +223,6 @@
                 app:defaultValue="0.1"
                 app:iconSpaceReserved="false"
                 app:key="workBufMinDays"
-                app:summary="@string/prefs_other_store_at_least_x_days_of_work_description"
                 app:title="@string/prefs_other_store_at_least_x_days_of_work_header" />
 
         <EditTextPreference
@@ -236,7 +230,6 @@
                 app:defaultValue="0.5"
                 app:iconSpaceReserved="false"
                 app:key="workBufAdditionalDays"
-                app:summary="@string/prefs_other_store_up_to_an_additional_x_days_of_work_description"
                 app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header" />
 
     </PreferenceCategory>
@@ -262,6 +255,7 @@
                 app:min="0"
                 app:seekBarIncrement="1"
                 app:showSeekBarValue="true"
+                app:summary="@string/prefs_gui_log_level_description"
                 app:title="@string/prefs_gui_log_level_header" />
 
     </PreferenceCategory>

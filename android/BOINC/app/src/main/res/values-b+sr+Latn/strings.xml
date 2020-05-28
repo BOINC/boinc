@@ -173,13 +173,10 @@
     <string name="battery_temperature_max_header">Maks. temperatura baterije</string>
     <string name="battery_temperature_max_description">BOINC zaustavlja rad iznad označene temperature baterije. Nije preporučljivo menjati ovaj iznos.</string>
     <string name="prefs_disk_max_pct_header">Maks. upotrebljeno mesto za skladištenje</string>
-    <string name="prefs_disk_max_pct_description">Koliki procenat skladišnog prostora na vašem uređaju BOINC sme da koristi?</string>
     <string name="prefs_disk_min_free_gb_header">Min. skladišni prostor</string>
-    <string name="prefs_disk_min_free_gb_description">Koliko skladišnog prostora na vašem uređaju more da ostane slobodno?</string>
     <string name="prefs_disk_access_interval_header">Učestalost pristupa</string>
     <string name="prefs_disk_access_interval_description">Predloži učestalost među pristupanjima disku</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevno ograničenje prenosa</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ograničava dnevni protok podataka koji BOINC izaziva.</string>
     <string name="prefs_network_wifi_only_header">Prenos podataka samo preko WiFi</string>
     <string name="prefs_autostart_header">Automatsko pokretanje</string>
     <string name="prefs_show_notification_notices_header">Prikaži obaveštenja za nove izveštaje</string>

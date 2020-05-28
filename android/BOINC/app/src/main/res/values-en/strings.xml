@@ -185,16 +185,11 @@
     <string name="battery_temperature_max_description">BOINC suspends computation above defined battery temperature. It
         is not recommended to change this value.
     </string>
-    <string name="prefs_disk_max_pct_header">Max. used storage space</string>
-    <string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to
-        use?
-    </string>
+    <string name="prefs_disk_max_pct_header">Max. used storage space (%)</string>
     <string name="prefs_disk_min_free_gb_header">Min. spare storage (MB)</string>
-    <string name="prefs_disk_min_free_gb_description">How much of your device\'s storage space shall stay free?</string>
     <string name="prefs_disk_access_interval_header">Access interval (seconds)</string>
     <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (days)</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Limits the daily data traffic caused by BOINC.</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>

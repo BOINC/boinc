@@ -194,17 +194,10 @@
         per sobre del valor definit. No es recomanable canviar aquest valor.
     </string>
     <string name="prefs_disk_max_pct_header">Màxim espai d\'emmagatzematge utilitzat</string>
-    <string name="prefs_disk_max_pct_description">Quin percentatge d\'espai d\'emmagatzematge del seu dispositiu pot
-        utilitzar BOINC?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Espai mínim d\'emmagatzematge</string>
-    <string name="prefs_disk_min_free_gb_description">Quina quantitat d\'espai d\'emmagatzematge del dispositiu s\'ha de
-        mantenir lliure?
-    </string>
     <string name="prefs_disk_access_interval_header">Període d\'accés</string>
     <string name="prefs_disk_access_interval_description">Suggereix un interval entre accessos al disc</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Límit de transferència diària</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Limita el tràfic diàri de dades degut a BOINC</string>
     <string name="prefs_network_wifi_only_header">Transferir tasques només amb WiFi</string>
     <string name="prefs_autostart_header">Inici automàtic</string>
     <string name="prefs_show_notification_notices_header">Mostra una notificació per a nous avisos</string>

@@ -175,13 +175,10 @@
     <string name="battery_temperature_max_description">위에 지정된 배터리 온도가 되면 BOINC는 연산을 일시 정지합니다. 이 값을 바꾸지 않길 권장합니다.
     </string>
     <string name="prefs_disk_max_pct_header">최대 사용할 저장소 공간</string>
-    <string name="prefs_disk_max_pct_description">저장소 공간 중 몇 %를 BOINC가 사용하길 원하십니까?</string>
     <string name="prefs_disk_min_free_gb_header">최소로 남겨 둘 용량</string>
-    <string name="prefs_disk_min_free_gb_description">저장소 공간 중 얼만큼 여유 공간으로 남겨두길 원하십니까?</string>
     <string name="prefs_disk_access_interval_header">액세스 간격</string>
     <string name="prefs_disk_access_interval_description">디스크 액세스 간격을 설정하세요</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">하루 전송 제한량</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">하루에 BOINC가 전송할 데이터 제한량</string>
     <string name="prefs_network_wifi_only_header">WiFi에서만 태스크 전송</string>
     <string name="prefs_autostart_header">자동 시작</string>
     <string name="prefs_show_notification_notices_header">새 공지사항이 나오면 알림 바에 알려주기</string>
