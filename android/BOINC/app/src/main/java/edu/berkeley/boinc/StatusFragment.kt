@@ -58,7 +58,7 @@ class StatusFragment : Fragment() {
         if (Logging.VERBOSE) {
             Log.v(Logging.TAG, "StatusFragment register receiver")
         }
-        activity!!.registerReceiver(mClientStatusChangeRec, ifcsc)
+        requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
         super.onResume()
     }
 
@@ -67,7 +67,7 @@ class StatusFragment : Fragment() {
         if (Logging.VERBOSE) {
             Log.v(Logging.TAG, "StatusFragment remove receiver")
         }
-        activity!!.unregisterReceiver(mClientStatusChangeRec)
+        requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
 
@@ -94,12 +94,12 @@ class StatusFragment : Fragment() {
                 // return in cases nothing has changed
                 if (computingStatus != currentComputingStatus || currentComputingSuspendReason != computingSuspendReason || currentNetworkSuspendReason != networkSuspendReason) {
                     // set layout and retrieve elements
-                    val statusWrapper = view!!.findViewById<LinearLayout>(R.id.status_wrapper)
-                    val centerWrapper = view!!.findViewById<LinearLayout>(R.id.center_wrapper)
-                    val restartingWrapper = view!!.findViewById<LinearLayout>(R.id.restarting_wrapper)
-                    val statusHeader = view!!.findViewById<TextView>(R.id.status_header)
-                    val statusImage = view!!.findViewById<ImageView>(R.id.status_image)
-                    val statusDescriptor = view!!.findViewById<TextView>(R.id.status_long)
+                    val statusWrapper = requireView().findViewById<LinearLayout>(R.id.status_wrapper)
+                    val centerWrapper = requireView().findViewById<LinearLayout>(R.id.center_wrapper)
+                    val restartingWrapper = requireView().findViewById<LinearLayout>(R.id.restarting_wrapper)
+                    val statusHeader = requireView().findViewById<TextView>(R.id.status_header)
+                    val statusImage = requireView().findViewById<ImageView>(R.id.status_image)
+                    val statusDescriptor = requireView().findViewById<TextView>(R.id.status_long)
                     restartingWrapper.visibility = View.GONE
                     when (currentComputingStatus) {
                         ClientStatus.COMPUTING_STATUS_NEVER -> {
@@ -185,12 +185,12 @@ class StatusFragment : Fragment() {
             } else if (currentSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
                 if (setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
                     // set layout and retrieve elements
-                    val statusWrapper = view!!.findViewById<LinearLayout>(R.id.status_wrapper)
-                    val centerWrapper = view!!.findViewById<LinearLayout>(R.id.center_wrapper)
-                    val restartingWrapper = view!!.findViewById<LinearLayout>(R.id.restarting_wrapper)
-                    val statusHeader = view!!.findViewById<TextView>(R.id.status_header)
-                    val statusImage = view!!.findViewById<ImageView>(R.id.status_image)
-                    val statusDescriptor = view!!.findViewById<TextView>(R.id.status_long)
+                    val statusWrapper = requireView().findViewById<LinearLayout>(R.id.status_wrapper)
+                    val centerWrapper = requireView().findViewById<LinearLayout>(R.id.center_wrapper)
+                    val restartingWrapper = requireView().findViewById<LinearLayout>(R.id.restarting_wrapper)
+                    val statusHeader = requireView().findViewById<TextView>(R.id.status_header)
+                    val statusImage = requireView().findViewById<ImageView>(R.id.status_image)
+                    val statusDescriptor = requireView().findViewById<TextView>(R.id.status_long)
                     statusWrapper.visibility = View.VISIBLE
                     restartingWrapper.visibility = View.GONE
                     centerWrapper.visibility = View.VISIBLE
