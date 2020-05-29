@@ -41,7 +41,7 @@
     <!-- Listview to display slider menu -->
     <ListView
             style="@style/DividerDayNight"
-            android:id="@+id/list_slidermenu"
+            android:id="@+id/drawer_list"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
