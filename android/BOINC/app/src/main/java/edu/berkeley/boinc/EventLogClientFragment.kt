@@ -28,6 +28,7 @@ import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ClientLogListAdapter
+import edu.berkeley.boinc.databinding.EventLogClientLayoutBinding
 import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.utils.Logging
 import kotlinx.coroutines.Dispatchers
@@ -43,12 +44,12 @@ class EventLogClientFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity = getActivity() as EventLogActivity
-        val layout = inflater.inflate(R.layout.eventlog_client_layout, container, false)
-        activity.clientLogList = layout.findViewById(R.id.clientLogList)
+        val binding = EventLogClientLayoutBinding.inflate(inflater, container, false)
+        activity.clientLogList = binding.clientLogList
         activity.clientLogListAdapter = ClientLogListAdapter(getActivity(), activity.clientLogList,
                 R.id.clientLogList, activity.clientLogData)
         activity.clientLogList.setOnScrollListener(EndlessScrollListener(5))
-        return layout
+        return binding.root
     }
 
     fun init() {
