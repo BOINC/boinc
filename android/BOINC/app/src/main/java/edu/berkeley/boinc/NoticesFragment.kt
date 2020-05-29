@@ -27,9 +27,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import androidx.fragment.app.Fragment
 import edu.berkeley.boinc.adapter.NoticesListAdapter
+import edu.berkeley.boinc.databinding.NoticesLayoutBinding
 import edu.berkeley.boinc.rpc.Notice
 import edu.berkeley.boinc.utils.Logging
 
@@ -56,13 +56,12 @@ class NoticesFragment : Fragment() {
         if (Logging.VERBOSE) {
             Log.d(Logging.TAG, "NoticesFragment onCreateView")
         }
-        val layout = inflater.inflate(R.layout.notices_layout, container, false)
-        val noticesList = layout.findViewById<ListView>(R.id.noticesList)
+        val binding = NoticesLayoutBinding.inflate(inflater, container, false)
         updateNotices()
 
         noticesListAdapter = NoticesListAdapter(activity, R.id.noticesList, data)
-        noticesList.adapter = noticesListAdapter
-        return layout
+        binding.noticesList.adapter = noticesListAdapter
+        return binding.root
     }
 
     override fun onResume() {
