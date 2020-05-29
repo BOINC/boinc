@@ -64,7 +64,7 @@ class ProjectInfoFragment : DialogFragment() {
                 resources.getString(R.string.attachproject_login_header_home) + " ${info.home}"
 
         // setup return button
-        v.findViewById<Button>(R.id.continue_button).setOnClickListener {
+        v.findViewById<Button>(R.id.continueButton).setOnClickListener {
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectInfoFragment continue clicked")
             }

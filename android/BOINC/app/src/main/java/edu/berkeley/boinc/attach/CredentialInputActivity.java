@@ -19,7 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -57,8 +56,8 @@ public class CredentialInputActivity extends AppCompatActivity {
         doBindService();
         setContentView(R.layout.attach_project_credential_input_layout);
         emailET = findViewById(R.id.email_input);
-        nameET = findViewById(R.id.name_input);
-        pwdET = findViewById(R.id.pwd_input);
+        nameET = findViewById(R.id.nameInput);
+        pwdET = findViewById(R.id.pwdInput);
 
         CheckBox showPwdCb = findViewById(R.id.show_pwd_cb);
         showPwdCb.setOnClickListener(view -> {

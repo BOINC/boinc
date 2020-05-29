@@ -84,9 +84,9 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         List<String> defaultValues = mListener.getDefaultInput();
         emailET = v.findViewById(R.id.email_input);
         emailET.setText(defaultValues.get(0));
-        nameET = v.findViewById(R.id.name_input);
+        nameET = v.findViewById(R.id.nameInput);
         nameET.setText(defaultValues.get(1));
-        pwdET = v.findViewById(R.id.pwd_input);
+        pwdET = v.findViewById(R.id.pwdInput);
 
         Button loginButton = v.findViewById(R.id.login_button);
         loginButton.setOnClickListener(view -> {

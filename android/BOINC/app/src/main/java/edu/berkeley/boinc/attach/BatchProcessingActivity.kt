@@ -268,7 +268,7 @@ class BatchProcessingActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.attach_status_ongoing_wrapper).visibility = View.GONE
-        findViewById<View>(R.id.continue_button).visibility = View.VISIBLE
+        findViewById<View>(R.id.continueButton).visibility = View.VISIBLE
         findViewById<View>(R.id.share_button).visibility = View.VISIBLE
     }
 

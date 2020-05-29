@@ -31,8 +31,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +43,7 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.databinding.AttachProjectAcctMgrDialogBinding
 import edu.berkeley.boinc.rpc.AccountManager
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.Dispatchers
@@ -54,14 +57,10 @@ class AcctMgrFragment : DialogFragment() {
     private var mIsBound = false
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
-    private lateinit var urlSpinner: Spinner
-    private lateinit var urlInput: EditText
-    private lateinit var nameInput: EditText
-    private lateinit var pwdInput: EditText
-    private lateinit var warning: TextView
-    private lateinit var ongoingWrapper: LinearLayout
-    private lateinit var continueB: Button
     private var returnToMainActivity = false
+
+    private var _binding: AttachProjectAcctMgrDialogBinding? = null
+    private val binding get() = _binding!!
 
     private val mMonitorConnection: ServiceConnection = object : ServiceConnection {
         private fun fillAdapterData() {
@@ -75,7 +74,7 @@ class AcctMgrFragment : DialogFragment() {
                 val adapterData = accountManagers.map { AccountManagerSpinner(it.name, it.url) }
                 val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, adapterData)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                urlSpinner.adapter = adapter
+                binding.urlSpinner.adapter = adapter
             }
         }
 
@@ -113,57 +112,52 @@ class AcctMgrFragment : DialogFragment() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "AcctMgrFragment onCreateView")
         }
-        val v = inflater.inflate(R.layout.attach_project_acctmgr_dialog, container, false)
-        urlSpinner = v.findViewById(R.id.url_spinner)
-        urlInput = v.findViewById(R.id.url_input)
-        nameInput = v.findViewById(R.id.name_input)
-        pwdInput = v.findViewById(R.id.pwd_input)
-        warning = v.findViewById(R.id.warning)
-        ongoingWrapper = v.findViewById(R.id.ongoing_wrapper)
-        continueB = v.findViewById(R.id.continue_button)
+        _binding = AttachProjectAcctMgrDialogBinding.inflate(inflater, container, false)
 
         // change url text field on url spinner change
-        urlSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        binding.urlSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                val accountManagerSpinner = urlSpinner.selectedItem as AccountManagerSpinner
-                urlInput.setText(accountManagerSpinner.url)
+                val accountManagerSpinner = binding.urlSpinner.selectedItem as AccountManagerSpinner
+                binding.urlInput.setText(accountManagerSpinner.url)
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         }
-        continueB.setOnClickListener {
+        binding.continueButton.setOnClickListener {
             if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked")
             if (!checkDeviceOnline()) return@setOnClickListener
             if (asIsBound) {
                 // get user input
-                val url = urlInput.text.toString()
-                val name = nameInput.text.toString()
-                val pwd = pwdInput.text.toString()
+                val url = binding.urlInput.text.toString()
+                val name = binding.nameInput.text.toString()
+                val pwd = binding.pwdInput.text.toString()
 
                 // verify input
                 val res = verifyInput(url, name, pwd)
                 if (res != 0) {
-                    warning.setText(res)
-                    warning.visibility = View.VISIBLE
+                    binding.warning.setText(res)
+                    binding.warning.visibility = View.VISIBLE
                     return@setOnClickListener
                 }
 
                 // adapt layout
-                continueB.visibility = View.GONE
-                warning.visibility = View.GONE
-                ongoingWrapper.visibility = View.VISIBLE
+                binding.continueButton.visibility = View.GONE
+                binding.warning.visibility = View.GONE
+                binding.ongoingWrapper.visibility = View.VISIBLE
                 lifecycleScope.launch {
                     attachProject(url, name, pwd)
                 }
             } else if (Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing...")
         }
         doBindService()
-        return v
+        return binding.root
     }
 
     override fun onDestroyView() {
         doUnbindService()
         super.onDestroyView()
+
+        _binding = null
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -257,13 +251,13 @@ class AcctMgrFragment : DialogFragment() {
                 startActivity(intent)
             }
         } else {
-            ongoingWrapper.visibility = View.GONE
-            continueB.visibility = View.VISIBLE
-            warning.visibility = View.VISIBLE
+            binding.ongoingWrapper.visibility = View.GONE
+            binding.continueButton.visibility = View.VISIBLE
+            binding.warning.visibility = View.VISIBLE
             if (!result.description.isNullOrEmpty()) {
-                warning.text = result.description
+                binding.warning.text = result.description
             } else {
-                warning.text = mapErrorNumToString(result.code)
+                binding.warning.text = mapErrorNumToString(result.code)
             }
         }
     }
