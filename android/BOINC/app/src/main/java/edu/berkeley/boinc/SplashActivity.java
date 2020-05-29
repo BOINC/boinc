@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -35,7 +34,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,6 +41,7 @@ import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.databinding.ActivitySplashBinding;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
@@ -55,8 +54,9 @@ import edu.berkeley.boinc.utils.Logging;
  * @author Joachim Fritzsch
  */
 public class SplashActivity extends AppCompatActivity {
+    private ActivitySplashBinding binding;
+
     private boolean mIsBound = false;
-    private Activity activity = this;
     private static IMonitor monitor = null;
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -98,7 +98,7 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_AVAILABLE");
                             }
                             // forward to BOINCActivity
-                            Intent startMain = new Intent(activity, BOINCActivity.class);
+                            Intent startMain = new Intent(SplashActivity.this, BOINCActivity.class);
                             startActivity(startMain);
                             break;
                         case ClientStatus.SETUP_STATUS_NOPROJECT:
@@ -111,7 +111,7 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
                             }
                             // forward to PROJECTATTACH
-                            Intent startAttach = new Intent(activity, SelectionListActivity.class);
+                            Intent startAttach = new Intent(SplashActivity.this, SelectionListActivity.class);
                             startActivity(startAttach);
                             break;
                         case ClientStatus.SETUP_STATUS_ERROR:
@@ -135,7 +135,8 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Create notification channel for use on API 26 and higher.
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -151,7 +152,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Use BOINC logo in Recent Apps Switcher
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
-            final String label = activity.getTitle().toString();
+            final String label = getTitle().toString();
             final ActivityManager.TaskDescription taskDescription;
 
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.P) { // API 28
@@ -161,7 +162,7 @@ public class SplashActivity extends AppCompatActivity {
                 taskDescription = new ActivityManager.TaskDescription(label, R.drawable.ic_boinc);
             }
 
-            activity.setTaskDescription(taskDescription);
+            setTaskDescription(taskDescription);
         }
 
         //initialize logging with highest verbosity, read actual value when monitor connected.
@@ -171,9 +172,8 @@ public class SplashActivity extends AppCompatActivity {
         doBindService();
 
         // set long click listener to go to eventlog
-        ImageView imageView = findViewById(R.id.logo);
-        imageView.setOnLongClickListener(view -> {
-            startActivity(new Intent(activity, EventLogActivity.class));
+        binding.logo.setOnLongClickListener(view -> {
+            startActivity(new Intent(SplashActivity.this, EventLogActivity.class));
             return true;
         });
     }
