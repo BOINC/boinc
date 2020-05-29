@@ -82,7 +82,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         message.setText(errorMessage);
 
         List<String> defaultValues = mListener.getDefaultInput();
-        emailET = v.findViewById(R.id.email_input);
+        emailET = v.findViewById(R.id.emailInput);
         emailET.setText(defaultValues.get(0));
         nameET = v.findViewById(R.id.nameInput);
         nameET.setText(defaultValues.get(1));
@@ -126,7 +126,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
             startActivity(i);
         });
 
-        CheckBox showPwdCb = v.findViewById(R.id.show_pwd_cb);
+        CheckBox showPwdCb = v.findViewById(R.id.showPwdCb);
         showPwdCb.setOnClickListener(view -> {
             if(((CheckBox) view).isChecked()) {
                 pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
