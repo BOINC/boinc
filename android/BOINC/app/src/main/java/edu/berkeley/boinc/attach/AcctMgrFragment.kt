@@ -41,6 +41,7 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.rpc.AccountManager
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -69,7 +70,7 @@ class AcctMgrFragment : DialogFragment() {
                     monitor!!.accountManagers
                 } catch (e: Exception) {
                     if (Logging.ERROR) Log.e(Logging.TAG, "AcctMgrFragment onCreateView() error: $e")
-                    emptyList()
+                    emptyList<AccountManager>()
                 }
                 val adapterData = accountManagers.map { AccountManagerSpinner(it.name, it.url) }
                 val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, adapterData)
