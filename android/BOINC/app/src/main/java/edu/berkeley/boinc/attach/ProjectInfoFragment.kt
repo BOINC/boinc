@@ -25,22 +25,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.glide.ScaleBitmapBy2
+import edu.berkeley.boinc.databinding.AttachProjectInfoLayoutBinding
 import edu.berkeley.boinc.rpc.ProjectInfo
 import edu.berkeley.boinc.utils.Logging
 
 class ProjectInfoFragment : DialogFragment() {
+    private var _binding: AttachProjectInfoLayoutBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment onCreateView")
         }
-        val v = inflater.inflate(R.layout.attach_project_info_layout, container, false)
+        _binding = AttachProjectInfoLayoutBinding.inflate(inflater, container, false)
 
         // get data
         val info: ProjectInfo? = requireArguments().getParcelable("info")
@@ -49,22 +51,22 @@ class ProjectInfoFragment : DialogFragment() {
                 Log.e(Logging.TAG, "ProjectInfoFragment info is null, return.")
             }
             dismiss()
-            return v
+            return binding.root
         }
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.name)
         }
 
         // set texts
-        v.findViewById<TextView>(R.id.project_name).text = info.name
-        v.findViewById<TextView>(R.id.project_summary).text = info.summary
-        v.findViewById<TextView>(R.id.project_area).text = "${info.generalArea}: ${info.specificArea}"
-        v.findViewById<TextView>(R.id.project_desc).text = info.description
-        v.findViewById<TextView>(R.id.project_home).text =
+        binding.projectName.text = info.name
+        binding.projectDesc.text = info.summary
+        binding.projectArea.text = "${info.generalArea}: ${info.specificArea}"
+        binding.projectDesc.text = info.description
+        binding.projectHome.text =
                 resources.getString(R.string.attachproject_login_header_home) + " ${info.home}"
 
         // setup return button
-        v.findViewById<Button>(R.id.continueButton).setOnClickListener {
+        binding.continueButton.setOnClickListener {
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectInfoFragment continue clicked")
             }
@@ -74,8 +76,13 @@ class ProjectInfoFragment : DialogFragment() {
             Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl)
         }
         Glide.with(this).asBitmap().placeholder(R.drawable.ic_boinc).load(info.imageUrl)
-                .transform(ScaleBitmapBy2()).into(v.findViewById(R.id.project_logo))
-        return v
+                .transform(ScaleBitmapBy2()).into(binding.projectLogo)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

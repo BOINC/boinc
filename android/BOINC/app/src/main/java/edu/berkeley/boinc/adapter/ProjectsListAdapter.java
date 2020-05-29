@@ -153,7 +153,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         else {
             // element is project
             // set data of standard elements
-            TextView tvName = vi.findViewById(R.id.project_name);
+            TextView tvName = vi.findViewById(R.id.projectName);
             tvName.setText(getName(position));
 
             TextView tvUser = vi.findViewById(R.id.project_user);
