@@ -28,7 +28,6 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
 import android.view.View
-import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
@@ -38,13 +37,15 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.databinding.AttachProjectListLayoutBinding
 import edu.berkeley.boinc.rpc.ProjectInfo
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.isOnline
 import kotlinx.coroutines.*
 
 class SelectionListActivity : AppCompatActivity() {
-    private lateinit var lv: ListView
+    private lateinit var binding: AttachProjectListLayoutBinding
+
     private val entries: MutableList<ProjectListEntry> = ArrayList()
     private val selected: MutableList<ProjectInfo?> = ArrayList()
 
@@ -53,6 +54,7 @@ class SelectionListActivity : AppCompatActivity() {
     private var mIsBound = false
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Logging.DEBUG) {
@@ -61,8 +63,8 @@ class SelectionListActivity : AppCompatActivity() {
         doBindService()
 
         // setup layout
-        setContentView(R.layout.attach_project_list_layout)
-        lv = findViewById(R.id.listview)
+        binding = AttachProjectListLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     override fun onDestroy() {
@@ -218,8 +220,7 @@ class SelectionListActivity : AppCompatActivity() {
         if (!statusAcctMgrPresent) {
             entries.add(ProjectListEntry()) // add account manager option to bottom of list
         }
-        val listAdapter = SelectionListAdapter(this@SelectionListActivity, R.id.listview, entries)
-        lv.adapter = listAdapter
+        binding.listview.adapter = SelectionListAdapter(this@SelectionListActivity, R.id.listview, entries)
     }
 
     private suspend fun retrieveProjectList() = withContext(Dispatchers.Default) {
