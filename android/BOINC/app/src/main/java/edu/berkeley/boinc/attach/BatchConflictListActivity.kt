@@ -23,9 +23,6 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.view.View
-import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.BOINCActivity
@@ -33,55 +30,19 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper
+import edu.berkeley.boinc.databinding.AttachProjectBatchConflictsLayoutBinding
 import edu.berkeley.boinc.utils.Logging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInputFragmentListener {
-    private lateinit var lv: ListView
+    private lateinit var binding: AttachProjectBatchConflictsLayoutBinding
+
     private lateinit var listAdapter: BatchConflictListAdapter
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
     private var manualUrl: String? = null
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchConflictListActivity onCreate")
-        }
-        doBindService()
-        // setup layout
-        setContentView(R.layout.attach_project_batch_conflicts_layout)
-        lv = findViewById(R.id.listview)
-        // adapt text
-        val conflicts = intent.getBooleanExtra("conflicts", false)
-        manualUrl = intent.getStringExtra("manualUrl")
-        val title = findViewById<TextView>(R.id.desc)
-        if (conflicts) {
-            title.setText(R.string.attachproject_conflicts_desc)
-        } else {
-            title.setText(R.string.attachproject_credential_input_desc)
-        }
-    }
-
-    override fun onDestroy() {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "BatchConflictListActivity onDestroy")
-        }
-        doUnbindService()
-        super.onDestroy()
-    }
-
-    public override fun onResume() {
-        registerReceiver(mClientStatusChangeRec, ifcsc)
-        super.onResume()
-    }
-
-    public override fun onPause() {
-        unregisterReceiver(mClientStatusChangeRec)
-        super.onPause()
-    }
 
     // not related to client status change, just used to implement cyclic checking of
     // results.
@@ -96,18 +57,6 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
     }
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
-
-    // triggered by finish button
-    fun finishClicked(v: View?) {
-        // finally, start BOINCActivity
-        val intent = Intent(this, BOINCActivity::class.java).apply {
-            // add flags to return to main activity and clearing all others and clear the back stack
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra("targetFragment", R.string.tab_projects) // make activity display projects fragment
-        }
-        startActivity(intent)
-    }
 
     private val mASConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -129,7 +78,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
             val results = attachService!!.selectedProjects
             listAdapter = BatchConflictListAdapter(this@BatchConflictListActivity, R.id.listview,
                     results, supportFragmentManager)
-            lv.adapter = listAdapter
+            binding.listview.adapter = listAdapter
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size + " elements.")
             }
@@ -140,6 +89,54 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
             attachService = null
             asIsBound = false
         }
+    }
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (Logging.DEBUG) {
+            Log.d(Logging.TAG, "BatchConflictListActivity onCreate")
+        }
+        doBindService()
+        // setup layout
+        binding = AttachProjectBatchConflictsLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        // adapt text
+        val conflicts = intent.getBooleanExtra("conflicts", false)
+        manualUrl = intent.getStringExtra("manualUrl")
+        if (conflicts) {
+            binding.desc.setText(R.string.attachproject_conflicts_desc)
+        } else {
+            binding.desc.setText(R.string.attachproject_credential_input_desc)
+        }
+
+        binding.finishButton.setOnClickListener {
+            // finally, start BOINCActivity
+            val intent = Intent(this, BOINCActivity::class.java).apply {
+                // add flags to return to main activity and clearing all others and clear the back stack
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra("targetFragment", R.string.tab_projects) // make activity display projects fragment
+            }
+            startActivity(intent)
+        }
+    }
+
+    override fun onDestroy() {
+        if (Logging.VERBOSE) {
+            Log.v(Logging.TAG, "BatchConflictListActivity onDestroy")
+        }
+        doUnbindService()
+        super.onDestroy()
+    }
+
+    public override fun onResume() {
+        registerReceiver(mClientStatusChangeRec, ifcsc)
+        super.onResume()
+    }
+
+    public override fun onPause() {
+        unregisterReceiver(mClientStatusChangeRec)
+        super.onPause()
     }
 
     private fun doBindService() {
