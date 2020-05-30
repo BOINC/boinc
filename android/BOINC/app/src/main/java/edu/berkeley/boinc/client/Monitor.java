@@ -33,18 +33,16 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -681,23 +679,23 @@ public class Monitor extends Service {
      * @return Boolean success
      */
     private boolean installClient() {
-        if (!installFile(fileNameClient, true, true, "")) {
+        if (!installFile(fileNameClient, true, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameClient);
             return false;
         }
-        if (!installFile(fileNameCABundle, true, false, "")) {
+        if (!installFile(fileNameCABundle, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameCABundle);
             return false;
         }
-        if (!installFile(fileNameClientConfig, true, false, "")) {
+        if (!installFile(fileNameClientConfig, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameClientConfig);
             return false;
         }
-        if (!installFile(fileNameAllProjectsList, true, false, "")) {
+        if (!installFile(fileNameAllProjectsList, false, "")) {
             if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameAllProjectsList);
             return false;
         }
-        if (!installFile(fileNameNoMedia, false, false, "." + fileNameNoMedia)) {
+        if (!installFile(fileNameNoMedia, false, "." + fileNameNoMedia)) {
             if (Logging.ERROR) Log.d(Logging.TAG, INSTALL_FAILED + fileNameNoMedia);
             return false;
         }
@@ -709,13 +707,11 @@ public class Monitor extends Service {
      * Copies given file from APK assets to internal storage.
      *
      * @param file       name of file as it appears in assets directory
-     * @param override   define override, if already present in internal storage
      * @param executable set executable flag of file in internal storage
      * @param targetFile name of target file
      * @return Boolean success
      */
-    @SuppressWarnings("java:S4042") // SonarLint warning for invoking File.delete()
-    private boolean installFile(String file, boolean override, boolean executable, String targetFile) {
+    private boolean installFile(String file, boolean executable, String targetFile) {
         boolean success = false;
 
         // If file is executable, cpu architecture has to be evaluated
@@ -725,7 +721,6 @@ public class Monitor extends Service {
             source = getAssetsDirForCpuArchitecture() + file;
         else
             source = file;
-        final String installFailed = "Install of " + source + " failed.";
 
         final File target;
         if (!targetFile.isEmpty()) {
@@ -735,63 +730,13 @@ public class Monitor extends Service {
         }
 
         try {
-            if(Logging.ERROR)
-                Log.d(Logging.TAG, "installing: " + source);
-
-            // Check path and create it
-            File installDir = new File(boincWorkingDir);
-            if(!installDir.exists()) {
-                if(!installDir.mkdir() && Logging.ERROR) {
-                    Log.d(Logging.TAG, "Monitor.installFile(): mkdir() was not successful.");
-                }
-
-                if(!installDir.setWritable(true) && Logging.ERROR) {
-                    Log.d(Logging.TAG, "Monitor.installFile(): setWritable() was not successful.");
-                }
-            }
-
-            if(target.exists()) {
-                boolean deleteSuccessful;
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    deleteSuccessful = target.delete();
-                }
-                else {
-                    Files.delete(target.toPath());
-                    deleteSuccessful = true;
-                }
-                if(override) {
-                    if(!deleteSuccessful && Logging.ERROR) {
-                        Log.d(Logging.TAG, "Monitor.installFile(): delete() was not successful.");
-                    }
-                }
-                else {
-                    if(Logging.DEBUG)
-                        Log.d(Logging.TAG, "Skipped file, exists and override is false.");
-                    return true;
-                }
-            }
-        } catch(IOException ioe) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
-                Log.d(Logging.TAG, installFailed);
-            }
-        } catch (SecurityException se) {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
-                Log.d(Logging.TAG, installFailed);
-            }
-        }
-
-        try (InputStream asset = getApplicationContext().getAssets().open(source);
-             OutputStream targetData = new FileOutputStream(target)) {
             // Copy file from the asset manager to clientPath
-            IOUtils.copy(asset, targetData);
-
+            FileUtils.copyInputStreamToFile(getApplicationContext().getAssets().open(source), target);
             success = true; //copy succeeded without exception
 
             // Set executable, if requested
             if (executable) {
-                success = target.setExecutable(executable); // return false, if not executable
+                success = target.setExecutable(true); // return false, if not executable
             }
 
             if (Logging.ERROR)
@@ -800,7 +745,7 @@ public class Monitor extends Service {
         } catch (IOException ioe) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
-                Log.d(Logging.TAG, installFailed);
+                Log.d(Logging.TAG, "Install of " + source + " failed.");
             }
         }
 
