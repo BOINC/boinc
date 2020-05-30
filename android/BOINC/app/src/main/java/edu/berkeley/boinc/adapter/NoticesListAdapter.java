@@ -75,7 +75,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
             ivIcon.setImageBitmap(icon);
         }
 
-        TextView tvProjectName = v.findViewById(R.id.projectName);
+        TextView tvProjectName = v.findViewById(R.id.project_name);
         tvProjectName.setText(listItem.getProjectName());
 
         TextView tvNoticeTitle = v.findViewById(R.id.noticeTitle);

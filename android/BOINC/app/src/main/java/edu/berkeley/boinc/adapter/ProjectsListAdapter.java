@@ -119,7 +119,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
         else {
             String viewId = (String) vi.getTag();
-            if(!data.id.equals(viewId)) {
+            if(!StringUtils.equals(data.id, viewId)) {
                 setup = true;
             }
         }
@@ -153,7 +153,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         else {
             // element is project
             // set data of standard elements
-            TextView tvName = vi.findViewById(R.id.projectName);
+            TextView tvName = vi.findViewById(R.id.project_name);
             tvName.setText(getName(position));
 
             TextView tvUser = vi.findViewById(R.id.project_user);
