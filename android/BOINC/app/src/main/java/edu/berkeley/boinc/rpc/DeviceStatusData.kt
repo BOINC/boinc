@@ -18,7 +18,9 @@
  */
 package edu.berkeley.boinc.rpc
 
-class DeviceStatusData {
+import javax.inject.Inject
+
+class DeviceStatusData @Inject constructor() {
     var isOnACPower = false
     var isOnUSBPower = false // not used
     var batteryChargePct = 0

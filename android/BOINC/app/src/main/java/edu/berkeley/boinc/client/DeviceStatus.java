@@ -42,7 +42,7 @@ import edu.berkeley.boinc.utils.Logging;
 @Singleton
 public class DeviceStatus {
     // variables describing device status in RPC
-    private DeviceStatusData status = new DeviceStatusData();
+    private DeviceStatusData status;
 
     // additional device status
     // true, if operating in stationary device mode
@@ -69,12 +69,14 @@ public class DeviceStatus {
      * @param context Application Context
      */
     @Inject
-    DeviceStatus(Context context, AppPreferences appPrefs) {
+    DeviceStatus(Context context, AppPreferences appPrefs, DeviceStatusData status) {
         this.context = context;
-        this.connManager = ContextCompat.getSystemService(context, ConnectivityManager.class);
-        this.telManager = ContextCompat.getSystemService(context, TelephonyManager.class);
-        this.batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        this.status = status;
         this.appPrefs = appPrefs;
+
+        connManager = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        telManager = ContextCompat.getSystemService(context, TelephonyManager.class);
+        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     /**
