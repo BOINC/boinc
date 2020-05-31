@@ -87,9 +87,6 @@ public class Monitor extends Service {
     private static final String INSTALL_FAILED = "Failed to install: ";
     private static final String IOEXCEPTION_LOG = "IOException: ";
 
-    private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
-    private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
-
     @Inject
     AppPreferences appPreferences; //hold the status of the app, controlled by AppPreferences
 
@@ -98,6 +95,15 @@ public class Monitor extends Service {
 
     @Inject
     ClientInterfaceImplementation clientInterface; //provides functions for interaction with client via RPC
+
+    @Inject
+    ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
+
+    @Inject
+    DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
+
+    @Inject
+    NoticeNotification noticeNotification;
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
@@ -145,17 +151,11 @@ public class Monitor extends Service {
         deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
         clientSocketAddress = getString(R.string.client_socket_address);
 
-        // initialize singleton helper classes and provide application context
-        clientStatus = new ClientStatus(this, appPreferences);
-        deviceStatus = new DeviceStatus(this, appPreferences);
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized");
 
         // set current screen on/off status
         PowerManager pm = ContextCompat.getSystemService(this, PowerManager.class);
         screenOn = pm.isScreenOn();
-
-        // initialize DeviceStatus wrapper
-        deviceStatus = new DeviceStatus(getApplicationContext(), appPreferences);
 
         // register screen on/off receiver
         IntentFilter onFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
@@ -239,43 +239,6 @@ public class Monitor extends Service {
         return START_STICKY;
     }
 // --end-- attributes and methods related to Android Service life-cycle
-
-// singleton getter
-
-    /**
-     * Retrieve singleton of ClientStatus.
-     *
-     * @return ClientStatus, represents the data model of the BOINC client's status
-     * @throws Exception if client status has not been initialized
-     */
-    public static ClientStatus getClientStatus() throws Exception { //singleton pattern
-        if (clientStatus == null) {
-            // client status needs application context, but context might not be available
-            // in static code. functions have to deal with Exception!
-            if (Logging.WARNING)
-                Log.w(Logging.TAG, "getClientStatus: clientStatus not yet initialized");
-            throw new Exception("clientStatus not initialized");
-        }
-        return clientStatus;
-    }
-
-    /**
-     * Retrieve singleton of DeviceStatus.
-     *
-     * @return DeviceStatus, represents data model of device information reported to the client
-     * @throws Exception if deviceStatus hast not been initialized
-     */
-    public static DeviceStatus getDeviceStatus() throws Exception {//singleton pattern
-        if (deviceStatus == null) {
-            // device status needs application context, but context might not be available
-            // in static code. functions have to deal with Exception!
-            if (Logging.WARNING)
-                Log.w(Logging.TAG, "getDeviceStatus: deviceStatus not yet initialized");
-            throw new Exception("deviceStatus not initialized");
-        }
-        return deviceStatus;
-    }
-// --end-- singleton getter
 
 // public methods for Activities
 
@@ -408,10 +371,10 @@ public class Monitor extends Service {
                 CcState state = clientInterface.getState();
                 List<Transfer> transfers = clientInterface.getFileTransfers();
                 AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
-                List<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
+                List<Notice> newNotices = clientInterface.getNotices(clientStatus.getMostRecentNoticeSeqNo());
 
                 if (ObjectUtils.allNotNull(status, state, state.getHostInfo(), acctMgrInfo)) {
-                    Monitor.getClientStatus().setClientStatus(status, state.getResults(), state.getProjects(),
+                    clientStatus.setClientStatus(status, state.getResults(), state.getProjects(),
                                                               transfers, state.getHostInfo(), acctMgrInfo,
                                                               newNotices);
                 } else {
@@ -430,7 +393,8 @@ public class Monitor extends Service {
                 }
 
                 // update notices notification
-                NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), appPreferences.getShowNotificationForNotices());
+                noticeNotification.update(clientStatus.getRssNotices(),
+                                          appPreferences.getShowNotificationForNotices());
 
                 // check whether monitor is still intended to update, if not, skip broadcast and exit...
                 if (updateBroadcastEnabled) {
@@ -452,9 +416,9 @@ public class Monitor extends Service {
                                 || (status.getTaskSuspendReason() == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
             if (Logging.VERBOSE)
                 Log.d(Logging.TAG, "readClientStatus(): computation enabled: " + computing);
-            Monitor.getClientStatus().setWifiLock(computing);
-            Monitor.getClientStatus().setWakeLock(computing);
-            ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus(), this, computing);
+            clientStatus.setWifiLock(computing);
+            clientStatus.setWakeLock(computing);
+            ClientNotification.getInstance(getApplicationContext()).update(clientStatus, this, computing);
 
         } catch (Exception e) {
             if (Logging.ERROR)
@@ -500,17 +464,7 @@ public class Monitor extends Service {
     private boolean clientSetup() {
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup()");
 
-        // try to get current client status from monitor
-        ClientStatus status;
-        try {
-            status = Monitor.getClientStatus();
-        } catch (Exception e) {
-            if (Logging.WARNING)
-                Log.w(Logging.TAG, "Monitor.clientSetup: Could not load data, clientStatus not initialized.");
-            return false;
-        }
-
-        status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING, true);
+        clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING, true);
         String clientProcessName = boincWorkingDir + fileNameClient;
 
         String md5AssetClient = computeMd5(fileNameClient, true);
@@ -593,7 +547,7 @@ public class Monitor extends Service {
                 // read preferences for GUI to be able to display data
                 GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
                 if (clientPrefs == null) throw new Exception("client prefs null");
-                status.setPrefs(clientPrefs);
+                clientStatus.setPrefs(clientPrefs);
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
@@ -614,11 +568,11 @@ public class Monitor extends Service {
         if (init) {
             if (Logging.ERROR)
                 Log.d(Logging.TAG, "Monitor.clientSetup() - setup completed successfully");
-            status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE, false);
+            clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE, false);
         } else {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "Monitor.clientSetup() - setup experienced an error");
-            status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR, true);
+            clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR, true);
         }
 
         return connected;
@@ -1055,7 +1009,7 @@ public class Monitor extends Service {
         @Override
         public boolean isStationaryDeviceSuspected() throws RemoteException {
             try {
-                return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
+                return deviceStatus.isStationaryDeviceSuspected();
             } catch (Exception e) {
                 if (Logging.ERROR)
                     Log.e(Logging.TAG, "Monitor.IMonitor.Stub: isStationaryDeviceSuspected() error: ", e);
@@ -1092,7 +1046,7 @@ public class Monitor extends Service {
         @Override
         public int getBatteryChargeStatus() throws RemoteException {
             try {
-                return getDeviceStatus().getStatus().getBatteryChargePct();
+                return deviceStatus.getStatus().getBatteryChargePct();
             } catch (Exception e) {
                 if (Logging.ERROR)
                     Log.e(Logging.TAG, "Monitor.IMonitor.Stub: getBatteryChargeStatus() error: ", e);
@@ -1337,7 +1291,7 @@ public class Monitor extends Service {
 
         @Override
         public void cancelNoticeNotification() throws RemoteException {
-            NoticeNotification.getInstance(getApplicationContext()).cancelNotification();
+            noticeNotification.cancelNotification();
         }
 
         @Override

@@ -33,43 +33,36 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
+@Singleton
 public class NoticeNotification {
-    private static NoticeNotification noticeNotification = null;
-
+    private ClientStatus clientStatus;
     private Context context;
-    private PersistentStorage store;
+    private PersistentStorage persistentStorage;
+
     private NotificationManager nm;
     private Integer notificationId;
     private PendingIntent contentIntent;
 
-    private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<>();
-    private Boolean isNotificationShown = false;
+    private List<Notice> currentlyNotifiedNotices = new ArrayList<>();
+    private boolean isNotificationShown = false;
 
-    /**
-     * Returns a reference to a singleton noticeNotification object.
-     * Constructs a new instance of the noticeNotification if not already constructed.
-     *
-     * @return noticeNotification static instance
-     */
-    public static NoticeNotification getInstance(Context ctx) {
-        if(noticeNotification == null) {
-            noticeNotification = new NoticeNotification(ctx);
-        }
-        return noticeNotification;
-    }
-
-    public NoticeNotification(Context ctx) {
-        this.context = ctx;
-        this.store = new PersistentStorage(ctx);
-        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
-        notificationId = context.getResources().getInteger(R.integer.notice_notification_id);
-        Intent intent = new Intent(context, BOINCActivity.class);
+    @Inject
+    public NoticeNotification(Context context, ClientStatus clientStatus, PersistentStorage persistentStorage) {
+        this.context = context;
+        this.clientStatus = clientStatus;
+        this.persistentStorage = persistentStorage;
+        this.nm = ContextCompat.getSystemService(this.context, NotificationManager.class);
+        notificationId = this.context.getResources().getInteger(R.integer.notice_notification_id);
+        Intent intent = new Intent(this.context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("targetFragment", R.string.tab_notices);
         contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -90,7 +83,7 @@ public class NoticeNotification {
     /**
      * Updates notification with current notices
      */
-    public void update(List<Notice> notices, Boolean isPreferenceEnabled) {
+    public void update(List<Notice> notices, boolean isPreferenceEnabled) {
         if(!isPreferenceEnabled) {
             if(isNotificationShown) {
                 nm.cancel(notificationId);
@@ -100,9 +93,9 @@ public class NoticeNotification {
         }
 
         // filter new notices
-        Boolean newNotice = false;
+        boolean newNotice = false;
         double mostRecentSeenArrivalTime = 0;
-        double lastNotifiedArrivalTime = store.getLastNotifiedNoticeArrivalTime();
+        double lastNotifiedArrivalTime = persistentStorage.getLastNotifiedNoticeArrivalTime();
 
         for(Notice tmp : notices) {
             if(tmp.getArrivalTime() > lastNotifiedArrivalTime) {
@@ -117,7 +110,7 @@ public class NoticeNotification {
 
         if(newNotice) {
             // new notices came in
-            store.setLastNotifiedNoticeArrivalTime(mostRecentSeenArrivalTime);
+            persistentStorage.setLastNotifiedNoticeArrivalTime(mostRecentSeenArrivalTime);
             nm.notify(notificationId, buildNotification());
             isNotificationShown = true;
         }
@@ -139,7 +132,7 @@ public class NoticeNotification {
         if(notices == 1) {
             // single notice view
             nb.setContentText(currentlyNotifiedNotices.get(0).getTitle()).
-                    setLargeIcon(NoticeNotification.getLargeProjectIcon(context, projectName));
+                    setLargeIcon(getLargeProjectIcon(context, projectName));
         }
         else {
             // multi notice view
@@ -159,10 +152,10 @@ public class NoticeNotification {
         return nb.build();
     }
 
-    private static final Bitmap getLargeProjectIcon(final Context context, final String projectName) {
+    private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
         try {
-            return (projectIconBitmap = Monitor.getClientStatus().getProjectIconByName(projectName)) != null ?
+            return (projectIconBitmap = clientStatus.getProjectIconByName(projectName)) != null ?
                    Bitmap.createScaledBitmap(
                            projectIconBitmap,
                            projectIconBitmap.getWidth() << 1,
