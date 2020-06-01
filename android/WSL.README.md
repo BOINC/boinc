@@ -4,27 +4,32 @@
 
 Allow Windows users to use built-in WSL for setting up for BOINC Android development
 
-## Known Issues (WSL1)
+## Known Issues
 
-* Slow build times
-* fork/exec error
+* WSL1: Slow I/O performance - [Microsoft/WSL#873](https://github.com/Microsoft/WSL/issues/873)
+* WSL1: fork/exec error - [Microsoft/WSL#2469](https://github.com/microsoft/WSL/issues/2469)
+* WSL1: wget HSTS error - <https://superuser.com/questions/1539972/wget-error-bash-windows-subsystem-for-linux>
+* WSL2: High vmmem memory usage - [Microsoft/WSL#4166](https://github.com/microsoft/WSL/issues/4166)
+* WSL2: Unable to use hardware accleration in Android Emulator or VirtualBox - [WSL2 FAQ](https://docs.microsoft.com/en-us/windows/wsl/wsl2-faq#will-i-be-able-to-run-wsl-2-and-other-3rd-party-virtualization-tools-such-as-vmware-or-virtualbox)
 
 ## Prerequisites
 
 * Windows 10 x86_64 version 1607 or later (for WSL1)
+* Windows 10 x86_64 version 2004 or later (for WSL2)
 * [Android Studio (Windows)](https://developer.android.com/studio#downloads)
+* `git` client (for Android Studio)
 * [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) # IMPORTANT #
 * [Ubuntu from Microsoft Store](https://wiki.ubuntu.com/WSL#Installing_Ubuntu_on_WSL_via_the_Microsoft_Store_.28Recommended.29)
 
 ## Set up Ubuntu
 
-We are going to use Ubuntu 18.04 as an example, other versions should be similar. Refer [Prerequisites](#Prerequisites) before proceeding.
+We are going to use Ubuntu 20.04 as an example, other versions should be similar. Refer [Prerequisites](#Prerequisites) before proceeding.
 
 1. Update and install build tools
 
         $ sudo apt update && sudo apt upgrade
 
-        $ sudo apt install git unzip make m4 pkg-config autoconf automake libtool python
+        $ sudo apt install git unzip make m4 pkg-config autoconf automake libtool python-is-python3
 
 1. Clone BOINC repo
 
@@ -46,21 +51,21 @@ We are going to use Ubuntu 18.04 as an example, other versions should be similar
 
 ## Android Studio
 
-Open Android Studio and choose `Check out project from Version Control > Git`
+Open Android Studio and choose `Get from Version Control`
 
 Set URL as `https://github.com/boinc/boinc` and clone it. When asked about creating Android Studio project, select No.
 
 Once the native client build is complete, copy the native client binaries to cloned repo at Android Studio side. Replace `<pathtofolder>` with appropriate location.
 
-        $ cp -frv ~/boinc/android/BOINC/app/src/main/assets/* /mnt/c/<pathtofolder>/boinc/android/BOINC/app/src/main/assets/
+        $ cp -frv ~/boinc/android/BOINC/app/src/main/assets/* /mnt/<drive>/<pathtofolder>/boinc/android/BOINC/app/src/main/assets/
 
-Then import project from `C:\<pathtofolder>\boinc\android\BOINC`
+Then import project from `<drive>:\<pathtofolder>\boinc\android\BOINC`
 
 After Gradle sync completed, you can now start development or compile the APK.
 
 ## Workarounds
 
-While WSL1 makes building the native client easily, it is prone to errors and speed issues. You may want to checkout [WSL#2469](https://github.com/microsoft/WSL/issues/2469) for workarounds. Note that [Microsoft does not recommend this](https://github.com/Microsoft/WSL/issues/873#issuecomment-463442051) and users are expected do it at their own discretion. You can read more about WSL1 and its issues at [WSL#873](https://github.com/Microsoft/WSL/issues/873#issuecomment-425272829). This should be fixed with the release of WSL2.
+While WSL1 makes building the native client easily, it is prone to errors and speed issues. You may want to check out workarounds enlisted in the [Known Issues](#known-issues) section. Note that [Microsoft does not recommend this](https://github.com/Microsoft/WSL/issues/873#issuecomment-463442051) and users are expected do it at their own discretion. You can read more about WSL1 and its issues at [Microsoft/WSL#873 (comment)](https://github.com/Microsoft/WSL/issues/873#issuecomment-425272829). This should be fixed with the release of WSL2.
 
 ## Tips
 
