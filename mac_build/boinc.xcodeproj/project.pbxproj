@@ -255,6 +255,7 @@
 		DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */; };
 		DD806336131FAD9A00DC8971 /* sg_CustomControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */; };
 		DD806339131FADE700DC8971 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
+		DD818295245ED4110076E5D0 /* boinc_ss_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = DD818294245ED4010076E5D0 /* boinc_ss_helper.sh */; };
 		DD81C7E3144D900B000BE61A /* jcapimin.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A1144D900B000BE61A /* jcapimin.c */; };
 		DD81C7E4144D900B000BE61A /* jcapistd.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A2144D900B000BE61A /* jcapistd.c */; };
 		DD81C7E5144D900B000BE61A /* jccoefct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7A3144D900B000BE61A /* jccoefct.c */; };
@@ -1072,6 +1073,7 @@
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = sandbox.cpp; sourceTree = "<group>"; };
 		DD80C83E0CBAEB4F00F1121D /* sandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sandbox.h; path = ../client/sandbox.h; sourceTree = SOURCE_ROOT; };
+		DD818294245ED4010076E5D0 /* boinc_ss_helper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = boinc_ss_helper.sh; path = ../clientscr/boinc_ss_helper.sh; sourceTree = "<group>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
 		DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseView.cpp; path = ../clientgui/BOINCBaseView.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgOptions.cpp; path = ../clientgui/DlgOptions.cpp; sourceTree = SOURCE_ROOT; };
@@ -1281,6 +1283,7 @@
 		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
+		DDDE391224600D05005FCEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemConfiguration.framework; sourceTree = "<group>"; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE1372810DC5E5300161D6B /* cs_notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_notice.cpp; path = ../client/cs_notice.cpp; sourceTree = SOURCE_ROOT; };
@@ -1639,6 +1642,7 @@
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 				DD0BB7A11F62B105000151B2 /* IOSurface.framework */,
+				DDDE391224600D05005FCEFA /* SystemConfiguration.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -1929,6 +1933,7 @@
 				DDE7A3B015C6739E002B3B96 /* ttfont.h */,
 				DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */,
 				DD5F654A23605C87009ED2A2 /* gfx_cleanup.mm */,
+				DD818294245ED4010076E5D0 /* boinc_ss_helper.sh */,
 			);
 			name = clientscr;
 			sourceTree = SOURCE_ROOT;
@@ -2421,6 +2426,7 @@
 				DD96AFF60811075000A06F22 /* Sources */,
 				DD96AFF70811075000A06F22 /* Frameworks */,
 				DD5FD5990A0233D60093C19F /* ShellScript */,
+				DD818296245EDA220076E5D0 /* ShellScript */,
 				DDF9B764245C12AA00587EBE /* ShellScript */,
 			);
 			buildRules = (
@@ -2673,6 +2679,7 @@
 			files = (
 				DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */,
 				DD5F656623607472009ED2A2 /* gfx_cleanup in Resources */,
+				DD818295245ED4110076E5D0 /* boinc_ss_helper.sh in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
 				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
 				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
@@ -2863,6 +2870,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\nfi\n";
+		};
+		DD818296245EDA220076E5D0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod u+x,g+x,o+x \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Resources/boinc_ss_helper.sh\"\n";
 		};
 		DD81C827144D90FC000BE61A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3809,6 +3833,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
 			};
 			name = Development;
@@ -3821,6 +3846,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -3869,6 +3895,7 @@
 					"-lpthread",
 					"-lm",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc;
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -3927,6 +3954,7 @@
 					"-lpthread",
 					"-lm",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc;
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -4059,6 +4087,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Uninstaller;
 				PRODUCT_NAME = "Uninstall BOINC";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4072,6 +4101,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Uninstaller;
 				PRODUCT_NAME = "Uninstall BOINC";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4131,6 +4161,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
 					"-Wno-main",
+					"-Wno-shift-negative-value",
 				);
 			};
 			name = Development;
@@ -4146,6 +4177,7 @@
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
 					"-Wno-main",
+					"-Wno-shift-negative-value",
 				);
 			};
 			name = Deployment;
@@ -4277,6 +4309,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
@@ -4337,6 +4370,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.PostInstall;
 				PRODUCT_NAME = PostInstall;
 			};
 			name = Deployment;
@@ -4443,6 +4477,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
@@ -4502,6 +4537,7 @@
 					"-framework",
 					Carbon,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.PostInstall;
 				PRODUCT_NAME = PostInstall;
 			};
 			name = Development;

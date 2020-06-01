@@ -228,7 +228,7 @@ FILE_INFO::~FILE_INFO() {
 void FILE_INFO::reset() {
     status = FILE_NOT_PRESENT;
     delete_file();
-    error_msg = "";
+    error_msg.clear();
 }
 
 // Set file ownership if using account-based sandbox;
@@ -304,7 +304,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.match_tag("/file_info") || xp.match_tag("/file")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(name, '%')) return ERR_BAD_FILENAME;
             if (gzipped_urls.size() > 0) {
                 download_urls.clear();
                 download_urls.urls = gzipped_urls;
@@ -1054,7 +1054,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_ref")) {
             if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(open_name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(open_name, '%')) return ERR_BAD_FILENAME;
             return 0;
         }
         if (xp.parse_str("file_name", file_name, sizeof(file_name))) continue;
@@ -1106,7 +1106,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     safe_strcpy(name, "");
     safe_strcpy(app_name, "");
     version_num = 0;
-    command_line = "";
+    command_line.clear();
     //strcpy(env_vars, "");
     app = NULL;
     project = NULL;

@@ -28,17 +28,19 @@ import edu.berkeley.boinc.utils.Logging
 
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val prefs = AppPreferences()
-        prefs.readPrefs(context)
-        if (prefs.autostart) {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
-            }
-            context.startService(Intent(context, Monitor::class.java))
-        } else {
-            // do nothing
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
+        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+            val prefs = AppPreferences()
+            prefs.readPrefs(context)
+            if (prefs.autostart) {
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
+                }
+                context.startService(Intent(context, Monitor::class.java))
+            } else {
+                // do nothing
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
+                }
             }
         }
     }
@@ -67,7 +69,9 @@ class PackageReplacedReceiver : BroadcastReceiver() {
 
 class PowerConnectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(Logging.TAG, "power connected, start service...")
-        context.startService(Intent(context, Monitor::class.java))
+        if (intent.action == Intent.ACTION_POWER_CONNECTED) {
+            Log.d(Logging.TAG, "power connected, start service...")
+            context.startService(Intent(context, Monitor::class.java))
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -19,15 +19,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:minWidth="200dp"
     android:orientation="vertical">
 
     <TextView
+        style="@style/BackgroundDayNight"
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_light_blue_background"
         android:padding="20dp"
         android:singleLine="true"
         android:text="@string/attachproject_acctmgr_header"
@@ -93,11 +92,11 @@
 
 
     <LinearLayout
+        style="@style/BackgroundDayNight"
         android:id="@+id/ongoing_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/shape_light_blue_background"
         android:orientation="horizontal"
         android:padding="20dp"
         android:visibility="gone">

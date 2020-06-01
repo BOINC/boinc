@@ -53,11 +53,11 @@ if ($threadid < 1) {
 }
 
 $thread = BoincThread::lookup_id($threadid);
-$forum = BoincForum::lookup_id($thread->forum);
 
 if (!$thread) {
     error_page("Bad thread ID");
 }
+$forum = BoincForum::lookup_id($thread->forum);
 
 if (!is_forum_visible_to_user($forum, $logged_in_user)) {
     if ($logged_in_user) {

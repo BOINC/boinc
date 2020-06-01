@@ -21,9 +21,56 @@
 package edu.berkeley.boinc.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.os.Build
+import android.os.RemoteException
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toBitmap
+import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.io.Reader
+
+val ConnectivityManager.isOnline: Boolean
+    get() {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            activeNetworkInfo?.isConnectedOrConnecting == true
+        } else {
+            activeNetwork != null
+        }
+    }
+
+suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
+    val runMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setRunMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+    val networkMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setNetworkMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+
+    return@coroutineScope runMode.await() && networkMode.await()
+}
+
+fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
+    var drawable = ContextCompat.getDrawable(this, drawableId)!!
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        drawable = DrawableCompat.wrap(drawable).mutate()
+    }
+    return drawable.toBitmap()
+}
 
 @Throws(IOException::class)
 fun Reader.readLineLimit(limit: Int): String? {

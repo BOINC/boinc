@@ -22,10 +22,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * Shows dialog to exit, if another BONIC based application detected on device.
  */
-public class BoincNotExclusiveDialog extends Activity {
+public class BoincNotExclusiveDialog extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

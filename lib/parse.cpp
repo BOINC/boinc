@@ -309,7 +309,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
 char* sgets(char* buf, int len, char*& in) {
     char* p;
 
-    p = strstr(in, "\n");
+    p = strchr(in, '\n');
     if (!p) return NULL;
     *p = 0;
     strlcpy(buf, in, len);

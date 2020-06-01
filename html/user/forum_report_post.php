@@ -32,8 +32,11 @@ check_get_args(array("post", "submit", "reason", "tnow", "ttok"));
 $postId = get_int('post');
 
 $post = BoincPost::lookup_id($postId);
+if (!$post) error_page("No such post.");
 $thread = BoincThread::lookup_id($post->thread);
+if (!$thread) error_page("No such thread.");
 $forum = BoincForum::lookup_id($thread->forum);
+if (!$forum) error_page("No such forum.");
 
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);

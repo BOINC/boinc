@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -34,12 +34,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -53,12 +58,6 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private List<TaskData> entries;
     private Activity activity;
     /**
-     * This member eliminates reallocation of a {@link Date} object in {@link #getView(int, View, ViewGroup)}.
-     *
-     * @see #getView(int, View, ViewGroup)
-     */
-    private final Date deadlineDate;
-    /**
      * This member eliminates reallocation of a {@link StringBuilder} object in {@link #getView(int, View, ViewGroup)}.
      *
      * @see #getView(int, View, ViewGroup)
@@ -70,10 +69,9 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
-        this.deadlineDate = new Date();
         this.elapsedTimeStringBuilder = new StringBuilder();
         percentNumberFormat = NumberFormat.getPercentInstance();
-        percentNumberFormat.setMinimumFractionDigits(1);
+        percentNumberFormat.setMinimumFractionDigits(3);
     }
 
     @NonNull
@@ -97,7 +95,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         if(setup) {
-            LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
+            assert vi != null;
             v = vi.inflate(R.layout.tasks_layout_listitem, null);
             v.setTag(listItem.id);
         }
@@ -116,7 +115,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
             if(icon == null) {
-                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
             }
             else {
                 ivIcon.setImageBitmap(icon);
@@ -124,14 +123,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             }
         }
 
-        String headerT = listItem.result.getApp().getDisplayName();
+        String headerT = listItem.getResult().getApp().getDisplayName();
         header.setText(headerT);
 
         // set project name
-        String tempProjectName = listItem.result.getProjectURL();
-        if(listItem.result.getProject() != null) {
-            tempProjectName = listItem.result.getProject().getName();
-            if(listItem.result.isProjectSuspendedViaGUI()) {
+        String tempProjectName = listItem.getResult().getProjectURL();
+        if(listItem.getResult().getProject() != null) {
+            tempProjectName = listItem.getResult().getProject().getName();
+            if(listItem.getResult().isProjectSuspendedViaGUI()) {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
@@ -140,18 +139,18 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // status text
         String statusT = determineStatusText(listItem);
         status.setText(statusT);
-        if(listItem.result.getState() == BOINCDefs.RESULT_ABORTED ||
-           listItem.result.getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_UPLOADED ||
-           listItem.result.getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
-           listItem.result.getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
-           listItem.result.getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
+        if(listItem.getResult().getState() == BOINCDefs.RESULT_ABORTED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
             statusPercentage.setVisibility(View.GONE);
         }
         else {
             statusPercentage.setVisibility(View.VISIBLE);
-            statusPercentage.setText(this.percentNumberFormat.format(listItem.result.getFractionDone()));
+            statusPercentage.setText(this.percentNumberFormat.format(listItem.getResult().getFractionDone()));
         }
         // --- end of independent view elements
 
@@ -163,7 +162,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             pb.setVisibility(View.VISIBLE);
             pb.setIndeterminate(false);
             pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-            pb.setProgress(Math.round(listItem.result.getFractionDone() * pb.getMax()));
+            pb.setProgress(Math.round(listItem.getResult().getFractionDone() * pb.getMax()));
         }
         else {
             pb.setVisibility(View.GONE);
@@ -174,34 +173,36 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
         if(!listItem.expanded) {
             // view is collapsed
-            expandButton.setImageResource(R.drawable.collapse);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right);
             rightColumnExpandWrapper.setVisibility(View.GONE);
             centerColumnExpandWrapper.setVisibility(View.GONE);
         }
         else {
             // view is expanded
-            expandButton.setImageResource(R.drawable.expand);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down);
             rightColumnExpandWrapper.setVisibility(View.VISIBLE);
             centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 
             // elapsed time
             final long elapsedTime;
             // show time depending whether task is active or not
-            if(listItem.result.isActiveTask()) {
-                elapsedTime = (long) listItem.result.getElapsedTime(); //is 0 when task finished
+            if(listItem.getResult().isActiveTask()) {
+                elapsedTime = (long) listItem.getResult().getElapsedTime(); //is 0 when task finished
             }
             else {
-                elapsedTime = (long) listItem.result.getFinalElapsedTime();
+                elapsedTime = (long) listItem.getResult().getFinalElapsedTime();
             }
             time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 
             // set deadline
-            this.deadlineDate.setTime(listItem.result.getReportDeadline() * 1000);
-            final String deadline = DateFormat.getDateTimeInstance().format(this.deadlineDate);
+            final LocalDateTime deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
+                    listItem.getResult().getReportDeadline()), ZoneId.systemDefault());
+            final String deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                                     .format(deadlineDateTime);
             ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
             // set application friendly name
-            if(listItem.result.getApp() != null) {
-                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.getName());
+            if(listItem.getResult().getApp() != null) {
+                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.getResult().getName());
             }
 
             // buttons
@@ -220,15 +221,22 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
                     (v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
 
+                    final Resources resources = activity.getResources();
+                    final Resources.Theme theme = activity.getTheme();
+
                     // checking what suspendResume button should be shown
-                    if(listItem.result.isSuspendedViaGUI()) { // show play
+                    if(listItem.getResult().isSuspendedViaGUI()) { // show play
                         suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.resumetask);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_white);
                         suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
                     }
                     else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
                         suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.pausetask);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_white);
                         suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
                     }
                     else { // show nothing
@@ -250,7 +258,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private Bitmap getIcon(int position) {
         // try to get current client status from monitor
         try {
-            return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.getProjectURL());
+            return BOINCActivity.monitor.getProjectIcon(entries.get(position).getResult().getProjectURL());
         }
         catch(Exception e) {
             if(Logging.WARNING) {
@@ -276,7 +284,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         //active state
-        if(tmp.result.isActiveTask()) {
+        if(tmp.getResult().isActiveTask()) {
             switch(status) {
                 case BOINCDefs.PROCESS_UNINITIALIZED:
                     return activity.getString(R.string.tasks_active_uninitialized);

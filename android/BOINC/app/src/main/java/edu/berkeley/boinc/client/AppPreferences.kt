@@ -24,8 +24,11 @@ import android.util.Log
 import androidx.core.content.edit
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppPreferences {
+@Singleton
+class AppPreferences @Inject constructor() {
     private var prefs: SharedPreferences? = null
 
     var autostart = false
@@ -45,8 +48,7 @@ class AppPreferences {
         }
     var logLevel = 0
         set(value) {
-            // Commit a new value synchronously
-            prefs?.edit(commit = true) { putInt("logLevel", value) }
+            prefs?.edit { putInt("logLevel", value) }
             field = value
             Logging.setLogLevel(value)
         }
@@ -77,7 +79,7 @@ class AppPreferences {
         }
 
     private fun putBooleanToPrefs(key: String, value: Boolean) {
-        prefs?.edit(commit = true) { putBoolean(key, value) }
+        prefs?.edit { putBoolean(key, value) }
     }
 
     fun readPrefs(ctx: Context) {

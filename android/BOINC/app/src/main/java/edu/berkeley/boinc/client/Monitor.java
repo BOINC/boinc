@@ -31,6 +31,9 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -49,6 +52,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
+import edu.berkeley.boinc.BOINCApplication;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.mutex.BoincMutex;
 import edu.berkeley.boinc.rpc.AccountIn;
@@ -61,6 +67,7 @@ import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectConfig;
@@ -80,13 +87,19 @@ import edu.berkeley.boinc.utils.Logging;
  */
 public class Monitor extends Service {
     private static final String INSTALL_FAILED = "Failed to install: ";
+    private static final String IOEXCEPTION_LOG = "IOException: ";
 
-    private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
     private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
-    private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
     private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 
-    public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+    @Inject
+    AppPreferences appPreferences; //hold the status of the app, controlled by AppPreferences
+
+    @Inject
+    BoincMutex mutex; // holds the BOINC mutex, only compute if acquired
+
+    @Inject
+    ClientInterfaceImplementation clientInterface; //provides functions for interaction with client via RPC
 
     // XML defined variables, populated in onCreate
     private String fileNameClient;
@@ -118,6 +131,7 @@ public class Monitor extends Service {
 
     @Override
     public void onCreate() {
+        ((BOINCApplication) getApplication()).getAppComponent().inject(this);
 
         Log.d(Logging.TAG, "Monitor onCreate()");
 
@@ -134,18 +148,17 @@ public class Monitor extends Service {
         clientSocketAddress = getString(R.string.client_socket_address);
 
         // initialize singleton helper classes and provide application context
-        clientStatus = new ClientStatus(this);
-        getAppPrefs().readPrefs(this);
-        deviceStatus = new DeviceStatus(this, getAppPrefs());
+        clientStatus = new ClientStatus(this, appPreferences);
+        appPreferences.readPrefs(this);
+        deviceStatus = new DeviceStatus(this, appPreferences);
         if (Logging.ERROR) Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized");
 
         // set current screen on/off status
-        PowerManager pm = (PowerManager)
-                getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = ContextCompat.getSystemService(this, PowerManager.class);
         screenOn = pm.isScreenOn();
 
         // initialize DeviceStatus wrapper
-        deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
+        deviceStatus = new DeviceStatus(getApplicationContext(), appPreferences);
 
         // register screen on/off receiver
         IntentFilter onFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
@@ -247,18 +260,6 @@ public class Monitor extends Service {
             throw new Exception("clientStatus not initialized");
         }
         return clientStatus;
-    }
-
-    /**
-     * Retrieve singleton of AppPreferences.
-     *
-     * @return AppPreferences, interface to Android applications persistent key-value store
-     */
-    public static AppPreferences getAppPrefs() { //singleton pattern
-        if (appPrefs == null) {
-            appPrefs = new AppPreferences();
-        }
-        return appPrefs;
     }
 
     /**
@@ -432,7 +433,7 @@ public class Monitor extends Service {
                 }
 
                 // update notices notification
-                NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotificationForNotices());
+                NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), appPreferences.getShowNotificationForNotices());
 
                 // check whether monitor is still intended to update, if not, skip broadcast and exit...
                 if (updateBroadcastEnabled) {
@@ -710,37 +711,36 @@ public class Monitor extends Service {
      * @param file       name of file as it appears in assets directory
      * @param override   define override, if already present in internal storage
      * @param executable set executable flag of file in internal storage
-     * @param targetFile name of target file 
+     * @param targetFile name of target file
      * @return Boolean success
      */
     @SuppressWarnings("java:S4042") // SonarLint warning for invoking File.delete()
     private boolean installFile(String file, boolean override, boolean executable, String targetFile) {
         boolean success = false;
-        byte[] b = new byte[1024];
-        int count;
 
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
-        String source;
+        final String source;
         if (executable)
             source = getAssetsDirForCpuArchitecture() + file;
         else
             source = file;
+        final String installFailed = "Install of " + source + " failed.";
+
+        final File target;
+        if (!targetFile.isEmpty()) {
+            target = new File(boincWorkingDir + targetFile);
+        } else {
+            target = new File(boincWorkingDir + file);
+        }
 
         try {
-            if (Logging.ERROR)
+            if(Logging.ERROR)
                 Log.d(Logging.TAG, "installing: " + source);
-
-            File target;
-            if (!targetFile.isEmpty()) {
-                target = new File(boincWorkingDir + targetFile);
-            } else {
-                target = new File(boincWorkingDir + file);
-            }
 
             // Check path and create it
             File installDir = new File(boincWorkingDir);
-            if (!installDir.exists()) {
+            if(!installDir.exists()) {
                 if(!installDir.mkdir() && Logging.ERROR) {
                     Log.d(Logging.TAG, "Monitor.installFile(): mkdir() was not successful.");
                 }
@@ -750,33 +750,42 @@ public class Monitor extends Service {
                 }
             }
 
-            if (target.exists()) {
+            if(target.exists()) {
                 boolean deleteSuccessful;
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                     deleteSuccessful = target.delete();
-                } else {
+                }
+                else {
                     Files.delete(target.toPath());
                     deleteSuccessful = true;
                 }
-                if (override) {
-                    if (!deleteSuccessful && Logging.ERROR) {
+                if(override) {
+                    if(!deleteSuccessful && Logging.ERROR) {
                         Log.d(Logging.TAG, "Monitor.installFile(): delete() was not successful.");
                     }
-                } else {
-                    if (Logging.DEBUG)
+                }
+                else {
+                    if(Logging.DEBUG)
                         Log.d(Logging.TAG, "Skipped file, exists and override is false.");
                     return true;
                 }
             }
-
-            // Copy file from the asset manager to clientPath
-            InputStream asset = getApplicationContext().getAssets().open(source);
-            OutputStream targetData = new FileOutputStream(target);
-            while ((count = asset.read(b)) != -1) {
-                targetData.write(b, 0, count);
+        } catch(IOException ioe) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
+                Log.d(Logging.TAG, installFailed);
             }
-            asset.close();
-            targetData.close();
+        } catch (SecurityException se) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
+                Log.d(Logging.TAG, installFailed);
+            }
+        }
+
+        try (InputStream asset = getApplicationContext().getAssets().open(source);
+             OutputStream targetData = new FileOutputStream(target)) {
+            // Copy file from the asset manager to clientPath
+            IOUtils.copy(asset, targetData);
 
             success = true; //copy succeeded without exception
 
@@ -790,13 +799,8 @@ public class Monitor extends Service {
                                    executable + "/" + success);
         } catch (IOException ioe) {
             if (Logging.ERROR) {
-                Log.e(Logging.TAG, "IOException: " + ioe.getMessage());
-                Log.d(Logging.TAG, "Install of " + source + " failed.");
-            }
-        } catch (SecurityException se) {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "SecurityException: " + se.getMessage());
-                Log.d(Logging.TAG, "Install of " + source + " failed.");
+                Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.getMessage());
+                Log.d(Logging.TAG, installFailed);
             }
         }
 
@@ -862,7 +866,7 @@ public class Monitor extends Service {
 
             return sb.toString();
         } catch (IOException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
+            if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             if (Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
         }
@@ -877,32 +881,28 @@ public class Monitor extends Service {
      * @return process id, according to output of "ps"
      */
     private Integer getPidForProcessName(String processName) {
-        int count;
-        char[] buf = new char[1024];
-        StringBuilder sb = new StringBuilder();
+        final List<String> processLines;
 
         //run ps and read output
         try {
             Process p = Runtime.getRuntime().exec("ps");
             p.waitFor();
-            InputStreamReader isr = new InputStreamReader(p.getInputStream());
-            while ((count = isr.read(buf)) != -1) {
-                sb.append(buf, 0, count);
-            }
+            final InputStreamReader isr = new InputStreamReader(p.getInputStream());
+            processLines = IOUtils.readLines(isr);
+            isr.close();
         } catch (Exception e) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Exception: " + e.getMessage());
             return null;
         }
 
-        String[] processLinesAr = sb.toString().split("\n");
-        if (processLinesAr.length < 2) {
+        if (processLines.size() < 2) {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "getPidForProcessName(): ps output has less than 2 lines, failure!");
             return null;
         }
 
         // figure out what index PID has
-        String[] headers = processLinesAr[0].split("[\\s]+");
+        String[] headers = processLines.get(0).split("[\\s]+");
         int pidIndex = -1;
         for (int x = 0; x < headers.length; x++) {
             if (headers[x].equals("PID")) {
@@ -916,12 +916,12 @@ public class Monitor extends Service {
         }
 
         if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + pidIndex + " for output: " + processLinesAr[0]);
+            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: " + pidIndex + " for output: " + processLines.get(0));
 
         Integer pid = null;
-        for (int y = 1; y < processLinesAr.length; y++) {
+        for (int y = 1; y < processLines.size(); y++) {
             boolean found = false;
-            String[] comps = processLinesAr[y].split("[\\s]+");
+            String[] comps = processLines.get(y).split("[\\s]+");
             for (String arg : comps) {
                 if (arg.equals(processName)) {
                     if (Logging.DEBUG)
@@ -1045,8 +1045,7 @@ public class Monitor extends Service {
 // --end -- async tasks
 
     // remote service
-    private final IMonitor.Stub mBinder = new IMonitor.Stub() {
-
+    final IMonitor.Stub mBinder = new IMonitor.Stub() {
         @Override
         public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
             return clientInterface.transferOperation(list, op);
@@ -1137,13 +1136,12 @@ public class Monitor extends Service {
         }
 
         @Override
-        public List<edu.berkeley.boinc.rpc.Message> getMessages(int seq) throws RemoteException {
+        public List<Message> getMessages(int seq) throws RemoteException {
             return clientInterface.getMessages(seq);
         }
 
         @Override
-        public List<edu.berkeley.boinc.rpc.Message> getEventLogMessages(int seq, int num)
-                throws RemoteException {
+        public List<Message> getEventLogMessages(int seq, int num) throws RemoteException {
             return clientInterface.getEventLogMessages(seq, num);
         }
 
@@ -1262,52 +1260,52 @@ public class Monitor extends Service {
 
         @Override
         public void setAutostart(boolean isAutoStart) throws RemoteException {
-            Monitor.getAppPrefs().setAutostart(isAutoStart);
+            appPreferences.setAutostart(isAutoStart);
         }
 
         @Override
         public void setShowNotificationForNotices(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowNotificationForNotices(isShow);
+            appPreferences.setShowNotificationForNotices(isShow);
         }
 
         @Override
         public boolean getShowAdvanced() throws RemoteException {
-            return Monitor.getAppPrefs().getShowAdvanced();
+            return appPreferences.getShowAdvanced();
         }
 
         @Override
         public boolean getAutostart() throws RemoteException {
-            return Monitor.getAppPrefs().getAutostart();
+            return appPreferences.getAutostart();
         }
 
         @Override
         public boolean getShowNotificationForNotices() throws RemoteException {
-            return Monitor.getAppPrefs().getShowNotificationForNotices();
+            return appPreferences.getShowNotificationForNotices();
         }
 
         @Override
         public int getLogLevel() throws RemoteException {
-            return Monitor.getAppPrefs().getLogLevel();
+            return appPreferences.getLogLevel();
         }
 
         @Override
         public void setLogLevel(int level) throws RemoteException {
-            Monitor.getAppPrefs().setLogLevel(level);
+            appPreferences.setLogLevel(level);
         }
 
         @Override
         public void setPowerSourceAc(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceAc(src);
+            appPreferences.setPowerSourceAc(src);
         }
 
         @Override
         public void setPowerSourceUsb(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceUsb(src);
+            appPreferences.setPowerSourceUsb(src);
         }
 
         @Override
         public void setPowerSourceWireless(boolean src) throws RemoteException {
-            Monitor.getAppPrefs().setPowerSourceWireless(src);
+            appPreferences.setPowerSourceWireless(src);
         }
 
         @Override
@@ -1333,33 +1331,33 @@ public class Monitor extends Service {
 
         @Override
         public boolean getStationaryDeviceMode() throws RemoteException {
-            return Monitor.getAppPrefs().getStationaryDeviceMode();
+            return appPreferences.getStationaryDeviceMode();
         }
 
         @Override
         public boolean getPowerSourceAc() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceAc();
+            return appPreferences.getPowerSourceAc();
         }
 
         @Override
         public boolean getPowerSourceUsb() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceUsb();
+            return appPreferences.getPowerSourceUsb();
         }
 
         @Override
         public boolean getPowerSourceWireless() throws RemoteException {
-            return Monitor.getAppPrefs().getPowerSourceWireless();
+            return appPreferences.getPowerSourceWireless();
         }
 
         @Override
         public void setShowAdvanced(boolean isShow) throws RemoteException {
-            Monitor.getAppPrefs().setShowAdvanced(isShow);
+            appPreferences.setShowAdvanced(isShow);
         }
 
         @Override
         public void setStationaryDeviceMode(boolean mode)
                 throws RemoteException {
-            Monitor.getAppPrefs().setStationaryDeviceMode(mode);
+            appPreferences.setStationaryDeviceMode(mode);
 
         }
 
@@ -1375,12 +1373,12 @@ public class Monitor extends Service {
 
         @Override
         public boolean getSuspendWhenScreenOn() throws RemoteException {
-            return Monitor.getAppPrefs().getSuspendWhenScreenOn();
+            return appPreferences.getSuspendWhenScreenOn();
         }
 
         @Override
         public void setSuspendWhenScreenOn(boolean swso) throws RemoteException {
-            Monitor.getAppPrefs().setSuspendWhenScreenOn(swso);
+            appPreferences.setSuspendWhenScreenOn(swso);
         }
 
         @Override

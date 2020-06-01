@@ -15,6 +15,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}</ProjectGuid>
     <RootNamespace>vcpkg3rdpartydependencies</RootNamespace>
+    <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -103,17 +104,7 @@
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
-    <ItemGroup>
-      <VcpkgItem Include="openssl-windows:x64-windows-static" />
-      <VcpkgItem Include="curl[core,openssl]:x64-windows-static" />
-      <VcpkgItem Include="freetype[core,bzip2,png]:x64-windows-static" />
-      <VcpkgItem Include="ftgl:x64-windows-static" />
-      <VcpkgItem Include="wxwidgets:x64-windows-static" />
-      <VcpkgItem Include="sqlite3:x64-windows-static" />
-      <VcpkgItem Include="opencl:x64-windows-static" />
-      <VcpkgItem Include="rappture:x64-windows-static" />
-    </ItemGroup>
-    <Exec Command="vcpkg.exe install %(VcpkgItem.Identity) --overlay-ports=../../vcpkg_ports" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets sqlite3 opencl rappture --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet x64-windows-static" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet x64-windows-static" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>

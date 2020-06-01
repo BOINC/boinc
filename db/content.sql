@@ -1,5 +1,5 @@
 /*
-    This file contants inital content for any tables.
+    This file contains initial content for tables.
 
     The table must be first defined in schema.sql before any content
     is added!

@@ -29,10 +29,10 @@ import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 
-import org.apache.commons.lang3.ArrayUtils;
+import androidx.collection.ArraySet;
+import androidx.core.content.ContextCompat;
+
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.list.ImmutableList;
-import org.eclipse.collections.api.list.MutableList;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,10 +40,12 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +61,6 @@ import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
-import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 /*
@@ -67,7 +68,8 @@ import edu.berkeley.boinc.utils.Logging;
  * To get instance call Monitor.getClientStatus()
  */
 public class ClientStatus {
-    private Context ctx; // application context in order to fire broadcast events
+    private Context context; // application context in order to fire broadcast events
+    private AppPreferences appPreferences;
 
     // CPU WakeLock
     private WakeLock wakeLock;
@@ -76,8 +78,8 @@ public class ClientStatus {
 
     //RPC wrapper
     private CcStatus status;
-    private MutableList<Result> results;
-    private MutableList<Project> projects;
+    private List<Result> results;
+    private List<Project> projects;
     private List<Transfer> transfers;
     private GlobalPreferences prefs;
     private HostInfo hostinfo;
@@ -121,12 +123,13 @@ public class ClientStatus {
     private List<Notice> serverNotices = new ArrayList<>();
     private int mostRecentNoticeSeqNo = 0;
 
-    public ClientStatus(Context ctx) {
-        this.ctx = ctx;
+    public ClientStatus(Context context, AppPreferences appPreferences) {
+        this.context = context;
+        this.appPreferences = appPreferences;
 
         // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
-        PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = ContextCompat.getSystemService(context, PowerManager.class);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Logging.WAKELOCK);
         // "one call to release() is sufficient to undo the effect of all previous calls to acquire()"
         wakeLock.setReferenceCounted(false);
@@ -136,7 +139,7 @@ public class ClientStatus {
         // can cause a memory leak if the context is not the application context.
         // You should consider using context.getApplicationContext().getSystemService() rather than
         // context.getSystemService()
-        WifiManager wm = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = ContextCompat.getSystemService(context.getApplicationContext(), WifiManager.class);
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
     }
@@ -204,10 +207,10 @@ public class ClientStatus {
      * fires "clientstatuschange" broadcast, so registered Activities can update their model.
      */
     public synchronized void fire() {
-        if(ctx != null) {
+        if(context != null) {
             Intent clientChanged = new Intent();
             clientChanged.setAction("edu.berkeley.boinc.clientstatuschange");
-            ctx.sendBroadcast(clientChanged, null);
+            context.sendBroadcast(clientChanged, null);
         }
         else {
             if(Logging.DEBUG) {
@@ -219,10 +222,10 @@ public class ClientStatus {
     /*
      * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
      */
-    synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
+    public synchronized void setClientStatus(CcStatus status, List<Result> results, List<Project> projects, List<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, List<Notice> newNotices) {
         this.status = status;
-        this.results = ECLists.mutable.ofAll(results);
-        this.projects = ECLists.mutable.ofAll(projects);
+        this.results = results;
+        this.projects = projects;
         this.transfers = transfers;
         this.hostinfo = hostinfo;
         this.acctMgrInfo = acctMgrInfo;
@@ -328,42 +331,43 @@ public class ClientStatus {
         return projects;
     }
 
-    synchronized String getProjectStatus(String masterURL) {
+    public synchronized String getProjectStatus(String master_url) {
         StringBuffer sb = new StringBuffer();
-        final ImmutableList<Project> filteredProjects = projects
-                .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
-        for(Project project : filteredProjects) {
-            if(project.getSuspendedViaGUI()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
-            }
-            if(project.getDoNotRequestMoreWork()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_dontrequestmorework));
-            }
-            if(project.getEnded()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_ended));
-            }
-            if(project.getDetachWhenDone()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_detachwhendone));
-            }
-            if(project.getScheduledRPCPending() > 0) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcpending));
-                appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.getScheduledRPCPending()));
-            }
-            if(project.getSchedulerRPCInProgress()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcinprogress));
-            }
-            if(project.getTrickleUpPending()) {
-                appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
+        for(Project project : projects) {
+            if(!project.getMasterURL().equals(master_url)) {
+                continue;
             }
 
-            Calendar minRPCTime = Calendar.getInstance();
-            Calendar now = Calendar.getInstance();
-            minRPCTime.setTimeInMillis((long) project.getMinRPCTime() * 1000);
+            if(project.getSuspendedViaGUI()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_suspendedviagui));
+            }
+            if(project.getDoNotRequestMoreWork()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_dontrequestmorework));
+            }
+            if(project.getEnded()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_ended));
+            }
+            if(project.getDetachWhenDone()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_detachwhendone));
+            }
+            if(project.getScheduledRPCPending() > 0) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_schedrpcpending));
+                appendToStatus(sb, BOINCUtils.translateRPCReason(context, project.getScheduledRPCPending()));
+            }
+            if(project.getSchedulerRPCInProgress()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_schedrpcinprogress));
+            }
+            if(project.getTrickleUpPending()) {
+                appendToStatus(sb, context.getResources().getString(R.string.projects_status_trickleuppending));
+            }
+
+            final Instant now = Instant.now();
+            final Instant minRPCTime = Instant.ofEpochSecond((long) project.getMinRPCTime());
             if(minRPCTime.compareTo(now) > 0) {
                 appendToStatus(
                         sb,
-                        ctx.getResources().getString(R.string.projects_status_backoff) + " " +
-                        DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+                        context.getResources().getString(R.string.projects_status_backoff) + " " +
+                        DateUtils.formatElapsedTime(Duration.between(now, minRPCTime).getSeconds())
                 );
             }
         }
@@ -397,26 +401,30 @@ public class ClientStatus {
     // returns all slideshow images for given project
     // images: 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
     // not aware of application!
-    synchronized List<ImageWrapper> getSlideshowForProject(String masterURL) {
+    public synchronized List<ImageWrapper> getSlideshowForProject(String masterUrl) {
         List<ImageWrapper> images = new ArrayList<>();
-        final ImmutableList<Project> filteredProjects = projects
-                .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
-        for(Project project : filteredProjects) {
+        for(Project project : projects) {
+            if(!project.getMasterURL().equals(masterUrl)) {
+                continue;
+            }
             // get file paths of soft link files
             File dir = new File(project.getProjectDir());
+            File[] foundFiles = dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
+                                                              && !name.endsWith(".png"));
+            if(foundFiles == null) {
+                continue; // prevent NPE
+            }
 
-            // prevent NPE
-            File[] foundFiles = ArrayUtils.nullToEmpty(dir.listFiles((dir1, name) -> name.startsWith("slideshow_")
-                                                                                     && !name.endsWith(".png")),
-                                                       File[].class);
-
-            // check whether path is not empty, and avoid duplicates (slideshow images can
-            // re-occur for multiple apps. Since we do not distinguish between apps, skip
-            // duplicates.
-            ImmutableList<String> allImagePaths = ECLists.immutable.of(foundFiles)
-                                                      .collect(file -> parseSoftLinkToAbsPath(file.getAbsolutePath(),
-                                                                                              project.getProjectDir()))
-                                                      .select(StringUtils::isNotEmpty).distinct();
+            final Set<String> allImagePaths = new ArraySet<>();
+            for(File file : foundFiles) {
+                String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(),
+                                                                   project.getProjectDir());
+                //check whether path is not empty, and avoid duplicates (slideshow images can
+                //re-occur for multiple apps, since we do not distinct apps, skip duplicates.
+                if(StringUtils.isNotEmpty(slideshowImagePath)) {
+                    allImagePaths.add(slideshowImagePath);
+                }
+            }
 
             // load images from paths
             for(String filePath : allImagePaths) {
@@ -434,27 +442,27 @@ public class ClientStatus {
 
     // returns project icon for given master url
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
-    public synchronized Bitmap getProjectIcon(String masterURL) {
+    public synchronized Bitmap getProjectIcon(String masterUrl) {
         if(Logging.VERBOSE) {
-            Log.v(Logging.TAG, "getProjectIcon for: " + masterURL);
+            Log.v(Logging.TAG, "getProjectIcon for: " + masterUrl);
         }
         try {
-            final ImmutableList<Project> filteredProjects = projects
-                    .select(project -> project.getMasterURL().equals(masterURL)).toImmutable();
-            // loop through filtered projects
-            for(Project project : filteredProjects) {
-                // read file name of icon
-                String iconAbsPath =
-                        parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
-                                               project.getProjectDir());
-                if(iconAbsPath == null) {
-                    if(Logging.VERBOSE) {
-                        Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
-                                           masterURL);
+            // loop through all projects
+            for(Project project : projects) {
+                if(project.getMasterURL().equals(masterUrl)) {
+                    // read file name of icon
+                    String iconAbsPath =
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
+                    if(iconAbsPath == null) {
+                        if(Logging.VERBOSE) {
+                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
+                                               masterUrl);
+                        }
+                        return null;
                     }
-                    return null;
+                    return BitmapFactory.decodeFile(iconAbsPath);
                 }
-                return BitmapFactory.decodeFile(iconAbsPath);
             }
         }
         catch(Exception e) {
@@ -475,23 +483,23 @@ public class ClientStatus {
             Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
         }
         try {
-            final ImmutableList<Project> filteredProjects = projects
-                    .select(project -> project.getProjectName().equals(projectName)).toImmutable();
-            // loop through filtered projects
-            for(Project project : filteredProjects) {
-                // read file name of icon
-                String iconAbsPath =
-                        parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
-                                               project.getProjectDir());
-                if(iconAbsPath == null) {
-                    if(Logging.VERBOSE) {
-                        Log.v(Logging.TAG,
-                              "getProjectIconByName could not parse sym link for project: " +
-                              projectName);
+            // loop through all projects
+            for(Project project : projects) {
+                if(project.getProjectName().equals(projectName)) {
+                    // read file name of icon
+                    String iconAbsPath =
+                            parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
+                                                   project.getProjectDir());
+                    if(iconAbsPath == null) {
+                        if(Logging.VERBOSE) {
+                            Log.v(Logging.TAG,
+                                  "getProjectIconByName could not parse sym link for project: " +
+                                  projectName);
+                        }
+                        return null;
                     }
-                    return null;
+                    return BitmapFactory.decodeFile(iconAbsPath);
                 }
-                return BitmapFactory.decodeFile(iconAbsPath);
             }
         }
         catch(Exception e) {
@@ -506,8 +514,13 @@ public class ClientStatus {
     }
 
     List<Result> getExecutingTasks() {
-        return results.select(Result::isActiveTask)
-                      .select(result -> result.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING);
+        List<Result> activeTasks = new ArrayList<>();
+        for(Result tmp : results) {
+            if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
+                activeTasks.add(tmp);
+            }
+        }
+        return activeTasks;
     }
 
     public String getCurrentStatusTitle() {
@@ -517,24 +530,24 @@ public class ClientStatus {
                 case SETUP_STATUS_AVAILABLE:
                     switch(computingStatus) {
                         case COMPUTING_STATUS_COMPUTING:
-                            statusTitle = ctx.getString(R.string.status_running);
+                            statusTitle = context.getString(R.string.status_running);
                             break;
                         case COMPUTING_STATUS_IDLE:
-                            statusTitle = ctx.getString(R.string.status_idle);
+                            statusTitle = context.getString(R.string.status_idle);
                             break;
                         case COMPUTING_STATUS_SUSPENDED:
-                            statusTitle = ctx.getString(R.string.status_paused);
+                            statusTitle = context.getString(R.string.status_paused);
                             break;
                         case COMPUTING_STATUS_NEVER:
-                            statusTitle = ctx.getString(R.string.status_computing_disabled);
+                            statusTitle = context.getString(R.string.status_computing_disabled);
                             break;
                     }
                     break;
                 case SETUP_STATUS_LAUNCHING:
-                    statusTitle = ctx.getString(R.string.status_launching);
+                    statusTitle = context.getString(R.string.status_launching);
                     break;
                 case SETUP_STATUS_NOPROJECT:
-                    statusTitle = ctx.getString(R.string.status_noproject);
+                    statusTitle = context.getString(R.string.status_noproject);
                     break;
             }
         }
@@ -551,43 +564,43 @@ public class ClientStatus {
         try {
             switch(computingStatus) {
                 case COMPUTING_STATUS_COMPUTING:
-                    statusString = ctx.getString(R.string.status_running_long);
+                    statusString = context.getString(R.string.status_running_long);
                     break;
                 case COMPUTING_STATUS_IDLE:
                     if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_WIFI_STATE) {
                         // Network suspended due to wifi state
-                        statusString = ctx.getString(R.string.suspend_wifi);
+                        statusString = context.getString(R.string.suspend_wifi);
                     }
                     else if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED) {
                         // network suspend due to traffic quota
-                        statusString = ctx.getString(R.string.suspend_network_quota);
+                        statusString = context.getString(R.string.suspend_network_quota);
                     }
                     else {
-                        statusString = ctx.getString(R.string.status_idle_long);
+                        statusString = context.getString(R.string.status_idle_long);
                     }
                     break;
                 case COMPUTING_STATUS_SUSPENDED:
                     switch(computingSuspendReason) {
                         case BOINCDefs.SUSPEND_REASON_USER_REQ:
                             // restarting after user has previously manually suspended computation
-                            statusString = ctx.getString(R.string.suspend_user_req);
+                            statusString = context.getString(R.string.suspend_user_req);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-                            statusString = ctx.getString(R.string.status_benchmarking);
+                            statusString = context.getString(R.string.status_benchmarking);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERIES:
-                            statusString = ctx.getString(R.string.suspend_batteries);
+                            statusString = context.getString(R.string.suspend_batteries);
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
-                            statusString = ctx.getString(R.string.suspend_battery_charging);
+                            statusString = context.getString(R.string.suspend_battery_charging);
                             try {
                                 double minCharge = prefs.getBatteryChargeMinPct();
                                 int currentCharge = Monitor.getDeviceStatus().getStatus().getBatteryChargePct();
-                                statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " +
+                                statusString = context.getString(R.string.suspend_battery_charging_long) + " " +
                                                (int) minCharge
-                                               + "% (" + ctx.getString(R.string.suspend_battery_charging_current) +
+                                               + "% (" + context.getString(R.string.suspend_battery_charging_current) +
                                                " " + currentCharge + "%) "
-                                               + ctx.getString(R.string.suspend_battery_charging_long2);
+                                               + context.getString(R.string.suspend_battery_charging_long2);
                             }
                             catch(Exception e) {
                                 if(Logging.ERROR) {
@@ -596,54 +609,54 @@ public class ClientStatus {
                             }
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
-                            statusString = ctx.getString(R.string.suspend_battery_overheating);
+                            statusString = context.getString(R.string.suspend_battery_overheating);
                             break;
                         case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-                            boolean suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+                            boolean suspendDueToScreenOn = appPreferences.getSuspendWhenScreenOn();
                             if(suspendDueToScreenOn) {
-                                statusString = ctx.getString(R.string.suspend_screen_on);
+                                statusString = context.getString(R.string.suspend_screen_on);
                             }
                             else {
-                                statusString = ctx.getString(R.string.suspend_useractive);
+                                statusString = context.getString(R.string.suspend_useractive);
                             }
                             break;
                         case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
-                            statusString = ctx.getString(R.string.suspend_tod);
+                            statusString = context.getString(R.string.suspend_tod);
                             break;
                         case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
-                            statusString = ctx.getString(R.string.suspend_disksize);
+                            statusString = context.getString(R.string.suspend_disksize);
                             break;
                         case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
-                            statusString = ctx.getString(R.string.suspend_cputhrottle);
+                            statusString = context.getString(R.string.suspend_cputhrottle);
                             break;
                         case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
-                            statusString = ctx.getString(R.string.suspend_noinput);
+                            statusString = context.getString(R.string.suspend_noinput);
                             break;
                         case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
-                            statusString = ctx.getString(R.string.suspend_delay);
+                            statusString = context.getString(R.string.suspend_delay);
                             break;
                         case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
-                            statusString = ctx.getString(R.string.suspend_exclusiveapp);
+                            statusString = context.getString(R.string.suspend_exclusiveapp);
                             break;
                         case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
-                            statusString = ctx.getString(R.string.suspend_cpu);
+                            statusString = context.getString(R.string.suspend_cpu);
                             break;
                         case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
-                            statusString = ctx.getString(R.string.suspend_network_quota);
+                            statusString = context.getString(R.string.suspend_network_quota);
                             break;
                         case BOINCDefs.SUSPEND_REASON_OS:
-                            statusString = ctx.getString(R.string.suspend_os);
+                            statusString = context.getString(R.string.suspend_os);
                             break;
                         case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
-                            statusString = ctx.getString(R.string.suspend_wifi);
+                            statusString = context.getString(R.string.suspend_wifi);
                             break;
                         default:
-                            statusString = ctx.getString(R.string.suspend_unknown);
+                            statusString = context.getString(R.string.suspend_unknown);
                             break;
                     }
                     break;
                 case COMPUTING_STATUS_NEVER:
-                    statusString = ctx.getString(R.string.status_computing_disabled_long);
+                    statusString = context.getString(R.string.status_computing_disabled_long);
                     break;
             }
         }
@@ -711,8 +724,12 @@ public class ClientStatus {
                 //figure out whether we have an active task
                 boolean activeTask = false;
                 if(results != null) {
-                    // this result has corresponding "active task" in RPC XML
-                    activeTask = results.anySatisfy(Result::isActiveTask);
+                    for(Result task : results) {
+                        if(task.isActiveTask()) { // this result has corresponding "active task" in RPC XML
+                            activeTask = true;
+                            break; // amount of active tasks does not matter.
+                        }
+                    }
                 }
 
                 if(activeTask) { // client is currently computing

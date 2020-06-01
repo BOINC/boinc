@@ -1362,10 +1362,8 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
         }
     }
 
-    if (pIfTable != NULL) {
-        free(pIfTable);
-        pIfTable = NULL;
-    }
+    free(pIfTable);
+    pIfTable = NULL;
 
     return iRetVal;
 }
@@ -1546,7 +1544,7 @@ int HOST_INFO::get_host_battery_state() {
     SYSTEM_POWER_STATUS Status;
     ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
     if (!GetSystemPowerStatus(&Status)) {
-        return false;
+        return BATTERY_STATE_UNKNOWN;
     }
 
     // Sometimes the system reports the ACLineStatus as an

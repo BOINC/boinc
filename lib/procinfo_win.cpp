@@ -96,8 +96,6 @@ int get_procinfo_XP(PROC_MAP& pm) {
         p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
-        p.id = pProcesses->ProcessId;
-        p.parentid = pProcesses->InheritedFromProcessId;
         p.is_low_priority = (pProcesses->BasePriority <= 4);
         WideCharToMultiByte(CP_ACP, 0,
             pProcesses->ProcessName.Buffer,

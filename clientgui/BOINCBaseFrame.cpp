@@ -476,7 +476,9 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure ) {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert(
+    bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure, std::string password_msg
+) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -495,34 +497,13 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
     );
 
     if ( bUsedDefaultPassword ) {
-#ifdef __WXMSW__
-        if ( EACCES == iReadGUIRPCAuthFailure || ENOENT == iReadGUIRPCAuthFailure ) {
-            ShowAlert(
-                strDialogTitle,
-                _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_users' local user group."),
-                wxOK | wxICON_ERROR
-            );
-        } else 
-#endif
-        {
-            ShowAlert(
-                strDialogTitle,
-#ifndef __WXMAC__
-                _("Authorization failed connecting to running client.\nMake sure you start this program in the same directory as the client."),
-#else
-                _("Authorization failed connecting to running client."),
-#endif
-                wxOK | wxICON_ERROR
-            );
+        if (password_msg.empty()) {
+            password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
         }
     } else {
-        ShowAlert(
-            strDialogTitle,
-            _("The password you have provided is incorrect, please try again."),
-            wxOK | wxICON_ERROR
-        );
+        password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
     }
-
+    wxMessageBox(wxString(password_msg), strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionBadPasswordAlert - Function End"));
 }
 
@@ -633,12 +614,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     );
 #endif
 
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowDaemonStartFailedAlert - Function End"));
 }
 
@@ -694,12 +670,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
         pSkinAdvanced->GetApplicationShortName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function End"));
 }
 

@@ -1,22 +1,24 @@
 package edu.berkeley.boinc.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Result;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ClientNotification {
 
@@ -51,7 +53,7 @@ public class ClientNotification {
 
     private ClientNotification(Context ctx) {
         this.context = ctx;
-        this.nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -169,7 +171,7 @@ public class ClientNotification {
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
           .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
+          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
@@ -184,11 +186,15 @@ public class ClientNotification {
         // set action based on computing status
         if(computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // add resume button
-            nb.addAction(R.drawable.playw, context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
+            // 0 - only text. Unify all versions of android with text button.
+            nb.addAction(0,
+                         context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
         }
         else {
             // add suspend button
-            nb.addAction(R.drawable.pausew, context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
+            // 0 - only text. Unify all versions of android with text button.
+            nb.addAction(0,
+                         context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
         }
 
         // set tasks if computing
@@ -227,10 +233,10 @@ public class ClientNotification {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
+                icon = R.drawable.ic_boinc_paused;
                 break;
             default:
-                icon = R.drawable.ic_stat_notify_boinc_normal;
+                icon = R.drawable.ic_boinc;
         }
         return icon;
     }

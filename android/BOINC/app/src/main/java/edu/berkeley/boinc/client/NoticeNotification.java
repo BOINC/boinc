@@ -25,17 +25,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NoticeNotification {
     private static NoticeNotification noticeNotification = null;
@@ -65,7 +67,7 @@ public class NoticeNotification {
     public NoticeNotification(Context ctx) {
         this.context = ctx;
         this.store = new PersistentStorage(ctx);
-        this.nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.notice_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -131,7 +133,7 @@ public class NoticeNotification {
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.mailw).
+                  setSmallIcon(R.drawable.ic_baseline_email_white).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
@@ -142,9 +144,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BitmapFactory.decodeResource(
-                      this.context.getResources(),
-                      R.drawable.ic_stat_notify_boinc_normal))
+              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -169,10 +169,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BitmapFactory.decodeResource(
-                           context.getResources(),
-                           R.drawable.ic_stat_notify_boinc_normal
-                   );
+                   BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -182,10 +179,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_stat_notify_boinc_normal
-            );
+            return BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
         }
     }
 }

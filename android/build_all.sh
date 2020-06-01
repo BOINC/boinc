@@ -6,11 +6,14 @@ set -e
 #
 
 # Script to compile everything BOINC needs for Android
+cd ../
+BUILD_DIR="$(pwd)/3rdParty/buildCache"
+cd android/
 
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$HOME/3rdParty" --arch arm
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$HOME/3rdParty" --arch arm64
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$HOME/3rdParty" --arch x86
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$HOME/3rdParty" --arch x86_64
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch arm
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch arm64
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch x86
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch x86_64
 
 echo '===== BOINC for all platforms build done ====='
 exit

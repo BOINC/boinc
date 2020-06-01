@@ -36,9 +36,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBar.Tab;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.eclipse.collections.api.list.MutableList;
-import org.eclipse.collections.impl.list.mutable.FastList;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +51,7 @@ public class EventLogActivity extends AppCompatActivity {
     private IMonitor monitor;
     private boolean mIsBound = false;
 
+    public EventLogClientFragment clientFrag;
     public ListView clientLogList;
     public ClientLogListAdapter clientLogListAdapter;
     public List<Message> clientLogData = new ArrayList<>();
@@ -61,7 +60,7 @@ public class EventLogActivity extends AppCompatActivity {
     public ArrayAdapter<String> guiLogListAdapter;
     public List<String> guiLogData = new ArrayList<>();
 
-    private MutableList<EventLogActivityTabListener<?>> listeners = new FastList<>();
+    private List<EventLogActivityTabListener<?>> listeners = new ArrayList<>();
 
     static final int GUI_LOG_TAB_ACTIVE = 1;
     static final int CLIENT_LOG_TAB_ACTIVE = 2;
@@ -167,40 +166,41 @@ public class EventLogActivity extends AppCompatActivity {
             case R.id.copy:
                 onCopy();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private int getActiveLog() {
-        final EventLogActivityTabListener<?> activeListener =
-                listeners.detect(listener -> listener.currentlySelected);
-        if (activeListener != null) {
-            if (activeListener.mClass == EventLogClientFragment.class) {
-                return CLIENT_LOG_TAB_ACTIVE;
-            } else if (activeListener.mClass == EventLogGuiFragment.class) {
-                return GUI_LOG_TAB_ACTIVE;
+        for(EventLogActivityTabListener<?> tmp : listeners) {
+            if(tmp.currentlySelected) {
+                if(tmp.mClass == EventLogClientFragment.class) {
+                    return CLIENT_LOG_TAB_ACTIVE;
+                }
+                else if(tmp.mClass == EventLogGuiFragment.class) {
+                    return GUI_LOG_TAB_ACTIVE;
+                }
             }
         }
         return -1;
     }
 
     private void updateCurrentFragment() {
-        final EventLogActivityTabListener<?> activeListener =
-                listeners.detect(listener -> listener.currentlySelected);
-        if (activeListener != null) {
-            if(activeListener.mClass == EventLogClientFragment.class) {
-                ((EventLogClientFragment) activeListener.mFragment).update();
-            }
-            else if(activeListener.mClass == EventLogGuiFragment.class) {
-                ((EventLogGuiFragment) activeListener.mFragment).update();
+        for(EventLogActivityTabListener<?> tmp : listeners) {
+            if(tmp.currentlySelected) {
+                if(tmp.mClass == EventLogClientFragment.class) {
+                    ((EventLogClientFragment) tmp.mFragment).update();
+                }
+                else if(tmp.mClass == EventLogGuiFragment.class) {
+                    ((EventLogGuiFragment) tmp.mFragment).update();
+                }
+                break;
             }
         }
     }
 
     private void onCopy() {
         try {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = ContextCompat.getSystemService(this, ClipboardManager.class);
             ClipData clipData = ClipData.newPlainText("log", getLogDataAsString());
             clipboard.setPrimaryClip(clipData);
             Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
@@ -243,7 +243,7 @@ public class EventLogActivity extends AppCompatActivity {
         if(type == CLIENT_LOG_TAB_ACTIVE) {
             text.append(getString(R.string.eventlog_client_header)).append("\n\n");
             for(int index = 0; index < clientLogList.getCount(); index++) {
-                text.append(clientLogListAdapter.getDate(index));
+                text.append(clientLogListAdapter.getDateTimeString(index));
                 text.append("|");
                 text.append(clientLogListAdapter.getProject(index));
                 text.append("|");

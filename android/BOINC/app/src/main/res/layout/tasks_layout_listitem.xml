@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="2dp">
@@ -55,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textStyle="bold"
                 android:singleLine="true"/>
 
@@ -64,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:singleLine="true"/>
 
         <LinearLayout
@@ -79,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/dark_grey"/>
+                    android:textColor="?android:attr/textColorPrimary"/>
 
             <TextView
                     android:id="@+id/taskStatusPercentage"
@@ -88,7 +89,7 @@
                     android:layout_marginLeft="10dip"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/dark_grey"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textStyle="bold"/>
         </LinearLayout>
 
@@ -121,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_elapsed_time"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textStyle="bold"/>
 
                 <TextView
@@ -130,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/dark_grey"/>
+                        android:textColor="?android:attr/textColorPrimary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -144,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_name"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textStyle="bold"/>
 
                 <TextView
@@ -152,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/dark_grey"/>
+                        android:textColor="?android:attr/textColorPrimary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -166,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_deadline"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textStyle="bold"/>
 
                 <TextView
@@ -174,7 +175,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/dark_grey"/>
+                        android:textColor="?android:attr/textColorPrimary"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -194,8 +195,8 @@
                 android:id="@+id/expandCollapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@drawable/collapse"
-                android:src="@drawable/collapse"/>
+                android:contentDescription="@drawable/ic_baseline_keyboard_arrow_right"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right"/>
 
         <RelativeLayout
                 android:id="@+id/rightColumnExpandWrapper"
@@ -208,8 +209,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:contentDescription="@drawable/resumetask"
-                    android:src="@drawable/resumetask"
+                    android:background="@color/dark_green"
+                    android:contentDescription="@drawable/ic_baseline_play_arrow_white"
+                    app:srcCompat="@drawable/ic_baseline_play_arrow_white"
                     android:layout_marginTop="5dp"/>
 
             <ImageView
@@ -217,8 +219,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:contentDescription="@drawable/aborttask"
-                    android:src="@drawable/aborttask"
+                    android:background="@color/red"
+                    android:contentDescription="@drawable/ic_baseline_delete_white"
+                    app:srcCompat="@drawable/ic_baseline_delete_white"
                     android:layout_marginTop="5dp"
                     android:layout_below="@+id/suspendResumeTask"/>
 

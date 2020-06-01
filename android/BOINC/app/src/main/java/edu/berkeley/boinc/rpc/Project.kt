@@ -113,9 +113,8 @@ data class Project(
                     doNotRequestMoreWork = readBoolean(parcel), schedulerRPCInProgress = readBoolean(parcel),
                     attachedViaAcctMgr = readBoolean(parcel), detachWhenDone = readBoolean(parcel),
                     ended = readBoolean(parcel), trickleUpPending = readBoolean(parcel),
-                    noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel)) {
-        parcel.readList(guiURLs.toList(), GuiUrl::class.java.classLoader)
-    }
+                    noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel),
+                    guiURLs = arrayListOf<GuiUrl?>().apply { parcel.readList(this as MutableList<*>, GuiUrl::class.java.classLoader) })
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

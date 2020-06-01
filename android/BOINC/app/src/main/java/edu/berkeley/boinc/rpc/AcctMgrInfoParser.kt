@@ -60,12 +60,6 @@ class AcctMgrInfoParser : BaseParser() {
                     localName.equals(AcctMgrInfo.Fields.HAVING_CREDENTIALS, ignoreCase = true) -> {
                         accountMgrInfo.isHavingCredentials = true
                     }
-                    localName.equals(AcctMgrInfo.Fields.COOKIE_REQUIRED, ignoreCase = true) -> {
-                        accountMgrInfo.isCookieRequired = true
-                    }
-                    localName.equals(AcctMgrInfo.Fields.COOKIE_FAILURE_URL, ignoreCase = true) -> {
-                        accountMgrInfo.cookieFailureUrl = mCurrentElement.toString()
-                    }
                 }
             }
         } catch (e: Exception) {

@@ -9,6 +9,8 @@ branches:
     - coverity_scan
 
 dist: xenial
+jdk:
+  - oraclejdk9
 
 cache:
   timeout: 600
@@ -59,8 +61,6 @@ jobs:
             - extra-google-m2repository
             - extra-android-m2repository
       env: BOINC_TYPE=manager-android
-      jdk:
-        - openjdk9
 
 before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi

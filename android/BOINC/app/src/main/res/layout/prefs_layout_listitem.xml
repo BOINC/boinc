@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/lightest_blue"
                 android:textStyle="bold"
-                android:background="@drawable/shape_preferences_status_background"></TextView>
+                android:background="@drawable/shape_preferences_status_background"/>
     </LinearLayout>
 
     <LinearLayout
@@ -57,14 +57,14 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/header"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
+                android:layout_height="wrap_content"/>
 
         <TextView
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/description"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -168,8 +168,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size(".", boinc_non_project, false);
-    dir_size("locale", size, false);
+    dir_size_alloc(".", boinc_non_project, false);
+    dir_size_alloc("locale", size, false);
     boinc_non_project += size;
 #ifdef __APPLE__
     if (gstate.launched_by_manager) {
@@ -179,9 +179,13 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         OSStatus err = noErr;
         
         retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) err = fnfErr;
-        if (! err) dir_size(path, manager_size, true);
-        if (! err) boinc_non_project += manager_size;
+        if (retval <= 0) {
+            err = fnfErr;
+        }
+        if (!err) {
+            dir_size_alloc(path, manager_size, true);
+            boinc_non_project += manager_size;
+        }
     }
 #endif
     boinc_total = boinc_non_project;

@@ -48,11 +48,11 @@ bool is_daemon_installed()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -90,11 +90,11 @@ bool is_daemon_starting()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -132,11 +132,11 @@ bool is_daemon_running()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -174,11 +174,11 @@ bool is_daemon_stopping()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -216,11 +216,11 @@ bool is_daemon_stopped()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -313,11 +313,11 @@ bool start_daemon()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -411,11 +411,11 @@ bool stop_daemon()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }

@@ -382,7 +382,7 @@ public class ProjectAttachService extends Service {
                   "ProjectAttachService.attachAcctMgr successful: " + info.getAcctMgrUrl() +
                   info.getAcctMgrName() + info.isHavingCredentials());
         }
-        return new ErrorCodeDescription(BOINCErrors.ERR_OK);
+        return reply;
     }
 
     public class ProjectAttachWrapper {

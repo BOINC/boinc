@@ -33,12 +33,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 
-public class CredentialInputActivity extends Activity {
+public class CredentialInputActivity extends AppCompatActivity {
     private EditText emailET;
     private EditText nameET;
     private EditText pwdET;

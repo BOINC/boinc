@@ -1800,8 +1800,11 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(
         sprintf(buf, " file_delete_state=%d,", ti.file_delete_state);
         strcat(updates, buf);
     }
+    // Don't update transition_time if it changed in database because something
+    // happened in background (usually, another result was uploaded).
+    // Instead, force another run of transitioner to handle these changes.
     if (ti.transition_time != ti_original.transition_time) {
-        sprintf(buf, " transition_time=%d,", ti.transition_time);
+        sprintf(buf, " transition_time=if(transition_time=%d,%d,%d),", ti_original.transition_time, ti.transition_time, (int)time(NULL));
         strcat(updates, buf);
     }
     if (ti.hr_class != ti_original.hr_class) {

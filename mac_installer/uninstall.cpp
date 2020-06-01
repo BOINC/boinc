@@ -976,7 +976,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
    
     if (!alreadyCopied) {
         getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(s)-1);
+        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
         snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
         err = callPosixSpawn(s);
          if (err) {

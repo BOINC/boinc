@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -33,9 +32,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -58,7 +61,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final Notice listItem = entries.get(position);
 
-        LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
         assert vi != null;
         View v = vi.inflate(R.layout.notices_layout_listitem, null);
 
@@ -66,7 +69,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         Bitmap icon = getIcon(position);
         // if available set icon, if not boinc logo
         if(icon == null) {
-            ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+            ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
         }
         else {
             ivIcon.setImageBitmap(icon);
@@ -82,8 +85,10 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         tvNoticeContent.setText(Html.fromHtml(listItem.getDescription()));
 
         TextView tvNoticeTime = v.findViewById(R.id.noticeTime);
-        tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(
-                (long) listItem.getCreateTime() * 1000)));
+        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
+                (long) listItem.getCreateTime()), ZoneId.systemDefault());
+        tvNoticeTime.setText(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT)
+                                              .format(localDateTime));
 
         v.setOnClickListener(view -> {
             if(Logging.DEBUG) {

@@ -27,11 +27,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import edu.berkeley.boinc.adapter.NoticesListAdapter
 import edu.berkeley.boinc.rpc.Notice
 import edu.berkeley.boinc.utils.Logging
-import kotlinx.android.synthetic.main.notices_layout.*
 
 class NoticesFragment : Fragment() {
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
@@ -57,6 +57,7 @@ class NoticesFragment : Fragment() {
             Log.d(Logging.TAG, "NoticesFragment onCreateView")
         }
         val layout = inflater.inflate(R.layout.notices_layout, container, false)
+        val noticesList = layout.findViewById<ListView>(R.id.noticesList)
         updateNotices()
 
         noticesListAdapter = NoticesListAdapter(activity, R.id.noticesList, data)
@@ -72,7 +73,7 @@ class NoticesFragment : Fragment() {
 
         // clear notice notification
         try {
-            BOINCActivity.monitor.cancelNoticeNotification()
+            BOINCActivity.monitor!!.cancelNoticeNotification()
         } catch (e: Exception) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e)
@@ -92,10 +93,9 @@ class NoticesFragment : Fragment() {
 
     private fun updateNotices() {
         try {
-            data = BOINCActivity.monitor.rssNotices
+            data = BOINCActivity.monitor!!.rssNotices
             // sorting policy: latest arrival first.
-            data.sortWith(compareBy { it.createTime })
-            data.reverse()
+            data.sortWith(compareBy<Notice> { it.createTime }.reversed())
         } catch (e: Exception) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)

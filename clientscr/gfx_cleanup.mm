@@ -65,10 +65,11 @@ void killGfxApp(pid_t thePID) {
     char userName[64];
     RPC_CLIENT *rpc;
     int retval;
+    std::string msg;
     
     chdir("/Library/Application Support/BOINC Data");
     safe_strcpy(buf, "");
-    read_gui_rpc_password(buf);
+    read_gui_rpc_password(buf, msg);
     
     rpc = new RPC_CLIENT;
     if (rpc->init(NULL)) {     // Initialize communications with Core Client

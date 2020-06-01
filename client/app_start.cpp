@@ -337,7 +337,7 @@ static int create_dirs_for_logical_name(
     safe_strcpy(dir_path, slot_dir);
     char* p = buf;
     while (1) {
-        char* q = strstr(p, "/");
+        char* q = strchr(p, '/');
         if (!q) break;
         *q = 0;
         safe_strcat(dir_path, "/");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2016 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -56,17 +56,18 @@
 
     <application
             android:allowBackup="true"
-            android:icon="@drawable/boinc"
+            android:icon="@drawable/ic_boinc"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Styled"
+            android:theme="@style/AppTheme"
             android:largeHeap="true"
-            android:banner="@drawable/banner">
+            android:banner="@drawable/ic_boinc_logo"
+            android:name=".BOINCApplication">
 
         <activity
                 android:name="edu.berkeley.boinc.SplashActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/app_name"
-                android:theme="@style/Theme.Styled.NoActionBar"
+                android:theme="@style/AppTheme.NoActionBar"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -81,24 +82,19 @@
                 android:label="@string/app_name"
                 android:launchMode="singleTop"
                 android:exported="true"/>
-        <activity android:name="edu.berkeley.boinc.attach.AcctMgrFragment">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="edu.berkeley.boinc.BOINCActivity"/>
-        </activity>
         <activity
                 android:name="edu.berkeley.boinc.attach.SelectionListActivity"
-                android:theme="@style/Theme.Styled.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name="edu.berkeley.boinc.attach.CredentialInputActivity"
-                android:theme="@style/Theme.Styled.NoActionBar"
+                android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name="edu.berkeley.boinc.attach.BatchProcessingActivity"
-                android:theme="@style/Theme.Styled.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name="edu.berkeley.boinc.attach.BatchConflictListActivity"
-                android:theme="@style/Theme.Styled.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="edu.berkeley.boinc.EventLogActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

@@ -26,7 +26,6 @@ import android.util.Xml;
 
 import org.apache.commons.io.input.CharSequenceReader;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.collections.api.list.ImmutableList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -35,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +43,6 @@ import java.util.Locale;
 
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
-import edu.berkeley.boinc.utils.ECLists;
 import edu.berkeley.boinc.utils.Logging;
 
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
@@ -334,7 +334,7 @@ public class RpcClient {
         if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
             Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
-        long readStart = System.nanoTime();
+        final Instant start = Instant.now();
 
         // Speed is (with large data): ~ 45 KB/s for buffer size 1024
         //                             ~ 90 KB/s for buffer size 2048
@@ -355,7 +355,7 @@ public class RpcClient {
         } while (true);
 
         if (Logging.RPC_PERFORMANCE) {
-            float duration = (System.nanoTime() - readStart) / 1000000000.0F;
+            float duration = Duration.between(Instant.now(), start).getSeconds();
             long bytesCount = mResult.length();
             if (duration == 0) duration = 0.001F;
             if (Logging.DEBUG)
@@ -672,7 +672,7 @@ public class RpcClient {
                     opTag = "project_reset";
                     break;
                 default:
-                    if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+                    if (Logging.LOGLEVEL <= 4)
                         Log.e(Logging.TAG, "projectOp() - unsupported operation: " + operation);
                     return false;
             }
@@ -970,17 +970,17 @@ public class RpcClient {
         }
     }
 
-    protected synchronized ImmutableList<ProjectInfo> getAllProjectsList() {
+    protected synchronized List<ProjectInfo> getAllProjectsList() {
         try {
             mRequest.setLength(0);
             mRequest.append("<get_all_projects_list/>");
 
             sendRequest(mRequest.toString());
-            return ECLists.immutable.ofAll(ProjectInfoParser.parse(receiveReply()));
+            return ProjectInfoParser.parse(receiveReply());
         } catch (IOException e) {
             if (Logging.WARNING)
                 Log.w(Logging.TAG, "error in getAllProjectsList()", e);
-            return ECLists.immutable.empty();
+            return Collections.emptyList();
         }
     }
 
@@ -1304,22 +1304,6 @@ public class RpcClient {
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setCcConfig()", e);
             return false;
-        }
-    }
-
-    public synchronized String getCcConfig() {
-        //TODO: needs proper parsing
-        try {
-            mRequest.setLength(0);
-            mRequest.append("<get_cc_config/>");
-
-            sendRequest(mRequest.toString());
-            String reply = receiveReply();
-            Log.d(Logging.TAG, reply);
-            return reply;
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getCcConfig()", e);
-            return "";
         }
     }
 
