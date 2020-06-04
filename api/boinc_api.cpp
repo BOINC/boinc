@@ -82,11 +82,8 @@
 // (not counting the part after the last checkpoint in an episode).
 
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "version.h"
 #include "win_util.h"
 #else
