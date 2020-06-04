@@ -61,6 +61,6 @@ if [ -n "$COMPILEBOINC" ]; then
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-    echo "===== BOINC for 86 build done ====="
+    echo "===== BOINC for x86 build done ====="
 
 fi
