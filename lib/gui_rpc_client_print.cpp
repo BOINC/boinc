@@ -174,6 +174,7 @@ void RESULT::print() {
             printf("   suspended via GUI: yes\n");
         }
         printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+        printf("   elapsed task time: %f\n", elapsed_time);
     }
 
     // stuff for jobs that are running or have run
