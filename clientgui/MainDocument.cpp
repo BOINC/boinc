@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "util.h"
+
 #ifdef __WXMAC__
 #include "mac_util.h"
 #endif
