@@ -18,12 +18,8 @@
 #include <vector>
 #ifdef _WIN32
 #include "diagnostics.h"
-#ifdef __STDWX_H__
-#include "stdwx.h"
-#else
 #include "boinc_win.h"
 #include "win_util.h"
-#endif
 #else
 #include "config.h"
 #include <sys/types.h>

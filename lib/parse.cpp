@@ -24,10 +24,8 @@
 //
 // 2) a better one (class XML_PARSER) which parses arbitrary XML
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstring>

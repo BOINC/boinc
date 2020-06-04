@@ -18,11 +18,8 @@
 // This file is code to print (in ASCII) the stuff returned by GUI RPC.
 // Used only by boinccmd.
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#endif
-
-#ifdef _WIN32
 #include "../version.h"
 #else
 #include "config.h"
