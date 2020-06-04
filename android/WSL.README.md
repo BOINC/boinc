@@ -29,7 +29,7 @@ We are going to use Ubuntu 20.04 as an example, other versions should be similar
 
         $ sudo apt update && sudo apt upgrade
 
-        $ sudo apt install git unzip make m4 pkg-config autoconf automake libtool python-is-python3
+        $ sudo apt install git unzip make m4 pkg-config autoconf automake libtool python
 
 1. Clone BOINC repo
 
