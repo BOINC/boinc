@@ -16,4 +16,3 @@ cd android/
 ./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch x86_64
 
 echo '===== BOINC for all platforms build done ====='
-exit
