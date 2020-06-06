@@ -985,51 +985,31 @@ void PROJECT::check_no_apps() {
     }
 }
 
-// show a notice if we can't get work from this project,
-// and there's something the user could do about it.
+// show devices this project is not allowed to compute for
+// because of a user setting
 //
 void PROJECT::show_no_work_notice() {
-    bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
-        if (!gstate.acct_mgr_info.dynamic) {
-            // dynamic account managers manage rsc usage themselves, not user
-            //
-            banned_by_user = banned_by_user || no_rsc_ams[i];
-            // note to self: ||= doesn't exist
-        }
-        if (!banned_by_user) {
-            continue;
-        }
-        string x;
-        x = NO_WORK_MSG;
-        x += " ";
-        x += rsc_name_long(i);
-        x += ".  ";
-        x += _("To fix this, you can ");
+            // project can't use resource anyway
 
-        bool first = true;
         if (no_rsc_pref[i]) {
-            x += _("change Project Preferences on the project's web site");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: project preferences",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_config[i]) {
-            if (!first) x += ", or ";
-            x += _("remove GPU exclusions in your cc_config.xml file");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: GPU exclusions in cc_config.xml",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
-            if (!first) x += ", or ";
-            x += _("change your settings at your account manager web site");
+            msg_printf(this, MSG_INFO,
+                "Not using %s: account manager settings",
+                rsc_name_long(i)
+            );
         }
-        x += ".";
-        msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
-        some_banned = true;
     }
-    if (!some_banned) {
-        notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-        return;
-    }
-
 }
