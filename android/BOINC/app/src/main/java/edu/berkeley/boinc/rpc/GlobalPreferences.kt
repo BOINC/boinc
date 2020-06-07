@@ -35,7 +35,7 @@ data class GlobalPreferences(
         var diskInterval: Double = 0.0,
         var diskMaxUsedGB: Double = 0.0,
         var diskMaxUsedPct: Double = 0.0,
-        var diskMinFreeMB: Double = 0.0,
+        var diskMinFreeGB: Double = 0.0,
         var ramMaxUsedBusyFrac: Double = 0.0,
         var ramMaxUsedIdleFrac: Double = 0.0,
         var maxBytesSecUp: Double = 0.0,
@@ -59,7 +59,7 @@ data class GlobalPreferences(
             workBufAdditionalDays = parcel.readDouble(), maxNoOfCPUsPct = parcel.readDouble(),
             cpuSchedulingPeriodMinutes = parcel.readDouble(), diskInterval = parcel.readDouble(),
             diskMaxUsedGB = parcel.readDouble(), diskMaxUsedPct = parcel.readDouble(),
-            diskMinFreeMB = parcel.readDouble(), ramMaxUsedBusyFrac = parcel.readDouble(),
+            diskMinFreeGB = parcel.readDouble(), ramMaxUsedBusyFrac = parcel.readDouble(),
             ramMaxUsedIdleFrac = parcel.readDouble(), maxBytesSecUp = parcel.readDouble(),
             maxBytesSecDown = parcel.readDouble(), cpuUsageLimit = parcel.readDouble(),
             dailyTransferLimitMB = parcel.readDouble(), dailyTransferPeriodDays = parcel.readInt(),
@@ -84,7 +84,7 @@ data class GlobalPreferences(
         dest.writeDouble(diskInterval)
         dest.writeDouble(diskMaxUsedGB)
         dest.writeDouble(diskMaxUsedPct)
-        dest.writeDouble(diskMinFreeMB)
+        dest.writeDouble(diskMinFreeGB)
         dest.writeDouble(ramMaxUsedBusyFrac)
         dest.writeDouble(ramMaxUsedIdleFrac)
         dest.writeDouble(maxBytesSecUp)

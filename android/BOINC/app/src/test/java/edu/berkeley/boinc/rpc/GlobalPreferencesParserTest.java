@@ -571,7 +571,7 @@ public class GlobalPreferencesParserTest {
         globalPreferencesParser.endElement(null, GlobalPreferencesParser.GLOBAL_PREFERENCES_TAG,
                                            null);
 
-        expected.setDiskMinFreeMB(5.0);
+        expected.setDiskMinFreeGB(5.0);
 
         assertEquals(expected, globalPreferencesParser.getGlobalPreferences());
     }

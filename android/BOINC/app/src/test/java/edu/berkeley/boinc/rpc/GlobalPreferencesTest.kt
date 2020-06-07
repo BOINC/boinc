@@ -43,7 +43,7 @@ class GlobalPreferencesTest {
                 .addEqualityGroup(GlobalPreferences(diskInterval = 1.0))
                 .addEqualityGroup(GlobalPreferences(diskMaxUsedGB = 1.0))
                 .addEqualityGroup(GlobalPreferences(diskMaxUsedPct = 1.0))
-                .addEqualityGroup(GlobalPreferences(diskMinFreeMB = 1.0))
+                .addEqualityGroup(GlobalPreferences(diskMinFreeGB = 1.0))
                 .addEqualityGroup(GlobalPreferences(ramMaxUsedBusyFrac = 1.0))
                 .addEqualityGroup(GlobalPreferences(ramMaxUsedIdleFrac = 1.0))
                 .addEqualityGroup(GlobalPreferences(maxBytesSecUp = 1.0))

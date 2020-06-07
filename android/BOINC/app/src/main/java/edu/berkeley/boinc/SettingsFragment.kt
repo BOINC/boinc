@@ -52,8 +52,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 prefs.dailyTransferLimitMB.toString())
         findPreference<EditTextPreference>("dailyTransferLimit")?.summary = dailyTransferLimit
 
-        findPreference<EditTextPreference>("diskMinFreeMB")?.summary =
-                sharedPreferences.getString("diskMinFreeMB", "107")
+        findPreference<EditTextPreference>("diskMinFreeGB")?.summary =
+                sharedPreferences.getString("diskMinFreeGB", "107")
         findPreference<EditTextPreference>("diskInterval")?.summary =
                 sharedPreferences.getString("diskInterval", "60")
 
@@ -205,10 +205,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
-            "diskMinFreeMB" -> {
-                val diskMinFreeMB = sharedPreferences.getString(key, "107")
-                prefs.diskMinFreeMB = diskMinFreeMB?.toDouble() ?: 107.0
-                findPreference<EditTextPreference>(key)?.summary = diskMinFreeMB
+            "diskMinFreeGB" -> {
+                val diskMinFreeGB = sharedPreferences.getString(key, "107")
+                prefs.diskMinFreeGB = diskMinFreeGB?.toDouble() ?: 107.0
+                findPreference<EditTextPreference>(key)?.summary = diskMinFreeGB
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
