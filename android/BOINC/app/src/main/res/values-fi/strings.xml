@@ -189,15 +189,10 @@
         Tätä arvoa ei suositella muutettavaksi.
     </string>
   <string name="prefs_disk_max_pct_header">Suurin käytetty tallennustila</string>
-  <string name="prefs_disk_max_pct_description">Kuinka monta prosenttia laitteesi tallennustilasta BOINC saa
-        käyttää?
-    </string>
-  <string name="prefs_disk_min_free_gb_header">Pienin tallennustila</string>
-  <string name="prefs_disk_min_free_gb_description">Kuinka paljon laitteesi tallennustilasta jätetään vapaaksi?</string>
+    <string name="prefs_disk_min_free_gb_header">Pienin tallennustila</string>
   <string name="prefs_disk_access_interval_header">Levyn käytön aikaväli</string>
   <string name="prefs_disk_access_interval_description">Määrittää ajan, kuinka usein levyä käytetään</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Päivittäinen siirtoraja</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Rajoitus BOINCin päivittäiselle tiedonsiirrolle.</string>
   <string name="prefs_network_wifi_only_header">Siirrä tehtävät vain WiFin kautta</string>
   <string name="prefs_autostart_header">Automaattikäynnistys</string>
   <string name="prefs_show_notification_notices_header">Näytä ilmoitus uusista ilmoituksista</string>
@@ -213,11 +208,7 @@
   <string name="prefs_memory_max_idle_header">RAM raja</string>
   <string name="prefs_memory_max_idle_description">Rajoittaa RAM-muistin määrää, joka tehtäville annetaan.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Työpakettien määrä</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Varastoi työtä vähintään X päiväksi</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Työpakettien lisämäärä</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Varastoi lisäksi X päiväksi
-        työtä
-    </string>
   <string name="prefs_client_log_flags_header">BOINC-ohjelman lokiliput</string>
   <string name="prefs_gui_log_level_header">GUI-kirjaustaso</string>
   <string name="prefs_gui_log_level_description">Määrittää GUI-kirjaustason tarkkuuden.</string>

@@ -174,13 +174,10 @@
   <string name="battery_temperature_max_header">Temperatura máx. da bateria</string>
   <string name="battery_temperature_max_description">BOINC suspende o processamento quando a bateria atingir a temperatura definida. Não é recomendado alterar este valor.</string>
   <string name="prefs_disk_max_pct_header">Espaço máx. de utilização</string>
-  <string name="prefs_disk_max_pct_description">Qual a porcentagem de espaço de armazenamento do seu dispositivo o BOINC pode utilizar?</string>
-  <string name="prefs_disk_min_free_gb_header">Espaço mín. de sobra</string>
-  <string name="prefs_disk_min_free_gb_description">Quanto de espaço do seu dispositivo deve permanecer livre?</string>
+    <string name="prefs_disk_min_free_gb_header">Espaço mín. de sobra</string>
   <string name="prefs_disk_access_interval_header">Intervalo de acesso</string>
   <string name="prefs_disk_access_interval_description">Sugere um intervalo entre os acessos ao disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite diário de transferência</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Limita o uso diário de dados utilizados pelo BOINC.</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas por WiFi</string>
   <string name="prefs_autostart_header">Autoiniciar</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificação para novos avisos</string>
@@ -194,9 +191,7 @@
   <string name="prefs_memory_max_idle_header">Limite de RAM</string>
   <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM que as tarefas podem ocupar.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer de unidade de trabalho</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Armazenar pelo menos X dias de trabalho</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Buffer adicional de unidade de trabalho</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Armazenar adicionalmente até X dias de trabalho</string>
   <string name="prefs_client_log_flags_header">Flags do registro do Cliente BOINC</string>
   <string name="prefs_gui_log_level_header">Nível de registro do GUI</string>
   <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens do registro do GUI.</string>

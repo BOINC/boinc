@@ -192,13 +192,10 @@
         Šo vērtību nav ieteicams mainīt.
     </string>
     <string name="prefs_disk_max_pct_header">Maks. izmantojamā vieta krātuvē</string>
-    <string name="prefs_disk_max_pct_description">Cik procentus no ierīces krātuves vietas BOINC drīkst lietot?</string>
     <string name="prefs_disk_min_free_gb_header">Cik min. jāatstāj brīvs</string>
-    <string name="prefs_disk_min_free_gb_description">Cik daudz jūsu ierīces krātuves vietai jāpaliek brīvai?</string>
     <string name="prefs_disk_access_interval_header">Piekļūšanas intervāls</string>
     <string name="prefs_disk_access_interval_description">Iesaka piekļūšanas intervālu diskam</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Pārsūtīšanas limits dienā</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ierobežo datu plūsmu, ko dienā izraisa BOINC.</string>
     <string name="prefs_network_wifi_only_header">Uzdevumu pārsūtīšanai izmantot tikai WiFi</string>
     <string name="prefs_autostart_header">Autostartēšanās</string>
     <string name="prefs_show_notification_notices_header">Rādīt paziņojumus jauniem paziņojumiem</string>

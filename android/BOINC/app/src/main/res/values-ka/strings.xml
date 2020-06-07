@@ -190,19 +190,10 @@
         არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..
     </string>
     <string name="prefs_disk_max_pct_header">მაქს. გამოყენებული მეხსიერების ადგილი</string>
-    <string name="prefs_disk_max_pct_description">თქვენი მოწყობილობის მეხსიერების ადგილის რამდენი პროცენტის გამოყენების
-        უფლება აქვს BOINC-ს?
-    </string>
     <string name="prefs_disk_min_free_gb_header">მინ. თავისუფალი მეხსიერება</string>
-    <string name="prefs_disk_min_free_gb_description">თქვენი მოწყობილობის მეხსიერების რამდენი ადგილი უნდა დარჩეს
-        ცარელად?
-    </string>
     <string name="prefs_disk_access_interval_header">წვდომის ინტერვალი</string>
     <string name="prefs_disk_access_interval_description">აყენებს დისკზე წვდომის ინტერვალს</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">დღიური გზავნის შეზღუდვა</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">ზღუდავს დღიურ მონაცემთა გზავნილებს, რომელიც გამოწვეულია
-        BOINC-ის მიერ
-    </string>
     <string name="prefs_network_wifi_only_header">დავალებების გაგზავნა მხოლოდ WiFi-თ</string>
     <string name="prefs_autostart_header">ავტოგაშვება</string>
     <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>

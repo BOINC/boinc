@@ -286,7 +286,7 @@ class BOINCActivity : AppCompatActivity() {
                 R.string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
                 R.string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
                 R.string.tab_preferences -> {
-                    ft.replace<PrefsFragment>(R.id.frame_container)
+                    ft.replace<SettingsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
                 else -> if (Logging.ERROR) {

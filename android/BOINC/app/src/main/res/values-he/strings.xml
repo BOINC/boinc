@@ -180,14 +180,10 @@
         ערך זה.
     </string>
     <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש</string>
-    <string name="prefs_disk_max_pct_description">בכמה אחוזים משטח האחסון של מכשירך מותר ל-BOINC להשתמש?</string>
     <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי</string>
-    <string name="prefs_disk_min_free_gb_description">כמה משטח אחסון של מכשירך צריך להישאר פנוי?</string>
     <string name="prefs_disk_access_interval_header">מרווח זמן גישה</string>
     <string name="prefs_disk_access_interval_description">הצע מרווח זמן בין גישות דיסק</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">הגבלת תעבורה יומית</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">הגבל את תעבורת נתונים היומית הנגרמת על ידי BOINC.
-    </string>
     <string name="prefs_network_wifi_only_header">שלח משימות ב-WiFi בלבד</string>
     <string name="prefs_autostart_header">אתחול אוטומטי</string>
     <string name="prefs_show_notification_notices_header">הצג הודעה עבור הודעות חדשות</string>

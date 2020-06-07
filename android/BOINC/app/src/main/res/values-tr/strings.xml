@@ -171,13 +171,10 @@
     <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
     <string name="battery_temperature_max_description">BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu değeri değiştirmeniz önerilmez.</string>
     <string name="prefs_disk_max_pct_header">En çok depolama alanı kullanımı</string>
-    <string name="prefs_disk_max_pct_description">BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını kullanabilecek?</string>
     <string name="prefs_disk_min_free_gb_header">En az boş depolama alanı</string>
-    <string name="prefs_disk_min_free_gb_description">Cihazınızda en az ne kadar depolama alanı boş bırakılacak?</string>
     <string name="prefs_disk_access_interval_header">Erişim zaman aralığı</string>
     <string name="prefs_disk_access_interval_description">Disk erişimleri arasında bir aralık önerir</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Günlük aktarım kotası</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">BOINC\'in günlük internet kullanım kotası.</string>
     <string name="prefs_network_wifi_only_header">İşleri yalnızca WiFi\'dayken aktar</string>
     <string name="prefs_autostart_header">Cihaz açılınca otomatik başla</string>
     <string name="prefs_show_notification_notices_header">Yeni bildirimler için uyarı göster</string>

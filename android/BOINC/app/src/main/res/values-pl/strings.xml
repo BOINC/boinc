@@ -171,13 +171,10 @@
     <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora</string>
     <string name="battery_temperature_max_description">BOINC zawiesza wykonywanie obliczeń, jeśli temperatura akumulatora przekroczy tą temperaturę. Nie zaleca się zmian tej wartości.</string>
     <string name="prefs_disk_max_pct_header">Maksymalny rozmiar pamięci stałej</string>
-    <string name="prefs_disk_max_pct_description">Określa procentowy rozmiar pamięci stałej urządzenia który BOINC może używać.</string>
     <string name="prefs_disk_min_free_gb_header">Minimalny wolny rozmiar pamięci stałej</string>
-    <string name="prefs_disk_min_free_gb_description">Określa rozmiar pamięci stałej, który ma pozostać wolny.</string>
     <string name="prefs_disk_access_interval_header">Częstotliwość sięgania</string>
     <string name="prefs_disk_access_interval_description">Określa jak często BOINC sięga do pamięci stałej.</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Ograniczenie dziennego przekazu</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ogranicza rozmiar danych przekazywanych dziennie przez BOINC.</string>
     <string name="prefs_network_wifi_only_header">Przekazuj zadania wyłącznie siecią Wi-Fi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Pokazuj powiadomienia o nowych wiadomościach</string>

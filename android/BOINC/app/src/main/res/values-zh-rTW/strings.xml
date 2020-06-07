@@ -178,13 +178,10 @@
   <string name="battery_temperature_max_description">BOINC 將在電池溫度高於預設值的時候暫停運算。
 不建議您變更此設定值。</string>
   <string name="prefs_disk_max_pct_header">最多使用儲存空間</string>
-  <string name="prefs_disk_max_pct_description">允許 BOINC 使用多少比例的儲存空間?</string>
-  <string name="prefs_disk_min_free_gb_header">最小備用容量</string>
-  <string name="prefs_disk_min_free_gb_description">您的裝置有多少閒置空間可以使用?</string>
+    <string name="prefs_disk_min_free_gb_header">最小備用容量</string>
   <string name="prefs_disk_access_interval_header">存取間隔</string>
   <string name="prefs_disk_access_interval_description">建議存取資料間隔˙時間</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">每日傳輸限制</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">限制BOINC每日數據流量。</string>
   <string name="prefs_network_wifi_only_header">只用WiFi傳輸</string>
   <string name="prefs_autostart_header">自動執行</string>
   <string name="prefs_show_notification_notices_header">當有新訊息時顯示通知</string>
@@ -198,9 +195,7 @@
   <string name="prefs_memory_max_idle_header">限制RAM</string>
   <string name="prefs_memory_max_idle_description">限制任務佔用 RAM 容量。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">運算單元緩衝區</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">儲存至少 X 天的工作</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">附加工作單元緩衝區</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">最少存放 X 天的工作</string>
   <string name="prefs_client_log_flags_header">BOINC客戶端紀錄檔標籤</string>
   <string name="prefs_gui_log_level_header">GUI日誌等級</string>
   <string name="prefs_gui_log_level_description">指定GUI紀錄的詳細程度。</string>

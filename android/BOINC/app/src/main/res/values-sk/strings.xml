@@ -181,13 +181,10 @@
   <string name="battery_temperature_max_header">Maximálna teplota batérie</string>
   <string name="battery_temperature_max_description">BOINC pozastaví výpočet ak teplota batérie stúpne nad danú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
   <string name="prefs_disk_max_pct_header">Maximum použitého úložného priestoru</string>
-  <string name="prefs_disk_max_pct_description">Koľko percent úložného priestoru na Vašom zariadení môže BOINC využívať?</string>
-  <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
-  <string name="prefs_disk_min_free_gb_description">Koľko z úložného priestoru vášho zariadenia by malo ostať voľného?</string>
+    <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
   <string name="prefs_disk_access_interval_header">Interval prístupov</string>
   <string name="prefs_disk_access_interval_description">Odporučiť interval medzi prístupmi na disk</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Nastaví obmedzenia prenosu súborov pre BOINC.</string>
   <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
   <string name="prefs_autostart_header">Automatický štart</string>
   <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
@@ -201,9 +198,7 @@
   <string name="prefs_memory_max_idle_header">Limit RAM</string>
   <string name="prefs_memory_max_idle_description">Nastaví koľko RAM môžu úlohy využiť</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovných úloh</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Ulož aspoň X dní práce</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočný zásobník pracovných úloh</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Uložiť až do X dodatočných dní práce.</string>
   <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>

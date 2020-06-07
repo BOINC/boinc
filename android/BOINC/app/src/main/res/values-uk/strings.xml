@@ -190,15 +190,10 @@
          Не рекомендовано змінювати це значення.
 </string>
   <string name="prefs_disk_max_pct_header">Макс. об’єм диска для використання</string>
-  <string name="prefs_disk_max_pct_description">Скільки відсотків дискового простору може використовувати
-       BOINC?
-</string>
-  <string name="prefs_disk_min_free_gb_header">Мін. запас дискового простору</string>
-  <string name="prefs_disk_min_free_gb_description">Скільки вашого дискового простору повинно залишитися вільним?</string>
+    <string name="prefs_disk_min_free_gb_header">Мін. запас дискового простору</string>
   <string name="prefs_disk_access_interval_header">Період доступу</string>
   <string name="prefs_disk_access_interval_description">Пропонує проміжок між доступами до диску</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Денний ліміт передачі</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Обмеження щоденної передачі даних, що здійснює BOINC.</string>
   <string name="prefs_network_wifi_only_header">Передавати завдання тільки через WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
   <string name="prefs_show_notification_notices_header">Сповіщати про нові повідомлення</string>
@@ -214,11 +209,7 @@
   <string name="prefs_memory_max_idle_header">Обмеження RAM</string>
   <string name="prefs_memory_max_idle_description">Обмеження кількості RAM, доступної для використання.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Зберігати принаймні Х днів роботи</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Додатковий буфер для задач</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Зберігати додатково до принаймні Х днів
-        роботи
-</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
   <string name="prefs_gui_log_level_description">Задає рівень деталізації повідомлень журналу GUI.</string>

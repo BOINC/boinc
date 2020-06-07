@@ -194,15 +194,10 @@
         fölé emelkedik. Nem ajánlott megváltoztatni ezt az értéket.
     </string>
     <string name="prefs_disk_max_pct_header">Max. használható lemezterület</string>
-    <string name="prefs_disk_max_pct_description">Az eszköz tárolóhelyének hány százalékát használhatja a BOINC?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Min. szabad terület</string>
-    <string name="prefs_disk_min_free_gb_description">Az eszköz tárolóhelyének mennyi része maradjon szabadon?</string>
     <string name="prefs_disk_access_interval_header">Hozzáférési időköz</string>
     <string name="prefs_disk_access_interval_description">Javaslat a lemezhozzáférés gyakoriságához</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Napi átviteli limit</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">A BOINC által maximálisan használt napi adatforgalom.
-    </string>
     <string name="prefs_network_wifi_only_header">Feladatok továbbítása csak WiFin keresztül</string>
     <string name="prefs_autostart_header">Autóindítás</string>
     <string name="prefs_show_notification_notices_header">Új üzenetek megjelenítése</string>
