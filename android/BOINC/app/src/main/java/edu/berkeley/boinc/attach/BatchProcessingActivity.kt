@@ -27,18 +27,16 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper
+import edu.berkeley.boinc.databinding.AttachProjectBatchProcessingLayoutBinding
 import edu.berkeley.boinc.utils.Logging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -46,16 +44,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BatchProcessingActivity : AppCompatActivity() {
+    private lateinit var binding: AttachProjectBatchProcessingLayoutBinding
+
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
-    // pager widget, handles animation and horizontal swiping gestures
-    private lateinit var mPager: ViewPager
+
     private val hints: MutableList<HintFragment> = ArrayList() // hint fragments
 
-    //header
-    private var hintTv: TextView? = null
-    private var hintIvRight: ImageView? = null
-    private var hintIvLeft: ImageView? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Logging.DEBUG) {
@@ -63,22 +58,19 @@ class BatchProcessingActivity : AppCompatActivity() {
         }
 
         // setup layout
-        setContentView(R.layout.attach_project_batch_processing_layout)
-        hintTv = findViewById(R.id.hint_header_text)
-        hintIvRight = findViewById(R.id.hint_header_image_right)
-        hintIvLeft = findViewById(R.id.hint_header_image_left)
+        binding = AttachProjectBatchProcessingLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // create hint fragments
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_CONTRIBUTION))
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PROJECTWEBSITE))
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PLATFORMS))
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = findViewById(R.id.hint_container)
+        // Instantiate a PagerAdapter.
         // provides content to pager
         val mPagerAdapter = HintPagerAdapter(supportFragmentManager)
-        mPager.adapter = mPagerAdapter
-        mPager.addOnPageChangeListener(object : OnPageChangeListener {
+        binding.hintContainer.adapter = mPagerAdapter
+        binding.hintContainer.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrollStateChanged(arg0: Int) {}
             override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
             override fun onPageSelected(arg0: Int) {
@@ -98,13 +90,13 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (mPager.currentItem == 0) {
+        if (binding.hintContainer.currentItem == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed()
         } else {
             // Otherwise, select the previous step.
-            mPager.currentItem--
+            binding.hintContainer.currentItem--
         }
     }
 
@@ -158,12 +150,12 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // adapts header text and icons when hint selection changes
     private fun adaptHintHeader() {
-        val position = mPager.currentItem
+        val position = binding.hintContainer.currentItem
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: $position")
         }
         val hintText = getString(R.string.attachproject_hints_header) + " ${position + 1}/$NUM_HINTS"
-        hintTv!!.text = hintText
+        binding.hintHeaderText.text = hintText
         var leftVisibility = View.VISIBLE
         var rightVisibility = View.VISIBLE
         if (position == 0) {
@@ -173,8 +165,8 @@ class BatchProcessingActivity : AppCompatActivity() {
             // last element reached
             rightVisibility = View.GONE
         }
-        hintIvLeft!!.visibility = leftVisibility
-        hintIvRight!!.visibility = rightVisibility
+        binding.hintHeaderImageLeft.visibility = leftVisibility
+        binding.hintHeaderImageRight.visibility = rightVisibility
     }
 
     // previous image in hint header clicked
@@ -182,7 +174,7 @@ class BatchProcessingActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.")
         }
-        mPager.currentItem--
+        binding.hintContainer.currentItem--
     }
 
     // previous image in hint header clicked
@@ -190,7 +182,7 @@ class BatchProcessingActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.")
         }
-        mPager.currentItem++
+        binding.hintContainer.currentItem++
     }
 
     private val mASConnection: ServiceConnection = object : ServiceConnection {
@@ -232,8 +224,8 @@ class BatchProcessingActivity : AppCompatActivity() {
             Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberSelectedProjects}" +
                     " projects to attach....")
         }
-        (findViewById<View>(R.id.attach_status_text) as TextView).text =
-                getString(R.string.attachproject_login_loading) // shown while project configs are loaded
+        // shown while project configs are loaded
+        binding.attachStatusText.text = getString(R.string.attachproject_login_loading)
 
         withContext(Dispatchers.Default) {
             // wait until service is ready
@@ -256,7 +248,7 @@ class BatchProcessingActivity : AppCompatActivity() {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG, "attachProject(): trying: ${it.info.name}")
                         }
-                        (findViewById<View>(R.id.attach_status_text) as TextView).text =
+                        binding.attachStatusText.text =
                                 "${getString(R.string.attachproject_working_attaching)} ${it.info.name}"
                     }
                     .map { it.lookupAndAttach(false) }
@@ -267,13 +259,13 @@ class BatchProcessingActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<View>(R.id.attach_status_ongoing_wrapper).visibility = View.GONE
-        findViewById<View>(R.id.continue_button).visibility = View.VISIBLE
-        findViewById<View>(R.id.share_button).visibility = View.VISIBLE
+        binding.attachStatusOngoingWrapper.visibility = View.GONE
+        binding.continueButton.visibility = View.VISIBLE
+        binding.shareButton.visibility = View.VISIBLE
     }
 
-    private inner class HintPagerAdapter internal constructor(fm: FragmentManager?)
-        : FragmentStatePagerAdapter(fm!!, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private inner class HintPagerAdapter internal constructor(fm: FragmentManager)
+        : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int) = hints[position]
 
         override fun getCount() = NUM_HINTS

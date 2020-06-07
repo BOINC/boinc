@@ -32,11 +32,9 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
-import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.replace
 import androidx.legacy.app.ActionBarDrawerToggle
 import androidx.lifecycle.lifecycleScope
@@ -46,6 +44,7 @@ import edu.berkeley.boinc.attach.SelectionListActivity
 import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.databinding.MainBinding
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.RUN_MODE_AUTO
 import edu.berkeley.boinc.utils.RUN_MODE_NEVER
@@ -59,10 +58,10 @@ class BOINCActivity : AppCompatActivity() {
     // app title (changes with nav bar selection)
     private var mTitle: CharSequence? = null
 
+    private lateinit var binding: MainBinding
+
     // nav drawer title
     private var mDrawerTitle: CharSequence? = null
-    private lateinit var mDrawerLayout: DrawerLayout
-    private lateinit var mDrawerList: ListView
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerListAdapter: NavDrawerListAdapter
     private val mConnection: ServiceConnection = object : ServiceConnection {
@@ -96,27 +95,26 @@ class BOINCActivity : AppCompatActivity() {
             Log.d(Logging.TAG, "BOINCActivity onCreate()")
         }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
+        binding = MainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // setup navigation bar
         mDrawerTitle = title
         mTitle = mDrawerTitle
-        mDrawerLayout = findViewById(R.id.drawer_layout)
-        mDrawerList = findViewById(R.id.list_slidermenu)
-        mDrawerList.onItemClickListener =
+        binding.drawerList.onItemClickListener =
                 OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             // display view for selected nav drawer item
             dispatchNavBarOnClick(mDrawerListAdapter.getItem(position), false)
         }
         mDrawerListAdapter = NavDrawerListAdapter(this)
-        mDrawerList.adapter = mDrawerListAdapter
+        binding.drawerList.adapter = mDrawerListAdapter
         // enabling action bar app icon and behaving it as toggle button
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_white)
 
         // TODO: Replace with a non-deprecated class.
-        mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout,
+        mDrawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout,
                 R.drawable.ic_baseline_menu_white,  //nav menu toggle icon
                 R.string.app_name,  // nav drawer openapplicationContext - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
@@ -135,7 +133,7 @@ class BOINCActivity : AppCompatActivity() {
                 supportInvalidateOptionsMenu()
             }
         }
-        mDrawerLayout.setDrawerListener(mDrawerToggle)
+        binding.drawerLayout.addDrawerListener(mDrawerToggle)
 
         // pre-select fragment
         // 1. check if explicitly requested fragment present
@@ -303,7 +301,7 @@ class BOINCActivity : AppCompatActivity() {
                     args = bundleOf("url" to item.projectMasterUrl))
             fragmentChanges = true
         }
-        mDrawerLayout.closeDrawer(mDrawerList)
+        binding.drawerLayout.closeDrawer(binding.drawerList)
         if (fragmentChanges) {
             ft.commit()
             title = item.title
@@ -338,10 +336,10 @@ class BOINCActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, keyEvent: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                mDrawerLayout.closeDrawer(mDrawerList)
+            if (binding.drawerLayout.isDrawerOpen(binding.drawerList)) {
+                binding.drawerLayout.closeDrawer(binding.drawerList)
             } else {
-                mDrawerLayout.openDrawer(mDrawerList)
+                binding.drawerLayout.openDrawer(binding.drawerList)
             }
             return true
         }

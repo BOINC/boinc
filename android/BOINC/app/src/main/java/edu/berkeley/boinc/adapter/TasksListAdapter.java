@@ -134,7 +134,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
-        ((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
+        ((TextView) v.findViewById(R.id.project_name)).setText(tempProjectName);
 
         // status text
         String statusT = determineStatusText(listItem);

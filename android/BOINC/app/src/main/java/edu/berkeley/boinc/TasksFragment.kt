@@ -32,12 +32,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.TasksListAdapter
+import edu.berkeley.boinc.databinding.DialogConfirmBinding
+import edu.berkeley.boinc.databinding.TasksLayoutBinding
 import edu.berkeley.boinc.rpc.Result
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
@@ -70,12 +69,11 @@ class TasksFragment : Fragment() {
             Log.d(Logging.TAG, "TasksFragment onCreateView")
         }
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.tasks_layout, container, false)
-        val lv = layout.findViewById<ListView>(R.id.tasksList)
-        listAdapter = TasksListAdapter(activity, R.id.tasksList, data)
-        lv.adapter = listAdapter
-        lv.onItemClickListener = itemClickListener
-        return layout
+        val binding = TasksLayoutBinding.inflate(inflater, container, false)
+        listAdapter = TasksListAdapter(activity, R.id.tasks_list, data)
+        binding.tasksList.adapter = listAdapter
+        binding.tasksList.onItemClickListener = itemClickListener
+        return binding.root
     }
 
     override fun onResume() {
@@ -198,24 +196,22 @@ class TasksFragment : Fragment() {
                         }
                     }
                     RpcClient.RESULT_ABORT -> {
-                        val dialog = Dialog(activity!!)
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        dialog.setContentView(R.layout.dialog_confirm)
-                        val confirm = dialog.findViewById<Button>(R.id.confirm)
-                        val tvTitle = dialog.findViewById<TextView>(R.id.title)
-                        val tvMessage = dialog.findViewById<TextView>(R.id.message)
-                        tvTitle.setText(R.string.confirm_abort_task_title)
-                        tvMessage.text = getString(R.string.confirm_abort_task_message, result.name)
-                        confirm.setText(R.string.confirm_abort_task_confirm)
-                        confirm.setOnClickListener {
+                        val dialogBinding = DialogConfirmBinding.inflate(layoutInflater)
+                        val dialog = Dialog(activity!!).apply {
+                            requestWindowFeature(Window.FEATURE_NO_TITLE)
+                            setContentView(dialogBinding.root)
+                        }
+                        dialogBinding.title.setText(R.string.confirm_abort_task_title)
+                        dialogBinding.message.text = getString(R.string.confirm_abort_task_message, result.name)
+                        dialogBinding.confirm.setText(R.string.confirm_abort_task_confirm)
+                        dialogBinding.confirm.setOnClickListener {
                             nextState = RESULT_ABORTED
                             lifecycleScope.launch {
                                 performResultOperation(result.projectURL, result.name, operation)
                             }
                             dialog.dismiss()
                         }
-                        val cancel = dialog.findViewById<Button>(R.id.cancel)
-                        cancel.setOnClickListener { dialog.dismiss() }
+                        dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
                         dialog.show()
                     }
                     else -> if (Logging.WARNING) {

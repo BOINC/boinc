@@ -66,6 +66,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "edu.berkeley.boinc"
         minSdkVersion 19

@@ -119,7 +119,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
         else {
             String viewId = (String) vi.getTag();
-            if(!data.id.equals(viewId)) {
+            if(!StringUtils.equals(data.id, viewId)) {
                 setup = true;
             }
         }

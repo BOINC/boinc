@@ -28,14 +28,14 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
 import edu.berkeley.boinc.attach.ManualUrlInputFragment
+import edu.berkeley.boinc.databinding.DialogConfirmBinding
+import edu.berkeley.boinc.databinding.DialogListBinding
+import edu.berkeley.boinc.databinding.ProjectsLayoutBinding
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.ERR_OK
 import edu.berkeley.boinc.utils.Logging
@@ -72,10 +72,9 @@ class ProjectsFragment : Fragment() {
             Log.v(Logging.TAG, "ProjectsFragment onCreateView")
         }
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.projects_layout, container, false)
-        val lv = layout.findViewById<ListView>(R.id.projectsList)
-        listAdapter = ProjectsListAdapter(activity, lv, R.id.projectsList, data)
-        return layout
+        val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
+        listAdapter = ProjectsListAdapter(activity, binding.projectsList, R.id.projects_list, data)
+        return binding.root
     }
 
     override fun onPause() {
@@ -268,13 +267,12 @@ class ProjectsFragment : Fragment() {
         // sets up dialog with controls
         @JvmField
         val projectsListClickListener = View.OnClickListener {
-            dialogControls = Dialog(activity!!).apply {
+            val dialogBinding = DialogListBinding.inflate(layoutInflater)
+            dialogControls = Dialog(requireActivity()).apply {
                 // layout
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
-                setContentView(R.layout.dialog_list)
+                setContentView(dialogBinding.root)
             }
-
-            val list = dialogControls!!.findViewById<ListView>(R.id.options)
 
             // add control items depending on:
             // - type, account manager vs. project
@@ -283,12 +281,12 @@ class ProjectsFragment : Fragment() {
             // - project attached via account manager (e.g. hide Remove)
             val controls: MutableList<ProjectControl> = ArrayList()
             if (isMgr) {
-                (dialogControls!!.findViewById<View>(R.id.title) as TextView).setText(R.string.projects_control_dialog_title_acctmgr)
+                dialogBinding.title.setText(R.string.projects_control_dialog_title_acctmgr)
                 controls.add(ProjectControl(listEntry, VISIT_WEBSITE))
                 controls.add(ProjectControl(listEntry, RpcClient.MGR_SYNC))
                 controls.add(ProjectControl(listEntry, RpcClient.MGR_DETACH))
             } else {
-                (dialogControls!!.findViewById<View>(R.id.title) as TextView).setText(R.string.projects_control_dialog_title)
+                dialogBinding.title.setText(R.string.projects_control_dialog_title)
                 controls.add(ProjectControl(listEntry, VISIT_WEBSITE))
                 if (!projectTransfers.isNullOrEmpty()) {
                     controls.add(ProjectControl(listEntry, RpcClient.TRANSFER_RETRY))
@@ -318,14 +316,14 @@ class ProjectsFragment : Fragment() {
             }
 
             // list adapter
-            list.adapter = ProjectControlsListAdapter(activity, list, R.layout.projects_controls_listitem_layout, controls)
+            dialogBinding.options.adapter = ProjectControlsListAdapter(activity, dialogBinding.options,
+                    R.layout.projects_controls_listitem_layout, controls)
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "dialog list adapter entries: " + controls.size)
             }
 
             // buttons
-            val cancelButton = dialogControls!!.findViewById<Button>(R.id.cancel)
-            cancelButton.setOnClickListener { dialogControls!!.dismiss() }
+            dialogBinding.cancel.setOnClickListener { dialogControls!!.dismiss() }
 
             // show dialog
             dialogControls!!.show()
@@ -352,54 +350,51 @@ class ProjectsFragment : Fragment() {
             //check whether command requires confirmation
             if (operation == RpcClient.PROJECT_DETACH || operation == RpcClient.PROJECT_RESET ||
                     operation == RpcClient.MGR_DETACH) {
+                val dialogBinding = DialogConfirmBinding.inflate(layoutInflater)
                 val dialog = Dialog(activity!!).apply {
                     requestWindowFeature(Window.FEATURE_NO_TITLE)
-                    setContentView(R.layout.dialog_confirm)
+                    setContentView(dialogBinding.root)
                 }
-                val confirm = dialog.findViewById<Button>(R.id.confirm)
-                val tvTitle = dialog.findViewById<TextView>(R.id.title)
-                val tvMessage = dialog.findViewById<TextView>(R.id.message)
 
                 // operation-dependent texts
                 when (operation) {
                     RpcClient.PROJECT_DETACH -> {
                         val removeStr = getString(R.string.projects_confirm_detach_confirm)
-                        tvTitle.text = getString(R.string.projects_confirm_title, removeStr)
-                        tvMessage.text = getString(R.string.projects_confirm_message,
+                        dialogBinding.title.text = getString(R.string.projects_confirm_title, removeStr)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
                                 removeStr.toLowerCase(Locale.ROOT),
                                 data.project!!.projectName + " "
                                         + getString(R.string.projects_confirm_detach_message))
-                        confirm.text = removeStr
+                        dialogBinding.confirm.text = removeStr
                     }
                     RpcClient.PROJECT_RESET -> {
                         val resetStr = getString(R.string.projects_confirm_reset_confirm)
-                        tvTitle.text = getString(R.string.projects_confirm_title, resetStr)
-                        tvMessage.text = getString(R.string.projects_confirm_message,
+                        dialogBinding.title.text = getString(R.string.projects_confirm_title, resetStr)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
                                 resetStr.toLowerCase(Locale.ROOT),
                                 data.project!!.projectName)
-                        confirm.text = resetStr
+                        dialogBinding.confirm.text = resetStr
                     }
                     RpcClient.MGR_DETACH -> {
-                        tvTitle.setText(R.string.projects_confirm_remove_acctmgr_title)
-                        tvMessage.text = getString(R.string.projects_confirm_message,
+                        dialogBinding.title.setText(R.string.projects_confirm_remove_acctmgr_title)
+                        dialogBinding.message.text = getString(R.string.projects_confirm_message,
                                 getString(R.string.projects_confirm_remove_acctmgr_message),
                                 data.acctMgrInfo!!.acctMgrName)
-                        confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm)
+                        dialogBinding.confirm.setText(R.string.projects_confirm_remove_acctmgr_confirm)
                     }
                 }
-                confirm.setOnClickListener {
+                dialogBinding.confirm.setOnClickListener {
                     lifecycleScope.launch {
                         performProjectOperationAsync(data, operation)
                     }
                     dialog.dismiss()
                     dialogControls!!.dismiss()
                 }
-                dialog.findViewById<Button>(R.id.cancel).setOnClickListener { dialog.dismiss() }
+                dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
                 dialog.show()
             } else if (operation == VISIT_WEBSITE) { // command does not require confirmation and is not RPC based
                 dialogControls!!.dismiss()
-                val i = Intent(Intent.ACTION_VIEW, Uri.parse(data.id))
-                startActivity(i)
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.id)))
             } else { // command does not require confirmation, but is RPC based
                 lifecycleScope.launch {
                     performProjectOperationAsync(data, operation)

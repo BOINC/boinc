@@ -33,9 +33,12 @@ import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import edu.berkeley.boinc.databinding.ProjectDetailsLayoutBinding
+import edu.berkeley.boinc.databinding.ProjectDetailsSlideshowImageLayoutBinding
 import edu.berkeley.boinc.rpc.ImageWrapper
 import edu.berkeley.boinc.rpc.Project
 import edu.berkeley.boinc.rpc.ProjectInfo
@@ -52,11 +55,9 @@ class ProjectDetailsFragment : Fragment() {
 
     private var project: Project? = null
     private var slideshowImages: List<ImageWrapper> = ArrayList()
-    private lateinit var li: LayoutInflater
-    private lateinit var root: View
-    private lateinit var slideshowWrapper: HorizontalScrollView
-    private lateinit var slideshowHook: LinearLayout
-    private lateinit var slideshowLoading: ProgressBar
+
+    private var _binding: ProjectDetailsLayoutBinding? = null
+    private val binding get() = _binding!!
 
     // display dimensions
     private var width = 0
@@ -95,7 +96,7 @@ class ProjectDetailsFragment : Fragment() {
             if (retryLayout) {
                 populateLayout()
             } else {
-                updateChangingItems(root)
+                updateChangingItems()
             }
         }
     }
@@ -113,10 +114,13 @@ class ProjectDetailsFragment : Fragment() {
             Log.v(Logging.TAG, "ProjectDetailsFragment onCreateView")
         }
         // Inflate the layout for this fragment
-        li = inflater
-        val layout = inflater.inflate(R.layout.project_details_layout, container, false)
-        root = layout
-        return layout
+        _binding = ProjectDetailsLayoutBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onAttach(context: Context) {
@@ -240,63 +244,42 @@ class ProjectDetailsFragment : Fragment() {
             return  // if data not available yet, return. Frequently retry with onReceive
         }
         retryLayout = false
-        val v = root
-        updateChangingItems(v)
-        slideshowWrapper = v.findViewById(R.id.slideshow_wrapper)
-        slideshowHook = v.findViewById(R.id.slideshow_hook)
-        slideshowLoading = v.findViewById(R.id.slideshow_loading)
+        updateChangingItems()
 
         // set website
-        val website = v.findViewById<TextView>(R.id.project_url)
         val content = SpannableString(project!!.masterURL)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
-        website.text = content
-        website.setOnClickListener {
+        binding.projectUrl.text = content
+        binding.projectUrl.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(project!!.masterURL)))
         }
 
         // set general area
         if (projectInfo?.generalArea != null) {
-            v.findViewById<TextView>(R.id.general_area).apply {
-                text = projectInfo!!.generalArea
-            }
+            binding.generalArea.text = projectInfo!!.generalArea
         } else {
-            v.findViewById<LinearLayout>(R.id.general_area_wrapper).apply {
-                visibility = View.GONE
-            }
+            binding.generalAreaWrapper.visibility = View.GONE
         }
 
         // set specific area
         if (projectInfo?.specificArea != null) {
-            v.findViewById<TextView>(R.id.specific_area).apply {
-                text = projectInfo!!.specificArea
-            }
+            binding.specificArea.text = projectInfo!!.specificArea
         } else {
-            v.findViewById<LinearLayout>(R.id.specific_area_wrapper).apply {
-                visibility = View.GONE
-            }
+            binding.specificAreaWrapper.visibility = View.GONE
         }
 
         // set description
         if (projectInfo?.description != null) {
-            v.findViewById<TextView>(R.id.description).apply {
-                text = projectInfo!!.description
-            }
+            binding.description.text = projectInfo!!.description
         } else {
-            v.findViewById<LinearLayout>(R.id.description_wrapper).apply {
-                visibility = View.GONE
-            }
+            binding.descriptionWrapper.visibility = View.GONE
         }
 
         // set home
         if (projectInfo?.home != null) {
-            v.findViewById<TextView>(R.id.based_at).apply {
-                text = projectInfo!!.home
-            }
+            binding.basedAt.text = projectInfo!!.home
         } else {
-            v.findViewById<LinearLayout>(R.id.based_at_wrapper).apply {
-                visibility = View.GONE
-            }
+            binding.basedAtWrapper.visibility = View.GONE
         }
 
         // load slideshow
@@ -305,18 +288,15 @@ class ProjectDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateChangingItems(v: View?) {
+    private fun updateChangingItems() {
         try {
             // status
             val newStatus = BOINCActivity.monitor!!.getProjectStatus(project!!.masterURL)
-            val wrapper = v!!.findViewById<LinearLayout>(R.id.status_wrapper)
             if (newStatus.isNotEmpty()) {
-                wrapper.visibility = View.VISIBLE
-                v.findViewById<TextView>(R.id.status_text).apply {
-                    text = newStatus
-                }
+                binding.statusWrapper.visibility = View.VISIBLE
+                binding.statusText.text = newStatus
             } else {
-                wrapper.visibility = View.GONE
+                binding.statusWrapper.visibility = View.GONE
             }
         } catch (e: Exception) {
             if (Logging.ERROR) {
@@ -379,20 +359,20 @@ class ProjectDetailsFragment : Fragment() {
                     "UpdateSlideshowImagesAsync success: $success, images: ${slideshowImages.size}")
         }
         if (success && slideshowImages.isNotEmpty()) {
-            slideshowLoading.visibility = View.GONE
+            binding.slideshowLoading.visibility = View.GONE
             for (image in slideshowImages) {
-                val iv = li.inflate(R.layout.project_details_slideshow_image_layout, null) as ImageView
+                val slideshowBinding = ProjectDetailsSlideshowImageLayoutBinding.inflate(layoutInflater)
                 var bitmap = image.image!!
                 if (scaleImages(bitmap.height, bitmap.width)) {
                     bitmap = Bitmap.createScaledBitmap(image.image!!,
                             image.image!!.width * 2,
                             image.image!!.height * 2, false)
                 }
-                iv.setImageBitmap(bitmap)
-                slideshowHook.addView(iv)
+                slideshowBinding.slideshowImage.setImageBitmap(bitmap)
+                binding.slideshowHook.addView(slideshowBinding.slideshowImage)
             }
         } else {
-            slideshowWrapper.visibility = View.GONE
+            binding.slideshowWrapper.visibility = View.GONE
         }
     }
 

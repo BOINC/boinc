@@ -31,18 +31,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.List;
 
-import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
+import edu.berkeley.boinc.databinding.AttachProjectCredentialInputDialogBinding;
 import edu.berkeley.boinc.utils.Logging;
 
 public class IndividualCredentialInputFragment extends DialogFragment {
@@ -51,9 +48,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     private String forgotPwdLink;
     private ProjectAttachWrapper project;
 
-    private EditText emailET;
-    private EditText nameET;
-    private EditText pwdET;
+    private AttachProjectCredentialInputDialogBinding binding;
 
     static IndividualCredentialInputFragment newInstance(ProjectAttachWrapper item) {
         IndividualCredentialInputFragment frag = new IndividualCredentialInputFragment();
@@ -73,32 +68,28 @@ public class IndividualCredentialInputFragment extends DialogFragment {
     private IndividualCredentialInputFragmentListener mListener;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.attach_project_credential_input_dialog, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = AttachProjectCredentialInputDialogBinding.inflate(inflater, container, false);
 
-        TextView title = v.findViewById(R.id.title);
-        title.setText(projectName);
-        TextView message = v.findViewById(R.id.message);
-        message.setText(errorMessage);
+        binding.title.setText(projectName);
+        binding.message.setText(errorMessage);
 
         List<String> defaultValues = mListener.getDefaultInput();
-        emailET = v.findViewById(R.id.email_input);
-        emailET.setText(defaultValues.get(0));
-        nameET = v.findViewById(R.id.name_input);
-        nameET.setText(defaultValues.get(1));
-        pwdET = v.findViewById(R.id.pwd_input);
+        binding.emailInput.setText(defaultValues.get(0));
+        binding.nameInput.setText(defaultValues.get(1));
 
-        Button loginButton = v.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(view -> {
+        binding.loginButton.setOnClickListener(view -> {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
             }
-            mListener.onFinish(project, true, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+            final String email = binding.emailInput.getText().toString();
+            final String name = binding.nameInput.getText().toString();
+            final String password = binding.pwdInput.getText().toString();
+            mListener.onFinish(project, true, email, name, password);
             dismiss();
         });
 
-        Button registerButton = v.findViewById(R.id.register_button);
-        registerButton.setOnClickListener(view -> {
+        binding.registerButton.setOnClickListener(view -> {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG,
                       "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
@@ -111,13 +102,15 @@ public class IndividualCredentialInputFragment extends DialogFragment {
                 startActivity(i);
             }
             else {
-                mListener.onFinish(project, false, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+                final String email = binding.emailInput.getText().toString();
+                final String name = binding.nameInput.getText().toString();
+                final String password = binding.pwdInput.getText().toString();
+                mListener.onFinish(project, false, email, name, password);
                 dismiss();
             }
         });
 
-        TextView forgotPwdButton = v.findViewById(R.id.forgotpwd_text);
-        forgotPwdButton.setOnClickListener(view -> {
+        binding.forgotPwdButton.setOnClickListener(view -> {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
             }
@@ -126,18 +119,23 @@ public class IndividualCredentialInputFragment extends DialogFragment {
             startActivity(i);
         });
 
-        CheckBox showPwdCb = v.findViewById(R.id.show_pwd_cb);
-        showPwdCb.setOnClickListener(view -> {
+        binding.showPwdCb.setOnClickListener(view -> {
             if(((CheckBox) view).isChecked()) {
-                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                binding.pwdInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             }
             else {
-                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                binding.pwdInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                binding.pwdInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
 
-        return v;
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override

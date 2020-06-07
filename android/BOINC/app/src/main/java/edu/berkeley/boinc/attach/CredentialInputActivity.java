@@ -19,7 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -31,19 +30,16 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.databinding.AttachProjectCredentialInputLayoutBinding;
 import edu.berkeley.boinc.utils.Logging;
 
 public class CredentialInputActivity extends AppCompatActivity {
-    private EditText emailET;
-    private EditText nameET;
-    private EditText pwdET;
+    private AttachProjectCredentialInputLayoutBinding binding;
 
     private ProjectAttachService attachService = null;
     private boolean asIsBound = false;
@@ -55,19 +51,16 @@ public class CredentialInputActivity extends AppCompatActivity {
             Log.d(Logging.TAG, "CredentialInputActivity onCreate");
         }
         doBindService();
-        setContentView(R.layout.attach_project_credential_input_layout);
-        emailET = findViewById(R.id.email_input);
-        nameET = findViewById(R.id.name_input);
-        pwdET = findViewById(R.id.pwd_input);
+        binding = AttachProjectCredentialInputLayoutBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        CheckBox showPwdCb = findViewById(R.id.show_pwd_cb);
-        showPwdCb.setOnClickListener(view -> {
+        binding.showPwdCb.setOnClickListener(view -> {
             if(((CheckBox) view).isChecked()) {
-                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                binding.pwdInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             }
             else {
-                pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                binding.pwdInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                binding.pwdInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
     }
@@ -84,12 +77,14 @@ public class CredentialInputActivity extends AppCompatActivity {
             Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
         }
 
-
         // set credentials in service
         if(asIsBound) {
             // verify input and set credentials if valid.
-            if(attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) {
-                attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+            final String email = binding.emailInput.getText().toString();
+            final String name = binding.nameInput.getText().toString();
+            final String password = binding.pwdInput.getText().toString();
+            if(attachService.verifyInput(email, name, password)) {
+                attachService.setCredentials(email, name, password);
             }
         }
         else {
@@ -113,7 +108,10 @@ public class CredentialInputActivity extends AppCompatActivity {
 
         // set credentials in service, in case user typed before deciding btwn batch and individual attach
         if(asIsBound) {
-            attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+            final String email = binding.emailInput.getText().toString();
+            final String name = binding.nameInput.getText().toString();
+            final String password = binding.pwdInput.getText().toString();
+            attachService.setCredentials(email, name, password);
         }
 
         Intent intent = new Intent(this, BatchConflictListActivity.class);
@@ -130,8 +128,8 @@ public class CredentialInputActivity extends AppCompatActivity {
             asIsBound = true;
 
             List<String> values = attachService.getUserDefaultValues();
-            emailET.setText(values.get(0));
-            nameET.setText(values.get(1));
+            binding.emailInput.setText(values.get(0));
+            binding.nameInput.setText(values.get(1));
         }
 
         @Override

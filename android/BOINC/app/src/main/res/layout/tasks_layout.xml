@@ -22,7 +22,7 @@
               android:orientation="vertical">
 
     <ListView
-            android:id="@+id/tasksList"
+            android:id="@+id/tasks_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:clickable="true"/>
