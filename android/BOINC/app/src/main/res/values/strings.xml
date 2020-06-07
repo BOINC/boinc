@@ -212,7 +212,7 @@
         is not recommended to change this value.
     </string>
     <string name="prefs_disk_max_pct_header">Max. used storage space (%)</string>
-    <string name="prefs_disk_min_free_gb_header">Min. spare storage (MB)</string>
+    <string name="prefs_disk_min_free_gb_header">Min. spare storage (GB)</string>
     <string name="prefs_disk_access_interval_header">Access interval (seconds)</string>
     <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (days)</string>

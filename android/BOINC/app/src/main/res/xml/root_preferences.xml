@@ -182,7 +182,7 @@
 
         <EditTextPreference
                 android:inputType="number"
-                app:defaultValue="107"
+                app:defaultValue="0.1"
                 app:iconSpaceReserved="false"
                 app:key="diskMinFreeGB"
                 app:title="@string/prefs_disk_min_free_gb_header" />
