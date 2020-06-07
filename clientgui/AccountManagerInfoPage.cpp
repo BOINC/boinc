@@ -169,7 +169,7 @@ void CAccountManagerInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer14->AddGrowableCol(1);
-    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
+    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxRIGHT, 10);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );

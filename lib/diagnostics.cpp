@@ -61,6 +61,8 @@
 
 #include "diagnostics.h"
 
+bool main_exited;   // set at end of main()
+
 #ifdef ANDROID_VOODOO
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
@@ -153,6 +155,14 @@ void boinc_term_func() {
 int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     int n;
     (*retVal) = 0;
+
+    // can't call CRT functions after main returns
+    //
+    if (main_exited) return 0;
+#if defined(wxUSE_GUI)
+    return 0;
+#endif
+
 
     switch(reportType){
 
