@@ -183,12 +183,18 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     //
     if (strstr(gstate.host_info.p_features, " neon ")) { 
         // have ARM neon FP capabilities
-        retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #if defined(ANDROID_NEON1)
+            retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #endif
     } else if (strstr(gstate.host_info.p_features, " vfp ")) { 
         // have ARM vfp FP capabilities
-        retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #if defined(ANDROID_VFP)
+            retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #endif
     } else { // just run normal test
-        retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #if !defined(ANDROID_NEON1) && !defined(ANDROID_VFP)
+            retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+        #endif
     }
 #else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);

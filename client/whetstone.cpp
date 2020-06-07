@@ -41,7 +41,7 @@
 #endif
 
 #ifdef ANDROID
-#ifdef ANDROID_NEON
+#ifdef ANDROID_NEON1
     namespace android_neon {
 #else
   #ifdef ANDROID_VFP
@@ -290,6 +290,6 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
     return 0;
 }
 
-#if defined(ANDROID_NEON) || defined(ANDROID_VFP)
+#if defined(ANDROID_NEON1) || defined(ANDROID_VFP)
   }
 #endif // namespace closure
