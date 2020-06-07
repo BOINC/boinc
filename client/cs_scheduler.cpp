@@ -613,10 +613,18 @@ int CLIENT_STATE::handle_scheduler_reply(
                     sr.master_url
                 );
             } else {
-                msg_printf(project, MSG_USER_ALERT,
-                    _("This project is using an old URL.  When convenient, remove the project, then add %s"),
-                    sr.master_url
-                );
+                if (is_https_transition(url2.c_str(), url1.c_str())) {
+                    strcpy(project->master_url, url1.c_str());
+                    project->write_account_file();
+                    msg_printf(project, MSG_INFO,
+                        "Project URL changed from http:// to https://"
+                    );
+                } else {
+                    msg_printf(project, MSG_USER_ALERT,
+                        _("This project is using an old URL.  When convenient, remove the project, then add %s"),
+                        sr.master_url
+                    );
+                }
             }
         }
     }

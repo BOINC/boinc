@@ -575,6 +575,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
+    safe_strcpy(master_url, p.master_url);      // client_state.xml is authoritative
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
