@@ -18,10 +18,8 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #ifdef __EMX__

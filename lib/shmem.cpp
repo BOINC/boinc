@@ -17,10 +17,8 @@
 
 // interfaces for accessing shared memory segments
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #ifdef _MSC_VER

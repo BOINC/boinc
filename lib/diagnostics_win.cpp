@@ -18,14 +18,8 @@
 // Stuff related to catching SEH exceptions, monitoring threads, and trapping
 // debugger messages; used by both core client and by apps.
 
-#ifdef  _WIN32
-#ifndef __STDWX_H__
 #include "boinc_win.h"
-#else
-#include "stdwx.h"
-#endif
 #include "win_util.h"
-#endif
 
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"

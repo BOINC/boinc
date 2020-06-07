@@ -19,10 +19,6 @@
 //
 // usage: boinc_log [--host hostname] [--passwd passwd] 
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #define snprintf    _snprintf
 #define strdate     _strdate
@@ -31,6 +27,7 @@
 #endif
 
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"

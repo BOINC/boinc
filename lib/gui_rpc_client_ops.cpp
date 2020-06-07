@@ -41,16 +41,12 @@
 //   formatting failures for any software that has been localized or
 //   displays localized data.
 
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
 
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "../version.h"
 #else
 #include "config.h"
