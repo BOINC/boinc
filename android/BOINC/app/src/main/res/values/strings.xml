@@ -189,7 +189,7 @@
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_other">Other</string>
     <string name="prefs_category_debug">Debug</string>
-    <string name="prefs_show_advanced_header">Enable advanced preferences and controls</string>
+    <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
     <string name="prefs_general_device_name_header">Device name</string>
     <string name="prefs_theme_header">Theme</string>
