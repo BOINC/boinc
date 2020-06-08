@@ -77,7 +77,6 @@
         <EditTextPreference
                 android:inputType="number"
                 app:defaultValue="1"
-                app:dependency="showAdvanced"
                 app:iconSpaceReserved="false"
                 app:key="dailyTransferLimit"
                 app:title="@string/prefs_network_daily_xfer_limit_mb_header"
@@ -100,7 +99,6 @@
 
         <MultiSelectListPreference
                 app:defaultValue="@array/power_source_default"
-                app:dependency="powerSources"
                 app:entries="@array/power_source_entries"
                 app:entryValues="@array/power_source_values"
                 app:iconSpaceReserved="false"
@@ -130,8 +128,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:dependency="showAdvanced"
             app:iconSpaceReserved="false"
+            app:key="cpu"
             app:title="@string/prefs_category_cpu">
 
         <SeekBarPreference
@@ -169,8 +167,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:dependency="showAdvanced"
             app:iconSpaceReserved="false"
+            app:key="storage"
             app:title="@string/prefs_category_storage">
 
         <SeekBarPreference
@@ -202,8 +200,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:dependency="showAdvanced"
             app:iconSpaceReserved="false"
+            app:key="memory"
             app:title="@string/prefs_category_memory">
 
         <SeekBarPreference
@@ -219,8 +217,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:dependency="showAdvanced"
             app:iconSpaceReserved="false"
+            app:key="other"
             app:title="@string/prefs_category_other">
 
         <EditTextPreference
@@ -242,8 +240,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:dependency="showAdvanced"
             app:iconSpaceReserved="false"
+            app:key="debug"
             app:title="@string/prefs_category_debug">
 
         <MultiSelectListPreference

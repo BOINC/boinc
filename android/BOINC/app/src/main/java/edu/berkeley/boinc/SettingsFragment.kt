@@ -35,6 +35,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+    private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
+    private val prefs = BOINCActivity.monitor!!.prefs
+
     override fun onResume() {
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -51,9 +54,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
-        val prefs = BOINCActivity.monitor!!.prefs
-
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         if ("usedCpuCores" !in sharedPreferences) {
             sharedPreferences.edit { putInt("usedCpuCores", pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct)) }
@@ -68,6 +68,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+        setAdvancedPreferencesVisibility()
 
         if (!stationaryDeviceSuspected) {
             findPreference<CheckBoxPreference>("stationaryDeviceMode")?.isVisible = false
@@ -85,9 +87,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        val prefs = BOINCActivity.monitor!!.prefs
-        val hostInfo = BOINCActivity.monitor!!.hostInfo
-
         when (key) {
             // General
             "autostart" -> {
@@ -101,6 +100,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "showAdvanced" -> {
                 BOINCActivity.monitor!!.showAdvanced = sharedPreferences.getBoolean(key,
                         resources.getBoolean(R.bool.prefs_default_advanced))
+                setAdvancedPreferencesVisibility()
             }
             "suspendWhenScreenOn" -> {
                 BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key,
@@ -249,6 +249,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
         builder.append(" </log_flags>\n <options>\n </options>\n</cc_config>")
         return builder.toString()
+    }
+
+    private fun setAdvancedPreferencesVisibility() {
+        val showAdvanced = BOINCActivity.monitor!!.showAdvanced
+
+        findPreference<EditTextPreference>("dailyTransferLimit")?.isVisible = showAdvanced
+
+        findPreference<PreferenceCategory>("cpu")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("storage")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("memory")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("other")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("debug")?.isVisible = showAdvanced
     }
 
     private suspend fun writeClientPrefs(prefs: GlobalPreferences) = coroutineScope {

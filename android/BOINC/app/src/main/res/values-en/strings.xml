@@ -165,7 +165,7 @@
     <string name="prefs_category_storage">Storage</string>
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_debug">Debug</string>
-    <string name="prefs_show_advanced_header">Enable advanced preferences and controls</string>
+    <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
     <string name="prefs_stationary_device_mode_header">Stationary device mode</string>
     <string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only
