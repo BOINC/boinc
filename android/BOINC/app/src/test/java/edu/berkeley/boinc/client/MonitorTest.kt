@@ -24,18 +24,20 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.*
 import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
-import org.mockito.Spy
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ServiceController
 
 @RunWith(RobolectricTestRunner::class)
 class MonitorTest {
+    @Mock
+    private lateinit var clientStatus: ClientStatus
+
     @Spy
-    private val clientInterface = ClientInterfaceImplementation()
+    @InjectMocks
+    private lateinit var clientInterface: ClientInterfaceImplementation
 
     private lateinit var monitor: Monitor
     private lateinit var controller: ServiceController<Monitor>

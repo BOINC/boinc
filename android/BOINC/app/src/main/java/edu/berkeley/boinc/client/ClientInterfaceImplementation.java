@@ -40,9 +40,12 @@ import edu.berkeley.boinc.utils.Logging;
 public class ClientInterfaceImplementation extends RpcClient {
     // interval between polling retries in ms
     private final int minRetryInterval = 1000;
+    private ClientStatus clientStatus;
 
     @Inject
-    public ClientInterfaceImplementation() {}
+    public ClientInterfaceImplementation(ClientStatus clientStatus) {
+        this.clientStatus = clientStatus;
+    }
 
     /**
      * Reads authentication key from specified file path and authenticates GUI for advanced RPCs with the client
@@ -81,27 +84,15 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param prefs new target preferences for the client
      * @return success
      */
-    public Boolean setGlobalPreferences(GlobalPreferences prefs) {
-
-        // try to get current client status from monitor
-        ClientStatus status;
-        try {
-            status = Monitor.getClientStatus();
-        } catch (Exception e) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "Monitor.setGlobalPreferences: Could not load data, clientStatus not initialized.");
-            }
-            return false;
-        }
-
-        Boolean retval1 = setGlobalPrefsOverrideStruct(prefs); //set new override settings
-        Boolean retval2 = readGlobalPrefsOverride(); //trigger reload of override settings
+    public boolean setGlobalPreferences(GlobalPreferences prefs) {
+        boolean retval1 = setGlobalPrefsOverrideStruct(prefs); //set new override settings
+        boolean retval2 = readGlobalPrefsOverride(); //trigger reload of override settings
         if (!retval1 || !retval2) {
             return false;
         }
         GlobalPreferences workingPrefs = getGlobalPrefsWorkingStruct();
         if (workingPrefs != null) {
-            status.setPrefs(workingPrefs);
+            clientStatus.setPrefs(workingPrefs);
             return true;
         }
         return false;

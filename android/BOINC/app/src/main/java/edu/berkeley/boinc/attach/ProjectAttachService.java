@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import edu.berkeley.boinc.BOINCApplication;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
@@ -49,40 +52,19 @@ import edu.berkeley.boinc.utils.ErrorCodeDescription;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectAttachService extends Service {
+    @Inject
+    PersistentStorage store;
+
     // life-cycle
     private IBinder mBinder = new LocalBinder();
 
-    class LocalBinder extends Binder {
-        ProjectAttachService getService() {
-            return ProjectAttachService.this;
-        }
-    }
+    private List<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
+    public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectAttachService.onBind");
-        }
-        return mBinder;
-    }
-
-    @Override
-    public void onCreate() {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectAttachService.onCreate");
-        }
-        doBindService();
-        store = new PersistentStorage(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectAttachService.onDestroy");
-        }
-        doUnbindService();
-    }
-    // --END-- life-cycle
+    //credentials
+    private String email = "";
+    private String user = "";
+    private String pwd = "";
 
     // monitor service binding
     private IMonitor monitor = null;
@@ -105,6 +87,38 @@ public class ProjectAttachService extends Service {
         }
     };
 
+    class LocalBinder extends Binder {
+        ProjectAttachService getService() {
+            return ProjectAttachService.this;
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onBind");
+        }
+        return mBinder;
+    }
+
+    @Override
+    public void onCreate() {
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onCreate");
+        }
+        doBindService();
+        ((BOINCApplication) getApplication()).getAppComponent().inject(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ProjectAttachService.onDestroy");
+        }
+        doUnbindService();
+    }
+    // --END-- life-cycle
+
     private void doBindService() {
         // Establish a connection with the service, onServiceConnected gets called when
         bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
@@ -118,17 +132,6 @@ public class ProjectAttachService extends Service {
         }
     }
     // --END-- monitor service binding
-
-    private PersistentStorage store;
-
-    private List<ProjectAttachWrapper> selectedProjects = new ArrayList<>();
-
-    public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
-
-    //credentials
-    private String email = "";
-    private String user = "";
-    private String pwd = "";
 
     /**
      * Set credentials to be used in account RPCs.

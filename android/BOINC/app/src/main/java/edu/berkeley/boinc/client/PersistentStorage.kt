@@ -21,13 +21,14 @@ package edu.berkeley.boinc.client
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import javax.inject.Inject
 
 /**
  * This class wraps persistent key value pairs.
  * Similar technique to AppPrefs, but with a non-preference incentive.
  */
-class PersistentStorage(ctx: Context) {
-    private val store: SharedPreferences = ctx.getSharedPreferences("Store", 0)
+class PersistentStorage @Inject constructor(context: Context) {
+    private val store: SharedPreferences = context.getSharedPreferences("Store", 0)
 
     var lastNotifiedNoticeArrivalTime: Double
         get() {

@@ -33,12 +33,16 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.Logging;
 
+@Singleton
 public class DeviceStatus {
     // variables describing device status in RPC
-    private DeviceStatusData status = new DeviceStatusData();
+    private DeviceStatusData status;
 
     // additional device status
     // true, if operating in stationary device mode
@@ -49,7 +53,7 @@ public class DeviceStatus {
 
     // android specifics
     // context required for reading device status
-    private Context ctx;
+    private Context context;
     // connManager contains current wifi status
     private ConnectivityManager connManager;
     // telManager to retrieve call state
@@ -62,14 +66,17 @@ public class DeviceStatus {
     /**
      * Constructor. Needs to be called before calling update.
      *
-     * @param ctx Application Context
+     * @param context Application Context
      */
-    DeviceStatus(Context ctx, AppPreferences appPrefs) {
-        this.ctx = ctx;
-        this.connManager = ContextCompat.getSystemService(ctx, ConnectivityManager.class);
-        this.telManager = ContextCompat.getSystemService(ctx, TelephonyManager.class);
-        this.batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    @Inject
+    DeviceStatus(Context context, AppPreferences appPrefs, DeviceStatusData status) {
+        this.context = context;
+        this.status = status;
         this.appPrefs = appPrefs;
+
+        connManager = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        telManager = ContextCompat.getSystemService(context, TelephonyManager.class);
+        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     /**
@@ -80,7 +87,7 @@ public class DeviceStatus {
      * @throws Exception if error occurs
      */
     public DeviceStatusData update(Boolean screenOn) throws Exception {
-        if(ctx == null) {
+        if(context == null) {
             throw new Exception("DeviceStatus: can not update, Context not set.");
         }
         this.screenOn = screenOn;
@@ -216,7 +223,7 @@ public class DeviceStatus {
     private boolean determineBatteryStatus() throws Exception {
         // check battery
         boolean change = false;
-        batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if(batteryStatus != null) {
             stationaryDeviceSuspected =
                     !batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true); // if no battery present, suspect stationary device

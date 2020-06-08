@@ -49,6 +49,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.CcStatus;
@@ -67,6 +70,7 @@ import edu.berkeley.boinc.utils.Logging;
  * Singleton that holds the client status data, as determined by the Monitor.
  * To get instance call Monitor.getClientStatus()
  */
+@Singleton
 public class ClientStatus {
     private Context context; // application context in order to fire broadcast events
     private AppPreferences appPreferences;
@@ -123,9 +127,13 @@ public class ClientStatus {
     private List<Notice> serverNotices = new ArrayList<>();
     private int mostRecentNoticeSeqNo = 0;
 
-    public ClientStatus(Context context, AppPreferences appPreferences) {
+    private DeviceStatus deviceStatus;
+
+    @Inject
+    public ClientStatus(Context context, AppPreferences appPreferences, DeviceStatus deviceStatus) {
         this.context = context;
         this.appPreferences = appPreferences;
+        this.deviceStatus = deviceStatus;
 
         // set up CPU wakelock
         // see documentation at http://developer.android.com/reference/android/os/PowerManager.html
@@ -595,7 +603,7 @@ public class ClientStatus {
                             statusString = context.getString(R.string.suspend_battery_charging);
                             try {
                                 double minCharge = prefs.getBatteryChargeMinPct();
-                                int currentCharge = Monitor.getDeviceStatus().getStatus().getBatteryChargePct();
+                                int currentCharge = deviceStatus.getStatus().getBatteryChargePct();
                                 statusString = context.getString(R.string.suspend_battery_charging_long) + " " +
                                                (int) minCharge
                                                + "% (" + context.getString(R.string.suspend_battery_charging_current) +

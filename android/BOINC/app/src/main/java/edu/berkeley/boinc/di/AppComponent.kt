@@ -21,6 +21,7 @@ package edu.berkeley.boinc.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import edu.berkeley.boinc.attach.ProjectAttachService
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.mutex.MutexModule
 import javax.inject.Singleton
@@ -34,4 +35,5 @@ interface AppComponent {
     }
 
     fun inject(monitor: Monitor)
+    fun inject(projectAttachService: ProjectAttachService)
 }
