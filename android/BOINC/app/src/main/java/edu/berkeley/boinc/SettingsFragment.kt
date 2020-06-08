@@ -39,28 +39,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        val prefs = BOINCActivity.monitor!!.prefs
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-        findPreference<EditTextPreference>("deviceName")?.summary =
-                sharedPreferences.getString("deviceName", BOINCActivity.monitor!!.hostInfo.domainName)
 
         val theme = sharedPreferences.getString("theme", "default")!!
         findPreference<ListPreference>("theme")?.summary = getThemeString(theme)
-
-        val dailyTransferLimit = sharedPreferences.getString("dailyTransferLimit",
-                prefs.dailyTransferLimitMB.toString())
-        findPreference<EditTextPreference>("dailyTransferLimit")?.summary = dailyTransferLimit
-
-        findPreference<EditTextPreference>("diskMinFreeGB")?.summary =
-                sharedPreferences.getString("diskMinFreeGB", "0.1")
-        findPreference<EditTextPreference>("diskInterval")?.summary =
-                sharedPreferences.getString("diskInterval", "60")
-
-        findPreference<EditTextPreference>("workBufMinDays")?.summary =
-                sharedPreferences.getString("workBufMinDays", "0.1")
-        findPreference<EditTextPreference>("workBufAdditionalDays")?.summary =
-                sharedPreferences.getString("workBufAdditionalDays", "0.5")
     }
 
     override fun onPause() {
@@ -76,6 +58,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         if ("usedCpuCores" !in sharedPreferences) {
             sharedPreferences.edit { putInt("usedCpuCores", pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct)) }
         }
+        if ("deviceName" !in sharedPreferences) {
+            sharedPreferences.edit { putString("deviceName", hostInfo.domainName) }
+        }
 
         val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
         val stationaryDeviceSuspected = BOINCActivity.monitor!!.isStationaryDeviceSuspected
@@ -83,11 +68,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
-
-        if ("deviceName" !in sharedPreferences) {
-            findPreference<EditTextPreference>("deviceName")?.text =
-                    BOINCActivity.monitor!!.hostInfo.domainName
-        }
 
         if (!stationaryDeviceSuspected) {
             findPreference<CheckBoxPreference>("stationaryDeviceMode")?.isVisible = false
@@ -126,11 +106,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key,
                         resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
             }
-            "deviceName" -> {
-                val domainName = sharedPreferences.getString(key, "")
-                findPreference<EditTextPreference>(key)?.summary = domainName
-                BOINCActivity.monitor!!.setDomainName(domainName)
-            }
+            "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
             "theme" -> {
                 val theme = sharedPreferences.getString(key, "default")!!
                 findPreference<ListPreference>(key)?.summary = getThemeString(theme)
@@ -145,7 +121,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
             "dailyTransferLimit" -> {
                 val dailyTransferLimit = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
-                findPreference<EditTextPreference>(key)?.summary = dailyTransferLimit
                 prefs.dailyTransferLimitMB = dailyTransferLimit?.toDouble() ?: 1.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
@@ -168,9 +143,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                         resources.getBoolean(R.bool.prefs_stationary_device_mode))
             }
             "maxBatteryTemp" -> {
-                val maxBatteryTemp = sharedPreferences.getString(key, "40")
-                prefs.batteryMaxTemperature = maxBatteryTemp?.toDouble() ?: 40.0
-                findPreference<EditTextPreference>(key)?.summary = maxBatteryTemp
+                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -206,16 +179,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "diskMinFreeGB" -> {
-                val diskMinFreeGB = sharedPreferences.getString(key, "0.1")
-                prefs.diskMinFreeGB = diskMinFreeGB?.toDouble() ?: 0.1
-                findPreference<EditTextPreference>(key)?.summary = diskMinFreeGB
+                prefs.diskMinFreeGB = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "diskInterval" -> {
-                val diskInterval = sharedPreferences.getString(key, "60")
-                prefs.diskInterval = diskInterval?.toDouble() ?: 60.0
-                findPreference<EditTextPreference>(key)?.summary = diskInterval
+                prefs.diskInterval = sharedPreferences.getString(key, "60")?.toDouble() ?: 60.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -229,16 +198,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Other
             "workBufMinDays" -> {
-                val workBufMinDays = sharedPreferences.getString(key, "0.1")
-                prefs.workBufMinDays = workBufMinDays?.toDouble() ?: 0.0
-                findPreference<EditTextPreference>(key)?.summary = workBufMinDays
+                prefs.workBufMinDays = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "workBufAdditionalDays" -> {
-                val workBufAdditionalDays = sharedPreferences.getString(key, "0.5")
-                prefs.workBufAdditionalDays = workBufAdditionalDays?.toDouble() ?: 0.0
-                findPreference<EditTextPreference>(key)?.summary = workBufAdditionalDays
+                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }

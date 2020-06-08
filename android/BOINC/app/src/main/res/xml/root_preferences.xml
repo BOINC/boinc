@@ -51,7 +51,8 @@
         <EditTextPreference
                 app:iconSpaceReserved="false"
                 app:key="deviceName"
-                app:title="@string/prefs_general_device_name_header" />
+                app:title="@string/prefs_general_device_name_header"
+                app:useSimpleSummaryProvider="true" />
 
         <ListPreference
                 app:defaultValue="default"
@@ -79,7 +80,8 @@
                 app:dependency="showAdvanced"
                 app:iconSpaceReserved="false"
                 app:key="dailyTransferLimit"
-                app:title="@string/prefs_network_daily_xfer_limit_mb_header" />
+                app:title="@string/prefs_network_daily_xfer_limit_mb_header"
+                app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
@@ -122,7 +124,8 @@
                 app:dependency="stationaryDeviceMode"
                 app:iconSpaceReserved="false"
                 app:key="maxBatteryTemp"
-                app:title="@string/battery_temperature_max_header" />
+                app:title="@string/battery_temperature_max_header"
+                app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
@@ -185,14 +188,16 @@
                 app:defaultValue="0.1"
                 app:iconSpaceReserved="false"
                 app:key="diskMinFreeGB"
-                app:title="@string/prefs_disk_min_free_gb_header" />
+                app:title="@string/prefs_disk_min_free_gb_header"
+                app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
                 android:inputType="number"
                 app:defaultValue="60"
                 app:iconSpaceReserved="false"
                 app:key="diskInterval"
-                app:title="@string/prefs_disk_access_interval_header" />
+                app:title="@string/prefs_disk_access_interval_header"
+                app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
@@ -223,14 +228,16 @@
                 app:defaultValue="0.1"
                 app:iconSpaceReserved="false"
                 app:key="workBufMinDays"
-                app:title="@string/prefs_other_store_at_least_x_days_of_work_header" />
+                app:title="@string/prefs_other_store_at_least_x_days_of_work_header"
+                app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
                 android:inputType="number"
                 app:defaultValue="0.5"
                 app:iconSpaceReserved="false"
                 app:key="workBufAdditionalDays"
-                app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header" />
+                app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header"
+                app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
