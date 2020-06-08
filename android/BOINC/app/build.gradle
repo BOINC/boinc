@@ -57,7 +57,6 @@ preBuild.doFirst {
     assert file("src/main/assets/armeabi-v7a/"  + clientName).exists()
     assert file("src/main/assets/x86/"          + clientName).exists()
     assert file("src/main/assets/x86_64/"       + clientName).exists()
-    assert file("src/main/assets/x86_64/"       + clientName).exists()
     assert file("src/main/assets/" + clientCabundle).exists()
     assert file("src/main/assets/" + allProjectsList).exists()
 }
