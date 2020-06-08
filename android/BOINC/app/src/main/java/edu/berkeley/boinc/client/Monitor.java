@@ -740,12 +740,12 @@ public class Monitor extends Service {
         try {
             final byte[] md5Bytes;
             if (inAssets) {
-                md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), new File(fileName));
-            } else {
                 final InputStream inputStream = getApplicationContext().getAssets().open(
                         getAssetsDirForCpuArchitecture() + fileName);
                 md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), inputStream);
                 inputStream.close();
+            } else {
+                md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), new File(fileName));
             }
             return DigestUtils.md5Hex(md5Bytes);
         } catch (IOException e) {
