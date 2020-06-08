@@ -33,18 +33,16 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -739,34 +737,19 @@ public class Monitor extends Service {
      * @return md5 hash of file
      */
     private String computeMd5(String fileName, boolean inAssets) {
-        byte[] b = new byte[1024];
-        int count;
-
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-
-            InputStream fs;
-            if (inAssets)
-                fs = getApplicationContext().getAssets().open(
+            final byte[] md5Bytes;
+            if (inAssets) {
+                md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), new File(fileName));
+            } else {
+                final InputStream inputStream = getApplicationContext().getAssets().open(
                         getAssetsDirForCpuArchitecture() + fileName);
-            else fs = new FileInputStream(new File(fileName));
-
-            while ((count = fs.read(b)) != -1) {
-                md5.update(b, 0, count);
+                md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), inputStream);
+                inputStream.close();
             }
-            fs.close();
-
-            byte[] md5hash = md5.digest();
-            StringBuilder sb = new StringBuilder();
-            for (byte singleMd5hash : md5hash) {
-                sb.append(String.format("%02x", singleMd5hash));
-            }
-
-            return sb.toString();
+            return DigestUtils.md5Hex(md5Bytes);
         } catch (IOException e) {
             if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
         }
 
         return "";
