@@ -37,7 +37,7 @@ if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-        if [ "$VERBOSE" = false ]; then
+        if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
             make distclean --silent 1>$STDOUT_TARGET 2>&1
         else
             make distclean SHELL="/bin/bash -x"
@@ -46,7 +46,7 @@ if [ "$COMPILECURL" = "yes" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
     fi
-    if [ "$VERBOSE" = false ]; then
+    if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
         make --silent 1>$STDOUT_TARGET
         make install --silent 1>$STDOUT_TARGET
     else

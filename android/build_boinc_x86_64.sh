@@ -38,7 +38,7 @@ if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
     echo "===== building BOINC for x86-64 from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-        if [ "$VERBOSE" = false ]; then
+        if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
             make distclean --silent 1>$STDOUT_TARGET 2>&1
         else
             make distclean SHELL="/bin/bash -x"
@@ -50,7 +50,7 @@ if [ -n "$COMPILEBOINC" ]; then
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
-    if [ "$VERBOSE" = false ]; then
+    if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
         make --silent
         make stage --silent
     else

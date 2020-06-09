@@ -37,7 +37,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for x86 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
-        if [ "$VERBOSE" = false ]; then
+        if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
             make clean --silent 1>$STDOUT_TARGET 2>&1
         else
             make clean SHELL="/bin/bash -x"
@@ -50,7 +50,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    if [ "$VERBOSE" = false ]; then
+    if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
         make --silent 1>$STDOUT_TARGET
         make install_sw --silent 1>$STDOUT_TARGET
     else
