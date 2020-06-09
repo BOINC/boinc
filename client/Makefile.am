@@ -1,6 +1,9 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
-CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+
+if OS_ARM_LINUX
+    CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+endif
 
 include $(top_srcdir)/Makefile.incl
 
@@ -30,7 +33,10 @@ endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
 boinccmd_DEPENDENCIES = $(LIBBOINC)
-boinccmd_CPPFLAGS = $(AM_CPPFLAGS)  -mfpu=vfpv3-d16
+boinccmd_CPPFLAGS = $(AM_CPPFLAGS)
+if OS_ARM_LINUX
+    boinccmd_CPPFLAGS += -mfpu=vfpv3-d16
+endif
 boinccmd_LDFLAGS = $(AM_LDFLAGS) -L$(top_srcdir)/lib
 boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
@@ -93,8 +99,14 @@ boinc_client_SOURCES = \
     work_fetch.cpp
 
 boinc_client_DEPENDENCIES = $(LIBBOINC)
-boinc_client_CPPFLAGS = $(AM_CPPFLAGS)  -mfpu=vfpv3-d16
-boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS) -mfpu=vfpv3-d16
+boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
+if OS_ARM_LINUX
+    boinc_client_CPPFLAGS += -mfpu=vfpv3-d16
+endif
+boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS)
+if OS_ARM_LINUX
+    boinc_client_CPPFLAGS += -mfpu=vfpv3-d16
+endif
 boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L$(top_srcdir)/lib
 if OS_WIN32
 boinc_client_CXXFLAGS += -I$(top_srcdir)/coprocs/NVIDIA/include
