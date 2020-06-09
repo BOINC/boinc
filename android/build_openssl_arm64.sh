@@ -38,7 +38,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     echo "===== building openssl for arm64 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
         if [ "$VERBOSE" = false ]; then
-            make clean --silent
+            make clean --silent 1>$STDOUT_TARGET 2>&1
         else
             make clean SHELL="/bin/bash -x"
         fi
@@ -51,8 +51,8 @@ s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
     if [ "$VERBOSE" = false ]; then
-        make --silent
-        make install_sw --silent
+        make --silent 1>$STDOUT_TARGET
+        make install_sw --silent 1>$STDOUT_TARGET
     else
         make SHELL="/bin/bash -x"
         make install_sw SHELL="/bin/bash -x"

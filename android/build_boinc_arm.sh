@@ -39,7 +39,7 @@ if [ -n "$COMPILEBOINC" ]; then
     echo "===== building BOINC for arm from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$VERBOSE" = false ]; then
-            make distclean --silent
+            make distclean --silent 1>$STDOUT_TARGET 2>&1
         else
             make distclean SHELL="/bin/bash -x"
         fi
