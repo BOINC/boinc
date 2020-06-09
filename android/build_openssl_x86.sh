@@ -37,7 +37,11 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for x86 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
-        make clean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = false ]; then
+            make clean --silent
+        else
+            make clean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>$STDOUT_TARGET
@@ -46,7 +50,12 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    make 1>$STDOUT_TARGET
-    make install_sw 1>$STDOUT_TARGET
+    if [ "$VERBOSE" = false ]; then
+        make --silent
+        make install_sw --silent
+    else
+        make SHELL="/bin/bash -x"
+        make install_sw SHELL="/bin/bash -x"
+    fi
     echo "===== openssl for x86 build done ====="
 fi

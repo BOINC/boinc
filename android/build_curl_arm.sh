@@ -37,12 +37,21 @@ if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for arm from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-        make distclean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = false ]; then
+            make distclean --silent
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
     fi
-    make 1>$STDOUT_TARGET
-    make install 1>$STDOUT_TARGET
+    if [ "$VERBOSE" = false ]; then
+        make --silent
+        make install --silent
+    else
+        make SHELL="/bin/bash -x"
+        make install SHELL="/bin/bash -x"
+    fi
     echo "===== curl for arm build done ====="
 fi
