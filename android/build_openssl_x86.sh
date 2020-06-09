@@ -34,8 +34,8 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_x86.sh
 
 if [ "$COMPILEOPENSSL" = "yes" ]; then
-    echo "===== building openssl for x86 from $OPENSSL ====="
     cd "$OPENSSL"
+    echo "===== building openssl for x86 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
         make clean 1>$STDOUT_TARGET 2>&1
     fi
