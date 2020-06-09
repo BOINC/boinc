@@ -17,7 +17,7 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+    <style name="AppBase" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">#0288d1</item>
         <item name="colorPrimaryDark">#005b9f</item>
         <item name="colorAccent">#342871</item>
@@ -25,10 +25,12 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="actionOverflowButtonStyle">@style/BoincActionOverflowButtonStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/BoincActionButtonStyle</item>
-        <item name="actionBarStyle">@style/myTheme.ActionBar</item>
+        <item name="actionBarStyle">@style/Boinc.ActionBar</item>
     </style>
 
-    <style name="myTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+    <style name="AppTheme" parent="AppBase"/>
+
+    <style name="Boinc.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="background">@drawable/shape_light_primary_background</item>
         <item name="titleTextStyle">@style/Boinc.ActionBar.Text</item>
     </style>

@@ -17,27 +17,11 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="AppBase" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">#121212</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorControlNormal">@color/white</item>
+    <style name="AppTheme" parent="AppBase">
+        <item name="actionBarTabTextStyle">@style/Boinc.ActionBar.TabText</item>
     </style>
 
-    <style name="AppTheme" parent="AppBase"/>
-
-    <style name="BackgroundDayNight">
-        <item name="android:background">@drawable/shape_dark_blue_background</item>
-    </style>
-
-    <style name="ActionBarDayNight">
-        <item name="android:background">@drawable/shape_dark_primary_background</item>
-    </style>
-
-    <style name="DrawerBackgroundDayNight">
-        <item name="android:background">@drawable/navlist_dark_selector</item>
-    </style>
-
-    <style name="DividerDayNight">
-        <item name="android:divider">@color/dark_blue</item>
+    <style name="Boinc.ActionBar.TabText" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">@drawable/eventlist_text_selector</item>
     </style>
 </resources>
