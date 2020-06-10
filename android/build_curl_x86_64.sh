@@ -34,8 +34,8 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_x86_64.sh
 
 if [ "$COMPILECURL" = "yes" ]; then
-    echo "===== building curl for x86-64 from $CURL ====="
     cd "$CURL"
+    echo "===== building curl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
         make distclean 1>$STDOUT_TARGET 2>&1
     fi

@@ -35,8 +35,8 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_arm.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "===== building BOINC for arm from $BOINC ====="
     cd "$BOINC"
+    echo "===== building BOINC for arm from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         make distclean 1>$STDOUT_TARGET 2>&1
     fi

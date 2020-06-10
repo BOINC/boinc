@@ -35,8 +35,8 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_arm64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "===== building BOINC for arm64 from $BOINC ====="
     cd "$BOINC"
+    echo "===== building BOINC for arm64 from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         make distclean 1>$STDOUT_TARGET 2>&1
     fi
