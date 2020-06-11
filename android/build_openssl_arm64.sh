@@ -11,6 +11,7 @@ COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
 
@@ -37,8 +38,8 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     cd "$OPENSSL"    
     echo "===== building openssl for arm64 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
-        if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
-            make clean --silent 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make clean 1>$STDOUT_TARGET 2>&1
         else
             make clean SHELL="/bin/bash -x"
         fi
@@ -50,7 +51,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
+    if [ "$VERBOSE" = "no" ]; then
         make --silent 1>$STDOUT_TARGET
         make install_sw --silent 1>$STDOUT_TARGET
     else

@@ -11,6 +11,7 @@ COMPILECURL="${COMPILECURL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.61.0}" #CURL sources, required by BOINC
 
@@ -37,8 +38,8 @@ if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for arm from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-        if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
-            make distclean --silent 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
         else
             make distclean SHELL="/bin/bash -x"
         fi
@@ -46,7 +47,7 @@ if [ "$COMPILECURL" = "yes" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
     fi
-    if [ -z "$VERBOSE" ] || [ "$VERBOSE" = false ]; then
+    if [ "$VERBOSE" = "no" ]; then
         make --silent 1>$STDOUT_TARGET
         make install --silent 1>$STDOUT_TARGET
     else
