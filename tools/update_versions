@@ -171,6 +171,11 @@ function stage_file($a, $v, $p, $fd) {
             die ("Error: files $path and $dl_path differ.\nBOINC files are immutable.\nIf you change a file, you must give it a new name.\n");
         }
     } else {
+        $subdirs = dirname($name);
+        if ($subdirs) {
+            echo 'mkdir -p '.$download_dir.'/'.$subdirs.PHP_EOL;
+            system('mkdir -p '.$download_dir.'/'.$subdirs);
+        }
         echo("cp $path $dl_path\n");
         system("cp $path $dl_path");
     }
@@ -285,6 +290,9 @@ function process_files($a, $v, $p, $fds) {
     while ($f = readdir_aux($d)) {
         if ($f == "version.xml") continue;
         if (strstr($f, ".sig") == ".sig") continue;
+        if (is_dir('apps/'.$a.'/'.$v.'/'.$p.'/'.$f)) { // Skip folder structure, it will get processed later
+            continue;
+        }
         $fds = process_file($a, $v, $p, $f, $fds);
     }
     return $fds;
@@ -436,6 +444,17 @@ function process_version($a, $v, $p) {
     }
 
     $fds = process_files($a, $v, $p, $vers->files);
+
+    // Process any unprocessed files from subdirectories
+    foreach ($fds as $fd) {
+        if ($fd->present) {
+            continue;
+        }
+        if (strpos($fd->physical_name, '/') === false) {
+            continue;
+        }
+        $fds = process_file($a, $v, $p, $fd->physical_name, $fds);
+    }
 
     if (missing_files($fds)) return;
     if (sizeof($fds) == 1) {
