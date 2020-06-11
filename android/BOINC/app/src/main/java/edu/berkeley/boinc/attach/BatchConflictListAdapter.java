@@ -19,6 +19,8 @@
 package edu.berkeley.boinc.attach;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
@@ -77,7 +81,8 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             resolveIv.setVisibility(View.GONE);
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_check));
+            statusImage.setImageDrawable(getThemedDrawable(R.drawable.ic_baseline_check,
+                                                           R.drawable.ic_baseline_check_white));
         }
         else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING ||
                 listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
@@ -108,7 +113,8 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             resolveIv.setVisibility(View.GONE);
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear));
+            statusImage.setImageDrawable(getThemedDrawable(R.drawable.ic_baseline_clear,
+                                                           R.drawable.ic_baseline_clear_white));
         }
         else {
             // failed
@@ -124,9 +130,29 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             });
             statusPb.setVisibility(View.GONE);
             statusImage.setVisibility(View.VISIBLE);
-            statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_clear));
+            statusImage.setImageDrawable(getThemedDrawable(R.drawable.ic_baseline_clear,
+                                                           R.drawable.ic_baseline_clear_white));
         }
         return v;
+    }
+
+    private Drawable getThemedDrawable(@DrawableRes final int lightDrawableRes,
+                                       @DrawableRes final int darkDrawableRes) {
+        final int defaultNightMode = AppCompatDelegate.getDefaultNightMode();
+        final Drawable drawable;
+        if (defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            drawable = activity.getResources().getDrawable(darkDrawableRes);
+        } else if (defaultNightMode == AppCompatDelegate.MODE_NIGHT_NO) {
+            drawable = activity.getResources().getDrawable(lightDrawableRes);
+        } else {
+            // Assume either "Set by Battery Saver" or "System default" is selected
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                drawable = activity.getResources().getDrawable(lightDrawableRes);
+            } else {
+                drawable = activity.getDrawable(darkDrawableRes);
+            }
+        }
+        return drawable;
     }
 
     @Override
