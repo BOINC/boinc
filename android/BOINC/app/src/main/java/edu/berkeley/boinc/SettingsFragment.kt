@@ -99,23 +99,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             // General
-            "autostart" -> {
-                BOINCActivity.monitor!!.autostart = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_default_autostart))
-            }
-            "showNotification" -> {
-                BOINCActivity.monitor!!.showNotificationForNotices =
-                        sharedPreferences.getBoolean(key, resources.getBoolean(R.bool.prefs_default_notification_notices))
-            }
+            "autostart" -> BOINCActivity.monitor!!.autostart = sharedPreferences.getBoolean(key, true)
+            "showNotification" -> BOINCActivity.monitor!!.showNotificationForNotices = sharedPreferences.getBoolean(key, true)
             "showAdvanced" -> {
-                BOINCActivity.monitor!!.showAdvanced = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_default_advanced))
+                BOINCActivity.monitor!!.showAdvanced = sharedPreferences.getBoolean(key, false)
                 setAdvancedPreferencesVisibility()
             }
-            "suspendWhenScreenOn" -> {
-                BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_suspend_when_screen_on))
-            }
+            "suspendWhenScreenOn" -> BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key, true)
             "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
             "theme" -> {
                 val theme = sharedPreferences.getString(key, "default")!!
@@ -148,10 +138,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
-            "stationaryDeviceMode" -> {
-                BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key,
-                        resources.getBoolean(R.bool.prefs_stationary_device_mode))
-            }
+            "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
                 prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
 
