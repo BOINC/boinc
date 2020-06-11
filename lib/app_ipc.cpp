@@ -115,6 +115,9 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
         project_preferences = NULL;
     }
     vbox_window                 = a.vbox_window;
+    no_priority_change          = a.no_priority_change;
+    process_priority            = a.process_priority;
+    process_priority_special    = a.process_priority_special;
     app_files                   = a.app_files;
 }
 
@@ -204,7 +207,10 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<rsc_memory_bound>%f</rsc_memory_bound>\n"
         "<rsc_disk_bound>%f</rsc_disk_bound>\n"
         "<computation_deadline>%f</computation_deadline>\n"
-        "<vbox_window>%d</vbox_window>\n",
+        "<vbox_window>%d</vbox_window>\n"
+        "<no_priority_change>%d</no_priority_change>\n"
+        "<process_priority>%d</process_priority>\n"
+        "<process_priority_special>%d</process_priority_special>\n",
         ai.slot,
         ai.client_pid,
         ai.wu_cpu_time,
@@ -229,7 +235,10 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.rsc_memory_bound,
         ai.rsc_disk_bound,
         ai.computation_deadline,
-        ai.vbox_window
+        ai.vbox_window,
+        ai.no_priority_change?1:0,
+        ai.process_priority,
+        ai.process_priority_special
     );
     MIOFILE mf;
     mf.init_file(f);
@@ -297,6 +306,9 @@ void APP_INIT_DATA::clear() {
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
     vbox_window = false;
+    no_priority_change = false;
+    process_priority = -1;
+    process_priority_special = -1;
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -403,6 +415,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
         if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;
+        if (xp.parse_bool("no_priority_change", ai.no_priority_change)) continue;
+        if (xp.parse_int("process_priority", ai.process_priority)) continue;
+        if (xp.parse_int("process_priority_special", ai.process_priority_special)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
     }
     fprintf(stderr, "%s: parse_init_data_file: no end tag\n",
