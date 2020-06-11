@@ -48,7 +48,8 @@ doclean=""
 cache_dir=""
 arch=""
 silent=""
-verbose=""
+verbose="${VERBOSE:-no}"
+
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in

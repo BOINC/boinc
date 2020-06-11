@@ -6,7 +6,8 @@ set -e
 #
 
 # Script to compile everything BOINC needs for Android
-export VERBOSE=false
+export VERBOSE="no"
+
 cd ../
 BUILD_DIR="$PWD/3rdParty/buildCache"
 cd android/
