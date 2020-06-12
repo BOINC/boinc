@@ -127,6 +127,6 @@
 
         <activity
                 android:name=".BoincNotExclusiveDialog"
-                android:theme="@android:style/Theme.Dialog"/>
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
     </application>
 </manifest>
