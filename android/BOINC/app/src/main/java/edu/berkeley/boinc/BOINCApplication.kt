@@ -31,7 +31,7 @@ open class BOINCApplication : MultiDexApplication() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        setAppTheme(sharedPreferences.getString("theme", "default")!!)
+        setAppTheme(sharedPreferences.getString("theme", "light")!!)
     }
 
     val appComponent: AppComponent by lazy {

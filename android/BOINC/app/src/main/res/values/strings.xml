@@ -241,7 +241,6 @@
     <string name="prefs_theme_light">Light</string>
     <string name="prefs_theme_dark">Dark</string>
     <string name="prefs_theme_system">System default</string>
-    <string name="prefs_theme_battery_saver">Set by Battery saver</string>
 
     <!-- projects tab strings -->
     <string name="projects_loading">Reading projects&#8230;</string>
