@@ -204,7 +204,6 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
     }
-    return NULL;
 }
  
 /*!

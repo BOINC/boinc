@@ -382,7 +382,6 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
-    return NULL;
 }
 
 /*!

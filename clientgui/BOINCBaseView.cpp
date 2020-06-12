@@ -256,7 +256,10 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         iReturnValue = AddCacheElement();
                         wxASSERT(!iReturnValue);
                     }
-                    wxASSERT(GetDocCount() == GetCacheCount());
+                    int n = GetDocCount(), m = GetCacheCount();
+                    if (n != m) {
+                        wxASSERT(false);
+                    }
                     m_pListPane->SetItemCount(iDocCount);
                     m_bNeedSort = true;
                } else {

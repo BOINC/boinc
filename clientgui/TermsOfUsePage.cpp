@@ -179,7 +179,6 @@ wxWizardPageEx* CTermsOfUsePage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     }
-    return NULL;
 }
  
 /*!

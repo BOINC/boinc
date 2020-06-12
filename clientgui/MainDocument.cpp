@@ -917,8 +917,8 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 #ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(event);
+            CTaskbarEvent event2(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event2);
         }
 #endif
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();

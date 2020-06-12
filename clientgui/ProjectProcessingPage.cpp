@@ -191,7 +191,6 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
         // An error must have occurred
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
-    return NULL;
 }
   
 /*!

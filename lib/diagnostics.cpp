@@ -158,8 +158,9 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     //
     if (main_exited) return 0;
 #if defined(wxUSE_GUI)
+    // in wxWidgets, we don't know if main has returned
     return 0;
-#endif
+#else
 
 
     switch(reportType){
@@ -187,8 +188,8 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
         break;
 
     }
-
     return(TRUE);
+#endif
 }
 
 #endif //  _DEBUG
