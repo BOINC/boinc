@@ -201,7 +201,6 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
-    return NULL;
 }
  
 /*!

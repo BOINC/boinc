@@ -477,7 +477,7 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
 
 
 void CBOINCBaseFrame::ShowConnectionBadPasswordAlert(
-    bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure, std::string password_msg
+    bool bUsedDefaultPassword, int /*iReadGUIRPCAuthFailure*/, std::string password_msg
 ) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
