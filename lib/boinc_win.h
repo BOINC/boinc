@@ -277,6 +277,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <cassert>
 #include <cctype>
 #include <cerrno>
+#include <cinttypes>
 #include <cmath>
 #include <csetjmp>
 #include <csignal>
@@ -291,6 +292,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
+#include <inttypes.h>
 #include <math.h>
 #include <setjmp.h>
 #include <signal.h>

@@ -19,12 +19,13 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
+#include <cerrno>
+#include <cinttypes>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
 #include <cstring>
 #include <string>
-#include <cerrno>
 #include <unistd.h>
 #endif
 
@@ -106,8 +107,8 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
         fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::write(); len %d size %lu nitems %lu\n",
-            len, size, nitems
+            "ERROR: realloc() failed in MFILE::write(); len %d size %" PRIuMAX " nitems %" PRIuMAX "\n",
+            len, static_cast<uintmax_t>(size), static_cast<uintmax_t>(nitems)
         );
         exit(1);
     }
