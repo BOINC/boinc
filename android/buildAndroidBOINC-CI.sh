@@ -48,6 +48,8 @@ doclean=""
 cache_dir=""
 arch=""
 silent=""
+verbose="${VERBOSE:-no}"
+
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
@@ -68,6 +70,9 @@ while [ $# -gt 0 ]; do
         ;;
         --silent)
         silent="yes"
+        ;;
+        --verbose)
+        verbose="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -157,6 +162,8 @@ fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
 export ANDROID_TC=$PREFIX
+
+export VERBOSE=$verbose
 
 case "$arch" in
     "arm")

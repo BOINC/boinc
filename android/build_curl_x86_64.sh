@@ -11,6 +11,7 @@ COMPILECURL="${COMPILECURL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.61.0}" #CURL sources, required by BOINC
 
@@ -37,12 +38,21 @@ if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
-        make distclean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=x86_64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
     fi
-    make 1>$STDOUT_TARGET
-    make install 1>$STDOUT_TARGET
+    if [ "$VERBOSE" = "no" ]; then
+        make --silent 1>$STDOUT_TARGET
+        make install --silent 1>$STDOUT_TARGET
+    else
+        make SHELL="/bin/bash -x"
+        make install SHELL="/bin/bash -x"
+    fi
     echo "===== curl for x86-64 build done ====="
 fi
