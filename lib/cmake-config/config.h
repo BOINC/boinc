@@ -82,7 +82,7 @@
 
 /* Define to 1 if you have the declaration of `_xgetbv', and to 0 if you
    don't. */
-#define HAVE_DECL__XGETBV 0
+#define HAVE_DECL__XGETBV 1
 
 /* Define to 1 if you have the declaration of `__cpuid', and to 0 if you
    don't. */
@@ -114,7 +114,7 @@
 #define HAVE_ETHER_NTOA 1
 
 /* Define to 1 if you have the <execinfo.h> header file. */
-/* #undef HAVE_EXECINFO_H */
+#define HAVE_EXECINFO_H 1
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
@@ -222,7 +222,7 @@
 /* #undef HAVE_LIBNVAPI */
 
 /* Define to 1 if you have the pthread library */
-/* #undef HAVE_LIBPTHREAD */
+#define HAVE_LIBPTHREAD 1
 
 /* Define to 1 if you have the secur32 library */
 /* #undef HAVE_LIBSECUR32 */
@@ -342,7 +342,7 @@
 /* #undef HAVE_RESOLV */
 
 /* Define to 1 if you have the `res_init' function. */
-#define HAVE_RES_INIT 1
+/* #undef HAVE_RES_INIT */
 
 /* Define to 1 if you have the <sal.h> header file. */
 /* #undef HAVE_SAL_H */
@@ -390,7 +390,7 @@
 #define HAVE_STDLIB_H 1
 
 /* Define to 1 if locale is in namespace std:: */
-/* #undef HAVE_STD_LOCALE */
+#define HAVE_STD_LOCALE 1
 
 /* Define to 1 if max is in namespace std:: */
 #define HAVE_STD_MAX 1
@@ -420,16 +420,16 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strlcat' function. */
-#define HAVE_STRLCAT 0
+/* #undef HAVE_STRLCAT */
 
 /* Define to 1 if you have the `strlcpy' function. */
-#define HAVE_STRLCPY 0
+/* #undef HAVE_STRLCPY */
 
 /* Define to 1 if you have the `strtoull' function. */
 #define HAVE_STRTOULL 1
 
 /* Define to 1 if the system has the type `struct ether_addr'. */
-/* #undef HAVE_STRUCT_ETHER_ADDR */
+#define HAVE_STRUCT_ETHER_ADDR 1
 
 /* Define to 1 if the system has the type `struct ifconf'. */
 #define HAVE_STRUCT_IFCONF 1
@@ -518,7 +518,7 @@
 #define HAVE_SYS_SWAP_H 1
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
-/* #undef HAVE_SYS_SYSCTL_H */
+#define HAVE_SYS_SYSCTL_H 1
 
 /* Define to 1 if you have the <sys/systeminfo.h> header file. */
 /* #undef HAVE_SYS_SYSTEMINFO_H */
@@ -598,7 +598,7 @@
 #define HAVE_X86INTRIN_H 1
 
 /* Define to 1 if you have the <xlocale.h> header file. */
-#define HAVE_XLOCALE_H 1
+/* #undef HAVE_XLOCALE_H */
 
 /* Define to 1 if you have the <xmmintrin.h> header file. */
 #define HAVE_XMMINTRIN_H 1
@@ -626,17 +626,17 @@
 
 /* Platform identification used to identify applications for this BOINC core
    client */
-#define HOSTTYPE "x86_64-android-linux-gnu"
+#define HOSTTYPE "x86_64-pc-linux-gnu"
 
 /* Alternate identification used to identify applications for this BOINC core
    client */
-#define HOSTTYPEALT "x86-android-linux-gnu"
+#define HOSTTYPEALT "i686-pc-linux-gnu"
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */
-#define LARGEFILE_BREAKS_CXX 1
+/* #undef LARGEFILE_BREAKS_CXX */
 
 /* Define to the name of libcurl's certification file */
-#define LIBCURL_CABUNDLE ""
+#define LIBCURL_CABUNDLE "/etc/ssl/certs/ca-certificates.crt"
 
 /* Defined if libcurl supports AsynchDNS */
 #define LIBCURL_FEATURE_ASYNCHDNS 1
@@ -675,7 +675,7 @@
 #define LIBCURL_PROTOCOL_HTTPS 1
 
 /* Defined if libcurl supports LDAP */
-/* #undef LIBCURL_PROTOCOL_LDAP */
+#define LIBCURL_PROTOCOL_LDAP 1
 
 /* Defined if libcurl supports TELNET */
 #define LIBCURL_PROTOCOL_TELNET 1
@@ -739,7 +739,7 @@
 /* #undef XMD_H */
 
 /* Define to 1 if the X Window System is missing or not being used. */
-#define X_DISPLAY_MISSING 1
+/* #undef X_DISPLAY_MISSING */
 
 /* Enable large inode numbers on Mac OS X 10.5.  */
 #ifndef _DARWIN_USE_64_BIT_INODE

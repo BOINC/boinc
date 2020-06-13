@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(cmake-libs)
 
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_FLAGS)
 
 find_package(PkgConfig       QUIET)
 
@@ -137,12 +138,34 @@ set(md5_test_SOURCES
     md5_test.cpp
 )
 
+set(shmem_test_SOURCES
+    shmem_test.cpp
+)
+
+set(msg_test_SOURCES
+    msg_test.cpp
+)
+
+set(cmake_libs_libs
+    libboinc.la
+    libboinc_crypt.la
+    libboinc_fcgi.la
+)
+
 add_library(libboinc.la         STATIC ${libboinc_la_SOURCES})
 add_library(libboinc_crypt.la   STATIC ${libboinc_crypt_la_SOURCES})
 add_library(libboinc_fcgi.la    STATIC ${libboinc_crypt_la_SOURCES})
 
 add_executable(md5_test                ${md5_test_SOURCES})
-target_link_libraries(md5_test         libboinc.la)
+target_link_libraries(md5_test         ${cmake_libs_libs})
+
+#add_executable(shmem_test              ${shmem_test_SOURCES})
+#target_link_libraries(shmem_test       ${cmake_libs_libs})
+
+#add_executable(msg_test              ${msg_test_SOURCES})
+#target_link_libraries(msg_test       ${cmake_libs_libs})
 
 enable_testing ()
-add_test (NAME md5_test COMMAND md5_test)
+add_test (NAME md5_test     COMMAND md5_test)
+#add_test (NAME shmem_test  COMMAND shmem_test)
+#add_test (NAME msg_test    COMMAND msg_test)
