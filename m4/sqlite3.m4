@@ -47,6 +47,12 @@ if test "x$have_sqlite3" = "xyes"; then
     AC_DEFINE([HAVE_SQLITE3], [1], [Define to 1 if you have sqlite3.])
     AC_SUBST(SQLITE3_LIBS)
     AC_SUBST(SQLITE3_CPPFLAGS)
+else
+  AC_MSG_ERROR([
+================================================================================
+ERROR: could not find sqlite3
+================================================================================
+  ])
 fi
 
 LIBS=$LIBS_save
