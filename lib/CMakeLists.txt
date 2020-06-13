@@ -129,5 +129,10 @@ set(libboinc_crypt_la_SOURCES
     crypt.cpp
 )
 
+set(libboinc_fcgi_la_SOURCES
+    ${libfcgi_sources}
+)
+
 add_library(libboinc.la         STATIC ${libboinc_la_SOURCES})
 add_library(libboinc_crypt.la   STATIC ${libboinc_crypt_la_SOURCES})
+add_library(libboinc_fcgi.la    STATIC ${libboinc_crypt_la_SOURCES})
