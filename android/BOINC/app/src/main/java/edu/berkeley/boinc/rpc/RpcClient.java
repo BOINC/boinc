@@ -24,7 +24,6 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -246,7 +245,7 @@ public class RpcClient {
             Xml.parse(auth1Rsp, new Auth1Parser(mRequest)); // get nonce value
             // Operation: combine nonce & password, make MD5 hash
             mRequest.append(password);
-            String nonceHash = DigestUtils.md5Hex(mRequest.toString());
+            String nonceHash = BOINCUtils.md5Hex(mRequest.toString());
             // Phase 2: send hash to client
             mRequest.setLength(0);
             mRequest.append("<auth2>\n<nonce_hash>");
@@ -708,7 +707,7 @@ public class RpcClient {
             mRequest.append("</url>\n   <email_addr>");
             mRequest.append(accountIn.getEmailAddress());
             mRequest.append("</email_addr>\n   <passwd_hash>");
-            mRequest.append(DigestUtils.md5Hex(accountIn.getPassword() + accountIn.getEmailAddress()));
+            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + accountIn.getEmailAddress()));
             mRequest.append("</passwd_hash>\n   <user_name>");
             if (accountIn.getUserName() != null)
                 mRequest.append(accountIn.getUserName());
@@ -767,7 +766,7 @@ public class RpcClient {
             mRequest.append("</url>\n <email_addr>");
             mRequest.append(id.toLowerCase(Locale.US));
             mRequest.append("</email_addr>\n <passwd_hash>");
-            mRequest.append(DigestUtils.md5Hex(accountIn.getPassword() + id.toLowerCase(Locale.US)));
+            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + id.toLowerCase(Locale.US)));
             mRequest.append("</passwd_hash>\n</lookup_account>\n");
             sendRequest(mRequest.toString());
 
