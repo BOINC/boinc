@@ -2,12 +2,14 @@
     <PropertyGroup>
         <VcpkgRootDir Condition="'$(VcpkgRootDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\Windows\vcpkg</VcpkgRootDir>
         <VcpkgExe>$(VcpkgRootDir)\vcpkg.exe</VcpkgExe>
+        <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
+        <VcpkgCacheDir Condition="'$(VcpkgCacheDir)' == ''">../../boinc_depends_win_vs2019</VcpkgCacheDir>
+        <VcpkgTripletName Condition="'$(VcpkgTripletName)' == ''">x64-windows-static</VcpkgTripletName>
+        <VcpkgInstalledDir Condition="'$(VcpkgInstalledDir)' == ''">$(VcpkgRootDir)\installed\$(VcpkgTripletName)</VcpkgInstalledDir>
         <CUDA_BIN_PATH Condition="'$(CUDA_BIN_PATH)' == ''">$(VcpkgRootDir)\..\cuda\nvcc\bin</CUDA_BIN_PATH>
         <CUDA_INC_PATH Condition="'$(CUDA_INC_PATH)' == ''">$(VcpkgRootDir)\..\cuda\nvcc\include</CUDA_INC_PATH>
         <CUDA_LIB_PATH Condition="'$(CUDA_LIB_PATH)' == ''">$(VcpkgRootDir)\..\cuda\nvcc\lib</CUDA_LIB_PATH>
         <CudaNvccPath>$(CUDA_BIN_PATH)\nvcc.exe</CudaNvccPath>
         <CudaRootDir Condition="'$(CudaRootDir)' == ''">$(CUDA_BIN_PATH)\..\..\</CudaRootDir>
-        <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
-        <VcpkgCacheDir Condition="'$(VcpkgCacheDir)' == ''">../../boinc_depends_win_vs2019</VcpkgCacheDir>
     </PropertyGroup>
 </Project>
