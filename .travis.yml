@@ -41,6 +41,7 @@ env:
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
     - BOINC_TYPE=unit-test
+    - BOINC_TYPE=cmake
 
 jobs:
   fast_finish: true
@@ -84,6 +85,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./buildAndroidBOINC-CI.sh --arch arm --silent && ./buildAndroidBOINC-CI.sh --arch arm64 --silent && ./buildAndroidBOINC-CI.sh --arch x86 --silent && ./buildAndroidBOINC-CI.sh --arch x86_64 --silent && cd BOINC && ./gradlew clean assemble combinedTestReportDebug && bash <(curl -s https://codecov.io/bash) && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0" && make && ./tests/executeUnitTests.sh --report-coverage ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
+- if [[ "${BOINC_TYPE}" == "cmake" ]]; then ( cd lib && mkdir build && cd build && cmake .. && make && cd ../../ ) fi
 
 after_success:
 - ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
