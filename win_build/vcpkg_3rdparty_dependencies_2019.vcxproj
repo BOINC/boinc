@@ -106,7 +106,7 @@
     <Exec Command="xcopy $(VcpkgCacheDir) $(VcpkgRootDir)\installed /e /i /y" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="RestoreCache" AfterTargets="RestoreCache">
-    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets sqlite3 opencl rappture --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet x64-windows-static" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet x64-windows-static" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets sqlite3 opencl rappture --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>
