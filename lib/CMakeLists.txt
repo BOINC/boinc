@@ -12,7 +12,7 @@ set(libfcgi_sources
     coproc.cpp
     filesys.cpp
     hostinfo.cpp
-	keyword.cpp
+    keyword.cpp
     md5.cpp
     md5_file.cpp
     mfile.cpp
@@ -26,7 +26,7 @@ set(libfcgi_sources
     synch.cpp
     url.cpp
     util.cpp
-	wslinfo.cpp
+    wslinfo.cpp
 )
 
 set(generic_sources
@@ -41,7 +41,7 @@ set(generic_sources
     gui_rpc_client_ops.cpp
     gui_rpc_client_print.cpp
     hostinfo.cpp
-	keyword.cpp
+    keyword.cpp
     md5.cpp
     md5_file.cpp
     mem_usage.cpp
@@ -62,10 +62,10 @@ set(generic_sources
     str_util.cpp
     url.cpp
     util.cpp
-	wslinfo.cpp
+    wslinfo.cpp
     procinfo_unix.cpp
     synch.cpp
-    unix_util.cpp    
+    unix_util.cpp
 )
 
 set(pkginclude_HEADERS
@@ -120,7 +120,4 @@ include_directories(
     ..
 )
 
-add_library(libboinc.la STATIC ${generic_sources} )
-
-SOURCE_GROUP("Source Files" FILES ${LIB_SOURCE})
-SOURCE_GROUP("Header Files" FILES ${LIB_HEADER})        
+add_library(libboinc.la STATIC ${generic_sources})
