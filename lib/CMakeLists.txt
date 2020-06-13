@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-project(lib)
+project(cmake-libs)
 
 set(CMAKE_BUILD_TYPE Release)
 
@@ -116,9 +116,18 @@ set(noinst_HEADERS
 )
 
 include_directories(
+    cmake-config
     .
     ..
-    cmake-config
 )
 
-add_library(libboinc.la STATIC ${generic_sources})
+set(libboinc_la_SOURCES
+    ${generic_sources}
+)
+
+set(libboinc_crypt_la_SOURCES
+    crypt.cpp
+)
+
+add_library(libboinc.la         STATIC ${libboinc_la_SOURCES})
+add_library(libboinc_crypt.la   STATIC ${libboinc_crypt_la_SOURCES})
