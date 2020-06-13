@@ -55,12 +55,13 @@
                 app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-                app:defaultValue="default"
+                app:defaultValue="light"
                 app:entries="@array/theme_entries"
                 app:entryValues="@array/theme_values"
                 app:iconSpaceReserved="false"
                 app:key="theme"
-                app:title="@string/prefs_theme_header" />
+                app:title="@string/prefs_theme_header"
+                app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
