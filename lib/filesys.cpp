@@ -56,7 +56,7 @@
 #include <sys/mount.h>
 #endif
 
-#if defined(ANDROID) && defined(__arm__)
+#if defined(ANDROID) && __ANDROID_API__ < 19
     #undef HAVE_SYS_STATVFS_H
 #endif
 
