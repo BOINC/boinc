@@ -118,6 +118,7 @@ set(noinst_HEADERS
 include_directories(
     .
     ..
+    cmake-config
 )
 
 add_library(libboinc.la STATIC ${generic_sources})
