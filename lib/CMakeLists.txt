@@ -133,6 +133,16 @@ set(libboinc_fcgi_la_SOURCES
     ${libfcgi_sources}
 )
 
+set(md5_test_SOURCES
+    md5_test.cpp
+)
+
 add_library(libboinc.la         STATIC ${libboinc_la_SOURCES})
 add_library(libboinc_crypt.la   STATIC ${libboinc_crypt_la_SOURCES})
 add_library(libboinc_fcgi.la    STATIC ${libboinc_crypt_la_SOURCES})
+
+add_executable(md5_test                ${md5_test_SOURCES})
+target_link_libraries(md5_test         libboinc.la)
+
+enable_testing ()
+add_test (NAME md5_test COMMAND md5_test)
