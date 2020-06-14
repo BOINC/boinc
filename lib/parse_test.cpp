@@ -50,8 +50,8 @@ void parse(FILE* f) {
     printf("unexpected EOF\n");
 }
 
-int main() {
-    FILE* f = fopen("foo.xml", "r");
+int main(int argc, char **argv) {
+    FILE* f = fopen(argv[1], "r");
     if (!f) {
         fprintf(stderr, "no file\n");
         exit(1);

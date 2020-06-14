@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<blah>
+    <x>
+    asdlfkj
+      <x> fj</x>
+    </x>
+    <str>blah</str>
+    <int>  6
+    </int>
+    <double>6.555</double>
+    <bool>0</bool>
+</blah>
