@@ -20,7 +20,7 @@ matrix:
   #     image: Visual Studio 2013
 
 platform:
-  - Win32
+  # - Win32
   - x64
 
 pull_requests:
