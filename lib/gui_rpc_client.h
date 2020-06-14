@@ -494,8 +494,6 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
-    bool cookie_required;
-    std::string cookie_failure_url;
     
     ACCT_MGR_INFO();
 
@@ -528,7 +526,6 @@ struct PROJECT_INIT_STATUS {
     std::string url;
     std::string name;
     std::string team_name;
-    std::string setup_cookie;
     bool has_account_key;
     bool embedded;
 
@@ -579,9 +576,7 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
     std::string team_name;
-    std::string server_cookie;
     bool ldap_auth;
-    bool server_assigned_cookie;
     bool consented_to_terms;
 
     ACCOUNT_IN();

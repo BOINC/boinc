@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+DEPRECATED
 
 #ifdef _WIN32
 #include "boinc_win.h"

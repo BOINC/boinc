@@ -40,7 +40,6 @@ boincmgr_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    browser.cpp \
     common/wxPieCtrl.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
