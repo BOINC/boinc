@@ -27,7 +27,7 @@ import android.os.Build
 import android.os.RemoteException
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
@@ -76,7 +76,7 @@ suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
 }
 
 fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
-    var drawable = ContextCompat.getDrawable(this, drawableId)!!
+    var drawable = AppCompatResources.getDrawable(this, drawableId)!!
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         drawable = DrawableCompat.wrap(drawable).mutate()
     }
