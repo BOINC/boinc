@@ -34,8 +34,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_READY
+import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_SUCCESS
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
-import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper
 import edu.berkeley.boinc.databinding.AttachProjectBatchProcessingLayoutBinding
 import edu.berkeley.boinc.utils.Logging
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +103,7 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // triggered by continue button
     fun continueClicked(v: View?) {
-        val conflicts = attachService!!.unresolvedConflicts()
+        val conflicts = attachService!!.anyUnresolvedConflicts()
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
         }
@@ -221,7 +222,7 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     private suspend fun attachProject() {
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberSelectedProjects}" +
+            Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberOfSelectedProjects}" +
                     " projects to attach....")
         }
         // shown while project configs are loaded
@@ -243,16 +244,15 @@ class BatchProcessingActivity : AppCompatActivity() {
             // attach projects, one at a time
             attachService!!.selectedProjects
                     // skip already tried projects in batch processing
-                    .filter { it.result == ProjectAttachWrapper.RESULT_READY }
+                    .filter { it.result == RESULT_READY }
                     .onEach {
                         if (Logging.DEBUG) {
-                            Log.d(Logging.TAG, "attachProject(): trying: ${it.info.name}")
+                            Log.d(Logging.TAG, "attachProject(): trying: ${it.info?.name}")
                         }
-                        binding.attachStatusText.text =
-                                "${getString(R.string.attachproject_working_attaching)} ${it.info.name}"
+                        binding.attachStatusText.text = "${getString(R.string.attachproject_working_attaching)} ${it.info?.name}"
                     }
                     .map { it.lookupAndAttach(false) }
-                    .filter { it != ProjectAttachWrapper.RESULT_SUCCESS && Logging.ERROR }
+                    .filter { it != RESULT_SUCCESS && Logging.ERROR }
                     .forEach { Log.e(Logging.TAG, "attachProject() attach returned conflict: $it") }
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "attachProject(): finished.")
