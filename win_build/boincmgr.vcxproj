@@ -275,7 +275,7 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2010\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -367,7 +367,6 @@
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
-    <ClCompile Include="..\clientgui\browser.cpp" />
     <ClCompile Include="..\clientgui\LogBOINC.cpp" />
     <ClCompile Include="..\clientgui\SkinManager.cpp" />
     <ClCompile Include="..\clientgui\ValidateAccountKey.cpp" />
@@ -476,7 +475,6 @@
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />
-    <ClInclude Include="..\clientgui\browser.h" />
     <ClInclude Include="..\clientgui\LogBOINC.h" />
     <ClInclude Include="..\clientgui\SkinManager.h" />
     <ClInclude Include="..\clientgui\ValidateAccountKey.h" />
