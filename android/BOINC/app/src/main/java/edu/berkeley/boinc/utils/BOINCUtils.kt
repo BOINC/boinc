@@ -83,12 +83,10 @@ fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
     return drawable.toBitmap()
 }
 
-// The following two methods are needed as the DigestUtils.md5Hex() methods are inaccessible on
+// The following method is needed as the DigestUtils.md5Hex() methods are inaccessible on
 // debug builds on Android versions < Q due to obfuscation not being used:
 // https://stackoverflow.com/questions/9126567/method-not-found-using-digestutils-in-android.
 // This does not affect release builds as the method and class names are obfuscated.
-fun ByteArray.md5Hex() = String(Hex.encodeHex(this))
-
 fun String.md5Hex() = String(Hex.encodeHex(DigestUtils.md5(toByteArray())))
 
 @Throws(IOException::class)

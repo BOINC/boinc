@@ -20,6 +20,7 @@ package edu.berkeley.boinc.client
 
 import android.os.Build
 import android.os.PowerManager
+import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import java.io.File
@@ -47,3 +48,9 @@ internal val PowerManager.isScreenOnCompat
     get() = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) isScreenOn else isInteractive
 
 internal fun md5Digest() = DigestUtils.getMd5Digest()
+
+// The following method is needed as the DigestUtils.md5Hex() methods are inaccessible on
+// debug builds on Android versions < Q due to obfuscation not being used:
+// https://stackoverflow.com/questions/9126567/method-not-found-using-digestutils-in-android.
+// This does not affect release builds as the method and class names are obfuscated.
+internal fun ByteArray.md5Hex() = String(Hex.encodeHex(this))
