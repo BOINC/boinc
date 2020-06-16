@@ -20,6 +20,7 @@
 
 #include "miofile.h"
 #include "parse.h"
+#include "pretty_printer.h"
 
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
@@ -285,7 +286,8 @@ struct TIME_STATS {
 
     void write(MIOFILE&);
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get();
+
     TIME_STATS() {
         now = 0;
         on_frac = 1;
