@@ -62,6 +62,7 @@ generic_sources = \
     opencl_boinc.cpp \
     parse.cpp \
     prefs.cpp \
+	pretty_printer.cpp \
     procinfo.cpp \
     proc_control.cpp \
     project_init.cpp \
