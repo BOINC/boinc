@@ -298,6 +298,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
 	<ClCompile Include="..\lib\pretty_printer.cpp" />
+	<ClCompile Include="..\lib\pretty_printer_tests.cpp" />
     <ClCompile Include="..\lib\proc_control.cpp" />
     <ClCompile Include="..\lib\procinfo.cpp" />
     <ClCompile Include="..\lib\procinfo_win.cpp" />
