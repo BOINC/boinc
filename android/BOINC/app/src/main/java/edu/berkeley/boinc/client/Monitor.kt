@@ -245,7 +245,8 @@ class Monitor : LifecycleService() {
          * Activities get destroyed by the system. Important for GUI keep-alive
          * For detailed service documentation see
          * http://android-developers.blogspot.com.au/2010/02/service-api-changes-starting-with.html
-         */return Service.START_STICKY
+         */
+        return Service.START_STICKY
     }
     // --end-- attributes and methods related to Android Service life-cycle
     // public methods for Activities
@@ -355,11 +356,11 @@ class Monitor : LifecycleService() {
             clientStatus.setWakeLock(computing)
             ClientNotification.getInstance(applicationContext).update(clientStatus, this, computing)
         } catch (e: Exception) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus exception: " + e.message, e)
+            if (Logging.ERROR)
+                Log.e(Logging.TAG, "Monitor.readClientStatus exception: " + e.message, e)
         }
     }
-    // reports current device status to the client via rpc
-    // client uses data to enforce preferences, e.g. suspend on battery
+
     /**
      * Reports current device status to the client via RPC
      * BOINC client uses this data to enforce preferences, e.g. suspend battery but requires information only/best available through Java API calls.
@@ -379,6 +380,7 @@ class Monitor : LifecycleService() {
         }
     }
     // --end-- multi-threaded frequent information polling
+
     // BOINC client installation and run-time management
     /**
      * installs client binaries(if changed) and other required files
@@ -433,7 +435,6 @@ class Monitor : LifecycleService() {
         }
 
         // Start the BOINC client if we need to.
-        //
         val clientPid = getPidForProcessName(clientProcessName)
         if (clientPid == null) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client")
@@ -660,7 +661,8 @@ class Monitor : LifecycleService() {
             return null
         }
         if (processLines.size < 2) {
-            if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): ps output has less than 2 lines, failure!")
+            if (Logging.ERROR)
+                Log.e(Logging.TAG, "getPidForProcessName(): ps output has less than 2 lines, failure!")
             return null
         }
 
@@ -670,15 +672,17 @@ class Monitor : LifecycleService() {
         if (pidIndex == -1) {
             return null
         }
-        if (Logging.DEBUG) Log.d(Logging.TAG, "getPidForProcessName(): PID at index: $pidIndex" +
-                " for output: ${processLines[0]}")
+        if (Logging.DEBUG)
+            Log.d(Logging.TAG, "getPidForProcessName(): PID at index: $pidIndex for output:" +
+                    " ${processLines[0]}")
         var pid: Int? = null
         for (y in 1 until processLines.size) {
             var found = false
             val comps = processLines[y].split("[\\s]+".toRegex()).toTypedArray()
             for (arg in comps) {
                 if (arg == processName) {
-                    if (Logging.DEBUG) Log.d(Logging.TAG, "getPidForProcessName(): $processName found in line: $y")
+                    if (Logging.DEBUG)
+                        Log.d(Logging.TAG, "getPidForProcessName(): $processName found in line: $y")
                     found = true
                     break // Break out of inner foreach (comps) loop
                 }
@@ -686,15 +690,19 @@ class Monitor : LifecycleService() {
             if (found) {
                 try {
                     pid = comps[pidIndex].toInt()
-                    if (Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): pid: $pid")
+                    if (Logging.ERROR)
+                        Log.d(Logging.TAG, "getPidForProcessName(): pid: $pid")
                 } catch (e: NumberFormatException) {
-                    if (Logging.ERROR) Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for " + comps[pidIndex] + " at index: " + pidIndex)
+                    if (Logging.ERROR)
+                        Log.e(Logging.TAG, "getPidForProcessName(): NumberFormatException for "
+                                + "${comps[pidIndex]} at index: $pidIndex")
                 }
                 break // Break out of outer for (processLinesAr) loop
             }
         }
         // if not happen in ps output, not running?!
-        if (pid == null && Logging.ERROR) Log.d(Logging.TAG, "getPidForProcessName(): $processName not found in ps output!")
+        if (pid == null && Logging.ERROR)
+            Log.d(Logging.TAG, "getPidForProcessName(): $processName not found in ps output!")
 
         // Find required pid
         return pid
@@ -710,16 +718,18 @@ class Monitor : LifecycleService() {
 
         // client PID could not be read, client already ended / not yet started?
         if (clientPid == null) {
-            if (Logging.ERROR) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?")
+            if (Logging.ERROR)
+                Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not" +
+                        " yet started?")
             return
         }
-        if (Logging.DEBUG) Log.d(Logging.TAG, "quitProcessOsLevel for $processName, pid: $clientPid")
+        if (Logging.DEBUG)
+            Log.d(Logging.TAG, "quitProcessOsLevel for $processName, pid: $clientPid")
 
         // Do not just kill the client on the first attempt.  That leaves dangling
         // science applications running which causes repeated spawning of applications.
         // Neither the UI or client are happy and each are trying to recover from the
         // situation.  Instead send SIGQUIT and give the client time to clean up.
-        //
         Process.sendSignal(clientPid, Process.SIGNAL_QUIT)
 
         // Wait for the client to shutdown gracefully
@@ -729,7 +739,9 @@ class Monitor : LifecycleService() {
         while (x < attempts) {
             Thread.sleep(sleepPeriod.toLong())
             if (getPidForProcessName(processName) == null) { //client is now closed
-                if (Logging.DEBUG) Log.d(Logging.TAG, "quitClient: gracefull SIGQUIT shutdown successful after $x seconds")
+                if (Logging.DEBUG)
+                    Log.d(Logging.TAG, "quitClient: graceful SIGQUIT shutdown successful after" +
+                            " $x seconds")
                 x = attempts
             }
             x++
@@ -746,7 +758,7 @@ class Monitor : LifecycleService() {
         }
     }
     // --end-- BOINC client installation and run-time management
-    // broadcast receiver
+
     /**
      * broadcast receiver to detect changes to screen on or off, used to adapt scheduling of StatusUpdateTimerTask
      * e.g. avoid polling GUI status RPCs while screen is off in order to save battery
@@ -759,16 +771,17 @@ class Monitor : LifecycleService() {
                 // forces report of device status at next scheduled update
                 // allows timely reaction to screen off for resume of computation
                 screenOffStatusOmitCounter = deviceStatusIntervalScreenOff
-                if (Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off")
+                if (Logging.DEBUG)
+                    Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off")
             }
             if (action != Intent.ACTION_SCREEN_ON) {
                 screenOn = true
-                if (Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...")
+                if (Logging.DEBUG)
+                    Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...")
                 forceRefresh()
             }
         }
     }
-    // --end-- broadcast receiver
 
     private suspend fun setClientRunMode(runMode: Int) = coroutineScope {
         try {

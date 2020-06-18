@@ -147,7 +147,7 @@ class ProjectAttachService : LifecycleService() {
     }
 
     /**
-     * sets selected projects and downloads their configuration files
+     * sets selected projects and downloads their configuration files.
      * configuration download in new thread, returns immediately.
      * Check projectConfigRetrievalFinished to see whether job finished.
      *
@@ -257,7 +257,7 @@ class ProjectAttachService : LifecycleService() {
         var attemptCounter = 0
         var retry = true
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "account manager with: $url$name$maxAttempts")
+            Log.d(Logging.TAG, "account manager with: $url, $name, $maxAttempts")
         }
         // retry a defined number of times, if non deterministic failure occurs.
         // makes login more robust on bad network connections
@@ -349,16 +349,12 @@ class ProjectAttachService : LifecycleService() {
          * Attaches this project to BOINC client.
          * Account lookup/registration using credentials set at service.
          *
-         *
          * Using registration RPC if client side registration is enabled,
          * succeeds also if account exists and password is correct.
          *
-         *
          * Using login RPC if client side registration is disabled.
          *
-         *
          * Attaches project if account lookup succeeded.
-         *
          *
          * Retries in case of non-deterministic errors
          * Long-running and network communication, do not execute in UI thread.
@@ -455,7 +451,6 @@ class ProjectAttachService : LifecycleService() {
          * Attempts account registration with the credentials previously set in service.
          * Registration also succeeds if account exists and password is correct.
          *
-         *
          * Retries in case of non-deterministic errors
          * Long-running and network communication, do not execute in UI thread.
          *
@@ -502,7 +497,6 @@ class ProjectAttachService : LifecycleService() {
 
         /**
          * Attempts account lookup with the credentials previously set in service.
-         *
          *
          * Retries in case of non-deterministic errors
          * Long-running and network communication, do not execute in UI thread.
