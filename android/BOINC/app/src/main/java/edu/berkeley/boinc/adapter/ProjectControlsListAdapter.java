@@ -105,6 +105,9 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
             case ProjectsFragment.VISIT_WEBSITE:
                 text = getContext().getResources().getString(R.string.projects_control_visit_website);
                 break;
+            case ProjectsFragment.VIEW_DETAILS:
+                text = getContext().getResources().getString(R.string.projects_control_view_details);
+                break;
             default:
                 break;
         }

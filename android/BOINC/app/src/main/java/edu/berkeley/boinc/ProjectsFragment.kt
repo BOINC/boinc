@@ -28,7 +28,9 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
@@ -50,7 +52,7 @@ class ProjectsFragment : Fragment() {
     private val data: MutableList<ProjectsListData> = ArrayList()
 
     // controls popup dialog
-    var dialogControls: Dialog? = null
+    lateinit var dialogControls: Dialog
 
     // BroadcastReceiver event is used to update the UI with updated information from
     // the client.  This is generally called once a second.
@@ -287,6 +289,7 @@ class ProjectsFragment : Fragment() {
                 controls.add(ProjectControl(listEntry, RpcClient.MGR_DETACH))
             } else {
                 dialogBinding.title.setText(R.string.projects_control_dialog_title)
+                controls.add(ProjectControl(listEntry, VIEW_DETAILS))
                 controls.add(ProjectControl(listEntry, VISIT_WEBSITE))
                 if (!projectTransfers.isNullOrEmpty()) {
                     controls.add(ProjectControl(listEntry, RpcClient.TRANSFER_RETRY))
@@ -322,10 +325,10 @@ class ProjectsFragment : Fragment() {
             }
 
             // buttons
-            dialogBinding.cancel.setOnClickListener { dialogControls!!.dismiss() }
+            dialogBinding.cancel.setOnClickListener { dialogControls.dismiss() }
 
             // show dialog
-            dialogControls!!.show()
+            dialogControls.show()
         }
 
         init {
@@ -383,22 +386,24 @@ class ProjectsFragment : Fragment() {
                     }
                 }
                 dialogBinding.confirm.setOnClickListener {
-                    lifecycleScope.launch {
-                        performProjectOperationAsync(data, operation)
-                    }
+                    lifecycleScope.launch { performProjectOperationAsync(data, operation) }
                     dialog.dismiss()
-                    dialogControls!!.dismiss()
+                    dialogControls.dismiss()
                 }
                 dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
                 dialog.show()
             } else if (operation == VISIT_WEBSITE) { // command does not require confirmation and is not RPC based
-                dialogControls!!.dismiss()
+                dialogControls.dismiss()
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.id)))
+            } else if (operation == VIEW_DETAILS) {
+                dialogControls.dismiss()
+                parentFragmentManager.beginTransaction().apply {
+                    replace<ProjectDetailsFragment>(R.id.frame_container, args = bundleOf("url" to data.project?.masterURL))
+                    addToBackStack(null)
+                }.commit()
             } else { // command does not require confirmation, but is RPC based
-                lifecycleScope.launch {
-                    performProjectOperationAsync(data, operation)
-                }
-                dialogControls!!.dismiss()
+                lifecycleScope.launch { performProjectOperationAsync(data, operation) }
+                dialogControls.dismiss()
             }
         }
     }
@@ -450,6 +455,7 @@ class ProjectsFragment : Fragment() {
 
     companion object {
         // operation that do not imply an RPC are defined here
-        const val VISIT_WEBSITE = 100
+        const val VIEW_DETAILS = 100
+        const val VISIT_WEBSITE = 101
     }
 }

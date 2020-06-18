@@ -166,6 +166,7 @@
     <!--project controls-->
     <string name="projects_control_dialog_title">Project commands:</string>
     <string name="projects_control_visit_website">Visit website</string>
+    <string name="projects_control_view_details">View details</string>
     <string name="projects_control_update">Update</string>
     <string name="projects_control_remove">Remove</string>
     <string name="projects_control_suspend">Suspend</string>
