@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener
+import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_ONGOING
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper
 import edu.berkeley.boinc.databinding.AttachProjectBatchConflictsLayoutBinding
@@ -70,7 +71,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
                 if (Logging.DEBUG) {
                     Log.d(Logging.TAG, "BatchConflictListActivity manual URL found: $manualUrl")
                 }
-                attachService!!.setManuallySelectedProject(manualUrl)
+                attachService!!.setManuallySelectedProject(manualUrl!!)
                 manualUrl = ""
             }
 
@@ -165,8 +166,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
     }
 
-    override fun getDefaultInput(): List<String> {
-        var values: List<String> = ArrayList()
+    override fun getDefaultInput(): List<String?> {
+        var values: List<String?> = ArrayList()
         if (asIsBound) {
             values = attachService!!.userDefaultValues
         }
@@ -176,10 +177,10 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
     private suspend fun attachProject(project: ProjectAttachWrapper, login: Boolean, email: String,
                                       name: String, pwd: String) {
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "attachProject(): ${project.config.name}")
+            Log.d(Logging.TAG, "attachProject(): ${project.config?.name}")
         }
         if (asIsBound) {
-            project.result = ProjectAttachWrapper.RESULT_ONGOING
+            project.result = RESULT_ONGOING
             // adapt layout to changed state
             listAdapter.notifyDataSetChanged()
         } else {
