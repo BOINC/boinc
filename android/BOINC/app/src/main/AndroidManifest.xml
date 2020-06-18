@@ -64,7 +64,7 @@
                 android:label="@string/menu_eventlog">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="edu.berkeley.boinc.BOINCActivity" />
+                    android:value=".BOINCActivity" />
         </activity>
         <activity
                 android:name=".SplashActivity"
@@ -81,9 +81,9 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".BOINCActivity"
                 android:exported="true"
-                android:label="@string/app_name"
+                android:name=".BOINCActivity"
+                android:theme="@style/AppTheme.NoActionBar"
                 android:launchMode="singleTop" />
         <activity
                 android:name=".attach.SelectionListActivity"

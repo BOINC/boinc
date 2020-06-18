@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2020 University of California
+
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_navigation_graph"
+        app:startDestination="@+id/nav_tasks">
+
+    <fragment
+            android:id="@+id/nav_tasks"
+            android:name="edu.berkeley.boinc.TasksFragment"
+            android:label="@string/tab_tasks"
+            tools:layout="@layout/tasks_layout" />
+
+    <fragment
+            android:id="@+id/nav_notices"
+            android:name="edu.berkeley.boinc.NoticesFragment"
+            android:label="@string/tab_notices"
+            tools:layout="@layout/notices_layout" />
+
+    <fragment
+            android:id="@+id/nav_projects"
+            android:name="edu.berkeley.boinc.ProjectsFragment"
+            android:label="@string/tab_projects"
+            tools:layout="@layout/projects_layout" />
+
+    <activity
+            android:id="@+id/nav_add_project"
+            android:name="edu.berkeley.boinc.attach.SelectionListActivity"
+            android:label="@string/projects_add" />
+
+    <fragment
+            android:id="@+id/nav_preferences"
+            android:name="edu.berkeley.boinc.SettingsFragment"
+            android:label="@string/tab_preferences" />
+
+    <dialog
+            android:id="@+id/nav_about"
+            android:name="edu.berkeley.boinc.AboutDialogFragment"
+            android:label="@string/menu_about" />
+
+    <activity
+            android:id="@+id/nav_event_log"
+            android:name="edu.berkeley.boinc.ui.eventlog.EventLogActivity"
+            android:label="@string/menu_eventlog" />
+
+    <fragment
+        android:id="@+id/nav_project_details"
+        android:name="edu.berkeley.boinc.ProjectDetailsFragment" />
+
+</navigation>

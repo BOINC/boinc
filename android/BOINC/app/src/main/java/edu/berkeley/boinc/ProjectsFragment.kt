@@ -30,8 +30,8 @@ import android.util.Log
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
 import edu.berkeley.boinc.attach.ManualUrlInputFragment
@@ -397,10 +397,8 @@ class ProjectsFragment : Fragment() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.id)))
             } else if (operation == VIEW_DETAILS) {
                 dialogControls.dismiss()
-                parentFragmentManager.beginTransaction().apply {
-                    replace<ProjectDetailsFragment>(R.id.frame_container, args = bundleOf("url" to data.project?.masterURL))
-                    addToBackStack(null)
-                }.commit()
+                this@ProjectsFragment.findNavController().navigate(R.id.nav_project_details,
+                        bundleOf("url" to data.project?.masterURL))
             } else { // command does not require confirmation, but is RPC based
                 lifecycleScope.launch { performProjectOperationAsync(data, operation) }
                 dialogControls.dismiss()
