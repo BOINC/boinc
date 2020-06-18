@@ -71,6 +71,7 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.ErrorCodeDescription;
 import edu.berkeley.boinc.utils.Logging;
 
@@ -747,7 +748,7 @@ public class Monitor extends Service {
             } else {
                 md5Bytes = DigestUtils.digest(DigestUtils.getMd5Digest(), new File(fileName));
             }
-            return DigestUtils.md5Hex(md5Bytes);
+            return BOINCUtils.md5Hex(md5Bytes);
         } catch (IOException e) {
             if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.getMessage());
         }

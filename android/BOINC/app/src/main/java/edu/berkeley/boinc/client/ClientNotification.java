@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -233,10 +234,20 @@ public class ClientNotification {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_boinc_paused;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    icon = R.mipmap.ic_boinc_paused_notification;
+                }
+                else {
+                    icon = R.drawable.ic_boinc_paused;
+                }
                 break;
             default:
-                icon = R.drawable.ic_boinc;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    icon = R.mipmap.ic_launcher;
+                }
+                else {
+                    icon = R.drawable.ic_boinc;
+                }
         }
         return icon;
     }

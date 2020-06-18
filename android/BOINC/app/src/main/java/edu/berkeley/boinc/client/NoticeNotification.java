@@ -25,6 +25,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -122,11 +123,18 @@ public class NoticeNotification {
         final NotificationCompat.Builder nb;
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
-
+        int icon;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            icon = R.mipmap.ic_mail;
+        }
+        else
+        {
+            icon = R.drawable.ic_baseline_email_white;
+        }
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(R.drawable.ic_baseline_email_white).
+                  setSmallIcon(icon).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {

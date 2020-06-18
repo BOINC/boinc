@@ -27,13 +27,15 @@ import android.os.Build
 import android.os.RemoteException
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import org.apache.commons.codec.binary.Hex
+import org.apache.commons.codec.digest.DigestUtils
 import java.io.IOException
 import java.io.Reader
 
@@ -74,12 +76,20 @@ suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
 }
 
 fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
-    var drawable = ContextCompat.getDrawable(this, drawableId)!!
+    var drawable = AppCompatResources.getDrawable(this, drawableId)!!
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         drawable = DrawableCompat.wrap(drawable).mutate()
     }
     return drawable.toBitmap()
 }
+
+// The following two methods are needed as the DigestUtils.md5Hex() methods are inaccessible on
+// debug builds on Android versions < Q due to obfuscation not being used:
+// https://stackoverflow.com/questions/9126567/method-not-found-using-digestutils-in-android.
+// This does not affect release builds as the method and class names are obfuscated.
+fun ByteArray.md5Hex() = String(Hex.encodeHex(this))
+
+fun String.md5Hex() = String(Hex.encodeHex(DigestUtils.md5(toByteArray())))
 
 @Throws(IOException::class)
 fun Reader.readLineLimit(limit: Int): String? {
