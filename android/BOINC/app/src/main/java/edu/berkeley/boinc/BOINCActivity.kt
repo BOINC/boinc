@@ -29,6 +29,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -96,6 +97,8 @@ class BOINCActivity : AppCompatActivity() {
 
         //bind monitor service
         doBindService()
+
+        supportFragmentManager.beginTransaction().replace<StatusFragment>(R.id.status_container).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
