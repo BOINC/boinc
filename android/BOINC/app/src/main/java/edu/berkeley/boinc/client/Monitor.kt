@@ -766,7 +766,7 @@ class Monitor : LifecycleService() {
     private var screenOnOffReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
-            if (action != Intent.ACTION_SCREEN_OFF) {
+            if (action == Intent.ACTION_SCREEN_OFF) {
                 screenOn = false
                 // forces report of device status at next scheduled update
                 // allows timely reaction to screen off for resume of computation
@@ -774,7 +774,7 @@ class Monitor : LifecycleService() {
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off")
             }
-            if (action != Intent.ACTION_SCREEN_ON) {
+            if (action == Intent.ACTION_SCREEN_ON) {
                 screenOn = true
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...")
