@@ -18,12 +18,14 @@
  */
 package edu.berkeley.boinc
 
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.DialogFragment
 import edu.berkeley.boinc.databinding.DialogAboutBinding
 import edu.berkeley.boinc.utils.Logging
@@ -41,5 +43,9 @@ class AboutDialogFragment : DialogFragment() {
         }
         binding.returnButton.setOnClickListener { dismiss() }
         return binding.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
     }
 }
