@@ -27,8 +27,7 @@ import android.os.Build
 import android.os.RemoteException
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
@@ -75,11 +74,9 @@ suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
     return@coroutineScope runMode.await() && networkMode.await()
 }
 
+//from https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
 fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
-    var drawable = AppCompatResources.getDrawable(this, drawableId)!!
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        drawable = DrawableCompat.wrap(drawable).mutate()
-    }
+    val drawable = ContextCompat.getDrawable(this, drawableId)!!
     return drawable.toBitmap()
 }
 

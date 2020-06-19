@@ -125,10 +125,8 @@ public class NoticeNotification {
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
         int icon;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            icon = R.mipmap.ic_mail;
-        }
-        else
-        {
+            icon = R.mipmap.ic_email_white;
+        } else {
             icon = R.drawable.ic_baseline_email_white;
         }
         nb = new NotificationCompat.Builder(context, "main-channel");
@@ -162,6 +160,12 @@ public class NoticeNotification {
 
     private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
+        int icon;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            icon = R.mipmap.ic_launcher;
+        } else {
+            icon = R.drawable.ic_boinc;
+        }
         try {
             return (projectIconBitmap = clientStatus.getProjectIconByName(projectName)) != null ?
                    Bitmap.createScaledBitmap(
@@ -170,7 +174,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+                   BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -180,7 +184,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+            return BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
     }
 }
