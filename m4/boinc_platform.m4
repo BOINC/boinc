@@ -53,12 +53,14 @@ AC_DEFUN([BOINC_PLATFORM],[
         ;;
       aarch64*linux-android)
         boinc_platform="aarch64-android-linux-gnu"
+        boinc_alt_platform="arm-android-linux-gnu"
         ;;
       arm*linux-android*)
         boinc_platform="arm-android-linux-gnu"
         ;;
       x86_64*linux-android)
         boinc_platform="x86_64-android-linux-gnu"
+        boinc_alt_platform="x86-android-linux-gnu"
         ;;
       i686*linux-android)
         boinc_platform="x86-android-linux-gnu"
