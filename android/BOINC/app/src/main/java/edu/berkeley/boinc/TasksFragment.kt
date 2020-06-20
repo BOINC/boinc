@@ -30,11 +30,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import edu.berkeley.boinc.adapter.TasksListAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.berkeley.boinc.adapter.TaskRecyclerViewAdapter
 import edu.berkeley.boinc.databinding.DialogConfirmBinding
 import edu.berkeley.boinc.databinding.TasksLayoutBinding
 import edu.berkeley.boinc.rpc.Result
@@ -47,7 +46,7 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 class TasksFragment : Fragment() {
-    private lateinit var listAdapter: TasksListAdapter
+    private lateinit var recyclerViewAdapter: TaskRecyclerViewAdapter
     private val data: MutableList<TaskData> = ArrayList()
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -58,11 +57,6 @@ class TasksFragment : Fragment() {
         }
     }
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
-    private val itemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-        val task = listAdapter.getItem(position)
-        task!!.expanded = !task.expanded
-        listAdapter.notifyDataSetChanged()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (Logging.DEBUG) {
@@ -70,9 +64,9 @@ class TasksFragment : Fragment() {
         }
         // Inflate the layout for this fragment
         val binding = TasksLayoutBinding.inflate(inflater, container, false)
-        listAdapter = TasksListAdapter(activity, R.id.tasks_list, data)
-        binding.tasksList.adapter = listAdapter
-        binding.tasksList.onItemClickListener = itemClickListener
+        recyclerViewAdapter = TaskRecyclerViewAdapter(this, data)
+        binding.tasksList.adapter = recyclerViewAdapter
+        binding.tasksList.layoutManager = LinearLayoutManager(context)
         return binding.root
     }
 
@@ -109,7 +103,7 @@ class TasksFragment : Fragment() {
         if (tmpA != null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
             //deep copy, so ArrayList adapter actually recognizes the difference
             updateData(tmpA)
-            listAdapter.notifyDataSetChanged() //force list adapter to refresh
+            recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
         } else {
             if (Logging.WARNING) {
                 Log.w(Logging.TAG, "loadData: array is null, rpc failed")
@@ -137,11 +131,8 @@ class TasksFragment : Fragment() {
     }
 
     inner class TaskData(var result: Result) {
-        @JvmField
-        var expanded = false
-        @JvmField
+        var isExpanded = false
         var id = result.name
-        @JvmField
         var nextState = -1
         private var loopCounter = 0
         // amount of refresh, until transition times out
@@ -179,7 +170,6 @@ class TasksFragment : Fragment() {
             }
         }
 
-        @JvmField
         val iconClickListener = View.OnClickListener { view: View ->
             try {
                 when (val operation = view.tag as Int) {
@@ -218,7 +208,7 @@ class TasksFragment : Fragment() {
                         Log.w(Logging.TAG, "could not map operation tag")
                     }
                 }
-                listAdapter.notifyDataSetChanged() //force list adapter to refresh
+                recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
             } catch (e: Exception) {
                 if (Logging.WARNING) {
                     Log.w(Logging.TAG, "failed parsing view tag")
@@ -247,7 +237,7 @@ class TasksFragment : Fragment() {
             get() = result.isActiveTask
     }
 
-    private suspend fun performResultOperation(url: String, name: String, operation: Int) = coroutineScope {
+    suspend fun performResultOperation(url: String, name: String, operation: Int) = coroutineScope {
         val success = withContext(Dispatchers.Default) {
             try {
                 if (Logging.DEBUG) {
