@@ -215,7 +215,8 @@
     <string name="prefs_disk_min_free_gb_header">Min. spare storage (GB)</string>
     <string name="prefs_disk_access_interval_header">Access interval (seconds)</string>
     <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
-    <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (days)</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (MB)</string>
+    <string name="prefs_network_daily_xfer_limit_period_days_header">Daily transfer limit (Days)</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
