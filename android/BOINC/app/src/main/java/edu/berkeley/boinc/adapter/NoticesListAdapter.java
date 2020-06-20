@@ -65,7 +65,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice> {
         assert vi != null;
         View v = vi.inflate(R.layout.notices_layout_listitem, null);
 
-        ImageView ivIcon = v.findViewById(R.id.projectIcon);
+        ImageView ivIcon = v.findViewById(R.id.project_icon);
         Bitmap icon = getIcon(position);
         // if available set icon, if not boinc logo
         if(icon == null) {

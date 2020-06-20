@@ -19,9 +19,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="2dp">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="2dp">
 
     <!-- left column -->
     <RelativeLayout
@@ -32,7 +32,7 @@
             android:background="@android:color/transparent">
 
         <ImageView
-                android:id="@+id/projectIcon"
+                android:id="@+id/project_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"
@@ -52,7 +52,7 @@
             android:layout_alignParentTop="true">
 
         <TextView
-                android:id="@+id/taskHeader"
+                android:id="@+id/task_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -75,7 +75,7 @@
                 android:orientation="horizontal">
 
             <TextView
-                    android:id="@+id/taskStatus"
+                    android:id="@+id/task_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -83,7 +83,7 @@
                     android:textColor="?android:attr/textColorPrimary"/>
 
             <TextView
-                    android:id="@+id/taskStatusPercentage"
+                    android:id="@+id/task_status_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
@@ -94,7 +94,7 @@
         </LinearLayout>
 
         <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dip"
@@ -105,7 +105,7 @@
                 android:progressDrawable="@drawable/progressbar"/>
 
         <LinearLayout
-                android:id="@+id/centerColumnExpandWrapper"
+                android:id="@+id/center_column_expand_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -126,7 +126,7 @@
                         android:textStyle="bold"/>
 
                 <TextView
-                        android:id="@+id/taskTime"
+                        android:id="@+id/task_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
@@ -192,20 +192,20 @@
             android:layout_alignParentTop="true">
 
         <ImageView
-                android:id="@+id/expandCollapse"
+                android:id="@+id/expand_collapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@drawable/ic_baseline_keyboard_arrow_right"
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right"/>
 
         <RelativeLayout
-                android:id="@+id/rightColumnExpandWrapper"
+                android:id="@+id/right_column_expand_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
             <ImageView
-                    android:id="@+id/suspendResumeTask"
+                    android:id="@+id/suspend_resume_task"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -215,7 +215,7 @@
                     android:layout_marginTop="5dp"/>
 
             <ImageView
-                    android:id="@+id/abortTask"
+                    android:id="@+id/abort_task"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -223,10 +223,10 @@
                     android:contentDescription="@drawable/ic_baseline_delete_white"
                     app:srcCompat="@drawable/ic_baseline_delete_white"
                     android:layout_marginTop="5dp"
-                    android:layout_below="@+id/suspendResumeTask"/>
+                    android:layout_below="@+id/suspend_resume_task"/>
 
             <ProgressBar
-                    android:id="@+id/request_progressBar"
+                    android:id="@+id/request_progress_bar"
                     style="?android:attr/progressBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
