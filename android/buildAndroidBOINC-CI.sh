@@ -21,7 +21,7 @@ set -e
 
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
-export NDK_VERSION=18b
+export NDK_VERSION=21d
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
