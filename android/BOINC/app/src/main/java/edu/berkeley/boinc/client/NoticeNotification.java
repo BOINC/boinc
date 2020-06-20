@@ -123,16 +123,19 @@ public class NoticeNotification {
         final NotificationCompat.Builder nb;
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
+        int smallIcon;
         int icon;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            icon = R.mipmap.ic_email_white;
+            smallIcon   = R.mipmap.ic_email_white;
+            icon        = R.mipmap.ic_launcher;
         } else {
-            icon = R.drawable.ic_baseline_email_white;
+            smallIcon   = R.drawable.ic_baseline_email_white;
+            icon        = R.drawable.ic_boinc;
         }
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(icon).
+                  setSmallIcon(smallIcon).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
@@ -143,7 +146,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
+              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, icon))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
