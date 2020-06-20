@@ -421,4 +421,6 @@
     <!-- Main notification channel (notices) -->
     <string name="main_notification_channel_name">Notices</string>
     <string name="main_notification_channel_description">Displays notices from your projects.</string>
+
+    <string name="task_aborted">Task aborted.</string>
 </resources>

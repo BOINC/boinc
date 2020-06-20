@@ -26,7 +26,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.TasksFragment
@@ -34,6 +36,7 @@ import edu.berkeley.boinc.TasksFragment.TaskData
 import edu.berkeley.boinc.databinding.TasksLayoutListItemBinding
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.time.Instant
 import java.time.LocalDateTime
@@ -44,7 +47,7 @@ import kotlin.math.roundToInt
 
 class TaskRecyclerViewAdapter(
         private val fragment: TasksFragment,
-        private val taskList: List<TasksFragment.TaskData>
+        private val taskList: MutableList<TasksFragment.TaskData>
 ) : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
     private val elapsedTimeStringBuilder = StringBuilder()
     private val percentNumberFormat = NumberFormat.getPercentInstance().apply { minimumFractionDigits = 3 }
@@ -158,9 +161,6 @@ class TaskRecyclerViewAdapter(
             } else {
                 if (item.nextState == -1) { // not waiting for new state
                     holder.suspendResumeButton.setOnClickListener(item.iconClickListener)
-                    holder.abortButton.setOnClickListener(item.iconClickListener)
-                    holder.abortButton.tag = RpcClient.RESULT_ABORT // tag on button specified operation triggered in iconClickListener
-                    holder.abortButton.visibility = View.VISIBLE
                     holder.requestProgressBar.visibility = View.GONE
                     val theme = fragment.requireActivity().theme
 
@@ -187,7 +187,6 @@ class TaskRecyclerViewAdapter(
                 } else {
                     // waiting for a new state
                     holder.suspendResumeButton.visibility = View.INVISIBLE
-                    holder.abortButton.visibility = View.INVISIBLE
                     holder.requestProgressBar.visibility = View.VISIBLE
                 }
             }
@@ -257,6 +256,18 @@ class TaskRecyclerViewAdapter(
         }
     }
 
+    fun abortTask(position: Int) {
+        val task = taskList[position]
+        task.nextState = RESULT_ABORTED
+        fragment.lifecycleScope.launch {
+            fragment.performResultOperation(task.result.projectURL, task.result.name, RpcClient.RESULT_ABORT)
+            taskList.removeAt(position)
+            notifyDataSetChanged()
+        }
+        Snackbar.make(fragment.requireActivity().findViewById<View>(R.id.drawer_layout),
+                R.string.task_aborted, Snackbar.LENGTH_SHORT).show()
+    }
+
     inner class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var isOnClickListenerBound = false
         val root = binding.root
@@ -273,7 +284,6 @@ class TaskRecyclerViewAdapter(
         val time = binding.taskTime
         val taskName = binding.taskName
         val suspendResumeButton = binding.suspendResumeTask
-        val abortButton = binding.abortTask
         val deadline = binding.deadline
     }
 }

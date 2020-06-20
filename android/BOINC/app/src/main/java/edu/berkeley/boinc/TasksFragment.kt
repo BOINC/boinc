@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc
 
-import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -29,12 +28,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.adapter.TaskRecyclerViewAdapter
-import edu.berkeley.boinc.databinding.DialogConfirmBinding
+import edu.berkeley.boinc.adapter.TaskSwipeToDeleteCallback
 import edu.berkeley.boinc.databinding.TasksLayoutBinding
 import edu.berkeley.boinc.rpc.Result
 import edu.berkeley.boinc.rpc.RpcClient
@@ -67,6 +66,11 @@ class TasksFragment : Fragment() {
         recyclerViewAdapter = TaskRecyclerViewAdapter(this, data)
         binding.tasksList.adapter = recyclerViewAdapter
         binding.tasksList.layoutManager = LinearLayoutManager(context)
+
+        ItemTouchHelper(TaskSwipeToDeleteCallback(recyclerViewAdapter)).apply {
+            attachToRecyclerView(binding.tasksList)
+        }
+
         return binding.root
     }
 
@@ -184,25 +188,6 @@ class TasksFragment : Fragment() {
                         lifecycleScope.launch {
                             performResultOperation(result.projectURL, result.name, operation)
                         }
-                    }
-                    RpcClient.RESULT_ABORT -> {
-                        val dialogBinding = DialogConfirmBinding.inflate(layoutInflater)
-                        val dialog = Dialog(activity!!).apply {
-                            requestWindowFeature(Window.FEATURE_NO_TITLE)
-                            setContentView(dialogBinding.root)
-                        }
-                        dialogBinding.title.setText(R.string.confirm_abort_task_title)
-                        dialogBinding.message.text = getString(R.string.confirm_abort_task_message, result.name)
-                        dialogBinding.confirm.setText(R.string.confirm_abort_task_confirm)
-                        dialogBinding.confirm.setOnClickListener {
-                            nextState = RESULT_ABORTED
-                            lifecycleScope.launch {
-                                performResultOperation(result.projectURL, result.name, operation)
-                            }
-                            dialog.dismiss()
-                        }
-                        dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
-                        dialog.show()
                     }
                     else -> if (Logging.WARNING) {
                         Log.w(Logging.TAG, "could not map operation tag")

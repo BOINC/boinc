@@ -214,17 +214,6 @@
                     app:srcCompat="@drawable/ic_baseline_play_arrow_white"
                     android:layout_marginTop="5dp"/>
 
-            <ImageView
-                    android:id="@+id/abort_task"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:background="@color/red"
-                    android:contentDescription="@drawable/ic_baseline_delete_white"
-                    app:srcCompat="@drawable/ic_baseline_delete_white"
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@+id/suspend_resume_task"/>
-
             <ProgressBar
                     android:id="@+id/request_progress_bar"
                     style="?android:attr/progressBarStyleSmall"
