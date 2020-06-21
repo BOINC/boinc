@@ -16,15 +16,15 @@ VERBOSE="${VERBOSE:-no}"
 export BOINC=".." #BOINC source code
 
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_X86-$ANDROID_TC/x86}"
-export TCBINARIES="$ANDROIDTC/bin"
-export TCINCLUDES="$ANDROIDTC/i686-linux-android"
-export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
+export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC}"
+export TCBINARIES="$ANDROIDTC/toolchains/llvm/prebuilt/linux-x86_64/bin"
+export TCINCLUDES="$ANDROIDTC/prebuilt/linux-x86_64/"
+export TCSYSROOT="$ANDROIDTC/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+export STDCPPTC=""
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
-export CC=i686-linux-android-clang
-export CXX=i686-linux-android-clang++
+export CC=i686-linux-android16-clang
+export CXX=i686-linux-android16-clang++
 export LD=i686-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
@@ -33,7 +33,6 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 # Prepare android toolchain and environment
-./build_androidtc_x86.sh
 
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"

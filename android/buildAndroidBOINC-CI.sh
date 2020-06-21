@@ -161,34 +161,30 @@ if [ ! -e "${CURL_FLAGFILE}" ]; then
 fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
-export ANDROID_TC=$PREFIX
+export ANDROID_TC=$NDK_ROOT
 
 export VERBOSE=$verbose
 
 case "$arch" in
     "arm")
-        ./build_androidtc_arm.sh
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
         exit 0
     ;;
     "arm64")
-        ./build_androidtc_arm64.sh
         ./build_openssl_arm64.sh
         ./build_curl_arm64.sh
         ./build_boinc_arm64.sh
         exit 0
     ;;
     "x86")
-        ./build_androidtc_x86.sh
         ./build_openssl_x86.sh
         ./build_curl_x86.sh
         ./build_boinc_x86.sh
         exit 0
     ;;
     "x86_64")
-        ./build_androidtc_x86_64.sh
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh
