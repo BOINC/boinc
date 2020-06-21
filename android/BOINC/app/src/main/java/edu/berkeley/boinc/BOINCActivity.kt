@@ -28,6 +28,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
@@ -90,10 +91,22 @@ class BOINCActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val navSet = setOf(R.id.nav_tasks, R.id.nav_notices, R.id.nav_projects, R.id.nav_add_project,
-                R.id.nav_preferences, R.id.nav_about, R.id.nav_event_log)
+                R.id.nav_preferences, R.id.nav_help, R.id.nav_report_issue, R.id.nav_about, R.id.nav_event_log)
         appBarConfiguration = AppBarConfiguration(navSet, binding.drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        val navMenu = binding.navView.menu
+        // Help
+        navMenu[5].setOnMenuItemClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
+            return@setOnMenuItemClickListener true
+        }
+        // Report Issue
+        navMenu[6].setOnMenuItemClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
+            return@setOnMenuItemClickListener true
+        }
 
         //bind monitor service
         doBindService()

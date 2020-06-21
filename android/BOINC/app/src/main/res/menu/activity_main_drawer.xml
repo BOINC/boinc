@@ -46,6 +46,10 @@
                 android:icon="@drawable/ic_baseline_help"
                 android:title="@string/menu_help" />
         <item
+                android:id="@+id/nav_report_issue"
+                android:icon="@drawable/ic_baseline_bug_report"
+                android:title="@string/menu_report_issue" />
+        <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_baseline_info"
                 android:title="@string/menu_about" />
