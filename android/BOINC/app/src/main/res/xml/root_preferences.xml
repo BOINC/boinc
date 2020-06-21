@@ -207,7 +207,7 @@
 
         <SeekBarPreference
                 android:max="100"
-                app:defaultValue="90"
+                app:defaultValue="50"
                 app:iconSpaceReserved="false"
                 app:key="maxRamUsedIdle"
                 app:min="0"
