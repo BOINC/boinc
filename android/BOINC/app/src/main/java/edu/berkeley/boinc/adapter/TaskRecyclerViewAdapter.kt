@@ -18,12 +18,14 @@
  */
 package edu.berkeley.boinc.adapter
 
+import android.app.Dialog
 import android.graphics.Bitmap
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +35,7 @@ import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.TasksFragment
 import edu.berkeley.boinc.TasksFragment.TaskData
+import edu.berkeley.boinc.databinding.DialogConfirmBinding
 import edu.berkeley.boinc.databinding.TasksLayoutListItemBinding
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
@@ -60,13 +63,10 @@ class TaskRecyclerViewAdapter(
     override fun getItemCount() = taskList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (!holder.isOnClickListenerBound) {
-            holder.root.setOnClickListener {
-                val taskData = taskList[position]
-                taskData.isExpanded = !taskData.isExpanded
-                notifyDataSetChanged()
-            }
-            holder.isOnClickListenerBound = true
+        holder.root.setOnClickListener {
+            val taskData = taskList[position]
+            taskData.isExpanded = !taskData.isExpanded
+            notifyDataSetChanged()
         }
 
         val item = taskList[position]
@@ -258,18 +258,30 @@ class TaskRecyclerViewAdapter(
 
     fun abortTask(position: Int) {
         val task = taskList[position]
-        task.nextState = RESULT_ABORTED
-        fragment.lifecycleScope.launch {
-            fragment.performResultOperation(task.result.projectURL, task.result.name, RpcClient.RESULT_ABORT)
-            taskList.removeAt(position)
-            notifyDataSetChanged()
+        val dialogBinding = DialogConfirmBinding.inflate(fragment.layoutInflater)
+        val dialog = Dialog(fragment.requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(dialogBinding.root)
         }
-        Snackbar.make(fragment.requireActivity().findViewById<View>(R.id.drawer_layout),
-                R.string.task_aborted, Snackbar.LENGTH_SHORT).show()
+        dialogBinding.title.setText(R.string.confirm_abort_task_title)
+        dialogBinding.message.text = fragment.getString(R.string.confirm_abort_task_message, task.result.name)
+        dialogBinding.confirm.setText(R.string.confirm_abort_task_confirm)
+        dialogBinding.confirm.setOnClickListener {
+            task.nextState = RESULT_ABORTED
+            fragment.lifecycleScope.launch {
+                fragment.performResultOperation(task.result.projectURL, task.result.name, RpcClient.RESULT_ABORT)
+                taskList.removeAt(position)
+                notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            Snackbar.make(fragment.requireActivity().findViewById<View>(R.id.drawer_layout),
+                    R.string.task_aborted, Snackbar.LENGTH_SHORT).show()
+        }
+        dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     inner class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        var isOnClickListenerBound = false
         val root = binding.root
         val projectIcon = binding.projectIcon
         val header = binding.taskHeader
