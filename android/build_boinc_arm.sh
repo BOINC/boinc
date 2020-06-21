@@ -20,7 +20,7 @@ export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC}"
 export TCBINARIES="$ANDROIDTC/toolchains/llvm/prebuilt/linux-x86_64/bin"
 export TCINCLUDES="$ANDROIDTC/prebuilt/linux-x86_64/"
 export TCSYSROOT="$ANDROIDTC/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
-export STDCPPTC=""
+export STDCPPTC="$TCSYSROOT/usr/lib/arm-linux-androideabi/16/libstdc++.a"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=armv7a-linux-androideabi16-clang
