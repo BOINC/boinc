@@ -24,10 +24,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import edu.berkeley.boinc.adapter.ClientLogListAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.berkeley.boinc.adapter.ClientLogRecyclerViewAdapter
 import edu.berkeley.boinc.databinding.EventLogClientLayoutBinding
 import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.utils.Logging
@@ -46,9 +46,9 @@ class EventLogClientFragment : Fragment() {
         activity = getActivity() as EventLogActivity
         val binding = EventLogClientLayoutBinding.inflate(inflater, container, false)
         activity.clientLogList = binding.clientLogList
-        activity.clientLogListAdapter = ClientLogListAdapter(getActivity(), activity.clientLogList,
-                R.id.clientLogList, activity.clientLogData)
-        activity.clientLogList.setOnScrollListener(EndlessScrollListener(5))
+        activity.clientLogRecyclerViewAdapter = ClientLogRecyclerViewAdapter(activity.clientLogData)
+        activity.clientLogList.layoutManager = LinearLayoutManager(context)
+        activity.clientLogList.adapter = activity.clientLogRecyclerViewAdapter
         return binding.root
     }
 
@@ -62,27 +62,6 @@ class EventLogClientFragment : Fragment() {
         lifecycleScope.launch {
             retrieveRecentClientMessages() // refresh messages
         }
-    }
-
-    // onScrollListener for list view, implementing "endless scrolling"
-    inner class EndlessScrollListener(private val visibleThreshold: Int) : AbsListView.OnScrollListener {
-        private var previousTotal = 0
-        private var loading = true
-
-        override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-            if (loading && totalItemCount > previousTotal) {
-                loading = false
-                previousTotal = totalItemCount
-            }
-            if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
-                lifecycleScope.launch {
-                    retrievePastClientMessages()
-                }
-                loading = true
-            }
-        }
-
-        override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {}
     }
 
     private suspend fun retrieveRecentClientMessages() {
@@ -109,7 +88,7 @@ class EventLogClientFragment : Fragment() {
                     Log.e(Logging.TAG, "EventLogClientFragment.loadRecentMsgs error: ", e)
                 }
             } //IndexOutOfBoundException
-            activity.clientLogListAdapter.notifyDataSetChanged()
+            activity.clientLogRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -152,7 +131,7 @@ class EventLogClientFragment : Fragment() {
                     Log.e(Logging.TAG, "EventLogClientFragment.loadPastMsgs error: ", e)
                 }
             } //IndexOutOfBoundException
-            activity.clientLogListAdapter.notifyDataSetChanged()
+            activity.clientLogRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
 }
