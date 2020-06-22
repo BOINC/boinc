@@ -23,13 +23,13 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +63,11 @@ public class NoticeNotification {
         this.persistentStorage = persistentStorage;
         this.nm = ContextCompat.getSystemService(this.context, NotificationManager.class);
         notificationId = this.context.getResources().getInteger(R.integer.notice_notification_id);
-        Intent intent = new Intent(this.context, BOINCActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("targetFragment", R.string.tab_notices);
-        contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        contentIntent = new NavDeepLinkBuilder(context)
+                .setComponentName(BOINCActivity.class)
+                .setGraph(R.navigation.main_navigation_graph)
+                .setDestination(R.id.nav_notices)
+                .createPendingIntent();
     }
 
     /**
