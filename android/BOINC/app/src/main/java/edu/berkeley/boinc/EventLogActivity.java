@@ -29,8 +29,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -43,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.berkeley.boinc.adapter.ClientLogRecyclerViewAdapter;
+import edu.berkeley.boinc.adapter.GuiLogRecyclerViewAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
@@ -56,8 +55,8 @@ public class EventLogActivity extends AppCompatActivity {
     public ClientLogRecyclerViewAdapter clientLogRecyclerViewAdapter;
     public List<Message> clientLogData = new ArrayList<>();
 
-    public ListView guiLogList;
-    public ArrayAdapter<String> guiLogListAdapter;
+    public RecyclerView guiLogList;
+    public GuiLogRecyclerViewAdapter guiLogRecyclerViewAdapter;
     public List<String> guiLogData = new ArrayList<>();
 
     private List<EventLogActivityTabListener<?>> listeners = new ArrayList<>();

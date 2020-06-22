@@ -23,15 +23,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import edu.berkeley.boinc.adapter.GuiLogRecyclerViewAdapter;
 import edu.berkeley.boinc.databinding.EventLogGuiLayoutBinding;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
@@ -46,8 +47,9 @@ public class EventLogGuiFragment extends Fragment {
         final EventLogGuiLayoutBinding binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
 
         a.guiLogList = binding.guiLogList;
-        a.guiLogListAdapter = new ArrayAdapter<>(requireActivity(), R.layout.eventlog_gui_listitem_layout, a.guiLogData);
-        a.guiLogList.setAdapter(a.guiLogListAdapter);
+        a.guiLogRecyclerViewAdapter = new GuiLogRecyclerViewAdapter(a.guiLogData);
+        a.guiLogList.setLayoutManager(new LinearLayoutManager(getContext()));
+        a.guiLogList.setAdapter(a.guiLogRecyclerViewAdapter);
 
         // read messages
         readLogcat();
@@ -100,7 +102,7 @@ public class EventLogGuiFragment extends Fragment {
             if(Logging.VERBOSE) {
                 Log.v(Logging.TAG, "readLogcat read " + a.guiLogData.size() + " lines.");
             }
-            a.guiLogListAdapter.notifyDataSetChanged();
+            a.guiLogRecyclerViewAdapter.notifyDataSetChanged();
         }
         catch(IOException e) {
             if(Logging.WARNING) {
