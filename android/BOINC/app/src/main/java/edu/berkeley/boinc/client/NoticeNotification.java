@@ -123,18 +123,19 @@ public class NoticeNotification {
         final NotificationCompat.Builder nb;
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
+        int smallIcon;
         int icon;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            icon = R.mipmap.ic_mail;
-        }
-        else
-        {
-            icon = R.drawable.ic_baseline_email_white;
+            smallIcon   = R.mipmap.ic_email_white;
+            icon        = R.mipmap.ic_launcher;
+        } else {
+            smallIcon   = R.drawable.ic_baseline_email_white;
+            icon        = R.drawable.ic_boinc;
         }
         nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(context.getResources().getQuantityString(
                 R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(icon).
+                  setSmallIcon(smallIcon).
                   setAutoCancel(true).
                   setContentIntent(this.contentIntent);
         if(notices == 1) {
@@ -145,7 +146,7 @@ public class NoticeNotification {
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc))
+              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, icon))
               .setSubText(this.context.getString(R.string.app_name));
 
             // append notice titles to list
@@ -162,6 +163,12 @@ public class NoticeNotification {
 
     private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap;
+        int icon;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            icon = R.mipmap.ic_launcher;
+        } else {
+            icon = R.drawable.ic_boinc;
+        }
         try {
             return (projectIconBitmap = clientStatus.getProjectIconByName(projectName)) != null ?
                    Bitmap.createScaledBitmap(
@@ -170,7 +177,7 @@ public class NoticeNotification {
                            projectIconBitmap.getHeight() << 1,
                            false
                    ) :
-                   BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+                   BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
         catch(Exception e) {
             if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
@@ -180,7 +187,7 @@ public class NoticeNotification {
                         e
                 );
             }
-            return BOINCUtils.getBitmapFromVectorDrawable(context, R.drawable.ic_boinc);
+            return BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
     }
 }
