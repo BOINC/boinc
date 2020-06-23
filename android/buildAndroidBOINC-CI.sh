@@ -161,7 +161,8 @@ if [ ! -e "${CURL_FLAGFILE}" ]; then
 fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
-export ANDROID_TC=$NDK_ROOT
+export ANDROID_TC=$PREFIX
+export ANDROID_NDK=$NDK_ROOT
 
 export VERBOSE=$verbose
 
