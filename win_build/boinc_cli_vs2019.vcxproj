@@ -42,12 +42,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</EmbedManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EmbedManifest>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -56,6 +53,13 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\$(ProjectName)\obj\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -95,7 +99,6 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;nvapi.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;Iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
-      <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/debug/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -155,7 +158,6 @@
     <Link>
       <AdditionalDependencies>zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;nvapi.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
-      <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -311,4 +313,5 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Import Project="boinc_signing.targets" />
 </Project>
