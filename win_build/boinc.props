@@ -1,4 +1,4 @@
-<Project>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <VcpkgRootDir Condition="'$(VcpkgRootDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\Windows\vcpkg</VcpkgRootDir>
         <VcpkgExe>$(VcpkgRootDir)\vcpkg.exe</VcpkgExe>

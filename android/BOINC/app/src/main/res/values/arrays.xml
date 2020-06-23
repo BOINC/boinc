@@ -16,15 +16,13 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-    <string-array name="theme_entries">
-        <item>@string/prefs_theme_battery_saver</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="theme_entries" tools:ignore="InconsistentArrays">
         <item>@string/prefs_theme_light</item>
         <item>@string/prefs_theme_dark</item>
     </string-array>
 
-    <string-array name="theme_values" translatable="false">
-        <item>default</item>
+    <string-array name="theme_values" translatable="false" tools:ignore="InconsistentArrays">
         <item>light</item>
         <item>dark</item>
     </string-array>

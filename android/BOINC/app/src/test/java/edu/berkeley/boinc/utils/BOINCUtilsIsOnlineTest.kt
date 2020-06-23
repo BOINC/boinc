@@ -17,26 +17,26 @@ import org.robolectric.annotation.Config
 class BOINCUtilsIsOnlineTest {
     @Spy
     private val connectivityManager = InstrumentationRegistry.getInstrumentation().context
-            .getSystemService<ConnectivityManager>()
+            .getSystemService<ConnectivityManager>()!!
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
     }
 
-    @Config(minSdk = Build.VERSION_CODES.KITKAT, maxSdk = Build.VERSION_CODES.LOLLIPOP_MR1)
+    @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Test
     fun `Expect isOnline property to call getActiveNetworkInfo() when API level is below 23`() {
-        connectivityManager!!.isOnline
+        connectivityManager.isOnline
 
-        Mockito.verify(connectivityManager)!!.activeNetworkInfo
+        Mockito.verify(connectivityManager).activeNetworkInfo
     }
 
     @Config(minSdk = Build.VERSION_CODES.M, maxSdk = Build.VERSION_CODES.P)
     @Test
     fun `Expect isOnline property to call getActiveNetwork() when API level is 23 or higher`() {
-        connectivityManager!!.isOnline
+        connectivityManager.isOnline
 
-        Mockito.verify(connectivityManager)!!.activeNetwork
+        Mockito.verify(connectivityManager).activeNetwork
     }
 }

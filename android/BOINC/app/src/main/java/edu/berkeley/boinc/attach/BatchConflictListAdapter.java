@@ -71,7 +71,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
         ImageView statusImage = v.findViewById(R.id.status_image);
         ProgressBar statusPb = v.findViewById(R.id.status_pb);
         RelativeLayout itemWrapper = v.findViewById(R.id.resolve_item_wrapper);
-        if(listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
+        if(listItem.result == ProjectAttachService.RESULT_SUCCESS) {
             // success
             status.setVisibility(View.GONE);
             resolveIv.setVisibility(View.GONE);
@@ -79,15 +79,15 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
             statusImage.setVisibility(View.VISIBLE);
             statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_baseline_check));
         }
-        else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING ||
-                listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED) {
+        else if(listItem.result == ProjectAttachService.RESULT_ONGOING ||
+                listItem.result == ProjectAttachService.RESULT_UNINITIALIZED) {
             // ongoing
             status.setVisibility(View.GONE);
             resolveIv.setVisibility(View.GONE);
             statusImage.setVisibility(View.GONE);
             statusPb.setVisibility(View.VISIBLE);
         }
-        else if(listItem.result == ProjectAttachWrapper.RESULT_READY) {
+        else if(listItem.result == ProjectAttachService.RESULT_READY) {
             // ready
             status.setVisibility(View.VISIBLE);
             status.setText(listItem.getResultDescription());
@@ -100,7 +100,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
                 dialog.show(fmgr, listItem.name);
             });
         }
-        else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
+        else if(listItem.result == ProjectAttachService.RESULT_CONFIG_DOWNLOAD_FAILED) {
             // download failed, can not continue from here.
             // if user wants to retry, need to go back to selection activity
             status.setVisibility(View.VISIBLE);

@@ -19,7 +19,6 @@
 package edu.berkeley.boinc
 
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
@@ -40,17 +39,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private lateinit var light: String
     private lateinit var dark: String
-    private lateinit var battery: String
     private lateinit var system: String
 
     override fun onResume() {
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-        val theme = sharedPreferences.getString("theme", "default")!!
-        findPreference<ListPreference>("theme")?.summary = getThemeString(theme)
     }
 
     override fun onPause() {
@@ -61,7 +54,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         light = getString(R.string.prefs_theme_light)
         dark = getString(R.string.prefs_theme_dark)
-        battery = getString(R.string.prefs_theme_battery_saver)
         system = getString(R.string.prefs_theme_system)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -107,11 +99,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
             "suspendWhenScreenOn" -> BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key, true)
             "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
-            "theme" -> {
-                val theme = sharedPreferences.getString(key, "default")!!
-                findPreference<ListPreference>(key)?.summary = getThemeString(theme)
-                setAppTheme(theme)
-            }
+            "theme" -> setAppTheme(sharedPreferences.getString(key, "light")!!)
 
             // Network
             "networkWiFiOnly" -> {
@@ -119,9 +107,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
-            "dailyTransferLimit" -> {
-                val dailyTransferLimit = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
-                prefs.dailyTransferLimitMB = dailyTransferLimit?.toDouble() ?: 1.0
+            "dailyTransferLimitMB" -> {
+                val dailyTransferLimitMB = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
+                prefs.dailyTransferLimitMB = dailyTransferLimitMB?.toDouble() ?: 0.0
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "dailyTransferPeriodDays" -> {
+                val dailyTransferPeriodDays = sharedPreferences.getString(key, prefs.dailyTransferPeriodDays.toString())
+                prefs.dailyTransferPeriodDays = dailyTransferPeriodDays?.toInt() ?: 0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -188,7 +182,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Memory
             "maxRamUsedIdle" -> {
-                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 90).toDouble()
+                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 50).toDouble() / 100.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -219,14 +213,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
-    private fun getThemeString(string: String): String {
-        return when (string) {
-            "light" -> light
-            "dark" -> dark
-            else -> if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) battery else system
-        }
-    }
-
     private fun pctCpuCoresToNumber(hostInfo: HostInfo, pct: Double) =
             1.0.coerceAtLeast(hostInfo.noOfCPUs.toDouble() * (pct / 100.0)).toInt()
 
@@ -245,7 +231,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private fun setAdvancedPreferencesVisibility() {
         val showAdvanced = BOINCActivity.monitor!!.showAdvanced
 
-        findPreference<EditTextPreference>("dailyTransferLimit")?.isVisible = showAdvanced
+        findPreference<EditTextPreference>("dailyTransferLimitMB")?.isVisible = showAdvanced
+        findPreference<EditTextPreference>("dailyTransferPeriodDays")?.isVisible = showAdvanced
 
         findPreference<PreferenceCategory>("cpu")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("storage")?.isVisible = showAdvanced

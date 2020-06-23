@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -170,8 +171,8 @@ public class ClientNotification {
         // build notification
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
-          .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
+          .setSmallIcon(getIcon(computingStatus, true))
+          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus, false)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
@@ -227,16 +228,34 @@ public class ClientNotification {
     }
 
     // returns resource id of icon
-    private int getIcon(int status) {
+    private int getIcon(int status, boolean isSmall) {
         int icon;
         switch(status) {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_boinc_paused;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_paused_white;
+                    } else {
+                        icon = R.mipmap.ic_boinc_paused_notification;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc_paused;
+                }
                 break;
             default:
-                icon = R.drawable.ic_boinc;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_white;
+                    } else {
+                        icon = R.mipmap.ic_launcher;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc;
+                }
         }
         return icon;
     }
