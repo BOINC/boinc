@@ -17,9 +17,9 @@ CURL="${CURL_SRC:-$HOME/src/curl-7.61.0}" #CURL sources, required by BOINC
 
 export ANDROID_NDK="${ANDROID_NDK:-$HOME/android-ndk}"
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC}"
+export ANDROIDTC="${ANDROID_TC_X86-$ANDROID_TC/x86}"
 export TCBINARIES="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
-export TCINCLUDES="$ANDROIDTC/x86/i686-linux-android"
+export TCINCLUDES="$ANDROIDTC/i686-linux-android"
 export TCSYSROOT="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
 export STDCPPTC=""
 
