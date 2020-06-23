@@ -28,7 +28,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import edu.berkeley.boinc.adapter.NoticesListAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.berkeley.boinc.adapter.NoticesRecyclerViewAdapter
 import edu.berkeley.boinc.databinding.NoticesLayoutBinding
 import edu.berkeley.boinc.rpc.Notice
 import edu.berkeley.boinc.utils.Logging
@@ -42,14 +43,14 @@ class NoticesFragment : Fragment() {
             }
 
             // data retrieval
-            updateNotices()
-            noticesListAdapter.clear()
-            noticesListAdapter.addAll(data)
-            noticesListAdapter.notifyDataSetChanged()
+            val notices = updateNotices()
+            data.clear()
+            data.addAll(notices)
+            noticesRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
 
-    private lateinit var noticesListAdapter: NoticesListAdapter
+    private lateinit var noticesRecyclerViewAdapter: NoticesRecyclerViewAdapter
     private var data: MutableList<Notice> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,10 +58,10 @@ class NoticesFragment : Fragment() {
             Log.d(Logging.TAG, "NoticesFragment onCreateView")
         }
         val binding = NoticesLayoutBinding.inflate(inflater, container, false)
-        updateNotices()
 
-        noticesListAdapter = NoticesListAdapter(activity, R.id.noticesList, data)
-        binding.noticesList.adapter = noticesListAdapter
+        noticesRecyclerViewAdapter = NoticesRecyclerViewAdapter(this, data)
+        binding.noticesList.adapter = noticesRecyclerViewAdapter
+        binding.noticesList.layoutManager = LinearLayoutManager(context)
         return binding.root
     }
 
@@ -90,15 +91,15 @@ class NoticesFragment : Fragment() {
         super.onPause()
     }
 
-    private fun updateNotices() {
-        try {
-            data = BOINCActivity.monitor!!.rssNotices
-            // sorting policy: latest arrival first.
-            data.sortWith(compareBy<Notice> { it.createTime }.reversed())
+    private fun updateNotices(): List<Notice> {
+        return try {
+            BOINCActivity.monitor!!.rssNotices.sortedWith(compareBy<Notice> { it.createTime }
+                    .reversed())
         } catch (e: Exception) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)
             }
+            emptyList()
         }
     }
 }
