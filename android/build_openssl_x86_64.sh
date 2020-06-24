@@ -58,5 +58,8 @@ s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         make SHELL="/bin/bash -x"
         make install_sw SHELL="/bin/bash -x"
     fi
+    if  [ ! -z ${OPENSSL_FLAGFILE} ]; then
+        touch "${OPENSSL_FLAGFILE}"
+    fi
     echo "===== openssl for x86-64 build done ====="
 fi

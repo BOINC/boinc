@@ -54,5 +54,8 @@ if [ "$COMPILECURL" = "yes" ]; then
         make SHELL="/bin/bash -x"
         make install SHELL="/bin/bash -x"
     fi
+    if  [ ! -z ${CURL_FLAGFILE} ]; then
+        touch "${CURL_FLAGFILE}"
+    fi
     echo "===== curl for arm build done ====="
 fi
