@@ -33,20 +33,22 @@
 
         <ImageView
                 android:id="@+id/status_image"
-                android:tint="?attr/colorControlNormal"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"/>
+                android:tint="?attr/colorControlNormal"
+                android:visibility="gone" />
 
         <ProgressBar
                 android:id="@+id/status_pb"
+                style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleSmall"
-                android:background="@android:color/transparent"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"/>
+                android:background="@android:color/transparent"
+                android:visibility="gone" />
 
     </LinearLayout>
 
@@ -54,10 +56,12 @@
             android:id="@+id/text_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/resolve_button_image"
+            android:layout_toLeftOf="@+id/resolve_button_image"
+            android:layout_toEndOf="@+id/visual_status_wrapper"
             android:layout_toRightOf="@+id/visual_status_wrapper"
-            android:layout_toLeftOf="@+id/resolve_button_image">
+            android:orientation="vertical">
 
         <TextView
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -77,8 +81,9 @@
             android:id="@+id/resolve_button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            app:srcCompat="@drawable/ic_baseline_arrow_forward" />
 
 </RelativeLayout>

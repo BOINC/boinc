@@ -47,14 +47,15 @@
             android:id="@+id/continue_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/generic_button_continue"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/url_input"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
             android:background="@drawable/shape_button_blue"
             android:minWidth="150dp"
             android:padding="5dp"
-            android:layout_below="@+id/url_input"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"/>
+            android:text="@string/generic_button_continue"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
 
 </RelativeLayout>
