@@ -1476,7 +1476,7 @@ int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
-        memset(&server, 0, sizeof(server));
+        memset(static_cast<void*>(&server), 0, sizeof(server));
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</server_version>")) break;
             else if (parse_int(buf, "<major>", server.major)) continue;

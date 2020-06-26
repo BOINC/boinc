@@ -431,7 +431,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
+        memset(static_cast<void*>(&h), 0, sizeof(h));
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
