@@ -845,11 +845,21 @@ AC_CHECK_HEADER(net/if_arp.h, [], [], [[
 #endif
 ]])
 
-AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
+AC_CHECK_HEADERS(sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
 ]])
+
+dnl check for broken Linux sysctl.h that causes deprecation warnings
+saved_sysctl_h_CFLAGS=$CFLAGS
+test "x${GCC}" != xyes || CFLAGS="$CFLAGS -Werror"
+AC_CHECK_HEADERS([sys/sysctl.h], [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+CFLAGS=$saved_sysctl_h_CFLAGS
 
 AC_CHECK_HEADER(resolv.h, [], [], [[
 #ifdef HAVE_NETINET_IN_H
