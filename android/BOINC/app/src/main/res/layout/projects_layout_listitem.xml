@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:background="@drawable/shape_yellow_background"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:padding="3dip"
                 android:layout_marginBottom="5dip"
