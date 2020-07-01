@@ -32,7 +32,7 @@
             android:background="@android:color/transparent">
 
         <ImageView
-                android:id="@+id/projectIcon"
+                android:id="@+id/project_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"

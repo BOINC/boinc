@@ -17,7 +17,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/projectsRow"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
@@ -30,7 +29,7 @@
             android:background="@android:color/transparent">
 
         <ImageView
-                android:id="@+id/projectIcon"
+                android:id="@+id/project_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="fitCenter"
@@ -53,21 +52,21 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
-                android:id="@+id/noticeTitle"
+                android:id="@+id/notice_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginBottom="5dp"/>
 
         <TextView
-                android:id="@+id/noticeContent"
+                android:id="@+id/notice_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_marginBottom="5dp"/>
 
         <TextView
-                android:id="@+id/noticeTime"
+                android:id="@+id/notice_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
