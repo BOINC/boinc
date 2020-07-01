@@ -65,6 +65,9 @@ class Monitor : LifecycleService() {
     @Inject
     lateinit var clientInterface: ClientInterfaceImplementation
 
+    @Inject
+    lateinit var clientNotification: ClientNotification
+
     //holds the status of the client as determined by the Monitor
     @Inject
     lateinit var clientStatus: ClientStatus
@@ -354,7 +357,7 @@ class Monitor : LifecycleService() {
             if (Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): computation enabled: $computing")
             clientStatus.setWifiLock(computing)
             clientStatus.setWakeLock(computing)
-            ClientNotification.getInstance(applicationContext).update(clientStatus, this, computing)
+            clientNotification.update(clientStatus, this, computing)
         } catch (e: Exception) {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "Monitor.readClientStatus exception: " + e.message, e)
