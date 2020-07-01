@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc.attach
+package edu.berkeley.boinc.adapter
 
 import edu.berkeley.boinc.rpc.ProjectInfo
 
-internal class ProjectListEntry {
+class ProjectListEntry {
     var info: ProjectInfo? = null
         private set
     var isChecked = false

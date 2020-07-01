@@ -77,9 +77,9 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
 
             // retrieve data
             val results = attachService!!.selectedProjects
-            listAdapter = BatchConflictListAdapter(this@BatchConflictListActivity, R.id.listview,
+            listAdapter = BatchConflictListAdapter(this@BatchConflictListActivity, R.id.list_view,
                     results, supportFragmentManager)
-            binding.listview.adapter = listAdapter
+            binding.listView.adapter = listAdapter
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size + " elements.")
             }
