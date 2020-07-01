@@ -29,19 +29,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBar.Tab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.berkeley.boinc.adapter.ClientLogListAdapter;
+import edu.berkeley.boinc.adapter.ClientLogRecyclerViewAdapter;
+import edu.berkeley.boinc.adapter.GuiLogRecyclerViewAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
@@ -51,13 +51,12 @@ public class EventLogActivity extends AppCompatActivity {
     private IMonitor monitor;
     private boolean mIsBound = false;
 
-    public EventLogClientFragment clientFrag;
-    public ListView clientLogList;
-    public ClientLogListAdapter clientLogListAdapter;
+    public RecyclerView clientLogList;
+    public ClientLogRecyclerViewAdapter clientLogRecyclerViewAdapter;
     public List<Message> clientLogData = new ArrayList<>();
 
-    public ListView guiLogList;
-    public ArrayAdapter<String> guiLogListAdapter;
+    public RecyclerView guiLogList;
+    public GuiLogRecyclerViewAdapter guiLogRecyclerViewAdapter;
     public List<String> guiLogData = new ArrayList<>();
 
     private List<EventLogActivityTabListener<?>> listeners = new ArrayList<>();
@@ -242,12 +241,12 @@ public class EventLogActivity extends AppCompatActivity {
         int type = getActiveLog();
         if(type == CLIENT_LOG_TAB_ACTIVE) {
             text.append(getString(R.string.eventlog_client_header)).append("\n\n");
-            for(int index = 0; index < clientLogList.getCount(); index++) {
-                text.append(clientLogListAdapter.getDateTimeString(index));
+            for(int index = 0; index < clientLogList.getChildCount(); index++) {
+                text.append(clientLogRecyclerViewAdapter.getDateTimeString(index));
                 text.append("|");
-                text.append(clientLogListAdapter.getProject(index));
+                text.append(clientLogRecyclerViewAdapter.getProject(index));
                 text.append("|");
-                text.append(clientLogListAdapter.getMessage(index));
+                text.append(clientLogRecyclerViewAdapter.getMessage(index));
                 text.append("\n");
             }
         }

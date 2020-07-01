@@ -21,8 +21,8 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <ListView
-            android:id="@+id/clientLogList"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/client_log_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
