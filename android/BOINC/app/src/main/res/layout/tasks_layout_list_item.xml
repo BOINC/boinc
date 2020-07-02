@@ -45,11 +45,14 @@
             android:id="@+id/centerColumnWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
-            android:orientation="vertical"
-            android:layout_toRightOf="@+id/icon_background"
+            android:layout_toStartOf="@+id/rightColumnWrapper"
             android:layout_toLeftOf="@+id/rightColumnWrapper"
-            android:layout_alignParentTop="true">
+            android:layout_toEndOf="@+id/icon_background"
+            android:layout_toRightOf="@+id/icon_background"
+            android:orientation="vertical">
 
         <TextView
                 android:id="@+id/task_header"
@@ -86,11 +89,12 @@
                     android:id="@+id/task_status_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dip"
                     android:layout_marginLeft="10dip"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
         </LinearLayout>
 
         <ProgressBar
@@ -120,18 +124,20 @@
                         android:id="@+id/taskTimeLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="5dp"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_elapsed_time"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 <TextView
                         android:id="@+id/task_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="10dp"
                         android:paddingRight="10dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="?android:attr/textColorPrimary"/>
+                        android:textColor="?android:attr/textColorPrimary" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,10 +149,11 @@
                         android:id="@+id/taskNameLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="5dp"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_name"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 <TextView
                         android:id="@+id/taskName"
@@ -165,10 +172,11 @@
                         android:id="@+id/deadlineLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="5dp"
                         android:paddingRight="5dp"
                         android:text="@string/tasks_header_deadline"
                         android:textColor="?android:attr/textColorPrimary"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 <TextView
                         android:id="@+id/deadline"
@@ -187,9 +195,10 @@
             android:id="@+id/rightColumnWrapper"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true">
+            android:orientation="vertical">
 
         <ImageView
                 android:id="@+id/expand_collapse"

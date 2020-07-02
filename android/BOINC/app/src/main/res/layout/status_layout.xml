@@ -80,11 +80,12 @@
 
         <ProgressBar
                 android:id="@+id/restarting_progressBar"
+                style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleSmall"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
 
         <TextView
                 android:id="@+id/restarting_text"
