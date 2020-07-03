@@ -153,6 +153,7 @@ if [ $ci = "yes" ]; then
     createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
+        export CREATED_NDK_FOLDER="no"
         createNDKFolder
         touch "${NDK_FLAGFILE}"
     fi
