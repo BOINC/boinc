@@ -149,7 +149,7 @@ createNDKFolder()
     fi
 }
 
-if [ ci = "yes" ]; then
+if [ $ci = "yes" ]; then
     if [ ! -e "${NDK_FLAGFILE}" ]; then
         rm -rf $OPENSSL_FLAGFILE
         rm -rf $CURL_FLAGFILE
