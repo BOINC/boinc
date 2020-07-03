@@ -316,8 +316,7 @@ class ProjectsFragment : Fragment() {
             }
 
             // list adapter
-            dialogBinding.options.adapter = ProjectControlsListAdapter(activity, dialogBinding.options,
-                    R.layout.projects_controls_listitem_layout, controls)
+            dialogBinding.options.adapter = ProjectControlsListAdapter(activity, controls)
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "dialog list adapter entries: " + controls.size)
             }
