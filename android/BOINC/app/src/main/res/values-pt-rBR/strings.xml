@@ -29,7 +29,7 @@
   <string name="attachproject_conflict_unknown_user">Conta não existe</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Conta inexistente, visite o site do projeto para se registrar</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Anexando</string>
+  <string name="attachproject_working_attaching">Anexando %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Dica</string>

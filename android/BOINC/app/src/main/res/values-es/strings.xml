@@ -33,7 +33,7 @@
         para registrarte
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Adjuntando</string>
+    <string name="attachproject_working_attaching">Adjuntando %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Sugerencia</string>

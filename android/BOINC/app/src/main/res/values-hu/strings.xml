@@ -33,7 +33,7 @@
         weboldalát a regisztráláshoz
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Csatolás</string>
+    <string name="attachproject_working_attaching">Csatolás %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Tipp</string>

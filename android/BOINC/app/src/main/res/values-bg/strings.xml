@@ -31,7 +31,7 @@
         проекта, за да се регистрирате.
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Присъединяване</string>
+    <string name="attachproject_working_attaching">Присъединяване %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Подсказка</string>

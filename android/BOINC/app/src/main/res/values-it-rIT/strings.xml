@@ -31,7 +31,7 @@
         per registrarti
     </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Connessione in corso</string>
+  <string name="attachproject_working_attaching">Connessione in corso %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Consiglio</string>

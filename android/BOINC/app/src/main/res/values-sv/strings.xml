@@ -30,7 +30,7 @@
   <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida
 för att registrera ett konto</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Bifogar</string>
+  <string name="attachproject_working_attaching">Bifogar %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Tips</string>

@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">Hesap yok</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap yok, kayıt için proje web sitesini ziyaret edin</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Ekleniyor</string>
+    <string name="attachproject_working_attaching">Ekleniyor %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">İpucu</string>

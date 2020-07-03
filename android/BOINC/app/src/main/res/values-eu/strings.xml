@@ -31,7 +31,7 @@
 izena emateko
 </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Gehitzen</string>
+  <string name="attachproject_working_attaching">Gehitzen %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Gogoragarria</string>

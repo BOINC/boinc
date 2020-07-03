@@ -33,7 +33,7 @@
         projecte per registrar-te-hi
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Adjuntant</string>
+    <string name="attachproject_working_attaching">Adjuntant %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Ajuda</string>

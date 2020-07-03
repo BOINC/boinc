@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">Contul nu există</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului pentru înregistrare</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Se atașează</string>
+    <string name="attachproject_working_attaching">Se atașează %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Sugestie</string>

@@ -30,7 +30,7 @@
     <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">מצרף</string>
+    <string name="attachproject_working_attaching">מצרף %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">רמז</string>

@@ -31,7 +31,7 @@
         للتسجيل
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">جاري رفق</string>
+    <string name="attachproject_working_attaching">جاري رفق %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">ملحوظة</string>

@@ -31,7 +31,7 @@
     <string name="attachproject_conflict_unknown_user">Nalog ne postoji</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Nalog ne postoji, posetite sajt projekta da se registrujete</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Kači se</string>
+    <string name="attachproject_working_attaching">Kači se %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Nagoveštaj</string>

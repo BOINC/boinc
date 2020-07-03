@@ -31,7 +31,7 @@
        для реєстрації
 </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Додавання</string>
+  <string name="attachproject_working_attaching">Додавання %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Порада</string>

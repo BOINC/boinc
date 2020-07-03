@@ -51,7 +51,7 @@
         to register
     </string>
     <!-- working -->
-    <string name="attachproject_working_attaching">Attaching</string> <!-- e.g. Attaching Einstein@Home -->
+    <string name="attachproject_working_attaching">Attaching %1$s</string> <!-- e.g. Attaching Einstein@Home -->
     <!-- hints -->
     <string name="attachproject_hints_header">Hint</string> <!-- e.g. Hint 1/2 -->
     <string name="attachproject_hint_contribtion_header">How to contribute:</string>

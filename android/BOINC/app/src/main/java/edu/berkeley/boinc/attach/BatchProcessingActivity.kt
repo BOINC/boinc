@@ -249,7 +249,8 @@ class BatchProcessingActivity : AppCompatActivity() {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG, "attachProject(): trying: ${it.info?.name}")
                         }
-                        binding.attachStatusText.text = "${getString(R.string.attachproject_working_attaching)} ${it.info?.name}"
+                        binding.attachStatusText.text = getString(R.string.attachproject_working_attaching,
+                                it.info?.name)
                     }
                     .map { it.lookupAndAttach(false) }
                     .filter { it != RESULT_SUCCESS && Logging.ERROR }

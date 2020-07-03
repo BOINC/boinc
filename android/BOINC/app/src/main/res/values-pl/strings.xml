@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">Konto nie istnieje</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę internetową projektu aby się zarejestrować.</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Załączanie</string>
+    <string name="attachproject_working_attaching">Załączanie %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Wskazówka</string>

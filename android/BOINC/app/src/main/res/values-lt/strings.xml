@@ -30,7 +30,7 @@
   <string name="attachproject_conflict_unknown_user_creation_disabled">Paskyra neegzistuoja, registracijai aplankykite
 projekto interneto svetainę</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Prisijungiama</string>
+  <string name="attachproject_working_attaching">Prisijungiama %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Patarimas</string>

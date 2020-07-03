@@ -31,7 +31,7 @@
         for at registrere
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Forbinder</string>
+    <string name="attachproject_working_attaching">Forbinder %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Tip</string>

@@ -32,7 +32,7 @@
         lai to reģistrētu
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Pievienojas</string>
+    <string name="attachproject_working_attaching">Pievienojas %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Mājiens</string>

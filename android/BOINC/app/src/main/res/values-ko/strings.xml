@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요</string>
     <!--working-->
-    <string name="attachproject_working_attaching">추가하는 중</string>
+    <string name="attachproject_working_attaching">추가하는 중 %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">힌트</string>

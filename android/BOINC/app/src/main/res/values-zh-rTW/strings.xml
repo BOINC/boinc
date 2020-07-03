@@ -31,7 +31,7 @@
         註冊
     </string>
   <!--working-->
-  <string name="attachproject_working_attaching">加入中</string>
+  <string name="attachproject_working_attaching">加入中 %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">提示</string>
