@@ -119,7 +119,12 @@ artifacts:
   - path: deploy\win-manager\*.7z
     name: win-manager
 
-test: off
+before_test:
+  - if %TOOLCHAIN_VERSION%==16.0 curl -fsSL https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix -o C:\projects\GoogleTestAdapter.zip
+  - if %TOOLCHAIN_VERSION%==16.0 call 7z.exe x C:\projects\GoogleTestAdapter.zip -oC:\projects\GoogleTestAdapter -aoa
+
+test_script:
+  - if %TOOLCHAIN_VERSION%==16.0 call vstest.console.exe win_build\Build\%platform%\%configuration%\unittests.exe /TestAdapterPath:C:\projects\GoogleTestAdapter /logger:Appveyor
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

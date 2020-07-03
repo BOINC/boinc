@@ -13,8 +13,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}</ProjectGuid>
-    <RootNamespace>vcpkg3rdpartydependencies</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{e3cfbba5-0bbc-4237-b3f8-7e7729df7e42}</ProjectGuid>
+    <RootNamespace>unittestsvs2019</RootNamespace>
+    <ProjectName>unittests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -54,59 +56,51 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../win_build;../lib;$(VcpkgInstalledDir)/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/debug/lib;$(VcpkgInstalledDir)/debug/lib/manual-link</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gtest_maind.lib;gmock_maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../win_build;../lib;$(VcpkgInstalledDir)/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/lib;$(VcpkgInstalledDir)/lib/manual-link</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libboinc_vs2019.vcxproj">
+      <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" Condition="!Exists($(VcpkgRootDir))">
-    <MakeDir Directories="$(VcpkgRootDir)" />
-    <MakeDir Directories="$(CudaRootDir)" />
-  </Target>
-  <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="!Exists($(CudaNvccPath))">
-    <DownloadFile SourceUrl="https://www.7-zip.org/a/7za920.zip" DestinationFolder="$(TMP)" />
-    <Unzip SourceFiles="$(TMP)\7za920.zip" DestinationFolder="$(TMP)\7z" OverwriteReadOnlyFiles="true" />
-    <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
-    <Exec Command="$(TMP)\7z\7za x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-    <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
-    <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
-  </Target>
-  <Target Name="InstallVcpkg" BeforeTargets="RestoreCache" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
-    <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgExe))" />
-    <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-  </Target>
-  <Target Name="RestoreCache" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg" Condition="Exists($(VcpkgCacheDir))">
-    <Exec Command="xcopy $(VcpkgCacheDir) $(VcpkgRootDir)\installed /e /i /y" />
-  </Target>
-  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="RestoreCache" AfterTargets="RestoreCache">
-    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets sqlite3 opencl rappture --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-  </Target>
 </Project>
