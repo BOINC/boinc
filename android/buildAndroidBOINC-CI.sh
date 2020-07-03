@@ -21,11 +21,12 @@ set -e
 
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
-export NDK_VERSION=18b
+export NDK_VERSION=21d
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
 export ANDROID_TC=$HOME/Android/Toolchains
+
 
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
@@ -49,6 +50,7 @@ cache_dir=""
 arch=""
 silent=""
 verbose="${VERBOSE:-no}"
+ci=""
 
 while [ $# -gt 0 ]; do
     key="$1"
@@ -73,6 +75,9 @@ while [ $# -gt 0 ]; do
         ;;
         --verbose)
         verbose="yes"
+        ;;
+        --ci)
+        ci="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -129,18 +134,31 @@ fi
 
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
-export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
+export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
 export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
 export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
+export CREATE_NDK_FOLDER=${CREATE_NDK_FOLDER:-"no"}
 
-if [ ! -e "${NDK_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-    rm -rf "${PREFIX}/${arch}"
-    rm -f "${CURL_FLAGFILE}" "${OPENSSL_FLAGFILE}"
-    wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk.zip -d $BUILD_DIR
-    touch "${NDK_FLAGFILE}"
+createNDKFolder()
+{
+    if [ $CREATE_NDK_FOLDER = "no" ]; then
+        rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
+        wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+        unzip -qq /tmp/ndk.zip -d $BUILD_DIR
+        export CREATE_NDK_FOLDER="yes"
+    fi
+}
+
+if [ ci = "yes" ]; then
+    createNDKFolder
+else
+    if [ ! -e "${NDK_FLAGFILE}" ]; then
+        export CREATE_NDK_FOLDER="no"
+        createNDKFolder
+        touch "${NDK_FLAGFILE}"
+    fi
 fi
+
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
@@ -165,28 +183,24 @@ export VERBOSE=$verbose
 
 case "$arch" in
     "arm")
-        ./build_androidtc_arm.sh
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
         exit 0
     ;;
     "arm64")
-        ./build_androidtc_arm64.sh
         ./build_openssl_arm64.sh
         ./build_curl_arm64.sh
         ./build_boinc_arm64.sh
         exit 0
     ;;
     "x86")
-        ./build_androidtc_x86.sh
         ./build_openssl_x86.sh
         ./build_curl_x86.sh
         ./build_boinc_x86.sh
         exit 0
     ;;
     "x86_64")
-        ./build_androidtc_x86_64.sh
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh
