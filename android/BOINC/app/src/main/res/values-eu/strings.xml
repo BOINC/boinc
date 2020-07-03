@@ -317,8 +317,6 @@ pausarazten duen zehazten du.
   <string name="suspend_wifi">WiFi-ra konektatu gabe.</string>
   <string name="suspend_battery_charging">Bateria kargatzeko zain.</string>
   <string name="suspend_battery_charging_long">Konputazioari berrekingo zaio bateriak ondorengo karga maila lortzean:</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">une honetan</string>
   <string name="suspend_battery_overheating">Bateria hoztu zain</string>
   <string name="suspend_user_req">Konputazioari berrekiten...</string>
   <string name="suspend_network_user_req">eskuz.</string>

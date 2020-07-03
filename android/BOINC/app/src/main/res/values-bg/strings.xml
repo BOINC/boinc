@@ -325,8 +325,6 @@
     <string name="suspend_battery_charging">Изчакване на батерията да се зареди.</string>
     <string name="suspend_battery_charging_long">Изчисленията ще се подновят когато заряда на батерията достигне
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">в момента</string>
     <string name="suspend_battery_overheating">Изчакване на батерията да се охлади</string>
     <string name="suspend_user_req">Подновяване на изчисленията…</string>
     <string name="suspend_network_user_req">ръчно.</string>

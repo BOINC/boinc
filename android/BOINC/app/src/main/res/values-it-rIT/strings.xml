@@ -313,8 +313,6 @@
   <string name="suspend_wifi">Non connesso al WiFi</string>
   <string name="suspend_battery_charging">In attesa che la batteria si ricarichi.</string>
   <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria sarà almeno</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">attualmente</string>
   <string name="suspend_battery_overheating">In attesa che la batteria si raffreddi</string>
   <string name="suspend_user_req">Ripresa elaborazione…</string>
   <string name="suspend_network_user_req">manualmente.</string>

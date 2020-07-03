@@ -295,8 +295,6 @@
     <string name="suspend_wifi">Brak połączenia z siecią Wi-Fi.</string>
     <string name="suspend_battery_charging">Czekanie na załadowanie akumulatora…</string>
     <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">obecnie</string>
     <string name="suspend_battery_overheating">Czekanie na ochłodzenie akumulatora…</string>
     <string name="suspend_user_req">Wznawianie obliczeń…</string>
     <string name="suspend_network_user_req">ręcznie.</string>

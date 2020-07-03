@@ -312,8 +312,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="suspend_wifi">Není připojen k WiFi.</string>
   <string name="suspend_battery_charging">Čekání na větší nabití baterie.</string>
   <string name="suspend_battery_charging_long">Výpočet bude pokračovat, když nabití baterie dosáhne</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">nyní</string>
   <string name="suspend_battery_overheating">Čekání na ochlazení baterie</string>
   <string name="suspend_user_req">Obnovuji výpočet...</string>
   <string name="suspend_network_user_req">ručně.</string>

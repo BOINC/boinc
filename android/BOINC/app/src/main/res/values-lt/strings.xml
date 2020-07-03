@@ -305,8 +305,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="suspend_wifi">Neprisijungta prie WiFi.</string>
   <string name="suspend_battery_charging">Laukiama kol baterija bus įkrauta.</string>
   <string name="suspend_battery_charging_long">Skaičiavimai prasitęs kai baterija pasieks</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">šiuo metu</string>
   <string name="suspend_battery_overheating">Laukiama kol baterija atvės</string>
   <string name="suspend_user_req">Toliau tęsiamas skaičiavimas…</string>
   <string name="suspend_network_user_req">rankiniu būdu.</string>

@@ -304,8 +304,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="suspend_wifi">Não ligado à Wi-Fi.</string>
   <string name="suspend_battery_charging">A aguardar que a bateria seja carregada.</string>
   <string name="suspend_battery_charging_long">A computação será resumida quando a carga da bateria chegar a</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">atualmente</string>
   <string name="suspend_battery_overheating">A aguardar que a bateria arrefeça</string>
   <string name="suspend_user_req">A retomar a computação...</string>
   <string name="suspend_network_user_req">manualmente.</string>

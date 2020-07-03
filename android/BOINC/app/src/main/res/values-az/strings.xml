@@ -319,8 +319,6 @@
     <string name="suspend_wifi">WiFi ilə əlaqəli deyil.</string>
     <string name="suspend_battery_charging">Şarjı gözləyir.</string>
     <string name="suspend_battery_charging_long">Batareya yüklənməsinə gəldikdə hesablama davam edəcək:</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">hazırda</string>
     <string name="suspend_battery_overheating">Batareyanın soyumasını gözləyin</string>
     <string name="suspend_user_req">Hesablamanın bərpası ...</string>
     <string name="suspend_network_user_req">Əllə.</string>

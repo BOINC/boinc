@@ -325,8 +325,6 @@
     <string name="suspend_battery_charging">Esperant a la càrrega de la bateria.</string>
     <string name="suspend_battery_charging_long">La computació continuarà quan la bateria tingui una carregada del
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">actual</string>
     <string name="suspend_battery_overheating">Esperant que es refredi la bateria</string>
     <string name="suspend_user_req">Continuant la computació...</string>
     <string name="suspend_network_user_req">manualment.</string>

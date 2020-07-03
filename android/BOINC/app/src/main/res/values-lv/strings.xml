@@ -319,8 +319,6 @@
     <string name="suspend_battery_charging">Gaida līdz akumulators uzlādēsies.</string>
     <string name="suspend_battery_charging_long">Skaitļošana atsāksies, kad akumulatora uzlādes līmenis sasniegs
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">pašlaik</string>
     <string name="suspend_battery_overheating">Gaida līdz atdzisīs akumulators</string>
     <string name="suspend_user_req">Atsāk skaitļošanu...</string>
     <string name="suspend_network_user_req">manuāli.</string>

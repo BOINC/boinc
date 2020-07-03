@@ -316,8 +316,6 @@
   <string name="suspend_wifi">Ei WiFi-yhteyttä.</string>
   <string name="suspend_battery_charging">Odotetaan akun latautumista.</string>
   <string name="suspend_battery_charging_long">Laskenta jatkuu akun varaustilan saavuttaessa</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">tällä hetkellä</string>
   <string name="suspend_battery_overheating">Odotetaan akun jäähtymistä</string>
   <string name="suspend_user_req">Jatketaan laskentaa…</string>
   <string name="suspend_network_user_req">manuaalisesti.</string>

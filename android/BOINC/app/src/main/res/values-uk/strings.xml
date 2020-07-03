@@ -318,8 +318,6 @@
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
   <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
   <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">зараз</string>
   <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
   <string name="suspend_user_req">Поновлення обчислень...</string>
   <string name="suspend_network_user_req">вручну.</string>

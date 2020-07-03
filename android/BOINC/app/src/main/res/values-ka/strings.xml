@@ -320,8 +320,6 @@
     <string name="suspend_wifi">არ არის შეერთებული WiFi-სთან.</string>
     <string name="suspend_battery_charging">ბატარეის დატენვის მოლოდინში.</string>
     <string name="suspend_battery_charging_long">გამოთვლა გაგრძელდება, როდესაც იქნება მიღწეული ბატარეის მუხტი.</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">ამჟამად</string>
     <string name="suspend_battery_overheating">ბატარეის გაგრილების მოლოდინში</string>
     <string name="suspend_user_req">მიმდინარეობს გამოთვლის გაგრძელება...</string>
     <string name="suspend_network_user_req">ხელით.</string>

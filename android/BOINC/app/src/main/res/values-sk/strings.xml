@@ -309,8 +309,6 @@
   <string name="suspend_wifi">Nepripojené k WiFi.</string>
   <string name="suspend_battery_charging">Čakanie na nabitie batérie.</string>
   <string name="suspend_battery_charging_long">Výpočty sa obnovia, keď nabitie batérie dosiahne</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">momentálne</string>
   <string name="suspend_battery_overheating">Čakanie na ochladenie batérie</string>
   <string name="suspend_user_req">Obnovovanie výpočtov...</string>
   <string name="suspend_network_user_req">manuálne.</string>

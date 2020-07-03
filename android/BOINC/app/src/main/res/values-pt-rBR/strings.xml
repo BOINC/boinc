@@ -300,8 +300,6 @@
   <string name="suspend_wifi">Não conectado ao WiFi.</string>
   <string name="suspend_battery_charging">Esperando a bateria carregar.</string>
   <string name="suspend_battery_charging_long">A computação continuará quando a bateria chegar em</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">no momento</string>
   <string name="suspend_battery_overheating">Aguardando esfriamento da bateria</string>
   <string name="suspend_user_req">Continuando computação...</string>
   <string name="suspend_network_user_req">manualmente.</string>

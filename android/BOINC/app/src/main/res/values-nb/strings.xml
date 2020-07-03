@@ -312,8 +312,6 @@
     <string name="suspend_wifi">Ikke koblet til WIFI.</string>
     <string name="suspend_battery_charging">Venter på at batteriet skal lades</string>
     <string name="suspend_battery_charging_long">Beregningen vil fortsette når batteriets ladenivå overskrider</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">nåværende</string>
     <string name="suspend_battery_overheating">Venter på at batteriet skal kjøles av</string>
     <string name="suspend_user_req">Gjenopptar beregning ...</string>
     <string name="suspend_network_user_req">Manuell.</string>

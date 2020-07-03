@@ -297,8 +297,6 @@
     <string name="suspend_wifi">Niste povezani na WiFi.</string>
     <string name="suspend_battery_charging">Čekanje da se baterija napuni.</string>
     <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">trenutno</string>
     <string name="suspend_battery_overheating">Čekanje da se baterija ohladi</string>
     <string name="suspend_user_req">Nastavljanje računanja...</string>
     <string name="suspend_network_user_req">ručno.</string>

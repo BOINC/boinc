@@ -304,8 +304,6 @@
   <string name="suspend_wifi">沒有連線到 WiFi。</string>
   <string name="suspend_battery_charging">等待電池充電。</string>
   <string name="suspend_battery_charging_long">充電時將會繼續運算</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">目前</string>
   <string name="suspend_battery_overheating">等待電池冷卻中</string>
   <string name="suspend_user_req">繼續運算...</string>
   <string name="suspend_network_user_req">手動操作。</string>

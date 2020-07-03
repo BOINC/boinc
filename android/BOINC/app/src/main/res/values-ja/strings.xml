@@ -298,8 +298,6 @@
     <string name="suspend_wifi">WiFiに接続されていません。</string>
     <string name="suspend_battery_charging">バッテリーへの充電を待機中。</string>
     <string name="suspend_battery_charging_long">バッテリーの充電量が設定に達した時計算が再開されます</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">現在</string>
     <string name="suspend_battery_overheating">バッテリーが冷めるのを待機中</string>
     <string name="suspend_user_req">計算を再開しています…</string>
     <string name="suspend_network_user_req">手動で。</string>

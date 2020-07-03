@@ -300,8 +300,6 @@
   <string name="suspend_wifi">Niet verbonden met WiFi.</string>
   <string name="suspend_battery_charging">Wachten op laden van batterij.</string>
   <string name="suspend_battery_charging_long">Berekeningen worden hervat op batterij niveau van</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">huidig</string>
   <string name="suspend_battery_overheating">Wacht op afkoelen batterij</string>
   <string name="suspend_user_req">Berekeningen hervatten...</string>
   <string name="suspend_network_user_req">handmatig.</string>

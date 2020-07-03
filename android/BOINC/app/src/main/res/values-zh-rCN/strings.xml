@@ -317,8 +317,6 @@ BOINC应当暂停运算？
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">在恢复运算之前您的电池需要充电。</string>
   <string name="suspend_battery_charging_long">当电池电量超过以下水平时计算会继续</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">当前</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
   <string name="suspend_user_req">正在恢复计算...</string>
   <string name="suspend_network_user_req">手动操作。</string>

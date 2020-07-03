@@ -299,8 +299,6 @@
     <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
     <string name="suspend_battery_charging">배터리가 충전되길 기다리는 중.</string>
     <string name="suspend_battery_charging_long">배터리가 설정량만큼 충전되면 연산이 재개됩니다</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">현재</string>
     <string name="suspend_battery_overheating">배터리가 식길 기다리는 중</string>
     <string name="suspend_user_req">연산 재개 중…</string>
     <string name="suspend_network_user_req">수동</string>

@@ -306,8 +306,6 @@ appars CPU-användning.</string>
   <string name="suspend_wifi">Inte ansluten till trådlöst nätverk.</string>
   <string name="suspend_battery_charging">Väntar på att batteriet ska laddas upp.</string>
   <string name="suspend_battery_charging_long">Beräkning kommer återupptas när batterinivån når</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">i dagsläget</string>
   <string name="suspend_battery_overheating">Väntar på att batteriet kyls ned</string>
   <string name="suspend_user_req">Återupptar beräkning...</string>
   <string name="suspend_network_user_req">manuellt.</string>

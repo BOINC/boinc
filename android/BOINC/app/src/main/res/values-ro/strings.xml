@@ -295,8 +295,6 @@
     <string name="suspend_wifi">Nu este conectat la WiFi.</string>
     <string name="suspend_battery_charging">Se așteaptă încărcarea bateriei.</string>
     <string name="suspend_battery_charging_long">Calculele vor fi reluate când bateria va fi încărcata</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">curent</string>
     <string name="suspend_battery_overheating">Se aşteaptă să se răcească bateria</string>
     <string name="suspend_user_req">Se reiau calculele…</string>
     <string name="suspend_network_user_req">manual.</string>

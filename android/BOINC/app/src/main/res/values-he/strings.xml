@@ -306,8 +306,6 @@
     <string name="suspend_wifi">לא מחובר לרשת אלחוטית.</string>
     <string name="suspend_battery_charging">ממתין לטעינת הסוללה.</string>
     <string name="suspend_battery_charging_long">החישוב יתחדש כאשר טעינת הסוללה תגיע אל</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">כעת</string>
     <string name="suspend_battery_overheating">ממתין לקירור הסוללה</string>
     <string name="suspend_user_req">מחדש את החישוב...</string>
     <string name="suspend_network_user_req">באופן ידני.</string>

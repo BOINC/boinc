@@ -314,8 +314,6 @@
     <string name="suspend_wifi">Ikke forbundet til WiFi.</string>
     <string name="suspend_battery_charging">Venter på at batteriet er mere opladet.</string>
     <string name="suspend_battery_charging_long">Beregning vil blive genoptaget, når batteriniveau når</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">nuværende</string>
     <string name="suspend_battery_overheating">Venter på at batteri køler ned</string>
     <string name="suspend_user_req">Genoptager beregning …</string>
     <string name="suspend_network_user_req">manuelt.</string>

@@ -320,8 +320,6 @@
     <string name="suspend_wifi">Nincs kapcsolódva a WiFihez.</string>
     <string name="suspend_battery_charging">Várakozás az akku feltöltéséig.</string>
     <string name="suspend_battery_charging_long">A számítás folytatódik, amikor az akku feltöltődött</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">jelenleg</string>
     <string name="suspend_battery_overheating">Várakozás az akku lehűlésére</string>
     <string name="suspend_user_req">Számítas újrakezdése...</string>
     <string name="suspend_network_user_req">kézi.</string>

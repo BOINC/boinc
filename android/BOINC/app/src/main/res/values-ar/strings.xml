@@ -312,8 +312,6 @@
     <string name="suspend_wifi">غير متصل بالشبكة اللاسلكية.</string>
     <string name="suspend_battery_charging">في انتظار شحن البطارية</string>
     <string name="suspend_battery_charging_long">ستسأنف العمليات الحسابية عند وصول طاقة البطارية إلى</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">حاليا</string>
     <string name="suspend_battery_overheating">في انتظار انخفاض حرارة البطارية</string>
     <string name="suspend_user_req">استئناف العمليات الحسابية</string>
     <string name="suspend_network_user_req">يدويا.</string>

@@ -300,8 +300,6 @@
   <string name="suspend_wifi">Нет подключения к WiFi.</string>
   <string name="suspend_battery_charging">Ожидание увеличения уровня заряда батареи.</string>
   <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">в данный момент</string>
   <string name="suspend_battery_overheating">Ожидание охлаждения батареи</string>
   <string name="suspend_user_req">Возобновление расчётов…</string>
   <string name="suspend_network_user_req">вручную.</string>

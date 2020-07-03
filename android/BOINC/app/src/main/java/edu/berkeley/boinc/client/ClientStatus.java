@@ -602,13 +602,10 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = context.getString(R.string.suspend_battery_charging);
                             try {
-                                double minCharge = prefs.getBatteryChargeMinPct();
+                                int minCharge = (int) prefs.getBatteryChargeMinPct();
                                 int currentCharge = deviceStatus.getStatus().getBatteryChargePct();
-                                statusString = context.getString(R.string.suspend_battery_charging_long) + " " +
-                                               (int) minCharge
-                                               + "% (" + context.getString(R.string.suspend_battery_charging_current) +
-                                               " " + currentCharge + "%) "
-                                               + context.getString(R.string.suspend_battery_charging_long2);
+                                statusString = context.getString(R.string.suspend_battery_charging_long,
+                                                                 minCharge, currentCharge);
                             }
                             catch(Exception e) {
                                 if(Logging.ERROR) {
