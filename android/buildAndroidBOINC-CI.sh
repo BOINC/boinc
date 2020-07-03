@@ -123,9 +123,9 @@ if [ "${doclean}" = "yes" ]; then
     rm -rf "${BUILD_DIR}"
     mkdir -p "${BUILD_DIR}"
     echo "cleaning downloaded cache files"
-    rm -f /tmp/ndk.zip
-    rm -f /tmp/openssl.tgz
-    rm -f /tmp/curl.tgz
+    rm -f /tmp/ndk_${NDK_VERSION}.zip
+    rm -f /tmp/openssl_${OPENSSL_VERSION}.tgz
+    rm -f /tmp/curl_${CURL_VERSION}.tgz
 fi
 
 if [ "${silent}" = "yes" ]; then
@@ -143,8 +143,8 @@ createNDKFolder()
 {
     if [ $CREATED_NDK_FOLDER = "no" ]; then
         rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-        wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-        unzip -qq /tmp/ndk.zip -d $BUILD_DIR
+        wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+        unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
         export CREATED_NDK_FOLDER="yes"
         touch "${NDK_FLAGFILE}"
     fi
@@ -170,16 +170,16 @@ export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
-    wget -c --no-verbose -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl.tgz --directory=$BUILD_DIR
+    wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+    tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
 fi
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
-    wget -c --no-verbose -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-    tar xzf /tmp/curl.tgz --directory=$BUILD_DIR
+    wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+    tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
 fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
