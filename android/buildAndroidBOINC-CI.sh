@@ -27,7 +27,6 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
 export ANDROID_TC=$HOME/Android/Toolchains
 
-
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
 isPathCanonical() {
@@ -114,7 +113,7 @@ fi
 
 mkdir -p "${PREFIX}"
 mkdir -p "${BUILD_DIR}"
-
+echo $PREFIX
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
     rm -rf "${PREFIX}"
