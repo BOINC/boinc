@@ -134,29 +134,21 @@ fi
 
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
-export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
+export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
 export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
 export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
 export CREATE_NDK_FOLDER=${CREATE_NDK_FOLDER:-"no"}
 
-createNDKFolder()
-{
+if [ ! -e "${NDK_FLAGFILE}" ]; then
+    rm -rf $OPENSSL_FLAGFILE
+    rm -rf $CURL_FLAGFILE
     if [ $CREATE_NDK_FOLDER = "no" ]; then
         rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
         wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-        unzip -qq /tmp/ndk.zip -d $BUILD_DIR
+        unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
         export CREATE_NDK_FOLDER="yes"
     fi
-}
-
-if [ ci = "yes" ]; then
-    createNDKFolder
-else
-    if [ ! -e "${NDK_FLAGFILE}" ]; then
-        export CREATE_NDK_FOLDER="no"
-        createNDKFolder
-        touch "${NDK_FLAGFILE}"
-    fi
+    touch "${NDK_FLAGFILE}"
 fi
 
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
