@@ -228,7 +228,7 @@
   <string name="projects_status_schedrpcpending">Pyyntö aikatauluttajalle odottaa</string>
   <string name="projects_status_schedrpcinprogress">Pyyntö aikatauluttajalle käynnissä</string>
   <string name="projects_status_trickleuppending">Väliaikaviesti odottaa</string>
-  <string name="projects_status_backoff">Seuraava yhteydenotto:</string>
+  <string name="projects_status_backoff">Seuraava yhteydenotto: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektin komennot:</string>
   <string name="projects_control_visit_website">Käy sivulla</string>

@@ -231,7 +231,7 @@
     <string name="projects_status_schedrpcpending">განრიგის მოთხოვნა ლოდინშია</string>
     <string name="projects_status_schedrpcinprogress">მიმდინარეობს განრიგის მოთხოვნა</string>
     <string name="projects_status_trickleuppending">გაწობის შეტყობინება მოლოდინშია</string>
-    <string name="projects_status_backoff">კავშირი დაგეგმილია:</string>
+    <string name="projects_status_backoff">კავშირი დაგეგმილია: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">პროექტის ბრძანებები:</string>
     <string name="projects_control_visit_website">ვებ-გვერდზე გადასვლა</string>

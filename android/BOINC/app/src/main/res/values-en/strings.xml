@@ -223,7 +223,7 @@
     <string name="projects_status_schedrpcpending">Scheduler request pending</string>
     <string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
     <string name="projects_status_trickleuppending">Trickle up message pending</string>
-    <string name="projects_status_backoff">Communication scheduled in:</string>
+    <string name="projects_status_backoff">Communication scheduled in: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Project commands:</string>
     <string name="projects_control_visit_website">Visit website</string>

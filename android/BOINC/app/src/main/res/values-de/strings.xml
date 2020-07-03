@@ -211,7 +211,7 @@
   <string name="projects_status_schedrpcpending">Serveranfrage ausstehend</string>
   <string name="projects_status_schedrpcinprogress">Serveranfrage läuft</string>
   <string name="projects_status_trickleuppending">Trickle-Up Nachricht ausstehend</string>
-  <string name="projects_status_backoff">nächste Kommunikation in:</string>
+  <string name="projects_status_backoff">nächste Kommunikation in: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektbefehle:</string>
   <string name="projects_control_visit_website">Webseite besuchen</string>

@@ -208,7 +208,7 @@
     <string name="projects_status_schedrpcpending">Zahtev rasporeda na čekanju</string>
     <string name="projects_status_schedrpcinprogress">Zahtev rasporeda u toku</string>
     <string name="projects_status_trickleuppending">Preneta poruka na čekanju</string>
-    <string name="projects_status_backoff">Komunikacija zakazana za:</string>
+    <string name="projects_status_backoff">Komunikacija zakazana za: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Komande projekta:</string>
     <string name="projects_control_visit_website">Posetite sajt</string>

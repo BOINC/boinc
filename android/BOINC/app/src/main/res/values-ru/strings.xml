@@ -211,7 +211,7 @@
   <string name="projects_status_schedrpcpending">Запрос информации у планировщика</string>
   <string name="projects_status_schedrpcinprogress">Производится запрос информации у планировщика</string>
   <string name="projects_status_trickleuppending">Ожидание промежуточной отправки</string>
-  <string name="projects_status_backoff">Связь по расписанию:</string>
+  <string name="projects_status_backoff">Связь по расписанию: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Команды проекта:</string>
   <string name="projects_control_visit_website">Посетить веб-сайт</string>

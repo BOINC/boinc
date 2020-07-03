@@ -234,7 +234,7 @@
     <string name="projects_status_schedrpcpending">Заявка на Планировчика в процес на изчакване</string>
     <string name="projects_status_schedrpcinprogress">Заявка на Планировчика в процес на извършване</string>
     <string name="projects_status_trickleuppending">Изходящо съобщение в процес на изчакване</string>
-    <string name="projects_status_backoff">Връзка е планирана след:</string>
+    <string name="projects_status_backoff">Връзка е планирана след: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Команди на проекта:</string>
     <string name="projects_control_visit_website">Посетете уебсайт</string>

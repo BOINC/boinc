@@ -223,7 +223,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="projects_status_schedrpcpending">Nevyřízený požadavek plánovače</string>
   <string name="projects_status_schedrpcinprogress">Zpracovávám požadavek plánovače</string>
   <string name="projects_status_trickleuppending">Nevyřízené odeslání zprávy o průběhu</string>
-  <string name="projects_status_backoff">Komunikace za:</string>
+  <string name="projects_status_backoff">Komunikace za: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Příkazy projektu:</string>
   <string name="projects_control_visit_website">Navštívit webové stránky</string>

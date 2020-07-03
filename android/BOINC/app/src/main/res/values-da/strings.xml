@@ -225,7 +225,7 @@
     <string name="projects_status_schedrpcpending">Planlægningsforespørgsel afventer</string>
     <string name="projects_status_schedrpcinprogress">Planlægningsforespørgsel under udførsel</string>
     <string name="projects_status_trickleuppending">Trickle-up-besked afventer</string>
-    <string name="projects_status_backoff">Kommunikation planlagt om:</string>
+    <string name="projects_status_backoff">Kommunikation planlagt om: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projektkommandoer:</string>
     <string name="projects_control_visit_website">Besøg hjemmeside</string>

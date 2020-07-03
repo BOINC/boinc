@@ -224,7 +224,7 @@
     <string name="projects_status_schedrpcpending">طَلبُ المُجَدوِِل في الطابور</string>
     <string name="projects_status_schedrpcinprogress">يجري طلبُ المُجَدوِِل</string>
     <string name="projects_status_trickleuppending">تراكم الرسائل المعلقة</string>
-    <string name="projects_status_backoff">لاتصال مقرر في:</string>
+    <string name="projects_status_backoff">لاتصال مقرر في: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">أوامر المشروع</string>
     <string name="projects_control_visit_website">زيارة الموقع</string>

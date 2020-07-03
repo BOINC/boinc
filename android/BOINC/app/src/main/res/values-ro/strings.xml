@@ -206,7 +206,7 @@
     <string name="projects_status_schedrpcpending">Cerere planificator în aşteptare</string>
     <string name="projects_status_schedrpcinprogress">Cerere planificator în curs</string>
     <string name="projects_status_trickleuppending">Mesaj trickle up în aşteptare</string>
-    <string name="projects_status_backoff">Comunicaţie planificată în:</string>
+    <string name="projects_status_backoff">Comunicaţie planificată în: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Comenzi proiect:</string>
     <string name="projects_control_visit_website">Vizitați pagina web</string>

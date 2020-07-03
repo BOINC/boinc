@@ -215,7 +215,7 @@
   <string name="projects_status_schedrpcpending">排程器請求等待中</string>
   <string name="projects_status_schedrpcinprogress">排程器請求處理中</string>
   <string name="projects_status_trickleuppending">Trickle up訊息處理中</string>
-  <string name="projects_status_backoff">排定通訊：</string>
+  <string name="projects_status_backoff">排定通訊： %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">專案指令：</string>
   <string name="projects_control_visit_website">造訪網站</string>

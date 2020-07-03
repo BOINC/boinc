@@ -228,7 +228,7 @@
   <string name="projects_status_schedrpcpending">Requête au planificateur en attente</string>
   <string name="projects_status_schedrpcinprogress">Requête au planificateur en cours</string>
   <string name="projects_status_trickleuppending">Envoi des notifications d\'avancement en attente</string>
-  <string name="projects_status_backoff">Communication prévue dans :</string>
+  <string name="projects_status_backoff">Communication prévue dans : %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Commandes du projet :</string>
   <string name="projects_control_visit_website">Visitez le site web</string>

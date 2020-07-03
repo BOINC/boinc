@@ -224,7 +224,7 @@
   <string name="projects_status_schedrpcpending">Richiesta allo scheduler in attesa</string>
   <string name="projects_status_schedrpcinprogress">Richiesta allo scheduler in corso</string>
   <string name="projects_status_trickleuppending">Messaggio trickle in attesa</string>
-  <string name="projects_status_backoff">Comunicazione tra:</string>
+  <string name="projects_status_backoff">Comunicazione tra: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandi progetto:</string>
   <string name="projects_control_visit_website">Visita il sito web</string>

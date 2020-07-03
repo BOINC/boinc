@@ -230,7 +230,7 @@
     <string name="projects_status_schedrpcpending">Planlaşdırma tələbi gözləyir</string>
     <string name="projects_status_schedrpcinprogress">Planlaşdırma istəyi davam edir</string>
     <string name="projects_status_trickleuppending">Davametmə mesajı gözləyir</string>
-    <string name="projects_status_backoff">Planlaşdırılan kommunikasiya:</string>
+    <string name="projects_status_backoff">Planlaşdırılan kommunikasiya: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Layihə əmrləri:</string>
     <string name="projects_control_visit_website">Veb səhifəyə baxın</string>

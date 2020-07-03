@@ -217,7 +217,7 @@ appars CPU-användning.</string>
   <string name="projects_status_schedrpcpending">Schemaläggarbegäran väntar</string>
   <string name="projects_status_schedrpcinprogress">Schemaläggarbegäran pågår</string>
   <string name="projects_status_trickleuppending">Flödesmeddelande väntar</string>
-  <string name="projects_status_backoff">Kommunikation schemalagd om:</string>
+  <string name="projects_status_backoff">Kommunikation schemalagd om: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projekt-kommandon:</string>
   <string name="projects_control_visit_website">Besök webbplats</string>

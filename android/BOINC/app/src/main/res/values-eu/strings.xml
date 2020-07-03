@@ -228,7 +228,7 @@ pausarazten duen zehazten du.
   <string name="projects_status_schedrpcpending">Antolatzaileari eskaera egiteke</string>
   <string name="projects_status_schedrpcinprogress">Antolatzaileari eskaera egiten</string>
   <string name="projects_status_trickleuppending">Mezua zerbitzarira bidaltzeke</string>
-  <string name="projects_status_backoff">Komunikazioa programatuta:</string>
+  <string name="projects_status_backoff">Komunikazioa programatuta: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Proiektuko aginduak:</string>
   <string name="projects_control_visit_website">Begiratu webgunea</string>

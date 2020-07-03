@@ -216,7 +216,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="projects_status_schedrpcpending">Laukiama jungimosi prie projekto serverio</string>
   <string name="projects_status_schedrpcinprogress">Jungiamasi prie projekto serverio</string>
   <string name="projects_status_trickleuppending">Laukia žinučių siuntimo į serverį</string>
-  <string name="projects_status_backoff">Komunikacija suplanuota:</string>
+  <string name="projects_status_backoff">Komunikacija suplanuota: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projekto komandos:</string>
   <string name="projects_control_visit_website">Aplankyti tinklapį</string>

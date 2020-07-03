@@ -209,7 +209,7 @@
     <string name="projects_status_schedrpcpending">スケジューラへの要求を保留</string>
     <string name="projects_status_schedrpcinprogress">スケジューラへ要求中</string>
     <string name="projects_status_trickleuppending">トリクルアップメッセージの送信保留あり</string>
-    <string name="projects_status_backoff">通信は次の時間内に予定:</string>
+    <string name="projects_status_backoff">通信は次の時間内に予定: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">プロジェクトに関する操作:</string>
     <string name="projects_control_visit_website">ウェブサイトを訪問</string>

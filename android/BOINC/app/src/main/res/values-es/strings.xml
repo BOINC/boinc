@@ -231,7 +231,7 @@
     <string name="projects_status_schedrpcpending">Pendiente petición al Planificador</string>
     <string name="projects_status_schedrpcinprogress">Petición al planificador en progreso</string>
     <string name="projects_status_trickleuppending">Mensaje trickle up pendiente</string>
-    <string name="projects_status_backoff">Comunicación aplazada a:</string>
+    <string name="projects_status_backoff">Comunicación aplazada a: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Comandos del proyecto:</string>
     <string name="projects_control_visit_website">Visitar web</string>

@@ -211,7 +211,7 @@
   <string name="projects_status_schedrpcpending">Bijwerkverzoek in behandeling</string>
   <string name="projects_status_schedrpcinprogress">Bijwerkverzoek is bezig</string>
   <string name="projects_status_trickleuppending">Trickle up bericht in behandeling</string>
-  <string name="projects_status_backoff">Communicatie gepland over:</string>
+  <string name="projects_status_backoff">Communicatie gepland over: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Project opdrachten:</string>
   <string name="projects_control_visit_website">Bezoek website</string>

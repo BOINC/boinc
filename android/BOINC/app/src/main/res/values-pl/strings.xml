@@ -206,7 +206,7 @@
     <string name="projects_status_schedrpcpending">Oczekuje odpowiedzi na żądanie planisty</string>
     <string name="projects_status_schedrpcinprogress">Oczekuje przetworzenia żądania planisty</string>
     <string name="projects_status_trickleuppending">Oczekuje wiadomość bąbelkową</string>
-    <string name="projects_status_backoff">Oczekuje komunikacji za:</string>
+    <string name="projects_status_backoff">Oczekuje komunikacji za: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Polecenia projektowe</string>
     <string name="projects_control_visit_website">Przejdź do witryny internetowej</string>

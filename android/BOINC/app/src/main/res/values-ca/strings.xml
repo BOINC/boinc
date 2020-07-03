@@ -235,7 +235,7 @@
     <string name="projects_status_schedrpcpending">Petició al gestor pendent</string>
     <string name="projects_status_schedrpcinprogress">Petició al gestor en curs</string>
     <string name="projects_status_trickleuppending">Missatge de degoteig en espera</string>
-    <string name="projects_status_backoff">Comunicació del gestor a:</string>
+    <string name="projects_status_backoff">Comunicació del gestor a: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Ordres del projecte:</string>
     <string name="projects_control_visit_website">Visita el lloc web</string>

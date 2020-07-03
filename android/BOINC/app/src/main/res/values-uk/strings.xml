@@ -229,7 +229,7 @@
   <string name="projects_status_schedrpcpending">Запит інформації у планувальника</string>
   <string name="projects_status_schedrpcinprogress">Відбувається запит інформації у планувальника</string>
   <string name="projects_status_trickleuppending">Очікування проміжного відправлення</string>
-  <string name="projects_status_backoff">Зв’язок за розкладом:</string>
+  <string name="projects_status_backoff">Зв’язок за розкладом: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Команди проекту:</string>
   <string name="projects_control_visit_website">Відвідати веб-сторінку</string>

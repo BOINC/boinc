@@ -210,7 +210,7 @@
     <string name="projects_status_schedrpcpending">스케줄러 요청 대기중</string>
     <string name="projects_status_schedrpcinprogress">스케줄러 요청 처리중</string>
     <string name="projects_status_trickleuppending">Trickle up 메세지 대기중</string>
-    <string name="projects_status_backoff">예약된 통신 시각:</string>
+    <string name="projects_status_backoff">예약된 통신 시각: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">프로젝트 명령:</string>
     <string name="projects_control_visit_website">웹사이트 방문</string>

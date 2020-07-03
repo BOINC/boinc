@@ -228,7 +228,7 @@ BOINC应当暂停运算？
   <string name="projects_status_schedrpcpending">等待调度请求</string>
   <string name="projects_status_schedrpcinprogress">正在进行调度请求</string>
   <string name="projects_status_trickleuppending">上传消息等待中</string>
-  <string name="projects_status_backoff">通讯被延迟在：</string>
+  <string name="projects_status_backoff">通讯被延迟在： %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">项目命令：</string>
   <string name="projects_control_visit_website">访问网站</string>

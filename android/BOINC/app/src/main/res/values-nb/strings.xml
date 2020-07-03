@@ -224,7 +224,7 @@
     <string name="projects_status_schedrpcpending">Forespørsel fra planleggeren venter</string>
     <string name="projects_status_schedrpcinprogress">Forespørsel fra planleggeren pågår</string>
     <string name="projects_status_trickleuppending">Godskriv andelsmelding venter</string>
-    <string name="projects_status_backoff">Kommunikasjon planlagt om:</string>
+    <string name="projects_status_backoff">Kommunikasjon planlagt om: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Prosjektkommandoer</string>
     <string name="projects_control_visit_website">Besøk hjemmeside</string>

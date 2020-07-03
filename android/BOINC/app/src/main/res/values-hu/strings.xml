@@ -231,7 +231,7 @@
     <string name="projects_status_schedrpcpending">Függő kérés az ütemezőhöz</string>
     <string name="projects_status_schedrpcinprogress">Ütemező által indított kérés folyamatban</string>
     <string name="projects_status_trickleuppending">Időközi jelentés függőben</string>
-    <string name="projects_status_backoff">Kommunikáció időzítve:</string>
+    <string name="projects_status_backoff">Kommunikáció időzítve: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekt parancsok:</string>
     <string name="projects_control_visit_website">Nézd meg a weboldalt</string>

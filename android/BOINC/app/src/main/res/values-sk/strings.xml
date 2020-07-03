@@ -218,7 +218,7 @@
   <string name="projects_status_schedrpcpending">Žiadosť plánovača nevyriešená</string>
   <string name="projects_status_schedrpcinprogress">Spracováva sa požiadavka plánovača</string>
   <string name="projects_status_trickleuppending">Rýchla správa o stave čaká na odoslanie</string>
-  <string name="projects_status_backoff">Komunikácia je naplánovaná o:</string>
+  <string name="projects_status_backoff">Komunikácia je naplánovaná o: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Príkazy projektu:</string>
   <string name="projects_control_visit_website">Navštíviť stránku</string>

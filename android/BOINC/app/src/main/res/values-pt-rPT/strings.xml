@@ -215,7 +215,7 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="projects_status_schedrpcpending">Solicitação agendada pendente</string>
   <string name="projects_status_schedrpcinprogress">Solicitação agendada em progresso</string>
   <string name="projects_status_trickleuppending">Mensagem de aviso pendente</string>
-  <string name="projects_status_backoff">Comunicação agendada em:</string>
+  <string name="projects_status_backoff">Comunicação agendada em: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandos do projeto:</string>
   <string name="projects_control_visit_website">Visitar site da Web</string>

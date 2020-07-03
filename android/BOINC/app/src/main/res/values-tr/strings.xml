@@ -206,7 +206,7 @@
     <string name="projects_status_schedrpcpending">Zamanlanmış istek kuyrukta</string>
     <string name="projects_status_schedrpcinprogress">Zamanlanmış istek gerçekleştiriliyor</string>
     <string name="projects_status_trickleuppending">İş ilerleme mesajı kuyrukta</string>
-    <string name="projects_status_backoff">İletişim ertelendi:</string>
+    <string name="projects_status_backoff">İletişim ertelendi: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Proje komutları:</string>
     <string name="projects_control_visit_website">Sitesine git</string>

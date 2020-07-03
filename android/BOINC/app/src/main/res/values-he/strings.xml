@@ -217,7 +217,7 @@
     <string name="projects_status_schedrpcpending">בקשה מתוזמנת ממתינה</string>
     <string name="projects_status_schedrpcinprogress">בקשה מתוזמנת בהתקדמות</string>
     <string name="projects_status_trickleuppending">הודעת טפטוף עולה ממתינה</string>
-    <string name="projects_status_backoff">תקשורת מתוזמנת ב-:</string>
+    <string name="projects_status_backoff">תקשורת מתוזמנת ב-: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">פקודות מיזם:</string>
     <string name="projects_control_visit_website">בקר באתר</string>

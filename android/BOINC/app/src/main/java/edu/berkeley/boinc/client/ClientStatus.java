@@ -372,11 +372,11 @@ public class ClientStatus {
             final Instant now = Instant.now();
             final Instant minRPCTime = Instant.ofEpochSecond((long) project.getMinRPCTime());
             if(minRPCTime.compareTo(now) > 0) {
-                appendToStatus(
-                        sb,
-                        context.getResources().getString(R.string.projects_status_backoff) + " " +
-                        DateUtils.formatElapsedTime(Duration.between(now, minRPCTime).getSeconds())
-                );
+                final String elapsedTime = DateUtils.formatElapsedTime(Duration.between(now, minRPCTime)
+                                                                               .getSeconds());
+                final String backoff = context.getResources().getString(R.string.projects_status_backoff,
+                                                                        elapsedTime);
+                appendToStatus(sb, backoff);
             }
         }
         return sb.toString();

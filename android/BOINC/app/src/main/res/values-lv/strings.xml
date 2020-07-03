@@ -229,7 +229,7 @@
     <string name="projects_status_schedrpcpending">Gaida plānotāja pieprasījuma rezultātu</string>
     <string name="projects_status_schedrpcinprogress">Izveic plānotāja pieprasījumu</string>
     <string name="projects_status_trickleuppending">Gaida uzsūkšanās ziņu</string>
-    <string name="projects_status_backoff">Saziņa ieplānota pēc:</string>
+    <string name="projects_status_backoff">Saziņa ieplānota pēc: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekta komandas:</string>
     <string name="projects_control_visit_website">Apmeklēt tīmekļa vietni</string>
