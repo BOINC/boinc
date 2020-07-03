@@ -263,7 +263,7 @@
   <string name="trans_loading">Lade Übertragungen…</string>
   <string name="trans_upload">Hochladen</string>
   <string name="trans_download">Herunterladen</string>
-  <string name="trans_retryin">erneut versuchen in</string>
+  <string name="trans_retry_in">erneut versuchen in %1$s</string>
   <string name="trans_failed">fehlgeschlagen</string>
   <string name="trans_suspended">angehalten</string>
   <string name="trans_active">aktiv</string>

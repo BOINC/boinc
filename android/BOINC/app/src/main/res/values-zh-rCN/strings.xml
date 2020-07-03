@@ -280,7 +280,7 @@ BOINC应当暂停运算？
   <string name="trans_loading">正在读取传输信息...</string>
   <string name="trans_upload">上传</string>
   <string name="trans_download">下载</string>
-  <string name="trans_retryin">稍后重试 </string>
+  <string name="trans_retry_in">稍后重试 %1$s</string>
   <string name="trans_failed">失败</string>
   <string name="trans_suspended">已暂停</string>
   <string name="trans_active">活动</string>

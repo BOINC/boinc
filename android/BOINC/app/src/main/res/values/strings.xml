@@ -314,7 +314,7 @@
     <string name="trans_loading">Reading transfers&#8230;</string>
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
-    <string name="trans_retryin">retry in</string>
+    <string name="trans_retry_in">retry in %1$s</string>
     <string name="trans_failed">failed</string>
     <string name="trans_suspended">suspended</string>
     <string name="trans_active">active</string>

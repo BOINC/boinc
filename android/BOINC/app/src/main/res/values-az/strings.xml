@@ -282,7 +282,7 @@
     <string name="trans_loading">Transferlər oxunur...</string>
     <string name="trans_upload">Yükləmə</string>
     <string name="trans_download">Endirmə</string>
-    <string name="trans_retryin">yenidən cəhd edin</string>
+    <string name="trans_retry_in">yenidən cəhd edin %1$s</string>
     <string name="trans_failed">uğursuz</string>
     <string name="trans_suspended">dayandırıldı</string>
     <string name="trans_active">aktivdir</string>

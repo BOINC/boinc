@@ -261,7 +261,7 @@
     <string name="trans_loading">転送を読み込み中…</string>
     <string name="trans_upload">アップロード</string>
     <string name="trans_download">ダウンロード</string>
-    <string name="trans_retryin">次の時間内に再試行</string>
+    <string name="trans_retry_in">次の時間内に再試行 %1$s</string>
     <string name="trans_failed">失敗</string>
     <string name="trans_suspended">一時停止中</string>
     <string name="trans_active">アクティブ</string>
