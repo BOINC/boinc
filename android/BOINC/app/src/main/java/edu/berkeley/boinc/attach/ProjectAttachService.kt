@@ -305,17 +305,14 @@ class ProjectAttachService : LifecycleService() {
     }
 
     inner class ProjectAttachWrapper {
-        var url // URL, manually inserted, or from projectInfo
-                : String
-        var info // chosen from list
-                : ProjectInfo? = null
+        // URL, manually inserted, or from projectInfo
+        var url: String
+        // chosen from list
+        var info: ProjectInfo? = null
         // name of project in debug messages, do not use otherwise!
-        @JvmField
         var name: String
         // has to be downloaded, available if RESULT_READY
-        @JvmField
         var config: ProjectConfig? = null
-        @JvmField
         var result = Companion.RESULT_UNINITIALIZED
 
         constructor(info: ProjectInfo) {

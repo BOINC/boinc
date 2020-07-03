@@ -47,8 +47,9 @@
             android:layout_below="@+id/logo"
             android:padding="5dp"
             android:background="@drawable/shape_dark_blue_background"/>
-    <ListView
-            android:id="@+id/list_view"
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/desc"
