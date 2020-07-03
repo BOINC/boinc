@@ -240,7 +240,7 @@
     <!--project confirm dialog-->
     <string name="projects_confirm_title">%1$s project?</string>
     <string name="projects_confirm_message">Are you sure you want to %1$s %2$s?</string>
-    <string name="projects_confirm_detach_message">Are you sure you want to remove</string>
+    <string name="projects_confirm_detach_message">from BOINC</string>
     <string name="projects_confirm_detach_confirm">Remove</string>
     <string name="projects_confirm_reset_confirm">Reset</string>
     <string name="projects_confirm_remove_acctmgr_title">Disable account manager</string>
