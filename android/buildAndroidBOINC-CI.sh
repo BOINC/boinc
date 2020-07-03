@@ -146,7 +146,6 @@ createNDKFolder()
         wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
         unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
         export CREATED_NDK_FOLDER="yes"
-        touch "${NDK_FLAGFILE}"
     fi
 }
 
@@ -154,13 +153,14 @@ if [ ci = "yes" ]; then
     if [ ! -e "${NDK_FLAGFILE}" ]; then
         rm -rf $OPENSSL_FLAGFILE
         rm -rf $CURL_FLAGFILE
+        touch "${NDK_FLAGFILE}"
     fi
     createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
         rm -rf $OPENSSL_FLAGFILE
         rm -rf $CURL_FLAGFILE
-        export CREATED_NDK_FOLDER="no"
+        touch "${NDK_FLAGFILE}"
         createNDKFolder
     fi
 fi
