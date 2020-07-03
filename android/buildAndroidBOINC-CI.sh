@@ -154,7 +154,6 @@ if [ ci = "yes" ]; then
     if [ ! -e "${NDK_FLAGFILE}" ]; then
         rm -rf $OPENSSL_FLAGFILE
         rm -rf $CURL_FLAGFILE
-        export CREATED_NDK_FOLDER="no"
     fi
     createNDKFolder
 else
