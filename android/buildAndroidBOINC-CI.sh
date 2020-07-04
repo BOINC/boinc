@@ -148,7 +148,7 @@ createNDKFolder()
     fi
 }
 
-if [ $ci = "yes" ]; then
+if [ "$ci" = "yes" ]; then
     createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
