@@ -40,6 +40,7 @@ import edu.berkeley.boinc.utils.Logging;
 
 public class EventLogGuiFragment extends Fragment {
     private EventLogActivity a;
+    private GuiLogRecyclerViewAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,10 +48,9 @@ public class EventLogGuiFragment extends Fragment {
 
         final EventLogGuiLayoutBinding binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
 
-        a.guiLogList = binding.guiLogList;
-        a.guiLogRecyclerViewAdapter = new GuiLogRecyclerViewAdapter(a.guiLogData);
-        a.guiLogList.setLayoutManager(new LinearLayoutManager(getContext()));
-        a.guiLogList.setAdapter(a.guiLogRecyclerViewAdapter);
+        adapter = new GuiLogRecyclerViewAdapter(a.getGuiLogData());
+        binding.guiLogList.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.guiLogList.setAdapter(adapter);
 
         // read messages
         readLogcat();
@@ -64,7 +64,7 @@ public class EventLogGuiFragment extends Fragment {
 
     private void readLogcat() {
         int number = getResources().getInteger(R.integer.eventlog_gui_messages);
-        a.guiLogData.clear();
+        a.getGuiLogData().clear();
         try {
             String logLevelFilter = Logging.TAG;
             switch(Logging.LOGLEVEL) {
@@ -96,14 +96,14 @@ public class EventLogGuiFragment extends Fragment {
             int x = 0;
             while((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
                 if(x > 1) {
-                    a.guiLogData.add(0, line); // cut off first two lines, prepend to array (most current on top)
+                    a.getGuiLogData().add(0, line); // cut off first two lines, prepend to array (most current on top)
                 }
                 x++;
             }
             if(Logging.VERBOSE) {
-                Log.v(Logging.TAG, "readLogcat read " + a.guiLogData.size() + " lines.");
+                Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
             }
-            a.guiLogRecyclerViewAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         catch(IOException e) {
             if(Logging.WARNING) {
