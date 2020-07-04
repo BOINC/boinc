@@ -14,7 +14,7 @@ set -e
 
 echo ANDROID_TC=$ANDROID_TC
 
-array_libs=("libcrypto.a" "libssl.a" "libcurl.a")
+declare -a array_libs=("libcrypto.a" "libssl.a" "libcurl.a")
 
 for i in "${array_libs[@]}"; do
     if [[ $(readelf -A $(find $ANDROID_TC/arm  -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]]; then
