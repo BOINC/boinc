@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.ui.eventlog;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.adapter.ClientLogRecyclerViewAdapter;
 import edu.berkeley.boinc.adapter.GuiLogRecyclerViewAdapter;
 import edu.berkeley.boinc.client.IMonitor;

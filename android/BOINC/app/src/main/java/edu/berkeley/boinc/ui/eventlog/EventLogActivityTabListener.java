@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.ui.eventlog;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBar.Tab;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.*;
-import androidx.appcompat.app.ActionBar.Tab;
 
 public class EventLogActivityTabListener<T extends Fragment> implements ActionBar.TabListener {
 
