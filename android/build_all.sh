@@ -20,7 +20,7 @@ cd android/
 array_libs=("libcrypto.a" "libssl.a" "libcurl.a")
 
 for i in "${array_libs[@]}"; do
-    if [ $(readelf -A $(find $ANDROID_TC/arm  -name "$i") | grep -i neon) ]; then
+    if [[ $(readelf -A $(find $ANDROID_TC/arm  -name "$i") | grep -i neon) ]]; then
         echo "$i" is with neon optimization
         exit 1
     fi
