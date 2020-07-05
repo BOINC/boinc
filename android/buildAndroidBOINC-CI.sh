@@ -136,7 +136,8 @@ fi
 
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
-export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
+export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
+export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
 export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
 export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
 export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
@@ -152,11 +153,11 @@ createNDKFolder()
 }
 
 if [ "$ci" = "yes" ]; then
-    if [ ! -e "${NDK_FLAGFILE}" ]; then
+    if [ ! -e "${NDK_CI_FLAGFILE}" ]; then
         rm -rf "${PREFIX}/${arch}"
         rm -rf "${OPENSSL_FLAGFILE}"
         rm -rf "${CURL_FLAGFILE}"
-        touch "${NDK_FLAGFILE}"
+        touch "${NDK_CI_FLAGFILE}"
     fi
     createNDKFolder
 else
