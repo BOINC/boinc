@@ -125,6 +125,7 @@ if [ "${doclean}" = "yes" ]; then
     rm -f /tmp/ndk_${NDK_VERSION}.zip
     rm -f /tmp/openssl_${OPENSSL_VERSION}.tgz
     rm -f /tmp/curl_${CURL_VERSION}.tgz
+    ./clear_environment.sh
 fi
 
 if [ "${silent}" = "yes" ]; then

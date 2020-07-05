@@ -44,7 +44,7 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" 1>$STDOUT_TARGET
-        #override flags in Makefile
+        # override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
