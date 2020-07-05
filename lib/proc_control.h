@@ -36,6 +36,11 @@ extern void kill_descendants(int child_pid=0);
 #endif
 extern void suspend_or_resume_descendants(bool resume);
 extern void suspend_or_resume_process(int pid, bool resume);
+#ifdef _WIN32
+extern void get_job_object_processes(HANDLE job_handle, std::vector<int>& pids);
+extern void suspend_or_resume_job_object(HANDLE job_handle, bool resume);
+extern void kill_job_object(HANDLE job_handle);
+#endif
 
 extern int process_priority_value(int);
 
