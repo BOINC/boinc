@@ -189,15 +189,10 @@ Gaitu soilik gailuak bateriarik ez badu.
 Ez da gomendatzen balio hau aldatzea.
 </string>
   <string name="prefs_disk_max_pct_header">Erabilitako gehieneko biltegiratze tamaina</string>
-  <string name="prefs_disk_max_pct_description">Zure gailuko biltegiratze tamainaren ehuneko zenbat erabil dezake
-BOINCek?
-</string>
-  <string name="prefs_disk_min_free_gb_header">Gutxieneko biltegiratze tamaina libre</string>
-  <string name="prefs_disk_min_free_gb_description">Zure gailuko biltegiratze tamainatik zenbat gelditu beharko litzateke libre?</string>
+    <string name="prefs_disk_min_free_gb_header">Gutxieneko biltegiratze tamaina libre</string>
   <string name="prefs_disk_access_interval_header">Sartzeko denbora-tartea</string>
   <string name="prefs_disk_access_interval_description">Diskoko atzipenen arteko denbora-tartea iradokitzen du</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Eguneko transferentzia muga</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">BOINCek eragindako eguneroko datu-trafikoa mugatzen du.</string>
   <string name="prefs_network_wifi_only_header">Transferitu atazak soilik WiFia dagoenean</string>
   <string name="prefs_autostart_header">Abiarazte automatikoa</string>
   <string name="prefs_show_notification_notices_header">Erakutsi ohar berrien jakinarazpenak</string>
@@ -213,11 +208,7 @@ pausarazten duen zehazten du.
   <string name="prefs_memory_max_idle_header">RAM memoriaren muga</string>
   <string name="prefs_memory_max_idle_description">Atazek erabil dezaketen RAM kopurua mugatzen du.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Lan-unitateen bufferra</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Gorde gutxienez X egunetarako lana</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Lan-unitateen buffer gehigarria</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Gorde X egunetarako lan
-gehigarria
-</string>
   <string name="prefs_client_log_flags_header">BOINC bezeroaren erregistro banderak</string>
   <string name="prefs_gui_log_level_header">GUIren erregistro maila</string>
   <string name="prefs_gui_log_level_description">GUIren erregistro-mezuen luzera zehazten du.</string>
@@ -281,7 +272,7 @@ gehigarria
   <string name="tasks_custom_ready_to_report">emaitzak bidaltzeko prest</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Ataza bertan behera utzi?</string>
-  <string name="confirm_abort_task_message">Bertan behera utzi ataza:</string>
+  <string name="confirm_abort_task_message">Bertan behera utzi ataza: %1$s</string>
   <string name="confirm_abort_task_confirm">Bertan behera utzi</string>
   <string name="confirm_cancel">Utzi</string>
   <string name="confirm_image_desc">Berresteko elkarrizketa-koadroa</string>

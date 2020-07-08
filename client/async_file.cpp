@@ -50,7 +50,7 @@ using std::vector;
 vector<ASYNC_VERIFY*> async_verifies;
 vector<ASYNC_COPY*> async_copies;
 
-#define BUFSIZE 64*1024
+#define BUFSIZE (64*1024)
 
 // set up an async copy operation.
 //

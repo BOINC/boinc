@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,55 +18,55 @@
  */
 package edu.berkeley.boinc;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBar.Tab;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
-import edu.berkeley.boinc.utils.*;
-
-import android.content.ClipData;
-import android.content.ComponentName;
-import android.content.ClipboardManager;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar.Tab;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import edu.berkeley.boinc.utils.Logging;
 
 public class EventLogActivity extends AppCompatActivity {
-
     private IMonitor monitor;
-    private Boolean mIsBound = false;
+    private boolean mIsBound = false;
 
     public EventLogClientFragment clientFrag;
     public ListView clientLogList;
     public ClientLogListAdapter clientLogListAdapter;
-    public ArrayList<Message> clientLogData = new ArrayList<>();
+    public List<Message> clientLogData = new ArrayList<>();
 
-    public EventLogGuiFragment guiFrag;
     public ListView guiLogList;
     public ArrayAdapter<String> guiLogListAdapter;
-    public ArrayList<String> guiLogData = new ArrayList<>();
+    public List<String> guiLogData = new ArrayList<>();
 
-    private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<>();
+    private List<EventLogActivityTabListener<?>> listeners = new ArrayList<>();
 
-    final static int GUI_LOG_TAB_ACTIVE = 1;
-    final static int CLIENT_LOG_TAB_ACTIVE = 2;
+    static final int GUI_LOG_TAB_ACTIVE = 1;
+    static final int CLIENT_LOG_TAB_ACTIVE = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         // setup action bar
@@ -77,7 +77,7 @@ public class EventLogActivity extends AppCompatActivity {
 
         EventLogActivityTabListener<EventLogClientFragment> clientListener =
                 new EventLogActivityTabListener<>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
-        listener.add(clientListener);
+        listeners.add(clientListener);
         Tab tab = actionBar.newTab()
                            .setText(R.string.eventlog_client_header)
                            .setTabListener(clientListener);
@@ -85,7 +85,7 @@ public class EventLogActivity extends AppCompatActivity {
 
         EventLogActivityTabListener<EventLogGuiFragment> guiListener =
                 new EventLogActivityTabListener<>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
-        listener.add(guiListener);
+        listeners.add(guiListener);
         tab = actionBar.newTab()
                        .setText(R.string.eventlog_gui_header)
                        .setTabListener(guiListener);
@@ -107,6 +107,7 @@ public class EventLogActivity extends AppCompatActivity {
      * only necessary, when function on monitor instance has to be called
      */
     private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             if(Logging.VERBOSE) {
                 Log.d(Logging.TAG, "EventLogActivity onServiceConnected");
@@ -118,6 +119,7 @@ public class EventLogActivity extends AppCompatActivity {
             ((EventLogClientFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.eventlog_client_header))).init();
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName className) {
             monitor = null;
             mIsBound = false;
@@ -138,10 +140,8 @@ public class EventLogActivity extends AppCompatActivity {
     }
 
     public IMonitor getMonitorService() {
-        if(!mIsBound) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
-            }
+        if(!mIsBound && Logging.WARNING) {
+            Log.w(Logging.TAG, "Fragment trying to obtain service reference, but Monitor not bound in EventLogActivity");
         }
         return monitor;
     }
@@ -171,7 +171,7 @@ public class EventLogActivity extends AppCompatActivity {
     }
 
     private int getActiveLog() {
-        for(EventLogActivityTabListener<?> tmp : listener) {
+        for(EventLogActivityTabListener<?> tmp : listeners) {
             if(tmp.currentlySelected) {
                 if(tmp.mClass == EventLogClientFragment.class) {
                     return CLIENT_LOG_TAB_ACTIVE;
@@ -185,7 +185,7 @@ public class EventLogActivity extends AppCompatActivity {
     }
 
     private void updateCurrentFragment() {
-        for(EventLogActivityTabListener<?> tmp : listener) {
+        for(EventLogActivityTabListener<?> tmp : listeners) {
             if(tmp.currentlySelected) {
                 if(tmp.mClass == EventLogClientFragment.class) {
                     ((EventLogClientFragment) tmp.mFragment).update();
@@ -200,7 +200,7 @@ public class EventLogActivity extends AppCompatActivity {
 
     private void onCopy() {
         try {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = ContextCompat.getSystemService(this, ClipboardManager.class);
             ClipData clipData = ClipData.newPlainText("log", getLogDataAsString());
             clipboard.setPrimaryClip(clipData);
             Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
@@ -243,7 +243,7 @@ public class EventLogActivity extends AppCompatActivity {
         if(type == CLIENT_LOG_TAB_ACTIVE) {
             text.append(getString(R.string.eventlog_client_header)).append("\n\n");
             for(int index = 0; index < clientLogList.getCount(); index++) {
-                text.append(clientLogListAdapter.getDate(index));
+                text.append(clientLogListAdapter.getDateTimeString(index));
                 text.append("|");
                 text.append(clientLogListAdapter.getProject(index));
                 text.append("|");

@@ -1,21 +1,25 @@
 package edu.berkeley.boinc.client;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Result;
-import edu.berkeley.boinc.utils.Logging;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 
 public class ClientNotification {
 
@@ -29,7 +33,7 @@ public class ClientNotification {
 
     private int mOldComputingStatus = -1;
     private int mOldSuspendReason = -1;
-    private ArrayList<Result> mOldActiveTasks = new ArrayList<>();
+    private List<Result> mOldActiveTasks = new ArrayList<>();
     private boolean notificationShown = false;
     // debug foreground state by running
     // adb shell: dumpsys activity services edu.berkeley.boinc
@@ -48,9 +52,9 @@ public class ClientNotification {
         return clientNotification;
     }
 
-    public ClientNotification(Context ctx) {
+    private ClientNotification(Context ctx) {
         this.context = ctx;
-        this.nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -59,31 +63,34 @@ public class ClientNotification {
     }
 
     /**
-     * Updates notification with client's current status. Notifies if not present. Checking notification related preferences.
+     * Updates notification with client's current status. Notifies if not present. Checking
+     * notification-related preferences.
      *
      * @param updatedStatus client status data
      * @param service       reference to service, sets to foreground if active
-     * @param active        indicator whether BOINC should stay in foreground (during computing and idle, i.e. not suspended)
+     * @param active        indicator whether BOINC should stay in foreground (during computing and
+     *                      idle, i.e. not suspended)
      */
     public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
-
         // nop if data is not present
         if(service == null || updatedStatus == null) {
             return;
         }
 
         //check if active tasks have changed to force update
-        Boolean activeTasksChanged = false;
-        if(active && updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
-            ArrayList<Result> activeTasks = updatedStatus.getExecutingTasks();
+        boolean activeTasksChanged = false;
+        if(active.equals(Boolean.TRUE) &&
+           updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+            List<Result> activeTasks = updatedStatus.getExecutingTasks();
             if(activeTasks.size() != mOldActiveTasks.size()) {
                 activeTasksChanged = true;
             }
             else {
                 for(int x = 0; x < activeTasks.size(); x++) {
-                    if(!activeTasks.get(x).name.equals(mOldActiveTasks.get(x).name)) {
+                    if(!activeTasks.get(x).getName().equals(mOldActiveTasks.get(x).getName())) {
                         activeTasksChanged = true;
-                        Log.d("blub", "bla " + activeTasks.get(x).name + " vs. " + mOldActiveTasks.get(x).name); //TODO
+                        Log.d(Logging.TAG, "Active task: " + activeTasks.get(x).getName()
+                                           + ", old active task: " + mOldActiveTasks.get(x).getName());
                         break;
                     }
                 }
@@ -97,12 +104,11 @@ public class ClientNotification {
             activeTasksChanged = true;
         }
 
-        // update notification, only
-        // if it hasn't been shown before, or
-        // after change in status
+        // update notification, only if it hasn't been shown before, or after change in status
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG,
-                  "ClientNotification: notification needs update? " + (clientNotification.mOldComputingStatus == -1)
+                  "ClientNotification: notification needs update? "
+                  + (clientNotification.mOldComputingStatus == -1)
                   + activeTasksChanged
                   + !notificationShown
                   + (updatedStatus.computingStatus != clientNotification.mOldComputingStatus)
@@ -130,7 +136,7 @@ public class ClientNotification {
 
         // start foreground service, if requested
         // notification instance exists now, but might be out-dated (if screen is off)
-        if(active && !foreground) {
+        if(active.equals(Boolean.TRUE) && !foreground) {
             setForegroundState(service, true);
         }
     }
@@ -155,7 +161,7 @@ public class ClientNotification {
     }
 
     @SuppressLint("InlinedApi")
-    private Notification buildNotification(ClientStatus status, Boolean active, ArrayList<Result> activeTasks) {
+    private Notification buildNotification(ClientStatus status, Boolean active, List<Result> activeTasks) {
         // get current client computingstatus
         Integer computingStatus = status.computingStatus;
         // get status strings from ClientStatus
@@ -165,8 +171,8 @@ public class ClientNotification {
         // build notification
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
-          .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), getIcon(computingStatus)))
+          .setSmallIcon(getIcon(computingStatus, true))
+          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus, false)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
@@ -181,11 +187,15 @@ public class ClientNotification {
         // set action based on computing status
         if(computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // add resume button
-            nb.addAction(R.drawable.playw, context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
+            // 0 - only text. Unify all versions of android with text button.
+            nb.addAction(0,
+                         context.getString(R.string.menu_run_mode_enable), getActionIntent(2));
         }
         else {
             // add suspend button
-            nb.addAction(R.drawable.pausew, context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
+            // 0 - only text. Unify all versions of android with text button.
+            nb.addAction(0,
+                         context.getString(R.string.menu_run_mode_disable), getActionIntent(1));
         }
 
         // set tasks if computing
@@ -197,7 +207,7 @@ public class ClientNotification {
             // set names in list
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             for(Result task : activeTasks) {
-                inboxStyle.addLine(task.project.getName() + ": " + task.app.getName());
+                inboxStyle.addLine(task.getProject().getName() + ": " + task.getApp().getDisplayName());
             }
             nb.setStyle(inboxStyle);
         }
@@ -218,23 +228,34 @@ public class ClientNotification {
     }
 
     // returns resource id of icon
-    private int getIcon(int status) {
+    private int getIcon(int status, boolean isSmall) {
         int icon;
         switch(status) {
             case ClientStatus.COMPUTING_STATUS_NEVER:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
-                break;
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
-                break;
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_stat_notify_boinc_paused;
-                break;
-            case ClientStatus.COMPUTING_STATUS_COMPUTING:
-                icon = R.drawable.ic_stat_notify_boinc_normal;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_paused_white;
+                    } else {
+                        icon = R.mipmap.ic_boinc_paused_notification;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc_paused;
+                }
                 break;
             default:
-                icon = R.drawable.ic_stat_notify_boinc_normal;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_white;
+                    } else {
+                        icon = R.mipmap.ic_launcher;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc;
+                }
         }
         return icon;
     }

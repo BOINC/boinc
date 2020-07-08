@@ -186,15 +186,10 @@
         المقررة. لا ينصح بتغيير هذه القيمة.
     </string>
     <string name="prefs_disk_max_pct_header">الحد الاقصى للسعة التخزينية المستخدمة</string>
-    <string name="prefs_disk_max_pct_description">كم تكون النسبة المئوية من السعة التخزينية للجهاز المسموحة لBOINC
-        استخدامها؟
-    </string>
     <string name="prefs_disk_min_free_gb_header">الحد الأدنى للسعة التخزينية</string>
-    <string name="prefs_disk_min_free_gb_description">ما حجم السعة التخزينية التى ستظل غير مستخدمة؟</string>
     <string name="prefs_disk_access_interval_header">فاصل الوصول</string>
     <string name="prefs_disk_access_interval_description">يقترح فاصلا بين الوصول إلى القرص</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">حد النقل اليومي</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">يقرر معدل حركة البيانات اليومية الخاصة بBOINC</string>
     <string name="prefs_network_wifi_only_header">نقل المهام عن طريق الشبكة اللاسلكية فقط</string>
     <string name="prefs_autostart_header">بدء تلقائي</string>
     <string name="prefs_show_notification_notices_header">عرض الإخطار للإشعارات الجديدة</string>
@@ -273,7 +268,7 @@
     <string name="tasks_custom_ready_to_report">جاهز للتسليم</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">إحباط المهمة؟</string>
-    <string name="confirm_abort_task_message">إحباط المهمة:</string>
+    <string name="confirm_abort_task_message">إحباط المهمة: %1$s</string>
     <string name="confirm_abort_task_confirm">إحباط</string>
     <string name="confirm_cancel">إلغاء</string>
     <string name="confirm_image_desc">محادثة التأكيد</string>

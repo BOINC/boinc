@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,6 +23,7 @@
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
+#include <SystemConfiguration/SystemConfiguration.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,6 +44,7 @@ extern "C" {
 #include <sys/stat.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <pthread.h>
+#include <pwd.h>    // getpwuid
 
 #include "gui_rpc_client.h"
 #include "common_defs.h"
@@ -103,10 +105,10 @@ static int retryCount = 0;
 static pthread_mutexattr_t saver_mutex_attr;
 pthread_mutex_t saver_mutex;
 static char passwd_buf[256];
+char gUserName[64];
 bool gIsHighSierra = false;  // OS 10.13 or later
 bool gIsMojave = false;     // OS 10.14 or later
 bool gIsCatalina = false;   // OS 10.15 or later
-bool gUseLaunchAgent = false;
 
 const char *  CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
@@ -119,7 +121,7 @@ const char *  CantLaunchDefaultGFXAppMsg = "Can't launch default screensaver mod
 const char *  DefaultGFXAppCantRPCMsg = "Default screensaver module couldn't connect to BOINC application";
 const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrecoverable error";
 const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while running on battery power.";
-const char *  IncompatibleMsg = "Could not connect to screensaver ";
+const char *  IncompatibleMsg = " is not compatible with this version of OS X.";
 const char *  CCNotRunningMsg = "BOINC is not running.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
@@ -211,7 +213,7 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
             
             retval = gspScreensaver->rpc->get_state(gspScreensaver->state);
             if (!retval) {
-                strlcpy(buf, IncompatibleMsg, sizeof(buf));
+                strlcpy(buf, "Screensaver ", sizeof(buf));
                 for (int i=0; i<gspScreensaver->state.results.size(); i++) {
                     RESULT* r = gspScreensaver->state.results[i];
                     if (r->slot == slot) {
@@ -233,6 +235,7 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
                 strlcat(buf, p+1, sizeof(buf));
                 strlcat(buf, "\"", sizeof(buf));
             }
+            strlcat(buf, IncompatibleMsg, sizeof(buf));
             gspScreensaver->setSSMessageText(buf);
             gspScreensaver->SetError(0, SCRAPPERR_GFXAPPINCOMPATIBLE);
         }   // End if (msgstartTime == 0.0)
@@ -305,6 +308,7 @@ void doBoinc_Sleep(double seconds) {
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     char saved_dir[MAXPATHLEN];
+    std::string msg;
     
     m_dwBlankScreen = 0;
     m_dwBlankTime = 0;
@@ -328,11 +332,14 @@ CScreensaver::CScreensaver() {
     m_gfx_Cleanup_IPC = NULL;
     safe_strcpy(passwd_buf, "");
    
-    if (gUseLaunchAgent) {
+    if (gIsCatalina) {
         getcwd(saved_dir, sizeof(saved_dir));
         chdir("/Library/Application Support/BOINC Data");
-        read_gui_rpc_password(passwd_buf);
+        read_gui_rpc_password(passwd_buf, msg);
         chdir(saved_dir);
+        
+        CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
+        CFStringGetCString(cf_gUserName, gUserName, sizeof(gUserName), kCFStringEncodingUTF8);
     }
     
     // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
@@ -400,7 +407,7 @@ int CScreensaver::Create() {
         strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
         strlcat(m_gfx_Cleanup_Path, "/gfx_cleanup\"", sizeof(m_gfx_Switcher_Path));
 
-        if (gUseLaunchAgent) {
+        if (gIsCatalina) {
             // Launch helper app to work around a bug in OS 10.15 Catalina to
             // kill current graphics app if ScreensaverEngine exits without 
             // first calling [ScreenSaverView stopAnimation]
@@ -538,7 +545,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         myPid = getClientPID();
         if (myPid) {
             saverState = SaverState_CoreClientRunning;
-
             if (!rpc->init(NULL)) {     // Initialize communications with Core Client
                 m_bConnected = true;
                 
@@ -954,7 +960,7 @@ int CScreensaver::GetBrandID()
 
 pid_t CScreensaver::getClientPID() {
     int fd;
-    fd = open("/Library/Application Support/BOINC Data/lockfile", O_RDONLY);
+    fd = open("//Library/Application Support/BOINC Data/lockfile", O_RDONLY);
     if (fd<0) {
         return 0;   // lockfile doesn't exist (probably)
     }
@@ -1106,7 +1112,7 @@ void print_to_log_file(const char *format, ...) {
     time_t t;
 #if USE_SPECIAL_LOG_FILE
     safe_strcpy(buf, "/Users/");
-    safe_strcat(buf, getenv("USER"));
+    safe_strcat(buf, getlogin());
     safe_strcat(buf, "/Documents/test_log.txt");
     FILE *f;
     f = fopen(buf, "a");

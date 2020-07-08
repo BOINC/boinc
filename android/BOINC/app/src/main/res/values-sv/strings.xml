@@ -179,14 +179,10 @@ bara om enheten inte har ett batteri.</string>
   <string name="battery_temperature_max_description">BOINC pausar beräkningen när den inställda batteritemperaturen överstigs.
 Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_disk_max_pct_header">Max. använt lagringsutrymme</string>
-  <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme tillåts BOINC
-använda?</string>
-  <string name="prefs_disk_min_free_gb_header">Minsta lediga lagringsutrymme</string>
-  <string name="prefs_disk_min_free_gb_description">Hur många procent av din enhets lagringsutrymme skall förbli ledigt?</string>
+    <string name="prefs_disk_min_free_gb_header">Minsta lediga lagringsutrymme</string>
   <string name="prefs_disk_access_interval_header">Tillgångsintervall</string>
   <string name="prefs_disk_access_interval_description">Föreslår en intervall mellan varje tillgång till disken</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Daglig överföringsgräns</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Begränsar den dagliga använda datatraffiken för BOINC.</string>
   <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
   <string name="prefs_autostart_header">Autostart</string>
   <string name="prefs_show_notification_notices_header">Visa avisering för nya BOINC-meddelanden</string>
@@ -201,10 +197,7 @@ appars CPU-användning.</string>
   <string name="prefs_memory_max_idle_header">RAM-gräns</string>
   <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbetsuppgiftsbuffert</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Lagra minst X dagars arbete</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Ytterligare arbetsuppgiftsbuffert</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Lagra ytterligare upp till X dagars
-arbete</string>
   <string name="prefs_client_log_flags_header">BOINC-klientens loggningsflaggor</string>
   <string name="prefs_gui_log_level_header">Användargränssnittets (GUI) loggningsnivå</string>
   <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI) loggningsmeddelanden.</string>
@@ -268,7 +261,7 @@ arbete</string>
   <string name="tasks_custom_ready_to_report">redo att rapportera</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Avbryta uppgift?</string>
-  <string name="confirm_abort_task_message">Avbryt uppgift:</string>
+  <string name="confirm_abort_task_message">Avbryt uppgift: %1$s</string>
   <string name="confirm_abort_task_confirm">Avbryt</string>
   <string name="confirm_cancel">Avbryt</string>
   <string name="confirm_image_desc">Bekräftelse-dialogruta</string>

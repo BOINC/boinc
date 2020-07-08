@@ -186,13 +186,10 @@ pokud zařízení nemá baterii.
 Tuto hodnotu nedoporučujeme měnit.
 </string>
   <string name="prefs_disk_max_pct_header">Max. použitelné úložiště</string>
-  <string name="prefs_disk_max_pct_description">Kolik procent z vašeho úložného prostoru v zařízení může BOINC využít?</string>
-  <string name="prefs_disk_min_free_gb_header">Min. rezerva úložiště</string>
-  <string name="prefs_disk_min_free_gb_description">Kolik místa v úložišti zařízení musí zůstat volné?</string>
+    <string name="prefs_disk_min_free_gb_header">Min. rezerva úložiště</string>
   <string name="prefs_disk_access_interval_header">Interval přístupu</string>
   <string name="prefs_disk_access_interval_description">Navrhnětě interval mezi přístupy na úložiště</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Denní limit přenosu</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Limituje síťová data, která může BOINC využít.</string>
   <string name="prefs_network_wifi_only_header">Přenášej úkoly pouze na WiFi</string>
   <string name="prefs_autostart_header">Automatické spuštění</string>
   <string name="prefs_show_notification_notices_header">Zobrazit upozornění pro nové oznámení</string>
@@ -206,7 +203,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="prefs_memory_max_idle_header">Limit paměti</string>
   <string name="prefs_memory_max_idle_description">Limituje množství paměti použitelné pro výpočet.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovních jednotek</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Ukládat alespoň X dní práce</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Zásobník dodatečných pracovních jednotek</string>
   <string name="prefs_client_log_flags_header">Praporky zápisu BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň protokolu GUI</string>
@@ -271,7 +267,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="tasks_custom_ready_to_report">připraven k nahlášení</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Zrušit úkol?</string>
-  <string name="confirm_abort_task_message">Zrušit úkol:</string>
+  <string name="confirm_abort_task_message">Zrušit úkol: %1$s</string>
   <string name="confirm_abort_task_confirm">Zrušit</string>
   <string name="confirm_cancel">Zpět</string>
   <string name="confirm_image_desc">Potvrzovací dialog</string>

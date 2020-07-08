@@ -282,7 +282,7 @@ void COPROCS::get_opencl(
         );
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get PLATFORM_VERSION for platform #%d; error %d",
+                "Couldn't get PLATFORM_VERSION for platform #%u; error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -295,7 +295,7 @@ void COPROCS::get_opencl(
         );
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get PLATFORM_VENDOR for platform #%d; error %d",
+                "Couldn't get PLATFORM_VENDOR for platform #%u; error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -312,7 +312,7 @@ void COPROCS::get_opencl(
             num_devices = 0;                 // No devices
             if (ciErrNum != CL_DEVICE_NOT_FOUND) {
                 snprintf(buf, sizeof(buf),
-                    "Couldn't get CPU Device IDs for platform #%d: error %d",
+                    "Couldn't get CPU Device IDs for platform #%u: error %d",
                     platform_index, ciErrNum
                 );
                 warnings.push_back(buf);
@@ -352,7 +352,7 @@ void COPROCS::get_opencl(
 
         if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
-                "Couldn't get Device IDs for platform #%d: error %d",
+                "Couldn't get Device IDs for platform #%u: error %d",
                 platform_index, ciErrNum
             );
             warnings.push_back(buf);
@@ -449,7 +449,7 @@ void COPROCS::get_opencl(
                     while (1) {
                         if (current_CUDA_index >= (int)(nvidia_gpus.size())) {
                             snprintf(buf, sizeof(buf),
-                                "OpenCL NVIDIA index #%d does not match any CUDA device",
+                                "OpenCL NVIDIA index #%u does not match any CUDA device",
                                 device_index
                             );
                             warnings.push_back(buf);
@@ -522,7 +522,7 @@ void COPROCS::get_opencl(
                     while (1) {
                         if (current_CAL_index >= num_CAL_devices) {
                             snprintf(buf, sizeof(buf),
-                                "OpenCL ATI device #%d does not match any CAL device",
+                                "OpenCL ATI device #%u does not match any CAL device",
                                 device_index
                             );
                             warnings.push_back(buf);
@@ -626,7 +626,7 @@ void COPROCS::get_opencl(
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
                     char buf2[256];
                     sprintf(buf2,
-                        "OpenCL generic: bad peak FLOPS; Max units %d, max freq %d MHz",
+                        "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
                         prop.max_compute_units, prop.max_clock_frequency
                     );
                     warnings.push_back(buf2);

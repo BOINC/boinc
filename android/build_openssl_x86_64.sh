@@ -11,6 +11,7 @@ COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
 
@@ -34,10 +35,14 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 ./build_androidtc_x86_64.sh
 
 if [ "$COMPILEOPENSSL" = "yes" ]; then
-    echo "===== building openssl for x86-64 from $OPENSSL ====="
     cd "$OPENSSL"
+    echo "===== building openssl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
-        make clean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make clean 1>$STDOUT_TARGET 2>&1
+        else
+            make clean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./Configure linux-x86_64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl" 1>$STDOUT_TARGET
@@ -46,7 +51,12 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    make 1>$STDOUT_TARGET
-    make install_sw 1>$STDOUT_TARGET
+    if [ "$VERBOSE" = "no" ]; then
+        make --silent 1>$STDOUT_TARGET
+        make install_sw --silent 1>$STDOUT_TARGET
+    else
+        make SHELL="/bin/bash -x"
+        make install_sw SHELL="/bin/bash -x"
+    fi
     echo "===== openssl for x86-64 build done ====="
 fi

@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "util.h"
+
 #ifdef __WXMAC__
 #include "mac_util.h"
 #endif
@@ -126,22 +127,10 @@ CNetworkConnection::~CNetworkConnection() {
 
 int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
-    safe_strcpy(buf, "");
-
-    FILE* f = fopen("gui_rpc_auth.cfg", "r");
-    if (!f) return errno;
-    fgets(buf, 256, f);
-    fclose(f);
-    int n = (int)strlen(buf);
-    if (n) {
-        n--;
-        if (buf[n]=='\n') {
-            buf[n] = 0;
-        }
-    }
-
+ 
+    int retval = read_gui_rpc_password(buf, password_msg);
     strPassword = wxString(buf, wxConvUTF8);
-    return 0;
+    return retval;
 }
 
 
@@ -317,7 +306,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure);
+        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure, password_msg);
     }
 }
 
@@ -928,8 +917,8 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 #ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(event);
+            CTaskbarEvent event2(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event2);
         }
 #endif
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();

@@ -192,13 +192,10 @@
         batería definida. No está recomendado cambiar este valor
     </string>
     <string name="prefs_disk_max_pct_header">Espacio máximo usado</string>
-    <string name="prefs_disk_max_pct_description">¿Cuánto de su almacenamiento del teléfono puede usar BOINC?</string>
     <string name="prefs_disk_min_free_gb_header">Almacenamiento libre min.</string>
-    <string name="prefs_disk_min_free_gb_description">¿Cuánto espacio debe quedar libre?</string>
     <string name="prefs_disk_access_interval_header">Intervalo de acceso</string>
     <string name="prefs_disk_access_interval_description">Intervalo entre accesos del disco</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Límite de transferencia diaria</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Limita el tráfico diario usado por BOINC</string>
     <string name="prefs_network_wifi_only_header">Transmitir datos solo por WiFi</string>
     <string name="prefs_autostart_header">Auto inciar</string>
     <string name="prefs_show_notification_notices_header">Mostrar notificación para nuevas noticias</string>
@@ -278,7 +275,7 @@
     <string name="tasks_custom_ready_to_report">listo para informar</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">¿Cancelar tarea?</string>
-    <string name="confirm_abort_task_message">Cancelar tarea:</string>
+    <string name="confirm_abort_task_message">Cancelar tarea: %1$s</string>
     <string name="confirm_abort_task_confirm">Cancelar</string>
     <string name="confirm_cancel">Cancelar</string>
     <string name="confirm_image_desc">Mensaje de confirmación</string>

@@ -189,15 +189,10 @@
 不建议更改此选项。
 </string>
   <string name="prefs_disk_max_pct_header">最多使用的储存空间</string>
-  <string name="prefs_disk_max_pct_description">允许BOINC使用设备多少百分比的储存空间？
-
-</string>
-  <string name="prefs_disk_min_free_gb_header">最少使用的储存空间</string>
-  <string name="prefs_disk_min_free_gb_description">您的设备有多少剩余储存空间可以使用?</string>
+    <string name="prefs_disk_min_free_gb_header">最少使用的储存空间</string>
   <string name="prefs_disk_access_interval_header">访问间隔</string>
   <string name="prefs_disk_access_interval_description">建议磁盘访问间隔</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">每日传输限制</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">限制BOINC每日数据流量。</string>
   <string name="prefs_network_wifi_only_header">只使用WiFi传输任务</string>
   <string name="prefs_autostart_header">自启动</string>
   <string name="prefs_show_notification_notices_header">当有新消息时显示通知</string>
@@ -213,11 +208,7 @@ BOINC应当暂停运算？
   <string name="prefs_memory_max_idle_header">RAM 用量限制</string>
   <string name="prefs_memory_max_idle_description">限制任务占用的内存（RAM）用量。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">任务单元缓存</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">存储至少X天的任务</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">额外任务单元缓存</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">额外储存至多X天的
-任务
-</string>
   <string name="prefs_client_log_flags_header">BOINC客户端日志记录</string>
   <string name="prefs_gui_log_level_header">GUI （用户界面）日志详细程度</string>
   <string name="prefs_gui_log_level_description">指定GUI日志信息的详细程度。</string>
@@ -281,7 +272,7 @@ BOINC应当暂停运算？
   <string name="tasks_custom_ready_to_report">等待上报</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">中止任务？</string>
-  <string name="confirm_abort_task_message">中止任务：</string>
+  <string name="confirm_abort_task_message">中止任务：%1$s</string>
   <string name="confirm_abort_task_confirm">中止</string>
   <string name="confirm_cancel">取消</string>
   <string name="confirm_image_desc">验证对话框</string>

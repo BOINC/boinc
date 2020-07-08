@@ -50,6 +50,12 @@
 
 #define POLL_PERIOD 1.0
 
+#ifdef _WIN32
+extern int suspend_or_resume_threads(
+    std::vector<int> pids, DWORD threadid, bool resume, bool check_exempt
+);
+#endif
+
 using std::vector;
 using std::string;
 
@@ -242,7 +248,7 @@ int TASK::run(int argct, char** argvt) {
         &process_info
     )) {
         char error_msg[1024];
-        windows_error_string(error_msg, sizeof(error_msg));
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
         return ERR_EXEC;
     }
@@ -338,7 +344,9 @@ void TASK::kill() {
 
 void TASK::stop() {
 #ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, false);
+    std::vector<int> pids;
+    pids.push_back(pid);
+    suspend_or_resume_threads(pids, 0, false, true);
 #else
     ::kill(pid, SIGSTOP);
 #endif
@@ -347,7 +355,9 @@ void TASK::stop() {
 
 void TASK::resume() {
 #ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, true);
+    std::vector<int> pids;
+    pids.push_back(pid);
+    suspend_or_resume_threads(pids, 0, true, true);
 #else
     ::kill(pid, SIGCONT);
 #endif

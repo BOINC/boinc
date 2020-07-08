@@ -192,13 +192,10 @@
         Šo vērtību nav ieteicams mainīt.
     </string>
     <string name="prefs_disk_max_pct_header">Maks. izmantojamā vieta krātuvē</string>
-    <string name="prefs_disk_max_pct_description">Cik procentus no ierīces krātuves vietas BOINC drīkst lietot?</string>
     <string name="prefs_disk_min_free_gb_header">Cik min. jāatstāj brīvs</string>
-    <string name="prefs_disk_min_free_gb_description">Cik daudz jūsu ierīces krātuves vietai jāpaliek brīvai?</string>
     <string name="prefs_disk_access_interval_header">Piekļūšanas intervāls</string>
     <string name="prefs_disk_access_interval_description">Iesaka piekļūšanas intervālu diskam</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Pārsūtīšanas limits dienā</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ierobežo datu plūsmu, ko dienā izraisa BOINC.</string>
     <string name="prefs_network_wifi_only_header">Uzdevumu pārsūtīšanai izmantot tikai WiFi</string>
     <string name="prefs_autostart_header">Autostartēšanās</string>
     <string name="prefs_show_notification_notices_header">Rādīt paziņojumus jauniem paziņojumiem</string>
@@ -276,7 +273,7 @@
     <string name="tasks_custom_ready_to_report">gatavs ziņošanai</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Vai atteikties no uzdevuma?</string>
-    <string name="confirm_abort_task_message">Atteikties no uzdevuma:</string>
+    <string name="confirm_abort_task_message">Atteikties no uzdevuma: %1$s</string>
     <string name="confirm_abort_task_confirm">Pārtraukt</string>
     <string name="confirm_cancel">Atcelt</string>
     <string name="confirm_image_desc">Apstiprināšanas logs</string>

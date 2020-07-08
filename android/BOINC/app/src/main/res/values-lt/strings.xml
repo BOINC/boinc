@@ -179,13 +179,10 @@ naudojimo sąlygomis kaip parodyta aukščiau.</string>
   <string name="battery_temperature_max_description">BOINC sustabdo skaičiavimus baterijai viršijus nurodytą temperatūrą.
 Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_disk_max_pct_header">Naudoti daugiausia disko vietos</string>
-  <string name="prefs_disk_max_pct_description">Kiek procentų įrenginio disko vietos gali naudoti BOINC?</string>
-  <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
-  <string name="prefs_disk_min_free_gb_description">Kiek įrenginio disko vietos turi likti laisva?</string>
+    <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
   <string name="prefs_disk_access_interval_header">Rašymo į diską intervalas</string>
   <string name="prefs_disk_access_interval_description">Siūlomas laiko tarpas tarp įrašymo į diską</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Dienos siuntimo limitas</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Apriboja BOINC generuojamą duomenų srautą</string>
   <string name="prefs_network_wifi_only_header">Siųsti ir gauti užduotis tik per WiFi</string>
   <string name="prefs_autostart_header">Automatinis paleidimas</string>
   <string name="prefs_show_notification_notices_header">Rodyti pranešimus su naujais skelbimais</string>
@@ -199,9 +196,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_memory_max_idle_header">RAM limitas</string>
   <string name="prefs_memory_max_idle_description">Apriboja RAM kiekį, naudojamą užduočių skaičiavimui.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Užduočių buferis</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Saugoti užduočių bent X dienoms</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Papildomas užduočių buferis</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Saugoti papildomų užduočių bent X dienoms</string>
   <string name="prefs_client_log_flags_header">BOINC kliento žurnalo žymės</string>
   <string name="prefs_gui_log_level_header">GUI žurnalo lygis</string>
   <string name="prefs_gui_log_level_description">Nustato GUI žurnalo intensyvumą.</string>
@@ -265,7 +260,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="tasks_custom_ready_to_report">pasirengęs ataskaitai</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Nutraukti užduotį?</string>
-  <string name="confirm_abort_task_message">Nutraukti užduotį:</string>
+  <string name="confirm_abort_task_message">Nutraukti užduotį: %1$s</string>
   <string name="confirm_abort_task_confirm">Nutraukti</string>
   <string name="confirm_cancel">Atšaukti</string>
   <string name="confirm_image_desc">Patvirtinimo dialogas</string>

@@ -18,14 +18,6 @@
  */
 package edu.berkeley.boinc.attach;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
-import edu.berkeley.boinc.utils.Logging;
-
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,26 +29,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
-    private ArrayList<ProjectListEntry> entries;
+import java.util.List;
+
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
+
+public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
+    private List<ProjectListEntry> entries;
     private FragmentActivity activity;
 
-    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
+    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, List<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v;
-
-        LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
         final ProjectListEntry listItem = entries.get(position);
 
+        assert vi != null;
         v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
         TextView name = v.findViewById(R.id.name);
         TextView description = v.findViewById(R.id.description);
@@ -64,7 +63,7 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         CheckBox cb = v.findViewById(R.id.cb);
         LinearLayout textWrapper = v.findViewById(R.id.text_wrapper);
 
-        if(listItem.am) {
+        if(listItem.isAccountManager()) {
             // element is account manager
             name.setText(activity.getString(R.string.attachproject_acctmgr_header));
             description.setText(activity.getString(R.string.attachproject_acctmgr_list_desc));
@@ -87,17 +86,18 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry> {
         }
         else {
             // element is project option
-            name.setText(listItem.info.name);
-            description.setText(listItem.info.generalArea);
-            summary.setText(listItem.info.summary);
-            cb.setChecked(listItem.checked);
-            cb.setOnClickListener(view -> listItem.checked = !listItem.checked);
+            name.setText(listItem.getInfo().getName());
+            description.setText(listItem.getInfo().getGeneralArea());
+            summary.setText(listItem.getInfo().getSummary());
+            cb.setChecked(listItem.isChecked());
+            cb.setOnClickListener(view -> listItem.setChecked(!listItem.isChecked()));
             textWrapper.setOnClickListener(view -> {
                 if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+                    Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
+                                       listItem.getInfo().getName());
                 }
 
-                ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
+                ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.getInfo());
                 dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
             });
 

@@ -50,7 +50,7 @@ RSS_FEED_OP rss_feed_op;
 
 ////////////// UTILITY FUNCTIONS ///////////////
 
-static bool cmp(NOTICE n1, NOTICE n2) {
+static bool cmp(const NOTICE& n1, const NOTICE& n2) {
     if (n1.arrival_time > n2.arrival_time) return true;
     if (n1.arrival_time < n2.arrival_time) return false;
     return (strcmp(n1.guid, n2.guid) > 0);
@@ -512,7 +512,6 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     MIOFILE fout;
     fout.init_file(f);
     fout.printf("<notices>\n");
-    if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
         if (rfp) {
@@ -543,9 +542,6 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             break;
         case REMOVE_SCHEDULER_MSG:
             remove = !strcmp(n.category, "scheduler");
-            break;
-        case REMOVE_NO_WORK_MSG:
-            remove = !strstr(n.description.c_str(), NO_WORK_MSG);
             break;
         case REMOVE_CONFIG_MSG:
             remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);
@@ -684,7 +680,7 @@ void RSS_FEED::write(MIOFILE& fout) {
     );
 }
 
-static inline bool create_time_asc(NOTICE n1, NOTICE n2) {
+static inline bool create_time_asc(const NOTICE& n1, const NOTICE& n2) {
     return n1.create_time < n2.create_time;
 }
 
@@ -811,7 +807,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     if (!rfp) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice] RSS feed %s not found", rfp->url
+                "[notice] RSS feed %s not found", gui_http->http_op.m_url
             );
         }
         return;

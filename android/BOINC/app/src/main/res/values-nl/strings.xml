@@ -174,13 +174,10 @@
   <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
   <string name="battery_temperature_max_description">BOINC stopt de berekening boven een bepaalde batterijtemperatuur. Het is niet aanbevolen deze waarde te veranderen.</string>
   <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
-  <string name="prefs_disk_max_pct_description">Welk percentage van de opslagruimte van je apparaat mag BOINC gebruiken?</string>
-  <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
-  <string name="prefs_disk_min_free_gb_description">Hoeveel van de opslagruimte moet er minimaal vrij blijven?</string>
+    <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
   <string name="prefs_disk_access_interval_header">Toegangs interval</string>
   <string name="prefs_disk_access_interval_description">Suggereert een interval bij schijf gebruik</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Dagelijkse overdracht limiet</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Beperkt het dagelijkse dataverkeer van BOINC.</string>
   <string name="prefs_network_wifi_only_header">Taken alleen bijwerken via WiFi</string>
   <string name="prefs_autostart_header">Autostart</string>
   <string name="prefs_show_notification_notices_header">Melding weergeven voor nieuwe berichten</string>
@@ -194,9 +191,7 @@
   <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
   <string name="prefs_memory_max_idle_description">Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Werkeenheid buffer</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Bewaar tenminste X dagen werk</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra werkeenheid buffer</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Bewaar tot een extra X dagen werk</string>
   <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
@@ -260,7 +255,7 @@
   <string name="tasks_custom_ready_to_report">klaar om te rapporteren</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Taak afbreken?</string>
-  <string name="confirm_abort_task_message">Taak afbreken:</string>
+  <string name="confirm_abort_task_message">Taak afbreken: %1$s</string>
   <string name="confirm_abort_task_confirm">Afbreken</string>
   <string name="confirm_cancel">Annuleren</string>
   <string name="confirm_image_desc">Bevestigingsdialoog</string>

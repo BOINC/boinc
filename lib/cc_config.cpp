@@ -42,12 +42,6 @@ using std::string;
 void LOG_FLAGS::init() {
     static const LOG_FLAGS x;
     *this = x;
-
-    // on by default (others are off by default)
-    //
-    task = true;
-    file_xfer = true;
-    sched_ops = true;
 }
 
 // Parse log flag preferences
@@ -437,11 +431,13 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             ignore_tty.push_back(s);
             continue;
         }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients 
         // may have written their default values to CONFIG_FILE. 
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;

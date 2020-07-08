@@ -17,14 +17,11 @@
 
 // shared-library part of the implementation of REDUCE
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
+#include <GL/gl.h>
 #else
 #include "config.h"
-#endif
-
-#ifdef _WIN32
-#include <GL/gl.h>
 #endif
 
 #include <algorithm>

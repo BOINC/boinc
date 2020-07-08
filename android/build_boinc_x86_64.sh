@@ -11,6 +11,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 export BOINC=".." #BOINC source code
 
@@ -35,10 +36,14 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_x86_64.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "===== building BOINC for x86-64 from $BOINC ====="
     cd "$BOINC"
+    echo "===== building BOINC for x86-64 from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-        make distclean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
@@ -46,8 +51,13 @@ if [ -n "$COMPILEBOINC" ]; then
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
-    make --silent
-    make stage --silent
+    if [ "$VERBOSE" = "no" ]; then
+        make --silent
+        make stage --silent
+    else
+        make SHELL="/bin/bash -x"
+        make stage SHELL="/bin/bash -x"
+    fi
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin

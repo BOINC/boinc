@@ -171,13 +171,10 @@
     <string name="battery_temperature_max_header">Temperatură maximă baterie</string>
     <string name="battery_temperature_max_description">BOINC suspendă calculele când temperatura bateriei depăşeşte nivelul definit. Nu este recomandat să modificaţi această valoare.</string>
     <string name="prefs_disk_max_pct_header">Spaţiu de stocare maxim utilizat</string>
-    <string name="prefs_disk_max_pct_description">Ce procent din spaţiul de stocare al dispozitivului dumneavoastră are voie să fie utilizat de BOINC?</string>
     <string name="prefs_disk_min_free_gb_header">Spaţiu stocare minim liber</string>
-    <string name="prefs_disk_min_free_gb_description">Cât din spaţiul de stocare al dispozitivului trebuie să rămână liber?</string>
     <string name="prefs_disk_access_interval_header">Interval acces</string>
     <string name="prefs_disk_access_interval_description">Sugerează un interval între accesurile la disc</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Limită zilnică transfer</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Limitează traficul zilnic realizat de BOINC.</string>
     <string name="prefs_network_wifi_only_header">Transferă task-uri doar pe WiFi</string>
     <string name="prefs_autostart_header">Pornire automată</string>
     <string name="prefs_show_notification_notices_header">Arată notificare pentru noi atenționări</string>
@@ -253,7 +250,7 @@
     <string name="tasks_custom_ready_to_report">gata de raportare</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Abandonează task?</string>
-    <string name="confirm_abort_task_message">Abandonează task:</string>
+    <string name="confirm_abort_task_message">Abandonează task: %1$s</string>
     <string name="confirm_abort_task_confirm">Abandonează</string>
     <string name="confirm_cancel">Anulează</string>
     <string name="confirm_image_desc">Dialog de confirmare</string>

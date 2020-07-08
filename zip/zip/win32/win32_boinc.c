@@ -17,8 +17,6 @@
  */
 
 
-#include "../zip.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -28,6 +26,8 @@
 #include <windows.h>
 /* for LARGE_FILE_SUPPORT but may not be needed */
 #include <io.h>
+
+#include "../zip.h"
 
 #ifdef __RSXNT__
 #  include <alloca.h>

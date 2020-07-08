@@ -613,10 +613,18 @@ int CLIENT_STATE::handle_scheduler_reply(
                     sr.master_url
                 );
             } else {
-                msg_printf(project, MSG_USER_ALERT,
-                    _("This project is using an old URL.  When convenient, remove the project, then add %s"),
-                    sr.master_url
-                );
+                if (is_https_transition(url2.c_str(), url1.c_str())) {
+                    strcpy(project->master_url, url1.c_str());
+                    project->write_account_file();
+                    msg_printf(project, MSG_INFO,
+                        "Project URL changed from http:// to https://"
+                    );
+                } else {
+                    msg_printf(project, MSG_USER_ALERT,
+                        _("This project is using an old URL.  When convenient, remove the project, then add %s"),
+                        sr.master_url
+                    );
+                }
             }
         }
     }
@@ -662,7 +670,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
-    if (sr.request_delay) {
+    if (log_flags.sched_ops && sr.request_delay) {
         msg_printf(project, MSG_INFO,
             "Project requested delay of %.0f seconds", sr.request_delay
         );
@@ -801,16 +809,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     // copy new entities to client state
     //
     for (i=0; i<sr.apps.size(); i++) {
-        APP* app = lookup_app(project, sr.apps[i].name);
+        APP& checked_app = sr.apps[i];
+        APP* app = lookup_app(project, checked_app.name);
         if (app) {
             // update app attributes; they may have changed on server
             //
-            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
-            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
-            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
+            safe_strcpy(app->user_friendly_name, checked_app.user_friendly_name);
+            app->non_cpu_intensive = checked_app.non_cpu_intensive;
+            app->fraction_done_exact = checked_app.fraction_done_exact;
         } else {
             app = new APP;
-            *app = sr.apps[i];
+            *app = checked_app;
             retval = link_app(project, app);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -939,21 +948,22 @@ int CLIENT_STATE::handle_scheduler_reply(
         got_work_for_rsc[j] = false;
     }
     for (i=0; i<sr.results.size(); i++) {
-        RESULT* rp2 = lookup_result(project, sr.results[i].name);
+        RESULT& checked_result = sr.results[i];
+        RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline
             //
-            if (sr.results[i].report_deadline != rp2->report_deadline) {
-                rp2->report_deadline = sr.results[i].report_deadline;
+            if (checked_result.report_deadline != rp2->report_deadline) {
+                rp2->report_deadline = checked_result.report_deadline;
             } else {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Already have task %s\n", sr.results[i].name
+                    "Already have task %s\n", checked_result.name
                 );
             }
             continue;
         }
         RESULT* rp = new RESULT;
-        *rp = sr.results[i];
+        *rp = checked_result;
         retval = link_result(project, rp);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,

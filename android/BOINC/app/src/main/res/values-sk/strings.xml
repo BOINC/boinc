@@ -14,7 +14,7 @@
   <string name="attachproject_list_manual_dialog_title">Zadajte URL projektu:</string>
   <string name="attachproject_list_manual_dialog_button">Pripojiť sa k projektu</string>
   <string name="attachproject_list_manual_no_url">Prosím zadajte URL projektu</string>
-  <string name="attachproject_list_acctmgr_button">Pridať Správcu konta.</string>
+  <string name="attachproject_list_acctmgr_button">Pridať Správcu konta</string>
   <string name="attachproject_list_no_internet">Žiadne pripojenie k Internetu</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Uveďte údaje o účte</string>
@@ -22,7 +22,7 @@
   <string name="attachproject_credential_input_show_pwd">Ukázať heslo</string>
   <string name="attachproject_individual_credential_input">Pripojiť projekty individuálne</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Nastali problémi pri pripojení výskumných projektov:</string>
+  <string name="attachproject_conflicts_desc">Nastali problémy pri pripojení výskumných projektov:</string>
   <string name="attachproject_conflict_undefined">Pripojenie sa nepodarilo</string>
   <string name="attachproject_conflict_not_unique">Účet existuje s iným heslom</string>
   <string name="attachproject_conflict_bad_password">Nesprávne heslo</string>
@@ -45,7 +45,7 @@
   <string name="attachproject_hint_projectwebsite_stats">Skontrolovať štatistiky</string>
   <string name="attachproject_hint_projectwebsite_community">Buďte v kontakte s ďalšími dobrovoľníkmi</string>
   <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre Váš počítač alebo laptop, navštívte
-        boinc.berkeley.edu pre viac informácii.
+        boinc.berkeley.edu pre viac informácií.
     </string>
   <!--project login-->
   <string name="attachproject_login_loading">Pripájanie na server projektu…</string>
@@ -75,7 +75,7 @@
   <string name="attachproject_login_error_toast">Kontaktovanie projektu zlyhalo!</string>
   <string name="attachproject_login_attached">Pripojené</string>
   <!--project registration-->
-  <string name="attachproject_registration_header">Registrácia účtu na</string>
+  <string name="attachproject_registration_header">Registrácia účtu pre</string>
   <string name="attachproject_registration_header_url">Projekt:</string>
   <string name="attachproject_registration_header_email">E-mail:</string>
   <string name="attachproject_registration_header_username">Meno:</string>
@@ -109,6 +109,7 @@
   <string name="attachproject_error_bad_pwd">Heslo bolo odmietnuté</string>
   <string name="attachproject_error_creation_disabled">Vytváranie účtov na tomto projekte je pozastavené</string>
   <string name="attachproject_error_invalid_url">Neplatná URL</string>
+  <string name="attachproject_error_consent_required">Tento projekt vyžaduje, aby ste súhlasili s jeho podmienkami použitia</string>
   <!--working activity-->
   <string name="attachproject_working_back_button">Späť</string>
   <string name="attachproject_working_finish_button">Dokončiť</string>
@@ -180,13 +181,10 @@
   <string name="battery_temperature_max_header">Maximálna teplota batérie</string>
   <string name="battery_temperature_max_description">BOINC pozastaví výpočet ak teplota batérie stúpne nad danú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
   <string name="prefs_disk_max_pct_header">Maximum použitého úložného priestoru</string>
-  <string name="prefs_disk_max_pct_description">Koľko percent úložného priestoru na Vašom zariadení môže BOINC využívať?</string>
-  <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
-  <string name="prefs_disk_min_free_gb_description">Koľko z úložného priestoru vášho zariadenia by malo ostať voľného?</string>
+    <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
   <string name="prefs_disk_access_interval_header">Interval prístupov</string>
   <string name="prefs_disk_access_interval_description">Odporučiť interval medzi prístupmi na disk</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Nastaví obmedzenia prenosu súborov pre BOINC.</string>
   <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
   <string name="prefs_autostart_header">Automatický štart</string>
   <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
@@ -199,10 +197,8 @@
   <string name="prefs_cpu_time_max_description">Obmedzí procesorový čas, ktorý BOINC využíva na výpočty.</string>
   <string name="prefs_memory_max_idle_header">Limit RAM</string>
   <string name="prefs_memory_max_idle_description">Nastaví koľko RAM môžu úlohy využiť</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer pracovnej jednotky</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Ulož aspoň X dní práce</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočný buffer pracovnej jednotky</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Uložiť až do X dodatočných dní práce.</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovných úloh</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočný zásobník pracovných úloh</string>
   <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
@@ -237,6 +233,8 @@
   <string name="projects_control_sync_acctmgr">Sychronizovať</string>
   <string name="projects_control_remove_acctmgr">Deaktivovať</string>
   <!--project confirm dialog-->
+  <string name="projects_confirm_title">%1$s projekt?</string>
+  <string name="projects_confirm_message">Skutočne chcete %1$s %2$s?</string>
   <string name="projects_confirm_detach_message">Skutočne chcete odstrániť</string>
   <string name="projects_confirm_detach_confirm">Odobrať</string>
   <string name="projects_confirm_reset_confirm">Resetovať</string>
@@ -335,7 +333,7 @@
   <string name="menu_run_mode_enable">Pokračovať</string>
   <string name="menu_about">O</string>
   <string name="menu_help">Pomoc</string>
-  <string name="menu_report_issue">Nahlás problém</string>
+  <string name="menu_report_issue">Nahlásiť problém</string>
   <!--about dialog-->
   <string name="about_button">Návrat</string>
   <string name="about_title">O</string>
@@ -343,8 +341,10 @@
   <string name="about_version">Verzia %1$s</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
+  <string name="about_copyright">\u00A9 2003–2019 Kalifornská univerzita, Berkeley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
-  <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
+  <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC
+Corporation za ich podporu.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">%2$,d nový oznam</item>
@@ -354,13 +354,14 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Bola nájdená aplikácia na dobrovoľnícke výpočty</string>
-  <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia; naraz môže bežať len jedna verzia.</string>
+  <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia. Naraz môže bežať len jedna verzia.</string>
   <string name="nonexcl_dialog_exit">Ukončiť</string>
   <!--social integration-->
   <string name="social_invite_button">Pozvať priateľov</string>
   <string name="social_invite_intent_title">Akým spôsobom chcete zdieľať?</string>
   <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
-  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty! Stiahni si aplikáciu z: %2$s
+  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty!
+ Stiahni si aplikáciu z: %2$s
     </string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc

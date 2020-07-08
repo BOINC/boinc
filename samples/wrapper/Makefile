@@ -30,6 +30,10 @@ clean: distclean
 distclean:
 	rm -f $(PROGS) *.o libstdc++.a
 
+install: all
+
+.PHONY: install all distclean clean
+
 REGEXP_OBJS = \
 	regexp.o \
 	regsub.o \

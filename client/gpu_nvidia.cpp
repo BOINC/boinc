@@ -400,7 +400,7 @@ void* cudalib = NULL;
             warnings.push_back(buf);
             goto leave;
         }
-        (*p_cuDeviceGetName)(cc.prop.name, 256, device);
+        retval = (*p_cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
             sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
             warnings.push_back(buf);

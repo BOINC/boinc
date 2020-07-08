@@ -37,6 +37,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
@@ -295,6 +296,9 @@ void CC_CONFIG::show() {
             "Config: ignore tty: %s", ignore_tty[i].c_str()
         );
     }
+    if (!device_name.empty()) {
+        msg_printf(NULL, MSG_INFO, "Config: device name is %s", device_name.c_str());
+    }
 }
 
 // This is used by the BOINC client.
@@ -462,11 +466,13 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             ignore_tty.push_back(s);
             continue;
         }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients 
         // may have written their default values to CONFIG_FILE. 
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
@@ -676,7 +682,7 @@ void process_gpu_exclusions() {
             for (j=0; j<cc_config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
-                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                if (!urls_match(eg.url.c_str(), p->master_url)) continue;
                 COPROC_INSTANCE_BITMAP mask;
                 if (eg.device_num >= 0) {
                     int index = cp.device_num_index(eg.device_num);
@@ -770,7 +776,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
     PROJECT* p = app->project;
     for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!urls_match(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp.type)) continue;
         if (!eg.appname.empty() && (eg.appname != app->name)) continue;
         if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;

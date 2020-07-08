@@ -1,4 +1,5 @@
 CXXFLAGS += -g
+CXX ?= g++
 
 PROGS = worker
 
@@ -10,4 +11,8 @@ distclean:
 	rm -f $(PROGS) *.o
 
 worker: worker.o
-	g++ $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
+
+install: all
+
+.PHONY: install all distclean clean

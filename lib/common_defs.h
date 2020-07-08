@@ -362,5 +362,6 @@ struct DEVICE_STATUS {
 #else
 #define DEFAULT_SS_EXECUTABLE       "boincscr"
 #endif
+#define LINUX_CONFIG_FILE           "/etc/boinc-client/config.properties"
 
 #endif

@@ -207,11 +207,11 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountManagerLinkLabelStaticCtrl = new wxStaticText;
     m_pAccountManagerLinkLabelStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTLINKLABELSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAccountForgotPasswordCtrl = new wxHyperlinkCtrl;
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
-    itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALL, 5);
     ////@end CAccountInfoPage content construction
 
 }

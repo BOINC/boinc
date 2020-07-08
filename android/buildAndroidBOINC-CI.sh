@@ -48,6 +48,8 @@ doclean=""
 cache_dir=""
 arch=""
 silent=""
+verbose="${VERBOSE:-no}"
+
 while [ $# -gt 0 ]; do
     key="$1"
     case $key in
@@ -68,6 +70,9 @@ while [ $# -gt 0 ]; do
         ;;
         --silent)
         silent="yes"
+        ;;
+        --verbose)
+        verbose="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -129,14 +134,14 @@ CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
 OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
 
 if [ ! -e "${NDK_FLAGFILE}" ]; then
-    rm -rf "$HOME/android-ndk-r${NDK_VERSION}"
+    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
     rm -rf "${PREFIX}/${arch}"
     rm -f "${CURL_FLAGFILE}" "${OPENSSL_FLAGFILE}"
     wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk.zip -d $HOME
+    unzip -qq /tmp/ndk.zip -d $BUILD_DIR
     touch "${NDK_FLAGFILE}"
 fi
-export NDK_ROOT=$HOME/android-ndk-r${NDK_VERSION}
+export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
@@ -157,6 +162,8 @@ fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
 export ANDROID_TC=$PREFIX
+
+export VERBOSE=$verbose
 
 case "$arch" in
     "arm")

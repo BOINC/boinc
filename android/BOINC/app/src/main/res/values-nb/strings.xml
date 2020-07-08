@@ -189,17 +189,10 @@
         overskrider grensen. Det er ikke anbefalt å endre denne verdien.
     </string>
     <string name="prefs_disk_max_pct_header">Maks brukt lagringsplass</string>
-    <string name="prefs_disk_max_pct_description">Hvor mange prosent av enhetens lagringsplass kan BOINC benytte?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Minimum ledig plass</string>
-    <string name="prefs_disk_min_free_gb_description">Hvor mye av enhetens lagringsplass skal være tilgjengelig?
-    </string>
     <string name="prefs_disk_access_interval_header">Tilkoblingsinterval</string>
     <string name="prefs_disk_access_interval_description">Foreslå intervall mellom diskaktivitet</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daglig overføringsgrense</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Begrenser den daglige datatrafikken generert av
-        BOINC.
-    </string>
     <string name="prefs_network_wifi_only_header">Overfør oppgaver kun når WIFI er tilkoblet</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Vis varsel for nye notater</string>
@@ -275,7 +268,7 @@
     <string name="tasks_custom_ready_to_report">Klar til å rapportere</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Avbryt oppgave?</string>
-    <string name="confirm_abort_task_message">Avbryt oppgave:</string>
+    <string name="confirm_abort_task_message">Avbryt oppgave: %1$s</string>
     <string name="confirm_abort_task_confirm">Avbryt</string>
     <string name="confirm_cancel">Avbryt</string>
     <string name="confirm_image_desc">Bekreftelsesdialog</string>

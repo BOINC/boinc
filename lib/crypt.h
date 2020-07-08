@@ -72,7 +72,7 @@ struct DATA_BLOCK {
     unsigned int len;
 };
 
-#define MIN_OUT_BUFFER_SIZE MAX_RSA_MODULUS_LEN+1
+#define MIN_OUT_BUFFER_SIZE (MAX_RSA_MODULUS_LEN+1)
 
 // the size of a binary signature (encrypted MD5)
 //

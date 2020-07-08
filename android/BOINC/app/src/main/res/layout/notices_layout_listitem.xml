@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -45,7 +45,7 @@
             android:layout_margin="3dp">
 
         <TextView
-                android:id="@+id/projectName"
+                android:id="@+id/project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -70,7 +70,7 @@
                 android:id="@+id/noticeTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

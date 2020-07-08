@@ -1,0 +1,3 @@
+Go to http://ckeditor.com and download the latest version. Then
+uncompress the contents of the "ckeditor" directory of the downloaded file to
+this folder (modules/ckeditor/ckeditor).

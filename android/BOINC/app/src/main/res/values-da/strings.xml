@@ -186,17 +186,10 @@
         anbefales ikke at ændre denne værdi.
     </string>
     <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
-    <string name="prefs_disk_max_pct_description">Hvor mange procent af din enheds lagringsplads må BOINC bruge?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Min. lagringsplads</string>
-    <string name="prefs_disk_min_free_gb_description">Hvor meget af din enheds lagringsplads skal forblive ubrugt?
-    </string>
     <string name="prefs_disk_access_interval_header">Interval for tilgang</string>
     <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daglig begrænsning på overførsler</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af
-        BOINC.
-    </string>
     <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
@@ -276,7 +269,7 @@
     <string name="tasks_custom_ready_to_report">klar til at rapportere</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Afbryd opgave?</string>
-    <string name="confirm_abort_task_message">Afbryd opgave:</string>
+    <string name="confirm_abort_task_message">Afbryd opgave: %1$s</string>
     <string name="confirm_abort_task_confirm">Afbryd</string>
     <string name="confirm_cancel">Annullér</string>
     <string name="confirm_image_desc">Bekræftelsesdialog</string>

@@ -11,6 +11,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
+VERBOSE="${VERBOSE:-no}"
 
 export BOINC=".." #BOINC source code
 
@@ -25,8 +26,8 @@ export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=i686-linux-android-clang
 export CXX=i686-linux-android-clang++
 export LD=i686-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=19"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=19"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
@@ -35,10 +36,14 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 ./build_androidtc_x86.sh
 
 if [ -n "$COMPILEBOINC" ]; then
-    echo "===== building BOINC for x86 from $BOINC ====="
     cd "$BOINC"
+    echo "===== building BOINC for x86 from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
-        make distclean 1>$STDOUT_TARGET 2>&1
+        if [ "$VERBOSE" = "no" ]; then
+            make distclean 1>$STDOUT_TARGET 2>&1
+        else
+            make distclean SHELL="/bin/bash -x"
+        fi
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
@@ -46,8 +51,13 @@ if [ -n "$COMPILEBOINC" ]; then
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
-    make --silent
-    make stage --silent
+    if [ "$VERBOSE" = "no" ]; then
+        make --silent
+        make stage --silent
+    else
+        make SHELL="/bin/bash -x"
+        make stage SHELL="/bin/bash -x"
+    fi
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
@@ -61,6 +71,6 @@ if [ -n "$COMPILEBOINC" ]; then
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-    echo "===== BOINC for 86 build done ====="
+    echo "===== BOINC for x86 build done ====="
 
 fi

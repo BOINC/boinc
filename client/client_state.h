@@ -675,6 +675,5 @@ extern THREAD throttle_thread;
 #endif
 
 #define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
-#define NO_WORK_MSG _("Your settings do not allow fetching tasks for")
 
 #endif

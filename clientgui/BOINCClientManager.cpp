@@ -329,11 +329,13 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     if (0 != m_lBOINCCoreProcessId) {
         m_bBOINCStartedByManager = true;
-        bReturnValue = true;
         // Allow time for daemon to start up so we don't keep relaunching it
         for (int i=0; i<100; i++) {     // Wait up to 1 seccond in 10 ms increments
             boinc_sleep(0.01);
-            if (IsBOINCCoreRunning()) break;
+            if (IsBOINCCoreRunning()) {
+                bReturnValue = true;
+                break;
+            }
         }
     }
 

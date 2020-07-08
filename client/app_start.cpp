@@ -337,7 +337,7 @@ static int create_dirs_for_logical_name(
     safe_strcpy(dir_path, slot_dir);
     char* p = buf;
     while (1) {
-        char* q = strstr(p, "/");
+        char* q = strchr(p, '/');
         if (!q) break;
         *q = 0;
         safe_strcat(dir_path, "/");
@@ -1105,7 +1105,7 @@ int ACTIVE_TASK::start(bool test) {
                 struct sched_param sp;
                 sp.sched_priority = 0;
                 if (sched_setscheduler(0, SCHED_IDLE, &sp)) {
-                    perror("sched_setscheduler");
+                    perror("app_start sched_setscheduler(SCHED_IDLE)");
                 }
             }
 #endif

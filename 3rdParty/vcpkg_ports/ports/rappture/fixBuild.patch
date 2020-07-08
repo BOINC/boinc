@@ -1,0 +1,33 @@
+diff --git a/src/core/RpDXWriter.cc b/src/core/RpDXWriter.cc
+index e4748b35..d835aa43 100644
+--- a/src/core/RpDXWriter.cc
++++ b/src/core/RpDXWriter.cc
+@@ -18,6 +18,7 @@
+ #include <cfloat>
+ #include <RpDXWriter.h>
+ #include <assert.h>
++#include <unistd.h>
+ using namespace Rappture;
+ 
+ DXWriter::DXWriter() :
+diff --git a/src/core/scew/scew.h b/src/core/scew/scew.h
+index 9741ed59..924a7aed 100644
+--- a/src/core/scew/scew.h
++++ b/src/core/scew/scew.h
+@@ -61,11 +61,11 @@
+ #  define SCEW_LIB_D
+ # endif /* _DEBUG */
+ 
+-# if defined(SCEW_LIB_U) || defined(SCEW_LIB_S) || defined(SCEW_LIB_D)
+-# pragma comment( lib, "scew_" SCEW_LIB_U SCEW_LIB_S SCEW_LIB_D ".lib" )
+-# else
+-# pragma comment( lib, "scew.lib" )
+-# endif
++// # if defined(SCEW_LIB_U) || defined(SCEW_LIB_S) || defined(SCEW_LIB_D)
++// # pragma comment( lib, "scew_" SCEW_LIB_U SCEW_LIB_S SCEW_LIB_D ".lib" )
++// # else
++// # pragma comment( lib, "scew.lib" )
++// # endif
+ 
+ #endif /* _WIN32 */
+ 

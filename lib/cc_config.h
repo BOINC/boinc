@@ -121,7 +121,11 @@ struct LOG_FLAGS {
     bool work_fetch_debug;
         // work fetch policy 
 
-    LOG_FLAGS(){}
+    LOG_FLAGS() {
+        task = true;
+        file_xfer = true;
+        sched_ops = true;
+    }
     void init();
     int parse(XML_PARSER&);
     void show();
@@ -201,6 +205,7 @@ struct CC_CONFIG {
         // overrides use_certs
     bool vbox_window;
     std::vector<std::string> ignore_tty;
+    std::string device_name;
 
     CC_CONFIG();
     void defaults();

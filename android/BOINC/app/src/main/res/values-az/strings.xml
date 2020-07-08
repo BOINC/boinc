@@ -192,17 +192,10 @@
         hesablamanı dayandırır. Bu dəyəri dəyişdirmək tövsiyə edilmir.
     </string>
     <string name="prefs_disk_max_pct_header">Max. Istifadə edilən saxlama sahəsi</string>
-    <string name="prefs_disk_max_pct_description">Cihazınızın saxlama yerinin neçə faizi BOINC-dən istifadə etməyə icazə
-        verir?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Min. Ehtiyat saxlama</string>
-    <string name="prefs_disk_min_free_gb_description">Cihazınızda ən az nə qədər saxlama yeri boş buraxılacaq?</string>
     <string name="prefs_disk_access_interval_header">Əlaqə zaman aralığı</string>
     <string name="prefs_disk_access_interval_description">Disk girişləri arasında aralıq təklif edir</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Gündəlik köçürmə limiti</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">BOINC tərəfindən verilən gündəlik məlumat trafiki
-        məhdudlaşdırır.
-    </string>
     <string name="prefs_network_wifi_only_header">Yalnız WiFi üzərindəki vəzifələri ötür</string>
     <string name="prefs_autostart_header">Avtomatik başlama</string>
     <string name="prefs_show_notification_notices_header">Yeni bildirişlər üçün bildirişi göstərin</string>
@@ -281,7 +274,7 @@
     <string name="tasks_custom_ready_to_report">hesabat verməyə hazırdır</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">İş ləğv edilsin?</string>
-    <string name="confirm_abort_task_message">Bu iş ləğv edilsin:</string>
+    <string name="confirm_abort_task_message">Bu iş ləğv edilsin: %1$s</string>
     <string name="confirm_abort_task_confirm">Ləğv</string>
     <string name="confirm_cancel">İmtina</string>
     <string name="confirm_image_desc">Təsdiq informasiya qutusu</string>

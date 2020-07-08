@@ -187,15 +187,10 @@
         Non è raccomandato il cambiamento di questo valore.
     </string>
   <string name="prefs_disk_max_pct_header">Massimo spazio di salvataggio</string>
-  <string name="prefs_disk_max_pct_description">Quanta percentuale del tuo disco può
-        usare BOINC per lavorare?
-    </string>
-  <string name="prefs_disk_min_free_gb_header">Minimo spazio su disco</string>
-  <string name="prefs_disk_min_free_gb_description">Quanto dello spazio di salvataggio del tuo dispositivo deve rimanere libero?</string>
+    <string name="prefs_disk_min_free_gb_header">Minimo spazio su disco</string>
   <string name="prefs_disk_access_interval_header">Intervallo di accesso</string>
   <string name="prefs_disk_access_interval_description">Suggerisci un intervallo tra le scritture su disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite trasferimento giornaliero</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Limita il traffico giornaliero di BOINC.</string>
   <string name="prefs_network_wifi_only_header">Trasferisci attività solo tramite WiFi</string>
   <string name="prefs_autostart_header">Avvio automatico</string>
   <string name="prefs_show_notification_notices_header">Visualizza notifiche delle notizie</string>
@@ -210,9 +205,6 @@
   <string name="prefs_cpu_time_max_description">Limita il tempo CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_memory_max_idle_header">Limite RAM</string>
   <string name="prefs_memory_max_idle_description">Limita il quantitativo di RAM che le attività possono usare.</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Scarica in locale almeno X giorni di elaborazione</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Scarica in locale fino ad ulteriori X giorni di
-      elaborazione</string>
   <string name="prefs_client_log_flags_header">Flag di log del client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
@@ -276,7 +268,7 @@
   <string name="tasks_custom_ready_to_report">pronto per l\'invio</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Terminare l\'attività?</string>
-  <string name="confirm_abort_task_message">Termina attività:</string>
+  <string name="confirm_abort_task_message">Termina attività: %1$s</string>
   <string name="confirm_abort_task_confirm">Annulla</string>
   <string name="confirm_cancel">Cancella</string>
   <string name="confirm_image_desc">Finestra di conferma</string>

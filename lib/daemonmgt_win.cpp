@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 /**
@@ -48,11 +46,11 @@ bool is_daemon_installed()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -90,11 +88,11 @@ bool is_daemon_starting()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -132,11 +130,11 @@ bool is_daemon_running()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -174,11 +172,11 @@ bool is_daemon_stopping()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -216,11 +214,11 @@ bool is_daemon_stopped()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -313,11 +311,11 @@ bool start_daemon()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }
@@ -411,11 +409,11 @@ bool stop_daemon()
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
-
     if (schService)
         CloseServiceHandle(schService);
+
+    if (schSCManager)
+        CloseServiceHandle(schSCManager);
 
     return bRetVal;
 }

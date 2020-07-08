@@ -718,9 +718,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #include <sys/types.h>
 #include <sys/cdefs.h>
 #include <machine/cpufunc.h>
+#include <machine/specialreg.h>
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
+    u_int cpu_id;
+    char vendor[13];
     int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
     char capabilities[256];
 
@@ -731,6 +734,11 @@ void use_cpuid(HOST_INFO& host) {
 
         do_cpuid(0x1, p);
 
+        cpu_id = p[0];
+        memcpy(vendor, &p[1], 4);   // copy EBX
+        memcpy(vendor+4, &p[3], 4); // copy EDX
+        memcpy(vendor+8, &p[2], 4); // copy ECX
+        vendor[12] = '\0';
         hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
         hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
         hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
@@ -756,10 +764,12 @@ void use_cpuid(HOST_INFO& host) {
     if (hasAVX) safe_strcat(capabilities, "avx ");
     strip_whitespace(capabilities);
     char buf[1024];
-    snprintf(buf, sizeof(buf), "%s [] [%s]",
-        host.p_model, capabilities
+    snprintf(buf, sizeof(buf), " [Family %u Model %u Stepping %u]",
+        CPUID_TO_FAMILY(cpu_id), CPUID_TO_MODEL(cpu_id), cpu_id & CPUID_STEPPING
     );
     strlcat(host.p_model, buf, sizeof(host.p_model));
+    safe_strcpy(host.p_features, capabilities);
+    safe_strcpy(host.p_vendor, vendor);
 }
 #endif
 #endif
@@ -1850,33 +1860,7 @@ const vector<string> X_display_values_initialize() {
         }
     }
 
-    // if the display_values vector is empty, assume something went wrong
-    // (couldn't open directory, no apparent Xn files). Test a static list of
-    // DISPLAY values instead that is likely to catch most common use cases.
-    // (I don't know of many environments where there will simultaneously be
-    // more than seven active, local Xservers. I'm sure they exist... somewhere.
-    // But seven was the magic number for me).
-    //
-    if ( display_values.size() == 0 ) {
-        if ( log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/."
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Using static DISPLAY list, :{0..6}."
-            );
-        }
-        display_values.push_back(":0");
-        display_values.push_back(":1");
-        display_values.push_back(":2");
-        display_values.push_back(":3");
-        display_values.push_back(":4");
-        display_values.push_back(":5");
-        display_values.push_back(":6");
-        return display_values;
-    } else {
-        return display_values;
-    }
+    return display_values;
 }
 
 // Ask the X server for user idle time (using XScreenSaver API)
@@ -1950,7 +1934,7 @@ long xss_idle() {
         //
         no_available_x_display = false;
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-        idle_time = xssInfo->idle;
+        display_idle_time = xssInfo->idle;
 
         // Close the connection to the XServer
         //
@@ -1962,10 +1946,11 @@ long xss_idle() {
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
+                "[idle_detection] XSS idle detection succeeded on display '%s'.",
+                it->c_str()
             );
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] idle_time: %ld", idle_time
+                "[idle_detection] display idle time: %ld sec", display_idle_time
             );
         }
 
@@ -2007,10 +1992,10 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
     // We should find out which of the following are actually relevant
     // on which systems (if any)
     //
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/mouse"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/mouse"));
         // solaris, linux
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/input/mice"));
-    idle_time = min(idle_time, (long)device_idle(idle_time, "/dev/kbd"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/input/mice"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
     return idle_time;

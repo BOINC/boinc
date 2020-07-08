@@ -174,13 +174,10 @@
     <string name="battery_temperature_max_header">最高バッテリー温度</string>
     <string name="battery_temperature_max_description">BOINCは定められたバッテリー温度を上回ると計算を一時停止します。この値を変更することは推奨されません。</string>
     <string name="prefs_disk_max_pct_header">ストレージの最大使用量</string>
-    <string name="prefs_disk_max_pct_description">BOINCがデバイスのストレージ領域の何パーセント使用することを許可されていますか?</string>
     <string name="prefs_disk_min_free_gb_header">最小予備記憶領域</string>
-    <string name="prefs_disk_min_free_gb_description">端末の記憶領域をどれくらい空けておきますか?</string>
     <string name="prefs_disk_access_interval_header">アクセス間隔</string>
     <string name="prefs_disk_access_interval_description">記憶領域への読み書き間隔</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">一日あたりの転送容量制限</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">BOINCに起因する一日あたりのデータトラフィックを制限します。</string>
     <string name="prefs_network_wifi_only_header">WiFiでのみタスクを転送する</string>
     <string name="prefs_autostart_header">自動起動</string>
     <string name="prefs_show_notification_notices_header">新しいお知らせがあった場合通知を表示</string>
@@ -256,7 +253,7 @@
     <string name="tasks_custom_ready_to_report">報告準備完了</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">タスクを中止しますか?</string>
-    <string name="confirm_abort_task_message">タスクを中止:</string>
+    <string name="confirm_abort_task_message">タスクを中止: %1$s</string>
     <string name="confirm_abort_task_confirm">中止</string>
     <string name="confirm_cancel">キャンセル</string>
     <string name="confirm_image_desc">確認ダイアログ</string>

@@ -189,15 +189,10 @@
         Il n\'est pas recommandé de modifier cette valeur.
     </string>
   <string name="prefs_disk_max_pct_header">Espace de stockage maximum utilisé</string>
-  <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage
-        BOINC peut-il utiliser ?
-    </string>
-  <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
-  <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage doit rester disponible dans votre appareil ? </string>
+    <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
   <string name="prefs_disk_access_interval_header">Intervalle d\'accès</string>
   <string name="prefs_disk_access_interval_description">Suggère un intervalle entre les accès disque</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert journalier</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Limite le trafic de données journalier causé par BOINC.</string>
   <string name="prefs_network_wifi_only_header">Transférer les tâches seulement en WiFi</string>
   <string name="prefs_autostart_header">Démarrage automatique</string>
   <string name="prefs_show_notification_notices_header">Afficher des notifications pour les nouveaux messages</string>
@@ -213,11 +208,7 @@
   <string name="prefs_memory_max_idle_header">Limite de la mémoire vive</string>
   <string name="prefs_memory_max_idle_description">Limite la quantité de mémoire vive que les tâches peuvent utiliser. </string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Unité de travail tampon</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Stocker au moins X jours de calcul</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Unités de travail tampon additionnelles</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Stocker un supplément
-        de X jours de calcul
-    </string>
   <string name="prefs_client_log_flags_header">Drapeaux de journal du client BOINC</string>
   <string name="prefs_gui_log_level_header">Niveau de l’interface graphique du journal</string>
   <string name="prefs_gui_log_level_description">Définit le niveau de détail de l’interface graphique des messages du journal.</string>
@@ -281,7 +272,7 @@
   <string name="tasks_custom_ready_to_report">prêt à valider</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Abandonner la tâche ?</string>
-  <string name="confirm_abort_task_message">Abandonner la tâche :</string>
+  <string name="confirm_abort_task_message">Abandonner la tâche : %1$s</string>
   <string name="confirm_abort_task_confirm">Abandonner</string>
   <string name="confirm_cancel">Annuler</string>
   <string name="confirm_image_desc">Confirmation</string>

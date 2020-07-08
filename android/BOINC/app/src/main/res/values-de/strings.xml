@@ -174,13 +174,10 @@
   <string name="battery_temperature_max_header">Max. Akkutemperatur</string>
   <string name="battery_temperature_max_description">BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es wird nicht empfohlen, diesen Wert zu ändern.</string>
   <string name="prefs_disk_max_pct_header">Max. zu nutzender Speicher</string>
-  <string name="prefs_disk_max_pct_description">Wieviel Prozent Ihres Speicherplatzes darf BOINC maximal verwenden?</string>
-  <string name="prefs_disk_min_free_gb_header">min. freizuhaltender Speicher</string>
-  <string name="prefs_disk_min_free_gb_description">Wie viel Speicher soll mindestens frei bleiben?</string>
+    <string name="prefs_disk_min_free_gb_header">min. freizuhaltender Speicher</string>
   <string name="prefs_disk_access_interval_header">Zugriffsintervall</string>
   <string name="prefs_disk_access_interval_description">Vorschlag für den Zeitraum zwischen zwei Speicherzugriffen</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">tägliche Transferbegrenzung</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Begrenzt die Datenmenge welche täglich durch BOINC übertragen wird.</string>
   <string name="prefs_network_wifi_only_header">Übertrage Aufgaben nur per WLAN</string>
   <string name="prefs_autostart_header">Automatisch starten</string>
   <string name="prefs_show_notification_notices_header">Zeige Meldung für neue Nachrichten</string>
@@ -194,9 +191,7 @@
   <string name="prefs_memory_max_idle_header">Arbeitsspeicherlimit</string>
   <string name="prefs_memory_max_idle_description">Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Speichere mindestens für X Tage Arbeit</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Speichere zusätzlich für weitere X Tage Arbeit</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
@@ -260,7 +255,7 @@
   <string name="tasks_custom_ready_to_report">meldebereit</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Aufgabe abbrechen?</string>
-  <string name="confirm_abort_task_message">Aufgabe abbrechen:</string>
+  <string name="confirm_abort_task_message">Aufgabe abbrechen: %1$s</string>
   <string name="confirm_abort_task_confirm">Aufgabe abbrechen</string>
   <string name="confirm_cancel">Zurück</string>
   <string name="confirm_image_desc">Bestätigungsdialog</string>

@@ -458,7 +458,6 @@ int CSimpleFrame::_GetCurrentViewPage() {
     } else {
         return VW_SGUI;
     }
-    return 0;       // Should never happen.
 }
 
 

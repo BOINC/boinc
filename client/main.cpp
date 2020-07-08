@@ -556,5 +556,6 @@ int main(int argc, char** argv) {
     retval = boinc_main_loop();
 
 #endif
+    main_exited = true;
     return retval;
 }

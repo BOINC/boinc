@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -207,9 +207,6 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
 
-    // MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT is defined in mac_util.h
-    gUseLaunchAgent = (compareOSVersionTo(10, MIN_OS_TO_USE_SCREENSAVER_LAUNCH_AGENT) >= 0);
-
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
@@ -218,15 +215,24 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         myIsPreview = isPreview;
     }
     
-    // OpenGL apps built under Xcode 11 apparently use window dimensions based 
-    // on the number of backing store pixels. That is, they double the window 
-    // dimensiona for Retina displays (which have two pixels per point.) But 
-    // OpenGL apps built under earlier versions of Xcode don't.
-    // Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-    // older builds at half width and height, unless we compensate in our code.
-    // This code is part of my attempt to ensure that BOINC graphics apps built on 
-    // all versions of Xcode work proprly on different versions of OS X. See also 
-    // MacPassOffscreenBufferToScreenSaver() in lib/magglutfix.m for more info.
+    // OpenGL / GLUT apps which call glutFullScreen() and are built using 
+    // Xcode 11 apparently use window dimensions based on the number of 
+    // backing store pixels. That is, they double the window dimensions 
+    // for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+    // apps built under earlier versions of Xcode don't.
+    //
+    // OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+    // Xcode 11, so it displays older builds at half width and height, 
+    // unless we compensate in our code. 
+    //
+    // To ensure that BOINC graphics apps built on all versions of Xcode work 
+    // properly on different versions of OS X, we set the IOSurface dimensions 
+    // in this module to double the screen dimensions when running under 
+    // OS 10.15 or later. 
+    //
+    // See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+    //
+    // NOTE: Graphics apps must now be linked with the IOSurface framework.
     //
     if (gIsCatalina) {
         NSArray *allScreens = [ NSScreen screens ];
@@ -391,6 +397,7 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
         [imageView removeFromSuperview];   // Releases imageView
         imageView = nil;
     }
+
     if (!myIsPreview) {
         closeBOINCSaver();
     }
@@ -1333,6 +1340,25 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 
 }
 
+// OpenGL / GLUT apps which call glutFullScreen() and are built using 
+// Xcode 11 apparently use window dimensions based on the number of 
+// backing store pixels. That is, they double the window dimensions 
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// apps built under earlier versions of Xcode don't.
+//
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+// Xcode 11, so it displays older builds at half width and height, 
+// unless we compensate in our code. 
+//
+// To ensure that BOINC graphics apps built on all versions of Xcode work 
+// properly on different versions of OS X, we set the IOSurface dimensions 
+// in this module to double the screen dimensions when running under 
+// OS 10.15 or later. 
+//
+// See also MacGLUTFix(bool isScreenSaver) in api/macglutfix.m for more info.
+//
+// NOTE: Graphics apps must now be linked with the IOSurface framework.
+//
 - (void)drawRect:(NSRect)theRect
 {
     glViewport(0, 0, (GLint)[[self window]frame].size.width*DPI_multiplier, (GLint)[[self window] frame].size.height*DPI_multiplier);

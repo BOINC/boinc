@@ -1271,9 +1271,11 @@ int main(int argc, char** argv) {
         config.replica_db_user,
         config.replica_db_passwd
     ))) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         if (retry_period == 0) exit(1);
-	boinc_sleep(retry_period);
+        boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {

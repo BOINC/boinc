@@ -200,7 +200,9 @@ int open_database() {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open database\n");
+        log_messages.printf(MSG_CRITICAL, "can't open database: %s\n",
+            boinc_db.error_string()
+        );
         return retval;
     }
     db_opened = true;

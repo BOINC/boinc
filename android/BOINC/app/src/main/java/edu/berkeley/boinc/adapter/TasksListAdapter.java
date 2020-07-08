@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -33,6 +33,20 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.NumberFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksFragment.TaskData;
@@ -40,20 +54,9 @@ import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class TasksListAdapter extends ArrayAdapter<TaskData> {
-    private ArrayList<TaskData> entries;
+    private List<TaskData> entries;
     private Activity activity;
-    /**
-     * This member eliminates reallocation of a {@link Date} object in {@link #getView(int, View, ViewGroup)}.
-     *
-     * @see #getView(int, View, ViewGroup)
-     */
-    private final Date deadlineDate;
     /**
      * This member eliminates reallocation of a {@link StringBuilder} object in {@link #getView(int, View, ViewGroup)}.
      *
@@ -62,25 +65,25 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
     private final StringBuilder elapsedTimeStringBuilder;
     private final NumberFormat percentNumberFormat;
 
-    public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
-        super(a, textViewResourceId, entries);
+    public TasksListAdapter(Activity activity, int textViewResourceId, List<TaskData> entries) {
+        super(activity, textViewResourceId, entries);
         this.entries = entries;
-        this.activity = a;
-        this.deadlineDate = new Date();
+        this.activity = activity;
         this.elapsedTimeStringBuilder = new StringBuilder();
-        (this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
+        percentNumberFormat = NumberFormat.getPercentInstance();
+        percentNumberFormat.setMinimumFractionDigits(3);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         TaskData listItem = entries.get(position);
 
         View v = convertView;
         // setup new view, if:
         // - view is null, has not been here before
         // - view has different id
-        Boolean setup = false;
+        boolean setup = false;
         if(v == null) {
             setup = true;
         }
@@ -92,7 +95,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         if(setup) {
-            LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
+            assert vi != null;
             v = vi.inflate(R.layout.tasks_layout_listitem, null);
             v.setTag(listItem.id);
         }
@@ -107,11 +111,11 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // --- set up view elements that are independent of "active" and "expanded" state
         ImageView ivIcon = v.findViewById(R.id.projectIcon);
         String finalIconId = (String) ivIcon.getTag();
-        if(finalIconId == null || !finalIconId.equals(listItem.id)) {
+        if(!StringUtils.equals(finalIconId, listItem.id)) {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
             if(icon == null) {
-                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
             }
             else {
                 ivIcon.setImageBitmap(icon);
@@ -119,34 +123,34 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             }
         }
 
-        String headerT = listItem.result.app.getName();
+        String headerT = listItem.getResult().getApp().getDisplayName();
         header.setText(headerT);
 
         // set project name
-        String tempProjectName = listItem.result.project_url;
-        if(listItem.result.project != null) {
-            tempProjectName = listItem.result.project.getName();
-            if(listItem.result.project_suspended_via_gui) {
+        String tempProjectName = listItem.getResult().getProjectURL();
+        if(listItem.getResult().getProject() != null) {
+            tempProjectName = listItem.getResult().getProject().getName();
+            if(listItem.getResult().isProjectSuspendedViaGUI()) {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
-        ((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
+        ((TextView) v.findViewById(R.id.project_name)).setText(tempProjectName);
 
         // status text
         String statusT = determineStatusText(listItem);
         status.setText(statusT);
-        if(listItem.result.state == BOINCDefs.RESULT_ABORTED ||
-           listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_DOWNLOADING ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADED ||
-           listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADING ||
-           listItem.result.state == BOINCDefs.RESULT_READY_TO_REPORT ||
-           listItem.result.state == BOINCDefs.RESULT_UPLOAD_FAILED) {
+        if(listItem.getResult().getState() == BOINCDefs.RESULT_ABORTED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADED ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
+           listItem.getResult().getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
             statusPercentage.setVisibility(View.GONE);
         }
         else {
             statusPercentage.setVisibility(View.VISIBLE);
-            statusPercentage.setText(this.percentNumberFormat.format(listItem.result.fraction_done));
+            statusPercentage.setText(this.percentNumberFormat.format(listItem.getResult().getFractionDone()));
         }
         // --- end of independent view elements
 
@@ -158,7 +162,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             pb.setVisibility(View.VISIBLE);
             pb.setIndeterminate(false);
             pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-            pb.setProgress(Math.round(listItem.result.fraction_done * pb.getMax()));
+            pb.setProgress(Math.round(listItem.getResult().getFractionDone() * pb.getMax()));
         }
         else {
             pb.setVisibility(View.GONE);
@@ -169,34 +173,36 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
         if(!listItem.expanded) {
             // view is collapsed
-            expandButton.setImageResource(R.drawable.collapse);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right);
             rightColumnExpandWrapper.setVisibility(View.GONE);
             centerColumnExpandWrapper.setVisibility(View.GONE);
         }
         else {
             // view is expanded
-            expandButton.setImageResource(R.drawable.expand);
+            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down);
             rightColumnExpandWrapper.setVisibility(View.VISIBLE);
             centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 
             // elapsed time
             final long elapsedTime;
             // show time depending whether task is active or not
-            if(listItem.result.active_task) {
-                elapsedTime = (long) listItem.result.elapsed_time; //is 0 when task finished
+            if(listItem.getResult().isActiveTask()) {
+                elapsedTime = (long) listItem.getResult().getElapsedTime(); //is 0 when task finished
             }
             else {
-                elapsedTime = (long) listItem.result.final_elapsed_time;
+                elapsedTime = (long) listItem.getResult().getFinalElapsedTime();
             }
             time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 
             // set deadline
-            this.deadlineDate.setTime(listItem.result.report_deadline * 1000);
-            final String deadline = DateFormat.getDateTimeInstance().format(this.deadlineDate);
+            final LocalDateTime deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
+                    listItem.getResult().getReportDeadline()), ZoneId.systemDefault());
+            final String deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                                     .format(deadlineDateTime);
             ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
             // set application friendly name
-            if(listItem.result.app != null) {
-                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.result.name);
+            if(listItem.getResult().getApp() != null) {
+                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.getResult().getName());
             }
 
             // buttons
@@ -215,18 +221,23 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
                     (v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
 
-                    // checking what suspendResume button should be shown
-                    if(listItem.result.suspended_via_gui) { // show play
-                        suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.resumetask);
-                        suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
+                    final Resources resources = activity.getResources();
+                    final Resources.Theme theme = activity.getTheme();
 
+                    // checking what suspendResume button should be shown
+                    if(listItem.getResult().isSuspendedViaGUI()) { // show play
+                        suspendResume.setVisibility(View.VISIBLE);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_white);
+                        suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
                     }
                     else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
                         suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setImageResource(R.drawable.pausetask);
+                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
+                                                                                  theme));
+                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_white);
                         suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
-
                     }
                     else { // show nothing
                         suspendResume.setVisibility(View.GONE);
@@ -246,10 +257,8 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
     private Bitmap getIcon(int position) {
         // try to get current client status from monitor
-        //ClientStatus status;
         try {
-            //status  = Monitor.getClientStatus();
-            return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.project_url);
+            return BOINCActivity.monitor.getProjectIcon(entries.get(position).getResult().getProjectURL());
         }
         catch(Exception e) {
             if(Logging.WARNING) {
@@ -257,14 +266,11 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             }
             return null;
         }
-        //return status.getProjectIcon(entries.get(position).result.project_url);
     }
 
     private String determineStatusText(TaskData tmp) {
-
         //read status
-        Integer status = tmp.determineState();
-        //if(Logging.DEBUG) Log.d(Logging.TAG,"determineStatusText for status: " + status);
+        int status = tmp.determineState();
 
         // custom state
         if(status == BOINCDefs.RESULT_SUSPENDED_VIA_GUI) {
@@ -278,7 +284,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         }
 
         //active state
-        if(tmp.result.active_task) {
+        if(tmp.getResult().isActiveTask()) {
             switch(status) {
                 case BOINCDefs.PROCESS_UNINITIALIZED:
                     return activity.getString(R.string.tasks_active_uninitialized);

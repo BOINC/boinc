@@ -296,7 +296,7 @@ bool is_statistics_file(const char* filename) {
     if (p != filename) return false;
     q = filename + strlen("statistics_");
 
-    p = strstr(q, ".");
+    p = strchr(q, '.');
     if (!p) return false;
     if (p == q) return false;
 

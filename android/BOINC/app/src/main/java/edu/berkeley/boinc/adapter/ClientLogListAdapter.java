@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,22 +26,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.List;
+
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class ClientLogListAdapter extends ArrayAdapter<Message> {
-    private ArrayList<Message> entries;
+    private List<Message> entries;
     private Activity activity;
-    /**
-     * This member eliminates reallocation of a {@link Date} object in {@link #getDate(int)}.
-     *
-     * @see #getView(int, View, ViewGroup)
-     */
-    private final Date date;
 
     public static class ViewEventLog {
         int entryIndex;
@@ -51,11 +50,10 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         TextView tvProjectName;
     }
 
-    public ClientLogListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<Message> entries) {
+    public ClientLogListAdapter(Activity activity, ListView listView, int textViewResourceId, List<Message> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
-        this.date = new Date();
 
         listView.setAdapter(this);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -66,9 +64,10 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         return entries.size();
     }
 
-    public String getDate(int position) {
-        this.date.setTime(this.entries.get(position).timestamp * 1000);
-        return DateFormat.getDateTimeInstance().format(this.date);
+    public String getDateTimeString(int position) {
+        final Instant instant = Instant.ofEpochSecond(entries.get(position).getTimestamp());
+        return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                .format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
     }
 
     @Override
@@ -82,23 +81,23 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
     }
 
     public String getMessage(int position) {
-        return entries.get(position).body;
+        return entries.get(position).getBody();
     }
 
     public String getProject(int position) {
-        return entries.get(position).project;
+        return entries.get(position).getProject();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View vi = convertView;
         ViewEventLog viewEventLog;
 
         // Only inflate a new view if the ListView does not already have a view assigned.
         if(convertView == null) {
-
-            vi =
-                    ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.eventlog_client_listitem_layout, null);
+            vi = ContextCompat.getSystemService(activity, LayoutInflater.class)
+                    .inflate(R.layout.eventlog_client_listitem_layout, null);
 
             viewEventLog = new ViewEventLog();
             viewEventLog.tvMessage = vi.findViewById(R.id.msgs_message);
@@ -106,18 +105,15 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
             viewEventLog.tvProjectName = vi.findViewById(R.id.msgs_project);
 
             vi.setTag(viewEventLog);
-
         }
         else {
-
             viewEventLog = (ViewEventLog) vi.getTag();
-
         }
 
         // Populate UI Elements
         viewEventLog.entryIndex = position;
         viewEventLog.tvMessage.setText(getMessage(position));
-        viewEventLog.tvDate.setText(getDate(position));
+        viewEventLog.tvDate.setText(getDateTimeString(position));
         if(getProject(position).isEmpty()) {
             viewEventLog.tvProjectName.setVisibility(View.GONE);
         }

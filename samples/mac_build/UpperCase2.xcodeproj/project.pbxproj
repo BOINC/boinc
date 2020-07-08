@@ -15,9 +15,6 @@
 			dependencies = (
 				DDC479C015AC57C40022401F /* PBXTargetDependency */,
 				DDC479BE15AC57BC0022401F /* PBXTargetDependency */,
-				DD84C7200C856DA6000EBEC4 /* PBXTargetDependency */,
-				DD84C7220C856DA6000EBEC4 /* PBXTargetDependency */,
-				DD84B698164D0151008E1369 /* PBXTargetDependency */,
 				DD5937AB164D1759001D94A5 /* PBXTargetDependency */,
 			);
 			name = Build_All;
@@ -26,22 +23,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		DD08CB70164CAC1A005B47DD /* slide_show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08CB6F164CAC1A005B47DD /* slide_show.cpp */; };
-		DD1194B00F42CB4900C2BC25 /* uc2_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */; };
-		DD1194B20F42CB5400C2BC25 /* uc2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1194B10F42CB5400C2BC25 /* uc2.cpp */; };
 		DD59379F164D16CE001D94A5 /* slide_show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08CB6F164CAC1A005B47DD /* slide_show.cpp */; };
 		DD5937A1164D16CE001D94A5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DD5937A2164D16CE001D94A5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
 		DD5937A3164D16CE001D94A5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
-		DD760E68094E56DB002CACC4 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
-		DD760E69094E56DB002CACC4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
-		DD760E6A094E56DB002CACC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
-		DD84B667164CEA83008E1369 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
-		DD84B669164CEA87008E1369 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
-		DD84B66A164CEB78008E1369 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
-		DD84C6DF0C856B36000EBEC4 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
-		DD84C6E00C856B36000EBEC4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
-		DD84C6E10C856B36000EBEC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
 		DDC4796715AC56CA0022401F /* uc2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1194B10F42CB5400C2BC25 /* uc2.cpp */; };
 		DDC4796915AC56CA0022401F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DDC4796A15AC56CA0022401F /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
@@ -50,59 +35,12 @@
 		DDC479B015AC56EB0022401F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DDC479B115AC56EB0022401F /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DDC479B215AC56EB0022401F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
-		DDF8050515CB9C75005473CC /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF8050315CB9C75005473CC /* ttfont.cpp */; };
+		DDDE391624600EAF005FCEFA /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDE391524600EAF005FCEFA /* IOSurface.framework */; };
+		DDDE391724600EE9005FCEFA /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDE391524600EAF005FCEFA /* IOSurface.framework */; };
 		DDF8050615CB9C75005473CC /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF8050315CB9C75005473CC /* ttfont.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
-		DD760E3C094E540C002CACC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.asm;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-		DD760E3D094E540D002CACC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.cpp;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-		DD760E3E094E540D002CACC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.c;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-		DD84C6E30C856B36000EBEC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.c;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-		DD84C6E40C856B36000EBEC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.cpp;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-		DD84C6E50C856B36000EBEC4 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc.4_0;
-			fileType = sourcecode.asm;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
 		DDC4796E15AC56CA0022401F /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc.4_0;
@@ -161,27 +99,6 @@
 			remoteGlobalIDString = DD59379D164D16CE001D94A5;
 			remoteInfo = "slide_show-x86_64";
 		};
-		DD84B697164D0151008E1369 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD08CB63164CAAFF005B47DD;
-			remoteInfo = slide_show;
-		};
-		DD84C71F0C856DA6000EBEC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DD76FA90486AB0100D96B5E;
-			remoteInfo = UC2;
-		};
-		DD84C7210C856DA6000EBEC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD84C6A70C856B36000EBEC4;
-			remoteInfo = UC2Gfx;
-		};
 		DDC479BD15AC57BC0022401F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
@@ -199,8 +116,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* uc2_i686-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "uc2_i686-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD08CB64164CAAFF005B47DD /* slide_show_i686-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "slide_show_i686-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD08CB6F164CAC1A005B47DD /* slide_show.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = slide_show.cpp; path = ../example_app/slide_show.cpp; sourceTree = "<group>"; };
 		DD1194AE0F42CAF400C2BC25 /* checkin_notes_samples */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = checkin_notes_samples; path = ../../checkin_notes_samples; sourceTree = SOURCE_ROOT; };
 		DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc2_graphics.cpp; path = ../example_app/uc2_graphics.cpp; sourceTree = SOURCE_ROOT; };
@@ -209,52 +124,23 @@
 		DD760E65094E56DB002CACC4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		DD760E66094E56DB002CACC4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		DD760E67094E56DB002CACC4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		DD84C6EA0C856B36000EBEC4 /* uc2_graphics_i686-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "uc2_graphics_i686-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD84C6F90C856C0E000EBEC4 /* uc2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = uc2.h; path = ../example_app/uc2.h; sourceTree = SOURCE_ROOT; };
 		DDC4797515AC56CA0022401F /* UC2_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC479BB15AC56EB0022401F /* UC2_graphics_x86_64-apple-darwin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "UC2_graphics_x86_64-apple-darwin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDDE391524600EAF005FCEFA /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = ../../../../../../System/Library/Frameworks/IOSurface.framework; sourceTree = "<group>"; };
 		DDF8050315CB9C75005473CC /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../../api/ttfont.cpp; sourceTree = "<group>"; };
 		DDF8050415CB9C75005473CC /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../../api/ttfont.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD760E68094E56DB002CACC4 /* AppKit.framework in Frameworks */,
-				DD760E69094E56DB002CACC4 /* GLUT.framework in Frameworks */,
-				DD760E6A094E56DB002CACC4 /* OpenGL.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD08CB61164CAAFF005B47DD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD84B667164CEA83008E1369 /* GLUT.framework in Frameworks */,
-				DD84B669164CEA87008E1369 /* OpenGL.framework in Frameworks */,
-				DD84B66A164CEB78008E1369 /* AppKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD5937A0164D16CE001D94A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDDE391624600EAF005FCEFA /* IOSurface.framework in Frameworks */,
 				DD5937A1164D16CE001D94A5 /* GLUT.framework in Frameworks */,
 				DD5937A2164D16CE001D94A5 /* OpenGL.framework in Frameworks */,
 				DD5937A3164D16CE001D94A5 /* AppKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD84C6DE0C856B36000EBEC4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD84C6DF0C856B36000EBEC4 /* AppKit.framework in Frameworks */,
-				DD84C6E00C856B36000EBEC4 /* GLUT.framework in Frameworks */,
-				DD84C6E10C856B36000EBEC4 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDDE391724600EE9005FCEFA /* IOSurface.framework in Frameworks */,
 				DDC479B015AC56EB0022401F /* AppKit.framework in Frameworks */,
 				DDC479B115AC56EB0022401F /* GLUT.framework in Frameworks */,
 				DDC479B215AC56EB0022401F /* OpenGL.framework in Frameworks */,
@@ -307,11 +194,8 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DD76FB20486AB0100D96B5E /* uc2_i686-apple-darwin */,
-				DD84C6EA0C856B36000EBEC4 /* uc2_graphics_i686-apple-darwin */,
 				DDC4797515AC56CA0022401F /* UC2_x86_64-apple-darwin */,
 				DDC479BB15AC56EB0022401F /* UC2_graphics_x86_64-apple-darwin */,
-				DD08CB64164CAAFF005B47DD /* slide_show_i686-apple-darwin */,
 				DD5937A8164D16CE001D94A5 /* slide_show_x86_64-apple-darwin */,
 			);
 			name = Products;
@@ -331,6 +215,7 @@
 				DD760E65094E56DB002CACC4 /* AppKit.framework */,
 				DD760E66094E56DB002CACC4 /* GLUT.framework */,
 				DD760E67094E56DB002CACC4 /* OpenGL.framework */,
+				DDDE391524600EAF005FCEFA /* IOSurface.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -347,44 +232,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8DD76FA90486AB0100D96B5E /* UC2-i386 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD6341000973C81800B1057F /* Build configuration list for PBXNativeTarget "UC2-i386" */;
-			buildPhases = (
-				8DD76FAB0486AB0100D96B5E /* Sources */,
-				8DD76FAD0486AB0100D96B5E /* Frameworks */,
-				DD7A737915AD66AB004F2841 /* ShellScript */,
-			);
-			buildRules = (
-				DD760E3E094E540D002CACC4 /* PBXBuildRule */,
-				DD760E3D094E540D002CACC4 /* PBXBuildRule */,
-				DD760E3C094E540C002CACC4 /* PBXBuildRule */,
-			);
-			dependencies = (
-			);
-			name = "UC2-i386";
-			productInstallPath = "$(HOME)/bin";
-			productName = UpperCase;
-			productReference = 8DD76FB20486AB0100D96B5E /* uc2_i686-apple-darwin */;
-			productType = "com.apple.product-type.tool";
-		};
-		DD08CB63164CAAFF005B47DD /* slide_show-i386 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD08CB6D164CAAFF005B47DD /* Build configuration list for PBXNativeTarget "slide_show-i386" */;
-			buildPhases = (
-				DD08CB60164CAAFF005B47DD /* Sources */,
-				DD08CB61164CAAFF005B47DD /* Frameworks */,
-				DD59379C164D1657001D94A5 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "slide_show-i386";
-			productName = slide_show;
-			productReference = DD08CB64164CAAFF005B47DD /* slide_show_i686-apple-darwin */;
-			productType = "com.apple.product-type.tool";
-		};
 		DD59379D164D16CE001D94A5 /* slide_show-x86_64 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD5937A5164D16CE001D94A5 /* Build configuration list for PBXNativeTarget "slide_show-x86_64" */;
@@ -400,27 +247,6 @@
 			name = "slide_show-x86_64";
 			productName = slide_show;
 			productReference = DD5937A8164D16CE001D94A5 /* slide_show_x86_64-apple-darwin */;
-			productType = "com.apple.product-type.tool";
-		};
-		DD84C6A70C856B36000EBEC4 /* UC2Gfx-i386 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD84C6E60C856B36000EBEC4 /* Build configuration list for PBXNativeTarget "UC2Gfx-i386" */;
-			buildPhases = (
-				DD84C6A80C856B36000EBEC4 /* Sources */,
-				DD84C6DE0C856B36000EBEC4 /* Frameworks */,
-				DD7A737A15AD66CA004F2841 /* ShellScript */,
-			);
-			buildRules = (
-				DD84C6E30C856B36000EBEC4 /* PBXBuildRule */,
-				DD84C6E40C856B36000EBEC4 /* PBXBuildRule */,
-				DD84C6E50C856B36000EBEC4 /* PBXBuildRule */,
-			);
-			dependencies = (
-			);
-			name = "UC2Gfx-i386";
-			productInstallPath = "$(HOME)/bin";
-			productName = UpperCase;
-			productReference = DD84C6EA0C856B36000EBEC4 /* uc2_graphics_i686-apple-darwin */;
 			productType = "com.apple.product-type.tool";
 		};
 		DDC4796515AC56CA0022401F /* UC2-x86_64 */ = {
@@ -487,57 +313,15 @@
 			projectRoot = "";
 			targets = (
 				DD84C71E0C856D9E000EBEC4 /* Build_All */,
-				8DD76FA90486AB0100D96B5E /* UC2-i386 */,
-				DD84C6A70C856B36000EBEC4 /* UC2Gfx-i386 */,
 				DDC4796515AC56CA0022401F /* UC2-x86_64 */,
 				DDC4797715AC56EB0022401F /* UC2Gfx-x86_64 */,
-				DD08CB63164CAAFF005B47DD /* slide_show-i386 */,
 				DD59379D164D16CE001D94A5 /* slide_show-x86_64 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		DD59379C164D1657001D94A5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
-		};
 		DD5937A4164D16CE001D94A5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
-		};
-		DD7A737915AD66AB004F2841 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/build/${CONFIGURATION}\"\nif [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\" ]; then\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}\"\n    if [ \"$CONFIGURATION\" = \"Release\" ]; then\n        rm -fR \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n        cp -fpR \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.dSYM\" \"${SRCROOT}/build/${CONFIGURATION}/${PRODUCT_NAME}.dSYM\"\n    fi\nfi\n";
-		};
-		DD7A737A15AD66CA004F2841 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -579,36 +363,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8DD76FAB0486AB0100D96B5E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD1194B20F42CB5400C2BC25 /* uc2.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD08CB60164CAAFF005B47DD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD08CB70164CAC1A005B47DD /* slide_show.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD59379E164D16CE001D94A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DD59379F164D16CE001D94A5 /* slide_show.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD84C6A80C856B36000EBEC4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD1194B00F42CB4900C2BC25 /* uc2_graphics.cpp in Sources */,
-				DDF8050515CB9C75005473CC /* ttfont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,21 +396,6 @@
 			target = DD59379D164D16CE001D94A5 /* slide_show-x86_64 */;
 			targetProxy = DD5937AA164D1759001D94A5 /* PBXContainerItemProxy */;
 		};
-		DD84B698164D0151008E1369 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD08CB63164CAAFF005B47DD /* slide_show-i386 */;
-			targetProxy = DD84B697164D0151008E1369 /* PBXContainerItemProxy */;
-		};
-		DD84C7200C856DA6000EBEC4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DD76FA90486AB0100D96B5E /* UC2-i386 */;
-			targetProxy = DD84C71F0C856DA6000EBEC4 /* PBXContainerItemProxy */;
-		};
-		DD84C7220C856DA6000EBEC4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD84C6A70C856B36000EBEC4 /* UC2Gfx-i386 */;
-			targetProxy = DD84C7210C856DA6000EBEC4 /* PBXContainerItemProxy */;
-		};
 		DDC479BE15AC57BC0022401F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDC4796515AC56CA0022401F /* UC2-x86_64 */;
@@ -665,87 +409,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		DD08CB6B164CAAFF005B47DD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../..,
-					../../lib,
-					../../api,
-					../../zip,
-				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"-ljpeg",
-					"-lboinc_zip",
-				);
-				PRODUCT_NAME = "slide_show_i686-apple-darwin";
-			};
-			name = Debug;
-		};
-		DD08CB6C164CAAFF005B47DD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../..,
-					../../lib,
-					../../api,
-					../../zip,
-				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"-ljpeg",
-					"-lboinc_zip",
-				);
-				PRODUCT_NAME = "slide_show_i686-apple-darwin";
-			};
-			name = Release;
-		};
 		DD5937A6164D16CE001D94A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -764,10 +439,14 @@
 					../../lib,
 					../../api,
 					../../zip,
+					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -785,8 +464,13 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -799,9 +483,13 @@
 					../../lib,
 					../../api,
 					../../zip,
+					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -813,37 +501,13 @@
 			};
 			name = Release;
 		};
-		DD6341010973C81800B1057F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../..,
-					../../lib,
-					../../api,
-					../../clientgui/mac,
-				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
-				PREBINDING = NO;
-				PRODUCT_NAME = "uc2_i686-apple-darwin";
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
 		DD6341050973C81800B1057F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
@@ -854,30 +518,9 @@
 				);
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
-		};
-		DD63410B0973C84A00B1057F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../..,
-					../../lib,
-					../../api,
-					../../clientgui/mac,
-				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				PREBINDING = NO;
-				PRODUCT_NAME = "uc2_i686-apple-darwin";
-				ZERO_LINK = NO;
-			};
-			name = Release;
 		};
 		DD63410C0973C84A00B1057F /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -885,7 +528,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
@@ -896,102 +539,7 @@
 				);
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		DD84C6E70C856B36000EBEC4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"../../../freetype-2.4.10/include",
-					"../../../ftgl-2.1.3~rc5/src",
-					../..,
-					../../lib,
-					../../api,
-				);
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
-					"-DHAVE_STDLIB_H",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"-ljpeg",
-					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "uc2_graphics_i686-apple-darwin";
-				WARNING_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lbz2",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
-		DD84C6E90C856B36000EBEC4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"../../../freetype-2.4.10/include",
-					"../../../ftgl-2.1.3~rc5/src",
-					../..,
-					../../lib,
-					../../api,
-				);
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
-					"-DHAVE_STDLIB_H",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"-ljpeg",
-					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "uc2_graphics_i686-apple-darwin";
-				WARNING_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc_graphics2",
-					"-lboinc",
-					"../../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lbz2",
-				);
-				ZERO_LINK = NO;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -1017,6 +565,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
@@ -1032,6 +581,10 @@
 					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "UC2_x86_64-apple-darwin";
 				ZERO_LINK = NO;
@@ -1042,6 +595,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
@@ -1055,6 +609,10 @@
 					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "UC2_x86_64-apple-darwin";
 				ZERO_LINK = NO;
@@ -1065,6 +623,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
@@ -1079,6 +642,7 @@
 					../..,
 					../../lib,
 					../../api,
+					../../clientgui/mac,
 				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
@@ -1107,6 +671,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
@@ -1119,6 +688,7 @@
 					../..,
 					../../lib,
 					../../api,
+					../../clientgui/mac,
 				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
@@ -1146,15 +716,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DD08CB6D164CAAFF005B47DD /* Build configuration list for PBXNativeTarget "slide_show-i386" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD08CB6B164CAAFF005B47DD /* Debug */,
-				DD08CB6C164CAAFF005B47DD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		DD5937A5164D16CE001D94A5 /* Build configuration list for PBXNativeTarget "slide_show-x86_64" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1164,29 +725,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		DD6341000973C81800B1057F /* Build configuration list for PBXNativeTarget "UC2-i386" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD6341010973C81800B1057F /* Debug */,
-				DD63410B0973C84A00B1057F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		DD6341040973C81800B1057F /* Build configuration list for PBXProject "UpperCase2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD6341050973C81800B1057F /* Debug */,
 				DD63410C0973C84A00B1057F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		DD84C6E60C856B36000EBEC4 /* Build configuration list for PBXNativeTarget "UC2Gfx-i386" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD84C6E70C856B36000EBEC4 /* Debug */,
-				DD84C6E90C856B36000EBEC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

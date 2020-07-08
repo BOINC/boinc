@@ -68,7 +68,7 @@ function output_transform($text, $options = NULL) {
         $options = new output_options; // Defaults in the class definition
     }
     if ($options->htmlitems) {
-        $text = htmlspecialchars($text);
+        $text = htmlspecialchars($text, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE);
     }
     if (is_array($options->highlight_terms)) {
         $text = highlight_terms($text, $options->highlight_terms);
