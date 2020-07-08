@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">アカウントが存在しません</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">アカウントが存在しません、プロジェクトのウェブサイトを訪問し登録してください</string>
     <!--working-->
-    <string name="attachproject_working_attaching">追加中</string>
+    <string name="attachproject_working_attaching">追加中 %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">ヒント</string>
@@ -209,7 +209,7 @@
     <string name="projects_status_schedrpcpending">スケジューラへの要求を保留</string>
     <string name="projects_status_schedrpcinprogress">スケジューラへ要求中</string>
     <string name="projects_status_trickleuppending">トリクルアップメッセージの送信保留あり</string>
-    <string name="projects_status_backoff">通信は次の時間内に予定:</string>
+    <string name="projects_status_backoff">通信は次の時間内に予定: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">プロジェクトに関する操作:</string>
     <string name="projects_control_visit_website">ウェブサイトを訪問</string>
@@ -261,7 +261,7 @@
     <string name="trans_loading">転送を読み込み中…</string>
     <string name="trans_upload">アップロード</string>
     <string name="trans_download">ダウンロード</string>
-    <string name="trans_retryin">次の時間内に再試行</string>
+    <string name="trans_retry_in">次の時間内に再試行 %1$s</string>
     <string name="trans_failed">失敗</string>
     <string name="trans_suspended">一時停止中</string>
     <string name="trans_active">アクティブ</string>
@@ -298,8 +298,6 @@
     <string name="suspend_wifi">WiFiに接続されていません。</string>
     <string name="suspend_battery_charging">バッテリーへの充電を待機中。</string>
     <string name="suspend_battery_charging_long">バッテリーの充電量が設定に達した時計算が再開されます</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">現在</string>
     <string name="suspend_battery_overheating">バッテリーが冷めるのを待機中</string>
     <string name="suspend_user_req">計算を再開しています…</string>
     <string name="suspend_network_user_req">手動で。</string>

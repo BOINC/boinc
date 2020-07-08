@@ -31,7 +31,7 @@
     <string name="attachproject_conflict_unknown_user">Nalog ne postoji</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Nalog ne postoji, posetite sajt projekta da se registrujete</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Kači se</string>
+    <string name="attachproject_working_attaching">Kači se %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Nagoveštaj</string>
@@ -208,7 +208,7 @@
     <string name="projects_status_schedrpcpending">Zahtev rasporeda na čekanju</string>
     <string name="projects_status_schedrpcinprogress">Zahtev rasporeda u toku</string>
     <string name="projects_status_trickleuppending">Preneta poruka na čekanju</string>
-    <string name="projects_status_backoff">Komunikacija zakazana za:</string>
+    <string name="projects_status_backoff">Komunikacija zakazana za: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Komande projekta:</string>
     <string name="projects_control_visit_website">Posetite sajt</string>
@@ -260,7 +260,7 @@
     <string name="trans_loading">Čitam razmene...</string>
     <string name="trans_upload">Otpremanje</string>
     <string name="trans_download">Preuzimanje</string>
-    <string name="trans_retryin">Pokušaj ponovo za</string>
+    <string name="trans_retry_in">Pokušaj ponovo za %1$s</string>
     <string name="trans_failed">neuspelo</string>
     <string name="trans_suspended">zaustavljeno</string>
     <string name="trans_active">aktivno</string>
@@ -297,8 +297,6 @@
     <string name="suspend_wifi">Niste povezani na WiFi.</string>
     <string name="suspend_battery_charging">Čekanje da se baterija napuni.</string>
     <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">trenutno</string>
     <string name="suspend_battery_overheating">Čekanje da se baterija ohladi</string>
     <string name="suspend_user_req">Nastavljanje računanja...</string>
     <string name="suspend_network_user_req">ručno.</string>

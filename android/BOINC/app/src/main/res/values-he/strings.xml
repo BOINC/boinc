@@ -30,7 +30,7 @@
     <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">מצרף</string>
+    <string name="attachproject_working_attaching">מצרף %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">רמז</string>
@@ -217,7 +217,7 @@
     <string name="projects_status_schedrpcpending">בקשה מתוזמנת ממתינה</string>
     <string name="projects_status_schedrpcinprogress">בקשה מתוזמנת בהתקדמות</string>
     <string name="projects_status_trickleuppending">הודעת טפטוף עולה ממתינה</string>
-    <string name="projects_status_backoff">תקשורת מתוזמנת ב-:</string>
+    <string name="projects_status_backoff">תקשורת מתוזמנת ב-: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">פקודות מיזם:</string>
     <string name="projects_control_visit_website">בקר באתר</string>
@@ -269,7 +269,7 @@
     <string name="trans_loading">קורא העברות...</string>
     <string name="trans_upload">העלאה</string>
     <string name="trans_download">הורדה</string>
-    <string name="trans_retryin">נסה שנית ב-</string>
+    <string name="trans_retry_in">נסה שנית ב- %1$s</string>
     <string name="trans_failed">נכשל</string>
     <string name="trans_suspended">הושעה</string>
     <string name="trans_active">פעיל</string>
@@ -306,8 +306,6 @@
     <string name="suspend_wifi">לא מחובר לרשת אלחוטית.</string>
     <string name="suspend_battery_charging">ממתין לטעינת הסוללה.</string>
     <string name="suspend_battery_charging_long">החישוב יתחדש כאשר טעינת הסוללה תגיע אל</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">כעת</string>
     <string name="suspend_battery_overheating">ממתין לקירור הסוללה</string>
     <string name="suspend_user_req">מחדש את החישוב...</string>
     <string name="suspend_network_user_req">באופן ידני.</string>

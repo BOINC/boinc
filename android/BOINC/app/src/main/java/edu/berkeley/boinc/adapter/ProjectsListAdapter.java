@@ -255,8 +255,9 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                                                                Instant.now()).getSeconds();
                         // if timestamp is in the past, do not write anything
                         if(retryInSeconds >= 0) {
-                            activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-                                                   DateUtils.formatElapsedTime(retryInSeconds);
+                            final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
+                            activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
+                                                                                     formattedTime);
                         }
                     }
                 }

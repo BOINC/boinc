@@ -31,7 +31,7 @@
         للتسجيل
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">جاري رفق</string>
+    <string name="attachproject_working_attaching">جاري رفق %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">ملحوظة</string>
@@ -224,7 +224,7 @@
     <string name="projects_status_schedrpcpending">طَلبُ المُجَدوِِل في الطابور</string>
     <string name="projects_status_schedrpcinprogress">يجري طلبُ المُجَدوِِل</string>
     <string name="projects_status_trickleuppending">تراكم الرسائل المعلقة</string>
-    <string name="projects_status_backoff">لاتصال مقرر في:</string>
+    <string name="projects_status_backoff">لاتصال مقرر في: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">أوامر المشروع</string>
     <string name="projects_control_visit_website">زيارة الموقع</string>
@@ -276,7 +276,7 @@
     <string name="trans_loading">قراءة حركة البيانات...</string>
     <string name="trans_upload">رفع</string>
     <string name="trans_download">تنزيل</string>
-    <string name="trans_retryin">اعادة المحاولة في غضون</string>
+    <string name="trans_retry_in">اعادة المحاولة في غضون %1$s</string>
     <string name="trans_failed">فشل</string>
     <string name="trans_suspended">معلق</string>
     <string name="trans_active">نشط</string>
@@ -312,8 +312,6 @@
     <string name="suspend_wifi">غير متصل بالشبكة اللاسلكية.</string>
     <string name="suspend_battery_charging">في انتظار شحن البطارية</string>
     <string name="suspend_battery_charging_long">ستسأنف العمليات الحسابية عند وصول طاقة البطارية إلى</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">حاليا</string>
     <string name="suspend_battery_overheating">في انتظار انخفاض حرارة البطارية</string>
     <string name="suspend_user_req">استئناف العمليات الحسابية</string>
     <string name="suspend_network_user_req">يدويا.</string>

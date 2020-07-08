@@ -372,11 +372,11 @@ public class ClientStatus {
             final Instant now = Instant.now();
             final Instant minRPCTime = Instant.ofEpochSecond((long) project.getMinRPCTime());
             if(minRPCTime.compareTo(now) > 0) {
-                appendToStatus(
-                        sb,
-                        context.getResources().getString(R.string.projects_status_backoff) + " " +
-                        DateUtils.formatElapsedTime(Duration.between(now, minRPCTime).getSeconds())
-                );
+                final String elapsedTime = DateUtils.formatElapsedTime(Duration.between(now, minRPCTime)
+                                                                               .getSeconds());
+                final String backoff = context.getResources().getString(R.string.projects_status_backoff,
+                                                                        elapsedTime);
+                appendToStatus(sb, backoff);
             }
         }
         return sb.toString();
@@ -602,13 +602,10 @@ public class ClientStatus {
                         case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
                             statusString = context.getString(R.string.suspend_battery_charging);
                             try {
-                                double minCharge = prefs.getBatteryChargeMinPct();
+                                int minCharge = (int) prefs.getBatteryChargeMinPct();
                                 int currentCharge = deviceStatus.getStatus().getBatteryChargePct();
-                                statusString = context.getString(R.string.suspend_battery_charging_long) + " " +
-                                               (int) minCharge
-                                               + "% (" + context.getString(R.string.suspend_battery_charging_current) +
-                                               " " + currentCharge + "%) "
-                                               + context.getString(R.string.suspend_battery_charging_long2);
+                                statusString = context.getString(R.string.suspend_battery_charging_long,
+                                                                 minCharge, currentCharge);
                             }
                             catch(Exception e) {
                                 if(Logging.ERROR) {

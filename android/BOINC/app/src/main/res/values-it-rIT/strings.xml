@@ -31,7 +31,7 @@
         per registrarti
     </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Connessione in corso</string>
+  <string name="attachproject_working_attaching">Connessione in corso %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Consiglio</string>
@@ -224,7 +224,7 @@
   <string name="projects_status_schedrpcpending">Richiesta allo scheduler in attesa</string>
   <string name="projects_status_schedrpcinprogress">Richiesta allo scheduler in corso</string>
   <string name="projects_status_trickleuppending">Messaggio trickle in attesa</string>
-  <string name="projects_status_backoff">Comunicazione tra:</string>
+  <string name="projects_status_backoff">Comunicazione tra: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandi progetto:</string>
   <string name="projects_control_visit_website">Visita il sito web</string>
@@ -276,7 +276,7 @@
   <string name="trans_loading">Lettura trasferimenti…</string>
   <string name="trans_upload">Upload</string>
   <string name="trans_download">Download</string>
-  <string name="trans_retryin">riprova tra</string>
+  <string name="trans_retry_in">riprova tra %1$s</string>
   <string name="trans_failed">fallito</string>
   <string name="trans_suspended">sospeso</string>
   <string name="trans_active">attivo</string>
@@ -313,8 +313,6 @@
   <string name="suspend_wifi">Non connesso al WiFi</string>
   <string name="suspend_battery_charging">In attesa che la batteria si ricarichi.</string>
   <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria sarà almeno</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">attualmente</string>
   <string name="suspend_battery_overheating">In attesa che la batteria si raffreddi</string>
   <string name="suspend_user_req">Ripresa elaborazione…</string>
   <string name="suspend_network_user_req">manualmente.</string>

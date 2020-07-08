@@ -31,7 +31,7 @@
         проекта, за да се регистрирате.
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Присъединяване</string>
+    <string name="attachproject_working_attaching">Присъединяване %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Подсказка</string>
@@ -234,7 +234,7 @@
     <string name="projects_status_schedrpcpending">Заявка на Планировчика в процес на изчакване</string>
     <string name="projects_status_schedrpcinprogress">Заявка на Планировчика в процес на извършване</string>
     <string name="projects_status_trickleuppending">Изходящо съобщение в процес на изчакване</string>
-    <string name="projects_status_backoff">Връзка е планирана след:</string>
+    <string name="projects_status_backoff">Връзка е планирана след: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Команди на проекта:</string>
     <string name="projects_control_visit_website">Посетете уебсайт</string>
@@ -286,7 +286,7 @@
     <string name="trans_loading">Четене на трансфери…</string>
     <string name="trans_upload">Качване</string>
     <string name="trans_download">Изтегляне</string>
-    <string name="trans_retryin">нов опит след</string>
+    <string name="trans_retry_in">нов опит след %1$s</string>
     <string name="trans_failed">неуспешен</string>
     <string name="trans_suspended">временно прекратен</string>
     <string name="trans_active">активен</string>
@@ -325,8 +325,6 @@
     <string name="suspend_battery_charging">Изчакване на батерията да се зареди.</string>
     <string name="suspend_battery_charging_long">Изчисленията ще се подновят когато заряда на батерията достигне
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">в момента</string>
     <string name="suspend_battery_overheating">Изчакване на батерията да се охлади</string>
     <string name="suspend_user_req">Подновяване на изчисленията…</string>
     <string name="suspend_network_user_req">ръчно.</string>

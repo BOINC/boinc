@@ -32,7 +32,7 @@
         lai to reģistrētu
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Pievienojas</string>
+    <string name="attachproject_working_attaching">Pievienojas %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Mājiens</string>
@@ -229,7 +229,7 @@
     <string name="projects_status_schedrpcpending">Gaida plānotāja pieprasījuma rezultātu</string>
     <string name="projects_status_schedrpcinprogress">Izveic plānotāja pieprasījumu</string>
     <string name="projects_status_trickleuppending">Gaida uzsūkšanās ziņu</string>
-    <string name="projects_status_backoff">Saziņa ieplānota pēc:</string>
+    <string name="projects_status_backoff">Saziņa ieplānota pēc: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekta komandas:</string>
     <string name="projects_control_visit_website">Apmeklēt tīmekļa vietni</string>
@@ -281,7 +281,7 @@
     <string name="trans_loading">Gatavojas pārsūtīšanai...</string>
     <string name="trans_upload">Augšupielāde</string>
     <string name="trans_download">Lejupielāde</string>
-    <string name="trans_retryin">atkārtos pēc</string>
+    <string name="trans_retry_in">atkārtos pēc %1$s</string>
     <string name="trans_failed">neizdevās</string>
     <string name="trans_suspended">atlikts</string>
     <string name="trans_active">aktīvs</string>
@@ -319,8 +319,6 @@
     <string name="suspend_battery_charging">Gaida līdz akumulators uzlādēsies.</string>
     <string name="suspend_battery_charging_long">Skaitļošana atsāksies, kad akumulatora uzlādes līmenis sasniegs
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">pašlaik</string>
     <string name="suspend_battery_overheating">Gaida līdz atdzisīs akumulators</string>
     <string name="suspend_user_req">Atsāk skaitļošanu...</string>
     <string name="suspend_network_user_req">manuāli.</string>

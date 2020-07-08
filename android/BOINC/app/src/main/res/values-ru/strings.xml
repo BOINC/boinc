@@ -29,7 +29,7 @@
   <string name="attachproject_conflict_unknown_user">Учётная запись не существует</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Учётная запись не существует, для регистрации посетите веб-сайт проекта</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Подключение</string>
+  <string name="attachproject_working_attaching">Подключение %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Подсказка</string>
@@ -211,7 +211,7 @@
   <string name="projects_status_schedrpcpending">Запрос информации у планировщика</string>
   <string name="projects_status_schedrpcinprogress">Производится запрос информации у планировщика</string>
   <string name="projects_status_trickleuppending">Ожидание промежуточной отправки</string>
-  <string name="projects_status_backoff">Связь по расписанию:</string>
+  <string name="projects_status_backoff">Связь по расписанию: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Команды проекта:</string>
   <string name="projects_control_visit_website">Посетить веб-сайт</string>
@@ -263,7 +263,7 @@
   <string name="trans_loading">Чтение списка передач…</string>
   <string name="trans_upload">Отправка</string>
   <string name="trans_download">Загрузка</string>
-  <string name="trans_retryin">повтор через</string>
+  <string name="trans_retry_in">повтор через %1$s</string>
   <string name="trans_failed">неудача</string>
   <string name="trans_suspended">приостановлено</string>
   <string name="trans_active">активна</string>
@@ -300,8 +300,6 @@
   <string name="suspend_wifi">Нет подключения к WiFi.</string>
   <string name="suspend_battery_charging">Ожидание увеличения уровня заряда батареи.</string>
   <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">в данный момент</string>
   <string name="suspend_battery_overheating">Ожидание охлаждения батареи</string>
   <string name="suspend_user_req">Возобновление расчётов…</string>
   <string name="suspend_network_user_req">вручную.</string>

@@ -30,7 +30,7 @@
   <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website do projeto
       para se registar</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Anexando</string>
+  <string name="attachproject_working_attaching">Anexando %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Dica</string>
@@ -215,7 +215,7 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="projects_status_schedrpcpending">Solicitação agendada pendente</string>
   <string name="projects_status_schedrpcinprogress">Solicitação agendada em progresso</string>
   <string name="projects_status_trickleuppending">Mensagem de aviso pendente</string>
-  <string name="projects_status_backoff">Comunicação agendada em:</string>
+  <string name="projects_status_backoff">Comunicação agendada em: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandos do projeto:</string>
   <string name="projects_control_visit_website">Visitar site da Web</string>
@@ -267,7 +267,7 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="trans_loading">A ler as transferências...</string>
   <string name="trans_upload">Enviar</string>
   <string name="trans_download">Transferir</string>
-  <string name="trans_retryin">tentar novamente em</string>
+  <string name="trans_retry_in">tentar novamente em %1$s</string>
   <string name="trans_failed">falhou</string>
   <string name="trans_suspended">suspenso</string>
   <string name="trans_active">ativo</string>
@@ -304,8 +304,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="suspend_wifi">Não ligado à Wi-Fi.</string>
   <string name="suspend_battery_charging">A aguardar que a bateria seja carregada.</string>
   <string name="suspend_battery_charging_long">A computação será resumida quando a carga da bateria chegar a</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">atualmente</string>
   <string name="suspend_battery_overheating">A aguardar que a bateria arrefeça</string>
   <string name="suspend_user_req">A retomar a computação...</string>
   <string name="suspend_network_user_req">manualmente.</string>

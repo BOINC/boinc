@@ -51,7 +51,7 @@
         to register
     </string>
     <!-- working -->
-    <string name="attachproject_working_attaching">Attaching</string> <!-- e.g. Attaching Einstein@Home -->
+    <string name="attachproject_working_attaching">Attaching %1$s</string> <!-- e.g. Attaching Einstein@Home -->
     <!-- hints -->
     <string name="attachproject_hints_header">Hint</string> <!-- e.g. Hint 1/2 -->
     <string name="attachproject_hint_contribtion_header">How to contribute:</string>
@@ -257,7 +257,7 @@
     <string name="projects_status_schedrpcpending">Scheduler request pending</string>
     <string name="projects_status_schedrpcinprogress">Scheduler request in progress</string>
     <string name="projects_status_trickleuppending">Trickle up message pending</string>
-    <string name="projects_status_backoff">Communication scheduled in:</string>
+    <string name="projects_status_backoff">Communication scheduled in: %1$s</string>
     <!-- project controls -->
     <string name="projects_control_dialog_title">Project commands:</string>
     <string name="projects_control_visit_website">Visit website</string>
@@ -314,7 +314,7 @@
     <string name="trans_loading">Reading transfers&#8230;</string>
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
-    <string name="trans_retryin">retry in</string>
+    <string name="trans_retry_in">retry in %1$s</string>
     <string name="trans_failed">failed</string>
     <string name="trans_suspended">suspended</string>
     <string name="trans_active">active</string>
@@ -353,9 +353,7 @@
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Not connected to WiFi.</string>
     <string name="suspend_battery_charging">Waiting for battery to charge.</string>
-    <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">currently</string>
+    <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches %1$d% (currently %2$d%)</string>
     <string name="suspend_battery_overheating">Waiting for battery to cool down</string>
     <string name="suspend_user_req">Resuming computation&#8230;</string>
     <string name="suspend_network_user_req">manually.</string>

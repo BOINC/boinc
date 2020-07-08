@@ -33,7 +33,7 @@
         weboldalát a regisztráláshoz
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Csatolás</string>
+    <string name="attachproject_working_attaching">Csatolás %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Tipp</string>
@@ -231,7 +231,7 @@
     <string name="projects_status_schedrpcpending">Függő kérés az ütemezőhöz</string>
     <string name="projects_status_schedrpcinprogress">Ütemező által indított kérés folyamatban</string>
     <string name="projects_status_trickleuppending">Időközi jelentés függőben</string>
-    <string name="projects_status_backoff">Kommunikáció időzítve:</string>
+    <string name="projects_status_backoff">Kommunikáció időzítve: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekt parancsok:</string>
     <string name="projects_control_visit_website">Nézd meg a weboldalt</string>
@@ -283,7 +283,7 @@
     <string name="trans_loading">Átvitelek beolvasása...</string>
     <string name="trans_upload">Feltöltés</string>
     <string name="trans_download">Letöltés</string>
-    <string name="trans_retryin">újrapróbálás ennyi idő múlva</string>
+    <string name="trans_retry_in">újrapróbálás ennyi idő múlva %1$s</string>
     <string name="trans_failed">nem sikerült</string>
     <string name="trans_suspended">felfüggesztve</string>
     <string name="trans_active">aktív</string>
@@ -320,8 +320,6 @@
     <string name="suspend_wifi">Nincs kapcsolódva a WiFihez.</string>
     <string name="suspend_battery_charging">Várakozás az akku feltöltéséig.</string>
     <string name="suspend_battery_charging_long">A számítás folytatódik, amikor az akku feltöltődött</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">jelenleg</string>
     <string name="suspend_battery_overheating">Várakozás az akku lehűlésére</string>
     <string name="suspend_user_req">Számítas újrakezdése...</string>
     <string name="suspend_network_user_req">kézi.</string>

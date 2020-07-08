@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">Hesap yok</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap yok, kayıt için proje web sitesini ziyaret edin</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Ekleniyor</string>
+    <string name="attachproject_working_attaching">Ekleniyor %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">İpucu</string>
@@ -206,7 +206,7 @@
     <string name="projects_status_schedrpcpending">Zamanlanmış istek kuyrukta</string>
     <string name="projects_status_schedrpcinprogress">Zamanlanmış istek gerçekleştiriliyor</string>
     <string name="projects_status_trickleuppending">İş ilerleme mesajı kuyrukta</string>
-    <string name="projects_status_backoff">İletişim ertelendi:</string>
+    <string name="projects_status_backoff">İletişim ertelendi: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Proje komutları:</string>
     <string name="projects_control_visit_website">Sitesine git</string>
@@ -258,7 +258,7 @@
     <string name="trans_loading">Aktarımlar okunuyor...</string>
     <string name="trans_upload">Yükleme</string>
     <string name="trans_download">İndirme</string>
-    <string name="trans_retryin">yeniden denenecek</string>
+    <string name="trans_retry_in">yeniden denenecek %1$s</string>
     <string name="trans_failed">başarısız</string>
     <string name="trans_suspended">durakladı</string>
     <string name="trans_active">sürüyor</string>
@@ -295,8 +295,6 @@
     <string name="suspend_wifi">WiFi\'a bağlı değil.</string>
     <string name="suspend_battery_charging">Pilin şarj olması bekleniyor.</string>
     <string name="suspend_battery_charging_long">Hesaplama, pil seviyesi şuna ulaştğında başlayacak:</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">şu anda</string>
     <string name="suspend_battery_overheating">Pilin soğuması bekleniyor</string>
     <string name="suspend_user_req">Hesaplama sürdürülüyor...</string>
     <string name="suspend_network_user_req">elle.</string>

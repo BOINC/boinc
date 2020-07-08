@@ -31,7 +31,7 @@
         rekisteröitymässä
     </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Liitetään</string>
+  <string name="attachproject_working_attaching">Liitetään %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Vihje</string>
@@ -228,7 +228,7 @@
   <string name="projects_status_schedrpcpending">Pyyntö aikatauluttajalle odottaa</string>
   <string name="projects_status_schedrpcinprogress">Pyyntö aikatauluttajalle käynnissä</string>
   <string name="projects_status_trickleuppending">Väliaikaviesti odottaa</string>
-  <string name="projects_status_backoff">Seuraava yhteydenotto:</string>
+  <string name="projects_status_backoff">Seuraava yhteydenotto: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektin komennot:</string>
   <string name="projects_control_visit_website">Käy sivulla</string>
@@ -280,7 +280,7 @@
   <string name="trans_loading">Luetaan siirtoja…</string>
   <string name="trans_upload">Lähetä</string>
   <string name="trans_download">Lataa</string>
-  <string name="trans_retryin">uudelleenyritys</string>
+  <string name="trans_retry_in">uudelleenyritys %1$s</string>
   <string name="trans_failed">epäonnistui</string>
   <string name="trans_suspended">hyllytetty</string>
   <string name="trans_active">aktiivinen</string>
@@ -316,8 +316,6 @@
   <string name="suspend_wifi">Ei WiFi-yhteyttä.</string>
   <string name="suspend_battery_charging">Odotetaan akun latautumista.</string>
   <string name="suspend_battery_charging_long">Laskenta jatkuu akun varaustilan saavuttaessa</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">tällä hetkellä</string>
   <string name="suspend_battery_overheating">Odotetaan akun jäähtymistä</string>
   <string name="suspend_user_req">Jatketaan laskentaa…</string>
   <string name="suspend_network_user_req">manuaalisesti.</string>

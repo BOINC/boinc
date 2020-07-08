@@ -31,7 +31,7 @@
         注册
     </string>
   <!--working-->
-  <string name="attachproject_working_attaching">正在添加</string>
+  <string name="attachproject_working_attaching">正在添加 %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">提示</string>
@@ -228,7 +228,7 @@ BOINC应当暂停运算？
   <string name="projects_status_schedrpcpending">等待调度请求</string>
   <string name="projects_status_schedrpcinprogress">正在进行调度请求</string>
   <string name="projects_status_trickleuppending">上传消息等待中</string>
-  <string name="projects_status_backoff">通讯被延迟在：</string>
+  <string name="projects_status_backoff">通讯被延迟在： %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">项目命令：</string>
   <string name="projects_control_visit_website">访问网站</string>
@@ -280,7 +280,7 @@ BOINC应当暂停运算？
   <string name="trans_loading">正在读取传输信息...</string>
   <string name="trans_upload">上传</string>
   <string name="trans_download">下载</string>
-  <string name="trans_retryin">稍后重试 </string>
+  <string name="trans_retry_in">稍后重试 %1$s</string>
   <string name="trans_failed">失败</string>
   <string name="trans_suspended">已暂停</string>
   <string name="trans_active">活动</string>
@@ -317,8 +317,6 @@ BOINC应当暂停运算？
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">在恢复运算之前您的电池需要充电。</string>
   <string name="suspend_battery_charging_long">当电池电量超过以下水平时计算会继续</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">当前</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
   <string name="suspend_user_req">正在恢复计算...</string>
   <string name="suspend_network_user_req">手动操作。</string>

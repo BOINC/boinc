@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">계정이 존재하지 않습니다</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">계정이 존재하지 않습니다. 등록하려면 프로젝트 웹사이트에 방문하세요</string>
     <!--working-->
-    <string name="attachproject_working_attaching">추가하는 중</string>
+    <string name="attachproject_working_attaching">추가하는 중 %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">힌트</string>
@@ -210,7 +210,7 @@
     <string name="projects_status_schedrpcpending">스케줄러 요청 대기중</string>
     <string name="projects_status_schedrpcinprogress">스케줄러 요청 처리중</string>
     <string name="projects_status_trickleuppending">Trickle up 메세지 대기중</string>
-    <string name="projects_status_backoff">예약된 통신 시각:</string>
+    <string name="projects_status_backoff">예약된 통신 시각: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">프로젝트 명령:</string>
     <string name="projects_control_visit_website">웹사이트 방문</string>
@@ -262,7 +262,7 @@
     <string name="trans_loading">전송 목록 읽는 중…</string>
     <string name="trans_upload">업로드</string>
     <string name="trans_download">다운로드</string>
-    <string name="trans_retryin">재시도</string>
+    <string name="trans_retry_in">재시도 %1$s</string>
     <string name="trans_failed">실패</string>
     <string name="trans_suspended">일시 정지됨</string>
     <string name="trans_active">활성</string>
@@ -299,8 +299,6 @@
     <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
     <string name="suspend_battery_charging">배터리가 충전되길 기다리는 중.</string>
     <string name="suspend_battery_charging_long">배터리가 설정량만큼 충전되면 연산이 재개됩니다</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">현재</string>
     <string name="suspend_battery_overheating">배터리가 식길 기다리는 중</string>
     <string name="suspend_user_req">연산 재개 중…</string>
     <string name="suspend_network_user_req">수동</string>

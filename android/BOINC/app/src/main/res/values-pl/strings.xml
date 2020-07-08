@@ -29,7 +29,7 @@
     <string name="attachproject_conflict_unknown_user">Konto nie istnieje</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Konto nie istnieje.\nWejdź na witrynę internetową projektu aby się zarejestrować.</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Załączanie</string>
+    <string name="attachproject_working_attaching">Załączanie %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Wskazówka</string>
@@ -206,7 +206,7 @@
     <string name="projects_status_schedrpcpending">Oczekuje odpowiedzi na żądanie planisty</string>
     <string name="projects_status_schedrpcinprogress">Oczekuje przetworzenia żądania planisty</string>
     <string name="projects_status_trickleuppending">Oczekuje wiadomość bąbelkową</string>
-    <string name="projects_status_backoff">Oczekuje komunikacji za:</string>
+    <string name="projects_status_backoff">Oczekuje komunikacji za: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Polecenia projektowe</string>
     <string name="projects_control_visit_website">Przejdź do witryny internetowej</string>
@@ -258,7 +258,7 @@
     <string name="trans_loading">Wczytywanie przekazów…</string>
     <string name="trans_upload">wysyłanie</string>
     <string name="trans_download">pobieranie</string>
-    <string name="trans_retryin">ponowna próba za</string>
+    <string name="trans_retry_in">ponowna próba za %1$s</string>
     <string name="trans_failed">błąd</string>
     <string name="trans_suspended">zawieszony</string>
     <string name="trans_active">aktywny</string>
@@ -295,8 +295,6 @@
     <string name="suspend_wifi">Brak połączenia z siecią Wi-Fi.</string>
     <string name="suspend_battery_charging">Czekanie na załadowanie akumulatora…</string>
     <string name="suspend_battery_charging_long">Obliczenia zostaną wznowione kiedy załadowanie akumulatora osiągnie</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">obecnie</string>
     <string name="suspend_battery_overheating">Czekanie na ochłodzenie akumulatora…</string>
     <string name="suspend_user_req">Wznawianie obliczeń…</string>
     <string name="suspend_network_user_req">ręcznie.</string>

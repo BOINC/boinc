@@ -33,7 +33,7 @@
         para registrarte
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Adjuntando</string>
+    <string name="attachproject_working_attaching">Adjuntando %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Sugerencia</string>
@@ -231,7 +231,7 @@
     <string name="projects_status_schedrpcpending">Pendiente petición al Planificador</string>
     <string name="projects_status_schedrpcinprogress">Petición al planificador en progreso</string>
     <string name="projects_status_trickleuppending">Mensaje trickle up pendiente</string>
-    <string name="projects_status_backoff">Comunicación aplazada a:</string>
+    <string name="projects_status_backoff">Comunicación aplazada a: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Comandos del proyecto:</string>
     <string name="projects_control_visit_website">Visitar web</string>
@@ -283,7 +283,7 @@
     <string name="trans_loading">Leyendo transferencias...</string>
     <string name="trans_upload">Enviar</string>
     <string name="trans_download">Descargar</string>
-    <string name="trans_retryin">reintentar en</string>
+    <string name="trans_retry_in">reintentar en %1$s</string>
     <string name="trans_failed">falló</string>
     <string name="trans_suspended">suspendido</string>
     <string name="trans_active">activo</string>
@@ -320,8 +320,6 @@
     <string name="suspend_wifi">No conectado al WiFi.</string>
     <string name="suspend_battery_charging">Esperando a la batería para cargar.</string>
     <string name="suspend_battery_charging_long">La computación continuará cuando la batería llegue a</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">actualmente</string>
     <string name="suspend_battery_overheating">Esperando a que la batería se enfríe</string>
     <string name="suspend_user_req">Reanudando la computación...</string>
     <string name="suspend_network_user_req">manualmente.</string>
