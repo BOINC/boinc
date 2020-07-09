@@ -99,6 +99,26 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
 #ifndef SIM
 #if !(defined(_WIN32) || defined(__APPLE__))
 
+#include <cmath>
+
+static int fix_nvidia_driver_version(string driver_string) {
+  float fVersion = atof(driver_string.c_str());
+  std::size_t pos = driver_string.find('.');
+  if (pos == string::npos) {
+    pos = driver_string.find(',');
+    if (pos == string::npos) {
+      return (int)(fVersion * 100.);
+    }
+  }
+
+  std::size_t size = driver_string.size() - pos - 1;
+  if (size > 2) {
+    return (int)((floor(fVersion) + 0.99) * 100.);
+  } else {
+    return (int)(fVersion * 100.);
+  }
+}
+
 static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
     int (*nvml_finish)()  = NULL;
@@ -122,7 +142,7 @@ static int nvidia_driver_version() {
 
     if (nvml_init()) goto end;
     if (nvml_driver(driver_string, 80)) goto end;
-    dri_ver = (int) (100. * atof(driver_string));
+    dri_ver = fix_nvidia_driver_version(driver_string);
 
 end:
     if (nvml_finish) nvml_finish();

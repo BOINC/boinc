@@ -315,7 +315,7 @@ void COPROC_NVIDIA::description(char* buf, int buflen) {
 #else
         int maj = display_driver_version/100;
         int min = display_driver_version%100;
-        snprintf(vers, sizeof(vers), "%d.%02d", maj, min);
+        snprintf(vers, sizeof(vers), "%d", display_driver_version);
 #endif
     } else {
         safe_strcpy(vers, "unknown");
