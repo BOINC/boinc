@@ -190,11 +190,24 @@ export ANDROID_TC=$PREFIX
 
 export VERBOSE=$verbose
 
+NeonTest()
+{
+    list_libs="libcrypto.a libssl.a libcurl.a"
+
+    for i in $list_libs; do
+        if [ $(readelf -A $(find $ANDROID_TC -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo "$i" is with neon optimization
+            exit 1
+        fi
+    done
+}
+
 case "$arch" in
     "arm")
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
+        NeonTest
         exit 0
     ;;
     "arm64")
