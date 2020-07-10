@@ -196,7 +196,7 @@ NeonTest()
 
     for i in $list_libs; do
         if [ $(readelf -A $(find $ANDROID_TC -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
-            echo "$i" is with neon optimization
+            echo [ERROR] "$i" contains neon optimization
             exit 1
         fi
     done
