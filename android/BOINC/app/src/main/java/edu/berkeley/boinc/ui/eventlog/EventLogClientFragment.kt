@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc
+package edu.berkeley.boinc.ui.eventlog
 
 import android.os.Bundle
 import android.os.RemoteException
