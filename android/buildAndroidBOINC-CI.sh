@@ -19,6 +19,8 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# When you want to invalidate openssl and curl without change their versions.
+export REV=1
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
 export NDK_VERSION=21d
@@ -134,6 +136,7 @@ fi
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
+export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
 export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
 export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
 export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
@@ -148,7 +151,13 @@ createNDKFolder()
     fi
 }
 
-if [ $ci = "yes" ]; then
+if [ "$ci" = "yes" ]; then
+    if [ ! -e "${NDK_CI_FLAGFILE}" ]; then
+        rm -rf "${PREFIX}/${arch}"
+        rm -rf "${OPENSSL_FLAGFILE}"
+        rm -rf "${CURL_FLAGFILE}"
+        touch "${NDK_CI_FLAGFILE}"
+    fi
     createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
@@ -180,11 +189,24 @@ export ANDROID_TC=$PREFIX
 
 export VERBOSE=$verbose
 
+NeonTest()
+{
+    list_libs="libcrypto.a libssl.a libcurl.a"
+
+    for i in $list_libs; do
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo [ERROR] "$i" contains neon optimization
+            exit 1
+        fi
+    done
+}
+
 case "$arch" in
     "arm")
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
+        NeonTest
         exit 0
     ;;
     "arm64")
