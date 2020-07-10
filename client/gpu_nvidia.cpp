@@ -103,7 +103,8 @@ static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
     int (*nvml_finish)()  = NULL;
     int (*nvml_driver)(char *f, unsigned int len) = NULL;
-    int dri_ver  = 0;
+    int dri_ver = 0;
+    int major=0, minor=0;
     void *handle = NULL;
     char driver_string[81];
 
@@ -122,8 +123,11 @@ static int nvidia_driver_version() {
 
     if (nvml_init()) goto end;
     if (nvml_driver(driver_string, 80)) goto end;
-    dri_ver = (int) (100. * atof(driver_string));
-
+    sscanf(driver_string, "%d.%d", &major, &minor);
+    dri_ver = major*100 + std::min(minor, 99);
+        // minor can in fact be > 99, at least on Linux
+        // encoding as MMnn doesn't work.
+        // this is a temporary workaround.
 end:
     if (nvml_finish) nvml_finish();
     if (handle) dlclose(handle);
