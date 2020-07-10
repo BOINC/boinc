@@ -195,7 +195,7 @@ NeonTest()
     list_libs="libcrypto.a libssl.a libcurl.a"
 
     for i in $list_libs; do
-        if [ $(readelf -A $(find $ANDROID_TC -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
             echo [ERROR] "$i" contains neon optimization
             exit 1
         fi
