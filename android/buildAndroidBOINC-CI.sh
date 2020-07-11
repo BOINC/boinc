@@ -218,6 +218,18 @@ NeonTest()
     done
 }
 
+Armv6Test()
+{
+    list_libs="libcrypto.a libssl.a libcurl.a boinc"
+
+    for i in $list_libs; do
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" -name "$i") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+            echo [ERROR] "$i" is not armv6 cpu arch
+            exit 1
+        fi
+    done
+}
+
 case "$arch" in
     "armv6")
         ./build_androidtc_armv6.sh
@@ -225,6 +237,7 @@ case "$arch" in
         ./build_curl_armv6.sh
         ./build_boinc_armv6.sh
         NeonTest
+        Armv6Test
         exit 0
     ;;
     "arm")
