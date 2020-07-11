@@ -20,9 +20,6 @@ package edu.berkeley.boinc.client
 
 import android.os.Build
 import android.os.PowerManager
-import org.apache.commons.io.FileUtils
-import java.io.File
-import java.io.InputStream
 
 // This file contains extensions that are only used in Monitor.
 // This file was created to avoid creating clutter in the Monitor class file.
@@ -30,8 +27,6 @@ import java.io.InputStream
 internal fun allNotNull(vararg values: Any?) = values.none { it == null }
 
 internal fun CharSequence.containsAny(vararg sequences: CharSequence) = sequences.any { it in this }
-
-internal fun InputStream.copyToFile(destFile: File) = FileUtils.copyInputStreamToFile(this, destFile)
 
 internal val PowerManager.isScreenOnCompat: Boolean
     get() {
