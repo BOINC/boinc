@@ -39,6 +39,7 @@ import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import okio.buffer
+import okio.sink
 import okio.source
 import java.io.File
 import java.io.IOException
@@ -579,7 +580,7 @@ class Monitor : LifecycleService() {
 
         // If file is executable, cpu architecture has to be evaluated
         // and assets directory select accordingly
-        val source = if (executable) assetsDirForCpuArchitecture + file else file
+        val sourceFile = if (executable) assetsDirForCpuArchitecture + file else file
         val target = if (targetFile.isNotEmpty()) {
             File(boincWorkingDir + targetFile)
         } else {
@@ -587,19 +588,23 @@ class Monitor : LifecycleService() {
         }
         try {
             // Copy file from the asset manager to clientPath
-            applicationContext.assets.open(source).copyToFile(target)
+            applicationContext.assets.open(sourceFile).source().buffer().use { input ->
+                target.sink().buffer().use {
+                    it.writeAll(input)
+                }
+            }
             success = true //copy succeeded without exception
 
             // Set executable, if requested
             if (executable) {
                 success = target.setExecutable(true) // return false, if not executable
             }
-            if (Logging.ERROR) Log.d(Logging.TAG, "Installation of " + source + " successful. Executable: " +
+            if (Logging.ERROR) Log.d(Logging.TAG, "Installation of $sourceFile successful. Executable: " +
                     executable + "/" + success)
         } catch (ioe: IOException) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, IOEXCEPTION_LOG + ioe.message)
-                Log.d(Logging.TAG, "Install of $source failed.")
+                Log.d(Logging.TAG, "Install of $sourceFile failed.")
             }
         }
         return success
