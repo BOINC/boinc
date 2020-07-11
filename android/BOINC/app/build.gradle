@@ -143,7 +143,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.squareup.okio:okio:2.7.0'
-    implementation 'commons-codec:commons-codec:1.14'
     implementation 'commons-io:commons-io:2.7'
     implementation 'org.apache.commons:commons-lang3:3.10'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
