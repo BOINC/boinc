@@ -38,6 +38,8 @@ import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import okio.buffer
+import okio.source
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
@@ -637,12 +639,14 @@ class Monitor : LifecycleService() {
      */
     private fun computeMd5(fileName: String, inAssets: Boolean): String {
         try {
-            val md5Bytes = if (inAssets) {
-                md5Digest().digest(applicationContext.assets.open(assetsDirForCpuArchitecture + fileName))
+            val source = if (inAssets) {
+                applicationContext.assets.open(assetsDirForCpuArchitecture + fileName).source()
             } else {
-                md5Digest().digest(fileName)
-            }
-            return md5Bytes.md5Hex()
+                File(fileName).source()
+            }.buffer()
+            val md5 = source.readByteString().md5().hex()
+            source.close()
+            return md5
         } catch (e: IOException) {
             if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.message)
         }

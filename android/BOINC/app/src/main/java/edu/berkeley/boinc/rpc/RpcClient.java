@@ -44,6 +44,7 @@ import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 import kotlin.text.Charsets;
+import okio.ByteString;
 
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
 
@@ -245,7 +246,7 @@ public class RpcClient {
             Xml.parse(auth1Rsp, new Auth1Parser(mRequest)); // get nonce value
             // Operation: combine nonce & password, make MD5 hash
             mRequest.append(password);
-            String nonceHash = BOINCUtils.md5Hex(mRequest.toString());
+            String nonceHash = ByteString.encodeUtf8(mRequest.toString()).md5().hex();
             // Phase 2: send hash to client
             mRequest.setLength(0);
             mRequest.append("<auth2>\n<nonce_hash>");
@@ -707,7 +708,8 @@ public class RpcClient {
             mRequest.append("</url>\n   <email_addr>");
             mRequest.append(accountIn.getEmailAddress());
             mRequest.append("</email_addr>\n   <passwd_hash>");
-            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + accountIn.getEmailAddress()));
+            final String string = accountIn.getPassword() + accountIn.getEmailAddress();
+            mRequest.append(ByteString.encodeUtf8(string).md5().hex());
             mRequest.append("</passwd_hash>\n   <user_name>");
             if (accountIn.getUserName() != null)
                 mRequest.append(accountIn.getUserName());
@@ -766,7 +768,7 @@ public class RpcClient {
             mRequest.append("</url>\n <email_addr>");
             mRequest.append(id.toLowerCase(Locale.US));
             mRequest.append("</email_addr>\n <passwd_hash>");
-            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + id.toLowerCase(Locale.US)));
+            mRequest.append(ByteString.encodeUtf8(accountIn.getPassword() + id.toLowerCase(Locale.US)).md5().hex());
             mRequest.append("</passwd_hash>\n</lookup_account>\n");
             sendRequest(mRequest.toString());
 
