@@ -449,11 +449,26 @@ int clean_out_dir(const char* dirpath) {
     return 0;
 }
 
+// check whether the dir is probably the shared dir for a VM job.
+// We don't want to count these in disk usage because the storage
+// is inside the VM, so it's already been counted
+//
+static bool is_vm_shared_dir(const char* dirpath) {
+    if (!strstr(dirpath, "slots/")) return false;
+    const char* p = strstr(dirpath, "shared");
+    if (!p) return false;
+    return (p == dirpath + strlen(dirpath) - 6);
+}
+
 // return total size of files in directory and optionally its subdirectories
 // Win: use special version because stat() is slow, can be avoided
 // Unix: follow symbolic links
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
+    if (is_vm_shared_dir(dirpath)) {
+        size = 0;
+        return 0;
+    }
 #ifdef WIN32
     char buf[_MAX_PATH];
     char path2[_MAX_PATH];
@@ -523,6 +538,10 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 // Unix: follow symbolic links
 //
 int dir_size_alloc(const char* dirpath, double& size, bool recurse) {
+    if (is_vm_shared_dir(dirpath)) {
+        size = 0;
+        return 0;
+    }
 #ifdef WIN32
     char buf[_MAX_PATH];
     char path2[_MAX_PATH];
