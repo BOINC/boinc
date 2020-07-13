@@ -123,7 +123,7 @@ class BOINCActivity : AppCompatActivity() {
             override fun onDrawerClosed(view: View) {
                 supportActionBar!!.title = mTitle
                 // calling onPrepareOptionsMenu() to show action bar icons
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
             }
 
             override fun onDrawerOpened(drawerView: View) {
@@ -131,7 +131,7 @@ class BOINCActivity : AppCompatActivity() {
                 // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
                 mDrawerListAdapter.notifyDataSetChanged()
                 // calling onPrepareOptionsMenu() to hide action bar icons
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
             }
         }
         binding.drawerLayout.addDrawerListener(mDrawerToggle)
@@ -322,7 +322,7 @@ class BOINCActivity : AppCompatActivity() {
                 if (newComputingStatus != clientComputingStatus) {
                     // computing status has changed, update and invalidate to force adaption of action items
                     clientComputingStatus = newComputingStatus
-                    supportInvalidateOptionsMenu()
+                    invalidateOptionsMenu()
                 }
                 if (numberProjectsInNavList != monitor!!.projects.size) {
                     numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects(monitor!!.projects)

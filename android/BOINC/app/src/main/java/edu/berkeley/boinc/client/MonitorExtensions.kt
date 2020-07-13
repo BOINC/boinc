@@ -44,8 +44,15 @@ internal fun MessageDigest.digest(inputStream: InputStream): ByteArray {
     return digest
 }
 
-internal val PowerManager.isScreenOnCompat
-    get() = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) isScreenOn else isInteractive
+internal val PowerManager.isScreenOnCompat: Boolean
+    get() {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+            @Suppress("DEPRECATION")
+            isScreenOn
+        } else {
+            isInteractive
+        }
+    }
 
 internal fun md5Digest() = DigestUtils.getMd5Digest()
 

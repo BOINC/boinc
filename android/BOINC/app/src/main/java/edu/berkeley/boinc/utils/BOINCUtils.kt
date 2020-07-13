@@ -41,6 +41,7 @@ import java.io.Reader
 val ConnectivityManager.isOnline: Boolean
     get() {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            @Suppress("DEPRECATION")
             activeNetworkInfo?.isConnectedOrConnecting == true
         } else {
             activeNetwork != null
