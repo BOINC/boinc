@@ -1102,12 +1102,12 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectIconByName(name: String): Bitmap {
+        override fun getProjectIconByName(name: String): Bitmap? {
             return clientStatus.getProjectIconByName(name)
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectIcon(id: String): Bitmap {
+        override fun getProjectIcon(id: String): Bitmap? {
             return clientStatus.getProjectIcon(id)
         }
 

@@ -29,6 +29,7 @@ import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.core.content.ContextCompat;
 
@@ -450,6 +451,7 @@ public class ClientStatus {
 
     // returns project icon for given master url
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
+    @Nullable
     public synchronized Bitmap getProjectIcon(String masterUrl) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "getProjectIcon for: " + masterUrl);
@@ -486,6 +488,7 @@ public class ClientStatus {
 
     // returns project icon for given project name
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
+    @Nullable
     public synchronized Bitmap getProjectIconByName(String projectName) {
         if(Logging.VERBOSE) {
             Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
