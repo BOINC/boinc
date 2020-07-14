@@ -37,10 +37,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
 
-    private lateinit var light: String
-    private lateinit var dark: String
-    private lateinit var system: String
-
     override fun onResume() {
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -52,10 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        light = getString(R.string.prefs_theme_light)
-        dark = getString(R.string.prefs_theme_dark)
-        system = getString(R.string.prefs_theme_system)
-
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         if ("usedCpuCores" !in sharedPreferences) {
             sharedPreferences.edit { putInt("usedCpuCores", pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct)) }
