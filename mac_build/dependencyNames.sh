@@ -51,10 +51,6 @@ wxWidgetsDirName="wxWidgets-3.1.0"
 wxWidgetsFileName="wxWidgets-3.1.0.tar.bz2"
 wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.0/wxWidgets-3.1.0.tar.bz2"
 
-sqliteDirName="sqlite-autoconf-3220000"
-sqliteFileName="sqlite-autoconf-3220000.tar.gz"
-sqliteURL="https://www.sqlite.org/2018/sqlite-autoconf-3220000.tar.gz"
-
 freetypeDirName="freetype-2.9"
 freetypeFileName="freetype-2.9.tar.bz2"
 freetypeURL="https://sourceforge.net/projects/freetype/files/freetype2/2.9/freetype-2.9.tar.bz2"
