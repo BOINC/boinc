@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -14,16 +15,17 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
+@Singleton
 public class ClientNotification {
-
-    private static ClientNotification clientNotification = null;
-
     private Context context;
     private NotificationManager nm;
     private Integer notificationId;
@@ -38,21 +40,9 @@ public class ClientNotification {
     // adb shell: dumpsys activity services edu.berkeley.boinc
     private boolean foreground = false;
 
-    /**
-     * Returns a reference to a singleton ClientNotification object.
-     * Constructs a new instance of the ClientNotification if not already constructed.
-     *
-     * @return ClientNotification static instance
-     */
-    public static ClientNotification getInstance(Context ctx) {
-        if(clientNotification == null) {
-            clientNotification = new ClientNotification(ctx);
-        }
-        return clientNotification;
-    }
-
-    private ClientNotification(Context ctx) {
-        this.context = ctx;
+    @Inject
+    public ClientNotification(Context context) {
+        this.context = context;
         this.nm = ContextCompat.getSystemService(context, NotificationManager.class);
         notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
         Intent intent = new Intent(context, BOINCActivity.class);
@@ -70,7 +60,7 @@ public class ClientNotification {
      * @param active        indicator whether BOINC should stay in foreground (during computing and
      *                      idle, i.e. not suspended)
      */
-    public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
+    public void update(ClientStatus updatedStatus, Monitor service, boolean active) {
         // nop if data is not present
         if(service == null || updatedStatus == null) {
             return;
@@ -78,8 +68,7 @@ public class ClientNotification {
 
         //check if active tasks have changed to force update
         boolean activeTasksChanged = false;
-        if(active.equals(Boolean.TRUE) &&
-           updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+        if(active && updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
             List<Result> activeTasks = updatedStatus.getExecutingTasks();
             if(activeTasks.size() != mOldActiveTasks.size()) {
                 activeTasksChanged = true;
@@ -107,19 +96,19 @@ public class ClientNotification {
         if(Logging.VERBOSE) {
             Log.d(Logging.TAG,
                   "ClientNotification: notification needs update? "
-                  + (clientNotification.mOldComputingStatus == -1)
+                  + (mOldComputingStatus == -1)
                   + activeTasksChanged
                   + !notificationShown
-                  + (updatedStatus.computingStatus != clientNotification.mOldComputingStatus)
+                  + (updatedStatus.computingStatus != mOldComputingStatus)
                   + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
-                     && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
+                     && updatedStatus.computingSuspendReason != mOldSuspendReason));
         }
-        if(clientNotification.mOldComputingStatus == -1
+        if(mOldComputingStatus == -1
            || activeTasksChanged
            || !notificationShown
-           || updatedStatus.computingStatus != clientNotification.mOldComputingStatus
+           || updatedStatus.computingStatus != mOldComputingStatus
            || (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
-               && updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
+               && updatedStatus.computingSuspendReason != mOldSuspendReason)) {
 
             // update, build and notify
             nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
@@ -129,34 +118,24 @@ public class ClientNotification {
             notificationShown = true;
 
             // save status for comparison next time
-            clientNotification.mOldComputingStatus = updatedStatus.computingStatus;
-            clientNotification.mOldSuspendReason = updatedStatus.computingSuspendReason;
+            mOldComputingStatus = updatedStatus.computingStatus;
+            mOldSuspendReason = updatedStatus.computingSuspendReason;
         }
 
         // start foreground service, if requested
         // notification instance exists now, but might be out-dated (if screen is off)
-        if(active.equals(Boolean.TRUE) && !foreground) {
-            setForegroundState(service, true);
+        if(active && !foreground) {
+            setForegroundState(service);
         }
     }
 
     // Notification must be built, before setting service to foreground!
-    private void setForegroundState(Monitor service, Boolean foregroundState) {
-        if(foregroundState) {
-            service.startForeground(notificationId, n);
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.");
-            }
-            foreground = true;
+    private void setForegroundState(Monitor service) {
+        service.startForeground(notificationId, n);
+        if(Logging.DEBUG) {
+            Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.");
         }
-        else {
-            foreground = false;
-            service.stopForeground(true);
-            notificationShown = false;
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientNotification.setForeground() stop service as foreground.");
-            }
-        }
+        foreground = true;
     }
 
     @SuppressLint("InlinedApi")
@@ -170,8 +149,8 @@ public class ClientNotification {
         // build notification
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel");
         nb.setContentTitle(statusTitle)
-          .setSmallIcon(getIcon(computingStatus))
-          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus)))
+          .setSmallIcon(getIcon(computingStatus, true))
+          .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, getIcon(computingStatus, false)))
           .setContentIntent(contentIntent);
 
         // adapt priority based on computing status
@@ -227,16 +206,34 @@ public class ClientNotification {
     }
 
     // returns resource id of icon
-    private int getIcon(int status) {
+    private int getIcon(int status, boolean isSmall) {
         int icon;
         switch(status) {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                icon = R.drawable.ic_boinc_paused;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_paused_white;
+                    } else {
+                        icon = R.mipmap.ic_boinc_paused_notification;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc_paused;
+                }
                 break;
             default:
-                icon = R.drawable.ic_boinc;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    if(isSmall) {
+                        icon = R.mipmap.ic_boinc_white;
+                    } else {
+                        icon = R.mipmap.ic_launcher;
+                    }
+                }
+                else {
+                    icon = R.drawable.ic_boinc;
+                }
         }
         return icon;
     }

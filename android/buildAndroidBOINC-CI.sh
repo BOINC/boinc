@@ -19,9 +19,11 @@ set -e
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# When you want to invalidate openssl and curl without change their versions.
+export REV=1
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
-export NDK_VERSION=18b
+export NDK_VERSION=21d
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
@@ -49,6 +51,7 @@ cache_dir=""
 arch=""
 silent=""
 verbose="${VERBOSE:-no}"
+ci=""
 
 while [ $# -gt 0 ]; do
     key="$1"
@@ -73,6 +76,9 @@ while [ $# -gt 0 ]; do
         ;;
         --verbose)
         verbose="yes"
+        ;;
+        --ci)
+        ci="yes"
         ;;
         *)
         echo "unrecognized option $key"
@@ -118,9 +124,9 @@ if [ "${doclean}" = "yes" ]; then
     rm -rf "${BUILD_DIR}"
     mkdir -p "${BUILD_DIR}"
     echo "cleaning downloaded cache files"
-    rm -f /tmp/ndk.zip
-    rm -f /tmp/openssl.tgz
-    rm -f /tmp/curl.tgz
+    rm -f /tmp/ndk_${NDK_VERSION}.zip
+    rm -f /tmp/openssl_${OPENSSL_VERSION}.tgz
+    rm -f /tmp/curl_${CURL_VERSION}.tgz
 fi
 
 if [ "${silent}" = "yes" ]; then
@@ -129,35 +135,53 @@ fi
 
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
-export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}_done"
-CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${arch}_done"
-OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${arch}_done"
+export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
+export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
+export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
+export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
+export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
 
-if [ ! -e "${NDK_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-    rm -rf "${PREFIX}/${arch}"
-    rm -f "${CURL_FLAGFILE}" "${OPENSSL_FLAGFILE}"
-    wget -c --no-verbose -O /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk.zip -d $BUILD_DIR
-    touch "${NDK_FLAGFILE}"
+createNDKFolder()
+{
+    if [ $CREATED_NDK_FOLDER = "no" ]; then
+        rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
+        wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+        unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
+        export CREATED_NDK_FOLDER="yes"
+    fi
+}
+
+if [ "$ci" = "yes" ]; then
+    if [ ! -e "${NDK_CI_FLAGFILE}" ]; then
+        rm -rf "${PREFIX}/${arch}"
+        rm -rf "${OPENSSL_FLAGFILE}"
+        rm -rf "${CURL_FLAGFILE}"
+        touch "${NDK_CI_FLAGFILE}"
+    fi
+    createNDKFolder
+else
+    if [ ! -e "${NDK_FLAGFILE}" ]; then
+        export CREATED_NDK_FOLDER="no"
+        createNDKFolder
+        touch "${NDK_FLAGFILE}"
+    fi
 fi
+
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
-    wget -c --no-verbose -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl.tgz --directory=$BUILD_DIR
+    wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+    tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
-    touch "${OPENSSL_FLAGFILE}"
 fi
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
-    wget -c --no-verbose -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-    tar xzf /tmp/curl.tgz --directory=$BUILD_DIR
+    wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+    tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
-    touch "${CURL_FLAGFILE}"
 fi
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 
@@ -165,30 +189,39 @@ export ANDROID_TC=$PREFIX
 
 export VERBOSE=$verbose
 
+NeonTest()
+{
+    list_libs="libcrypto.a libssl.a libcurl.a"
+
+    for i in $list_libs; do
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo [ERROR] "$i" contains neon optimization
+            exit 1
+        fi
+    done
+}
+
 case "$arch" in
     "arm")
-        ./build_androidtc_arm.sh
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
         ./build_boinc_arm.sh
+        NeonTest
         exit 0
     ;;
     "arm64")
-        ./build_androidtc_arm64.sh
         ./build_openssl_arm64.sh
         ./build_curl_arm64.sh
         ./build_boinc_arm64.sh
         exit 0
     ;;
     "x86")
-        ./build_androidtc_x86.sh
         ./build_openssl_x86.sh
         ./build_curl_x86.sh
         ./build_boinc_x86.sh
         exit 0
     ;;
     "x86_64")
-        ./build_androidtc_x86_64.sh
         ./build_openssl_x86_64.sh
         ./build_curl_x86_64.sh
         ./build_boinc_x86_64.sh

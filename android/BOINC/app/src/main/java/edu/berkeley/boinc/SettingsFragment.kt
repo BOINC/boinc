@@ -107,9 +107,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
-            "dailyTransferLimit" -> {
-                val dailyTransferLimit = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
-                prefs.dailyTransferLimitMB = dailyTransferLimit?.toDouble() ?: 1.0
+            "dailyTransferLimitMB" -> {
+                val dailyTransferLimitMB = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
+                prefs.dailyTransferLimitMB = dailyTransferLimitMB?.toDouble() ?: 0.0
+
+                lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+            "dailyTransferPeriodDays" -> {
+                val dailyTransferPeriodDays = sharedPreferences.getString(key, prefs.dailyTransferPeriodDays.toString())
+                prefs.dailyTransferPeriodDays = dailyTransferPeriodDays?.toInt() ?: 0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -176,7 +182,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Memory
             "maxRamUsedIdle" -> {
-                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 90).toDouble()
+                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 50).toDouble() / 100.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -225,7 +231,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private fun setAdvancedPreferencesVisibility() {
         val showAdvanced = BOINCActivity.monitor!!.showAdvanced
 
-        findPreference<EditTextPreference>("dailyTransferLimit")?.isVisible = showAdvanced
+        findPreference<EditTextPreference>("dailyTransferLimitMB")?.isVisible = showAdvanced
+        findPreference<EditTextPreference>("dailyTransferPeriodDays")?.isVisible = showAdvanced
 
         findPreference<PreferenceCategory>("cpu")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("storage")?.isVisible = showAdvanced

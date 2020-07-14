@@ -20,6 +20,7 @@ package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -191,7 +192,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 // if available set icon, if not boinc logo
                 if(icon == null) {
                     // BOINC logo
-                    ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
+                    ivIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_boinc));
                 }
                 else {
                     // project icon
@@ -254,8 +255,9 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                                                                Instant.now()).getSeconds();
                         // if timestamp is in the past, do not write anything
                         if(retryInSeconds >= 0) {
-                            activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-                                                   DateUtils.formatElapsedTime(retryInSeconds);
+                            final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
+                            activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
+                                                                                     formattedTime);
                         }
                     }
                 }
@@ -296,10 +298,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
             if(data.getProject().getAttachedViaAcctMgr()) {
-                iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_boinc_icon_light_blue_background));
+                final Drawable background =
+                        ContextCompat.getDrawable(activity.getApplicationContext(),
+                                                  R.drawable.shape_boinc_icon_light_blue_background);
+                iconBackground.setBackground(background);
             }
             else {
-                iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));
+                iconBackground.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
+                                                                         android.R.color.transparent));
             }
         }
 

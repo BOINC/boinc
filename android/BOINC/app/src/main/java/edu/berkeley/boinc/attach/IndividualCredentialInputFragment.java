@@ -52,9 +52,9 @@ public class IndividualCredentialInputFragment extends DialogFragment {
 
     static IndividualCredentialInputFragment newInstance(ProjectAttachWrapper item) {
         IndividualCredentialInputFragment frag = new IndividualCredentialInputFragment();
-        frag.projectName = item.config.getName();
+        frag.projectName = item.getConfig().getName();
         frag.errorMessage = item.getResultDescription();
-        frag.forgotPwdLink = item.config.getMasterUrl() + "/get_passwd.php";
+        frag.forgotPwdLink = item.getConfig().getMasterUrl() + "/get_passwd.php";
         frag.project = item;
         return frag;
     }
@@ -93,12 +93,12 @@ public class IndividualCredentialInputFragment extends DialogFragment {
             if(Logging.DEBUG) {
                 Log.d(Logging.TAG,
                       "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
-                      project.config.getClientAccountCreationDisabled());
+                      project.getConfig().getClientAccountCreationDisabled());
             }
-            if(project.config.getClientAccountCreationDisabled()) {
+            if(project.getConfig().getClientAccountCreationDisabled()) {
                 // cannot register in client, open website
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(project.config.getMasterUrl()));
+                i.setData(Uri.parse(project.getConfig().getMasterUrl()));
                 startActivity(i);
             }
             else {

@@ -56,6 +56,10 @@
 #include <sys/mount.h>
 #endif
 
+#if defined(ANDROID) && __ANDROID_API__ < 19
+    #undef HAVE_SYS_STATVFS_H
+#endif
+
 #if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #define STATFS statvfs

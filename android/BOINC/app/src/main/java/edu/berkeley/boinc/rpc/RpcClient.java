@@ -24,7 +24,6 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -34,7 +33,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -45,6 +43,7 @@ import java.util.Locale;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import kotlin.text.Charsets;
 
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
 
@@ -180,7 +179,7 @@ public class RpcClient {
             mSocket.connect(new LocalSocketAddress(socketAddress));
             mSocket.setSoTimeout(READ_TIMEOUT);
             mInput = mSocket.getInputStream();
-            mOutput = new OutputStreamWriter(mSocket.getOutputStream(), StandardCharsets.ISO_8859_1);
+            mOutput = new OutputStreamWriter(mSocket.getOutputStream(), Charsets.ISO_8859_1);
         } catch (IllegalArgumentException e) {
             if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "connect failure: illegal argument", e);
@@ -246,7 +245,7 @@ public class RpcClient {
             Xml.parse(auth1Rsp, new Auth1Parser(mRequest)); // get nonce value
             // Operation: combine nonce & password, make MD5 hash
             mRequest.append(password);
-            String nonceHash = DigestUtils.md5Hex(mRequest.toString());
+            String nonceHash = BOINCUtils.md5Hex(mRequest.toString());
             // Phase 2: send hash to client
             mRequest.setLength(0);
             mRequest.append("<auth2>\n<nonce_hash>");
@@ -708,7 +707,7 @@ public class RpcClient {
             mRequest.append("</url>\n   <email_addr>");
             mRequest.append(accountIn.getEmailAddress());
             mRequest.append("</email_addr>\n   <passwd_hash>");
-            mRequest.append(DigestUtils.md5Hex(accountIn.getPassword() + accountIn.getEmailAddress()));
+            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + accountIn.getEmailAddress()));
             mRequest.append("</passwd_hash>\n   <user_name>");
             if (accountIn.getUserName() != null)
                 mRequest.append(accountIn.getUserName());
@@ -767,7 +766,7 @@ public class RpcClient {
             mRequest.append("</url>\n <email_addr>");
             mRequest.append(id.toLowerCase(Locale.US));
             mRequest.append("</email_addr>\n <passwd_hash>");
-            mRequest.append(DigestUtils.md5Hex(accountIn.getPassword() + id.toLowerCase(Locale.US)));
+            mRequest.append(BOINCUtils.md5Hex(accountIn.getPassword() + id.toLowerCase(Locale.US)));
             mRequest.append("</passwd_hash>\n</lookup_account>\n");
             sendRequest(mRequest.toString());
 

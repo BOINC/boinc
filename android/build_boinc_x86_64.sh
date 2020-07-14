@@ -15,16 +15,17 @@ VERBOSE="${VERBOSE:-no}"
 
 export BOINC=".." #BOINC source code
 
+export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_X86_64-$ANDROID_TC/x86_64}"
-export TCBINARIES="$ANDROIDTC/bin"
+export ANDROIDTC="${ANDROID_TC_X86_64:-$ANDROID_TC/x86_64}"
+export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/"
+export TCBINARIES="$TOOLCHAINROOT/bin"
 export TCINCLUDES="$ANDROIDTC/x86_64-linux-android"
-export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib64/libstdc++.a"
+export TCSYSROOT="$TOOLCHAINROOT/sysroot"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
-export CC=x86_64-linux-android-clang
-export CXX=x86_64-linux-android-clang++
+export CC=x86_64-linux-android21-clang
+export CXX=x86_64-linux-android21-clang++
 export LD=x86_64-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21"
@@ -48,8 +49,6 @@ if [ -n "$COMPILEBOINC" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
         ./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static
-        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
-        mv client/Makefile.out client/Makefile
     fi
     if [ "$VERBOSE" = "no" ]; then
         make --silent

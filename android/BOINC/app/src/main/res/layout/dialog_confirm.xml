@@ -42,11 +42,12 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
                 android:singleLine="true"
-                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="@android:color/transparent"/>
+                android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
 

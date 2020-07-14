@@ -77,12 +77,19 @@
 
         <EditTextPreference
                 android:inputType="number"
-                app:defaultValue="1"
+                app:defaultValue="0"
                 app:iconSpaceReserved="false"
-                app:key="dailyTransferLimit"
+                app:key="dailyTransferLimitMB"
                 app:title="@string/prefs_network_daily_xfer_limit_mb_header"
                 app:useSimpleSummaryProvider="true" />
 
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0"
+                app:iconSpaceReserved="false"
+                app:key="dailyTransferPeriodDays"
+                app:title="@string/prefs_network_daily_xfer_limit_period_days_header"
+                app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -207,7 +214,7 @@
 
         <SeekBarPreference
                 android:max="100"
-                app:defaultValue="90"
+                app:defaultValue="50"
                 app:iconSpaceReserved="false"
                 app:key="maxRamUsedIdle"
                 app:min="0"

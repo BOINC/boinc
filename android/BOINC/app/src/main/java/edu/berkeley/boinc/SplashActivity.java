@@ -42,6 +42,7 @@ import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.databinding.ActivitySplashBinding;
+import edu.berkeley.boinc.ui.eventlog.EventLogActivity;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
