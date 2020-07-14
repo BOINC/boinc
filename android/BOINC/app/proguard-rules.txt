@@ -13,4 +13,4 @@
 #-printusage build/usage.txt     # Prints unused APIs removed by ProGuard
 #-printmapping build/mapping.txt # Prints mappings of class names to their obfuscated names
 
-#-dontobfuscate
+-dontobfuscate
