@@ -103,7 +103,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2013\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1;wxDEBUG_LEVEL=0</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -124,9 +124,9 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxjpeg.lib;wxtiff.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxjpeg.lib;wxtiff.lib;wxzlib.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2013\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -147,7 +147,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2013\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1;wxDEBUG_LEVEL=0</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -168,9 +168,9 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxtiff.lib;wxjpeg.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxtiff.lib;wxjpeg.lib;wxzlib.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2013\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -188,7 +188,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2013\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -214,9 +214,9 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxjpegd.lib;wxtiffd.lib;wxpngd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxjpegd.lib;wxtiffd.lib;wxpngd.lib;wxzlibd.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2013\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -234,7 +234,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\..\boinc_depends_win_vs2013\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;..\..\boinc_depends_win_vs2013\wxwidgets\include;..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswud;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -260,9 +260,9 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2013\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2013\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -352,7 +352,6 @@
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
-    <ClCompile Include="..\clientgui\browser.cpp" />
     <ClCompile Include="..\clientgui\LogBOINC.cpp" />
     <ClCompile Include="..\clientgui\SkinManager.cpp" />
     <ClCompile Include="..\clientgui\ValidateAccountKey.cpp" />
@@ -461,7 +460,6 @@
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />
-    <ClInclude Include="..\clientgui\browser.h" />
     <ClInclude Include="..\clientgui\LogBOINC.h" />
     <ClInclude Include="..\clientgui\SkinManager.h" />
     <ClInclude Include="..\clientgui\ValidateAccountKey.h" />
