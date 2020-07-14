@@ -92,7 +92,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         when (key) {
             // General
             "autostart" -> BOINCActivity.monitor!!.autostart = sharedPreferences.getBoolean(key, true)
-            "showNotification" -> BOINCActivity.monitor!!.showNotificationForNotices = sharedPreferences.getBoolean(key, true)
+            "showNotifications" -> BOINCActivity.monitor!!.showNotificationForNotices = sharedPreferences.getBoolean(key, true)
             "showAdvanced" -> {
                 BOINCActivity.monitor!!.showAdvanced = sharedPreferences.getBoolean(key, false)
                 setAdvancedPreferencesVisibility()
