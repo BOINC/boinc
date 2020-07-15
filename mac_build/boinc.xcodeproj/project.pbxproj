@@ -3859,10 +3859,7 @@
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/build/osx/build/Debug",
-					"../../sqlite-autoconf-3220000/.libs/",
-				);
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Debug";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3880,7 +3877,6 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"-lsqlite3",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3916,10 +3912,7 @@
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/build/osx/build/Release",
-					"../../sqlite-autoconf-3220000/.libs/",
-				);
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Release";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3939,7 +3932,6 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"-lsqlite3",
 					"-lz",
 					"-lpthread",
 					"-lm",
