@@ -102,7 +102,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     // triggered by continue button
-    fun continueClicked(v: View?) {
+    fun continueClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         val conflicts = attachService!!.anyUnresolvedConflicts()
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
@@ -128,7 +128,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     // triggered by share button
-    fun shareClicked(v: View?) {
+    fun shareClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.")
         }
@@ -171,7 +171,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     // previous image in hint header clicked
-    fun previousHintClicked(view: View?) {
+    fun previousHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.")
         }
@@ -179,7 +179,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     // previous image in hint header clicked
-    fun nextHintClicked(view: View?) {
+    fun nextHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.")
         }

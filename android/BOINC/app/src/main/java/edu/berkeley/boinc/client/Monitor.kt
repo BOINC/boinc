@@ -53,6 +53,13 @@ import kotlin.properties.Delegates
  * - holds singleton of client status data model and applications persistent preferences
  */
 class Monitor : LifecycleService() {
+    private val abi = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        @Suppress("DEPRECATION")
+        Build.CPU_ABI
+    } else {
+        Build.SUPPORTED_ABIS[0]
+    }
+
     //hold the status of the app, controlled by AppPreferences
     @Inject
     lateinit var appPreferences: AppPreferences
@@ -468,8 +475,7 @@ class Monitor : LifecycleService() {
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
-                val model = "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT}" +
-                        " ABI: ${Build.CPU_ABI}"
+                val model = "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT} ABI: $abi"
                 val version = Build.VERSION.RELEASE
                 if (Logging.ERROR) {
                     Log.d(Logging.TAG, "reporting hostinfo model name: $model")

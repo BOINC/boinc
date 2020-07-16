@@ -110,7 +110,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     // triggered by continue button
-    fun continueClicked(v: View?) {
+    fun continueClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         if (!checkProjectChecked() || !checkDeviceOnline()) {
             return
         }
@@ -147,7 +147,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     // triggered by cancel button
-    fun cancelClicked(v: View?) {
+    fun cancelClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         onCancel()
     }
 
