@@ -39,17 +39,26 @@ import kotlinx.coroutines.withContext
 class EventLogClientFragment : Fragment() {
     private lateinit var activity: EventLogActivity
 
+    private var _binding: EventLogClientLayoutBinding? = null
+    private val binding get() = _binding!!
+
     private var mostRecentSeqNo = 0
     private var pastSeqNo = -1 // oldest (lowest) seqNo currently loaded to GUI
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity = getActivity() as EventLogActivity
-        val binding = EventLogClientLayoutBinding.inflate(inflater, container, false)
+        _binding = EventLogClientLayoutBinding.inflate(inflater, container, false)
         activity.clientLogList = binding.clientLogList
         activity.clientLogRecyclerViewAdapter = ClientLogRecyclerViewAdapter(activity.clientLogData)
         activity.clientLogList.layoutManager = LinearLayoutManager(context)
         activity.clientLogList.adapter = activity.clientLogRecyclerViewAdapter
+        binding.root.setOnRefreshListener { update() }
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     fun init() {
@@ -89,6 +98,7 @@ class EventLogClientFragment : Fragment() {
                 }
             } //IndexOutOfBoundException
             activity.clientLogRecyclerViewAdapter.notifyDataSetChanged()
+            withContext(Dispatchers.Main) { binding.root.isRefreshing = false }
         }
     }
 

@@ -40,22 +40,30 @@ import edu.berkeley.boinc.utils.Logging;
 
 public class EventLogGuiFragment extends Fragment {
     private EventLogActivity a;
+    private EventLogGuiLayoutBinding binding;
     private GuiLogRecyclerViewAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         a = ((EventLogActivity) getActivity());
 
-        final EventLogGuiLayoutBinding binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
+        binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
 
         adapter = new GuiLogRecyclerViewAdapter(a.getGuiLogData());
         binding.guiLogList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.guiLogList.setAdapter(adapter);
+        binding.getRoot().setOnRefreshListener(this::readLogcat);
 
         // read messages
         readLogcat();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     public void update() {
@@ -104,6 +112,7 @@ public class EventLogGuiFragment extends Fragment {
                 Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
             }
             adapter.notifyDataSetChanged();
+            binding.getRoot().setRefreshing(false);
         }
         catch(IOException e) {
             if(Logging.WARNING) {
