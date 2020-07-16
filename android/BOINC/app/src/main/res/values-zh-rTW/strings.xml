@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">選擇您想參與的研究專案:</string>
   <string name="attachproject_list_header">選擇專案</string>
-  <string name="attachproject_list_manual_button">用網址新增專案</string>
-  <string name="attachproject_list_manual_dialog_title">輸入專案網址:</string>
   <string name="attachproject_list_no_internet">沒有網路連線</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">輸入帳號資訊</string>

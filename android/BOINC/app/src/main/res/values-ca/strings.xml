@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Selecciona els projectes científics en els que vols participar:</string>
     <string name="attachproject_list_header">Selecciona un projecte:</string>
-    <string name="attachproject_list_manual_button">Afegir projecte mitjançant URL</string>
-    <string name="attachproject_list_manual_dialog_title">Introdueix la URL del projecte:</string>
     <string name="attachproject_list_no_internet">No hi ha connexió a Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Entra la informació del teu compte:</string>

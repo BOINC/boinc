@@ -10,8 +10,6 @@
     <string name="attachproject_list_desc">Izvēlieties zinātnisko projektu, kuram vēlaties dot savu ieguldījumu:
     </string>
     <string name="attachproject_list_header">Izvēlieties projektu</string>
-    <string name="attachproject_list_manual_button">Pievienot projektu pēc URL</string>
-    <string name="attachproject_list_manual_dialog_title">Ievadīt projekta URL:</string>
     <string name="attachproject_list_no_internet">Nav savienojuma ar Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Ievadiet konta informāciju</string>

@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">İştirak etmək istədiyiniz elmi layihələri seçin:</string>
     <string name="attachproject_list_header">Layihə seç:</string>
-    <string name="attachproject_list_manual_button">Layihə üçün URL-ünvan daxil et</string>
-    <string name="attachproject_list_manual_dialog_title">Layihənin URL ünvanını daxil eT</string>
     <string name="attachproject_list_no_internet">İnternetlə bağlantı yoxdur</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Hesab məlumatlarını daxil edin</string>

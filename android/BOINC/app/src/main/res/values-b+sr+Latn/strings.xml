@@ -11,8 +11,6 @@
         Izaberi naučne projekte kojima želite da doprinesete :
     </string>
     <string name="attachproject_list_header">Izaberite projekat</string>
-    <string name="attachproject_list_manual_button">Dodaj URL projekta</string>
-    <string name="attachproject_list_manual_dialog_title">Unesite URL projekta:</string>
     <string name="attachproject_list_no_internet">Nema internet konekcije</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Unesite podatke naloga</string>

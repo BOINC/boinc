@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Zvoľte vedecké projekty, ktorým chcete pomôcť:</string>
   <string name="attachproject_list_header">Zvoľte projekt</string>
-  <string name="attachproject_list_manual_button">Pridať projekt pomocou URL</string>
-  <string name="attachproject_list_manual_dialog_title">Zadajte URL projektu:</string>
   <string name="attachproject_list_no_internet">Žiadne pripojenie k Internetu</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Uveďte údaje o účte</string>

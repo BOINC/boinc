@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">여러분이 공헌할 과학 사업을 선택하세요:</string>
   <string name="attachproject_list_header">사업 선택:</string>
-  <string name="attachproject_list_manual_button">URL로 프로젝트 추가</string>
-  <string name="attachproject_list_manual_dialog_title">프로젝트 URL 입력:</string>
   <string name="attachproject_list_no_internet">인터넷 연결이 되지 않았습니다</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">계정 정보를 입력하세요</string>
@@ -112,7 +110,7 @@
   <string name="prefs_general_device_name_header">기기 이름</string>
   <string name="prefs_theme_header">테마</string>
   <string name="prefs_stationary_device_mode_header">고정 장치 모드</string>
-  <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용. 
+  <string name="prefs_stationary_device_mode_description">전원 환경설정을 무시한 연산 허용.
 만약 장치에 배터리가 장착되지 않았을 때에만 활성화하세요.</string>
   <string name="prefs_power_source_header">연산용 전원 공급 장치</string>
   <string name="prefs_power_source_description">BOINC가 연산을 허용할 전원 공급 장치를 선택하세요.</string>

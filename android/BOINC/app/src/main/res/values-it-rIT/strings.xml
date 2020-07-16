@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Seleziona il progetto al quale vuoi contribuire:</string>
   <string name="attachproject_list_header">Scegli un progetto:</string>
-  <string name="attachproject_list_manual_button">Aggiungi un progetto dall\'URL</string>
-  <string name="attachproject_list_manual_dialog_title">Inserisci l\'URL del progetto:</string>
   <string name="attachproject_list_no_internet">Connessione Internet assente</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Inserisci le informazioni account</string>

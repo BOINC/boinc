@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">あなたが貢献したい科学プロジェクトを選択してください: </string>
   <string name="attachproject_list_header">プロジェクトを選択してください</string>
-  <string name="attachproject_list_manual_button">URLによってプロジェクトを追加</string>
-  <string name="attachproject_list_manual_dialog_title">プロジェクトのURLを入力: </string>
   <string name="attachproject_list_no_internet">インターネット接続なし</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">アカウント情報を入力</string>

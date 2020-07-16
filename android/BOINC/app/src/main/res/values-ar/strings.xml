@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">اختر المشاريع العلمية التي ترغب المساهمة بها</string>
     <string name="attachproject_list_header">اختر مشروعا</string>
-    <string name="attachproject_list_manual_button">أضف مشروعا باضافة الرابط الخاص به</string>
-    <string name="attachproject_list_manual_dialog_title">أدخل رابط المشروع:</string>
     <string name="attachproject_list_no_internet">لا يوجد اتصال بالإنترنت</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">قم بإدخال معلومات الحساب</string>

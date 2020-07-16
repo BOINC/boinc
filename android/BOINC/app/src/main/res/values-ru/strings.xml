@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Выберите научные проекты, в которых Вы хотите принять участие:</string>
   <string name="attachproject_list_header">Выберите проект</string>
-  <string name="attachproject_list_manual_button">Добавить URL-адрес проекта</string>
-  <string name="attachproject_list_manual_dialog_title">Введите URL проекта:</string>
   <string name="attachproject_list_no_internet">Нет подключения к Интернету</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Ввести учётную информацию</string>

@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Izberite znanstveni projekt, pri katerem želite sodelovati:</string>
     <string name="attachproject_list_header">Izberite projekt</string>
-    <string name="attachproject_list_manual_button">Dodaj projekt z URL-jem</string>
-    <string name="attachproject_list_manual_dialog_title">Vnesite URL projekta:</string>
     <string name="attachproject_list_no_internet">Ni internetne povezave</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Vnesite informacije o računu</string>

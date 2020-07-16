@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Vyberte vědecké projekty, kterých se chcete účastnit:</string>
   <string name="attachproject_list_header">Vyber projekt</string>
-  <string name="attachproject_list_manual_button">Přidat projekt pomocí adresy URL</string>
-  <string name="attachproject_list_manual_dialog_title">Zadejte URL adresu projektu:</string>
   <string name="attachproject_list_no_internet">Není připojení k internetu</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Zadejte informace o účtu</string>

@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">请选择您想贡献的科学项目：</string>
   <string name="attachproject_list_header">选择一个项目</string>
-  <string name="attachproject_list_manual_button">通过URL添加项目</string>
-  <string name="attachproject_list_manual_dialog_title">输入项目网址：</string>
   <string name="attachproject_list_no_internet">无法连接到互联网</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">输入账户信息</string>

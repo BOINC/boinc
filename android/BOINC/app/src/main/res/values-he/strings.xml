@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">בחר מיזמים מדעיים שברצונך לתרום להם:</string>
     <string name="attachproject_list_header">בחר מיזם</string>
-    <string name="attachproject_list_manual_button">הוסף מיזם על-ידי כתובת אינטרנט</string>
-    <string name="attachproject_list_manual_dialog_title">הזן את כתובת האינטרנט של המיזם:</string>
     <string name="attachproject_list_no_internet">אין חיבור לאינטרנט</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">הזן את מידע החשבון</string>

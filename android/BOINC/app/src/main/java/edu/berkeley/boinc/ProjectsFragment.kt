@@ -32,7 +32,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
 import edu.berkeley.boinc.adapter.ProjectsListAdapter
-import edu.berkeley.boinc.attach.ManualUrlInputFragment
 import edu.berkeley.boinc.databinding.DialogConfirmBinding
 import edu.berkeley.boinc.databinding.DialogListBinding
 import edu.berkeley.boinc.databinding.ProjectsLayoutBinding
@@ -104,14 +103,7 @@ class ProjectsFragment : Fragment() {
         if (Logging.VERBOSE) {
             Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()")
         }
-        return when (item.itemId) {
-            R.id.projects_add_url -> {
-                val dialog2 = ManualUrlInputFragment()
-                dialog2.show(parentFragmentManager, getString(R.string.attachproject_list_manual_button))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun populateLayout() {

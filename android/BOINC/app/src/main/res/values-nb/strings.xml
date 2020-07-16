@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Velg vitenskapelige prosjekter du vil bidra til:</string>
     <string name="attachproject_list_header">Velg et prosjekt</string>
-    <string name="attachproject_list_manual_button">Legg til prosjekt fra nettadresse</string>
-    <string name="attachproject_list_manual_dialog_title">Legg inn prosjektadresse:</string>
     <string name="attachproject_list_no_internet">Ingen Internett tilgang</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Skriv inn kontoinformasjon</string>

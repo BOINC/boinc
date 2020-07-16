@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Katkıda bulunmak istediğiniz bilimsel projeleri seçin</string>
     <string name="attachproject_list_header">Bir proje seçin:</string>
-    <string name="attachproject_list_manual_button">Adres ile proje ekle</string>
-    <string name="attachproject_list_manual_dialog_title">Proje adresini girin:</string>
     <string name="attachproject_list_no_internet">İnternet bağlantısı yok</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Hesap bilgilerini girin</string>

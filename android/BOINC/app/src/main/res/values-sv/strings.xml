@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Välj ett vetenskapligt projekt du vill bidra till:</string>
   <string name="attachproject_list_header">Välj ett projekt</string>
-  <string name="attachproject_list_manual_button">Lägg till projekt via URL</string>
-  <string name="attachproject_list_manual_dialog_title">Ange projektets URL:</string>
   <string name="attachproject_list_no_internet">Ingen Internetanslutning</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Ange kontouppgifter</string>

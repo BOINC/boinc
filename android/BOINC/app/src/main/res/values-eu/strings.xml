@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Aukeratu lagundu nahi dituzun proiektu zientifikoak:</string>
   <string name="attachproject_list_header">Aukeratu proiektu bat</string>
-  <string name="attachproject_list_manual_button">Gehitu proiektua URL bidez</string>
-  <string name="attachproject_list_manual_dialog_title">Sartu proiektuaren URLa:</string>
   <string name="attachproject_list_no_internet">Ez dago Internet konexiorik</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Sartu kontuko informazioa</string>

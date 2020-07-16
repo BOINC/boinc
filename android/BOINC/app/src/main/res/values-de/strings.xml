@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Wählen Sie ein wissenschaftliches Projekt, zu dem Sie beitragen wollen:</string>
   <string name="attachproject_list_header">Projekt auswählen</string>
-  <string name="attachproject_list_manual_button">Projekt mittels URL hinzufügen</string>
-  <string name="attachproject_list_manual_dialog_title">Projekt-URL eingeben:</string>
   <string name="attachproject_list_no_internet">Keine Internetverbindung</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Kontoinformationen eingeben</string>

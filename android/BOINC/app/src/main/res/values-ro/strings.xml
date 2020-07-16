@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Selectați proiecte științifice la care doriți să contribuiți:</string>
     <string name="attachproject_list_header">Alegeţi un proiect:</string>
-    <string name="attachproject_list_manual_button">Adăugaţi proiect prin URL</string>
-    <string name="attachproject_list_manual_dialog_title">Introduceţi URL proiect:</string>
     <string name="attachproject_list_no_internet">Nu există conexiune la Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Introduceți informațiile contului</string>

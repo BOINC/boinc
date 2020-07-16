@@ -11,8 +11,6 @@
         hozzájárulni:
     </string>
     <string name="attachproject_list_header">Válassz projektet</string>
-    <string name="attachproject_list_manual_button">Projekt hozzáadása URL szerint</string>
-    <string name="attachproject_list_manual_dialog_title">Add meg a projekt URL-jét:</string>
     <string name="attachproject_list_no_internet">Nincs internetkapcsolat</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Fiókinformációk megadása</string>

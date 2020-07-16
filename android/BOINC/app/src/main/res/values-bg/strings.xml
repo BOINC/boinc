@@ -9,8 +9,6 @@
     <!--selection list-->
     <string name="attachproject_list_desc">Изберете научни проекти, в които искате да участвате:</string>
     <string name="attachproject_list_header">Изберете проект</string>
-    <string name="attachproject_list_manual_button">Добави проект чрез URL адрес</string>
-    <string name="attachproject_list_manual_dialog_title">Въведи URL адрес на проекта:</string>
     <string name="attachproject_list_no_internet">Няма връзка с интернет</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Въведи информация за акаунта</string>

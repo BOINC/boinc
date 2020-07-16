@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Valitse projektit joihin haluat osallistua:</string>
   <string name="attachproject_list_header">Valitse projekti:</string>
-  <string name="attachproject_list_manual_button">Lisää projekti URL-osoitteella</string>
-  <string name="attachproject_list_manual_dialog_title">Anna projektin URL:</string>
   <string name="attachproject_list_no_internet">Ei internet-yhteyttä</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Anna tilitiedot</string>

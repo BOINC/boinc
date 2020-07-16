@@ -9,8 +9,6 @@
   <!--selection list-->
   <string name="attachproject_list_desc">Pasirinkite mokslinius projektus, prie kurių norite prisidėti:</string>
   <string name="attachproject_list_header">Pasirinkite projektą</string>
-  <string name="attachproject_list_manual_button">Pridėti projektą pagal URL</string>
-  <string name="attachproject_list_manual_dialog_title">Įveskite projekto URL:</string>
   <string name="attachproject_list_no_internet">Nėra ryšio su internetu</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Įvesti paskyros informaciją</string>
