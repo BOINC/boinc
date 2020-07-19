@@ -174,7 +174,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Memory
             "maxRamUsedIdle" -> {
-                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 50).toDouble()
+                prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 90).toDouble()
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
