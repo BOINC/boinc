@@ -149,3 +149,21 @@ int procinfo_setup(PROC_MAP& pm) {
     }
     return 0;
 }
+
+double total_cpu_time() {
+    FILETIME idle, kernel, user;
+    GetSystemTimes(&idle, &kernel, &user);
+    double didle, dkernel, duser;
+    LARGE_INTEGER x;
+    x.LowPart = idle.dwLowDateTime;
+    x.HighPart = idle.dwHighDateTime;
+    didle = ((double)x.QuadPart) / 10000000.;
+    x.LowPart = kernel.dwLowDateTime;
+    x.HighPart = kernel.dwHighDateTime;
+    dkernel = ((double)x.QuadPart) / 10000000.;
+    x.LowPart = user.dwLowDateTime;
+    x.HighPart = user.dwHighDateTime;
+    duser = ((double)x.QuadPart) / 10000000.;
+    return dkernel-didle + duser;
+        // kernel inexplicably includes idle
+}

@@ -507,6 +507,15 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         );
     }
     double new_cpu_time = pi.user_time + pi.kernel_time;
+
+    // NOTE: this approach - adding up the CPU time of non-BOINC processes -
+    // counts only long-running processes,
+    // so it's inaccurate for workloads that create lots of short processes.
+    // A better way:
+    // x = total CPU time in last 10 seconds (e.g. get_total_cpu() on Win)
+    //     - time used by low-priority processes
+    //     - time used by BOINC processes (and VBox)
+
     if (!first) {
         non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
         // processes might have exited in the last 10 sec,

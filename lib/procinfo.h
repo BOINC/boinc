@@ -82,4 +82,7 @@ extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
 extern double process_tree_cpu_time(int pid);
     // get the CPU time of the given process and its descendants
 
+extern double total_cpu_time();
+    // get total CPU time over all processes
+
 #endif
