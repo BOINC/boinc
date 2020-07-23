@@ -1,8 +1,8 @@
 <?php
 
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // job/project/preference keywords, master list
+
+// NEVER REUSE IDS
 
 define('KW_CATEGORY_SCIENCE', 0);
 define('KW_CATEGORY_LOC', 1);
@@ -84,6 +86,8 @@ define('KW_INTERNATIONAL',  59);
 define('KW_UND',            60);
 define('KW_HOLLAND',        61);
 define('KW_CHEMISTRY',      62);
+define('KW_GAMES',          63);
+define('KW_VIRUS',          64);
 
 $job_keywords = array();
 
@@ -144,6 +148,9 @@ keyword('KW_BIOMED', KW_CATEGORY_SCIENCE, 0, 0,
         keyword('KW_CANCER', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
             'Cancer research'
         );
+        keyword('KW_VIRUS', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
+            'COVID-19 and virology'
+        );
 keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     'Mathematics and Computer Science'
 );
@@ -152,6 +159,9 @@ keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     );
     keyword('KW_CRYPTO', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
         'Cryptography'
+    );
+    keyword('KW_GAMES', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
+        'Games'
     );
 keyword('KW_AI', KW_CATEGORY_SCIENCE, 0, 0,
     'Artificial Intelligence and Cognitive Science'
