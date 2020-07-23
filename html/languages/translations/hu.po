@@ -1,11 +1,11 @@
 # BOINC project generic website localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2020 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Attila Fenyvesi <fenya25@gmail.com>, 2017
-# e0ka, 2017
+# 723749cf26acf04eb8f51e528e4c6ce5_6e485be, 2017
 # fischer braun <fischer.braun@gmx.net>, 2015
 # Gabor Cseh <csega@mailbox.hu>, 2015-2018
 # misibacsi, 2015
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-09-23 13:34+0000\n"
-"Last-Translator: Kevin Reed <knreed@us.ibm.com>\n"
+"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
+"PO-Revision-Date: 2020-07-11 20:22+0000\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,6 +282,7 @@ msgid "Do work"
 msgstr "Dolgozz"
 
 #: html/inc/bootstrap.inc:175 html/user/server_status.php:117
+#: html/user/temp.php:62
 msgid "Server status"
 msgstr "Szerverállapot"
 
@@ -333,7 +334,7 @@ msgstr "csapat létrehozása vagy csatlakozás egy csapathoz"
 msgid "Profiles"
 msgstr "Profilok"
 
-#: html/inc/bootstrap.inc:196
+#: html/inc/bootstrap.inc:196 html/user/user_search.php:46
 msgid "User search"
 msgstr "Felhasználó keresése"
 
@@ -439,8 +440,8 @@ msgstr "Keresés a fórumokban"
 msgid "Advanced search"
 msgstr "Részletes keresés"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
-#: html/user/pm.php:127
+#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
 msgid "Private messages"
 msgstr "Személyes üzenetek"
 
@@ -460,307 +461,311 @@ msgstr "Előző"
 msgid "Next"
 msgstr "Következő"
 
-#: html/inc/forum.inc:424 html/inc/forum.inc:1311
+#: html/inc/forum.inc:424 html/inc/forum.inc:1317
 #: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:86
+#: html/user/forum_report_post.php:89
 msgid "Author"
 msgstr "Szerző"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/forum_edit.php:141 html/user/forum_pm.php:65
+#: html/user/forum_pm.php:114 html/user/forum_post.php:127
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "Üzenet"
 
-#: html/inc/forum.inc:610 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:611 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "Üzenet küldése"
 
-#: html/inc/forum.inc:610
+#: html/inc/forum.inc:611
 msgid "Send %1 a private message"
 msgstr "Privát üzenet küldése neki: %1"
 
-#: html/inc/forum.inc:611
+#: html/inc/forum.inc:612
 msgid "Joined: %1"
 msgstr "Csatlakozott: %1"
 
-#: html/inc/forum.inc:620
+#: html/inc/forum.inc:621
 msgid "Posts: %1"
 msgstr "Bejegyzések: %1"
 
-#: html/inc/forum.inc:626
+#: html/inc/forum.inc:627
 msgid "Credit: %1"
 msgstr "Kredit: %1"
 
-#: html/inc/forum.inc:627
+#: html/inc/forum.inc:628
 msgid "RAC: %1"
 msgstr "RAC: %1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "You haven't read this message yet"
 msgstr "Ezt az üzenetet még nem olvastad"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "Unread"
 msgstr "Olvasatlan"
 
-#: html/inc/forum.inc:660 html/inc/forum.inc:665 html/inc/forum.inc:778
+#: html/inc/forum.inc:661 html/inc/forum.inc:666 html/inc/forum.inc:784
 msgid "Message %1"
 msgstr "%1. üzenet"
 
-#: html/inc/forum.inc:661 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "rejtett"
 
-#: html/inc/forum.inc:662
+#: html/inc/forum.inc:663
 msgid "Posted: %1"
 msgstr "Beküldve: %1"
 
-#: html/inc/forum.inc:665
+#: html/inc/forum.inc:666
 msgid " - in response to "
 msgstr "- válasz erre:"
 
-#: html/inc/forum.inc:668 html/inc/prefs_util.inc:734
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
 #: html/inc/prefs_util.inc:736
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: html/inc/forum.inc:668
+#: html/inc/forum.inc:669
 msgid "Edit this message"
 msgstr "Üzenet szerkesztése"
 
-#: html/inc/forum.inc:674
+#: html/inc/forum.inc:675
 msgid "Last modified: %1"
 msgstr "Utolsó módosítás: %1"
 
-#: html/inc/forum.inc:678
+#: html/inc/forum.inc:679
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
 msgstr "Ez a poszt rejtve van, mivel a küldője rajta van a 'figyelmen kívül hagy' listádon. Kattints %1 ide %2 a rejtett hozzászólások megtekintéséhez"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report this post as offensive"
 msgstr "Bejegyzés jelentése, mert sértő"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report as offensive"
 msgstr "Sértő bejegyzés jelentése"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "Rating: %1"
 msgstr "Minősítés: %1"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "rate: "
 msgstr "minősítés: "
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Click if you like this message"
 msgstr "Kattints ide, ha tetszik ez az üzenet"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Rate +"
 msgstr "Pozitív"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
 msgstr "Kattintn ide, ha nem tetszik ez az üzenet"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Rate -"
 msgstr "Negatív"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:734 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/forum_pm.php:79 html/user/forum_pm.php:117
+#: html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Válasz"
 
-#: html/inc/forum.inc:734
+#: html/inc/forum.inc:735
 msgid "Post a reply to this message"
 msgstr "Válasz erre az üzenetre"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Quote"
 msgstr "Idézés"
 
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Post a reply by quoting this message"
 msgstr "Válasz ebből az üzenetből vett idézettel"
 
-#: html/inc/forum.inc:759
+#: html/inc/forum.inc:765
 msgid "Hidden by a moderator"
 msgstr "Egy moderátor elrejtette"
 
-#: html/inc/forum.inc:780
+#: html/inc/forum.inc:786
 msgid "Posted %1 by %2"
 msgstr "%2 írta ekkor: %1"
 
-#: html/inc/forum.inc:800
+#: html/inc/forum.inc:806
 msgid "You may not post or rate messages until %1"
 msgstr "Nem írhatsz vagy minősíthetsz üzeneteket %1-ig"
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:831
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "A hozzászólásoknak 'gyerekbarátnak' kell lenniük: nem tartalmazhatnak obszcén, gyűlöletkeltő, nyíltan szexualitásról szóló, vagy ezekre utaló tartalmakat."
 
-#: html/inc/forum.inc:826
+#: html/inc/forum.inc:832
 msgid "No commercial advertisements."
 msgstr "Nem lehetnek kereskedelmi reklámok."
 
-#: html/inc/forum.inc:827
+#: html/inc/forum.inc:833
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "Nem lehetnek szexuális tartalmat, szerencsejátékot, vagy mások iránti intoleranciát tartalmazó honlapokra mutató linkek."
 
-#: html/inc/forum.inc:828
+#: html/inc/forum.inc:834
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
 msgstr "Nem szabad másokat zavaró, vagy antagonizáló üzeneteket írni, illetve a témát elterelni."
 
-#: html/inc/forum.inc:829
+#: html/inc/forum.inc:835
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "Nem szabad szándékosan ellenséges, fenyegető, vagy sértő üzeneteket írni."
 
-#: html/inc/forum.inc:830
+#: html/inc/forum.inc:836
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "Nem szabad a rasszal, vallással, nemzetiséggel, nemmel, társadalmi osztállyal, vagy szexualitással visszaélő üzeneteket írni."
 
-#: html/inc/forum.inc:831
+#: html/inc/forum.inc:837
 msgid "Posts that violate these rules may be deleted."
 msgstr "Azokat a hozzászólásokat, amelyek megsértik ezeket a szabályokat, törölhetjük."
 
-#: html/inc/forum.inc:832
+#: html/inc/forum.inc:838
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "A szabálysértők hozzászólási jogát felfüggeszthetjük, vagy visszavonhatjuk."
 
-#: html/inc/forum.inc:833
+#: html/inc/forum.inc:839
 msgid "If your account is suspended, don't create a new one."
 msgstr "Ha a fiókod fel van függesztve, ne készíts újat."
 
-#: html/inc/forum.inc:852
+#: html/inc/forum.inc:858
 msgid "Rules:"
 msgstr "Szabályok:"
 
-#: html/inc/forum.inc:1172 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Felfed"
 
-#: html/inc/forum.inc:1172
+#: html/inc/forum.inc:1178
 msgid "Unhide this post"
 msgstr "Hozzászólás felfedése"
 
-#: html/inc/forum.inc:1174 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1180 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "Elrejt"
 
-#: html/inc/forum.inc:1174
+#: html/inc/forum.inc:1180
 msgid "Hide this post"
 msgstr "Hozzászólás elrejtése"
 
-#: html/inc/forum.inc:1179 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1185 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "Mozgat"
 
-#: html/inc/forum.inc:1179
+#: html/inc/forum.inc:1185
 msgid "Move post to a different thread"
 msgstr "Hozzászólás áthelyezése egy másik témába"
 
-#: html/inc/forum.inc:1184
+#: html/inc/forum.inc:1190
 msgid "Banish author"
 msgstr "Szerző kitiltása"
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1197
 msgid "Vote to banish author"
 msgstr "Legyen kitiltva a szerző"
 
-#: html/inc/forum.inc:1195
+#: html/inc/forum.inc:1201
 msgid "Vote not to banish author"
 msgstr "Ne legyen kitiltva a szerző"
 
-#: html/inc/forum.inc:1200
+#: html/inc/forum.inc:1206
 msgid "Start vote to banish author"
 msgstr "Szavazás indítása a szerző kitiltásáról"
 
-#: html/inc/forum.inc:1205 html/inc/user.inc:373
-#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_pm.php:78
+#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
+#: html/user/forum_pm.php:282 html/user/forum_thread.php:248
+#: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Törlés"
 
-#: html/inc/forum.inc:1205
+#: html/inc/forum.inc:1211
 msgid "Delete this post"
 msgstr "Hozzászólás törlése"
 
-#: html/inc/forum.inc:1245
+#: html/inc/forum.inc:1251
 msgid "Only team members can post to the team message board"
 msgstr "A csapat üzenőfalára csak csapattagok írhatnak"
 
-#: html/inc/forum.inc:1255
+#: html/inc/forum.inc:1261
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "Ha új témát akarsz indítani itt: %1 , az átlagos kreditjeidnek egy bizonyos értéket meg kell haladniuk. Ezt a szabályt a rendszerrel való visszaélések elkerülésének érdekében vezettük be."
 
-#: html/inc/forum.inc:1262
+#: html/inc/forum.inc:1268
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "Jelen leg nem hozhatsz létre új témát. Kérjük, várj, majd próbáld újra. Ezt a szabályt a rendszerrel való visszaélések elkerülésének érdekében vezettük be."
 
-#: html/inc/forum.inc:1269
+#: html/inc/forum.inc:1275
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "Ez a téma le van zárva. Csak a fórum moderátorai és adminisztrátorai írhatnak ide."
 
-#: html/inc/forum.inc:1274
+#: html/inc/forum.inc:1280
 msgid "Can't post to a hidden thread."
 msgstr "Ne szólhatsz hozzá rejtett témához."
 
-#: html/inc/forum.inc:1309
+#: html/inc/forum.inc:1315
 msgid "Thread"
 msgstr "Téma"
 
-#: html/inc/forum.inc:1310 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1316 html/inc/team.inc:142 html/user/forum_forum.php:145
 #: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "Üzenetek"
 
-#: html/inc/forum.inc:1312 html/user/forum_forum.php:147
+#: html/inc/forum.inc:1318 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "Megtekintések"
 
-#: html/inc/forum.inc:1313 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/inc/forum.inc:1319 html/inc/team.inc:142 html/user/forum_forum.php:148
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "Utolsó üzenet"
 
-#: html/inc/forum.inc:1370
+#: html/inc/forum.inc:1377
 msgid "New posts in the thread %1"
 msgstr "Új hozzászólások e témában: %1"
 
-#: html/inc/forum.inc:1375
+#: html/inc/forum.inc:1382
 msgid "New posts in subscribed thread"
 msgstr "Új hozzászólások a témában, amire feliratkoztál"
 
-#: html/inc/forum.inc:1376
+#: html/inc/forum.inc:1383
 msgid "There are new posts in the thread '%1'"
 msgstr "Új hozzászólások vannak e témában: '%1'"
 
-#: html/inc/forum.inc:1386
+#: html/inc/forum.inc:1393
 msgid "Mark all threads as read"
 msgstr "Minden téma megjelölése olvasottként"
 
-#: html/inc/forum.inc:1387
+#: html/inc/forum.inc:1394
 msgid "Mark all threads in all message boards as read."
 msgstr "Minden üzenőfal minden témáját 'olvasott'-nak jelöli."
 
@@ -1169,8 +1174,8 @@ msgstr "Megvitat"
 msgid "News is available as an %sRSS feed%s"
 msgstr "A hírek elérhetőak %sRSS feed%s formában"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
-#: html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
 msgid "Inbox"
 msgstr "Bejövő"
 
@@ -1204,16 +1209,18 @@ msgstr "Üzenet küldése csapatnak"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_post.php:65
-#: html/user/forum_post.php:97 html/user/forum_post.php:98
-#: html/user/forum_post.php:144 html/user/forum_reply.php:77
-#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
-#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_pm.php:148
+#: html/user/forum_post.php:65 html/user/forum_post.php:97
+#: html/user/forum_post.php:98 html/user/forum_post.php:144
+#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
+#: html/user/forum_reply.php:115 html/user/forum_reply.php:170
+#: html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "Előnézet"
 
 #: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
-#: html/user/pm.php:79 html/user/pm.php:133
+#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
+#: html/user/pm.php:133
 msgid "Subject"
 msgstr "Tárgy"
 
@@ -1364,9 +1371,9 @@ msgid "Compute only during a particular period each day."
 msgstr "Csak a nap bizonyos szakában dolgozzon."
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "Egyéb"
 
@@ -1523,7 +1530,7 @@ msgstr "Példa: a BOINC legfeljebb 2000 MB adatot továbbíthat 30 nap alatt."
 msgid "MB every"
 msgstr "MB minden"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:393
+#: html/inc/prefs.inc:212 html/inc/util.inc:417
 msgid "days"
 msgstr "nap"
 
@@ -2178,7 +2185,7 @@ msgstr "Csapat típusa"
 msgid "Show only active teams"
 msgstr "Csak az aktív csapatokat mutasd"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1135 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Keresés"
@@ -2691,89 +2698,81 @@ msgstr "Nem sikerült a fiókot létrehozni"
 msgid "database error, please contact site administrators"
 msgstr ""
 
-#: html/inc/util.inc:204
+#: html/inc/util.inc:207
 msgid "log out"
 msgstr "kijelentkezés"
 
-#: html/inc/util.inc:206
+#: html/inc/util.inc:209
 msgid "log in"
 msgstr "bejelentkezés"
 
 #. kludge
-#: html/inc/util.inc:322 html/user/login_form.php:40
+#: html/inc/util.inc:346 html/user/login_form.php:40
 msgid "Log in"
 msgstr "Bejelentkezés"
 
-#: html/inc/util.inc:323
+#: html/inc/util.inc:347
 msgid "Create an account"
 msgstr "Fiók létrehozása"
 
-#: html/inc/util.inc:324
+#: html/inc/util.inc:348
 msgid "Server status page"
 msgstr "A szerver állapotának oldala"
 
-#: html/inc/util.inc:367
+#: html/inc/util.inc:391
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Kérése feldolgozásakor adatbázis hiba történt; kérjük, próbálja újra később."
 
-#: html/inc/util.inc:376
+#: html/inc/util.inc:400
 msgid "Unable to handle request"
 msgstr "A kérés teljesítése sikertelen"
 
-#: html/inc/util.inc:396
+#: html/inc/util.inc:420
 msgid "hours"
 msgstr "óra"
 
-#: html/inc/util.inc:399
+#: html/inc/util.inc:423
 msgid "min"
 msgstr "perc"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:426
 msgid "sec"
 msgstr "mp"
 
-#: html/inc/util.inc:583
+#: html/inc/util.inc:607
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "A link lejárt. Kattintson a Vissza gombra, frissítse a lapot, és próbálja újra."
 
-#: html/inc/util.inc:658
+#: html/inc/util.inc:682
 msgid "Use BBCode tags to format your text"
 msgstr "BBCode használata a szöveg formázásához"
 
-#: html/inc/util.inc:902
+#: html/inc/util.inc:926
 msgid "Project down for maintenance"
 msgstr "A projekt karbantartás miatt szünetel"
 
-#: html/inc/util.inc:905
+#: html/inc/util.inc:929
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 karbantartás miatt szünetel. Próbálja újra később."
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:956
 msgid "Unable to connect to database - please try again later"
 msgstr "Az adatbázishoz csatlakozás sikertelen - kérjük, próbálja újra később"
 
-#: html/inc/util.inc:936
+#: html/inc/util.inc:960
 msgid "Unable to select database - please try again later"
 msgstr "Az adatbázis kiválasztása sikertelen - kérjük, próbálja újra később"
 
-#: html/inc/util.inc:1114
+#: html/inc/util.inc:1138
 msgid "characters remaining"
 msgstr "fennmaradó karakterek"
 
 #: html/inc/util_ops.inc:132
 msgid "Stay logged in on this computer"
 msgstr "Maradjon bejelentkezve ezen a gépen"
-
-#: html/user/account_finish_action.php:27
-msgid "You must supply a name for your account"
-msgstr "A fióknév megadása kötelező"
-
-#: html/user/account_finish_action.php:30
-msgid "HTML tags not allowed in name"
-msgstr "HTML címkék nem használhatóak a névben"
 
 #: html/user/account_finish.php:34
 msgid "Finish account setup"
@@ -2782,6 +2781,14 @@ msgstr "Fiókbeállítás befejezése"
 #: html/user/account_finish.php:52
 msgid "Optional; not shown to others"
 msgstr "Opcionális; mások nem láthatják"
+
+#: html/user/account_finish_action.php:27
+msgid "You must supply a name for your account"
+msgstr "A fióknév megadása kötelező"
+
+#: html/user/account_finish_action.php:30
+msgid "HTML tags not allowed in name"
+msgstr "HTML címkék nem használhatóak a névben"
 
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
@@ -3682,7 +3689,8 @@ msgstr "Hagyja figyelmen kívül az alábbi felhasználók bejegyzéseit és pri
 msgid "User ID (For instance: 123456789)"
 msgstr "Felhasználó azonosító (például: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
+#: html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "Ezen felhasználó szűrőhöz adása"
 
@@ -3951,32 +3959,10 @@ msgid "Send"
 msgstr "Elküld"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "Nincs jogosultsága a felhasználók kitiltásához."
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "Válasszon egy műveletet..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "Trágár"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "Gyűlölködő emailek"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "Felhasználó kérésére"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -4009,6 +3995,24 @@ msgstr "Válassza ki az okot, esetleg írja le bővebben, miért kellene a felha
 msgid "Category"
 msgstr "Oka"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "Trágár"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "Gyűlölködő emailek"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "Felhasználó kérésére"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -4022,6 +4026,11 @@ msgstr "Küldés, ha nem üres"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "Szavazattal megerősítve"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "Válasszon egy műveletet..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -4167,34 +4176,6 @@ msgstr "Ha kérdésed, vagy problémád van, kérjük, használd az üzenőfal %
 msgid "Subscribed threads"
 msgstr "Feliratkozott témák"
 
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "Nincs jogosultsága a bejegyzés moderálásához."
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "Nem sorolható át másik kategóriatípusba"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "Nem sorolható át másik kategóriába"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "Nincs jogosultsága felhasználók kitiltásához"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "Kitiltás"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "%1 felhasználó kitiltva."
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "Művelet sikertelen: valószínűleg adatbázis probléma"
-
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
 msgstr "Bejegyzés moderálása"
@@ -4257,7 +4238,7 @@ msgstr "Végleges"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
 #: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "OK"
@@ -4265,6 +4246,34 @@ msgstr "OK"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "Indoklás (nem kötelező) %1 Ezt emailben megkapja a felhasználó. %2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "Nincs jogosultsága a bejegyzés moderálásához."
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "Nem sorolható át másik kategóriatípusba"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "Nem sorolható át másik kategóriába"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "Nincs jogosultsága felhasználók kitiltásához"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "Kitiltás"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "%1 felhasználó kitiltva."
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "Művelet sikertelen: valószínűleg adatbázis probléma"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -4291,6 +4300,100 @@ msgstr "Célfórum"
 #: html/user/forum_moderate_thread.php:83
 msgid "New title:"
 msgstr "Új cím:"
+
+#: html/user/forum_pm.php:54 html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "Üzenet elküldve."
+
+#: html/user/forum_pm.php:60 html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "Nincs privát üzenete."
+
+#: html/user/forum_pm.php:65 html/user/pm.php:79
+msgid "Sender and date"
+msgstr "Küldő és dátum"
+
+#: html/user/forum_pm.php:102
+msgid "No such message"
+msgstr "Nincs ilyen üzenet"
+
+#: html/user/forum_pm.php:110 html/user/pm.php:134
+msgid "Sender"
+msgstr "Küldő"
+
+#: html/user/forum_pm.php:113 html/user/pm.php:137
+msgid "Date"
+msgstr "Dátum"
+
+#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "Privát üzenet küldéséhez minden mezőt ki kell töltenie"
+
+#: html/user/forum_pm.php:167 html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "Nem található felhasználó ezzel az ID-vel: %1"
+
+#: html/user/forum_pm.php:172 html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "Nem található ilyen nevű felhasználó: %1"
+
+#. Non-unique username
+#: html/user/forum_pm.php:174 html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-jét."
+
+#: html/user/forum_pm.php:182 html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
+
+#: html/user/forum_pm.php:204 html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "Valóban blokkolja a(z) %1 nevű felhasználót?"
+
+#: html/user/forum_pm.php:205 html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "Biztos benne, hogy blokkolni kívánja a(z) %1 nevű felhasználó Önnek küldött privát üzeneteit?"
+
+#: html/user/forum_pm.php:206 html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Kérem vegye figyelembe, hogy csak korlátozott számú felhasználót blokkolhat."
+
+#: html/user/forum_pm.php:207 html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "Egy felhasználó blokkolását feloldhatja a fórumbeállítások oldalon."
+
+#: html/user/forum_pm.php:214 html/user/pm.php:288
+msgid "No, cancel"
+msgstr "Nem, mégse"
+
+#: html/user/forum_pm.php:217 html/user/pm.php:276
+#: html/user/view_profile.php:28
+msgid "No such user"
+msgstr "Nincs ilyen felhasználó"
+
+#: html/user/forum_pm.php:228 html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "A(z) %1 nevű felhasználó blokkolva"
+
+#: html/user/forum_pm.php:230 html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
+
+#: html/user/forum_pm.php:231
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "A feloldáshoz látogassa meg az %1üzenőfalbeállításokat%2"
+
+#: html/user/forum_pm.php:284
+msgid "Mark as read"
+msgstr "Megjelölés olvasottként"
+
+#: html/user/forum_pm.php:286
+msgid "Mark as unread"
+msgstr "Megjelölés olvasatlanként"
 
 #: html/user/forum_post.php:44
 msgid ""
@@ -4333,8 +4436,8 @@ msgid "You have already rated this post."
 msgstr "Már értékelte ezt a bejegyzést"
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
-#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
+#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "Vissza a témához"
@@ -4386,55 +4489,55 @@ msgstr "Válasz írása"
 msgid "Add my signature to this reply"
 msgstr "Aláírás hozzáadása ehhez az üzenethez"
 
-#: html/user/forum_report_post.php:48
+#: html/user/forum_report_post.php:51
 msgid "You need more average or total credit to report a post."
 msgstr "Magasabb átlagra vagy több összes kreditre van szüksége egy bejegyzés jelentéséhez."
 
-#: html/user/forum_report_post.php:70
+#: html/user/forum_report_post.php:73
 msgid "Report Registered"
 msgstr "Jelentés regisztrálva"
 
-#: html/user/forum_report_post.php:71
+#: html/user/forum_report_post.php:74
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Értékelését rögzítettük. Köszönjük véleményét!"
 
-#: html/user/forum_report_post.php:72
+#: html/user/forum_report_post.php:75
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "Egy moderátor meg fogja vizsgálni jelentését és eldönti, mi fog történni - ez egy kis időt vesz igénybe, türelmét kérjük!"
 
-#: html/user/forum_report_post.php:76
+#: html/user/forum_report_post.php:79
 msgid "Report a forum post"
 msgstr "Fórumbejegyzés jelentése"
 
-#: html/user/forum_report_post.php:78
+#: html/user/forum_report_post.php:81
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "Mielőtt jelentené ezt a bejegyzést, használja a +/- értékelési rendszert inkább! Ha elég felhasználó értékeli negatívan, rejtve lesz.<br />Az értékelő rendszert a bejegyzés alján találja."
 
-#: html/user/forum_report_post.php:90
+#: html/user/forum_report_post.php:93
 msgid "Report post"
 msgstr "Bejegyzés jelentése"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "Miért találja sértőnek ezt a bejegyzést: %1 Kérjük adjon meg elég információt ahhoz, hogy a témát nem olvasó személynek is világos legyen a probléma. %2"
 
-#: html/user/forum_report_post.php:104
+#: html/user/forum_report_post.php:107
 msgid "Report not registered"
 msgstr "A jelentés nem rögzült"
 
-#: html/user/forum_report_post.php:105
+#: html/user/forum_report_post.php:108
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "Jelentése nem rögzíthető. Kérjük várjon egy kicsit, és próbálja meg újra!"
 
-#: html/user/forum_report_post.php:106
+#: html/user/forum_report_post.php:109
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4463,32 +4566,6 @@ msgstr "Csak az elmúlt %1 nap bejegyzéseit mutasd (alapértelmezett: 30 nap)."
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "Csak témák: %1 (Minden témából csak az első bejegyzés)"
-
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "Keresés eredménye"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "A lekérdezésnek megfelelő témacímek:"
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "A lekérdezésnek megfelelő üzenetek:"
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "Sajnáljuk, nem található a lekérdezésnek megfelelő eredmény. Kiterjesztheti a keresést kevesebb szóra (vagy kevésbé speciális szavakra) történő kereséssel."
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1 try the same search on Google. %2"
-msgstr "Megpróbálhatsz a %1 rákeresni a Google-ön is. %2"
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "Újabb keresés"
 
 #: html/user/forum_search.php:29
 msgid "Forum search"
@@ -4557,6 +4634,32 @@ msgstr "Rendezés módja"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "Keresés indítása"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "Keresés eredménye"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "A lekérdezésnek megfelelő témacímek:"
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "A lekérdezésnek megfelelő üzenetek:"
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "Sajnáljuk, nem található a lekérdezésnek megfelelő eredmény. Kiterjesztheti a keresést kevesebb szóra (vagy kevésbé speciális szavakra) történő kereséssel."
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "Megpróbálhatsz a %1 rákeresni a Google-ön is. %2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "Újabb keresés"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -4998,23 +5101,6 @@ msgstr "nincs gépnév"
 msgid "Merge hosts"
 msgstr "Gazdagépek egyesítése"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "%1 számítógépei"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "A számítógépek rejtettek"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "Ez a felhasználó elrejtette számítógépe adatait."
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "Az Ön számítógépei"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "A számítógép kreditjének frissítése"
@@ -5044,6 +5130,23 @@ msgstr "A változtatás a gép projekthez történő következő kapcsolódásak
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "Visszatérés a gép oldalára"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "%1 számítógépei"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "A számítógépek rejtettek"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "Ez a felhasználó elrejtette számítógépe adatait."
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "Az Ön számítógépei"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5398,18 +5501,6 @@ msgstr "Üzenetek blokkolása ettől a felhasználótól "
 msgid "Block user"
 msgstr "Felhasználó blokkolása"
 
-#: html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "Üzenet elküldve."
-
-#: html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "Nincs privát üzenete."
-
-#: html/user/pm.php:79
-msgid "Sender and date"
-msgstr "Küldő és dátum"
-
 #: html/user/pm.php:99
 msgid "Reply to this message"
 msgstr "Válasz erre az üzenetre"
@@ -5430,18 +5521,6 @@ msgstr "Egyiket sem választja ki"
 msgid "Delete selected messages"
 msgstr "Kijelölt üzenetek törlése"
 
-#: html/user/pm.php:134
-msgid "Sender"
-msgstr "Küldő"
-
-#: html/user/pm.php:137
-msgid "Date"
-msgstr "Dátum"
-
-#: html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "Privát üzenet küldéséhez minden mezőt ki kell töltenie"
-
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "Üzenet elküldve"
@@ -5457,62 +5536,9 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "Az üzenetedet kéretlennek jelölte meg\n        az Akismet szűrőrendszer.\n        Kérjük, módosítsd a szöveget és próbáld újra."
 
-#: html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "Nem található felhasználó ezzel az ID-vel: %1"
-
-#: html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "Nem található ilyen nevű felhasználó: %1"
-
-#. Non-unique username
-#: html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-jét."
-
-#: html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
-
-#: html/user/pm.php:276 html/user/view_profile.php:28
-msgid "No such user"
-msgstr "Nincs ilyen felhasználó"
-
-#: html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "Valóban blokkolja a(z) %1 nevű felhasználót?"
-
-#: html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "Biztos benne, hogy blokkolni kívánja a(z) %1 nevű felhasználó Önnek küldött privát üzeneteit?"
-
-#: html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Kérem vegye figyelembe, hogy csak korlátozott számú felhasználót blokkolhat."
-
-#: html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "Egy felhasználó blokkolását feloldhatja a fórumbeállítások oldalon."
-
-#: html/user/pm.php:288
-msgid "No, cancel"
-msgstr "Nem, mégse"
-
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "Nincs ilyen felhasználó"
-
-#: html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "A(z) %1 nevű felhasználó blokkolva"
-
-#: html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
@@ -5521,14 +5547,6 @@ msgstr "A blokkolás feloldásához látogasd meg az %1 üzenőfali beállítás
 #: html/user/pm.php:365
 msgid "Unknown action"
 msgstr "Ismeretlen művelet"
-
-#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1 ehhez: %2"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "Vissza a beállításokhoz"
 
 #: html/user/prefs.php:36
 msgid ""
@@ -5543,6 +5561,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "A beállításaidat alapértelmezettre állítottuk és\nérvénybe lépnek, amint a számítógéped kommunikál a(z) %1 projekttel,\nvagy kiadod a %2 Frissítés %3 parancsot a BOINC Kezelőben."
+
+#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1 ehhez: %2"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "Vissza a beállításokhoz"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5768,27 +5794,27 @@ msgstr "Már csatlakoztál? 1%1Jelentkezz be%2."
 msgid "News"
 msgstr "Hírek"
 
-#: html/user/server_status.php:63
+#: html/user/server_status.php:63 html/user/temp.php:24
 msgid "Not Running"
 msgstr "Nem fut"
 
-#: html/user/server_status.php:67
+#: html/user/server_status.php:67 html/user/temp.php:27
 msgid "Running"
 msgstr "Fut"
 
-#: html/user/server_status.php:71
+#: html/user/server_status.php:71 html/user/temp.php:30
 msgid "Disabled"
 msgstr "Kikapcsolva"
 
-#: html/user/server_status.php:111
+#: html/user/server_status.php:111 html/user/temp.php:56
 msgid "Project status"
 msgstr "Projekt állapota"
 
-#: html/user/server_status.php:120
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Program"
 msgstr "Program"
 
-#: html/user/server_status.php:120
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Host"
 msgstr "Számítógép"
 
@@ -5877,6 +5903,65 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1 home page %2."
 msgstr "Emellett megnézheted az összesített statisztikáidat az összes BOINC projektre az alábbi oldalakon; lásd %1 kezdőlap %2,"
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1 A résztvevők alapíthatnak %2 csapatokat %3."
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "Csak egy csapathoz tartozhatsz. Csapathoz csatlakozni, vagy abból kilépni bármikor tudsz."
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "Minden csapatnak van egy %1 alapítója %2, aki a következőket teheti:"
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "A csapat nevének és leírásának szerkesztése"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "Csapatvezetők hozzáadása vagy eltávolítása"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "Csapattagok eltávolítása"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "Csapat feloszlatása ha nincsenek tagjai"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "Egy csapathoz való csatlakozáshoz látogasd meg a csapat oldalát, és kattints a %1 Csatlakozás ehhez a csapathoz %2 feliratra."
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "Csapat keresése"
+
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "A legjobb csapatok"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "Minden csapat"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "%1 csapatok"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "Új csapat létrehozása"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr "Ha nem találsz számodra megfelelő csapatot, %1 hozz létre egy csapatot %2."
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -6315,18 +6400,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "Az utóbbi kilencven napban valaki alapítócserét kért, ezért új kérést nem fogadunk el. Kérjük, később próbáld újra."
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "%1 csapathoz nem lehet csatlakozni."
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "Már aktív tag"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "Már tagja vagy a(z) %1 csapatnak."
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "Nem tudsz csatlakozni a csapathoz - próbáld újra később."
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6335,10 +6424,6 @@ msgstr "Csatlakozott: %1"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "Csatlakoztál a(z) %1 csoportba"
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "Nem tudsz csatlakozni a csapathoz - próbáld újra később."
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6478,65 +6563,6 @@ msgstr "%1 csapat törölve"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "Limit túllépve: Csak az első 100 tagok tudjuk megmutatni."
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2 teams %3."
-msgstr "%1 A résztvevők alapíthatnak %2 csapatokat %3."
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "Csak egy csapathoz tartozhatsz. Csapathoz csatlakozni, vagy abból kilépni bármikor tudsz."
-
-#: html/user/team.php:33
-msgid "Each team has a %1 founder %2 who may:"
-msgstr "Minden csapatnak van egy %1 alapítója %2, aki a következőket teheti:"
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "A csapat nevének és leírásának szerkesztése"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "Csapatvezetők hozzáadása vagy eltávolítása"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "Csapattagok eltávolítása"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "Csapat feloszlatása ha nincsenek tagjai"
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1 Join this team %2."
-msgstr "Egy csapathoz való csatlakozáshoz látogasd meg a csapat oldalát, és kattints a %1 Csatlakozás ehhez a csapathoz %2 feliratra."
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "Csapat keresése"
-
-#: html/user/team.php:47
-msgid "Top teams"
-msgstr "A legjobb csapatok"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "Minden csapat"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "%1 csapatok"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "Új csapat létrehozása"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1 create a team "
-"%2."
-msgstr "Ha nem találsz számodra megfelelő csapatot, %1 hozz létre egy csapatot %2."
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "Nem lehet kilépni a csapatból"
@@ -6639,6 +6665,10 @@ msgstr "Az űrlap segítségével találhatsz neked való csapatokat."
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "Most %1 nem szeretnék %2 csapathoz csatlakozni."
 
+#: html/user/temp.php:58
+msgid "Server software version: %1"
+msgstr "A szerver szoftver verziója: %1"
+
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
 msgid "Top computers"
@@ -6670,6 +6700,14 @@ msgstr "Nincs kiválasztva a nap felhasználója."
 msgid "User of the Day for %1: %2"
 msgstr "A nap felhasználója ekkor: %2, ekkor: %1"
 
+#: html/user/user_agreetermsofuse.php:27
+msgid "You are not logged in. Please login to agree to our terms of use."
+msgstr ""
+
+#: html/user/user_agreetermsofuse.php:41
+msgid "Agree to our Terms of Use."
+msgstr ""
+
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
 msgid ""
@@ -6689,14 +6727,6 @@ msgstr ""
 
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:27
-msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:41
-msgid "Agree to our Terms of Use."
 msgstr ""
 
 #: html/user/user_search.php:51

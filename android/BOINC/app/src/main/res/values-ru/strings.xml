@@ -103,9 +103,10 @@
   <string name="prefs_category_memory">Память</string>
   <string name="prefs_category_other">Другое</string>
   <string name="prefs_category_debug">Отладка</string>
-  <string name="prefs_show_advanced_header">Показать дополнительные настройки и элементы управления…</string>
+  <string name="prefs_show_advanced_header">Показать дополнительные настройки и элементы управления</string>
   <string name="prefs_suspend_when_screen_on">Приостановить вычисления, когда экран включён</string>
   <string name="prefs_general_device_name_header">Имя устройства</string>
+  <string name="prefs_theme_header">Тема</string>
   <string name="prefs_stationary_device_mode_header">Стационарный режим работы устройства</string>
   <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включать только в том случае, если устройство не оснащено аккумулятором.</string>
   <string name="prefs_power_source_header">Источники питания для вычислений</string>
@@ -114,32 +115,36 @@
   <string name="prefs_power_source_usb">USB-подключение</string>
   <string name="prefs_power_source_wireless">Беспроводное зарядное устройство</string>
   <string name="prefs_power_source_battery">Аккумулятор</string>
-  <string name="battery_charge_min_pct_header">Мин. уровень заряда батареи</string>
+  <string name="battery_charge_min_pct_header">Мин. уровень заряда батареи (%)</string>
   <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
-  <string name="battery_temperature_max_header">Макс. температура батареи</string>
+  <string name="battery_temperature_max_header">Макс. температура батареи (°C)</string>
   <string name="battery_temperature_max_description">BOINC приостановит расчёты, когда температура батареи превысит указанный уровень. Не рекомендуется менять это значение.</string>
-  <string name="prefs_disk_max_pct_header">Макс. используемое пространство памяти</string>
-    <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство</string>
-  <string name="prefs_disk_access_interval_header">Период доступа</string>
+  <string name="prefs_disk_max_pct_header">Макс. используемое пространство памяти (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство (ГБ)</string>
+  <string name="prefs_disk_access_interval_header">Период доступа (секунды)</string>
   <string name="prefs_disk_access_interval_description">Предлагает интервал между обращениями к диску</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Ежедневный предел передачи</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Ежедневный предел передачи (МБ)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Ежедневный предел передачи (Дни)</string>
   <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
   <string name="prefs_show_notification_notices_header">Показывать уведомления о поступлении новых сообщений</string>
   <string name="prefs_show_notification_suspended_header">Показывать уведомление когда приостановлено</string>
   <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
   <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше</string>
+  <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Определяет, когда BOINC приостанавливает расчёты из-за использования процессора другими приложениями.</string>
-  <string name="prefs_cpu_time_max_header">Предельное время процессора</string>
+  <string name="prefs_cpu_time_max_header">Предельное время процессора (%)</string>
   <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
-  <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
+  <string name="prefs_memory_max_idle_header">Ограничение ОЗУ (%)</string>
   <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач (дней)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач (дней)</string>
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
   <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
   <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
+  <string name="prefs_theme_light">Светлая</string>
+  <string name="prefs_theme_dark">Тёмная</string>
+  <string name="prefs_theme_system">По умолчанию в системе</string>
   <!--projects tab strings-->
   <string name="projects_add">Добавить проект</string>
   <string name="projects_icon">Значок проекта</string>
@@ -168,11 +173,13 @@
   <string name="projects_control_sync_acctmgr">Синхронизировать</string>
   <string name="projects_control_remove_acctmgr">Отключить</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Вы действительно хотите удалить</string>
+  <string name="projects_confirm_title">%1$s проект?</string>
+  <string name="projects_confirm_message">Вы уверены, что хотите %1$s %2$s?</string>
+  <string name="projects_confirm_detach_message">из BOINC</string>
   <string name="projects_confirm_detach_confirm">Удалить</string>
   <string name="projects_confirm_reset_confirm">Сбросить</string>
   <string name="projects_confirm_remove_acctmgr_title">Отключить менеджер проектов</string>
-  <string name="projects_confirm_remove_acctmgr_message">Вы уверены, что хотите прекратить использование</string>
+  <string name="projects_confirm_remove_acctmgr_message">прекратить использование</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Отключить</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Название задания:</string>
@@ -180,7 +187,7 @@
   <string name="tasks_header_project_paused">(приостановлено)</string>
   <string name="tasks_header_deadline">Крайний срок:</string>
   <string name="tasks_result_new">новый</string>
-  <string name="tasks_result_files_downloading">ожидание загрузки</string>
+  <string name="tasks_result_files_downloading">загрузка</string>
   <string name="tasks_result_files_downloaded">загрузка завершена</string>
   <string name="tasks_result_compute_error">ошибка расчётов</string>
   <string name="tasks_result_files_uploading">отправка</string>
@@ -231,7 +238,7 @@
   <string name="suspend_os">Android остановил.</string>
   <string name="suspend_wifi">Нет подключения к WiFi.</string>
   <string name="suspend_battery_charging">Ожидание увеличения уровня заряда батареи.</string>
-  <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет</string>
+  <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет %1$d% (в настоящее время %2$d%)</string>
   <string name="suspend_battery_overheating">Ожидание охлаждения батареи</string>
   <string name="suspend_user_req">Возобновление расчётов…</string>
   <!--rpc reasons-->
@@ -260,7 +267,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия %1$s</string>
   <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
-  <string name="about_copyright">\u00A9 2003–2019 Калифорнийский университет, Беркли.</string>
+  <string name="about_copyright">\u00A9 2003–2020 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
   <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -282,4 +289,7 @@
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <!--Main notification channel (notices)-->
+  <string name="main_notification_channel_name">Уведомления</string>
+  <string name="main_notification_channel_description">Отображает уведомления из ваших проектов.</string>
 </resources>
