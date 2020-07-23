@@ -331,17 +331,17 @@ class Monitor : LifecycleService() {
                 val transfers = clientInterface.fileTransfers
                 val acctMgrInfo = clientInterface.acctMgrInfo
                 val newNotices = clientInterface.getNotices(clientStatus.mostRecentNoticeSeqNo)
+                var nullValues = ""
+                if (state == null) {
+                    nullValues += "state "
+                    Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
+                }
                 if (allNotNull(status, state, state!!.hostInfo, acctMgrInfo)) {
                     clientStatus.setClientStatus(status, state.results, state.projects,
                             transfers, state.hostInfo, acctMgrInfo,
                             newNotices)
                 } else {
-                    var nullValues = ""
-                    if (state == null) {
-                        nullValues += "state "
-                    } else {
-                        if (state.hostInfo == null) nullValues += "state.host_info "
-                    }
+                    if (state.hostInfo == null) nullValues += "state.host_info "
                     if (transfers == null) nullValues += "transfers "
                     if (acctMgrInfo == null) nullValues += "acctMgrInfo "
                     if (Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: $nullValues")
