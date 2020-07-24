@@ -902,7 +902,6 @@ void CBOINCBaseFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
             wxEmptyString,
             wxEmptyString,
             wxEmptyString,
-            wxEmptyString,
             false,
             false
         );

@@ -30,12 +30,14 @@ curl %dependencies_zip_path% --output %TEMP%\boinc_depends_win_vs2013.zip
   
 rd /s /q %dependencies_path%\.git
 
+REM Clean all sqlite3 as it's not use anymore
+rd /s /q %dependencies_path%\sqlite3\
+
 if "%platform%" == "Win32" (
   rd /s /q %dependencies_path%\curl\mswin\x64
   rd /s /q %dependencies_path%\freetype\mswin\x64
   rd /s /q %dependencies_path%\ftgl\mswin\x64
   rd /s /q %dependencies_path%\openssl\mswin\x64
-  rd /s /q %dependencies_path%\sqlite3\mswin\x64
   rd /s /q %dependencies_path%\wxwidgets\mswin\x64
   rd /s /q %dependencies_path%\zlib\mswin\x64
 ) else (
@@ -43,7 +45,6 @@ if "%platform%" == "Win32" (
   rd /s /q %dependencies_path%\freetype\mswin\Win32
   rd /s /q %dependencies_path%\ftgl\mswin\Win32
   rd /s /q %dependencies_path%\openssl\mswin\Win32
-  rd /s /q %dependencies_path%\sqlite3\mswin\Win32
   rd /s /q %dependencies_path%\wxwidgets\mswin\Win32
   rd /s /q %dependencies_path%\zlib\mswin\Win32
 )
@@ -53,7 +54,6 @@ if "%configuration%" == "Debug" (
   rd /s /q %dependencies_path%\freetype\mswin\%platform%\Release
   rd /s /q %dependencies_path%\ftgl\mswin\%platform%\Release
   rd /s /q %dependencies_path%\openssl\mswin\%platform%\Release
-  rd /s /q %dependencies_path%\sqlite3\mswin\%platform%\Release
   rd /s /q %dependencies_path%\wxwidgets\mswin\%platform%\Release
   rd /s /q %dependencies_path%\zlib\mswin\%platform%\Release
 ) else (
@@ -61,7 +61,6 @@ if "%configuration%" == "Debug" (
   rd /s /q %dependencies_path%\freetype\mswin\%platform%\Debug
   rd /s /q %dependencies_path%\ftgl\mswin\%platform%\Debug
   rd /s /q %dependencies_path%\openssl\mswin\%platform%\Debug
-  rd /s /q %dependencies_path%\sqlite3\mswin\%platform%\Debug
   rd /s /q %dependencies_path%\wxwidgets\mswin\%platform%\Debug
   rd /s /q %dependencies_path%\zlib\mswin\%platform%\Debug
 )

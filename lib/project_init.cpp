@@ -39,7 +39,6 @@ void PROJECT_INIT::clear() {
     safe_strcpy(name, "");
     safe_strcpy(account_key, "");
     safe_strcpy(team_name, "");
-    safe_strcpy(setup_cookie, "");
     embedded = false;
 }
 
@@ -60,7 +59,6 @@ int PROJECT_INIT::init() {
         else if (xp.parse_str("name", name, sizeof(name))) continue;
         else if (xp.parse_str("team_name", team_name, sizeof(team_name))) continue;
         else if (xp.parse_str("account_key", account_key, sizeof(account_key))) continue;
-        else if (xp.parse_str("setup_cookie", setup_cookie, sizeof(setup_cookie))) continue;
         else if (xp.parse_str("url", url, sizeof(url))) {
             canonicalize_master_url(url, sizeof(url));
             continue;
@@ -87,14 +85,12 @@ int PROJECT_INIT::write() {
         "  <name>%s</name>\n"
         "  <team_name>%s</team_name>\n"
         "  <account_key>%s</account_key>\n"
-        "  <setup_cookie>%s</setup_cookie>\n"
         "  <embedded>%d</embedded>\n"
         "</project_init>\n",
         url,
         name,
         team_name,
         account_key,
-        setup_cookie,
         embedded
     );
     fclose(f);

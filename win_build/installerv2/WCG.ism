@@ -1842,7 +1842,6 @@
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>red_dot.png</td><td>_BOINCManagerSkinWCG</td><td>Red_dot.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\Red_dot.png</td><td>1</td><td/></row>
 		<row><td>skin.xml</td><td>_BOINCManagerSkinWCG</td><td>skin.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\skin.xml</td><td>1</td><td/></row>
-		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
 		<row><td>wcg.ico</td><td>_BOINCManagerSkinWCG</td><td>wcg.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg.ico</td><td>1</td><td/></row>
 		<row><td>wcg_32.png</td><td>_BOINCManagerSkinWCG</td><td>wcg_32.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_32.png</td><td>1</td><td/></row>
