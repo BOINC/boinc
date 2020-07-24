@@ -4,7 +4,7 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2015-2019
+# Christian Beer <christian.beer@posteo.de>, 2015-2020
 # Gregor W <33gregg33@gmail.com>, 2020
 # Peter Pogodsky <peterpogodsky@gmx.de>, 2018-2019
 # Sebastian, 2017
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:22+0000\n"
-"Last-Translator: Rom Walton\n"
+"PO-Revision-Date: 2020-07-23 19:10+0000\n"
+"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2662,7 +2662,7 @@ msgstr "Ihre Antwort im reCAPTCHA war nicht korrekt. Bitte versuchen Sie es noch
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr ""
+msgstr "Sie haben unsere Nutzungsbedingungen nicht akzeptiert. Bitte akzeptieren Sie unsere Nutzungsbedingungen auf der vorherigen Seite um ein Konto anlegen zu können"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -3366,7 +3366,7 @@ msgstr "Benutze den BOINC+VirtualBox installateur."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr ""
+msgstr "Wenn es noch nicht auf dem Computer installiert ist, lade es %1hier%2 herunter."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3416,7 +3416,7 @@ msgstr "Um bei %1 teilzunehmen muss %2 auf Ihrem Computer installiert sein."
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr ""
+msgstr "Wenn %1 bereits installiert ist %2klicken sie hier%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."

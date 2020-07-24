@@ -23,9 +23,9 @@
   <string name="attachproject_conflict_not_unique">Konto existiert bereits mit anderem Passwort</string>
   <string name="attachproject_conflict_bad_password">Falsches Passwort</string>
   <string name="attachproject_conflict_unknown_user">Konto existiert nicht</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Konto existiert nicht, bitte die Projektwebseite besuchen, um sich zu registrieren</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Dieses Konto existiert nicht! Bitte besuchen Sie die Projektwebseite, um ein neues Konto zu erstellen.</string>
   <!--working-->
-  <string name="attachproject_working_attaching">hinzufügen %1$s</string>
+  <string name="attachproject_working_attaching">Füge hinzu: %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Hinweis</string>
@@ -103,9 +103,10 @@
   <string name="prefs_category_memory">Arbeitsspeicher</string>
   <string name="prefs_category_other">Sonstiges</string>
   <string name="prefs_category_debug">Fehlerdiagnose</string>
-  <string name="prefs_show_advanced_header">Zeige erweiterte Einstellungen und Steuerungen…</string>
+  <string name="prefs_show_advanced_header">Erweiterte Einstellungen anzeigen</string>
   <string name="prefs_suspend_when_screen_on">Die Berechnung anhalten wenn der Bildschirm eingeschaltet ist</string>
   <string name="prefs_general_device_name_header">Gerätename</string>
+  <string name="prefs_theme_header">Thema</string>
   <string name="prefs_stationary_device_mode_header">Modus für feststehende Geräte</string>
   <string name="prefs_stationary_device_mode_description">Erlaubt die Berechnung unabhängig von den Energieeinstellungen. Nur für Geräte ohne Akku auswählen.</string>
   <string name="prefs_power_source_header">Energiequellen für Berechnung</string>
@@ -114,32 +115,36 @@
   <string name="prefs_power_source_usb">USB Verbindung</string>
   <string name="prefs_power_source_wireless">Kabelloses Ladegerät</string>
   <string name="prefs_power_source_battery">Akku</string>
-  <string name="battery_charge_min_pct_header">Min. Akku-Ladestand</string>
+  <string name="battery_charge_min_pct_header">Minimales Batterie-Niveau (%)</string>
   <string name="battery_charge_min_pct_description">BOINC hält die Berechnung an, wenn der Akkuladestand unter den gewählten Wert sinkt.</string>
-  <string name="battery_temperature_max_header">Max. Akkutemperatur</string>
+  <string name="battery_temperature_max_header">Maximale Batterie-Temperatur (°C)</string>
   <string name="battery_temperature_max_description">BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es wird nicht empfohlen, diesen Wert zu ändern.</string>
-  <string name="prefs_disk_max_pct_header">Max. zu nutzender Speicher</string>
-    <string name="prefs_disk_min_free_gb_header">min. freizuhaltender Speicher</string>
-  <string name="prefs_disk_access_interval_header">Zugriffsintervall</string>
+  <string name="prefs_disk_max_pct_header">Maximaler Speicherplatz (%)</string>
+  <string name="prefs_disk_min_free_gb_header">min. freizuhaltender Speicher (GB)</string>
+  <string name="prefs_disk_access_interval_header">Zugriffsintervall (Sekunden)</string>
   <string name="prefs_disk_access_interval_description">Vorschlag für den Zeitraum zwischen zwei Speicherzugriffen</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">tägliche Transferbegrenzung</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Tägliche Transferbegrenzung (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Tägliche Transferbegrenzung (Tage)</string>
   <string name="prefs_network_wifi_only_header">Übertrage Aufgaben nur per WLAN</string>
   <string name="prefs_autostart_header">Automatisch starten</string>
   <string name="prefs_show_notification_notices_header">Zeige Meldung für neue Nachrichten</string>
   <string name="prefs_show_notification_suspended_header">Zeige Nachrichten wenn angehalten</string>
   <string name="prefs_cpu_number_cpus_header">Benutzte Prozessoren</string>
   <string name="prefs_cpu_number_cpus_description">Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Anhalten wenn Prozessornutzung über</string>
+  <string name="prefs_cpu_other_load_suspension_header">Anhalten, wenn Prozessornutzung über (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Legt fest, wann BOINC aufgrund der CPU-Nutzung anderer Apps pausiert wird</string>
-  <string name="prefs_cpu_time_max_header">Prozessorbegrenzung</string>
+  <string name="prefs_cpu_time_max_header">Prozessorbegrenzung (%)</string>
   <string name="prefs_cpu_time_max_description">Limitiert die Prozessorzeit, die BOINC nutzen darf.</string>
-  <string name="prefs_memory_max_idle_header">Arbeitsspeicherlimit</string>
+  <string name="prefs_memory_max_idle_header">Arbeitsspeicherlimit (%)</string>
   <string name="prefs_memory_max_idle_description">Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht.</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer (Tage)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer (Tage)</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
+  <string name="prefs_theme_light">Hell</string>
+  <string name="prefs_theme_dark">Dunkel</string>
+  <string name="prefs_theme_system">Systemstandard</string>
   <!--projects tab strings-->
   <string name="projects_add">Projekt hinzufügen</string>
   <string name="projects_icon">Projektsymbol</string>
@@ -153,7 +158,7 @@
   <string name="projects_status_schedrpcpending">Serveranfrage ausstehend</string>
   <string name="projects_status_schedrpcinprogress">Serveranfrage läuft</string>
   <string name="projects_status_trickleuppending">Trickle-Up Nachricht ausstehend</string>
-  <string name="projects_status_backoff">nächste Kommunikation in: %1$s</string>
+  <string name="projects_status_backoff">Nächste Kommunikation in: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektbefehle:</string>
   <string name="projects_control_visit_website">Webseite besuchen</string>
@@ -168,11 +173,10 @@
   <string name="projects_control_sync_acctmgr">Synchronisieren</string>
   <string name="projects_control_remove_acctmgr">Deaktivieren</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Wollen Sie wirklich</string>
+  <string name="projects_confirm_title">Projekt %1$s?</string>
   <string name="projects_confirm_detach_confirm">Entfernen</string>
   <string name="projects_confirm_reset_confirm">Zurücksetzen</string>
   <string name="projects_confirm_remove_acctmgr_title">Kontoverwaltung deaktivieren</string>
-  <string name="projects_confirm_remove_acctmgr_message">Sind Sie sicher die Kontoverwaltung zu entfernen</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Deaktivieren</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Aufgabenname:</string>
@@ -180,7 +184,6 @@
   <string name="tasks_header_project_paused">(angehalten)</string>
   <string name="tasks_header_deadline">Ablaufdatum:</string>
   <string name="tasks_result_new">neu</string>
-  <string name="tasks_result_files_downloading">Warten auf Herunterladen</string>
   <string name="tasks_result_files_downloaded">herunterladen abgeschlossen</string>
   <string name="tasks_result_compute_error">Berechnungsfehler</string>
   <string name="tasks_result_files_uploading">hochladen</string>
@@ -204,7 +207,7 @@
   <!--transfers tab strings-->
   <string name="trans_upload">Hochladen</string>
   <string name="trans_download">Herunterladen</string>
-  <string name="trans_retry_in">erneut versuchen in %1$s</string>
+  <string name="trans_retry_in">Erneuter Versuch in  %1$s</string>
   <string name="trans_suspended">angehalten</string>
   <string name="trans_active">aktiv</string>
   <string name="trans_pending">ausstehend</string>
@@ -231,7 +234,7 @@
   <string name="suspend_os">Gestoppt von Android.</string>
   <string name="suspend_wifi">Nicht per WLAN verbunden.</string>
   <string name="suspend_battery_charging">Warten bis der Akku geladen ist.</string>
-  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt wenn der Ladezustand größer</string>
+  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt, wenn der Ladezustand größer %1$d% ist (aktuell: %2$d%)</string>
   <string name="suspend_battery_overheating">Warten bis der Akku abgekühlt ist</string>
   <string name="suspend_user_req">Berechnung wird fortgesetzt…</string>
   <!--rpc reasons-->
@@ -260,7 +263,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2019 Universität von Kalifornien, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2020 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Dank dem Max Planck Institut für Gravitationsphysik, IBM und HTC, für die Unterstützung.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -280,4 +283,7 @@
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">https://www.amazon.de/gp/product/B00DCCGLAG</string>
+  <!--Main notification channel (notices)-->
+  <string name="main_notification_channel_name">Nachrichten</string>
+  <string name="main_notification_channel_description">Nachrichten von den Projekten anzeigen.</string>
 </resources>

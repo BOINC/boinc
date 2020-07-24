@@ -11,6 +11,7 @@
 # K Z <zagorskikarol@op.pl>, 2020
 # Maciej Długosz, 2017-2020
 # Maciej Jackowski <maciej.jackowski@outlook.com>, 2016
+# Rafał Ćwirta <kantek1006@gmail.com>, 2020
 # Rafał Kaźmierczak <prometh.dragu@gmail.com>, 2015
 # 05981a52dc258bbec6a48b1f86f28b31, 2016-2017
 # tak na <be84v6ubqlmh@10minut.xyz>, 2018
@@ -20,8 +21,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:22+0000\n"
-"Last-Translator: Daniel Frużyński <daniel@poradnik-webmastera.com>\n"
+"PO-Revision-Date: 2020-07-23 20:18+0000\n"
+"Last-Translator: Rafał Ćwirta <kantek1006@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/boinc/boinc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2810,7 +2811,7 @@ msgstr "Wynik dowodu własności konta"
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr ""
+msgstr "Funkcja dowodu własności konta nie jest poprawnie skonfigurowana. Skontaktuj się z administratorem projektu, aby rozwiązać problem."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
