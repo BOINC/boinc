@@ -1214,8 +1214,6 @@ int ACCT_MGR_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_string("acct_mgr_name", acct_mgr_name)) continue;
         if (xp.parse_string("acct_mgr_url", acct_mgr_url)) continue;
         if (xp.parse_bool("have_credentials", have_credentials)) continue;
-        if (xp.parse_bool("cookie_required", cookie_required)) continue;
-        if (xp.parse_string("cookie_failure_url", cookie_failure_url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1224,8 +1222,6 @@ void ACCT_MGR_INFO::clear() {
     acct_mgr_name = "";
     acct_mgr_url = "";
     have_credentials = false;
-    cookie_required = false;
-    cookie_failure_url = "";
 }
 
 ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
@@ -1284,7 +1280,6 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
-        if (xp.parse_string("setup_cookie", setup_cookie)) continue;
         if (xp.parse_bool("has_account_key", has_account_key)) continue;
         if (xp.parse_bool("embedded", embedded)) continue;
     }
@@ -1295,7 +1290,6 @@ void PROJECT_INIT_STATUS::clear() {
     url.clear();
     name.clear();
     team_name.clear();
-    setup_cookie.clear();
     has_account_key = false;
     embedded = false;
 }
@@ -1377,9 +1371,7 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
-    server_cookie.clear();
     ldap_auth = false;
-    server_assigned_cookie = false;
     consented_to_terms = false;
 }
 
@@ -2377,15 +2369,11 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <ldap_auth>%d</ldap_auth>\n"
-		"   <server_assigned_cookie>%d</server_assigned_cookie>\n"
-		"   <server_cookie>%s</server_cookie>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
-        ai.ldap_auth?1:0,
-		ai.server_assigned_cookie?1:0,
-	    ai.server_cookie.c_str()
+        ai.ldap_auth?1:0
     );
     buf[sizeof(buf)-1] = 0;
 

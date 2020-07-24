@@ -98,7 +98,7 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 }
 
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
-    remote_hosts_file_exists = false;
+    remote_hosts_configured = false;
     lsock = -1;
     time_of_last_rpc_needing_network = 0;
     safe_strcpy(password,"");
@@ -196,13 +196,11 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
-    remote_hosts_file_exists = false;
 
     // scan remote_hosts.cfg, convert names to IP addresses
     //
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f) {
-        remote_hosts_file_exists = true;
         if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] found allowed hosts list"
@@ -228,6 +226,9 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         }
         fclose(f);
     }
+
+    remote_hosts_configured = !allowed_remote_ip_addresses.empty();
+
     return 0;
 }
 
@@ -323,7 +324,7 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (cc_config.allow_remote_gui_rpc || remote_hosts_file_exists) {
+    if (cc_config.allow_remote_gui_rpc || remote_hosts_configured) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.gui_rpc_debug) {
             msg_printf(NULL, MSG_INFO, "[gui_rpc] Remote control allowed");
