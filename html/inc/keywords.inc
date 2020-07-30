@@ -88,6 +88,7 @@ define('KW_HOLLAND',        61);
 define('KW_CHEMISTRY',      62);
 define('KW_GAMES',          63);
 define('KW_VIRUS',          64);
+define('KW_FRANCE',         65);
 
 $job_keywords = array();
 
@@ -193,6 +194,9 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
         keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_CZECH,
             'Charles University in Prague'
         );
+    keyword('KW_FRANCE', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'France'
+    );
     keyword('KW_GERMANY', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Germany'
     );
