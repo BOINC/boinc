@@ -163,9 +163,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
-#ifndef __WXMSW__
     EVT_MENU_OPEN(CAdvancedFrame::OnMenuOpening)
-#endif
     // View
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
