@@ -145,10 +145,7 @@ First checked in.
 // By default, the system only gives us the one that's appropriate 
 // for our machine.  So we include both here.
 
-#if TARGET_CPU_PPC
-#include <mach/ppc/thread_status.h>
-#endif
-#include <mach/i386/thread_status.h>
+//#include <mach/i386/thread_status.h>
 
 #if defined(__cplusplus)
 	}
@@ -942,146 +939,6 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
     }
 }
 
-#if TARGET_CPU_PPC
-static void PrintPowerPCThreadState(
-    QCrashReportRef crRef, 
-    const char *    threadID, 
-    FILE *          f
-)
-    // Prints a PowerPC 32-bit thread state based on the thread state of the crashed 
-    // thread.
-    //
-    // I'm really not happy with this.  For a start, there's a whole bunch code  
-    // that's shared between the various CPU architecture printing routines that 
-    // could be factored out.  However, doing that nicely would require me to 
-    // strike a difficult balance between flexibility and complexity.
-    // 
-    // Secondly, it would be nice if this routine was explicitly passed the 
-    // thread state so that it could work on things other than the crashed 
-    // thread.  And that has implications for the API that wraps this up 
-    // (QCRPrintThreadState).
-    //
-    // Hmmm, what to do.  Nothing at the moment.  Also spent way too much time 
-    // on this code.
-{
-    const ppc_thread_state_t *      state;
-    const unsigned int *            regBase;
-    int                             reg;
-    char                            regName[32];
-    
-    assert( QCRIsValid(crRef) );
-    assert(crRef->crashedThreadIndex != kQCRNoThread);
-    assert( crRef->threads[crRef->crashedThreadIndex].state != NULL );
-    assert( crRef->threads[crRef->crashedThreadIndex].stateFlavor == PPC_THREAD_STATE );
-    
-    if (crRef->threads[crRef->crashedThreadIndex].stateSize == (PPC_THREAD_STATE_COUNT * sizeof(integer_t))) {
-        state = (const ppc_thread_state_t *) crRef->threads[crRef->crashedThreadIndex].state;
-/*
-Thread 0 crashed with PPC Thread State:
-  srr0: 0x01be8f98 srr1: 0x0200f030                vrsave: 0x00000000
-   xer: 0x20000000   lr: 0x01be49bc  ctr: 0x00000000   mq: 0x00000000
-    r0: 0x01be49b4   r1: 0xbffff630   r2: 0x0188e250   r3: 0xffffffff
-    r4: 0x00000052   r5: 0x00000004   r6: 0x00000000   r7: 0xbffff7cf
-    r8: 0xbffffcc7   r9: 0x0000000b  r10: 0xa0000d84  r11: 0xa00041f4
-   r12: 0x0188e3a4  r13: 0x00000000  r14: 0x00000000  r15: 0x00000000
-   r16: 0x00000000  r17: 0x00000000  r18: 0x00000000  r19: 0x00000000
-   r20: 0x00ca0275  r21: 0xbffffa00  r22: 0xbffffcce  r23: 0xbffffccc
-   r24: 0xbffffcc4  r25: 0xbffffb20  r26: 0xbffffcc4  r27: 0xbffffcc4
-   r28: 0x0188d650  r29: 0x01be92d8  r30: 0xbffff900  r31: 0x01be92e0
-*/
-        fprintf(f, "%s crashed with PPC Thread State:\n", threadID);
-#ifndef __LP64__
-        fprintf(f, "  srr0: 0x%08x srr1: 0x%08x                vrsave: 0x%08x\n", state->srr0, state->srr1, state->vrsave);
-        fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->xer, state->lr, state->ctr, state->mq);
-
-        regBase = (const unsigned int *) &state->r0;
-#else
-        fprintf(f, "  srr0: 0x%08x srr1: 0x%08x                vrsave: 0x%08x\n", state->srr0, state->srr1, state->vrsave);
-        fprintf(f, "   xer: 0x%08x   lr: 0x%08x  ctr: 0x%08x   mq: 0x%08x\n", state->xer, state->lr, state->ctr, state->mq);
-
-        regBase = (const unsigned int *) &state->r0;
-#endif
-        for (reg = 0; reg < 32; reg++) {
-            if ((reg % 4) == 0) {
-                fprintf(f, " ");
-            }
-            snprintf(regName, sizeof(regName), "r%d", reg);
-            fprintf(f, "%4s: 0x%08x", regName, regBase[reg]);
-            
-            if ((reg % 4) == 3) {
-                fprintf(f, "\n");
-            }
-        }
-        fprintf(f, "\n");
-    }
-
-}
-
-static void PrintPowerPC64ThreadState(
-    QCrashReportRef crRef, 
-    const char *    threadID, 
-    FILE *          f
-)
-    // Prints a PowerPC 64-bit thread state based on the thread state of the 
-    // crashed thread.
-    //
-    // See PrintPowerPCThreadState for comments about the overall approach.
-{
-    const ppc_thread_state64_t *    state;
-    const unsigned long long *      regBase;
-    int                             reg;
-    char                            regName[32];
-    
-    assert( QCRIsValid(crRef) );
-    assert(crRef->crashedThreadIndex != kQCRNoThread);
-    assert( crRef->threads[crRef->crashedThreadIndex].state != NULL );
-    assert( crRef->threads[crRef->crashedThreadIndex].stateFlavor == PPC_THREAD_STATE64 );
-    
-    if (crRef->threads[crRef->crashedThreadIndex].stateSize == (PPC_THREAD_STATE64_COUNT * sizeof(integer_t))) {
-        state = (const ppc_thread_state64_t *) crRef->threads[crRef->crashedThreadIndex].state;
-
-/*
-Thread 0 crashed with PPC Thread State 64:
-  srr0: 0x0000000000000000 srr1: 0x000000004000d030                        vrsave: 0x0000000000000000
-    cr: 0x44022282          xer: 0x0000000020000004   lr: 0x000000009000b15c  ctr: 0x000000009000b200
-    r0: 0x00000000ffffffe1   r1: 0x00000000bfffeb10   r2: 0x00000000a073cdec   r3: 0x0000000010004005
-    r4: 0x0000000003000006   r5: 0x0000000000000000   r6: 0x0000000000000450   r7: 0x0000000000001203
-    r8: 0x0000000000000000   r9: 0x0000000000000000  r10: 0x0000000000000003  r11: 0x00000000a0006a2c
-   r12: 0x000000009000b200  r13: 0x0000000000000000  r14: 0x0000000000000001  r15: 0x0000000000000001
-   r16: 0x0000000000000000  r17: 0x0000000000000000  r18: 0x000000000000430f  r19: 0x0000000000000000
-   r20: 0x00000000101a6e8a  r21: 0x00000000f8bd9d7f  r22: 0x0000000000310808  r23: 0x00000000bfffebe0
-   r24: 0x0000000000000450  r25: 0x0000000000001203  r26: 0x0000000000000000  r27: 0x0000000000000000
-   r28: 0x0000000000000000  r29: 0x0000000003000006  r30: 0x0000000003000006  r31: 0x000000009075cdec
-*/
-
-        fprintf(f, "%s crashed with PPC Thread State:\n", threadID);
-#ifndef __LP64__
-        fprintf(f, "  srr0: 0x%016llx srr1: 0x%016llx                        vrsave: 0x%016x\n", state->srr0, state->srr1, state->vrsave);
-        fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->cr, state->xer, state->lr, state->ctr);
-
-        regBase = (const unsigned long long *) &state->r0;
-#else
-        fprintf(f, "  srr0: 0x%016llx srr1: 0x%016llx                        vrsave: 0x%016x\n", state->srr0, state->srr1, state->vrsave);
-        fprintf(f, "    cr: 0x%08x          xer: 0x%016llx   lr: 0x%016llx  ctr: 0x%016llx\n", state->cr, state->xer, state->lr, state->ctr);
-
-        regBase = (const unsigned long long *) &state->r0;
-#endif
-        for (reg = 0; reg < 32; reg++) {
-            if ((reg % 4) == 0) {
-                fprintf(f, " ");
-            }
-            snprintf(regName, sizeof(regName), "r%d", reg);
-            fprintf(f, "%4s: 0x%016llx", regName, regBase[reg]);
-            
-            if ((reg % 4) == 3) {
-                fprintf(f, "\n");
-            }
-        }
-        fprintf(f, "\n");
-    }
-}
-#endif // TARGET_CPU_PPC
-
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
 
 static void PrintX86ThreadState(
@@ -1215,26 +1072,6 @@ extern void QCRPrintThreadState(QCrashReportRef crRef, FILE *f)
         // Each CPU type has its own thread state flavor namespace, although it's 
         // shared by the 32- and 64-bit variants.
         switch (crRef->actualCPUType) {
-#if TARGET_CPU_PPC
-            case CPU_TYPE_POWERPC:
-#if 0       // BOINC does not support 64-bit PowerPC
-            case CPU_TYPE_POWERPC64:
-#endif
-                switch (crRef->threads[crRef->crashedThreadIndex].stateFlavor) {
-                    case PPC_THREAD_STATE:
-                        PrintPowerPCThreadState(crRef, threadID, f);
-                        break;
-                    case PPC_THREAD_STATE64:
-                        PrintPowerPC64ThreadState(crRef, threadID, f);
-                        break;
-                    default:
-                        assert(false);
-                        break;
-                }
-                break;
-#endif  // TARGET_CPU_PPC
-
-
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
             case CPU_TYPE_X86:
             case CPU_TYPE_X86_64:

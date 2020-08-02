@@ -104,6 +104,8 @@ void CLIENT_STATE::detect_platforms() {
     if (compareOSVersionTo(10, 15) < 0) {
         add_platform("i686-apple-darwin");
     }
+#elif defined(__arm64__)
+    add_platform("arm64-apple-darwin");
 #else
 #error Mac client now requires a 64-bit system
 #endif

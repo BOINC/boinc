@@ -221,6 +221,8 @@ void PrintBacktrace(void) {
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
 #elif defined (__i386__)
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+#elif defined (__arm64__)
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch arm", pathToThisProcess);
 #else
         snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
 #endif
@@ -232,7 +234,7 @@ void PrintBacktrace(void) {
     }
 
     if (cppfiltExists) {
-        cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
+        cppfiltPipe = popen("/usr/bin/c++filt -s gnu -n", "r+");
         if (cppfiltPipe) {
             setbuf(cppfiltPipe, 0);
         }
