@@ -285,7 +285,7 @@ bool CWizardAttach::Run(
     if (m_ProjectPropertiesPage && m_ProjectInfoPage && m_ProjectWelcomePage) {
         IsAttachToProjectWizard = true;
         IsAccountManagerWizard = false;
-        if ((strProjectName.size() && strProjectURL.size()) || !bEmbedded) {
+        if ((strProjectName.size() && strProjectURL.size())) {
             return RunWizard(m_ProjectWelcomePage);
         } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected())) {
             return RunWizard(m_ProjectPropertiesPage);
