@@ -1111,6 +1111,17 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     if (exitItem) {
         exitItem->Enable(true);
     }
+
+    // Specific menu items to keep enabled always (Switch to simple view and "other options")
+    wxMenuItem* simpleViewItem = menu->FindChildItem(ID_CHANGEGUI, NULL);
+    if (simpleViewItem) {
+        simpleViewItem->Enable(true);
+    }
+
+    wxMenuItem* otherOptionsItem = menu->FindChildItem(ID_OPTIONS, NULL);
+    if (otherOptionsItem) {
+        otherOptionsItem->Enable(true);
+    }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
