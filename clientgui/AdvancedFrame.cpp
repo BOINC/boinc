@@ -163,9 +163,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
-#ifndef __WXMSW__
     EVT_MENU_OPEN(CAdvancedFrame::OnMenuOpening)
-#endif
     // View
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
@@ -1112,6 +1110,17 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     wxMenuItem* exitItem = menu->FindChildItem(wxID_EXIT, NULL);
     if (exitItem) {
         exitItem->Enable(true);
+    }
+
+    // Specific menu items to keep enabled always (Switch to simple view and "other options")
+    wxMenuItem* simpleViewItem = menu->FindChildItem(ID_CHANGEGUI, NULL);
+    if (simpleViewItem) {
+        simpleViewItem->Enable(true);
+    }
+
+    wxMenuItem* otherOptionsItem = menu->FindChildItem(ID_OPTIONS, NULL);
+    if (otherOptionsItem) {
+        otherOptionsItem->Enable(true);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
