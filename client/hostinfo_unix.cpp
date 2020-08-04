@@ -829,22 +829,8 @@ static void get_cpu_info_mac(HOST_INFO& host) {
         "%s [x86 Family %d Model %d Stepping %d]",
         brand_string, family, model, stepping
     );
-#else       // PowerPC
-    char model[256];
-    int response = 0;
-    int retval;
-    len = sizeof(response);
-    retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
-    if (response && (!retval)) {
-        safe_strcpy(host.p_features, "AltiVec");
-    }
-
-    len = sizeof(model);
-    sysctlbyname("hw.model", model, &len, NULL, 0);
-
-    safe_strcpy(host.p_vendor, "Power Macintosh");
-    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, host.p_features);
-
+#else
+// TODO: Add code for Apple arm64 CPU
 #endif
 
     host.p_model[p_model_size-1] = 0;

@@ -55,7 +55,7 @@
 #include <process.h>
 #endif
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+#ifdef __APPLE__
 #include <mach-o/loader.h>
 #include <mach-o/fat.h>
 #include <mach/machine.h>
@@ -989,9 +989,10 @@ int ACTIVE_TASK::start(bool test) {
     }
     app_client_shm.reset_msgs();
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+#ifdef __APPLE__
     // PowerPC apps emulated on i386 Macs crash if running graphics
-    powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
+// TODO: We may need to adapt this for x86_64 emulated on arm64
+//    powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
 #endif
     if (cc_config.run_apps_manually) {
         pid = getpid();     // use the client's PID
@@ -1248,12 +1249,13 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     return 0;
 }
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-
+#ifdef __APPLE__
 union headeru {
     fat_header fat;
     mach_header mach;
 };
+
+// TODO: We may need to adapt this for x86_64 emulated on arm64
 
 // Read the mach-o headers to determine the architectures
 // supported by executable file.

@@ -182,8 +182,9 @@ struct ACTIVE_TASK {
         return _task_state;
     }
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+#ifdef __APPLE__
     // PowerPC apps emulated on i386 Macs crash if running graphics
+// TODO: We may need to adapt this for x86_64 emulated on arm64
     int powerpc_emulated_on_i386;
     int is_native_i386_app(char*);
 #endif

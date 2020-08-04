@@ -40,7 +40,7 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #endif
 #endif
 
-#if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
+#ifdef __APPLE__
 #include <sys/sysctl.h>
 extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
@@ -106,6 +106,7 @@ void CLIENT_STATE::detect_platforms() {
     }
 #elif defined(__arm64__)
     add_platform("arm64-apple-darwin");
+//TODO: Should we add_platform("x86_64-apple-darwin") if Apple Rosetta emulator is available? 
 #else
 #error Mac client now requires a 64-bit system
 #endif
