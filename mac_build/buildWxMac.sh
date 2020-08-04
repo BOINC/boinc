@@ -39,7 +39,7 @@
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
 # Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
 # Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
-# Updated 7/28/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 8/4/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.6 or later
 ##
@@ -390,7 +390,7 @@ else
     ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
     ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
     ## Xcode versions that can, otherwise it builds only the X86_64 library.
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX
