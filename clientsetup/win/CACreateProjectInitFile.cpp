@@ -67,11 +67,18 @@ UINT CACreateProjectInitFile::OnExecution()
 {
     tstring          strSetupExeName;
     tstring          strDataDirectory;
+    tstring          strProjectInitUrl;
+    tstring          strProjectInitAuthenticator;
     PROJECT_INIT     pi;
     UINT             uiReturnValue = 0;
 
-
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("PROJINIT_URL"), strProjectInitUrl );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("PROJINIT_AUTH"), strProjectInitAuthenticator );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("SETUPEXENAME"), strSetupExeName );
@@ -85,8 +92,33 @@ UINT CACreateProjectInitFile::OnExecution()
         NULL,
         _T("Changing to the data directory")
     );
-
     _tchdir(strDataDirectory.c_str());
+
+    // write project_init.xml if project info was passed on cmdline
+    //
+    if (!strProjectInitUrl.empty()) {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Detected command line parameters")
+        );
+
+        pi.init();
+
+        strncpy(pi.url, CW2A(strProjectInitUrl.c_str()), sizeof(pi.url)-1);
+        strncpy(pi.name, CW2A(strProjectInitUrl.c_str()), sizeof(pi.name)-1);
+            // Use project URL as name
+            // TODO: add a cmdline arg for project name
+        strncpy(pi.account_key, CW2A(strProjectInitAuthenticator.c_str()), sizeof(pi.account_key)-1);
+
+        pi.embedded = false;
+
+        pi.write();
+
+    }
 
     // write installer filename to a file
     //
