@@ -2251,9 +2251,7 @@
 				DD3E14DE0A774397007E0084 /* Sources */,
 				DD3E15300A774397007E0084 /* Frameworks */,
 				DD3E15350A774397007E0084 /* CopyFiles */,
-				DD73550C0D91105F0006A9D1 /* ShellScript */,
 				DD3E15390A774397007E0084 /* ShellScript */,
-				DDEE5E8E0D9112AF0056A99E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2503,9 +2501,7 @@
 			buildPhases = (
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
-				DD7355180D9110AE0006A9D1 /* ShellScript */,
 				DD1B90070A954C9A00FF5591 /* ShellScript */,
-				DD73551E0D9111150006A9D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2815,50 +2811,6 @@
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
-		DD73550C0D91105F0006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app.dSYM\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n\n";
-		};
-		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n##    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n\n";
-		};
-		DD73551E0D9111150006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\nfi\n";
-		};
 		DD818296245EDA220076E5D0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2938,21 +2890,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMig.h\" -nt \"${SRCROOT}/../api/MultiGPUMig.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMig.h\" \"${SRCROOT}/../api/MultiGPUMig.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.h\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.h\" \"${SRCROOT}/../api/MultiGPUMigServer.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.c\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.c\" \"${SRCROOT}/../api/MultiGPUMigServer.c\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigUser.c\" -nt \"${SRCROOT}/../api/MultiGPUMigUser.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigUser.c\" \"${SRCROOT}/../api/MultiGPUMigUser.c\"\nfi\n";
-		};
-		DDEE5E8E0D9112AF0056A99E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-				"",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\nfi\n";
 		};
 		DDF9B764245C12AA00587EBE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
