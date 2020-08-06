@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
             return errno;
         } else {   // if screensaverLoginUser
 #if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher using fork()");;
+            print_to_log_file("gfx_switcher using fork()");
 #endif
             int pid = fork();
             if (pid == 0) {
@@ -182,10 +182,16 @@ int main(int argc, char** argv) {
                 // full path twice in the argument list to execv.
                 execv(resolved_path, argv+2);
                 // If we got here execv failed
+#if VERBOSE           // For debugging only
+                print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+#endif
                 fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
                 return errno;
             } else {
                 char shmem_name[MAXPATHLEN];
+#if VERBOSE           // For debugging only
+                print_to_log_file("gfx_switcher: Child PID=%d", pid);
+#endif
                 snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
                 retval = attach_shmem_mmap(shmem_name, (void**)&pid_for_shmem);
                 if (pid_for_shmem != 0) {
@@ -280,10 +286,24 @@ void * MonitorScreenSaverEngine(void* param) {
     while (true) {
         boinc_sleep(1.0);  // Test every second
         ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine");
-        if (ScreenSaverEngine_Pid == 0) {
-            kill(graphics_Pid, SIGKILL);
 #if VERBOSE           // For debugging only
-            print_to_log_file("MonitorScreenSaverEngine calling kill(%d, SIGKILL", graphics_Pid);
+        print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_Pid=%d", ScreenSaverEngine_Pid);
+#endif
+        if (ScreenSaverEngine_Pid == 0) {
+#ifdef __x86_64__
+            ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine.legacyScreenSaver.x86_64");
+#elif defined(__arm64__)
+            ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine.legacyScreenSaver.arm64");
+#endif
+#if VERBOSE           // For debugging only
+        print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
+#endif
+        }
+     
+    if (ScreenSaverEngine_Pid == 0) {
+        kill(graphics_Pid, SIGKILL);
+#if VERBOSE           // For debugging only
+        print_to_log_file("MonitorScreenSaverEngine calling kill(%d, SIGKILL", graphics_Pid);
 #endif
             return 0;
         }
