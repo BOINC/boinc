@@ -137,9 +137,13 @@ static void maybe_render() {
                     ypos = new_ypos;
                     width = new_width;
                     height = new_height;
+
                 } else {
                     if (size_changed && (++size_changed > 10)) {
                         size_changed = 0;
+#ifdef __APPLE__
+                        ClearDocumentEditedDot();
+#endif
                         FILE *f = boinc_fopen("gfx_info", "w");
                         if (f) {
                             // ToDo: change this to XML
