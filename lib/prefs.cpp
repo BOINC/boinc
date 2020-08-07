@@ -233,9 +233,6 @@ void GLOBAL_PREFS::defaults() {
     network_wifi_only = false;
 #endif
     ram_max_used_busy_frac = 0.5;
-#ifdef ANDROID
-    ram_max_used_idle_frac = 0.9;
-#else
     ram_max_used_idle_frac = 0.9;
 #endif
     run_gpu_if_user_active = false;
