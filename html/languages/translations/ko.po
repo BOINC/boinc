@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:22+0000\n"
+"PO-Revision-Date: 2020-08-07 08:34+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1365,7 +1365,7 @@ msgstr "이 시간 사이에만 작업"
 
 #: html/inc/prefs.inc:108
 msgid "Compute only during a particular period each day."
-msgstr "각 날짜별로 특정 시간대에만 연산을 수행합니다."
+msgstr "각 날짜별로 특정 시간대에만 연산"
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
 #: html/user/forum_banishment_vote.php:70
@@ -2522,7 +2522,7 @@ msgstr "계정 키"
 
 #: html/inc/user.inc:291
 msgid "Account Ownership"
-msgstr "계정 소유권"
+msgstr "계정 소유구"
 
 #: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
@@ -2660,7 +2660,7 @@ msgstr "ReCaptcha 응답이 틀렸습니다. 다시 시도해 주세요."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr "이용 약관에 동의하지 않았습니다. 계정을 생성하려면, 이전 페이지로 되돌아가서 이용 약관에 동의해 주십시오"
+msgstr "아직 이용 약관에 동의하지 않았습니다. 계정을 생성하려면, 이전 페이지로 돌아가서 이용 약관에 동의해 주세요."
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2802,7 +2802,7 @@ msgstr "계정 소유권 증명 결과"
 msgid ""
 "The proof of account ownership feature is not set up properly. Contact the "
 "project administrator to resolve the issue."
-msgstr "계정 소유권 증명 기능이 적절하게 설정되지 않았습니다. 이 문제를 해결하려면 프로젝트 관리자에게 접촉하십시오."
+msgstr "계정 소유권 증명 기능이 적절하게 설정되지 않았습니다. 이 문제를 해결하려면 프로젝트 관리자에게 연락하세요."
 
 #. The generated signature has not been verified. The private/public keys do
 #. not match.
@@ -2810,21 +2810,21 @@ msgstr "계정 소유권 증명 기능이 적절하게 설정되지 않았습니
 msgid ""
 "Signature verification failed. Contact the project administrator to resolve "
 "the issue."
-msgstr "서명 인증에 실패했습니다. 이 문제를 해결하려면 프로젝트 관리자에게 접촉하십시오."
+msgstr "서명 인증이 실패했습니다. 이 문제를 해결하려면 프로젝트 관리자에게 연락하세요."
 
 #. Something has gone wrong & an error has occurred.
 #: html/user/account_ownership.php:111
 msgid ""
 "An error occurred during the signature verification. Contact the project "
 "administrator to resolve the issue."
-msgstr "서명 인증 도중에 오류가 발새했습니다. 이 문제를 해결하려면 프로젝트 관리자에게 접촉하십시오."
+msgstr "서명 인증 중 오류가 발생했습니다. 이 문제를 해결하려면 프로젝트 관리자에게 연락하세요."
 
 #. User data input invalid
 #: html/user/account_ownership.php:115
 msgid ""
 "Invalid input. User input must have a length > 0 and < 4096. <form><input "
 "type='button' value='Go back!'' onclick='history.back()'></form>"
-msgstr "잘못된 입력값입니다. 길이가 0보다 크고 4096보다 작아야 합니다. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
+msgstr "잘못된 입력값. 길이가 0 이상 4096 이하 값을 입력해야 합니다. <form><input type='button' value='Go back!'' onclick='history.back()'></form>"
 
 #. GET request - the user has navigated to the page.
 #: html/user/account_ownership.php:121
@@ -2833,7 +2833,7 @@ msgstr "계정 소유권 증명 생성하기"
 
 #: html/user/account_ownership.php:157
 msgid "Generate"
-msgstr "생ㅅ"
+msgstr "생성 시각"
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3350,21 +3350,21 @@ msgstr "이 프로젝트는 VirtualBox를 요구합니다."
 
 #: html/user/download_software.php:177
 msgid "This project recommends VirtualBox."
-msgstr "이 프로젝트는 VirtualBox 사용을 추천합니다."
+msgstr "이 프로젝트는 VirtualBox 사용을 권장합니다."
 
 #: html/user/download_software.php:183
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
-msgstr "만약 이 컴퓨터에 설치되지 않았다면, %1여기%2에서 다운받고 BOINC를 재시작하세요."
+msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하고 BOINC를 다시 시작하세요."
 
 #: html/user/download_software.php:191
 msgid "Use the BOINC+VirtualBox installer."
-msgstr "BOINC+VirtualBox 인스톨러를 사용하세요."
+msgstr "BOINC+VirtualBox 인스톨러를 사용해 보세요."
 
 #: html/user/download_software.php:194
 msgid "If it is not installed on this computer, get it %1here%2."
-msgstr "만약 이 컴퓨터에 설치되지 않았다면, %1여기%2에서 다운받으세요."
+msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하세요."
 
 #: html/user/download_software.php:208
 msgid "Download BOINC"
@@ -3414,7 +3414,7 @@ msgstr "%1에 참여하려면, %2가 반드시 여러분 컴퓨터에 설치되�
 
 #: html/user/download_software.php:270
 msgid "If %1 already installed, %2click here%3."
-msgstr "이미 %1 이 설치되었다면, %2여기를 누르세요%3."
+msgstr "만약 %1이 이미 설치되었다면, %2여기를 클릭하세요%3."
 
 #: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
@@ -5374,7 +5374,7 @@ msgstr "이 웹 사이트는 다양한 언어로 이용할 수 있습니다. 현
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr "보통 언어 설정은 여러분의 브라우저 언어 설정을 따릅니다. 현재 언어: %1.  이 언어로 바꾸기: "
+msgstr "보통 언어 설정은 여러분의 브라우저 언어 설정을 따릅니다. 현재 언어: %1  이 언어로 바꾸기: "
 
 #: html/user/language_select.php:67
 msgid "Firefox: Tools/Options/General"
@@ -7105,7 +7105,7 @@ msgstr "최대 CPU 수"
 
 #: db/content.sql:8
 msgid "General terms-of-use for this BOINC project."
-msgstr "해당 BOINC 프로젝트용 일반 이용 약관입니다."
+msgstr "해당 BOINC 프로젝트용 일반 이용 약관"
 
 #: db/content.sql:9
 msgid ""
