@@ -26,6 +26,8 @@
 #endif
 
 #ifdef __APPLE__
+#define VERBOSE 0
+
 #include <Carbon/Carbon.h>
 #include <sys/wait.h>
 #include <app_ipc.h>
@@ -48,6 +50,17 @@ extern pthread_mutex_t saver_mutex;
 #include "str_util.h"
 #include "str_replace.h"
 #include "screensaver.h"
+
+#ifdef __APPLE__
+#undef BOINCTRACE
+#if VERBOSE
+#define BOINCTRACE print_to_log_file
+#else
+#define BOINCTRACE(...)
+#endif
+
+#define _T
+#endif
 
 // Platform specific application includes
 //
