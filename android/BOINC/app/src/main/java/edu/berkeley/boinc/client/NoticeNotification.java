@@ -144,7 +144,7 @@ public class NoticeNotification {
                     .setContentText(notice.getDescription())
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(notice.getDescription()))
                     .setLargeIcon(getLargeProjectIcon(context, notice.getProjectName()))
-                    .setSmallIcon(R.drawable.ic_boinc)
+                    .setSmallIcon(R.drawable.ic_boinc_notice)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setGroup(NOTICE_GROUP);
 
@@ -158,7 +158,8 @@ public class NoticeNotification {
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
         final int icon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.drawable.ic_boinc;
-        final int smallIcon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_boinc_white : R.drawable.ic_boinc;
+        final int smallIcon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ?
+                              R.mipmap.ic_boinc_notice_white : R.drawable.ic_boinc_notice;
         // build new notification from scratch every time a notice arrives
         final NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel")
                 .setContentTitle(context.getResources().getQuantityString(R.plurals.notice_notification,
@@ -192,10 +193,10 @@ public class NoticeNotification {
     }
 
     private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
-        final Bitmap projectIconBitmap;
+        final Bitmap projectIconBitmap = clientStatus.getProjectIconByName(projectName);
         final int icon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.drawable.ic_boinc;
         try {
-            return (projectIconBitmap = clientStatus.getProjectIconByName(projectName)) != null ?
+            return projectIconBitmap != null ?
                    Bitmap.createScaledBitmap(
                            projectIconBitmap,
                            projectIconBitmap.getWidth() << 1,
