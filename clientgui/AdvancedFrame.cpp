@@ -1312,6 +1312,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     int                showDialog = wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage();
+    int                doShutdownClient = 0;
     CDlgGenericMessage dlg(this);
     wxString           strDialogTitle = wxEmptyString;
     wxString           strDialogMessage = wxEmptyString;
@@ -1347,13 +1348,17 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
         dlg.m_DialogMessage->SetLabel(strDialogMessage);
         dlg.Fit();
         dlg.Centre();
+
+        if (wxID_OK == dlg.ShowModal()) {
+            wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
+            doShutdownClient = 1;
+        }
     }
 
-    if (!showDialog || wxID_OK == dlg.ShowModal()) {
-        wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(!dlg.m_DialogDisableMessage->GetValue());
+    if (!showDialog || doShutdownClient) {
         pDoc->CoreClientQuit();
         pDoc->ForceDisconnect();
-        
+
         // Since the core cliet we were connected to just shutdown, prompt for a new one.
         ProcessEvent(evtSelectNewComputer);
     }
