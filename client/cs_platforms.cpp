@@ -106,7 +106,8 @@ void CLIENT_STATE::detect_platforms() {
     }
 #elif defined(__arm64__)
     add_platform("arm64-apple-darwin");
-//TODO: Should we add_platform("x86_64-apple-darwin") if Apple Rosetta emulator is available? 
+//TODO: Add test for Mac OS Version when Apple Rosetta emulator is removed 
+    add_platform("x86_64-apple-darwin");
 #else
 #error Mac client now requires a 64-bit system
 #endif
