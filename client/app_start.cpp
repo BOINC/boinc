@@ -55,13 +55,6 @@
 #include <process.h>
 #endif
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-#include <mach-o/loader.h>
-#include <mach-o/fat.h>
-#include <mach/machine.h>
-#include <libkern/OSByteOrder.h>
-#endif
-
 #if(!defined (_WIN32) && !defined (__EMX__))
 #include <fcntl.h>
 #endif
@@ -989,10 +982,6 @@ int ACTIVE_TASK::start(bool test) {
     }
     app_client_shm.reset_msgs();
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-    // PowerPC apps emulated on i386 Macs crash if running graphics
-    powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
-#endif
     if (cc_config.run_apps_manually) {
         pid = getpid();     // use the client's PID
         set_task_state(PROCESS_EXECUTING, "start");
@@ -1247,83 +1236,6 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     return 0;
 }
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-
-union headeru {
-    fat_header fat;
-    mach_header mach;
-};
-
-// Read the mach-o headers to determine the architectures
-// supported by executable file.
-// Returns 1 if application can run natively on i386 / x86_64 Macs,
-// else returns 0.
-//
-int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
-    FILE *f;
-    int retval = 0;
-    
-    headeru myHeader;
-    fat_arch fatHeader;
-    
-    uint32_t n, i, len;
-    uint32_t theMagic;
-    integer_t theType;
-    
-    f = boinc_fopen(exec_path, "rb");
-    if (!f) {
-        return retval;          // Should never happen
-    }
-    
-    myHeader.fat.magic = 0;
-    myHeader.fat.nfat_arch = 0;
-    
-    fread(&myHeader, 1, sizeof(fat_header), f);
-    theMagic = myHeader.mach.magic;
-    switch (theMagic) {
-    case MH_CIGAM:
-    case MH_MAGIC:
-    case MH_MAGIC_64:
-    case MH_CIGAM_64:
-       theType = myHeader.mach.cputype;
-        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
-            theType = OSSwapInt32(theType);
-        }
-        if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-            retval = 1;        // Single-architecture i386or x86_64 file
-        }
-        break;
-    case FAT_MAGIC:
-    case FAT_CIGAM:
-        n = myHeader.fat.nfat_arch;
-        if (theMagic == FAT_CIGAM) {
-            n = OSSwapInt32(myHeader.fat.nfat_arch);
-        }
-           // Multiple architecture (fat) file
-        for (i=0; i<n; i++) {
-            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
-            if (len < sizeof(fat_arch)) {
-                break;          // Should never happen
-            }
-            theType = fatHeader.cputype;
-            if (theMagic == FAT_CIGAM) {
-                theType = OSSwapInt32(theType);
-            }
-            if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-                retval = 1;
-                break;
-            }
-        }
-        break;
-    default:
-        break;
-    }
-
-    fclose (f);
-    return retval;
-}
-#endif
 
 // The following runs "test_app" and sends it various messages.
 // Used for testing the runtime system.
