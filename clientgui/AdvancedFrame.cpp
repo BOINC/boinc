@@ -1112,15 +1112,24 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
         exitItem->Enable(true);
     }
 
-    // Specific menu items to keep enabled always (Switch to simple view and "other options")
+    // Specific menu items to keep enabled always
+    // View->Simple view...
     wxMenuItem* simpleViewItem = menu->FindChildItem(ID_CHANGEGUI, NULL);
     if (simpleViewItem) {
         simpleViewItem->Enable(true);
     }
 
+    // Options->Other options...
     wxMenuItem* otherOptionsItem = menu->FindChildItem(ID_OPTIONS, NULL);
     if (otherOptionsItem) {
         otherOptionsItem->Enable(true);
+    }
+
+    // Specific menu items to enable based on connected client
+    // File->Shutdown connected client...
+    wxMenuItem* shutClientItem = menu->FindChildItem(ID_SHUTDOWNCORECLIENT, NULL);
+    if (shutClientItem) {
+        shutClientItem->Enable(isConnected);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
@@ -1359,7 +1368,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
         pDoc->CoreClientQuit();
         pDoc->ForceDisconnect();
 
-        // Since the core cliet we were connected to just shutdown, prompt for a new one.
+        // Since the core client we were connected to just shutdown, prompt for a new one.
         ProcessEvent(evtSelectNewComputer);
     }
 
