@@ -145,6 +145,17 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
         enableShowGraphics = false;
     }
     
+    if (pDoc->GetRunningGraphicsApp(result) != NULL) {
+        m_ShowGraphicsMenuItem->SetItemLabel(_("Stop graphics"));
+        m_ShowGraphicsMenuItem->SetHelp(_("Close application graphics window."));
+        // Graphics might still be running even if task is suspended
+        enableShowGraphics = true;
+        
+    } else {
+        m_ShowGraphicsMenuItem->SetItemLabel(_("Show graphics"));
+        m_ShowGraphicsMenuItem->SetHelp(_("Show application graphics in a window."));
+    }
+
     m_ShowGraphicsMenuItem->Enable(enableShowGraphics);
    
     // Disable Abort button if any selected task already aborted
