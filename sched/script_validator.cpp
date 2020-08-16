@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@
 // cmdline args to this program:
 // --init_script "scriptname arg1 ... argn"
 // --compare_script "scriptname arg1 ... argn"
+//
+// You must specify at least one.
 //
 // The init script checks the validity of a result,
 // e.g. that the output files have the proper format.
@@ -76,9 +78,9 @@ int validate_handler_init(int argc, char** argv) {
         }
     }
 
-    if (!init_script.size() || !compare_script.size()) {
+    if (init_script.empty() && compare_script.empty()) {
         log_messages.printf(MSG_CRITICAL,
-            "init_script and/or compare_script names are missing from command line\n"
+            "command line must specify init_script or compare_script\n"
         );
         return 1;
     }
@@ -100,21 +102,21 @@ void validate_handler_usage() {
 }
 
 int init_result(RESULT& result, void*&) {
+    if (init_script.empty()) {
+        return 0;
+    }
+
     unsigned int i, j;
     char buf[256];
-
     vector<string> paths;
     int retval;
+
     retval = get_output_file_paths(result, paths);
     if (retval) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
 
-    if (init_script.size() == 0) {
-        fprintf(stderr, "init_result() failed: init_script parameter was not specified\n");
-        return 1;
-    }
 
     char cmd[4096];
     sprintf(cmd, "../bin/%s", init_script[0].c_str());
@@ -141,11 +143,16 @@ int init_result(RESULT& result, void*&) {
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
+    if (compare_script.empty()) {
+        match = true;
+        return 0;
+    }
+
     unsigned int i, j;
     char buf[256];
-
     vector<string> paths1, paths2;
     int retval;
+
     retval = get_output_file_paths(r1, paths1);
     if (retval) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
@@ -155,11 +162,6 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
     if (retval) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
-    }
-
-    if (compare_script.size() == 0) {
-        fprintf(stderr, "compare_results() failed: compare_script parameter was not specified\n");
-        return 1;
     }
 
     char cmd[4096];

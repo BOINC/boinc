@@ -242,6 +242,12 @@ public:
     int                         ProjectReset(int iIndex);
     int                         ProjectSuspend(int iIndex);
     int                         ProjectResume(int iIndex);
+    RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result);
+#ifdef _WIN32
+    void                        KillGraphicsApp(HANDLE pid);
+#else
+    void                        KillGraphicsApp(int tpid);
+#endif
 
     //
     // Work Tab
@@ -252,14 +258,8 @@ private:
     double                      m_fResultsRPCExecutionTime;
     wxDateTime                  m_dtKillInactiveGfxTimestamp;
     std::vector<RUNNING_GFX_APP> m_running_gfx_apps;
-    RUNNING_GFX_APP*            GetRunningGraphicsApp(RESULT* result, int slot);
     void                        KillAllRunningGraphicsApps();
     void                        KillInactiveGraphicsApps();
-#ifdef _WIN32
-    void                        KillGraphicsApp(HANDLE pid);
-#else
-    void                        KillGraphicsApp(int tpid);
-#endif
 
 public:
     RESULTS                     results;

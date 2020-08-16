@@ -486,7 +486,9 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
             item->Enable(true);
         } else {
             // Disable other menu items if not connected to client
-            item->Enable(isConnected);
+            if (!isConnected) {
+                item->Enable(false);
+            }
         }
     }
     

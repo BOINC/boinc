@@ -181,7 +181,6 @@ struct ACTIVE_TASK {
     inline int task_state() {
         return _task_state;
     }
-
 #ifdef __APPLE__
     // PowerPC apps emulated on i386 Macs crash if running graphics
 // TODO: We may need to adapt this for x86_64 emulated on arm64
