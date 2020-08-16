@@ -17,7 +17,6 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/msgsRow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="3dp">
@@ -31,21 +30,23 @@
             android:background="@android:color/transparent"/>
 
     <TextView
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/msgs_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:layout_below="@+id/msgs_date"
+            android:layout_alignStart="@+id/msgs_date"
             android:layout_alignLeft="@+id/msgs_date"
-            android:background="@android:color/transparent"/>
+            android:layout_margin="2dp"
+            android:background="@android:color/transparent"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
             android:id="@+id/msgs_message"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/msgs_project"
+            android:layout_alignStart="@+id/msgs_project"
             android:layout_alignLeft="@+id/msgs_project"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent" />
 
 </RelativeLayout>

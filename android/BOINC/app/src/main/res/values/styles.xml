@@ -17,6 +17,7 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
     <style name="AppBase" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">#0288d1</item>
         <item name="colorPrimaryDark">#005b9f</item>
@@ -28,7 +29,7 @@
         <item name="actionBarStyle">@style/Boinc.ActionBar</item>
     </style>
 
-    <style name="AppTheme" parent="AppBase"/>
+    <style name="AppTheme" parent="AppBase" />
 
     <style name="Boinc.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="background">@drawable/shape_light_primary_background</item>
@@ -70,4 +71,8 @@
     <style name="DividerDayNight">
         <item name="android:divider">@color/light_blue</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

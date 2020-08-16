@@ -672,12 +672,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                     "Received new authenticator from account manager"
                                 );
                             } else {
-                                // otherwise skip this update
+                                // otherwise keep using the old one
                                 //
                                 msg_printf(pp, MSG_INFO,
                                     "Already attached to a different account"
                                 );
-                                continue;
                             }
                         }
                     }

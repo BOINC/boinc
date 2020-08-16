@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2020 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -7,13 +7,14 @@
 # Can Demirel <aycandemirel@hotmail.com>, 2015,2017-2018
 # Faruk SARI <faruksari@hotmail.com>, 2015
 # ilkeryus <ilkeryus@gmail.com>, 2017-2018
+# Yunus Atasever <bakugan.yunus@hotmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-02-10 08:50 UTC\n"
-"PO-Revision-Date: 2019-02-10 08:55+0000\n"
-"Last-Translator: Rom Walton\n"
+"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
+"PO-Revision-Date: 2020-07-11 20:22+0000\n"
+"Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgstr "Temsil ettiğiniz ülkeyi seçin, eğer mevcutsa."
 
 #: html/inc/account.inc:109 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
-#: html/inc/user.inc:253 html/inc/user.inc:441 html/user/account_finish.php:45
+#: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
 #: html/user/team_email_list.php:78 html/user/team_search.php:88
 #: html/user/top_users.php:56 html/user/user_search.php:56
@@ -112,7 +113,7 @@ msgstr "Daima bağlı kal"
 
 #: html/inc/account.inc:184
 msgid "I agree"
-msgstr ""
+msgstr "Katılıyorum"
 
 #: html/inc/bbcode_html.inc:10
 msgid "Bold text: [b]text[/b]  (alt+b)"
@@ -254,7 +255,7 @@ msgid "Join"
 msgstr "Katıl"
 
 #: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:290
+#: html/inc/bootstrap.inc:195 html/inc/user.inc:300
 msgid "Preferences"
 msgstr "Tercihler"
 
@@ -278,7 +279,8 @@ msgstr "Katıl"
 msgid "Do work"
 msgstr "İşi yap"
 
-#: html/inc/bootstrap.inc:175 html/user/server_status.php:111
+#: html/inc/bootstrap.inc:175 html/user/server_status.php:117
+#: html/user/temp.php:62
 msgid "Server status"
 msgstr "Sunucu durumu"
 
@@ -307,12 +309,12 @@ msgstr "Bilgisayar türleri"
 msgid "Computing"
 msgstr "Hesaplama"
 
-#: html/inc/bootstrap.inc:190 html/inc/user.inc:556 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:190 html/inc/user.inc:571 html/user/welcome.php:79
 msgid "Community"
 msgstr "Topluluk"
 
 #: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
-#: html/inc/user.inc:367 html/inc/user.inc:501 html/user/forum_forum.php:76
+#: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Mesaj panoları"
@@ -330,7 +332,7 @@ msgstr "bir takım oluştur ya da katıl"
 msgid "Profiles"
 msgstr "Profiller"
 
-#: html/inc/bootstrap.inc:196
+#: html/inc/bootstrap.inc:196 html/user/user_search.php:46
 msgid "User search"
 msgstr "Kullanıcı arama"
 
@@ -436,8 +438,8 @@ msgstr "Forumlarda ara"
 msgid "Advanced search"
 msgstr "Gelişmiş arama"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:371 html/user/pm.php:57
-#: html/user/pm.php:127
+#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
 msgid "Private messages"
 msgstr "Özel mesajlar"
 
@@ -449,315 +451,319 @@ msgstr "Soru ve Yanıtlar"
 msgid "%1 message board"
 msgstr "%1 mesaj panosu"
 
-#: html/inc/forum.inc:259 html/inc/result.inc:785
+#: html/inc/forum.inc:257 html/inc/result.inc:784
 msgid "Previous"
 msgstr "Önceki"
 
-#: html/inc/forum.inc:297 html/inc/result.inc:794
+#: html/inc/forum.inc:295 html/inc/result.inc:793
 msgid "Next"
 msgstr "Sonraki"
 
-#: html/inc/forum.inc:426 html/inc/forum.inc:1307
+#: html/inc/forum.inc:424 html/inc/forum.inc:1317
 #: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:86
+#: html/user/forum_report_post.php:89
 msgid "Author"
 msgstr "Başlatan"
 
-#: html/inc/forum.inc:426 html/inc/pm.inc:86 html/inc/pm.inc:167
+#: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/forum_edit.php:141 html/user/forum_pm.php:65
+#: html/user/forum_pm.php:114 html/user/forum_post.php:127
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "Mesaj"
 
-#: html/inc/forum.inc:606 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:611 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "Mesaj gönder"
 
-#: html/inc/forum.inc:606
+#: html/inc/forum.inc:611
 msgid "Send %1 a private message"
 msgstr "%1 kişisine özel mesaj gönder"
 
-#: html/inc/forum.inc:607
+#: html/inc/forum.inc:612
 msgid "Joined: %1"
 msgstr "Üyelik: %1"
 
-#: html/inc/forum.inc:616
+#: html/inc/forum.inc:621
 msgid "Posts: %1"
 msgstr "Gönderiler: %1"
 
-#: html/inc/forum.inc:622
+#: html/inc/forum.inc:627
 msgid "Credit: %1"
 msgstr "Kredi:  %1"
 
-#: html/inc/forum.inc:623
+#: html/inc/forum.inc:628
 msgid "RAC: %1"
 msgstr "Güncel kredi: %1"
 
-#: html/inc/forum.inc:653
+#: html/inc/forum.inc:658
 msgid "You haven't read this message yet"
 msgstr "Bu mesajı henüz okumadınız"
 
-#: html/inc/forum.inc:653
+#: html/inc/forum.inc:658
 msgid "Unread"
 msgstr "Okunmamış"
 
-#: html/inc/forum.inc:656 html/inc/forum.inc:661 html/inc/forum.inc:774
+#: html/inc/forum.inc:661 html/inc/forum.inc:666 html/inc/forum.inc:784
 msgid "Message %1"
 msgstr "Mesaj %1"
 
-#: html/inc/forum.inc:657 html/inc/user.inc:459 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "gizli"
 
-#: html/inc/forum.inc:658
+#: html/inc/forum.inc:663
 msgid "Posted: %1"
 msgstr "Gönderilme: %1"
 
-#: html/inc/forum.inc:661
+#: html/inc/forum.inc:666
 msgid " - in response to "
 msgstr " - Şuna yanıt olarak: "
 
-#: html/inc/forum.inc:664 html/inc/prefs_util.inc:734
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
 #: html/inc/prefs_util.inc:736
 msgid "Edit"
 msgstr "Düzenle"
 
-#: html/inc/forum.inc:664
+#: html/inc/forum.inc:669
 msgid "Edit this message"
 msgstr "Bu mesajı düzenler"
 
-#: html/inc/forum.inc:670
+#: html/inc/forum.inc:675
 msgid "Last modified: %1"
 msgstr "Son düzenleme: %1"
 
-#: html/inc/forum.inc:674
+#: html/inc/forum.inc:679
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
 msgstr "Gönderici, 'göz ardı' listenizde olduğu için bu yazı gizlidir. Gizli gönderileri görmek için % 1 buraya %2 tıklayın"
 
-#: html/inc/forum.inc:712 html/inc/forum.inc:723
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report this post as offensive"
 msgstr "Bu gönderiyi yöneticiye şikayet et"
 
-#: html/inc/forum.inc:712 html/inc/forum.inc:723
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report as offensive"
 msgstr "Şikayet et"
 
-#: html/inc/forum.inc:716
+#: html/inc/forum.inc:721
 msgid "Rating: %1"
 msgstr "Oy: %1"
 
-#: html/inc/forum.inc:716
+#: html/inc/forum.inc:721
 msgid "rate: "
 msgstr "Oyla:"
 
-#: html/inc/forum.inc:719
+#: html/inc/forum.inc:724
 msgid "Click if you like this message"
 msgstr "Bu mesajdan hoşlandıysanız tıklayın"
 
-#: html/inc/forum.inc:719
+#: html/inc/forum.inc:724
 msgid "Rate +"
 msgstr "+ Oy"
 
-#: html/inc/forum.inc:721
+#: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
 msgstr "Bu mesajdan hoşlanmadıysanız tıklayın"
 
-#: html/inc/forum.inc:721
+#: html/inc/forum.inc:726
 msgid "Rate -"
 msgstr "- Oy"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:730 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/forum_pm.php:79 html/user/forum_pm.php:117
+#: html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Yanıtla"
 
-#: html/inc/forum.inc:730
+#: html/inc/forum.inc:735
 msgid "Post a reply to this message"
 msgstr "Bu mesaja yanıt ver"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:733
+#: html/inc/forum.inc:738
 msgid "Quote"
 msgstr "Alıntı"
 
-#: html/inc/forum.inc:733
+#: html/inc/forum.inc:738
 msgid "Post a reply by quoting this message"
 msgstr "Bu mesaja alıntı yaparak yanıt ver"
 
-#: html/inc/forum.inc:755
+#: html/inc/forum.inc:765
 msgid "Hidden by a moderator"
 msgstr "Moderatör tarafından gizlendi"
 
-#: html/inc/forum.inc:776
+#: html/inc/forum.inc:786
 msgid "Posted %1 by %2"
 msgstr "%2 tarafından gönderildi, %1"
 
-#: html/inc/forum.inc:796
+#: html/inc/forum.inc:806
 msgid "You may not post or rate messages until %1"
 msgstr "Bu zamana kadar gönderim yapamaz ya da oylayamazsınız: "
 
-#: html/inc/forum.inc:821
+#: html/inc/forum.inc:831
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "Yazıların 'çocuk dostu' olması gerekir: Müstehcen, nefret ilintili, cinsel açıdan açık veya imalı olmamalıdırlar."
 
-#: html/inc/forum.inc:822
+#: html/inc/forum.inc:832
 msgid "No commercial advertisements."
 msgstr "Ticari ilan olmamalı."
 
-#: html/inc/forum.inc:823
+#: html/inc/forum.inc:833
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "Cinsel içeriğe, kumar oynamaya veya başkalarına hoşgörüsüzlüğü içeren web sitelerine bağlantı olmamalı."
 
-#: html/inc/forum.inc:824
+#: html/inc/forum.inc:834
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
 msgstr "Diğer kişileri rahatsız etmeye ya da kışkırtmaya ya da bir konu başlığını sabote etmeye yönelik mesajlar olmamalı."
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:835
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "Kasten düşmanca, tehdit edici veya aşağılayıcı mesajlar olmamalı."
 
-#: html/inc/forum.inc:826
+#: html/inc/forum.inc:836
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "Irk, din, milliyet, cinsiyet, sınıf veya cinsellik içeren küfürlü mesajlar olmamalı."
 
-#: html/inc/forum.inc:827
+#: html/inc/forum.inc:837
 msgid "Posts that violate these rules may be deleted."
 msgstr "Bu kuralları ihlal eden yayınlar silinebilir."
 
-#: html/inc/forum.inc:828
+#: html/inc/forum.inc:838
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "İhlal edenlerin gönderim ayrıcalıkları askıya alınabilir veya iptal edilebilir."
 
-#: html/inc/forum.inc:829
+#: html/inc/forum.inc:839
 msgid "If your account is suspended, don't create a new one."
 msgstr "Hesabınız askıya alındıysa, yeni bir tane oluşturmayın."
 
-#: html/inc/forum.inc:848
+#: html/inc/forum.inc:858
 msgid "Rules:"
 msgstr "Kurallar:"
 
-#: html/inc/forum.inc:1168 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Gizliliği kaldır"
 
-#: html/inc/forum.inc:1168
+#: html/inc/forum.inc:1178
 msgid "Unhide this post"
 msgstr "Bu gönderinin gizliliğini kaldırır"
 
-#: html/inc/forum.inc:1170 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1180 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "Gizle"
 
-#: html/inc/forum.inc:1170
+#: html/inc/forum.inc:1180
 msgid "Hide this post"
 msgstr "Bu gönderiyi gizler"
 
-#: html/inc/forum.inc:1175 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1185 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "Taşı"
 
-#: html/inc/forum.inc:1175
+#: html/inc/forum.inc:1185
 msgid "Move post to a different thread"
 msgstr "Bu gönderiyi başka bir foruma taşır"
 
-#: html/inc/forum.inc:1180
+#: html/inc/forum.inc:1190
 msgid "Banish author"
 msgstr "Yazarı yasakla"
 
-#: html/inc/forum.inc:1187
+#: html/inc/forum.inc:1197
 msgid "Vote to banish author"
 msgstr "Yazarın yasaklanması için oy ver"
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1201
 msgid "Vote not to banish author"
 msgstr "Yazarın kalması için oy ver"
 
-#: html/inc/forum.inc:1196
+#: html/inc/forum.inc:1206
 msgid "Start vote to banish author"
 msgstr "Yazarın yasaklanması için oylama başlat"
 
-#: html/inc/forum.inc:1201 html/inc/user.inc:358
-#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_pm.php:78
+#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
+#: html/user/forum_pm.php:282 html/user/forum_thread.php:248
+#: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Sil"
 
-#: html/inc/forum.inc:1201
+#: html/inc/forum.inc:1211
 msgid "Delete this post"
 msgstr "Bu gönderiyi sil"
 
-#: html/inc/forum.inc:1241
+#: html/inc/forum.inc:1251
 msgid "Only team members can post to the team message board"
 msgstr "Takım mesaj panosuna yalnızca takım üyeleri gönderim yapabilir"
 
-#: html/inc/forum.inc:1251
+#: html/inc/forum.inc:1261
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "%1 Forumunda yeni bir konu başlığı yaratmak için belirli bir düzeyde ortalama krediniz olmalıdır. Bu, sistemin istismar edilmesine karşı koruma sağlamaktadır."
 
-#: html/inc/forum.inc:1258
+#: html/inc/forum.inc:1268
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "Şu anda konu başlığı oluşturamazsınız. Lütfen tekrar denemeden önce bekleyin. Bu, sistemin istismar edilmesine karşı koruma sağlamaktadır."
 
-#: html/inc/forum.inc:1265
+#: html/inc/forum.inc:1275
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "Bu konu başlığı kilitli. Yalnızca forum moderatörleri ya da yöneticilerin gönderi yapmasına izin var."
 
-#: html/inc/forum.inc:1270
+#: html/inc/forum.inc:1280
 msgid "Can't post to a hidden thread."
 msgstr "Gizli bir konu başlığına gönderi yapılamaz."
 
-#: html/inc/forum.inc:1305
+#: html/inc/forum.inc:1315
 msgid "Thread"
 msgstr "Yeni konu"
 
-#: html/inc/forum.inc:1306 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1316 html/inc/team.inc:142 html/user/forum_forum.php:145
 #: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "Yanıtlar"
 
-#: html/inc/forum.inc:1308 html/user/forum_forum.php:147
+#: html/inc/forum.inc:1318 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "Okunma"
 
-#: html/inc/forum.inc:1309 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/inc/forum.inc:1319 html/inc/team.inc:142 html/user/forum_forum.php:148
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "Son mesaj"
 
-#: html/inc/forum.inc:1366
+#: html/inc/forum.inc:1377
 msgid "New posts in the thread %1"
 msgstr "%1 konu başlığındaki yeni gönderiler"
 
-#: html/inc/forum.inc:1371
+#: html/inc/forum.inc:1382
 msgid "New posts in subscribed thread"
 msgstr "Abone olunan konu başlığındaki yeni gönderiler"
 
-#: html/inc/forum.inc:1372
+#: html/inc/forum.inc:1383
 msgid "There are new posts in the thread '%1'"
 msgstr "'%1' konu başlığında yöne gönderiler var"
 
-#: html/inc/forum.inc:1382
+#: html/inc/forum.inc:1393
 msgid "Mark all threads as read"
 msgstr "Tümünü okundu olarak işaretle"
 
-#: html/inc/forum.inc:1383
+#: html/inc/forum.inc:1394
 msgid "Mark all threads in all message boards as read."
 msgstr "Tüm mesaj panolarındaki tüm konu başlıklarını -okundu- olarak işaretler."
 
@@ -774,7 +780,7 @@ msgid "Home"
 msgstr "Ev"
 
 #: html/inc/host.inc:57 html/inc/prefs.inc:683 html/inc/prefs_util.inc:666
-#: html/user/server_status.php:138
+#: html/user/server_status.php:144
 msgid "Work"
 msgstr "İş"
 
@@ -1065,7 +1071,7 @@ msgid ", CPU does not have hardware virtualization support"
 msgstr ", CPU donanım sanallaştırma desteğine sahip değildir"
 
 #: html/inc/host.inc:277 html/inc/team.inc:73 html/inc/team.inc:607
-#: html/inc/user.inc:403 html/inc/user.inc:496
+#: html/inc/user.inc:418 html/inc/user.inc:511
 msgid "None"
 msgstr "Yok"
 
@@ -1166,8 +1172,8 @@ msgstr "Tartış"
 msgid "News is available as an %sRSS feed%s"
 msgstr "Haberler bir %sRSS beslemesi%s olarak da mevcuttur"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
-#: html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
 msgid "Inbox"
 msgstr "Gelen kutusu"
 
@@ -1201,20 +1207,22 @@ msgstr "Takıma mesaj gönder"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_post.php:65
-#: html/user/forum_post.php:97 html/user/forum_post.php:98
-#: html/user/forum_post.php:144 html/user/forum_reply.php:77
-#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
-#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_pm.php:148
+#: html/user/forum_post.php:65 html/user/forum_post.php:97
+#: html/user/forum_post.php:98 html/user/forum_post.php:144
+#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
+#: html/user/forum_reply.php:115 html/user/forum_reply.php:170
+#: html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "Önizleme"
 
 #: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
-#: html/user/pm.php:79 html/user/pm.php:133
+#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
+#: html/user/pm.php:133
 msgid "Subject"
 msgstr "Konu"
 
-#: html/inc/pm.inc:105 html/inc/user.inc:505
+#: html/inc/pm.inc:105 html/inc/user.inc:520
 msgid "Send private message"
 msgstr "Özel mesaj gönder"
 
@@ -1361,9 +1369,9 @@ msgid "Compute only during a particular period each day."
 msgstr "Hesaplama her gün sadece belirli saatler arasında yapılır."
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "Diğer"
 
@@ -1520,7 +1528,7 @@ msgstr "Örneğin, BOINC son 30 günde en fazla 2000 MB veri aktarımı yapabile
 msgid "MB every"
 msgstr "MB, son"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:393
+#: html/inc/prefs.inc:212 html/inc/util.inc:417
 msgid "days"
 msgstr "gün"
 
@@ -1803,7 +1811,7 @@ msgstr "Anonim platform"
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
-#: html/inc/result.inc:78
+#: html/inc/result.inc:78 html/user/host_app_versions.php:25
 msgid "AMD GPU"
 msgstr ""
 
@@ -1820,7 +1828,7 @@ msgid "All"
 msgstr "Tümü"
 
 #: html/inc/result.inc:129 html/inc/result.inc:190 html/inc/result.inc:237
-#: html/user/server_status.php:168
+#: html/user/server_status.php:174
 msgid "In progress"
 msgstr "Sürmekte"
 
@@ -1850,7 +1858,7 @@ msgid "Inactive"
 msgstr "Pasif"
 
 #: html/inc/result.inc:189 html/inc/result.inc:236
-#: html/user/explain_state.php:37 html/user/server_status.php:167
+#: html/user/explain_state.php:37 html/user/server_status.php:173
 msgid "Unsent"
 msgstr "Gönderilmemiş"
 
@@ -2070,7 +2078,7 @@ msgstr "Raporlanma ya da<br />son teslim tarihi"
 msgid "explain"
 msgstr "açıklama"
 
-#: html/inc/result.inc:397 html/user/server_status.php:114
+#: html/inc/result.inc:397 html/user/server_status.php:120
 msgid "Status"
 msgstr "Durum"
 
@@ -2086,8 +2094,8 @@ msgstr "CPU zamanı<br />(sn)"
 msgid "Credit"
 msgstr "Kredi"
 
-#: html/inc/result.inc:407 html/inc/result.inc:814
-#: html/user/server_status.php:166
+#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/user/server_status.php:172
 msgid "Application"
 msgstr "Uygulama"
 
@@ -2139,19 +2147,19 @@ msgstr "Cihaz en yüksek FLOP"
 msgid "Application version"
 msgstr "Uygulama sürümü"
 
-#: html/inc/result.inc:733
+#: html/inc/result.inc:732
 msgid "Output files"
 msgstr "Çıktı dosyaları"
 
-#: html/inc/result.inc:736
+#: html/inc/result.inc:735
 msgid "Stderr output"
 msgstr "Stderr çıktısı"
 
-#: html/inc/result.inc:796
+#: html/inc/result.inc:795
 msgid "State"
 msgstr "Durum"
 
-#: html/inc/result.inc:837
+#: html/inc/result.inc:836
 msgid "Task name:"
 msgstr "İş adı:"
 
@@ -2175,7 +2183,7 @@ msgstr "Takımın tipi"
 msgid "Show only active teams"
 msgstr "Yalnızca aktif takımları göster"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1131 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Ara"
@@ -2442,7 +2450,7 @@ msgid "Computers on this account"
 msgstr "Bu hesaptaki bilgisayarlar"
 
 #: html/inc/user.inc:170 html/inc/user.inc:173 html/inc/user.inc:284
-#: html/inc/user.inc:358 html/inc/user.inc:457 html/inc/user.inc:529
+#: html/inc/user.inc:373 html/inc/user.inc:472 html/inc/user.inc:544
 #: html/user/view_profile.php:66
 msgid "View"
 msgstr "Bak"
@@ -2455,8 +2463,8 @@ msgstr "Çapraz-proje NO"
 msgid "Cross-project statistics"
 msgstr "Çapraz-proje istatistikleri"
 
-#: html/inc/user.inc:189 html/inc/user.inc:403 html/inc/user.inc:494
-#: html/inc/user.inc:496 html/user/user_search.php:129
+#: html/inc/user.inc:189 html/inc/user.inc:418 html/inc/user.inc:509
+#: html/inc/user.inc:511 html/user/user_search.php:129
 msgid "Team"
 msgstr "Takım"
 
@@ -2468,7 +2476,7 @@ msgstr "Çapraz-proje"
 msgid "Stats on your cell phone"
 msgstr "Cep telefonunuz için istatistik sayfanız"
 
-#: html/inc/user.inc:249 html/inc/user.inc:449
+#: html/inc/user.inc:249 html/inc/user.inc:464
 msgid "URL"
 msgstr "Site"
 
@@ -2476,7 +2484,7 @@ msgstr "Site"
 msgid "Postal code"
 msgstr "Posta kodu"
 
-#: html/inc/user.inc:258 html/inc/user.inc:439
+#: html/inc/user.inc:258 html/inc/user.inc:454
 msgid "%1 member since"
 msgstr "%1 üyelik tarihi"
 
@@ -2501,7 +2509,7 @@ msgstr "parola"
 msgid "other account info"
 msgstr "diğer hesap bilgisi"
 
-#: html/inc/user.inc:280 html/inc/user.inc:438
+#: html/inc/user.inc:280 html/inc/user.inc:453
 msgid "User ID"
 msgstr "Kullanıcı NO"
 
@@ -2513,110 +2521,114 @@ msgstr "Topluluk işlevlerinde kullanılır (özel mesaj için vs.)"
 msgid "Account keys"
 msgstr "Hesap anahtarları"
 
-#: html/inc/user.inc:293
+#: html/inc/user.inc:291
+msgid "Account Ownership"
+msgstr ""
+
+#: html/inc/user.inc:303
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC bilgisayarınızı ne zaman ve nasıl kullanacak"
 
-#: html/inc/user.inc:294 html/user/welcome.php:62
+#: html/inc/user.inc:304 html/user/welcome.php:62
 msgid "Computing preferences"
 msgstr "Hesaplama tercihleri"
 
-#: html/inc/user.inc:297
+#: html/inc/user.inc:307
 msgid "Message boards and private messages"
 msgstr "Mesaj panoları ve özel mesajlar"
 
-#: html/inc/user.inc:298 html/user/edit_forum_preferences_form.php:31
+#: html/inc/user.inc:308 html/user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "Topluluk tercihleri"
 
-#: html/inc/user.inc:301
+#: html/inc/user.inc:311
 msgid "Preferences for this project"
 msgstr "Bu proje için tercihler"
 
-#: html/inc/user.inc:302 html/user/prefs.php:33
+#: html/inc/user.inc:312 html/user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 tercihleri"
 
-#: html/inc/user.inc:319
+#: html/inc/user.inc:329
 msgid "View the profile of %1"
 msgstr "%1 kullanıcısının profilini gör"
 
-#: html/inc/user.inc:320 html/inc/user.inc:362 html/inc/user.inc:529
+#: html/inc/user.inc:330 html/inc/user.inc:377 html/inc/user.inc:544
 msgid "Profile"
 msgstr "Profil"
 
-#: html/inc/user.inc:360
+#: html/inc/user.inc:375
 msgid "Create"
 msgstr "Oluştur"
 
-#: html/inc/user.inc:367 html/inc/user.inc:501
+#: html/inc/user.inc:382 html/inc/user.inc:516
 msgid "%1 posts"
 msgstr "%1 gönderi"
 
 #. ------------ Notification -----------
-#: html/inc/user.inc:385 html/user/edit_forum_preferences_form.php:40
+#: html/inc/user.inc:400 html/user/edit_forum_preferences_form.php:40
 msgid "Notifications"
 msgstr "Uyarılar"
 
-#: html/inc/user.inc:391
+#: html/inc/user.inc:406
 msgid "Quit team"
 msgstr "Takımdan ayrıl"
 
-#: html/inc/user.inc:393 html/inc/user.inc:410
+#: html/inc/user.inc:408 html/inc/user.inc:425
 msgid "Administer"
 msgstr "Yönet"
 
-#: html/inc/user.inc:399 html/inc/user.inc:412
+#: html/inc/user.inc:414 html/inc/user.inc:427
 msgid "(foundership change request pending)"
 msgstr "(kurucu değişim isteği beklemede)"
 
-#: html/inc/user.inc:401
+#: html/inc/user.inc:416
 msgid "Member of team"
 msgstr "Takım üyeliği"
 
-#: html/inc/user.inc:403
+#: html/inc/user.inc:418
 msgid "find a team"
 msgstr "bir takım bul"
 
-#: html/inc/user.inc:414
+#: html/inc/user.inc:429
 msgid "Founder but not member of"
 msgstr "Kurucusu fakat üyesi değil"
 
-#: html/inc/user.inc:420
+#: html/inc/user.inc:435
 msgid "Find friends"
 msgstr "Arkadaş bul"
 
-#: html/inc/user.inc:428 html/inc/user.inc:430 html/inc/user.inc:512
-#: html/inc/user.inc:514 html/inc/user.inc:523
+#: html/inc/user.inc:443 html/inc/user.inc:445 html/inc/user.inc:527
+#: html/inc/user.inc:529 html/inc/user.inc:538
 msgid "Friends"
 msgstr "Arkadaşlar"
 
-#: html/inc/user.inc:457 html/inc/user.inc:459 html/user/server_status.php:154
+#: html/inc/user.inc:472 html/inc/user.inc:474 html/user/server_status.php:160
 #: html/user/stats.php:47
 msgid "Computers"
 msgstr "Bilgisayarlar"
 
-#: html/inc/user.inc:505
+#: html/inc/user.inc:520
 msgid "Contact"
 msgstr "İrtibat"
 
-#: html/inc/user.inc:508
+#: html/inc/user.inc:523
 msgid "This person is a friend"
 msgstr "Bu kişi arkadaşınız"
 
-#: html/inc/user.inc:509 html/user/friend.php:250
+#: html/inc/user.inc:524 html/user/friend.php:250
 msgid "Cancel friendship"
 msgstr "Arkadaşlığı bitir"
 
-#: html/inc/user.inc:512 html/user/friend.php:39
+#: html/inc/user.inc:527 html/user/friend.php:39
 msgid "Request pending"
 msgstr "İstek beklemede"
 
-#: html/inc/user.inc:514
+#: html/inc/user.inc:529
 msgid "Add as friend"
 msgstr "Arkadaş olarak ekle"
 
-#: html/inc/user.inc:538
+#: html/inc/user.inc:553
 msgid "Account information"
 msgstr "Hesap bilgisi"
 
@@ -2640,15 +2652,16 @@ msgstr "Hesap oluşturulamadı"
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr "Yeniden denemek için, tarayıcınızın <b>Geri</b> butonuna tıklayın."
 
-#: html/inc/user_util.inc:184 html/user/team_create_action.php:44
+#: html/inc/user_util.inc:184 html/user/account_ownership.php:40
+#: html/user/team_create_action.php:44
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr "reCAPTCHA yanıtınız doğru değil.  Lütfen tekrar deneyin."
 
 #: html/inc/user_util.inc:196
 msgid ""
-"You have not agreeed to our terms of use. Please agree to the terms of use "
-"by navigating back to the previous page, in order to create your account"
-msgstr ""
+"You have not agreed to our terms of use. Please agree to the terms of use by"
+" navigating back to the previous page, in order to create your account"
+msgstr "Kullanım şartlarımızı kabul etmediniz. Hesabınızı oluşturmak için, lütfen önceki sayfaya dönüp kullanım şartlarımızı kabul ediniz."
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2683,81 +2696,89 @@ msgstr "Hesap oluşturulamadı"
 msgid "database error, please contact site administrators"
 msgstr ""
 
-#: html/inc/util.inc:204
+#: html/inc/util.inc:207
 msgid "log out"
 msgstr "çıkış"
 
-#: html/inc/util.inc:206
+#: html/inc/util.inc:209
 msgid "log in"
 msgstr "oturum aç"
 
 #. kludge
-#: html/inc/util.inc:322 html/user/login_form.php:40
+#: html/inc/util.inc:346 html/user/login_form.php:40
 msgid "Log in"
 msgstr "Oturum aç"
 
-#: html/inc/util.inc:323
+#: html/inc/util.inc:347
 msgid "Create an account"
 msgstr "Bir hesap oluştur"
 
-#: html/inc/util.inc:324
+#: html/inc/util.inc:348
 msgid "Server status page"
 msgstr "Sunucu durumu"
 
-#: html/inc/util.inc:367
+#: html/inc/util.inc:391
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "İsteğiniz gerçekleştirilirken veritabanı hatası oluştu; lütfen daha sonra tekrar deneyin."
 
-#: html/inc/util.inc:376
+#: html/inc/util.inc:400
 msgid "Unable to handle request"
 msgstr "Talep gerçekleştirilemedi"
 
-#: html/inc/util.inc:396
+#: html/inc/util.inc:420
 msgid "hours"
 msgstr "saat"
 
-#: html/inc/util.inc:399
+#: html/inc/util.inc:423
 msgid "min"
 msgstr "dak"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:426
 msgid "sec"
 msgstr "san"
 
-#: html/inc/util.inc:579
+#: html/inc/util.inc:607
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "Bağlantı zaman aşımına uğradı. Lütfen Geri'ye tıklayın ve sayfayı yenileyip, yeniden deneyin."
 
-#: html/inc/util.inc:654
+#: html/inc/util.inc:682
 msgid "Use BBCode tags to format your text"
 msgstr "Yazınızı biçimlendirmek için BBCode etiketleri kullanın"
 
-#: html/inc/util.inc:898
+#: html/inc/util.inc:926
 msgid "Project down for maintenance"
 msgstr "Proje bakım için kapatıldı"
 
-#: html/inc/util.inc:901
+#: html/inc/util.inc:929
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 sunucumuz bakım için geçiçi olarak kapalı durumda.  Lütfen taha sonra tekrar deneyin."
 
-#: html/inc/util.inc:928
+#: html/inc/util.inc:956
 msgid "Unable to connect to database - please try again later"
 msgstr "Veritabanına erişilemedi - lütfen daha sonra tekrar deneyin"
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:960
 msgid "Unable to select database - please try again later"
 msgstr "Veritabanı seçilemedi - lütfen daha sonra tekrar deneyin"
 
-#: html/inc/util.inc:1110
+#: html/inc/util.inc:1138
 msgid "characters remaining"
 msgstr "karakter kaldı"
 
 #: html/inc/util_ops.inc:132
 msgid "Stay logged in on this computer"
 msgstr "Bu bilgisayarda oturumumu açık tut"
+
+#: html/user/account_finish.php:34
+msgid "Finish account setup"
+msgstr "Hesap yapılandırmasını bitir"
+
+#: html/user/account_finish.php:52
+msgid "Optional; not shown to others"
+msgstr "İsteğe bağlı; başkalarına gösterilmeyecek"
 
 #: html/user/account_finish_action.php:27
 msgid "You must supply a name for your account"
@@ -2767,13 +2788,53 @@ msgstr "Hesabınız için bir isim belirlemelisiniz"
 msgid "HTML tags not allowed in name"
 msgstr "İsminizde HTML etiketleri kullanamazsınız"
 
-#: html/user/account_finish.php:34
-msgid "Finish account setup"
-msgstr "Hesap yapılandırmasını bitir"
+#. POST request - the user has submitted the form.
+#: html/user/account_ownership.php:32
+msgid "Proof of account ownership results"
+msgstr ""
 
-#: html/user/account_finish.php:52
-msgid "Optional; not shown to others"
-msgstr "İsteğe bağlı; başkalarına gösterilmeyecek"
+#. Check that the private key file exists where specified. If not, redirect to
+#. error page.
+#. Check that the public key file exists where specified. If not, redirect to
+#. error page.
+#: html/user/account_ownership.php:52 html/user/account_ownership.php:57
+#: html/user/account_ownership.php:62 html/user/account_ownership.php:76
+#: html/user/account_ownership.php:128 html/user/account_ownership.php:133
+msgid ""
+"The proof of account ownership feature is not set up properly. Contact the "
+"project administrator to resolve the issue."
+msgstr ""
+
+#. The generated signature has not been verified. The private/public keys do
+#. not match.
+#: html/user/account_ownership.php:108
+msgid ""
+"Signature verification failed. Contact the project administrator to resolve "
+"the issue."
+msgstr ""
+
+#. Something has gone wrong & an error has occurred.
+#: html/user/account_ownership.php:111
+msgid ""
+"An error occurred during the signature verification. Contact the project "
+"administrator to resolve the issue."
+msgstr ""
+
+#. User data input invalid
+#: html/user/account_ownership.php:115
+msgid ""
+"Invalid input. User input must have a length > 0 and < 4096. <form><input "
+"type='button' value='Go back!'' onclick='history.back()'></form>"
+msgstr ""
+
+#. GET request - the user has navigated to the page.
+#: html/user/account_ownership.php:121
+msgid "Generate proof of account ownership"
+msgstr ""
+
+#: html/user/account_ownership.php:157
+msgid "Generate"
+msgstr ""
 
 #: html/user/add_venue.php:42 html/user/add_venue.php:67
 #: html/user/prefs_edit.php:40 html/user/prefs_edit.php:64
@@ -3155,7 +3216,7 @@ msgid ""
 msgstr "Eminseniz, profilinizin sunucularımızdan silinmesi için\nlütfen 'Evet'e tıklayın."
 
 #: html/user/delete_profile.php:54 html/user/donations.php:321
-#: html/user/donations.php:325 html/user/friend.php:250 html/user/join.php:39
+#: html/user/donations.php:325 html/user/friend.php:250 html/user/join.php:41
 #: html/user/prefs_remove.php:53 html/user/user_search.php:62
 #: html/user/user_search.php:67
 msgid "Yes"
@@ -3166,7 +3227,7 @@ msgid "Delete my profile"
 msgstr "Profilimi sil"
 
 #: html/user/delete_profile.php:55 html/user/friend.php:251
-#: html/user/join.php:40 html/user/user_search.php:61
+#: html/user/join.php:42 html/user/user_search.php:61
 #: html/user/user_search.php:66
 msgid "No"
 msgstr "Hayır"
@@ -3284,101 +3345,123 @@ msgstr "BOINC'in kurulumu ve çalıştırmasıyla ilgili talimatlar %1 buradadı
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Bu liste %1 BOINC internet sitesinden %2 merkezi olarak yönetilir."
 
-#: html/user/download.php:154
+#: html/user/download_software.php:174
+msgid "This project requires VirtualBox."
+msgstr "Bu proje için VirtualBox gerekir."
+
+#: html/user/download_software.php:177
+msgid "This project recommends VirtualBox."
+msgstr "Bu proje için VirtualBox önerilir."
+
+#: html/user/download_software.php:183
+msgid ""
+"If it is not installed on this computer, get it %1here%2, then restart "
+"BOINC."
+msgstr ""
+
+#: html/user/download_software.php:191
+msgid "Use the BOINC+VirtualBox installer."
+msgstr ""
+
+#: html/user/download_software.php:194
+msgid "If it is not installed on this computer, get it %1here%2."
+msgstr ""
+
+#: html/user/download_software.php:208
 msgid "Download BOINC"
 msgstr "BOINC'i indir"
 
-#: html/user/download.php:163
+#: html/user/download_software.php:217
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "        "
 msgstr ""
 
-#: html/user/download.php:166
+#: html/user/download_software.php:220
 msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
 msgstr ""
 
-#: html/user/download.php:172
-msgid "Go the BOINC download page."
-msgstr ""
+#: html/user/download_software.php:229
+msgid "Go to the BOINC download page."
+msgstr "BOINC indirme sayfasına gidiniz."
 
-#: html/user/download.php:200
+#: html/user/download_software.php:258
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINC ve VirtualBox'ın güncel sürümleri"
 
-#: html/user/download.php:201
+#: html/user/download_software.php:259
 msgid "these versions are"
 msgstr "bu versiyonlar"
 
-#: html/user/download.php:202
+#: html/user/download_software.php:260
 msgid "BOINC and VirtualBox"
 msgstr "BOINC ve VirtualBox"
 
-#: html/user/download.php:204
+#: html/user/download_software.php:262
 msgid "the current version of BOINC"
 msgstr "güncel BOINC sürümü"
 
-#: html/user/download.php:205
+#: html/user/download_software.php:263
 msgid "this version is"
 msgstr "bu sürüm şudur"
 
-#: html/user/download.php:208
+#: html/user/download_software.php:266
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "%1 projesine katılmak için, %2 bilgisayarınıza kurulmalıdır."
 
-#: html/user/download.php:212
-msgid "If %1 already installed, %2click here%3; otherwise:"
-msgstr "%1 önceden kurulmuşsa %1 buraya tıklayın %3; aksi takdirde:"
+#: html/user/download_software.php:270
+msgid "If %1 already installed, %2click here%3."
+msgstr ""
 
-#: html/user/download.php:235
+#: html/user/download_software.php:296
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "İndirme işlemi bittiğinde, %1 uygulamasını kurmak için indirilen dosyayı açın."
 
-#: html/user/download.php:237
+#: html/user/download_software.php:298
 msgid "All done? %1Click here to finish%2."
 msgstr ""
 
-#: html/user/download.php:247
+#: html/user/download_software.php:308
 msgid "Use %1"
 msgstr "%1 kullan"
 
-#: html/user/download.php:256
+#: html/user/download_software.php:317
 msgid "To use %1 on this computer:"
 msgstr "Bu bilgisayarda %1 kullanmak için:"
 
-#: html/user/download.php:257 html/user/download.php:273
+#: html/user/download_software.php:318 html/user/download_software.php:335
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "BOINC Manager'de Araçlar mensüne gidin"
 
-#: html/user/download.php:258
+#: html/user/download_software.php:319
 msgid "Select Use Account Manager"
 msgstr "Hesap Yöneticisi Kullan'ı seçin"
 
-#: html/user/download.php:259 html/user/download.php:275
+#: html/user/download_software.php:320 html/user/download_software.php:337
 msgid "Select %1 from the list"
 msgstr "Listeden %1 seçeneğini seçin"
 
-#: html/user/download.php:260 html/user/download.php:276
+#: html/user/download_software.php:321 html/user/download_software.php:338
 msgid "Enter your %1 email address and password."
 msgstr "%1 e-posta adresinizi ve parolanızı girin."
 
-#: html/user/download.php:263
+#: html/user/download_software.php:324
 msgid "Add %1"
 msgstr "%1 ekle"
 
-#: html/user/download.php:272
+#: html/user/download_software.php:334
 msgid "To add %1 on this computer:"
 msgstr "Bu bilgisayarda %1 eklemek için:"
 
-#: html/user/download.php:274
+#: html/user/download_software.php:336
 msgid "Select Add Project"
 msgstr "Proje Ekle'yi seçin"
 
-#: html/user/download.php:282 html/user/sample_index.php:90
+#: html/user/download_software.php:344 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "Ana sayfanıza devam edin"
@@ -3604,7 +3687,8 @@ msgstr "Bu kullanıcıların mesaj panosu ve özel mesaj gönderilerini görmezd
 msgid "User ID (For instance: 123456789)"
 msgstr "Kullanıcı NO (Örneğin: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
+#: html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "Kullanıcıyı filtreye ekle"
 
@@ -3873,32 +3957,10 @@ msgid "Send"
 msgstr "Yolla"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "Kullanıcıları yasaklamak için yetkili değilsiniz."
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "Bir eylem seçmelisiniz..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "Müstehcen"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "Öfke/Nefret söylemi"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "Kullanıcı talebi"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -3931,6 +3993,24 @@ msgstr "Gerekçe kategorisini seçin, tercihen kullanıcının neden yasaklanmas
 msgid "Category"
 msgstr "Kategori"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "Müstehcen"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "Öfke/Nefret söylemi"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "Kullanıcı talebi"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -3944,6 +4024,11 @@ msgstr "Boş değilse postalanır"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "Oy ile devam et"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "Bir eylem seçmelisiniz..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -4089,34 +4174,6 @@ msgstr "Bir soru ya da probleminiz varsa, lütfen mesaj panolarındaki %1 Soru v
 msgid "Subscribed threads"
 msgstr "Abone olunan konu başlıkları"
 
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "Bu gönderiyi denetlemek için yetkili değilsiniz"
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "Farklı kategori tipine taşınamıyor"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "Farklı kategoriye taşınamıyor"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "Kullanıcıları engellemek için yetkili değil"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "Engelleme"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "%1 kullanıcısı engellendi."
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "Eylem başarısız: Muhtemelen database problemi"
-
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
 msgstr "Gönderiyi denetle"
@@ -4179,7 +4236,7 @@ msgstr "Süresiz"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
 #: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "Tamam"
@@ -4187,6 +4244,34 @@ msgstr "Tamam"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "İsteğe bağlı açıklama %1 Bu kullanıcıya gönderilecek e-postaya eklenecek.%2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "Bu gönderiyi denetlemek için yetkili değilsiniz"
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "Farklı kategori tipine taşınamıyor"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "Farklı kategoriye taşınamıyor"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "Kullanıcıları engellemek için yetkili değil"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "Engelleme"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "%1 kullanıcısı engellendi."
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "Eylem başarısız: Muhtemelen database problemi"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -4213,6 +4298,100 @@ msgstr "Hedef forum"
 #: html/user/forum_moderate_thread.php:83
 msgid "New title:"
 msgstr "Yeni başlık:"
+
+#: html/user/forum_pm.php:54 html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "Mesajınız gönderildi."
+
+#: html/user/forum_pm.php:60 html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "Özel mesajınız bulunmuyor."
+
+#: html/user/forum_pm.php:65 html/user/pm.php:79
+msgid "Sender and date"
+msgstr "Gönderen ve tarih"
+
+#: html/user/forum_pm.php:102
+msgid "No such message"
+msgstr "Böyle bir ileti yok"
+
+#: html/user/forum_pm.php:110 html/user/pm.php:134
+msgid "Sender"
+msgstr "Gönderen"
+
+#: html/user/forum_pm.php:113 html/user/pm.php:137
+msgid "Date"
+msgstr "Tarih"
+
+#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "Özel mesaj göndermek için tüm alanları doldurmalısınız"
+
+#: html/user/forum_pm.php:167 html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "%1 NO'suyla bir kullanıcı bulunamadı"
+
+#: html/user/forum_pm.php:172 html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "%1 adında bir kullanıcı bulunamadı."
+
+#. Non-unique username
+#: html/user/forum_pm.php:174 html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 benzersiz bir kullanıcı adı değil; kullanıcının kimlik NO'sunu kullanmalısınız"
+
+#: html/user/forum_pm.php:182 html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "%1 kullanıcısı (NO: %2) sizden gelen özel mesajları kabul etmiyor."
+
+#: html/user/forum_pm.php:204 html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "%1 gerçekten engellensin mi?"
+
+#: html/user/forum_pm.php:205 html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "%1 kullanıcısının size özel mesaj göndermesini engellemek istediğinize emin misiniz?"
+
+#: html/user/forum_pm.php:206 html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Unutmayın ki, yalnızca sınırlı sayıda kullanıcıyı engelleyebilirsiniz."
+
+#: html/user/forum_pm.php:207 html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "Bir kullanıcı engellendiğinizde, engelini forum tercihleri sayfasından kaldırabilirsiniz."
+
+#: html/user/forum_pm.php:214 html/user/pm.php:288
+msgid "No, cancel"
+msgstr "Hayır, iptal"
+
+#: html/user/forum_pm.php:217 html/user/pm.php:276
+#: html/user/view_profile.php:28
+msgid "No such user"
+msgstr "Böyle bir kullanıcı yok"
+
+#: html/user/forum_pm.php:228 html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "%1 kullancısı engellendi"
+
+#: html/user/forum_pm.php:230 html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "%1 kullanıcısının size özel mesaj göndermesi engellendi."
+
+#: html/user/forum_pm.php:231
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Engellemeyi kaldırmak için, %1 forum tercihlerini%2 ziyaret edin"
+
+#: html/user/forum_pm.php:284
+msgid "Mark as read"
+msgstr "Okundu olarak işaretle"
+
+#: html/user/forum_pm.php:286
+msgid "Mark as unread"
+msgstr "Okunmadı olarak işaretle"
 
 #: html/user/forum_post.php:44
 msgid ""
@@ -4255,8 +4434,8 @@ msgid "You have already rated this post."
 msgstr "Bu gönderiyi zaten değerlendirmişsiniz."
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
-#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
+#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "Konu başlığına dön"
@@ -4308,55 +4487,55 @@ msgstr "Yanıt gönder"
 msgid "Add my signature to this reply"
 msgstr "İmzamı bu yanıta ekle"
 
-#: html/user/forum_report_post.php:48
+#: html/user/forum_report_post.php:51
 msgid "You need more average or total credit to report a post."
 msgstr "Gönderi raporlayabilmeniz için daha fazla ortalama ya da toplam krediye sahip olmalısınız."
 
-#: html/user/forum_report_post.php:70
+#: html/user/forum_report_post.php:73
 msgid "Report Registered"
 msgstr "Raporlama kaydedildi"
 
-#: html/user/forum_report_post.php:71
+#: html/user/forum_report_post.php:74
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Raporunuz kaydedildi. Çabanız için teşekkürler."
 
-#: html/user/forum_report_post.php:72
+#: html/user/forum_report_post.php:75
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "Bir yönetici raporunuza bakacak ve ne yapılacağına karar verecek - bu belli bir süre alabilir, lütfen sabırlı olun"
 
-#: html/user/forum_report_post.php:76
+#: html/user/forum_report_post.php:79
 msgid "Report a forum post"
 msgstr "Bir forum gönderisini raporla"
 
-#: html/user/forum_report_post.php:78
+#: html/user/forum_report_post.php:81
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "Bu gönderiyi raporlamadan önce, +/- oylama sistemini kullanmayı tercih edin. Eğer yeterli sayıda kullanıcı olumsuz oy kullanırsa, en sonunda gizli hale gelecek.<br />Oylama sistemini gönderinin altında bulabilirsiniz."
 
-#: html/user/forum_report_post.php:90
+#: html/user/forum_report_post.php:93
 msgid "Report post"
 msgstr "Gönderiyi raporla"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "Gönderiyi neden saldırgan buluyorsunuz: %1 Henüz konuyu okumayan bir kişinin sorunu hızlı şekilde tanımlayabilmesi için lütfen yeterli bilgiyi ekleyin. %2"
 
-#: html/user/forum_report_post.php:104
+#: html/user/forum_report_post.php:107
 msgid "Report not registered"
 msgstr "Rapor kaydedilmedi"
 
-#: html/user/forum_report_post.php:105
+#: html/user/forum_report_post.php:108
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "Raporunuz kaydedilmedi. Bir süre bekleyip tekrar deneyin."
 
-#: html/user/forum_report_post.php:106
+#: html/user/forum_report_post.php:109
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4385,32 +4564,6 @@ msgstr "Yalnızca son %1 günlük mesajları içer (varsayılan: 30)."
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "Yalnızca konular: %1 (her konunun sadece ilk mesajını içerir)"
-
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "Forum arama sonuçları"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "Aramanızla eşleşen konu başlıkları:"
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "Aramanızla eşleşen mesajlar:"
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "Üzgüm, arama sorgunuza uyan bir şey bulamadı. Daha az kelime (veya daha az özgün kelimeler) kullanarak aramanızı genişletmeyi deneyebilirsiniz."
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1 try the same search on Google. %2"
-msgstr "Ayrıca, %1 aynı aramayı Google kullanarak da yapabilirsiniz. %2"
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "arama sonuçları"
 
 #: html/user/forum_search.php:29
 msgid "Forum search"
@@ -4479,6 +4632,32 @@ msgstr "Sırala:"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "Aramayı başlat"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "Forum arama sonuçları"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "Aramanızla eşleşen konu başlıkları:"
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "Aramanızla eşleşen mesajlar:"
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "Üzgüm, arama sorgunuza uyan bir şey bulamadı. Daha az kelime (veya daha az özgün kelimeler) kullanarak aramanızı genişletmeyi deneyebilirsiniz."
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "Ayrıca, %1 aynı aramayı Google kullanarak da yapabilirsiniz. %2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "arama sonuçları"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -4818,10 +4997,6 @@ msgstr "Şimdiye kadar yapmadıysanız, %1 BOINC istemci yazılımını indirin 
 msgid "Your account"
 msgstr "Hesabınız"
 
-#: html/user/host_app_versions.php:25
-msgid "ATI GPU"
-msgstr "ATI GPU"
-
 #: html/user/host_app_versions.php:45
 msgid "anonymous platform"
 msgstr "anonim platform"
@@ -4924,23 +5099,6 @@ msgstr "sunucu ismi yok"
 msgid "Merge hosts"
 msgstr "Sunucuları birleştir"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "%1 kullanıcısına ait bilgisayarlar"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "Gizlenen bilgisayarlar"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "Bu kullanıcı, bilgisayarları hakkında bilgi gösterilmemesini tercih etti."
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "Bilgisayarlarınız"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "Bilgisayar kredisi güncelleniyor"
@@ -4970,6 +5128,23 @@ msgstr "Bu değişiklik, bilgisayarın bu proje ile bir sonraki iletişim kurmas
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "Sunucu sayfasına dön"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "%1 kullanıcısına ait bilgisayarlar"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "Gizlenen bilgisayarlar"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "Bu kullanıcı, bilgisayarları hakkında bilgi gösterilmemesini tercih etti."
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "Bilgisayarlarınız"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5146,42 +5321,42 @@ msgid ""
 "own risk."
 msgstr "Bu diğer projeler, %1 ile ortak değildir ve onların güvenlik yöntemlerine ya da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski kendinize ait olmak üzere katılın."
 
-#: html/user/join.php:38
+#: html/user/join.php:40
 msgid "Is BOINC installed on this device?"
 msgstr ""
 
-#: html/user/join.php:63 html/user/join.php:87
+#: html/user/join.php:65 html/user/join.php:89
 msgid "Read our %1 Rules and Policies %2."
 msgstr " %1 Kurallarımızı ve politikalarımızı %2 okuyun"
 
-#: html/user/join.php:65
-msgid "Download and install BOINC."
-msgstr ""
-
 #: html/user/join.php:67
+msgid "Download and install BOINC."
+msgstr "BOINC'i indir ve kur."
+
+#: html/user/join.php:69
 msgid "Download"
 msgstr "İndirme"
 
-#: html/user/join.php:69
+#: html/user/join.php:71
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
 msgstr "Android cihazlar için BOINC'i Google Play Store'dan veya Amazon App Store'dan indirin."
 
-#: html/user/join.php:72
+#: html/user/join.php:74
 msgid "Run BOINC."
-msgstr ""
+msgstr "BOINC'i çalıştır."
 
-#: html/user/join.php:73 html/user/join.php:91
+#: html/user/join.php:75 html/user/join.php:93
 msgid "Choose %1 from the list, or enter %2"
 msgstr "Listeden %1'i seçin veya bunu girin: %2"
 
-#: html/user/join.php:89
+#: html/user/join.php:91
 msgid "In the BOINC Manager, select Tools / Add Project."
 msgstr ""
 
 #. use auto-attach if possible
-#: html/user/join.php:100 html/user/sample_index.php:128
+#: html/user/join.php:102 html/user/sample_index.php:128
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "%1 takımına katıl"
@@ -5324,18 +5499,6 @@ msgstr "Bu kullanıcıdan gelen mesajları engelle"
 msgid "Block user"
 msgstr "Kullanıcıyı engelle"
 
-#: html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "Mesajınız gönderildi."
-
-#: html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "Özel mesajınız bulunmuyor."
-
-#: html/user/pm.php:79
-msgid "Sender and date"
-msgstr "Gönderen ve tarih"
-
 #: html/user/pm.php:99
 msgid "Reply to this message"
 msgstr "konu başlığına yeni bir mesaj ekle"
@@ -5356,18 +5519,6 @@ msgstr "Tümünün seçimini kaldır"
 msgid "Delete selected messages"
 msgstr "Seçili mesajları sil"
 
-#: html/user/pm.php:134
-msgid "Sender"
-msgstr "Gönderen"
-
-#: html/user/pm.php:137
-msgid "Date"
-msgstr "Tarih"
-
-#: html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "Özel mesaj göndermek için tüm alanları doldurmalısınız"
-
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "Mesaj gönderildi"
@@ -5383,62 +5534,9 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "Mesajınız Akismet anti-spam sistemi\ntarafından spam olarak işaretlendi.\nLütfen metninizi değiştirin ve tekrar deneyin."
 
-#: html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "%1 NO'suyla bir kullanıcı bulunamadı"
-
-#: html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "%1 adında bir kullanıcı bulunamadı."
-
-#. Non-unique username
-#: html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 benzersiz bir kullanıcı adı değil; kullanıcının kimlik NO'sunu kullanmalısınız"
-
-#: html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "%1 kullanıcısı (NO: %2) sizden gelen özel mesajları kabul etmiyor."
-
-#: html/user/pm.php:276 html/user/view_profile.php:28
-msgid "No such user"
-msgstr "Böyle bir kullanıcı yok"
-
-#: html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "%1 gerçekten engellensin mi?"
-
-#: html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "%1 kullanıcısının size özel mesaj göndermesini engellemek istediğinize emin misiniz?"
-
-#: html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Unutmayın ki, yalnızca sınırlı sayıda kullanıcıyı engelleyebilirsiniz."
-
-#: html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "Bir kullanıcı engellendiğinizde, engelini forum tercihleri sayfasından kaldırabilirsiniz."
-
-#: html/user/pm.php:288
-msgid "No, cancel"
-msgstr "Hayır, iptal"
-
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "eşleşen kullanıcı yok"
-
-#: html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "%1 kullancısı engellendi"
-
-#: html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "%1 kullanıcısının size özel mesaj göndermesi engellendi."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
@@ -5447,14 +5545,6 @@ msgstr "Engellemeyi kaldırmak için, %1 forum tercihlerini %2 ziyaret edin"
 #: html/user/pm.php:365
 msgid "Unknown action"
 msgstr "Bilinmeyen eylem"
-
-#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1 için %2"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "Tercihlere dön"
 
 #: html/user/prefs.php:36
 msgid ""
@@ -5469,6 +5559,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "Tercihleriniz varsayılan değerlerine sıfırlandı ve bilgisayarınız\n          %1 ile iletişim kurduğunda ya da BOINC Manager'dan\n          %2 Güncelle %3 komutu kullanıldığında yürürlüğe girecek."
+
+#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1 için %2"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "Tercihlere dön"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5664,7 +5762,7 @@ msgstr ""
 
 #: html/user/sample_index.php:81
 msgid "Thanks!"
-msgstr ""
+msgstr "Teşekkürler!"
 
 #: html/user/sample_index.php:84
 msgid "Please make sure BOINC is installed and enabled on your computer."
@@ -5694,51 +5792,51 @@ msgstr ""
 msgid "News"
 msgstr "Haberler"
 
-#: html/user/server_status.php:59
+#: html/user/server_status.php:63 html/user/temp.php:24
 msgid "Not Running"
 msgstr "Çalışmıyor"
 
-#: html/user/server_status.php:63
+#: html/user/server_status.php:67 html/user/temp.php:27
 msgid "Running"
 msgstr "Çalışıyor"
 
-#: html/user/server_status.php:67
+#: html/user/server_status.php:71 html/user/temp.php:30
 msgid "Disabled"
 msgstr "Devre dışı"
 
-#: html/user/server_status.php:105
+#: html/user/server_status.php:111 html/user/temp.php:56
 msgid "Project status"
 msgstr "Proje durumu"
 
-#: html/user/server_status.php:114
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Program"
 msgstr "Program"
 
-#: html/user/server_status.php:114
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Host"
 msgstr "Sunucu"
 
-#: html/user/server_status.php:137
+#: html/user/server_status.php:143
 msgid "Computing status"
 msgstr "Hesaplama durumu"
 
-#: html/user/server_status.php:148
+#: html/user/server_status.php:154
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: html/user/server_status.php:163
+#: html/user/server_status.php:169
 msgid "Tasks by application"
 msgstr "Uygulamaya göre işler"
 
-#: html/user/server_status.php:169
+#: html/user/server_status.php:175
 msgid "Runtime of last 100 tasks in hours: average, min, max"
 msgstr "Son 100 sonucun ortalama çalışma saati: Ortalama, asgari, azami)"
 
-#: html/user/server_status.php:170
+#: html/user/server_status.php:176
 msgid "Users in last 24 hours"
 msgstr "Son 24 saatteki kullanıcılar"
 
-#: html/user/server_status.php:197
+#: html/user/server_status.php:211
 msgid "Database schema version: "
 msgstr "Veritabanı şeması sürümü:"
 
@@ -5784,7 +5882,7 @@ msgstr ""
 
 #: html/user/stats.php:49
 msgid "BOINC versions"
-msgstr ""
+msgstr "BOINC sürümleri"
 
 #: html/user/stats.php:53
 msgid ""
@@ -5803,6 +5901,65 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1 home page %2."
 msgstr "Ek olarak, tüm BOINC projelerindeki kişisel istatistiklerinizin özetini de çeşitli sitelerden alabilirsiniz; %1 ana sayfanıza %2 bakın."
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1 katılımcıları %2 takımlar %3 oluşturabilir."
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "Aynı anda yalnızca bir takımın üyesi olabilirsiniz. Bir takıma istediğiniz zaman katılıp ayrılabilirsiniz."
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "Her takım şunları yapabilen bir %1 kurucuya %2 sahiptir:"
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "Takımın ismini ve açıklamasını düzenleme"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "Takım Yöneticileri ekleme ya da çıkarma"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "Takımdan bir üyeyi çıkarma"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "Üyesi yoksa takımı kaldırma."
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1 Bu takıma katıl %2 bağlantısına tıklayın."
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "Bir takım bul"
+
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "En iyi takımlar"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "Tüm takımlar"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "%1 takımları"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "Yeni bir takım oluştur"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr "Size göre bir takım bulamadıysanız, %1 bir takım oluşturabilirsiniz %2."
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -6241,18 +6398,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "Son 90 gün içerisinde bir kurucu değişimi talebi oldu, bu nedenle yeni talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "%1 takımı yeni üye kabul etmiyor."
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "Zaten üye"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "Zaten %1 takımının üyesisiniz."
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "Takıma katılamadınız - lütfen daha sonra tekrar deneyin."
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6261,10 +6422,6 @@ msgstr "Üyelik %1"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "%1 takımına katıldınız."
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "Takıma katılamadınız - lütfen daha sonra tekrar deneyin."
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6404,65 +6561,6 @@ msgstr "%1 takımı kaldırıldı"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "Limite ulaşıldı:  Yalnızca ilk 1000 üye görüntülenebilir."
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2 teams %3."
-msgstr "%1 katılımcıları %2 takımlar %3 oluşturabilir."
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "Aynı anda yalnızca bir takımın üyesi olabilirsiniz. Bir takıma istediğiniz zaman katılıp ayrılabilirsiniz."
-
-#: html/user/team.php:33
-msgid "Each team has a %1 founder %2 who may:"
-msgstr "Her takım şunları yapabilen bir %1 kurucuya %2 sahiptir:"
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "Takımın ismini ve açıklamasını düzenleme"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "Takım Yöneticileri ekleme ya da çıkarma"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "Takımdan bir üyeyi çıkarma"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "Üyesi yoksa takımı kaldırma."
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1 Join this team %2."
-msgstr "Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1 Bu takıma katıl %2 bağlantısına tıklayın."
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "Bir takım bul"
-
-#: html/user/team.php:47
-msgid "Top teams"
-msgstr "En iyi takımlar"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "Tüm takımlar"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "%1 takımları"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "Yeni bir takım oluştur"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1 create a team "
-"%2."
-msgstr "Size göre bir takım bulamadıysanız, %1 bir takım oluşturabilirsiniz %2."
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "Takımdan ayrılamıyorsunuz."
@@ -6565,6 +6663,10 @@ msgstr "Bu formu kendiniz için doğru olan takımları bulmak için kullanın."
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "Şu anda bir takıma katılma konusuyla %1 ilgilenmiyorum %2."
 
+#: html/user/temp.php:58
+msgid "Server software version: %1"
+msgstr "Sunucu yazılımı sürümü: %1"
+
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
 msgid "Top computers"
@@ -6596,9 +6698,16 @@ msgstr "\"Günün kullanıcısı\" seçilmedi."
 msgid "User of the Day for %1: %2"
 msgstr "%1 için Günün Kullanıcısı: %2"
 
+#: html/user/user_agreetermsofuse.php:27
+msgid "You are not logged in. Please login to agree to our terms of use."
+msgstr "Giriş yapmadınız.  Kullanım şartlarımızı kabul etmek için giriş yapınız."
+
+#: html/user/user_agreetermsofuse.php:41
+msgid "Agree to our Terms of Use."
+msgstr "Kullanım şartlarını kabul ediyorum."
+
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
-#: html/user/user_agreetermsofuse_action.php:61
 msgid ""
 "Website error when attempting to agree to terms of use. Please contact the "
 "site administrators."
@@ -6616,14 +6725,6 @@ msgstr ""
 
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:27
-msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:41
-msgid "Agree to our Terms of Use."
 msgstr ""
 
 #: html/user/user_search.php:51
@@ -6811,7 +6912,7 @@ msgstr ""
 
 #: html/user/welcome.php:36
 msgid "What happens now?"
-msgstr ""
+msgstr "Şimdi ne olacak?"
 
 #: html/user/welcome.php:37
 msgid ""
@@ -6853,7 +6954,7 @@ msgstr ""
 
 #: html/user/welcome.php:90
 msgid "Other projects"
-msgstr ""
+msgstr "Diğer projeler"
 
 #: html/user/welcome.php:91
 msgid ""

@@ -28,7 +28,6 @@
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
-#include "browser.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -134,12 +133,9 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_strProjectName.Empty();
     m_strProjectUrl.Empty();
     m_strProjectAuthenticator.Empty();
-    m_strProjectSetupCookie.Empty();
     m_strReturnURL.Empty();
     m_bCredentialsCached = false;
     m_bCredentialsDetected = false;
-    m_bCookieRequired = false;
-    m_strCookieFailureURL.Empty();
     m_bConsentedToTerms = false;
 
 
@@ -266,7 +262,6 @@ bool CWizardAttach::Run(
         wxString strProjectInstitution,
         wxString strProjectDescription,
         wxString strProjectKnown,
-        wxString strProjectSetupCookie,
         bool     bAccountKeyDetected,
         bool     bEmbedded
 ){
@@ -280,9 +275,6 @@ bool CWizardAttach::Run(
     if (strProjectAuthenticator.size()) {
         SetProjectAuthenticator(strProjectAuthenticator);
     }
-    if (strProjectSetupCookie.size()) {
-        SetProjectSetupCookie(strProjectSetupCookie);
-    }
     SetProjectKnown(strProjectKnown.length() > 0);
 
     if (strProjectURL.size() && strProjectAuthenticator.size() && !bAccountKeyDetected) {
@@ -293,9 +285,9 @@ bool CWizardAttach::Run(
     if (m_ProjectPropertiesPage && m_ProjectInfoPage && m_ProjectWelcomePage) {
         IsAttachToProjectWizard = true;
         IsAccountManagerWizard = false;
-        if (strProjectName.size() && strProjectURL.size() && ((strProjectSetupCookie.IsEmpty()) || !bEmbedded)) {
+        if ((strProjectName.size() && strProjectURL.size()) || !bEmbedded) {
             return RunWizard(m_ProjectWelcomePage);
-        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || (strProjectSetupCookie.size() && bEmbedded))) {
+        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected())) {
             return RunWizard(m_ProjectPropertiesPage);
         } else {
             return RunWizard(m_ProjectInfoPage);
@@ -338,34 +330,8 @@ bool CWizardAttach::SyncToAccountManager() {
         SetProjectURL(wxString(ami.acct_mgr_url.c_str(), wxConvUTF8));
 
         SetCredentialsCached(ami.have_credentials);
-        SetCookieRequired(ami.cookie_required);
-        SetCookieFailureURL(wxString(ami.cookie_failure_url.c_str(), wxConvUTF8));
         if (IsCredentialsCached()) {
             IsAccountManagerUpdateWizard = true;
-        }
-    }
-
-    if (ami.acct_mgr_url.size() && !m_bCredentialsCached) {
-        std::string login;
-        std::string password_hash;
-        std::string return_url;
-
-        if (detect_account_manager_credentials(ami.acct_mgr_url, login, password_hash, return_url)) {
-            wxString strLogin;
-            wxString strPasswordHash;
-            wxString strReturnURL;
-
-            strLogin = wxURL::Unescape(wxString(login.c_str(), wxConvUTF8));
-            strPasswordHash = wxURL::Unescape(wxString(password_hash.c_str(), wxConvUTF8));
-            strReturnURL = wxURL::Unescape(wxString(return_url.c_str(), wxConvUTF8));
-
-            SetCredentialsDetected(true);
-            SetReturnURL(strReturnURL);
-            SetAccountEmailAddress(strLogin);
-            SetAccountUsername(strLogin);
-            SetAccountPassword(
-                wxString(_T("hash:")) + strPasswordHash
-            );
         }
     }
 

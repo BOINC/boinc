@@ -64,7 +64,6 @@ caresOK="NO"
 curlOK="NO"
 opensslOK="NO"
 wxWidgetsOK="NO"
-sqlite3OK="NO"
 freetypeOK="NO"
 ftglOK="NO"
 finalResult=0
@@ -133,22 +132,6 @@ if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildWxMac.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         wxWidgetsOK="YES"
-    fi
-fi
-
-cd "${SCRIPT_DIR}"
-
-echo ""
-echo "----------------------------------"
-echo "---------- BUILD sqlite ----------"
-echo "----------------------------------"
-echo ""
-
-cd "../../${sqliteDirName}"
-if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
-    if [  $? -eq 0 ]; then
-        sqlite3OK="YES"
     fi
 fi
 
@@ -232,18 +215,6 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo ""
 
     finalResult=$[ finalResult | 8 ]
-fi
-
-if [ "${sqlite3OK}" = "NO" ]; then
-    echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "------------         -------------"
-    echo "-- COULD NOT BUILD ${sqliteDirName} -"
-    echo "----------------------------------"
-    echo ""
-
-    finalResult=$[ finalResult | 16 ]
 fi
 
 if [ "${freetypeOK}" = "NO" ]; then

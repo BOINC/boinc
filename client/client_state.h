@@ -296,6 +296,10 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
+#ifdef __APPLE__
+    // Check whether the app can run on this CPU architecture
+    int can_run_on_this_CPU(char* exec_path);
+#endif
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();

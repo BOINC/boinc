@@ -58,7 +58,6 @@
 #include "DlgHiddenColumns.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
-#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -164,9 +163,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
-#ifndef __WXMSW__
     EVT_MENU_OPEN(CAdvancedFrame::OnMenuOpening)
-#endif
     // View
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
@@ -1114,6 +1111,17 @@ void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
     if (exitItem) {
         exitItem->Enable(true);
     }
+
+    // Specific menu items to keep enabled always (Switch to simple view and "other options")
+    wxMenuItem* simpleViewItem = menu->FindChildItem(ID_CHANGEGUI, NULL);
+    if (simpleViewItem) {
+        simpleViewItem->Enable(true);
+    }
+
+    wxMenuItem* otherOptionsItem = menu->FindChildItem(ID_OPTIONS, NULL);
+    if (otherOptionsItem) {
+        otherOptionsItem->Enable(true);
+    }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
@@ -1602,7 +1610,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     std::string strProjectInstitution;
     std::string strProjectDescription;
     std::string strProjectKnown;
-    std::string strProjectSetupCookie;
     bool        bAccountKeyDetected = false;
     bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
@@ -1746,31 +1753,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         // client isn't attached to any projects.
-        // Look for an account to attach to, either in project_init.xml
-        // or in browser cookies
+        // Look for an account to attach to in project_init.xml
         //
         if (pis.url.size() > 0) {
-
             strProjectName = pis.name.c_str();
             strProjectURL = pis.url.c_str();
-            strProjectSetupCookie = pis.setup_cookie.c_str();
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
-
-            // If credentials are not cached,
-            // then we should try one last place to look up the authenticator.
-            // Some projects will set a "Setup" cookie off of their URL with a
-            // pretty short timeout.  Lets take a crack at detecting it.
-            //
-            if (pis.url.length() && !pis.has_account_key) {
-                detect_setup_authenticator(pis.url, strProjectAuthenticator);
-            }
-
-        } else {
-            detect_simple_account_credentials(
-                strProjectName, strProjectURL, strProjectAuthenticator,
-                strProjectInstitution, strProjectDescription, strProjectKnown
-            );
         }
 
         Show();
@@ -1784,7 +1773,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 wxURI::Unescape(strProjectInstitution),
                 wxURI::Unescape(strProjectDescription),
                 wxURI::Unescape(strProjectKnown),
-                wxURI::Unescape(strProjectSetupCookie),
                 bAccountKeyDetected,
                 bEmbedded)
         ){

@@ -1592,11 +1592,17 @@ int CMainDocument::WorkResume(char* url, char* name) {
 // If the graphics application for the current task is already
 // running, return a pointer to its RUNNING_GFX_APP struct.
 //
-RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
-    RESULT* rp, int slot
-) {
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
     bool exited = false;
+    int slot = -1;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
+    
+    if (m_running_gfx_apps.empty()) return NULL;
+
+    char *p = strrchr((char*)rp->slot_path, '/');
+    if (!p) return NULL;
+    slot = atoi(p+1);
+
 
     for( gfx_app_iter = m_running_gfx_apps.begin();
         gfx_app_iter != m_running_gfx_apps.end();
@@ -1747,25 +1753,17 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         int      id;
 #endif
 
-        p = strrchr((char*)rp->slot_path, '/');
-        if (!p) return ERR_INVALID_PARAM;
-        slot = atoi(p+1);
-
         // See if we are already running the graphics application for this task
-        previous_gfx_app = GetRunningGraphicsApp(rp, slot);
+        previous_gfx_app = GetRunningGraphicsApp(rp);
 
 #ifndef __WXMSW__
         char* argv[4];
 
         if (previous_gfx_app) {
-#ifdef __WXMAC__
-            // If this graphics app is already running,
-            // just bring it to the front
+            // If graphics app is already running, the button has changed to 
+            // "Stop graphics", so we end the graphics app.
             //
-            BringAppWithPidToFront(previous_gfx_app->pid);
-#endif
-            // If graphics app is already running, don't launch a second instance
-            //
+            KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
             return 0;
         }
         argv[0] = "switcher";
@@ -1816,6 +1814,10 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         );
 #endif
         if (!iRetVal) {
+            p = strrchr((char*)rp->slot_path, '/');
+            if (!p) return ERR_INVALID_PARAM;
+            slot = atoi(p+1);
+
             gfx_app.slot = slot;
             gfx_app.project_url = rp->project_url;
             gfx_app.name = rp->name;

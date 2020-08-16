@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Зареждане! Моля, изчакайте…</string>
     <string name="generic_button_continue">Продължи</string>
     <string name="generic_button_finish">Приключи</string>
     <!--attach project-->
@@ -12,9 +11,6 @@
     <string name="attachproject_list_header">Изберете проект</string>
     <string name="attachproject_list_manual_button">Добави проект чрез URL адрес</string>
     <string name="attachproject_list_manual_dialog_title">Въведи URL адрес на проекта:</string>
-    <string name="attachproject_list_manual_dialog_button">Добави проект</string>
-    <string name="attachproject_list_manual_no_url">Моля, въведете URL адрес на проекта</string>
-    <string name="attachproject_list_acctmgr_button">Добави акаунт мениджър</string>
     <string name="attachproject_list_no_internet">Няма връзка с интернет</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Въведи информация за акаунта</string>
@@ -31,7 +27,7 @@
         проекта, за да се регистрирате.
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Присъединяване</string>
+    <string name="attachproject_working_attaching">Присъединяване %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Подсказка</string>
@@ -49,43 +45,17 @@
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">Свързване със сървъра на проекта…</string>
-    <string name="attachproject_login_image_description">Лого на проекта.</string>
     <string name="attachproject_login_header_general_area">Основна област:</string>
     <string name="attachproject_login_header_specific_area">Специфична област:</string>
     <string name="attachproject_login_header_description">Описание:</string>
     <string name="attachproject_login_header_home">Начало:</string>
     <string name="attachproject_login_header_url">Уеб сайт:</string>
-    <string name="attachproject_login_header_platform">Андроид:</string>
-    <string name="attachproject_login_platform_supported">Този проект поддържа андроид устройства</string>
-    <string name="attachproject_login_platform_not_supported">Този проект не поддържа андроид устройства</string>
-    <string name="attachproject_login_category_terms_of_use">Условия за използване на</string>
-    <string name="attachproject_login_accept_terms_of_use">Със създаването на акаунт в този проект, вие се съгласявате с
-        условията за ползване, както е посочено по-горе.
-    </string>
-    <string name="attachproject_login_category_login">Влезте със съществуващ акаунт</string>
     <string name="attachproject_login_header_id_email">Имейл:</string>
     <string name="attachproject_login_header_id_name">Име:</string>
     <string name="attachproject_login_header_pwd">Парола:</string>
-    <string name="attachproject_login_category_creation">Нов за</string>
-    <string name="attachproject_login_header_creation_enabled">Регистрирайте се, за да участвате:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Посетете уеб сайта на проекта, за да си създадете
-        акаунт:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">В момента този проект не приема нови акаунти.</string>
     <string name="attachproject_login_button_registration">Регистрирай се</string>
     <string name="attachproject_login_button_login">Впиши се</string>
     <string name="attachproject_login_button_forgotpw">Забравена парола</string>
-    <string name="attachproject_login_error_toast">Неуспешно свързване с проекта!</string>
-    <string name="attachproject_login_attached">Присъединен</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Регистрация на акаунт за</string>
-    <string name="attachproject_registration_header_url">Проект:</string>
-    <string name="attachproject_registration_header_email">Имейл:</string>
-    <string name="attachproject_registration_header_username">Име:</string>
-    <string name="attachproject_registration_header_teamname">Отбор:</string>
-    <string name="attachproject_registration_header_pwd">Парола:</string>
-    <string name="attachproject_registration_header_pwd_confirm">…и отново:</string>
-    <string name="attachproject_registration_button">Създай</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Използвайте BOINC акаунт мениджър, за да добавяте или управлявате
         няколко проекта
@@ -94,14 +64,10 @@
     <string name="attachproject_acctmgr_header_url">URL адрес</string>
     <string name="attachproject_acctmgr_header_name">Потребител:</string>
     <string name="attachproject_acctmgr_header_pwd">Парола:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">…и отново:</string>
-    <string name="attachproject_acctmgr_button">Добави</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">Потребителя не е намерен</string>
     <string name="attachproject_error_short_pwd">Паролата е твърде кратка</string>
     <string name="attachproject_error_no_internet">Неуспешна връзка</string>
-    <string name="attachproject_error_pwd_no_match">Паролите не съвпадат</string>
-    <string name="attachproject_error_pwd_no_retype">Моля, въведете паролата отново</string>
     <string name="attachproject_error_no_url">Моля, въведете URL адрес</string>
     <string name="attachproject_error_no_email">Моля, въведете имейл адрес</string>
     <string name="attachproject_error_no_pwd">Моля, въведете парола</string>
@@ -115,26 +81,6 @@
     <string name="attachproject_error_creation_disabled">Създаването на нов акаунт за този проект е деактивирано
     </string>
     <string name="attachproject_error_invalid_url">Невалиден URL адрес</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Назад</string>
-    <string name="attachproject_working_finish_button">Приключи</string>
-    <string name="attachproject_working_check_desc">Успешно</string>
-    <string name="attachproject_working_failed_desc">Неуспешно</string>
-    <string name="attachproject_working_ongoing">…</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Свържи се</string>
-    <string name="attachproject_working_verify">Потвърди акаунт</string>
-    <string name="attachproject_working_register">Регистрирай акаунт</string>
-    <string name="attachproject_working_login">Вход</string>
-    <string name="attachproject_working_acctmgr">Добави акаунт мениджър</string>
-    <string name="attachproject_working_acctmgr_sync">Синхронизирай</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Натиснете тук, за да изберете проект.</string>
-    <string name="main_error">Опа</string>
-    <string name="main_error_long">…това не би трябвало да се случва!\nНатиснете на иконата, за да опитате отново.
-    </string>
-    <string name="main_title_icon_desc">BOINC икона</string>
     <!--tab names-->
     <string name="tab_status">Статус</string>
     <string name="tab_projects">Проекти</string>
@@ -154,14 +100,9 @@
     </string>
     <string name="status_launching">Стартиране…</string>
     <string name="status_noproject">Изберете проект, в който искате да участвате.</string>
-    <string name="status_closing">Затваряне…</string>
     <string name="status_benchmarking">Тестване на CPU-то...</string>
     <string name="status_image_description">изображение на проекта</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Четене на предпочитанията…</string>
-    <string name="prefs_submit_button">Запази</string>
-    <string name="prefs_dialog_title">Въведи нова стойност:</string>
-    <string name="prefs_dialog_title_selection">Изберете:</string>
     <string name="prefs_category_general">Основен</string>
     <string name="prefs_category_network">Мрежа</string>
     <string name="prefs_category_power">Консумация</string>
@@ -218,10 +159,7 @@
     <string name="prefs_client_log_flags_header">Флагове за записите на BOINC Клиента</string>
     <string name="prefs_gui_log_level_header">Степен на вербалност на записите на GUI</string>
     <string name="prefs_gui_log_level_description">Дефинира нивото на подробност на съобщенията от GUI.</string>
-    <string name="prefs_unit_celsius">°C</string>
-    <string name="prefs_unit_seconds">сек</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Прочитане на проекти…</string>
     <string name="projects_add">Добавете проект</string>
     <string name="projects_icon">Икона на проекта</string>
     <string name="projects_credits">Кредит:</string>
@@ -234,7 +172,7 @@
     <string name="projects_status_schedrpcpending">Заявка на Планировчика в процес на изчакване</string>
     <string name="projects_status_schedrpcinprogress">Заявка на Планировчика в процес на извършване</string>
     <string name="projects_status_trickleuppending">Изходящо съобщение в процес на изчакване</string>
-    <string name="projects_status_backoff">Връзка е планирана след:</string>
+    <string name="projects_status_backoff">Връзка е планирана след: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Команди на проекта:</string>
     <string name="projects_control_visit_website">Посетете уебсайт</string>
@@ -283,24 +221,15 @@
     <string name="confirm_cancel">Откажи</string>
     <string name="confirm_image_desc">Диалог за потвърждение</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Четене на трансфери…</string>
     <string name="trans_upload">Качване</string>
     <string name="trans_download">Изтегляне</string>
-    <string name="trans_retryin">нов опит след</string>
-    <string name="trans_failed">неуспешен</string>
+    <string name="trans_retry_in">нов опит след %1$s</string>
     <string name="trans_suspended">временно прекратен</string>
     <string name="trans_active">активен</string>
     <string name="trans_pending">в режим на изчакване</string>
-    <string name="trans_projectbackoff">отстъп от проекта</string>
     <string name="trans_header_name">Файл:</string>
     <string name="trans_control_retry">Опитай трансфери отново</string>
-    <string name="confirm_abort_trans_title">Прекратяване на трансфер?</string>
-    <string name="confirm_abort_trans_message">Прекрати Файл:</string>
-    <string name="confirm_abort_trans_confirm">Прекрати</string>
-    <!--notices tab strings-->
-    <string name="notices_loading">В процес на четене на новини...</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Зареждане на записите от регистъра…</string>
     <string name="eventlog_client_header">Съобщения от Клиента</string>
     <string name="eventlog_gui_header">Съобщения от GUI</string>
     <string name="eventlog_copy_toast">Записът е копиран в клип-борда.</string>
@@ -312,7 +241,6 @@
     <string name="suspend_screen_on">Изключете екрана, за да продължите изчисленията.</string>
     <string name="suspend_useractive">Потребителят е активен.</string>
     <string name="suspend_tod">Извън рамката за изчислително време.</string>
-    <string name="suspend_bm">BOINC изчислява референтните CPU показатели за вашето устройство…</string>
     <string name="suspend_disksize">Недостатъчно дисково пространство.</string>
     <string name="suspend_cputhrottle">Планирано потискане на CPU.</string>
     <string name="suspend_noinput">Няма скорошна активност на потребител.</string>
@@ -325,11 +253,8 @@
     <string name="suspend_battery_charging">Изчакване на батерията да се зареди.</string>
     <string name="suspend_battery_charging_long">Изчисленията ще се подновят когато заряда на батерията достигне
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">в момента</string>
     <string name="suspend_battery_overheating">Изчакване на батерията да се охлади</string>
     <string name="suspend_user_req">Подновяване на изчисленията…</string>
-    <string name="suspend_network_user_req">ръчно.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">По заявка на потребителя</string>
     <string name="rpcreason_needwork">За да вземе работа</string>

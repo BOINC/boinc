@@ -129,6 +129,7 @@ locale/*/*.flag
 3rdParty/linux/
 3rdParty/mac/
 3rdParty/buildCache/
+3rdParty/android/
 
 .libs/
 svn_version.h

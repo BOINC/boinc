@@ -32,8 +32,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import edu.berkeley.boinc.adapter.ProjectListEntry
+import edu.berkeley.boinc.adapter.SelectionRecyclerViewAdapter
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
@@ -107,7 +110,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     // triggered by continue button
-    fun continueClicked(v: View?) {
+    fun continueClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         if (!checkProjectChecked() || !checkDeviceOnline()) {
             return
         }
@@ -144,7 +147,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     // triggered by cancel button
-    fun cancelClicked(v: View?) {
+    fun cancelClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         onCancel()
     }
 
@@ -220,7 +223,8 @@ class SelectionListActivity : AppCompatActivity() {
         if (!statusAcctMgrPresent) {
             entries.add(ProjectListEntry()) // add account manager option to bottom of list
         }
-        binding.listview.adapter = SelectionListAdapter(this@SelectionListActivity, R.id.listview, entries)
+        binding.projectsRecyclerView.adapter = SelectionRecyclerViewAdapter(this, entries)
+        binding.projectsRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     private suspend fun retrieveProjectList() = withContext(Dispatchers.Default) {

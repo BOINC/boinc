@@ -25,6 +25,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener
@@ -40,7 +41,7 @@ import kotlinx.coroutines.withContext
 class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInputFragmentListener {
     private lateinit var binding: AttachProjectBatchConflictsLayoutBinding
 
-    private lateinit var listAdapter: BatchConflictListAdapter
+    private lateinit var recyclerViewAdapter: BatchConflictRecyclerViewAdapter
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
     private var manualUrl: String? = null
@@ -53,7 +54,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
                 Log.d(Logging.TAG, "BatchConflictListActivity ClientStatusChange - onReceive()")
             }
             if (asIsBound) {
-                listAdapter.notifyDataSetChanged()
+                recyclerViewAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -77,9 +78,12 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
 
             // retrieve data
             val results = attachService!!.selectedProjects
-            listAdapter = BatchConflictListAdapter(this@BatchConflictListActivity, R.id.listview,
-                    results, supportFragmentManager)
-            binding.listview.adapter = listAdapter
+            recyclerViewAdapter = BatchConflictRecyclerViewAdapter(this@BatchConflictListActivity,
+                    results)
+            binding.recyclerView.apply {
+                adapter = recyclerViewAdapter
+                layoutManager = LinearLayoutManager(this@BatchConflictListActivity)
+            }
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size + " elements.")
             }
@@ -182,7 +186,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         if (asIsBound) {
             project.result = RESULT_ONGOING
             // adapt layout to changed state
-            listAdapter.notifyDataSetChanged()
+            recyclerViewAdapter.notifyDataSetChanged()
         } else {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "attachProject(): service not bound, cancel.")
@@ -203,6 +207,6 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
 
         // adapt layout to changed state
-        listAdapter.notifyDataSetChanged()
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 }

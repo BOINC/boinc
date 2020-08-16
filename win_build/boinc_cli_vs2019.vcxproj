@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="boinc.props" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -73,7 +74,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/openssl/;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/curl/;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;$(VcpkgInstalledDir)/include/openssl/;$(VcpkgInstalledDir)/include/curl/;$(VcpkgInstalledDir)/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -100,7 +101,7 @@
     <Link>
       <AdditionalDependencies>zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;nvapi.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;Iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/debug/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/debug/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\boinc_exe.pdb</ProgramDatabaseFile>
@@ -133,7 +134,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/openssl/;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/curl/;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;$(VcpkgInstalledDir)/include/openssl/;$(VcpkgInstalledDir)/include/curl/;$(VcpkgInstalledDir)/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -159,7 +160,7 @@
       <AdditionalDependencies>zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;nvapi.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>

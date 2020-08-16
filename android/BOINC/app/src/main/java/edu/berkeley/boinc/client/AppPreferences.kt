@@ -31,7 +31,7 @@ class AppPreferences @Inject constructor(val context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     var autostart = prefs.getBoolean("autostart", context.resources.getBoolean(R.bool.prefs_default_autostart))
-    var showNotificationForNotices = prefs.getBoolean("showNotification",
+    var showNotificationForNotices = prefs.getBoolean("showNotifications",
             context.resources.getBoolean(R.bool.prefs_default_notification_notices))
     var showAdvanced = prefs.getBoolean("showAdvanced", context.resources.getBoolean(R.bool.prefs_default_advanced))
     var logLevel = prefs.getInt("logLevel", context.resources.getInteger(R.integer.prefs_default_loglevel))

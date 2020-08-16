@@ -116,7 +116,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "htmlgfx", "htmlgfx_vs2019.v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccas", "boinccas_vs2019.vcxproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcpkg_3rdparty_dependencies_2019", "vcpkg_3rdparty_dependencies_2019.vcxproj", "{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcpkg_3rdparty_dependencies", "vcpkg_3rdparty_dependencies_vs2019.vcxproj", "{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittests", "unittests_vs2019.vcxproj", "{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -264,6 +269,10 @@ Global
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Debug|x64.Build.0 = Debug|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Release|x64.ActiveCfg = Release|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Release|x64.Build.0 = Release|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Debug|x64.ActiveCfg = Debug|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Debug|x64.Build.0 = Debug|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.ActiveCfg = Release|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

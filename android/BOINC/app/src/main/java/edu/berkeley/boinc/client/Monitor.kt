@@ -38,6 +38,8 @@ import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import okio.buffer
+import okio.source
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
@@ -53,6 +55,13 @@ import kotlin.properties.Delegates
  * - holds singleton of client status data model and applications persistent preferences
  */
 class Monitor : LifecycleService() {
+    private val abi = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        @Suppress("DEPRECATION")
+        Build.CPU_ABI
+    } else {
+        Build.SUPPORTED_ABIS[0]
+    }
+
     //hold the status of the app, controlled by AppPreferences
     @Inject
     lateinit var appPreferences: AppPreferences
@@ -64,6 +73,9 @@ class Monitor : LifecycleService() {
     //provides functions for interaction with client via RPC
     @Inject
     lateinit var clientInterface: ClientInterfaceImplementation
+
+    @Inject
+    lateinit var clientNotification: ClientNotification
 
     //holds the status of the client as determined by the Monitor
     @Inject
@@ -354,7 +366,7 @@ class Monitor : LifecycleService() {
             if (Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): computation enabled: $computing")
             clientStatus.setWifiLock(computing)
             clientStatus.setWakeLock(computing)
-            ClientNotification.getInstance(applicationContext).update(clientStatus, this, computing)
+            clientNotification.update(clientStatus, this, computing)
         } catch (e: Exception) {
             if (Logging.ERROR)
                 Log.e(Logging.TAG, "Monitor.readClientStatus exception: " + e.message, e)
@@ -465,8 +477,7 @@ class Monitor : LifecycleService() {
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
-                val model = "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT}" +
-                        " ABI: ${Build.CPU_ABI}"
+                val model = "${Build.MANUFACTURER} ${Build.MODEL} - SDK: ${Build.VERSION.SDK_INT} ABI: $abi"
                 val version = Build.VERSION.RELEASE
                 if (Logging.ERROR) {
                     Log.d(Logging.TAG, "reporting hostinfo model name: $model")
@@ -628,12 +639,14 @@ class Monitor : LifecycleService() {
      */
     private fun computeMd5(fileName: String, inAssets: Boolean): String {
         try {
-            val md5Bytes = if (inAssets) {
-                md5Digest().digest(applicationContext.assets.open(assetsDirForCpuArchitecture + fileName))
+            val source = if (inAssets) {
+                applicationContext.assets.open(assetsDirForCpuArchitecture + fileName).source()
             } else {
-                md5Digest().digest(fileName)
-            }
-            return md5Bytes.md5Hex()
+                File(fileName).source()
+            }.buffer()
+            val md5 = source.readByteString().md5().hex()
+            source.close()
+            return md5
         } catch (e: IOException) {
             if (Logging.ERROR) Log.e(Logging.TAG, IOEXCEPTION_LOG + e.message)
         }
@@ -1099,12 +1112,12 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectIconByName(name: String): Bitmap {
+        override fun getProjectIconByName(name: String): Bitmap? {
             return clientStatus.getProjectIconByName(name)
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectIcon(id: String): Bitmap {
+        override fun getProjectIcon(id: String): Bitmap? {
             return clientStatus.getProjectIcon(id)
         }
 

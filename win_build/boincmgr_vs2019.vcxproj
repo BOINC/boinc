@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="boinc.props" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -64,7 +65,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;$(VcpkgInstalledDir)/include/;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;wxDEBUG_LEVEL=0</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -79,11 +80,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31u.lib;wxbase31u_net.lib;wxbase31u_xml.lib;wxmsw31u_adv.lib;wxmsw31u_core.lib;wxmsw31u_html.lib;wxmsw31u_qa.lib;wxmsw31u_webview.lib;wxregexu.lib;libpng16.lib;jpeg.lib;tiff.lib;sqlite3.lib;zlib.lib;lzma.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);../3rdParty/Windows/vcpkg/installed/x64-windows-static/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31u.lib;wxbase31u_net.lib;wxbase31u_xml.lib;wxmsw31u_adv.lib;wxmsw31u_core.lib;wxmsw31u_html.lib;wxmsw31u_qa.lib;wxmsw31u_webview.lib;wxregexu.lib;libpng16.lib;jpeg.lib;tiff.lib;zlib.lib;lzma.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(VcpkgInstalledDir)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -106,7 +107,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../win_build;..;../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;..;$(VcpkgInstalledDir)/include/;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -126,11 +127,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../3rdParty/Windows/vcpkg/installed/x64-windows-static/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpegd.lib;tiffd.lib;sqlite3.lib;zlibd.lib;lzmad.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);../3rdParty/Windows/vcpkg/installed/x64-windows-static/debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpegd.lib;tiffd.lib;zlibd.lib;lzmad.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(VcpkgInstalledDir)/debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -222,7 +223,6 @@
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
-    <ClCompile Include="..\clientgui\browser.cpp" />
     <ClCompile Include="..\clientgui\LogBOINC.cpp" />
     <ClCompile Include="..\clientgui\SkinManager.cpp" />
     <ClCompile Include="..\clientgui\ValidateAccountKey.cpp" />
@@ -329,7 +329,6 @@
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />
-    <ClInclude Include="..\clientgui\browser.h" />
     <ClInclude Include="..\clientgui\LogBOINC.h" />
     <ClInclude Include="..\clientgui\SkinManager.h" />
     <ClInclude Include="..\clientgui\ValidateAccountKey.h" />

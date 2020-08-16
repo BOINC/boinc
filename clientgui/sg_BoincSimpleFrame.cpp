@@ -32,7 +32,6 @@
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
-#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -487,7 +486,9 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
             item->Enable(true);
         } else {
             // Disable other menu items if not connected to client
-            item->Enable(isConnected);
+            if (!isConnected) {
+                item->Enable(false);
+            }
         }
     }
     
@@ -795,7 +796,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     std::string strProjectInstitution;
     std::string strProjectDescription;
     std::string strProjectKnown;
-    std::string strProjectSetupCookie;
     bool        bAccountKeyDetected = false;
     bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
@@ -869,25 +869,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         if (pis.url.size() > 0) {
-
             strProjectName = pis.name.c_str();
             strProjectURL = pis.url.c_str();
-            strProjectSetupCookie = pis.setup_cookie.c_str();
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
-
-            // If credentials are not cached, then we should try one last place to look up the
-            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
-            //   pretty short timeout.  Lets take a crack at detecting it.
-            //
-            if (pis.url.length() && !pis.has_account_key) {
-                detect_setup_authenticator(pis.url, strProjectAuthenticator);
-            }
-
-        } else {
-            detect_simple_account_credentials(
-                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
-            );
         }
         
         Show();
@@ -901,7 +886,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             wxURI::Unescape(strProjectInstitution),
             wxURI::Unescape(strProjectDescription),
             wxURI::Unescape(strProjectKnown),
-            wxURI::Unescape(strProjectSetupCookie),
             bAccountKeyDetected,
             bEmbedded
         );

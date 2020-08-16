@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2020 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,6 +11,7 @@
 # Pedro Motta <manomanpmm@gmail.com>, 2016
 # Rafael Guimarães Pereira <wirttipereira@hotmail.com>, 2019
 # Renata Ross Kloss <renata.agkn@gmail.com>, 2018
+# RUBENS LOPES FERREIRA JUNIOR <dnajun@gmail.com>, 2020
 # Túlio Villafañe <tuliovillafane@gmail.com>, 2016
 # Victor Rosa <victorprosa2@gmail.com>, 2017
 # Wiri Marcolan Kamei <wirimk@hotmail.com>, 2016-2017
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-12-21 12:31+0000\n"
-"Last-Translator: Noriel Chang Reissig <Noriel.Chang@gmail.com>\n"
+"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
+"PO-Revision-Date: 2020-07-11 20:22+0000\n"
+"Last-Translator: Wiri Marcolan Kamei <wirimk@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -286,6 +287,7 @@ msgid "Do work"
 msgstr "Trabalhar"
 
 #: html/inc/bootstrap.inc:175 html/user/server_status.php:117
+#: html/user/temp.php:62
 msgid "Server status"
 msgstr "Status do servidor"
 
@@ -337,7 +339,7 @@ msgstr "criar ou entrar em uma equipe"
 msgid "Profiles"
 msgstr "Perfis"
 
-#: html/inc/bootstrap.inc:196
+#: html/inc/bootstrap.inc:196 html/user/user_search.php:46
 msgid "User search"
 msgstr "Pesquisa de usuário"
 
@@ -443,8 +445,8 @@ msgstr "Pesquisar nos fóruns"
 msgid "Advanced search"
 msgstr "Pesquisa avançada"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
-#: html/user/pm.php:127
+#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
 msgid "Private messages"
 msgstr "Mensagens particulares"
 
@@ -464,307 +466,311 @@ msgstr "Anterior"
 msgid "Next"
 msgstr "Próximo"
 
-#: html/inc/forum.inc:424 html/inc/forum.inc:1311
+#: html/inc/forum.inc:424 html/inc/forum.inc:1317
 #: html/user/forum_forum.php:146 html/user/forum_reply.php:127
-#: html/user/forum_report_post.php:86
+#: html/user/forum_report_post.php:89
 msgid "Author"
 msgstr "Autor"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_post.php:127
-#: html/user/forum_reply.php:127 html/user/forum_report_post.php:87
+#: html/user/forum_edit.php:141 html/user/forum_pm.php:65
+#: html/user/forum_pm.php:114 html/user/forum_post.php:127
+#: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr "Mensagem"
 
-#: html/inc/forum.inc:610 html/inc/pm.inc:95 html/inc/pm.inc:177
+#: html/inc/forum.inc:611 html/inc/pm.inc:95 html/inc/pm.inc:177
 msgid "Send message"
 msgstr "Enviar mensagem"
 
-#: html/inc/forum.inc:610
+#: html/inc/forum.inc:611
 msgid "Send %1 a private message"
 msgstr "Enviar a %1 uma mensagem privada"
 
-#: html/inc/forum.inc:611
+#: html/inc/forum.inc:612
 msgid "Joined: %1"
 msgstr "Entrou: %1"
 
-#: html/inc/forum.inc:620
+#: html/inc/forum.inc:621
 msgid "Posts: %1"
 msgstr "Posts: %1"
 
-#: html/inc/forum.inc:626
+#: html/inc/forum.inc:627
 msgid "Credit: %1"
 msgstr "Créditos: %1"
 
-#: html/inc/forum.inc:627
+#: html/inc/forum.inc:628
 msgid "RAC: %1"
 msgstr "CMR: %1"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "You haven't read this message yet"
 msgstr "Você ainda não leu esta mensagem"
 
-#: html/inc/forum.inc:657
+#: html/inc/forum.inc:658
 msgid "Unread"
 msgstr "Não lido"
 
-#: html/inc/forum.inc:660 html/inc/forum.inc:665 html/inc/forum.inc:778
+#: html/inc/forum.inc:661 html/inc/forum.inc:666 html/inc/forum.inc:784
 msgid "Message %1"
 msgstr "Mensagem %1"
 
-#: html/inc/forum.inc:661 html/inc/user.inc:474 html/user/forum_forum.php:186
+#: html/inc/forum.inc:662 html/inc/user.inc:474 html/user/forum_forum.php:186
 msgid "hidden"
 msgstr "oculto"
 
-#: html/inc/forum.inc:662
+#: html/inc/forum.inc:663
 msgid "Posted: %1"
 msgstr "Postado: %1"
 
-#: html/inc/forum.inc:665
+#: html/inc/forum.inc:666
 msgid " - in response to "
 msgstr " - em resposta a "
 
-#: html/inc/forum.inc:668 html/inc/prefs_util.inc:734
+#: html/inc/forum.inc:669 html/inc/prefs_util.inc:734
 #: html/inc/prefs_util.inc:736
 msgid "Edit"
 msgstr "Editar"
 
-#: html/inc/forum.inc:668
+#: html/inc/forum.inc:669
 msgid "Edit this message"
 msgstr "Editar essa mensagem"
 
-#: html/inc/forum.inc:674
+#: html/inc/forum.inc:675
 msgid "Last modified: %1"
 msgstr "Última modificação: %1"
 
-#: html/inc/forum.inc:678
+#: html/inc/forum.inc:679
 msgid ""
 "This post is hidden because the sender is on your 'ignore' list.  Click %1 "
 "here %2 to view hidden posts"
 msgstr "Este post está oculto porque o remetente está em sua lista de 'ignorados'.  Clique %1 aqui %2 para ver posts ocultos"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report this post as offensive"
 msgstr "Reportar este post como ofensivo"
 
-#: html/inc/forum.inc:716 html/inc/forum.inc:727
+#: html/inc/forum.inc:717 html/inc/forum.inc:728
 msgid "Report as offensive"
 msgstr "Reportar como ofensivo"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "Rating: %1"
 msgstr "Avaliação: %1"
 
-#: html/inc/forum.inc:720
+#: html/inc/forum.inc:721
 msgid "rate: "
 msgstr "avalie:"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Click if you like this message"
 msgstr "Clique se você gostou dessa mensagem"
 
-#: html/inc/forum.inc:723
+#: html/inc/forum.inc:724
 msgid "Rate +"
 msgstr "Avaliar +"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Click if you don't like this message"
 msgstr "Clique se você não gostou dessa mensagem"
 
-#: html/inc/forum.inc:725
+#: html/inc/forum.inc:726
 msgid "Rate -"
 msgstr "Avaliar -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:734 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/forum_pm.php:79 html/user/forum_pm.php:117
+#: html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Responder"
 
-#: html/inc/forum.inc:734
+#: html/inc/forum.inc:735
 msgid "Post a reply to this message"
 msgstr "Postar uma resposta a esta mensagem"
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Quote"
 msgstr "Citação"
 
-#: html/inc/forum.inc:737
+#: html/inc/forum.inc:738
 msgid "Post a reply by quoting this message"
 msgstr "Postar uma resposta citando esta mensagem"
 
-#: html/inc/forum.inc:759
+#: html/inc/forum.inc:765
 msgid "Hidden by a moderator"
 msgstr "Ocultado pelo moderador"
 
-#: html/inc/forum.inc:780
+#: html/inc/forum.inc:786
 msgid "Posted %1 by %2"
 msgstr "Postado %1 por %2"
 
-#: html/inc/forum.inc:800
+#: html/inc/forum.inc:806
 msgid "You may not post or rate messages until %1"
 msgstr "Você não pode postar ou avaliar mensagens antes de %1"
 
-#: html/inc/forum.inc:825
+#: html/inc/forum.inc:831
 msgid ""
 "Posts must be 'kid friendly': they may not contain content that is obscene, "
 "hate-related, sexually explicit or suggestive."
 msgstr "Postagens devem ser seguras para crianças: elas não podem possuir conteúdo obsceno, relacionado a ódio, sexualmente explícito ou sugestivo. "
 
-#: html/inc/forum.inc:826
+#: html/inc/forum.inc:832
 msgid "No commercial advertisements."
 msgstr "Sem anúncios com finalidade comercial."
 
-#: html/inc/forum.inc:827
+#: html/inc/forum.inc:833
 msgid ""
 "No links to web sites involving sexual content, gambling, or intolerance of "
 "others."
 msgstr "Sem links para páginas envolvendo conteúdo sexual, apostas, ou intolância a outros."
 
-#: html/inc/forum.inc:828
+#: html/inc/forum.inc:834
 msgid ""
 "No messages intended to annoy or antagonize other people, or to hijack a "
 "thread."
 msgstr "Sem mensagens com intenção de irritar ou antagonizar outras pessoas, ou para desvirtuar o assunto original em discussão."
 
-#: html/inc/forum.inc:829
+#: html/inc/forum.inc:835
 msgid "No messages that are deliberately hostile, threatening, or insulting."
 msgstr "Sem mensagens deliberadamente hostis, ameaças ou insultos."
 
-#: html/inc/forum.inc:830
+#: html/inc/forum.inc:836
 msgid ""
 "No abusive messages involving race, religion, nationality, gender, class or "
 "sexuality."
 msgstr "Sem mensagens envolvendo raça, religião, nacionalidade, gênero, classe ou sexualidade."
 
-#: html/inc/forum.inc:831
+#: html/inc/forum.inc:837
 msgid "Posts that violate these rules may be deleted."
 msgstr "Postagens que violares estas regras podem ser deletadas."
 
-#: html/inc/forum.inc:832
+#: html/inc/forum.inc:838
 msgid "The posting privileges of violators may be suspended or revoked."
 msgstr "O direito de postagem dos perpetuadores de violações poderão ser suspensos ou revogados."
 
-#: html/inc/forum.inc:833
+#: html/inc/forum.inc:839
 msgid "If your account is suspended, don't create a new one."
 msgstr "Caso sua conta seja suspensa, não crie uma nova."
 
-#: html/inc/forum.inc:852
+#: html/inc/forum.inc:858
 msgid "Rules:"
 msgstr "Regras:"
 
-#: html/inc/forum.inc:1172 html/user/forum_thread.php:195
+#: html/inc/forum.inc:1178 html/user/forum_thread.php:195
 msgid "Unhide"
 msgstr "Desocultar"
 
-#: html/inc/forum.inc:1172
+#: html/inc/forum.inc:1178
 msgid "Unhide this post"
 msgstr "Desocultar este post"
 
-#: html/inc/forum.inc:1174 html/user/forum_thread.php:201
+#: html/inc/forum.inc:1180 html/user/forum_thread.php:201
 msgid "Hide"
 msgstr "Ocultar"
 
-#: html/inc/forum.inc:1174
+#: html/inc/forum.inc:1180
 msgid "Hide this post"
 msgstr "Ocultar este comentário"
 
-#: html/inc/forum.inc:1179 html/user/forum_thread.php:234
+#: html/inc/forum.inc:1185 html/user/forum_thread.php:234
 msgid "Move"
 msgstr "Mover"
 
-#: html/inc/forum.inc:1179
+#: html/inc/forum.inc:1185
 msgid "Move post to a different thread"
 msgstr "Mover post para um assunto diferente"
 
-#: html/inc/forum.inc:1184
+#: html/inc/forum.inc:1190
 msgid "Banish author"
 msgstr "Banir autor"
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1197
 msgid "Vote to banish author"
 msgstr "Votar para banir autor"
 
-#: html/inc/forum.inc:1195
+#: html/inc/forum.inc:1201
 msgid "Vote not to banish author"
 msgstr "Votar para não banir o autor"
 
-#: html/inc/forum.inc:1200
+#: html/inc/forum.inc:1206
 msgid "Start vote to banish author"
 msgstr "Iniciar votação para banir o autor"
 
-#: html/inc/forum.inc:1205 html/inc/user.inc:373
-#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_pm.php:78
+#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
+#: html/user/forum_pm.php:282 html/user/forum_thread.php:248
+#: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Deletar"
 
-#: html/inc/forum.inc:1205
+#: html/inc/forum.inc:1211
 msgid "Delete this post"
 msgstr "Deletar este post"
 
-#: html/inc/forum.inc:1245
+#: html/inc/forum.inc:1251
 msgid "Only team members can post to the team message board"
 msgstr "Somente membros da equipe podem postar no quadro de mensagens da equipe"
 
-#: html/inc/forum.inc:1255
+#: html/inc/forum.inc:1261
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr "Para criar um novo assunto em %1 você deve ter uma certa quantia de crédito médio. Isto é para proteção contra abusos do sistema."
 
-#: html/inc/forum.inc:1262
+#: html/inc/forum.inc:1268
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr "Você não pode criar assuntos agora. Por favor aguarde antes de tentar de novo. Isto é para proteção contra abusos do sistema."
 
-#: html/inc/forum.inc:1269
+#: html/inc/forum.inc:1275
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr "Este assunto está fechado. Somente moderadores do fórum e administradores estão autorizados a postar aqui."
 
-#: html/inc/forum.inc:1274
+#: html/inc/forum.inc:1280
 msgid "Can't post to a hidden thread."
 msgstr "Não se pode postar em um assunto oculto."
 
-#: html/inc/forum.inc:1309
+#: html/inc/forum.inc:1315
 msgid "Thread"
 msgstr "Assunto"
 
-#: html/inc/forum.inc:1310 html/inc/team.inc:142 html/user/forum_forum.php:145
+#: html/inc/forum.inc:1316 html/inc/team.inc:142 html/user/forum_forum.php:145
 #: html/user/forum_index.php:98
 msgid "Posts"
 msgstr "Posts"
 
-#: html/inc/forum.inc:1312 html/user/forum_forum.php:147
+#: html/inc/forum.inc:1318 html/user/forum_forum.php:147
 msgid "Views"
 msgstr "Visualizações"
 
-#: html/inc/forum.inc:1313 html/inc/team.inc:142 html/user/forum_forum.php:148
+#: html/inc/forum.inc:1319 html/inc/team.inc:142 html/user/forum_forum.php:148
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:99
 msgid "Last post"
 msgstr "Última postagem"
 
-#: html/inc/forum.inc:1370
+#: html/inc/forum.inc:1377
 msgid "New posts in the thread %1"
 msgstr "Novos posts no assunto %1"
 
-#: html/inc/forum.inc:1375
+#: html/inc/forum.inc:1382
 msgid "New posts in subscribed thread"
 msgstr "Novos posts no assunto subscrito"
 
-#: html/inc/forum.inc:1376
+#: html/inc/forum.inc:1383
 msgid "There are new posts in the thread '%1'"
 msgstr "Há novos posts no assunto '%1'"
 
-#: html/inc/forum.inc:1386
+#: html/inc/forum.inc:1393
 msgid "Mark all threads as read"
 msgstr "Marcar todos os assuntos como lidos"
 
-#: html/inc/forum.inc:1387
+#: html/inc/forum.inc:1394
 msgid "Mark all threads in all message boards as read."
 msgstr "Marcar todos os assuntos em todos os quadros de mensagens como lidos."
 
@@ -1173,8 +1179,8 @@ msgstr "Discutir"
 msgid "News is available as an %sRSS feed%s"
 msgstr "Notícias estão disponíveis como %sRSS feed%s"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
-#: html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/forum_pm.php:50
+#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
@@ -1208,16 +1214,18 @@ msgstr "Enviar mensagem à equipe"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_post.php:65
-#: html/user/forum_post.php:97 html/user/forum_post.php:98
-#: html/user/forum_post.php:144 html/user/forum_reply.php:77
-#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
-#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_pm.php:148
+#: html/user/forum_post.php:65 html/user/forum_post.php:97
+#: html/user/forum_post.php:98 html/user/forum_post.php:144
+#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
+#: html/user/forum_reply.php:115 html/user/forum_reply.php:170
+#: html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "Prévia"
 
 #: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
-#: html/user/pm.php:79 html/user/pm.php:133
+#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
+#: html/user/pm.php:133
 msgid "Subject"
 msgstr "Assunto"
 
@@ -1368,9 +1376,9 @@ msgid "Compute only during a particular period each day."
 msgstr "Computar apenas durante um período particular do dia."
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
+#: html/user/forum_banishment_vote.php:70
 #: html/user/forum_banishment_vote_action.php:65
-#: html/user/forum_banishment_vote.php:70 html/user/forum_moderate_post.php:65
-#: html/user/forum_moderate_thread.php:61
+#: html/user/forum_moderate_post.php:65 html/user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr "Outro"
 
@@ -1527,7 +1535,7 @@ msgstr "Exemplo: BOINC deve transferir no máximo 2000 MB de dados a cada 30 dia
 msgid "MB every"
 msgstr "MB a cada"
 
-#: html/inc/prefs.inc:212 html/inc/util.inc:393
+#: html/inc/prefs.inc:212 html/inc/util.inc:417
 msgid "days"
 msgstr "dias"
 
@@ -2182,7 +2190,7 @@ msgstr "Tipo de equipe"
 msgid "Show only active teams"
 msgstr "Mostrar apenas equipes ativas"
 
-#: html/inc/team.inc:53 html/inc/util.inc:1135 html/user/profile_menu.php:78
+#: html/inc/team.inc:53 html/inc/util.inc:1159 html/user/profile_menu.php:78
 #: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr "Procurar"
@@ -2695,89 +2703,81 @@ msgstr "Não foi possível criar a conta"
 msgid "database error, please contact site administrators"
 msgstr "Erro no banco de dados, favor contatar o administrador do site"
 
-#: html/inc/util.inc:204
+#: html/inc/util.inc:207
 msgid "log out"
 msgstr "sair"
 
-#: html/inc/util.inc:206
+#: html/inc/util.inc:209
 msgid "log in"
 msgstr "entrar"
 
 #. kludge
-#: html/inc/util.inc:322 html/user/login_form.php:40
+#: html/inc/util.inc:346 html/user/login_form.php:40
 msgid "Log in"
 msgstr "Entrar"
 
-#: html/inc/util.inc:323
+#: html/inc/util.inc:347
 msgid "Create an account"
 msgstr "Criar uma conta"
 
-#: html/inc/util.inc:324
+#: html/inc/util.inc:348
 msgid "Server status page"
 msgstr "Página de status do servidor"
 
-#: html/inc/util.inc:367
+#: html/inc/util.inc:391
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "Ocorreu um erro no banco de dados durante o processamento de seu pedido; por favor tente novamente mais tarde."
 
-#: html/inc/util.inc:376
+#: html/inc/util.inc:400
 msgid "Unable to handle request"
 msgstr "Não foi possível processar o pedido"
 
-#: html/inc/util.inc:396
+#: html/inc/util.inc:420
 msgid "hours"
 msgstr "horas"
 
-#: html/inc/util.inc:399
+#: html/inc/util.inc:423
 msgid "min"
 msgstr "min"
 
-#: html/inc/util.inc:402
+#: html/inc/util.inc:426
 msgid "sec"
 msgstr "seg"
 
-#: html/inc/util.inc:583
+#: html/inc/util.inc:607
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "O link expirou. Clique Voltar, recarregue a página e tente de novo."
 
-#: html/inc/util.inc:658
+#: html/inc/util.inc:682
 msgid "Use BBCode tags to format your text"
 msgstr "Use etiquetas BBCode para formatar seu texto"
 
-#: html/inc/util.inc:902
+#: html/inc/util.inc:926
 msgid "Project down for maintenance"
 msgstr "Projeto fora do ar para manutenção"
 
-#: html/inc/util.inc:905
+#: html/inc/util.inc:929
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 está temporariamente desligado para manutenção. Por favor, tente mais tarde."
 
-#: html/inc/util.inc:932
+#: html/inc/util.inc:956
 msgid "Unable to connect to database - please try again later"
 msgstr "Não foi possível conectar com o banco de dados - por favor, tente mais tarde"
 
-#: html/inc/util.inc:936
+#: html/inc/util.inc:960
 msgid "Unable to select database - please try again later"
 msgstr "Não foi possível selecionar o banco de dados - por favor, tente mais tarde"
 
-#: html/inc/util.inc:1114
+#: html/inc/util.inc:1138
 msgid "characters remaining"
 msgstr "caracteres remanescentes"
 
 #: html/inc/util_ops.inc:132
 msgid "Stay logged in on this computer"
 msgstr "Manter-se conectado neste computador"
-
-#: html/user/account_finish_action.php:27
-msgid "You must supply a name for your account"
-msgstr "Você deve dar um nome para sua conta"
-
-#: html/user/account_finish_action.php:30
-msgid "HTML tags not allowed in name"
-msgstr "Etiquetas HTML não são permitidas no nome"
 
 #: html/user/account_finish.php:34
 msgid "Finish account setup"
@@ -2786,6 +2786,14 @@ msgstr "Finalizar a configuração da conta"
 #: html/user/account_finish.php:52
 msgid "Optional; not shown to others"
 msgstr "Opcional; não disponível para outros"
+
+#: html/user/account_finish_action.php:27
+msgid "You must supply a name for your account"
+msgstr "Você deve dar um nome para sua conta"
+
+#: html/user/account_finish_action.php:30
+msgid "HTML tags not allowed in name"
+msgstr "Etiquetas HTML não são permitidas no nome"
 
 #. POST request - the user has submitted the form.
 #: html/user/account_ownership.php:32
@@ -3686,7 +3694,8 @@ msgstr "Ignorar posts em quadros de mensagens e mensagens privadas desses usuár
 msgid "User ID (For instance: 123456789)"
 msgstr "ID de usuário (Exemplo: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
+#: html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "Adicionar usuário ao filtro"
 
@@ -3955,32 +3964,10 @@ msgid "Send"
 msgstr "Enviar"
 
 #. Can't moderate without being moderator
-#: html/user/forum_banishment_vote_action.php:35
 #: html/user/forum_banishment_vote.php:37
+#: html/user/forum_banishment_vote_action.php:35
 msgid "You are not authorized to banish users."
 msgstr "Você não tem autorização para banir usuários."
-
-#: html/user/forum_banishment_vote_action.php:41
-#: html/user/forum_moderate_post_action.php:66
-msgid "You must specify an action..."
-msgstr "Você deve especificar uma ação..."
-
-#: html/user/forum_banishment_vote_action.php:59
-#: html/user/forum_banishment_vote.php:67 html/user/forum_moderate_post.php:60
-#: html/user/forum_moderate_thread.php:58
-msgid "Obscene"
-msgstr "Obsceno"
-
-#: html/user/forum_banishment_vote_action.php:61
-#: html/user/forum_banishment_vote.php:68 html/user/forum_moderate_post.php:61
-#: html/user/forum_moderate_thread.php:59
-msgid "Flame/Hate mail"
-msgstr "Email de Abuso/Ódio"
-
-#: html/user/forum_banishment_vote_action.php:63
-#: html/user/forum_banishment_vote.php:69 html/user/forum_moderate_post.php:64
-msgid "User Request"
-msgstr "Requerimento de Usuário"
 
 #: html/user/forum_banishment_vote.php:43
 #: html/user/forum_banishment_vote.php:48
@@ -4013,6 +4000,24 @@ msgstr "Selecione a categoria de razões, opcionalmente escreva uma descrição 
 msgid "Category"
 msgstr "Categoria"
 
+#: html/user/forum_banishment_vote.php:67
+#: html/user/forum_banishment_vote_action.php:59
+#: html/user/forum_moderate_post.php:60 html/user/forum_moderate_thread.php:58
+msgid "Obscene"
+msgstr "Obsceno"
+
+#: html/user/forum_banishment_vote.php:68
+#: html/user/forum_banishment_vote_action.php:61
+#: html/user/forum_moderate_post.php:61 html/user/forum_moderate_thread.php:59
+msgid "Flame/Hate mail"
+msgstr "Email de Abuso/Ódio"
+
+#: html/user/forum_banishment_vote.php:69
+#: html/user/forum_banishment_vote_action.php:63
+#: html/user/forum_moderate_post.php:64
+msgid "User Request"
+msgstr "Requerimento de Usuário"
+
 #: html/user/forum_banishment_vote.php:72 html/user/forum_moderate_post.php:56
 #: html/user/forum_moderate_thread.php:100
 msgid "Reason"
@@ -4026,6 +4031,11 @@ msgstr "Mailed if nonempty"
 #: html/user/forum_banishment_vote.php:78
 msgid "Proceed with vote"
 msgstr "Proceder com voto"
+
+#: html/user/forum_banishment_vote_action.php:41
+#: html/user/forum_moderate_post_action.php:66
+msgid "You must specify an action..."
+msgstr "Você deve especificar uma ação..."
 
 #: html/user/forum_edit.php:41
 msgid ""
@@ -4171,34 +4181,6 @@ msgstr "Se você tem uma pergunta ou problema, por favor use a seção %1 Pergun
 msgid "Subscribed threads"
 msgstr "Assuntos inscritos"
 
-#: html/user/forum_moderate_post_action.php:60
-msgid "You are not authorized to moderate this post."
-msgstr "Você não está autorizado a moderar este post."
-
-#: html/user/forum_moderate_post_action.php:105
-msgid "Can't move to different category type"
-msgstr "Não é possível mover para um tipo de categoria diferente"
-
-#: html/user/forum_moderate_post_action.php:109
-msgid "Can't move to different category"
-msgstr "Não é possível mover para uma categoria diferente"
-
-#: html/user/forum_moderate_post_action.php:130
-msgid "Not authorized to banish users"
-msgstr "Não autorizado a banir usuários"
-
-#: html/user/forum_moderate_post_action.php:146
-msgid "Banishment"
-msgstr "Banimento"
-
-#: html/user/forum_moderate_post_action.php:148
-msgid "User %1 has been banished."
-msgstr "Usuário %1 foi banido."
-
-#: html/user/forum_moderate_post_action.php:151
-msgid "Action failed: possible database problem"
-msgstr "Ação falhou: possível problema no banco de dados"
-
 #: html/user/forum_moderate_post.php:45
 msgid "Moderate post"
 msgstr "Moderar post"
@@ -4261,7 +4243,7 @@ msgstr "Para sempre"
 
 #: html/user/forum_moderate_post.php:104 html/user/forum_moderate_post.php:117
 #: html/user/forum_moderate_thread.php:106 html/user/forum_post.php:144
-#: html/user/forum_report_post.php:99 html/user/forum_rss.php:51
+#: html/user/forum_report_post.php:102 html/user/forum_rss.php:51
 #: html/user/friend.php:83
 msgid "OK"
 msgstr "OK"
@@ -4269,6 +4251,34 @@ msgstr "OK"
 #: html/user/forum_moderate_post.php:112
 msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr "Explicação opcional %1 Isto é incluído no email ao usuário.%2"
+
+#: html/user/forum_moderate_post_action.php:60
+msgid "You are not authorized to moderate this post."
+msgstr "Você não está autorizado a moderar este post."
+
+#: html/user/forum_moderate_post_action.php:105
+msgid "Can't move to different category type"
+msgstr "Não é possível mover para um tipo de categoria diferente"
+
+#: html/user/forum_moderate_post_action.php:109
+msgid "Can't move to different category"
+msgstr "Não é possível mover para uma categoria diferente"
+
+#: html/user/forum_moderate_post_action.php:130
+msgid "Not authorized to banish users"
+msgstr "Não autorizado a banir usuários"
+
+#: html/user/forum_moderate_post_action.php:146
+msgid "Banishment"
+msgstr "Banimento"
+
+#: html/user/forum_moderate_post_action.php:148
+msgid "User %1 has been banished."
+msgstr "Usuário %1 foi banido."
+
+#: html/user/forum_moderate_post_action.php:151
+msgid "Action failed: possible database problem"
+msgstr "Ação falhou: possível problema no banco de dados"
 
 #: html/user/forum_moderate_thread.php:38
 msgid "not authorized"
@@ -4295,6 +4305,100 @@ msgstr "Fórum de destino"
 #: html/user/forum_moderate_thread.php:83
 msgid "New title:"
 msgstr "Novo título:"
+
+#: html/user/forum_pm.php:54 html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "Sua mensagem foi enviada."
+
+#: html/user/forum_pm.php:60 html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "Você não tem mensagens privadas."
+
+#: html/user/forum_pm.php:65 html/user/pm.php:79
+msgid "Sender and date"
+msgstr "Remetente e data"
+
+#: html/user/forum_pm.php:102
+msgid "No such message"
+msgstr "Mensagem não existe"
+
+#: html/user/forum_pm.php:110 html/user/pm.php:134
+msgid "Sender"
+msgstr "Remetente"
+
+#: html/user/forum_pm.php:113 html/user/pm.php:137
+msgid "Date"
+msgstr "Data"
+
+#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "Você precisa preencher todos os campos para enviar uma mensagem privada"
+
+#: html/user/forum_pm.php:167 html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "Não foi possível encontrar o usuário com o id %1"
+
+#: html/user/forum_pm.php:172 html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "Não foi possível encontrar o usuário com o nome de usuário %1"
+
+#. Non-unique username
+#: html/user/forum_pm.php:174 html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 não é um nome de usuário único; você terá que usar o ID de usuário"
+
+#: html/user/forum_pm.php:182 html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "Usuário %1 (ID: %2) não está aceitando mensagens privadas suas."
+
+#: html/user/forum_pm.php:204 html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "Realmente bloquear %1?"
+
+#: html/user/forum_pm.php:205 html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "Você tem certeza que quer bloquear o usuário %1 de te enviar mensagens privadas?"
+
+#: html/user/forum_pm.php:206 html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Note que você somente pode bloquear um número limitado de usuários."
+
+#: html/user/forum_pm.php:207 html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "Uma vez bloqueado o usuário você pode desbloqueá-lo usando a página de preferências do fórum."
+
+#: html/user/forum_pm.php:214 html/user/pm.php:288
+msgid "No, cancel"
+msgstr "Não, cancelar"
+
+#: html/user/forum_pm.php:217 html/user/pm.php:276
+#: html/user/view_profile.php:28
+msgid "No such user"
+msgstr "Usuário inexistente"
+
+#: html/user/forum_pm.php:228 html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "Usuário %1 bloqueado"
+
+#: html/user/forum_pm.php:230 html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Usuário %1 foi bloqueado de te enviar mensagens privadas."
+
+#: html/user/forum_pm.php:231
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Para desbloquear, visite %1preferências do quadro de mensagens%2"
+
+#: html/user/forum_pm.php:284
+msgid "Mark as read"
+msgstr "Marcar como lida"
+
+#: html/user/forum_pm.php:286
+msgid "Mark as unread"
+msgstr "Marcar como não lida"
 
 #: html/user/forum_post.php:44
 msgid ""
@@ -4337,8 +4441,8 @@ msgid "You have already rated this post."
 msgstr "Você já avaliou este post."
 
 #: html/user/forum_rate.php:61 html/user/forum_rate.php:77
-#: html/user/forum_rate.php:82 html/user/forum_report_post.php:74
-#: html/user/forum_report_post.php:108 html/user/forum_subscribe.php:56
+#: html/user/forum_rate.php:82 html/user/forum_report_post.php:77
+#: html/user/forum_report_post.php:111 html/user/forum_subscribe.php:56
 #: html/user/forum_subscribe.php:71 html/user/forum_thread_status.php:56
 msgid "Return to thread"
 msgstr "Retornar ao assunto"
@@ -4390,55 +4494,55 @@ msgstr "Postar resposta"
 msgid "Add my signature to this reply"
 msgstr "Adicionar minha assinatura a esta resposta"
 
-#: html/user/forum_report_post.php:48
+#: html/user/forum_report_post.php:51
 msgid "You need more average or total credit to report a post."
 msgstr "Você precisa de mais crédito médio ou total para reportar um post."
 
-#: html/user/forum_report_post.php:70
+#: html/user/forum_report_post.php:73
 msgid "Report Registered"
 msgstr "Reportagem Registrada"
 
-#: html/user/forum_report_post.php:71
+#: html/user/forum_report_post.php:74
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Sua reportagem foi gravada. Obrigado por sua participação."
 
-#: html/user/forum_report_post.php:72
+#: html/user/forum_report_post.php:75
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr "Um moderador irá avaliar sua reportagem e decidirá o que vai acontecer - isto pode demorar um pouco, então seja paciente"
 
-#: html/user/forum_report_post.php:76
+#: html/user/forum_report_post.php:79
 msgid "Report a forum post"
 msgstr "Reportar um post do fórum"
 
-#: html/user/forum_report_post.php:78
+#: html/user/forum_report_post.php:81
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If"
 " enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "Antes de reportar este post, considere usar o sistema de avaliação +/-. Se usuários suficientes avaliarem um post negativamente, ele eventualmente será ocultado.<br />Você pode encontrar o sistema de avaliação no final do post."
 
-#: html/user/forum_report_post.php:90
+#: html/user/forum_report_post.php:93
 msgid "Report post"
 msgstr "Reportar post"
 
-#: html/user/forum_report_post.php:93
+#: html/user/forum_report_post.php:96
 msgid ""
 "Why do you find the post offensive: %1 Please include enough information so "
 "that a person that has not yet read the thread will quickly be able to "
 "identify the issue. %2"
 msgstr "Por quê você acha esta postagem ofensiva: %1 Por favor inclua informação suficiente para que uma pessoa que ainda não leu este assunto seja capaz de facilmente identificar o problema. %2"
 
-#: html/user/forum_report_post.php:104
+#: html/user/forum_report_post.php:107
 msgid "Report not registered"
 msgstr "Reportagem não registrada"
 
-#: html/user/forum_report_post.php:105
+#: html/user/forum_report_post.php:108
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr "Sua reportagem não pôde ser gravada. Favor aguardar um momento e tentar novamente."
 
-#: html/user/forum_report_post.php:106
+#: html/user/forum_report_post.php:109
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
@@ -4467,32 +4571,6 @@ msgstr "Incluir somente posts dos últimos %1 dias (padrão: 30)."
 #: html/user/forum_rss.php:49
 msgid "Threads only: %1 (Include only the first post of every thread)"
 msgstr "Somente assuntos: %1 (Incluir somente o primeiro post de todos os assuntos)"
-
-#: html/user/forum_search_action.php:143
-msgid "Forum search results"
-msgstr "Resultados da busca no fórum"
-
-#: html/user/forum_search_action.php:177
-msgid "Thread titles matching your query:"
-msgstr "Títulos de assuntos relacionados a sua busca:"
-
-#: html/user/forum_search_action.php:196
-msgid "Messages matching your query:"
-msgstr "Mensagens relacionadas a sua busca:"
-
-#: html/user/forum_search_action.php:219
-msgid ""
-"Sorry, couldn't find anything matching your search query. You can try to "
-"broaden your search by using less words (or less specific words)."
-msgstr "Desculpe, não pudemos encontrar nada relacionado a sua busca. Você pode tentar ampliar sua pesquisa usando menos palavras (ou palavras menos específicas)."
-
-#: html/user/forum_search_action.php:221
-msgid "You can also %1 try the same search on Google. %2"
-msgstr "Você também pode %1 tentar a mesma busca no Google. %2"
-
-#: html/user/forum_search_action.php:226
-msgid "Perform another search"
-msgstr "Fazer outra pesquisa"
 
 #: html/user/forum_search.php:29
 msgid "Forum search"
@@ -4561,6 +4639,32 @@ msgstr "Organizar por"
 #: html/user/forum_search.php:90
 msgid "Start the search"
 msgstr "Iniciar a busca"
+
+#: html/user/forum_search_action.php:143
+msgid "Forum search results"
+msgstr "Resultados da busca no fórum"
+
+#: html/user/forum_search_action.php:177
+msgid "Thread titles matching your query:"
+msgstr "Títulos de assuntos relacionados a sua busca:"
+
+#: html/user/forum_search_action.php:196
+msgid "Messages matching your query:"
+msgstr "Mensagens relacionadas a sua busca:"
+
+#: html/user/forum_search_action.php:219
+msgid ""
+"Sorry, couldn't find anything matching your search query. You can try to "
+"broaden your search by using less words (or less specific words)."
+msgstr "Desculpe, não pudemos encontrar nada relacionado a sua busca. Você pode tentar ampliar sua pesquisa usando menos palavras (ou palavras menos específicas)."
+
+#: html/user/forum_search_action.php:221
+msgid "You can also %1 try the same search on Google. %2"
+msgstr "Você também pode %1 tentar a mesma busca no Google. %2"
+
+#: html/user/forum_search_action.php:226
+msgid "Perform another search"
+msgstr "Fazer outra pesquisa"
 
 #: html/user/forum_subscribe.php:48
 msgid "Subscription successful"
@@ -5002,23 +5106,6 @@ msgstr "sem nome de computador"
 msgid "Merge hosts"
 msgstr "Unir computadores"
 
-#: html/user/hosts_user.php:53
-msgid "Computers belonging to %1"
-msgstr "Computadores pertencentes a %1"
-
-#: html/user/hosts_user.php:55
-msgid "Computers hidden"
-msgstr "Computadores ocultos"
-
-#: html/user/hosts_user.php:56
-msgid ""
-"This user has chosen not to show information about his or her computers."
-msgstr "Este usuário optou por não mostrar informações sobre seus computadores."
-
-#: html/user/hosts_user.php:64
-msgid "Your computers"
-msgstr "Seus computadores"
-
 #: html/user/host_update_credit.php:27
 msgid "Updating computer credit"
 msgstr "Atualizando crédito do computador"
@@ -5048,6 +5135,23 @@ msgstr "Esta mudança terá efeito na próxima vez que o computador se comunicar
 #: html/user/host_venue_action.php:50
 msgid "Return to host page"
 msgstr "Retornar à página do computador"
+
+#: html/user/hosts_user.php:53
+msgid "Computers belonging to %1"
+msgstr "Computadores pertencentes a %1"
+
+#: html/user/hosts_user.php:55
+msgid "Computers hidden"
+msgstr "Computadores ocultos"
+
+#: html/user/hosts_user.php:56
+msgid ""
+"This user has chosen not to show information about his or her computers."
+msgstr "Este usuário optou por não mostrar informações sobre seus computadores."
+
+#: html/user/hosts_user.php:64
+msgid "Your computers"
+msgstr "Seus computadores"
 
 #: html/user/html.php:23
 msgid "Allowed HTML tags"
@@ -5402,18 +5506,6 @@ msgstr "Bloquear mensagens deste usuário"
 msgid "Block user"
 msgstr "Bloquear usuário"
 
-#: html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "Sua mensagem foi enviada."
-
-#: html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "Você não tem mensagens privadas."
-
-#: html/user/pm.php:79
-msgid "Sender and date"
-msgstr "Remetente e data"
-
 #: html/user/pm.php:99
 msgid "Reply to this message"
 msgstr "Responder esta mensagem"
@@ -5434,18 +5526,6 @@ msgstr "Desmarcar todos"
 msgid "Delete selected messages"
 msgstr "Deletar mensagens marcadas"
 
-#: html/user/pm.php:134
-msgid "Sender"
-msgstr "Remetente"
-
-#: html/user/pm.php:137
-msgid "Date"
-msgstr "Data"
-
-#: html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "Você precisa preencher todos os campos para enviar uma mensagem privada"
-
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "Mensagem enviada"
@@ -5461,62 +5541,9 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "Sua mensagem foi marcada como spam\n            pelo sistema anti-spam Akismet.\n            Por favor, modifique seu texto e tente novamente."
 
-#: html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "Não foi possível encontrar o usuário com o id %1"
-
-#: html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "Não foi possível encontrar o usuário com o nome de usuário %1"
-
-#. Non-unique username
-#: html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 não é um nome de usuário único; você terá que usar o ID de usuário"
-
-#: html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Usuário %1 (ID: %2) não está aceitando mensagens privadas suas."
-
-#: html/user/pm.php:276 html/user/view_profile.php:28
-msgid "No such user"
-msgstr "Usuário inexistente"
-
-#: html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "Realmente bloquear %1?"
-
-#: html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "Você tem certeza que quer bloquear o usuário %1 de te enviar mensagens privadas?"
-
-#: html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Note que você somente pode bloquear um número limitado de usuários."
-
-#: html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "Uma vez bloqueado o usuário você pode desbloqueá-lo usando a página de preferências do fórum."
-
-#: html/user/pm.php:288
-msgid "No, cancel"
-msgstr "Não, cancelar"
-
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "usuário inexistente"
-
-#: html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "Usuário %1 bloqueado"
-
-#: html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Usuário %1 foi bloqueado de te enviar mensagens privadas."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
@@ -5525,14 +5552,6 @@ msgstr "Para desbloquear, visite %1 preferências do quadro de mensagens %2"
 #: html/user/pm.php:365
 msgid "Unknown action"
 msgstr "Ação desconhecida"
-
-#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
-msgid "%1 for %2"
-msgstr "%1 para %2"
-
-#: html/user/prefs_edit.php:112
-msgid "Back to preferences"
-msgstr "Voltar para preferências"
 
 #: html/user/prefs.php:36
 msgid ""
@@ -5547,6 +5566,14 @@ msgid ""
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2 Update %3 command from the BOINC Manager."
 msgstr "Suas preferências foram retornadas aos padrões, e\n          terão efeito quando seu computador se comunicar com %1\n          ou você usar o comando %2 Atualizar %3 no Gerenciador do BOINC."
+
+#: html/user/prefs_edit.php:65 html/user/prefs_edit.php:94
+msgid "%1 for %2"
+msgstr "%1 para %2"
+
+#: html/user/prefs_edit.php:112
+msgid "Back to preferences"
+msgstr "Voltar para preferências"
 
 #: html/user/prefs_remove.php:46
 msgid "Confirm delete preferences"
@@ -5766,33 +5793,33 @@ msgstr "Fale aos seus amigos a respeito do BOINC e mostre-lhes como juntar-se %1
 
 #: html/user/sample_index.php:130
 msgid "Already joined? %1Log in%2."
-msgstr ""
+msgstr "Já se juntou? Faça Login."
 
 #: html/user/sample_index.php:151
 msgid "News"
 msgstr "Notícias"
 
-#: html/user/server_status.php:63
+#: html/user/server_status.php:63 html/user/temp.php:24
 msgid "Not Running"
 msgstr "Não Executando"
 
-#: html/user/server_status.php:67
+#: html/user/server_status.php:67 html/user/temp.php:27
 msgid "Running"
 msgstr "Em execução"
 
-#: html/user/server_status.php:71
+#: html/user/server_status.php:71 html/user/temp.php:30
 msgid "Disabled"
 msgstr "Desabilitado"
 
-#: html/user/server_status.php:111
+#: html/user/server_status.php:111 html/user/temp.php:56
 msgid "Project status"
 msgstr "Status do projeto"
 
-#: html/user/server_status.php:120
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Program"
 msgstr "Programa"
 
-#: html/user/server_status.php:120
+#: html/user/server_status.php:120 html/user/temp.php:65
 msgid "Host"
 msgstr "Computador"
 
@@ -5881,6 +5908,65 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1 home page %2."
 msgstr "Além disso, você pode ter suas estatísticas individuais somadas através de todos os projetos BOINC em diversos sites; veja sua %1 página inicial %2."
+
+#: html/user/team.php:29
+msgid "%1 participants may form %2 teams %3."
+msgstr "%1 participantes podem formar %2 equipes %3."
+
+#: html/user/team.php:31
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr "Você só pode fazer parte de uma equipe. Você pode entrar ou sair de uma equipe a qualquer tempo."
+
+#: html/user/team.php:33
+msgid "Each team has a %1 founder %2 who may:"
+msgstr "Cada equipe tem um %1 fundador %2 que pode:"
+
+#: html/user/team.php:35
+msgid "edit the team's name and description"
+msgstr "editar o nome e a descrição da equipe"
+
+#: html/user/team.php:36
+msgid "add or remove team admins"
+msgstr "adicionar ou remover admins da equipe"
+
+#: html/user/team.php:37
+msgid "remove members from the team"
+msgstr "remover membros da equipe"
+
+#: html/user/team.php:38
+msgid "disband a team if it has no members"
+msgstr "dissolver uma equipe se ela não tiver membros"
+
+#: html/user/team.php:41
+msgid "To join a team, visit its team page and click %1 Join this team %2."
+msgstr "Para entrar em uma equipe, visite a página da equipe e clique %1 Entrar nesta equipe %2."
+
+#: html/user/team.php:42 html/user/team_search.php:203
+msgid "Find a team"
+msgstr "Encontrar uma equipe"
+
+#: html/user/team.php:47
+msgid "Top teams"
+msgstr "Melhores equipes"
+
+#: html/user/team.php:49
+msgid "All teams"
+msgstr "Todas as equipes"
+
+#: html/user/team.php:53
+msgid "%1 teams"
+msgstr "Equipes de %1"
+
+#: html/user/team.php:59
+msgid "Create a new team"
+msgstr "Criar uma nova equipe"
+
+#: html/user/team.php:60
+msgid ""
+"If you cannot find a team that is right for you, you can %1 create a team "
+"%2."
+msgstr "Se você não encontrar uma equipe que te satisfaça, você pode %1 criar uma equipe %2."
 
 #: html/user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
@@ -6319,18 +6405,22 @@ msgid ""
 "are not allowed. Please try again later."
 msgstr "Uma troca da fundação foi solicitada nos últimos 90 dias, assim, novas solicitações não são permitidas. Por favor, tente novamente mais tarde."
 
-#: html/user/team_join_action.php:34 html/user/team_join_form.php:31
-#: html/user/team_join.php:34
+#: html/user/team_join.php:34 html/user/team_join_action.php:34
+#: html/user/team_join_form.php:31
 msgid "The team %1 is not joinable."
 msgstr "Não é possível entrar na equipe %1."
 
-#: html/user/team_join_action.php:37 html/user/team_join.php:37
+#: html/user/team_join.php:37 html/user/team_join_action.php:37
 msgid "Already a member"
 msgstr "Já é membro"
 
-#: html/user/team_join_action.php:38 html/user/team_join.php:38
+#: html/user/team_join.php:38 html/user/team_join_action.php:38
 msgid "You are already a member of %1."
 msgstr "Você já é membro de %1."
+
+#: html/user/team_join.php:44 html/user/team_join_action.php:45
+msgid "Couldn't join team - please try again later."
+msgstr "Não foi possível entrar na equipe - por favor tente mais tarde."
 
 #: html/user/team_join_action.php:42
 msgid "Joined %1"
@@ -6339,10 +6429,6 @@ msgstr "Entrou em %1"
 #: html/user/team_join_action.php:43
 msgid "You have joined %1."
 msgstr "Você entrou em %1."
-
-#: html/user/team_join_action.php:45 html/user/team_join.php:44
-msgid "Couldn't join team - please try again later."
-msgstr "Não foi possível entrar na equipe - por favor tente mais tarde."
 
 #: html/user/team_join_form.php:35
 msgid "Please note:"
@@ -6482,65 +6568,6 @@ msgstr "Equipe %1 deletada"
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "Limite excedido: Somente é possível exibir os primeiros 1000 membros."
 
-#: html/user/team.php:29
-msgid "%1 participants may form %2 teams %3."
-msgstr "%1 participantes podem formar %2 equipes %3."
-
-#: html/user/team.php:31
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
-msgstr "Você só pode fazer parte de uma equipe. Você pode entrar ou sair de uma equipe a qualquer tempo."
-
-#: html/user/team.php:33
-msgid "Each team has a %1 founder %2 who may:"
-msgstr "Cada equipe tem um %1 fundador %2 que pode:"
-
-#: html/user/team.php:35
-msgid "edit the team's name and description"
-msgstr "editar o nome e a descrição da equipe"
-
-#: html/user/team.php:36
-msgid "add or remove team admins"
-msgstr "adicionar ou remover admins da equipe"
-
-#: html/user/team.php:37
-msgid "remove members from the team"
-msgstr "remover membros da equipe"
-
-#: html/user/team.php:38
-msgid "disband a team if it has no members"
-msgstr "dissolver uma equipe se ela não tiver membros"
-
-#: html/user/team.php:41
-msgid "To join a team, visit its team page and click %1 Join this team %2."
-msgstr "Para entrar em uma equipe, visite a página da equipe e clique %1 Entrar nesta equipe %2."
-
-#: html/user/team.php:42 html/user/team_search.php:203
-msgid "Find a team"
-msgstr "Encontrar uma equipe"
-
-#: html/user/team.php:47
-msgid "Top teams"
-msgstr "Melhores equipes"
-
-#: html/user/team.php:49
-msgid "All teams"
-msgstr "Todas as equipes"
-
-#: html/user/team.php:53
-msgid "%1 teams"
-msgstr "Equipes de %1"
-
-#: html/user/team.php:59
-msgid "Create a new team"
-msgstr "Criar uma nova equipe"
-
-#: html/user/team.php:60
-msgid ""
-"If you cannot find a team that is right for you, you can %1 create a team "
-"%2."
-msgstr "Se você não encontrar uma equipe que te satisfaça, você pode %1 criar uma equipe %2."
-
 #: html/user/team_quit_action.php:34
 msgid "Unable to quit team"
 msgstr "Não foi possível sair da equipe"
@@ -6643,6 +6670,10 @@ msgstr "Use este formulário para encontrar equipes que podem ser as certas para
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "%1 Não estou interessado %2 em entrar numa equipe agora."
 
+#: html/user/temp.php:58
+msgid "Server software version: %1"
+msgstr "Versão do software do servidor: %1"
+
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
 msgid "Top computers"
@@ -6674,6 +6705,14 @@ msgstr "Nenhum usuário do dia foi escolhido."
 msgid "User of the Day for %1: %2"
 msgstr "Usuário do Dia para %1: %2"
 
+#: html/user/user_agreetermsofuse.php:27
+msgid "You are not logged in. Please login to agree to our terms of use."
+msgstr ""
+
+#: html/user/user_agreetermsofuse.php:41
+msgid "Agree to our Terms of Use."
+msgstr ""
+
 #: html/user/user_agreetermsofuse_action.php:28
 #: html/user/user_agreetermsofuse_action.php:55
 msgid ""
@@ -6693,14 +6732,6 @@ msgstr ""
 
 #: html/user/user_agreetermsofuse_action.php:69
 msgid "Authentication error attempting to agree to terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:27
-msgid "You are not logged in. Please login to agree to our terms of use."
-msgstr ""
-
-#: html/user/user_agreetermsofuse.php:41
-msgid "Agree to our Terms of Use."
 msgstr ""
 
 #: html/user/user_search.php:51

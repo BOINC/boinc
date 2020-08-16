@@ -16,43 +16,54 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.ui.eventlog;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.adapter.GuiLogRecyclerViewAdapter;
 import edu.berkeley.boinc.databinding.EventLogGuiLayoutBinding;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
 
 public class EventLogGuiFragment extends Fragment {
     private EventLogActivity a;
+    private EventLogGuiLayoutBinding binding;
+    private GuiLogRecyclerViewAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         a = ((EventLogActivity) getActivity());
 
-        final EventLogGuiLayoutBinding binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
+        binding = EventLogGuiLayoutBinding.inflate(inflater, container, false);
 
-        a.guiLogList = binding.guiLogList;
-        a.guiLogListAdapter = new ArrayAdapter<>(requireActivity(), R.layout.eventlog_gui_listitem_layout, a.guiLogData);
-        a.guiLogList.setAdapter(a.guiLogListAdapter);
+        adapter = new GuiLogRecyclerViewAdapter(a.getGuiLogData());
+        binding.guiLogList.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.guiLogList.setAdapter(adapter);
+        binding.getRoot().setOnRefreshListener(this::readLogcat);
 
         // read messages
         readLogcat();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     public void update() {
@@ -61,7 +72,7 @@ public class EventLogGuiFragment extends Fragment {
 
     private void readLogcat() {
         int number = getResources().getInteger(R.integer.eventlog_gui_messages);
-        a.guiLogData.clear();
+        a.getGuiLogData().clear();
         try {
             String logLevelFilter = Logging.TAG;
             switch(Logging.LOGLEVEL) {
@@ -93,14 +104,15 @@ public class EventLogGuiFragment extends Fragment {
             int x = 0;
             while((line = BOINCUtils.readLineLimit(bufferedReader, 4096)) != null) {
                 if(x > 1) {
-                    a.guiLogData.add(0, line); // cut off first two lines, prepend to array (most current on top)
+                    a.getGuiLogData().add(0, line); // cut off first two lines, prepend to array (most current on top)
                 }
                 x++;
             }
             if(Logging.VERBOSE) {
-                Log.v(Logging.TAG, "readLogcat read " + a.guiLogData.size() + " lines.");
+                Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
             }
-            a.guiLogListAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
+            binding.getRoot().setRefreshing(false);
         }
         catch(IOException e) {
             if(Logging.WARNING) {

@@ -18,21 +18,50 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        android:id="@+id/resolve_item_wrapper"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="10dp">
+
+    <LinearLayout
+            android:id="@+id/visual_status_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:tint="?attr/colorControlNormal"
+                android:visibility="gone" />
+
+        <ProgressBar
+                android:id="@+id/status_progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:visibility="gone" />
+
+    </LinearLayout>
 
     <LinearLayout
             android:id="@+id/text_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginRight="40dp">
+            android:layout_toStartOf="@+id/resolve_button_image"
+            android:layout_toLeftOf="@+id/resolve_button_image"
+            android:layout_toEndOf="@+id/visual_status_wrapper"
+            android:layout_toRightOf="@+id/visual_status_wrapper"
+            android:orientation="vertical">
 
         <TextView
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -43,32 +72,18 @@
 
         <TextView
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/summary"
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <CheckBox
-            android:id="@+id/cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
     <ImageView
-            android:id="@+id/am_button_image"
+            android:id="@+id/resolve_button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:contentDescription="@string/attachproject_acctmgr_header"/>
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward" />
 
 </RelativeLayout>

@@ -139,7 +139,7 @@ First checked in.
 #include <mach-o/nlist.h>
 #include <mach-o/stab.h>
 
-#if TARGET_CPU_X86 || TARGET_CPU_X86_64
+#if TARGET_CPU_X86 || TARGET_CPU_X86_64 || TARGET_CPU_ARM64
 #include <mach/mach_vm.h>
 #endif
 
@@ -2070,7 +2070,7 @@ static int FindTaskDyld(task_t task, cpu_type_t cputype, QTMAddr *dyldAddrPtr)
 	int                     err;
         kern_return_t           kr;
 	QTMAddr                 localDyldAddr;
-#if TARGET_CPU_X86 || TARGET_CPU_X86_64
+#if TARGET_CPU_X86 || TARGET_CPU_X86_64 || TARGET_CPU_ARM64
 	mach_vm_address_t	thisRegion;
 #else
 	vm_address_t		thisRegion;
@@ -2114,7 +2114,7 @@ static int FindTaskDyld(task_t task, cpu_type_t cputype, QTMAddr *dyldAddrPtr)
 
                 mach_msg_type_number_t                  infoCount;
 
-#if TARGET_CPU_X86 || TARGET_CPU_X86_64
+#if TARGET_CPU_X86 || TARGET_CPU_X86_64 || TARGET_CPU_ARM64
 
                 mach_vm_size_t				thisRegionSize;
                 vm_region_basic_info_data_64_t          info;

@@ -32,10 +32,11 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/attachproject_hint_projectwebsite_header"/>
+                android:text="@string/attachproject_hint_projectwebsite_header"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,20 +48,23 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_1"
                 android:layout_toLeftOf="@+id/hint_contribution_image_1"
-                android:text="@string/attachproject_hint_projectwebsite_science"/>
+                android:text="@string/attachproject_hint_projectwebsite_science"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_search"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_science"
+                app:srcCompat="@drawable/ic_baseline_search" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -72,20 +76,23 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_2"
                 android:layout_toLeftOf="@+id/hint_contribution_image_2"
-                android:text="@string/attachproject_hint_projectwebsite_stats"/>
+                android:text="@string/attachproject_hint_projectwebsite_stats"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_show_chart"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_stats"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_stats"
+                app:srcCompat="@drawable/ic_baseline_show_chart" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -97,19 +104,22 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_3"
                 android:layout_toLeftOf="@+id/hint_contribution_image_3"
-                android:text="@string/attachproject_hint_projectwebsite_community"/>
+                android:text="@string/attachproject_hint_projectwebsite_community"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_baseline_chat"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_community"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_community"
+                app:srcCompat="@drawable/ic_baseline_chat" />
     </RelativeLayout>
 </LinearLayout>

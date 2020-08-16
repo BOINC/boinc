@@ -41,6 +41,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
+		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
+		DD000D7424D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */; };
+		DD000D7524D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */; };
+		DD000D7624D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */; };
 		DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0052F710CA6F1D0067570C /* cs_proxy.cpp */; };
 		DD00F554176C081500850424 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -59,7 +64,6 @@
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
-		DD1B4C3114FEFA0000ABB13F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD1CB232154F5BF700BFF282 /* project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB22E154F5BF700BFF282 /* project.cpp */; };
 		DD1CB233154F5BF700BFF282 /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB230154F5BF700BFF282 /* result.cpp */; };
 		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
@@ -176,7 +180,6 @@
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
-		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -222,7 +225,6 @@
 		DD69FEF708416C9A00C01361 /* boinc_cmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */; };
 		DD69FF0C084171CF00C01361 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD6A829C181103990037172D /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6A829A181103990037172D /* thread.cpp */; };
-		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -241,7 +243,6 @@
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */; };
-		DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
 		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
 		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
@@ -543,7 +544,6 @@
 		DDE900271E643E3C003728F2 /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
 		DDEEAA991F73D3D70051E8C5 /* MultiGPUMig.defs in Sources */ = {isa = PBXBuildFile; fileRef = DD64D8001F6BE5BA00FEEAAA /* MultiGPUMig.defs */; settings = {ATTRIBUTES = (Client, Server, ); }; };
 		DDEEAA9A1F73E8630051E8C5 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
-		DDEEAA9D1F73E9570051E8C5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DDF07768236C4D410046EE44 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDF07769236C4D6A0046EE44 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DDF0776B236C4DD60046EE44 /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
@@ -556,9 +556,6 @@
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDF93511176B0D0C00A2793C /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
-		DDF9B767245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B766245C3A7F00587EBE /* SystemConfiguration.framework */; };
-		DDF9B768245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B766245C3A7F00587EBE /* SystemConfiguration.framework */; };
-		DDF9B769245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B766245C3A7F00587EBE /* SystemConfiguration.framework */; };
 		DDF9B76A245C3C7900587EBE /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDF9B76B245C3CC700587EBE /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDF9EC0A144EB2BB005D6144 /* boinc_opencl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */; };
@@ -869,6 +866,7 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
+		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
 		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
@@ -986,8 +984,6 @@
 		DD4AE04C13652BD700285859 /* cc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cc_config.h; path = ../lib/cc_config.h; sourceTree = SOURCE_ROOT; };
 		DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgMessages.cpp; path = ../clientgui/sg_DlgMessages.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgMessages.h; path = ../clientgui/sg_DlgMessages.h; sourceTree = SOURCE_ROOT; };
-		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
-		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD531BC50C193D3800742E50 /* MacInstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacInstaller.icns; path = ../clientgui/res/MacInstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD55AF6B1916248200259439 /* coproc_sched.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coproc_sched.cpp; sourceTree = "<group>"; };
@@ -1043,7 +1039,6 @@
 		DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_cmd.cpp; sourceTree = "<group>"; };
 		DD6A829A181103990037172D /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		DD6A829B181103990037172D /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
-		DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/mac/browser_safari.mm; sourceTree = SOURCE_ROOT; };
 		DD6D0A8507E9A61B007F882B /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
@@ -1283,7 +1278,6 @@
 		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
-		DDDE391224600D05005FCEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemConfiguration.framework; sourceTree = "<group>"; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE1372810DC5E5300161D6B /* cs_notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_notice.cpp; path = ../client/cs_notice.cpp; sourceTree = SOURCE_ROOT; };
@@ -1315,7 +1309,6 @@
 		DDF93510176B0D0C00A2793C /* translate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = translate.h; path = ../lib/translate.h; sourceTree = "<group>"; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DDF9B4D01F680006008BC9B7 /* x_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x_opengl.h; sourceTree = "<group>"; };
-		DDF9B766245C3A7F00587EBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = ../../../../../System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<group>"; };
 		DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_opencl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_opencl.cpp; sourceTree = "<group>"; };
 		DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = boinc_opencl.h; sourceTree = "<group>"; };
@@ -1405,7 +1398,6 @@
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
-				DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,8 +1429,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD000D7624D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */,
 				DDA70B4223632223007097BD /* AppKit.framework in Frameworks */,
-				DDF9B769245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1481,12 +1473,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */,
+				DD000D7424D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */,
 				DDEEAA9A1F73E8630051E8C5 /* IOSurface.framework in Frameworks */,
 				DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */,
-				DDEEAA9D1F73E9570051E8C5 /* OpenGL.framework in Frameworks */,
+				DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */,
 				DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */,
 				DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */,
-				DDF9B767245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1525,9 +1517,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */,
+				DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */,
 				DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */,
 				DD85AE4B0F5D284D0031F7AC /* Security.framework in Frameworks */,
-				DD1B4C3114FEFA0000ABB13F /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1542,8 +1534,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD000D7524D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */,
 				DD26B52C237445DD00206557 /* AppKit.framework in Frameworks */,
-				DDF9B768245C3A8000587EBE /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1599,7 +1591,6 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
-				DDF9B766245C3A7F00587EBE /* SystemConfiguration.framework */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1642,7 +1633,7 @@
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 				DD0BB7A11F62B105000151B2 /* IOSurface.framework */,
-				DDDE391224600D05005FCEFA /* SystemConfiguration.framework */,
+				DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -1700,8 +1691,6 @@
 				DD81C43D07C5D2240098A04D /* BOINCTaskBar.h */,
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
-				DD4E70490BCDAC360010A522 /* browser.cpp */,
-				DD4E704A0BCDAC360010A522 /* browser.h */,
 				DDCE78220A70BD29008218B6 /* common */,
 				DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */,
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
@@ -2169,7 +2158,6 @@
 			isa = PBXGroup;
 			children = (
 				DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */,
-				DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */,
@@ -2263,9 +2251,7 @@
 				DD3E14DE0A774397007E0084 /* Sources */,
 				DD3E15300A774397007E0084 /* Frameworks */,
 				DD3E15350A774397007E0084 /* CopyFiles */,
-				DD73550C0D91105F0006A9D1 /* ShellScript */,
 				DD3E15390A774397007E0084 /* ShellScript */,
-				DDEE5E8E0D9112AF0056A99E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2515,9 +2501,7 @@
 			buildPhases = (
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
-				DD7355180D9110AE0006A9D1 /* ShellScript */,
 				DD1B90070A954C9A00FF5591 /* ShellScript */,
-				DD73551E0D9111150006A9D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2827,50 +2811,6 @@
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
-		DD73550C0D91105F0006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager is newer than ${TARGET_BUILD_DIR}/SymbolTables/BOINCManager.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/BOINCManager.app.dSYM\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\n    strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\nfi\n\n";
-		};
-		DD7355180D9110AE0006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  ## echo \"Starting script 1\"\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Deployment_Dir\"\n  mkdir -p \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" -nt \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\" ]; then\n    ## echo \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME} is newer than ${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_ppc\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_x86_64\"\n    rm -f \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    cp -fp \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\n##    strip \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"\n  fi\nelse\n  echo ${BUILT_PRODUCTS_DIR}  > \"${PROJECT_DIR}/Build_Development_Dir\"\n\nfi\n\n";
-		};
-		DD73551E0D9111150006A9D1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n  touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}.dSYM\"\nfi\n";
-		};
 		DD818296245EDA220076E5D0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2950,21 +2890,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMig.h\" -nt \"${SRCROOT}/../api/MultiGPUMig.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMig.h\" \"${SRCROOT}/../api/MultiGPUMig.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.h\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.h\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.h\" \"${SRCROOT}/../api/MultiGPUMigServer.h\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.c\" -nt \"${SRCROOT}/../api/MultiGPUMigServer.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigServer.c\" \"${SRCROOT}/../api/MultiGPUMigServer.c\"\nfi\nif [ \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigUser.c\" -nt \"${SRCROOT}/../api/MultiGPUMigUser.c\" ]; then\n    cp -fp \"${DERIVED_FILES_DIR}/x86_64/MultiGPUMigUser.c\" \"${SRCROOT}/../api/MultiGPUMigUser.c\"\nfi\n";
-		};
-		DDEE5E8E0D9112AF0056A99E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
-			);
-			outputPaths = (
-				"",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Deployment\" ]; then\n    touch \"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager.app.dSYM\"\nfi\n";
 		};
 		DDF9B764245C12AA00587EBE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3110,7 +3035,6 @@
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */,
 				DD08648D19E0BE6D00994039 /* ProjectWelcomePage.cpp in Sources */,
-				DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */,
 				DDA6BD210BD4551F008F7921 /* mac_backtrace.cpp in Sources */,
 				DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */,
 				DDA6BD250BD4551F008F7921 /* QCrashReport.c in Sources */,
@@ -3118,7 +3042,6 @@
 				DDA6BD290BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD2B0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */,
-				DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */,
 				DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */,
 				DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */,
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
@@ -3869,10 +3792,7 @@
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/build/osx/build/Debug",
-					"../../sqlite-autoconf-3220000/.libs/",
-				);
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Debug";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3890,7 +3810,6 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"-lsqlite3",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3926,10 +3845,7 @@
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/build/osx/build/Release",
-					"../../sqlite-autoconf-3220000/.libs/",
-				);
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Release";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3949,7 +3865,6 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"-lsqlite3",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -4111,6 +4026,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4122,6 +4041,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -4241,27 +4164,6 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_CFLAGS = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=ppc]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
@@ -4272,20 +4174,6 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
-				"OTHER_CFLAGS[arch=ppc]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deployment;
@@ -4302,6 +4190,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4331,13 +4223,6 @@
 					"../../curl-7.58.0/lib/.libs",
 					"../../c-ares-1.13.0/.libs",
 					"../../openssl-1.1.0g/",
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
@@ -4418,8 +4303,6 @@
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.7;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4470,6 +4353,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4586,8 +4473,6 @@
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.7;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.7;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4621,20 +4506,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
-				"OTHER_CFLAGS[arch=ppc]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
 				PRODUCT_NAME = boinc_graphics2;
 			};
 			name = Deployment;
@@ -4690,6 +4561,10 @@
 		DDFA60CE0CB337D40037B88C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = ../lib/mac;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4705,6 +4580,10 @@
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = ../lib/mac;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
