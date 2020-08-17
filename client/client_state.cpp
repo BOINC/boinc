@@ -1327,10 +1327,13 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
 #ifdef __APPLE__
-            if (!can_run_on_this_CPU(path)) continue;
+            if (can_run_on_this_CPU(path))
+            
 #endif
-            safe_strcpy(avp->graphics_exec_path, path);
-            safe_strcpy(avp->graphics_exec_file, fip->name);
+            {
+                safe_strcpy(avp->graphics_exec_path, path);
+                safe_strcpy(avp->graphics_exec_file, fip->name);
+            }
         }
 
         // any file associated with an app version must be signed
