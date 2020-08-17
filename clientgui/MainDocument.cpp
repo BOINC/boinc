@@ -1756,9 +1756,6 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         // See if we are already running the graphics application for this task
         previous_gfx_app = GetRunningGraphicsApp(rp);
 
-#ifndef __WXMSW__
-        char* argv[4];
-
         if (previous_gfx_app) {
             // If graphics app is already running, the button has changed to 
             // "Stop graphics", so we end the graphics app.
@@ -1766,6 +1763,10 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
             return 0;
         }
+
+#ifndef __WXMSW__
+        char* argv[4];
+        
         argv[0] = "switcher";
         // For unknown reasons on Macs, the graphics application
         // exits with "RegisterProcess failed (error = -50)" unless
