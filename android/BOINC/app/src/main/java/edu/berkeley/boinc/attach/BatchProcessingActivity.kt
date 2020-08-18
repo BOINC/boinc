@@ -134,7 +134,14 @@ class BatchProcessingActivity : AppCompatActivity() {
         }
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+            
+            val flag = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                @Suppress("DEPRECATION")
+                Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET
+            } else {
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+            }
+            addFlags(flag)
 
             // Add data to the intent, the receiving app will decide what to do with it.
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title))
