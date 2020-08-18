@@ -22,7 +22,6 @@ alter table user
 alter table team
     add unique(name),
     add fulltext index team_name_desc(name, description),
-    add fulltext index team_name(name),
     add index team_avg (expavg_credit desc),
         -- db_dump.C
     add index team_tot (total_credit desc),
