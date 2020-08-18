@@ -121,7 +121,7 @@ const char *  CantLaunchDefaultGFXAppMsg = "Can't launch default screensaver mod
 const char *  DefaultGFXAppCantRPCMsg = "Default screensaver module couldn't connect to BOINC application";
 const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrecoverable error";
 const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while running on battery power.";
-const char *  IncompatibleMsg = " is not compatible with this version of OS X.";
+const char *  IncompatibleMsg = "Could not connect to screensaver ";
 const char *  CCNotRunningMsg = "BOINC is not running.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
@@ -213,7 +213,7 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
             
             retval = gspScreensaver->rpc->get_state(gspScreensaver->state);
             if (!retval) {
-                strlcpy(buf, "Screensaver ", sizeof(buf));
+                strlcpy(buf, IncompatibleMsg, sizeof(buf));
                 for (int i=0; i<gspScreensaver->state.results.size(); i++) {
                     RESULT* r = gspScreensaver->state.results[i];
                     if (r->slot == slot) {
@@ -235,7 +235,6 @@ void incompatibleGfxApp(char * appPath, pid_t pid, int slot){
                 strlcat(buf, p+1, sizeof(buf));
                 strlcat(buf, "\"", sizeof(buf));
             }
-            strlcat(buf, IncompatibleMsg, sizeof(buf));
             gspScreensaver->setSSMessageText(buf);
             gspScreensaver->SetError(0, SCRAPPERR_GFXAPPINCOMPATIBLE);
         }   // End if (msgstartTime == 0.0)
