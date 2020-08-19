@@ -89,9 +89,12 @@ function navbar_right($user) {
             );
         } else {
             echo sprintf('
-                <li><a href="%ssignup.php">Join</a></li>
-                <li><a href="%slogin_form.php">Login</a></li>
-                ', url_base(), url_base()
+                <li><a href="%ssignup.php">%s</a></li>
+                <li><a href="%slogin_form.php">%s</a></li>
+                ', url_base(),
+                tra("Join"),
+                url_base(),
+                tra("Login")
             );
         }
     }
@@ -158,7 +161,7 @@ function sample_navbar(
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
     $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
-    $x[] = array(tra("Help"), $url_prefix."help.php");
+    $x[] = array(tra("Help"), $url_prefix."welcome.php");
     navbar_menu(tra("Project"), $x);
 
     if (NO_COMPUTING) {
