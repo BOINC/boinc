@@ -69,6 +69,7 @@ UINT CACreateProjectInitFile::OnExecution()
     tstring          strDataDirectory;
     tstring          strProjectInitUrl;
     tstring          strProjectInitAuthenticator;
+    tstring          project_name;
     PROJECT_INIT     pi;
     UINT             uiReturnValue = 0;
 
@@ -77,6 +78,9 @@ UINT CACreateProjectInitFile::OnExecution()
 
     uiReturnValue = GetProperty( _T("PROJINIT_URL"), strProjectInitUrl );
     if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty(_T("PROJINIT_NAME"), project_name);
+    if (uiReturnValue) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("PROJINIT_AUTH"), strProjectInitAuthenticator );
     if ( uiReturnValue ) return uiReturnValue;
@@ -99,7 +103,7 @@ UINT CACreateProjectInitFile::OnExecution()
     if (!strProjectInitUrl.empty()) {
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -108,10 +112,13 @@ UINT CACreateProjectInitFile::OnExecution()
 
         pi.init();
 
-        strncpy(pi.url, CW2A(strProjectInitUrl.c_str()), sizeof(pi.url)-1);
-        strncpy(pi.name, CW2A(strProjectInitUrl.c_str()), sizeof(pi.name)-1);
-            // Use project URL as name
-            // TODO: add a cmdline arg for project name
+        strncpy(pi.url, CW2A(strProjectInitUrl.c_str()), sizeof(pi.url) - 1);
+        if (!project_name.empty()) {
+            strncpy(pi.name, CW2A(project_name.c_str()), sizeof(pi.name) - 1);
+        } else {
+            strncpy(pi.name, CW2A(strProjectInitUrl.c_str()), sizeof(pi.name) - 1);
+        }
+
         strncpy(pi.account_key, CW2A(strProjectInitAuthenticator.c_str()), sizeof(pi.account_key)-1);
 
         pi.embedded = false;
