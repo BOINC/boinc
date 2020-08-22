@@ -34,7 +34,7 @@
 # Updated 9/10/16 for openssl-1.1.0
 # Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
-# Updated 8/21/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.8 or later
 #
@@ -173,10 +173,9 @@ fi
 make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
+# Now see if we can build for arm64
+# Note: Some versions of Xcode 12 don't support building for arm64
 if [ $GCC_can_build_arm64 == "yes" ]; then
-
-    # Try building for arm64 architecture
-    # Note: Some versions of Xcode 12 don't support building for arm64
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"

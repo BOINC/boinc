@@ -27,7 +27,7 @@
 # Updated 2/7/14 for OS 10.9
 # Updated 2/8/18 to fix linker warning for Xcode 9.2 under OS 10.13
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
-# Updated 7/28/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.8 or later
 #
@@ -89,12 +89,12 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
+GCC_can_build_x86_64="no"
+GCC_can_build_arm64="no"
+
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libftgl.a" ]; then
         alreadyBuilt=1
-        GCC_can_build_x86_64="no"
-        GCC_can_build_arm64="no"
-
         GCC_archs=`lipo -archs "${GCCPATH}"`
         if [[ "${GCC_archs}" == *"x86_64"* ]]; then $GCC_can_build_x86_64="yes"; fi
         if [[ "${GCC_archs}" == *"arm64"* ]]; then $GCC_can_build_arm64="yes"; fi
@@ -171,64 +171,67 @@ cd "${SRCDIR}"
 
 if [ $? -ne 0 ]; then return 1; fi
 
-# Try building for arm64 architecture
+# Now see if we can build for arm64
+# Note: Some versions of Xcode 12 don't support building for arm64
+if [ $GCC_can_build_arm64 == "yes" ]; then
 
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
-
-if [ "x${lprefix}" != "x" ]; then
-    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
-else
-    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
-fi
-if [ $? -ne 0 ]; then
-    echo "              ******"
-    echo "FTGL: x86_64 build succeeded but could not build for arm64."
-    echo "              ******"
-else    ## Some versions of Xcode 12 don't support building for arm64
-
-    # save x86_64 lib for later use
-    cd src || return 1
-    mv -f .libs/libftgl.a libftgl_x86_64.a
-    cd "${SRCDIR}" || return 1
-
-    make clean 1>$stdout_target
-
-    cd src || return 1
-    make 1>$stdout_target
-    if [ $? -ne 0 ]; then
-        rm -f libftgl_x86_64.a
-        cd "${SRCDIR}" || return 1
-        return 1;
-    fi
-
-    mv -f .libs/libftgl.a .libs/libftgl_arm64.a
-    # combine x86_64 and arm libraries
-    lipo -create libftgl_x86_64.a .libs/libftgl_arm64.a -output .libs/libftgl.a
-    if [ $? -ne 0 ]; then
-        rm -f libftgl_x86_64.a libs/libftgl_arm64.a
-        cd "${SRCDIR}" || return 1
-        return 1;
-    fi
-
-    rm -f libftgl_x86_64.a
-    rm -f .libs/libftgl_arm64.a
+    export CC="${GCCPATH}";export CXX="${GPPPATH}"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export SDKROOT="${SDKPATH}"
+    export MACOSX_DEPLOYMENT_TARGET=10.7
 
     if [ "x${lprefix}" != "x" ]; then
-        # this installs the modified library
-        make install 1>$stdout_target
+        ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    else
+        ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    fi
+    if [ $? -ne 0 ]; then
+        echo "              ******"
+        echo "FTGL: x86_64 build succeeded but could not build for arm64."
+        echo "              ******"
+    else
+
+        # save x86_64 lib for later use
+        cd src || return 1
+        mv -f .libs/libftgl.a libftgl_x86_64.a
+        cd "${SRCDIR}" || return 1
+
+        make clean 1>$stdout_target
+
+        cd src || return 1
+        make 1>$stdout_target
         if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a
             cd "${SRCDIR}" || return 1
             return 1;
         fi
-    fi
 
-    cd "${SRCDIR}" || return 1
+        mv -f .libs/libftgl.a .libs/libftgl_arm64.a
+        # combine x86_64 and arm libraries
+        lipo -create libftgl_x86_64.a .libs/libftgl_arm64.a -output .libs/libftgl.a
+        if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a libs/libftgl_arm64.a
+            cd "${SRCDIR}" || return 1
+            return 1;
+        fi
+
+        rm -f libftgl_x86_64.a
+        rm -f .libs/libftgl_arm64.a
+
+        cd "${SRCDIR}" || return 1
+    fi
+fi
+
+if [ "x${lprefix}" != "x" ]; then
+    # this installs the modified library
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then
+        cd "${SRCDIR}" || return 1
+        return 1;
+    fi
 fi
 
 lprefix=""
