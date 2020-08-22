@@ -36,7 +36,7 @@
 # Updated 1/26/18 to get directory names of c-ares and OpenSSL from dependencyNames.sh
 # Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
-# Updated 7/28/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.8 or later
 #
@@ -130,15 +130,16 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
+GCC_can_build_x86_64="no"
+GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libcurl.a" ]; then
         alreadyBuilt=1
-        GCC_can_build_x86_64="no"
-        GCC_can_build_arm64="no"
 
-        GCC_archs=`lipo -archs "${GCCPATH}"`
-        if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-        if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
         if [ $GCC_can_build_x86_64 == "yes" ]; then
             lipo "${libPath}/libcurl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
@@ -203,7 +204,7 @@ export MAC_OS_X_VERSION_MIN_REQUIRED=1070
 
 if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS=""
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
     PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
@@ -227,9 +228,9 @@ else
     fi
 
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
-    export CPPFLAGS=""
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
     export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../${opensslDirName}/include"
+    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
     ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
@@ -250,61 +251,64 @@ if [ "x${lprefix}" != "x" ]; then
 fi
 
 # Now see if we can build for arm64
+# Note: Some versions of Xcode 12 don't support building for arm64
+if [ $GCC_can_build_arm64 == "yes" ]; then
 
 # c-ares configure creates a different ares_build.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical for
 # x86_64 and arm64, so this is not currently an issue. 
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
 
-if [ "x${lprefix}" != "x" ]; then
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS=""
-    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=arm
-else
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64 -L${CURL_DIR}/../${opensslDirName} "
-    export CPPFLAGS=""
-    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -I${CURL_DIR}/../${opensslDirName}/include"
-    ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=arm
-    echo ""
-fi
-
-if [ $? -ne 0 ]; then
-    echo "              ******"
-    echo "curl: x86_64 build succeeded but could not build for arm64."
-    echo "              ******"
-else    ## Some versions of Xcode 12 don't support building for arm64
-
-    # save x86_64 header and lib for later use
-    # curl configure creates a different curlbuild.h file for each architecture
-    # for a sanity check on size of long and socklen_t. But these are  identical
-    # for x86_64 and arm64, so this is not currently an issue. 
-##    cp -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
-    mv -f lib/.libs/libcurl.a lib/libcurl_x86_64.a
-
-    patch_curl_config
-
-    make clean
-    if [  $? -ne 0 ]; then return 1; fi
-
-    make 1>$stdout_target
-    if [ $? -ne 0 ]; then return 1; fi
-    # curl configure creates a different curlbuild.h file for each architecture
-    # for a sanity check on size of long and socklen_t. But these are  identical
-    # for x86_64 and arm64, so this is not currently an issue. 
-##    mv -f include/curl/curlbuild.h include/curl/curlbuild_arm64.h
-    mv -f lib/.libs/libcurl.a lib/libcurl_arm64.a
-
-    lipo -create lib/libcurl_x86_64.a lib/libcurl_arm64.a -output lib/.libs/libcurl.a
-    if [  $? -ne 0 ]; then
-        rm -f lib/libcurl_x86_64.a lib/libcurl_arm64.a
-    return 1
+    if [ "x${lprefix}" != "x" ]; then
+        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++"
+        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7"
+        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=arm
+    else
+        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64 -L${CURL_DIR}/../${opensslDirName} "
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7"
+        ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=arm
+        echo ""
     fi
-fi
 
-rm -f lib/libcurl_x86_64.a lib/libcurl_arm64.a
+    if [ $? -ne 0 ]; then
+        echo "              ******"
+        echo "curl: x86_64 build succeeded but could not build for arm64."
+        echo "              ******"
+    else
+
+        # save x86_64 header and lib for later use
+        # curl configure creates a different curlbuild.h file for each architecture
+        # for a sanity check on size of long and socklen_t. But these are  identical
+        # for x86_64 and arm64, so this is not currently an issue. 
+    ##    cp -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
+        mv -f lib/.libs/libcurl.a lib/libcurl_x86_64.a
+
+        patch_curl_config
+
+        make clean
+        if [  $? -ne 0 ]; then return 1; fi
+
+        make 1>$stdout_target
+        if [ $? -ne 0 ]; then return 1; fi
+        # curl configure creates a different curlbuild.h file for each architecture
+        # for a sanity check on size of long and socklen_t. But these are  identical
+        # for x86_64 and arm64, so this is not currently an issue. 
+    ##    mv -f include/curl/curlbuild.h include/curl/curlbuild_arm64.h
+        mv -f lib/.libs/libcurl.a lib/libcurl_arm64.a
+
+        lipo -create lib/libcurl_x86_64.a lib/libcurl_arm64.a -output lib/.libs/libcurl.a
+        if [  $? -ne 0 ]; then
+            rm -f lib/libcurl_x86_64.a lib/libcurl_arm64.a
+        return 1
+        fi
+    fi
+
+    rm -f lib/libcurl_x86_64.a lib/libcurl_arm64.a
+fi
 
 if [ "x${lprefix}" != "x" ]; then
     make install 1>$stdout_target
@@ -313,9 +317,6 @@ else
     # Delete temporarily installed c-ares.
     rm -Rf ${libcares}
 fi
-
-# Delete temporarily installed c-ares.
-rm -Rf ${libcares}
 
 export lprefix=""
 export CC="";export CXX=""
