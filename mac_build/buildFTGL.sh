@@ -91,13 +91,13 @@ fi
 
 GCC_can_build_x86_64="no"
 GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libftgl.a" ]; then
         alreadyBuilt=1
-        GCC_archs=`lipo -archs "${GCCPATH}"`
-        if [[ "${GCC_archs}" == *"x86_64"* ]]; then $GCC_can_build_x86_64="yes"; fi
-        if [[ "${GCC_archs}" == *"arm64"* ]]; then $GCC_can_build_arm64="yes"; fi
         if [ $GCC_can_build_x86_64 == "yes" ]; then
             lipo "${libPath}/libftgl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
@@ -164,12 +164,19 @@ if [ "${doclean}" == "yes" ]; then
     make clean 1>$stdout_target
 fi
 
-cd src || return 1
+cd src
+if [ $? -ne 0 ]; then
+    cd "${SRCDIR}"
+    return 1
+fi
+
 make 1>$stdout_target
+if [ $? -ne 0 ]; then
+    cd "${SRCDIR}"
+    return 1;
+fi
 
-cd "${SRCDIR}"
-
-if [ $? -ne 0 ]; then return 1; fi
+cd "${SRCDIR}" || return 1
 
 # Now see if we can build for arm64
 # Note: Some versions of Xcode 12 don't support building for arm64
@@ -205,8 +212,8 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
         make 1>$stdout_target
         if [ $? -ne 0 ]; then
             rm -f libftgl_x86_64.a
-            cd "${SRCDIR}" || return 1
-            return 1;
+            cd "${SRCDIR}"
+            return 1
         fi
 
         mv -f .libs/libftgl.a .libs/libftgl_arm64.a
@@ -214,8 +221,8 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
         lipo -create libftgl_x86_64.a .libs/libftgl_arm64.a -output .libs/libftgl.a
         if [ $? -ne 0 ]; then
             rm -f libftgl_x86_64.a libs/libftgl_arm64.a
-            cd "${SRCDIR}" || return 1
-            return 1;
+            cd "${SRCDIR}"
+            return 1
         fi
 
         rm -f libftgl_x86_64.a
@@ -227,12 +234,15 @@ fi
 
 if [ "x${lprefix}" != "x" ]; then
     # this installs the modified library
+    cd src || return 1
     make install 1>$stdout_target
     if [ $? -ne 0 ]; then
-        cd "${SRCDIR}" || return 1
-        return 1;
+        cd "${SRCDIR}"
+        return 1
     fi
 fi
+
+cd "${SRCDIR}"
 
 lprefix=""
 export CC="";export CXX=""

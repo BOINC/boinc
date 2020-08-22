@@ -96,14 +96,14 @@ fi
 
 GCC_can_build_x86_64="no"
 GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libfreetype.a" ]; then
         alreadyBuilt=1
 
-        GCC_archs=`lipo -archs "${GCCPATH}"`
-        if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-        if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
         if [ $GCC_can_build_x86_64 == "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
@@ -155,7 +155,7 @@ rm -fR "../freetype_install/"
 # Build for x86_64 architecture
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS=""
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
 export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
 export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
 export SDKROOT="${SDKPATH}"
@@ -177,7 +177,7 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
     export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
     export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
     export SDKROOT="${SDKPATH}"
@@ -228,6 +228,7 @@ rm -f ../freetype_install/lib/libfreetype.*
 lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
+export CXXFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""

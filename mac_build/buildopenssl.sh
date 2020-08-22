@@ -85,14 +85,14 @@ fi
 
 GCC_can_build_x86_64="no"
 GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
         alreadyBuilt=1
 
-        GCC_archs=`lipo -archs "${GCCPATH}"`
-        if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-        if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
         if [ $GCC_can_build_x86_64 == "yes" ]; then
             lipo "${libPath}/libssl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
