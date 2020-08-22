@@ -34,7 +34,7 @@
 # Updated 9/10/16 for openssl-1.1.0
 # Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
-# Updated 7/28/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 8/21/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.8 or later
 #
@@ -83,11 +83,12 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
+GCC_can_build_x86_64="no"
+GCC_can_build_arm64="no"
+
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
         alreadyBuilt=1
-        GCC_can_build_x86_64="no"
-        GCC_can_build_arm64="no"
 
         GCC_archs=`lipo -archs "${GCCPATH}"`
         if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
@@ -172,88 +173,91 @@ fi
 make 1>$stdout_target
 if [ $? -ne 0 ]; then return 1; fi
 
-if [ "x${lprefix}" != "x" ]; then
-    make install 1>$stdout_target
-    if [ $? -ne 0 ]; then return 1; fi
-fi
+if [ $GCC_can_build_arm64 == "yes" ]; then
 
-# Try building for arm64 architecture
-# Note: Some versions of Xcode 12 don't support building for arm64
+    # Try building for arm64 architecture
+    # Note: Some versions of Xcode 12 don't support building for arm64
 
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
+    export CC="${GCCPATH}";export CXX="${GPPPATH}"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export SDKROOT="${SDKPATH}"
+    export MACOSX_DEPLOYMENT_TARGET=10.7
 
-## TEMPORARY WORKAROUNDS because OpenSSL 1.1.0g has no configure option for 
-## darwin arm64
-if [ "x${lprefix}" != "x" ]; then
-    ./configure --prefix=${lprefix} no-shared ios64-cross
-    if [ $? -ne 0 ]; then return 1; fi
-else
-    ./configure no-shared ios64-cross
-    if [ $? -ne 0 ]; then return 1; fi
-fi
-## Patch the ios64-cross makefile to build for a Mac instead of iOS device
-sed -i "" 's:-arch arm64:-target arm64-apple-macos10.7 -stdlib=libc++:g' Makefile
-sed -i "" 's:-mios-version-min=7.0.0:-DMAC_OS_X_VERSION_MAX_ALLOWED=1070:g' Makefile
-sed -i "" 's:-isysroot $(CROSS_TOP)/SDKs/$(CROSS_SDK):-isysroot ${SDKROOT}:g' Makefile
-## END OF TEMPORARY WORKAROUNDS
+    ## TEMPORARY WORKAROUNDS because OpenSSL 1.1.0g has no configure option for 
+    ## darwin arm64
+    if [ "x${lprefix}" != "x" ]; then
+        ./configure --prefix=${lprefix} no-shared ios64-cross
+        if [ $? -ne 0 ]; then return 1; fi
+    else
+        ./configure no-shared ios64-cross
+        if [ $? -ne 0 ]; then return 1; fi
+    fi
+    ## Patch the ios64-cross makefile to build for a Mac instead of iOS device
+    sed -i "" 's:-arch arm64:-target arm64-apple-macos10.7 -stdlib=libc++:g' Makefile
+    sed -i "" 's:-mios-version-min=7.0.0:-DMAC_OS_X_VERSION_MAX_ALLOWED=1070:g' Makefile
+    sed -i "" 's:-isysroot $(CROSS_TOP)/SDKs/$(CROSS_SDK):-isysroot ${SDKROOT}:g' Makefile
+    ## END OF TEMPORARY WORKAROUNDS
 
-# save x86_64 lib for later use
-mv -f libcrypto.a libcrypto_x86_64.a
-mv -f libssl.a libssl_x86_64.a
+    # save x86_64 lib for later use
+    mv -f libcrypto.a libcrypto_x86_64.a
+    mv -f libssl.a libssl_x86_64.a
 
-make clean 1>$stdout_target
+    make clean 1>$stdout_target
 
-make 1>$stdout_target
-if [ $? -ne 0 ]; then
-    echo "              ******"
-    echo "OpenSSL: x86_64 build succeeded but could not build for arm64."
-    echo "              ******"
-    rm -f libcrypto_x86_64.a
-    rm -f libssl_x86_64.a
-fi
-
-mv -f libcrypto.a libcrypto_arm64.a
-mv -f libssl.a libssl_arm64.a
-
-# combine x86_64 and arm libraries
-lipo -create libcrypto_x86_64.a libcrypto_arm64.a -output libcrypto.a
-if [ $? -eq 0 ]; then
-    lipo -create libssl_x86_64.a libssl_arm64.a -output libssl.a
+    make 1>$stdout_target
     if [ $? -ne 0 ]; then
-        rm -f libcrypto_x86_64.a libcrypto_arm64.a
-        rm -f libssl_x86_64.a libssl_arm64.a
-        return 1;
+        echo "              ******"
+        echo "OpenSSL: x86_64 build succeeded but could not build for arm64."
+        echo "              ******"
+        rm -f libcrypto_x86_64.a
+        rm -f libssl_x86_64.a
+    fi
+
+    mv -f libcrypto.a libcrypto_arm64.a
+    mv -f libssl.a libssl_arm64.a
+
+    # combine x86_64 and arm libraries
+    lipo -create libcrypto_x86_64.a libcrypto_arm64.a -output libcrypto.a
+    if [ $? -eq 0 ]; then
+        lipo -create libssl_x86_64.a libssl_arm64.a -output libssl.a
+        if [ $? -ne 0 ]; then
+            rm -f libcrypto_x86_64.a libcrypto_arm64.a
+            rm -f libssl_x86_64.a libssl_arm64.a
+            return 1;
+        fi
+    fi
+
+    rm -f libcrypto_x86_64.a libcrypto_arm64.a
+    rm -f libssl_x86_64.a libssl_arm64.a
+
+    ## openssl 1.1.0g does not have a configure option for darwin arm64, so we use 
+    ## the same configure as for ios64-cross with some patches and hope it works
+    ## properly.
+    ## NOTE: At the time of writing, I do not have an arm64 Mac to test with.
+    # Revisit this if a newer version of openssl becomes available.
+    #
+    # Get the names of the current versions of and openssl from the
+    # dependencyNames.sh file in the same directory as this script.
+    myScriptPath="${BASH_SOURCE[0]}"
+    myScriptDir="${myScriptPath%/*}"
+    source "${myScriptDir}/dependencyNames.sh"
+
+    if [ "${opensslDirName}" != "openssl-1.1.0g" ]; then
+    echo "${opensslDirName}"
+        echo "************ NOTICE ****************"
+        echo "New version of openssl may have better arm64 darwin support"
+        echo "See comments in build script buildopenssl.sh for details."
+        echo "************************************"
+        return 
     fi
 fi
 
-rm -f libcrypto_x86_64.a libcrypto_arm64.a
-rm -f libssl_x86_64.a libssl_arm64.a
-
-## openssl 1.1.0g does not have a configure option for darwin arm64, so we use 
-## the same configure as for ios64-cross with some patches and hope it works
-## properly.
-## NOTE: At the time of writing, I do not have an arm64 Mac to test with.
-# Revisit this if a newer version of openssl becomes available.
-#
-# Get the names of the current versions of and openssl from the
-# dependencyNames.sh file in the same directory as this script.
-myScriptPath="${BASH_SOURCE[0]}"
-myScriptDir="${myScriptPath%/*}"
-source "${myScriptDir}/dependencyNames.sh"
-
-if [ "${opensslDirName}" != "openssl-1.1.0g" ]; then
-echo "${opensslDirName}"
-    echo "************ NOTICE ****************"
-    echo "New version of openssl may have better arm64 darwin support"
-    echo "See comments in build script buildopenssl.sh for details."
-    echo "************************************"
-    return 
+if [ "x${lprefix}" != "x" ]; then
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then return 1; fi
 fi
 
 lprefix=""
