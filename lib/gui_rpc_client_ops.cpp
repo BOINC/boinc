@@ -41,10 +41,6 @@
 //   formatting failures for any software that has been localized or
 //   displays localized data.
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "../version.h"
@@ -2012,7 +2008,6 @@ int RPC_CLIENT::run_graphics_app(const char *operation, int& operand, const char
         }
     }
     return retval;
-    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
