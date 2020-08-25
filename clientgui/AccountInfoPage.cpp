@@ -323,7 +323,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     wxString str;
     wxString name = wxString(pc.name.c_str(), wxConvUTF8);
-    str.Printf(_("Identify your account at %s"), name.c_str());
+    str.Printf(_("Identify your account at %s"),
+        name.empty()? pWA->GetProjectName().c_str() : name.c_str()
+            // one or the other is populated depending on how project was selected
+    );
     m_pTitleStaticCtrl->SetLabel(str);
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {

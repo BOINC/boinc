@@ -91,8 +91,13 @@ add_library(rappture ${SRC_RAPPTURE_CORE})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/core/)
 
-find_package(EXPAT REQUIRED)
-target_link_libraries(rappture PRIVATE EXPAT::EXPAT)
+find_package(expat CONFIG REQUIRED)
+
+if(WIN32 AND NOT MINGW)
+    target_link_libraries(rappture PRIVATE expat::libexpat)
+else()
+    target_link_libraries(rappture PRIVATE expat::expat)
+endif()
 
 install(TARGETS rappture
             RUNTIME DESTINATION bin

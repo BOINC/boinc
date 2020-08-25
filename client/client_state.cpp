@@ -774,6 +774,12 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+    // if project_init.xml specifies an account, attach
+    //
+    if (strlen(project_init.url) && strlen(project_init.account_key)) {
+        add_project(project_init.url, project_init.account_key, project_init.name, false);
+        project_init.remove();
+    }
 
     log_show_projects();    // this must follow acct_mgr_info.init()
 
