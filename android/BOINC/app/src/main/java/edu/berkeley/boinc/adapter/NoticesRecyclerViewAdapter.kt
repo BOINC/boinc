@@ -23,7 +23,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -71,8 +70,7 @@ class NoticesRecyclerViewAdapter(
         // if available set icon, if not boinc logo
         // if available set icon, if not boinc logo
         if (icon == null) {
-            holder.projectIcon.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),
-                    R.drawable.ic_boinc))
+            holder.projectIcon.setImageResource(R.drawable.ic_boinc)
         } else {
             holder.projectIcon.setImageBitmap(icon)
         }

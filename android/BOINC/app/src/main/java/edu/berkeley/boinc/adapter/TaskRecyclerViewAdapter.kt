@@ -69,8 +69,7 @@ class TaskRecyclerViewAdapter(
         if (item.id != finalIconId) {
             val icon = getIcon(position)
             if (icon == null) {
-                holder.projectIcon.setImageDrawable(AppCompatResources.getDrawable(fragment.requireContext(),
-                        R.drawable.ic_boinc))
+                holder.projectIcon.setImageResource(R.drawable.ic_boinc)
             } else {
                 holder.projectIcon.setImageBitmap(icon)
                 holder.projectIcon.tag = item.id
