@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
@@ -299,8 +300,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
             if(data.getProject().getAttachedViaAcctMgr()) {
                 final Drawable background =
-                        ContextCompat.getDrawable(activity.getApplicationContext(),
-                                                  R.drawable.shape_boinc_icon_light_blue_background);
+                        AppCompatResources.getDrawable(activity.getApplicationContext(),
+                                                       R.drawable.shape_boinc_icon_light_blue_background);
                 iconBackground.setBackground(background);
             }
             else {

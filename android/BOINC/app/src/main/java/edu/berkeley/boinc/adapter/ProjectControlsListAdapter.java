@@ -26,7 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
 
 public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
-    private List<ProjectControl> entries; // ID of control texts in strings.xml
+    private final List<ProjectControl> entries; // ID of control texts in strings.xml
 
     public ProjectControlsListAdapter(Activity activity, List<ProjectControl> entries) {
         super(activity, R.layout.projects_controls_listitem_layout, entries);
@@ -89,14 +89,14 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
                 text = getContext().getResources().getString(R.string.projects_control_reset);
                 break;
             case RpcClient.PROJECT_DETACH:
-                tvText.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_light_red_background));
+                tvText.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.shape_light_red_background));
                 text = getContext().getResources().getString(R.string.projects_control_remove);
                 break;
             case RpcClient.MGR_SYNC:
                 text = getContext().getResources().getString(R.string.projects_control_sync_acctmgr);
                 break;
             case RpcClient.MGR_DETACH:
-                tvText.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_light_red_background));
+                tvText.setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.shape_light_red_background));
                 text = getContext().getResources().getString(R.string.projects_control_remove_acctmgr);
                 break;
             case RpcClient.TRANSFER_RETRY:
