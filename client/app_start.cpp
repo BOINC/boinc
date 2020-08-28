@@ -287,6 +287,9 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         FILE_REF& fref = avp->app_files[i];
         aid.app_files.push_back(string(fref.file_name));
     }
+    aid.no_priority_change = cc_config.no_priority_change;
+    aid.process_priority = cc_config.process_priority;
+    aid.process_priority_special = cc_config.process_priority_special;
 }
 
 // write the app init file.
@@ -509,22 +512,22 @@ static int get_priority(bool is_high_priority) {
     int p = is_high_priority?cc_config.process_priority_special:cc_config.process_priority;
 #ifdef _WIN32
     switch (p) {
-    case 0: return IDLE_PRIORITY_CLASS;
-    case 1: return BELOW_NORMAL_PRIORITY_CLASS;
-    case 2: return NORMAL_PRIORITY_CLASS;
-    case 3: return ABOVE_NORMAL_PRIORITY_CLASS;
-    case 4: return HIGH_PRIORITY_CLASS;
-    case 5: return REALTIME_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_LOWEST: return IDLE_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_LOW: return BELOW_NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_NORMAL: return NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_HIGH: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_HIGHEST: return HIGH_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_REALTIME: return REALTIME_PRIORITY_CLASS;
     }
     return is_high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
 #else
     switch (p) {
-    case 0: return PROCESS_IDLE_PRIORITY;
-    case 1: return PROCESS_MEDIUM_PRIORITY;
-    case 2: return PROCESS_NORMAL_PRIORITY;
-    case 3: return PROCESS_ABOVE_NORMAL_PRIORITY;
-    case 4: return PROCESS_HIGH_PRIORITY;
-    case 5: return PROCESS_REALTIME_PRIORITY;
+    case CONFIG_PRIORITY_LOWEST: return PROCESS_IDLE_PRIORITY;
+    case CONFIG_PRIORITY_LOW: return PROCESS_MEDIUM_PRIORITY;
+    case CONFIG_PRIORITY_NORMAL: return PROCESS_NORMAL_PRIORITY;
+    case CONFIG_PRIORITY_HIGH: return PROCESS_ABOVE_NORMAL_PRIORITY;
+    case CONFIG_PRIORITY_HIGHEST: return PROCESS_HIGH_PRIORITY;
+    case CONFIG_PRIORITY_REALTIME: return PROCESS_REALTIME_PRIORITY;
     }
     return is_high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
 #endif
