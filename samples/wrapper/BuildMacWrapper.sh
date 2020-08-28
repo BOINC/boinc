@@ -23,6 +23,7 @@
 # by Charlie Fenton 2/15/10
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 8/28/20 for compatibility with Xcode 10
 #
 ## This script requires OS 10.6 or later
 #
@@ -74,46 +75,23 @@ rm -fR i386 x86_64
 
 echo
 echo "***************************************************"
-echo "******* Building 32-bit Intel Application *********"
-echo "***************************************************"
-echo
-
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 -fvisibility=hidden -fvisibility-inlines-hidden"
-export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
-
-rm -f *.o
-rm -f wrapper
-make -f Makefile_mac all
-
-if [  $? -ne 0 ]; then exit 1; fi
-
-mkdir i386
-mv wrapper i386/
-
-echo
-echo "***************************************************"
 echo "******* Building 64-bit Intel Application *********"
 echo "***************************************************"
 echo
 
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export CC="${GCCPATH}";export CPP="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070 -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.5
+export MACOSX_DEPLOYMENT_TARGET=10.7
 
 
 rm -f *.o
 rm -f wrapper
+make -f Makefile_mac clean
 make -f Makefile_mac all
 
     if [  $? -ne 0 ]; then exit 1; fi
-
-mkdir x86_64
-mv wrapper x86_64/
 
 rm -f *.o
 

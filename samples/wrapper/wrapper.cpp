@@ -68,7 +68,7 @@
 #endif
 
 #include "version.h"
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
 #include "svn_version.h"
 #endif
 #include "boinc_api.h"
@@ -1180,7 +1180,7 @@ int main(int argc, char** argv) {
             gpu_device_num = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--trickle")) {
             trickle_period = atof(argv[++j]);
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
         } else if (!strcmp(argv[j], "--version") || !strcmp(argv[j], "-v")) {
             fprintf(stderr, "%s\n", SVN_VERSION);
             boinc_finish(0);
