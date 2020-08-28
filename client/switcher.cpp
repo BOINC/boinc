@@ -34,9 +34,7 @@
 #include "app_ipc.h"
 #include "filesys.h"
 #include "str_replace.h"
-#ifdef __APPLE__
 #include "mac_spawn.h"
-#endif
 
 using std::strcpy;
 
