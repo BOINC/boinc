@@ -79,6 +79,8 @@
 #define NGRAPHICS_MSGS  7
 
 // process priorities
+// Unfortunately different areas of code use two different numbering schemes.
+// The following is used in wrapper job.xml files
 //
 #define PROCESS_PRIORITY_UNSPECIFIED    0
 #define PROCESS_PRIORITY_LOWEST     1
@@ -91,6 +93,17 @@
     // win: ABOVE_NORMAL; unix: -10
 #define PROCESS_PRIORITY_HIGHEST    5
     // win: HIGH; unix: -16
+
+// The following is used in cc_config.xml,
+// and passed to apps in the APP_INIT_DATA structure
+//
+#define CONFIG_PRIORITY_UNSPECIFIED -1
+#define CONFIG_PRIORITY_LOWEST      0
+#define CONFIG_PRIORITY_LOW         1
+#define CONFIG_PRIORITY_NORMAL      2
+#define CONFIG_PRIORITY_HIGH        3
+#define CONFIG_PRIORITY_HIGHEST     4
+#define CONFIG_PRIORITY_REALTIME    5
 
 // priorities for client messages
 //

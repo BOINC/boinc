@@ -747,7 +747,10 @@ int TASK::run(int argct, char** argvt) {
         priority_val = 0;
     } else {
         if (aid.process_priority > 0) {
-            priority_val = process_priority_value(aid.process_priority);
+            // priority coming from the client is on scale where 0 is idle.
+            // for us, 1 is idle
+            //
+            priority_val = process_priority_value(aid.process_priority+1);
         } else {
             priority_val = process_priority_value(priority);
         }

@@ -186,7 +186,7 @@ struct CC_CONFIG {
     bool no_opencl;
     bool no_priority_change;
     bool os_random_only;
-    int process_priority;
+    int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;
     double rec_half_life;

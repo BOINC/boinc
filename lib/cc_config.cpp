@@ -241,8 +241,8 @@ void CC_CONFIG::defaults() {
     no_opencl = false;
     no_priority_change = false;
     os_random_only = false;
-    process_priority = -1;
-    process_priority_special = -1;
+    process_priority = CONFIG_PRIORITY_UNSPECIFIED;
+    process_priority_special = CONFIG_PRIORITY_UNSPECIFIED;
     proxy_info.clear();
     rec_half_life = 10*86400;
 #ifdef ANDROID
