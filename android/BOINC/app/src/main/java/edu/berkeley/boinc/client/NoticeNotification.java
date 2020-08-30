@@ -137,7 +137,7 @@ public class NoticeNotification {
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(notice.getLink()));
             final PendingIntent browserIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "main-channel")
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notice-channel")
                     .setAutoCancel(true)
                     .setContentIntent(browserIntent)
                     .setContentTitle(notice.getProjectName() + ": " + notice.getTitle())
@@ -161,7 +161,7 @@ public class NoticeNotification {
         final int smallIcon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ?
                               R.mipmap.ic_boinc_notice_white : R.drawable.ic_boinc_notice;
         // build new notification from scratch every time a notice arrives
-        final NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "main-channel")
+        final NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "notice-channel")
                 .setContentTitle(context.getResources().getQuantityString(R.plurals.notice_notification,
                                                                           notices, projectName, notices))
                 .setSmallIcon(smallIcon)

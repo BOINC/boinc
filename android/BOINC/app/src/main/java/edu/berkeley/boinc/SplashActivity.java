@@ -19,8 +19,6 @@
 package edu.berkeley.boinc;
 
 import android.app.ActivityManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -138,18 +136,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Create notification channel for use on API 26 and higher.
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            final String name = getString(R.string.main_notification_channel_name);
-
-            final NotificationChannel notificationChannel =
-                    new NotificationChannel("main-channel", name,
-                                            NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription(getString(R.string.main_notification_channel_description));
-
-            getSystemService(NotificationManager.class).createNotificationChannel(notificationChannel);
-        }
 
         // Use BOINC logo in Recent Apps Switcher
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21

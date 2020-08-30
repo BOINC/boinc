@@ -18,6 +18,9 @@
  */
 package edu.berkeley.boinc
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import androidx.multidex.MultiDexApplication
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.di.AppComponent
@@ -30,6 +33,23 @@ open class BOINCApplication : MultiDexApplication() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         setAppTheme(sharedPreferences.getString("theme", "light")!!)
+
+        // Create notification channels for use on API 26 and higher.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NotificationManager::class.java)
+
+            // Create main notification channel.
+            val mainChannelName = getString(R.string.main_notification_channel_name)
+            val mainChannel = NotificationChannel("main-channel", mainChannelName, NotificationManager.IMPORTANCE_HIGH)
+            mainChannel.description = getString(R.string.main_notification_channel_description)
+            notificationManager.createNotificationChannel(mainChannel)
+
+            // Create notice notification channel.
+            val noticeChannelName = getString(R.string.notice_notification_channel_name)
+            val noticeChannel = NotificationChannel("notice-channel", noticeChannelName, NotificationManager.IMPORTANCE_HIGH)
+            noticeChannel.description = getString(R.string.notice_notification_channel_description)
+            notificationManager.createNotificationChannel(noticeChannel)
+        }
     }
 
     val appComponent: AppComponent by lazy {

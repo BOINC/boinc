@@ -299,6 +299,8 @@
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
     <!-- Main notification channel (notices) -->
-    <string name="main_notification_channel_name">Notices</string>
-    <string name="main_notification_channel_description">Displays notices from your projects.</string>
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="main_notification_channel_description">Displays non-notice notifications.</string>
+    <string name="notice_notification_channel_name">Notices</string>
+    <string name="notice_notification_channel_description">Displays notices from your projects.</string>
 </resources>
