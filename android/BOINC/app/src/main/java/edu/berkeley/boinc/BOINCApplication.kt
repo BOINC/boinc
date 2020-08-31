@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.di.AppComponent
@@ -28,7 +27,6 @@ import edu.berkeley.boinc.utils.setAppTheme
 open class BOINCApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         setAppTheme(sharedPreferences.getString("theme", "light")!!)

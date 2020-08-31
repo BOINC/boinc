@@ -33,10 +33,10 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.replace
-import androidx.legacy.app.ActionBarDrawerToggle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
@@ -112,11 +112,8 @@ class BOINCActivity : AppCompatActivity() {
         // enabling action bar app icon and behaving it as toggle button
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_white)
 
-        // TODO: Replace with a non-deprecated class.
         mDrawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout,
-                R.drawable.ic_baseline_menu_white,  //nav menu toggle icon
                 R.string.app_name,  // nav drawer openapplicationContext - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
