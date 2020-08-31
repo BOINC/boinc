@@ -48,7 +48,6 @@
 #define strdate     _strdate
 #define strtime     _strtime
 #define getcwd    _getcwd
-#define snprintf  _snprintf
 #define finite   _finite
 #endif
 
