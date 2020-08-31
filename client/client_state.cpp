@@ -43,10 +43,6 @@ extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef __EMX__
 #define INCL_DOS
 #include <os2.h>

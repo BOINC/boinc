@@ -30,9 +30,6 @@
 
 #ifdef _WIN32
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #endif
 #include "miofile.h"
 #include "parse.h"

@@ -17,7 +17,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#define snprintf _snprintf
 #else
 #include "config.h"
 #include <cstdarg>

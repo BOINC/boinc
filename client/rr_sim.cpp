@@ -44,10 +44,6 @@
 #include "config.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "coproc.h"

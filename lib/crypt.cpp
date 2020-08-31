@@ -28,11 +28,6 @@
 #include <fcntl.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf    _snprintf
-#define strdup      _strdup
-#endif
-
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
 #include <openssl/bio.h>
