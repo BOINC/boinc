@@ -142,9 +142,8 @@ class BOINCActivity : AppCompatActivity() {
         if (targetFragId < 0 && savedInstanceState != null) {
             targetFragId = savedInstanceState.getInt("navBarSelectionId")
         }
-        val item: NavDrawerItem?
-        item = if (targetFragId < 0) {
-            // if non of the above, go to default
+        val item: NavDrawerItem? = if (targetFragId < 0) {
+            // if none of the above, go to default
             mDrawerListAdapter.getItem(0)
         } else {
             mDrawerListAdapter.getItemForId(targetFragId)
@@ -185,12 +184,13 @@ class BOINCActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: $id")
         }
-        val item = mDrawerListAdapter.getItemForId(id)
-        if (item != null) {
-            dispatchNavBarOnClick(item, false)
-        } else if (Logging.WARNING) {
-            Log.w(Logging.TAG, "onNewIntent: requested target fragment is null, for id: $id")
+        val item: NavDrawerItem? = if (id < 0) {
+            // if ID is -1, go to default
+            mDrawerListAdapter.getItem(0)
+        } else {
+            mDrawerListAdapter.getItemForId(id)
         }
+        dispatchNavBarOnClick(item, false)
     }
 
     override fun onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
