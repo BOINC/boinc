@@ -26,7 +26,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Point
-import android.net.Uri
 import android.os.Bundle
 import android.os.RemoteException
 import android.text.SpannableString
@@ -35,6 +34,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.databinding.ProjectDetailsLayoutBinding
@@ -251,7 +251,7 @@ class ProjectDetailsFragment : Fragment() {
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
         binding.projectUrl.text = content
         binding.projectUrl.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(project!!.masterURL)))
+            startActivity(Intent(Intent.ACTION_VIEW, project!!.masterURL.toUri()))
         }
 
         // set general area
