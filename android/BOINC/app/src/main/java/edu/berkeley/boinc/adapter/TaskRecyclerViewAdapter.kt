@@ -35,9 +35,6 @@ import edu.berkeley.boinc.databinding.TasksLayoutListItemBinding
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
 import java.text.NumberFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.roundToInt
@@ -46,6 +43,7 @@ class TaskRecyclerViewAdapter(
         private val fragment: TasksFragment,
         private val taskList: List<TasksFragment.TaskData>
 ) : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
+    private val dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
     private val elapsedTimeStringBuilder = StringBuilder()
     private val percentNumberFormat = NumberFormat.getPercentInstance().apply { minimumFractionDigits = 3 }
 
@@ -138,10 +136,7 @@ class TaskRecyclerViewAdapter(
             holder.time.text = DateUtils.formatElapsedTime(elapsedTimeStringBuilder, elapsedTime)
 
             // set deadline
-            val deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
-                    item.result.reportDeadline), ZoneId.systemDefault())
-            val deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                    .format(deadlineDateTime)
+            val deadline = dateTimeFormatter.format(item.result.reportDeadline.secondsToLocalDateTime())
             holder.deadline.text = deadline
             // set application friendly name
             if (result.app != null) {
@@ -253,7 +248,7 @@ class TaskRecyclerViewAdapter(
         }
     }
 
-    inner class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val root = binding.root
         val projectIcon = binding.projectIcon
         val header = binding.taskHeader

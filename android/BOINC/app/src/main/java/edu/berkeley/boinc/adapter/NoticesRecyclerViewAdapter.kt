@@ -32,9 +32,7 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.databinding.NoticesLayoutListItemBinding
 import edu.berkeley.boinc.rpc.Notice
 import edu.berkeley.boinc.utils.Logging
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import edu.berkeley.boinc.utils.secondsToLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -79,9 +77,7 @@ class NoticesRecyclerViewAdapter(
         holder.title.text = listItem.title
         holder.content.text = listItem.description.parseAsHtml()
 
-        val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
-                listItem.createTime.toLong()), ZoneId.systemDefault())
-        holder.time.text = dateTimeFormatter.format(localDateTime)
+        holder.time.text = dateTimeFormatter.format(listItem.createTime.toLong().secondsToLocalDateTime())
     }
 
     private fun getIcon(position: Int): Bitmap? {
