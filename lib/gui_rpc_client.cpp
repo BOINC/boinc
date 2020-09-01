@@ -21,9 +21,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "../version.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #ifdef __EMX__

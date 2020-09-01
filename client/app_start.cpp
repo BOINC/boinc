@@ -22,12 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#define unlink   _unlink
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define strdup   _strdup
-#define getcwd   _getcwd
-#endif
 #else
 #include "config.h"
 #if HAVE_SCHED_SETSCHEDULER && defined (__linux__)
@@ -845,8 +839,10 @@ int ACTIVE_TASK::start(bool test) {
     // see which one was used for this job, and show it
     //
     if (log_flags.task_debug && gstate.host_info.n_processor_groups > 0) {
-        int i = get_processor_group(process_handle);
-        msg_printf(wup->project, MSG_INFO, "[task_debug] task is running in processor group %d", i);
+        msg_printf(wup->project, MSG_INFO, 
+            "[task_debug] task is running in processor group %d",
+            get_processor_group(process_handle)
+        );
     }
 #endif
 #elif defined(__EMX__)
@@ -1280,7 +1276,7 @@ void run_test_app() {
     at.max_mem_usage = 1e14;
     safe_strcpy(at.slot_dir, ".");
 
-#if 1
+#if 0
     // test file copy
     //
     ASYNC_COPY* ac = new ASYNC_COPY;

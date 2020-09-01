@@ -28,10 +28,6 @@
 #include "mac_spawn.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"

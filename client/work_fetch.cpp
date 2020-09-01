@@ -24,10 +24,6 @@
 #include <cmath>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "util.h"
 #include "str_replace.h"
 

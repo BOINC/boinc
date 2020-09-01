@@ -19,11 +19,6 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define snprintf_s _snprintf_s
-#endif
-
 #ifdef HAVE_INTRIN_H
 #include <intrin.h>
 #endif

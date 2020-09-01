@@ -21,10 +21,6 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef __EMX__
 #define INCL_DOS
 #define INCL_DOSERRORS
