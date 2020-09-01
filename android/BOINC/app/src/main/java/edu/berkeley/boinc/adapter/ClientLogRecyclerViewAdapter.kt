@@ -24,9 +24,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.databinding.EventLogClientListItemLayoutBinding
 import edu.berkeley.boinc.rpc.Message
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import edu.berkeley.boinc.utils.secondsToLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -54,16 +52,13 @@ class ClientLogRecyclerViewAdapter(private val messages: List<Message>) :
         }
     }
 
-    fun getDateTimeString(position: Int): String? {
-        val instant = Instant.ofEpochSecond(messages[position].timestamp)
-        return dateTimeFormatter.format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()))
-    }
+    fun getDateTimeString(position: Int): String = dateTimeFormatter.format(messages[position].timestamp.secondsToLocalDateTime())
 
     fun getMessage(position: Int) = messages[position].body
 
     fun getProject(position: Int) = messages[position].project
 
-    inner class ViewHolder(binding: EventLogClientListItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: EventLogClientListItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         val date = binding.msgsDate
         val project = binding.msgsProject
         val message = binding.msgsMessage

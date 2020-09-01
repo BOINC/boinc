@@ -23,7 +23,6 @@ import android.app.Service
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
@@ -35,6 +34,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
@@ -261,8 +261,8 @@ class BOINCActivity : AppCompatActivity() {
                     ft.replace<ProjectsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
-                R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/wiki/BOINC_Help")))
-                R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/trac/wiki/ReportBugs")))
+                R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
+                R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
                 R.string.menu_about -> {
                     val dialog = Dialog(this).apply {
                         requestWindowFeature(Window.FEATURE_NO_TITLE)

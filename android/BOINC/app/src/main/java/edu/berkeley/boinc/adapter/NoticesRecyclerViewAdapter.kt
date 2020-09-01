@@ -24,7 +24,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.NoticesFragment
@@ -32,9 +32,7 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.databinding.NoticesLayoutListItemBinding
 import edu.berkeley.boinc.rpc.Notice
 import edu.berkeley.boinc.utils.Logging
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import edu.berkeley.boinc.utils.secondsToLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -77,11 +75,9 @@ class NoticesRecyclerViewAdapter(
 
         holder.projectName.text = listItem.projectName
         holder.title.text = listItem.title
-        holder.content.text = HtmlCompat.fromHtml(listItem.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.content.text = listItem.description.parseAsHtml()
 
-        val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
-                listItem.createTime.toLong()), ZoneId.systemDefault())
-        holder.time.text = dateTimeFormatter.format(localDateTime)
+        holder.time.text = dateTimeFormatter.format(listItem.createTime.toLong().secondsToLocalDateTime())
     }
 
     private fun getIcon(position: Int): Bitmap? {

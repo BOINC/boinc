@@ -35,6 +35,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.io.Reader
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -105,3 +108,8 @@ fun Context.translateRPCReason(reason: Int) = when (reason) {
     RPC_REASON_PROJECT_REQ -> resources.getString(R.string.rpcreason_projectreq)
     else -> resources.getString(R.string.rpcreason_unknown)
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Long.secondsToLocalDateTime(
+        zoneId: ZoneId = ZoneId.systemDefault()
+): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), zoneId)

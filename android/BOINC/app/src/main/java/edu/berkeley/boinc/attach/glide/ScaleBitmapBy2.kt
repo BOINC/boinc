@@ -19,13 +19,14 @@
 package edu.berkeley.boinc.attach.glide
 
 import android.graphics.Bitmap
+import androidx.core.graphics.scale
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import java.security.MessageDigest
 
 class ScaleBitmapBy2 : BitmapTransformation() {
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-        return Bitmap.createScaledBitmap(toTransform, toTransform.width * 2, toTransform.height * 2, false)
+        return toTransform.scale(toTransform.width * 2, toTransform.height * 2, filter = false)
     }
 
     override fun equals(other: Any?) = other is ScaleBitmapBy2
