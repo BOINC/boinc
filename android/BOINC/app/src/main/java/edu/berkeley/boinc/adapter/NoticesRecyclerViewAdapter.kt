@@ -24,7 +24,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.NoticesFragment
@@ -77,7 +77,7 @@ class NoticesRecyclerViewAdapter(
 
         holder.projectName.text = listItem.projectName
         holder.title.text = listItem.title
-        holder.content.text = HtmlCompat.fromHtml(listItem.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.content.text = listItem.description.parseAsHtml()
 
         val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
                 listItem.createTime.toLong()), ZoneId.systemDefault())
