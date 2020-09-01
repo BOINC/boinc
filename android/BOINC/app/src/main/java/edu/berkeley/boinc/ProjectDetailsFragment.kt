@@ -24,7 +24,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.graphics.Point
 import android.os.Bundle
 import android.os.RemoteException
@@ -34,6 +33,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -364,9 +364,7 @@ class ProjectDetailsFragment : Fragment() {
                 val slideshowBinding = ProjectDetailsSlideshowImageLayoutBinding.inflate(layoutInflater)
                 var bitmap = image.image!!
                 if (scaleImages(bitmap.height, bitmap.width)) {
-                    bitmap = Bitmap.createScaledBitmap(image.image!!,
-                            image.image!!.width * 2,
-                            image.image!!.height * 2, false)
+                    bitmap = bitmap.scale(bitmap.width * 2, bitmap.height * 2, filter = false)
                 }
                 slideshowBinding.slideshowImage.setImageBitmap(bitmap)
                 binding.slideshowHook.addView(slideshowBinding.slideshowImage)
