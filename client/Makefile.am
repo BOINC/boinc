@@ -25,7 +25,7 @@ if OS_DARWIN
 endif
 
 bin_PROGRAMS = boinc_client boinccmd
-if !OS_WIN32
+if OS_DARWIN
 bin_PROGRAMS += switcher
 endif
 
