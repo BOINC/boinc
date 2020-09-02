@@ -25,7 +25,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
@@ -153,21 +152,19 @@ class TaskRecyclerViewAdapter(
                     holder.abortButton.tag = RpcClient.RESULT_ABORT // tag on button specified operation triggered in iconClickListener
                     holder.abortButton.visibility = View.VISIBLE
                     holder.requestProgressBar.visibility = View.GONE
-                    val theme = fragment.requireActivity().theme
+                    val context = fragment.requireContext()
 
                     // checking what suspendResume button should be shown
                     when {
                         item.result.isSuspendedViaGUI -> { // show play
                             holder.suspendResumeButton.visibility = View.VISIBLE
-                            holder.suspendResumeButton.setBackgroundColor(ResourcesCompat.getColor(fragment.resources,
-                                    R.color.dark_green, theme))
+                            holder.suspendResumeButton.setBackgroundColor(context.getColorCompat(R.color.dark_green))
                             holder.suspendResumeButton.setImageResource(R.drawable.ic_baseline_play_arrow_white)
                             holder.suspendResumeButton.tag = RpcClient.RESULT_RESUME // tag on button specified operation triggered in iconClickListener
                         }
                         item.determineState() == PROCESS_EXECUTING -> { // show pause
                             holder.suspendResumeButton.visibility = View.VISIBLE
-                            holder.suspendResumeButton.setBackgroundColor(ResourcesCompat.getColor(fragment.resources,
-                                    R.color.dark_green, theme))
+                            holder.suspendResumeButton.setBackgroundColor(context.getColorCompat(R.color.dark_green))
                             holder.suspendResumeButton.setImageResource(R.drawable.ic_baseline_pause_white)
                             holder.suspendResumeButton.tag = RpcClient.RESULT_SUSPEND // tag on button specified operation triggered in iconClickListener
                         }

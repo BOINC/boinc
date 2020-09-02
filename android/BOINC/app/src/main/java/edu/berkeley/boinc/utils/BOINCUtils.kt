@@ -25,9 +25,11 @@ import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.RemoteException
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
@@ -113,3 +115,6 @@ fun Context.translateRPCReason(reason: Int) = when (reason) {
 inline fun Long.secondsToLocalDateTime(
         zoneId: ZoneId = ZoneId.systemDefault()
 ): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), zoneId)
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)

@@ -46,10 +46,7 @@ import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.databinding.MainBinding
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
-import edu.berkeley.boinc.utils.Logging
-import edu.berkeley.boinc.utils.RUN_MODE_AUTO
-import edu.berkeley.boinc.utils.RUN_MODE_NEVER
-import edu.berkeley.boinc.utils.writeClientModeAsync
+import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
 
 class BOINCActivity : AppCompatActivity() {
@@ -131,6 +128,7 @@ class BOINCActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
             }
         }
+        mDrawerToggle.drawerArrowDrawable.color = getColorCompat(R.color.white)
         binding.drawerLayout.addDrawerListener(mDrawerToggle)
 
         // pre-select fragment
