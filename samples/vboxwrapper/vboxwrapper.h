@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// Provide cross-platform interfaces for making changes to VirtualBox
-
 #ifndef BOINC_VBOXWRAPPER_H
 #define BOINC_VBOXWRAPPER_H
+
+// disable COM interface?
+#define COM_OFF
 
 #define IMAGE_FILENAME_COMPLETE "vm_image.vdi"
 #define IMAGE_FILENAME "vm_image"

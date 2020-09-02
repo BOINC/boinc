@@ -39,6 +39,8 @@
 #include "vboxwrapper.h"
 #include "vbox_mscom42.h"
 
+#ifndef COM_OFF
+
 #import "file:vbox42.tlb" rename_namespace("vbox42"), named_guids, raw_interfaces_only
 
 using std::string;
@@ -59,3 +61,5 @@ namespace vbox42 {
 #include "vbox_mscom_impl.cpp"
 
 }
+
+#endif

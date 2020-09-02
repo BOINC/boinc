@@ -19,11 +19,6 @@
 #include "boinc_win.h"
 #include "win_util.h"
 
-#if defined(_MSC_VER)
-#define getcwd      _getcwd
-#define stricmp     _stricmp
-#endif
-
 #else
 #include <algorithm>
 #include <sys/wait.h>

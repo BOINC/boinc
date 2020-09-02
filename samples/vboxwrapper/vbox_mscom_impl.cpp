@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "vboxwrapper.h"
+#ifndef COM_OFF
+
 #ifdef _MSC_VER
 #pragma warning(disable: 4706)
 #endif
@@ -2762,3 +2765,5 @@ CLEANUP:
 }
 
 #endif
+
+#endif   // COM_OFF

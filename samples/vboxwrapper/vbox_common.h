@@ -15,14 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// Provide cross-platform interfaces for making changes to VirtualBox
-
 #ifndef BOINC_VBOX_COMMON_H
 #define BOINC_VBOX_COMMON_H
 
 #include "vboxjob.h"
-
 
 // Known VirtualBox/COM error codes
 //

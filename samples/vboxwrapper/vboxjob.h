@@ -18,9 +18,7 @@
 #ifndef BOINC_VBOXJOB_H
 #define BOINC_VBOXJOB_H
 
-
 #define JOB_FILENAME "vbox_job.xml"
-
 
 // Represents the state of a intermediate upload
 class VBOX_INTERMEDIATE_UPLOAD {

@@ -39,6 +39,7 @@
 #include "vboxwrapper.h"
 #include "vbox_mscom51.h"
 
+#ifndef COM_OFF
 
 #import "file:vbox51.tlb" rename_namespace("vbox51"), named_guids, raw_interfaces_only
 
@@ -62,3 +63,4 @@ namespace vbox51 {
 }
 
 
+#endif

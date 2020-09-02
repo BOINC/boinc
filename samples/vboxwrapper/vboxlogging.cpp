@@ -31,7 +31,6 @@
 
 #include "vboxlogging.h"
 
-
 int vboxlog_msg(const char *fmt, ...) {
     int retval = 0;
     char buf[256];
@@ -62,4 +61,3 @@ int vboxlog_msg(const char *fmt, ...) {
 
     return retval;
 }
-
