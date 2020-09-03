@@ -1049,12 +1049,15 @@ if echo $host_os | grep '^darwin' >/dev/null ; then
   AS_IF([test "${enable_client}" = "yes" || test "${enable_manager}" = "yes"],
         [AC_MSG_WARN([
 ===============================================================================
-WARNING: Building BOINC for macOS through Autotools may not be secure.
+WARNING: Building BOINC client and manager for macOS through Autotools is
+         deprecated. See PR#3804.
 
-    Please refer boinc/mac_build/HowToBuildBOINC_XCode.rtf on how to build
-    BOINC for macOS.
+    Please refer to the docs below on how to build BOINC for macOS.
 
-    To continue building other BOINC components, please run with the option:
+    boinc/mac_build/HowToBuildBOINC_XCode.rtf
+    boinc/mac_build/HowToBuildBOINC_XCode.pdf
+
+    To disable this warning, please run with the option:
 
     ./configure --disable-client --disable-manager
 
