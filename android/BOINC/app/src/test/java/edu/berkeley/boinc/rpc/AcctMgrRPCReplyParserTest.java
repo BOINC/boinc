@@ -32,7 +32,10 @@ import org.xml.sax.SAXException;
 import edu.berkeley.boinc.utils.Logging;
 import kotlin.UninitializedPropertyAccessException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
@@ -52,8 +55,8 @@ public class AcctMgrRPCReplyParserTest {
         expected = new AcctMgrRPCReply();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParse_whenRpcStringIsNull_thenExpectIllegalArgumentException() {
+    @Test(expected = NullPointerException.class)
+    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
         mockStatic(Xml.class);
 
         AcctMgrRPCReplyParser.parse(null);
