@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -27,15 +26,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -50,6 +44,7 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksFragment.TaskData;
+import edu.berkeley.boinc.databinding.TasksLayoutListItemBinding;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
@@ -77,55 +72,34 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         TaskData listItem = entries.get(position);
 
-        View v = convertView;
         // setup new view, if:
         // - view is null, has not been here before
         // - view has different id
-        boolean setup = false;
-        if(v == null) {
-            setup = true;
+        final TasksLayoutListItemBinding binding;
+        if (convertView != null && listItem.id.equals(convertView.getTag())) {
+            binding = TasksLayoutListItemBinding.bind(convertView);
+        } else {
+            binding = TasksLayoutListItemBinding.inflate(LayoutInflater.from(parent.getContext()));
         }
-        else {
-            String viewId = (String) v.getTag();
-            if(!listItem.id.equals(viewId)) {
-                setup = true;
-            }
-        }
-
-        if(setup) {
-            LayoutInflater vi = ContextCompat.getSystemService(activity, LayoutInflater.class);
-            assert vi != null;
-            v = vi.inflate(R.layout.tasks_layout_list_item, null);
-            v.setTag(listItem.id);
-        }
-
-        ProgressBar pb = v.findViewById(R.id.progressBar);
-        TextView header = v.findViewById(R.id.taskHeader);
-        TextView status = v.findViewById(R.id.taskStatus);
-        TextView time = v.findViewById(R.id.taskTime);
-        TextView statusPercentage = v.findViewById(R.id.taskStatusPercentage);
-        ImageView expandButton = v.findViewById(R.id.expandCollapse);
 
         // --- set up view elements that are independent of "active" and "expanded" state
-        ImageView ivIcon = v.findViewById(R.id.project_icon);
-        String finalIconId = (String) ivIcon.getTag();
+        String finalIconId = (String) binding.projectIcon.getTag();
         if(!StringUtils.equals(finalIconId, listItem.id)) {
             Bitmap icon = getIcon(position);
             // if available set icon, if not boinc logo
             if(icon == null) {
-                ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_boinc));
+                binding.projectIcon.setImageResource(R.drawable.ic_boinc);
             }
             else {
-                ivIcon.setImageBitmap(icon);
-                ivIcon.setTag(listItem.id);
+                binding.projectIcon.setImageBitmap(icon);
+                binding.projectIcon.setTag(listItem.id);
             }
         }
 
-        String headerT = listItem.getResult().getApp().getDisplayName();
-        header.setText(headerT);
+        binding.taskHeader.setText(listItem.getResult().getApp().getDisplayName());
 
         // set project name
         String tempProjectName = listItem.getResult().getProjectURL();
@@ -135,11 +109,11 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
                 tempProjectName = tempProjectName + " " + getContext().getString(R.string.tasks_header_project_paused);
             }
         }
-        ((TextView) v.findViewById(R.id.project_name)).setText(tempProjectName);
+        binding.projectName.setText(tempProjectName);
 
         // status text
         String statusT = determineStatusText(listItem);
-        status.setText(statusT);
+        binding.taskStatus.setText(statusT);
         if(listItem.getResult().getState() == BOINCDefs.RESULT_ABORTED ||
            listItem.getResult().getState() == BOINCDefs.RESULT_COMPUTE_ERROR ||
            listItem.getResult().getState() == BOINCDefs.RESULT_FILES_DOWNLOADING ||
@@ -147,11 +121,11 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
            listItem.getResult().getState() == BOINCDefs.RESULT_FILES_UPLOADING ||
            listItem.getResult().getState() == BOINCDefs.RESULT_READY_TO_REPORT ||
            listItem.getResult().getState() == BOINCDefs.RESULT_UPLOAD_FAILED) {
-            statusPercentage.setVisibility(View.GONE);
+            binding.taskStatusPercentage.setVisibility(View.GONE);
         }
         else {
-            statusPercentage.setVisibility(View.VISIBLE);
-            statusPercentage.setText(percentNumberFormat.format(listItem.getResult().getFractionDone()));
+            binding.taskStatusPercentage.setVisibility(View.VISIBLE);
+            binding.taskStatusPercentage.setText(percentNumberFormat.format(listItem.getResult().getFractionDone()));
         }
         // --- end of independent view elements
 
@@ -160,29 +134,27 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
         // therefore check also whether task is active
         final boolean active = (listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING);
         if(active || listItem.expanded) {
-            pb.setVisibility(View.VISIBLE);
-            pb.setIndeterminate(false);
-            pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-            pb.setProgress(Math.round(listItem.getResult().getFractionDone() * pb.getMax()));
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.progressBar.setIndeterminate(false);
+            binding.progressBar.setProgressDrawable(ContextCompat.getDrawable(activity, R.drawable.progressbar));
+            binding.progressBar.setProgress(Math.round(listItem.getResult().getFractionDone() * binding.progressBar.getMax()));
         }
         else {
-            pb.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.GONE);
         }
 
         // expansion
-        RelativeLayout rightColumnExpandWrapper = v.findViewById(R.id.rightColumnExpandWrapper);
-        LinearLayout centerColumnExpandWrapper = v.findViewById(R.id.centerColumnExpandWrapper);
         if(!listItem.expanded) {
             // view is collapsed
-            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right);
-            rightColumnExpandWrapper.setVisibility(View.GONE);
-            centerColumnExpandWrapper.setVisibility(View.GONE);
+            binding.expandCollapse.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right);
+            binding.rightColumnExpandWrapper.setVisibility(View.GONE);
+            binding.centerColumnExpandWrapper.setVisibility(View.GONE);
         }
         else {
             // view is expanded
-            expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down);
-            rightColumnExpandWrapper.setVisibility(View.VISIBLE);
-            centerColumnExpandWrapper.setVisibility(View.VISIBLE);
+            binding.expandCollapse.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down);
+            binding.rightColumnExpandWrapper.setVisibility(View.VISIBLE);
+            binding.centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 
             // elapsed time
             final long elapsedTime;
@@ -193,68 +165,62 @@ public class TasksListAdapter extends ArrayAdapter<TaskData> {
             else {
                 elapsedTime = (long) listItem.getResult().getFinalElapsedTime();
             }
-            time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
+            binding.taskTime.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 
             // set deadline
             final LocalDateTime deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
                     listItem.getResult().getReportDeadline()), ZoneId.systemDefault());
             final String deadline = dateTimeFormatter.format(deadlineDateTime);
-            ((TextView) v.findViewById(R.id.deadline)).setText(deadline);
+            binding.deadline.setText(deadline);
             // set application friendly name
             if(listItem.getResult().getApp() != null) {
-                ((TextView) v.findViewById(R.id.taskName)).setText(listItem.getResult().getName());
+                binding.taskName.setText(listItem.getResult().getName());
             }
 
             // buttons
-            ImageView suspendResume = v.findViewById(R.id.suspendResumeTask);
-            ImageView abortButton = v.findViewById(R.id.abortTask);
             if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
-                rightColumnExpandWrapper.setVisibility(View.INVISIBLE);
+                binding.rightColumnExpandWrapper.setVisibility(View.INVISIBLE);
             }
             else {
                 if(listItem.nextState == -1) { // not waiting for new state
-                    suspendResume.setOnClickListener(listItem.iconClickListener);
+                    binding.suspendResumeTask.setOnClickListener(listItem.iconClickListener);
 
-                    abortButton.setOnClickListener(listItem.iconClickListener);
-                    abortButton.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
-                    abortButton.setVisibility(View.VISIBLE);
+                    binding.abortTask.setOnClickListener(listItem.iconClickListener);
+                    binding.abortTask.setTag(RpcClient.RESULT_ABORT); // tag on button specified operation triggered in iconClickListener
+                    binding.abortTask.setVisibility(View.VISIBLE);
 
-                    (v.findViewById(R.id.request_progressBar)).setVisibility(View.GONE);
-
-                    final Resources resources = activity.getResources();
-                    final Resources.Theme theme = activity.getTheme();
+                    binding.requestProgressBar.setVisibility(View.GONE);
 
                     // checking what suspendResume button should be shown
                     if(listItem.getResult().isSuspendedViaGUI()) { // show play
-                        suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
-                                                                                  theme));
-                        suspendResume.setImageResource(R.drawable.ic_baseline_play_arrow_white);
-                        suspendResume.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
+                        binding.suspendResumeTask.setVisibility(View.VISIBLE);
+                        binding.suspendResumeTask.setBackgroundColor(ContextCompat.getColor(activity, R.color.dark_green));
+                        binding.suspendResumeTask.setImageResource(R.drawable.ic_baseline_play_arrow_white);
+                        binding.suspendResumeTask.setTag(RpcClient.RESULT_RESUME); // tag on button specified operation triggered in iconClickListener
                     }
                     else if(listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) { // show pause
-                        suspendResume.setVisibility(View.VISIBLE);
-                        suspendResume.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.dark_green,
-                                                                                  theme));
-                        suspendResume.setImageResource(R.drawable.ic_baseline_pause_white);
-                        suspendResume.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
+                        binding.suspendResumeTask.setVisibility(View.VISIBLE);
+                        binding.suspendResumeTask.setBackgroundColor(ContextCompat.getColor(activity, R.color.dark_green));
+                        binding.suspendResumeTask.setImageResource(R.drawable.ic_baseline_pause_white);
+                        binding.suspendResumeTask.setTag(RpcClient.RESULT_SUSPEND); // tag on button specified operation triggered in iconClickListener
                     }
                     else { // show nothing
-                        suspendResume.setVisibility(View.GONE);
+                        binding.suspendResumeTask.setVisibility(View.GONE);
                     }
                 }
                 else {
                     // waiting for a new state
-                    suspendResume.setVisibility(View.INVISIBLE);
-                    abortButton.setVisibility(View.INVISIBLE);
-                    (v.findViewById(R.id.request_progressBar)).setVisibility(View.VISIBLE);
+                    binding.suspendResumeTask.setVisibility(View.INVISIBLE);
+                    binding.abortTask.setVisibility(View.INVISIBLE);
+                    binding.requestProgressBar.setVisibility(View.VISIBLE);
                 }
             }
         }
 
-        return v;
+        return binding.getRoot();
     }
 
+    @Nullable
     private Bitmap getIcon(int position) {
         // try to get current client status from monitor
         try {
