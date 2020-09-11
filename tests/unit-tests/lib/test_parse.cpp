@@ -4,22 +4,22 @@
 #include <string>
 #include <ios>
 
-#define SML_BUF_LEN 32
-#define MED_BUF_LEN 64
-#define LRG_BUF_LEN 1024
-#define TEST_XML_FILE_NAME_GOOD "test_good.xml"
-#define TEST_XML_FILE_NAME_BAD "test_bad.xml"
-#define TEST_XML_DATA_GOOD "<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>      \
-                            <mystarttag>this is the start</mystarttag>         \
-                            <mystring>foo data</mystring>                      \
-                            <mynumber>12345</mynumber>                         \
-                            <mynegnum>-54321</mynegnum>                        \
-                            <myfloat>1.2345</myfloat>                          \
-                            <mynegfloat>-5.4321</mynegfloat>                   \
-                            <mybool>1</mybool>                                 \
-                            <myimplicitbool/>                                  \
-                            <mylonglong>8589934592</mylonglong>                \
-                            <venue name=\"myvenue\">FOO</venue>"
+const int SML_BUF_LEN = 32;
+const int MED_BUF_LEN = 64;
+const int LRG_BUF_LEN = 1024;
+const std::string TEST_XML_FILE_NAME_GOOD = "test_good.xml";
+const std::string TEST_XML_FILE_NAME_BAD = "test_bad.xml";
+const std::string TEST_XML_DATA_GOOD = "<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>       \
+                            <mystarttag>this is the start</mystarttag>                      \
+                            <mystring>foo data</mystring>                                   \
+                            <mynumber>12345</mynumber>                                      \
+                            <mynegnum>-54321</mynegnum>                                     \
+                            <myfloat>1.2345</myfloat>                                       \
+                            <mynegfloat>-5.4321</mynegfloat>                                \
+                            <mybool>1</mybool>                                              \
+                            <myimplicitbool/>                                               \
+                            <mylonglong>8589934592</mylonglong>                             \
+                            <venue name=\"myvenue\">FOO</venue>";
 
 using namespace std;
 
@@ -41,7 +41,7 @@ namespace test_parse {
             string file_data_good = TEST_XML_DATA_GOOD;
             //string file_data_bad = TEST_XML_DATA_BAD;
 
-            xml_test_file_good = fopen(TEST_XML_FILE_NAME_GOOD, "w+");
+            xml_test_file_good = fopen(TEST_XML_FILE_NAME_GOOD.c_str(), "w+");
             //xml_test_file_bad = fopen(TEST_XML_FILE_NAME_BAD, "w+");
 
             assert(xml_test_file_good);
@@ -63,7 +63,7 @@ namespace test_parse {
             //delete bad_miofile;
 
             // Remove the files after testing
-            remove(TEST_XML_FILE_NAME_GOOD);
+            remove(TEST_XML_FILE_NAME_GOOD.c_str());
             //remove(TEST_XML_FILE_NAME_BAD);
         }
 
