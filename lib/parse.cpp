@@ -920,3 +920,22 @@ int XML_PARSER::copy_element(string& out) {
     out += end_tag;
     return 0;
 }
+
+
+// START NEW XML PARSER DEFINITIONS
+TINYXML_WRAPPER::TINYXML_WRAPPER(MIOFILE* in_file) {
+    doc.LoadFile(in_file->f);
+}
+bool TINYXML_WRAPPER::parse_start(const char* a) { return true; }
+bool TINYXML_WRAPPER::parse_str(const char* a, char* b, int c) { return true; }
+bool TINYXML_WRAPPER::parse_string(const char* a, std::string& b) { return true; }
+bool TINYXML_WRAPPER::parse_int(const char* a, int& b) { return true; }
+bool TINYXML_WRAPPER::parse_long(const char* a, long& b) { return true; }
+bool TINYXML_WRAPPER::parse_double(const char* a, double& b) { return true; }
+bool TINYXML_WRAPPER::parse_ulong(const char* a, unsigned long& b) { return true; }
+bool TINYXML_WRAPPER::parse_ulonglong(const char* a, unsigned long long& b) { return true; }
+bool TINYXML_WRAPPER::parse_bool(const char* a, bool& b) { return true; }
+int TINYXML_WRAPPER::copy_element(std::string& a) { return true; }
+void TINYXML_WRAPPER::skip_unexpected(const char* a, bool verbose, const char* b) { return; }
+bool TINYXML_WRAPPER::get_tag(char* a, int b) { return true; }
+bool TINYXML_WRAPPER::match_tag(char* a) { return true; }
