@@ -26,8 +26,7 @@
             android:id="@+id/msgs_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@android:color/transparent"/>
+            android:layout_margin="2dp"/>
 
     <TextView
             android:id="@+id/msgs_project"
@@ -37,7 +36,6 @@
             android:layout_alignStart="@+id/msgs_date"
             android:layout_alignLeft="@+id/msgs_date"
             android:layout_margin="2dp"
-            android:background="@android:color/transparent"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -46,7 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/msgs_project"
             android:layout_alignStart="@+id/msgs_project"
-            android:layout_alignLeft="@+id/msgs_project"
-            android:background="@android:color/transparent" />
+            android:layout_alignLeft="@+id/msgs_project"/>
 
 </RelativeLayout>

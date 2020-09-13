@@ -192,7 +192,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         style="?android:attr/progressBarStyleLarge"
-                        android:background="@android:color/transparent"
                         android:layout_margin="20dp"/>
             </LinearLayout>
         </HorizontalScrollView>
