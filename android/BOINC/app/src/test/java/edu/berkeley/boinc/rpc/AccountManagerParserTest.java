@@ -81,8 +81,8 @@ public class AccountManagerParserTest {
     }
 
     @Test
-    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentExceptionAndEmptyList() {
-        assertThrows(IllegalArgumentException.class, () ->
+    public void testParser_whenLocalNameIsNull_thenExpectNullPointerExceptionAndEmptyList() {
+        assertThrows(NullPointerException.class, () ->
                 accountManagerParser.startElement(null, null, null, null));
 
         assertTrue(accountManagers.isEmpty());
