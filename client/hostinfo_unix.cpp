@@ -1800,21 +1800,16 @@ inline long user_idle_time(struct utmp* u) {
 
 #if HAVE_XSS
 
-// Initializer for const vector<string> in xss_idle
+// return vector of X server names
 //
 const vector<string> X_display_values_initialize() {
     // According to "man Xserver", each local Xserver will have a socket file
     // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
     // We will parse this directory for currently open Xservers and attempt
-    // to ultimately query them for their idle time. If we can't open this
-    // directory, or the display_values vector is otherwise empty, then a
-    // static list of guesses for open display servers is utilized instead
-    // (DISPLAY values ":{0..6}") that will attempt connections to the first
-    // seven open Xservers.
+    // to ultimately query them for their idle time.
     //
-    // If we were unable to open _any_ Xserver, then we will log this and
-    // xss_idle returns true, effectively leaving idle detection up to other
-    // methods.
+    // If we are unable to open _any_ Xserver,
+    // idle detection is up to other methods.
     //
     static const string dir = "/tmp/.X11-unix/";
     vector<string> display_values;
@@ -1829,7 +1824,19 @@ const vector<string> X_display_values_initialize() {
             );
         }
     } else {
+        if (log_flags.idle_detection_debug ) {
+            msg_printf(NULL, MSG_INFO, 
+                "[idle_detection] scanning %s",  dir.c_str()
+            );
+        }
         while ((dirp = readdir(dp)) != NULL) {
+            if (!strcmp(dirp->d_name, ".")) continue;
+            if (!strcmp(dirp->d_name, "..")) continue;
+            if (log_flags.idle_detection_debug ) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] found X server %s", dirp->d_name
+                );
+            }
             display_values.push_back(string(dirp->d_name));
         }
         closedir(dp);
@@ -1849,13 +1856,15 @@ const vector<string> X_display_values_initialize() {
     return display_values;
 }
 
-// Ask the X server for user idle time (using XScreenSaver API)
+// Ask X servers for user idle time (using XScreenSaver API)
 // Return min of idle times.
 // This function assumes that the boinc user has been
-// granted access to the Xservers a la "xhost +SI:localuser:boinc". If
-// access isn't available for an Xserver, then that Xserver is skipped.
+// granted access to the Xservers a la "xhost +SI:localuser:boinc".
+// If access isn't available for an Xserver, that Xserver is skipped.
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
+//
+// TODO: call X_display_values_initialize() once, not once per second
 //
 long xss_idle() {
     long idle_time = USER_IDLE_TIME_INF;
@@ -1932,11 +1941,8 @@ long xss_idle() {
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] XSS idle detection succeeded on display '%s'.",
-                it->c_str()
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] display idle time: %ld sec", display_idle_time
+                "[idle_detection] XSS idle time on display '%s': %ld",
+                it->c_str(), display_idle_time
             );
         }
 

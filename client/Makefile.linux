@@ -1,10 +1,12 @@
 # Makefile for building boinc client and boinccmd on Linux
+# with as few dependencies as possible
 #
 # to build:
 # 1) in boinc/, do _autosetup and configure (to generate config.h)
-# 2) in ../lib:
+# 2) edit config.h to undefine HAVE_X11 and HAVE_XSS
+# 3) in ../lib:
 #    make -f Makefile.linux clean all
-# 3) do the same in this dir
+# 4) do the same in this dir
 
 CC = g++ -I ../ -I ../lib/
 
