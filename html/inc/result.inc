@@ -731,6 +731,9 @@ function show_result($result, $show_outfile_links=false) {
         }
         row2(tra("Output files"), $x);
     }
+    if (function_exists('project_result')) {
+        project_result($result);
+    }
     end_table();
     echo "<h3>".tra("Stderr output")."</h3> <pre>"
         .htmlspecialchars(
