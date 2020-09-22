@@ -128,6 +128,7 @@
     <string name="prefs_category_storage">Storage</string>
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_other">Other</string>
+    <string name="prefs_category_rpc">RPC connect</string>
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
@@ -347,4 +348,12 @@
     <string name="main_notification_channel_description">Displays non-notice notifications.</string>
     <string name="notice_notification_channel_name">Notices</string>
     <string name="notice_notification_channel_description">Displays notices from your projects.</string>
+
+
+    <!-- External RPC  -->
+    <string name="prefs_rpc_extern_allow_header">Allow external connection</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="rpc_extern_test_connection">Test connection</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

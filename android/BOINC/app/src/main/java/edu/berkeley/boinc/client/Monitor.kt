@@ -47,6 +47,8 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
+import edu.berkeley.boinc.rpcExtern.*
+
 /**
  * Main Service of BOINC on Android
  * - manages life-cycle of the BOINC Client.
@@ -87,6 +89,9 @@ class Monitor : LifecycleService() {
 
     @Inject
     lateinit var noticeNotification: NoticeNotification
+
+    // External RPC
+    var rpcExtern = RpcExtern()
 
     // XML defined variables, populated in onCreate
     private lateinit var fileNameClient: String
@@ -493,6 +498,13 @@ class Monitor : LifecycleService() {
         if (init) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup() - setup completed successfully")
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE, false)
+            if (Logging.DEBUG) Log.d(Logging.TAG, "Start RpcExtern")
+            try {
+                val token = clientInterface.readAuthToken(boincWorkingDir + fileNameGuiAuthentication)
+                rpcExtern.start(clientSocketAddress, token)
+            } catch (e: IOException) {
+                if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern something went wrong")
+            }
         } else {
             if (Logging.ERROR) Log.e(Logging.TAG, "Monitor.clientSetup() - setup experienced an error")
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR, true)

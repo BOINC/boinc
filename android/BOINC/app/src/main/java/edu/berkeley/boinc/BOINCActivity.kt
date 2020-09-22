@@ -45,6 +45,7 @@ import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.databinding.MainBinding
+import edu.berkeley.boinc.rpcExternSettings.RpcExternSettings
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
@@ -121,6 +122,11 @@ class BOINCActivity : AppCompatActivity() {
             }
 
             override fun onDrawerOpened(drawerView: View) {
+                //TODO eFMer Testing only
+            //    var rpcExternSettings = RpcExternSettings()
+            //    val context: Context = applicationContext
+            //    rpcExternSettings.test(context)
+
                 supportActionBar!!.title = mDrawerTitle
                 // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
                 mDrawerListAdapter.notifyDataSetChanged()

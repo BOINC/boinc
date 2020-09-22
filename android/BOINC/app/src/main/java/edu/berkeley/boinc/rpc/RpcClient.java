@@ -324,6 +324,17 @@ public class RpcClient {
         socketSink.flush();
     }
 
+    protected void sendRequestRaw(String request) throws IOException {
+        if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
+            Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
+        if (Logging.RPC_DATA && Logging.DEBUG)
+            Log.d(Logging.TAG, "Sending request: \n" + request);
+        if (socketSink == null)
+            return;
+        socketSink.writeString(request, Charsets.ISO_8859_1);
+        socketSink.flush();
+    }
+
     /**
      * Read the reply from BOINC core client
      *
@@ -383,6 +394,47 @@ public class RpcClient {
         }
         return mResult.toString();
     }
+
+    public String sendRequestAndReply(String request)
+    {
+        try {
+            sendRequest(request);
+        }
+        catch(IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "error in sendRequestAndReply() send", e);
+            e.printStackTrace();
+            return "";
+        }
+        try {
+            return receiveReply();
+        }
+        catch(IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "error in sendRequestAndReply() reply", e);
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public String sendRequestAndReplyRaw(String request)
+    {
+        try {
+            sendRequestRaw(request);
+        }
+        catch(IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "error in sendRequestAndReply() send", e);
+            e.printStackTrace();
+            return "";
+        }
+        try {
+            return receiveReply();
+        }
+        catch(IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "error in sendRequestAndReply() reply", e);
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 
     /*
      * GUI RPC calls

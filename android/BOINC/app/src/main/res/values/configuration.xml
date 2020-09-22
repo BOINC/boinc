@@ -81,4 +81,8 @@
         <item>cpu_sched_debug</item>
         <item>work_fetch_debug</item>
     </string-array>
+
+    <!-- Allow RPC to connect to BOINC -->
+    <bool name="prefs_default_rpc_extern_allow">false</bool>
+
 </resources>

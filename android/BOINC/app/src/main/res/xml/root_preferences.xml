@@ -247,30 +247,43 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-            app:iconSpaceReserved="false"
-            app:key="debug"
-            app:title="@string/prefs_category_debug">
-
-        <MultiSelectListPreference
-                app:defaultValue="@array/empty_array"
-                app:entries="@array/prefs_client_log_flags"
-                app:entryValues="@array/prefs_client_log_flags"
+        <PreferenceCategory
                 app:iconSpaceReserved="false"
-                app:key="clientLogFlags"
-                app:title="@string/prefs_client_log_flags_header" />
+                app:key="rpc"
+                app:title="@string/prefs_category_rpc">
 
-        <SeekBarPreference
-                android:max="5"
-                app:defaultValue="2"
+            <CheckBoxPreference
+                    app:defaultValue="@bool/prefs_default_rpc_extern_allow"
+                    app:iconSpaceReserved="false"
+                    app:key="rpcAllow"
+                    app:title="@string/prefs_rpc_extern_allow_header" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
                 app:iconSpaceReserved="false"
-                app:key="guiLogLevel"
-                app:min="0"
-                app:seekBarIncrement="1"
-                app:showSeekBarValue="true"
-                app:summary="@string/prefs_gui_log_level_description"
-                app:title="@string/prefs_gui_log_level_header" />
+                app:key="debug"
+                app:title="@string/prefs_category_debug">
 
-    </PreferenceCategory>
+            <MultiSelectListPreference
+                    app:defaultValue="@array/empty_array"
+                    app:entries="@array/prefs_client_log_flags"
+                    app:entryValues="@array/prefs_client_log_flags"
+                    app:iconSpaceReserved="false"
+                    app:key="clientLogFlags"
+                    app:title="@string/prefs_client_log_flags_header" />
 
-</PreferenceScreen>
+            <SeekBarPreference
+                    android:max="5"
+                    app:defaultValue="2"
+                    app:iconSpaceReserved="false"
+                    app:key="guiLogLevel"
+                    app:min="0"
+                    app:seekBarIncrement="1"
+                    app:showSeekBarValue="true"
+                    app:summary="@string/prefs_gui_log_level_description"
+                    app:title="@string/prefs_gui_log_level_header" />
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>

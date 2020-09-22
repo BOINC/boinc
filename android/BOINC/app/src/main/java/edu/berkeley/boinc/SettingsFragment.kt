@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.RemoteException
@@ -27,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
+import edu.berkeley.boinc.rpcExternSettings.RpcExternSettings
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
 import kotlinx.coroutines.async
@@ -115,7 +117,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             // Power
             "powerSources" -> {
                 val powerSources = sharedPreferences.getStringSet(key,
-                        resources.getStringArray(R.array.power_source_default).toSet()) ?: emptySet()
+                        resources.getStringArray(R.array.power_source_default).toSet())
+                        ?: emptySet()
                 Log.d(Logging.TAG, "powerSources: $powerSources")
                 BOINCActivity.monitor!!.powerSourceAc = "wall" in powerSources
                 BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
@@ -126,7 +129,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
             "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
-                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
+                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble()
+                        ?: 40.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -186,9 +190,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "workBufAdditionalDays" -> {
-                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
+                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble()
+                        ?: 0.5
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+
+            "rpcAllow" -> {
+                val test = 2
+                val rpcExternSettings = RpcExternSettings()
+                val context: Context? = this.getContext()
+                if (context != null) {
+                    rpcExternSettings.test(context)
+                }
             }
 
             // Debug
@@ -230,6 +244,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<PreferenceCategory>("storage")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("memory")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("other")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("rpc")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("debug")?.isVisible = showAdvanced
     }
 
