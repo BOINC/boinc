@@ -104,7 +104,7 @@
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
-    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>
