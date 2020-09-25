@@ -565,9 +565,20 @@ void COPROC_NVIDIA::set_peak_flops() {
             }
             break;
         case 7:    // for both cc7.0 (Titan V, Tesla V100) and cc7.5 (RTX, Tesla T4)
-        default:
             flops_per_clock = 2;
             cores_per_proc = 64;
+            break;
+        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102 and above)
+        default:
+            flops_per_clock = 2;
+            switch (minor) {
+            case 0:    // special for A100 Tensor Core datacenter GPU
+                cores_per_proc = 64;
+                break;
+            default:
+                cores_per_proc = 128;
+                break;
+            }
             break;
         }
 
