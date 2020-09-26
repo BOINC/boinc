@@ -925,17 +925,173 @@ int XML_PARSER::copy_element(string& out) {
 // START NEW XML PARSER DEFINITIONS
 TINYXML_WRAPPER::TINYXML_WRAPPER(MIOFILE* in_file) {
     doc.LoadFile(in_file->f);
+    current_elem = nullptr;
 }
+
+
 bool TINYXML_WRAPPER::parse_start(const char* a) { return true; }
-bool TINYXML_WRAPPER::parse_str(const char* a, char* b, int c) { return true; }
-bool TINYXML_WRAPPER::parse_string(const char* a, std::string& b) { return true; }
-bool TINYXML_WRAPPER::parse_int(const char* a, int& b) { return true; }
-bool TINYXML_WRAPPER::parse_long(const char* a, long& b) { return true; }
-bool TINYXML_WRAPPER::parse_double(const char* a, double& b) { return true; }
-bool TINYXML_WRAPPER::parse_ulong(const char* a, unsigned long& b) { return true; }
-bool TINYXML_WRAPPER::parse_ulonglong(const char* a, unsigned long long& b) { return true; }
-bool TINYXML_WRAPPER::parse_bool(const char* a, bool& b) { return true; }
-int TINYXML_WRAPPER::copy_element(std::string& a) { return true; }
+
+
+bool TINYXML_WRAPPER::parse_str(const char* tag, char* dest, int len) {
+    if (match_tag(tag)) {
+        const char* data = current_elem->GetText();
+
+        if (strlen(data) <= len) {
+            strcpy(dest, data);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::parse_string(const char* tag, std::string& dest) { 
+    if (match_tag(tag)) {
+        const char* data = current_elem->GetText();
+
+        dest = string(data);
+        return true;
+    }
+
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::parse_int(const char* tag, int& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryIntText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::parse_long(const char* tag, long& dest) {
+    if (match_tag(tag)) {
+        int64_t tmp_dest;
+        
+        tinyxml2::XMLError error = current_elem->QueryInt64Text(&tmp_dest);
+
+        dest = tmp_dest; // Cast after fetching the value (avoids pointer casting)
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::parse_double(const char* tag, double& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryDoubleText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::parse_ulong(const char* tag, unsigned long& dest) {
+    if (match_tag(tag)) {
+        uint64_t tmp_dest;
+
+        tinyxml2::XMLError error = current_elem->QueryUnsigned64Text(&tmp_dest);
+
+        dest = tmp_dest;
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+// Note, there is no tinyxml support for long longs
+bool TINYXML_WRAPPER::parse_ulonglong(const char* tag, unsigned long long& dest) {
+    if (match_tag(tag)) {
+        uint64_t tmp_dest;
+
+        tinyxml2::XMLError error = current_elem->QueryUnsigned64Text(&tmp_dest);
+
+        dest = tmp_dest;
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+// Note: this does not support implicit booleans (ie, <myimpbool/>)
+bool TINYXML_WRAPPER::parse_bool(const char* tag, bool& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryBoolText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+int TINYXML_WRAPPER::copy_element(std::string& dest) { 
+    tinyxml2::XMLPrinter elem_store;
+    current_elem->Accept(&elem_store);
+    
+    dest = string(elem_store.CStr());
+
+    // Trim trailing newline if exists
+    if (dest.find('\n') != string::npos) {
+        dest = dest.substr(0, dest.length() - 1);
+    }
+
+    return dest.length();
+}
+
+
 void TINYXML_WRAPPER::skip_unexpected(const char* a, bool verbose, const char* b) { return; }
-bool TINYXML_WRAPPER::get_tag(char* a, int b) { return true; }
-bool TINYXML_WRAPPER::match_tag(char* a) { return true; }
+
+
+bool TINYXML_WRAPPER::get_tag() { 
+    // If the current element is not set, use the root element
+    if (!current_elem) {
+        current_elem = doc.RootElement();
+
+        // Case where XML is empty
+        if (!current_elem) {
+            return true;
+        }
+    // Else move to the next XML element
+    } else {
+        // If there is no other siblings, then this is the end of the XML
+        if (!(current_elem = current_elem->NextSiblingElement())) {
+            return true;
+        }
+    }
+    /*
+    // Else perform a depth-first traversal of the XML
+    } else {
+        // If we cannot descend the tree
+        if (current_elem->NoChildren()) {
+            // If there is no other siblings, then this is the end of the XML
+            if (!(current_elem = current_elem->NextSiblingElement())) {
+                return true;
+            }
+
+        // If we can descend the tree, do it
+        } else {
+            current_elem = current_elem->FirstChildElement();
+        }
+    }*/
+    return false;
+}
+
+
+bool TINYXML_WRAPPER::match_tag(const char* tag) {
+    // Short circuit: Returns false if current_elem is null
+    return current_elem && !strcmp(current_elem->Name(), tag);
+}

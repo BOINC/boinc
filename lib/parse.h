@@ -273,6 +273,7 @@ struct XML_PARSER {
 
 struct TINYXML_WRAPPER {
     tinyxml2::XMLDocument doc;
+    tinyxml2::XMLElement* current_elem;
 
     TINYXML_WRAPPER(MIOFILE*);
     bool parse_start(const char*);
@@ -289,8 +290,9 @@ struct TINYXML_WRAPPER {
     void skip_unexpected(bool verbose = false, const char* msg = "") {
         skip_unexpected(NULL, verbose, msg);
     }
+    bool get_tag(); // Temporary to stop compiler from complaining
     bool get_tag(char*, int);
-    bool match_tag(char*);
+    bool match_tag(const char*);
 };
 
 

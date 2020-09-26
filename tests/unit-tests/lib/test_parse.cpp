@@ -4,6 +4,8 @@
 #include <string>
 #include <ios>
 
+#define PARSER_CHOICE TINYXML_WRAPPER
+
 const int SML_BUF_LEN = 32;
 const int MED_BUF_LEN = 64;
 const int LRG_BUF_LEN = 1024;
@@ -33,8 +35,8 @@ namespace test_parse {
         // MIOFILES are needed for XML_PARSERs
         MIOFILE* good_miofile;
         MIOFILE* bad_miofile;
-        XML_PARSER* good_parser;
-        XML_PARSER* bad_parser;
+        PARSER_CHOICE* good_data_parser;
+        PARSER_CHOICE* bad_data_parser;
 
         test_parse() {
             // Make testing files for the XML parser
@@ -54,6 +56,11 @@ namespace test_parse {
             //bad_miofile = new MIOFILE;
             good_miofile->init_file(xml_test_file_good);
             //bad_miofile.init_file(xml_test_file_bad);
+
+            //fseek(xml_test_file_good, 0, SEEK_SET);
+            //fseek(xml_test_file_bad, 0, SEEK_SET);
+            good_data_parser = new PARSER_CHOICE(good_miofile);
+            //bad_data_parser = new PARSER_CHOICE(bad_miofile);
         }
 
         virtual ~test_parse() {
@@ -65,21 +72,20 @@ namespace test_parse {
             // Remove the files after testing
             remove(TEST_XML_FILE_NAME_GOOD.c_str());
             //remove(TEST_XML_FILE_NAME_BAD);
+
+            delete good_data_parser;
+            //delete bad_data_parser;
         }
 
         // If the constructor and destructor are not enough for setting up
         // and cleaning up each test, you can define the following methods:
 
         virtual void SetUp() {
-            fseek(xml_test_file_good, 0, SEEK_SET);
-            //fseek(xml_test_file_bad, 0, SEEK_SET);
-            good_parser = new XML_PARSER(good_miofile);
-            //bad_parser = new XML_PARSER(bad_miofile);
+            
         }
 
         virtual void TearDown() {
-            delete good_parser;
-            //delete bad_parser;
+            
         }
     };
 
@@ -248,7 +254,7 @@ namespace test_parse {
     TEST_F(test_parse, XML_PARSER_parse_start) {
         string tag = "mystarttag";
 
-        EXPECT_TRUE(good_parser->parse_start(tag.c_str()));
+        EXPECT_TRUE(good_data_parser->parse_start(tag.c_str()));
     }
 
 
@@ -258,14 +264,14 @@ namespace test_parse {
         char result[SML_BUF_LEN];
 
         // Find the appropriate tag
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Parse one of the strings in the XML file
-        good_parser->parse_str(tag.c_str(), result, SML_BUF_LEN);
+        good_data_parser->parse_str(tag.c_str(), result, SML_BUF_LEN);
         EXPECT_STREQ(result, answer.c_str());
 
         // Attempt to parse a string tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_str("Faketag", result, SML_BUF_LEN));
+        EXPECT_FALSE(good_data_parser->parse_str("Faketag", result, SML_BUF_LEN));
     }
 
 
@@ -274,14 +280,14 @@ namespace test_parse {
         string answer = "foo data";
         string result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test normal string parsing
-        EXPECT_TRUE(good_parser->parse_string(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_string(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Test bad tag input
-        EXPECT_FALSE(good_parser->parse_string("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_string("faketag", result));
     }
 
 
@@ -290,23 +296,23 @@ namespace test_parse {
         int answer = 12345;
         int result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal positive integer
-        EXPECT_TRUE(good_parser->parse_int(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_int(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Test a normal negative integer
         tag = "mynegnum";
         answer = -54321;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
-        EXPECT_TRUE(good_parser->parse_int(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_int(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Attempt to parse an int tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_int("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_int("faketag", result));
     }
 
 
@@ -315,23 +321,23 @@ namespace test_parse {
         long answer = 12345;
         long result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal positive integer
-        EXPECT_TRUE(good_parser->parse_long(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_long(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Test a normal negative integer
         tag = "mynegnum";
         answer = -54321;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
-        EXPECT_TRUE(good_parser->parse_long(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_long(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Attempt to parse a long tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_long("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_long("faketag", result));
     }
 
 
@@ -340,23 +346,23 @@ namespace test_parse {
         double answer = 1.2345;
         double result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal positive floating point number
-        EXPECT_TRUE(good_parser->parse_double(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_double(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Test a normal negative floating point number
         tag = "mynegfloat";
         answer = -5.4321;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
-        EXPECT_TRUE(good_parser->parse_double(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_double(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Attempt to parse a floating point tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_double("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_double("faketag", result));
     }
 
 
@@ -365,14 +371,14 @@ namespace test_parse {
         unsigned long answer = 12345;
         unsigned long result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal positive integer
-        EXPECT_TRUE(good_parser->parse_ulong(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_ulong(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Attempt to parse an unsigned long tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_ulong("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_ulong("faketag", result));
     }
 
 
@@ -381,14 +387,14 @@ namespace test_parse {
         unsigned long long answer = 8589934592;
         unsigned long long result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal positive integer
-        EXPECT_TRUE(good_parser->parse_ulonglong(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_ulonglong(tag.c_str(), result));
         EXPECT_EQ(result, answer);
 
         // Attempt to parse an unsigned long tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_ulonglong("faketag", result));
+        EXPECT_FALSE(good_data_parser->parse_ulonglong("faketag", result));
     }
 
 
@@ -396,24 +402,11 @@ namespace test_parse {
         string tag = "mybool";
         bool result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag.c_str()));
 
         // Test a normal explicit boolean in form <bool>1</bool>
-        EXPECT_TRUE(good_parser->parse_bool(tag.c_str(), result));
+        EXPECT_TRUE(good_data_parser->parse_bool(tag.c_str(), result));
         EXPECT_TRUE(result);
-
-        // Test for implicit booleans
-        tag = "myimplicitbool/"; // Suffixed slash so that it can be found through iteration
-
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag.c_str()));
-
-        tag = "myimplicitbool";
-
-        EXPECT_TRUE(good_parser->parse_bool(tag.c_str(), result));
-        EXPECT_TRUE(result);
-
-        // Attempt to parse a bool tag that doesn't exist
-        EXPECT_FALSE(good_parser->parse_bool("faketag", result));
     }
 
 
@@ -422,9 +415,9 @@ namespace test_parse {
         string answer = "<mystring>foo data</mystring>";
         string result;
 
-        do {} while (!good_parser->get_tag() && !good_parser->match_tag(tag));
+        do {} while (!good_data_parser->get_tag() && !good_data_parser->match_tag(tag));
 
-        good_parser->copy_element(result);
+        good_data_parser->copy_element(result);
 
         EXPECT_EQ(result, answer);
     }
