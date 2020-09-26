@@ -287,12 +287,11 @@ struct TINYXML_WRAPPER {
     bool parse_bool(const char*, bool&);
     int copy_element(std::string&);
     void skip_unexpected(const char*, bool verbose, const char*);
-    void skip_unexpected(bool verbose = false, const char* msg = "") {
-        skip_unexpected(NULL, verbose, msg);
-    }
-    bool get_tag(); // Temporary to stop compiler from complaining
-    bool get_tag(char*, int);
+    void skip_unexpected(bool verbose=false, const char* msg="");
+    //bool get_tag(); // Temporary to stop compiler from complaining
+    bool get_tag(char* attrs=nullptr, int attr_len=0);
     bool match_tag(const char*);
+    bool get_attrs(char* attrs, int attr_len);
 };
 
 

@@ -190,6 +190,14 @@ namespace test_parse {
 
         parse_attr(test.c_str(), attr.c_str(), result, SML_BUF_LEN);
         EXPECT_STREQ(result, answer.c_str());
+
+        // Test only attrs
+        test = "myattr=\"FOO\"";
+        answer = "FOO";
+        result[SML_BUF_LEN];
+
+        parse_attr(test.c_str(), attr.c_str(), result, SML_BUF_LEN);
+        EXPECT_STREQ(result, answer.c_str());
     }
 
 
@@ -420,6 +428,25 @@ namespace test_parse {
         good_data_parser->copy_element(result);
 
         EXPECT_EQ(result, answer);
+    }
+
+
+    // Tests for the collection of attributes in an element
+    TEST_F(test_parse, XML_PARSER_get_tag) {
+        string attr = "name";
+        string tag = "venue";
+        string answer = "name=\"myvenue\"";
+        char attrs[SML_BUF_LEN];
+
+        do {} while (!good_data_parser->get_tag(attrs, SML_BUF_LEN) && !good_data_parser->match_tag(tag.c_str()));
+
+        EXPECT_STREQ(attrs, answer.c_str());
+    }
+
+
+    // Tests only for whether any adverse effects occur
+    TEST_F(test_parse, XML_PARSER_skip_unexpected) {
+        good_data_parser->skip_unexpected(true, "test xml");
     }
 
 } // namespace

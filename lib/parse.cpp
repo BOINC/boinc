@@ -929,7 +929,15 @@ TINYXML_WRAPPER::TINYXML_WRAPPER(MIOFILE* in_file) {
 }
 
 
-bool TINYXML_WRAPPER::parse_start(const char* a) { return true; }
+bool TINYXML_WRAPPER::parse_start(const char* tag) { 
+    get_tag();
+
+    if (!strcmp(tag, current_elem->Value())) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 bool TINYXML_WRAPPER::parse_str(const char* tag, char* dest, int len) {
@@ -1053,10 +1061,35 @@ int TINYXML_WRAPPER::copy_element(std::string& dest) {
 }
 
 
-void TINYXML_WRAPPER::skip_unexpected(const char* a, bool verbose, const char* b) { return; }
+void TINYXML_WRAPPER::skip_unexpected(const char* __unused__, bool verbose, const char* message) { 
+    const char* current_tag;
+
+    while (current_elem) {
+        current_tag = current_elem->Value();
+
+        if (verbose) {
+            fprintf(stderr,
+                "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
+                time_to_string(dtime()), current_tag, message
+            );
+        }
+
+        get_tag();
+    }
+}
 
 
-bool TINYXML_WRAPPER::get_tag() { 
+void TINYXML_WRAPPER::skip_unexpected(bool verbose, const char* msg) {
+    // Handle any null pointers
+    if (msg == 0 || msg == nullptr) {
+        msg = "";
+    }
+
+    skip_unexpected(nullptr, verbose, msg);
+}
+
+
+bool TINYXML_WRAPPER::get_tag(char* attrs, int attr_len) { 
     // If the current element is not set, use the root element
     if (!current_elem) {
         current_elem = doc.RootElement();
@@ -1065,28 +1098,30 @@ bool TINYXML_WRAPPER::get_tag() {
         if (!current_elem) {
             return true;
         }
-    // Else move to the next XML element
-    } else {
-        // If there is no other siblings, then this is the end of the XML
-        if (!(current_elem = current_elem->NextSiblingElement())) {
-            return true;
-        }
-    }
-    /*
     // Else perform a depth-first traversal of the XML
     } else {
-        // If we cannot descend the tree
-        if (current_elem->NoChildren()) {
+
+        if (current_elem->FirstChildElement()) {
+            current_elem = current_elem->FirstChildElement();
+            printf(current_elem->Value());
+        } else {
             // If there is no other siblings, then this is the end of the XML
             if (!(current_elem = current_elem->NextSiblingElement())) {
                 return true;
             }
-
-        // If we can descend the tree, do it
-        } else {
-            current_elem = current_elem->FirstChildElement();
         }
-    }*/
+        /*
+        // If there is no other siblings, then this is the end of the XML
+        if (!(current_elem = current_elem->NextSiblingElement())) {
+            return true;
+        }*/
+
+        if (attr_len > 0) {
+            if (!get_attrs(attrs, attr_len)) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -1094,4 +1129,41 @@ bool TINYXML_WRAPPER::get_tag() {
 bool TINYXML_WRAPPER::match_tag(const char* tag) {
     // Short circuit: Returns false if current_elem is null
     return current_elem && !strcmp(current_elem->Name(), tag);
+}
+
+
+bool TINYXML_WRAPPER::get_attrs(char* attrs, int attr_len) {
+    const tinyxml2::XMLAttribute* current_attr = current_elem->FirstAttribute();
+    const char* current_attr_name;
+    const char* current_attr_val;
+    int to_add_len;
+
+    strcpy(attrs, "");
+
+    while (current_attr) {
+        current_attr_name = current_attr->Name();
+        current_attr_val = current_attr->Value();
+
+        // Prevent buffer overflow/segfault
+        to_add_len = strlen(current_attr_name) + strlen(current_attr_val);
+        to_add_len += 5; // 1 '=' + 2 '"' + 1 ' ' + 1 '\0'
+
+        if (attr_len > to_add_len) {
+            strcat(attrs, current_attr_name);
+            strcat(attrs, "=\"");
+            strcat(attrs, current_attr_val);
+            strcat(attrs, "\"");
+        } else {
+            return false;
+        }
+
+        current_attr = current_attr->Next();
+
+        // Only add trailing space when there is another attribute
+        if (current_attr) {
+            strcat(attrs, " ");
+        }
+    }
+
+    return true;
 }
