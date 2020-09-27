@@ -1106,7 +1106,7 @@ int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
             if (retval) {
                 break;
             }
-            if (boinc_db.affected_rows() == 1) {
+            if (av.db->affected_rows() == 1) {
                 break;
             }
             retval = av.lookup_id(av.id);
