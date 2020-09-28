@@ -204,6 +204,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
+    EVT_MENU(ID_SELECTALL, CAdvancedFrame::OnSelectAll)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
 #ifdef __WXMAC__
@@ -751,13 +752,16 @@ bool CAdvancedFrame::CreateMenus() {
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
-    
+
+    m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'A', ID_SELECTALL);
+
 #ifdef __WXMAC__
     // Set HELP key as keyboard shortcut
-    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
-    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
-    SetAcceleratorTable(*m_pAccelTable);
+    m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #endif
+
+    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
     return true;
@@ -1954,12 +1958,26 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 
     pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
     wxASSERT(pView);
-    
+
     pView->RefreshTaskPane();
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function End"));
 }
+
+
+void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
+  CBOINCBaseView* pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
+  CBOINCListCtrl* lCtrl = pView->GetListCtrl();
+
+  if (lCtrl == NULL) return;
+
+  int count = lCtrl->GetItemCount();
+  for (int i = 0; i < count; i++) {
+    lCtrl->SelectRow(i, true);
+  }
+}
+
 
 void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     wxMenuBar* pMenuBar = GetMenuBar();
