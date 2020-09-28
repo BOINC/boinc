@@ -17,6 +17,8 @@
           <package name="" alias="true" withSubpackages="true" />
         </value>
       </option>
+      <option name="INSERT_WHITESPACES_IN_SIMPLE_ONE_LINE_METHOD" value="false" />
+      <option name="ALLOW_TRAILING_COMMA" value="true" />
     </JetCodeStyleSettings>
     <XML>
       <option name="XML_TEXT_WRAP" value="0" />

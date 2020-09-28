@@ -38,6 +38,8 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceFragmentCompat
+import edu.berkeley.boinc.R.*
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
 import edu.berkeley.boinc.attach.SelectionListActivity
@@ -45,14 +47,33 @@ import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.databinding.MainBinding
-import edu.berkeley.boinc.rpcExternSettings.RpcExternSettings
+import edu.berkeley.boinc.rpcExtern.fragment.SettingsFragmentRpcExtern
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
+
+// get Context using BOINCActivity.appContext
 
 class BOINCActivity : AppCompatActivity() {
     private var clientComputingStatus = -1
     private var numberProjectsInNavList = 0
+
+    // rpcExtern from Service
+    // https://stackoverflow.com/questions/45392037/broadcast-receiver-in-kotlin
+    // right now this isn't used but recieved in SettingsFragmentRpcExtern
+    /*
+    val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            try {
+                var connectionStatus: String? = intent!!.getStringExtra("data")
+            } catch (e : Exception)
+            {
+            }
+        }
+    }
+    public var mSettinsFragmentRpcExtern : PreferenceFragmentCompat? = null
+*/
 
     // app title (changes with nav bar selection)
     private var mTitle: CharSequence? = null
@@ -94,6 +115,7 @@ class BOINCActivity : AppCompatActivity() {
             Log.d(Logging.TAG, "BOINCActivity onCreate()")
         }
         super.onCreate(savedInstanceState)
+        appContext = applicationContext
         binding = MainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -112,8 +134,8 @@ class BOINCActivity : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
 
         mDrawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout,
-                R.string.app_name,  // nav drawer openapplicationContext - description for accessibility
-                R.string.app_name // nav drawer close - description for accessibility
+                string.app_name,  // nav drawer openapplicationContext - description for accessibility
+                string.app_name // nav drawer close - description for accessibility
         ) {
             override fun onDrawerClosed(view: View) {
                 supportActionBar!!.title = mTitle
@@ -122,11 +144,6 @@ class BOINCActivity : AppCompatActivity() {
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                //TODO eFMer Testing only
-            //    var rpcExternSettings = RpcExternSettings()
-            //    val context: Context = applicationContext
-            //    rpcExternSettings.test(context)
-
                 supportActionBar!!.title = mDrawerTitle
                 // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
                 mDrawerListAdapter.notifyDataSetChanged()
@@ -134,7 +151,7 @@ class BOINCActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
             }
         }
-        mDrawerToggle.drawerArrowDrawable.color = getColorCompat(R.color.white)
+        mDrawerToggle.drawerArrowDrawable.color = getColorCompat(color.white)
         binding.drawerLayout.addDrawerListener(mDrawerToggle)
 
         // pre-select fragment
@@ -158,6 +175,9 @@ class BOINCActivity : AppCompatActivity() {
             Log.w(Logging.TAG, "onCreate: fragment selection returned null")
         }
 
+        // RpcExtern register the receiver
+//        registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
+
         //bind monitor service
         doBindService()
     }
@@ -171,6 +191,9 @@ class BOINCActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BOINCActivity onDestroy()")
         }
+        // RpcExtern receiver remove
+//        unregisterReceiver(mRpcExternBroadCastReceiver)
+
         doUnbindService()
         super.onDestroy()
     }
@@ -200,6 +223,7 @@ class BOINCActivity : AppCompatActivity() {
     override fun onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
         super.onResume()
         registerReceiver(mClientStatusChangeRec, ifcsc)
+//        registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
         determineStatus()
     }
 
@@ -209,6 +233,7 @@ class BOINCActivity : AppCompatActivity() {
         }
         super.onPause()
         unregisterReceiver(mClientStatusChangeRec)
+//        unregisterReceiver(mRpcExternBroadCastReceiver)
     }
 
     private fun doBindService() {
@@ -249,33 +274,33 @@ class BOINCActivity : AppCompatActivity() {
         var fragmentChanges = false
         if (init) {
             // if init, setup status fragment
-            ft.replace<StatusFragment>(R.id.status_container)
+            ft.replace<StatusFragment>(id.status_container)
         }
         if (!item.isProjectItem) {
             when (item.id) {
-                R.string.tab_tasks -> {
-                    ft.replace<TasksFragment>(R.id.frame_container)
+                string.tab_tasks -> {
+                    ft.replace<TasksFragment>(id.frame_container)
                     fragmentChanges = true
                 }
-                R.string.tab_notices -> {
-                    ft.replace<NoticesFragment>(R.id.frame_container)
+                string.tab_notices -> {
+                    ft.replace<NoticesFragment>(id.frame_container)
                     fragmentChanges = true
                 }
-                R.string.tab_projects -> {
-                    ft.replace<ProjectsFragment>(R.id.frame_container)
+                string.tab_projects -> {
+                    ft.replace<ProjectsFragment>(id.frame_container)
                     fragmentChanges = true
                 }
-                R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
-                R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
-                R.string.menu_about -> {
+                string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
+                string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
+                string.menu_about -> {
                     val dialog = Dialog(this).apply {
                         requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        setContentView(R.layout.dialog_about)
+                        setContentView(layout.dialog_about)
                     }
-                    val returnB = dialog.findViewById<Button>(R.id.returnB)
-                    val tvVersion = dialog.findViewById<TextView>(R.id.version)
+                    val returnB = dialog.findViewById<Button>(id.returnB)
+                    val tvVersion = dialog.findViewById<TextView>(id.version)
                     try {
-                        tvVersion.text = getString(R.string.about_version,
+                        tvVersion.text = getString(string.about_version,
                                 packageManager.getPackageInfo(packageName, 0).versionName)
                     } catch (e: PackageManager.NameNotFoundException) {
                         if (Logging.WARNING) {
@@ -285,10 +310,14 @@ class BOINCActivity : AppCompatActivity() {
                     returnB.setOnClickListener { dialog.dismiss() }
                     dialog.show()
                 }
-                R.string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
-                R.string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
-                R.string.tab_preferences -> {
-                    ft.replace<SettingsFragment>(R.id.frame_container)
+                string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
+                string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
+                string.tab_preferences -> {
+                    ft.replace<SettingsFragment>(id.frame_container)
+                    fragmentChanges = true
+                }
+                string.tab_rpcExtern -> {
+                    ft.replace<SettingsFragmentRpcExtern>(id.frame_container)
                     fragmentChanges = true
                 }
                 else -> if (Logging.ERROR) {
@@ -299,7 +328,7 @@ class BOINCActivity : AppCompatActivity() {
             }
         } else {
             // ProjectDetailsFragment. Data shown based on given master URL
-            ft.replace<ProjectDetailsFragment>(R.id.frame_container,
+            ft.replace<ProjectDetailsFragment>(id.frame_container,
                     args = bundleOf("url" to item.projectMasterUrl))
             fragmentChanges = true
         }
@@ -363,15 +392,15 @@ class BOINCActivity : AppCompatActivity() {
         }
 
         // run mode, set title and icon based on status
-        val runMode = menu.findItem(R.id.run_mode)
+        val runMode = menu.findItem(id.run_mode)
         if (clientComputingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
             // display play button
-            runMode.setTitle(R.string.menu_run_mode_enable)
-            runMode.setIcon(R.drawable.ic_baseline_play_arrow_white)
+            runMode.setTitle(string.menu_run_mode_enable)
+            runMode.setIcon(drawable.ic_baseline_play_arrow_white)
         } else {
             // display stop button
-            runMode.setTitle(R.string.menu_run_mode_disable)
-            runMode.setIcon(R.drawable.ic_baseline_pause_white)
+            runMode.setTitle(string.menu_run_mode_disable)
+            runMode.setIcon(drawable.ic_baseline_pause_white)
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -385,9 +414,9 @@ class BOINCActivity : AppCompatActivity() {
         return if (mDrawerToggle.onOptionsItemSelected(item)) {
             true
         } else when (item.itemId) {
-            R.id.run_mode -> {
+            id.run_mode -> {
                 when {
-                    item.title == application.getString(R.string.menu_run_mode_disable) -> {
+                    item.title == application.getString(string.menu_run_mode_disable) -> {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG, "run mode: disable")
                         }
@@ -395,7 +424,7 @@ class BOINCActivity : AppCompatActivity() {
                             writeClientMode(RUN_MODE_NEVER)
                         }
                     }
-                    item.title == application.getString(R.string.menu_run_mode_enable) -> {
+                    item.title == application.getString(string.menu_run_mode_enable) -> {
                         if (Logging.DEBUG) {
                             Log.d(Logging.TAG, "run mode: enable")
                         }
@@ -409,7 +438,7 @@ class BOINCActivity : AppCompatActivity() {
                 }
                 true
             }
-            R.id.projects_add -> {
+            id.projects_add -> {
                 startActivity(Intent(this, SelectionListActivity::class.java))
                 true
             }
@@ -454,5 +483,6 @@ class BOINCActivity : AppCompatActivity() {
         @JvmField
         var monitor: IMonitor? = null
         var mIsBound = false
+        var appContext: Context? = null
     }
 }

@@ -104,6 +104,7 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Preferences</string>
+    <string name="tab_rpcExtern">External GUI</string>
     <string name="tab_notices">Notices</string>
     <string name="tab_desc">Navigation</string>
 
@@ -349,11 +350,37 @@
     <string name="notice_notification_channel_name">Notices</string>
     <string name="notice_notification_channel_description">Displays notices from your projects.</string>
 
+    <!-- External RPC GUI -->
+    <string name="rpcExternTitle">Ip of this device: </string>
+    <string name="settings_rpc_extern">Allow external GUI to connect</string>
+    <string name="settings_rpc_encryption">Use a secure connection</string>
+    <string name="settings_rpc_password">Password</string>
+    <string name="settings_rpc_port">Port</string>
 
-    <!-- External RPC  -->
-    <string name="prefs_rpc_extern_allow_header">Allow external connection</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="rpc_extern_test_connection">Test connection</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_rpc_set_ip1">Set IP address 1</string>
+    <string name="settings_rpc_set_ip2">Set IP address 2</string>
+    <string name="settings_rpc_set_ip3">Set IP address 3</string>
+    <string name="settings_rpc_set_ip4">Set IP address 4</string>
+
+    <string name="status_rpc_extern_ip_not_allowed">Ip address not allowed</string>
+    <string name="status_rpc_extern_connected">Connected</string>
+    <string name="status_rpc_extern_idle">Disabled</string>
+    <string name="status_rpc_extern_closing">Closing</string>
+    <string name="status_rpc_extern_starting">Waiting for connection</string>
+    <string name="status_rpc_extern_not_connected">Not connected</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 </resources>

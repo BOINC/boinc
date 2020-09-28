@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.RemoteException
@@ -28,7 +27,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
-import edu.berkeley.boinc.rpcExternSettings.RpcExternSettings
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
 import kotlinx.coroutines.async
@@ -196,14 +194,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
 
+            /* TODO eFMer remove at some point
             "rpcAllow" -> {
-                val test = 2
                 val rpcExternSettings = RpcExternSettings()
                 val context: Context? = this.getContext()
                 if (context != null) {
                     rpcExternSettings.test(context)
                 }
             }
+
+             */
 
             // Debug
             "clientLogFlags" -> {

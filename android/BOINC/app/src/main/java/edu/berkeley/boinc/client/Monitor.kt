@@ -26,15 +26,21 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.os.*
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.BOINCApplication
 import edu.berkeley.boinc.BuildConfig
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.mutex.BoincMutex
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.rpc.Message
+import edu.berkeley.boinc.rpcExtern.RpcExtern
+import edu.berkeley.boinc.rpcExtern.RpcSettingsData
+import edu.berkeley.boinc.rpcExtern.RpcSettingsDataItem
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -43,11 +49,10 @@ import okio.source
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
-
-import edu.berkeley.boinc.rpcExtern.*
 
 /**
  * Main Service of BOINC on Android
@@ -91,7 +96,7 @@ class Monitor : LifecycleService() {
     lateinit var noticeNotification: NoticeNotification
 
     // External RPC
-    var rpcExtern = RpcExtern()
+    var mRpcExtern = RpcExtern()
 
     // XML defined variables, populated in onCreate
     private lateinit var fileNameClient: String
@@ -201,6 +206,9 @@ class Monitor : LifecycleService() {
         val offFilter = IntentFilter(Intent.ACTION_SCREEN_OFF)
         registerReceiver(screenOnOffReceiver, onFilter)
         registerReceiver(screenOnOffReceiver, offFilter)
+
+        // rpcExtern register the receiver
+        registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
     }
 
     override fun onDestroy() {
@@ -218,6 +226,10 @@ class Monitor : LifecycleService() {
         } catch (e: Exception) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Monitor.onDestroy error: ", e)
         }
+
+        // RpcExtern receiver remove
+        unregisterReceiver(mRpcExternBroadCastReceiver)
+
         updateBroadcastEnabled = false // prevent broadcast from currently running update task
         updateTimer.cancel() // cancel task
         mutex.release() // release BOINC mutex
@@ -498,11 +510,14 @@ class Monitor : LifecycleService() {
         if (init) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup() - setup completed successfully")
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE, false)
+
             if (Logging.DEBUG) Log.d(Logging.TAG, "Start RpcExtern")
             try {
+                val rpcSettingsData = getPreferences() // a change breaks start and returns here
                 val token = clientInterface.readAuthToken(boincWorkingDir + fileNameGuiAuthentication)
-                rpcExtern.start(clientSocketAddress, token)
-            } catch (e: IOException) {
+                mRpcExtern.start(this, clientSocketAddress, token, rpcSettingsData)
+                if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern starting")
+            } catch (e: Exception) {
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern something went wrong")
             }
         } else {
@@ -510,6 +525,41 @@ class Monitor : LifecycleService() {
             clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR, true)
         }
         return connected
+    }
+
+    // use this function to connect the debugger to the service
+    // click on attach Debugger to Android process
+    // and wait for remote to show up, click on it -> OK and you are set.
+    // this must be done within the wait cycle.
+    fun waitForDebugger() {
+        var wait = 5
+        while (wait > 1) {
+            Thread.sleep(1000)
+            wait -= 1
+        }
+    }
+
+    // get RpcExternal, External GUI Settings
+    private fun getPreferences(): RpcSettingsData {
+//        waitForDebugger()
+        val settingsData = RpcSettingsData()
+        try {
+//            val preferences = applicationContext.getSharedPreferences("rpcExtern", Context.MODE_PRIVATE);
+            val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+            val externEnabled = preferences.getBoolean("rpcExternEnable", false)
+            val externEncryption = preferences.getBoolean("rpcExternEncryption", true)
+            val externPassword: String = preferences.getString("rpcExternPasswrd", "").toString()
+            val externPort: String = preferences.getString("rpcExternPort", "31416").toString()
+            val externAllowIp1 = preferences.getString("rpcExternAllowIp1", "")!!
+            val externAllowIp2 = preferences.getString("rpcExternAllowIp2", "")!!
+            val externAllowIp3 = preferences.getString("rpcExternAllowIp3", "")!!
+            val externAllowIp4 = preferences.getString("rpcExternAllowIp4", "")!!
+
+            settingsData.set(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
+        } catch (e: Exception) {
+            if (Logging.DEBUG) Log.e(Logging.TAG, "RpcExtern failed getPreferences")
+        }
+        return settingsData
     }
 
     /**
@@ -804,6 +854,31 @@ class Monitor : LifecycleService() {
                 if (Logging.DEBUG)
                     Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...")
                 forceRefresh()
+            }
+        }
+    }
+
+    // RpcExtern
+    val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            try {
+            val action : String = intent!!.action.toString()
+            if (action.equals("RPC_EXTERN")) {
+                if (intent.hasExtra("DATA")) {
+  //               intent.dataString
+                    val data: RpcSettingsDataItem = intent.getParcelableExtra("DATA")!!
+                    val rpcSettingsData = RpcSettingsData()
+                    rpcSettingsData.set(data.externEnabled, data.externEncryption, data.externPasswrd, data.externPort, data.ipAllowed1, data.ipAllowed2, data.ipAllowed3, data.ipAllowed4)
+                    mRpcExtern.update(rpcSettingsData)
+                }
+                if (intent.hasExtra("STRING")) {
+                    val data: String = intent.getStringExtra("STRING")!!
+                    mRpcExtern.command(data)
+                }
+            }
+            } catch (e: Exception) {
+                var i = 1
+                i += 1
             }
         }
     }
@@ -1172,6 +1247,7 @@ class Monitor : LifecycleService() {
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
         }
+
     } // --end-- remote service
 
     companion object {
