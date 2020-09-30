@@ -1,6 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# $Id$
 # Creates a new BOINC project.
 
 import boinc_path_config
