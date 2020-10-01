@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 '''
 A program to start/stop BOINC server daemons and run periodic tasks.
@@ -74,6 +74,7 @@ Both:
 
 '''
 
+from __future__ import print_function
 import boinc_path_config
 from Boinc import boinc_project_path, configxml
 import sys, os, getopt, time, glob, fcntl, signal, socket, getpass, shlex

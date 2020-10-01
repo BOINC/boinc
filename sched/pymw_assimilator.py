@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import boinc_path_config
 from assimilator import *
@@ -47,7 +47,7 @@ class PymwAssimilator(Assimilator):
             else:
                 shutil.copy2(resultFullPath, dest)
                 self.logNormal("Result copied [%s]\n", resultName)
-        except Exception,msg:
+        except (Exception, msg):
             self.logCritical("Error copying output\n" + \
                              "  - Source: %s\n" + \
                              "  - Dest: %s\n" + 
