@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-# $Id$
+# boincxml.py - XML utilities for boinc
 
-# boincxml.py - xml utilities for boinc
-
+from __future__ import print_function
 import sys, os
 import xml.dom.minidom
 
@@ -130,7 +129,7 @@ class XMLConfig:
             except:
                 if not failopen_ok:
                     raise Exception("Couldn't parse XML config\n")
-                print("Warning: couldn't parse XML file", sys.stderr)
+                print("Warning: couldn't parse XML file", file=sys.stderr)
                 self._init_empty_xml()
         try:
             self._get_elements()

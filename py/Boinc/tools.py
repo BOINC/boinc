@@ -1,6 +1,8 @@
 ## $Id$
 
+from __future__ import print_function
 from Boinc import configxml
+
 try:
     # use new hashlib if available
     from hashlib import md5
@@ -64,13 +66,17 @@ def file_size(path):
 
 def query_yesno(str):
     '''Query user; default Yes'''
-    print str, "[Y/n] ",
-    return not raw_input().strip().lower().startswith('n')
+    print (str, "[Y/n] ", end="")
+    try: input = raw_input
+    except NameError: pass
+    return not input().strip().lower().startswith('n')
 
 def query_noyes(str):
     '''Query user; default No'''
-    print str, "[y/N] ",
-    return raw_input().strip().lower().startswith('y')
+    print (str, "[y/N] ", end="")
+    try: input = raw_input
+    except NameError: pass
+    return input().strip().lower().startswith('y')
 
 def get_output_file_path(filename):
     """ Return the filename's path in the upload directory

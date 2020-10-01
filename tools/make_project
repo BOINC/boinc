@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Id$
 # Creates a new BOINC project.
 
+from __future__ import print_function
 import boinc_path_config
 from Boinc.setup_project import *
 from Boinc import database, db_mid, configxml, tools, projectxml
