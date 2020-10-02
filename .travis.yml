@@ -41,6 +41,8 @@ env:
     - BOINC_TYPE=libs-mingw
     - BOINC_TYPE=apps-mingw
     - BOINC_TYPE=unit-test
+    - BOINC_TYPE=python2-pylint-test
+    - BOINC_TYPE=python3-pylint-test
 
 jobs:
   fast_finish: true
@@ -66,6 +68,8 @@ before_install:
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get -qq update ) fi
    - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( sudo apt-get install -y freeglut3-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 realpath p7zip-full ) fi
    - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( sudo apt-get install ansible/xenial-backports; sudo service mysql stop; ) fi
+   - if [[ "${BOINC_TYPE}" == "python2-pylint-test" ]]; then ( sudo apt-get install python-pip default-libmysqlclient-dev; pip install pylint mysqlclient; ) fi
+   - if [[ "${BOINC_TYPE}" == "python3-pylint-test" ]]; then ( sudo apt-get install python3-pip default-libmysqlclient-dev; pip3 install pylint mysqlclient; ) fi
 
 before_script:
 - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then ( ./_autosetup ) fi
@@ -84,6 +88,8 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./travis_build_all.sh && cd BOINC && ./gradlew clean assemble jacocoTestReportDebug && bash <(curl -s https://codecov.io/bash) && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0" && make && ./tests/executeUnitTests.sh --report-coverage ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
+- if [[ "${BOINC_TYPE}" == "python2-pylint-test" ]]; then ( cd tests && ./executePylintTests.sh 2 ) fi
+- if [[ "${BOINC_TYPE}" == "python3-pylint-test" ]]; then ( cd tests && ./executePylintTests.sh 3 ) fi
 
 after_success:
 - ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
