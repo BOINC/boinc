@@ -21,4 +21,4 @@
 
 ./pylint.sh $1 ../py/Boinc/
 
-if [ $? -eq 1 || $? -eq 2 || $? -eq 32 ]; then exit 1; fi
+if [[ $? -eq 1 || $? -eq 2 || $? -eq 32 ]]; then exit 1; fi
