@@ -205,6 +205,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
     EVT_MENU(ID_SELECTALL, CAdvancedFrame::OnSelectAll)
+    EVT_MENU(ID_NEXT_PAGE, CAdvancedFrame::OnNextPage)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
 #ifdef __WXMAC__
@@ -754,13 +755,14 @@ bool CAdvancedFrame::CreateMenus() {
     }
 
     m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'A', ID_SELECTALL);
+    m_Shortcuts[1].Set(wxACCEL_CTRL, WXK_TAB, ID_NEXT_PAGE);
 
 #ifdef __WXMAC__
     // Set HELP key as keyboard shortcut
-    m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_Shortcuts[2].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #endif
 
-    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
@@ -1976,6 +1978,22 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
   for (int i = 0; i < count; i++) {
     lCtrl->SelectRow(i, true);
   }
+}
+
+
+void CAdvancedFrame::OnNextPage( wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNextPage - Function Begin"));
+
+    wxWindow*       pwndNotebookPage = NULL;
+    int             selection = event.GetSelection();
+
+    pwndNotebookPage = m_pNotebook->GetPage(selection);
+
+    if ( pwndNotebookPage != NULL ) {
+      m_pNotebook->AdvanceSelection(true);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNextPage - Function End"));
 }
 
 
