@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
-import edu.berkeley.boinc.rpcExtern.RpcSettingsDataItem
+import edu.berkeley.boinc.rpcExtern.RpcSettingsData
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.nio.ByteBuffer
@@ -25,27 +25,31 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
                 val connectionStatus: String? = intent!!.getStringExtra("data")
                 when (connectionStatus)
                 {
-                    "IP" ->
+                    "IPNOT" ->
                     {
                         status = getString(R.string.status_rpc_extern_ip_not_allowed)
                     }
-                    "CN" ->
+                    "CONNOT" ->
+                    {
+                        status = getString(R.string.status_rpc_extern_connected_not)
+                    }
+                    "CONOK" ->
                     {
                         status = getString(R.string.status_rpc_extern_connected)
                     }
-                    "ID" ->
+                    "IDLE" ->
                     {
                         status = getString(R.string.status_rpc_extern_idle)
                     }
-                    "RC" ->
+                    "CLOSING" ->
                     {
                         status = getString(R.string.status_rpc_extern_closing)
                     }
-                    "ST" ->
+                    "START" ->
                     {
                         status = getString(R.string.status_rpc_extern_starting)
                     }
-                    "TO" ->
+                    "TIMEOUT" ->
                     {
                         status = getString(R.string.status_rpc_extern_not_connected)
                     }
@@ -79,7 +83,7 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
     override fun onResume() {
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        BOINCActivity.appContext?.registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
+        BOINCActivity.appContext?.registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN_FROM_CONNECTION"))
         sendToServiceString("START_UPDATE")
     }
 
@@ -111,9 +115,9 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
         val externAllowIp2 = sharedPreferences.getString("rpcExternAllowIp2", "")!!
         val externAllowIp3 = sharedPreferences.getString("rpcExternAllowIp3", "")!!
         val externAllowIp4 = sharedPreferences.getString("rpcExternAllowIp4", "")!!
-
-        val rpcSettingsDataItem = RpcSettingsDataItem(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
-        sendToServiceData(rpcSettingsDataItem)
+        val dataItem = RpcSettingsData()
+        dataItem.set(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
+        sendToServiceData(dataItem)
     }
 
     fun sendToServiceString(dataItem: String)
@@ -127,11 +131,19 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
 //        LocalBroadcastManager.getInstance(BOINCActivity.appContext!!).sendBroadcast(intent)
     }
 
-    fun sendToServiceData(dataItem: RpcSettingsDataItem)
+    fun sendToServiceData(dataItem: RpcSettingsData)
     {
         val intent = Intent()
         intent.action = "RPC_EXTERN"
-        intent.putExtra("DATA", dataItem)
+        intent.putExtra("ENABLED", dataItem.externEnabled)
+        intent.putExtra("ENCRYPTION", dataItem.externEncryption)
+        intent.putExtra("PASSWRD", dataItem.externPasswrd)
+        intent.putExtra("PORT", dataItem.externPort)
+        intent.putExtra("IP1", dataItem.ipAllowed1)
+        intent.putExtra("IP2", dataItem.ipAllowed2)
+        intent.putExtra("IP3", dataItem.ipAllowed3)
+        intent.putExtra("IP4", dataItem.ipAllowed4)
+
         intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
         // make sure this is only send locally but the LocalBroadcast seems to fail
         BOINCActivity.appContext?.sendBroadcast(intent)

@@ -272,6 +272,11 @@ public class RpcClient {
         return true;
     }
 
+
+
+
+
+
     /**
      * Checks the current state of connection
      *

@@ -19,71 +19,20 @@
 
 package edu.berkeley.boinc.rpcExtern
 
-import android.content.Intent
 import android.util.Log
-import edu.berkeley.boinc.BOINCActivity
-import edu.berkeley.boinc.client.Monitor
-import edu.berkeley.boinc.rpc.RpcClient
-import edu.berkeley.boinc.rpcExternSettings.RpcExternServer
+import edu.berkeley.boinc.rpcExtern.RpcExternServer
 import edu.berkeley.boinc.utils.Logging
 import org.apache.commons.lang3.StringUtils
 import java.io.*
 
 class RpcExtern {
-    var ThreadConnect: Thread? = null
-    var rpcClient = RpcClient()
-    var rpcExternServer = RpcExternServer()
-    var connected = false
-    lateinit var monitor : Monitor
-    lateinit var rpcSettingsData : RpcSettingsData
-    private lateinit var clientSocketAddress : String
-    private lateinit var boicToken : String
-
-
-    // The BOINC client started, so we should be able to connect
-    fun start(monitorIn : Monitor, socketAddress: String, token: String, data : RpcSettingsData) : Boolean {
-        clientSocketAddress = socketAddress
-        boicToken = token
-        rpcSettingsData = data
-        monitor = monitorIn
-        ThreadConnect = Thread(connect())
-        ThreadConnect!!.start()
-        return true
-    }
-
-    fun update(data : RpcSettingsData)
-    {
-        rpcExternServer.update(data)
-    }
-
-    fun command(data : String)
-    {
-        rpcExternServer.command(data)
-    }
-
-    inner class connect : Runnable {
-        override fun run() {
-            val keeptrying = true
-            while (keeptrying)
-            {
-                Log.d(Logging.TAG, "RpcExtern Connect to Client")
-                connected = connectClient()
-                if (connected) {
-                    Log.d(Logging.TAG, "RpcExtern Connected to Client")
-                    rpcExternServer.server(monitor, rpcClient, rpcSettingsData)
-                    return
-                }
-                Thread.sleep(5000)  // try again after xx seconds
-            }
-        }
-    }
 
     /**
      * Establishes connection to client and handles initial authentication
      *
      * @return Boolean success
      */
-    private fun connectClient(): Boolean {
+    fun connectClient(rpcClient: RpcExternServer, clientSocketAddress: String, boicToken: String): Boolean {
         var success = rpcClient.open(clientSocketAddress)
         if (!success) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Connection failed!")

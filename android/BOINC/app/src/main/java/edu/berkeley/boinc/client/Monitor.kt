@@ -26,11 +26,9 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.os.*
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.BOINCApplication
 import edu.berkeley.boinc.BuildConfig
@@ -38,9 +36,7 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.mutex.BoincMutex
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.rpc.Message
-import edu.berkeley.boinc.rpcExtern.RpcExtern
-import edu.berkeley.boinc.rpcExtern.RpcSettingsData
-import edu.berkeley.boinc.rpcExtern.RpcSettingsDataItem
+import edu.berkeley.boinc.rpcExtern.*
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -49,7 +45,6 @@ import okio.source
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
-import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -96,7 +91,7 @@ class Monitor : LifecycleService() {
     lateinit var noticeNotification: NoticeNotification
 
     // External RPC
-    var mRpcExtern = RpcExtern()
+    var mRpcExternServer = RpcExternServer()
 
     // XML defined variables, populated in onCreate
     private lateinit var fileNameClient: String
@@ -515,7 +510,7 @@ class Monitor : LifecycleService() {
             try {
                 val rpcSettingsData = getPreferences() // a change breaks start and returns here
                 val token = clientInterface.readAuthToken(boincWorkingDir + fileNameGuiAuthentication)
-                mRpcExtern.start(this, clientSocketAddress, token, rpcSettingsData)
+                mRpcExternServer.start(this, clientSocketAddress, token, rpcSettingsData)
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern starting")
             } catch (e: Exception) {
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern something went wrong")
@@ -864,16 +859,22 @@ class Monitor : LifecycleService() {
             try {
             val action : String = intent!!.action.toString()
             if (action.equals("RPC_EXTERN")) {
-                if (intent.hasExtra("DATA")) {
-  //               intent.dataString
-                    val data: RpcSettingsDataItem = intent.getParcelableExtra("DATA")!!
+                if (intent.hasExtra("ENABLED")) {
                     val rpcSettingsData = RpcSettingsData()
-                    rpcSettingsData.set(data.externEnabled, data.externEncryption, data.externPasswrd, data.externPort, data.ipAllowed1, data.ipAllowed2, data.ipAllowed3, data.ipAllowed4)
-                    mRpcExtern.update(rpcSettingsData)
+                    val enabled : Boolean = intent.getBooleanExtra("ENABLED",false)
+                    val encryption : Boolean = intent.getBooleanExtra("ENCRYPTION",true)
+                    val passwrd : String  = intent.getStringExtra("PASSWRD")
+                    val port : String  = intent.getStringExtra("PORT")
+                    val ip1 : String  = intent.getStringExtra("IP1")
+                    val ip2 : String  = intent.getStringExtra("IP2")
+                    val ip3 : String  = intent.getStringExtra("IP3")
+                    val ip4 : String  = intent.getStringExtra("IP4")
+                    rpcSettingsData.set(enabled, encryption, passwrd, port, ip1, ip2, ip3, ip4)
+                    mRpcExternServer.update(rpcSettingsData)
                 }
                 if (intent.hasExtra("STRING")) {
                     val data: String = intent.getStringExtra("STRING")!!
-                    mRpcExtern.command(data)
+                    mRpcExternServer.command(data)
                 }
             }
             } catch (e: Exception) {
