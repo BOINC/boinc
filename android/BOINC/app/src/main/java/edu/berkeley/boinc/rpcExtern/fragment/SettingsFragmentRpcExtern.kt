@@ -17,7 +17,6 @@ import java.nio.ByteOrder
 
 
 class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences.OnSharedPreferenceChangeListener {
-    var mServerIp = ""
     val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             try {
@@ -25,38 +24,19 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
                 val connectionStatus: String? = intent!!.getStringExtra("data")
                 when (connectionStatus)
                 {
-                    "IPNOT" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_ip_not_allowed)
-                    }
-                    "CONNOT" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_connected_not)
-                    }
-                    "CONOK" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_connected)
-                    }
-                    "IDLE" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_idle)
-                    }
-                    "CLOSING" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_closing)
-                    }
-                    "START" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_starting)
-                    }
-                    "TIMEOUT" ->
-                    {
-                        status = getString(R.string.status_rpc_extern_not_connected)
-                    }
+                    "IPNOT" -> status = getString(R.string.status_rpc_extern_ip_not_allowed)
+                    "CONNOT" -> status = getString(R.string.status_rpc_extern_connected_not)
+                    "CONOK" ->  status = getString(R.string.status_rpc_extern_connected)
+                    "IDLE" ->  status = getString(R.string.status_rpc_extern_idle)
+                    "NOWIFI" -> status = getString(R.string.status_rpc_extern_no_wifi)
+                    "CLOSING" -> status = getString(R.string.status_rpc_extern_closing)
+                    "START" -> status = getString(R.string.status_rpc_extern_starting)
+                    "TIMEOUT" -> status = getString(R.string.status_rpc_extern_not_connected)
                 }
                 val prefCat = findPreference("rpcExternTitle") as PreferenceCategory?
                 var title : String = getString(R.string.rpcExternTitle)
-                title += mServerIp
+                val ip = localIpAddress()
+                title += ip
                 title += " ($status)"
                 prefCat!!.title = title
             } catch (e : Exception)
@@ -71,12 +51,12 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
 //      addPreferencesFromResource(R.xml.settings_rpc_extern )
         setPreferencesFromResource(R.xml.settings_rpc_extern, rootKey)
 
-        mServerIp = localIpAddress()
+        val ip = localIpAddress()
 
         // add IP to preferences
         val prefCat = findPreference("rpcExternTitle") as PreferenceCategory?
         var title : String = getString(R.string.rpcExternTitle)
-        title += mServerIp
+        title += ip
         prefCat!!.title = title
         }
 
