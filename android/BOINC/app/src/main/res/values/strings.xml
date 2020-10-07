@@ -365,6 +365,7 @@
     <string name="status_rpc_extern_ip_not_allowed">Ip address not allowed</string>
     <string name="status_rpc_extern_connected">Connected</string>
     <string name="status_rpc_extern_connected_not">Password error</string>
+    <string name="status_rpc_extern_ip_mismatch">IP Mismatch</string>
     <string name="status_rpc_extern_idle">Disabled</string>
     <string name="status_rpc_extern_no_wifi">No WiFi</string>
     <string name="status_rpc_extern_closing">Closing</string>

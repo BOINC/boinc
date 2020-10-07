@@ -37,7 +37,6 @@ class RpcExternServer : RpcClient() {
     var mClientSocketAddress = ""
     var mBoicToken = ""
 
-    var mbAuthorized = false
     var mServerRunning = false
     lateinit var mMonitor: Monitor
     var mSendUpdates = false
@@ -62,7 +61,6 @@ class RpcExternServer : RpcClient() {
         mWiFi = wiFi
         mClientSocketAddress = socketAddress
         mBoicToken = boincToken
-        mbAuthorized = false
         mServerRunning = true
         try {
             mServerPort = data.externPort.toInt()
@@ -106,7 +104,6 @@ class RpcExternServer : RpcClient() {
         }
 
         sendToApplication("CLOSING")
-        mbAuthorized = false
         mWiFi = wiFi
 
         // wait for the thread to signal it has shut down
@@ -180,6 +177,10 @@ class RpcExternServer : RpcClient() {
         var serverSocket: ServerSocket? = null
         var closeDownInterrupt = false
         var serverPort = mServerPort
+        var bAuthorized = false;
+        var authorizedIp = ""
+        var connectedIp = ""
+
         override fun run() {
             while (!closeDownInterrupt) {
                 try {
@@ -242,9 +243,10 @@ class RpcExternServer : RpcClient() {
             var status = true
             Thread.sleep(500)  // don't allow flooding
             try {
+                connectedIp = socket.remoteSocketAddress.toString()
                 if (mIpAllowedList.isNotEmpty()) {  // check the ip allow list
+                    var ip = connectedIp
                     var bFound = false
-                    var ip = socket.remoteSocketAddress.toString()
                     ip = ip.replace("/", "")
                     ip = ip.substringBefore(':')
                     for (item in mIpAllowedList) {
@@ -254,12 +256,12 @@ class RpcExternServer : RpcClient() {
                         }
                     }
                     if (!bFound) {  // if no match just close the socket and don't reply
-                        socket.close()
+                        closeSocket(socket, out)
                         sendToApplication("IPNOT") //IP not allowed
                         return
                     }
                 }
-                if (mbAuthorized) {
+                if (bAuthorized) {
                     sendToApplication("CONOK") // connected and authorized
                 } else {
                     sendToApplication("CONNOT") // connected not authorized
@@ -267,6 +269,7 @@ class RpcExternServer : RpcClient() {
                 istream = socket.getInputStream()
             } catch (e: InterruptedException) { // must be the first in catch
                 closeDownInterrupt = true
+                closeSocket(socket, out)
                 return  // interrupted
             } catch (e: Exception) {
             }
@@ -276,23 +279,40 @@ class RpcExternServer : RpcClient() {
             }
             // process the connection
             while (status && !closeDownInterrupt) {
+                // check if this is the same IP as the authorized one
+                if (bAuthorized)
+                {
+                    if (!connectedIp.equals(authorizedIp))
+                    {
+                        bAuthorized = false // authorizing ip mismatch
+                        sendToApplication("CONIPMATCH")
+                        closeSocket(socket, out)
+                        return
+                    }
+                }
+
                 status = ProcessRequests(istream, out)
                 if (Thread.currentThread().isInterrupted)
                 {
                     // Catch doesn't always trigger InterruptedException
-                    closeDownInterrupt = true
-                    return // interrupted
+                    closeSocket(socket, out)
+                    return
                 }
             }
+            closeSocket(socket, out)
+        }
+
+        fun closeSocket(socket : Socket, out : BufferedWriter?) : Boolean
+        {
             try {
                 out!!.close()
                 socket.close()
-                return
             } catch (e: InterruptedException) { // must be the first in catch
                 closeDownInterrupt = true
-                return  // interrupted
+                return true
             } catch  (e: Exception) {
             }
+            return false
         }
 
         // Get data from the socket and process it
@@ -316,7 +336,7 @@ class RpcExternServer : RpcClient() {
                     var bAuth1 = false
                     if (dataReadTotal.contains(mRpcExternString.mRpcRequestBegin)) {    // dirty but fast parser
                         if (dataReadTotal.contains("<auth1")) {
-                            mbAuthorized = false
+                            bAuthorized = false
                             reply = mAuthenticateMd5.auth1(mExternPasswrd)  // send the legacy authenticator
                             bAuth1 = true
                         }
@@ -326,15 +346,17 @@ class RpcExternServer : RpcClient() {
                             parser.parse(dataReadTotal)
                             if (mAuthenticateMd5.auth2(parser.nonceHash)) { // check if the passwords match
                                 auth = "<authorized/>"
-                                mbAuthorized = true
+                                bAuthorized = true
+                                authorizedIp = connectedIp
                                 sendToApplication("CONOK") // connected and authorized
                             } else {
-                                mbAuthorized = false
+                                bAuthorized = false
+                                authorizedIp = ""
                                 sendToApplication("CONNOT") // connected not authorized
                             }
                             reply = mRpcExternString.mRpcReplyBegin + "\n" + auth + mRpcExternString.mRpcReplyEnd + "\n\u0003"
                         } else {
-                            if (mbAuthorized) {
+                            if (bAuthorized) {
                                 if (isConnected) {  // we are connected and the passwords match, send the request to the BOINC client
                                     reply = sendRequestAndReplyRaw(dataReadTotal)
                                     reply += eol    // the BOINC client reply

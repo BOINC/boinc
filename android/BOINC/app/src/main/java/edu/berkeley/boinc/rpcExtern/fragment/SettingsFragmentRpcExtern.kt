@@ -27,6 +27,7 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
                     "IPNOT" -> status = getString(R.string.status_rpc_extern_ip_not_allowed)
                     "CONNOT" -> status = getString(R.string.status_rpc_extern_connected_not)
                     "CONOK" ->  status = getString(R.string.status_rpc_extern_connected)
+                    "CONIPMATCH" -> status = getString(R.string.status_rpc_extern_ip_mismatch)
                     "IDLE" ->  status = getString(R.string.status_rpc_extern_idle)
                     "NOWIFI" -> status = getString(R.string.status_rpc_extern_no_wifi)
                     "CLOSING" -> status = getString(R.string.status_rpc_extern_closing)

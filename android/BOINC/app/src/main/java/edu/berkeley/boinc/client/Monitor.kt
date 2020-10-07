@@ -875,12 +875,12 @@ class Monitor : LifecycleService() {
                         val rpcSettingsData = RpcSettingsData()
                         val enabled : Boolean = intent.getBooleanExtra("ENABLED", false)
                         val encryption : Boolean = intent.getBooleanExtra("ENCRYPTION", true)
-                        val passwrd : String  = intent.getStringExtra("PASSWRD")
-                        val port : String  = intent.getStringExtra("PORT")
-                        val ip1 : String  = intent.getStringExtra("IP1")
-                        val ip2 : String  = intent.getStringExtra("IP2")
-                        val ip3 : String  = intent.getStringExtra("IP3")
-                        val ip4 : String  = intent.getStringExtra("IP4")
+                        var passwrd : String  = intent.getStringExtra("PASSWRD")!!
+                        val port : String  = intent.getStringExtra("PORT")!!
+                        val ip1 : String  = intent.getStringExtra("IP1")!!
+                        val ip2 : String  = intent.getStringExtra("IP2")!!
+                        val ip3 : String  = intent.getStringExtra("IP3")!!
+                        val ip4 : String  = intent.getStringExtra("IP4")!!
                         rpcSettingsData.set(enabled, encryption, passwrd, port, ip1, ip2, ip3, ip4)
                         val wiFi = isconnectedToWifi()
                         mRpcExternServer.update(wiFi, rpcSettingsData)
