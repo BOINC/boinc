@@ -22,16 +22,20 @@ package edu.berkeley.boinc.rpcExtern
 import android.content.Intent
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.rpc.RpcClient
+import java.net.InetAddress.*
 import java.io.*
+import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
+import java.nio.ByteBuffer.*
+import java.nio.ByteOrder.*
 
 class RpcExternServer : RpcClient() {
     val mAuthenticateMd5 = RpcExternAuthorizeMd5()
     val mRpcExternString = RpcExternString()
     val mRpcExtern = RpcExtern()
     val mThis = this
-    var mWiFi = false
+    var mWiFiIpInt = 0
     var mThreadID : Long = -1
 
     var mClientSocketAddress = ""
@@ -52,19 +56,19 @@ class RpcExternServer : RpcClient() {
     var mMessage: String = ""
 
 
-    fun start(wiFi : Boolean, monitorIn: Monitor, socketAddress: String, boincToken: String, data: RpcSettingsData)
+    fun start(wiFiIp: Int, monitorIn: Monitor, socketAddress: String, boincToken: String, data: RpcSettingsData)
     {
         if (mServerRunning)
         {
             return  // prevent starting more than once
         }
-        mWiFi = wiFi
+        mWiFiIpInt = wiFiIp
         mClientSocketAddress = socketAddress
         mBoicToken = boincToken
         mServerRunning = true
         try {
             mServerPort = data.externPort.toInt()
-        } catch (e : Exception)
+        } catch (e: Exception)
         {
             mServerPort = DEFAULT_PORT
         }
@@ -78,7 +82,7 @@ class RpcExternServer : RpcClient() {
             mIpAllowedList.add("none")
         }
 
-        if (mExternEnabled && mWiFi) {
+        if (mExternEnabled && mWiFiIpInt > 0 ) {
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
             mThreadMakeCon!!.start()
@@ -86,7 +90,7 @@ class RpcExternServer : RpcClient() {
         }
         else
         {
-            if (!mWiFi)
+            if (mWiFiIpInt == 0)
             {
                 sendToApplication("NOWIFI")
             }
@@ -96,15 +100,15 @@ class RpcExternServer : RpcClient() {
         }
     }
 
-    fun update(wiFi: Boolean, data: RpcSettingsData?)
+    fun update(wiFiIp: Int, data: RpcSettingsData?)
     {
-        if ((wiFi == mWiFi) && (data == null))
+        if ((wiFiIp == mWiFiIpInt) && (data == null))
         {
             return  // sends multiple updates on wifi change
         }
 
         sendToApplication("CLOSING")
-        mWiFi = wiFi
+        mWiFiIpInt = wiFiIp
 
         // wait for the thread to signal it has shut down
         if (mThreadMakeCon != null) {
@@ -137,7 +141,7 @@ class RpcExternServer : RpcClient() {
         }
 
         // Start the connection thread if enabled and there is WiFi
-        if (mExternEnabled && mWiFi) {
+        if (mExternEnabled && mWiFiIpInt > 0) {
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
             mThreadMakeCon!!.start()
@@ -145,7 +149,7 @@ class RpcExternServer : RpcClient() {
         }
         else
         {
-            if (!mWiFi)
+            if (mWiFiIpInt == 0)
             {
                 sendToApplication("NOWIFI")
             }
@@ -177,11 +181,14 @@ class RpcExternServer : RpcClient() {
         var serverSocket: ServerSocket? = null
         var closeDownInterrupt = false
         var serverPort = mServerPort
-        var bAuthorized = false;
+        var bAuthorized = false
         var authorizedIp = ""
         var connectedIp = ""
-
+        lateinit var wiFiIp : InetAddress
         override fun run() {
+            val  wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
+            wiFiIp = getByName(wiFiStr)
+
             while (!closeDownInterrupt) {
                 try {
                     connectToClient()  // make sure we are connected to the internal BOINC client
@@ -193,7 +200,7 @@ class RpcExternServer : RpcClient() {
                     if (serverSocket != null) { // close the socket to free it for connecting
                         serverSocket!!.close()
                     }
-                    serverSocket = ServerSocket(serverPort)
+                    serverSocket = ServerSocket(serverPort, 0, wiFiIp)  // backlog default
                     serverSocket!!.soTimeout = 10000 // 10 second timeout
                     ConnectAndRead()
                 } catch (e: InterruptedException) { // must be the first in catch
@@ -302,7 +309,7 @@ class RpcExternServer : RpcClient() {
             closeSocket(socket, out)
         }
 
-        fun closeSocket(socket : Socket, out : BufferedWriter?) : Boolean
+        fun closeSocket(socket: Socket, out: BufferedWriter?) : Boolean
         {
             try {
                 out!!.close()
@@ -310,7 +317,7 @@ class RpcExternServer : RpcClient() {
             } catch (e: InterruptedException) { // must be the first in catch
                 closeDownInterrupt = true
                 return true
-            } catch  (e: Exception) {
+            } catch (e: Exception) {
             }
             return false
         }

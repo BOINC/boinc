@@ -24,9 +24,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION
 import android.os.*
@@ -44,7 +43,8 @@ import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.rpcExtern.RpcExternServer
 import edu.berkeley.boinc.rpcExtern.RpcSettingsData
 import edu.berkeley.boinc.utils.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import okio.buffer
 import okio.source
 import java.io.File
@@ -210,7 +210,7 @@ class Monitor : LifecycleService() {
 
         // rpcExtern register the receiver
         val intentFilter = IntentFilter()
-        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+        intentFilter.addAction(NETWORK_STATE_CHANGED_ACTION)
         intentFilter.addAction("RPC_EXTERN")
         registerReceiver(mRpcExternBroadCastReceiver, intentFilter)
  //       registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
@@ -875,7 +875,7 @@ class Monitor : LifecycleService() {
                         val rpcSettingsData = RpcSettingsData()
                         val enabled : Boolean = intent.getBooleanExtra("ENABLED", false)
                         val encryption : Boolean = intent.getBooleanExtra("ENCRYPTION", true)
-                        var passwrd : String  = intent.getStringExtra("PASSWRD")!!
+                        val passwrd : String  = intent.getStringExtra("PASSWRD")!!
                         val port : String  = intent.getStringExtra("PORT")!!
                         val ip1 : String  = intent.getStringExtra("IP1")!!
                         val ip2 : String  = intent.getStringExtra("IP2")!!
@@ -905,6 +905,20 @@ class Monitor : LifecycleService() {
         }
     }
 
+    fun isconnectedToWifi () : Int
+    {
+        try {
+            val wifiManager = this.getSystemService(WIFI_SERVICE) as WifiManager
+            val wifiInfo: WifiInfo = wifiManager.getConnectionInfo()
+            val ip = wifiInfo.ipAddress
+            return ip
+        } catch (e: Exception)
+        {
+        }
+        return 0
+    }
+
+    /*
     // eFMer this seems to work, but I can't check it on older Android versions
     fun isconnectedToWifi(): Boolean {
         try {
@@ -919,12 +933,12 @@ class Monitor : LifecycleService() {
                     ?: return false
             networkInfo.isConnected
         }
-        } catch (e : Exception)
+        } catch (e: Exception)
         {
             return false
         }
     }
-
+    */
 
     private suspend fun setClientRunMode(runMode: Int) = coroutineScope {
         try {
