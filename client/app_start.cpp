@@ -1078,18 +1078,6 @@ int ACTIVE_TASK::start(bool test) {
                 perror("setpriority");
             }
 #endif
-#ifdef ANDROID
-            // Android has its own notion of background scheduling
-            if (!high_priority) {
-                FILE* f = fopen("/dev/cpuctl/apps/bg_non_interactive/tasks", "w");
-                if (!f) {
-                    msg_printf(NULL, MSG_INFO, "Can't open /dev/cpuctl/apps/bg_non_interactive/tasks");
-                } else {
-                    fprintf(f, "%d", getpid());
-                    fclose(f);
-                }
-            }
-#endif
 #if HAVE_SCHED_SETSCHEDULER && defined(SCHED_IDLE) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param sp;
