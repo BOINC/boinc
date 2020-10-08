@@ -19,6 +19,18 @@
 
 # Script to execute pylint tests
 
-./pylint.sh $1 ../py/Boinc/
+# check working directory because the script needs to be called like: ./tests/executePylintTests.sh
+if [ ! -d "tests" ]; then
+    echo "start this script in the source root directory"
+    exit 1
+fi
 
-# if [[ $? -eq 1 || $? -eq 2 || $? -eq 32 ]]; then exit 1; fi
+hasbitset () { (( $1 & 2**($2-1) )) && return 0 || return 1; }
+
+ROOTDIR=$(pwd)
+
+${ROOTDIR}/tests/pylint.sh $1 ${ROOTDIR}/py/Boinc/
+
+EXITCODE=$?
+
+(hasbitset ${EXITCODE} 1 || hasbitset ${EXITCODE} 2 || hasbitset ${EXITCODE} 6) && exit 1 || exit 0

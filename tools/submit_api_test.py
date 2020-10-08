@@ -192,11 +192,11 @@ def test_get_output_files():
 
 def test_get_job_counts():
     req = REQUEST()
-    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    [req.project, req.authenticator] = get_auth()
     x = get_job_counts(req)
     print x.find('results_ready_to_send').text
 
 #test_query_batch(328)
 #test_submit_batch('batch_39')
 set_timeout(10)
-test_create_batch('batch_138')
+test_create_batch('batch_140')
