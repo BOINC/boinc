@@ -29,7 +29,27 @@ hasbitset () { (( $1 & 2**($2-1) )) && return 0 || return 1; }
 
 ROOTDIR=$(pwd)
 
-${ROOTDIR}/tests/pylint.sh $1 ${ROOTDIR}/py/Boinc/
+SRC=(
+    'lib/submit_api.py'
+    'py/Boinc/'
+    'samples/vm_wrapper/setupPyBOINC.py'
+    'samples/vm_wrapper/VMwrapper.py'
+    'sched/assimilator.py'
+    'sched/pymw_assimilator.py'
+    'sched/start'
+    'sched/testasm.py'
+    'stripchart/samples/parse_config'
+    'tools/appmgr'
+    'tools/check_project'
+    'tools/dbcheck_files_exist'
+    'tools/make_project'
+    'tools/parse_config'
+    'tools/submit_api_test.py'
+    'tools/update_versions_v6'
+    'tools/upgrade'
+)
+
+${ROOTDIR}/tests/pylint.sh $1 ${ROOTDIR}/${SRC[@]}
 
 EXITCODE=$?
 
