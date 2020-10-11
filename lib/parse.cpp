@@ -938,7 +938,7 @@ of the XML_PARSER so the 'Old' descriptions may be innaccurate.
 // For tinyxml, we simply want the FILE* stream.
 TINYXML_WRAPPER::TINYXML_WRAPPER(MIOFILE* in_file) {
     doc.LoadFile(in_file->f);
-    current_elem = nullptr;
+    current_elem = NULL;
 }
 
 
@@ -1170,11 +1170,11 @@ void TINYXML_WRAPPER::skip_unexpected(const char* __unused__, bool verbose, cons
 // This should be used over the above function
 void TINYXML_WRAPPER::skip_unexpected(bool verbose, const char* msg) {
     // Handle any null pointers
-    if (msg == 0 || msg == nullptr) {
+    if (msg == 0 || msg == NULL) {
         msg = "";
     }
 
-    skip_unexpected(nullptr, verbose, msg);
+    skip_unexpected(NULL, verbose, msg);
 }
 
 

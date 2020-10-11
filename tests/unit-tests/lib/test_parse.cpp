@@ -48,8 +48,6 @@ namespace test_parse {
 
             assert(xml_test_file_good);
             assert(EOF != fputs(file_data_good.c_str(), xml_test_file_good));
-            //assert(xml_test_file_bad);
-            //assert(EOF != fputs(file_data_bad.c_str(), xml_test_file_bad));
 
             // Create the MIOFILE objects
             good_miofile = new MIOFILE;
