@@ -38,6 +38,11 @@ if ($border=="no") {
 $font = "\"Optima,Lucida Bright,Times New Roman\"";
 
 $user = get_other_projects($user);
+
+if (!$user->projects) {
+    error_page("No accounts found");
+}
+
 $total_credit = 0;
 foreach ($user->projects as $p) {
     $total_credit += $p->total_credit;
