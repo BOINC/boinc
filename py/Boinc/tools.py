@@ -64,19 +64,23 @@ def file_size(path):
     f.seek(0,2)
     return f.tell()
 
+# workaround for dubious function change in python3
+#
+from sys import version_info
+def input_aux():
+    if version_info.major == 3:
+        return input()
+    return raw_input()
+
 def query_yesno(str):
     '''Query user; default Yes'''
     print (str, "[Y/n] ", end="")
-    try: input = raw_input
-    except NameError: pass
-    return not input().strip().lower().startswith('n')
+    return not input_aux().strip().lower().startswith('n')
 
 def query_noyes(str):
     '''Query user; default No'''
     print (str, "[y/N] ", end="")
-    try: input = raw_input
-    except NameError: pass
-    return input().strip().lower().startswith('y')
+    return input_aux().strip().lower().startswith('y')
 
 def get_output_file_path(filename):
     """ Return the filename's path in the upload directory
