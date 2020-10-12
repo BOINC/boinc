@@ -68,9 +68,9 @@ def file_size(path):
 #
 from sys import version_info
 def input_aux():
-    if version_info.major == 3:
-        return input()
-    return raw_input()
+    if version_info.major == 2:
+        return raw_input()
+    return input()
 
 def query_yesno(str):
     '''Query user; default Yes'''
