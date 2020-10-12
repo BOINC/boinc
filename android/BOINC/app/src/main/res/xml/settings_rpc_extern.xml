@@ -20,9 +20,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/settings_fragment_rpc_extern">
+
         <PreferenceCategory
                 android:key="rpcExternTitle"
                 android:title=""
+                android:singleLineTitle="false" >
+        </PreferenceCategory>
+
+        <PreferenceCategory
+                android:key="rpcExternStatus"
+                android:title=""
+                app:iconSpaceReserved="false"
                 android:singleLineTitle="false" >
 
                 <SwitchPreferenceCompat

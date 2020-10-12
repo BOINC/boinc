@@ -32,7 +32,7 @@ class RpcExtern {
      *
      * @return Boolean success
      */
-    fun connectClient(rpcClient: RpcExternServer, clientSocketAddress: String, boicToken: String): Boolean {
+    fun connectClient(rpcClient: RpcExternServer, clientSocketAddress: String, boincToken: String): Boolean {
         var success = rpcClient.open(clientSocketAddress)
         if (!success) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Connection failed!")
@@ -40,7 +40,7 @@ class RpcExtern {
         }
 
         //authorize
-        success = rpcClient.authorize(boicToken)
+        success = rpcClient.authorize(boincToken)
         if (!success && Logging.ERROR) {
             Log.e(Logging.TAG, "Authorization failed!")
         }

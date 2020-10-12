@@ -19,16 +19,22 @@
 
 package edu.berkeley.boinc.rpcExtern
 
+import android.R.string
 import android.content.Intent
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.rpc.RpcClient
-import java.net.InetAddress.*
+import edu.berkeley.boinc.rpcExtern.authenticate.RpcExternAuthorizeAes
+import edu.berkeley.boinc.rpcExtern.authenticate.RpcExternAuthorizeMd5
 import java.io.*
 import java.net.InetAddress
+import java.net.InetAddress.getByAddress
+import java.net.InetAddress.getByName
 import java.net.ServerSocket
 import java.net.Socket
-import java.nio.ByteBuffer.*
-import java.nio.ByteOrder.*
+import java.net.SocketTimeoutException
+import java.nio.ByteBuffer.allocate
+import java.nio.ByteOrder.LITTLE_ENDIAN
+
 
 class RpcExternServer : RpcClient() {
     val mAuthenticateMd5 = RpcExternAuthorizeMd5()
@@ -39,7 +45,6 @@ class RpcExternServer : RpcClient() {
     var mThreadID : Long = -1
 
     var mClientSocketAddress = ""
-    var mBoicToken = ""
 
     var mServerRunning = false
     lateinit var mMonitor: Monitor
@@ -54,9 +59,10 @@ class RpcExternServer : RpcClient() {
 //    var mServerSocket: ServerSocket? = null
     var mThreadMakeCon: Thread? = null
     var mMessage: String = ""
+    var mMessageIp: String = ""
 
 
-    fun start(wiFiIp: Int, monitorIn: Monitor, socketAddress: String, boincToken: String, data: RpcSettingsData)
+    fun start(wiFiIp: Int, monitorIn: Monitor, socketAddress: String, data: RpcSettingsData)
     {
         if (mServerRunning)
         {
@@ -64,7 +70,6 @@ class RpcExternServer : RpcClient() {
         }
         mWiFiIpInt = wiFiIp
         mClientSocketAddress = socketAddress
-        mBoicToken = boincToken
         mServerRunning = true
         try {
             mServerPort = data.externPort.toInt()
@@ -166,11 +171,11 @@ class RpcExternServer : RpcClient() {
         {
             "START_UPDATE" -> {
                 mSendUpdates = true
-                sendToApplication(mMessage)
+                sendToApplication(mMessage, mMessageIp)
             }
             "STOP_UPDATE" -> {
                 mSendUpdates = false
-                sendToApplication(mMessage)
+                sendToApplication(mMessage, mMessageIp)
             }
         }
     }
@@ -178,30 +183,35 @@ class RpcExternServer : RpcClient() {
     // Connection Thread
     private val inputs: DataInputStream? = null
     inner class mainThreadLoop : Runnable {
+        val boincEol = '\u0003'
+        val socketTimeout = 5000
         var serverSocket: ServerSocket? = null
+        var aes = RpcExternAuthorizeAes()
         var closeDownInterrupt = false
         var serverPort = mServerPort
+        var encryption = mExternEncryption
         var bAuthorized = false
+        val notAuthorizedReply = mRpcExternString.mRpcReplyBegin + "\n" + "\"<unauthorized/>\"" + mRpcExternString.mRpcReplyEnd + "\n" + boincEol
         var authorizedIp = ""
         var connectedIp = ""
-        lateinit var wiFiIp : InetAddress
+        var timeout = 0
+
+        lateinit var wiFiIp: InetAddress
         override fun run() {
-            val  wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
+            var key  = mExternPasswrd
+            key += "leub[rehf!$&*()a"   // must be identical in the GUI
+            mExternPasswrd = key.substring(0, 16) // string must be 16 bytes long. Warning using escaping char like \ may cause problems.
+            val wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
             wiFiIp = getByName(wiFiStr)
 
             while (!closeDownInterrupt) {
                 try {
-                    connectToClient()  // make sure we are connected to the internal BOINC client
-                   // while (!mExternEnabled && !closeDownInterrupt) {
-                   //     sendToApplication("IDLE")
-                   //     Thread.sleep(2000)  // do nothing
-                   // }
-
+                    connectToClient(false)  // make sure we are connected to the internal BOINC client
                     if (serverSocket != null) { // close the socket to free it for connecting
                         serverSocket!!.close()
                     }
                     serverSocket = ServerSocket(serverPort, 0, wiFiIp)  // backlog default
-                    serverSocket!!.soTimeout = 10000 // 10 second timeout
+                    serverSocket!!.soTimeout = socketTimeout
                     ConnectAndRead()
                 } catch (e: InterruptedException) { // must be the first in catch
                     closeDownInterrupt = true
@@ -216,8 +226,7 @@ class RpcExternServer : RpcClient() {
         // Inside the connection Thread wait for the socket to get a request and leave accept
         private fun ConnectAndRead() {
             while (!closeDownInterrupt) {
-                if (Thread.currentThread().isInterrupted)
-                {
+                if (Thread.currentThread().isInterrupted) {
                     // InterruptedException doesn't catch in .accept but goes to InterruptedIOException
                     closeDownInterrupt = true
                     return // interrupted
@@ -225,16 +234,15 @@ class RpcExternServer : RpcClient() {
                 try {
                     val socket = serverSocket!!.accept()
                     if (socket != null) {
+                        socket.setSoTimeout(socketTimeout)
                         handleConnection(socket) // we have a connection, handle the handshake
- //                       socket.close()
+                        //                       socket.close()
                     }
                 } catch (e: InterruptedException) { // must be the first in catch
                     closeDownInterrupt = true
                     return // interrupted
-                }
-                catch (i: InterruptedIOException) {
+                } catch (i: InterruptedIOException) {
                     // ends here on an external interrupt
-                    sendToApplication("TIMEOUT")
                     return
                 } catch (e: Exception) {
                     var ii = 1
@@ -264,14 +272,12 @@ class RpcExternServer : RpcClient() {
                     }
                     if (!bFound) {  // if no match just close the socket and don't reply
                         closeSocket(socket, out)
-                        sendToApplication("IPNOT") //IP not allowed
+                        sendToApplication("IPNOT", ip) //IP not allowed
                         return
                     }
                 }
-                if (bAuthorized) {
-                    sendToApplication("CONOK") // connected and authorized
-                } else {
-                    sendToApplication("CONNOT") // connected not authorized
+                if (!bAuthorized) {
+                    sendToApplication("CON_NOT") // not connected
                 }
                 istream = socket.getInputStream()
             } catch (e: InterruptedException) { // must be the first in catch
@@ -279,6 +285,8 @@ class RpcExternServer : RpcClient() {
                 closeSocket(socket, out)
                 return  // interrupted
             } catch (e: Exception) {
+                var ii = 1
+                ii += 1
             }
             try {
                 out = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
@@ -286,31 +294,46 @@ class RpcExternServer : RpcClient() {
             }
             // process the connection
             while (status && !closeDownInterrupt) {
-                // check if this is the same IP as the authorized one
-                if (bAuthorized)
-                {
-                    if (!connectedIp.equals(authorizedIp))
-                    {
-                        bAuthorized = false // authorizing ip mismatch
-                        sendToApplication("CONIPMATCH")
+                try {
+                    // check if this is the same IP as the authorized one
+                    if (bAuthorized) {
+                        if (!connectedIp.equals(authorizedIp)) {
+                            bAuthorized = false // authorizing ip mismatch
+                            sendToApplication("CONIPMATCH")
+                            closeSocket(socket, out)
+                            return
+                        }
+                        else
+                        {
+                            sendToApplication("CON_OK", authorizedIp ) // connected and authorized
+                        }
+                    }
+
+                    status = ProcessRequests(istream, out)
+                    if (Thread.currentThread().isInterrupted) {
+                        // Catch doesn't always trigger InterruptedException
                         closeSocket(socket, out)
+                        closeDownInterrupt = true
                         return
                     }
-                }
-
-                status = ProcessRequests(istream, out)
-                if (Thread.currentThread().isInterrupted)
-                {
-                    // Catch doesn't always trigger InterruptedException
+                } catch (e: InterruptedException) { // must be the first in catch
+                    closeDownInterrupt = true
                     closeSocket(socket, out)
-                    return
+                    return  // interrupted
+                } catch (e: Exception) {
+                    var ii = 1
+                    ii += 1
                 }
             }
-            closeSocket(socket, out)
+            try {
+                closeSocket(socket, out)
+            } catch (e: Exception) {
+                var ii = 1
+                ii += 1
+            }
         }
 
-        fun closeSocket(socket: Socket, out: BufferedWriter?) : Boolean
-        {
+        fun closeSocket(socket: Socket, out: BufferedWriter?): Boolean {
             try {
                 out!!.close()
                 socket.close()
@@ -318,19 +341,19 @@ class RpcExternServer : RpcClient() {
                 closeDownInterrupt = true
                 return true
             } catch (e: Exception) {
+                var ii = 1
+                ii += 1
             }
             return false
         }
 
         // Get data from the socket and process it
+        // return false = break
         fun ProcessRequests(istream: InputStream?, out: BufferedWriter?): Boolean {
+            var reply = "?"
             try {
-                val eol = '\u0003'
-                var reply = "<?>" // Don't tell who we are
-//                var read = 0
                 val buffer = ByteArray(1024) // if the buffer is too short, the while loop reads it in parts
                 var dataReadTotal = ""
- //               while (istream!!.read(buffer).also {read = it} != -1) {
                 while (istream!!.read(buffer) != -1) {  // leave at the end of the stream, this generally never happens
                     val readString = String(buffer)
                     dataReadTotal += readString
@@ -340,45 +363,43 @@ class RpcExternServer : RpcClient() {
                     }
                 }
                 if (dataReadTotal.length > 0) { // process the data we just read
-                    var bAuth1 = false
+                    timeout = 0
                     if (dataReadTotal.contains(mRpcExternString.mRpcRequestBegin)) {    // dirty but fast parser
-                        if (dataReadTotal.contains("<auth1")) {
-                            bAuthorized = false
-                            reply = mAuthenticateMd5.auth1(mExternPasswrd)  // send the legacy authenticator
-                            bAuth1 = true
+                        if (dataReadTotal.contains("<auth")) {
+                            bAuthorized = false // the GUI thinks it's not connected
                         }
-                        if (dataReadTotal.contains("<auth2")) {
-                            var auth = "<unauthorized/>"
-                            val parser = RpcExternAuthParser()
-                            parser.parse(dataReadTotal)
-                            if (mAuthenticateMd5.auth2(parser.nonceHash)) { // check if the passwords match
-                                auth = "<authorized/>"
-                                bAuthorized = true
-                                authorizedIp = connectedIp
-                                sendToApplication("CONOK") // connected and authorized
-                            } else {
-                                bAuthorized = false
-                                authorizedIp = ""
-                                sendToApplication("CONNOT") // connected not authorized
+                        if (bAuthorized) {
+                            reply = sendRequestAndReplyRaw(dataReadTotal) + boincEol
+                            if (reply.length < 10)  // no reply = connection lost
+                            {
+                                connectToClient(true)
                             }
-                            reply = mRpcExternString.mRpcReplyBegin + "\n" + auth + mRpcExternString.mRpcReplyEnd + "\n\u0003"
                         } else {
-                            if (bAuthorized) {
-                                if (isConnected) {  // we are connected and the passwords match, send the request to the BOINC client
-                                    reply = sendRequestAndReplyRaw(dataReadTotal)
-                                    reply += eol    // the BOINC client reply
-                                }
-                                else{
-                                    connectToClient()   // this should never happen but just in case
-                                }
+                            if (encryption) {
+                                reply = authorizeAes(dataReadTotal)
                             } else {
-                                if (!bAuth1) {
-                                    reply = mRpcExternString.mRpcReplyBegin + "\n" + "\"<unauthorized/>\"" + mRpcExternString.mRpcReplyEnd + "\n\u0003"
-                                }
+                                reply = authorizeMd5(dataReadTotal)
                             }
                         }
                     }
                 }
+            } catch (e: InterruptedException) { // must be the first in catch
+                closeDownInterrupt = true
+                return false // interrupted
+            } catch (e: SocketTimeoutException) {
+                timeout += 1
+                if (timeout > 5)
+                {
+                    sendToApplication("TIMEOUT")
+                    bAuthorized = false
+                    return false
+                }
+                return true
+            }
+            catch (e: Exception) {
+                return false
+            }
+            try {
                 out!!.newLine() // send the reply over the socket
                 out.write(reply)
                 out.flush()
@@ -388,15 +409,110 @@ class RpcExternServer : RpcClient() {
             } catch (e: Exception) {
                 return false
             }
+
             return true
+        }
+
+        // Encrypted
+        private fun authorizeAes(dataReadTotal: String): String {
+            var reply = notAuthorizedReply
+            try {
+                bAuthorized = false
+                if (dataReadTotal.contains("<authe1")) {
+                    reply = aes.authe1(mExternPasswrd)
+                } else {
+                    if (dataReadTotal.contains("<authe2")) {
+                        var auth = "<unauthorized/>"
+                        val parser = RpcExternAuthParser()
+                        parser.parse(dataReadTotal)
+                        if (aes.auth2(parser.encrypted, mExternPasswrd)) {
+                            auth = "<authorized/>"
+                            bAuthorized = true
+                            authorizedIp = connectedIp
+                            sendToApplication("CON_OK") // connected and authorized
+                        } else {
+                            bAuthorized = false
+                            authorizedIp = ""
+                            sendToApplication("CON_NOT_AUTH") // connected not authorized
+                        }
+                        reply = mRpcExternString.mRpcReplyBegin + "\n" + auth + mRpcExternString.mRpcReplyEnd + "\n" + boincEol
+                    }
+                    else
+                    {
+                        if (dataReadTotal.contains("<auth1")) {
+                            bAuthorized = false
+                            sendToApplication("CON_ASK_AES_GET_MD5") // expect encrypted get md5
+                        }
+                    }
+                }
+                return reply
+            } catch (e: InterruptedException) { // must be the first in catch
+                closeDownInterrupt = true
+            } catch (e: Exception) {
+            }
+            return reply
+        }
+
+        // MD5
+        private fun authorizeMd5(dataReadTotal: String): String {
+            var reply = notAuthorizedReply
+            try {
+                bAuthorized = false
+                if (dataReadTotal.contains("<auth1")) {
+                    reply = mAuthenticateMd5.auth1(mExternPasswrd)  // send the legacy authenticator
+                } else
+                {
+                    if (dataReadTotal.contains("<auth2")) {
+                        var auth = "<unauthorized/>"
+                        val parser = RpcExternAuthParser()
+                        parser.parse(dataReadTotal)
+                        if (mAuthenticateMd5.auth2(parser.nonceHash)) { // check if the passwords match
+                            auth = "<authorized/>"
+                            bAuthorized = true
+                            authorizedIp = connectedIp
+                            sendToApplication("CON_OK") // connected and authorized
+                        } else {
+                            bAuthorized = false
+                            authorizedIp = ""
+                            sendToApplication("CON_NOT_AUTH") // connected not authorized
+                        }
+                        reply = mRpcExternString.mRpcReplyBegin + "\n" + auth + mRpcExternString.mRpcReplyEnd + "\n" + boincEol
+                    }
+                    else
+                    {
+                        if (dataReadTotal.contains("<authe1")) {
+                            bAuthorized = false
+                            sendToApplication("CON_ASK_MD5_GET_AES") // expect md5 get encrypted
+                        }
+                    }
+                }
+            } catch (e: InterruptedException) { // must be the first in catch
+                closeDownInterrupt = true
+            } catch (e: Exception) {
+            }
+            return reply
+        }
+        // connect to the internal BOINC client
+        private fun connectToClient(alwaysConnect : Boolean)
+        {
+            try {
+                if (!alwaysConnect && isConnected) return
+                val token = mRpcExtern.readAuthToken(mMonitor.boincWorkingDir + mMonitor.fileNameGuiAuthentication)
+                Thread.sleep(2000) // wait for things to settle
+                mRpcExtern.connectClient(mThis, mClientSocketAddress, token)
+            }  catch (e: InterruptedException) { // must be the first in catch
+                closeDownInterrupt = true
+            } catch (e: Exception) {
+            }
         }
     }
 
     // send broadcast to the SettingsFragment
-    fun sendToApplication(dataString: String)
+    fun sendToApplication(dataString: String, ipString: String = "")
     {
         try {
             mMessage = dataString
+            mMessageIp = ipString
             if (!mSendUpdates)
             {
                 return
@@ -404,6 +520,7 @@ class RpcExternServer : RpcClient() {
             val intent = Intent()
             intent.action = "RPC_EXTERN_FROM_CONNECTION"
             intent.putExtra("data", dataString)
+            intent.putExtra("ip", ipString)
             intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
             // make sure this is only send locally but the LocalBroadcast seems to fail
             mMonitor.sendBroadcast(intent)
@@ -411,16 +528,6 @@ class RpcExternServer : RpcClient() {
         } catch (e: Exception) {
             var ii = 1  // debug
             ii +=1
-        }
-    }
-
-    // connect to the internal BOINC client
-    fun connectToClient()
-    {
-        while (!isConnected)  // check if connected to client
-        {
-            Thread.sleep(2000) // wait for things to settle
-            mRpcExtern.connectClient(mThis, mClientSocketAddress, mBoicToken)
         }
     }
 }

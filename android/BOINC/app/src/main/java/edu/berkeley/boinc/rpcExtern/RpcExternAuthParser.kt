@@ -7,6 +7,7 @@ public class RpcExternAuthParser {
     val eol : Byte = 3
     private var text: String = ""
     var nonceHash : String = ""
+    var encrypted : String = ""
 
     fun validXml(xmlIn: String): String {
         val xml = xmlIn.replace("\\n".toRegex(), "")
@@ -34,8 +35,14 @@ public class RpcExternAuthParser {
                 var hash = false
                 when (eventType) {
                     XmlPullParser.TEXT -> text = parser.text
-                    XmlPullParser.END_TAG -> if (tagname.equals("nonce_hash", ignoreCase = true)){
-                        nonceHash = text
+                    XmlPullParser.END_TAG ->
+                    {
+                        if (tagname.equals("nonce_hash", ignoreCase = true)){
+                            nonceHash = text
+                        }
+                        if (tagname.equals("encrypted", ignoreCase = true)) {
+                            encrypted = text
+                        }
                     }
                 }
                 eventType = parser.next()

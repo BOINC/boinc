@@ -20,26 +20,32 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
     val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             try {
-                var status = ""
+                var statusMsg = ""
                 val connectionStatus: String? = intent!!.getStringExtra("data")
+                val connectionIp: String? = intent.getStringExtra("ip")
                 when (connectionStatus)
                 {
-                    "IPNOT" -> status = getString(R.string.status_rpc_extern_ip_not_allowed)
-                    "CONNOT" -> status = getString(R.string.status_rpc_extern_connected_not)
-                    "CONOK" ->  status = getString(R.string.status_rpc_extern_connected)
-                    "CONIPMATCH" -> status = getString(R.string.status_rpc_extern_ip_mismatch)
-                    "IDLE" ->  status = getString(R.string.status_rpc_extern_idle)
-                    "NOWIFI" -> status = getString(R.string.status_rpc_extern_no_wifi)
-                    "CLOSING" -> status = getString(R.string.status_rpc_extern_closing)
-                    "START" -> status = getString(R.string.status_rpc_extern_starting)
-                    "TIMEOUT" -> status = getString(R.string.status_rpc_extern_not_connected)
+                    "IPNOT" -> statusMsg = getString(R.string.status_rpc_extern_ip_not_allowed)  + " Ip: " + connectionIp
+                    "CON_NOT_AUTH" -> statusMsg = getString(R.string.status_rpc_extern_password)
+                    "CON_OK" ->  statusMsg = getString(R.string.status_rpc_extern_connected) + " Ip: " + connectionIp
+                    "CON_NOT" -> statusMsg = getString(R.string.status_rpc_extern_not_connected)
+                    "TIMEOUT" -> statusMsg = getString(R.string.status_rpc_extern_not_connected_time)
+                    "CON_ASK_MD5_GET_AES" -> statusMsg = getString(R.string.status_rpc_extern_use_hash)
+                    "CON_ASK_AES_GET_MD5" -> statusMsg = getString(R.string.status_rpc_extern_use_encrypted)
+                    "CONIPMATCH" -> statusMsg = getString(R.string.status_rpc_extern_ip_mismatch)  + " Ip: " + connectionIp
+                    "IDLE" ->  statusMsg = getString(R.string.status_rpc_extern_idle)
+                    "NOWIFI" -> statusMsg = getString(R.string.status_rpc_extern_no_wifi)
+                    "CLOSING" -> statusMsg = getString(R.string.status_rpc_extern_closing)
+                    "START" -> statusMsg = getString(R.string.status_rpc_extern_starting)
                 }
-                val prefCat = findPreference("rpcExternTitle") as PreferenceCategory?
+                val prefTitle = findPreference("rpcExternTitle") as PreferenceCategory?
+                val prefStatus = findPreference("rpcExternStatus") as PreferenceCategory?
                 var title : String = getString(R.string.rpcExternTitle)
+                val status = getString(R.string.rpcExternStatus) + " " + statusMsg
                 val ip = localIpAddress()
                 title += ip
-                title += " ($status)"
-                prefCat!!.title = title
+                prefTitle!!.title = title
+                prefStatus!!.title = status
             } catch (e : Exception)
             {
             }

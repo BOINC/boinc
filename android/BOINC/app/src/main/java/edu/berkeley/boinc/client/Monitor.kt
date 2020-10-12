@@ -103,10 +103,10 @@ class Monitor : LifecycleService() {
     private lateinit var fileNameClient: String
     private lateinit var fileNameCABundle: String
     private lateinit var fileNameClientConfig: String
-    private lateinit var fileNameGuiAuthentication: String
+    lateinit var fileNameGuiAuthentication: String
     private lateinit var fileNameAllProjectsList: String
-    private lateinit var fileNameNoMedia: String
-    private lateinit var boincWorkingDir: String
+    lateinit var fileNameNoMedia: String
+    lateinit var boincWorkingDir: String
     private lateinit var clientSocketAddress: String
 
     private var clientStatusInterval by Delegates.notNull<Int>()
@@ -521,8 +521,7 @@ class Monitor : LifecycleService() {
             try {
                 val wiFi = isconnectedToWifi()
                 val rpcSettingsData = getPreferences() // a change breaks start and returns here
-                val token = clientInterface.readAuthToken(boincWorkingDir + fileNameGuiAuthentication)
-                mRpcExternServer.start(wiFi, this, clientSocketAddress, token, rpcSettingsData)
+                mRpcExternServer.start(wiFi, this, clientSocketAddress, rpcSettingsData)
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern starting")
             } catch (e: Exception) {
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern something went wrong")

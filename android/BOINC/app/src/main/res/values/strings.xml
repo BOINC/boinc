@@ -353,7 +353,7 @@
     <!-- External RPC GUI -->
     <string name="rpcExternTitle">Ip of this device: </string>
     <string name="settings_rpc_extern">Allow external GUI to connect</string>
-    <string name="settings_rpc_encryption">Use a secure connection</string>
+    <string name="settings_rpc_encryption">Use a secure password</string>
     <string name="settings_rpc_password">Password</string>
     <string name="settings_rpc_port">Port</string>
 
@@ -362,15 +362,19 @@
     <string name="settings_rpc_set_ip3">Set IP address 3</string>
     <string name="settings_rpc_set_ip4">Set IP address 4</string>
 
+    <string name="rpcExternStatus">Status:</string>
     <string name="status_rpc_extern_ip_not_allowed">Ip address not allowed</string>
     <string name="status_rpc_extern_connected">Connected</string>
-    <string name="status_rpc_extern_connected_not">Password error</string>
-    <string name="status_rpc_extern_ip_mismatch">IP Mismatch</string>
+    <string name="status_rpc_extern_not_connected">Not connected</string>
+    <string name="status_rpc_extern_not_connected_time">Not connected, timeout</string>
+    <string name="status_rpc_extern_password">Password error</string>
+    <string name="status_rpc_extern_use_encrypted">Need encrypted Password</string>
+    <string name="status_rpc_extern_use_hash">Need non encrypted Password</string>
+    <string name="status_rpc_extern_ip_mismatch">Computer IP not trusted</string>
     <string name="status_rpc_extern_idle">Disabled</string>
     <string name="status_rpc_extern_no_wifi">No WiFi</string>
     <string name="status_rpc_extern_closing">Closing</string>
     <string name="status_rpc_extern_starting">Waiting</string>
-    <string name="status_rpc_extern_not_connected">Not connected</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

@@ -1,4 +1,5 @@
-package edu.berkeley.boinc.rpcExtern
+package edu.berkeley.boinc.rpcExtern.authenticate
+import edu.berkeley.boinc.rpcExtern.RpcExternString
 import java.security.MessageDigest
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -7,6 +8,7 @@ import kotlin.random.nextUInt
 
 public class RpcExternAuthorizeMd5 {
     val RpcString = RpcExternString()
+    val hex = Hex()
     var mNoncePasswordInHex = ""
     val eol = '\u0003'
     var mInit = false
@@ -21,7 +23,7 @@ public class RpcExternAuthorizeMd5 {
         val md = MessageDigest.getInstance("MD5")
         val noncePass = mNonce + password
         val toHex = md.digest(noncePass.toByteArray())
-        mNoncePasswordInHex = byteToHex(toHex)
+        mNoncePasswordInHex = hex.byteToHex(toHex)
         return reply
     }
     fun auth2(hex: String) : Boolean {
@@ -39,28 +41,5 @@ public class RpcExternAuthorizeMd5 {
         val randomRs = randomR.toString().take(6)
         val nonce = randomLs + "." + randomRs
         return nonce
-    }
-
-    val hexArray = "0123456789abcdef".toCharArray()
-    fun HexToByte(hexChars: String) : ByteArray {
-        val length = hexChars.length
-        val result = ByteArray(length / 2)
-        for (i in 0 until length step 2) {
-            val firstIndex = hexArray.indexOf(hexChars[i])
-            val secondIndex = hexArray.indexOf(hexChars[i + 1])
-            val octet = firstIndex.shl(4).or(secondIndex)
-            result.set(i.shr(1), octet.toByte())
-        }
-        return result
-    }
-
-    fun byteToHex(bytes: ByteArray): String {
-        val hexChars = CharArray(bytes.size * 2)
-        for (j in bytes.indices) {
-            var v = bytes[j].toInt() and 0xFF
-            hexChars[j * 2] = hexArray[v ushr 4]
-            hexChars[j * 2 + 1] = hexArray[v and 0x0F]
-        }
-        return String(hexChars)
     }
 }
