@@ -96,7 +96,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlibd.lib;libcrypto.lib;libssl.lib;libcurl-d.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;tinyxml2d.lib</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -148,7 +148,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;advapi32.lib;wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;zlib.lib;libcrypto.lib;libssl.lib;libcurl.lib;%(AdditionalDependencies);Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;tinyxml2.lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -243,6 +243,11 @@
     <ClInclude Include="..\client\rr_sim.h" />
     <ClInclude Include="..\client\sim.h" />
     <ClInclude Include="..\client\time_stats.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="vcpkg_3rdparty_dependencies_vs2019.vcxproj">
+      <Project>{d3e5b5b5-4fb1-4877-9b2c-6708b3d568f7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
