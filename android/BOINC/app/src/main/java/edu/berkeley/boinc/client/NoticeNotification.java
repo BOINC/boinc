@@ -157,7 +157,7 @@ public class NoticeNotification {
     private Notification buildSummaryNotification() {
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
-        final int icon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.drawable.ic_boinc;
+        final int icon = R.drawable.ic_boinc;
         final int smallIcon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ?
                               R.mipmap.ic_boinc_notice_white : R.drawable.ic_boinc_notice;
         // build new notification from scratch every time a notice arrives
@@ -194,7 +194,7 @@ public class NoticeNotification {
 
     private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
         final Bitmap projectIconBitmap = clientStatus.getProjectIconByName(projectName);
-        final int icon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.drawable.ic_boinc;
+        final int icon = R.drawable.ic_boinc;
         try {
             return projectIconBitmap != null ?
                    Bitmap.createScaledBitmap(

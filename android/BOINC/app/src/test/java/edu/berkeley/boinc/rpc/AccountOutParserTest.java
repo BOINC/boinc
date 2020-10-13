@@ -51,10 +51,10 @@ public class AccountOutParserTest {
     }
 
     @Test
-    public void testParse_whenRpcStringIsNull_thenExpectIllegalArgumentException() {
+    public void testParse_whenRpcStringIsNull_thenExpectNullPointerException() {
         mockStatic(Xml.class);
 
-        assertThrows(IllegalArgumentException.class, () -> AccountOutParser.parse(null));
+        assertThrows(NullPointerException.class, () -> AccountOutParser.parse(null));
     }
 
     @Test(expected = UninitializedPropertyAccessException.class)
@@ -73,8 +73,8 @@ public class AccountOutParserTest {
         assertNull(AccountOutParser.parse(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentException()
+    @Test(expected = NullPointerException.class)
+    public void testParser_whenLocalNameIsNull_thenExpectNullPointerException()
             throws SAXException {
         accountOutParser.startElement(null, null, null, null);
     }

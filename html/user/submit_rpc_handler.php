@@ -496,8 +496,9 @@ function submit_batch($r) {
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_name = BoincDb::escape_string($batch_name);
+        $state = BATCH_STATE_INIT;
         $batch_id = BoincBatch::insert(
-            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_INIT.")"
+            "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values ($user->id, $now, 0, $let, 0, $njobs, 0, 0, $state, 0, 0, 0, 0, '$batch_name', $app->id, 0, '', 0)"
         );
         if (!$batch_id) {
             log_write("can't create batch");
@@ -550,8 +551,9 @@ function create_batch($r) {
     $batch_name = (string)($r->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
+    $state = BATCH_STATE_INIT;
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
+        "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values ($user->id, $now, 0, 0, 0, 0, 0, 0, $state, 0, 0, 0, 0, '$batch_name', $app->id, 0, '', $expire_time)"
     );
     if (!$batch_id) {
         log_write("Can't create batch: ".BoincDb::error());

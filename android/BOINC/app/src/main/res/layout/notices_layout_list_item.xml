@@ -25,8 +25,7 @@
     <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:minHeight="60dp"
-            android:background="@android:color/transparent">
+            android:minHeight="60dp">
 
         <ImageView
                 android:id="@+id/project_icon"

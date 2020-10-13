@@ -24,7 +24,7 @@ import urllib2
 import copy
 import xml.etree.ElementTree as ET
 import requests
-    # you'll need to "yip install requests"
+    # you'll need to "pip install requests"
 import hashlib
 
 # describes an input file
