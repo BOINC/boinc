@@ -52,9 +52,11 @@ class RpcExternServer : RpcClient() {
 
     val DEFAULT_PORT = 31416
     var mServerPort = DEFAULT_PORT
+    var mConnectServerSocket = false
     var mExternEnabled = false
     var mExternEncryption = true
     var mExternPasswrd :String = ""
+    var mExternPasswrdAes :String = ""
     var mIpAllowedList = ArrayList<String>()
 //    var mServerSocket: ServerSocket? = null
     var mThreadMakeCon: Thread? = null
@@ -147,6 +149,7 @@ class RpcExternServer : RpcClient() {
 
         // Start the connection thread if enabled and there is WiFi
         if (mExternEnabled && mWiFiIpInt > 0) {
+            mConnectServerSocket = true // restart the server socket
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
             mThreadMakeCon!!.start()
@@ -186,6 +189,7 @@ class RpcExternServer : RpcClient() {
         val boincEol = '\u0003'
         val socketTimeout = 5000
         var serverSocket: ServerSocket? = null
+        var connectServerSocket = mConnectServerSocket
         var aes = RpcExternAuthorizeAes()
         var closeDownInterrupt = false
         var serverPort = mServerPort
@@ -200,18 +204,27 @@ class RpcExternServer : RpcClient() {
         override fun run() {
             var key  = mExternPasswrd
             key += "leub[rehf!$&*()a"   // must be identical in the GUI
-            mExternPasswrd = key.substring(0, 16) // string must be 16 bytes long. Warning using escaping char like \ may cause problems.
+            mExternPasswrdAes = key.substring(0, 16) // string must be 16 bytes long. Warning using escaping char like \ may cause problems.
             val wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
             wiFiIp = getByName(wiFiStr)
 
             while (!closeDownInterrupt) {
                 try {
                     connectToClient(false)  // make sure we are connected to the internal BOINC client
-                    if (serverSocket != null) { // close the socket to free it for connecting
-                        serverSocket!!.close()
+                    if (serverSocket == null)
+                    {
+                        connectServerSocket = true
                     }
-                    serverSocket = ServerSocket(serverPort, 0, wiFiIp)  // backlog default
-                    serverSocket!!.soTimeout = socketTimeout
+
+                    if (connectServerSocket) {
+                        if (serverSocket != null) { // close the socket to free it for connecting again
+                            serverSocket!!.close()
+                        }
+                        serverSocket = ServerSocket(serverPort, 0, wiFiIp)  // backlog default
+                        serverSocket!!.soTimeout = socketTimeout
+//                        connectServerSocket = false
+                    }
+                    connectServerSocket = true
                     ConnectAndRead()
                 } catch (e: InterruptedException) { // must be the first in catch
                     closeDownInterrupt = true
@@ -419,13 +432,13 @@ class RpcExternServer : RpcClient() {
             try {
                 bAuthorized = false
                 if (dataReadTotal.contains("<authe1")) {
-                    reply = aes.authe1(mExternPasswrd)
+                    reply = aes.authe1(mExternPasswrdAes)
                 } else {
                     if (dataReadTotal.contains("<authe2")) {
                         var auth = "<unauthorized/>"
                         val parser = RpcExternAuthParser()
                         parser.parse(dataReadTotal)
-                        if (aes.auth2(parser.encrypted, mExternPasswrd)) {
+                        if (aes.auth2(parser.encrypted, mExternPasswrdAes)) {
                             auth = "<authorized/>"
                             bAuthorized = true
                             authorizedIp = connectedIp
