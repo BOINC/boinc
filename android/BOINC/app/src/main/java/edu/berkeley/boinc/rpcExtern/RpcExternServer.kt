@@ -50,19 +50,14 @@ class RpcExternServer : RpcClient() {
     lateinit var mMonitor: Monitor
     var mSendUpdates = false
 
-    val DEFAULT_PORT = 31416
-    var mServerPort = DEFAULT_PORT
+//    val DEFAULT_PORT = 31416
+    lateinit var mSettingsData : RpcSettingsData
+//    var serverPort = DEFAULT_PORT
     var mConnectServerSocket = false
-    var mExternEnabled = false
-    var mExternEncryption = true
-    var mExternPasswrd :String = ""
     var mExternPasswrdAes :String = ""
-    var mIpAllowedList = ArrayList<String>()
-//    var mServerSocket: ServerSocket? = null
     var mThreadMakeCon: Thread? = null
     var mMessage: String = ""
     var mMessageIp: String = ""
-
 
     fun start(wiFiIp: Int, monitorIn: Monitor, socketAddress: String, data: RpcSettingsData)
     {
@@ -73,23 +68,10 @@ class RpcExternServer : RpcClient() {
         mWiFiIpInt = wiFiIp
         mClientSocketAddress = socketAddress
         mServerRunning = true
-        try {
-            mServerPort = data.externPort.toInt()
-        } catch (e: Exception)
-        {
-            mServerPort = DEFAULT_PORT
-        }
-        try {
-            mMonitor = monitorIn
-            mExternEnabled = data.externEnabled
-            mExternEncryption = data.externEncryption
-            mExternPasswrd = data.externPasswrd
-            mIpAllowedList = data.ipAllowedList
-        } catch (e: Exception){
-            mIpAllowedList.add("none")
-        }
+        mMonitor = monitorIn
+        mSettingsData = data
 
-        if (mExternEnabled && mWiFiIpInt > 0 ) {
+        if (mSettingsData.externEnabled && mWiFiIpInt > 0 ) {
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
             mThreadMakeCon!!.start()
@@ -136,19 +118,11 @@ class RpcExternServer : RpcClient() {
 
         // Set the new data before the Thread starts
         if (data != null) {
-            mExternEnabled = data.externEnabled
-            mExternEncryption = data.externEncryption
-            mExternPasswrd = data.externPasswrd
-            try {
-                mServerPort = data.externPort.toInt()
-            } catch (e: Exception) {
-                mServerPort = DEFAULT_PORT
-            }
-            mIpAllowedList = data.ipAllowedList
+            mSettingsData = data
         }
 
         // Start the connection thread if enabled and there is WiFi
-        if (mExternEnabled && mWiFiIpInt > 0) {
+        if ((mSettingsData.externEnabled) && mWiFiIpInt > 0) {
             mConnectServerSocket = true // restart the server socket
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
@@ -186,14 +160,19 @@ class RpcExternServer : RpcClient() {
     // Connection Thread
     private val inputs: DataInputStream? = null
     inner class mainThreadLoop : Runnable {
+        val settingsData = mSettingsData
+        val ipAllowedList = settingsData.ipAllowedList
+        var externPasswrdAes = ""
+        var externPasswrd = ""
+
         val boincEol = '\u0003'
         val socketTimeout = 5000
         var serverSocket: ServerSocket? = null
         var connectServerSocket = mConnectServerSocket
         var aes = RpcExternAuthorizeAes()
         var closeDownInterrupt = false
-        var serverPort = mServerPort
-        var encryption = mExternEncryption
+        var serverPort = mSettingsData.externPort
+        var encryption = mSettingsData.externEncryption
         var bAuthorized = false
         val notAuthorizedReply = mRpcExternString.mRpcReplyBegin + "\n" + "\"<unauthorized/>\"" + mRpcExternString.mRpcReplyEnd + "\n" + boincEol
         var authorizedIp = ""
@@ -202,9 +181,10 @@ class RpcExternServer : RpcClient() {
 
         lateinit var wiFiIp: InetAddress
         override fun run() {
-            var key  = mExternPasswrd
+            externPasswrd =  mSettingsData.externPasswrd
+            var key = externPasswrd
             key += "leub[rehf!$&*()a"   // must be identical in the GUI
-            mExternPasswrdAes = key.substring(0, 16) // string must be 16 bytes long. Warning using escaping char like \ may cause problems.
+            externPasswrdAes = key.substring(0, 16) // string must be 16 bytes long. Warning using escaping char like \ may cause problems.
             val wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
             wiFiIp = getByName(wiFiStr)
 
@@ -272,12 +252,12 @@ class RpcExternServer : RpcClient() {
             Thread.sleep(500)  // don't allow flooding
             try {
                 connectedIp = socket.remoteSocketAddress.toString()
-                if (mIpAllowedList.isNotEmpty()) {  // check the ip allow list
+                if (ipAllowedList.isNotEmpty()) {  // check the ip allow list
                     var ip = connectedIp
                     var bFound = false
                     ip = ip.replace("/", "")
                     ip = ip.substringBefore(':')
-                    for (item in mIpAllowedList) {
+                    for (item in ipAllowedList) {
                         if (ip.contains(item)) {
                             bFound = true
                             break
@@ -472,7 +452,7 @@ class RpcExternServer : RpcClient() {
             try {
                 bAuthorized = false
                 if (dataReadTotal.contains("<auth1")) {
-                    reply = mAuthenticateMd5.auth1(mExternPasswrd)  // send the legacy authenticator
+                    reply = mAuthenticateMd5.auth1(externPasswrd)  // send the legacy authenticator
                 } else
                 {
                     if (dataReadTotal.contains("<auth2")) {

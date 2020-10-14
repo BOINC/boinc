@@ -4,6 +4,7 @@ import android.content.*
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -102,9 +103,7 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
         val externAllowIp2 = sharedPreferences.getString("rpcExternAllowIp2", "")!!
         val externAllowIp3 = sharedPreferences.getString("rpcExternAllowIp3", "")!!
         val externAllowIp4 = sharedPreferences.getString("rpcExternAllowIp4", "")!!
-        val dataItem = RpcSettingsData()
-        dataItem.set(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
-        sendToServiceData(dataItem)
+        sendToServiceData(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
     }
 
     fun sendToServiceString(dataItem: String)
@@ -115,24 +114,24 @@ class SettingsFragmentRpcExtern : PreferenceFragmentCompat() , SharedPreferences
         intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
         // make sure this is only send locally but the LocalBroadcast seems to fail
         BOINCActivity.appContext?.sendBroadcast(intent)
-//        LocalBroadcastManager.getInstance(BOINCActivity.appContext!!).sendBroadcast(intent)
+//      LocalBroadcastManager.getInstance(BOINCActivity.appContext!!).sendBroadcast(intent)
     }
 
-    fun sendToServiceData(dataItem: RpcSettingsData)
+    fun sendToServiceData(externEnabled :Boolean, externEncryption : Boolean, externPassword : String, externPort : String, externAllowIp1 : String, externAllowIp2 : String, externAllowIp3 : String, externAllowIp4 : String,)
     {
         val intent = Intent()
         intent.action = "RPC_EXTERN"
-        intent.putExtra("ENABLED", dataItem.externEnabled)
-        intent.putExtra("ENCRYPTION", dataItem.externEncryption)
-        intent.putExtra("PASSWRD", dataItem.externPasswrd)
-        intent.putExtra("PORT", dataItem.externPort)
-        intent.putExtra("IP1", dataItem.ipAllowed1)
-        intent.putExtra("IP2", dataItem.ipAllowed2)
-        intent.putExtra("IP3", dataItem.ipAllowed3)
-        intent.putExtra("IP4", dataItem.ipAllowed4)
+        intent.putExtra("ENABLED", externEnabled)
+        intent.putExtra("ENCRYPTION", externEncryption)
+        intent.putExtra("PASSWRD", externPassword)
+        intent.putExtra("PORT", externPort)
+        intent.putExtra("IP1", externAllowIp1)
+        intent.putExtra("IP2", externAllowIp2)
+        intent.putExtra("IP3", externAllowIp3)
+        intent.putExtra("IP4", externAllowIp4)
 
         intent.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-        // make sure this is only send locally but the LocalBroadcast seems to fail
+        // TODO eFMer  make sure this is only send locally but LocalBroadcast is deprecated
         BOINCActivity.appContext?.sendBroadcast(intent)
 //        LocalBroadcastManager.getInstance(BOINCActivity.appContext!!).sendBroadcast(intent)
     }

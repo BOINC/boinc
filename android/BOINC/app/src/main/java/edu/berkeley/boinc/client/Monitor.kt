@@ -33,6 +33,7 @@ import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.BOINCApplication
 import edu.berkeley.boinc.BuildConfig
@@ -213,8 +214,7 @@ class Monitor : LifecycleService() {
         intentFilter.addAction(NETWORK_STATE_CHANGED_ACTION)
         intentFilter.addAction("RPC_EXTERN")
         registerReceiver(mRpcExternBroadCastReceiver, intentFilter)
- //       registerReceiver(mRpcExternBroadCastReceiver, IntentFilter("RPC_EXTERN"))
-
+//      LocalBroadcastManager.getInstance(this).registerReceiver(mRpcExternBroadCastReceiver,intentFilter)
     }
 
     override fun onDestroy() {
@@ -234,6 +234,7 @@ class Monitor : LifecycleService() {
         }
 
         // RpcExtern receiver remove
+//      LocalBroadcastManager.getInstance(this).unregisterReceiver(mRpcExternBroadCastReceiver)
         unregisterReceiver(mRpcExternBroadCastReceiver)
 
         updateBroadcastEnabled = false // prevent broadcast from currently running update task
@@ -865,7 +866,10 @@ class Monitor : LifecycleService() {
     }
 
     // RpcExtern
-    val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
+ //   val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
+
+        private val mRpcExternBroadCastReceiver = RpcExternBroadcastReceiver()
+        inner class RpcExternBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             try {
                 val action : String = intent!!.action.toString()

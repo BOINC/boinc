@@ -2,12 +2,12 @@ package edu.berkeley.boinc.rpcExtern
 
 // there should be no need to make this public but the compiler thinks otherwise
 public class RpcSettingsData {
-
+    val DEFAULT_PORT = 31416
     var validData = false
     var externEnabled = false
     var externEncryption = true
     var externPasswrd :String = ""
-    var externPort : String = "31416"
+    var externPort = DEFAULT_PORT
     var ipAllowed1 = ""
     var ipAllowed2 = ""
     var ipAllowed3 = ""
@@ -21,7 +21,18 @@ public class RpcSettingsData {
         externEnabled = enabled
         externEncryption = encryption
         externPasswrd = passwrd
-        externPort = port
+
+        try {
+            if (port.isNotEmpty()) {
+                externPort = port.toInt()
+            }
+            else
+            {
+                var externPort = DEFAULT_PORT
+            }
+        } catch (e: Exception) {
+            externPort = DEFAULT_PORT
+        }
 
         ipAllowed1 = ip1
         ipAllowed2 = ip2
