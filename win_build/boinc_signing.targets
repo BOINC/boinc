@@ -1,6 +1,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup>
-        <FilesToSign Include="$(OutDir)$(TargetName)$(TargetExt)" Condition="('$(TargetExt)' == '.exe' or '$(TargetExt)' == '.dll')"/>
+        <FilesToSign Include="$(OutDir)$(TargetName)$(TargetExt)" Condition="('$(TargetExt)' == '.exe' or '$(TargetExt)' == '.dll' or '$(TargetExt)' == '.scr')"/>
     </ItemGroup>
     <Target Name="Signing" DependsOnTargets="Build" AfterTargets="Build" Condition="('@(FilesToSign)' != '' and Exists('$(BUILDCODESIGN)\boinc.pfx'))">
         <Exec Command='signtool sign /f "$(BUILDCODESIGN)/boinc.pfx" /p "$(CODESIGNBOINC)" /d "BOINC Client Software" /du "http://boinc.berkeley.edu" /t "http://timestamp.verisign.com/scripts/timstamp.dll" "@(FilesToSign)"' WorkingDirectory="$(MSBuildProjectDirectory)"/>
