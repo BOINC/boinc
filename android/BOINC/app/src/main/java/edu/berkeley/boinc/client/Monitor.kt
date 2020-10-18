@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.net.wifi.SupplicantState
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION
@@ -33,7 +32,6 @@ import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.BOINCApplication
 import edu.berkeley.boinc.BuildConfig
@@ -248,6 +246,12 @@ class Monitor : LifecycleService() {
         } catch (e: Exception) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Monitor.onDestroy error: ", e)
         }
+    }
+
+    // https://robertohuertas.com/2019/06/29/android_foreground_services/
+    override fun onTaskRemoved(rootIntent: Intent) {
+        super.onTaskRemoved(rootIntent);
+        // closes without calling onDestroy when user selects close all
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
