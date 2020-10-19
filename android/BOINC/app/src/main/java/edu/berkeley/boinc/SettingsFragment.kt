@@ -194,17 +194,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
 
-            /* TODO eFMer remove at some point
-            "rpcAllow" -> {
-                val rpcExternSettings = RpcExternSettings()
-                val context: Context? = this.getContext()
-                if (context != null) {
-                    rpcExternSettings.test(context)
-                }
-            }
-
-             */
-
             // Debug
             "clientLogFlags" -> {
                 lifecycleScope.launch {

@@ -319,6 +319,12 @@
         Corporation for their support.
     </string>
 
+    <!-- exit dialog -->
+    <string name="exit_app_title">Exit BOINC for Android</string>
+    <string name="exit_app_msg">Click Yes to close the app and all running BOINC Tasks</string>
+    <string name="exit_app_yes">Yes</string>
+    <string name="exit_app_no">No</string>
+
     <!-- notice notification e.g. New notice from SETI@HOME OR 3 new notices -->
     <plurals name="notice_notification">
         <item quantity="one">New notice from %1$s</item>

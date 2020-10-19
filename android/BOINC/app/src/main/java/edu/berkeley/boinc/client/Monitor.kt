@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.client
 
+import android.app.NotificationManager
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -29,6 +30,7 @@ import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION
 import android.os.*
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
@@ -246,11 +248,20 @@ class Monitor : LifecycleService() {
         } catch (e: Exception) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Monitor.onDestroy error: ", e)
         }
+        stopForegroundService()
+    }
+
+    private fun stopForegroundService() {
+        // Stop foreground service and remove the notification.
+        stopForeground(true)
+        ContextCompat.getSystemService(this, NotificationManager::class.java)!!.cancelAll() // the above seems to fail
+        // Stop the foreground service.
+        stopSelf()
     }
 
     // https://robertohuertas.com/2019/06/29/android_foreground_services/
     override fun onTaskRemoved(rootIntent: Intent) {
-        super.onTaskRemoved(rootIntent);
+        super.onTaskRemoved(rootIntent)
         // closes without calling onDestroy when user selects close all
     }
 

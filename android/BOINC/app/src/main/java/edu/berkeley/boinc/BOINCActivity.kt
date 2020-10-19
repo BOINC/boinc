@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.app.Service
 import android.content.*
@@ -38,7 +39,6 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceFragmentCompat
 import edu.berkeley.boinc.R.*
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
@@ -51,29 +51,13 @@ import edu.berkeley.boinc.rpcExtern.fragment.SettingsFragmentRpcExtern
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
+
 
 // get Context using BOINCActivity.appContext
 
 class BOINCActivity : AppCompatActivity() {
     private var clientComputingStatus = -1
     private var numberProjectsInNavList = 0
-
-    // rpcExtern from Service
-    // https://stackoverflow.com/questions/45392037/broadcast-receiver-in-kotlin
-    // right now this isn't used but recieved in SettingsFragmentRpcExtern
-    /*
-    val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-            try {
-                var connectionStatus: String? = intent!!.getStringExtra("data")
-            } catch (e : Exception)
-            {
-            }
-        }
-    }
-    public var mSettinsFragmentRpcExtern : PreferenceFragmentCompat? = null
-*/
 
     // app title (changes with nav bar selection)
     private var mTitle: CharSequence? = null
@@ -123,7 +107,7 @@ class BOINCActivity : AppCompatActivity() {
         mDrawerTitle = title
         mTitle = mDrawerTitle
         binding.drawerList.onItemClickListener =
-                OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
+                OnItemClickListener {_: AdapterView<*>?, _: View?, position: Int, _: Long ->
             // display view for selected nav drawer item
             dispatchNavBarOnClick(mDrawerListAdapter.getItem(position), false)
         }
@@ -191,12 +175,15 @@ class BOINCActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BOINCActivity onDestroy()")
         }
-        // RpcExtern receiver remove
-//        unregisterReceiver(mRpcExternBroadCastReceiver)
-
         doUnbindService()
         super.onDestroy()
     }
+
+    // Pressing back, give the option to exit the app.
+    override fun onBackPressed() {
+        showExitWarning()
+    }
+
 
     override fun onNewIntent(intent: Intent) {
         if (Logging.DEBUG) {
@@ -238,7 +225,12 @@ class BOINCActivity : AppCompatActivity() {
 
     private fun doBindService() {
         // start service to allow setForeground later on...
-        startService(Intent(this, Monitor::class.java))
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, Monitor::class.java))
+        }
+        else {
+            startService(Intent(this, Monitor::class.java))
+        }
         // Establish a connection with the service, onServiceConnected gets called when
         bindService(Intent(this, Monitor::class.java), mConnection, Service.BIND_AUTO_CREATE)
     }
@@ -307,7 +299,7 @@ class BOINCActivity : AppCompatActivity() {
                             Log.w(Logging.TAG, "version name not found.")
                         }
                     }
-                    returnB.setOnClickListener { dialog.dismiss() }
+                    returnB.setOnClickListener {dialog.dismiss()}
                     dialog.show()
                 }
                 string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
@@ -478,6 +470,36 @@ class BOINCActivity : AppCompatActivity() {
             Log.w(Logging.TAG, "BOINCActivity setting run and network mode failed")
         }
     }
+
+    private fun stopService()
+    {
+        stopService(Intent(this, Monitor::class.java))
+    }
+
+    // A warning before exiting
+    private fun showExitWarning(){
+        lateinit var dialog:AlertDialog
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(string.exit_app_title))
+        builder.setMessage(getString(string.exit_app_msg))
+        val dialogClickListener = DialogInterface.OnClickListener{_, which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> {
+                    stopService()
+                    finish()   // unbinds the service and exit the app
+                }
+                DialogInterface.BUTTON_NEGATIVE -> {
+                }  // no nothing
+ //               DialogInterface.BUTTON_NEUTRAL -> toast("Neutral/Cancel button clicked.")
+            }
+        }
+        builder.setPositiveButton(getString(string.exit_app_yes), dialogClickListener)
+        builder.setNegativeButton(getString(string.exit_app_no), dialogClickListener)
+        dialog = builder.create()
+        dialog.show()
+    }
+
+
 
     companion object {
         @JvmField
