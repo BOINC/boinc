@@ -20,37 +20,6 @@
 #ifndef BOINC_GUI_RPC_CLIENT_H
 #define BOINC_GUI_RPC_CLIENT_H
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#endif
-#include "config.h"
-
-#if !defined(_WIN32) || defined (__CYGWIN__)
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <sys/socket.h>
-#include <sys/param.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#endif
-
-#include <locale.h>
-
-#include <deque>
-
-#include "cc_config.h"
-#include "common_defs.h"
-#include "filesys.h"
-#include "hostinfo.h"
-#include "keyword.h"
-#include "miofile.h"
-#include "network.h"
-#include "notice.h"
-#include "prefs.h"
-
 struct GUI_URL {
     std::string name;
     std::string description;

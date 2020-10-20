@@ -23,8 +23,6 @@
 #include <string.h>
 #include <errno.h>
 
-#include "config.h"
-
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"

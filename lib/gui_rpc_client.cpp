@@ -27,8 +27,13 @@
 #include <sys/time.h>
 #endif
 #include <sys/types.h>
+#include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <cstdio>
 #include <unistd.h>
 #include <cstdlib>
@@ -36,15 +41,22 @@
 #include <cstddef>
 #endif
 
+#include <deque>
+
+#include "cc_config.h"
+#include "common_defs.h"
 #include "diagnostics.h"
+#include "error_numbers.h"
+#include "hostinfo.h"
+#include "md5_file.h"
+#include "miofile.h"
+#include "network.h"
+#include "keyword.h"
+#include "notice.h"
 #include "parse.h"
+#include "prefs.h"
 #include "str_util.h"
 #include "util.h"
-#include "error_numbers.h"
-#include "miofile.h"
-#include "md5_file.h"
-#include "network.h"
-#include "common_defs.h"
 
 #include "gui_rpc_client.h"
 

@@ -25,6 +25,7 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/param.h>
 #include <sys/un.h>
 #include <cstdio>
 #include <unistd.h>
@@ -33,12 +34,19 @@
 #include <cstring>
 #endif
 
+#include <deque>
+
+#include "cc_config.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
+#include "hostinfo.h"
 #include "md5_file.h"
 #include "miofile.h"
+#include "keyword.h"
 #include "network.h"
+#include "notice.h"
 #include "parse.h"
+#include "prefs.h"
 #include "str_util.h"
 #include "util.h"
 

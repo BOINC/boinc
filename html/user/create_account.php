@@ -40,13 +40,19 @@ if (parse_bool($config, "disable_account_creation_rpc")) {
     if (parse_bool($config, "no_web_account_creation")) {
         xml_error(-1, "The project is not accepting new accounts.");
     } else {
-        xml_error(-1, "Please visit the project web site to create an account, then try again.");
+        xml_error(-1, "Please visit the project web site to create an account.");
     }
 }
 
 if (defined('INVITE_CODES')) {
     $invite_code = get_str("invite_code");
     if (!preg_match(INVITE_CODES, $invite_code)) {
+        xml_error(-1, "Invalid invitation code");
+    }
+} 
+if (defined('INVITE_CODES_RPC')) {
+    $invite_code = get_str("invite_code");
+    if (!preg_match(INVITE_CODES_RPC, $invite_code)) {
         xml_error(-1, "Invalid invitation code");
     }
 } 
@@ -93,8 +99,7 @@ if ($user) {
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
 
     // Projects can require explicit consent for account creation
-    // by setting "account_creation_rpc_require_consent" to 1 in
-    // config.xml
+    // by setting "account_creation_rpc_require_consent" to 1 in config.xml
     //
     if (parse_bool($config, "account_creation_rpc_require_consent")) {
         // Consistency checks
