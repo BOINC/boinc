@@ -60,23 +60,17 @@
 
 #include <deque>
 
-#include "cc_config.h"
 #include "common_defs.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
-#include "hostinfo.h"
-#include "keyword.h"
+#include "gui_rpc_client.h"
 #include "md5_file.h"
 #include "miofile.h"
 #include "network.h"
-#include "notice.h"
 #include "parse.h"
-#include "prefs.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-
-#include "gui_rpc_client.h"
 
 using std::string;
 using std::vector;

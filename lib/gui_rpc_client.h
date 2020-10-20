@@ -20,6 +20,16 @@
 #ifndef BOINC_GUI_RPC_CLIENT_H
 #define BOINC_GUI_RPC_CLIENT_H
 
+#include <sys/param.h>
+#include <deque>
+#include <netdb.h>
+
+#include "cc_config.h"
+#include "hostinfo.h"
+#include "keyword.h"
+#include "notice.h"
+#include "prefs.h"
+
 struct GUI_URL {
     std::string name;
     std::string description;
