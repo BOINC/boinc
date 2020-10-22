@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -17,23 +17,24 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
     <LinearLayout
+            style="@style/BackgroundDayNight"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/shape_light_blue_background"
             android:gravity="center_vertical">
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/attentionb"
+                app:srcCompat="@drawable/ic_baseline_warning"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/confirm_image_desc"/>
 
@@ -41,11 +42,12 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
                 android:singleLine="true"
-                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="@android:color/transparent"/>
+                android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
 
@@ -55,7 +57,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@android:color/transparent"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:padding="10dp"/>
 
     <LinearLayout
@@ -72,7 +74,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_blue"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/confirm_cancel"
                 android:layout_weight="0.5"/>
@@ -86,7 +88,7 @@
                 android:focusable="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/shape_button_red"
-                android:textColor="@color/white_smoke"
+                android:textColor="@android:color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_weight="0.5"/>
 

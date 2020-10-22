@@ -20,7 +20,7 @@
 // Platform-independent code should NOT be here.
 //
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"

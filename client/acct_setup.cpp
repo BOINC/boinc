@@ -38,12 +38,12 @@
 #include "acct_setup.h"
 
 void ACCOUNT_IN::parse(XML_PARSER& xp) {
-    url = "";
-    email_addr = "";
-    passwd_hash = "";
-    user_name = "";
-    team_name = "";
-    server_cookie = "";
+    url.clear();
+    email_addr.clear();
+    passwd_hash.clear();
+    user_name.clear();
+    team_name.clear();
+    server_cookie.clear();
     ldap_auth = false;
     server_assigned_cookie = false;
     consented_to_terms = false;

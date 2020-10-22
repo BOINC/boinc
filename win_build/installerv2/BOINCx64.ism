@@ -1819,7 +1819,6 @@
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
-		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
 		<row><td>zlib1.dll</td><td>_BOINCDepends</td><td>zlib1.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zlib1.dll</td><td>1</td><td/></row>
 	</table>
@@ -2460,7 +2459,7 @@
 		<row><td>WEBx64</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx64</td><td>ProductName</td><td/></row>
 		<row><td>WEBx64</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.16.7_windows_x86_64</td></row>
+		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.16.11_windows_x86_64</td></row>
 		<row><td>WEBx64</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4551,11 +4550,11 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{E0D51D13-725A-40A5-96D6-D95448D01CCB}</td><td/></row>
+		<row><td>ProductCode</td><td>{466F675C-6F57-4B63-AECF-29C62BDF58B0}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
-		<row><td>ProductVersion</td><td>7.16.7</td><td/></row>
+		<row><td>ProductVersion</td><td>7.16.11</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>

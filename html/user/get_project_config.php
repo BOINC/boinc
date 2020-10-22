@@ -68,7 +68,7 @@ echo "<project_config>
 
 echo "<server_version>$server_version_str</server_version>\n";
 
-if (parse_config($config, "<account_manager>")) {
+if (parse_bool($config, "account_manager")) {
     echo "    <account_manager/>\n";
 }
 

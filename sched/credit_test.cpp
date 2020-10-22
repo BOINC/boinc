@@ -360,7 +360,12 @@ int main(int argc, char** argv) {
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
-    if (retval) {printf("no db\n"); exit(1);}
+    if (retval) {
+        fprintf(stderr, "can't open db: %s\n",
+            boinc_db.error_string()
+        );
+        exit(1);
+    }
 
     read_db();
 

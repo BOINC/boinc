@@ -9,8 +9,6 @@
   also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
 
-#include "../zip.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -20,6 +18,7 @@
 /* for LARGE_FILE_SUPPORT but may not be needed */
 #include <io.h>
 
+#include "../zip.h"
 
 /* --------------------------------------------------- */
 /* Large File Support

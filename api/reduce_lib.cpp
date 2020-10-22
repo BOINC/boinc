@@ -17,14 +17,11 @@
 
 // shared-library part of the implementation of REDUCE
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
+#include <GL/gl.h>
 #else
 #include "config.h"
-#endif
-
-#ifdef _WIN32
-#include <GL/gl.h>
 #endif
 
 #include <algorithm>
@@ -188,7 +185,7 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 		for (i=0; i<rdimx; i++) {
 			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
 			x1 = x0 + draw_deltax*.8f;
-			float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+			h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
 			y1 = draw_pos[1] + draw_size[1]*h;
 #ifdef DRAW_ROW_WITH_LINES

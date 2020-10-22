@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Ielādējas! Lūdzu, uzgaidiet...</string>
     <string name="generic_button_continue">Turpināt</string>
     <string name="generic_button_finish">Beigt</string>
     <!--attach project-->
@@ -13,9 +12,6 @@
     <string name="attachproject_list_header">Izvēlieties projektu</string>
     <string name="attachproject_list_manual_button">Pievienot projektu pēc URL</string>
     <string name="attachproject_list_manual_dialog_title">Ievadīt projekta URL:</string>
-    <string name="attachproject_list_manual_dialog_button">Pievienot projektu</string>
-    <string name="attachproject_list_manual_no_url">Lūdzu, ievadiet projekta URL</string>
-    <string name="attachproject_list_acctmgr_button">Pievienot konta menedžeri</string>
     <string name="attachproject_list_no_internet">Nav savienojuma ar Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Ievadiet konta informāciju</string>
@@ -32,7 +28,7 @@
         lai to reģistrētu
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Pievienojas</string>
+    <string name="attachproject_working_attaching">Pievienojas %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Mājiens</string>
@@ -50,43 +46,17 @@
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">Sazinās ar projekta serveri...</string>
-    <string name="attachproject_login_image_description">Projekta logo.</string>
     <string name="attachproject_login_header_general_area">Nozare:</string>
     <string name="attachproject_login_header_specific_area">Apakšnozare:</string>
     <string name="attachproject_login_header_description">Apraksts:</string>
     <string name="attachproject_login_header_home">Mājas:</string>
     <string name="attachproject_login_header_url">Tīmekļa vietne:</string>
-    <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">Projekts atbalsta šo ierīces tipu</string>
-    <string name="attachproject_login_platform_not_supported">Projekts neatbalsta šo ierīci</string>
-    <string name="attachproject_login_category_terms_of_use">Lietošanas nosacījumi</string>
-    <string name="attachproject_login_accept_terms_of_use">Izveidojot projektā lietotāja kontu, Jūs piekrītat augstāk
-        redzamiem lietošanas nosacījumiem.
-    </string>
-    <string name="attachproject_login_category_login">Pierakstīties ar esošu kontu</string>
     <string name="attachproject_login_header_id_email">ePasts:</string>
     <string name="attachproject_login_header_id_name">Vārds:</string>
     <string name="attachproject_login_header_pwd">Parole:</string>
-    <string name="attachproject_login_category_creation">Jauns</string>
-    <string name="attachproject_login_header_creation_enabled">Reģistrēt kontu, lai piedalītos:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Apmeklēt projekta tīmekļa vietni, lai izveidotu
-        kontu:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">Projekts pašlaik nepieņem jaunus kontus.</string>
     <string name="attachproject_login_button_registration">Reģistrēties</string>
     <string name="attachproject_login_button_login">Pieteikties</string>
     <string name="attachproject_login_button_forgotpw">Aizmirsu paroli</string>
-    <string name="attachproject_login_error_toast">Neizdevās sazināties ar projektu!</string>
-    <string name="attachproject_login_attached">Pievienots</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Konta reģistrēšana priekš</string>
-    <string name="attachproject_registration_header_url">Projekts:</string>
-    <string name="attachproject_registration_header_email">ePasts:</string>
-    <string name="attachproject_registration_header_username">Vārds:</string>
-    <string name="attachproject_registration_header_teamname">Komanda:</string>
-    <string name="attachproject_registration_header_pwd">Parole:</string>
-    <string name="attachproject_registration_header_pwd_confirm">... Atkārtoti:</string>
-    <string name="attachproject_registration_button">Izveidot</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Lietot BOINC kontu menedžeri, lai pievienotu un pārvaldītu vairākus
         projektus
@@ -95,14 +65,10 @@
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Lietotājs:</string>
     <string name="attachproject_acctmgr_header_pwd">Parole:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">... Atkārtoti:</string>
-    <string name="attachproject_acctmgr_button">Pievienot</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">Lietotājs nav atrasts</string>
     <string name="attachproject_error_short_pwd">Parole pārāk īsa</string>
     <string name="attachproject_error_no_internet">Savienojums neizdevās</string>
-    <string name="attachproject_error_pwd_no_match">Paroles nesakrīt</string>
-    <string name="attachproject_error_pwd_no_retype">Lūdzu, ievadiet paroli atkārtoti</string>
     <string name="attachproject_error_no_url">Lūdzu, ievadiet URL</string>
     <string name="attachproject_error_no_email">Lūdzu, ievadiet ePasta adresi</string>
     <string name="attachproject_error_no_pwd">Lūdzu, ievadiet paroli</string>
@@ -115,26 +81,6 @@
     <string name="attachproject_error_bad_pwd">Parole noraidīta</string>
     <string name="attachproject_error_creation_disabled">Kontu izveide šajā projektā ir atspējota</string>
     <string name="attachproject_error_invalid_url">Nederīgs URL</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Atpakaļ</string>
-    <string name="attachproject_working_finish_button">Beigt</string>
-    <string name="attachproject_working_check_desc">Izdevās sekmīgi</string>
-    <string name="attachproject_working_failed_desc">Neizdevās</string>
-    <string name="attachproject_working_ongoing">…</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Savienoties</string>
-    <string name="attachproject_working_verify">Pārbaudīt kontu</string>
-    <string name="attachproject_working_register">Reģistrēt kontu</string>
-    <string name="attachproject_working_login">Pieteikties</string>
-    <string name="attachproject_working_acctmgr">Pievienot konta menedžeri</string>
-    <string name="attachproject_working_acctmgr_sync">Sinhronizēt</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Pieskarieties šeit, lai izvēlētos projektu.</string>
-    <string name="main_error">Ooops</string>
-    <string name="main_error_long">...šim nevajadzēja atgadīties!\nNoklikšķiniet uz ikonas, lai mēģinātu vēlreiz.
-    </string>
-    <string name="main_title_icon_desc">BOINC ikona</string>
     <!--tab names-->
     <string name="tab_status">Statuss</string>
     <string name="tab_projects">Projekti</string>
@@ -155,14 +101,9 @@
     </string>
     <string name="status_launching">Startējas...</string>
     <string name="status_noproject">Izvēlieties projektu, kurā piedalīties.</string>
-    <string name="status_closing">Aizver...</string>
     <string name="status_benchmarking">Veiktspējas mērījumi...</string>
     <string name="status_image_description">projekta attēls</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Nolasa preferences...</string>
-    <string name="prefs_submit_button">Saglabāt</string>
-    <string name="prefs_dialog_title">Ievadiet jauno vērtību:</string>
-    <string name="prefs_dialog_title_selection">Izvēlieties:</string>
     <string name="prefs_category_general">Vispārējais</string>
     <string name="prefs_category_network">Tīkls</string>
     <string name="prefs_category_power">Enerģija</string>
@@ -192,13 +133,10 @@
         Šo vērtību nav ieteicams mainīt.
     </string>
     <string name="prefs_disk_max_pct_header">Maks. izmantojamā vieta krātuvē</string>
-    <string name="prefs_disk_max_pct_description">Cik procentus no ierīces krātuves vietas BOINC drīkst lietot?</string>
     <string name="prefs_disk_min_free_gb_header">Cik min. jāatstāj brīvs</string>
-    <string name="prefs_disk_min_free_gb_description">Cik daudz jūsu ierīces krātuves vietai jāpaliek brīvai?</string>
     <string name="prefs_disk_access_interval_header">Piekļūšanas intervāls</string>
     <string name="prefs_disk_access_interval_description">Iesaka piekļūšanas intervālu diskam</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Pārsūtīšanas limits dienā</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ierobežo datu plūsmu, ko dienā izraisa BOINC.</string>
     <string name="prefs_network_wifi_only_header">Uzdevumu pārsūtīšanai izmantot tikai WiFi</string>
     <string name="prefs_autostart_header">Autostartēšanās</string>
     <string name="prefs_show_notification_notices_header">Rādīt paziņojumus jauniem paziņojumiem</string>
@@ -216,10 +154,7 @@
     <string name="prefs_client_log_flags_header">BOINC klienta žurnāla karodziņi</string>
     <string name="prefs_gui_log_level_header">GUI žurnalēšanas līmenis</string>
     <string name="prefs_gui_log_level_description">Nosaka, cik detalizēti tiks rakstīti GUI notikumi žurnālā.</string>
-    <string name="prefs_unit_celsius">°C</string>
-    <string name="prefs_unit_seconds">sek.</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Nolasa projektus...</string>
     <string name="projects_add">Pievienot projektu</string>
     <string name="projects_icon">Projekta ikona</string>
     <string name="projects_credits">Kredīts:</string>
@@ -232,7 +167,7 @@
     <string name="projects_status_schedrpcpending">Gaida plānotāja pieprasījuma rezultātu</string>
     <string name="projects_status_schedrpcinprogress">Izveic plānotāja pieprasījumu</string>
     <string name="projects_status_trickleuppending">Gaida uzsūkšanās ziņu</string>
-    <string name="projects_status_backoff">Saziņa ieplānota pēc:</string>
+    <string name="projects_status_backoff">Saziņa ieplānota pēc: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekta komandas:</string>
     <string name="projects_control_visit_website">Apmeklēt tīmekļa vietni</string>
@@ -276,29 +211,20 @@
     <string name="tasks_custom_ready_to_report">gatavs ziņošanai</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">Vai atteikties no uzdevuma?</string>
-    <string name="confirm_abort_task_message">Atteikties no uzdevuma:</string>
+    <string name="confirm_abort_task_message">Atteikties no uzdevuma: %1$s</string>
     <string name="confirm_abort_task_confirm">Pārtraukt</string>
     <string name="confirm_cancel">Atcelt</string>
     <string name="confirm_image_desc">Apstiprināšanas logs</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Gatavojas pārsūtīšanai...</string>
     <string name="trans_upload">Augšupielāde</string>
     <string name="trans_download">Lejupielāde</string>
-    <string name="trans_retryin">atkārtos pēc</string>
-    <string name="trans_failed">neizdevās</string>
+    <string name="trans_retry_in">atkārtos pēc %1$s</string>
     <string name="trans_suspended">atlikts</string>
     <string name="trans_active">aktīvs</string>
     <string name="trans_pending">gaida</string>
-    <string name="trans_projectbackoff">projekts liek uzgaidīt</string>
     <string name="trans_header_name">Fails:</string>
     <string name="trans_control_retry">Atkārtot pārsūtīšanu</string>
-    <string name="confirm_abort_trans_title">Vai pārtraukt pārsūtīšanu?</string>
-    <string name="confirm_abort_trans_message">Pārtraukt failu:</string>
-    <string name="confirm_abort_trans_confirm">Pārtraukt</string>
-    <!--notices tab strings-->
-    <string name="notices_loading">Apkopo ziņojumus...</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Nolasa žurnāla ierakstus...</string>
     <string name="eventlog_client_header">Klienta ziņojumi</string>
     <string name="eventlog_gui_header">GUI ziņojumi</string>
     <string name="eventlog_copy_toast">Žurnāls iekopēts starpliktuvē.</string>
@@ -309,7 +235,6 @@
     <string name="suspend_screen_on">Izslēdziet ekrānu, lai turpinātu skaitļot.</string>
     <string name="suspend_useractive">Lietotājs ir aktīvs.</string>
     <string name="suspend_tod">Skaitļošanas laiks iztecējis.</string>
-    <string name="suspend_bm">BOINC veic jūsu ierīces veiktspējas testus...</string>
     <string name="suspend_disksize">Vairs nav brīvas diska vietas.</string>
     <string name="suspend_cputhrottle">Ieplānotā CPU bremzēšana.</string>
     <string name="suspend_noinput">Nav nesenu lietotāja aktivitāšu.</string>
@@ -322,11 +247,8 @@
     <string name="suspend_battery_charging">Gaida līdz akumulators uzlādēsies.</string>
     <string name="suspend_battery_charging_long">Skaitļošana atsāksies, kad akumulatora uzlādes līmenis sasniegs
     </string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">pašlaik</string>
     <string name="suspend_battery_overheating">Gaida līdz atdzisīs akumulators</string>
     <string name="suspend_user_req">Atsāk skaitļošanu...</string>
-    <string name="suspend_network_user_req">manuāli.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">Lietotāja pieprasīts</string>
     <string name="rpcreason_needwork">Saņemt jaunus uzdevumus</string>

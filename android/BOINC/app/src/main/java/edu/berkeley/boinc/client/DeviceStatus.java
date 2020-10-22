@@ -18,22 +18,31 @@
  */
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.rpc.DeviceStatusData;
-import edu.berkeley.boinc.utils.*;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-public class DeviceStatus {
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import edu.berkeley.boinc.rpc.DeviceStatusData;
+import edu.berkeley.boinc.utils.Logging;
+
+@Singleton
+public class DeviceStatus {
     // variables describing device status in RPC
-    private DeviceStatusData status = new DeviceStatusData();
+    private DeviceStatusData status;
 
     // additional device status
     // true, if operating in stationary device mode
@@ -44,7 +53,7 @@ public class DeviceStatus {
 
     // android specifics
     // context required for reading device status
-    private Context ctx;
+    private Context context;
     // connManager contains current wifi status
     private ConnectivityManager connManager;
     // telManager to retrieve call state
@@ -57,14 +66,17 @@ public class DeviceStatus {
     /**
      * Constructor. Needs to be called before calling update.
      *
-     * @param ctx Application Context
+     * @param context Application Context
      */
-    public DeviceStatus(Context ctx, AppPreferences appPrefs) {
-        this.ctx = ctx;
-        this.connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-        this.batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    @Inject
+    DeviceStatus(Context context, AppPreferences appPrefs, DeviceStatusData status) {
+        this.context = context;
+        this.status = status;
         this.appPrefs = appPrefs;
+
+        connManager = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        telManager = ContextCompat.getSystemService(context, TelephonyManager.class);
+        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     /**
@@ -75,25 +87,21 @@ public class DeviceStatus {
      * @throws Exception if error occurs
      */
     public DeviceStatusData update(Boolean screenOn) throws Exception {
-        if(ctx == null) {
+        if(context == null) {
             throw new Exception("DeviceStatus: can not update, Context not set.");
         }
         this.screenOn = screenOn;
 
-        Boolean change = determineBatteryStatus();
-        change = change | determineNetworkStatus();
-        change = change | determineUserActive();
+        boolean change = determineBatteryStatus();
+        change |= determineNetworkStatus();
+        change |= determineUserActive();
 
-        if(change) {
-            if(Logging.DEBUG) {
-                Log.i(Logging.TAG, "change: " + change +
-                                   " - stationary device: " + stationaryDeviceMode +
-                                   " ; ac: " + status.on_ac_power +
-                                   " ; level: " + status.battery_charge_pct +
-                                   " ; temperature: " + status.battery_temperature_celsius +
-                                   " ; wifi: " + status.wifi_online +
-                                   " ; user active: " + status.user_active);
-            }
+        if(change && Logging.DEBUG) {
+            Log.i(Logging.TAG,
+                  "change: " + " - stationary device: " + stationaryDeviceMode + " ; ac: " +
+                  status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
+                  " ; temperature: " + status.getBatteryTemperatureCelsius() + " ; wifi: " +
+                  status.isWiFiOnline() + " ; user active: " + status.isUserActive());
         }
 
         return status;
@@ -116,7 +124,7 @@ public class DeviceStatus {
      *
      * @return true, if Android indicates absence of battery
      */
-    public Boolean isStationaryDeviceSuspected() {
+    boolean isStationaryDeviceSuspected() {
         return stationaryDeviceSuspected;
     }
 
@@ -127,10 +135,9 @@ public class DeviceStatus {
      * - screen is on AND preference "suspendWhenScreenOn" set AND NOT preference "stationaryDeviceMode" set
      *
      * @return true, if change since last run
-     * @throws Exception if error occurs
      */
-    private Boolean determineUserActive() throws Exception {
-        Boolean newUserActive = status.user_active;
+    private boolean determineUserActive() {
+        boolean newUserActive;
         int telStatus = telManager.getCallState();
 
         if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
@@ -140,8 +147,8 @@ public class DeviceStatus {
             newUserActive = (screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode());
         }
 
-        if(status.user_active != newUserActive) {
-            status.user_active = newUserActive;
+        if(status.isUserActive() != newUserActive) {
+            status.setUserActive(newUserActive);
             return true;
         }
 
@@ -149,36 +156,62 @@ public class DeviceStatus {
     }
 
     /**
-     * Determines type of currently active network. Treats Ethernet as Wifi.
+     * Determines type of currently active network. Treats Ethernet as WiFi.
      *
-     * @return true, if change since last run
-     * @throws Exception if error occurs
+     * @return true, if changed since last run
      */
-    private Boolean determineNetworkStatus() throws Exception {
-        Boolean change = false;
-        NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
-        int networkType = -1;
-        if(activeNetwork != null) {
-            networkType = activeNetwork.getType();
-        }
-        if(networkType == ConnectivityManager.TYPE_WIFI || networkType == 9) { // 9 = ConnectivityManager.TYPE_ETHERNET
-            //wifi or ethernet is online
-            if(!status.wifi_online) {
-                change = true; // if different from before, set flag
-                if(Logging.ERROR) {
-                    Log.d(Logging.TAG, "Unlmited internet connection - wifi or ethernet - found. type: " + networkType);
-                }
-            }
-            status.wifi_online = true;
+    private boolean determineNetworkStatus() {
+        boolean change = false;
+        final boolean isWiFiOrEthernet;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isWiFiOrEthernet = isNetworkTypeWiFiOrEthernetOnAPI23AndHigher();
         }
         else {
-            //wifi and ethernet are offline
-            if(status.wifi_online) {
+            int networkType = -1;
+            final NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+            if(activeNetwork != null) {
+                networkType = activeNetwork.getType();
+            }
+            isWiFiOrEthernet = networkType == ConnectivityManager.TYPE_WIFI ||
+                               networkType == ConnectivityManager.TYPE_ETHERNET;
+        }
+
+        if(isWiFiOrEthernet) {
+            // WiFi or ethernet is online
+            if(!status.isWiFiOnline()) {
+                change = true; // if different from before, set flag
+                if(Logging.ERROR) {
+                    Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
+                }
+            }
+            status.setWiFiOnline(true);
+        }
+        else {
+            // WiFi and ethernet are offline
+            if(status.isWiFiOnline()) {
                 change = true; // if different from before, set flag
             }
-            status.wifi_online = false;
+            status.setWiFiOnline(false);
         }
+
         return change;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isNetworkTypeWiFiOrEthernetOnAPI23AndHigher() {
+        final Network network = connManager.getActiveNetwork();
+
+        if (network != null) {
+            final NetworkCapabilities networkCapabilities = connManager
+                    .getNetworkCapabilities(network);
+            if (networkCapabilities != null) {
+                return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                       networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -187,10 +220,10 @@ public class DeviceStatus {
      * @return true, if change since last run
      * @throws Exception if error occurs
      */
-    private Boolean determineBatteryStatus() throws Exception {
+    private boolean determineBatteryStatus() throws Exception {
         // check battery
-        Boolean change = false;
-        batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        boolean change = false;
+        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if(batteryStatus != null) {
             stationaryDeviceSuspected =
                     !batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true); // if no battery present, suspect stationary device
@@ -226,8 +259,8 @@ public class DeviceStatus {
                 if(batteryPct < 0 || batteryPct > 100) {
                     throw new Exception("battery level parsing error");
                 }
-                if(batteryPct != status.battery_charge_pct) {
-                    status.battery_charge_pct = batteryPct;
+                if(batteryPct != status.getBatteryChargePct()) {
+                    status.setBatteryChargePct(batteryPct);
                     change = true;
                 }
 
@@ -237,8 +270,8 @@ public class DeviceStatus {
                 if(temperature < 0) {
                     throw new Exception("temperature parsing error");
                 }
-                if(temperature != status.battery_temperature_celsius) {
-                    status.battery_temperature_celsius = temperature;
+                if(temperature != status.getBatteryTemperatureCelsius()) {
+                    status.setBatteryTemperatureCelsius(temperature);
                     change = true;
                 }
 
@@ -246,7 +279,7 @@ public class DeviceStatus {
                 // treat all charging modes uniformly on client side,
                 // adapt on_ac_power according to power source preferences defined in manager
                 int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-                change = change | setAttributesForChargerType(plugged);
+                change |= setAttributesForChargerType(plugged);
             }
         }
         else {
@@ -262,9 +295,9 @@ public class DeviceStatus {
      * The policy might be subject to change.
      */
     private void setAttributesForStationaryDevice() {
-        status.on_ac_power = true;
-        status.battery_temperature_celsius = 0;
-        status.battery_charge_pct = 100;
+        status.setOnACPower(true);
+        status.setBatteryTemperatureCelsius(0);
+        status.setBatteryChargePct(100);
     }
 
     /**
@@ -276,9 +309,9 @@ public class DeviceStatus {
      * @param chargerType BatteryManager class
      * @return true, if change since last run
      */
-    private Boolean setAttributesForChargerType(int chargerType) {
-        Boolean change = false;
-        Boolean enabled = false;
+    private boolean setAttributesForChargerType(int chargerType) {
+        boolean change = false;
+        boolean enabled = false;
 
         switch(chargerType) {
             case BatteryManager.BATTERY_PLUGGED_AC:
@@ -290,19 +323,21 @@ public class DeviceStatus {
             case BatteryManager.BATTERY_PLUGGED_USB:
                 enabled = appPrefs.getPowerSourceUsb();
                 break;
+            default:
+                break;
         }
 
         if(enabled) {
-            if(!status.on_ac_power) {
+            if(!status.isOnACPower()) {
                 change = true; // if different from before, set flag
             }
-            status.on_ac_power = true;
+            status.setOnACPower(true);
         }
         else {
-            if(status.on_ac_power) {
+            if(status.isOnACPower()) {
                 change = true;
             }
-            status.on_ac_power = false;
+            status.setOnACPower(false);
         }
 
         return change;

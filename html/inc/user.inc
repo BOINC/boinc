@@ -77,16 +77,15 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
+        if (!$remote) {
+            return $user;
+        }
         if (count($remote) == 1) {
             $remote = array($remote);
         }
 
-        if (!$remote) {
-            return $user;
-        } else {
-            // Cache the results
-            set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
-        }
+        // Cache the results
+        set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
     }
 
     $user->projects = $remote;

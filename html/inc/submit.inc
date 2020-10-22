@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,11 +29,14 @@
 //      boinc_query_job(): get details of a job
 //      boinc_retire_batch(): retire a batch; delete output files
 //      boinc_submit_batch(): submit a batch
-//
 //      boinc_set_timeout($x): set RPC timeout to X seconds
+//
+//  See https://boinc.berkeley.edu/trac/wiki/RemoteJobs#PHPinterface
 
 //// Implementation stuff follows
 
+// Convert a request message from PHP object to XML string
+//
 function req_to_xml($req, $op) {
     if (!isset($req->batch_name)) {
         $req->batch_name = "batch_".time();
@@ -54,6 +57,14 @@ function req_to_xml($req, $op) {
     }
     if ((isset($req->app_version_num)) && ($req->app_version_num)) {
         $x .= "    <app_version_num>$req->app_version_num</app_version_num>
+";
+    }
+    if (!empty($req->allocation_priority)) {
+        $x .= "    <allocation_priority/>
+";
+    }
+    if (isset($req->priority)) {
+        $x .= "    <priority>$req->priority</priority>
 ";
     }
     foreach ($req->jobs as $job) {
@@ -79,6 +90,10 @@ function req_to_xml($req, $op) {
 ";
         } elseif (!empty($job->target_host)) {
             $x .= "        <target_host>$job->target_host</target_host>
+";
+        }
+        if (isset($job->priority)) {
+            $x .= "        <priority>$job->priority</priority>
 ";
         }
         foreach ($job->input_files as $file) {
@@ -108,6 +123,8 @@ function req_to_xml($req, $op) {
     return $x;
 }
 
+// check whether the PHP structure looks like a batch request object
+//
 function validate_request($req) {
     if (!is_object($req)) return "req is not an object";
     if (!array_key_exists('project', $req)) return "missing req->project";
@@ -123,6 +140,8 @@ function validate_request($req) {
 
 $rpc_timeout = 0;
 
+// Given a request object and XML string, issue the HTTP POST request
+//
 function do_http_op($req, $xml, $op) {
     global $rpc_timeout;
 
@@ -133,24 +152,24 @@ function do_http_op($req, $xml, $op) {
         curl_setopt($ch, CURLOPT_TIMEOUT, $rpc_timeout);
     }
 
-    // see if we need to send any files
-    //
-    $nfiles = 0;
-    $post = array();
-    $post["request"] = $xml;
-    $cwd = getcwd();
-    if ($op == "submit_batch") {
-        foreach ($req->jobs as $job) {
-            foreach ($job->input_files as $file) {
-                if ($file->mode == "inline") {
-                    $path = realpath("$cwd/$file->path");
-                    $post["file$nfiles"] = $path;
-                    $nfiles++;
-                }
+// see if we need to send any files
+//
+$nfiles = 0;
+$post = array();
+$post["request"] = $xml;
+$cwd = getcwd();
+if ($op == "submit_batch") {
+    foreach ($req->jobs as $job) {
+        foreach ($job->input_files as $file) {
+            if ($file->mode == "inline") {
+                $path = realpath("$cwd/$file->path");
+                $post["file$nfiles"] = $path;
+                $nfiles++;
             }
         }
     }
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+}
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
     curl_close($ch);
     if (!$reply) return array(null, "HTTP error");
@@ -166,6 +185,8 @@ function do_http_op($req, $xml, $op) {
     }
 }
 
+// do a batch op (estimate or submit)
+//
 function do_batch_op($req, $op) {
     $retval = validate_request($req);
     if ($retval) return array(null, $retval);
@@ -173,6 +194,8 @@ function do_batch_op($req, $op) {
     return do_http_op($req, $xml, $op);
 }
 
+// convert a batch description from XML string to object
+//
 function batch_xml_to_object($batch) {
     $b = new StdClass;
     $b->id = (int)($batch->id);

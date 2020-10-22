@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+// show a "welcome" dialog showing the user what project they're about to run,
+// in the case where a project_init.xml was present on startup
+//
+// AFAIK no one uses this mechanism, so this may not be needed
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProjectWelcomePage.h"
 #endif
@@ -129,22 +135,6 @@ void CProjectWelcomePage::CreateControls()
     project_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
-    project_inst1_ctrl = new wxStaticText;
-    project_inst1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_inst1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    project_inst2_ctrl = new wxStaticText;
-    project_inst2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_inst2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    project_desc1_ctrl = new wxStaticText;
-    project_desc1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_desc1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    project_desc2_ctrl = new wxStaticText;
-    project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
     project_url1_ctrl = new wxStaticText;
     project_url1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_url1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
@@ -152,18 +142,6 @@ void CProjectWelcomePage::CreateControls()
     project_url2_ctrl = new wxStaticText;
     project_url2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_url2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    user_name1_ctrl = new wxStaticText;
-    user_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(user_name1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    user_name2_ctrl = new wxStaticText;
-    user_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(user_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    warning_ctrl = new wxStaticText;
-    warning_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(warning_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     continue_ctrl = new wxStaticText;
     continue_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -196,12 +174,11 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (pWA->GetProjectAuthenticator().IsEmpty() && pWA->GetProjectSetupCookie().IsEmpty()) {
+    } else if (pWA->GetProjectAuthenticator().IsEmpty()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
-    return NULL;
 }
  
 /*!
@@ -254,25 +231,9 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     intro_ctrl->SetLabel(_("You have volunteered to compute for this project:"));
     project_name1_ctrl->SetLabel(_("Name:"));
     project_name2_ctrl->SetLabel(pWA->GetProjectName());
-    if (!pWA->GetProjectInstitution().IsEmpty()) {
-        project_inst1_ctrl->SetLabel(_("Home:"));
-        project_inst2_ctrl->SetLabel(pWA->GetProjectInstitution());
-    }
-    if (!pWA->GetProjectDescription().IsEmpty()) {
-        project_desc1_ctrl->SetLabel(_("Description:"));
-        project_desc2_ctrl->SetLabel(pWA->GetProjectDescription());
-    }
     project_url1_ctrl->SetLabel(_("URL:"));
     project_url2_ctrl->SetLabel(pWA->GetProjectURL());
-    if (!pWA->GetProjectUserName().IsEmpty()) {
-        user_name1_ctrl->SetLabel(_("User:"));
-        user_name2_ctrl->SetLabel(pWA->GetProjectUserName());
-    }
 
-    if (!pWA->IsProjectKnown()) {
-        warning_ctrl->SetLabel(_("WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."));
-
-    }
     continue_ctrl->SetLabel(
         _("To continue, click Next.")
     );

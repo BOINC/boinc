@@ -26,6 +26,7 @@ extern int xwin_glut_is_initialized();
 
 #ifdef __APPLE__
 extern void MacGLUTFix(bool isScreenSaver);
+extern void ClearDocumentEditedDot(void);
 extern void MacPassOffscreenBufferToScreenSaver(void);
 extern void BringAppToFront(void);
 extern void HideThisApp(void);

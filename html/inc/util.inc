@@ -109,6 +109,9 @@ if (!defined('USER_HOME')) {
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
+if (!defined('DARK_MODE')) {
+    define('DARK_MODE', false);
+}
 
 // sleep this long on any login failure
 // (slow the rate of hacker attacks)
@@ -286,8 +289,29 @@ function page_head(
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
-        <link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
     ';
+    if (DARK_MODE) {
+        echo <<<EOT
+<script>
+  if (window.matchMedia('(prefers-color-scheme: dark)').media === 'not all') {
+      console.log("foobar");
+    document.documentElement.style.display = 'none';
+    document.head.insertAdjacentHTML(
+        'beforeend',
+        '<link rel="stylesheet" href="sample_bootstrap.min.css" onload="document.documentElement.style.display = \'\'"><link rel="stylesheet" href="custom.css">'
+    );
+  }
+</script>
+<link rel="stylesheet" href="bootstrap_darkly.min.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="custom_dark.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="sample_bootstrap.min.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+<link rel="stylesheet" href="custom.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+EOT;
+    } else {
+        echo '
+            <link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
+        ';
+    }
     if (defined('STYLESHEET')) {
         $stylesheet = $url_base.STYLESHEET;
         echo "

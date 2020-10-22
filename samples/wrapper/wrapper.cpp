@@ -740,6 +740,22 @@ int TASK::run(int argct, char** argvt) {
         boinc_msg_prefix(buf, sizeof(buf)), app_path, command_line.c_str()
     );
 
+    // decide on subprocess priority.  User prefs trump job.xml
+    //
+    int priority_val = 0;
+    if (aid.no_priority_change) {
+        priority_val = 0;
+    } else {
+        if (aid.process_priority > 0) {
+            // priority coming from the client is on scale where 0 is idle.
+            // for us, 1 is idle
+            //
+            priority_val = process_priority_value(aid.process_priority+1);
+        } else {
+            priority_val = process_priority_value(priority);
+        }
+    }
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -800,7 +816,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|process_priority_value(priority),
+        CREATE_NO_WINDOW|priority_val,
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
@@ -875,7 +891,9 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         parse_command_line(arglist, argv+1);
-        setpriority(PRIO_PROCESS, 0, process_priority_value(priority));
+        if (priority_val) {
+            setpriority(PRIO_PROCESS, 0, priority_val);
+        }
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (retval) {

@@ -18,12 +18,8 @@
 #include <vector>
 #ifdef _WIN32
 #include "diagnostics.h"
-#ifdef __STDWX_H__
-#include "stdwx.h"
-#else
 #include "boinc_win.h"
 #include "win_util.h"
-#endif
 #else
 #include "config.h"
 #include <sys/types.h>
@@ -291,11 +287,11 @@ int process_priority_value(int priority) {
     return 0;
 #else
     switch (priority) {
-    case PROCESS_PRIORITY_LOWEST: return 19;
-    case PROCESS_PRIORITY_LOW: return 10;
-    case PROCESS_PRIORITY_NORMAL: return 0;
-    case PROCESS_PRIORITY_HIGH: return -10;
-    case PROCESS_PRIORITY_HIGHEST: return -16;
+    case PROCESS_PRIORITY_LOWEST: return PROCESS_IDLE_PRIORITY;
+    case PROCESS_PRIORITY_LOW: return PROCESS_MEDIUM_PRIORITY;
+    case PROCESS_PRIORITY_NORMAL: return PROCESS_NORMAL_PRIORITY;
+    case PROCESS_PRIORITY_HIGH: return PROCESS_ABOVE_NORMAL_PRIORITY;
+    case PROCESS_PRIORITY_HIGHEST: return PROCESS_HIGH_PRIORITY;
     }
     return 0;
 #endif

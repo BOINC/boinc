@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,8 +19,8 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,24 +32,28 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
+
 import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.Logging;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
-    //private final String TAG = "ProjectsListAdapter";
-
-    private ArrayList<ProjectsListData> entries;
+    private List<ProjectsListData> entries;
     private Activity activity;
 
-    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectsListData> entries) {
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, List<ProjectsListData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -73,33 +77,23 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     }
 
     public String getName(int position) {
-        return entries.get(position).project.project_name;
+        return entries.get(position).getProject().getProjectName();
     }
 
-    public String getUser(int position) {
-        String user = entries.get(position).project.user_name;
-        String team = entries.get(position).project.team_name;
+    private String getUser(int position) {
+        String user = entries.get(position).getProject().getUserName();
+        String team = entries.get(position).getProject().getTeamName();
 
         if(!team.isEmpty()) {
-            return (user + " (" + team + ")");
+            return user + " (" + team + ")";
         }
 
         return user;
     }
 
-    public Boolean getIsAcctMgr(int position) {
-        return entries.get(position).isMgr;
-    }
-
-    public String getURL(int position) {
-        return entries.get(position).id;
-    }
-
-    public Bitmap getIcon(int position) {
+    private Bitmap getIcon(int position) {
         // try to get current client status from monitor
-        //ClientStatus status;
         try {
-            //status  = Monitor.getClientStatus();
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
         }
         catch(Exception e) {
@@ -108,39 +102,38 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
             return null;
         }
-        //return status.getProjectIcon(entries.get(position).id);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectsListData data = entries.get(position);
-        Boolean isAcctMgr = data.isMgr;
+        boolean isAcctMgr = data.isMgr;
 
         View vi = convertView;
         // setup new view, if:
         // - view is null, has not been here before
         // - view has different id
-        Boolean setup = false;
+        boolean setup = false;
         if(vi == null) {
             setup = true;
         }
         else {
             String viewId = (String) vi.getTag();
-            if(!data.id.equals(viewId)) {
+            if(!StringUtils.equals(data.id, viewId)) {
                 setup = true;
             }
         }
 
         if(setup) {
+            final LayoutInflater layoutInflater = ContextCompat.getSystemService(activity, LayoutInflater.class);
+            assert layoutInflater != null;
             // first time getView is called for this element
             if(isAcctMgr) {
-                vi =
-                        ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem_acctmgr, null);
+                vi = layoutInflater.inflate(R.layout.projects_layout_listitem_acctmgr, null);
             }
             else {
-                vi =
-                        ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+                vi = layoutInflater.inflate(R.layout.projects_layout_listitem, null);
             }
             //set onclicklistener for expansion
             vi.setOnClickListener(entries.get(position).projectsListClickListener);
@@ -152,16 +145,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // populate name
             TextView tvName = vi.findViewById(R.id.name);
-            tvName.setText(data.acctMgrInfo.acct_mgr_name);
+            tvName.setText(data.getAcctMgrInfo().getAcctMgrName());
 
             // populate url
             TextView tvUrl = vi.findViewById(R.id.url);
-            tvUrl.setText(data.acctMgrInfo.acct_mgr_url);
-
+            tvUrl.setText(data.getAcctMgrInfo().getAcctMgrUrl());
         }
         else {
             // element is project
-
             // set data of standard elements
             TextView tvName = vi.findViewById(R.id.project_name);
             tvName.setText(getName(position));
@@ -178,7 +169,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             String statusText = "";
             try {
-                statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);
+                statusText = BOINCActivity.monitor.getProjectStatus(data.getProject().getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.ERROR) {
@@ -196,12 +187,12 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             ImageView ivIcon = vi.findViewById(R.id.project_icon);
             String finalIconId = (String) ivIcon.getTag();
-            if(finalIconId == null || !finalIconId.equals(data.id)) {
+            if(!StringUtils.equals(finalIconId, data.id)) {
                 Bitmap icon = getIcon(position);
                 // if available set icon, if not boinc logo
                 if(icon == null) {
-                    // boinc logo
-                    ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                    // BOINC logo
+                    ivIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_boinc));
                 }
                 else {
                     // project icon
@@ -212,19 +203,19 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // transfers
-            Integer numberTransfers = data.projectTransfers.size();
+            int numberTransfers = data.getProjectTransfers().size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
             if(numberTransfers > 0) { // ongoing transfers
                 // summarize information for compact representation
-                Integer numberTransfersUpload = 0;
-                Boolean uploadsPresent = false;
-                Integer numberTransfersDownload = 0;
-                Boolean downloadsPresent = false;
-                Boolean transfersActive = false; // true if at least one transfer is active
+                int numberTransfersUpload = 0;
+                boolean uploadsPresent = false;
+                int numberTransfersDownload = 0;
+                boolean downloadsPresent = false;
+                boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
-                for(Transfer trans : data.projectTransfers) {
-                    if(trans.is_upload) {
+                for(Transfer trans : data.getProjectTransfers()) {
+                    if(trans.isUpload()) {
                         numberTransfersUpload++;
                         uploadsPresent = true;
                     }
@@ -232,11 +223,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                         numberTransfersDownload++;
                         downloadsPresent = true;
                     }
-                    if(trans.xfer_active) {
+                    if(trans.isTransferActive()) {
                         transfersActive = true;
                     }
-                    else if(trans.next_request_time < nextRetryS || nextRetryS == 0) {
-                        nextRetryS = trans.next_request_time;
+                    else if(trans.getNextRequestTime() < nextRetryS || nextRetryS == 0) {
+                        nextRetryS = trans.getNextRequestTime();
                     }
                 }
 
@@ -260,15 +251,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                     activityStatus += activity.getResources().getString(R.string.trans_pending);
 
                     if(nextRetryS > 0) { // next try at defined time
-                        long retryAtMs = nextRetryS * 1000;
-                        long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
-                        if(retryInMs < 0) {
-                        }// timestamp in the past, write nothing
-                        else {
-                            activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-                                                   DateUtils.formatElapsedTime(retryInMs / 1000);
+                        long retryInSeconds = Duration.between(Instant.ofEpochSecond(nextRetryS),
+                                                               Instant.now()).getSeconds();
+                        // if timestamp is in the past, do not write anything
+                        if(retryInSeconds >= 0) {
+                            final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
+                            activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
+                                                                                     formattedTime);
                         }
-
                     }
                 }
                 else { // transfers active
@@ -287,8 +277,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // credits
-            final long userCredit = Math.round(data.project.user_total_credit),
-                    hostCredit = Math.round(data.project.host_total_credit);
+            final long userCredit = Math.round(data.getProject().getUserTotalCredit());
+            final long hostCredit = Math.round(data.getProject().getHostTotalCredit());
             ((TextView) vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
                                                                        NumberFormat.getIntegerInstance().format(hostCredit) :
                                                                        this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
@@ -301,17 +291,21 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
             else {
                 tvNotice.setVisibility(View.VISIBLE);
-                String noticeText = notice.description.trim();
+                String noticeText = notice.getDescription().trim();
                 tvNotice.setText(noticeText);
             }
 
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
-            if(data.project.attached_via_acct_mgr) {
-                iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
+            if(data.getProject().getAttachedViaAcctMgr()) {
+                final Drawable background =
+                        ContextCompat.getDrawable(activity.getApplicationContext(),
+                                                  R.drawable.shape_boinc_icon_light_blue_background);
+                iconBackground.setBackground(background);
             }
             else {
-                iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));
+                iconBackground.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
+                                                                         android.R.color.transparent));
             }
         }
 

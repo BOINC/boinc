@@ -154,8 +154,11 @@ First checked in.
 
 #if TARGET_CPU_PPC
 #include <mach/ppc/thread_status.h>
-#endif
+#elif TARGET_CPU_X86_64
 #include <mach/i386/thread_status.h>
+#elif TARGET_CPU_ARM64
+#include <mach/arm/thread_status.h>
+#endif
 
 #if defined(__cplusplus)
 	}
@@ -167,7 +170,7 @@ First checked in.
 
 // A new architecture will require substantial changes to this file.
 
-#if ! (TARGET_CPU_PPC || TARGET_CPU_PPC64 || TARGET_CPU_X86 || TARGET_CPU_X86_64)
+#if ! (TARGET_CPU_PPC || TARGET_CPU_PPC64 || TARGET_CPU_X86 || TARGET_CPU_X86_64 || TARGET_CPU_ARM64)
 	#error QBacktrace: What architecture?
 #endif
 
@@ -558,6 +561,7 @@ static int ReadAddr(QBTContext *context, QTMAddr addr, QTMAddr *valuePtr)
 	return err;
 }
 
+#if ! TARGET_CPU_ARM64
 static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags)
 	// Adds a frame to the end of the output array with the 
 	// value specified by pc, fp, and flags.
@@ -582,6 +586,7 @@ static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags
 	
 	context->frameCountOut += 1;	
 }
+#endif
 
 static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 	// The core backtrace code.  This routine is called by all of the various 
@@ -2511,6 +2516,15 @@ extern int QBTCreateThreadStateSelf(
             state->rip = (uintptr_t) pc;
             state->rbp = (uintptr_t) fp;
 #endif
+        }
+    #elif TARGET_CPU_ARM64
+        arm_thread_state64_t *  state;
+        
+        flavor = ARM_THREAD_STATE64;
+        state = (arm_thread_state64_t *) calloc(1, sizeof(*state));
+        if (state != NULL) {
+            state->pc = (uintptr_t) pc;
+            state->fp    = (uintptr_t) fp;
         }
     #else
         #error What architecture?

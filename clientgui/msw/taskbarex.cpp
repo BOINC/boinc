@@ -131,7 +131,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
 
     if (!message.empty()) {
         notifyData.uFlags       |= NIF_TIP;
-        lstrcpyn(notifyData.szTip, WXSTRINGCAST message, sizeof(notifyData.szTip));
+        lstrcpyn(notifyData.szTip, message.c_str(), ARRAYSIZE(notifyData.szTip));
     }
 
     UpdateIcon();
@@ -156,8 +156,8 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();
 
-    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
-    lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, title.c_str(), ARRAYSIZE(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szInfo, message.c_str(), ARRAYSIZE(notifyData.szInfo));
 
     UpdateIcon();
     return m_iconAdded;
@@ -181,8 +181,8 @@ bool wxTaskBarIconEx::QueueBalloon(const wxIcon& icon, const wxString title, con
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();
 
-    lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
-    lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, title.c_str(), ARRAYSIZE(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szInfo, message.c_str(), ARRAYSIZE(notifyData.szInfo));
 
     UpdateIcon();
     return m_iconAdded;

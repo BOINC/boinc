@@ -1668,11 +1668,17 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
       if ($comment_order == COMMENT_ORDER_NEWEST_FIRST) {
         $gt_lt = '>';
       }
+      // don't filter hidden comments for admins/mods
+      $include_hidden = '';
+      if (in_array('administrator', array_values($user->roles)) ||
+          in_array('moderator', array_values($user->roles))) {
+        $include_hidden = 'OR status = 1';
+      }
       // See how many comments there are before (or after) this comment...
       $comment_offset = db_result(db_query('
         SELECT COUNT(*) FROM {comments}
-        WHERE nid = %d AND status = 0 AND timestamp %s %d',
-        $object->nid, $gt_lt, $object->timestamp));
+        WHERE nid = %d AND (status = 0 %s) AND timestamp %s %d',
+        $object->nid, $include_hidden, $gt_lt, $object->timestamp));
       if ($comment_offset) {
         // Get the number of comments per page
         if ($user->comments_per_page) {

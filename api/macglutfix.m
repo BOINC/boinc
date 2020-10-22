@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -47,6 +47,7 @@ extern int boinc_is_standalone(void);
 // int set_realtime(int period, int computation, int constraint);
 void MacGLUTFix(bool isScreenSaver);
 void BringAppToFront(void);
+int compareOSVersionTo(int toMajor, int toMinor);
 
 // The standard ScreenSaverView class actually sets the window 
 // level to 2002, not the 1000 defined by NSScreenSaverWindowLevel 
@@ -58,12 +59,24 @@ void BringAppToFront(void);
 // Delay when switching to screensaver mode to reduce annoying flashes
 #define SAVERDELAY 30
 
+// NSClosableWindowMask is deprecated in OS 10.12 and is replaced by
+// NSWindowStyleMaskClosable, which is not defined before OS 10.12
+#ifndef NSWindowStyleMaskClosable
+#define NSWindowStyleMaskClosable NSClosableWindowMask
+#endif
+
+static NSWindow* myWindow = nil;
+
 void MacGLUTFix(bool isScreenSaver) {
+    static int count = 0;
     static NSMenu * emptyMenu;
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
-    NSWindow* myWindow = nil;
+    static int requestedWidth, requestedHeight;
 
+    if (count == 2) ClearDocumentEditedDot();
+    if (count++ > 2) return;   // Do the code below only twice
+    
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
             emptyMenu = [ NSMenu alloc ];
@@ -78,11 +91,33 @@ void MacGLUTFix(bool isScreenSaver) {
         myWindow = [ myView window ];
     if (myWindow == nil)
         return;
-    
+ 
+    // Retina displays have 2X2 pixels per point. When OpenGL / GLUT apps built 
+    // using Xcode 11 are run on a Retina display under OS 10.15, they fail to 
+    // adjust their pixel dimesions to double the window size, and so fill only 
+    // 1/4 of the window (display at half width and height) until they are  
+    // resized by calls to glutReshapeWindow(), glutFullScreen(). etc. 
+    // However, they work correctly when run on earlier  versions of OS X.
+    //
+    // OpenGL / GLUT apps built using earlier versions of Xcode do not have this 
+    // problem on OS 10.15, but glutReshapeWindow(). 
+    //
+    // We work around this by calling glutReshapeWindow() twice, restoring the 
+    // window's original size. This transparently fixes the problem when necessary 
+    // without actually changing the window's size, and does no harm when not 
+    // necessary.
+
     if (!isScreenSaver) {
-        NSButton *closeButton = [myWindow standardWindowButton:NSWindowCloseButton ];
-        [closeButton setEnabled:YES];
-        [myWindow setDocumentEdited: NO];
+        if (count == 1) {
+            requestedWidth = glutGet(GLUT_WINDOW_WIDTH);
+            requestedHeight = glutGet(GLUT_WINDOW_HEIGHT);
+            glutReshapeWindow(requestedWidth+1, requestedHeight);
+        } else {
+            glutReshapeWindow(requestedWidth, requestedHeight);
+        }
+        
+        [myWindow setStyleMask:[myWindow styleMask] | NSWindowStyleMaskClosable];
+        
         return;
     }
 
@@ -98,6 +133,12 @@ void MacGLUTFix(bool isScreenSaver) {
         if ([ myWindow level ] == GlutFullScreenWindowLevel) {
             [ myWindow setLevel:RealSaverLevel+20 ];
         }
+    }
+}
+
+void ClearDocumentEditedDot(void) {
+    if (myWindow) {
+        [myWindow setDocumentEdited: NO];
     }
 }
 
@@ -292,15 +333,24 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, uin
 @end
 
 
-// OpenGL apps built under Xcode 11 apparently use window dimensions based 
-// on the number of backing store pixels. That is, they double the window 
-// dimensiona for Retina displays (which have two pixels per point.) But 
-// OpenGL apps built under earlier versions of Xcode don't.
-// Catalina assumes OpenGL apps work as built under Xcode 11, so it displays
-// older builds at half width and height, unless we compensate in our code.
-// This code is part of my attempt to ensure that BOINC graphics apps built on 
-// all versions of Xcode work proprly on different versions of OS X. See also 
-// [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleCiew.m
+// OpenGL / GLUT apps which call glutFullScreen() and are built using 
+// Xcode 11 apparently use window dimensions based on the number of 
+// backing store pixels. That is, they double the window dimensions 
+// for Retina displays (which have 2X2 pixels per point.) But OpenGL 
+// apps built under earlier versions of Xcode don't.
+//
+// OS 10.15 Catalina assumes OpenGL / GLUT apps work as built under 
+// Xcode 11, so it displays older builds at half width and height, 
+// unless we compensate in our code. To ensure that BOINC graphics apps 
+// built on all versions of Xcode work properly on all versions of OS X, 
+// we set the IOSurface dimensions in this module to the viewportRect
+// dimensions.
+//
+// See also:
+// [BOINC_Saver_ModuleView initWithFrame:] in clientscr/Mac_Saver_ModuleView.m
+// clientscr/Mac_Saver_ModuleCiew.m and MacGLUTFix(bool isScreenSaver) above.
+//
+// NOTE: Graphics apps must now be linked with the IOSurface framework.
 //
 void MacPassOffscreenBufferToScreenSaver() {
     NSOpenGLContext * myContext = [ NSOpenGLContext currentContext ];
@@ -387,6 +437,44 @@ void MacPassOffscreenBufferToScreenSaver() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     currentFrameIndex = (currentFrameIndex + 1) % NUM_IOSURFACE_BUFFERS;
+}
+
+// Test OS version number on all versions of OS X without using deprecated Gestalt
+// compareOSVersionTo(x, y) returns:
+// -1 if the OS version we are running on is less than x.y
+//  0 if the OS version we are running on is equal to x.y
+// +1 if the OS version we are running on is lgreater than x.y
+int compareOSVersionTo(int toMajor, int toMinor) {
+    static SInt32 major = -1;
+    static SInt32 minor = -1;
+
+    if (major < 0) {
+        char vers[100], *p1 = NULL;
+        FILE *f;
+        vers[0] = '\0';
+        f = popen("sw_vers -productVersion", "r");
+        if (f) {
+            fscanf(f, "%s", vers);
+            pclose(f);
+        }
+        if (vers[0] == '\0') {
+            fprintf(stderr, "popen(\"sw_vers -productVersion\" failed\n");
+            fflush(stderr);
+            return 0;
+        }
+        // Extract the major system version number
+        major = atoi(vers);
+        // Extract the minor system version number
+        p1 = strchr(vers, '.');
+        minor = atoi(p1+1);
+    }
+    
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    // if (major == toMajor) compare minor version numbers
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }
 
 // Code for debugging:

@@ -67,6 +67,7 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
      if test -d "$_libcurl_with" ; then
         CPPFLAGS="${CPPFLAGS} -I$withval/include"
         LDFLAGS="${LDFLAGS} -L$withval/lib"
+        PATH="${withval%/}/bin:$PATH"
      fi
 
      AC_PATH_PROG([_libcurl_config],[curl-config])
@@ -107,6 +108,11 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
               LIBCURL="`$_libcurl_config --libs`"
 
               if test "x`echo \""$LIBCURL"\" | grep ssl`" = x ; then
+                LIBCURL="${LIBCURL} ${SSL_LIBS}"
+              fi
+
+              # fix cannot find -lssl
+              if test "x`echo \""$SSL_LIBS"\" | grep '\-L/'`" != 'x' ; then
                 LIBCURL="${LIBCURL} ${SSL_LIBS}"
               fi
 

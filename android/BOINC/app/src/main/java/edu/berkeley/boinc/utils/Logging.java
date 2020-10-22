@@ -19,19 +19,21 @@
 package edu.berkeley.boinc.utils;
 
 public class Logging {
-    static public String TAG = "BOINC_GUI";
+    private Logging() {}
 
-    static public int LOGLEVEL = -1;
-    static public Boolean ERROR = LOGLEVEL > 0;
-    static public Boolean WARNING = LOGLEVEL > 1;
-    static public Boolean INFO = LOGLEVEL > 2;
-    static public Boolean DEBUG = LOGLEVEL > 3;
-    static public Boolean VERBOSE = LOGLEVEL > 4;
+    public static final String TAG = "BOINC_GUI";
+    public static final String WAKELOCK = TAG + ":MyPowerLock";
 
-    static public Boolean RPC_PERFORMANCE = false;
-    static public Boolean RPC_DATA = false;
+    public static int LOGLEVEL = -1;
+    public static boolean ERROR = false;
+    public static boolean WARNING = false;
+    public static boolean INFO = false;
+    public static boolean DEBUG = false;
+    public static boolean VERBOSE = false;
+    public static boolean RPC_PERFORMANCE = false;
+    public static boolean RPC_DATA = false;
 
-    static public void setLogLevel(Integer logLevel) {
+    public static void setLogLevel(int logLevel) {
         LOGLEVEL = logLevel;
         ERROR = LOGLEVEL > 0;
         WARNING = LOGLEVEL > 1;

@@ -18,12 +18,6 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.utils.Logging;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -35,15 +29,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.Logging;
 
 public class NavDrawerListAdapter extends BaseAdapter {
-
-    //private final String TAG = "NavDrawerListAdapter";
     private Context context;
-    private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<>();
+    private List<NavDrawerItem> navDrawerItems = new ArrayList<>();
 
     public int selectedMenuId = 0;
 
@@ -51,15 +54,22 @@ public class NavDrawerListAdapter extends BaseAdapter {
         this.context = context;
 
         // populate items
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_tasks, R.drawable.tabtaskb, true));
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_notices, R.drawable.mailb, true));
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_projects, R.drawable.projectsb));
-        navDrawerItems.add(new NavDrawerItem(R.string.projects_add, R.drawable.sqplusb, false, true));
-        navDrawerItems.add(new NavDrawerItem(R.string.tab_preferences, R.drawable.cogsb));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.helpb));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_report_issue, R.drawable.bugb));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.infob));
-        navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.attentionb));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_tasks, R.drawable.ic_baseline_list, true));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_notices,
+                                             R.drawable.ic_baseline_email, true));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_projects, R.drawable.ic_projects));
+        navDrawerItems.add(new NavDrawerItem(R.string.projects_add,
+                                             R.drawable.ic_baseline_add_box, false, true));
+        navDrawerItems.add(new NavDrawerItem(R.string.tab_preferences,
+                                             R.drawable.ic_baseline_settings));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.ic_baseline_help));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_report_issue, R.drawable.ic_baseline_bug_report));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.ic_baseline_info));
+        navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.ic_baseline_warning));
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     @Override
@@ -98,7 +108,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
             }
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater mInflater = ContextCompat.getSystemService(context, LayoutInflater.class);
             convertView = mInflater.inflate(layoutId, null);
         }
 
@@ -115,6 +125,11 @@ public class NavDrawerListAdapter extends BaseAdapter {
             if(icon != null) {
                 imgIcon.setImageBitmap(icon);
             }
+            String projectName = navDrawerItems.get(position).getTitle();
+
+            if(StringUtils.isEmpty(projectName)) {
+                navDrawerItems.get(position).updateProjectName();
+            }
         }
         else {
             imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
@@ -124,11 +139,13 @@ public class NavDrawerListAdapter extends BaseAdapter {
         // displaying count
         // check whether it set visible or not
         if(navDrawerItems.get(position).getCounterVisibility()) {
-            Integer counter = 0;
+            int counter = 0;
             switch(navDrawerItems.get(position).id) {
                 case R.string.tab_tasks:
                     try {
-                        counter = BOINCActivity.monitor.getTasks().size();
+                        final IMonitor monitor = BOINCActivity.monitor;
+                        if (monitor != null)
+                            counter = monitor.getTasks().size();
                     }
                     catch(Exception e) {
                         if(Logging.ERROR) {
@@ -138,7 +155,9 @@ public class NavDrawerListAdapter extends BaseAdapter {
                     break;
                 case R.string.tab_notices:
                     try {
-                        counter = BOINCActivity.monitor.getRssNotices().size();
+                        final IMonitor monitor = BOINCActivity.monitor;
+                        if (monitor != null)
+                            counter = monitor.getRssNotices().size();
                     }
                     catch(Exception e) {
                         if(Logging.ERROR) {
@@ -154,17 +173,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
             txtCount.setVisibility(View.GONE);
         }
 
-        // highligt entry of currently activated item
-        if(navDrawerItems.get(position).id == selectedMenuId) {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "NavDrawerListAdapter.getView() highlighted! ID : " + selectedMenuId);
-            }
-            wrapper.setBackgroundResource(R.drawable.navlist_selector_pressed);
-        }
-        else {
-            wrapper.setBackgroundResource(R.drawable.navlist_selector);
-        }
-
         convertView.setTag(navDrawerItems.get(position).title);
         return convertView;
     }
@@ -172,7 +180,9 @@ public class NavDrawerListAdapter extends BaseAdapter {
     public Bitmap getProjectIconForMasterUrl(String masterUrl) {
         Bitmap bm = null;
         try {
-            bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
+            final IMonitor monitor = BOINCActivity.monitor;
+            if (monitor != null)
+                bm = monitor.getProjectIcon(masterUrl);
         }
         catch(Exception e) {
             if(Logging.ERROR) {
@@ -182,27 +192,40 @@ public class NavDrawerListAdapter extends BaseAdapter {
         return bm;
     }
 
+    public String getProjectNameForMasterUrl(String masterUrl) {
+        String projectName = null;
+        try {
+            final IMonitor monitor = BOINCActivity.monitor;
+            if (monitor != null) {
+                final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
+                projectName = pi.getName();
+            }
+        }
+        catch(Exception e) {
+            if(Logging.ERROR) {
+                Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e);
+            }
+        }
+        return projectName;
+    }
+
     /**
      * Compares list of projects to items represented in nav bar.
      *
      * @param projects Project list
      * @return Returns number of project items in nav bar after adding
      */
-    public Integer compareAndAddProjects(ArrayList<Project> projects) {
+    public int compareAndAddProjects(List<Project> projects) {
         // delete all old projects from nav items
-        Iterator<NavDrawerItem> it = navDrawerItems.iterator();
-        while(it.hasNext()) {
-            NavDrawerItem item = it.next();
-            if(item.isProjectItem) {
-                it.remove();
-            }
-        }
+        navDrawerItems.removeIf(item -> item.isProjectItem);
 
-        Integer numberAdded = 0;
+        int numberAdded = 0;
 
         for(Project project : projects) {
             NavDrawerItem newProjectItem =
-                    new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
+                    new NavDrawerItem(project.getProjectName(),
+                                      getProjectIconForMasterUrl(project.getMasterURL()),
+                                      project.getMasterURL());
             navDrawerItems.add(3, newProjectItem);
             numberAdded++;
         }
@@ -215,8 +238,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public class NavDrawerItem {
-
-        private int id = 0;
+        private int id;
         private String title;
         private int icon;
         private boolean isCounterVisible = false;
@@ -225,13 +247,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
         private Bitmap projectIcon;
         private String projectMasterUrl;
 
-        public NavDrawerItem() {
-        }
-
         /**
          * Creates default item
          */
-        public NavDrawerItem(int id, int icon) {
+        NavDrawerItem(int id, int icon) {
             this.id = id;
             this.title = context.getString(id);
             this.icon = icon;
@@ -240,7 +259,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         /**
          * Creates sub item under previous element
          */
-        public NavDrawerItem(int id, int icon, boolean isCounterVisible, boolean isSubItem) {
+        NavDrawerItem(int id, int icon, boolean isCounterVisible, boolean isSubItem) {
             this.id = id;
             this.title = context.getString(id);
             this.icon = icon;
@@ -251,7 +270,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         /**
          * Creates item for project, which is sub item of Projects by default
          */
-        public NavDrawerItem(String name, Bitmap icon, String masterUrl) {
+        NavDrawerItem(String name, Bitmap icon, String masterUrl) {
             this.id = masterUrl.hashCode();
             this.title = name;
             this.projectIcon = icon;
@@ -266,7 +285,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         /**
          * Creates item with number counter on right
          */
-        public NavDrawerItem(int id, int icon, boolean isCounterVisible) {
+        NavDrawerItem(int id, int icon, boolean isCounterVisible) {
             this.id = id;
             this.title = context.getString(id);
             this.icon = icon;
@@ -278,35 +297,39 @@ public class NavDrawerListAdapter extends BaseAdapter {
         }
 
         public String getTitle() {
-            return this.title;
+            return title;
         }
 
         public int getIcon() {
-            return this.icon;
+            return icon;
         }
 
         public String getProjectMasterUrl() {
-            return this.projectMasterUrl;
+            return projectMasterUrl;
         }
 
-        public boolean getCounterVisibility() {
-            return this.isCounterVisible;
+        boolean getCounterVisibility() {
+            return isCounterVisible;
         }
 
-        public boolean isSubItem() {
-            return this.isSubItem;
+        boolean isSubItem() {
+            return isSubItem;
         }
 
         public boolean isProjectItem() {
-            return this.isProjectItem;
+            return isProjectItem;
         }
 
-        public Bitmap getProjectIcon() {
-            return this.projectIcon;
+        Bitmap getProjectIcon() {
+            return projectIcon;
         }
 
-        public void updateProjectIcon() {
-            this.projectIcon = getProjectIconForMasterUrl(projectMasterUrl);
+        void updateProjectIcon() {
+            projectIcon = getProjectIconForMasterUrl(projectMasterUrl);
+        }
+
+        void updateProjectName() {
+            title = getProjectNameForMasterUrl(projectMasterUrl);
         }
 
         public void setTitle(String title) {
@@ -315,10 +338,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
         public void setIcon(int icon) {
             this.icon = icon;
-        }
-
-        public void setCounterVisibility(boolean isCounterVisible) {
-            this.isCounterVisible = isCounterVisible;
         }
     }
 }

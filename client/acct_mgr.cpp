@@ -61,9 +61,9 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     ami = _ami;
 
     error_num = ERR_IN_PROGRESS;
-    error_str = "";
+    error_str.clear();
     via_gui = _via_gui;
-    global_prefs_xml = "";
+    global_prefs_xml.clear();
 
     // if null URL, detach from current AMS
     //
@@ -298,9 +298,9 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     detach_when_done.init();
     suspend.init();
     abort_not_started.init();
-    url = "";
+    url.clear();
     safe_strcpy(url_signature, "");
-    authenticator = "";
+    authenticator.clear();
     resource_share.init();
 
     while (!xp.get_tag()) {
@@ -392,7 +392,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
     XML_PARSER xp(&mf);
 
     accounts.clear();
-    error_str = "";
+    error_str.clear();
     error_num = 0;
     repeat_sec = 0;
     safe_strcpy(host_venue, "");
@@ -501,7 +501,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 }
 
 static inline bool is_weak_auth(const char* auth) {
-    return (strstr(auth, "_") != NULL);
+    return (strchr(auth, '_') != NULL);
 }
 
 #ifdef SIM
@@ -672,12 +672,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                     "Received new authenticator from account manager"
                                 );
                             } else {
-                                // otherwise skip this update
+                                // otherwise keep using the old one
                                 //
                                 msg_printf(pp, MSG_INFO,
                                     "Already attached to a different account"
                                 );
-                                continue;
                             }
                         }
                     }

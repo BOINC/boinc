@@ -75,6 +75,7 @@ protected:
 // See lib/msg_log.C for commentary
 //
 #if _MSC_VER >= 1300
+#pragma warning(push)
 #pragma warning(disable: 4512) // assignment operator could not be generated
 #endif
 
@@ -94,7 +95,7 @@ public:
 };
 
 #if _MSC_VER >= 1300
-#pragma warning(default: 4512) // assignment operator could not be generated
+#pragma warning(pop)
 #endif
 
 #ifdef _USING_FCGI_

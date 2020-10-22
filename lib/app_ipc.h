@@ -199,9 +199,15 @@ struct APP_INIT_DATA {
     //
     double ncpus;
 
-    // client configuration info
+    // client configuration info, from cc_config.h
     //
     bool vbox_window;       // whether to open a console window for VM apps
+
+    // the following for wrappers
+    //
+    bool no_priority_change;
+    int process_priority;
+    int process_priority_special;
 
     // list of files in the app version (for wrappers)
     //

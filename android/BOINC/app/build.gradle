@@ -1,9 +1,12 @@
 plugins {
-    id 'org.ajoberstar.grgit' version '1.7.1'
-    id 'com.palantir.git-version' version '0.7.1'
+    id 'org.ajoberstar.grgit' version '4.0.2'
+    id 'com.palantir.git-version' version '0.12.3'
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 import org.ajoberstar.grgit.Grgit
 
@@ -45,34 +48,127 @@ def buildVersionName() {
     return "${version} (${commit})"
 }
 
+preBuild.doFirst {
+    def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
+    def clientName = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
+    def clientCabundle = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
+    def allProjectsList = new XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
+    assert file("src/main/assets/arm64-v8a/"    + clientName).exists()
+    assert file("src/main/assets/armeabi-v7a/"  + clientName).exists()
+    assert file("src/main/assets/x86/"          + clientName).exists()
+    assert file("src/main/assets/x86_64/"       + clientName).exists()
+    assert file("src/main/assets/" + clientCabundle).exists()
+    assert file("src/main/assets/" + allProjectsList).exists()
+}
+
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
+
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 28
-        versionCode buildVersionCode()
+        versionCode buildVersionCode().toInteger()
         versionName buildVersionName()
+
+        // Required when setting minSdkVersion to 20 or lower
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
-            minifyEnabled false
+            // Without this, a build error occurs for debug.
+            minifyEnabled true
             debuggable true
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
         }
     }
     compileOptions {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
+
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                useJUnitPlatform()
+            }
+        }
+    }
+    tasks.withType(Test) {
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+}
+ext {
+    coroutines_version = '1.3.7'
+    dagger_version = '2.28.1'
+    lifecycle_version = '2.2.0'
+    powermock_version = '2.0.5'
+    junit5_version = '5.6.2'
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.squareup.okio:okio:2.7.0'
+    implementation 'commons-io:commons-io:2.7'
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // Coroutine dependencies
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // Dagger dependencies
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'com.google.guava:guava-testlib:28.2-jre'
+    testImplementation 'junit:junit:4.13'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
+    testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
+    testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
+    testImplementation 'org.robolectric:robolectric:4.3.1'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
+}
+repositories {
+    mavenCentral()
 }

@@ -410,7 +410,6 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
-    return NULL;
 }
 
 

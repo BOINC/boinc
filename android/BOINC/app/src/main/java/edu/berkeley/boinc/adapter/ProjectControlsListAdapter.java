@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2020 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,33 +18,29 @@
  */
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import java.util.List;
+
+import edu.berkeley.boinc.ProjectsFragment;
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
 
 public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
-    //private final String TAG = "ProjectControlsListAdapter";
+    private List<ProjectControl> entries; // ID of control texts in strings.xml
 
-    private ArrayList<ProjectControl> entries; // ID of control texts in strings.xml
-    private Activity activity;
-
-    public ProjectControlsListAdapter(Activity activity, ListView listView, int layoutId, ArrayList<ProjectControl> entries) {
-        super(activity, layoutId, entries);
+    public ProjectControlsListAdapter(Activity activity, List<ProjectControl> entries) {
+        super(activity, R.layout.projects_controls_listitem_layout, entries);
         this.entries = entries;
-        this.activity = activity;
-
-        listView.setAdapter(this);
     }
 
     @Override
@@ -59,54 +55,57 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
 
     @Override
     public long getItemId(int position) {
-        return entries.get(position).operation;
+        return entries.get(position).getOperation();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ProjectControl data = entries.get(position);
 
-        View vi =
-                ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_controls_listitem_layout, null);
+        View vi = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.projects_controls_listitem_layout, null);
 
         TextView tvText = vi.findViewById(R.id.text);
         String text = "";
 
-        switch(data.operation) {
+        switch(data.getOperation()) {
             case RpcClient.PROJECT_UPDATE:
-                text = activity.getResources().getString(R.string.projects_control_update);
+                text = getContext().getResources().getString(R.string.projects_control_update);
                 break;
             case RpcClient.PROJECT_SUSPEND:
-                text = activity.getResources().getString(R.string.projects_control_suspend);
+                text = getContext().getResources().getString(R.string.projects_control_suspend);
                 break;
             case RpcClient.PROJECT_RESUME:
-                text = activity.getResources().getString(R.string.projects_control_resume);
+                text = getContext().getResources().getString(R.string.projects_control_resume);
                 break;
             case RpcClient.PROJECT_ANW:
-                text = activity.getResources().getString(R.string.projects_control_allownewtasks);
+                text = getContext().getResources().getString(R.string.projects_control_allownewtasks);
                 break;
             case RpcClient.PROJECT_NNW:
-                text = activity.getResources().getString(R.string.projects_control_nonewtasks);
+                text = getContext().getResources().getString(R.string.projects_control_nonewtasks);
                 break;
             case RpcClient.PROJECT_RESET:
-                text = activity.getResources().getString(R.string.projects_control_reset);
+                text = getContext().getResources().getString(R.string.projects_control_reset);
                 break;
             case RpcClient.PROJECT_DETACH:
-                tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
-                text = activity.getResources().getString(R.string.projects_control_remove);
+                tvText.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_light_red_background));
+                text = getContext().getResources().getString(R.string.projects_control_remove);
                 break;
             case RpcClient.MGR_SYNC:
-                text = activity.getResources().getString(R.string.projects_control_sync_acctmgr);
+                text = getContext().getResources().getString(R.string.projects_control_sync_acctmgr);
                 break;
             case RpcClient.MGR_DETACH:
-                tvText.setBackground(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
-                text = activity.getResources().getString(R.string.projects_control_remove_acctmgr);
+                tvText.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.shape_light_red_background));
+                text = getContext().getResources().getString(R.string.projects_control_remove_acctmgr);
                 break;
             case RpcClient.TRANSFER_RETRY:
-                text = activity.getResources().getString(R.string.trans_control_retry);
+                text = getContext().getResources().getString(R.string.trans_control_retry);
                 break;
-            case ProjectControl.VISIT_WEBSITE:
-                text = activity.getResources().getString(R.string.projects_control_visit_website);
+            case ProjectsFragment.VISIT_WEBSITE:
+                text = getContext().getResources().getString(R.string.projects_control_visit_website);
+                break;
+            default:
                 break;
         }
 

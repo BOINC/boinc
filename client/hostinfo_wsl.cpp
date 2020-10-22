@@ -28,7 +28,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
 
     HKEY hKey;
     
-    default_wsl = "";
+    default_wsl.clear();
 
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
         lxss_path.c_str(),
@@ -89,7 +89,7 @@ bool get_available_wsls(std::vector<std::string>& wsls, std::string& default_wsl
 
     RegCloseKey(hKey);
 
-    return default_wsl != "";
+    return !default_wsl.empty();
 }
 
 typedef HRESULT(WINAPI *PWslLaunch)(PCWSTR, PCWSTR, BOOL, HANDLE, HANDLE, HANDLE, HANDLE*);
@@ -138,7 +138,7 @@ bool CreateWslProcess(const std::string& wsl_app, const std::string& command, HA
 
     const std::string cmd = wsl_app + " " + command;
 
-    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) == TRUE);
+    const bool res = (CreateProcess(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, dwFlags, NULL, NULL, &si, &pi) != FALSE);
 
     if (res) {
         handle = pi.hProcess;
@@ -197,8 +197,8 @@ std::string read_from_pipe(HANDLE handle) {
 
 void parse_sysctl_output(const std::vector<std::string>& lines, std::string& ostype, std::string& osrelease) {
     char buf[256], ostype_found[256], osrelease_found[256];
-    ostype = "";
-    osrelease = "";
+    ostype.clear();
+    osrelease.clear();
     for (size_t i = 0; i < lines.size(); ++i) {
         safe_strcpy(buf, lines[i].c_str());
         strip_whitespace(buf);

@@ -34,6 +34,9 @@ flags:
       - sched/
       - db/
       - tools/
+  android:
+    paths:
+      - android/BOINC/app/src/main/java/edu/berkeley/boinc
 
 # don't gather statistics for test and external libraries
 ignore:

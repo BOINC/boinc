@@ -339,6 +339,8 @@
 /* Host for this compilation */
 #ifdef __x86_64__
 #define HOSTTYPE "x86_64-apple-darwin"
+#elif defined(__arm64__)
+#define HOSTTYPE "arm64-apple-darwin"
 #endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */

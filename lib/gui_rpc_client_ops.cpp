@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,16 +41,8 @@
 //   formatting failures for any software that has been localized or
 //   displays localized data.
 
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "../version.h"
 #else
 #include "config.h"
@@ -83,8 +75,7 @@ using std::vector;
 using std::sort;
 
 int OLD_RESULT::parse(XML_PARSER& xp) {
-    static const OLD_RESULT x;
-    *this = x;
+    memset(this, 0, sizeof(OLD_RESULT));
     while (!xp.get_tag()) {
         if (xp.match_tag("/old_result")) return 0;
         if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
@@ -100,8 +91,7 @@ int OLD_RESULT::parse(XML_PARSER& xp) {
 }
 
 int TIME_STATS::parse(XML_PARSER& xp) {
-    static const TIME_STATS x;
-    *this = x;
+    memset(this, 0, sizeof(TIME_STATS));
     while (!xp.get_tag()) {
         if (xp.match_tag("/time_stats")) return 0;
         if (xp.parse_double("now", now)) continue;
@@ -590,8 +580,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 void APP_VERSION::clear() {
-    static const APP_VERSION x(0);
-    *this = x;
+    memset(this, 0, sizeof(*this));
 }
 
 WORKUNIT::WORKUNIT() {
@@ -1221,8 +1210,6 @@ int ACCT_MGR_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_string("acct_mgr_name", acct_mgr_name)) continue;
         if (xp.parse_string("acct_mgr_url", acct_mgr_url)) continue;
         if (xp.parse_bool("have_credentials", have_credentials)) continue;
-        if (xp.parse_bool("cookie_required", cookie_required)) continue;
-        if (xp.parse_string("cookie_failure_url", cookie_failure_url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1231,8 +1218,6 @@ void ACCT_MGR_INFO::clear() {
     acct_mgr_name = "";
     acct_mgr_url = "";
     have_credentials = false;
-    cookie_required = false;
-    cookie_failure_url = "";
 }
 
 ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
@@ -1291,7 +1276,6 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
-        if (xp.parse_string("setup_cookie", setup_cookie)) continue;
         if (xp.parse_bool("has_account_key", has_account_key)) continue;
         if (xp.parse_bool("embedded", embedded)) continue;
     }
@@ -1302,7 +1286,6 @@ void PROJECT_INIT_STATUS::clear() {
     url.clear();
     name.clear();
     team_name.clear();
-    setup_cookie.clear();
     has_account_key = false;
     embedded = false;
 }
@@ -1384,9 +1367,7 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
-    server_cookie.clear();
     ldap_auth = false;
-    server_assigned_cookie = false;
     consented_to_terms = false;
 }
 
@@ -1483,8 +1464,6 @@ int RPC_CLIENT::exchange_versions(string client_name, VERSION_INFO& server) {
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
-        static const VERSION_INFO x;
-        server = x;
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</server_version>")) break;
             else if (parse_int(buf, "<major>", server.major)) continue;
@@ -1983,40 +1962,49 @@ int RPC_CLIENT::run_benchmarks() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::run_graphics_app(int slot, int& id, const char *operation) {
+// start or stop a graphics app on behalf of the screensaver.
+// (needed for Mac OS X 10.15+)
+//
+// <operaton can be "run", "runfullscreen" or "stop"
+// operand is slot number (for run or runfullscreen) or pid (for stop)
+// if slot = -1, start the default screensaver
+// screensaverLoginUser is the login name of the user running the screensaver
+//
+int RPC_CLIENT::run_graphics_app(const char *operation, int& operand, const char *screensaverLoginUser) {
     char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
     int thePID = -1;
     bool stop = false;
+    bool test = false;
     
     snprintf(buf, sizeof(buf), "<run_graphics_app>\n");
     
     if (!strcmp(operation, "run")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n", slot);
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
     } else if (!strcmp(operation, "runfullscreen")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<runfullscreen/>\n", slot);
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<runfullscreen/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
     } else if (!strcmp(operation, "stop")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<stop/>\n", id);
+        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<stop/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
         stop = true;
-    } else if (!strcmp(operation, "test")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<test/>\n", id);
+        } else if (!strcmp(operation, "test")) {
+            snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<test/>\n", operand);
+            test = true;
     } else {
-        id = -1;
+        operand = -1;
         return -1;
     }
     safe_strcat(buf, "</run_graphics_app>\n");
     int retval = rpc.do_rpc(buf);
     if (retval) {
-        id = -1;
-    } else {
+        operand = -1;
+    } else if (test) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</run_graphics_app>")) break;
-            if (parse_int(buf, "<graphics_pid>", thePID)) continue;
-        }
-        id = thePID;
-        if ((!stop) && (thePID < 0)) {
-            retval = -1;
+            if (parse_int(buf, "<graphics_pid>", thePID)) {
+                operand = thePID;
+                continue;
+            }
         }
     }
     return retval;
@@ -2376,15 +2364,11 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <ldap_auth>%d</ldap_auth>\n"
-		"   <server_assigned_cookie>%d</server_assigned_cookie>\n"
-		"   <server_cookie>%s</server_cookie>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
-        ai.ldap_auth?1:0,
-		ai.server_assigned_cookie?1:0,
-	    ai.server_cookie.c_str()
+        ai.ldap_auth?1:0
     );
     buf[sizeof(buf)-1] = 0;
 

@@ -489,7 +489,7 @@ struct WORKUNIT {
         // without consensus (i.e. WU is nondeterministic)
     char result_template_file[64];
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double rsc_bandwidth_bound;
         // send only to hosts with at least this much download bandwidth
     DB_ID_TYPE fileset_id;
@@ -618,7 +618,7 @@ struct RESULT {
     int exit_status;                // application exit status, if any
     DB_ID_TYPE teamid;
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double elapsed_time;
         // AKA runtime; returned by 6.10+ clients
     double flops_estimate;

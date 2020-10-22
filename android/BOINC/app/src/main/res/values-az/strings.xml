@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Yüklənir! Lütfən, gözləyin...</string>
     <string name="generic_button_continue">Davam et</string>
     <string name="generic_button_finish">Hazırdır</string>
     <!--attach project-->
@@ -12,9 +11,6 @@
     <string name="attachproject_list_header">Layihə seç:</string>
     <string name="attachproject_list_manual_button">Layihə üçün URL-ünvan daxil et</string>
     <string name="attachproject_list_manual_dialog_title">Layihənin URL ünvanını daxil eT</string>
-    <string name="attachproject_list_manual_dialog_button">Layihə əlavə et</string>
-    <string name="attachproject_list_manual_no_url">Lütfən, layihənin URL ünvanını daxil edin</string>
-    <string name="attachproject_list_acctmgr_button">Layihə meneceri əlavə edin</string>
     <string name="attachproject_list_no_internet">İnternetlə bağlantı yoxdur</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Hesab məlumatlarını daxil edin</string>
@@ -31,7 +27,7 @@
         ziyarət edin
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Qoşulur</string>
+    <string name="attachproject_working_attaching">Qoşulur %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">İşarə</string>
@@ -49,45 +45,17 @@
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">Layihənin serveri ilə bağlanır...</string>
-    <string name="attachproject_login_image_description">Layihənin emblemi.</string>
     <string name="attachproject_login_header_general_area">Əsas sahə:</string>
     <string name="attachproject_login_header_specific_area">İxtisaslaşma:</string>
     <string name="attachproject_login_header_description">Təsvir:</string>
     <string name="attachproject_login_header_home">Sahibi:</string>
     <string name="attachproject_login_header_url">Veb-sayt:</string>
-    <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">Bu layihə Android-qurğuları dəstəkləyir</string>
-    <string name="attachproject_login_platform_not_supported">Bu layihə Anroid bazalı qurğuları dəstəkləmir</string>
-    <string name="attachproject_login_category_terms_of_use">İstifadə qaydaları</string>
-    <string name="attachproject_login_accept_terms_of_use">Bu layihədə hesab yaratmaqla, Siz yuxarıda göstərilən
-        istifadə şərtlərtini qəbul etmiş olursunuz.
-    </string>
-    <string name="attachproject_login_category_login">Mövcud hesabla daxil olmaq</string>
     <string name="attachproject_login_header_id_email">Elektron poçt:</string>
     <string name="attachproject_login_header_id_name">Ad:</string>
     <string name="attachproject_login_header_pwd">Şifrə:</string>
-    <string name="attachproject_login_category_creation">İlk dəfədir</string>
-    <string name="attachproject_login_header_creation_enabled">İştirak üçün hesab qeydiyyatdan keçir:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Hesab yaratmaq üçün layihənin veb-saytını ziyarət
-        et:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">Bu layihə hal-hazırda yeni hesabların yaradılmasına
-        imkan vermir
-    </string>
     <string name="attachproject_login_button_registration">Qeydiyyatdan keç</string>
     <string name="attachproject_login_button_login">Daxil ol</string>
     <string name="attachproject_login_button_forgotpw">Şifrəni bərpa et</string>
-    <string name="attachproject_login_error_toast">Layihə ilə bağlantıda xəta baş verdi!</string>
-    <string name="attachproject_login_attached">Qoşuldu</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Hesabın qeydiyyatdan keçirilməsi</string>
-    <string name="attachproject_registration_header_url">Layihə:</string>
-    <string name="attachproject_registration_header_email">Elektron poçt:</string>
-    <string name="attachproject_registration_header_username">Ad:</string>
-    <string name="attachproject_registration_header_teamname">Komanda:</string>
-    <string name="attachproject_registration_header_pwd">Şifrə:</string>
-    <string name="attachproject_registration_header_pwd_confirm">... Təkrar edin:</string>
-    <string name="attachproject_registration_button">Yarat</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Bir neçə layihə əlavə etmək və idarə etmək üçün BOINC layihə
         menecerini istifadə et
@@ -96,14 +64,10 @@
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">İstifadəçi:</string>
     <string name="attachproject_acctmgr_header_pwd">Şifrə:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">... Təkrar edin:</string>
-    <string name="attachproject_acctmgr_button">Əlavə et</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">İstifadəçi tapılmadı</string>
     <string name="attachproject_error_short_pwd">Şifrə çox qısadır</string>
     <string name="attachproject_error_no_internet">Bağlantıda xəta</string>
-    <string name="attachproject_error_pwd_no_match">Şifrələr uyğun gəlmir</string>
-    <string name="attachproject_error_pwd_no_retype">Lütfən, şifrəni yenidən daxil edin</string>
     <string name="attachproject_error_no_url">URL daxil edin</string>
     <string name="attachproject_error_no_email">Elektron poçt ünvanını daxil edin</string>
     <string name="attachproject_error_no_pwd">Şifrə daxil edin</string>
@@ -116,25 +80,6 @@
     <string name="attachproject_error_bad_pwd">Şifrə qəbul edimədi</string>
     <string name="attachproject_error_creation_disabled">Bu layihədə hesabın yaradılması söndürülüb</string>
     <string name="attachproject_error_invalid_url">Səhv ünvan (URL)</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Geri</string>
-    <string name="attachproject_working_finish_button">Hazırdır</string>
-    <string name="attachproject_working_check_desc">Uğurlu</string>
-    <string name="attachproject_working_failed_desc">Uğursuz</string>
-    <string name="attachproject_working_ongoing">...</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Bağlan</string>
-    <string name="attachproject_working_verify">Hesabı yoxla</string>
-    <string name="attachproject_working_register">Hesab qeydiyyatdan keçir</string>
-    <string name="attachproject_working_login">Daxil ol</string>
-    <string name="attachproject_working_acctmgr">Layihə meneceri əlavə et</string>
-    <string name="attachproject_working_acctmgr_sync">Sinxronizasiya</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Layihəni seçmək üçün bura vurun.</string>
-    <string name="main_error">Ups</string>
-    <string name="main_error_long">...bu baş verməməli idi!\nYenidən cəhd etmək üçün BOINC ikonuna vurun.</string>
-    <string name="main_title_icon_desc">BOINC ikonu</string>
     <!--tab names-->
     <string name="tab_status">Status</string>
     <string name="tab_projects">Layihələr</string>
@@ -155,14 +100,9 @@
     </string>
     <string name="status_launching">Başlayır...</string>
     <string name="status_noproject">İştirak üçün layihəni seçin.</string>
-    <string name="status_closing">Qapanır...</string>
     <string name="status_benchmarking">İş fəaliyyətinin yoxlanılması...</string>
     <string name="status_image_description">layihə görünüşü</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Sazlamaların oxunması...</string>
-    <string name="prefs_submit_button">Saxla</string>
-    <string name="prefs_dialog_title">Yeni məna daxil edin:</string>
-    <string name="prefs_dialog_title_selection">Seç:</string>
     <string name="prefs_category_general">Əsas</string>
     <string name="prefs_category_network">Şəbəkə</string>
     <string name="prefs_category_power">Qida</string>
@@ -192,17 +132,10 @@
         hesablamanı dayandırır. Bu dəyəri dəyişdirmək tövsiyə edilmir.
     </string>
     <string name="prefs_disk_max_pct_header">Max. Istifadə edilən saxlama sahəsi</string>
-    <string name="prefs_disk_max_pct_description">Cihazınızın saxlama yerinin neçə faizi BOINC-dən istifadə etməyə icazə
-        verir?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Min. Ehtiyat saxlama</string>
-    <string name="prefs_disk_min_free_gb_description">Cihazınızda ən az nə qədər saxlama yeri boş buraxılacaq?</string>
     <string name="prefs_disk_access_interval_header">Əlaqə zaman aralığı</string>
     <string name="prefs_disk_access_interval_description">Disk girişləri arasında aralıq təklif edir</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Gündəlik köçürmə limiti</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">BOINC tərəfindən verilən gündəlik məlumat trafiki
-        məhdudlaşdırır.
-    </string>
     <string name="prefs_network_wifi_only_header">Yalnız WiFi üzərindəki vəzifələri ötür</string>
     <string name="prefs_autostart_header">Avtomatik başlama</string>
     <string name="prefs_show_notification_notices_header">Yeni bildirişlər üçün bildirişi göstərin</string>
@@ -221,10 +154,7 @@
     <string name="prefs_client_log_flags_header">BOINC Müştəri günlük bayraqları</string>
     <string name="prefs_gui_log_level_header">GUI giriş səviyyəsi</string>
     <string name="prefs_gui_log_level_description">GUI günlük mesajlarının verdiklərini bildirir.</string>
-    <string name="prefs_unit_celsius">°C</string>
-    <string name="prefs_unit_seconds">san</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Layihələr oxunur...</string>
     <string name="projects_add">Layihə əlavə et</string>
     <string name="projects_icon">Layihə ikonu</string>
     <string name="projects_credits">Kredit:</string>
@@ -237,7 +167,7 @@
     <string name="projects_status_schedrpcpending">Planlaşdırma tələbi gözləyir</string>
     <string name="projects_status_schedrpcinprogress">Planlaşdırma istəyi davam edir</string>
     <string name="projects_status_trickleuppending">Davametmə mesajı gözləyir</string>
-    <string name="projects_status_backoff">Planlaşdırılan kommunikasiya:</string>
+    <string name="projects_status_backoff">Planlaşdırılan kommunikasiya: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Layihə əmrləri:</string>
     <string name="projects_control_visit_website">Veb səhifəyə baxın</string>
@@ -281,29 +211,21 @@
     <string name="tasks_custom_ready_to_report">hesabat verməyə hazırdır</string>
     <!--confirmation dialog-->
     <string name="confirm_abort_task_title">İş ləğv edilsin?</string>
-    <string name="confirm_abort_task_message">Bu iş ləğv edilsin:</string>
+    <string name="confirm_abort_task_message">Bu iş ləğv edilsin: %1$s</string>
     <string name="confirm_abort_task_confirm">Ləğv</string>
     <string name="confirm_cancel">İmtina</string>
     <string name="confirm_image_desc">Təsdiq informasiya qutusu</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Transferlər oxunur...</string>
     <string name="trans_upload">Yükləmə</string>
     <string name="trans_download">Endirmə</string>
-    <string name="trans_retryin">yenidən cəhd edin</string>
-    <string name="trans_failed">uğursuz</string>
+    <string name="trans_retry_in">yenidən cəhd edin %1$s</string>
     <string name="trans_suspended">dayandırıldı</string>
     <string name="trans_active">aktivdir</string>
     <string name="trans_pending">gözləyən</string>
-    <string name="trans_projectbackoff">layihə təxirə salındı</string>
     <string name="trans_header_name">Fayl:</string>
     <string name="trans_control_retry">Transferləri yenidən yoxla</string>
-    <string name="confirm_abort_trans_title">Transfer ləğv edilsinmi?</string>
-    <string name="confirm_abort_trans_message">Bu faylın transferi ləğv edilsin:</string>
-    <string name="confirm_abort_trans_confirm">Ləğv</string>
     <!--notices tab strings-->
-    <string name="notices_loading">əbərlər oxunur...</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Gündəlik mesajlar yüklənir ...</string>
     <string name="eventlog_client_header">Müştəri Mesajları</string>
     <string name="eventlog_gui_header">GUI Mesajları</string>
     <string name="eventlog_copy_toast">Panoya kopyalanan giriş.</string>
@@ -314,7 +236,6 @@
     <string name="suspend_screen_on">Hesabı davam etdirmək üçün ekranı söndürün.</string>
     <string name="suspend_useractive">İstifadəçi aktivdir.</string>
     <string name="suspend_tod">Hesablama müddətindən kənar.</string>
-    <string name="suspend_bm">BOINC cihazınızı test edir ...</string>
     <string name="suspend_disksize">Disk yeri məhduddur.</string>
     <string name="suspend_cputhrottle">Planlaşdırılmış CPU qazı.</string>
     <string name="suspend_noinput">Son istifadəçi fəaliyyəti yoxdur.</string>
@@ -326,11 +247,8 @@
     <string name="suspend_wifi">WiFi ilə əlaqəli deyil.</string>
     <string name="suspend_battery_charging">Şarjı gözləyir.</string>
     <string name="suspend_battery_charging_long">Batareya yüklənməsinə gəldikdə hesablama davam edəcək:</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">hazırda</string>
     <string name="suspend_battery_overheating">Batareyanın soyumasını gözləyin</string>
     <string name="suspend_user_req">Hesablamanın bərpası ...</string>
-    <string name="suspend_network_user_req">Əllə.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">İstifadəçi tərəfindən istənildi</string>
     <string name="rpcreason_needwork">İşi endirmək üçün</string>

@@ -53,12 +53,12 @@
   ---------------------------------------------------------------------------*/
 
 
-#define UNZIP_INTERNAL
-#include "../unzip.h"
 #include <windows.h>    /* must be AFTER unzip.h to avoid struct G problems */
 #ifdef __RSXNT__
 #  include "../win32/rsxntwin.h"
 #endif
+#define UNZIP_INTERNAL
+#include "../unzip.h"
 #include "../win32/nt.h"
 
 #ifndef FUNZIP          /* most of this file is not used with fUnZip */

@@ -24,10 +24,8 @@
 //
 // 2) a better one (class XML_PARSER) which parses arbitrary XML
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstring>
@@ -309,7 +307,7 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
 char* sgets(char* buf, int len, char*& in) {
     char* p;
 
-    p = strstr(in, "\n");
+    p = strchr(in, '\n');
     if (!p) return NULL;
     *p = 0;
     strlcpy(buf, in, len);
