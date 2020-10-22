@@ -59,6 +59,8 @@ using std::string;
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
+#define FUH_MIN_FREE_SPACE 1e9
+
 char this_filename[256];
 string variety = "";
 double start_time();
@@ -462,7 +464,7 @@ bool volume_full(char* path) {
     double total, avail;
     int retval = get_filesystem_info(total, avail, path);
     if (retval) return false;
-    if (avail<1e6) {
+    if (avail < FUH_MIN_FREE_SPACE) {
         return true;
     }
     return false;

@@ -24,11 +24,6 @@
 #include <fcntl.h>
 #endif
 
-#if  defined(_MSC_VER) || defined(__MINGW32__)
-#define getcwd    _getcwd
-#define snprintf  _snprintf
-#endif
-
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
 #ifdef _USING_FCGI_

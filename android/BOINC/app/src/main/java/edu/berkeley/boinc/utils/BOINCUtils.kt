@@ -25,8 +25,10 @@ import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.RemoteException
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
@@ -35,6 +37,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.io.Reader
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -75,7 +80,7 @@ suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
 
 //from https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
 fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
-    val drawable = ContextCompat.getDrawable(this, drawableId)!!
+    val drawable = AppCompatResources.getDrawable(this, drawableId)!!
     return drawable.toBitmap()
 }
 
@@ -105,3 +110,11 @@ fun Context.translateRPCReason(reason: Int) = when (reason) {
     RPC_REASON_PROJECT_REQ -> resources.getString(R.string.rpcreason_projectreq)
     else -> resources.getString(R.string.rpcreason_unknown)
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Long.secondsToLocalDateTime(
+        zoneId: ZoneId = ZoneId.systemDefault()
+): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), zoneId)
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)

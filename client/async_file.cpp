@@ -27,10 +27,6 @@
 #include <string.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "crypt.h"
 #include "error_numbers.h"
 #include "filesys.h"

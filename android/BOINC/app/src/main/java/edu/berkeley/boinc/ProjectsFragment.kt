@@ -23,11 +23,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
 import android.view.*
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter
@@ -393,7 +393,7 @@ class ProjectsFragment : Fragment() {
                 dialog.show()
             } else if (operation == VISIT_WEBSITE) { // command does not require confirmation and is not RPC based
                 dialogControls!!.dismiss()
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.id)))
+                startActivity(Intent(Intent.ACTION_VIEW, data.id!!.toUri()))
             } else { // command does not require confirmation, but is RPC based
                 lifecycleScope.launch {
                     performProjectOperationAsync(data, operation)

@@ -34,10 +34,6 @@
 #include <set>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "crypt.h"
 #include "error_numbers.h"
 #include "file_names.h"

@@ -30,10 +30,6 @@
 #include <sys/types.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "md5_file.h"
 #include "crypt.h"
 #include "str_replace.h"

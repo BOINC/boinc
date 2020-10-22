@@ -68,7 +68,7 @@
 #endif
 
 #include "version.h"
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
 #include "svn_version.h"
 #endif
 #include "boinc_api.h"
@@ -746,9 +746,9 @@ int TASK::run(int argct, char** argvt) {
     if (aid.no_priority_change) {
         priority_val = 0;
     } else {
-        if (aid.process_priority > 0) {
+        if (aid.process_priority > CONFIG_PRIORITY_UNSPECIFIED) {
             // priority coming from the client is on scale where 0 is idle.
-            // for us, 1 is idle
+            // we use the scale where 1 is idle
             //
             priority_val = process_priority_value(aid.process_priority+1);
         } else {
@@ -1180,7 +1180,7 @@ int main(int argc, char** argv) {
             gpu_device_num = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--trickle")) {
             trickle_period = atof(argv[++j]);
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
         } else if (!strcmp(argv[j], "--version") || !strcmp(argv[j], "-v")) {
             fprintf(stderr, "%s\n", SVN_VERSION);
             boinc_finish(0);

@@ -50,7 +50,7 @@
     var $objects = $('a[href="' + old_url + '"]');
     $objects.addClass('ctools-fetching');
     try {
-      var url = Drupal.CTools.AJAX.urlReplaceNojs(url);
+      var url = Drupal.sanitizeAjaxUrl(Drupal.CTools.AJAX.urlReplaceNojs(url));
       var ajaxOptions = {
         type: "POST",
         url: url,
@@ -68,7 +68,8 @@
         complete: function() {
           $objects.removeClass('ctools-fetching');
         },
-        dataType: 'json'
+        dataType: 'json',
+        jsonp: false
       };
       $.ajax(ajaxOptions);
     }
@@ -117,7 +118,7 @@
     }
     $(this).addClass('ctools-ajaxing');
     try {
-      url = Drupal.CTools.AJAX.urlReplaceNojs(url);
+      url = Drupal.sanitizeAjaxUrl(Drupal.CTools.AJAX.urlReplaceNojs(url));
       $.ajax({
         type: "POST",
         url: url,
@@ -131,7 +132,8 @@
         complete: function() {
           $('.ctools-ajaxing').removeClass('ctools-ajaxing');
         },
-        dataType: 'json'
+        dataType: 'json',
+        jsonp: false
       });
     }
     catch (err) {
@@ -159,7 +161,7 @@
     $(this).addClass('ctools-ajaxing');
     try {
       if (url) {
-        url = Drupal.CTools.AJAX.urlReplaceNojs(url);
+        url = Drupal.sanitizeAjaxUrl(Drupal.CTools.AJAX.urlReplaceNojs(url));
         $.ajax({
           type: "POST",
           url: url,
@@ -173,7 +175,8 @@
           complete: function() {
             $('.ctools-ajaxing').removeClass('ctools-ajaxing');
           },
-          dataType: 'json'
+          dataType: 'json',
+          jsonp: false
         });
       }
       else {
@@ -329,7 +332,7 @@
     var form_id = $object.parents('form').get(0).id;
     try {
       if (url) {
-        url = Drupal.CTools.AJAX.urlReplaceNojs(url);
+        url = Drupal.sanitizeAjaxUrl(Drupal.CTools.AJAX.urlReplaceNojs(url));
         $.ajax({
           type: "POST",
           url: url,
@@ -346,7 +349,8 @@
               $('form#' + form_id).submit();
             }
           },
-          dataType: 'json'
+          dataType: 'json',
+          jsonp: false
         });
       }
       else {

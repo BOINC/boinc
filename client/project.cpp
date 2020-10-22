@@ -18,21 +18,14 @@
 #include <boinc_win.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include <string.h>
-
 #include "str_replace.h"
 #include "url.h"
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
 #include "result.h"
 #include "sandbox.h"
-
 #include "project.h"
 
 PROJECT::PROJECT() {

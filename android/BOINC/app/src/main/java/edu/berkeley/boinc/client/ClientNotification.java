@@ -212,26 +212,17 @@ public class ClientNotification {
             case ClientStatus.COMPUTING_STATUS_NEVER:
             case ClientStatus.COMPUTING_STATUS_SUSPENDED:
             case ClientStatus.COMPUTING_STATUS_IDLE:
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    if(isSmall) {
-                        icon = R.mipmap.ic_boinc_paused_white;
-                    } else {
-                        icon = R.mipmap.ic_boinc_paused_notification;
-                    }
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && isSmall) {
+                    icon = R.mipmap.ic_boinc_paused_white;
                 }
                 else {
                     icon = R.drawable.ic_boinc_paused;
                 }
                 break;
             default:
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    if(isSmall) {
-                        icon = R.mipmap.ic_boinc_white;
-                    } else {
-                        icon = R.mipmap.ic_launcher;
-                    }
-                }
-                else {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && isSmall) {
+                    icon = R.mipmap.ic_boinc_white;
+                } else {
                     icon = R.drawable.ic_boinc;
                 }
         }

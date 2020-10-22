@@ -35,10 +35,6 @@
 #include <errno.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"

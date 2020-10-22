@@ -40,16 +40,16 @@
     <!-- Effectively a hint for the Google Play store only and at the Leanback UI Library -->
     <uses-feature
             android:name="android.software.leanback"
-            android:required="false" /> <!-- Implies some sort of D-pad, game controller, joystick, remote control, etc -->
+            android:required="false" />
     <uses-feature
             android:name="android.hardware.gamepad"
-            android:required="false" />
+            android:required="false" /> <!-- Implies some sort of D-pad, game controller, joystick, remote control, etc -->
     <uses-feature
             android:name="android.hardware.touchscreen"
-            android:required="false" /> <!-- Effectively a hint for the Google Play store only -->
+            android:required="false" />
     <uses-feature
             android:name="android.hardware.type.television"
-            android:required="false" />
+            android:required="false" /> <!-- Effectively a hint for the Google Play store only -->
 
     <application
             android:name=".BOINCApplication"
@@ -77,7 +77,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-                <category android:name="tv.ouya.intent.category.APP" />
             </intent-filter>
         </activity>
         <activity

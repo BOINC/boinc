@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
@@ -87,6 +88,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         return navDrawerItems.get(position).id;
     }
 
+    @Nullable
     public NavDrawerItem getItemForId(int id) {
         for(NavDrawerItem item : navDrawerItems) {
             if(item.id == id) {

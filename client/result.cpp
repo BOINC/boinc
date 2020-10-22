@@ -22,10 +22,6 @@
 #include <math.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "str_replace.h"
 #include "parse.h"
 
