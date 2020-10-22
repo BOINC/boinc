@@ -331,7 +331,7 @@ class Monitor : LifecycleService() {
                 val transfers = clientInterface.fileTransfers
                 val acctMgrInfo = clientInterface.acctMgrInfo
                 val newNotices = clientInterface.getNotices(clientStatus.mostRecentNoticeSeqNo)
-                if (allNotNull(status, state, state!!.hostInfo, acctMgrInfo)) {
+                if (allNotNull(status, state, state?.hostInfo, acctMgrInfo)) {
                     clientStatus.setClientStatus(status, state.results, state.projects,
                             transfers, state.hostInfo, acctMgrInfo,
                             newNotices)

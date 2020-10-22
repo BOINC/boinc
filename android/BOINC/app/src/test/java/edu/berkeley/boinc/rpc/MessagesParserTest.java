@@ -51,8 +51,8 @@ public class MessagesParserTest {
         expected = new Message();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParse_whenRpcResultIsNull_thenExpectIllegalArgumentException() {
+    @Test(expected = NullPointerException.class)
+    public void testParse_whenRpcResultIsNull_thenExpectNullPointerException() {
         mockStatic(Xml.class);
 
         MessagesParser.parse(null);

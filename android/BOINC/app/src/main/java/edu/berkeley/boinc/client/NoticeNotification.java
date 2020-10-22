@@ -18,18 +18,17 @@
 **/
 package edu.berkeley.boinc.client;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +44,18 @@ import edu.berkeley.boinc.utils.Logging;
 
 @Singleton
 public class NoticeNotification {
-    private ClientStatus clientStatus;
-    private Context context;
-    private PersistentStorage persistentStorage;
+    private static final String NOTICE_GROUP = "edu.berkeley.boinc.NOTICES";
 
-    private NotificationManager nm;
-    private Integer notificationId;
-    private PendingIntent contentIntent;
+    private final ClientStatus clientStatus;
+    private final Context context;
+    private final PersistentStorage persistentStorage;
 
-    private List<Notice> currentlyNotifiedNotices = new ArrayList<>();
+    private final NotificationManagerCompat notificationManagerCompat;
+    private final int summaryNotificationID;
+    private final PendingIntent contentIntent;
+
+    private final List<Integer> notificationIDs = new ArrayList<>();
+    private final List<Notice> currentlyNotifiedNotices = new ArrayList<>();
     private boolean isNotificationShown = false;
 
     @Inject
@@ -61,9 +63,9 @@ public class NoticeNotification {
         this.context = context;
         this.clientStatus = clientStatus;
         this.persistentStorage = persistentStorage;
-        this.nm = ContextCompat.getSystemService(this.context, NotificationManager.class);
-        notificationId = this.context.getResources().getInteger(R.integer.notice_notification_id);
-        Intent intent = new Intent(this.context, BOINCActivity.class);
+        this.notificationManagerCompat = NotificationManagerCompat.from(context);
+        summaryNotificationID = context.getResources().getInteger(R.integer.notice_notification_id);
+        Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("targetFragment", R.string.tab_notices);
         contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -75,7 +77,11 @@ public class NoticeNotification {
      */
     public void cancelNotification() {
         if(isNotificationShown) {
-            nm.cancel(notificationId);
+            for (int notificationID : notificationIDs) {
+                notificationManagerCompat.cancel(notificationID);
+            }
+            notificationIDs.clear();
+            notificationManagerCompat.cancel(summaryNotificationID);
             isNotificationShown = false;
             currentlyNotifiedNotices.clear();
         }
@@ -87,7 +93,7 @@ public class NoticeNotification {
     public void update(List<Notice> notices, boolean isPreferenceEnabled) {
         if(!isPreferenceEnabled) {
             if(isNotificationShown) {
-                nm.cancel(notificationId);
+                notificationManagerCompat.cancel(summaryNotificationID);
                 isNotificationShown = false;
             }
             return;
@@ -112,65 +118,85 @@ public class NoticeNotification {
         if(newNotice) {
             // new notices came in
             persistentStorage.setLastNotifiedNoticeArrivalTime(mostRecentSeenArrivalTime);
-            nm.notify(notificationId, buildNotification());
+            final List<Notification> notifications = buildNoticeNotifications();
+            for (int i = 0; i < notifications.size(); i++) {
+                final Notification notification = notifications.get(i);
+                final int noticeNotificationID = summaryNotificationID + i + 1;
+                notificationIDs.add(noticeNotificationID);
+                notificationManagerCompat.notify(noticeNotificationID, notification);
+            }
+            notificationManagerCompat.notify(summaryNotificationID, buildSummaryNotification());
             isNotificationShown = true;
         }
     }
 
-    @SuppressLint("InlinedApi")
-    private Notification buildNotification() {
-        // build new notification from scratch every time a notice arrives
-        final NotificationCompat.Builder nb;
+    private List<Notification> buildNoticeNotifications() {
+        final List<Notification> notifications = new ArrayList<>();
+
+        for (Notice notice : currentlyNotifiedNotices) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(notice.getLink()));
+            final PendingIntent browserIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notice-channel")
+                    .setAutoCancel(true)
+                    .setContentIntent(browserIntent)
+                    .setContentTitle(notice.getProjectName() + ": " + notice.getTitle())
+                    .setContentText(notice.getDescription())
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(notice.getDescription()))
+                    .setLargeIcon(getLargeProjectIcon(context, notice.getProjectName()))
+                    .setSmallIcon(R.drawable.ic_boinc_notice)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setGroup(NOTICE_GROUP);
+
+            notifications.add(builder.build());
+        }
+
+        return notifications;
+    }
+
+    private Notification buildSummaryNotification() {
         final int notices = currentlyNotifiedNotices.size();
         final String projectName = currentlyNotifiedNotices.get(0).getProjectName();
-        int smallIcon;
-        int icon;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            smallIcon   = R.mipmap.ic_email_white;
-            icon        = R.mipmap.ic_launcher;
-        } else {
-            smallIcon   = R.drawable.ic_baseline_email_white;
-            icon        = R.drawable.ic_boinc;
-        }
-        nb = new NotificationCompat.Builder(context, "main-channel");
-        nb.setContentTitle(context.getResources().getQuantityString(
-                R.plurals.notice_notification, notices, projectName, notices)).
-                  setSmallIcon(smallIcon).
-                  setAutoCancel(true).
-                  setContentIntent(this.contentIntent);
+        final int icon = R.drawable.ic_boinc;
+        final int smallIcon = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ?
+                              R.mipmap.ic_boinc_notice_white : R.drawable.ic_boinc_notice;
+        // build new notification from scratch every time a notice arrives
+        final NotificationCompat.Builder nb = new NotificationCompat.Builder(context, "notice-channel")
+                .setContentTitle(context.getResources().getQuantityString(R.plurals.notice_notification,
+                                                                          notices, projectName, notices))
+                .setSmallIcon(smallIcon)
+                .setAutoCancel(true)
+                .setContentIntent(contentIntent);
         if(notices == 1) {
             // single notice view
-            nb.setContentText(currentlyNotifiedNotices.get(0).getTitle()).
-                    setLargeIcon(getLargeProjectIcon(context, projectName));
+            nb.setContentText(currentlyNotifiedNotices.get(0).getTitle())
+              .setLargeIcon(getLargeProjectIcon(context, projectName));
         }
         else {
             // multi notice view
             nb.setNumber(notices)
-              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, icon))
-              .setSubText(this.context.getString(R.string.app_name));
+              .setLargeIcon(BOINCUtils.getBitmapFromVectorDrawable(context, icon));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                nb.setSubText(context.getString(R.string.app_name));
+            }
 
             // append notice titles to list
             final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            for(int i = 0; i < notices; i++) {
-                final Notice notice;
-                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).getProjectName() +
-                                   ": " + notice.getTitle());
+            for (Notice notice : currentlyNotifiedNotices) {
+                inboxStyle.addLine(notice.getProjectName() + ": " + notice.getTitle());
             }
             nb.setStyle(inboxStyle);
         }
+        nb.setGroup(NOTICE_GROUP)
+          .setGroupSummary(true);
         return nb.build();
     }
 
     private Bitmap getLargeProjectIcon(final Context context, final String projectName) {
-        final Bitmap projectIconBitmap;
-        int icon;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            icon = R.mipmap.ic_launcher;
-        } else {
-            icon = R.drawable.ic_boinc;
-        }
+        final Bitmap projectIconBitmap = clientStatus.getProjectIconByName(projectName);
+        final int icon = R.drawable.ic_boinc;
         try {
-            return (projectIconBitmap = clientStatus.getProjectIconByName(projectName)) != null ?
+            return projectIconBitmap != null ?
                    Bitmap.createScaledBitmap(
                            projectIconBitmap,
                            projectIconBitmap.getWidth() << 1,

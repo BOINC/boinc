@@ -54,10 +54,6 @@
 #include <ctime>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"

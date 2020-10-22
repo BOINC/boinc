@@ -17,10 +17,6 @@
 
 #include "boinc_win.h"
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"

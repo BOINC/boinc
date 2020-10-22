@@ -25,7 +25,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
@@ -35,9 +34,6 @@ import edu.berkeley.boinc.databinding.TasksLayoutListItemBinding
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
 import java.text.NumberFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.roundToInt
@@ -46,6 +42,7 @@ class TaskRecyclerViewAdapter(
         private val fragment: TasksFragment,
         private val taskList: List<TasksFragment.TaskData>
 ) : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
+    private val dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
     private val elapsedTimeStringBuilder = StringBuilder()
     private val percentNumberFormat = NumberFormat.getPercentInstance().apply { minimumFractionDigits = 3 }
 
@@ -69,8 +66,7 @@ class TaskRecyclerViewAdapter(
         if (item.id != finalIconId) {
             val icon = getIcon(position)
             if (icon == null) {
-                holder.projectIcon.setImageDrawable(AppCompatResources.getDrawable(fragment.requireContext(),
-                        R.drawable.ic_boinc))
+                holder.projectIcon.setImageResource(R.drawable.ic_boinc)
             } else {
                 holder.projectIcon.setImageBitmap(icon)
                 holder.projectIcon.tag = item.id
@@ -139,10 +135,7 @@ class TaskRecyclerViewAdapter(
             holder.time.text = DateUtils.formatElapsedTime(elapsedTimeStringBuilder, elapsedTime)
 
             // set deadline
-            val deadlineDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(
-                    item.result.reportDeadline), ZoneId.systemDefault())
-            val deadline = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                    .format(deadlineDateTime)
+            val deadline = dateTimeFormatter.format(item.result.reportDeadline.secondsToLocalDateTime())
             holder.deadline.text = deadline
             // set application friendly name
             if (result.app != null) {
@@ -159,21 +152,19 @@ class TaskRecyclerViewAdapter(
                     holder.abortButton.tag = RpcClient.RESULT_ABORT // tag on button specified operation triggered in iconClickListener
                     holder.abortButton.visibility = View.VISIBLE
                     holder.requestProgressBar.visibility = View.GONE
-                    val theme = fragment.requireActivity().theme
+                    val context = fragment.requireContext()
 
                     // checking what suspendResume button should be shown
                     when {
                         item.result.isSuspendedViaGUI -> { // show play
                             holder.suspendResumeButton.visibility = View.VISIBLE
-                            holder.suspendResumeButton.setBackgroundColor(ResourcesCompat.getColor(fragment.resources,
-                                    R.color.dark_green, theme))
+                            holder.suspendResumeButton.setBackgroundColor(context.getColorCompat(R.color.dark_green))
                             holder.suspendResumeButton.setImageResource(R.drawable.ic_baseline_play_arrow_white)
                             holder.suspendResumeButton.tag = RpcClient.RESULT_RESUME // tag on button specified operation triggered in iconClickListener
                         }
                         item.determineState() == PROCESS_EXECUTING -> { // show pause
                             holder.suspendResumeButton.visibility = View.VISIBLE
-                            holder.suspendResumeButton.setBackgroundColor(ResourcesCompat.getColor(fragment.resources,
-                                    R.color.dark_green, theme))
+                            holder.suspendResumeButton.setBackgroundColor(context.getColorCompat(R.color.dark_green))
                             holder.suspendResumeButton.setImageResource(R.drawable.ic_baseline_pause_white)
                             holder.suspendResumeButton.tag = RpcClient.RESULT_SUSPEND // tag on button specified operation triggered in iconClickListener
                         }
@@ -254,7 +245,7 @@ class TaskRecyclerViewAdapter(
         }
     }
 
-    inner class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: TasksLayoutListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val root = binding.root
         val projectIcon = binding.projectIcon
         val header = binding.taskHeader

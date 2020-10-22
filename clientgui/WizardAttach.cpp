@@ -263,7 +263,7 @@ bool CWizardAttach::Run(
         wxString strProjectDescription,
         wxString strProjectKnown,
         bool     bAccountKeyDetected,
-        bool     bEmbedded
+        bool     /* bEmbedded */
 ){
     SetProjectName(strProjectName);
     if (strProjectURL.size()) {

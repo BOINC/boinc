@@ -25,10 +25,6 @@
 #include "boinc_win.h"
 #include "sysmon_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #else
 #include "config.h"
 #if HAVE_SYS_SOCKET_H

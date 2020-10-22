@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -181,12 +181,6 @@ struct ACTIVE_TASK {
     inline int task_state() {
         return _task_state;
     }
-#ifdef __APPLE__
-    // PowerPC apps emulated on i386 Macs crash if running graphics
-// TODO: We may need to adapt this for x86_64 emulated on arm64
-    int powerpc_emulated_on_i386;
-    int is_native_i386_app(char*);
-#endif
     int request_reread_prefs();
     int request_reread_app_info();
     int link_user_files();

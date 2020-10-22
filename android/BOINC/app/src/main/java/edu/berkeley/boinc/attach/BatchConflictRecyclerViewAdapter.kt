@@ -22,7 +22,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import edu.berkeley.boinc.R
@@ -54,7 +53,7 @@ class BatchConflictRecyclerViewAdapter(
             holder.resolveButtonImage.visibility = View.GONE
             holder.statusProgressBar.visibility = View.GONE
             holder.statusImage.visibility = View.VISIBLE
-            holder.statusImage.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_baseline_check))
+            holder.statusImage.setImageResource(R.drawable.ic_baseline_check)
         } else if (listItem.result == ProjectAttachService.RESULT_ONGOING ||
                 listItem.result == ProjectAttachService.RESULT_UNINITIALIZED) {
             // ongoing
@@ -82,7 +81,7 @@ class BatchConflictRecyclerViewAdapter(
             holder.resolveButtonImage.visibility = View.GONE
             holder.statusProgressBar.visibility = View.GONE
             holder.statusImage.visibility = View.VISIBLE
-            holder.statusImage.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_baseline_clear))
+            holder.statusImage.setImageResource(R.drawable.ic_baseline_clear)
         } else {
             // failed
             holder.status.visibility = View.VISIBLE
@@ -97,11 +96,11 @@ class BatchConflictRecyclerViewAdapter(
             }
             holder.statusProgressBar.visibility = View.GONE
             holder.statusImage.visibility = View.VISIBLE
-            holder.statusImage.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_baseline_clear))
+            holder.statusImage.setImageResource(R.drawable.ic_baseline_clear)
         }
     }
 
-    inner class ViewHolder(binding: AttachProjectBatchConflictsListItemBinding):
+    class ViewHolder(binding: AttachProjectBatchConflictsListItemBinding):
             RecyclerView.ViewHolder(binding.root) {
         val name = binding.name
         val status = binding.status

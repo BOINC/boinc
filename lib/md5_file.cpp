@@ -30,10 +30,6 @@
 #include <wincrypt.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef ANDROID
 #include <stdlib.h>
 #endif

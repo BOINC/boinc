@@ -98,16 +98,13 @@
     <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
   </Target>
-  <Target Name="InstallVcpkg" BeforeTargets="RestoreCache" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
+  <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
     <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgExe))" />
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
-  <Target Name="RestoreCache" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg" Condition="Exists($(VcpkgCacheDir))">
-    <Exec Command="xcopy $(VcpkgCacheDir) $(VcpkgRootDir)\installed /e /i /y" />
-  </Target>
-  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="RestoreCache" AfterTargets="RestoreCache">
-    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
+    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>

@@ -19,13 +19,6 @@
 //
 // usage: boinc_log [--host hostname] [--passwd passwd] 
 
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-#define snprintf    _snprintf
-#define strdate     _strdate
-#define strtime     _strtime
-#define chdir       _chdir
-#endif
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"

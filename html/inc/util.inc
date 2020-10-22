@@ -1155,8 +1155,8 @@ function google_search_form($url) {
         <form method=get action=\"https://google.com/search\">
         <input type=hidden name=domains value=\"$url\">
         <input type=hidden name=sitesearch value=\"$url\">
-        <input class=small name=q size=20>
-        <input class=small type=submit value=".tra("Search").">
+        <input name=q size=20>
+        <input type=submit value=".tra("Search").">
         </form>
         </nobr>
     ";

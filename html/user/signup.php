@@ -96,7 +96,7 @@ function show_join_form() {
     if ($recaptcha_public_key) {
         form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
     }
-    form_submit("Join");
+    form_submit(tra("Join"));
     form_end();
     page_tail();
 }

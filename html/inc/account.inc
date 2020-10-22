@@ -51,8 +51,9 @@ function toggle_passwd() {
     }
 }
 </script>
-<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
-        ', $name
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>%s</small></label>
+        ', $name,
+        tra("Show password")
     );
 }
 
@@ -158,7 +159,7 @@ function login_form($next_url) {
         array(array("stay_logged_in", "", true)), 
         'tabindex="3"'
     );
-    form_submit("Log in", 'tabindex="4"');
+    form_submit(tra("Log in"), 'tabindex="4"');
     form_end();
 }
 

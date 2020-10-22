@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,10 +41,6 @@ extern int compareOSVersionTo(int toMajor, int toMinor);
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #ifdef __EMX__

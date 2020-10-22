@@ -156,7 +156,7 @@ create table team (
     joinable                tinyint         not null default 1,
     mod_time                timestamp default current_timestamp on update current_timestamp,
     primary key (id)
-) engine=MyISAM;  
+) engine=InnoDB;  
 
 create table host (
     id                      integer         not null auto_increment,
@@ -444,7 +444,7 @@ create table profile (
     verification            integer         not null,
         -- UOD screening status: -1 denied, 0 unrated, 1 approved
     primary key (userid)
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- message board category
 -- help desk is a group of categories that are handled separately
@@ -520,7 +520,7 @@ create table thread (
     sticky                  tinyint         not null default 0,
     locked                  tinyint         not null default 0,
     primary key (id)
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- postings in a thread (or answers)
 -- Each thread has an initial post
@@ -542,7 +542,7 @@ create table post (
     hidden                  integer         not null,
         -- nonzero if hidden by moderators
     primary key (id)
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- subscription to a thread
 --
@@ -588,7 +588,7 @@ create table forum_preferences (
         -- 2 = digest email
     highlight_special       tinyint         not null default 1,
     primary key (userid)
-) engine=MyISAM; 
+) engine=InnoDB; 
 
 -- keep track of last time a user read a thread
 create table forum_logging (
@@ -596,14 +596,14 @@ create table forum_logging (
     threadid                integer         not null default 0,
     timestamp               integer         not null default 0,
     primary key (userid,threadid)
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table post_ratings (
     post                    integer         not null,
     user                    integer         not null,
     rating                  tinyint         not null,
     primary key(post, user)
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table sent_email (
     userid                  integer         not null,
@@ -617,7 +617,7 @@ create table sent_email (
         -- 5 = forum ban
         -- 6 = fundraising appeal
     primary key(userid)
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table private_messages (
     id                      integer         not null auto_increment,
@@ -628,12 +628,12 @@ create table private_messages (
     subject                 varchar(255)    not null,
     content                 text            not null,
     primary key(id)
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table credited_job (
     userid                  integer         not null,
     workunitid              bigint          not null
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table donation_items (
     id                      integer         not null auto_increment,
@@ -642,7 +642,7 @@ create table donation_items (
     description             varchar(255)    not null,
     required                double          not null default '0',
     PRIMARY KEY(id)
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table donation_paypal (
     id                      integer         not null auto_increment,
@@ -663,7 +663,7 @@ create table donation_paypal (
     payer_email             varchar(255)    not null,
     payer_name              varchar(255)    not null,
     PRIMARY KEY(id)
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- record changes in team membership
 create table team_delta (
@@ -672,7 +672,7 @@ create table team_delta (
     timestamp               integer         not null,
     joining                 tinyint         not null,
     total_credit            double          not null
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- tables for moderator banishment votes
 create table banishment_vote (
@@ -681,7 +681,7 @@ create table banishment_vote (
     modid                   integer         not null,
     start_time              integer         not null,
     end_time                integer         not null
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table banishment_votes (
     id                      serial          primary key,
@@ -689,14 +689,14 @@ create table banishment_votes (
     modid                   integer         not null,
     time                    integer         not null,
     yes                     tinyint         not null
-) engine=MyISAM;
+) engine=InnoDB;
 
 create table team_admin (
     teamid                  integer         not null,
     userid                  integer         not null,
     create_time             integer         not null,
     rights                  integer         not null
-) engine=MyISAM;
+) engine=InnoDB;
 
 -- A friendship request.
 -- The friendship exists if (x,y) and (y,x)

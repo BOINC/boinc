@@ -23,7 +23,6 @@ import android.app.Service
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
@@ -33,10 +32,11 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.replace
-import androidx.legacy.app.ActionBarDrawerToggle
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
@@ -46,10 +46,7 @@ import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.databinding.MainBinding
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
-import edu.berkeley.boinc.utils.Logging
-import edu.berkeley.boinc.utils.RUN_MODE_AUTO
-import edu.berkeley.boinc.utils.RUN_MODE_NEVER
-import edu.berkeley.boinc.utils.writeClientModeAsync
+import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
 
 class BOINCActivity : AppCompatActivity() {
@@ -112,11 +109,8 @@ class BOINCActivity : AppCompatActivity() {
         // enabling action bar app icon and behaving it as toggle button
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_white)
 
-        // TODO: Replace with a non-deprecated class.
         mDrawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout,
-                R.drawable.ic_baseline_menu_white,  //nav menu toggle icon
                 R.string.app_name,  // nav drawer openapplicationContext - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
@@ -134,6 +128,7 @@ class BOINCActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
             }
         }
+        mDrawerToggle.drawerArrowDrawable.color = getColorCompat(R.color.white)
         binding.drawerLayout.addDrawerListener(mDrawerToggle)
 
         // pre-select fragment
@@ -145,9 +140,8 @@ class BOINCActivity : AppCompatActivity() {
         if (targetFragId < 0 && savedInstanceState != null) {
             targetFragId = savedInstanceState.getInt("navBarSelectionId")
         }
-        val item: NavDrawerItem?
-        item = if (targetFragId < 0) {
-            // if non of the above, go to default
+        val item: NavDrawerItem? = if (targetFragId < 0) {
+            // if none of the above, go to default
             mDrawerListAdapter.getItem(0)
         } else {
             mDrawerListAdapter.getItemForId(targetFragId)
@@ -188,12 +182,13 @@ class BOINCActivity : AppCompatActivity() {
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: $id")
         }
-        val item = mDrawerListAdapter.getItemForId(id)
-        if (item != null) {
-            dispatchNavBarOnClick(item, false)
-        } else if (Logging.WARNING) {
-            Log.w(Logging.TAG, "onNewIntent: requested target fragment is null, for id: $id")
+        val item: NavDrawerItem? = if (id < 0) {
+            // if ID is -1, go to default
+            mDrawerListAdapter.getItem(0)
+        } else {
+            mDrawerListAdapter.getItemForId(id)
         }
+        dispatchNavBarOnClick(item, false)
     }
 
     override fun onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
@@ -264,8 +259,8 @@ class BOINCActivity : AppCompatActivity() {
                     ft.replace<ProjectsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
-                R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/wiki/BOINC_Help")))
-                R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://boinc.berkeley.edu/trac/wiki/ReportBugs")))
+                R.string.menu_help -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/wiki/BOINC_Help".toUri()))
+                R.string.menu_report_issue -> startActivity(Intent(Intent.ACTION_VIEW, "https://boinc.berkeley.edu/trac/wiki/ReportBugs".toUri()))
                 R.string.menu_about -> {
                     val dialog = Dialog(this).apply {
                         requestWindowFeature(Window.FEATURE_NO_TITLE)

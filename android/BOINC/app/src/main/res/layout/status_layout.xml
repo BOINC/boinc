@@ -41,29 +41,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:contentDescription="@string/status_paused"
-                android:background="@android:color/transparent"/>
+                android:contentDescription="@string/status_paused"/>
 
         <LinearLayout
                 android:id="@+id/text_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/transparent">
+                android:orientation="vertical">
 
             <TextView
                     android:id="@+id/status_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:background="@android:color/transparent"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                     android:id="@+id/status_long"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:background="@android:color/transparent"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -84,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent" />
+                android:layout_marginRight="10dp"/>
 
         <TextView
                 android:id="@+id/restarting_text"
@@ -93,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/suspend_user_req"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:maxWidth="300dp"
-                android:background="@android:color/transparent"/>
+                android:maxWidth="300dp"/>
     </LinearLayout>
 
 </LinearLayout>

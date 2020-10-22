@@ -59,10 +59,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define chdir _chdir
-#endif
 #else
 #include "config.h"
 #include <setjmp.h>

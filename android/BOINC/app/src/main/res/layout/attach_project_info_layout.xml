@@ -37,15 +37,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:background="@android:color/transparent"
                     android:textStyle="bold"/>
 
             <TextView
                     android:id="@+id/project_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:background="@android:color/transparent"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
 
         <ImageView
