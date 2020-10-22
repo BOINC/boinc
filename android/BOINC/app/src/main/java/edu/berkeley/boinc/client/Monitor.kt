@@ -25,11 +25,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION
 import android.os.*
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
@@ -99,6 +104,8 @@ class Monitor : LifecycleService() {
 
     // External RPC
     var mRpcExternServer = RpcExternServer()
+    var mRpcExternServerStart = false
+    private var manager: ConnectivityManager? = null
 
     // XML defined variables, populated in onCreate
     private lateinit var fileNameClient: String
@@ -180,6 +187,7 @@ class Monitor : LifecycleService() {
         return mBinder
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate() {
         (application as BOINCApplication).appComponent.inject(this)
         super.onCreate()
@@ -215,6 +223,33 @@ class Monitor : LifecycleService() {
         intentFilter.addAction("RPC_EXTERN")
         registerReceiver(mRpcExternBroadCastReceiver, intentFilter)
 //      LocalBroadcastManager.getInstance(this).registerReceiver(mRpcExternBroadCastReceiver,intentFilter)
+
+        // also handled in NETWORK_STATE_CHANGED_ACTION BroadCast
+        try {
+            val networkCallback = object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network?) {
+                    if (!mRpcExternServerStart) return
+                    val wiFi = isconnectedToWifi()
+                    // not sure why we need a delay
+                    // but if we don't, rapidly switching the WiFi on / off doesn't work
+                    Thread.sleep(100)
+                    mRpcExternServer.update(wiFi, null)
+                }
+
+                override fun onLost(network: Network?) {
+                    if (!mRpcExternServerStart) return
+                    val wiFi = isconnectedToWifi()
+                    // not sure why we need a delay
+                    // but if we don't, rapidly switching the WiFi on / off doesn't work
+                    Thread.sleep(100)
+                    mRpcExternServer.update(wiFi, null)
+                }
+            }
+            manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager?
+            manager!!.registerDefaultNetworkCallback(networkCallback)
+        } catch (e : Exception)
+        {
+        }
     }
 
     override fun onDestroy() {
@@ -536,8 +571,9 @@ class Monitor : LifecycleService() {
             if (Logging.DEBUG) Log.d(Logging.TAG, "Start RpcExtern")
             try {
                 val wiFi = isconnectedToWifi()
-                val rpcSettingsData = getPreferences() // a change breaks start and returns here
+                val rpcSettingsData = getPreferences()
                 mRpcExternServer.start(wiFi, this, clientSocketAddress, rpcSettingsData)
+                mRpcExternServerStart = true
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern starting")
             } catch (e: Exception) {
                 if (Logging.DEBUG) Log.e(Logging.TAG, "Start RpcExtern something went wrong")
@@ -564,24 +600,27 @@ class Monitor : LifecycleService() {
     // get RpcExternal, External GUI Settings
     private fun getPreferences(): RpcSettingsData {
 //        waitForDebugger()
-        val settingsData = RpcSettingsData()
+        val data = RpcSettingsData()
         try {
 //            val preferences = applicationContext.getSharedPreferences("rpcExtern", Context.MODE_PRIVATE);
             val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-            val externEnabled = preferences.getBoolean("rpcExternEnable", false)
-            val externEncryption = preferences.getBoolean("rpcExternEncryption", true)
-            val externPassword: String = preferences.getString("rpcExternPasswrd", "").toString()
-            val externPort: String = preferences.getString("rpcExternPort", "31416").toString()
-            val externAllowIp1 = preferences.getString("rpcExternAllowIp1", "")!!
-            val externAllowIp2 = preferences.getString("rpcExternAllowIp2", "")!!
-            val externAllowIp3 = preferences.getString("rpcExternAllowIp3", "")!!
-            val externAllowIp4 = preferences.getString("rpcExternAllowIp4", "")!!
-
-            settingsData.set(externEnabled, externEncryption, externPassword, externPort, externAllowIp1, externAllowIp2, externAllowIp3, externAllowIp4)
+            data.externEnabled = preferences.getBoolean("rpcExternEnable", false)
+            data.externEncryption = preferences.getBoolean("rpcExternEncryption", true)
+            data.externPasswrd = preferences.getString("rpcExternPasswrd", "").toString()
+            val port:String = preferences.getString("rpcExternPort", "31416").toString()
+            data.setPort(port)
+            data.ipAllowed1 = preferences.getString("rpcExternAllowIp1", "")!!
+            data.ipAllowed2 = preferences.getString("rpcExternAllowIp2", "")!!
+            data.ipAllowed3 = preferences.getString("rpcExternAllowIp3", "")!!
+            data.ipAllowed4 = preferences.getString("rpcExternAllowIp4", "")!!
+            data.ipAllowedWiFi1 = preferences.getString("rpcExternAllowWfIp1", "")!!
+            data.ipAllowedWiFi2 = preferences.getString("rpcExternAllowWfIp1", "")!!
+            data.ipAllowedWiFi3 = preferences.getString("rpcExternAllowWfIp1", "")!!
+            data.ipAllowedWiFi4 = preferences.getString("rpcExternAllowWfIp1", "")!!
         } catch (e: Exception) {
             if (Logging.DEBUG) Log.e(Logging.TAG, "RpcExtern failed getPreferences")
         }
-        return settingsData
+        return data
     }
 
     /**
@@ -880,34 +919,28 @@ class Monitor : LifecycleService() {
         }
     }
 
-    // RpcExtern
- //   val mRpcExternBroadCastReceiver = object : BroadcastReceiver() {
-
         private val mRpcExternBroadCastReceiver = RpcExternBroadcastReceiver()
         inner class RpcExternBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             try {
                 val action : String = intent!!.action.toString()
                 if (action.equals("RPC_EXTERN")) {
-                    if (intent.hasExtra("ENABLED")) {
-                        val rpcSettingsData = RpcSettingsData()
-                        val enabled : Boolean = intent.getBooleanExtra("ENABLED", false)
-                        val encryption : Boolean = intent.getBooleanExtra("ENCRYPTION", true)
-                        val passwrd : String  = intent.getStringExtra("PASSWRD")!!
-                        val port : String  = intent.getStringExtra("PORT")!!
-                        val ip1 : String  = intent.getStringExtra("IP1")!!
-                        val ip2 : String  = intent.getStringExtra("IP2")!!
-                        val ip3 : String  = intent.getStringExtra("IP3")!!
-                        val ip4 : String  = intent.getStringExtra("IP4")!!
-                        rpcSettingsData.set(enabled, encryption, passwrd, port, ip1, ip2, ip3, ip4)
-                        val wiFi = isconnectedToWifi()
-                        mRpcExternServer.update(wiFi, rpcSettingsData)
+                    if (intent.hasExtra("settings_bundle"))
+                    {
+                        val bundle = intent.getBundleExtra("settings_bundle")
+                        if (bundle != null) {
+                            val data = bundle.getParcelable<RpcSettingsData>("settings_parcel") as RpcSettingsData
+                            val wiFi = isconnectedToWifi()
+                            mRpcExternServer.update(wiFi, data)
+                        }
                     }
                     if (intent.hasExtra("STRING")) {
                         val data: String = intent.getStringExtra("STRING")!!
                         mRpcExternServer.command(data)
                     }
                 }
+                // default for older API versions, but still works.
+                // also handled in networkCallback, update disregards multiple request and only handles changes.
                 if (action.equals(NETWORK_STATE_CHANGED_ACTION))    //Interesting, a lot of API changes but this seems to work
                 {
                     val wiFi = isconnectedToWifi()
@@ -917,8 +950,6 @@ class Monitor : LifecycleService() {
                     mRpcExternServer.update(wiFi, null)
                 }
             } catch (e: Exception) {
-                var i = 1
-                i += 1
             }
         }
     }
@@ -935,28 +966,6 @@ class Monitor : LifecycleService() {
         }
         return 0
     }
-
-    /*
-    // eFMer this seems to work, but I can't check it on older Android versions
-    fun isconnectedToWifi(): Boolean {
-        try {
-        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-                ?: return false
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network: Network = connectivityManager.activeNetwork
-            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        } else {
-            val networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                    ?: return false
-            networkInfo.isConnected
-        }
-        } catch (e: Exception)
-        {
-            return false
-        }
-    }
-    */
 
     private suspend fun setClientRunMode(runMode: Int) = coroutineScope {
         try {

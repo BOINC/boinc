@@ -54,7 +54,6 @@ class RpcExternServer : RpcClient() {
     lateinit var mSettingsData : RpcSettingsData
 //    var serverPort = DEFAULT_PORT
     var mConnectServerSocket = false
-    var mExternPasswrdAes :String = ""
     var mThreadMakeCon: Thread? = null
     var mMessage: String = ""
     var mMessageIp: String = ""
@@ -72,6 +71,13 @@ class RpcExternServer : RpcClient() {
         mSettingsData = data
 
         if (mSettingsData.externEnabled && mWiFiIpInt > 0 ) {
+            // check if the WiFi Connection is allowed
+            val ip = matchWiFi()
+            if (ip.isNotEmpty())
+            {
+                sendToApplication("WIFI_NOT_ALLOWED", ip)
+                return
+            }
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
             mThreadMakeCon!!.start()
@@ -103,9 +109,6 @@ class RpcExternServer : RpcClient() {
         if (mThreadMakeCon != null) {
             while (mThreadMakeCon!!.isAlive) {
                 val id = mThreadMakeCon!!.id
-                if (id != mThreadID)    // for debugging, checking if we find the same thread
-                {
-                }
                 if (mThreadMakeCon == null) {
                     break
                 }
@@ -123,6 +126,14 @@ class RpcExternServer : RpcClient() {
 
         // Start the connection thread if enabled and there is WiFi
         if ((mSettingsData.externEnabled) && mWiFiIpInt > 0) {
+            // check if the WiFi Connection is allowed
+            val ip = matchWiFi()
+            if (ip.isNotEmpty())
+            {
+                sendToApplication("WIFI_NOT_ALLOWED", ip)
+                return
+            }
+
             mConnectServerSocket = true // restart the server socket
             sendToApplication("START") // Start
             mThreadMakeCon = Thread(mainThreadLoop())
@@ -139,6 +150,21 @@ class RpcExternServer : RpcClient() {
                 sendToApplication("IDLE")
             }
         }
+    }
+
+    // if we don't have a match return the ip, an empty list is a valid match
+    fun matchWiFi() : String {
+        val wiFiStr = getByAddress(allocate(4).order(LITTLE_ENDIAN).putInt(mWiFiIpInt).array()).hostAddress
+        val wiFiIp = getByName(wiFiStr)
+        var ip: String = wiFiIp.toString()
+        ip = ip.replace("/", "")
+        ip = ip.substringBefore(':')
+        mSettingsData.makeList()
+        if (mSettingsData?.matchIpWiFi(ip))
+        {
+            return ""
+        }
+        return ip
     }
 
     // The SettingsFragment send a start when it's visible and stop when it's done
@@ -161,7 +187,6 @@ class RpcExternServer : RpcClient() {
     private val inputs: DataInputStream? = null
     inner class mainThreadLoop : Runnable {
         val settingsData = mSettingsData
-        val ipAllowedList = settingsData.ipAllowedList
         var externPasswrdAes = ""
         var externPasswrd = ""
 
@@ -178,9 +203,11 @@ class RpcExternServer : RpcClient() {
         var authorizedIp = ""
         var connectedIp = ""
         var timeout = 0
+        var serverTimeout = 0
 
         lateinit var wiFiIp: InetAddress
         override fun run() {
+            settingsData.makeList()
             externPasswrd =  mSettingsData.externPasswrd
             var key = externPasswrd
             key += "leub[rehf!$&*()a"   // must be identical in the GUI
@@ -209,8 +236,6 @@ class RpcExternServer : RpcClient() {
                 } catch (e: InterruptedException) { // must be the first in catch
                     closeDownInterrupt = true
                 } catch (e: Exception) {
-                    var ii = 1 // debug break point
-                    ii += 1
                 }
             }
             serverSocket!!.close()  // interrupted
@@ -228,6 +253,7 @@ class RpcExternServer : RpcClient() {
                     val socket = serverSocket!!.accept()
                     if (socket != null) {
                         socket.setSoTimeout(socketTimeout)
+                        serverTimeout = 0
                         handleConnection(socket) // we have a connection, handle the handshake
                         //                       socket.close()
                     }
@@ -235,11 +261,14 @@ class RpcExternServer : RpcClient() {
                     closeDownInterrupt = true
                     return // interrupted
                 } catch (i: InterruptedIOException) {
-                    // ends here on an external interrupt
+                    serverTimeout +=1
+                    if (serverTimeout > 24) // timeout after 2 minutes
+                    {
+                        sendToApplication("TIMEOUT")
+                        bAuthorized = false
+                    }
                     return
                 } catch (e: Exception) {
-                    var ii = 1
-                    ii += 1
                 }
             }
         }
@@ -252,22 +281,14 @@ class RpcExternServer : RpcClient() {
             Thread.sleep(500)  // don't allow flooding
             try {
                 connectedIp = socket.remoteSocketAddress.toString()
-                if (ipAllowedList.isNotEmpty()) {  // check the ip allow list
-                    var ip = connectedIp
-                    var bFound = false
-                    ip = ip.replace("/", "")
-                    ip = ip.substringBefore(':')
-                    for (item in ipAllowedList) {
-                        if (ip.contains(item)) {
-                            bFound = true
-                            break
-                        }
-                    }
-                    if (!bFound) {  // if no match just close the socket and don't reply
-                        closeSocket(socket, out)
-                        sendToApplication("IPNOT", ip) //IP not allowed
-                        return
-                    }
+                var ip = connectedIp
+                ip = ip.replace("/", "")
+                ip = ip.substringBefore(':')
+                settingsData.matchIp(ip)
+                if (!settingsData.matchIp(ip)) {  // if no match just close the socket and don't reply
+                    closeSocket(socket, out)
+                    sendToApplication("IPNOT", ip) //IP not allowed
+                    return
                 }
                 if (!bAuthorized) {
                     sendToApplication("CON_NOT") // not connected
@@ -278,8 +299,8 @@ class RpcExternServer : RpcClient() {
                 closeSocket(socket, out)
                 return  // interrupted
             } catch (e: Exception) {
-                var ii = 1
-                ii += 1
+                closeSocket(socket, out)
+                return
             }
             try {
                 out = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
@@ -314,28 +335,22 @@ class RpcExternServer : RpcClient() {
                     closeSocket(socket, out)
                     return  // interrupted
                 } catch (e: Exception) {
-                    var ii = 1
-                    ii += 1
                 }
             }
             try {
                 closeSocket(socket, out)
             } catch (e: Exception) {
-                var ii = 1
-                ii += 1
             }
         }
 
         fun closeSocket(socket: Socket, out: BufferedWriter?): Boolean {
             try {
-                out!!.close()
+                out?.close()
                 socket.close()
             } catch (e: InterruptedException) { // must be the first in catch
                 closeDownInterrupt = true
                 return true
             } catch (e: Exception) {
-                var ii = 1
-                ii += 1
             }
             return false
         }
@@ -412,13 +427,13 @@ class RpcExternServer : RpcClient() {
             try {
                 bAuthorized = false
                 if (dataReadTotal.contains("<authe1")) {
-                    reply = aes.authe1(mExternPasswrdAes)
+                    reply = aes.authe1(externPasswrdAes)
                 } else {
                     if (dataReadTotal.contains("<authe2")) {
                         var auth = "<unauthorized/>"
                         val parser = RpcExternAuthParser()
                         parser.parse(dataReadTotal)
-                        if (aes.auth2(parser.encrypted, mExternPasswrdAes)) {
+                        if (aes.auth2(parser.encrypted, externPasswrdAes)) {
                             auth = "<authorized/>"
                             bAuthorized = true
                             authorizedIp = connectedIp
@@ -519,8 +534,6 @@ class RpcExternServer : RpcClient() {
             mMonitor.sendBroadcast(intent)
 //        LocalBroadcastManager.getInstance(BOINCActivity.appContext!!).sendBroadcast(intent)
         } catch (e: Exception) {
-            var ii = 1  // debug
-            ii +=1
         }
     }
 }

@@ -363,13 +363,24 @@
     <string name="settings_rpc_password">Password</string>
     <string name="settings_rpc_port">Port</string>
 
-    <string name="settings_rpc_set_ip1">Set IP address 1</string>
-    <string name="settings_rpc_set_ip2">Set IP address 2</string>
-    <string name="settings_rpc_set_ip3">Set IP address 3</string>
-    <string name="settings_rpc_set_ip4">Set IP address 4</string>
+    <string name="settings_allow_ip">Allow External IP addresses to connect</string>
+    <string name="settings_rpc_set_ip1">IP address 1</string>
+    <string name="settings_rpc_set_ip2">IP address 2</string>
+    <string name="settings_rpc_set_ip3">IP address 3</string>
+    <string name="settings_rpc_set_ip4">IP address 4</string>
+
+    <string name="settings_allow_wifi_ip">Allow WiFi IP addresses to connect</string>
+    <string name="settings_rpc_set_wifi_button">Add current WiFi IP address: </string>
+
+    <string name="settings_rpc_set_wifi_ip1">Wifi IP address 1</string>
+    <string name="settings_rpc_set_wifi_ip2">Wifi IP address 2</string>
+    <string name="settings_rpc_set_wifi_ip3">Wifi IP address 3</string>
+    <string name="settings_rpc_set_wifi_ip4">Wifi IP address 4</string>
 
     <string name="rpcExternStatus">Status:</string>
     <string name="status_rpc_extern_ip_not_allowed">Ip address not allowed</string>
+    <string name="status_rpc_extern_wifi_ip_not_allowed">WiFi Ip address not allowed</string>
+
     <string name="status_rpc_extern_connected">Connected</string>
     <string name="status_rpc_extern_not_connected">Not connected</string>
     <string name="status_rpc_extern_not_connected_time">Not connected, timeout</string>
@@ -380,7 +391,7 @@
     <string name="status_rpc_extern_idle">Disabled</string>
     <string name="status_rpc_extern_no_wifi">No WiFi</string>
     <string name="status_rpc_extern_closing">Closing</string>
-    <string name="status_rpc_extern_starting">Waiting</string>
+    <string name="status_rpc_extern_starting">Waiting for connection</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
