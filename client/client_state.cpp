@@ -283,14 +283,6 @@ void CLIENT_STATE::show_host_info() {
             "VirtualBox version: %s",
             host_info.virtualbox_version
         );
-    } else {
-#if defined (_WIN32) && !defined(_WIN64)
-        if (!strcmp(get_primary_platform(), "windows_x86_64")) {
-            msg_printf(NULL, MSG_USER_ALERT,
-                "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
-            );
-        }
-#endif
     }
 }
 
