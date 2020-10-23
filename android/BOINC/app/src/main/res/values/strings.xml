@@ -104,6 +104,7 @@
     <string name="tab_tasks">Tasks</string>
     <string name="tab_transfers">Transfers</string>
     <string name="tab_preferences">Preferences</string>
+    <string name="tab_rpcExtern">External GUI</string>
     <string name="tab_notices">Notices</string>
     <string name="tab_desc">Navigation</string>
 
@@ -128,6 +129,7 @@
     <string name="prefs_category_storage">Storage</string>
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_other">Other</string>
+    <string name="prefs_category_rpc">RPC connect</string>
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
@@ -317,6 +319,12 @@
         Corporation for their support.
     </string>
 
+    <!-- exit dialog -->
+    <string name="exit_app_title">Exit BOINC for Android</string>
+    <string name="exit_app_msg">Click Yes to close the app and all running BOINC Tasks</string>
+    <string name="exit_app_yes">Yes</string>
+    <string name="exit_app_no">No</string>
+
     <!-- notice notification e.g. New notice from SETI@HOME OR 3 new notices -->
     <plurals name="notice_notification">
         <item quantity="one">New notice from %1$s</item>
@@ -347,4 +355,56 @@
     <string name="main_notification_channel_description">Displays non-notice notifications.</string>
     <string name="notice_notification_channel_name">Notices</string>
     <string name="notice_notification_channel_description">Displays notices from your projects.</string>
+
+    <!-- External RPC GUI -->
+    <string name="rpcExternTitle">Ip of this device: </string>
+    <string name="settings_rpc_extern">Allow external GUI to connect</string>
+    <string name="settings_rpc_encryption">Use a secure password</string>
+    <string name="settings_rpc_password">Password</string>
+    <string name="settings_rpc_port">Port</string>
+
+    <string name="settings_allow_ip">Allow External IP addresses to connect</string>
+    <string name="settings_rpc_set_ip1">IP address 1</string>
+    <string name="settings_rpc_set_ip2">IP address 2</string>
+    <string name="settings_rpc_set_ip3">IP address 3</string>
+    <string name="settings_rpc_set_ip4">IP address 4</string>
+
+    <string name="settings_allow_wifi_ip">Allow WiFi IP addresses to connect</string>
+    <string name="settings_rpc_set_wifi_button">Add current WiFi IP address: </string>
+
+    <string name="settings_rpc_set_wifi_ip1">Wifi IP address 1</string>
+    <string name="settings_rpc_set_wifi_ip2">Wifi IP address 2</string>
+    <string name="settings_rpc_set_wifi_ip3">Wifi IP address 3</string>
+    <string name="settings_rpc_set_wifi_ip4">Wifi IP address 4</string>
+
+    <string name="rpcExternStatus">Status:</string>
+    <string name="status_rpc_extern_ip_not_allowed">Ip address not allowed</string>
+    <string name="status_rpc_extern_wifi_ip_not_allowed">WiFi Ip address not allowed</string>
+
+    <string name="status_rpc_extern_connected">Connected</string>
+    <string name="status_rpc_extern_not_connected">Not connected</string>
+    <string name="status_rpc_extern_not_connected_time">Not connected, timeout</string>
+    <string name="status_rpc_extern_password">Password error</string>
+    <string name="status_rpc_extern_use_encrypted">Need encrypted Password</string>
+    <string name="status_rpc_extern_use_hash">Need non encrypted Password</string>
+    <string name="status_rpc_extern_ip_mismatch">Computer IP not trusted</string>
+    <string name="status_rpc_extern_idle">Disabled</string>
+    <string name="status_rpc_extern_no_wifi">No WiFi</string>
+    <string name="status_rpc_extern_closing">Closing</string>
+    <string name="status_rpc_extern_starting">Waiting for connection</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
 </resources>

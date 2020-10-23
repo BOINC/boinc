@@ -193,8 +193,16 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void doBindService() {
-        // start service to allow setForeground later on...
-        startService(new Intent(this, Monitor.class));
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // required
+            startForegroundService(new Intent(this, Monitor.class));
+        }
+        else
+        {
+            // start service to allow setForeground later on...
+            startService(new Intent(this, Monitor.class));
+        }
+
         // Establish a connection with the service, onServiceConnected gets called when
         bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
     }

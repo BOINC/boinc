@@ -48,6 +48,9 @@
     <bool name="prefs_power_source_wireless">true</bool>
     <bool name="prefs_stationary_device_mode">false</bool>
     <bool name="prefs_suspend_when_screen_on">true</bool>
+    <!-- Default preferences RPC Extern-->
+    <bool name="settings_rpc_extern_enabled">false</bool>
+    <bool name="settings_rpc_extern_encryption">true</bool>
     <!-- Monitor behavior -->
     <integer name="status_update_interval_ms">1000</integer>
     <integer name="device_status_update_screen_off_every_X_loop">10
@@ -81,4 +84,8 @@
         <item>cpu_sched_debug</item>
         <item>work_fetch_debug</item>
     </string-array>
+
+    <!-- Allow RPC to connect to BOINC -->
+    <bool name="prefs_default_rpc_extern_allow">false</bool>
+
 </resources>

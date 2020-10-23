@@ -25,10 +25,10 @@ public class Logging {
     public static final String WAKELOCK = TAG + ":MyPowerLock";
 
     public static int LOGLEVEL = -1;
-    public static boolean ERROR = false;
+    public static boolean ERROR = true;
     public static boolean WARNING = false;
     public static boolean INFO = false;
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = false; // TODO eFMer set to true for testing
     public static boolean VERBOSE = false;
     public static boolean RPC_PERFORMANCE = false;
     public static boolean RPC_DATA = false;

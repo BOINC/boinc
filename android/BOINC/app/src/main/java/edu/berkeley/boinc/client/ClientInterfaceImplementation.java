@@ -104,7 +104,7 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @param authFilePath absolute path to file containing GUI RPC authentication
      * @return GUI RPC authentication code
      */
-    String readAuthToken(String authFilePath) {
+    public String readAuthToken(String authFilePath) {
         String authKey = "";
         try (BufferedReader br = new BufferedReader(new FileReader(new File(authFilePath)))) {
             authKey = br.readLine();

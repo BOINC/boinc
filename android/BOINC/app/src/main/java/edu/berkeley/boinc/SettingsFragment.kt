@@ -115,7 +115,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             // Power
             "powerSources" -> {
                 val powerSources = sharedPreferences.getStringSet(key,
-                        resources.getStringArray(R.array.power_source_default).toSet()) ?: emptySet()
+                        resources.getStringArray(R.array.power_source_default).toSet())
+                        ?: emptySet()
                 Log.d(Logging.TAG, "powerSources: $powerSources")
                 BOINCActivity.monitor!!.powerSourceAc = "wall" in powerSources
                 BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
@@ -126,7 +127,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
             "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
-                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
+                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble()
+                        ?: 40.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -186,7 +188,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "workBufAdditionalDays" -> {
-                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
+                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble()
+                        ?: 0.5
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -230,6 +233,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<PreferenceCategory>("storage")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("memory")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("other")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("rpc")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("debug")?.isVisible = showAdvanced
     }
 
