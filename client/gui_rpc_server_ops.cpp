@@ -1927,6 +1927,7 @@ void GUI_RPC_CONN::http_error(const char* msg) {
 // - no ..
 //
 void GUI_RPC_CONN::handle_get() {
+    return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
     if (!cc_config.allow_gui_rpc_get) {
         return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
     }
