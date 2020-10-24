@@ -18,13 +18,7 @@ class RpcSettingsDatax {
         data.externPasswrd = passwrd
 
         try {
-            if (port.isNotEmpty()) {
-                data.externPort = port.toInt()
-            }
-            else
-            {
-                data.externPort = DEFAULT_PORT
-            }
+            data.externPort = if (port.isNotEmpty()) port.toInt() else DEFAULT_PORT
         } catch (e: Exception) {
             data.externPort = DEFAULT_PORT
         }
