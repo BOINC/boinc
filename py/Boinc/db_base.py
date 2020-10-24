@@ -1,5 +1,3 @@
-## $Id$
-
 # quarl 2003-10-16 initial version based on conglomeration of
 #                  coursesurvey/database.py and boinc/database.py
 
@@ -11,11 +9,8 @@
 # will do a database.Results.find1(id=wu.resultid) the first time
 
 from __future__ import generators
-
 import MySQLdb, MySQLdb.cursors
 import sys, os, weakref
-
-ID = '$Id$'
 
 dbconnection = None
 

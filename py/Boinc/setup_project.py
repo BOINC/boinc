@@ -1,10 +1,9 @@
-## $Id$
-
 # module for setting up a new project (either a real project or a test project
 # see tools/makeproject, test/testbase.py).
 
 # TODO: make sure things work if build_dir != src_dir
 
+from __future__ import print_function
 import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
