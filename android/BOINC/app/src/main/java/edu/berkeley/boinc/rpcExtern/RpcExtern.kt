@@ -67,9 +67,8 @@ class RpcExtern {
             }
         }
         if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "Authentication key acquired. length: " + StringUtils.length(authKey))
+            Log.d(Logging.TAG, "Authentication key acquired. length: " + (authKey?.length ?: 0))
         }
         return authKey
     }
 }
-
