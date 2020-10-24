@@ -56,7 +56,7 @@ class RpcExtern {
     fun readAuthToken(authFilePath: String): String {   //TODO eFMer duplicate ClientImplementation.java
         var authKey = ""
         try {
-            BufferedReader(FileReader(File(authFilePath))).use { br -> authKey = br.readLine() }
+            File(authFilePath).bufferedReader().use { br -> authKey = br.readLine() }
         } catch (fnfe: FileNotFoundException) {
             if (Logging.ERROR) {
                 Log.e(Logging.TAG, "Auth file not found: ", fnfe)
@@ -72,5 +72,4 @@ class RpcExtern {
         return authKey
     }
 }
-
 
