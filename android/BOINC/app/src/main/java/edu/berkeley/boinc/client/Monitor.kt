@@ -1331,7 +1331,6 @@ class Monitor : LifecycleService() {
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
         }
-
     } // --end-- remote service
 
     companion object {
