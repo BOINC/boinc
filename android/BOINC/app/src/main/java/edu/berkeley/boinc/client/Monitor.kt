@@ -105,7 +105,7 @@ class Monitor : LifecycleService() {
     // External RPC
     var mRpcExternServer = RpcExternServer()
     var mRpcExternServerStart = false
-    private var manager: ConnectivityManager? = null
+    private lateinit var manager: ConnectivityManager
 
     // XML defined variables, populated in onCreate
     private lateinit var fileNameClient: String
@@ -245,8 +245,8 @@ class Monitor : LifecycleService() {
                     mRpcExternServer.update(wiFi, null)
                 }
             }
-            manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager?
-            manager!!.registerDefaultNetworkCallback(networkCallback)
+            manager = (getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager)!!
+            manager.registerDefaultNetworkCallback(networkCallback)
         } catch (e : Exception)
         {
         }
