@@ -53,8 +53,6 @@ import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.launch
 
 
-// get Context using BOINCActivity.appContext
-
 class BOINCActivity : AppCompatActivity() {
     private var clientComputingStatus = -1
     private var numberProjectsInNavList = 0
