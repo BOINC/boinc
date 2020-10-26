@@ -29,6 +29,7 @@ addons:
 
 env:
   global:
+    - MAKEFLAGS="-j 2"
     # secret API keys for Coverity and bintray
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
     - secure: dYJhIQi9mB00HsyjNEbyyeh7ChHxbg9o6dkBvub/4dRwJKN+KAReU7yHshUTpHI+Nn4TdCjpwHcDMDOklRTSeUFz79jGEmCVqvnz0DynZFroryX3rdAnc/kW4QkupgLZk4JKCN0JRPOM/j9RS2zLxkqrDc7gibF7BNgIhu1jUXk=
