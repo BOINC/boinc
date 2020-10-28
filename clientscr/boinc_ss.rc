@@ -35,8 +35,6 @@ IDI_MAIN_ICON           ICON                    "res\\gridrepublic.ico"
 IDI_MAIN_ICON           ICON                    "res\\progress.ico"
 #elif defined(_CHARITYENGINE)
 IDI_MAIN_ICON           ICON                    "res\\ce.ico"
-#elif defined(_WCG)
-IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
 #else
 IDI_MAIN_ICON           ICON                    "res\\boinc.ico"
 #endif
@@ -185,41 +183,6 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Charity Engine"
             VALUE "FileDescription", "Charity Engine Screensaver"
-            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
-            VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2019 University of California"
-            VALUE "OriginalFilename", "boinc.scr"
-            VALUE "ProductName", "BOINC client"
-            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1200
-    END
-END
-
-#elif defined(_WCG)
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
- PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904b0"
-        BEGIN
-            VALUE "CompanyName", "World Community Grid"
-            VALUE "FileDescription", "World Community Grid Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
             VALUE "LegalCopyright", "© 2003-2019 University of California"
@@ -386,61 +349,6 @@ BEGIN
     CTEXT           "Never",IDC_STATIC,213,164,22,8
 END
 
-#elif defined(_WCG)
-
-DLG_CONFIG DIALOGEX 50, 50, 249, 200
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "World Community Grid Screensaver Configuration"
-FONT 8, "MS Sans Serif", 0, 0, 0x0
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,137,181,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,194,181,50,14
-    LTEXT           "Blank screensaver after:",IDC_STATIC,7,7,237,14,SS_CENTERIMAGE
-    CONTROL         "",IDC_SLIDER_BLANKTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,20,220,15
-    CTEXT           "1",IDC_STATIC,20,36,8,8
-    CTEXT           "2",IDC_STATIC,44,36,8,8
-    CTEXT           "5",IDC_STATIC,70,36,8,8
-    CTEXT           "10",IDC_STATIC,95,36,8,8
-    CTEXT           "15",IDC_STATIC,121,36,8,8
-    CTEXT           "30",IDC_STATIC,146,36,8,8
-    CTEXT           "45",IDC_STATIC,171,36,8,8
-    CTEXT           "1hr",IDC_STATIC,194,36,10,8
-    CTEXT           "Never",IDC_STATIC,213,36,22,8
-    LTEXT           "Run World Community Grid screensaver for:",IDC_STATIC,7,49,237,14,SS_CENTERIMAGE
-    CONTROL         "",IDC_SLIDER_DEFAULTTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,63,220,15
-    CTEXT           "1",IDC_STATIC,20,79,8,8
-    CTEXT           "2",IDC_STATIC,44,79,8,8
-    CTEXT           "5",IDC_STATIC,70,79,8,8
-    CTEXT           "10",IDC_STATIC,95,79,8,8
-    CTEXT           "15",IDC_STATIC,121,79,8,8
-    CTEXT           "30",IDC_STATIC,146,79,8,8
-    CTEXT           "45",IDC_STATIC,171,79,8,8
-    CTEXT           "1hr",IDC_STATIC,194,79,10,8
-    CTEXT           "Never",IDC_STATIC,213,79,22,8
-    LTEXT           "Run project screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
-    CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
-    CTEXT           "1",IDC_STATIC,20,122,8,8
-    CTEXT           "2",IDC_STATIC,44,122,8,8
-    CTEXT           "5",IDC_STATIC,70,122,8,8
-    CTEXT           "10",IDC_STATIC,95,122,8,8
-    CTEXT           "15",IDC_STATIC,121,122,8,8
-    CTEXT           "30",IDC_STATIC,146,122,8,8
-    CTEXT           "45",IDC_STATIC,171,122,8,8
-    CTEXT           "1hr",IDC_STATIC,194,122,10,8
-    CTEXT           "Never",IDC_STATIC,213,122,22,8
-    LTEXT           "Switch between project screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
-    CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
-    CTEXT           "1",IDC_STATIC,20,164,8,8
-    CTEXT           "2",IDC_STATIC,44,164,8,8
-    CTEXT           "5",IDC_STATIC,70,164,8,8
-    CTEXT           "10",IDC_STATIC,95,164,8,8
-    CTEXT           "15",IDC_STATIC,121,164,8,8
-    CTEXT           "30",IDC_STATIC,146,164,8,8
-    CTEXT           "45",IDC_STATIC,171,164,8,8
-    CTEXT           "1hr",IDC_STATIC,194,164,10,8
-    CTEXT           "Never",IDC_STATIC,213,164,22,8
-END
-
 #else
 
 DLG_CONFIG DIALOGEX 50, 50, 249, 200
@@ -509,8 +417,6 @@ IDB_BOINC               BITMAP                  "res\\gridrepublic.bmp"
 IDB_BOINC               BITMAP                  "res\\progress.bmp"
 #elif defined(_CHARITYENGINE)
 IDB_BOINCSPLAT          BITMAP                  "res\\ce.bmp"
-#elif defined(_WCG)
-IDB_BOINC               BITMAP                  "res\\wcg.bmp"
 #else
 IDB_BOINC               BITMAP                  "res\\boinc.bmp"
 #endif
@@ -583,29 +489,6 @@ BEGIN
                             "Charity Engine screensaver loading"
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
                             "Charity Engine screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
-END
-
-#elif defined(_WCG)
-
-STRINGTABLE 
-BEGIN
-    IDS_DESCRIPTION         "World Community Grid"
-    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the World Community Grid screensaver."
-    IDS_ERR_BOINCNOTDETECTED 
-                            "World Community Grid is not running.\n\nPlease launch World Community Grid\nto display graphics."
-    IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
-    IDS_ERR_BOINCNOAPPSEXECUTING
-                            "World Community Grid is currently idle."
-    IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
-                            "World Community Grid is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
-    IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
-                            "World Community Grid system status:\n\n"
-    IDS_ERR_BOINCSCREENSAVERLOADING
-                            "World Community Grid screensaver loading"
-    IDS_ERR_BOINCSHUTDOWNEVENT
-                            "World Community Grid\nscreensaver shutting down."
-    IDS_ERR_DAEMONALLOWSNOGRAPHICS
-                            "World Community Grid screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #else

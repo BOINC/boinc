@@ -87,8 +87,6 @@ bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 
 ////@end CProjectWelcomePage member initialisation
 
-	((CWizardAttach*)parent)->IsFirstPass = false;
- 
 ////@begin CProjectWelcomePage creation
     wxWizardPageEx::Create( parent, ID_PROJECTWELCOMEPAGE );
 

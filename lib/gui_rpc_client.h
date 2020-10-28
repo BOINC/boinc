@@ -545,7 +545,7 @@ struct PROJECT_CONFIG {
     int local_revision;     // SVN changeset# of server software
     int min_passwd_length;
     bool account_manager;
-    bool uses_username;     // true for WCG
+    bool uses_username;     // is this used by any project?
     bool account_creation_disabled;
     bool client_account_creation_disabled;  // must create account on web
     bool sched_stopped;         // scheduler disabled

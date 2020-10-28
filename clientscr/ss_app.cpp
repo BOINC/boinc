@@ -88,9 +88,6 @@ const char* logo_file = "CE_ss_logo.jpg";
 #elif defined(_PROGRESSTHRUPROCESSORS)
 const char* brand_name = "Progress Thru Processors";
 const char* logo_file = "progress_ss_logo.jpg";
-#elif defined(_WCG)
-const char* brand_name = "World Community Grid";
-const char* logo_file = "wcg_ss_logo.jpg";
 #else
 const char* brand_name = "BOINC";
 const char* logo_file = "boinc_logo_black.jpg";

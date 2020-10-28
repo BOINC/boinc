@@ -168,9 +168,6 @@ struct PROJECT_INIT_STATUS;
 #define IS_ACCOUNTMANAGERUPDATEWIZARD() \
     ((CWizardAttach*)GetParent())->IsAccountManagerUpdateWizard
 
-#define IS_CHANGEWCGAPPS() \
-	((CWizardAttach*)GetParent())->IsChangeWCGApps
-
 
 // Commonly defined macros
 //
@@ -341,9 +338,6 @@ public:
     bool                IsAttachToProjectWizard;
     bool                IsAccountManagerWizard;
     bool                IsAccountManagerUpdateWizard;
-	bool				IsChangeWCGApps;
-	/// For WCG, need to not launch project page when first opened
-	bool				IsFirstPass;
 
     /// Global Wizard Status
     PROJECT_CONFIG      project_config;
