@@ -963,9 +963,9 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     // Box Sizer
     mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->AddSpacer(ADJUSTFORYDPI(68));
-    mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
+    mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS);
     mainSizer->AddSpacer(ADJUSTFORYDPI(8));
-    mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
+    mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS);
     mainSizer->AddSpacer(ADJUSTFORYDPI(8));
 
 	wxBoxSizer* buttonsSizer;
@@ -986,11 +986,11 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
     
-	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND, 0 );
     buttonsSizer->AddStretchSpacer();
 
     m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND, 0 );
 
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
