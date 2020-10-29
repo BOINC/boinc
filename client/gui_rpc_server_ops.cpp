@@ -1927,17 +1927,24 @@ void GUI_RPC_CONN::http_error(const char* msg) {
 // - no ..
 //
 void GUI_RPC_CONN::handle_get() {
+    // no one is using this feature and it's a potential security risk,
+    // so disable it for now.
+    //
     return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+#if 0
     if (!cc_config.allow_gui_rpc_get) {
         return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
     }
 
     // get filename from GET /foo.html HTTP/1.1
+    // and make sure it's relative
     //
     char *p, *q=0;
     p = strchr(request_msg, '/');
     if (p) {
-        p++;
+        while (*p=='/') {
+            p++;
+        }
         q = strchr(p, ' ');
     }
 
@@ -1946,7 +1953,7 @@ void GUI_RPC_CONN::handle_get() {
     }
 
     *q = 0;
-    if (strstr(p, "..")) {
+    if (strstr(p, "..") || strchr(p, ':')) {
         return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
     }
     if (!ends_with(p, ".html")
@@ -1975,6 +1982,7 @@ void GUI_RPC_CONN::handle_get() {
     );
     send(sock, buf, (int)strlen(buf), 0);
     send(sock, file.c_str(), n, 0);
+#endif
 }
 
 // return nonzero only if we need to close the connection
