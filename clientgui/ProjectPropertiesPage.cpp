@@ -204,7 +204,6 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
     }
-    return NULL;
 }
  
 /*!
@@ -512,7 +511,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
         case PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Project Processing page.
-            SetCredentialsAlreadyAvailable(pWAP->IsCredentialsCached() || pWAP->IsCredentialsDetected() || pWAP->GetProjectSetupCookie().size());
+            SetCredentialsAlreadyAvailable(pWAP->IsCredentialsCached() || pWAP->IsCredentialsDetected());
 
             SetNextState(PROJPROP_CLEANUP);
             break;

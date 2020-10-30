@@ -22,9 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #ifndef STATUS_SUCCESS
 #define STATUS_SUCCESS                0x0         // may be in ntstatus.h
 #endif
@@ -69,6 +66,7 @@ using std::vector;
 #include "shmem.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 #include "util.h"
 
 #include "client_msgs.h"
@@ -1633,7 +1631,7 @@ void ACTIVE_TASK::read_task_state_file() {
         );
         return;
     }
-    if (strcmp(s, result->project->master_url)) {
+    if (!urls_match(s, result->project->master_url)) {
         msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "wrong project URL in task state file"
         );

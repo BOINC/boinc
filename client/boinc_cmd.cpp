@@ -20,11 +20,8 @@
 //
 // usage: boinccmd [--host hostname] [--passwd passwd] command
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"
@@ -174,6 +171,7 @@ int main(int argc, char** argv) {
     char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p, *q;
     bool unix_domain = false;
+    string msg;
 
 #ifdef _WIN32
     chdir_to_data_dir();
@@ -181,7 +179,11 @@ int main(int argc, char** argv) {
     chdir("/Library/Application Support/BOINC Data");
 #endif
     safe_strcpy(passwd_buf, "");
-    read_gui_rpc_password(passwd_buf);
+    retval = read_gui_rpc_password(passwd_buf, msg);
+    if (retval) {
+        fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+        fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+    }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -429,7 +431,6 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);

@@ -70,7 +70,6 @@ skip_commits:
     - xcompile/
 
 configuration:
-#  - Debug
   - Release
 
 environment:
@@ -90,8 +89,9 @@ environment:
   APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=9 -ms=on"
 
 cache:
-  - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
   - C:\projects\boinc_depends_win_vs2010 -> appveyor.yml, win_build\load_dependencies.bat
+  - C:\projects\boinc_depends_win_vs2013 -> appveyor.yml, win_build\load_dependencies.bat
+  - '%LOCALAPPDATA%\vcpkg\archives -> appveyor.yml'
 
 before_build:
   - if %TOOLCHAIN_VERSION%==10.0 call win_build\load_dependencies.bat %depends_zip_path% %depends_path% %platform% %configuration%
@@ -100,6 +100,7 @@ before_build:
   - if %TOOLCHAIN_VERSION%==10.0 call git apply boinc_vs2010.sln.ci.patch
   - if %TOOLCHAIN_VERSION%==12.0 call "%VS120COMNTOOLS%\vsvars32.bat"
   - if %TOOLCHAIN_VERSION%==12.0 call rmdir /S /Q %localappdata%\Microsoft\VisualStudio\%TOOLCHAIN_VERSION%\ComponentModelCache
+  - if %TOOLCHAIN_VERSION%==16.0 call "C:\Tools\vcpkg\vcpkg.exe" integrate remove
   - if %TOOLCHAIN_VERSION%==16.0 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat"
 
 build_script:
@@ -117,7 +118,12 @@ artifacts:
   - path: deploy\win-manager\*.7z
     name: win-manager
 
-test: off
+before_test:
+  - if %TOOLCHAIN_VERSION%==16.0 curl -fsSL https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix -o C:\projects\GoogleTestAdapter.zip
+  - if %TOOLCHAIN_VERSION%==16.0 call 7z.exe x C:\projects\GoogleTestAdapter.zip -oC:\projects\GoogleTestAdapter -aoa
+
+test_script:
+  - if %TOOLCHAIN_VERSION%==16.0 call vstest.console.exe win_build\Build\%platform%\%configuration%\unittests.exe /TestAdapterPath:C:\projects\GoogleTestAdapter /logger:Appveyor
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Učitavanje! Sačekajte…</string>
     <string name="generic_button_continue">Nastavak</string>
     <string name="generic_button_finish">Završi</string>
     <!--attach project-->
@@ -14,9 +13,6 @@
     <string name="attachproject_list_header">Izaberite projekat</string>
     <string name="attachproject_list_manual_button">Dodaj URL projekta</string>
     <string name="attachproject_list_manual_dialog_title">Unesite URL projekta:</string>
-    <string name="attachproject_list_manual_dialog_button">Dodajte projekat</string>
-    <string name="attachproject_list_manual_no_url">Molimo vas unestie URL projekta</string>
-    <string name="attachproject_list_acctmgr_button">Dodajte upravnika naloga</string>
     <string name="attachproject_list_no_internet">Nema internet konekcije</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Unesite podatke naloga</string>
@@ -31,7 +27,7 @@
     <string name="attachproject_conflict_unknown_user">Nalog ne postoji</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Nalog ne postoji, posetite sajt projekta da se registrujete</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Kači se</string>
+    <string name="attachproject_working_attaching">Kači se %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Nagoveštaj</string>
@@ -47,53 +43,27 @@
     <string name="attachproject_hint_platforms_header">BOINC je takođe dostupan za računar ili laptop, posetite boinc.berkeley.edu da biste saznali više.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktira se server projekta...</string>
-    <string name="attachproject_login_image_description">Logo projekta.</string>
     <string name="attachproject_login_header_general_area">Uopštena površina:</string>
     <string name="attachproject_login_header_specific_area">Specifična površina:</string>
     <string name="attachproject_login_header_description">Opis:</string>
     <string name="attachproject_login_header_home">Početak:</string>
     <string name="attachproject_login_header_url">Sajt</string>
-    <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">Projekat podržava tip uređaja</string>
-    <string name="attachproject_login_platform_not_supported">Uređaj ne podržava ovaj projekat</string>
-    <string name="attachproject_login_category_terms_of_use">Uslovi korišćenja za</string>
-    <string name="attachproject_login_accept_terms_of_use">Stvaranjem nalog sa ovim projektom, prihvatate uslove korišćenja kao što je prikazano gore.</string>
-    <string name="attachproject_login_category_login">Prijavite se sa postojećim nalogom</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Ime:</string>
     <string name="attachproject_login_header_pwd">Lozinka:</string>
-    <string name="attachproject_login_category_creation">Nov</string>
-    <string name="attachproject_login_header_creation_enabled">Registrujte nalog da učestvujete:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Posetitie sajt da napravite nalog</string>
-    <string name="attachproject_login_header_creation_disabled">Ovaj projekat trenutno ne prihvata nove naloge</string>
     <string name="attachproject_login_button_registration">Registrovati</string>
     <string name="attachproject_login_button_login">Prijavite se</string>
     <string name="attachproject_login_button_forgotpw">Lozinka zaboravljena</string>
-    <string name="attachproject_login_error_toast">Kontaktiranje projekta neuspelo!</string>
-    <string name="attachproject_login_attached">Prikačeno</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Registrovanje naloga za</string>
-    <string name="attachproject_registration_header_url">Projekat:</string>
-    <string name="attachproject_registration_header_email">eMail:</string>
-    <string name="attachproject_registration_header_username">Ime:</string>
-    <string name="attachproject_registration_header_teamname">Tim:</string>
-    <string name="attachproject_registration_header_pwd">Lozinka:</string>
-    <string name="attachproject_registration_header_pwd_confirm">... Ukucajte ponovo:</string>
-    <string name="attachproject_registration_button">Napravi</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Koristite BOINC upravnik naloga da dotate i održavate više projekata</string>
     <string name="attachproject_acctmgr_header">Dodajte upravnika naloga</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Korisnik:</string>
     <string name="attachproject_acctmgr_header_pwd">Lozinka:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">... Ukucajte ponovo:</string>
-    <string name="attachproject_acctmgr_button">Dodaj</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">Korisnik nije pronadjen</string>
     <string name="attachproject_error_short_pwd">Lozinka prekratka</string>
     <string name="attachproject_error_no_internet">Konekcija neuspela</string>
-    <string name="attachproject_error_pwd_no_match">Lozinke se ne poklapaju</string>
-    <string name="attachproject_error_pwd_no_retype">Molimo vas ponovo ukucajte lozinku</string>
     <string name="attachproject_error_no_url">Molimo vas unesite URL</string>
     <string name="attachproject_error_no_email">Molimo vas unestie eMail adresu</string>
     <string name="attachproject_error_no_pwd">Molimo vas unesite lozinku</string>
@@ -106,25 +76,6 @@
     <string name="attachproject_error_bad_pwd">Lozinka odbijena</string>
     <string name="attachproject_error_creation_disabled">Kreiranje naloga isključeno na ovom projektu</string>
     <string name="attachproject_error_invalid_url">Neispravan URL</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Nazad</string>
-    <string name="attachproject_working_finish_button">Završi</string>
-    <string name="attachproject_working_check_desc">Uspešno</string>
-    <string name="attachproject_working_failed_desc">Nije uspelo</string>
-    <string name="attachproject_working_ongoing">….</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Konektuj</string>
-    <string name="attachproject_working_verify">Potvrdi nalog</string>
-    <string name="attachproject_working_register">Registruj nalog</string>
-    <string name="attachproject_working_login">Prijavi se</string>
-    <string name="attachproject_working_acctmgr">Dodajte upravnika naloga</string>
-    <string name="attachproject_working_acctmgr_sync">Sinhronizuj</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Pritisnite ovde da odaberete projekat.</string>
-    <string name="main_error">Ups</string>
-    <string name="main_error_long">...ovo ne bi trebalo da se desi/nKliknite na ikonicu da pokušate opet.</string>
-    <string name="main_title_icon_desc">BOINC iconica</string>
     <!--tab names-->
     <string name="tab_status">Stanje</string>
     <string name="tab_projects">Projekti</string>
@@ -143,14 +94,9 @@
     <string name="status_computing_disabled_long">Pritisnite play da nastavite mrežu i računaje</string>
     <string name="status_launching">Počinje...</string>
     <string name="status_noproject">Izaberite projekat u kojem ćete učestvovati.</string>
-    <string name="status_closing">Zatvara se...</string>
     <string name="status_benchmarking">Test performansi</string>
     <string name="status_image_description">slika projekta</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Čitaju se postavke...</string>
-    <string name="prefs_submit_button">Sačuvaj</string>
-    <string name="prefs_dialog_title">Unesite novu vrednost:</string>
-    <string name="prefs_dialog_title_selection">Odaberi:</string>
     <string name="prefs_category_general">Opšte</string>
     <string name="prefs_category_network">Mreža</string>
     <string name="prefs_category_power">Struja</string>
@@ -173,13 +119,10 @@
     <string name="battery_temperature_max_header">Maks. temperatura baterije</string>
     <string name="battery_temperature_max_description">BOINC zaustavlja rad iznad označene temperature baterije. Nije preporučljivo menjati ovaj iznos.</string>
     <string name="prefs_disk_max_pct_header">Maks. upotrebljeno mesto za skladištenje</string>
-    <string name="prefs_disk_max_pct_description">Koliki procenat skladišnog prostora na vašem uređaju BOINC sme da koristi?</string>
     <string name="prefs_disk_min_free_gb_header">Min. skladišni prostor</string>
-    <string name="prefs_disk_min_free_gb_description">Koliko skladišnog prostora na vašem uređaju more da ostane slobodno?</string>
     <string name="prefs_disk_access_interval_header">Učestalost pristupa</string>
     <string name="prefs_disk_access_interval_description">Predloži učestalost među pristupanjima disku</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevno ograničenje prenosa</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ograničava dnevni protok podataka koji BOINC izaziva.</string>
     <string name="prefs_network_wifi_only_header">Prenos podataka samo preko WiFi</string>
     <string name="prefs_autostart_header">Automatsko pokretanje</string>
     <string name="prefs_show_notification_notices_header">Prikaži obaveštenja za nove izveštaje</string>
@@ -195,10 +138,7 @@
     <string name="prefs_client_log_flags_header">BOINC Klijent log zastavice</string>
     <string name="prefs_gui_log_level_header">Nivo logovanja grafičkog interfejsa</string>
     <string name="prefs_gui_log_level_description">Određuje opširnost log poruka na grafičkom interfejsu</string>
-    <string name="prefs_unit_celsius">°C</string>
-    <string name="prefs_unit_seconds">sekunde</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Čitam projekte...</string>
     <string name="projects_add">Dodaj projekat</string>
     <string name="projects_icon">Ikonica projekta</string>
     <string name="projects_credits">Kredit:</string>
@@ -211,7 +151,7 @@
     <string name="projects_status_schedrpcpending">Zahtev rasporeda na čekanju</string>
     <string name="projects_status_schedrpcinprogress">Zahtev rasporeda u toku</string>
     <string name="projects_status_trickleuppending">Preneta poruka na čekanju</string>
-    <string name="projects_status_backoff">Komunikacija zakazana za:</string>
+    <string name="projects_status_backoff">Komunikacija zakazana za: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Komande projekta:</string>
     <string name="projects_control_visit_website">Posetite sajt</string>
@@ -260,24 +200,15 @@
     <string name="confirm_cancel">Poništi</string>
     <string name="confirm_image_desc">Prozor za potvrđivanje</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Čitam razmene...</string>
     <string name="trans_upload">Otpremanje</string>
     <string name="trans_download">Preuzimanje</string>
-    <string name="trans_retryin">Pokušaj ponovo za</string>
-    <string name="trans_failed">neuspelo</string>
+    <string name="trans_retry_in">Pokušaj ponovo za %1$s</string>
     <string name="trans_suspended">zaustavljeno</string>
     <string name="trans_active">aktivno</string>
     <string name="trans_pending">nerešen</string>
-    <string name="trans_projectbackoff">odbij projekat</string>
     <string name="trans_header_name">Datoteka:</string>
     <string name="trans_control_retry">Ponovo pokušaj prenose</string>
-    <string name="confirm_abort_trans_title">Otkaži transfer?</string>
-    <string name="confirm_abort_trans_message">O fajlu:</string>
-    <string name="confirm_abort_trans_confirm">Prekini</string>
-    <!--notices tab strings-->
-    <string name="notices_loading">Čitanje objava</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Učitavanje prijavnih poruka...</string>
     <string name="eventlog_client_header">Poruke korisnika</string>
     <string name="eventlog_gui_header">Poruke GUI-a</string>
     <string name="eventlog_copy_toast">Dnevnik kopiran na clipboard.</string>
@@ -288,7 +219,6 @@
     <string name="suspend_screen_on">Isključite ekran na bi nastavili računanje.</string>
     <string name="suspend_useractive">Korisnik je aktivan.</string>
     <string name="suspend_tod">Dostignut je vremenski okvir za računanje.</string>
-    <string name="suspend_bm">BOINC vrši benchmark uredjaja.</string>
     <string name="suspend_disksize">Ponestalo je prostora na disku.</string>
     <string name="suspend_cputhrottle">Zakazan CPU throttle.</string>
     <string name="suspend_noinput">Bez nedavnih aktivnosti korisnika.</string>
@@ -300,11 +230,8 @@
     <string name="suspend_wifi">Niste povezani na WiFi.</string>
     <string name="suspend_battery_charging">Čekanje da se baterija napuni.</string>
     <string name="suspend_battery_charging_long">Računanje će se nastaviti kada napunjenost baterije dostigne</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">trenutno</string>
     <string name="suspend_battery_overheating">Čekanje da se baterija ohladi</string>
     <string name="suspend_user_req">Nastavljanje računanja...</string>
-    <string name="suspend_network_user_req">ručno.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">Zatraženo od strane korisnika</string>
     <string name="rpcreason_needwork">Prikupljanje poslova</string>

@@ -19,8 +19,8 @@
 package edu.berkeley.boinc.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,11 +33,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.NumberFormat;
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import edu.berkeley.boinc.BOINCActivity;
@@ -75,15 +78,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     }
 
     public String getName(int position) {
-        return entries.get(position).project.getProjectName();
+        return entries.get(position).getProject().getProjectName();
     }
 
     private String getUser(int position) {
-        String user = entries.get(position).project.getUserName();
-        String team = entries.get(position).project.getTeamName();
+        String user = entries.get(position).getProject().getUserName();
+        String team = entries.get(position).getProject().getTeamName();
 
         if(!team.isEmpty()) {
-            return (user + " (" + team + ")");
+            return user + " (" + team + ")";
         }
 
         return user;
@@ -118,13 +121,13 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
         }
         else {
             String viewId = (String) vi.getTag();
-            if(!data.id.equals(viewId)) {
+            if(!StringUtils.equals(data.id, viewId)) {
                 setup = true;
             }
         }
 
         if(setup) {
-            final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater layoutInflater = ContextCompat.getSystemService(activity, LayoutInflater.class);
             assert layoutInflater != null;
             // first time getView is called for this element
             if(isAcctMgr) {
@@ -143,11 +146,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // populate name
             TextView tvName = vi.findViewById(R.id.name);
-            tvName.setText(data.acctMgrInfo.getAcctMgrName());
+            tvName.setText(data.getAcctMgrInfo().getAcctMgrName());
 
             // populate url
             TextView tvUrl = vi.findViewById(R.id.url);
-            tvUrl.setText(data.acctMgrInfo.getAcctMgrUrl());
+            tvUrl.setText(data.getAcctMgrInfo().getAcctMgrUrl());
         }
         else {
             // element is project
@@ -167,7 +170,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             String statusText = "";
             try {
-                statusText = BOINCActivity.monitor.getProjectStatus(data.project.getMasterURL());
+                statusText = BOINCActivity.monitor.getProjectStatus(data.getProject().getMasterURL());
             }
             catch(Exception e) {
                 if(Logging.ERROR) {
@@ -190,7 +193,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 // if available set icon, if not boinc logo
                 if(icon == null) {
                     // BOINC logo
-                    ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+                    ivIcon.setImageResource(R.drawable.ic_boinc);
                 }
                 else {
                     // project icon
@@ -201,7 +204,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // transfers
-            int numberTransfers = data.projectTransfers.size();
+            int numberTransfers = data.getProjectTransfers().size();
             TextView tvTransfers = vi.findViewById(R.id.project_transfers);
             String transfersString = "";
             if(numberTransfers > 0) { // ongoing transfers
@@ -212,7 +215,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 boolean downloadsPresent = false;
                 boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
-                for(Transfer trans : data.projectTransfers) {
+                for(Transfer trans : data.getProjectTransfers()) {
                     if(trans.isUpload()) {
                         numberTransfersUpload++;
                         uploadsPresent = true;
@@ -249,15 +252,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                     activityStatus += activity.getResources().getString(R.string.trans_pending);
 
                     if(nextRetryS > 0) { // next try at defined time
-                        long retryAtMs = nextRetryS * 1000;
-                        long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
-                        if(retryInMs < 0) {
-                        }// timestamp in the past, write nothing
-                        else {
-                            activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-                                                   DateUtils.formatElapsedTime(retryInMs / 1000);
+                        long retryInSeconds = Duration.between(Instant.ofEpochSecond(nextRetryS),
+                                                               Instant.now()).getSeconds();
+                        // if timestamp is in the past, do not write anything
+                        if(retryInSeconds >= 0) {
+                            final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
+                            activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
+                                                                                     formattedTime);
                         }
-
                     }
                 }
                 else { // transfers active
@@ -276,8 +278,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             }
 
             // credits
-            final long userCredit = Math.round(data.project.getUserTotalCredit()),
-                    hostCredit = Math.round(data.project.getHostTotalCredit());
+            final long userCredit = Math.round(data.getProject().getUserTotalCredit());
+            final long hostCredit = Math.round(data.getProject().getHostTotalCredit());
             ((TextView) vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
                                                                        NumberFormat.getIntegerInstance().format(hostCredit) :
                                                                        this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
@@ -296,11 +298,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
             // icon background
             RelativeLayout iconBackground = vi.findViewById(R.id.icon_background);
-            if(data.project.getAttachedViaAcctMgr()) {
-                iconBackground.setBackground(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
+            if(data.getProject().getAttachedViaAcctMgr()) {
+                final Drawable background =
+                        AppCompatResources.getDrawable(activity.getApplicationContext(),
+                                                       R.drawable.shape_boinc_icon_light_blue_background);
+                iconBackground.setBackground(background);
             }
             else {
-                iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));
+                iconBackground.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
+                                                                         android.R.color.transparent));
             }
         }
 

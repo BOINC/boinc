@@ -423,7 +423,7 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2 sqlite3"
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later
 dnl post-processing instead of the default-action, which would append
@@ -626,10 +626,14 @@ AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1
 
 dnl check for X screen saver lib (X-based idle detection on Linux)
 if test "$enable_xss" = yes; then
-    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-    if test "$have_Xss" = no; then
-        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+    if test "X${no_x}" = "Xyes" ; then
+        AC_MSG_WARN([X Window include files/libs excluded or location unknown, disabling X ScreenSaver user idle detection])
+    else
+        AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+        AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+        if test "$have_Xss" = no; then
+            AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+        fi
     fi
 fi
 
@@ -845,11 +849,21 @@ AC_CHECK_HEADER(net/if_arp.h, [], [], [[
 #endif
 ]])
 
-AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
+AC_CHECK_HEADERS(sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
 ]])
+
+dnl check for broken Linux sysctl.h that causes deprecation warnings
+saved_sysctl_h_CFLAGS=$CFLAGS
+test "x${GCC}" != xyes || CFLAGS="$CFLAGS -Werror"
+AC_CHECK_HEADERS([sys/sysctl.h], [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+CFLAGS=$saved_sysctl_h_CFLAGS
 
 AC_CHECK_HEADER(resolv.h, [], [], [[
 #ifdef HAVE_NETINET_IN_H
@@ -1016,11 +1030,6 @@ fi
 dnl ---------- libNotify --------------------------------------------------
 if test "${enable_manager}" = yes ; then
   PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
-fi
-
-dnl ---------- Sqlite3 ----------------------------------------------------
-if test "${enable_manager}" = yes ; then
-  AM_PATH_SQLITE3
 fi
 
 dnl ---------- XCB --------------------------------------------------------
@@ -1233,13 +1242,13 @@ else
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
 fi
 
-CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
+CLIENTGUILIBS="${WX_LIBS}"
 
 if test "${enable_client_release}" = "yes" ; then
    if test "x${WX_LIBS_STATIC}" = "x" ; then
      WX_LIBS_STATIC="${WX_LIBS}"
    fi
-   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${SQLITE3_LIBS} ${GTK_LIBS}],[CLIENTGUILIBS])
+   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${GTK_LIBS}],[CLIENTGUILIBS])
    SAH_STATICIZE_LDFLAGS([${GLUT_LIBS}],[GLUT_LIBS])
    SAH_STATICIZE_LDFLAGS([${BOINC_EXTRA_LIBS}],[BOINC_EXTRA_LIBS])
 

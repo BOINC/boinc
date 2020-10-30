@@ -3,7 +3,6 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Kraunama! Prašome palaukti...</string>
   <string name="generic_button_continue">Tęsti</string>
   <string name="generic_button_finish">Baigti</string>
   <!--attach project-->
@@ -12,9 +11,6 @@
   <string name="attachproject_list_header">Pasirinkite projektą</string>
   <string name="attachproject_list_manual_button">Pridėti projektą pagal URL</string>
   <string name="attachproject_list_manual_dialog_title">Įveskite projekto URL:</string>
-  <string name="attachproject_list_manual_dialog_button">Pridėti projektą</string>
-  <string name="attachproject_list_manual_no_url">Prašome įvesti projekto URL</string>
-  <string name="attachproject_list_acctmgr_button">Pridėti abonemento valdiklį</string>
   <string name="attachproject_list_no_internet">Nėra ryšio su internetu</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Įvesti paskyros informaciją</string>
@@ -30,7 +26,7 @@
   <string name="attachproject_conflict_unknown_user_creation_disabled">Paskyra neegzistuoja, registracijai aplankykite
 projekto interneto svetainę</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Prisijungiama</string>
+  <string name="attachproject_working_attaching">Prisijungiama %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Patarimas</string>
@@ -47,54 +43,27 @@ projekto interneto svetainę</string>
 kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
   <!--project login-->
   <string name="attachproject_login_loading">Jungiamasi su projekto serveriu...</string>
-  <string name="attachproject_login_image_description">Projekto logotipas.</string>
   <string name="attachproject_login_header_general_area">Bendra sritis:</string>
   <string name="attachproject_login_header_specific_area">Specifinė sritis:</string>
   <string name="attachproject_login_header_description">Aprašymas:</string>
   <string name="attachproject_login_header_home">Pradžia:</string>
   <string name="attachproject_login_header_url">Interneto puslapis:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Įrenginio tipas palaikomas šio projekto</string>
-  <string name="attachproject_login_platform_not_supported">renginio tipas nepalaikomas šio projekto</string>
-  <string name="attachproject_login_category_terms_of_use">Naudojimo sąlygos</string>
-  <string name="attachproject_login_accept_terms_of_use">Sukurdamas paskyrą su šiuo projektu sutinkate su
-naudojimo sąlygomis kaip parodyta aukščiau.</string>
-  <string name="attachproject_login_category_login">Prisijungti su turima paskyra</string>
   <string name="attachproject_login_header_id_email">el. paštas:</string>
   <string name="attachproject_login_header_id_name">Vardas:</string>
   <string name="attachproject_login_header_pwd">Slaptažodis:</string>
-  <string name="attachproject_login_category_creation">Nauja</string>
-  <string name="attachproject_login_header_creation_enabled">Sukurkite paskyrą, kad dalyvauti:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Sukurti paskyrai aplankykite projekto interneto svetainę:</string>
-  <string name="attachproject_login_header_creation_disabled">Projektas šiuo metu neleidžia kurti naujų paskyrų.</string>
   <string name="attachproject_login_button_registration">Registruotis</string>
   <string name="attachproject_login_button_login">Prisijungti</string>
   <string name="attachproject_login_button_forgotpw">Pamiršau slaptažodį</string>
-  <string name="attachproject_login_error_toast">Nepavyko susisiekti su projektu!</string>
-  <string name="attachproject_login_attached">Prisijungta</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header">Paskyros registracija</string>
-  <string name="attachproject_registration_header_url">Projektas:</string>
-  <string name="attachproject_registration_header_email">el. paštas:</string>
-  <string name="attachproject_registration_header_username">Vardas:</string>
-  <string name="attachproject_registration_header_teamname">Komanda:</string>
-  <string name="attachproject_registration_header_pwd">Slaptažodis:</string>
-  <string name="attachproject_registration_header_pwd_confirm">… Pakartokite:</string>
-  <string name="attachproject_registration_button">Sukurti</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Naudoti BOINC abonemento valdiklį pridėti ir valdyti kelis projektus</string>
   <string name="attachproject_acctmgr_header">Naudoti abonemento valdiklį</string>
   <string name="attachproject_acctmgr_header_url">Tinklapis</string>
   <string name="attachproject_acctmgr_header_name">Vartotojas:</string>
   <string name="attachproject_acctmgr_header_pwd">Slaptažodis:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">… Pakartokite:</string>
-  <string name="attachproject_acctmgr_button">Pridėti</string>
   <!--error strings-->
   <string name="attachproject_error_wrong_name">Vartotojas nerastas</string>
   <string name="attachproject_error_short_pwd">Slaptažodis per trumpas</string>
   <string name="attachproject_error_no_internet">Ryšio klaida</string>
-  <string name="attachproject_error_pwd_no_match">Slaptažodžiai nesutampa</string>
-  <string name="attachproject_error_pwd_no_retype">Įveskite slaptažodį dar kartą</string>
   <string name="attachproject_error_no_url">Įveskite URL</string>
   <string name="attachproject_error_no_email">Įveskite elektroninio pašto adresą</string>
   <string name="attachproject_error_no_pwd">Įveskite slaptažodį</string>
@@ -107,26 +76,6 @@ naudojimo sąlygomis kaip parodyta aukščiau.</string>
   <string name="attachproject_error_bad_pwd">Netinkamas slaptažodis</string>
   <string name="attachproject_error_creation_disabled">Paskyros kūrimas šiame projekte išjungtas</string>
   <string name="attachproject_error_invalid_url">Neteisingas URL</string>
-  <string name="attachproject_error_consent_required">Reikia sutikti su šio projekto naudojimo sąlygomis</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Atgal</string>
-  <string name="attachproject_working_finish_button">Baigti</string>
-  <string name="attachproject_working_check_desc">Pavyko</string>
-  <string name="attachproject_working_failed_desc">Nepavyko</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Prisijungti</string>
-  <string name="attachproject_working_verify">Patikrinti paskyrą</string>
-  <string name="attachproject_working_register">Užregistruoti paskyrą</string>
-  <string name="attachproject_working_login">Prisijungti</string>
-  <string name="attachproject_working_acctmgr">Pridėti abonemento valdiklį</string>
-  <string name="attachproject_working_acctmgr_sync">Sinchronizuoti</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Spausti čia pasirinkti projektą</string>
-  <string name="main_error">Oi</string>
-  <string name="main_error_long">…taip neturėtų būti!\nSpausti ant piktogramos pabandyti dar kartą.</string>
-  <string name="main_title_icon_desc">BOINC piktograma</string>
   <!--tab names-->
   <string name="tab_status">Būsena</string>
   <string name="tab_projects">Projektai</string>
@@ -145,14 +94,9 @@ naudojimo sąlygomis kaip parodyta aukščiau.</string>
   <string name="status_computing_disabled_long">Paspauskite groti, kad atnaujinti tinklo ryšį ir skaičiavimą. </string>
   <string name="status_launching">Pradedama…</string>
   <string name="status_noproject">Pasirinkite projektą, kad prisidėti.</string>
-  <string name="status_closing">Uždaroma...</string>
   <string name="status_benchmarking">Matuojama sparta...</string>
   <string name="status_image_description">projekto logotipas</string>
   <!--preferences tab strings-->
-  <string name="prefs_loading">Skaitomi nustatymai...</string>
-  <string name="prefs_submit_button">Išsaugoti</string>
-  <string name="prefs_dialog_title">Įvesti naują reikšmę:</string>
-  <string name="prefs_dialog_title_selection">Pasirinkti:</string>
   <string name="prefs_category_general">Bendri</string>
   <string name="prefs_category_network">Tinklas</string>
   <string name="prefs_category_power">Energija</string>
@@ -179,13 +123,10 @@ naudojimo sąlygomis kaip parodyta aukščiau.</string>
   <string name="battery_temperature_max_description">BOINC sustabdo skaičiavimus baterijai viršijus nurodytą temperatūrą.
 Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_disk_max_pct_header">Naudoti daugiausia disko vietos</string>
-  <string name="prefs_disk_max_pct_description">Kiek procentų įrenginio disko vietos gali naudoti BOINC?</string>
-  <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
-  <string name="prefs_disk_min_free_gb_description">Kiek įrenginio disko vietos turi likti laisva?</string>
+    <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
   <string name="prefs_disk_access_interval_header">Rašymo į diską intervalas</string>
   <string name="prefs_disk_access_interval_description">Siūlomas laiko tarpas tarp įrašymo į diską</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Dienos siuntimo limitas</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Apriboja BOINC generuojamą duomenų srautą</string>
   <string name="prefs_network_wifi_only_header">Siųsti ir gauti užduotis tik per WiFi</string>
   <string name="prefs_autostart_header">Automatinis paleidimas</string>
   <string name="prefs_show_notification_notices_header">Rodyti pranešimus su naujais skelbimais</string>
@@ -199,16 +140,11 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_memory_max_idle_header">RAM limitas</string>
   <string name="prefs_memory_max_idle_description">Apriboja RAM kiekį, naudojamą užduočių skaičiavimui.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Užduočių buferis</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_description">Saugoti užduočių bent X dienoms</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Papildomas užduočių buferis</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_description">Saugoti papildomų užduočių bent X dienoms</string>
   <string name="prefs_client_log_flags_header">BOINC kliento žurnalo žymės</string>
   <string name="prefs_gui_log_level_header">GUI žurnalo lygis</string>
   <string name="prefs_gui_log_level_description">Nustato GUI žurnalo intensyvumą.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">sek.</string>
   <!--projects tab strings-->
-  <string name="projects_loading">Skaitomi projektai…</string>
   <string name="projects_add">Pridėti projektą</string>
   <string name="projects_icon">Projekto piktograma</string>
   <string name="projects_credits">Kreditas:</string>
@@ -221,7 +157,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="projects_status_schedrpcpending">Laukiama jungimosi prie projekto serverio</string>
   <string name="projects_status_schedrpcinprogress">Jungiamasi prie projekto serverio</string>
   <string name="projects_status_trickleuppending">Laukia žinučių siuntimo į serverį</string>
-  <string name="projects_status_backoff">Komunikacija suplanuota:</string>
+  <string name="projects_status_backoff">Komunikacija suplanuota: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projekto komandos:</string>
   <string name="projects_control_visit_website">Aplankyti tinklapį</string>
@@ -270,24 +206,15 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="confirm_cancel">Atšaukti</string>
   <string name="confirm_image_desc">Patvirtinimo dialogas</string>
   <!--transfers tab strings-->
-  <string name="trans_loading">Skaitomi siuntiniai…</string>
   <string name="trans_upload">Išsiuntimas</string>
   <string name="trans_download">Parsisiuntimas</string>
-  <string name="trans_retryin">bandyti dar kartą</string>
-  <string name="trans_failed">nepavyko</string>
+  <string name="trans_retry_in">bandyti dar kartą %1$s</string>
   <string name="trans_suspended">pristabdyta</string>
   <string name="trans_active">aktyvus</string>
   <string name="trans_pending">laukiamas</string>
-  <string name="trans_projectbackoff">atstojimas nuo projekto</string>
   <string name="trans_header_name">Failas:</string>
   <string name="trans_control_retry">Bandyti siuntimus dar kartą</string>
-  <string name="confirm_abort_trans_title">Nutraukti siuntimą?</string>
-  <string name="confirm_abort_trans_message">Nutraukti Failą:</string>
-  <string name="confirm_abort_trans_confirm">Nutraukti</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Skaitomi skelbimai...</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_loading">Atidaromos žurnalo žinutės…</string>
   <string name="eventlog_client_header">Kliento žinutės</string>
   <string name="eventlog_gui_header">GUI žinutės</string>
   <string name="eventlog_copy_toast">Žurnalas nukopijuotas į iškarpinę.</string>
@@ -298,7 +225,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="suspend_screen_on">Išjunkite ekraną, kad tęsti skaičiavimus.</string>
   <string name="suspend_useractive">Vartotojas aktyvus.</string>
   <string name="suspend_tod">Netilpo į laiko apribojimą.</string>
-  <string name="suspend_bm">BOINC matuoja įrenginio spartą…</string>
   <string name="suspend_disksize">Nepakanka vietos diske.</string>
   <string name="suspend_cputhrottle">Suplanuotas CPU galios apribojimas.</string>
   <string name="suspend_noinput">Paskutiniu metu nėra vartotojo veiksmų.</string>
@@ -310,11 +236,8 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="suspend_wifi">Neprisijungta prie WiFi.</string>
   <string name="suspend_battery_charging">Laukiama kol baterija bus įkrauta.</string>
   <string name="suspend_battery_charging_long">Skaičiavimai prasitęs kai baterija pasieks</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">šiuo metu</string>
   <string name="suspend_battery_overheating">Laukiama kol baterija atvės</string>
   <string name="suspend_user_req">Toliau tęsiamas skaičiavimas…</string>
-  <string name="suspend_network_user_req">rankiniu būdu.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Vartotojo užklausa</string>
   <string name="rpcreason_needwork">Gauti darbo</string>

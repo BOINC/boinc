@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -807,6 +807,8 @@ void CViewWork::UpdateSelection() {
     std::string         first_project_url;
     wxString            strMachineName;
     bool                wasSuspended=false;
+    bool                wasGfxRunning = false;
+    bool                isGFXRunning = false;
     bool                all_same_project=false;
     bool                enableShowGraphics = false;
     bool                enableShowVMConsole = false;
@@ -879,11 +881,35 @@ void CViewWork::UpdateSelection() {
                     _("Suspend work for this task.")
                 );
             }
+            wasGfxRunning = (pDoc->GetRunningGraphicsApp(result) != NULL);
+            isGFXRunning = wasGfxRunning;
+            if (wasGfxRunning) {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_GRAPHICS],
+                    _("Stop graphics"),
+                    _("Close application graphics window.")
+                );
+                // Graphics might still be running even if task is suspended
+                enableShowGraphics = true;
+            } else {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_GRAPHICS],
+                    _("Show graphics"),
+                    _("Show application graphics in a window.")
+                );
+            }
         } else {
+            isGFXRunning = (pDoc->GetRunningGraphicsApp(result) != NULL);
+
             if (wasSuspended != result->suspended_via_gui) {
                 // Disable Suspend / Resume button if the multiple selection
                 // has a mix of suspended and not suspended tasks
                 enableSuspendResume = false;
+            }
+            if (wasGfxRunning != isGFXRunning) {
+                // Disable Show / Stop Graphics button if the multiple selection
+                // has a mix of running and not running graphics apps
+                enableShowGraphics = false;
             }
         }
         
@@ -904,7 +930,9 @@ void CViewWork::UpdateSelection() {
             result->project_suspended_via_gui || 
             (result->scheduler_state != CPU_SCHED_SCHEDULED)
         ) {
-            enableShowGraphics = false;
+            if (!isGFXRunning) {
+                enableShowGraphics = false;
+            }
         }
        
         // Disable Abort button if any selected task already aborted

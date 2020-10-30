@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,7 +32,6 @@
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
-#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -458,7 +457,6 @@ int CSimpleFrame::_GetCurrentViewPage() {
     } else {
         return VW_SGUI;
     }
-    return 0;       // Should never happen.
 }
 
 
@@ -488,7 +486,9 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
             item->Enable(true);
         } else {
             // Disable other menu items if not connected to client
-            item->Enable(isConnected);
+            if (!isConnected) {
+                item->Enable(false);
+            }
         }
     }
     
@@ -796,7 +796,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     std::string strProjectInstitution;
     std::string strProjectDescription;
     std::string strProjectKnown;
-    std::string strProjectSetupCookie;
     bool        bAccountKeyDetected = false;
     bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
@@ -870,25 +869,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         if (pis.url.size() > 0) {
-
             strProjectName = pis.name.c_str();
             strProjectURL = pis.url.c_str();
-            strProjectSetupCookie = pis.setup_cookie.c_str();
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
-
-            // If credentials are not cached, then we should try one last place to look up the
-            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
-            //   pretty short timeout.  Lets take a crack at detecting it.
-            //
-            if (pis.url.length() && !pis.has_account_key) {
-                detect_setup_authenticator(pis.url, strProjectAuthenticator);
-            }
-
-        } else {
-            detect_simple_account_credentials(
-                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
-            );
         }
         
         Show();
@@ -902,7 +886,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             wxURI::Unescape(strProjectInstitution),
             wxURI::Unescape(strProjectDescription),
             wxURI::Unescape(strProjectKnown),
-            wxURI::Unescape(strProjectSetupCookie),
             bAccountKeyDetected,
             bEmbedded
         );
@@ -980,9 +963,9 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     // Box Sizer
     mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->AddSpacer(ADJUSTFORYDPI(68));
-    mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
+    mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS);
     mainSizer->AddSpacer(ADJUSTFORYDPI(8));
-    mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
+    mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS);
     mainSizer->AddSpacer(ADJUSTFORYDPI(8));
 
 	wxBoxSizer* buttonsSizer;
@@ -1003,11 +986,11 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
     
-	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND, 0 );
     buttonsSizer->AddStretchSpacer();
 
     m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND, 0 );
 
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());

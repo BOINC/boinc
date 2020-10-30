@@ -18,21 +18,14 @@
 #include <boinc_win.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include <string.h>
-
 #include "str_replace.h"
 #include "url.h"
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
 #include "result.h"
 #include "sandbox.h"
-
 #include "project.h"
 
 PROJECT::PROJECT() {
@@ -417,6 +410,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
         "    <resource_share>%f</resource_share>\n"
+        "    <disk_usage>%f</disk_usage>\n"
+        "    <disk_share>%f</disk_share>\n"
         "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -454,6 +449,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
         resource_share,
+        disk_usage, disk_share,
         desired_disk_usage,
         duration_correction_factor,
         sched_rpc_pending,
@@ -557,10 +553,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <cpu_ec>%f</cpu_ec>\n"
             "    <cpu_time>%f</cpu_time>\n"
             "    <gpu_ec>%f</gpu_ec>\n"
-            "    <gpu_time>%f</gpu_time>\n"
-            "    <disk_usage>%f</disk_usage>\n"
-            "    <disk_share>%f</disk_share>\n",
-            cpu_ec, cpu_time, gpu_ec, gpu_time, disk_usage, disk_share
+            "    <gpu_time>%f</gpu_time>\n",
+            cpu_ec, cpu_time, gpu_ec, gpu_time
         );
     }
     out.printf(
@@ -574,6 +568,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
+    safe_strcpy(master_url, p.master_url);      // client_state.xml is authoritative
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
@@ -984,51 +979,31 @@ void PROJECT::check_no_apps() {
     }
 }
 
-// show a notice if we can't get work from this project,
-// and there's something the user could do about it.
+// show devices this project is not allowed to compute for
+// because of a user setting
 //
 void PROJECT::show_no_work_notice() {
-    bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
-        if (!gstate.acct_mgr_info.dynamic) {
-            // dynamic account managers manage rsc usage themselves, not user
-            //
-            banned_by_user = banned_by_user || no_rsc_ams[i];
-            // note to self: ||= doesn't exist
-        }
-        if (!banned_by_user) {
-            continue;
-        }
-        string x;
-        x = NO_WORK_MSG;
-        x += " ";
-        x += rsc_name_long(i);
-        x += ".  ";
-        x += _("To fix this, you can ");
+            // project can't use resource anyway
 
-        bool first = true;
         if (no_rsc_pref[i]) {
-            x += _("change Project Preferences on the project's web site");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: project preferences",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_config[i]) {
-            if (!first) x += ", or ";
-            x += _("remove GPU exclusions in your cc_config.xml file");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: GPU exclusions in cc_config.xml",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
-            if (!first) x += ", or ";
-            x += _("change your settings at your account manager web site");
+            msg_printf(this, MSG_INFO,
+                "Not using %s: account manager settings",
+                rsc_name_long(i)
+            );
         }
-        x += ".";
-        msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
-        some_banned = true;
     }
-    if (!some_banned) {
-        notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-        return;
-    }
-
 }

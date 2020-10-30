@@ -53,10 +53,6 @@
 #endif
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "network.h"
@@ -168,8 +164,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size(".", boinc_non_project, false);
-    dir_size("locale", size, false);
+    dir_size_alloc(".", boinc_non_project, false);
+    dir_size_alloc("locale", size, false);
     boinc_non_project += size;
 #ifdef __APPLE__
     if (gstate.launched_by_manager) {
@@ -179,9 +175,13 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         OSStatus err = noErr;
         
         retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) err = fnfErr;
-        if (! err) dir_size(path, manager_size, true);
-        if (! err) boinc_non_project += manager_size;
+        if (retval <= 0) {
+            err = fnfErr;
+        }
+        if (!err) {
+            dir_size_alloc(path, manager_size, true);
+            boinc_non_project += manager_size;
+        }
     }
 #endif
     boinc_total = boinc_non_project;
@@ -748,7 +748,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     //
     for (unsigned i=0; i<gstate.projects.size(); i++) { 
         PROJECT* p = gstate.projects[i]; 
-        if (!strcmp(p->master_url, gstate.project_init.url)) { 
+        if (urls_match(p->master_url, gstate.project_init.url)) { 
             gstate.project_init.remove(); 
             break; 
         } 
@@ -758,15 +758,11 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         "<get_project_init_status>\n"
         "    <url>%s</url>\n"
         "    <name>%s</name>\n"
-        "    <team_name>%s</team_name>\n"
-        "    <setup_cookie>%s</setup_cookie>\n"
         "    %s\n"
         "    %s\n"
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
-        gstate.project_init.team_name,
-        gstate.project_init.setup_cookie,
         strlen(gstate.project_init.account_key)?"<has_account_key/>":"",
         gstate.project_init.embedded?"<embedded/>":""
     );
@@ -1931,16 +1927,24 @@ void GUI_RPC_CONN::http_error(const char* msg) {
 // - no ..
 //
 void GUI_RPC_CONN::handle_get() {
+    // no one is using this feature and it's a potential security risk,
+    // so disable it for now.
+    //
+    return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+#if 0
     if (!cc_config.allow_gui_rpc_get) {
         return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
     }
 
     // get filename from GET /foo.html HTTP/1.1
+    // and make sure it's relative
     //
     char *p, *q=0;
     p = strchr(request_msg, '/');
     if (p) {
-        p++;
+        while (*p=='/') {
+            p++;
+        }
         q = strchr(p, ' ');
     }
 
@@ -1949,7 +1953,7 @@ void GUI_RPC_CONN::handle_get() {
     }
 
     *q = 0;
-    if (strstr(p, "..")) {
+    if (strstr(p, "..") || strchr(p, ':')) {
         return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
     }
     if (!ends_with(p, ".html")
@@ -1978,6 +1982,7 @@ void GUI_RPC_CONN::handle_get() {
     );
     send(sock, buf, (int)strlen(buf), 0);
     send(sock, file.c_str(), n, 0);
+#endif
 }
 
 // return nonzero only if we need to close the connection
@@ -2018,6 +2023,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "Server: BOINC client\n"
             "Access-Control-Allow-Origin: *\n"
             "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
+            "Access-Control-Allow-Headers: *\n"
             "Content-Length: 0\n"
             "Keep-Alive: timeout=2, max=100\n"
             "Connection: Keep-Alive\n"
@@ -2104,6 +2110,9 @@ int GUI_RPC_CONN::handle_rpc() {
             "HTTP/1.1 200 OK\n"
             "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
             "Server: BOINC client\n"
+            "Access-Control-Allow-Origin: *\n"
+            "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
+            "Access-Control-Allow-Headers: *\n"
             "Connection: close\n"
             "Content-Type: text/xml; charset=utf-8\n"
             "Content-Length: %d\n\n"

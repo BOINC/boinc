@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -17,18 +17,18 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/projectsRow"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/projectsRow"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:clickable="true"
-              android:background="@drawable/shape_light_blue_background_wo_stroke">
+              android:background="@drawable/shape_boinc_icon_light_blue_background">
 
     <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:minHeight="60dp"
-            android:background="@android:color/transparent">
+            android:minHeight="60dp">
 
         <ImageView
                 android:id="@+id/icon"
@@ -36,7 +36,7 @@
                 android:layout_height="32dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/projects_icon"
-                android:src="@drawable/acctmgrb"
+                app:srcCompat="@drawable/ic_baseline_share"
                 android:layout_centerInParent="true"/>
     </RelativeLayout>
 
@@ -45,8 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="3dp"
-            android:background="@android:color/transparent">
+            android:layout_margin="3dp">
 
         <TextView
                 android:id="@+id/name"
@@ -54,15 +53,13 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:background="@android:color/transparent"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <TextView
                 android:id="@+id/url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="@android:color/transparent"/>
+                android:textColor="?android:attr/textColorPrimary"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
     </LinearLayout>
 </LinearLayout>

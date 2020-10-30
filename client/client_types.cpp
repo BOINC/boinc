@@ -37,10 +37,6 @@
 #include <cstring>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "log_flags.h"

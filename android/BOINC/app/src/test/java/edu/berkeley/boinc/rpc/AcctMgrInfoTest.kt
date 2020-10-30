@@ -27,9 +27,7 @@ class AcctMgrInfoTest {
         EqualsTester().addEqualityGroup(AcctMgrInfo(), AcctMgrInfo())
                 .addEqualityGroup(AcctMgrInfo(acctMgrName = "Name"))
                 .addEqualityGroup(AcctMgrInfo(acctMgrUrl = "URL"))
-                .addEqualityGroup(AcctMgrInfo(cookieFailureUrl = "Cookie Failure URL"))
                 .addEqualityGroup(AcctMgrInfo(isHavingCredentials = true))
-                .addEqualityGroup(AcctMgrInfo(isCookieRequired = true))
                 .testEquals()
     }
 }

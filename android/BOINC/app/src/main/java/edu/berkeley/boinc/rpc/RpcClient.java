@@ -31,9 +31,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +41,11 @@ import java.util.Locale;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import kotlin.text.Charsets;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.ByteString;
+import okio.Okio;
 
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
 
@@ -81,9 +85,9 @@ public class RpcClient {
     public static final int MGR_SYNC = 31;
 
     private LocalSocket mSocket;
-    private OutputStreamWriter mOutput;
-    private InputStream mInput;
-    private byte[] mReadBuffer = new byte[READ_BUF_SIZE];
+    private BufferedSource socketSource;
+    private BufferedSink socketSink;
+    private final byte[] mReadBuffer = new byte[READ_BUF_SIZE];
     protected StringBuilder mResult = new StringBuilder(RESULT_BUILDER_INIT_SIZE);
     protected StringBuilder mRequest = new StringBuilder(REQUEST_BUILDER_INIT_SIZE);
 
@@ -176,10 +180,10 @@ public class RpcClient {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketAddress));
             mSocket.setSoTimeout(READ_TIMEOUT);
-            mInput = mSocket.getInputStream();
-            mOutput = new OutputStreamWriter(mSocket.getOutputStream(), StandardCharsets.ISO_8859_1);
+            socketSource = Okio.buffer(Okio.source(mSocket.getInputStream()));
+            socketSink = Okio.buffer(Okio.sink(mSocket.getOutputStream()));
         } catch (IllegalArgumentException e) {
-            if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+            if (Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "connect failure: illegal argument", e);
             mSocket = null;
             return false;
@@ -205,12 +209,12 @@ public class RpcClient {
             return;
         }
         try {
-            mInput.close();
+            socketSource.close();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "input close failure", e);
         }
         try {
-            mOutput.close();
+            socketSink.close();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "output close failure", e);
         }
@@ -243,7 +247,7 @@ public class RpcClient {
             Xml.parse(auth1Rsp, new Auth1Parser(mRequest)); // get nonce value
             // Operation: combine nonce & password, make MD5 hash
             mRequest.append(password);
-            String nonceHash = StringExtensions.hash(mRequest.toString());
+            String nonceHash = ByteString.encodeUtf8(mRequest.toString()).md5().hex();
             // Phase 2: send hash to client
             mRequest.setLength(0);
             mRequest.append("<auth2>\n<nonce_hash>");
@@ -313,12 +317,11 @@ public class RpcClient {
             Log.d(Logging.TAG, "mRequest.capacity() = " + mRequest.capacity());
         if (Logging.RPC_DATA && Logging.DEBUG)
             Log.d(Logging.TAG, "Sending request: \n" + request);
-        if (mOutput == null)
+        if (socketSink == null)
             return;
-        mOutput.write("<boinc_gui_rpc_request>\n");
-        mOutput.write(request);
-        mOutput.write("</boinc_gui_rpc_request>\n\003");
-        mOutput.flush();
+        final String requestBody = "<boinc_gui_rpc_request>\n" + request + "</boinc_gui_rpc_request>\n\003";
+        socketSink.writeString(requestBody, Charsets.ISO_8859_1);
+        socketSink.flush();
     }
 
     /**
@@ -332,17 +335,17 @@ public class RpcClient {
         if (Logging.RPC_PERFORMANCE && Logging.DEBUG)
             Log.d(Logging.TAG, "mResult.capacity() = " + mResult.capacity());
 
-        long readStart = System.nanoTime();
+        final Instant start = Instant.now();
 
         // Speed is (with large data): ~ 45 KB/s for buffer size 1024
         //                             ~ 90 KB/s for buffer size 2048
         //                             ~ 95 KB/s for buffer size 4096
         // The chosen buffer size is 2048
         int bytesRead;
-        if (mInput == null)
+        if (socketSource == null)
             return mResult.toString();    // empty string
         do {
-            bytesRead = mInput.read(mReadBuffer);
+            bytesRead = socketSource.read(mReadBuffer);
             if (bytesRead == -1) break;
             mResult.append(new String(mReadBuffer, 0, bytesRead));
             if (mReadBuffer[bytesRead - 1] == '\003') {
@@ -353,7 +356,7 @@ public class RpcClient {
         } while (true);
 
         if (Logging.RPC_PERFORMANCE) {
-            float duration = (System.nanoTime() - readStart) / 1000000000.0F;
+            float duration = Duration.between(Instant.now(), start).getSeconds();
             long bytesCount = mResult.length();
             if (duration == 0) duration = 0.001F;
             if (Logging.DEBUG)
@@ -670,7 +673,7 @@ public class RpcClient {
                     opTag = "project_reset";
                     break;
                 default:
-                    if (edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4)
+                    if (Logging.LOGLEVEL <= 4)
                         Log.e(Logging.TAG, "projectOp() - unsupported operation: " + operation);
                     return false;
             }
@@ -691,10 +694,6 @@ public class RpcClient {
         }
     }
 
-    private String getPasswordHash(String passwd, String email_addr) {
-        return StringExtensions.hash(passwd + email_addr);
-    }
-
     /**
      * Creates account
      *
@@ -709,7 +708,8 @@ public class RpcClient {
             mRequest.append("</url>\n   <email_addr>");
             mRequest.append(accountIn.getEmailAddress());
             mRequest.append("</email_addr>\n   <passwd_hash>");
-            mRequest.append(getPasswordHash(accountIn.getPassword(), accountIn.getEmailAddress()));
+            final String string = accountIn.getPassword() + accountIn.getEmailAddress();
+            mRequest.append(ByteString.encodeUtf8(string).md5().hex());
             mRequest.append("</passwd_hash>\n   <user_name>");
             if (accountIn.getUserName() != null)
                 mRequest.append(accountIn.getUserName());
@@ -768,7 +768,7 @@ public class RpcClient {
             mRequest.append("</url>\n <email_addr>");
             mRequest.append(id.toLowerCase(Locale.US));
             mRequest.append("</email_addr>\n <passwd_hash>");
-            mRequest.append(getPasswordHash(accountIn.getPassword(), id.toLowerCase(Locale.US)));
+            mRequest.append(ByteString.encodeUtf8(accountIn.getPassword() + id.toLowerCase(Locale.US)).md5().hex());
             mRequest.append("</passwd_hash>\n</lookup_account>\n");
             sendRequest(mRequest.toString());
 
@@ -1302,22 +1302,6 @@ public class RpcClient {
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in setCcConfig()", e);
             return false;
-        }
-    }
-
-    public synchronized String getCcConfig() {
-        //TODO: needs proper parsing
-        try {
-            mRequest.setLength(0);
-            mRequest.append("<get_cc_config/>");
-
-            sendRequest(mRequest.toString());
-            String reply = receiveReply();
-            Log.d(Logging.TAG, reply);
-            return reply;
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "error in getCcConfig()", e);
-            return "";
         }
     }
 

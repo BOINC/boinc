@@ -23,10 +23,6 @@
 #include "config.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "file_names.h"

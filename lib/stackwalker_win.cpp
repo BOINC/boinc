@@ -42,10 +42,8 @@
  *//////////////////////////////////////////////////////////////////////////////
 
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #include "diagnostics.h"

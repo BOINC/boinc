@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -78,6 +78,7 @@ struct ACTIVE_TASK {
     double peak_working_set_size;
     double peak_swap_size;
     double peak_disk_usage;
+        // based on real (not allocated/compressed) file sizes
 
     // START OF ITEMS ALSO SAVED IN CLIENT STATE FILE
 
@@ -180,12 +181,6 @@ struct ACTIVE_TASK {
     inline int task_state() {
         return _task_state;
     }
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-    // PowerPC apps emulated on i386 Macs crash if running graphics
-    int powerpc_emulated_on_i386;
-    int is_native_i386_app(char*);
-#endif
     int request_reread_prefs();
     int request_reread_app_info();
     int link_user_files();
@@ -204,7 +199,9 @@ struct ACTIVE_TASK {
     void cleanup_task();
 
     int current_disk_usage(double&);
-        // disk used by output files and temp files of this task
+        // total sizes of output files and temp files of this task
+        // This is compared with project-specified limits
+        // to decide whether to abort job; no other use.
     int get_free_slot(RESULT*);
     int start(bool test=false);         // start a process
 

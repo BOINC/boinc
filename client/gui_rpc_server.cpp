@@ -98,7 +98,7 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 }
 
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
-    remote_hosts_file_exists = false;
+    remote_hosts_configured = false;
     lsock = -1;
     time_of_last_rpc_needing_network = 0;
     safe_strcpy(password,"");
@@ -120,7 +120,7 @@ bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
 }
 
 // read the GUI RPC password from gui_rpc_auth.cfg;
-// create one if missing.
+// create one if missing or empty.
 //
 void GUI_RPC_CONN_SET::get_password() {
     int retval;
@@ -132,43 +132,58 @@ void GUI_RPC_CONN_SET::get_password() {
             strip_whitespace(password);
         }
         fclose(f);
-        if (!strlen(password)) {
-            msg_printf(NULL, MSG_INFO,
-                "gui_rpc_auth.cfg is empty - no GUI RPC password protection"
-            );
+        if (strlen(password)) {
+            return;
         }
-        return;
+
+        // File is empty; don't allow this.
+        // Fall through and create a password.
+        //
+        msg_printf(NULL, MSG_INFO,
+            "%s is empty - assigning new GUI RPC password", GUI_RPC_PASSWD_FILE
+        );
     }
 
-    // if no password file, make a random password
+    // make a random password
     //
     make_secure_random_string(password);
 
     // try to write it to the file.
-    // if fail, just return
+    // if fail, just return; we're still password-protected
     //
     f = fopen(GUI_RPC_PASSWD_FILE, "w");
     if (!f) {
         msg_printf(NULL, MSG_USER_ALERT,
-            "Can't open gui_rpc_auth.cfg - fix permissions"
+            "Can't open %s - fix permissions", GUI_RPC_PASSWD_FILE
         );
     } else {
         retval = fputs(password, f);
         fclose(f);
         if (retval == EOF) {
             msg_printf(NULL, MSG_USER_ALERT,
-                "Can't write gui_rpc_auth.cfg - fix permissions"
+                "Can't write %s - fix permissions", GUI_RPC_PASSWD_FILE
             );
         }
     }
-#ifndef _WIN32
-    // if someone can read the password,
+#ifdef _WIN32
+#elif defined(__APPLE__)
+    // Mac: Make sure the password file is not world-read or write.
+    // If someone can read or set the password,
     // they can cause code to execute as this user.
-    // So better protect it.
     //
     if (g_use_sandbox) {
         // Allow group access so authorized administrator can modify it
         chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
+    } else {
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+    }
+#else
+    // general case: allow group read if group is "boinc"
+    //
+    gid_t gid = getgid();
+    struct group *g = getgrgid(gid);
+    if (g && !strcmp(g->gr_name, "boinc")) {
+        chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP);
     } else {
         chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
     }
@@ -181,13 +196,11 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
-    remote_hosts_file_exists = false;
 
     // scan remote_hosts.cfg, convert names to IP addresses
     //
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f) {
-        remote_hosts_file_exists = true;
         if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] found allowed hosts list"
@@ -213,6 +226,9 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         }
         fclose(f);
     }
+
+    remote_hosts_configured = !allowed_remote_ip_addresses.empty();
+
     return 0;
 }
 
@@ -308,7 +324,7 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (cc_config.allow_remote_gui_rpc || remote_hosts_file_exists) {
+    if (cc_config.allow_remote_gui_rpc || remote_hosts_configured) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.gui_rpc_debug) {
             msg_printf(NULL, MSG_INFO, "[gui_rpc] Remote control allowed");

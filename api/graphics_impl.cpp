@@ -23,17 +23,11 @@
 
 // DEPRECATED - use separate graphics app
 
-#ifndef _WIN32
-#include "config.h"
-#endif
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 extern void win_graphics_event_loop();
 #else
+#include "config.h"
 #include <cstring>
 #include <cstdarg>
 #include <pthread.h>

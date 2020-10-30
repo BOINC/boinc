@@ -32,10 +32,6 @@
 #include <sys/socket.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "boinc_gl.h"
 
 #include "diagnostics.h"

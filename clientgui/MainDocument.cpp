@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "util.h"
+
 #ifdef __WXMAC__
 #include "mac_util.h"
 #endif
@@ -126,22 +127,10 @@ CNetworkConnection::~CNetworkConnection() {
 
 int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
-    safe_strcpy(buf, "");
-
-    FILE* f = fopen("gui_rpc_auth.cfg", "r");
-    if (!f) return errno;
-    fgets(buf, 256, f);
-    fclose(f);
-    int n = (int)strlen(buf);
-    if (n) {
-        n--;
-        if (buf[n]=='\n') {
-            buf[n] = 0;
-        }
-    }
-
+ 
+    int retval = read_gui_rpc_password(buf, password_msg);
     strPassword = wxString(buf, wxConvUTF8);
-    return 0;
+    return retval;
 }
 
 
@@ -317,7 +306,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure);
+        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword, m_iReadGUIRPCAuthFailure, password_msg);
     }
 }
 
@@ -928,8 +917,8 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 #ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(event);
+            CTaskbarEvent event2(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event2);
         }
 #endif
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
@@ -1603,11 +1592,17 @@ int CMainDocument::WorkResume(char* url, char* name) {
 // If the graphics application for the current task is already
 // running, return a pointer to its RUNNING_GFX_APP struct.
 //
-RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
-    RESULT* rp, int slot
-) {
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
     bool exited = false;
+    int slot = -1;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
+    
+    if (m_running_gfx_apps.empty()) return NULL;
+
+    char *p = strrchr((char*)rp->slot_path, '/');
+    if (!p) return NULL;
+    slot = atoi(p+1);
+
 
     for( gfx_app_iter = m_running_gfx_apps.begin();
         gfx_app_iter != m_running_gfx_apps.end();
@@ -1758,27 +1753,20 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         int      id;
 #endif
 
-        p = strrchr((char*)rp->slot_path, '/');
-        if (!p) return ERR_INVALID_PARAM;
-        slot = atoi(p+1);
-
         // See if we are already running the graphics application for this task
-        previous_gfx_app = GetRunningGraphicsApp(rp, slot);
+        previous_gfx_app = GetRunningGraphicsApp(rp);
+
+        if (previous_gfx_app) {
+            // If graphics app is already running, the button has changed to 
+            // "Stop graphics", so we end the graphics app.
+            //
+            KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
+            return 0;
+        }
 
 #ifndef __WXMSW__
         char* argv[4];
-
-        if (previous_gfx_app) {
-#ifdef __WXMAC__
-            // If this graphics app is already running,
-            // just bring it to the front
-            //
-            BringAppWithPidToFront(previous_gfx_app->pid);
-#endif
-            // If graphics app is already running, don't launch a second instance
-            //
-            return 0;
-        }
+        
         argv[0] = "switcher";
         // For unknown reasons on Macs, the graphics application
         // exits with "RegisterProcess failed (error = -50)" unless
@@ -1827,6 +1815,10 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         );
 #endif
         if (!iRetVal) {
+            p = strrchr((char*)rp->slot_path, '/');
+            if (!p) return ERR_INVALID_PARAM;
+            slot = atoi(p+1);
+
             gfx_app.slot = slot;
             gfx_app.project_url = rp->project_url;
             gfx_app.name = rp->name;

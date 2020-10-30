@@ -56,7 +56,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_graphics", "uc2
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgraphics2", "libgraphics2_vs2019.vcxproj", "{814EBFD3-3CE6-4933-A580-C1FE3147ACB4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi_staticcrt", "libboincapi_staticcrt_vs2019.vcxproj", "{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi", "libboincapi_staticcrt_vs2019.vcxproj", "{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "boincsvcctrl_vs2019.vcxproj", "{9FC47E90-4E0D-4383-B446-A84314B00764}"
 EndProject
@@ -96,9 +96,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slide_show", "slide_show_vs
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincopencl_staticcrt", "libboincopencl_staticcrt_vs2019.vcxproj", "{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincopencl", "libboincopencl_staticcrt_vs2019.vcxproj", "{C0A2DEEE-2EC5-4F67-8048-53264B6BD14D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinczip_staticcrt", "libboinczip_staticcrt_vs2019.vcxproj", "{753E897D-9ECE-42B1-9F0D-CD566775C77E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinczip", "libboinczip_staticcrt_vs2019.vcxproj", "{753E897D-9ECE-42B1-9F0D-CD566775C77E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip", "test_boinc_zip_vs2019.vcxproj", "{92253F20-4CD6-494E-8DEF-F5B4555B61CD}"
 EndProject
@@ -107,14 +107,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip_zlib_conflict
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_dll", "uc2_dll_vs2019.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_lib", "uc2_dll_vs2019.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "htmlgfx", "htmlgfx_vs2019.vcxproj", "{25662612-421F-42F5-B5E1-D69ECBF3F5BB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcpkg_3rdparty_dependencies_2019", "vcpkg_3rdparty_dependencies_2019.vcxproj", "{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccas", "boinccas_vs2019.vcxproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcpkg_3rdparty_dependencies", "vcpkg_3rdparty_dependencies_vs2019.vcxproj", "{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittests", "unittests_vs2019.vcxproj", "{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -254,10 +261,18 @@ Global
 		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|x64.Build.0 = Debug|x64
 		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.ActiveCfg = Release|x64
 		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.Build.0 = Release|x64
+		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Debug|x64.ActiveCfg = Debug|x64
+		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Debug|x64.Build.0 = Debug|x64
+		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Release|x64.ActiveCfg = Release|x64
+		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Release|x64.Build.0 = Release|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Debug|x64.ActiveCfg = Debug|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Debug|x64.Build.0 = Debug|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Release|x64.ActiveCfg = Release|x64
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}.Release|x64.Build.0 = Release|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Debug|x64.ActiveCfg = Debug|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Debug|x64.Build.0 = Debug|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.ActiveCfg = Release|x64
+		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

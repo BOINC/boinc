@@ -50,7 +50,7 @@ data class ProjectConfig(
                     parcel.readString() ?: "", parcel.readString() ?: "",
                     parcel.readInt(), parcel.readInt(), parcel.readString() ?: "") {
         platforms = arrayListOf<PlatformInfo?>().apply {
-            parcel.readList(this, PlatformInfo::class.java.classLoader)
+            parcel.readList(this as MutableList<*>, PlatformInfo::class.java.classLoader)
         }
         termsOfUse = parcel.readString()
 
@@ -155,7 +155,7 @@ data class ProjectInfo(
         const val SPECIFIC_AREA = "specific_area"
         const val HOME = "home"
         const val PLATFORMS = "platforms"
-        const val IMAGE_URL = "image_url"
+        const val IMAGE_URL = "image"
         const val SUMMARY = "summary"
     }
 

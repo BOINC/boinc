@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Nalagam! Prosimo, počakajte...</string>
     <string name="generic_button_continue">Nadaljuj</string>
     <string name="generic_button_finish">Končaj</string>
     <!--attach project-->
@@ -12,9 +11,6 @@
     <string name="attachproject_list_header">Izberite projekt</string>
     <string name="attachproject_list_manual_button">Dodaj projekt z URL-jem</string>
     <string name="attachproject_list_manual_dialog_title">Vnesite URL projekta:</string>
-    <string name="attachproject_list_manual_dialog_button">Dodaj projekt</string>
-    <string name="attachproject_list_manual_no_url">Prosimo, vnesite URL projekta</string>
-    <string name="attachproject_list_acctmgr_button">Dodaj upravitelja računov</string>
     <string name="attachproject_list_no_internet">Ni internetne povezave</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Vnesite informacije o računu</string>
@@ -29,7 +25,7 @@
     <string name="attachproject_conflict_unknown_user">Račun ne obstaja</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Račun ne obstaja, za registracijo obiščite spletno stran projekta</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Prilagam</string>
+    <string name="attachproject_working_attaching">Prilagam %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Namig</string>
@@ -45,53 +41,27 @@
     <string name="attachproject_hint_platforms_header">BOINS je na voljo tudi za vaš računalnik ali laptop, obiščite boinc.berkeley.edu, da izveste več.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontaktiram strežnik projekta...</string>
-    <string name="attachproject_login_image_description">Logo projekta.</string>
     <string name="attachproject_login_header_general_area">Splošno območje:</string>
     <string name="attachproject_login_header_specific_area">Določeno območje:</string>
     <string name="attachproject_login_header_description">Opis:</string>
     <string name="attachproject_login_header_home">Dom:</string>
     <string name="attachproject_login_header_url">Spletna stran:</string>
-    <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">Ta projekt ne podpira vašega tipa naprave</string>
-    <string name="attachproject_login_platform_not_supported">Ta projekt ne podpira vaše naprave</string>
-    <string name="attachproject_login_category_terms_of_use">Pogoji uporabe za</string>
-    <string name="attachproject_login_accept_terms_of_use">Z ustvarjanjem računa s tem projektom, se strinjate z pogoji uporabe, ki so prikazani zgoraj.</string>
-    <string name="attachproject_login_category_login">Prijavite se z že obstoječim računom</string>
     <string name="attachproject_login_header_id_email">E-pošta:</string>
     <string name="attachproject_login_header_id_name">Ime:</string>
     <string name="attachproject_login_header_pwd">Geslo:</string>
-    <string name="attachproject_login_category_creation">Nov</string>
-    <string name="attachproject_login_header_creation_enabled">Ustvarite račun za sodelovanje:</string>
-    <string name="attachproject_login_header_creation_client_disabled">Obiščite spletno stran projekta, da ustvarite račun:</string>
-    <string name="attachproject_login_header_creation_disabled">Ta projekt trenutno ne sprejema novih računov.</string>
     <string name="attachproject_login_button_registration">Registracija</string>
     <string name="attachproject_login_button_login">Prijava</string>
     <string name="attachproject_login_button_forgotpw">Pozabljeno geslo</string>
-    <string name="attachproject_login_error_toast">Kontaktirajte projekta neuspešno!</string>
-    <string name="attachproject_login_attached">Pripeto</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Registracija računa za</string>
-    <string name="attachproject_registration_header_url">Projekt:</string>
-    <string name="attachproject_registration_header_email">E-pošta:</string>
-    <string name="attachproject_registration_header_username">Ime:</string>
-    <string name="attachproject_registration_header_teamname">Ekipa:</string>
-    <string name="attachproject_registration_header_pwd">Geslo:</string>
-    <string name="attachproject_registration_header_pwd_confirm">... Vpišite ponovno:</string>
-    <string name="attachproject_registration_button">Ustvari</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Uporabi BOINC upravitelja računov, da dodate in upravljate več projektov</string>
     <string name="attachproject_acctmgr_header">Dodaj upravitelja računov</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Uporabnik:</string>
     <string name="attachproject_acctmgr_header_pwd">Geslo:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">... Vpišite ponovno:</string>
-    <string name="attachproject_acctmgr_button">Dodaj</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">Uporabnika nismo našli</string>
     <string name="attachproject_error_short_pwd">Geslo je prekratko</string>
     <string name="attachproject_error_no_internet">Napaka pri povezavi</string>
-    <string name="attachproject_error_pwd_no_match">Gesli se ne ujemata</string>
-    <string name="attachproject_error_pwd_no_retype">Prosimo, ponovno vpišite geslo</string>
     <string name="attachproject_error_no_url">Prosimo, vnesite URL</string>
     <string name="attachproject_error_no_email">Prosimo, vnesite e-poštni naslov</string>
     <string name="attachproject_error_no_pwd">Prosimo, vnesite geslo</string>
@@ -104,25 +74,6 @@
     <string name="attachproject_error_bad_pwd">Geslo zavrnjeno</string>
     <string name="attachproject_error_creation_disabled">Ustvarjanje računa je onemogočeno za ta projekt</string>
     <string name="attachproject_error_invalid_url">Nepravilen URL</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Nazaj</string>
-    <string name="attachproject_working_finish_button">Končaj</string>
-    <string name="attachproject_working_check_desc">Uspešno</string>
-    <string name="attachproject_working_failed_desc">Neuspešno</string>
-    <string name="attachproject_working_ongoing">…</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Poveži</string>
-    <string name="attachproject_working_verify">Potrdi račun</string>
-    <string name="attachproject_working_register">Ustvari račun</string>
-    <string name="attachproject_working_login">Prijavite se</string>
-    <string name="attachproject_working_acctmgr">Dodaj upravitelja računov</string>
-    <string name="attachproject_working_acctmgr_sync">Sinhroniziraj</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Tapnite za izbiro projekta.</string>
-    <string name="main_error">Ooooops</string>
-    <string name="main_error_long">…to se nebi smelo zgoditi!\nKliknite na ikono, da poskusite znova.</string>
-    <string name="main_title_icon_desc">BOINC ikona</string>
     <!--tab names-->
     <string name="tab_status">Status</string>
     <string name="tab_projects">Projekti</string>
@@ -141,14 +92,9 @@
     <string name="status_computing_disabled_long">Pritisnite \"Play\", za nadaljevanje z izračunavanjem in omrežjem</string>
     <string name="status_launching">Se začenja...</string>
     <string name="status_noproject">Izberite tisti projekt, kateremu se želite pridružiti.</string>
-    <string name="status_closing">Zapiram...</string>
     <string name="status_benchmarking">Merjenje...</string>
     <string name="status_image_description">Slika projekta</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Berem prednosti…</string>
-    <string name="prefs_submit_button">Shrani</string>
-    <string name="prefs_dialog_title">Vnesite novo vsoto:</string>
-    <string name="prefs_dialog_title_selection">Izberite:</string>
     <string name="prefs_category_general">Splošno</string>
     <string name="prefs_category_network">Omrežje</string>
     <string name="prefs_category_power">Moč</string>
@@ -170,13 +116,10 @@
     <string name="battery_temperature_max_header">Max. temperatura baterije</string>
     <string name="battery_temperature_max_description">BOINC izključi izračunavanje, če je temperatura baterije nad določeno vsoto. Spreminjanje vsote ni priporočeno!</string>
     <string name="prefs_disk_max_pct_header">Max. poraba hrambnega prostora</string>
-    <string name="prefs_disk_max_pct_description">Koliko procentov hrambnega prostora vaše naprave lahko BOINC uporabi?</string>
     <string name="prefs_disk_min_free_gb_header">Min. prihranjena hramba</string>
-    <string name="prefs_disk_min_free_gb_description">Koliko procentov hrambnega prostora vaše naprave bi naj moralo ostati?</string>
     <string name="prefs_disk_access_interval_header">Dostopnostni razmik</string>
     <string name="prefs_disk_access_interval_description">Predlagaj razmik med dostopnostjo diskov</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevni prenašalski limit.</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный BOINC.</string>
     <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Prikaži obvestila za nove objave</string>
@@ -191,9 +134,7 @@
     <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
     <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
     <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
-    <string name="prefs_unit_celsius">°C</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Чтение проектов…</string>
     <string name="projects_add">Dodaj projekt</string>
     <string name="projects_icon">Значок проекта</string>
     <!--project status strings-->
@@ -204,7 +145,7 @@
     <string name="projects_status_schedrpcpending">Запрос информации у планировщика</string>
     <string name="projects_status_schedrpcinprogress">Производится запрос информации у планировщика</string>
     <string name="projects_status_trickleuppending">Ожидание промежуточной отправки</string>
-    <string name="projects_status_backoff">Связь по расписанию:</string>
+    <string name="projects_status_backoff">Связь по расписанию: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Команды проекта:</string>
     <string name="projects_control_visit_website">Vizitați pagina web</string>
@@ -239,22 +180,13 @@
     <string name="confirm_cancel">Prekliči</string>
     <string name="confirm_image_desc">Диалог подтверждения</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Чтение списка передач…</string>
     <string name="trans_download">Prenesi</string>
-    <string name="trans_retryin">повтор через</string>
-    <string name="trans_failed">neuspešno</string>
+    <string name="trans_retry_in">повтор через %1$s</string>
     <string name="trans_active">активна</string>
     <string name="trans_pending">ожидает</string>
-    <string name="trans_projectbackoff">запрос к проекту отложен на</string>
     <string name="trans_header_name">Файл:</string>
     <string name="trans_control_retry">Reîncearcă transferuri</string>
-    <string name="confirm_abort_trans_title">Прервать передачу?</string>
-    <string name="confirm_abort_trans_message">Прервать файл:</string>
-    <string name="confirm_abort_trans_confirm">Opusti</string>
-    <!--notices tab strings-->
-    <string name="notices_loading">Se citesc atenţionările...</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Загрузка сообщений журнала…</string>
     <string name="eventlog_client_header">Сообщения клиента</string>
     <string name="eventlog_gui_header">Сообщения GUI</string>
     <string name="eventlog_copy_toast">Журнал скопирован в буфер обмена.</string>
@@ -264,7 +196,6 @@
     <string name="suspend_batteries">Подключите ваше устройство к зарядному устройству для продолжения расчётов.</string>
     <string name="suspend_useractive">Пользователь работает.</string>
     <string name="suspend_tod">Закончилось выделенное время для расчётов.</string>
-    <string name="suspend_bm">BOINC измеряет производительность вашего устройства…</string>
     <string name="suspend_disksize">Закончилось свободное место на диске.</string>
     <string name="suspend_cputhrottle">Запланированное ограничение нагрузки процессора.</string>
     <string name="suspend_noinput">Нет активности пользователя за последнее время.</string>
@@ -275,11 +206,8 @@
     <string name="suspend_os">Android остановил.</string>
     <string name="suspend_wifi">Нет подключения к WiFi.</string>
     <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">в данный момент</string>
     <string name="suspend_battery_overheating">Ожидание охлаждения батареи</string>
     <string name="suspend_user_req">Возобновление расчётов…</string>
-    <string name="suspend_network_user_req">вручную.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">Запрошено пользователем</string>
     <string name="rpcreason_needwork">Запросить задания</string>

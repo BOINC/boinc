@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -40,14 +40,12 @@
 
     <!-- Listview to display slider menu -->
     <ListView
-            android:id="@+id/list_slidermenu"
+            style="@style/DividerDayNight"
+            android:id="@+id/drawer_list"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
-            android:divider="@color/light_blue"
-            android:dividerHeight="1dp"
-            android:listSelector="@drawable/navlist_selector"
-            android:background="@android:color/white"/>
+            android:dividerHeight="1dp"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

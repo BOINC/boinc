@@ -59,16 +59,23 @@ int compareOSVersionTo(int toMajor, int toMinor);
 // Delay when switching to screensaver mode to reduce annoying flashes
 #define SAVERDELAY 30
 
+// NSClosableWindowMask is deprecated in OS 10.12 and is replaced by
+// NSWindowStyleMaskClosable, which is not defined before OS 10.12
+#ifndef NSWindowStyleMaskClosable
+#define NSWindowStyleMaskClosable NSClosableWindowMask
+#endif
+
+static NSWindow* myWindow = nil;
+
 void MacGLUTFix(bool isScreenSaver) {
     static int count = 0;
     static NSMenu * emptyMenu;
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
-    NSWindow* myWindow = nil;
     static int requestedWidth, requestedHeight;
 
-    if (count > 1) return;   // Do this only twice
-    count++;
+    if (count == 2) ClearDocumentEditedDot();
+    if (count++ > 2) return;   // Do the code below only twice
     
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
@@ -109,9 +116,7 @@ void MacGLUTFix(bool isScreenSaver) {
             glutReshapeWindow(requestedWidth, requestedHeight);
         }
         
-        NSButton *closeButton = [myWindow standardWindowButton:NSWindowCloseButton ];
-        [closeButton setEnabled:YES];
-        [myWindow setDocumentEdited: NO];
+        [myWindow setStyleMask:[myWindow styleMask] | NSWindowStyleMaskClosable];
         
         return;
     }
@@ -128,6 +133,12 @@ void MacGLUTFix(bool isScreenSaver) {
         if ([ myWindow level ] == GlutFullScreenWindowLevel) {
             [ myWindow setLevel:RealSaverLevel+20 ];
         }
+    }
+}
+
+void ClearDocumentEditedDot(void) {
+    if (myWindow) {
+        [myWindow setDocumentEdited: NO];
     }
 }
 

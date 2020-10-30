@@ -23,6 +23,8 @@ import android.net.LocalSocketAddress
 import android.util.Log
 import edu.berkeley.boinc.utils.Logging
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Mediates usage of device for volunteer computing. Acquire this lock before executing computations.
@@ -30,8 +32,8 @@ import java.io.IOException
  *
  * @author Joachim Fritzsch
  */
-class BoincMutex {
-    private val socket = LocalSocket()
+@Singleton
+class BoincMutex @Inject constructor(private val socket: LocalSocket) {
     var isAcquired = false
         private set
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -296,6 +296,10 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
+#ifdef __APPLE__
+    // Check whether the app can run on this CPU architecture
+    int can_run_on_this_CPU(char* exec_path);
+#endif
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
@@ -675,6 +679,5 @@ extern THREAD throttle_thread;
 #endif
 
 #define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
-#define NO_WORK_MSG _("Your settings do not allow fetching tasks for")
 
 #endif

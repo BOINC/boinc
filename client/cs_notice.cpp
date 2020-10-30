@@ -24,10 +24,6 @@
 #include <string>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "parse.h"
 #include "url.h"
 #include "filesys.h"
@@ -542,9 +538,6 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             break;
         case REMOVE_SCHEDULER_MSG:
             remove = !strcmp(n.category, "scheduler");
-            break;
-        case REMOVE_NO_WORK_MSG:
-            remove = !strstr(n.description.c_str(), NO_WORK_MSG);
             break;
         case REMOVE_CONFIG_MSG:
             remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);

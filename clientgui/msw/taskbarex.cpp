@@ -39,7 +39,7 @@
 #endif
 
 
-LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
+LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
 wxChar* wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
 wxChar* wxTaskBarExWindow      = (wxChar*) wxT("wxTaskBarExWindow");
@@ -131,7 +131,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
 
     if (!message.empty()) {
         notifyData.uFlags       |= NIF_TIP;
-        lstrcpyn(notifyData.szTip, message.c_str(), sizeof(notifyData.szTip));
+        lstrcpyn(notifyData.szTip, message.c_str(), ARRAYSIZE(notifyData.szTip));
     }
 
     UpdateIcon();
@@ -156,8 +156,8 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();
 
-    lstrcpyn(notifyData.szInfoTitle, title.c_str(), sizeof(notifyData.szInfoTitle));
-    lstrcpyn(notifyData.szInfo, message.c_str(), sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, title.c_str(), ARRAYSIZE(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szInfo, message.c_str(), ARRAYSIZE(notifyData.szInfo));
 
     UpdateIcon();
     return m_iconAdded;
@@ -181,8 +181,8 @@ bool wxTaskBarIconEx::QueueBalloon(const wxIcon& icon, const wxString title, con
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();
 
-    lstrcpyn(notifyData.szInfoTitle, title.c_str(), sizeof(notifyData.szInfoTitle));
-    lstrcpyn(notifyData.szInfo, message.c_str(), sizeof(notifyData.szInfo));
+    lstrcpyn(notifyData.szInfoTitle, title.c_str(), ARRAYSIZE(notifyData.szInfoTitle));
+    lstrcpyn(notifyData.szInfo, message.c_str(), ARRAYSIZE(notifyData.szInfo));
 
     UpdateIcon();
     return m_iconAdded;
@@ -307,10 +307,9 @@ bool wxTaskBarIconEx::IsBalloonsSupported()
     return true;
 }
 
-long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam )
+LRESULT wxTaskBarIconEx::WindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
     wxEventType eventType = 0;
-    long        lReturnValue = 0;     
 
     if      ( WM_CLOSE == msg )
     {
@@ -318,10 +317,10 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
         ProcessEvent(eventClose);
 
         if ( !eventClose.GetSkipped() ) {
-            lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
-        } else {
-            lReturnValue = 0;
+            return DefWindowProc(hWnd, msg, wParam, lParam);
         }
+
+        return 0;
     }
     else if ( WM_TASKBARCREATED == msg )
     {
@@ -398,20 +397,20 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
     }
     else
     {
-        lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
+        return DefWindowProc(hWnd, msg, wParam, lParam);
     }
 
     if (eventType)
     {
         wxTaskBarIconExEvent event(eventType, this);
-        lReturnValue = ProcessEvent(event);
+        return ProcessEvent(event);
     }
 
-    return lReturnValue;
+    return 0;
 }
 
-LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam )
+LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
-    return wxGetApp().GetTaskBarIcon()->WindowProc((WXHWND) hWnd, msg, wParam, lParam);
+    return wxGetApp().GetTaskBarIcon()->WindowProc(hWnd, msg, wParam, lParam);
 }
 

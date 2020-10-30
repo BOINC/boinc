@@ -122,8 +122,8 @@ fi
 
 BOINCPath=$PWD
 
-DarwinVersion=`uname -r`;
-DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
+##DarwinVersion=`uname -r`;
+##DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
 #
 # echo "major = $DarwinMajorVersion"
@@ -135,40 +135,55 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 7.x.y corresponds to OS 10.3.x
 # Darwin version 6.x corresponds to OS 10.2.x
 
-if [ "$DarwinMajorVersion" -gt 10 ]; then
-    # XCode 4.1 on OS 10.7 builds only Intel binaries
-    arch="x86_64"
+arch="x86_64"
 
-    # XCode 3.x and 4.x use different paths for their build products.
-    # Our scripts in XCode's script build phase write those paths to 
-    # files to help this release script find the build products.
-    if [ "$5" = "-dev" ]; then
-        exec 7<"mac_build/Build_Development_Dir"
-        read -u 7 BUILDPATH
-    else
-        exec 7<"mac_build/Build_Deployment_Dir"
-        read -u 7 BUILDPATH
-    fi
-
+# XCode 3.x and 4.x use different paths for their build products.
+# Our scripts in XCode's script build phase write those paths to 
+# files to help this release script find the build products.
+if [ "$5" = "-dev" ]; then
+    exec 7<"mac_build/Build_Development_Dir"
+    read -u 7 BUILDPATH
 else
-    # XCode 3.2 on OS 10.6 does build Intel and PowerPC Universal binaries
-    arch="universal"
+    exec 7<"mac_build/Build_Deployment_Dir"
+    read -u 7 BUILDPATH
+fi
 
-    # XCode 3.x and 4.x use different paths for their build products.
-    if [ "$5" = "-dev" ]; then
-        if [ -d mac_build/build/Development/ ]; then
-            BUILDPATH="mac_build/build/Development"
-        else
-            BUILDPATH="mac_build/build"
-        fi
+arch="x86_64"
+
+Products_Have_x86_64="no"
+Products_Have_arm64="no"
+cd "${BUILDPATH}"
+lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch x86_64
+if [ $? -eq 0 ]; then Products_Have_x86_64="yes"; fi
+lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch arm64
+if [ $? -eq 0 ]; then Products_Have_arm64="yes"; fi
+if [ $Products_Have_x86_64 == "no" ] && [ $Products_Have_arm64 == "no" ]; then
+    echo "ERROR: could not determine architecture of BOINC Manager"
+fi
+if [ $Products_Have_arm64 == "yes" ]; then
+    if [ $Products_Have_x86_64 == "yes" ]; then
+        arch="universal"
     else
-        if [ -d mac_build/build/Deployment/ ]; then
-            BUILDPATH="mac_build/build/Deployment"
-        else
-            BUILDPATH="mac_build/build"
-        fi
+        arch="arm64"
     fi
 fi
+
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall"
+do
+    Have_x86_64="no"
+    Have_arm64="no"
+    lipo "${Executable}" -verify_arch x86_64
+    if [ $? -eq 0 ]; then Have_x86_64="yes"; fi
+    lipo "${Executable}" -verify_arch arm64
+    if [ $? -eq 0 ]; then Have_arm64="yes"; fi
+
+    if [ $Have_x86_64 != $Products_Have_x86_64 ] || [ $Have_arm64 != $Products_Have_arm64 ]; then
+        echo "ERROR: Architecture mismatch: BOINC Manager and " "${Executable}"
+        return 1
+    fi
+done
+
+cd "${BOINCPath}"
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
 sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/

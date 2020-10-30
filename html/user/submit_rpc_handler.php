@@ -256,11 +256,18 @@ function submit_jobs(
             $f = $output_templates[$job->output_template_xml];
             $x .= " --result_template $f";
         }
+        if (isset($job->priority)) {
+            $x .= " --priority $job->priority";
+        }
         $x .= "\n";
     }
 
     $errfile = "/tmp/create_work_" . getmypid() . ".err";
-    $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id --priority $priority";
+    $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id";
+    if ($priority !== null) {
+        $cmd .= " --priority $priority";
+    }
+
     if ($input_template_filename) {
         $cmd .= " --wu_template templates/$input_template_filename";
     }
@@ -387,6 +394,9 @@ function xml_get_jobs($r) {
             }
             $job->input_files[] = $file;
         }
+        if (isset($j->priority)) {
+            $job->priority = (int)$j->priority;
+        }
         $jobs[] = $job;
         if ($job->input_template) {
             make_input_template($job);
@@ -396,6 +406,37 @@ function xml_get_jobs($r) {
         }
     }
     return $jobs;
+}
+
+// - compute batch FLOP count
+// - run adjust_user_priorities to increment user_submit.logical_start_time
+// - return that (use as batch logical end time and job priority)
+//
+function logical_end_time($r, $jobs, $user, $app) {
+    $total_flops = 0;
+    foreach($jobs as $job) {
+        //print_r($job);
+        if ($job->rsc_fpops_est) {
+            $total_flops += $job->rsc_fpops_est;
+        } else if ($job->input_template && $job->input_template->workunit->rsc_fpops_est) {
+            $total_flops += (double) $job->input_template->workunit->rsc_fpops_est;
+        } else if ($r->batch->job_params->rsc_fpops_est) {
+            $total_flops += (double) $r->batch->job_params->rsc_fpops_est;
+        } else {
+            $x = (double) $template->workunit->rsc_fpops_est;
+            if ($x) {
+                $total_flops += $x;
+            } else {
+                xml_error(-1, "no rsc_fpops_est given");
+            }
+        }
+    }
+    $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+    $x = exec($cmd);
+    if (!is_numeric($x) || (double)$x == 0) {
+        xml_error(-1, "$cmd returned $x");
+    }
+    return (double)$x;
 }
 
 // $r is a simplexml object encoding the request message
@@ -410,6 +451,7 @@ function submit_batch($r) {
         validate_batch($jobs, $template);
     }
     stage_files($jobs);
+    $njobs = count($jobs);
     $now = time();
     $app_version_num = (int)($r->batch->app_version_num);
 
@@ -433,38 +475,17 @@ function submit_batch($r) {
         }
     }
 
-    // - compute batch FLOP count
-    // - run adjust_user_priorities to increment user_submit.logical_start_time
-    // - use that for batch logical end time and job priority
+    // compute a priority for the jobs
     //
-    $total_flops = 0;
-    foreach($jobs as $job) {
-        //print_r($job);
-        if ($job->rsc_fpops_est) {
-            $total_flops += $job->rsc_fpops_est;
-        } else if ($job->input_template && $job->input_template->workunit->rsc_fpops_est) {
-            $total_flops += (double) $job->input_template->workunit->rsc_fpops_est;
-        } else if ($r->batch->job_params->rsc_fpops_est) {
-            $total_flops += (double) $r->batch->job_params->rsc_fpops_est;
-        } else {
-            $x = (double) $template->workunit->rsc_fpops_est;
-            if ($x) {
-                $total_flops += $x;
-            } else {
-                log_write("no rsc_fpops_est given");
-                xml_error(-1, "no rsc_fpops_est given");
-            }
-        }
+    $priority = null;
+    $let = 0;
+    if ($r->batch->allocation_priority) {
+        $let = logical_end_time($r, $jobs, $user, $app);
+        $priority = -(int)$let;
+    } else if (isset($r->batch->priority)) {
+        $priority = (int)$r->batch->priority;
     }
-    $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
-    $x = exec($cmd);
-    if (!is_numeric($x) || (double)$x == 0) {
-        log_write("$cmd returned $x");
-        xml_error(-1, "$cmd returned $x");
-    }
-    $let = (double)$x;
 
-    $njobs = count($jobs);
     if ($batch_id) {
         $ret = $batch->update("njobs=$njobs, logical_end_time=$let");
         if (!$ret) {
@@ -475,8 +496,9 @@ function submit_batch($r) {
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_name = BoincDb::escape_string($batch_name);
+        $state = BATCH_STATE_INIT;
         $batch_id = BoincBatch::insert(
-            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_INIT.")"
+            "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values ($user->id, $now, 0, $let, 0, $njobs, 0, 0, $state, 0, 0, 0, 0, '$batch_name', $app->id, 0, '', 0)"
         );
         if (!$batch_id) {
             log_write("can't create batch");
@@ -499,7 +521,7 @@ function submit_batch($r) {
         // possibly empty
     
     submit_jobs(
-        $jobs, $job_params, $app, $batch_id, $let, $app_version_num,
+        $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
         $input_template_filename,
         $output_template_filename
     );
@@ -529,8 +551,9 @@ function create_batch($r) {
     $batch_name = (string)($r->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
     $expire_time = (double)($r->expire_time);
+    $state = BATCH_STATE_INIT;
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
+        "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values ($user->id, $now, 0, 0, 0, 0, 0, 0, $state, 0, 0, 0, 0, '$batch_name', $app->id, 0, '', $expire_time)"
     );
     if (!$batch_id) {
         log_write("Can't create batch: ".BoincDb::error());

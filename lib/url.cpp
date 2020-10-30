@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32) 
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <string>
@@ -236,6 +234,25 @@ void canonicalize_master_url(string& url) {
     safe_strcpy(buf, url.c_str());
     canonicalize_master_url(buf, sizeof(buf));
     url = buf;
+}
+
+// return true if url1 and url2 are the same
+// except ur1 is http: and url2 is https:
+//
+bool is_https_transition(const char* url1, const char* url2) {
+    if (strstr(url1, "http://") != url1) return false;
+    if (strstr(url2, "https://") != url2) return false;
+    if (strcmp(url1+strlen("http://"), url2+strlen("https://"))) return false;
+    return true;
+}
+
+// return true if url1 and url2 are the same except protocol
+//
+bool urls_match(const char* url1, const char* url2) {
+    const char* p = strstr(url1, "//");
+    const char* q = strstr(url2, "//");
+    if (!p || !q) return false;
+    return strcmp(p, q) == 0;
 }
 
 // is the string a valid master URL, in canonical form?

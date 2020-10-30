@@ -54,10 +54,6 @@
 #include <ctime>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -278,7 +274,7 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         );
         int n = host_info.p_ncpus;
         int j = (i >= n/2)? 2*i+1-n : 2*i;
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
+        SetThreadAffinityMask(benchmark_descs[i].handle, 1ull<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);

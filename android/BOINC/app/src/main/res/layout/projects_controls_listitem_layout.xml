@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -20,7 +20,6 @@
           android:id="@+id/text"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textColor="@color/black"
+          android:textColor="?android:attr/textColorPrimary"
           android:textAppearance="?android:attr/textAppearanceMedium"
-          android:background="@android:color/transparent"
           android:padding="15dp"/>

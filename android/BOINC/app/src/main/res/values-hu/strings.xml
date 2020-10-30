@@ -3,7 +3,6 @@
     <!--app global-->
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
-    <string name="generic_loading">Betöltés! Kérjük, várj...</string>
     <string name="generic_button_continue">Folytatás</string>
     <string name="generic_button_finish">Befejezés</string>
     <!--attach project-->
@@ -14,9 +13,6 @@
     <string name="attachproject_list_header">Válassz projektet</string>
     <string name="attachproject_list_manual_button">Projekt hozzáadása URL szerint</string>
     <string name="attachproject_list_manual_dialog_title">Add meg a projekt URL-jét:</string>
-    <string name="attachproject_list_manual_dialog_button">Projekt hozzáadása</string>
-    <string name="attachproject_list_manual_no_url">Kérjük, add meg a projekt URL-jét</string>
-    <string name="attachproject_list_acctmgr_button">Fiókkezelő hozzáadása</string>
     <string name="attachproject_list_no_internet">Nincs internetkapcsolat</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Fiókinformációk megadása</string>
@@ -33,7 +29,7 @@
         weboldalát a regisztráláshoz
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Csatolás</string>
+    <string name="attachproject_working_attaching">Csatolás %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Tipp</string>
@@ -51,45 +47,17 @@
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">Csatlakozás a projekt szerverhez...</string>
-    <string name="attachproject_login_image_description">Projekt logó.</string>
     <string name="attachproject_login_header_general_area">Fő tudományterület:</string>
     <string name="attachproject_login_header_specific_area">Speciális tudományterület:</string>
     <string name="attachproject_login_header_description">Leírás:</string>
     <string name="attachproject_login_header_home">Honlap:</string>
     <string name="attachproject_login_header_url">Weboldal:</string>
-    <string name="attachproject_login_header_platform">Android:</string>
-    <string name="attachproject_login_platform_supported">Ez a projekt támogatja ezt az eszközt</string>
-    <string name="attachproject_login_platform_not_supported">Ez a projekt nem támogatja ezt az eszközt</string>
-    <string name="attachproject_login_category_terms_of_use">Felhasználási feltételek ehhez</string>
-    <string name="attachproject_login_accept_terms_of_use">Fiók létrehozásával elfogadod a projekt felhasználási
-        feltételeit, ahogy az fentebb írva van.
-    </string>
-    <string name="attachproject_login_category_login">Bejelentkezés létező fiókkal</string>
     <string name="attachproject_login_header_id_email">eMail:</string>
     <string name="attachproject_login_header_id_name">Név:</string>
     <string name="attachproject_login_header_pwd">Jelszó:</string>
-    <string name="attachproject_login_category_creation">Új:</string>
-    <string name="attachproject_login_header_creation_enabled">Hozz létre egy felhasználói fiókot a részvételhez:
-    </string>
-    <string name="attachproject_login_header_creation_client_disabled">Nézd meg a projekt weboldalát a
-        regisztrációhoz:
-    </string>
-    <string name="attachproject_login_header_creation_disabled">Ebben a projektben jelenleg nem készíthetők új fiókok.
-    </string>
     <string name="attachproject_login_button_registration">Regisztráció</string>
     <string name="attachproject_login_button_login">Bejelentkezés</string>
     <string name="attachproject_login_button_forgotpw">Elfelejtett jelszó</string>
-    <string name="attachproject_login_error_toast">Projekt csatlakoztatása sikertelen!</string>
-    <string name="attachproject_login_attached">Csatolva</string>
-    <!--project registration-->
-    <string name="attachproject_registration_header">Fiók létrehozása</string>
-    <string name="attachproject_registration_header_url">Projekt:</string>
-    <string name="attachproject_registration_header_email">eMail:</string>
-    <string name="attachproject_registration_header_username">Név:</string>
-    <string name="attachproject_registration_header_teamname">Csapat:</string>
-    <string name="attachproject_registration_header_pwd">Jelszó:</string>
-    <string name="attachproject_registration_header_pwd_confirm">... Írd be ismét:</string>
-    <string name="attachproject_registration_button">Létrehoz</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Használd a BOINC fiókkezelőt új projekt hozzáadásához vagy a meglévő
         projektek kezeléséhez
@@ -98,14 +66,10 @@
     <string name="attachproject_acctmgr_header_url">Webcím</string>
     <string name="attachproject_acctmgr_header_name">Felhasználó:</string>
     <string name="attachproject_acctmgr_header_pwd">Jelszó:</string>
-    <string name="attachproject_acctmgr_header_pwd_confirm">... Írd be ismét:</string>
-    <string name="attachproject_acctmgr_button">Hozzáad</string>
     <!--error strings-->
     <string name="attachproject_error_wrong_name">A felhasználó nem található</string>
     <string name="attachproject_error_short_pwd">A jelszó túl rövid</string>
     <string name="attachproject_error_no_internet">Kapcsolódási hiba</string>
-    <string name="attachproject_error_pwd_no_match">A jelszavak nem egyeznek</string>
-    <string name="attachproject_error_pwd_no_retype">Kérjük, írd be újra a jelszavadat</string>
     <string name="attachproject_error_no_url">Kérjük, add meg az URL-t</string>
     <string name="attachproject_error_no_email">Kérjük, add meg az email címed</string>
     <string name="attachproject_error_no_pwd">Kérjük, adj meg egy jelszót</string>
@@ -118,25 +82,6 @@
     <string name="attachproject_error_bad_pwd">Jelszó visszautasítva</string>
     <string name="attachproject_error_creation_disabled">A fiókok létrehozása le van tiltva ennél a projektnél</string>
     <string name="attachproject_error_invalid_url">Érvénytelen URL</string>
-    <!--working activity-->
-    <string name="attachproject_working_back_button">Vissza</string>
-    <string name="attachproject_working_finish_button">Befejezés</string>
-    <string name="attachproject_working_check_desc">Sikeres</string>
-    <string name="attachproject_working_failed_desc">Nem sikerült</string>
-    <string name="attachproject_working_ongoing">...</string>
-    <string name="attachproject_working_finished">.</string>
-    <string name="attachproject_working_description">:</string>
-    <string name="attachproject_working_connect">Csatlakozás</string>
-    <string name="attachproject_working_verify">Fiók megerősítése</string>
-    <string name="attachproject_working_register">Fiók létrehozása</string>
-    <string name="attachproject_working_login">Bejelentkezés</string>
-    <string name="attachproject_working_acctmgr">Fiókkezelő hozzáadása</string>
-    <string name="attachproject_working_acctmgr_sync">Szinkronizáció</string>
-    <!--main activity-->
-    <string name="main_noproject_warning">Projekt kiválasztásához koppints ide.</string>
-    <string name="main_error">Hoppá</string>
-    <string name="main_error_long">...ennek nem szabadna megtörténnie!\nKattints az ikonra és próbáld újra.</string>
-    <string name="main_title_icon_desc">BOINC ikon</string>
     <!--tab names-->
     <string name="tab_status">Állapot</string>
     <string name="tab_projects">Projektek</string>
@@ -156,14 +101,9 @@
     </string>
     <string name="status_launching">Indulás...</string>
     <string name="status_noproject">Válassz egy projektet, amiben részt akarsz venni.</string>
-    <string name="status_closing">Bezárás...</string>
     <string name="status_benchmarking">Sebességmérés...</string>
     <string name="status_image_description">projekt kép</string>
     <!--preferences tab strings-->
-    <string name="prefs_loading">Beállítások beolvasása...</string>
-    <string name="prefs_submit_button">Mentés</string>
-    <string name="prefs_dialog_title">Új érték megadása:</string>
-    <string name="prefs_dialog_title_selection">Kiválaszt:</string>
     <string name="prefs_category_general">Általános</string>
     <string name="prefs_category_network">Hálózat</string>
     <string name="prefs_category_power">Energia</string>
@@ -194,15 +134,10 @@
         fölé emelkedik. Nem ajánlott megváltoztatni ezt az értéket.
     </string>
     <string name="prefs_disk_max_pct_header">Max. használható lemezterület</string>
-    <string name="prefs_disk_max_pct_description">Az eszköz tárolóhelyének hány százalékát használhatja a BOINC?
-    </string>
     <string name="prefs_disk_min_free_gb_header">Min. szabad terület</string>
-    <string name="prefs_disk_min_free_gb_description">Az eszköz tárolóhelyének mennyi része maradjon szabadon?</string>
     <string name="prefs_disk_access_interval_header">Hozzáférési időköz</string>
     <string name="prefs_disk_access_interval_description">Javaslat a lemezhozzáférés gyakoriságához</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Napi átviteli limit</string>
-    <string name="prefs_network_daily_xfer_limit_mb_description">A BOINC által maximálisan használt napi adatforgalom.
-    </string>
     <string name="prefs_network_wifi_only_header">Feladatok továbbítása csak WiFin keresztül</string>
     <string name="prefs_autostart_header">Autóindítás</string>
     <string name="prefs_show_notification_notices_header">Új üzenetek megjelenítése</string>
@@ -220,10 +155,7 @@
     <string name="prefs_client_log_flags_header">BOINC kliens naplózási címkék</string>
     <string name="prefs_gui_log_level_header">GUI naplózási szint</string>
     <string name="prefs_gui_log_level_description">Mennyire legyenek bőbeszédűek a GUI naplóüzenetek.</string>
-    <string name="prefs_unit_celsius">°C</string>
-    <string name="prefs_unit_seconds">s</string>
     <!--projects tab strings-->
-    <string name="projects_loading">Projektek beolvasása...</string>
     <string name="projects_add">Projekt hozzáadása</string>
     <string name="projects_icon">Projekt ikon</string>
     <string name="projects_credits">Kredit:</string>
@@ -236,7 +168,7 @@
     <string name="projects_status_schedrpcpending">Függő kérés az ütemezőhöz</string>
     <string name="projects_status_schedrpcinprogress">Ütemező által indított kérés folyamatban</string>
     <string name="projects_status_trickleuppending">Időközi jelentés függőben</string>
-    <string name="projects_status_backoff">Kommunikáció időzítve:</string>
+    <string name="projects_status_backoff">Kommunikáció időzítve: %1$s</string>
     <!--project controls-->
     <string name="projects_control_dialog_title">Projekt parancsok:</string>
     <string name="projects_control_visit_website">Nézd meg a weboldalt</string>
@@ -285,24 +217,15 @@
     <string name="confirm_cancel">Mégsem</string>
     <string name="confirm_image_desc">Megerősítés</string>
     <!--transfers tab strings-->
-    <string name="trans_loading">Átvitelek beolvasása...</string>
     <string name="trans_upload">Feltöltés</string>
     <string name="trans_download">Letöltés</string>
-    <string name="trans_retryin">újrapróbálás ennyi idő múlva</string>
-    <string name="trans_failed">nem sikerült</string>
+    <string name="trans_retry_in">újrapróbálás ennyi idő múlva %1$s</string>
     <string name="trans_suspended">felfüggesztve</string>
     <string name="trans_active">aktív</string>
     <string name="trans_pending">függőben</string>
-    <string name="trans_projectbackoff">projekt visszatartás</string>
     <string name="trans_header_name">Fájl:</string>
     <string name="trans_control_retry">Átvitelek újraindítása</string>
-    <string name="confirm_abort_trans_title">Átvitel megszakítása?</string>
-    <string name="confirm_abort_trans_message">Fájl eldobása:</string>
-    <string name="confirm_abort_trans_confirm">Eldobás</string>
-    <!--notices tab strings-->
-    <string name="notices_loading">Értesítések olvasása...</string>
     <!--eventlog tab strings-->
-    <string name="eventlog_loading">Napló üzenetek betöltése...</string>
     <string name="eventlog_client_header">Kliens üzenetek</string>
     <string name="eventlog_gui_header">GUI üzenetek</string>
     <string name="eventlog_copy_toast">A napló a vágólapra másolva.</string>
@@ -313,7 +236,6 @@
     <string name="suspend_screen_on">Kapcsold ki a képernyőt a számítás folytatásához.</string>
     <string name="suspend_useractive">Felhasználó aktív</string>
     <string name="suspend_tod">Elfogyott a számítási időkeret.</string>
-    <string name="suspend_bm">A BOINC sebességmérést végez az eszközön...</string>
     <string name="suspend_disksize">Nincs üres lemezterület.</string>
     <string name="suspend_cputhrottle">Ütemezett CPU lassítás.</string>
     <string name="suspend_noinput">Nem volt felhasználói aktivitás.</string>
@@ -325,11 +247,8 @@
     <string name="suspend_wifi">Nincs kapcsolódva a WiFihez.</string>
     <string name="suspend_battery_charging">Várakozás az akku feltöltéséig.</string>
     <string name="suspend_battery_charging_long">A számítás folytatódik, amikor az akku feltöltődött</string>
-    <string name="suspend_battery_charging_long2"></string>
-    <string name="suspend_battery_charging_current">jelenleg</string>
     <string name="suspend_battery_overheating">Várakozás az akku lehűlésére</string>
     <string name="suspend_user_req">Számítas újrakezdése...</string>
-    <string name="suspend_network_user_req">kézi.</string>
     <!--rpc reasons-->
     <string name="rpcreason_userreq">A felhasználó kezdeményezte</string>
     <string name="rpcreason_needwork">Új munka kérése</string>

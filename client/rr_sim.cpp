@@ -44,10 +44,6 @@
 #include "config.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "coproc.h"
@@ -97,10 +93,17 @@ struct RR_SIM {
     inline void activate(RESULT* rp) {
         PROJECT* p = rp->project;
         active.push_back(rp);
-        rsc_work_fetch[0].sim_nused += rp->avp->avg_ncpus;
-        p->rsc_pwf[0].sim_nused += rp->avp->avg_ncpus;
-
         int rt = rp->avp->gpu_usage.rsc_type;
+
+        // if this is a GPU app and GPU computing is suspended,
+        // don't count its CPU usage.
+        // That way we'll fetch more CPU work if needed.
+        //
+        if (!rt || !gpu_suspend_reason) {
+            rsc_work_fetch[0].sim_nused += rp->avp->avg_ncpus;
+            p->rsc_pwf[0].sim_nused += rp->avp->avg_ncpus;
+        }
+
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;

@@ -52,10 +52,6 @@
 #include <cstdlib>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "file_names.h"
@@ -220,7 +216,7 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
         if (task_state() != PROCESS_EXECUTING) return 0;
         return suspend();
     }
-    return 0;
+    // not reached
 }
 
 #ifndef SIM

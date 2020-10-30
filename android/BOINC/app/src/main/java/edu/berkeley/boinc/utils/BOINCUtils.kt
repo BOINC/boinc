@@ -21,9 +21,68 @@
 package edu.berkeley.boinc.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.os.Build
+import android.os.RemoteException
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
+import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.io.Reader
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+
+val ConnectivityManager.isOnline: Boolean
+    get() {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            @Suppress("DEPRECATION")
+            activeNetworkInfo?.isConnectedOrConnecting == true
+        } else {
+            activeNetwork != null
+        }
+    }
+
+fun setAppTheme(theme: String) {
+    when (theme) {
+        "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        "system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+}
+
+suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
+    val runMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setRunMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+    val networkMode = async {
+        return@async try {
+            BOINCActivity.monitor!!.setNetworkMode(mode)
+        } catch (e: RemoteException) {
+            false
+        }
+    }
+
+    return@coroutineScope runMode.await() && networkMode.await()
+}
+
+//from https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
+fun Context.getBitmapFromVectorDrawable(@DrawableRes drawableId: Int): Bitmap {
+    val drawable = AppCompatResources.getDrawable(this, drawableId)!!
+    return drawable.toBitmap()
+}
 
 @Throws(IOException::class)
 fun Reader.readLineLimit(limit: Int): String? {
@@ -51,3 +110,11 @@ fun Context.translateRPCReason(reason: Int) = when (reason) {
     RPC_REASON_PROJECT_REQ -> resources.getString(R.string.rpcreason_projectreq)
     else -> resources.getString(R.string.rpcreason_unknown)
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Long.secondsToLocalDateTime(
+        zoneId: ZoneId = ZoneId.systemDefault()
+): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), zoneId)
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -339,6 +339,8 @@
 /* Host for this compilation */
 #ifdef __x86_64__
 #define HOSTTYPE "x86_64-apple-darwin"
+#elif defined(__arm64__)
+#define HOSTTYPE "arm64-apple-darwin"
 #endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */

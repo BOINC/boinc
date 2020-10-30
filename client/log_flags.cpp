@@ -19,10 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -37,6 +33,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
@@ -681,7 +678,7 @@ void process_gpu_exclusions() {
             for (j=0; j<cc_config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
-                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                if (!urls_match(eg.url.c_str(), p->master_url)) continue;
                 COPROC_INSTANCE_BITMAP mask;
                 if (eg.device_num >= 0) {
                     int index = cp.device_num_index(eg.device_num);
@@ -775,7 +772,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
     PROJECT* p = app->project;
     for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!urls_match(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp.type)) continue;
         if (!eg.appname.empty() && (eg.appname != app->name)) continue;
         if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;

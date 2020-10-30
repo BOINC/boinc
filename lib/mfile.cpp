@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstdio>
@@ -108,7 +106,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
         fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::write(); len %d size %lu nitems %lu\n",
+            "ERROR: realloc() failed in MFILE::write(); len %d size %zu nitems %zu\n",
             len, size, nitems
         );
         exit(1);

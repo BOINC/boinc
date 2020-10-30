@@ -92,8 +92,8 @@ public class HostInfoParserTest {
         assertNull(HostInfoParser.parse(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParser_whenLocalNameIsNull_thenExpectIllegalArgumentException() throws SAXException {
+    @Test(expected = NullPointerException.class)
+    public void testParser_whenLocalNameIsNull_thenExpectNullPointerException() throws SAXException {
         hostInfoParser.startElement(null, null, null, null);
     }
 

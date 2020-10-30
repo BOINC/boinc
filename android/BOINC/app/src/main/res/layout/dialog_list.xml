@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -19,7 +19,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              style="@style/DrawerBackgroundDayNight">
 
     <TextView
             android:id="@+id/title"
@@ -28,9 +29,12 @@
             android:padding="10dp"
             android:minWidth="250dp"
             android:singleLine="true"
-            android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:background="@drawable/shape_light_blue_background"/>
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <View
+            style="@style/BackgroundDayNight"
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
 
     <ListView
             android:id="@+id/options"
@@ -46,7 +50,7 @@
             android:clickable="true"
             android:layout_margin="5dp"
             android:background="@drawable/shape_button_blue"
-            android:textColor="@color/white_smoke"
+            android:textColor="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/confirm_cancel"
             android:layout_gravity="center_horizontal"

@@ -15,20 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #define MAXPATHLEN 4096
 #endif
 
 #if defined(__MINGW32__)
 #include <fcntl.h>
-#endif
-
-#if  defined(_MSC_VER) || defined(__MINGW32__)
-#define getcwd    _getcwd
-#define snprintf  _snprintf
 #endif
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
@@ -56,6 +49,10 @@
 #include <sys/param.h>
 #endif
 #include <sys/mount.h>
+#endif
+
+#if defined(ANDROID) && __ANDROID_API__ < 19
+    #undef HAVE_SYS_STATVFS_H
 #endif
 
 #if HAVE_SYS_STATVFS_H
@@ -370,6 +367,35 @@ int file_size(const char* path, double& size) {
 #endif
 }
 
+// get file allocation size, i.e. how much disk space does it use.
+// This can be less than the file size on compressed filesystems,
+// or if the file has holes.
+// It can also be slightly more.
+//
+int file_size_alloc(const char* path, double& size) {
+#if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
+    DWORD hi;
+    DWORD lo = GetCompressedFileSizeA(path, &hi);
+    if (lo != INVALID_FILE_SIZE) {
+        ULONGLONG x = (((ULONGLONG)hi) << 32) + lo;
+        size = (double) x;
+        return 0;
+    }
+    return ERR_STAT;
+#else
+    int retval;
+    struct stat sbuf;
+    retval = stat(path, &sbuf);
+    if (retval) return ERR_NOT_FOUND;
+#ifdef _WIN32 // cygwin, mingw
+    size = (double)sbuf.st_size;
+#else
+    size = ((double)sbuf.st_blocks)*512.;
+#endif
+    return 0;
+#endif
+}
+
 int boinc_truncate(const char* path, double size) {
     int retval;
 #if defined(_WIN32) && !defined(__CYGWIN32__)
@@ -478,6 +504,76 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
             }
         } else if (is_file(subdir)) {
             retval = file_size(subdir, x);
+            if (retval) continue;
+            size += x;
+        }
+    }
+    dir_close(dirp);
+#endif
+    return 0;
+}
+
+// return total allocated size of files in directory and optionally its subdirectories
+// Win: use special version because stat() is slow, can be avoided
+// Unix: follow symbolic links
+//
+int dir_size_alloc(const char* dirpath, double& size, bool recurse) {
+#ifdef WIN32
+    char buf[_MAX_PATH];
+    char path2[_MAX_PATH];
+    double dsize = 0.0;
+    WIN32_FIND_DATAA findData;
+
+    size = 0.0;
+    snprintf(path2, sizeof(path2), "%s/*", dirpath);
+    path2[sizeof(path2)-1] = 0;
+
+    HANDLE hFind = ::FindFirstFileA(path2, &findData);
+    if (INVALID_HANDLE_VALUE == hFind) return ERR_OPENDIR;
+    do {
+        snprintf(buf, sizeof(buf), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, findData.cFileName);
+        buf[sizeof(buf)-1] = 0;
+        if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            if (!recurse) continue;
+            if (!strcmp(findData.cFileName, ".")) continue;
+            if (!strcmp(findData.cFileName, "..")) continue;
+
+            dsize = 0.0;
+            dir_size_alloc(buf, dsize, true);
+            size += dsize;
+        } else {
+            double s;
+            if (file_size_alloc(buf, s) == 0) {
+                size += s;
+            }
+        }
+    } while (FindNextFileA(hFind, &findData));
+
+    ::FindClose(hFind);
+#else
+    char filename[MAXPATHLEN], subdir[MAXPATHLEN];
+    int retval=0;
+    DIRREF dirp;
+    double x;
+
+    size = 0.0;
+    dirp = dir_open(dirpath);
+    if (!dirp) return ERR_OPENDIR;
+    while (1) {
+        retval = dir_scan(filename, dirp, sizeof(filename));
+        if (retval) break;
+
+        snprintf(subdir, sizeof(subdir), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
+        subdir[sizeof(subdir)-1] = 0;
+
+        if (is_dir(subdir)) {
+            if (recurse) {
+                retval = dir_size_alloc(subdir, x);
+                if (retval) continue;
+                size += x;
+            }
+        } else if (is_file(subdir)) {
+            retval = file_size_alloc(subdir, x);
             if (retval) continue;
             size += x;
         }
