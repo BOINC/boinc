@@ -100,7 +100,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
         wxDefaultPosition, wxDefaultSize, 0
     );
                             
-    bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND | wxALIGN_RIGHT, SIDEMARGINS );
+    bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND, SIDEMARGINS );
     bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, ADJUSTFORXDPI(10) );
 
 #ifndef __WXMAC__
@@ -148,7 +148,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     bSizer3->AddStretchSpacer();
 
     m_ProjectCommandsButton = new CSimpleProjectCommandPopupButton( this, ID_PROJECTCOMMANDBUTTON, _("Project Commands"), wxDefaultPosition, wxDefaultSize, 0 );
-    bSizer3->Add( m_ProjectCommandsButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
+    bSizer3->Add( m_ProjectCommandsButton, 0, wxEXPAND, 0 );
 
     bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
     

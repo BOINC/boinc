@@ -24,7 +24,7 @@ import urllib2
 import copy
 import xml.etree.ElementTree as ET
 import requests
-    # you'll need to "yip install requests"
+    # you'll need to "pip install requests"
 import hashlib
 
 # describes an input file
@@ -123,7 +123,7 @@ class REQUEST:
 rpc_timeout = 0
 
 def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
-    #print req
+    #print(req)
     url = project_url + handler
     params = urllib.urlencode({'request': req})
     if rpc_timeout>0:
@@ -132,7 +132,7 @@ def do_http_post(req, project_url, handler='submit_rpc_handler.php'):
         f = urllib2.urlopen(url, params)
 
     reply = f.read()
-    #print "REPLY:", reply
+    #print("REPLY:", reply)
     return ET.fromstring(reply)
 
 ########### API FUNCTIONS START HERE ###############
@@ -226,7 +226,7 @@ def submit_batch(req):
 #
 def check_error(response):
     if response.find('error') is not None:
-         print 'BOINC server error: ', response.find('error').find('error_msg').text
+         print('BOINC server error: ', response.find('error').find('error_msg').text)
          return True
 
 ############ FILE MANAGEMENT API ##############
@@ -276,7 +276,7 @@ def upload_files(upload_files_req):
         return reply
 
     absent = reply.find('absent_files').findall('file')
-    #print 'query files succeeded; ',len(absent), ' files need upload'
+    #print('query files succeeded; ',len(absent), ' files need upload')
     boinc_names = []
     local_names = []
     for n in absent:
@@ -297,10 +297,10 @@ def upload_files(upload_files_req):
 
     url = upload_files_req.project + '/job_file.php'
     req_xml = upload_files_req.to_xml()
-    #print req_xml
+    #print(req_xml)
     req = {'request': req_xml}
     reply = requests.post(url, data=req, files=files)
-    #print "reply text: ", reply.text
+    #print("reply text: ", reply.text)
     return ET.fromstring(reply.text)
 
 # returns an XML object with various job counts
