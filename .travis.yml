@@ -88,8 +88,8 @@ script:
 - if [[ "${BOINC_TYPE}" == "manager-android" ]]; then ( cd android && ./travis_build_all.sh && cd BOINC && ./gradlew clean assemble jacocoTestReportDebug && bash <(curl -s https://codecov.io/bash) && cd ../../ ) fi
 - if [[ "${BOINC_TYPE}" == "unit-test" ]]; then ( ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0" && make && ./tests/executeUnitTests.sh --report-coverage ) fi
 - if [[ "${BOINC_TYPE}" == "integration-test" ]]; then ( ./integration_test/executeTestSuite.sh ) fi
-- if [[ "${BOINC_TYPE}" == "python2-pylint-test" ]]; then ( cd tests && ./executePylintTests.sh 2 ) fi
-- if [[ "${BOINC_TYPE}" == "python3-pylint-test" ]]; then ( cd tests && ./executePylintTests.sh 3 ) fi
+- if [[ "${BOINC_TYPE}" == "python2-pylint-test" ]]; then ( ./tests/executePylintTests.sh 2 ) fi
+- if [[ "${BOINC_TYPE}" == "python3-pylint-test" ]]; then ( ./tests/executePylintTests.sh 3 ) fi
 
 after_success:
 - ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/

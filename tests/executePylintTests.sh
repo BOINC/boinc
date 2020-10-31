@@ -19,6 +19,38 @@
 
 # Script to execute pylint tests
 
-./pylint.sh $1 ../py/Boinc/
+# check working directory because the script needs to be called like: ./tests/executePylintTests.sh
+if [ ! -d "tests" ]; then
+    echo "start this script in the source root directory"
+    exit 1
+fi
 
-# if [[ $? -eq 1 || $? -eq 2 || $? -eq 32 ]]; then exit 1; fi
+hasbitset () { (( $1 & 2**($2-1) )) && return 0 || return 1; }
+
+ROOTDIR=$(pwd)
+
+SRC=(
+    'lib/submit_api.py'
+    'py/Boinc/'
+    'samples/vm_wrapper/setupPyBOINC.py'
+    'samples/vm_wrapper/VMwrapper.py'
+    'sched/assimilator.py'
+    'sched/pymw_assimilator.py'
+    'sched/start'
+    'sched/testasm.py'
+    'stripchart/samples/parse_config'
+    'tools/appmgr'
+    'tools/check_project'
+    'tools/dbcheck_files_exist'
+    'tools/make_project'
+    'tools/parse_config'
+    'tools/submit_api_test.py'
+    'tools/update_versions_v6'
+    'tools/upgrade'
+)
+
+${ROOTDIR}/tests/pylint.sh $1 ${ROOTDIR}/${SRC[@]}
+
+EXITCODE=$?
+
+(hasbitset ${EXITCODE} 1 || hasbitset ${EXITCODE} 2 || hasbitset ${EXITCODE} 6) && exit 1 || exit 0
