@@ -478,16 +478,10 @@ int read_gui_rpc_password(char* buf, string& msg) {
         return ERR_FOPEN;
 #endif
     }
-    char* p = fgets(buf, 256, f);
-    if (p) {
-        // trim CR
-        //
-        int n = (int)strlen(buf);
-        if (n && buf[n-1]=='\n') {
-            buf[n-1] = 0;
-        }
+    buf[0] = 0;
+    if (fgets(buf, 256, f)) {
+        strip_whitespace(buf);
     }
     fclose(f);
     return 0;
 }
-
