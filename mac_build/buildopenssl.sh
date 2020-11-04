@@ -34,7 +34,7 @@
 # Updated 9/10/16 for openssl-1.1.0
 # Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
-# Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 10/20/20 To build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.8 or later
 #
@@ -116,6 +116,42 @@ if [ "${doclean}" != "yes" ]; then
     fi
 fi
 
+## openssl 1.1.0g does not have a configure option for darwin arm64, 
+## so we patch Configurations/10-main.conf to add it. 
+## Derived from https://github.com/openssl/openssl/pull/12369/files
+## and https://cutecoder.org/programming/compile-open-ssl-apple-silicon/
+##
+## Note: setting perlasm_scheme to "ios64" tells configure to use 
+## the correct assembler instructions for Apple Silicon. Setting
+## it to "macosx" causes it to use x86_64 assembler instructions.
+##
+if [ ! -f Configurations/10-main.conf.orig ]; then
+    cat >> /tmp/0-main_conf_diff << ENDOFFILE
+--- 10-main.conf    2017-11-02 07:29:01.000000000 -0700
++++ 10-main_patched.con2020-10-19 01:34:06.000000000 -0700
+@@ -1614,6 +1614,14 @@
+         perlasm_scheme   => "macosx",
+         shared_ldflag    => "-arch x86_64 -dynamiclib",
+     },
++ "darwin64-arm64-cc" => {
++         inherit_from     => [ "darwin-common", asm("aarch64_asm") ],
++         CFLAGS           => add("-Wall"),
++         cflags           => add("-arch arm64"),
++         lib_cppflags     => add("-DL_ENDIAN"),
++         bn_ops           => "SIXTY_FOUR_BIT_LONG",
++         perlasm_scheme   => "ios64",
++     },
+ 
+ #### iPhoneOS/iOS
+ #
+ENDOFFILE
+    patch -bfi  /tmp/0-main_conf_diff Configurations/10-main.conf
+    rm -f /tmp/0-main_conf_diff
+else
+    echo "Configurations/10-main.conf already patched"
+fi
+echo ""
+
 GPPPATH=`xcrun -find g++`
 if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
@@ -185,20 +221,13 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.7
 
-    ## TEMPORARY WORKAROUNDS because OpenSSL 1.1.0g has no configure option for 
-    ## darwin arm64
     if [ "x${lprefix}" != "x" ]; then
-        ./configure --prefix=${lprefix} no-shared ios64-cross
+        ./configure --prefix=${lprefix} no-shared darwin64-arm64-cc
         if [ $? -ne 0 ]; then return 1; fi
     else
-        ./configure no-shared ios64-cross
+        ./configure no-shared darwin64-arm64-cc
         if [ $? -ne 0 ]; then return 1; fi
     fi
-    ## Patch the ios64-cross makefile to build for a Mac instead of iOS device
-    sed -i "" 's:-arch arm64:-target arm64-apple-macos10.7 -stdlib=libc++:g' Makefile
-    sed -i "" 's:-mios-version-min=7.0.0:-DMAC_OS_X_VERSION_MAX_ALLOWED=1070:g' Makefile
-    sed -i "" 's:-isysroot $(CROSS_TOP)/SDKs/$(CROSS_SDK):-isysroot ${SDKROOT}:g' Makefile
-    ## END OF TEMPORARY WORKAROUNDS
 
     # save x86_64 lib for later use
     mv -f libcrypto.a libcrypto_x86_64.a
@@ -232,9 +261,8 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
     rm -f libcrypto_x86_64.a libcrypto_arm64.a
     rm -f libssl_x86_64.a libssl_arm64.a
 
-    ## openssl 1.1.0g does not have a configure option for darwin arm64, so we use 
-    ## the same configure as for ios64-cross with some patches and hope it works
-    ## properly.
+    ## openssl 1.1.0g does not have a configure option for darwin arm64, so we 
+    ## patched Configurations/10-main.conf to add it. 
     ## NOTE: At the time of writing, I do not have an arm64 Mac to test with.
     # Revisit this if a newer version of openssl becomes available.
     #
