@@ -455,8 +455,13 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 return ERR_FOPEN;
             }
         } else {
-            sprintf(msg_buf, "%s not found.  Try reinstalling BOINC.",
-                GUI_RPC_PASSWD_FILE
+            char buf2[MAXPATHLEN];
+            if (!getcwd(buf2, MAXPATHLEN)) {
+                strcpy(buf2, "");
+            }
+            sprintf(msg_buf, "No BOINC data directory was specified, and %s was not found in the current directory (%s).  See https://boinc.berkeley.edu/gui_rpc.php for more information.",
+                GUI_RPC_PASSWD_FILE,
+                buf2
             );
             msg = msg_buf;
             return ERR_FOPEN;
