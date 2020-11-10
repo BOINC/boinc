@@ -24,13 +24,7 @@ require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 
-check_get_args(array("auth"));
-
-$auth = get_str("auth");
-$user = BoincUser::lookup_auth($auth);
-if (!$user) {
-    error_page("no such account");
-}
+$user = get_logged_in_user();
 page_head(tra("Finish account setup"));
 
 echo "
@@ -58,7 +52,6 @@ row2("",
 );
 end_table();
 echo "
-    <input type=hidden name=auth value=$auth>
     </form>
 ";
 
