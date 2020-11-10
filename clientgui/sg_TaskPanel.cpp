@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -319,14 +319,11 @@ numSlides = 0;
         Enable( false );
 
 #endif  // HIDEDEFAULTSLIDE
-        // TODO: Should we allow slide show to advance if task is not running?
         int newSlide = selData->lastSlideShown;
         
-        if (selData->dotColor == runningIcon) {    // Advance only if running
-            if (changeSlide) {
-                if (++newSlide >= numSlides) {
-                    newSlide = 0;
-                }
+        if (changeSlide) {
+            if (++newSlide >= numSlides) {
+                newSlide = 0;
             }
         }
         if (newSlide < 0) {
@@ -550,7 +547,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     
     m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.000%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
     m_ProgressValueText->Wrap( -1 );
-    bSizer4->Add( m_ProgressValueText, 0, wxALIGN_RIGHT, 0 );
+    bSizer4->Add( m_ProgressValueText, 0, wxALIGN_LEFT, 0 );
     
     bSizer1->Add( bSizer4, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
     
@@ -565,7 +562,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     
     m_TaskCommandsButton = new CSimpleTaskPopupButton( this, ID_TASKSCOMMANDBUTTON, _("Task Commands"), wxDefaultPosition, wxDefaultSize, 0 );
     m_TaskCommandsButton->SetToolTip(_("Pop up a menu of commands to apply to this task"));
-    bSizer1->Add( m_TaskCommandsButton, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL, SIDEMARGINS );
+    bSizer1->Add( m_TaskCommandsButton, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
     
     bSizer1->AddSpacer(ADJUSTFORYDPI(10));
     

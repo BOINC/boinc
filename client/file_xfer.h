@@ -34,7 +34,7 @@ class FILE_XFER : public HTTP_OP {
 public:
     FILE_INFO* fip;
     char pathname[256];
-    char header[4096];
+    char header[8192];
     bool file_size_query;
     bool is_upload;
     double starting_size;

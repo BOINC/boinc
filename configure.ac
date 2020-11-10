@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.11.0)
+AC_INIT(BOINC, 7.17.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26016
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26200
+VBOXWRAPPER_RELEASE=26202
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -35,10 +35,6 @@ AC_CONFIG_SRCDIR(lib/shmem.cpp)
 AC_REVISION([$Revision$])
 REV=`echo '$Revision$' | awk "{print $2}"`
 RDATE=`date '+%Y.%m.%d'`
-if test -d .svn ; then
-  REV=`svn info | grep Revision | awk '{print $2}'`
-  RDATE=`svn info | grep "Last Changed Date:" | awk '{print $4}' | sed 's/-/./g'`
-fi
 AC_SUBST(REV)
 AC_SUBST(RDATE)
 
@@ -62,7 +58,6 @@ dnl Workaround for autoconf >= 2.65 backwards incompatibility
 m4_pattern_allow([AC_PROG_OBJCXX])
 m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX],)
 dnl ------
-AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 SAH_LINKS
@@ -127,6 +122,12 @@ AC_ARG_ENABLE(apps,
     [enable_apps=${enableval}],
     [enable_apps=no])
 
+AC_ARG_ENABLE(unit-tests,
+    AS_HELP_STRING([--enable-unit-tests],
+                   [enable building the boinc unit tests]),
+    [enable_unit_tests=${enableval}],
+    [enable_unit_tests=no])
+
 AC_ARG_ENABLE(pkg-libs,
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
@@ -140,8 +141,9 @@ AC_ARG_ENABLE(pkg-libs,
      enable_manager=no
      enable_install_headers=no
      enable_static=no
-	 enable_boinczip=yes
-	 enable_apps=no
+     enable_boinczip=yes
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -157,8 +159,9 @@ AC_ARG_ENABLE(pkg-devel,
      enable_client=no
      enable_manager=no
      enable_install_headers=yes
-	 enable_boinczip=yes
-	 enable_apps=no
+     enable_boinczip=yes
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -174,8 +177,9 @@ AC_ARG_ENABLE(pkg-client,
      enable_client=yes
      enable_manager=no
      enable_install_headers=no
-	 enable_boinczip=no
-	 enable_apps=no
+     enable_boinczip=no
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -189,8 +193,9 @@ AC_ARG_ENABLE(pkg-manager,
      enable_client=no
      enable_manager=yes
      enable_install_headers=no
-	 enable_boinczip=no
-	 enable_apps=no
+     enable_boinczip=no
+     enable_apps=no
+     enable_unit_tests=no
     ],
     [])
 
@@ -213,6 +218,9 @@ if test x$enable_server = xyes ; then
 fi
 if test x$enable_apps = xyes ; then
   configured_to_build="${configured_to_build} apps"
+fi
+if test x$enable_unit_tests = xyes ; then
+  configured_to_build="${configured_to_build} unit-tests"
 fi
 
 if test -z "${configured_to_build}" ; then
@@ -282,7 +290,7 @@ echo "--- Build Components: (${configured_to_build}) ---"
 AC_COPYRIGHT([
 Berkeley Open Infrastructure for Network Computing
 http://boinc.berkeley.edu
-Copyright (C) 2005 University of California
+Copyright (C) 2019 University of California
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -369,7 +377,7 @@ SAH_OPTION_BITNESS
 dnl Determine the BOINC platform given the target arch-platform-os.
 BOINC_PLATFORM
 
-if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
+if test "${enable_client_release}" = yes -a "${enable_client}" != yes; then
    AC_MSG_WARN([--enable-client-release ignored.
 --------------------------------------------------
 The switch --enable-client-release is only useful for building the client and will be ignored
@@ -395,16 +403,14 @@ dnl fi
 if test "${enable_server}" = yes; then
    AC_CHECK_MYSQL
    if test "${no_mysql}" = yes; then
-      AC_MSG_WARN([ mysql not found.
-======================================================================
-WARNING: trying to build BOINC-server, but MYSQL was not be found.
-If you dont want to build the server you should use --disable-server.
+      AC_MSG_ERROR([
+================================================================================
+ERROR: trying to build BOINC-server, but MYSQL was not found.
 
-I am continuing now as if --disable-server had been specified.
+If you do not want to build the server you should use --disable-server.
 
-======================================================================
+================================================================================
 ])
-   enable_server=no
    fi
 fi
 
@@ -417,7 +423,7 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2 sqlite3"
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later
 dnl post-processing instead of the default-action, which would append
@@ -439,20 +445,19 @@ dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
 fi
 dnl ---------- SSL (m4/check_ssl.m4)
-if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
-then
-    CHECK_SSL
-fi
+AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
+  [CHECK_SSL])
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 dnl curl is needed for client
 
-if [[ "x${enable_client}" = "xyes" ]]
-then
-LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
+AS_IF([test "x${enable_client}" = "xyes"],
+  [
+    LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
-if test "${haveCurl}" != yes; then
-   AC_MSG_ERROR([
+    AS_IF([test "${haveCurl}" != "yes"],
+      [
+        AC_MSG_ERROR([
 ================================================================================
 ERROR: could not find (recent enough) development-libs for libcurl.
 
@@ -463,22 +468,25 @@ ERROR: could not find (recent enough) development-libs for libcurl.
   You can download libcurl from: http://curl.haxx.se/
 
 ================================================================================
-   ])
-else
-   ## add libcurl et al. to the list of statically linked libs
-   STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
-   CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
-   CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
+        ])
+      ],
+      [
+        ## add libcurl et al. to the list of statically linked libs
+        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+        CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
+        CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
-   if test "${enable_debug}" = yes; then
-      echo "LIBCURL = ${LIBCURL}"
-      echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
-      echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
-      echo "LDFLAGS = ${LDFLAGS}"
-   fi
-   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
-fi
-fi
+        AS_IF([test "${enable_debug}" = "yes"],
+          [
+            echo "LIBCURL = ${LIBCURL}"
+            echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
+            echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
+            echo "LDFLAGS = ${LDFLAGS}"
+          ])
+
+        BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+      ])
+  ])
 
 if test "x${found_ssl}" = "xyes"; then
    BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
@@ -617,11 +625,15 @@ fi
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1])
 
 dnl check for X screen saver lib (X-based idle detection on Linux)
-if test "$enable_xss" == yes; then
-    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-    if test "$have_Xss" == no; then
-        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+if test "$enable_xss" = yes; then
+    if test "X${no_x}" = "Xyes" ; then
+        AC_MSG_WARN([X Window include files/libs excluded or location unknown, disabling X ScreenSaver user idle detection])
+    else
+        AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+        AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+        if test "$have_Xss" = no; then
+            AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+        fi
     fi
 fi
 
@@ -837,11 +849,21 @@ AC_CHECK_HEADER(net/if_arp.h, [], [], [[
 #endif
 ]])
 
-AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
+AC_CHECK_HEADERS(sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
 #ifdef HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
 ]])
+
+dnl check for broken Linux sysctl.h that causes deprecation warnings
+saved_sysctl_h_CFLAGS=$CFLAGS
+test "x${GCC}" != xyes || CFLAGS="$CFLAGS -Werror"
+AC_CHECK_HEADERS([sys/sysctl.h], [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+CFLAGS=$saved_sysctl_h_CFLAGS
 
 AC_CHECK_HEADER(resolv.h, [], [], [[
 #ifdef HAVE_NETINET_IN_H
@@ -993,11 +1015,6 @@ if test -e "/proc/self/stat"; then
     AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
 fi
 
-dnl Check for /proc/self/exe (Linux)
-if test -e "/proc/self/exe"; then
-    AC_DEFINE(HAVE__PROC_SELF_EXE, 1, [Define to 1 if /proc/self/exe exists])
-fi
-
 dnl Check for /proc/meminfo (Linux)
 if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
@@ -1013,11 +1030,6 @@ fi
 dnl ---------- libNotify --------------------------------------------------
 if test "${enable_manager}" = yes ; then
   PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
-fi
-
-dnl ---------- Sqlite3 ----------------------------------------------------
-if test "${enable_manager}" = yes ; then
-  AM_PATH_SQLITE3
 fi
 
 dnl ---------- XCB --------------------------------------------------------
@@ -1037,6 +1049,7 @@ if echo $host_os | grep '^darwin' >/dev/null ; then
 fi
 
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
+AM_CONDITIONAL(OS_FREEBSD, [echo $host_os | grep '^freebsd' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
@@ -1055,6 +1068,7 @@ AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${en
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
+AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
@@ -1182,7 +1196,7 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
 fi
 LIBS=$svlibs
 
-if (test "$enable_xss" == yes) && (test "$have_Xss" == yes); then
+if test "$enable_xss" = yes -a "$have_Xss" = yes; then
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
         AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
@@ -1197,7 +1211,7 @@ SAH_CHECK_LIB([resolv],[res_query],[
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
-if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
+if test "${disable_static_linkage}" != yes -a "${enable_client_release}" = yes; then
 
    echo "----------"
    echo "NOTE: Building portable client binaries"
@@ -1213,7 +1227,7 @@ fi
 
 fi
 
-AM_CONDITIONAL([ENABLE_CLIENT_RELEASE],[ ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ) ])
+AM_CONDITIONAL([ENABLE_CLIENT_RELEASE],[ test "${disable_static_linkage}" != yes -a "${enable_client_release}" = yes ])
 AM_CONDITIONAL([BUILD_STATIC_LIBS],[test "x${enable_static}" != xno])
 
 AC_SUBST(CLIENTLIBS)
@@ -1228,13 +1242,13 @@ else
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
 fi
 
-CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
+CLIENTGUILIBS="${WX_LIBS}"
 
 if test "${enable_client_release}" = "yes" ; then
    if test "x${WX_LIBS_STATIC}" = "x" ; then
      WX_LIBS_STATIC="${WX_LIBS}"
    fi
-   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${SQLITE3_LIBS} ${GTK_LIBS}],[CLIENTGUILIBS])
+   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${GTK_LIBS}],[CLIENTGUILIBS])
    SAH_STATICIZE_LDFLAGS([${GLUT_LIBS}],[GLUT_LIBS])
    SAH_STATICIZE_LDFLAGS([${BOINC_EXTRA_LIBS}],[BOINC_EXTRA_LIBS])
 
@@ -1317,9 +1331,6 @@ AC_CONFIG_FILES([
                  packages/solaris/CSW/boincmanager/pkginfo
                  packages/solaris/CSW/boincmanager/prototype
                  samples/Makefile
-                 test/boinc_path_config.py:py/boinc_path_config.py.in
-                 test/Makefile
-                 test/version.inc
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  vda/Makefile

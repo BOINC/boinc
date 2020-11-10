@@ -43,7 +43,7 @@ function show_user($user) {
 }
 
 function user_search_form() {
-    page_head("User search");
+    page_head(tra("User search"));
     echo "<form name=f method=get action=user_search.php>
         <input type=hidden name=action value=search>
     ";

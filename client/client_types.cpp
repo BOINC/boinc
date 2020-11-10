@@ -37,10 +37,6 @@
 #include <cstring>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "log_flags.h"
@@ -107,7 +103,12 @@ int parse_project_files(XML_PARSER& xp, vector<FILE_REF>& project_files) {
         if (xp.match_tag("file_ref")) {
             FILE_REF file_ref;
             retval = file_ref.parse(xp);
-            if (!retval) {
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in project file: %s",
+                    boincerror(retval)
+                );
+            } else {
                 project_files.push_back(file_ref);
             }
         } else {
@@ -203,7 +204,6 @@ FILE_INFO::FILE_INFO() {
     is_auto_update_file = false;
     anonymous_platform_file = false;
     pers_file_xfer = NULL;
-    result = NULL;
     project = NULL;
     download_urls.clear();
     upload_urls.clear();
@@ -224,7 +224,7 @@ FILE_INFO::~FILE_INFO() {
 void FILE_INFO::reset() {
     status = FILE_NOT_PRESENT;
     delete_file();
-    error_msg = "";
+    error_msg.clear();
 }
 
 // Set file ownership if using account-based sandbox;
@@ -300,7 +300,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.match_tag("/file_info") || xp.match_tag("/file")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(name, '%')) return ERR_BAD_FILENAME;
             if (gzipped_urls.size() > 0) {
                 download_urls.clear();
                 download_urls.urls = gzipped_urls;
@@ -843,12 +843,16 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.match_tag("file_ref")) {
             int retval = file_ref.parse(xp);
-            if (!retval) {
-                if (strstr(file_ref.file_name, "vboxwrapper")) {
-                    is_vm_app = true;
-                }
-                app_files.push_back(file_ref);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "couldn't parse file_ref: %s", boincerror(retval)
+                );
+                return retval;
             }
+            if (strstr(file_ref.file_name, "vboxwrapper")) {
+                is_vm_app = true;
+            }
+            app_files.push_back(file_ref);
             continue;
         }
         if (xp.parse_int("version_num", version_num)) continue;
@@ -1044,7 +1048,11 @@ int FILE_REF::parse(XML_PARSER& xp) {
     copy_file = false;
     optional = false;
     while (!xp.get_tag()) {
-        if (xp.match_tag("/file_ref")) return 0;
+        if (xp.match_tag("/file_ref")) {
+            if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
+            if (strchr(open_name, '%')) return ERR_BAD_FILENAME;
+            return 0;
+        }
         if (xp.parse_str("file_name", file_name, sizeof(file_name))) continue;
         if (xp.parse_str("open_name", open_name, sizeof(open_name))) continue;
         if (xp.parse_bool("main_program", main_program)) continue;
@@ -1089,11 +1097,12 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
     char buf[1024];
+    int retval;
 
     safe_strcpy(name, "");
     safe_strcpy(app_name, "");
     version_num = 0;
-    command_line = "";
+    command_line.clear();
     //strcpy(env_vars, "");
     app = NULL;
     project = NULL;
@@ -1118,7 +1127,14 @@ int WORKUNIT::parse(XML_PARSER& xp) {
         if (xp.parse_double("rsc_memory_bound", rsc_memory_bound)) continue;
         if (xp.parse_double("rsc_disk_bound", rsc_disk_bound)) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
+            retval = file_ref.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in workunit: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
 #ifndef SIM
             input_files.push_back(file_ref);
 #endif

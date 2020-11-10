@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,10 +26,6 @@
 
 #ifdef __APPLE__
 #include "mac_spawn.h"
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -366,20 +362,25 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             }
             // handle transition from old clients which didn't store result.platform;
-            // skip for anon platform
+            // skip for anon platform and emulator
+            //
+#ifdef SIM
+            safe_strcpy(rp->platform, get_primary_platform());
+#else
             if (!project->anonymous_platform) {
                 if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
                     safe_strcpy(rp->platform, get_primary_platform());
                     rp->version_num = latest_version(rp->wup->app, rp->platform);
                 }
             }
+#endif
             rp->avp = lookup_app_version(
                 rp->wup->app, rp->platform, rp->version_num, rp->plan_class
             );
             if (!rp->avp) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "No application found for task: %s %d %s; discarding",
-                    rp->platform, rp->version_num, rp->plan_class
+                    "No application found for task %s: platform %s version %d plan class %s; discarding",
+                    rp->wup->name, rp->platform, rp->version_num, rp->plan_class
                 );
                 delete rp;
                 continue;
@@ -505,6 +506,9 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
         if (xp.parse_string("newer_version", newer_version)) {
+            continue;
+        }
+        if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
 #ifdef ENABLE_AUTO_UPDATE
@@ -792,6 +796,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     }
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
+    }
+    if (client_version_check_url.size()) {
+        f.printf("<client_version_check_url>%s</client_version_check_url>\n", client_version_check_url.c_str());
     }
     for (i=1; i<platforms.size(); i++) {
         f.printf("<alt_platform>%s</alt_platform>\n", platforms[i].name.c_str());

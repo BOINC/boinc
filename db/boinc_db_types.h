@@ -23,6 +23,7 @@
 #include "average.h"
 #include "opencl_boinc.h"
 #include "parse.h"
+#include "wslinfo.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // The following is for regular blobs, 64KB
@@ -371,6 +372,8 @@ struct HOST {
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+    bool wsl_available;
+    WSLS wsls;
 
     // stuff from time_stats
     double cpu_and_network_available_frac;
@@ -486,7 +489,7 @@ struct WORKUNIT {
         // without consensus (i.e. WU is nondeterministic)
     char result_template_file[64];
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double rsc_bandwidth_bound;
         // send only to hosts with at least this much download bandwidth
     DB_ID_TYPE fileset_id;
@@ -615,7 +618,7 @@ struct RESULT {
     int exit_status;                // application exit status, if any
     DB_ID_TYPE teamid;
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double elapsed_time;
         // AKA runtime; returned by 6.10+ clients
     double flops_estimate;
@@ -693,7 +696,7 @@ struct MSG_FROM_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // message handler has processed this
+    int handled;                    // message handler has processed this
     char xml[MSG_FROM_HOST_BLOB_SIZE];
     void clear();
 };
@@ -703,7 +706,7 @@ struct MSG_TO_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // scheduler has sent this
+    int handled;                    // scheduler has sent this
     char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };
@@ -846,6 +849,16 @@ struct CREDIT_TEAM {
     double expavg;
     double expavg_time;
     int credit_type;
+    void clear();
+};
+
+struct CONSENT_TYPE {
+    DB_ID_TYPE id;
+    char shortname[256];
+    char description[256];
+    int enabled;
+    int project_specific;
+    int privacypref;
     void clear();
 };
 

@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2019 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -24,6 +24,7 @@
 # by Charlie Fenton 12/19/07
 # Updated 12/3/09 for OS 10.6 Snow Leopard and XCode 3.2.1
 # Updated 10/11/10
+# Updated 1/23/19 to report this script is obsolete and return error
 #
 ## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
@@ -32,6 +33,9 @@
 #
 # the -clean argument will force a full rebuild.
 #
+
+echo "This script is obsolete. libjpeg is now built by boinc.xcodeproj"
+return 1
 
 if [ "$1" != "-clean" ]; then
     if [ -f libjpeg_ppc.a ] && [ -f libjpeg_i386.a ] && [ -f libjpeg_x86_64.a ] && [ -f libjpeg.a ]; then

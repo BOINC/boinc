@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,8 +40,9 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #endif
 #endif
 
-#if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
+#ifdef __APPLE__
 #include <sys/sysctl.h>
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #include "error_numbers.h"
@@ -100,7 +101,13 @@ void CLIENT_STATE::detect_platforms() {
 
 #ifdef __x86_64__
     add_platform("x86_64-apple-darwin");
-    add_platform("i686-apple-darwin");
+    if (compareOSVersionTo(10, 15) < 0) {
+        add_platform("i686-apple-darwin");
+    }
+#elif defined(__arm64__)
+    add_platform("arm64-apple-darwin");
+//TODO: Add test for Mac OS Version when Apple Rosetta emulator is removed 
+    add_platform("x86_64-apple-darwin");
 #else
 #error Mac client now requires a 64-bit system
 #endif

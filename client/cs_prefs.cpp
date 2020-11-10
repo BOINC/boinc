@@ -90,14 +90,14 @@ int CLIENT_STATE::get_disk_usages() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->disk_usage = 0;
-        retval = dir_size(p->project_dir(), size);
+        retval = dir_size_alloc(p->project_dir(), size);
         if (!retval) p->disk_usage = size;
     }
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         get_slot_dir(atp->slot, buf, sizeof(buf));
-        retval = dir_size(buf, size);
+        retval = dir_size_alloc(buf, size);
         if (retval) continue;
         atp->wup->project->disk_usage += size;
     }
@@ -105,7 +105,7 @@ int CLIENT_STATE::get_disk_usages() {
         p = projects[i];
         total_disk_usage += p->disk_usage;
     }
-    retval = dir_size(".", size, false);
+    retval = dir_size_alloc(".", size, false);
     if (!retval) {
         client_disk_usage = size;
         total_disk_usage += size;
@@ -119,7 +119,7 @@ int CLIENT_STATE::get_disk_usages() {
 // - each project has a "disk_resource_share" (DRS)
 //   This is the resource share plus .1*(max resource share).
 //   This ensures that backup projects get some disk.
-// - each project as a "desired_disk_usage (DDU)", 
+// - each project has a "desired_disk_usage (DDU)", 
 //   which is either its current usage
 //   or an amount sent from the scheduler.
 // - each project has a "quota": (available space)*(drs/total_drs).
@@ -237,10 +237,10 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
         if (global_prefs.suspend_if_no_recent_input) {
-            bool idle = host_info.users_idle(
-                check_all_logins, global_prefs.suspend_if_no_recent_input
-            );
-            if (idle) {
+            long idle_time = host_info.user_idle_time(check_all_logins);
+            if (idle_time != USER_IDLE_TIME_INF
+                && idle_time > global_prefs.suspend_if_no_recent_input*60
+            ) {
                 return SUSPEND_REASON_NO_RECENT_INPUT;
             }
         }

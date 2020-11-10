@@ -3,7 +3,6 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Ladataan! Odota…</string>
   <string name="generic_button_continue">Jatka</string>
   <string name="generic_button_finish">Valmis</string>
   <!--attach project-->
@@ -12,9 +11,6 @@
   <string name="attachproject_list_header">Valitse projekti:</string>
   <string name="attachproject_list_manual_button">Lisää projekti URL-osoitteella</string>
   <string name="attachproject_list_manual_dialog_title">Anna projektin URL:</string>
-  <string name="attachproject_list_manual_dialog_button">Lisää projekti</string>
-  <string name="attachproject_list_manual_no_url">Anna projektin URL</string>
-  <string name="attachproject_list_acctmgr_button">Lisää tilihallitsija</string>
   <string name="attachproject_list_no_internet">Ei internet-yhteyttä</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Anna tilitiedot</string>
@@ -27,9 +23,11 @@
   <string name="attachproject_conflict_not_unique">Tili on olemassa toisella salasanalla</string>
   <string name="attachproject_conflict_bad_password">Salasana virheellinen</string>
   <string name="attachproject_conflict_unknown_user">Tiliä ei ole olemassa</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Tiliä ei ole olemassa, käy projektin nettisivulla rekisteröitymässä</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Tiliä ei ole olemassa, käy projektin nettisivulla
+        rekisteröitymässä
+    </string>
   <!--working-->
-  <string name="attachproject_working_attaching">Liitetään</string>
+  <string name="attachproject_working_attaching">Liitetään %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Vihje</string>
@@ -42,53 +40,33 @@
   <string name="attachproject_hint_projectwebsite_science">Lisätietoa tieteestä</string>
   <string name="attachproject_hint_projectwebsite_stats">Katso osallistujatilastoja</string>
   <string name="attachproject_hint_projectwebsite_community">Ole yhteydessä muihin vapaaehtoisiin</string>
-  <string name="attachproject_hint_platforms_header">BOINC on saatavilla myös tietokoneelle tai kannettavalle, lisätietoja osoitteessa boinc.berkeley.edu .</string>
+  <string name="attachproject_hint_platforms_header">BOINC on saatavilla myös tietokoneelle tai kannettavalle, lisätietoa osoitteessa
+        boinc.berkeley.edu
+    </string>
   <!--project login-->
   <string name="attachproject_login_loading">Otetaan yhteyttä projektin palvelimeen…</string>
-  <string name="attachproject_login_image_description">Projektin logo.</string>
   <string name="attachproject_login_header_general_area">Yleisalue:</string>
   <string name="attachproject_login_header_specific_area">Erityisalue:</string>
   <string name="attachproject_login_header_description">Kuvaus:</string>
   <string name="attachproject_login_header_home">Kotisivu:</string>
   <string name="attachproject_login_header_url">Nettisivu:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Tämä projekti tukee laitetyyppiä</string>
-  <string name="attachproject_login_platform_not_supported">Tämä projekti ei tue laitetta</string>
-  <string name="attachproject_login_accept_terms_of_use">Luomalla tilin tässä projektissa, hyväksyt ylläolevat käyttöehdot.</string>
-  <string name="attachproject_login_category_login">Kirjaudu sisään käytössä olevalla tilillä</string>
   <string name="attachproject_login_header_id_email">Sähköposti:</string>
   <string name="attachproject_login_header_id_name">Nimi:</string>
   <string name="attachproject_login_header_pwd">Salasana:</string>
-  <string name="attachproject_login_header_creation_enabled">Rekisteröi tili osallistuaksesi:</string>
-  <string name="attachproject_login_header_creation_client_disabled">Käy projektin nettisivulla luodaksesi tilin:</string>
-  <string name="attachproject_login_header_creation_disabled">Tämä projekti ei tällä hetkellä hyväksy uusia tilejä.</string>
   <string name="attachproject_login_button_registration">Rekisteröi</string>
   <string name="attachproject_login_button_login">Kirjaudu sisään</string>
   <string name="attachproject_login_button_forgotpw">Salasana unohtunut</string>
-  <string name="attachproject_login_error_toast">Yhteydenotto projektiin epäonnistui!</string>
-  <string name="attachproject_login_attached">Liitetty</string>
-  <!--project registration-->
-  <string name="attachproject_registration_header_url">Projekti:</string>
-  <string name="attachproject_registration_header_email">Sähköposti:</string>
-  <string name="attachproject_registration_header_username">Nimi:</string>
-  <string name="attachproject_registration_header_teamname">Tiimi:</string>
-  <string name="attachproject_registration_header_pwd">Salasana:</string>
-  <string name="attachproject_registration_header_pwd_confirm">… Kirjoita uudelleen:</string>
-  <string name="attachproject_registration_button">Luo</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Käytä BOINC tilihallitsijaa lisätäksesi ja hallinnoidaksesi useita projekteja</string>
+  <string name="attachproject_acctmgr_list_desc">Käytä BOINC tilihallitsijaa lisätäksesi ja hallinnoidaksesi useita projekteja
+    </string>
   <string name="attachproject_acctmgr_header">Lisää tilihallitsija</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Käyttäjä:</string>
   <string name="attachproject_acctmgr_header_pwd">Salasana:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">… Kirjoita uudelleen:</string>
-  <string name="attachproject_acctmgr_button">Lisää</string>
   <!--error strings-->
   <string name="attachproject_error_wrong_name">Käyttäjää ei löydy</string>
   <string name="attachproject_error_short_pwd">Salasana liian lyhyt</string>
   <string name="attachproject_error_no_internet">Yhteysvirhe</string>
-  <string name="attachproject_error_pwd_no_match">Salasanat eivät täsmää</string>
-  <string name="attachproject_error_pwd_no_retype">Syötä salasana uudelleen</string>
   <string name="attachproject_error_no_url">Anna URL</string>
   <string name="attachproject_error_no_email">Anna sähköpostiosoite</string>
   <string name="attachproject_error_no_pwd">Anna salasana</string>
@@ -101,25 +79,6 @@
   <string name="attachproject_error_bad_pwd">Salasana hylätty</string>
   <string name="attachproject_error_creation_disabled">Tilin luonti on poistettu käytöstä tässä projektissa</string>
   <string name="attachproject_error_invalid_url">Virheellinen URL</string>
-  <!--working activity-->
-  <string name="attachproject_working_back_button">Takaisin</string>
-  <string name="attachproject_working_finish_button">Valmis</string>
-  <string name="attachproject_working_check_desc">Onnistui</string>
-  <string name="attachproject_working_failed_desc">Epäonnistui</string>
-  <string name="attachproject_working_ongoing">…</string>
-  <string name="attachproject_working_finished">.</string>
-  <string name="attachproject_working_description">:</string>
-  <string name="attachproject_working_connect">Yhdistä</string>
-  <string name="attachproject_working_verify">Varmenna tili</string>
-  <string name="attachproject_working_register">Rekisteröi tili</string>
-  <string name="attachproject_working_login">Kirjaudu</string>
-  <string name="attachproject_working_acctmgr">Lisää tilihallitsija</string>
-  <string name="attachproject_working_acctmgr_sync">Synkronoi</string>
-  <!--main activity-->
-  <string name="main_noproject_warning">Valitse projekti napauttamalla tähän.</string>
-  <string name="main_error">Hups</string>
-  <string name="main_error_long">…tätä ei olisi pitänyt tapahtua!\nNapsauta kuvaketta yrittääksesi uudelleen.</string>
-  <string name="main_title_icon_desc">BOINC kuvake</string>
   <!--tab names-->
   <string name="tab_status">Tila</string>
   <string name="tab_projects">Projektit</string>
@@ -138,40 +97,43 @@
   <string name="status_computing_disabled_long">Paina play palauttaaksesi verkkoyhteyden ja jatkaaksesi laskentaa.</string>
   <string name="status_launching">Käynnistetään…</string>
   <string name="status_noproject">Valitse projekti, johon osallistut.</string>
-  <string name="status_closing">Suljetaan…</string>
   <string name="status_benchmarking">Suorituskykytestaus…</string>
   <string name="status_image_description">projektin kuva</string>
   <!--preferences tab strings-->
-  <string name="prefs_loading">Luetaan asetuksia…</string>
-  <string name="prefs_submit_button">Tallenna</string>
-  <string name="prefs_dialog_title">Anna uusi arvo:</string>
-  <string name="prefs_dialog_title_selection">Valitse:</string>
   <string name="prefs_category_general">Yleiset</string>
   <string name="prefs_category_network">Verkko</string>
   <string name="prefs_category_power">Virta</string>
   <string name="prefs_category_cpu">CPU</string>
   <string name="prefs_category_storage">Tilankäyttö</string>
   <string name="prefs_category_memory">Muisti</string>
+  <string name="prefs_category_other">Muu</string>
   <string name="prefs_category_debug">Virheenjäljitys</string>
   <string name="prefs_show_advanced_header">Näytä lisäasetukset ja ohjaimet…</string>
   <string name="prefs_suspend_when_screen_on">Tauota laskenta näytön ollessa päällä</string>
-  <string name="prefs_stationary_device_mode_description">Sallii laskennan virta-asetuksista huolimatta. Käytä vain, jos laitteessa ei ole akkua.</string>
+  <string name="prefs_general_device_name_header">Laitenimi</string>
+  <string name="prefs_stationary_device_mode_header">Paikallaan oleva laite -tila</string>
+  <string name="prefs_stationary_device_mode_description">Sallii laskennan virta-asetuksista huolimatta. Käytä vain, jos
+        laitteessa ei ole akkua.
+    </string>
   <string name="prefs_power_source_header">Virtalähteet laskennalle</string>
-  <string name="prefs_power_source_description">Valitsee virtalähteet, jotka sallivat BOINCin suorittaa laskentaa.</string>
+  <string name="prefs_power_source_description">Valitsee virtalähteet, joita BOINC saa käyttää laskentaan.
+    </string>
   <string name="prefs_power_source_ac">Pistorasia</string>
   <string name="prefs_power_source_usb">USB-liitäntä</string>
   <string name="prefs_power_source_wireless">Langaton laturi</string>
   <string name="prefs_power_source_battery">Akku</string>
   <string name="battery_charge_min_pct_header">Pienin varaustaso</string>
-  <string name="battery_charge_min_pct_description">BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan.</string>
+  <string name="battery_charge_min_pct_description">BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan.
+    </string>
   <string name="battery_temperature_max_header">Suurin akun lämpötila</string>
-  <string name="battery_temperature_max_description">BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. Tätä arvoa ei suositella muutettavaksi.</string>
+  <string name="battery_temperature_max_description">BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. 
+        Tätä arvoa ei suositella muutettavaksi.
+    </string>
   <string name="prefs_disk_max_pct_header">Suurin käytetty tallennustila</string>
-  <string name="prefs_disk_max_pct_description">Kuinka monta prosenttia laitteesi tallennustilasta BOINC saa käyttää?</string>
-  <string name="prefs_disk_min_free_gb_header">Pienin tallennustila</string>
-  <string name="prefs_disk_min_free_gb_description">Kuinka paljon laitteesi tallennustilasta jätetään vapaaksi?</string>
+    <string name="prefs_disk_min_free_gb_header">Pienin tallennustila</string>
+  <string name="prefs_disk_access_interval_header">Levyn käytön aikaväli</string>
+  <string name="prefs_disk_access_interval_description">Määrittää ajan, kuinka usein levyä käytetään</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Päivittäinen siirtoraja</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Rajoitus BOINCin päivittäiselle tiedonsiirrolle.</string>
   <string name="prefs_network_wifi_only_header">Siirrä tehtävät vain WiFin kautta</string>
   <string name="prefs_autostart_header">Automaattikäynnistys</string>
   <string name="prefs_show_notification_notices_header">Näytä ilmoitus uusista ilmoituksista</string>
@@ -179,17 +141,19 @@
   <string name="prefs_cpu_number_cpus_header">Käytetyt CPU-ytimet</string>
   <string name="prefs_cpu_number_cpus_description">Rajoittaa CPU-ytimien määrää, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_cpu_other_load_suspension_header">Tauota prosessorikäytön ylittäessä</string>
-  <string name="prefs_cpu_other_load_suspension_description">Määrittää, milloin BOINC tauottaa laskennan toisten sovellusten vuoksi.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Määrittää, milloin BOINC tauottaa laskennan toisten
+        sovellusten takia.
+    </string>
   <string name="prefs_cpu_time_max_header">CPU raja</string>
   <string name="prefs_cpu_time_max_description">Rajoittaa prosessoriaikaa, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_memory_max_idle_header">RAM raja</string>
   <string name="prefs_memory_max_idle_description">Rajoittaa RAM-muistin määrää, joka tehtäville annetaan.</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Työpakettien määrä</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Työpakettien lisämäärä</string>
+  <string name="prefs_client_log_flags_header">BOINC-ohjelman lokiliput</string>
   <string name="prefs_gui_log_level_header">GUI-kirjaustaso</string>
   <string name="prefs_gui_log_level_description">Määrittää GUI-kirjaustason tarkkuuden.</string>
-  <string name="prefs_unit_celsius">°C</string>
-  <string name="prefs_unit_seconds">sek</string>
   <!--projects tab strings-->
-  <string name="projects_loading">Luetaan projekteja…</string>
   <string name="projects_add">Lisää projekti</string>
   <string name="projects_icon">Projektin kuvake</string>
   <string name="projects_credits">Pisteet:</string>
@@ -202,7 +166,7 @@
   <string name="projects_status_schedrpcpending">Pyyntö aikatauluttajalle odottaa</string>
   <string name="projects_status_schedrpcinprogress">Pyyntö aikatauluttajalle käynnissä</string>
   <string name="projects_status_trickleuppending">Väliaikaviesti odottaa</string>
-  <string name="projects_status_backoff">Seuraava yhteydenotto:</string>
+  <string name="projects_status_backoff">Seuraava yhteydenotto: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projektin komennot:</string>
   <string name="projects_control_visit_website">Käy sivulla</string>
@@ -217,17 +181,11 @@
   <string name="projects_control_sync_acctmgr">Synkronoi</string>
   <string name="projects_control_remove_acctmgr">Poista</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Poista projekti?</string>
   <string name="projects_confirm_detach_message">Haluatko varmasti poistaa</string>
-  <string name="projects_confirm_detach_message2">BOINCista?</string>
   <string name="projects_confirm_detach_confirm">Poista</string>
-  <string name="projects_confirm_reset_title">Nollaa projekti</string>
-  <string name="projects_confirm_reset_message">Haluatko varmasti nollata</string>
-  <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Nollaa</string>
   <string name="projects_confirm_remove_acctmgr_title">Poista tilihallitsija käytöstä</string>
   <string name="projects_confirm_remove_acctmgr_message">Haluatko lopettaa käyttämästä</string>
-  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Poista käytöstä</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Tehtävän nimi:</string>
@@ -252,29 +210,20 @@
   <string name="tasks_custom_ready_to_report">valmis raportoitavaksi</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Hylkää tehtävä?</string>
-  <string name="confirm_abort_task_message">Hylkää tehtävä:</string>
+  <string name="confirm_abort_task_message">Hylkää tehtävä: %1$s</string>
   <string name="confirm_abort_task_confirm">Hylkää</string>
   <string name="confirm_cancel">Peruuta</string>
   <string name="confirm_image_desc">Vahvistusikkuna</string>
   <!--transfers tab strings-->
-  <string name="trans_loading">Luetaan siirtoja…</string>
   <string name="trans_upload">Lähetä</string>
   <string name="trans_download">Lataa</string>
-  <string name="trans_retryin">uudelleenyritys</string>
-  <string name="trans_failed">epäonnistui</string>
+  <string name="trans_retry_in">uudelleenyritys %1$s</string>
   <string name="trans_suspended">hyllytetty</string>
   <string name="trans_active">aktiivinen</string>
   <string name="trans_pending">odottaa</string>
-  <string name="trans_projectbackoff">projektin viivyttämä</string>
   <string name="trans_header_name">Tiedosto:</string>
   <string name="trans_control_retry">Yritä siirtoja</string>
-  <string name="confirm_abort_trans_title">Keskeytä siirto?</string>
-  <string name="confirm_abort_trans_message">Hylkää tiedosto:</string>
-  <string name="confirm_abort_trans_confirm">Hylkää</string>
-  <!--notices tab strings-->
-  <string name="notices_loading">Luetaan ilmoituksia…</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_loading">Ladataan lokiviestit…</string>
   <string name="eventlog_client_header">Ohjelman viestit</string>
   <string name="eventlog_gui_header">GUI viestit</string>
   <string name="eventlog_copy_toast">Loki kopioitu leikepöydälle.</string>
@@ -284,9 +233,8 @@
   <string name="suspend_batteries">Kytke laite laturiin laskennan jatkamiseksi.</string>
   <string name="suspend_screen_on">Sammuta näyttö jatkaaksesi laskentaa.</string>
   <string name="suspend_useractive">Käyttäjä aktiivinen.</string>
-  <string name="suspend_bm">BOINC suorityskykytestaa laitettasi…</string>
   <string name="suspend_disksize">Levytila loppu.</string>
-  <string name="suspend_cputhrottle">Aikataulutettu prosessorin hidastus.</string>
+  <string name="suspend_cputhrottle">CPU:n kellotaajuuden säätö.</string>
   <string name="suspend_noinput">Ei käyttäjän toimintaa hiljattain.</string>
   <string name="suspend_delay">Alustuksen viivytys.</string>
   <string name="suspend_exclusiveapp">Erityissovellus on käynnissä.</string>
@@ -296,11 +244,8 @@
   <string name="suspend_wifi">Ei WiFi-yhteyttä.</string>
   <string name="suspend_battery_charging">Odotetaan akun latautumista.</string>
   <string name="suspend_battery_charging_long">Laskenta jatkuu akun varaustilan saavuttaessa</string>
-  <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">tällä hetkellä</string>
   <string name="suspend_battery_overheating">Odotetaan akun jäähtymistä</string>
   <string name="suspend_user_req">Jatketaan laskentaa…</string>
-  <string name="suspend_network_user_req">manuaalisesti.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Käyttäjän pyytämä</string>
   <string name="rpcreason_needwork">Pyydetään työtä</string>
@@ -320,14 +265,18 @@
   <string name="menu_run_mode_enable">Jatka</string>
   <string name="menu_about">Tietoja</string>
   <string name="menu_help">Ohje</string>
+  <string name="menu_report_issue">Raportoi virheestä</string>
   <!--about dialog-->
   <string name="about_button">Takaisin</string>
   <string name="about_title">Tietoja</string>
   <string name="about_name">BOINC</string>
-  <string name="about_version">Versio</string>
+  <string name="about_version">Versio %1$s</string>
   <string name="about_name_long">Berkeleyn avoin infrastruktuuri verkkolaskentaan</string>
+  <string name="about_copyright">\u00A9 2003–2019 Kalifornian yliopisto, Berkeley.</string>
   <string name="about_copyright_reserved">Kaikki oikeudet pidätetään.</string>
-  <string name="about_credits">Kiitokset Max Planck Instituutin painovoimafysiikan osastolle sekä IBM- ja HTC-yrityksille heidän tuestaan.</string>
+  <string name="about_credits">Kiitokset Max Planck Instituutin painovoimafysiikan osastolle sekä IBM- ja HTC-yrityksille
+        heidän tuestaan.
+    </string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Uusi ilmoitus kohteesta %1$s</item>
@@ -335,14 +284,20 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Laskentasovellus havaittu</string>
-  <string name="nonexcl_dialog_text">Toinen laskentasovellus on käynnissä tässä laitteessa. Kerrallaan voi olla vain yksi versio käynnissä.</string>
+  <string name="nonexcl_dialog_text">Toinen laskentasovellus on käynnissä tässä laitteessa. Kerrallaan voi olla vain yksi
+        versio käynnissä.
+    </string>
   <string name="nonexcl_dialog_exit">Lopeta</string>
   <!--social integration-->
   <string name="social_invite_button">Kutsu ystäviä</string>
   <string name="social_invite_intent_title">Kuinka haluat jakaa?</string>
   <string name="social_invite_content_title">Teen tiedettä älypuhelimellani!</string>
-  <string name="social_invite_content_body">Käytän %1$s laitettani tieteelliseen laskentaan. Sinäkin voit! Lataa sovellus täältä: %2$s</string>
+  <string name="social_invite_content_body">Käytän %1$s laitettani tieteelliseen laskentaan. Sinäkin voit! Lataa sovellus
+        täältä: %2$s
+    </string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
+    </string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
+    </string>
 </resources>

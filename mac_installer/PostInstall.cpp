@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -69,7 +69,6 @@
 #include <Carbon/Carbon.h>
 #include <grp.h>
 
-#include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
@@ -84,7 +83,12 @@
 #include <time.h>       // for time()
 #include <vector>
 #include <string>
+#define DLOPEN_NO_WARN
+#include <mach-o/dyld.h>
+#include <dlfcn.h>
 #include "url.h"
+
+#include "mac_branding.h"
 
 using std::vector;
 using std::string;
@@ -112,8 +116,10 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
+static void DeleteScreenSaverLaunchAgent(passwd *pw);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
+static void FixLaunchServicesDataBase(uid_t userID, long brandID);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void LoadPreferredLanguages();
@@ -148,7 +154,6 @@ void notused() {
 }
 /* END TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 
-#define NUMBRANDS 5
 #define MAX_LANGUAGES_TO_TRY 5
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
@@ -166,12 +171,6 @@ static time_t                   waitPermissionsStartTime;
 static vector<string>           human_user_names;
 static vector<uid_t>            human_user_IDs;
 
-static char *saverName[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *receiptName[NUMBRANDS];
-static char *skinName[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
@@ -197,48 +196,21 @@ int main(int argc, char *argv[])
     pid_t                   installerPID = 0, coreClientPID = 0;
     OSStatus                err;
     FILE                    *f;
-    char                    s[MAXPATHLEN];
+    char                    s[2048];
+    char                    path[MAXPATHLEN];
+    
 #ifndef SANDBOX
     group                   *grp;
 #endif  // SANDBOX
 
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-    receiptName[0] = "/Library/Receipts/BOINC Installer.pkg";
-    skinName[0] = "Default";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-    receiptName[1] = "/Library/Receipts/GridRepublic Installer.pkg";
-    skinName[1] = "GridRepublic";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-    receiptName[2] = "/Library/Receipts/Progress Thru Processors Installer.pkg";
-    skinName[2] = "ProgressThruProcessors";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-    receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
-    skinName[3] = "Charity Engine";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-    receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
-    skinName[4] = "World Community Grid";
-
     printf("\nStarting PostInstall app %s\n\n", argv[1]);
     fflush(stdout);
+
+    if (!check_branding_arrays(s, sizeof(s))) {
+        ShowMessage(false, (char *)_("Branding array has too few entries: %s"), s);
+        return -1;
+    }
+
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0] == '\0') {
@@ -270,7 +242,7 @@ int main(int argc, char *argv[])
     }
 
     for (i=0; i< NUMBRANDS; i++) {
-        snprintf(s, sizeof(s), "pkill \"%s\"", appName[i]);
+        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
         callPosixSpawn (s);
     }
     sleep(2);
@@ -285,24 +257,25 @@ int main(int argc, char *argv[])
     // BOINC Installer.app wrote a file to tell us the previously installed branding, if any
     snprintf(s, sizeof(s), "/tmp/%s/OldBranding", tempDirName);
     oldBrandID = GetBrandID(s);
-printf("oldBrandID = %ld\n", oldBrandID);    
+    printf("oldBrandID = %ld\n", oldBrandID);    
+    fflush(stdout);
+
     // The new branding (if any) is in the resources of this PostInstall.app
     getPathToThisApp(s, sizeof(s));
     strncat(s, "/Contents/Resources/Branding", sizeof(s)-1);
-printf("path to new BrandID = %s\n", s);    
+    printf("path to new BrandID = %s\n", s);    
+    fflush(stdout);
     brandID = GetBrandID(s);
-    
-    if ((brandID < 0) || (brandID >= NUMBRANDS)) {       // Safety check
-        brandID = 0;
-    }
-    
+    printf("new BrandID = %ld\n", brandID);    
+    fflush(stdout);
+
     LoadPreferredLanguages();
 
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         BringAppToFront();
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-        ShowMessage(false, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
+        ShowMessage(false, "Sorry, this version of %s requires system 10.7 or higher.", brandName[brandID]);
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
@@ -504,6 +477,28 @@ printf("path to new BrandID = %s\n", s);
             CFRelease(urlref);
             REPORT_ERROR(err);
         }
+    }
+
+    if (compareOSVersionTo(10, 13) >= 0) {
+        getPathToThisApp(path, sizeof(path));
+        strncat(path, "/Contents/Resources/boinc_Finish_Install", sizeof(path)-1);
+        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Install\"", path, appName[brandID]);
+        err = callPosixSpawn(s);
+        REPORT_ERROR(err);
+        if (err) {
+            printf("Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        }
+
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
+        chmod(s, 0755);
+#ifdef SANDBOX
+        group *bmgrp = getgrnam(boinc_master_group_name);
+        passwd *bmpw = getpwnam(boinc_master_user_name);
+        if (bmgrp && bmpw) {
+            chown(s, bmpw->pw_uid, bmgrp->gr_gid);
+        }
+#endif
     }
 
     err = UpdateAllVisibleUsers(brandID, oldBrandID);
@@ -1116,9 +1111,8 @@ cleanupSystemEvents:
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw)
 {
     struct stat             sbuf;
-    int                     i;
     char                    s[2048];
-    
+
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
@@ -1137,28 +1131,24 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "<plist version=\"1.0\">\n");
     fprintf(f, "<dict>\n");
     fprintf(f, "\t<key>Label</key>\n");
-    fprintf(f, "\t<string>edu.berkeley.test</string>\n");
+    fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>sh</string>\n");
-    fprintf(f, "\t\t<string>-c</string>\n");
-    fprintf(f, "\t\t<string>");
-    for (i=0; i<NUMBRANDS; i++) {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[i]);
-    }
-    if (deleteLogInItem) {
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
+    if (deleteLogInItem || (brandID != oldBrandID)) {
         // If this user was previously authorized to run the Manager, there 
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.
         // To guard against this, we have the LaunchAgent kill the Manager
         // (for this user only) if it is running.
         //
-        fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[oldBrandID]);
-    } else {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}';", appPath[brandID], appName[brandID]);
-        fprintf(f, "open -jg \"%s\";", appPath[brandID]);
+        fprintf(f, "\t\t<string>-d</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[oldBrandID]);
     }
-    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    if (!deleteLogInItem) {
+        fprintf(f, "\t\t<string>-a</string>\n");
+        fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
+    }
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
@@ -1169,7 +1159,29 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     chmod(s, 0644);
     chown(s, pw->pw_uid, pw->pw_gid);
 
+    if (IsUserLoggedIn(pw->pw_name)) {
+        sprintf(s, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+        sprintf(s, "su -l \"%s\" -c 'launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+    }
     return true;
+}
+
+
+void DeleteScreenSaverLaunchAgent(passwd *pw) {
+    char                    cmd[MAXPATHLEN];
+
+    sprintf(cmd, "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
+    if (boinc_file_exists(cmd)) {
+        sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), 
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+            pw->pw_name);
+        boinc_delete_file(cmd);
+    }
 }
 
 
@@ -1251,6 +1263,96 @@ Boolean CheckDeleteFile(char *name)
     
     fclose(f);
     return false;
+}
+
+
+// If there are other copies of BOINC Manager with different branding
+// on the system, Noitifications may display the icon for the wrong
+// branding, due to the Launch Services database having one of the
+// other copies of BOINC Manager as the first entry. Each user has
+// their own copy of the Launch Services database, so this must be
+// done for each user.
+//
+// This probably will happen only on BOINC development systems where
+// Xcode has generated copies of BOINC Manager.
+static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
+    uid_t saved_uid;
+    char boincPath[MAXPATHLEN];
+    char cmd[MAXPATHLEN+250];
+    long i, n;
+    CFArrayRef appRefs = NULL;
+    OSStatus err;
+
+    if (compareOSVersionTo(10, 8) < 0) {
+        return;  // Notifications before OS 10.8 just bounce our Dock icon
+    }
+
+    saved_uid = geteuid();
+    CFStringRef bundleID = CFSTR("edu.berkeley.boinc");
+
+    if (LSCopyApplicationURLsForBundleIdentifier) { // Weak linked; not available before OS 10.10
+        seteuid(userID);    // Temporarily set effective uid to this user
+        appRefs = LSCopyApplicationURLsForBundleIdentifier(bundleID, NULL);
+        seteuid(saved_uid);     // Set effective uid back to privileged user
+            if (appRefs == NULL) {
+                printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
+                goto registerOurApp;
+            }
+        n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
+        printf("LSCopyApplicationURLsForBundleIdentifier returned %ld results\n", n);
+    } else {
+        n = 500;    // Prevent infinite loop
+    }
+
+    for (i=0; i<n; ++i) {     // Prevent infinite loop
+        if (appRefs) {
+            CFURLRef appURL = (CFURLRef)CFArrayGetValueAtIndex(appRefs, i);
+            boincPath[0] = '\0';
+            if (appURL) {
+                CFRetain(appURL);
+                CFStringRef CFPath = CFURLCopyFileSystemPath(appURL, kCFURLPOSIXPathStyle);
+                CFStringGetCString(CFPath, boincPath, sizeof(boincPath), kCFStringEncodingUTF8);
+                if (CFPath) CFRelease(CFPath);
+                CFRelease(appURL);
+                appURL = NULL;
+            }
+        } else {
+            seteuid(userID);    // Temporarily set effective uid to this user
+            // GetPathToAppFromID() returns only first result from database
+            err = GetPathToAppFromID('BNC!', bundleID,  boincPath, sizeof(boincPath));
+            seteuid(saved_uid);     // Set effective uid back to privileged user
+            if (err) {
+                printf("Call %ld to GetPathToAppFromID returned error %d\n", i, err);
+                break;
+            }
+        }
+        if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
+            printf("**** Keeping %s\n", boincPath);
+            if (appRefs) CFRelease(appRefs);
+            return;     // Our (possibly branded) BOINC Manager app is now at top of database
+        }
+        printf("Unregistering %3ld: %s\n", i, boincPath);
+        // Remove this entry from the Launch Services database
+        sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -u \"%s\"", userID, boincPath);
+        err = callPosixSpawn(cmd);
+        if (err) {
+            printf("*** lsregister -u call returned error %d for %s\n", err, boincPath);
+            fflush(stdout);
+        }
+    }
+
+registerOurApp:
+    if (appRefs) CFRelease(appRefs);
+
+    // We have exhausted the Launch Services database without finding our
+    // (possibly branded) BOINC Manager app, so add it to the dataabase
+    printf("%s was not found in Launch Services database; registering it now\n", appPath[brandID]);
+    sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"%s\"", userID, appPath[brandID]);
+    err = callPosixSpawn(cmd);
+    if (err) {
+        printf("*** lsregister call returned error %d for %s\n", err, appPath[brandID]);
+        fflush(stdout);
+    }
 }
 
 void SetEUIDBackToUser (void)
@@ -1713,10 +1815,14 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+
+            printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+            FixLaunchServicesDataBase(pw->pw_uid, brandID);
         } else {
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
+            // SetLoginItemLaunchAgent will run helper app which will call FixLaunchServicesDataBase()
             SetLoginItemLaunchAgent(brandID, oldBrandID, deleteLoginItem, pw);
         }
         if (isBMGroupMember) {
@@ -1728,7 +1834,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 continue;
             }
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
-        
+
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
@@ -1738,8 +1844,57 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"/Library/Screen Savers/%s.saver\" type 0'", pw->pw_name, saverName[brandID], s);
                 // callPosixSpawn(s);
             }
+            
+            if (compareOSVersionTo(10, 15) >= 0) {
+                // Under Catalina, Screensaver output files are put in the user's Containers 
+                // directory. Create the directory if it doesn't exist and create a symbolic
+                // link to it in the normal per-user BOINC directory 
+                snprintf(s, sizeof(s), 
+                    "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
+                if (stat(s, &sbuf) != 0) {
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
+                            pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
+                }
+                    
+                snprintf(s, sizeof(s), "/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC", 
+                        pw->pw_name);
+                    if (stat(s, &sbuf) != 0) {
+                        // mkdir -p creates intermediate directories as required
+                        snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -p -m 0700 \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support\"",
+                                pw->pw_name, pw->pw_name);
+                        err = callPosixSpawn(cmd);
+                        REPORT_ERROR(err);
+                        printf("[2] %s returned %d\n", cmd, err);
+                        fflush(stdout);
+
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" mkdir -m 0775 \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\"",
+                            pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
+                }
+                snprintf(s, sizeof(s), 
+                    "/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs", 
+                    pw->pw_name);
+                if (lstat(s, &sbuf) != 0) {
+                    snprintf(cmd, sizeof(cmd), "sudo -u \"%s\" ln -s \"/Users/%s/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Application Support/BOINC\" \"/Users/%s/Library/Application Support/BOINC/ScreenSaver Logs\"", pw->pw_name, pw->pw_name, pw->pw_name);
+                    err = callPosixSpawn(cmd);
+                    REPORT_ERROR(err);
+                    printf("[2] %s returned %d\n", cmd, err);
+                    fflush(stdout);
+                }
+            }
         }
 
+        // We no longer use a ScreenSaver LaunchAgent. 
+        // Delete it if it was installed by an older version of BOINC
+        DeleteScreenSaverLaunchAgent(pw);
+    
         // Delete the BOINC Manager's wxSingleInstanceChecker lock file, in case
         // it was not deleted (such as due to a crash.)
         // Lock file name always has "BOINC Manager" even if the application is
@@ -1984,7 +2139,9 @@ long GetBrandID(char *path)
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
 }
 

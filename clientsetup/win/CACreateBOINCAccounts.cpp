@@ -79,7 +79,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     BOOL             bBOINCProjectAccountCreated = FALSE;
     BOOL             bBOINCMasterAccountModified = FALSE;
     BOOL             bBOINCProjectAccountModified = FALSE;
-    UINT             uiReturnValue = -1;
+    UINT             uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
     if ( uiReturnValue ) return uiReturnValue;
@@ -152,7 +152,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 NULL,
                 _T("Generating 'boinc_master' password")
             );
-            GenerateRandomPassword(strBOINCMasterAccountPassword, 12);
+            GenerateRandomPassword(strBOINCMasterAccountPassword, 32);
             strBOINCMasterAccountPassword = _T("!") + strBOINCMasterAccountPassword;
         }
 
@@ -314,7 +314,7 @@ UINT CACreateBOINCAccounts::OnExecution()
                 NULL,
                 _T("Generating 'boinc_project' password")
             );
-            GenerateRandomPassword(strBOINCProjectAccountPassword, 12);
+            GenerateRandomPassword(strBOINCProjectAccountPassword, 32);
             strBOINCProjectAccountPassword = _T("!") + strBOINCProjectAccountPassword;
         }
 

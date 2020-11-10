@@ -31,11 +31,11 @@ if (!parse_bool($config, "enable_delete_account")) {
 }
 
 function delete_account_confirm_form() {
-    //Make sure the token is still valid
+    // Make sure the token is still valid
+    //
     $userid = get_int("id");
     $token = get_str("token");
-    $retval = check_delete_account_token($userid, $token);
-    if (!$retval) {
+    if (!is_delete_account_token_valid($userid, $token)) {
         error_page(
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
@@ -59,22 +59,23 @@ function delete_account_confirm_form() {
 }
 
 function delete_account_confirm_action() {
-    //Make sure the token is still valid
+    // Make sure the token is still valid
+    //
     $userid = post_int("id");
     $token = post_str("token");
-    $retval = check_delete_account_token($userid, $token);
-    if (!$retval) {
+    if (!is_delete_account_token_valid($userid, $token)) {
         error_page(
             tra("The token you used has expired or is otherwise not valid.  Please request a new one <a href=\"delete_account_request.php\">here</a>")
         );
     }
     
-    //Verify password
+    // Verify password
+    //
     $user = BoincUser::lookup_id($userid);
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
     
-    if (!delete_account($user)) {
+    if (delete_account($user)) {
         error_page(
             tra("Failed to delete your account.  Please contact the project administrator.")
         );    
@@ -82,7 +83,7 @@ function delete_account_confirm_action() {
     
     page_head(tra("Account Deleted"));
     
-    echo "<p>".tra("Your account has been deleted.  If you want to contribute to ".PROJECT." in the future you will need to create a new account.")."</p>";
+    echo "<p>".tra("Your account has been deleted.  If you want to contribute to %1 in the future you will need to create a new account.",PROJECT)."</p>";
     
     page_tail();
 }

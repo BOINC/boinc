@@ -91,7 +91,7 @@ function boincuser_check_credit_requirements() {
     }
     else {
       drupal_set_message(bts(
-        'You must earn @count more credits to be able to post comments on this site.',
+        'You must earn @count more credits to be able to post comments on this site and create or modify your user profile.',
         array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
       ), 'warning', FALSE);
       if (isset($account->roles[$unrestricted_role])) {
@@ -212,7 +212,7 @@ function boincuser_select_user_of_the_day() {
  * this function is called, it may be called with optional parameters
  * new and prev email.
  */
-function _boincuser_send_emailchange($account, $new_email=NULL, $prev_email=NULL) {
+function _boincuser_send_emailchange($account, $new_email=NULL, $prev_email=NULL, $adminuser=FALSE) {
   require_boinc('token');
   module_load_include('inc', 'rules', 'modules/system.rules');
 
@@ -228,20 +228,27 @@ function _boincuser_send_emailchange($account, $new_email=NULL, $prev_email=NULL
 
   // @todo - set constant in drupal, or use BOINC contsants
   $duration = TOKEN_DURATION_ONE_WEEK;
-  $changedate = date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time);
+  $changedate = date('F j, Y \a\t G:i T', time());
   $newdate = date('F j, Y \a\t G:i T', $account->boincuser_email_addr_change_time + $duration);
-
   $token = create_token($account->boincuser_id, TOKEN_TYPE_CHANGE_EMAIL, $duration);
+  if ($adminuser) {
+    $graf1 = "Your email address was changed from {$prev_email} to {$new_email} "
+      . "on {$changedate}. If you need to reverse this change, please look for "
+      . "an email send to the email address: {$prev_email}.\n";
+  }
+  else {
+    $graf1 = "Your email address was changed from {$prev_email} to {$new_email} "
+      . "on {$changedate}. You will not be able to change your email address "
+      . "until {$newdate}. If you need to reverse this change, please look for "
+      . "an email send to the email address: {$prev_email}.\n";
+  }
 
   // Send email #1 to current address
   $mysubject = "Notification of email change at {$site_name}";
   $mymessage = ''
       . "{$account->boincuser_name},\n"
       . "\n"
-      . "Your email address was changed from {$prev_email} to {$new_email} "
-      . "on {$changedate}. You will not be able to change your email address "
-      . "until {$newdate}. If you need to reverse this change, please look for "
-      . "an email send to the email address: {$prev_email}.\n"
+      . $graf1
       . "\n"
       . "Thanks, \n"
       . "{$site_name} support team\n";
@@ -319,17 +326,9 @@ function create_proper_drupalname($requested_name) {
  *
  */
 function boincuser_check_termsofuse($user) {
-  // @todo - the condition for the terms of use needs to be saved in the
-  // project's user table, which does not exist, but may be added
-  // upstream. If/when that occurs, check it here.
-  $qres = db_query('SELECT bu.privacy_consent_dt FROM {boincuser} AS bu WHERE uid=%d', $user->uid);
-  $consent_dt = db_result($qres);
-  // Check datetime of consent, it should not be zero.
-  if ($consent_dt > 1 ) {
-    return true;
-  }
-
-  return false;
+  require_boinc('consent');
+  $boinc_user = boincuser_load($user->uid, TRUE);
+  return check_user_consent($boinc_user, CONSENT_TYPE_ENROLL);
 }
 
 /**
@@ -340,12 +339,33 @@ function boincuser_check_termsofuse($user) {
  *
  */
 function boincuser_consentto_termsofuse($user) {
-  $uid = $user->uid;
+  require_boinc('consent');
+  $boinc_user = boincuser_load($user->uid, TRUE);
 
-  // @todo - Modify BOINC project database to record consent.
-  $sql = 'UPDATE {boincuser} set privacy_consent_dt = %d WHERE uid=%d';
-  $qrc = db_query($sql, time(), $uid);
-  return $qrc;
+  list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+  if ($checkct) {
+    $rc1 = consent_to_a_policy($boinc_user, $ctid, 1, 0, 'Webform', time());
+    if (!$rc1) {
+      drupal_set_message(
+        bts("ERROR: Database error when attempting to INSERT into table consent with ID=@id. The @project administrators have been notified.",
+        array(
+          '@id' => $boinc_user->id,
+          '@project' => variable_get('site_name', 'Drupal-BOINC'), NULL, 'boinc:add-new-user'
+        ),
+        'NULL', 'boinc:consent-termsofuse'),
+      'error');
+      rules_invoke_event('boincuser_general_consent_error', variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    }
+    return $rc1;
+  }
+  else {
+    drupal_set_message(
+      bts('ERROR: Consent type for enrollment not found. The @project administrators have been nofitifed.',
+        array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:consent-termsofuse'),
+    'error');
+    rules_invoke_event('boincuser_general_consent_type_error', CONSENT_TYPE_ENROLL, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+  }
+  return FALSE;
 }
 
 /**
@@ -364,6 +384,27 @@ function _boincuser_ignore_paths($path, $paths_to_ignore) {
     }
   }
   return FALSE;
+}
+
+/**
+ * A 'menu redirect'. Redirect users from URL recoveremail.php to
+ * Drupal's recover email path.
+ */
+function _boincuser_redirect_recover_email() {
+  $params = array(
+    'boincid' => isset($_GET['id']) ? $_GET['id'] : '',
+    'token' => isset($_GET['token']) ? $_GET['token'] : ''
+  );
+
+  // If boincid or token is not present, then go to the home page.
+  if (empty($params['boincid']) or empty($params['token'])) {
+    $redirect = '';
+  }
+  else {
+    $uid = boincuser_lookup_uid($params['boincid']);
+    $redirect = "/user/${uid}/recoveremail/${params['token']}";
+  }
+  drupal_goto($redirect);
 }
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *

@@ -100,9 +100,6 @@ struct PROC_RESOURCES {
         ncpus_used_mt = 0;
         pr_coprocs.clone(coprocs, false);
         pr_coprocs.clear_usage();
-        if (have_max_concurrent) {
-            max_concurrent_init();
-        }
     }
 
     // should we stop scanning jobs?
@@ -127,7 +124,6 @@ struct PROC_RESOURCES {
     // (i.e add it to the runnable list; not actually run it)
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
-        if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
             // don't schedule if something's pending
             //
@@ -182,8 +178,11 @@ struct PROC_RESOURCES {
         if (atp && atp->too_large) {
             may_not_run = true;
         }
-        if (rt && rsc_work_fetch[rt].has_exclusions) {
-            may_not_run = true;
+        if (rt) {
+            PROJECT* p = rp->project;
+            if (p->rsc_pwf[rt].ncoprocs_excluded > 0) {
+                may_not_run = true;
+            }
         }
 
         if (!may_not_run) {
@@ -213,7 +212,6 @@ struct PROC_RESOURCES {
         }
 
         adjust_rec_sched(rp);
-        max_concurrent_inc(rp);
     }
 
     bool sufficient_coprocs(RESULT& r) {
@@ -881,7 +879,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // do round-robin simulation to find what results miss deadline
     //
-    rr_simulation();
+    rr_simulation("CPU sched");
     if (log_flags.rr_simulation) {
         print_deadline_misses();
     }
@@ -930,6 +928,14 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         add_coproc_jobs(run_list, j, proc_rsc);
     }
 
+    // enforce max concurrent specs for CPU jobs,
+    // to avoid having jobs in the run list that we can't actually run.
+    // Don't do this for GPU jobs; GPU exclusions screw things up
+    //
+    if (have_max_concurrent) {
+        max_concurrent_init();
+    }
+
     // then add CPU jobs.
     // Note: the jobs that actually get run are not necessarily
     // an initial segment of this list;
@@ -945,12 +951,18 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp = earliest_deadline_result(RSC_TYPE_CPU);
         if (!rp) break;
         rp->already_selected = true;
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
+            continue;
+        }
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
 #ifdef SIM
     }
@@ -958,16 +970,26 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 
     // Next, choose CPU jobs from highest priority projects
     //
-    while (!proc_rsc.stop_scan_cpu()) {
+    while (1) {
+        if (proc_rsc.stop_scan_cpu()) {
+            break;
+        }
         assign_results_to_projects();
         rp = highest_prio_project_best_result();
-        if (!rp) break;
+        if (!rp) {
+            break;
+        }
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
+            continue;
+        }
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
-
 }
 
 static inline bool in_run_list(vector<RESULT*>& run_list, ACTIVE_TASK* atp) {
@@ -1115,7 +1137,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     bool action = false;
 
-    if (have_max_concurrent) max_concurrent_init();
+    if (have_max_concurrent) {
+        max_concurrent_init();
+    }
 
 #ifndef SIM
     // check whether GPUs are usable
@@ -1203,7 +1227,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // and prune those that can't be assigned
     //
     assign_coprocs(run_list);
-    bool scheduled_mt = false;
+    //bool scheduled_mt = false;
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
@@ -1211,11 +1235,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     for (i=0; i<run_list.size(); i++) {
         RESULT* rp = run_list[i];
 
-        if (max_concurrent_exceeded(rp)) {
+        if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] skipping %s; max concurrent limit %d reached",
-                    rp->name, rp->app->max_concurrent
+                    "[cpu_sched_debug] skipping %s; max concurrent limit reached",
+                    rp->name
                 );
             }
             continue;
@@ -1313,13 +1337,17 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             continue;
         }
 
+#if 0
         if (rp->avp->avg_ncpus > 1) {
             scheduled_mt = true;
         }
+#endif
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= wss;
-        max_concurrent_inc(rp);
+        if (have_max_concurrent) {
+            max_concurrent_inc(rp);
+        }
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
@@ -1601,13 +1629,23 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
+    // config file can say to act like host has N CPUs
+    //
+    static bool first = true;
+    static int original_p_ncpus;
+    if (first) {
+        original_p_ncpus = host_info.p_ncpus;
+        first = false;
+    }
     if (cc_config.ncpus>0) {
         ncpus = cc_config.ncpus;
-        host_info.p_ncpus = ncpus;
-    } else if (host_info.p_ncpus>0) {
-        ncpus = host_info.p_ncpus;
+        host_info.p_ncpus = ncpus;  // use this in scheduler requests
     } else {
-        ncpus = 1;
+        host_info.p_ncpus = original_p_ncpus;
+        ncpus = host_info.p_ncpus;
+    }
+    if (ncpus <= 0) {
+        ncpus = 1;      // shouldn't happen
     }
 
     if (global_prefs.max_ncpus_pct) {

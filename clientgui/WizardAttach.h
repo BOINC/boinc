@@ -229,7 +229,6 @@ public:
         wxString strProjectInstitution,
         wxString strProjectDescription,
         wxString strProjectKnown,
-        wxString strProjectSetupCookie,
         bool     bAccountKeyDetected,
         bool     bEmbedded
     );
@@ -283,9 +282,6 @@ public:
     wxString GetProjectDescription() const { return m_strProjectDescription ; }
     void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
 
-    wxString GetProjectSetupCookie() const { return m_strProjectSetupCookie ; }
-    void SetProjectSetupCookie(wxString value) { m_strProjectSetupCookie = value ; }
-
     bool IsProjectKnown() const { return m_bProjectKnown ; }
     void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
 
@@ -301,11 +297,11 @@ public:
     wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
     void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
 
+    bool GetConsentedToTerms() const { return m_bConsentedToTerms ; }
+    void SetConsentedToTerms(bool value) { m_bConsentedToTerms = value ; }
+
     wxString GetReturnURL() const { return m_strReturnURL ; }
     void SetReturnURL(wxString value) { m_strReturnURL = value ; }
-
-    wxString GetCookieFailureURL() const { return m_strCookieFailureURL ; }
-    void SetCookieFailureURL(wxString value) { m_strCookieFailureURL = value ; }
 
     bool IsCredentialsCached() const { return m_bCredentialsCached ; }
     void SetCredentialsCached(bool value) { m_bCredentialsCached = value ; }
@@ -315,9 +311,6 @@ public:
 
     bool IsCloseWhenCompleted() const { return m_bCloseWhenCompleted ; }
     void SetCloseWhenCompleted(bool value) { m_bCloseWhenCompleted = value ; }
-
-    bool IsCookieRequired() const { return m_bCookieRequired ; }
-    void SetCookieRequired(bool value) { m_bCookieRequired = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -361,21 +354,19 @@ public:
     bool                m_bCloseWhenCompleted;
     bool                m_bCredentialsCached;
     bool                m_bCredentialsDetected;
-    bool                m_bCookieRequired;
     wxString            m_strProjectName;
     wxString            m_strProjectUrl;
     wxString            m_strProjectAuthenticator;
     wxString            m_strProjectInstitution;
     wxString            m_strProjectDescription;
-    wxString            m_strProjectSetupCookie;
     wxString            m_strProjectUserName;
     bool                m_bProjectKnown;
     wxString            m_strAccountEmailAddress;
     wxString            m_strAccountUsername;
     wxString            m_strAccountPassword;
     wxString            m_strAccountConfirmPassword;
+    bool                m_bConsentedToTerms;
     wxString            m_strReturnURL;
-    wxString            m_strCookieFailureURL;
 };
 
 #endif

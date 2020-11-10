@@ -18,14 +18,8 @@
 // Stuff related to catching SEH exceptions, monitoring threads, and trapping
 // debugger messages; used by both core client and by apps.
 
-#ifdef  _WIN32
-#ifndef __STDWX_H__
 #include "boinc_win.h"
-#else
-#include "stdwx.h"
-#endif
 #include "win_util.h"
-#endif
 
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"
@@ -519,9 +513,8 @@ char* diagnostics_format_thread_state(int thread_state) {
         case StateTerminated: return "Terminated";
         case StateWait: return "Waiting";
         case StateTransition: return "Transition";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -551,9 +544,8 @@ char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
         case ThreadWaitReasonWrLpcReply: return "LPCReply";
         case ThreadWaitReasonWrVirtualMemory: return "VirtualMemory";
         case ThreadWaitReasonWrPageOut: return "PageOut";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -569,9 +561,8 @@ char* diagnostics_format_process_priority(int process_priority) {
         case ABOVE_NORMAL_PRIORITY_CLASS: return "Above Normal";
         case HIGH_PRIORITY_CLASS: return "High";
         case REALTIME_PRIORITY_CLASS: return "Realtime";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 
@@ -588,9 +579,8 @@ char* diagnostics_format_thread_priority(int thread_priority) {
         case THREAD_PRIORITY_ABOVE_NORMAL: return "Above Normal";
         case THREAD_PRIORITY_HIGHEST: return "Highest";
         case THREAD_PRIORITY_TIME_CRITICAL: return "Time Critical";
-        default: return "Unknown";
     }
-    return "";
+    return "Unknown";
 }
 
 

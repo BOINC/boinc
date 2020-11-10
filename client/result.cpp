@@ -22,10 +22,6 @@
 #include <math.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "str_replace.h"
 #include "parse.h"
 
@@ -80,12 +76,12 @@ void RESULT::clear() {
     intops_cumulative = 0;
     _state = RESULT_NEW;
     exit_status = 0;
-    stderr_out = "";
+    stderr_out.clear();
     suspended_via_gui = false;
     coproc_missing = false;
     report_immediately = false;
     not_started = false;
-    name_md5 = "";
+    name_md5.clear();
     index = 0;
     app = NULL;
     wup = NULL;
@@ -108,6 +104,7 @@ void RESULT::clear() {
 //
 int RESULT::parse_server(XML_PARSER& xp) {
     FILE_REF file_ref;
+    int retval;
 
     clear();
     while (!xp.get_tag()) {
@@ -119,7 +116,14 @@ int RESULT::parse_server(XML_PARSER& xp) {
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
+            retval = file_ref.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in result: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
             output_files.push_back(file_ref);
             continue;
         }
@@ -139,6 +143,7 @@ int RESULT::parse_server(XML_PARSER& xp) {
 //
 int RESULT::parse_state(XML_PARSER& xp) {
     FILE_REF file_ref;
+    int retval;
 
     clear();
     while (!xp.get_tag()) {
@@ -164,7 +169,14 @@ int RESULT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
+            retval = file_ref.parse(xp);
+            if (retval) {
+                msg_printf(0, MSG_INFO,
+                    "can't parse file_ref in result: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
 #ifndef SIM
             output_files.push_back(file_ref);
 #endif
@@ -414,7 +426,7 @@ int RESULT::write_gui(MIOFILE& out) {
             }
         } else if (avp->missing_coproc) {
             snprintf(resources, sizeof(resources),
-                "%.3g %s + %s GPU (missing)",
+                "%.3g %s + %.12s GPU (missing)",
                 avp->avg_ncpus,
                 cpu_string(avp->avg_ncpus),
                 avp->missing_coproc_name

@@ -417,7 +417,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
   }
   if (empty($comment)) {
     // Check links for the node.
-    if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'comment_create')) {
+    if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'comment_create') && !(forum_access_access($tid, 'create') and ($node->uid==$user->uid)) ) {
       unset($links['comment_add']);
       // Hack to manually remove quote link
       if ( isset($links['quote']) ) {
@@ -432,8 +432,16 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
       'update' => 'comment_edit',
       'delete' => 'comment_delete',
     );
+
+    // If node/forum thread is locked, then use an empty array and set
+    // link_is_missing to false.
+    if (node_load($node->nid, NULL, TRUE)->comment < 2) {
+      $required_keys = array();
+      $link_is_missing = FALSE;
+    }
+
     foreach ($required_keys as $access => $key) {
-      if (!forum_access_access($tid, $access) && !($access == 'update' && comment_access('edit', $comment))) {
+      if (!forum_access_access($tid, $access) && !($access == 'update' && comment_access('edit', $comment)) && !($access == 'comment_create' && forum_access_access($tid, 'create') && ($node->uid==$user->uid)) ) {
         unset($links[$required_keys[$access]]);
         unset($required_keys[$access]);
       }

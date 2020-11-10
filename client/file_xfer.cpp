@@ -23,10 +23,6 @@
 #include "config.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "file_names.h"
@@ -61,6 +57,12 @@ FILE_XFER::~FILE_XFER() {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     is_upload = false;
     fip = &file_info;
+
+    // create subdirs of project dir if needed
+    //
+    int retval = boinc_make_dirs(fip->project->project_dir(), fip->name);
+    if (retval) return retval;
+
     get_pathname(fip, pathname, sizeof(pathname));
     if (fip->download_gzipped) {
         safe_strcat(pathname, ".gzt");

@@ -1,8 +1,8 @@
 <?php
 
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // job/project/preference keywords, master list
+
+// NEVER REUSE IDS
 
 define('KW_CATEGORY_SCIENCE', 0);
 define('KW_CATEGORY_LOC', 1);
@@ -77,6 +79,16 @@ define('KW_WRIGHT_STATE',   52);
 define('KW_USC',            53);
 define('KW_FULLERTON',      54);
 define('KW_ARIZONA_STATE',  55);
+define('KW_U_ILLINOIS',     56);
+define('KW_U_WARSAW',       57);
+define('KW_RPI',            58);
+define('KW_INTERNATIONAL',  59);
+define('KW_UND',            60);
+define('KW_HOLLAND',        61);
+define('KW_CHEMISTRY',      62);
+define('KW_GAMES',          63);
+define('KW_VIRUS',          64);
+define('KW_FRANCE',         65);
 
 $job_keywords = array();
 
@@ -107,6 +119,9 @@ keyword('KW_ASTRONOMY', KW_CATEGORY_SCIENCE, 0, 0,
     keyword('KW_COSMOLOGY', KW_CATEGORY_SCIENCE, 1, KW_ASTRONOMY,
         'Cosmology'
     );
+keyword('KW_CHEMISTRY', KW_CATEGORY_SCIENCE, 0, 0,
+    'Chemistry'
+);
 keyword('KW_PHYSICS', KW_CATEGORY_SCIENCE, 0, 0,
     'Physics'
 );
@@ -134,6 +149,9 @@ keyword('KW_BIOMED', KW_CATEGORY_SCIENCE, 0, 0,
         keyword('KW_CANCER', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
             'Cancer research'
         );
+        keyword('KW_VIRUS', KW_CATEGORY_SCIENCE, 2, KW_DISEASE,
+            'COVID-19 and virology'
+        );
 keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     'Mathematics and Computer Science'
 );
@@ -142,6 +160,9 @@ keyword('KW_MATH_CS', KW_CATEGORY_SCIENCE, 0, 0,
     );
     keyword('KW_CRYPTO', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
         'Cryptography'
+    );
+    keyword('KW_GAMES', KW_CATEGORY_SCIENCE, 1, KW_MATH_CS,
+        'Games'
     );
 keyword('KW_AI', KW_CATEGORY_SCIENCE, 0, 0,
     'Artificial Intelligence and Cognitive Science'
@@ -158,6 +179,9 @@ keyword('KW_EARTH_SCI', KW_CATEGORY_SCIENCE, 0, 0,
 
 // Locations
 
+keyword('KW_INTERNATIONAL', KW_CATEGORY_LOC, 0, 0,
+    'International'
+);
 keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     'Europe'
 );
@@ -167,9 +191,12 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     keyword('KW_CZECH', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Czech Republic'
     );
-        keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_GERMANY,
+        keyword('KW_CHARLES_PRAGUE', KW_CATEGORY_LOC, 2, KW_CZECH,
             'Charles University in Prague'
         );
+    keyword('KW_FRANCE', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'France'
+    );
     keyword('KW_GERMANY', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Germany'
     );
@@ -182,6 +209,9 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
         keyword('KW_RHEINMAIN', KW_CATEGORY_LOC, 2, KW_GERMANY,
             'Hochschule RheinMain University of Applied Sciences'
         );
+    keyword('KW_HOLLAND', KW_CATEGORY_LOC, 1, KW_EUROPE,
+        'Holland'
+    );
     keyword('KW_HUNGARY', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Hungary'
     );
@@ -194,13 +224,16 @@ keyword('KW_EUROPE', KW_CATEGORY_LOC, 0, 0,
     keyword('KW_POLAND', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Poland'
     );
+        keyword('KW_U_WARSAW', KW_CATEGORY_LOC, 2, KW_POLAND,
+            'University of Warsaw'
+        );
     keyword('KW_RUSSIA', KW_CATEGORY_LOC, 1, KW_EUROPE,
         'Russia'
     );
-        keyword('KW_SW_STATE_RUSSIA', KW_CATEGORY_LOC, 2, KW_SPAIN,
+        keyword('KW_SW_STATE_RUSSIA', KW_CATEGORY_LOC, 2, KW_RUSSIA,
             'Southwest State University, Russia'
         );
-        keyword('KW_RAS', KW_CATEGORY_LOC, 2, KW_SPAIN,
+        keyword('KW_RAS', KW_CATEGORY_LOC, 2, KW_RUSSIA,
             'Russian Academy of Science'
         );
     keyword('KW_SPAIN', KW_CATEGORY_LOC, 1, KW_EUROPE,
@@ -256,5 +289,14 @@ keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
         );
         keyword('KW_ARIZONA_STATE', KW_CATEGORY_LOC, 2, KW_US,
             'Arizona State University'
+        );
+        keyword('KW_U_ILLINOIS', KW_CATEGORY_LOC, 2, KW_US,
+            'University of Illinois'
+        );
+        keyword('KW_RPI', KW_CATEGORY_LOC, 2, KW_US,
+            'Rensselaer Polytechnic Institute'
+        );
+        keyword('KW_UND', KW_CATEGORY_LOC, 2, KW_US,
+            'University of North Dakota'
         );
 ?>

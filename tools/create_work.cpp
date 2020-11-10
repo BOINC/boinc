@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,11 @@
 // run from PHP script for remote job submission.
 //
 // see http://boinc.berkeley.edu/trac/wiki/JobSubmission
+//
+// This program can be used in two ways:
+// - to create a single job, with everything passed on the cmdline
+// - to create multiple jobs, where per-job info is passed via stdin,
+//      one line per job
 
 #include "config.h"
 
@@ -187,6 +192,8 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             assign_type = ASSIGN_USER;
             assign_id = atoi(argv[++i]);
             check_assign_id(assign_id);
+        } else if (arg(argv, i, (char*)"priority")) {
+            wu.priority = atoi(argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
@@ -433,9 +440,11 @@ int main(int argc, char** argv) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
                 JOB_DESC jd2 = jd;
+                    // things default to what was passed on cmdline
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
                 jd2.parse_cmdline(_argc, _argv);
+                    // get info from stdin line
                 if (!strlen(jd2.wu.name)) {
                     sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
                 }
@@ -582,5 +591,3 @@ void JOB_DESC::create() {
         }
     }
 }
-
-const char *BOINC_RCSID_3865dbbf46 = "$Id$";

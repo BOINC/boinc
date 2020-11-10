@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,8 @@
 //
 // usage: boinccmd [--host hostname] [--passwd passwd] command
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"
@@ -93,6 +90,10 @@ Commands:\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
+ --run_graphics_app id op         (Macintosh only) run, test or stop graphics app\n\
+   op = run | runfullscreen | stop | test\n\
+   id = slot # for run or runfullscreen, process ID for stop or test\n\
+   id = -1 for default screensaver (boincscr)\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_host_info product_name\n\
@@ -170,12 +171,19 @@ int main(int argc, char** argv) {
     char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p, *q;
     bool unix_domain = false;
+    string msg;
 
 #ifdef _WIN32
     chdir_to_data_dir();
+#elif defined(__APPLE__)
+    chdir("/Library/Application Support/BOINC Data");
 #endif
     safe_strcpy(passwd_buf, "");
-    read_gui_rpc_password(passwd_buf);
+    retval = read_gui_rpc_password(passwd_buf, msg);
+    if (retval) {
+        fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+        fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+    }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -280,7 +288,8 @@ int main(int argc, char** argv) {
     char* cmd = next_arg(argc, argv, i);
     if (!strcmp(cmd, "--client_version")) {
         VERSION_INFO vi;
-        retval = rpc.exchange_versions(vi);
+        string rpc_client_name = "boinccmd " BOINC_VERSION_STRING;
+        retval = rpc.exchange_versions(rpc_client_name, vi);
         if (!retval) {
             printf("Client version: %d.%d.%d\n", vi.major, vi.minor, vi.release);
         }
@@ -422,7 +431,6 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
@@ -541,6 +549,14 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+#ifdef __APPLE__
+    } else if (!strcmp(cmd, "--run_graphics_app")) {
+        int operand = atoi(argv[2]);
+        retval = rpc.run_graphics_app(argv[3], operand, getlogin());
+        if (!strcmp(argv[3], "test") & !retval) {
+            printf("pid: %d\n", operand);
+        }
+#endif
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));

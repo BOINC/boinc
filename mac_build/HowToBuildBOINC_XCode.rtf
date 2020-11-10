@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf610
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
 \f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red14\green14\blue255;\red245\green245\blue245;
@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 4/27/18\
+Last updated 7/15/20\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-This document applies to BOINC version 7.9.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.17.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
@@ -39,6 +39,21 @@ Contents of this document:\
 \'95 Debugging into wxWidgets.\
 \'95 Installing and setting up Xcode.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+
+\b \cf0 Note:
+\b0  
+\f1\fs26 setupForBoinc.sh
+\f0\fs24  (described late in this document) runs 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  to build the wxWidgets library used by BOINC Manager. If you built the wxWidgets library with an earlier version of  
+\f1\fs26 buildWxMac.sh
+\f0\fs24 , then you must rebuild it with the 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  included in the newer source tree. Otherwise, the BOINC Manager build will fail with linker (
+\f1\fs26 ld
+\f0\fs24 ) errors.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \b\fs28 \cf0 Important requirements for building BOINC software for the Mac
@@ -46,20 +61,20 @@ Contents of this document:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.9.0, BOINC is built entirely for 64-bit Intel.  The BOINC libraries also include a 32-bit build so that they can be linked with 32-bit project applications on systems that support 32-bit applications.\
+\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.15.0, BOINC is built entirely for 64-bit Intel, including the BOINC libraries.\
 You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.8.x or later and cross-compile for the various platforms. The remainder of this document describes that process.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, c-ares, cURL, openSSL,  freetype, ftgl and SQLite3 libraries, as well as all project applications
+\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, c-ares, cURL, openSSL,  freetype and ftgl libraries, as well as all project applications
 \b0 .  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 Starting with version 7.5.0, the BOINC screensaver supports only Mac OS 10.6.0 and later.\
+\cf0 Starting with version 7.15.0, the BOINC screensaver supports only Mac OS 10.7.0 and later.\
 \pard\pardeftab720\sa260\qc\partightenfactor0
 
 \b\fs28 \cf0 Cross-Platform Development
@@ -91,7 +106,7 @@ You get these tools, including the GCC or Apple LLVM compiler and system library
 Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g, freetype-2.9, ftgl-2.1.3~rc5 and sqlite-3.22.0.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
+\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g, freetype-2.9 and ftgl-2.1.3~rc5.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
 \
 wxWidgets-3.1.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.0/wxWidgets-3.1.0.tar.bz2"}}{\fldrslt 
@@ -103,20 +118,7 @@ wxWidgets-3.1.0 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-sqlite-3.22.0 (needed  only if you are building the BOINC Manager):\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\f1 \cf0 	{\field{\*\fldinst{HYPERLINK "https://www.sqlite.org/2018/sqlite-autoconf-3220000.tar.gz"}}{\fldrslt 
-\fs26 https://www.sqlite.org/2018/sqlite-autoconf-3220000.tar.gz}}
-\f0 \
-
-\f1 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/"}}{\fldrslt 
-\fs26 http://www.sqlite.org/}}
-\fs26 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\f0\fs24 \cf0 \
-curl-7.58.2:\
+curl-7.58.0:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://curl.haxx.se/download/curl-7.58.0.tar.gz"}}{\fldrslt https://curl.haxx.se/download/curl-7.58.0.tar.gz}}\
@@ -162,16 +164,16 @@ ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver o
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 XCode will automatically check compatibility back to OS 10.6 if the following are defined during compilation:\
+\cf0 XCode will automatically check compatibility back to OS 10.7 if the following are defined during compilation:\
 \pard\pardeftab720\partightenfactor0
 
-\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1060\
-MAC_OS_X_VERSION_MIN_REQUIRED=1060\
+\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1070\
+MAC_OS_X_VERSION_MIN_REQUIRED=1070\
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.1.0, nor  the AutoMake scripts supplied with wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g, freetype-2.9, ftgl-2.1.3~rc5 and sqlite-3.22.0.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.1.0, nor  the AutoMake scripts supplied with wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g, freetype-2.9 and ftgl-2.1.3~rc5.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 [1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -188,9 +190,6 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1060\
 \cf0     wxWidgets-3.1.0\
     freetype-2.9\
     ftgl-2.1.3~rc5\
-    
-\fs24 sqlite-3.22.0
-\fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\fs24 \cf0 \
@@ -222,7 +221,7 @@ Important: do not change the names of any of these 7 directories.  Remember that
 	{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCodeGit"}}{\fldrslt 
 \f1\fs26 http://boinc.berkeley.edu/trac/wiki/SourceCodeGit}}\
 \
-[5] Run the script to build the c-ares, curl, openssl, wxWidgets, freetype, ftgl and sqlite3 libraries as follows:\
+[5] Run the script to build the c-ares, curl, openssl, wxWidgets, freetype and ftgl libraries as follows:\
 \
 \pard\pardeftab720\partightenfactor0
 
@@ -243,19 +242,32 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  This script tries to build all seven third-party libraries: wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g,  freetype-2.9, ftgl-2.1.3~rc5 and sqlite-3.22.0.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
+\b0  This script tries to build all seven third-party libraries: wxWidgets-3.1.0, c-ares-1.13.0, curl-7.58.0, openssl-1.1.0g,  freetype-2.9 and ftgl-2.1.3~rc5.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
 \f1 -clean
 \f0 .\
 
-\b Note 3: 
+\b Note 3:
+\b0  
+\f1\fs26 setupForBoinc.sh
+\f0\fs24  runs 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  to build the wxWidgets library used by BOINC Manager. If you built the wxWidgets library with an earlier version of  
+\f1\fs26 buildWxMac.sh
+\f0\fs24 , then you must rebuild it with the 
+\f1\fs26 buildWxMac.sh
+\f0\fs24  included in the newer source tree. Otherwise, the BOINC Manager build will fail with linker (
+\f1\fs26 ld
+\f0\fs24 ) errors.\
+
+\b Note 4: 
 \b0 The \{path\} must not contain any space characters.\
 \pard\pardeftab720\partightenfactor0
 
 \b \cf0 Hint: 
 \b0 You don't need to type the path to a file or folder into Terminal; just drag the file or folder icon from a Finder window onto the Terminal window.\
 
-\b Note 4:
-\b0  To be compatible with OS 10.6 and OS 10.7, the screensaver must be built with Garbage Collection (GC) supported (and without Automatic Reference Counting) , but Xcode versions later than 5.0.2 do not allow building with GC. To allow building with newer versions of Xcode while keeping backward compatibility to OS 10.6, the GIT repository includes the screensaver executable built with GC, while the Xcode project builds the screensaver with ARC (for newer versions of OS X.) The 
+\b Note 5:
+\b0  To be compatible with OS 10.7, the screensaver must be built with Garbage Collection (GC) supported (and without Automatic Reference Counting) , but Xcode versions later than 5.0.2 do not allow building with GC. To allow building with newer versions of Xcode while keeping backward compatibility to OS 10.7, the GIT repository includes the screensaver executable built with GC, while the Xcode project builds the screensaver with ARC (for newer versions of OS X.) The 
 \f1\fs26 release_boinc.sh
 \f0\fs24  script (described later in this document) adds both the GC and ARC builds of the screensaver to the installer; the installer code selects the correct screensaver for the target version of OS X at install time.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -285,8 +297,8 @@ The complete syntax for this script is\
 \f0\fs24 \
 \
 The options for BuildMacBOINC.sh are:\
-	-dev		build the development (debug) build (native architecture only). \
-			default is deployment (release) build (universal binary: i386 and x86_64).\
+	-dev		build the development (debug) build. \
+			default is deployment (release) build.\
 \
 	-noclean	don't do a "clean" of each target before building.\
 			default is to clean all first.\
@@ -334,15 +346,13 @@ The options for BuildMacBOINC.sh are:\
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Deployment/
 \f0\fs24  or 
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Development/
-\f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location; you would normally need to determine this location using Xcode's Organizer window.  \
+\f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location. To determine this location, control-click on 
+\i Products
+\i0  in Xcode's Project Navigator and select "Show in Finder."  \
 \
 
 \b Note 4: 
-\b0 By default, BOINC is built using libstdc++ for compatibility with older versions of OS X, unless 
-\f1\fs26 BuildMacBOINC.sh
-\f0\fs24  is called with the -libc argument. Newer versions of Xcode build using libc++ by default. Project applications built for libc++ with newer versions of Xcode will not link properly with BOINC libraries built for libstdc++. However, libc++ is not available before OS 10.7, so project applications will fail to run under earlier versions of OS X unless built for libstdc++. To build project applications that will run on older versions of OS X, pass the following option to the LLVM compiler: 
-\f1 -stdlib=libstdc++
-\f0  and avoid using any c++11 specific constructs in your code.  If you are building your application using Xcode, you can select the C++ Standard Library in the build settings under "Apple LLVM - Language - C++" or by setting the "OS X Deployment Target" earlier than OS 10.7.\
+\b0 As of version 7.15.0, BOINC is always built using libc++. Project applications built for libstdc ++ with newer versions of Xcode will not link properly with BOINC libraries built for libc++. \
 \
 
 \b Hint:
@@ -371,7 +381,7 @@ The BOINC Xcode project has built-in scripts which create a text file with the p
 \f1\fs26 release_boinc.sh
 \f0\fs24  script, but you can also use them to access the built products directly as follows; open the file with TextEdit and copy the path, then enter command-shift-G in the Finder and paste the path into the Finder's  dialog.\
 \
-The standard release of BOINC version 7.9.0 and later builds only for Macintosh computers with 64-bit Intel processors.  The executables are built only for the x86_64 architecture.  The BOINC libraries are built as universal binaries containing builds for two architectures: i386 and x86_64.\
+The standard release of BOINC version 7.15.0 and later builds only for Macintosh computers with 64-bit Intel processors.  The executables and libraries are built only for the x86_64 architecture.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -480,4 +490,60 @@ To restore the standard ownerships and permissions, run the installer or run the
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 If Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder.  Double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
+\
+NOTE to building with XCode.\
+The general instructions in the mac_build folder in the file HowToBuildBOINC_XCode.pdf should also note that if you want to build using XCode in it's GUI implementation - not command line - alone, you need to put all the downloaded libraries in the folder directly above the build folder. For EG:\
+All of these external programs:\
+\
+wxWidgets-3.1.0 s-3.1.0.tar.bz2\
+curl-7.58.0:\
+c-ares-1.13.0 (used by curl):\
+openssl-1.1.0g\
+freetype-2.9 \
+ftgl-2.1.3~rc5 \
+\
+Need to go into the top GitHub directory on your system and be unpacked there. Otherwise XCode  as the project is currently set up, will not find the libraries. They need to be unzipped there of course.\
+\
+/Users/<your name>/GitHub/\
+\
+So that when you build in XCode, they can be found in the existing setup, which looks for them in - for example - \
+USER_HEADER_SEARCH_PATHS = ../../curl-7.58.0/include ../../openssl-1.1.0g/include ../lib/**\
+\
+I found the existing how-to-build pdf slightly misleading. It could be that to command line build would benefit from having the external libraries in this folder directly above the 'boinc' folder.\
+\
+In my case I have \
+/Users/Robert/Documents/GitHub\
+    /boinc\
+    /c-ares-1.13.0\
+    /curl-7.58.0\
+... and so on for the other required programs.\
+\
+Below the boinc folder there is of course the 'boinc/mac_build' folder.\
+\
+The result is\
+\
+01-Apr-2019 09:21:01 [---] OS: Mac OS X 10.14.4 (Darwin 18.5.0)\
+01-Apr-2019 09:21:01 [---] Memory: 16.00 GB physical, 67.34 GB virtual\
+01-Apr-2019 09:21:01 [---] Disk: 931.19 GB total, 64.59 GB free\
+01-Apr-2019 09:21:01 [---] Local time is UTC +1 hours\
+01-Apr-2019 09:21:01 [---] Last benchmark was 17987 days 08:21:01 ago\
+01-Apr-2019 09:21:01 [---] No general preferences found - using defaults\
+01-Apr-2019 09:21:01 [---] Preferences:\
+01-Apr-2019 09:21:01 [---]    max memory usage when active: 8192.00 MB\
+01-Apr-2019 09:21:01 [---]    max memory usage when idle: 14745.60 MB\
+01-Apr-2019 09:21:01 [---]    max disk usage: 64.50 GB\
+01-Apr-2019 09:21:01 [---]    don't use GPU while active\
+01-Apr-2019 09:21:01 [---]    suspend work if non-BOINC CPU load exceeds 25%\
+01-Apr-2019 09:21:01 [---]    (to change preferences, visit a project web site or select Preferences in the Manager)\
+01-Apr-2019 09:21:01 [---] Setting up project and slot directories\
+01-Apr-2019 09:21:01 [---] Checking active tasks\
+01-Apr-2019 09:21:01 [---] Setting up GUI RPC socket\
+01-Apr-2019 09:21:01 [---] Checking presence of 0 project files\
+01-Apr-2019 09:21:01 [---] This computer is not attached to any projects\
+01-Apr-2019 09:21:01 Initialization completed\
+01-Apr-2019 09:21:01 [---] Suspending GPU computation - computer is in use\
+\
+\
+\
+\
 }

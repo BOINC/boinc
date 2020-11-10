@@ -192,9 +192,6 @@
 
 
 // C++ headers
-#if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
-#include <xdebug>
-#endif
 #include <algorithm>
 #include <stdexcept>
 #include <string>

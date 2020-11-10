@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -192,6 +192,10 @@ const char* find_user_friendly_name(int appid) {
     return "deprecated application";
 }
 
+// Called at start of request handling.
+// 1) if there's a global jobs/day limit, enforce it using HAV limit
+// 2) if last RPC was yesterday or earlier, clear n_jobs_today for HAV
+//
 static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (config.daily_result_quota) {
         if (hav.max_jobs_per_day == 0) {
@@ -446,7 +450,7 @@ static inline void clamp_frac(double& frac, const char* name) {
                 "[send] %s=%f; setting to %f\n", name, frac, FRAC_MIN
             );
         }
-        frac = .01;
+        frac = FRAC_MIN;
     }
 }
 
@@ -776,24 +780,26 @@ bool work_needed(bool locality_sched) {
         }
     }
 
-    // see if we've reached limits on in-progress jobs
+    // check user-specified project prefs limit on # of jobs in progress
+    //
+    int mj = g_wreq->project_prefs.max_jobs_in_progress;
+    if (mj && config.max_jobs_in_progress.project_limits.total.njobs >= mj) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] user project preferences job limit exceeded\n"
+            );
+        }
+        g_wreq->max_jobs_on_host_exceeded = true;
+        return false;
+    }
+
+    // check config.xml limits on in-progress jobs
     //
     bool some_type_allowed = false;
 
     for (int i=0; i<NPROC_TYPES; i++) {
         if (!have_apps(i)) continue;
-
-        // enforce project prefs limit on # of jobs in progress
-        //
-        bool proj_pref_exceeded = false;
-        int mj = g_wreq->project_prefs.max_jobs_in_progress;
-        if (mj) {
-            if (config.max_jobs_in_progress.project_limits.total.njobs >= mj) {
-                proj_pref_exceeded = true;
-            }
-        }
-
-        if (proj_pref_exceeded || config.max_jobs_in_progress.exceeded(NULL, i)) {
+        if (config.max_jobs_in_progress.exceeded(NULL, i)) {
             if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
                     "[quota] reached limit on %s jobs in progress\n",
@@ -811,7 +817,7 @@ bool work_needed(bool locality_sched) {
     if (!some_type_allowed) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] in-progress job limit exceeded\n"
+                "[send] config.xml max_jobs_in_progress limit exceeded\n"
             );
         }
         g_wreq->max_jobs_on_host_exceeded = true;
@@ -1721,5 +1727,3 @@ done:
     }
     send_user_messages();
 }
-
-const char *BOINC_RCSID_32dcd335e7 = "$Id$";

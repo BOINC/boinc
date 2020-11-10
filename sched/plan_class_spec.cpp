@@ -18,9 +18,6 @@
 // Support for plan classes defined using an XML file.
 // See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
 
-// logic for handling an XML specification of plan classes
-// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
-
 #include <cmath>
 
 #include "util.h"
@@ -32,8 +29,7 @@
 
 using std::string;
 
-
-// this returns a numerical OS version for Darwin/OSX and Windows,
+// return a numerical OS version for Darwin/OSX and Windows,
 // letting us define numerical ranges for these OS versions
 //
 static double os_version_num(HOST h) {
@@ -61,7 +57,7 @@ static double os_version_num(HOST h) {
     return 0;
 }
 
-// parse "Android 4.3.1" or "Android 4.3"
+// parse version# from "(Android 4.3.1)" or "(Android 4.3)" or "(Android 4)"
 //
 static int android_version_num(HOST h) {
     int maj, min, rel;
@@ -76,7 +72,53 @@ static int android_version_num(HOST h) {
     if (n == 2) {
         return maj*10000 + min*100;
     }
+    n = sscanf(p, "%d", &maj);
+    if (n == 1) {
+        return maj*10000;
+    }
     return 0;
+}
+
+static bool wu_is_infeasible_for_plan_class(
+    const PLAN_CLASS_SPEC* pc, const WORKUNIT* wu
+) {
+    if (pc->min_wu_id && wu->id < pc->min_wu_id) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] WU#%ld too old for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->min_wu_id
+            );
+        }
+        return true;
+    }
+    if (pc->max_wu_id && wu->id > pc->max_wu_id) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] WU#%ld too new for plan class '%s' (%ld)\n",
+                wu->id, pc->name, pc->max_wu_id
+            );
+        }
+        return true;
+    }
+    if (pc->min_batch && wu->batch < pc->min_batch) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] batch#%d too old for plan class '%s' (%ld)\n",
+                wu->batch, pc->name, pc->min_batch
+            );
+        }
+        return true;
+    }
+    if (pc->max_batch && wu->batch > pc->max_batch) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] batch#%d too new for plan class '%s' (%ld)\n",
+                wu->batch, pc->name, pc->max_batch
+            );
+        }
+        return true;
+    }
+    return false;
 }
 
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
@@ -155,9 +197,12 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
 // See whether the given host/user can be sent this plan class.
 // If so return the resource usage and estimated FLOPS in hu.
 //
-bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
+bool PLAN_CLASS_SPEC::check(
+    SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu
+) {
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
+    string msg;
 
     if (infeasible_random && drand()<infeasible_random) {
         return false;
@@ -175,6 +220,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     // default is sequential app
     //
     hu.sequential_app(sreq.host.p_fpops);
+
+    // ID restrictions
+    //
+    if (min_wu_id || max_wu_id || min_batch || max_batch) {
+        if (wu_is_infeasible_for_plan_class(this, wu)) {
+            return false;
+        }
+    }
 
     // CPU features
     //
@@ -564,7 +617,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             return false;
         }
 
-        cp.set_peak_flops();
+        if (cp.bad_gpu_peak_flops("AMD", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
         gpu_ram = cp.opencl_prop.global_mem_size;
 
         driver_version = 0;
@@ -656,7 +711,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
         }
         gpu_ram = cp.prop.totalGlobalMem;
-        cp.set_peak_flops();
+        if (cp.bad_gpu_peak_flops("NVIDIA", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
 
     // Intel GPU
     //
@@ -675,6 +732,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         if (min_gpu_ram_mb) {
             gpu_requirements[PROC_TYPE_INTEL_GPU].update(0, min_gpu_ram_mb * MEGA);
         }
+        if (cp.bad_gpu_peak_flops("Intel GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
 
     // custom GPU type
     //
@@ -692,6 +752,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: Custom coproc %s found\n", gpu_type
             );
+        }
+        if (cpp->bad_gpu_peak_flops("Custom GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
     }
 
@@ -919,19 +982,31 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 #endif
 
     return true;
-
 }
 
-
 bool PLAN_CLASS_SPECS::check(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    const WORKUNIT* wu
 ) {
     for (unsigned int i=0; i<classes.size(); i++) {
         if (!strcmp(classes[i].name, plan_class)) {
-            return classes[i].check(sreq, hu);
+            return classes[i].check(sreq, hu, wu);
         }
     }
     log_messages.printf(MSG_CRITICAL, "Unknown plan class: %s\n", plan_class);
+    return false;
+}
+
+bool PLAN_CLASS_SPECS::wu_is_infeasible(
+    char* plan_class_name, const WORKUNIT* wu
+) {
+    if(wu_restricted_plan_class) {
+        for (unsigned int i=0; i<classes.size(); i++) {
+            if(!strcmp(classes[i].name, plan_class_name)) {
+                return wu_is_infeasible_for_plan_class(&classes[i], wu);
+            }
+        }
+    }
     return false;
 }
 
@@ -1027,6 +1102,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
+        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
@@ -1112,6 +1191,10 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
+    min_wu_id=0;
+    max_wu_id=0;
+    min_batch=0;
+    max_batch=0;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;

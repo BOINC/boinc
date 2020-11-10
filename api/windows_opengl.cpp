@@ -12,7 +12,7 @@
  * Visit My Site At nehe.gamedev.net
  * Adapted to BOINC by Eric Heien
  */
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
@@ -539,5 +539,3 @@ void win_graphics_event_loop() {
 
     SetEvent(hQuitEvent);        // Signal the worker thread that we're quitting
 }
-
-const char *BOINC_RCSID_462f482d81 = "$Id$";

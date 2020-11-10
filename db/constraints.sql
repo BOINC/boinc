@@ -22,7 +22,6 @@ alter table user
 alter table team
     add unique(name),
     add fulltext index team_name_desc(name, description),
-    add fulltext index team_name(name),
     add index team_avg (expavg_credit desc),
         -- db_dump.C
     add index team_tot (total_credit desc),
@@ -81,8 +80,11 @@ alter table msg_to_host
         -- for scheduler
 
 alter table host
-    add index host_user (userid),
+    add index host_userid_cpid (userid, host_cpid),
         -- html_user/host_user.php
+        -- sched/handle_request.cpp for user with many hosts
+    add index host_domain_name (domain_name),
+        -- sched/handle_request.cpp for user with many hosts
     add index host_avg (expavg_credit desc),
         -- db_dump.C
     add index host_tot (total_credit desc);
@@ -178,3 +180,21 @@ alter table post_ratings
 alter table sent_email
     add index sent_email_userid(userid);
         -- for delete account
+
+alter table private_messages
+    add index userid(userid);
+
+alter table consent
+    add index userid_ctid_timestamp(userid, consent_type_id, consent_time),
+    add index consent_timestamp(consent_time),
+    add index flag_ctid(consent_flag, consent_type_id);
+
+alter table consent
+    add foreign key(consent_type_id)
+    references consent_type(id)
+    on update cascade
+    on delete restrict;
+      -- explicit delete restrict on this foreign key
+
+alter table consent_type
+    add index consent_name(shortname);

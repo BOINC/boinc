@@ -19,9 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -243,7 +240,7 @@ void delete_old_slot_dirs() {
             // Clean these up here. (We must do this before deleting the
             // INIT_DATA_FILE, if any, from each slot directory.)
             //
-            snprintf(init_data_path, sizeof(init_data_path), "%s/%s", path, INIT_DATA_FILE);
+            snprintf(init_data_path, sizeof(init_data_path), "%.*s/%.*s", DIR_LEN, path, FILE_LEN, INIT_DATA_FILE);
             shmem_seg_name = ftok(init_data_path, 1);
             if (shmem_seg_name != -1) {
                 destroy_shmem(shmem_seg_name);
@@ -296,7 +293,7 @@ bool is_statistics_file(const char* filename) {
     if (p != filename) return false;
     q = filename + strlen("statistics_");
 
-    p = strstr(q, ".");
+    p = strchr(q, '.');
     if (!p) return false;
     if (p == q) return false;
 

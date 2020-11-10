@@ -36,6 +36,11 @@
 #define MAXPATHLEN 4096
 #endif
 
+// use the following in format codes in snprintf
+//
+#define DIR_LEN 2048
+#define FILE_LEN 256
+
 #define FILE_RETRY_INTERVAL 5
     // On Windows, retry for this period of time, since some other program
     // (virus scan, defrag, index) may have the file open.
@@ -90,9 +95,12 @@ extern "C" {
 #ifdef __cplusplus
 
 extern int file_size(const char*, double&);
-extern int clean_out_dir(const char*);
+extern int file_size_alloc(const char*, double&);
 extern int dir_size(const char* dirpath, double&, bool recurse=true);
+extern int dir_size_alloc(const char* dirpath, double&, bool recurse=true);
+extern int clean_out_dir(const char*);
 extern int get_filesystem_info(double& total, double& free, char* path=const_cast<char *>("."));
+extern bool is_path_absolute(const std::string path);
 
 // TODO TODO TODO
 // remove this code - the DirScanner class does the same thing.

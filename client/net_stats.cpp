@@ -51,11 +51,6 @@
 DAILY_XFER_HISTORY daily_xfer_history;
 NET_STATUS net_status;
 
-NET_STATS::NET_STATS() {
-    memset(&up, 0, sizeof(up));
-    memset(&down, 0, sizeof(down));
-}
-
 // called after file xfer to update rates
 //
 void NET_INFO::update(double nbytes, double dt) {
@@ -102,7 +97,7 @@ int NET_STATS::write(MIOFILE& out) {
 }
 
 int NET_STATS::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(NET_STATS));
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/net_stats")) return 0;
         if (xp.parse_double("bwup", up.max_rate)) continue;
@@ -217,10 +212,10 @@ void NET_STATUS::contact_reference_site() {
     if (log_flags.network_status_debug) {
         msg_printf(0, MSG_INFO,
             "[network_status] need_phys_conn %d; trying %s",
-            need_physical_connection, cc_config.network_test_url.c_str()
+            need_physical_connection, nvc_config.network_test_url.c_str()
         );
     }
-    gstate.lookup_website_op.do_rpc(cc_config.network_test_url);
+    gstate.lookup_website_op.do_rpc(nvc_config.network_test_url);
     need_to_contact_reference_site = false;
 }
 

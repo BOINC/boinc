@@ -23,7 +23,6 @@
 #include <Carbon/Carbon.h>
 #include <grp.h>
 
-#include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <sys/wait.h>	// waitpid
@@ -36,6 +35,7 @@
 #include "mac_util.h"
 #include "translate.h"
 #include "file_names.h"
+#include "mac_branding.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
@@ -86,6 +86,11 @@ int main(int argc, char *argv[])
     FILE                    *restartNeededFile;
     FILE                    *f;
     long                    oldBrandID;
+
+    if (!check_branding_arrays(temp, sizeof(temp))) {
+        ShowMessage((char *)_("Branding array has too few entries: %s"), temp);
+        return -1;
+    }
 
     if (Initialize() != noErr) {
         return 0;
@@ -204,13 +209,13 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 6) < 0) {
+    if (compareOSVersionTo(10, 7) < 0) {
         LoadPreferredLanguages();
         BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.7 or higher."), brand);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
@@ -573,7 +578,9 @@ static long GetOldBrandID()
         fscanf(f, "BrandId=%ld\n", &oldBrandId);
         fclose(f);
     }
-    
+    if ((oldBrandId < 0) || (oldBrandId > (NUMBRANDS-1))) {
+        oldBrandId = 0;
+    }
     return oldBrandId;
 }
 

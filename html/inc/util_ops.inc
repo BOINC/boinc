@@ -309,7 +309,7 @@ function get_badge($name, $title, $image_url) {
     $b = BoincBadge::lookup("name='$name'");
     if ($b) return $b;
     $now = time();
-    $id = BoincBadge::insert("(create_time, name, title, image_url) values ($now, '$name', '$title', 'img/$image_url')");
+    $id = BoincBadge::insert("(create_time, type, name, title, description, image_url, level, tags, sql_rule) values ($now, 0, '$name', '$title', '', 'img/$image_url', '', '', '')");
     $b = BoincBadge::lookup_id($id);
     if ($b) return $b;
     die("can't create badge $name\n");

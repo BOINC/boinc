@@ -121,7 +121,11 @@ struct LOG_FLAGS {
     bool work_fetch_debug;
         // work fetch policy 
 
-    LOG_FLAGS();
+    LOG_FLAGS() {
+        task = true;
+        file_xfer = true;
+        sched_ops = true;
+    }
     void init();
     int parse(XML_PARSER&);
     void show();
@@ -138,17 +142,16 @@ struct EXCLUDE_GPU {
     void write(MIOFILE&);
 };
 
-// if you add anything, you must add it to
-// defaults(), parse_options(), and write()
+// if you add anything here, add it to
+// defaults(), parse_options(), parse_options_client(), write(),
+// and possibly show()
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
+    bool allow_gui_rpc_get;
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
-    std::string client_download_url;
-    std::string client_new_version_text;
-    std::string client_version_check_url;
     COPROCS config_coprocs;
     bool disallow_attach;
     bool dont_check_file_sizes;
@@ -173,18 +176,17 @@ struct CC_CONFIG {
     int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    int max_stderr_file_size;
-    int max_stdout_file_size;
+    double max_stderr_file_size;
+    double max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
-    std::string network_test_url;
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;
     bool no_opencl;
     bool no_priority_change;
     bool os_random_only;
-    int process_priority;
+    int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;
     double rec_half_life;
@@ -202,6 +204,8 @@ struct CC_CONFIG {
     bool use_certs_only;
         // overrides use_certs
     bool vbox_window;
+    std::vector<std::string> ignore_tty;
+    std::string device_name;
 
     CC_CONFIG();
     void defaults();
@@ -226,6 +230,7 @@ struct APP_CONFIG {
     bool fraction_done_exact;
     bool report_results_immediately;
 
+    APP_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
     int parse_gpu_versions(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
@@ -237,6 +242,7 @@ struct APP_VERSION_CONFIG {
     double avg_ncpus;
     double ngpus;
 
+    APP_VERSION_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
 
@@ -244,6 +250,10 @@ struct APP_CONFIGS {
     std::vector<APP_CONFIG> app_configs;
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
+    bool project_has_mc;
+        // have app- or project-level max concurrent restriction
+    int project_min_mc;
+        // the min of these restrictions
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
@@ -254,6 +264,8 @@ struct APP_CONFIGS {
         app_configs.clear();
         app_version_configs.clear();
         project_max_concurrent = 0;
+        project_has_mc = false;
+        project_min_mc = 0;
         report_results_immediately = false;
     }
 };

@@ -98,7 +98,7 @@ function left(){
                     ',
                     tra("Want to help more?"),
                     tra("If BOINC is not installed on this computer, %1download it%2.",
-                        "<a href=download.php>", "</a>"
+                        "<a href=download_software.php>", "</a>"
                     ),
                     tra("Install BOINC on your other computers, tablets, and phones."),
                     tra("Tell your friends about BOINC, and show them how to join %1.", PROJECT)
@@ -119,14 +119,17 @@ function left(){
                 }
                 echo "</p>\n";
                 if (NO_COMPUTING) {
-                    echo "
-                        <a href=\"create_account_form.php\">Create an account</a>
-                    ";
+                    if (!$no_web_account_creation) {
+                        echo "
+                            <a href=\"create_account_form.php\">Create an account</a>
+                        ";
+                    }
                 } else {
                     // use auto-attach if possible
                     //
-                    echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
-                    ';
+                    if (!$no_web_account_creation) {
+                        echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>';
+                    }
                     echo "<p><p>".tra("Already joined? %1Log in%2.",
                         "<a href=login_form.php>", "</a>"
                     );

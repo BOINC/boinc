@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -17,24 +16,12 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center">
-    
-    <ImageView 
-  		android:layout_width="wrap_content"
-  		android:layout_height="wrap_content"
-		android:layout_marginBottom="20dp"
-  		android:src="@drawable/desktopb"
-  		android:contentDescription="@string/attachproject_hint_platforms_header"/>
-        
-    <TextView 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:gravity="center"
-		android:text="@string/attachproject_hint_platforms_header"/>
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/attachproject_hint_platforms_header"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:drawableLeftCompat="@drawable/ic_baseline_desktop_windows"
+        app:drawableStartCompat="@drawable/ic_baseline_desktop_windows" />

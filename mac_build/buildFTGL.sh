@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -26,11 +26,13 @@
 # by Charlie Fenton 7/27/12
 # Updated 2/7/14 for OS 10.9
 # Updated 2/8/18 to fix linker warning for Xcode 9.2 under OS 10.13
+# Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
+# Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
-## If you drag-install Xcode 4.3 or later, you must have opened Xcode
-## and clicked the Install button on the dialog which appears to
+## After first installing Xcode, you must have opened Xcode and
+## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
 ## In Terminal, CD to the ftgl-2.1.3~rc5 directory.
@@ -87,6 +89,34 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
+GCC_can_build_x86_64="no"
+GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+
+if [ "${doclean}" != "yes" ]; then
+    if [ -f "${libPath}/libftgl.a" ]; then
+        alreadyBuilt=1
+        if [ $GCC_can_build_x86_64 == "yes" ]; then
+            lipo "${libPath}/libftgl.a" -verify_arch x86_64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+        
+        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 == "yes" ]; then
+            lipo "${libPath}/libftgl.a" -verify_arch arm64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+        
+        if [ $alreadyBuilt -eq 1 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        fi
+    fi
+fi
+
 GPPPATH=`xcrun -find g++`
 if [ $? -ne 0 ]; then
     echo "ERROR: can't find g++ compiler"
@@ -113,95 +143,111 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-# Build for i386 architecture
+# Build for x86_64 architecture
+
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CPPFLAGS=""
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
+export MACOSX_DEPLOYMENT_TARGET=10.7
 
 if [ "x${lprefix}" != "x" ]; then
-    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=i386
-    if [ $? -ne 0 ]; then return 1; fi
+    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
 else
-    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=i386
-    if [ $? -ne 0 ]; then return 1; fi
+    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
 fi
+if [ $? -ne 0 ]; then return 1; fi
 
-if [ "${doclean}" = "yes" ]; then
+if [ "${doclean}" == "yes" ]; then
     make clean 1>$stdout_target
 fi
 
-cd src || return 1
+cd src
+if [ $? -ne 0 ]; then
+    cd "${SRCDIR}"
+    return 1
+fi
+
 make 1>$stdout_target
 if [ $? -ne 0 ]; then
-    cd "${SRCDIR}" || return 1
+    cd "${SRCDIR}"
     return 1;
 fi
 
-# save i386 lib for later use
-mv -f .libs/libftgl.a libftgl_i386.a
 cd "${SRCDIR}" || return 1
 
-# Build for x86_64 architecture
-make clean 1>$stdout_target
+# Now see if we can build for arm64
+# Note: Some versions of Xcode 12 don't support building for arm64
+if [ $GCC_can_build_arm64 == "yes" ]; then
 
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
+    export CC="${GCCPATH}";export CXX="${GPPPATH}"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export SDKROOT="${SDKPATH}"
+    export MACOSX_DEPLOYMENT_TARGET=10.7
 
-retval=0
-if [ "x${lprefix}" != "x" ]; then
-    ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
-    retval=$?
-else
-    ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
-    retval=$?
-fi
-if [ $retval -ne 0 ]; then
-    rm -f src/libftgl_i386.a
-    return 1;
-fi
-
-cd src || return 1
-make 1>$stdout_target
-if [ $? -ne 0 ]; then
-    rm -f libftgl_i386.a
-    cd "${SRCDIR}" || return 1
-    return 1;
-fi
-
-mv -f .libs/libftgl.a .libs/libftgl_x86_64.a
-# combine i386 and x86_64 libraries
-lipo -create libftgl_i386.a .libs/libftgl_x86_64.a -output .libs/libftgl.a
-if [ $? -ne 0 ]; then
-    rm -f .libs/libftgl_x86_64.a libftgl_i386.a
-    cd "${SRCDIR}" || return 1
-    return 1;
-fi
-
-rm -f libftgl_i386.a
-rm -f .libs/libftgl_x86_64.a
-
-if [ "x${lprefix}" != "x" ]; then
-    # this installs the modified library
-    make install 1>$stdout_target
+    if [ "x${lprefix}" != "x" ]; then
+        ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    else
+        ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    fi
     if [ $? -ne 0 ]; then
+        echo "              ******"
+        echo "FTGL: x86_64 build succeeded but could not build for arm64."
+        echo "              ******"
+    else
+
+        # save x86_64 lib for later use
+        cd src || return 1
+        mv -f .libs/libftgl.a libftgl_x86_64.a
         cd "${SRCDIR}" || return 1
-        return 1;
+
+        make clean 1>$stdout_target
+
+        cd src || return 1
+        make 1>$stdout_target
+        if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a
+            cd "${SRCDIR}"
+            return 1
+        fi
+
+        mv -f .libs/libftgl.a .libs/libftgl_arm64.a
+        # combine x86_64 and arm libraries
+        lipo -create libftgl_x86_64.a .libs/libftgl_arm64.a -output .libs/libftgl.a
+        if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a libs/libftgl_arm64.a
+            cd "${SRCDIR}"
+            return 1
+        fi
+
+        rm -f libftgl_x86_64.a
+        rm -f .libs/libftgl_arm64.a
+
+        cd "${SRCDIR}" || return 1
     fi
 fi
 
-cd "${SRCDIR}" || return 1
+if [ "x${lprefix}" != "x" ]; then
+    # this installs the modified library
+    cd src || return 1
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then
+        cd "${SRCDIR}"
+        return 1
+    fi
+fi
+
+cd "${SRCDIR}"
 
 lprefix=""
 export CC="";export CXX=""
 export LDFLAGS=""
-export CPPFLAGS=""
+export CXXFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 

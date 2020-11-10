@@ -18,39 +18,39 @@
 
 // client-specific GPU code.  Mostly GPU detection
 //
-//  theory of operation:
-//  there are two ways of detecting GPUs:
+// theory of operation:
+// there are two ways of detecting GPUs:
 //  - vendor-specific libraries like CUDA and CAL,
 //      which detect only that vendor's GPUs
 //  - OpenCL, which can detect multiple types of GPUs,
 //      including nvidia/amd/intel as well was new types
 //      such as ARM integrated GPUs
 //
-//  These libraries sometimes crash,
-//  and we've been unable to trap these via signal and exception handlers.
-//  So we do GPU detection in a separate process (boinc --detect_gpus)
-//  This process writes an XML file "coproc_info.xml" containing
+// These libraries sometimes crash,
+// and we've been unable to trap these via signal and exception handlers.
+// So we do GPU detection in a separate process (boinc --detect_gpus)
+// This process writes an XML file "coproc_info.xml" containing
 //  - lists of GPU detected via CUDA and CAL
 //  - lists of nvidia/amd/intel GPUs detected via OpenCL
 //  - a list of other GPUs detected via OpenCL
 //
-//  When the process finishes, the client parses the info file.
-//  Then for each vendor it "correlates" the GPUs, which includes:
+// Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
+// down the more powerful GPU until all applications which used them exit.
+// Doing GPU detection in a second, short-lived process
+// saves battery life on these laptops.
+//
+// When the process finishes, the client parses the info file.
+// Then for each vendor it "correlates" the GPUs, which includes:
 //  - matching up the OpenCL and vendor-specific descriptions, if both exist
 //  - finding the most capable GPU, and seeing which other GPUs
 //      are similar to it in hardware and RAM.
 //      Other GPUs are not used.
 //  - copy these to the COPROCS structure
 //
-//  Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
-//  down the more powerful GPU until all applications which used
-//  them exit. Doing GPU detection in a second, short-lived process
-//  saves battery life on these laptops.
-//
-//  GPUs can also be explicitly described in cc_config.xml
 
+// GPUs can also be explicitly described in cc_config.xml
 
-// uncomment to do GPU detection in same process (for debugging)
+// comment out to do GPU detection in same process (for debugging)
 //
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
 
@@ -58,14 +58,13 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define chdir _chdir
-#endif
+#include "win_util.h"
 #else
 #include "config.h"
 #include <setjmp.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #endif
 
 #include "coproc.h"
@@ -87,6 +86,8 @@ void segv_handler(int) {
 }
 #endif
 
+// the following store GPU instances during initialization
+//
 vector<COPROC_ATI> ati_gpus;
 vector<COPROC_NVIDIA> nvidia_gpus;
 vector<COPROC_INTEL> intel_gpus;
@@ -102,11 +103,16 @@ static char* client_path;
 static char client_dir[MAXPATHLEN];
     // current directory at start of client
 
+// find GPU instances, then correlate (merge) them
+//
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
 #if USE_CHILD_PROCESS_TO_DETECT_GPUS
+    // detect_gpus() can cause crashes even with try/catch,
+    // so do it in a separate process that writes a file
+    //
     int retval = 0;
     char buf[256];
 
@@ -132,7 +138,10 @@ void COPROCS::get(
     correlate_gpus(use_all, descs, ignore_gpu_instance);
 }
 
-
+// populate the global vectors
+// ati_gpus, nvidia_gpus, intel_gpus,
+// nvidia_opencls, etc.
+//
 void COPROCS::detect_gpus(vector<string> &warnings) {
 #ifdef _WIN32
     try {
@@ -191,14 +200,19 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 #endif
 }
 
-
+// for each GPU type, scan the GPUs we detected
+// (e.g. the vector nvidia_gpus).
+// Find the most capable one, and the ones equivalent to it.
+// Also correlate OpenCL GPUs with CUDA/CAL GPUs.
+// Then create a single COPROC (with appropriate count)
+//
 void COPROCS::correlate_gpus(
     bool use_all,
     vector<string> &descs,
     IGNORE_GPU_INSTANCE &ignore_gpu_instance
 ) {
     unsigned int i;
-    char buf[256], buf2[256];
+    char buf[256], buf2[1024];
 
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
@@ -438,6 +452,9 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     return 0;
 }
 
+// if we're using a separate process to find GPUs,
+// read its output file and create data structures
+//
 int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     MIOFILE mf;
     int retval;
@@ -499,7 +516,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             } else {
                 my_nvidia_gpu.device_num = (int)nvidia_gpus.size();
                 my_nvidia_gpu.pci_info = my_nvidia_gpu.pci_infos[0];
-                memset(&my_nvidia_gpu.pci_infos[0], 0, sizeof(struct PCI_INFO));
+                my_nvidia_gpu.pci_infos[0].clear();
                 nvidia_gpus.push_back(my_nvidia_gpu);
             }
             continue;
@@ -516,10 +533,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
         
         if (xp.match_tag("ati_opencl")) {
-            memset(&ati_opencl, 0, sizeof(ati_opencl));
+            ati_opencl.clear();
             retval = ati_opencl.parse(xp, "/ati_opencl");
             if (retval) {
-                memset(&ati_opencl, 0, sizeof(ati_opencl));
+                ati_opencl.clear();
             } else {
                 ati_opencl.is_used = COPROC_IGNORED;
                 ati_opencls.push_back(ati_opencl);
@@ -528,10 +545,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("nvidia_opencl")) {
-            memset(&nvidia_opencl, 0, sizeof(nvidia_opencl));
+            nvidia_opencl.clear();
             retval = nvidia_opencl.parse(xp, "/nvidia_opencl");
             if (retval) {
-                memset(&nvidia_opencl, 0, sizeof(nvidia_opencl));
+                nvidia_opencl.clear();
             } else {
                 nvidia_opencl.is_used = COPROC_IGNORED;
                 nvidia_opencls.push_back(nvidia_opencl);
@@ -540,10 +557,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("intel_gpu_opencl")) {
-            memset(&intel_gpu_opencl, 0, sizeof(intel_gpu_opencl));
+            intel_gpu_opencl.clear();
             retval = intel_gpu_opencl.parse(xp, "/intel_gpu_opencl");
             if (retval) {
-                memset(&intel_gpu_opencl, 0, sizeof(intel_gpu_opencl));
+                intel_gpu_opencl.clear();
             } else {
                 intel_gpu_opencl.is_used = COPROC_IGNORED;
                 intel_gpu_opencls.push_back(intel_gpu_opencl);
@@ -552,10 +569,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("other_opencl")) {
-            memset(&other_opencl, 0, sizeof(other_opencl));
+            other_opencl.clear();
             retval = other_opencl.parse(xp, "/other_opencl");
             if (retval) {
-                memset(&other_opencl, 0, sizeof(other_opencl));
+                other_opencl.clear();
             } else {
                 other_opencl.is_used = COPROC_USED;
                 other_opencls.push_back(other_opencl);
@@ -564,10 +581,10 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         }
 
         if (xp.match_tag("opencl_cpu_prop")) {
-            memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+            cpu_opencl.clear();
             retval = cpu_opencl.parse(xp);
             if (retval) {
-                memset(&cpu_opencl, 0, sizeof(cpu_opencl));
+                cpu_opencl.clear();
             } else {
                 cpu_opencl.opencl_prop.is_used = COPROC_IGNORED;
                 cpu_opencls.push_back(cpu_opencl);
@@ -612,6 +629,12 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         }
     }
     
+    // use full path to exe if possible, otherwise keep using argv[0]
+    char execpath[MAXPATHLEN];
+    if (!get_real_executable_path(execpath, sizeof(execpath))) {
+        client_path = execpath;
+    }
+
     boinc_getcwd(data_dir);
 
 #ifdef _WIN32
@@ -627,10 +650,12 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             "[coproc] launching child process at %s",
             client_path
         );
-        msg_printf(0, MSG_INFO,
-            "[coproc] relative to directory %s",
-            client_dir
-        );
+        if (!is_path_absolute(client_path)) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] relative to directory %s",
+                client_dir
+            );
+        }
         msg_printf(0, MSG_INFO,
             "[coproc] with data directory %s",
             quoted_data_dir
@@ -639,15 +664,13 @@ int COPROCS::launch_child_process_to_detect_gpus() {
             
     int argc = 4;
     char* const argv[5] = {
-         const_cast<char *>(CLIENT_EXEC_FILENAME), 
+         const_cast<char *>(client_path),
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
          const_cast<char *>(quoted_data_dir),
          NULL
     }; 
 
-    chdir(client_dir);
-    
     retval = run_program(
         client_dir,
         client_path,
@@ -657,8 +680,6 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         prog
     );
 
-    chdir(data_dir);
-    
     if (retval) {
         if (log_flags.coproc_debug) {
             msg_printf(0, MSG_INFO,
@@ -671,9 +692,25 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 
     retval = get_exit_status(prog);
     if (retval) {
+        char buf[200];
+#ifdef _WIN32
+        char buf2[200];
+        windows_format_error_string(retval, buf2, sizeof(buf2));
+        snprintf(buf, sizeof(buf), "process exited with status 0x%x: %s", retval, buf2);
+#else
+        if (WIFEXITED(retval)) {
+            int code = WEXITSTATUS(retval);
+            snprintf(buf, sizeof(buf), "process exited with status %d: %s", code, strerror(code));
+        } else if (WIFSIGNALED(retval)) {
+            int sig = WTERMSIG(retval);
+            snprintf(buf, sizeof(buf), "process was terminated by signal %d", sig);
+        } else {
+            snprintf(buf, sizeof(buf), "unknown status %d", retval);
+        }
+#endif
         msg_printf(0, MSG_INFO,
-            "GPU detection failed. error code %d",
-            retval
+            "GPU detection failed: %s",
+            buf
         );
     }
 

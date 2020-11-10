@@ -81,6 +81,7 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
+    global $config;
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;
@@ -122,6 +123,7 @@ function show_host($host, $user, $ipprivate) {
     if ($host->serialnum) {
         row2(tra("Coprocessors"), gpu_desc($host->serialnum));
     }
+    row2(tra("Virtualization"), vbox_desc($host->serialnum));
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
     $v = boinc_version($host->serialnum);
     if ($v) {
@@ -173,8 +175,8 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Application details"),
             "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
         );
-        $config = get_config();
-        if (parse_bool($config, "show_results")) {
+        $show_results = parse_bool($config, "show_results");
+        if ($show_results) {
             $nresults = host_nresults($host);
             if ($nresults) {
                 $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
@@ -203,7 +205,7 @@ function show_host($host, $user, $ipprivate) {
             }
         }
         row2(tra("Location"), location_form($host));
-        if ($nresults == 0) {
+        if ($show_results && $nresults == 0) {
             $x = " &middot; <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
         } else {
             $x = "";
@@ -224,7 +226,7 @@ function top_host_table_start($sort_by) {
     shuffle($host_sites);
     start_table('table-striped');
     $x = array(
-        tra("Computer info"),
+        tra("Info"),
         tra("Rank"),
         tra("Owner"),
     );
@@ -248,6 +250,32 @@ function top_host_table_start($sort_by) {
 
 function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
+}
+
+
+// Parse the Virtualbox version information from inside the serialnum field.
+// Prior to BOINC commit 6121ce1, the DB entry looked like e.g. "[vbox|5.0.0]"
+// where 5.0.0 gave the Virtualbox version number. After 6121ce1, the entry was
+// "[vbox|5.0.0|1|1]", where now two additional flags give information about
+// hardware virtualization support. Older clients may have the old-style
+// serialnum in the DB despite the server being upgraded.
+function vbox_desc($x){
+    if (preg_match("/\[vbox\|(.*?)(\|([01])\|([01]))?\]/",$x,$matches)){
+        $desc = "Virtualbox (".$matches[1].") ".tra("installed");
+        if (sizeof($matches)>2){
+            if ($matches[3]=="1" and $matches[4]=="1") {
+                return $desc.tra(", CPU has hardware virtualization support and it is enabled");
+            } elseif ($matches[3]=="1" and $matches[4]=="0") {
+                return $desc.tra(", CPU has hardware virtualization support but it is disabled");
+            } elseif ($matches[3]=="0") {
+                return $desc.tra(", CPU does not have hardware virtualization support");
+            }
+        } else {
+            return $desc;
+        }
+    } else {
+        return tra("None");
+    }
 }
 
 // Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,17 +23,11 @@
 
 // DEPRECATED - use separate graphics app
 
-#ifndef _WIN32
-#include "config.h"
-#endif
-
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 extern void win_graphics_event_loop();
 #else
+#include "config.h"
 #include <cstring>
 #include <cstdarg>
 #include <pthread.h>
@@ -266,5 +260,3 @@ void get_window_title(APP_INIT_DATA& aid, char* buf, int len) {
         );
     }
 }
-
-const char *BOINC_RCSID_6e92742852 = "$Id$";

@@ -5,17 +5,23 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Bug Chong, 2018
+# Mingye Wang <arthur200126@gmail.com>, 2019
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
+# Robert Kwan, 2020
 # Shih Han Lin <alexsh.tw@gmail.com>, 2016
 # Timo Liu <timoliu@gmail.com>, 2016
+# Willy Wu <df910105@yahoo.com.tw>, 2018
+# Yung Gaby <gabrielle@yungs.org>, 2018
+# 江昱輝 <darkanglephantom@gmail.com>, 2019
 # 孟邦 王, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2017-11-09 20:23+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2020-01-05 00:47+0000\n"
+"Last-Translator: Robert Kwan\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +31,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
-msgstr "我是個新人"
+msgstr "我是新手"
 
 msgid "I'm a BOINC user"
 msgstr "我是一位 BOINC 使用者"
@@ -165,7 +171,7 @@ msgid "Total credits"
 msgstr "總積分"
 
 msgid "Recent avg credits"
-msgstr "近期平均積分"
+msgstr "近期日均積分"
 
 msgid "Web site"
 msgstr "網站"
@@ -209,17 +215,17 @@ msgid ""
 msgstr "!name 在 !site 加您為好友。您可以允許或拒絕這項邀請。被拒絕的邀請人將不會被通知，但該邀請會從雙方帳戶中移除。\n\n點選下方連結來查看這項邀請：\n!link\n\n!message\n\n感謝您抽空閱讀，\n!site 團隊"
 
 msgid "Please set the minimum time required between posts."
-msgstr ""
+msgstr "須設定最小的發文間隔時間"
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr ""
+msgstr "請設定使用者在該留言板發文所要求的最小總積分。"
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "請設定使用者在該留言板發貼所要求的最小平均積分。"
+msgstr "請設定使用者在該留言板發文所要求的最小日均積分。"
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -239,29 +245,29 @@ msgid ""
 msgstr "團隊創始人最近已被變更。90天內僅允許一次請求。"
 
 msgid "Team name is required."
-msgstr ""
+msgstr "團隊名稱必填。"
 
 msgid "You are banned from community participation until @date"
 msgstr "你被禁止參與社群直到 @date"
 
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "你的團隊中沒有使有該電子信箱的使用者"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr ""
+msgstr "Einstein@Home專案使用您電腦的空閒時間來搜尋從自旋中子星(通常稱脈衝星)發出的重力波。所使用的資料由LIGO引力波探測器提供。"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr ""
+msgstr "Einstein@Home專案使用您電腦的空閒時間來搜尋從自旋中子星(通常稱脈衝星)發出的重力波。所使用的資料由LIGO引力波探測器提供。"
 
 msgid "Add separate preferences for @venue"
-msgstr ""
+msgstr "新增@venue環境的偏好設定"
 
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
@@ -269,31 +275,31 @@ msgid ""
 msgstr "團隊成員 @name 被要求團隊創始人資格。這可能是因為您離開團隊或很長時間沒有與團隊接觸。"
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr ""
+msgstr "團隊創始人有1天來回應您的申請。"
 
 msgid "Message board title is required."
-msgstr ""
+msgstr "留言板標題必填。"
 
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr ""
+msgstr "警告：要使Apache Solr能夠搜索評論，您的內容<a href=\\\"@url\\\">必須重新索引</a>。"
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr ""
+msgstr "選擇讓Apace Solr索引評論的類型。更改此配置後，您的內容必須重新索引。"
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr ""
+msgstr "如要更改用戶電郵，您必須同時更改密碼。"
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr ""
+msgstr "用法：'保存配置'將把上面的首選項保存到drupal數據庫中。這些將會是預設的計算（全局）首選項，一旦任何用戶加載帳戶首選項頁面，這些首選項將是默認首選項。"
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -303,12 +309,12 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr ""
+msgstr "「使用config.xml中的磁碟使用設定來儲存配置」會將上述偏好儲存到drupal資料庫中，但是也會從BOINC專案的config.xml檔案中載入磁碟使用設定。 這些將覆蓋上面放置的所有磁碟使用設定。 警告：如果您將config.xml中的磁碟使用設定載入到drupal資料庫，使用者的個人偏好不會改變。 他們必須手動更改他們的偏好設定。"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "My stats"
-msgstr ""
+msgstr "我的統計"
 
 #: menu-link
 msgctxt "menu-link"
@@ -333,7 +339,7 @@ msgstr "BOINC"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your personal background"
-msgstr ""
+msgstr "您的個人背景"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -345,7 +351,7 @@ msgstr "簡單介紹一下您自己，比如從哪裡來，年齡，職業，興
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr ""
+msgstr "您對此專案的看法"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -354,7 +360,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr ""
+msgstr "告訴我們你對於@this_project的想法\n   1. 你為什麼選擇執行 @this_project？\n   2. 你對於這個專案有什麼看法？\n   3. 其他建議？"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -374,17 +380,17 @@ msgstr "國家"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr ""
+msgstr "用戶檔案圖片"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr ""
+msgstr "網站URL"
 
 #: frontpage
 msgctxt "frontpage"
 msgid "@this_project Progress"
-msgstr ""
+msgstr "@this_project發展"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -394,27 +400,27 @@ msgstr "專案"
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr ""
+msgstr "沒有加任何好友"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "View All Friends"
-msgstr ""
+msgstr "查看所有好友"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Friend Requests"
-msgstr ""
+msgstr "好友請求"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr ""
+msgstr "等待朋友核准"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr ""
+msgstr "搜尋網站"
 
 #: menu-link
 msgctxt "menu-link"
@@ -424,7 +430,7 @@ msgstr "新聞"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Certificates"
-msgstr ""
+msgstr "證書"
 
 #: account-host-list
 msgctxt "account-host-list"
@@ -434,7 +440,7 @@ msgstr "所有電腦"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr ""
+msgstr "過去30天內活躍的電腦"
 
 #: menu-link
 msgctxt "menu-link"
@@ -449,27 +455,27 @@ msgstr "社群"
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr ""
+msgstr "隱私"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Subscriptions"
-msgstr ""
+msgstr "訂閱"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Subscriptions"
-msgstr ""
+msgstr "訂閱"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr ""
+msgstr " 已更新"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr ""
+msgstr "等待隊列"
 
 #: menu-link
 msgctxt "menu-link"
@@ -479,7 +485,7 @@ msgstr "用戶檔案"
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "過去30天內活躍"
 
 #: user-host-list
 msgctxt "user-host-list"
@@ -504,7 +510,7 @@ msgstr "積分"
 #: user-info
 msgctxt "user-info"
 msgid "RAC"
-msgstr "近期平均積分"
+msgstr "近期日均積分"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -519,7 +525,7 @@ msgstr "建立新訊息"
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr ""
+msgstr "顯示電腦"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -539,17 +545,17 @@ msgstr "驗證器登入"
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr ""
+msgstr "沒有內容在隊列中等待審核。"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr ""
+msgstr "個人資訊審覈隊列"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr ""
+msgstr "過去30天內活躍"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
@@ -559,7 +565,7 @@ msgstr "評論表單"
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
 msgid "Subscriptions"
-msgstr ""
+msgstr "訂閱"
 
 #: country-of-origin
 msgctxt "country-of-origin"
@@ -624,7 +630,7 @@ msgstr "創始人"
 #: user-or-team-RAC
 msgctxt "user-or-team-RAC"
 msgid "Recent average credit"
-msgstr "最近平均積分"
+msgstr "最近日均積分"
 
 #: user-or-team-name
 msgctxt "user-or-team-name"
@@ -776,7 +782,7 @@ msgstr "任務持續修正的原因"
 #: host-details
 msgctxt "host-details"
 msgid "Avg. credit"
-msgstr "平均積分"
+msgstr "日均積分"
 
 #: host-details
 msgctxt "host-details"
@@ -991,17 +997,17 @@ msgstr "驗證狀態"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr ""
+msgstr "峯值記憶體大小"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr ""
+msgstr "峯值交換磁區大小"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr ""
+msgstr "峯值硬碟用量"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1148,27 +1154,27 @@ msgstr "引用"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr ""
+msgstr "引用回覆該訊息"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Joined: @join_date"
-msgstr ""
+msgstr "加入日期： @join_date"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr ""
+msgstr "貼子數：@post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Credit: @user_credits"
-msgstr ""
+msgstr "積分： @user_credits"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "RAC: @user_rac"
-msgstr ""
+msgstr "RAC: @user_rac"
 
 #: message-header
 msgctxt "message-header"
@@ -1300,7 +1306,7 @@ msgstr "該使用者沒有已知的電腦。電腦於首次獲得積分後才會
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Avg credit"
-msgstr "平均積分"
+msgstr "日均積分"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -1475,37 +1481,37 @@ msgstr "處理器使用量"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr ""
+msgstr "當電腦使用電池時暫停?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr ""
+msgstr "當筆記型電腦使用電池時暫停運算。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr ""
+msgstr "當電腦使用時暫停？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr ""
+msgstr "當您使用計算機時將暫停計算和文件傳輸。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr ""
+msgstr "當電腦使用時暫停 GPU 運算？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr ""
+msgstr "當您正在使電腦時暫停 GPU 運算。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr ""
+msgstr "如果在最近一段時間內有鼠標或鍵盤操作則認為計算機在使用中"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1515,7 +1521,7 @@ msgstr "分鐘內仍有動作"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr ""
+msgstr "這將確定在怎樣的情況下計算機會被視為“正在使用”。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1540,7 +1546,7 @@ msgstr "當電腦正忙於其他程式時暫停運算。"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Compute only between:"
-msgstr ""
+msgstr "運算範圍"
 
 #: account-preference
 msgctxt "account-preference"
@@ -1555,7 +1561,7 @@ msgstr "僅在每天特定時段運算。"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr ""
+msgstr "暫停時將非圖形處理器工作保留於記憶體中？"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1563,7 +1569,7 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr ""
+msgstr "如果“是”，掛起的任務將保留在內存中，並可無損恢復。如果“否”，掛起的任務將會從內存中移除，並將恢復到上一個記錄點。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1590,7 +1596,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "保留CPU給其他程式使用。例如: 75% 表示在 8 核心系統中使用 6 核心運算"
+msgstr "保留CPU給其他程式使用。例如： 75% 表示在 8 核心系統中使用 6 核心運算"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1603,7 +1609,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "週期內自動暫停/繼續運算以達到降低CPU溫度及能源消耗。例如: 75% 表示每運算 3 秒，休息 1 秒，並重複循環。"
+msgstr "週期內自動暫停/繼續運算以達到降低CPU溫度及能源消耗。例如： 75% 表示每運算 3 秒，休息 1 秒，並重複循環。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1613,7 +1619,7 @@ msgstr "硬碟和記憶體使用"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr ""
+msgstr "磁碟：使用少於"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1623,7 +1629,7 @@ msgstr "限制 BOINC 使用硬碟空間。"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr ""
+msgstr "磁碟：維持剩餘空間大於"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1659,7 +1665,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr ""
+msgstr "這個選項決定計算任務向磁碟儲存其進度的頻繁程度，以便於之後重新啟動。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1669,7 +1675,7 @@ msgstr "分頁/交換檔：最多使用"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the swap space (page file) used by BOINC."
-msgstr "限制 BOINC 使用的交換空間(分頁檔)"
+msgstr "限制 BOINC 使用的交換空間（分頁檔）"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1781,19 +1787,19 @@ msgstr "限制傳送數據"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "例如: BOINC 能在每30天傳送2000MB的數據。"
+msgstr "例如： BOINC 能在每30天傳送2000MB的數據。"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr ""
+msgstr "略過圖像驗證"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr ""
+msgstr "僅當您的網際網路供應商會修改圖像文件的情況下才需要選中此選項。略過驗證會降低BOINC的安全性。"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -1842,7 +1848,7 @@ msgstr "使用CPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr ""
+msgstr "只向此專案請求 CPU 工作"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1852,7 +1858,7 @@ msgstr "使用NVIDIA GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr ""
+msgstr "向這個專案請求NVIDIA GPU工作"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1862,7 +1868,7 @@ msgstr "使用ATI GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr ""
+msgstr "向這個專案請求ATI GPU工作"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1872,7 +1878,7 @@ msgstr "使用 INTEL GPU"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr ""
+msgstr "該專案的任務需要 Intel GPU 才可以執行"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -2035,12 +2041,12 @@ msgstr "在論壇裡隱藏簽名"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr ""
+msgstr "忽略以下論譠的使用者："
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "<a href=\"@ignore-user-list\">View/Edit</a> your ignored users list."
-msgstr ""
+msgstr "<a href=\"@ignore-user-list\">檢視/編緝</a> 你的忽略用戶清單."
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
@@ -2175,7 +2181,7 @@ msgstr "搜尋團隊"
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr ""
+msgstr "此工作單元正在執行任務。"
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2269,7 +2275,7 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr ""
+msgstr "設置@venue 沒有特殊偏好。點擊保存更改將下列首選項保存到帳戶中。"
 
 #: join-page
 msgctxt "join-page"
@@ -2284,7 +2290,7 @@ msgstr "執行安裝程式"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "reply"
-msgstr ""
+msgstr "回覆"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2294,7 +2300,7 @@ msgstr "回覆該訊息"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr ""
+msgstr "引用回覆該標題"
 
 #: private-message
 msgctxt "private-message"
@@ -2389,7 +2395,7 @@ msgstr "新增為好友"
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: 對主題 \"!topic_name\" 發表了評論"
+msgstr "!site： 對主題 \"!topic_name\" 發表了評論"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
@@ -2401,7 +2407,7 @@ msgctxt "forum-topic-subscription-email-notification"
 msgid ""
 "To view this topic at !site, click here: \n"
 "!comment_url"
-msgstr "若要在本主題檢視 !site，請單擊此處:\n!comment_url"
+msgstr "若要在本主題檢視 !site，請單擊此處：\n!comment_url"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
@@ -2461,7 +2467,7 @@ msgstr "如果找不到對你合適的團隊，你也可以建立一個團隊。
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr ""
+msgstr "登入並建立新團隊"
 
 #: join-page
 msgctxt "join-page"
@@ -2490,17 +2496,17 @@ msgstr "如果您仍使用 5.0 之前版本的 BOINC，請升級到更新的版�
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "ignore list"
-msgstr ""
+msgstr "忽略清單"
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
 msgid "here"
-msgstr ""
+msgstr "這裡"
 
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr ""
+msgstr "!username在你的!ignore_list中。點擊!here來查看他的帖子。"
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
@@ -2576,7 +2582,7 @@ msgctxt "authenticator-login-page"
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "如果您已經在帳號下執行 BOINC，您仍然可以訪問它。這裡是方法:"
+msgstr "如果您已經在帳號下執行 BOINC，您仍然可以訪問它。這裡是方法："
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -2689,7 +2695,7 @@ msgstr "切換檢視"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr ""
+msgstr "檔案傳輸時段："
 
 #: account-preference
 msgctxt "account-preference"
@@ -2988,12 +2994,12 @@ msgstr "計算機 @old_id 已被成功合併到 @id。"
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr ""
+msgstr "BOINC隊伍網站"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr ""
+msgstr "這是一個全 BOINC 皆有的團隊。你可以在 !site 更改設置。"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
@@ -3003,7 +3009,7 @@ msgstr "發表主題"
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Maximum value exceeded for @field"
-msgstr ""
+msgstr "@field 已超過最大值"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3078,7 +3084,7 @@ msgstr "發文要求的最低總積分"
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum avg credit to post"
-msgstr "發帖要求的最低平均積分"
+msgstr "發帖要求的最低日均積分"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
@@ -3202,7 +3208,7 @@ msgstr "當前的建立人有 60 天的時間來處理一個請求"
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "That authenticator is not valid."
-msgstr ""
+msgstr "驗證無效"
 
 #: forgot-password
 msgctxt "forgot-password"
@@ -3212,7 +3218,7 @@ msgstr "@email 不是一個適當格式的電子郵件地址，請驗證"
 #: friend-approve
 msgctxt "friend-approve"
 msgid "Approve friend request"
-msgstr ""
+msgstr "接受好友邀請"
 
 #: moderate-unban-user
 msgctxt "moderate-unban-user"
@@ -3222,7 +3228,7 @@ msgstr "取消使用者禁令"
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid "1 day remaining"
-msgstr ""
+msgstr "剩餘1天"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -3317,14 +3323,14 @@ msgstr "根據提示輸入 @siteurl"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Instructions"
-msgstr ""
+msgstr "說明"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr ""
+msgstr "@email賬號不存在——使用BOINC客戶端註冊賬號"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3358,7 +3364,7 @@ msgstr "等待中"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr ""
+msgstr "你賬號的任務"
 
 #: task-table
 msgctxt "task-table"
@@ -3368,7 +3374,7 @@ msgstr "程式"
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr ""
+msgstr "所有程式"
 
 #: task-table
 msgctxt "task-table"
@@ -3393,7 +3399,7 @@ msgstr "傳送時間"
 #: task-table
 msgctxt "task-table"
 msgid "Time Reported or Deadline"
-msgstr ""
+msgstr "回報時間或截止時間"
 
 #: task-table
 msgctxt "task-table"
@@ -3413,12 +3419,12 @@ msgstr "CPU 時間"
 #: task-table
 msgctxt "task-table"
 msgid "Claimed Credit"
-msgstr ""
+msgstr "申請積分"
 
 #: task-table
 msgctxt "task-table"
 msgid "Granted Credit"
-msgstr ""
+msgstr "授予積分"
 
 #: task-table
 msgctxt "task-table"
@@ -3458,32 +3464,32 @@ msgstr "重設"
 #: form-save
 msgctxt "form-save"
 msgid "Apply Filter"
-msgstr ""
+msgstr "使用過濾器"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "You are not allowed to make changes to this host."
-msgstr ""
+msgstr "你沒有權限來編輯該帖子。"
 
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr ""
+msgstr "@host_id 的工作"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr ""
+msgstr "該主機的位置已更新。"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr ""
+msgstr "更改將在該主機下一次和專案通訊的時候生效。"
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr ""
+msgstr "個人檔案不存在。"
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
@@ -3519,7 +3525,7 @@ msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr ""
+msgstr "Android裝置，請至Google Play或是Amazon App Store下載BOINC。"
 
 #: join-page
 msgctxt "join-page"
@@ -3529,19 +3535,19 @@ msgstr "執行安裝程式"
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr ""
+msgstr "在列表中選擇@sitename，或者輸入@siteurl。"
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr ""
+msgstr "先安裝BOINC到此裝置上。"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr ""
+msgstr "選擇<i>工具/添加項目</i>。選擇@sitename自列表，或者輸入@siteurl。"
 
 #: join-page
 msgctxt "join-page"
@@ -3550,7 +3556,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr ""
+msgstr "如果你正在使用命令行版本的 BOINC，先使用 BOINC Manager 創建該項目的賬戶（如有必要在別處），然後在命令行版本中使用該賬戶來連接。"
 
 #: join-page
 msgctxt "join-page"
@@ -3558,52 +3564,52 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr ""
+msgstr "如果你在使用 5.0 前版本的 BOINC，請\\n升級到更近的版本來創建賬戶"
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr ""
+msgstr "@user現在是 @team 的創始人了！"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr ""
+msgstr "BOINC翻译过滤器可以划分待译内容。"
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr ""
+msgstr "BOINC翻譯過濾器可以劃分待譯內容。"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr ""
+msgstr "BOINC翻譯過濾器"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr ""
+msgstr "要過濾的內容類型"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr ""
+msgstr "選擇哪些內容（節點）類型將被分成塊進行翻譯。"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr ""
+msgstr "輸出除錯資料"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr ""
+msgstr "打印附加debug信息。這個選項應該在生產場所關閉。"
 
 #: join-page
 msgctxt "join-page"
@@ -3613,7 +3619,7 @@ msgstr "規則和政策"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr ""
+msgstr "閱讀 !rules_and_policies."
 
 #: account-password
 msgctxt "account-password"
@@ -3675,72 +3681,72 @@ msgstr "啟用富文字"
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "subscribe"
-msgstr ""
+msgstr "訂閱"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
 msgid "unsubscribe"
-msgstr ""
+msgstr "取消訂閱"
 
 #: forum
 msgctxt "forum"
 msgid "Report"
-msgstr ""
+msgstr "檢舉"
 
 #: forum
 msgctxt "forum"
 msgid "Cancel report"
-msgstr ""
+msgstr "取消檢舉"
 
 #: forum
 msgctxt "forum"
 msgid "Reset flags"
-msgstr ""
+msgstr "重設標籤"
 
 #: forum
 msgctxt "forum"
 msgid "Ignore user"
-msgstr ""
+msgstr "忽略使用者"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr ""
+msgstr "所有任務"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "Time reported or deadline"
-msgstr ""
+msgstr "回報時間或截止時間"
 
 #: task-details
 msgctxt "task-details"
 msgid "Run time (sec)"
-msgstr ""
+msgstr "執行時間(秒)"
 
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr ""
+msgstr "CPU時間(秒)"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result"
-msgstr ""
+msgstr "規範結果"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr ""
+msgstr "最高允許的錯誤/總合/成功任務拷貝數量"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr ""
+msgstr "站點主頁的消息"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr ""
+msgstr "要在網站首頁跳轉頁面上顯示的文本。"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3767,7 +3773,7 @@ msgstr "未發表"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this topic"
-msgstr ""
+msgstr "取消隱藏此主題"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3819,17 +3825,17 @@ msgstr "請選擇團隊類型。"
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr ""
+msgstr "BOINC ID"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr ""
+msgstr "資科庫中沒有這項工作"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr ""
+msgstr "並未在數據庫中發現任務包。"
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3839,7 +3845,7 @@ msgstr "標準錯誤輸出"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr ""
+msgstr "請注意：個人資訊內容受到審查"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3848,60 +3854,60 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr ""
+msgstr "謝謝你 @user_name 加入 @site_name 。 \\n你的賬號成功創建。我們的BONC客戶端應該很快開始分配工作任務，如果沒有任何額外的行動或配置。請訪問下面的鏈接獲取更多信息和其他選項。 （鏈接將在新窗口中打開。）"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr ""
+msgstr "社群偏好設定"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your username at !community_preferences."
-msgstr ""
+msgstr "在 !community_preferences 中更改您的用戶名。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr ""
+msgstr "你的使用者名稱用來供其他志願者認識。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "In addition, you may set your account's default language and adjust "
 "notification settings."
-msgstr ""
+msgstr "此外，您可以設置帳戶的默認語言並調整通知設置。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Computing Preferences"
-msgstr ""
+msgstr "運算偏好設定"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr ""
+msgstr "更改你的 !comcomputing_preferences 。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr ""
+msgstr "你可以調整BOINC可以使用多少處理器、記憶體和磁碟。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr ""
+msgstr "正常情況下，你應該運行 @site_name 任務在沒有附加設置時。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr ""
+msgstr "論壇"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3909,24 +3915,24 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr ""
+msgstr "建議新的志願者取消默認設置，直到他們獲得運行某些任務的經驗。問問題在 !論壇 里以在更改不理解的設置之前得到建議。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr ""
+msgstr "用戶檔案"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr ""
+msgstr "建立!user_profile。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr ""
+msgstr "一個個人資訊會告訴其他志願者你是誰、你爲什麼要加入 @site_name 。"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3936,29 +3942,29 @@ msgstr "團隊"
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr ""
+msgstr "加入團隊"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr ""
+msgstr "你可以加入其他使用者所組成的團隊"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr ""
+msgstr "帳號儀表板"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Go to your !account_dashboard."
-msgstr ""
+msgstr "前往你的 !account_dashboard 。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr ""
+msgstr "你的賬戶面板有你的電腦（們）和任務（們）的信息和鏈接。"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3968,17 +3974,17 @@ msgstr "協助"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr ""
+msgstr "訪問我們的!help pages。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr ""
+msgstr "在我們社羣的議事欄中尋求幫助。"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "ERROR: There is no account with that authenticator."
-msgstr ""
+msgstr "錯誤：沒有帳號關聯至此身份驗證碼。"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3988,19 +3994,19 @@ msgstr "參數設定最後的修改時間：@mod_time"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr ""
+msgstr "資科庫中沒有這台主機"
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr ""
+msgstr "錯誤：在載入你的賬戶信息時出現些問題。請嘗試使用用戶名和密碼進行登陸。"
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr ""
+msgstr "你的團隊中沒有使有該電子信箱的使用者"
 
 #: account-finish
 msgctxt "account-finish"
@@ -4010,30 +4016,30 @@ msgstr "仲裁"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr ""
+msgstr "請注意：個人資訊內容受到 !moderation 。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr ""
+msgstr "默認情況下，搜索匹配任何搜索項。結果在搜索結果中會出現一個以上的術語。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr ""
+msgstr "你可以使用“AND”以讓搜索引擎給出包含其中所有關鍵詞的搜索結果。"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr ""
+msgstr "例如，利用\"boinc AND client\" 只會顯示同時包含兩個條件的搜尋結果"
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid "Search Help"
-msgstr ""
+msgstr "找尋協助"

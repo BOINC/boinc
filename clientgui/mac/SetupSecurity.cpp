@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,15 +32,14 @@
 #include "mac_util.h"
 #include "SetupSecurity.h"
 
+#include "mac_branding.h"
+
 // Set VERBOSE_TEST to 1 for debugging DoSudoPosixSpawn()
 #define VERBOSE_TEST 0
 
 static OSStatus UpdateNestedDirectories(char * basepath);
 static OSStatus MakeXMLFilesPrivate(char * basepath);
 static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5, char *arg6);
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
-#endif
 #ifdef _DEBUG
 static OSStatus SetFakeMasterNames(void);
 #endif
@@ -126,16 +125,6 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     Boolean                 isDirectory;
     OSStatus                err = noErr;
     
-#define NUMBRANDS 5
-
-char *saverName[NUMBRANDS];
-
-saverName[0] = "BOINCSaver";
-saverName[1] = "GridRepublic";
-saverName[2] = "Progress Thru Processors";
-saverName[3] = "Charity Engine";
-saverName[4] = "World Community Grid";
-
     if (geteuid() != 0) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions must be called as root");
     }
@@ -153,7 +142,7 @@ saverName[4] = "World Community Grid";
         // Get the full path to our executable inside this application's bundle
         getPathToThisApp(dir_path, sizeof(dir_path));
         if (!dir_path[0]) {
-            ShowSecurityError(false, false, false, "Couldn't get path to self.");
+            ShowSecurityError("Couldn't get path to self.");
             return -1;
         }
         
@@ -1069,52 +1058,10 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 void ShowSecurityError(const char *format, ...) {
     va_list                 args;
 
-#ifdef __x86_64__
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
-#else
-    char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    ModalFilterUPP          ErrorDlgFilterProcUPP;
-    
-    va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
-    va_end(args);
-
-    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
-
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = ErrorDlgFilterProcUPP;
-    alertParams.defaultText = "\pOK";
-    alertParams.cancelText = NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = 0;
-    alertParams.position = kWindowDefaultPosition;
-
-    BringAppToFront();
-    
-    StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
-
-    DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
-#endif
 }
-
-
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
-    // We need this because this is a command-line application so it does not get normal events
-    if (GetCurrentEventButtonState()) {
-        *theItemHit = kStdOkItemIndex;
-        return true;
-    }
-    
-    return StdFilterProc(theDialog, theEvent, theItemHit);
-}
-#endif
 
 
 // return time of day (seconds since 1970) as a double

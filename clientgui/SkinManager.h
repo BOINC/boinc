@@ -190,6 +190,7 @@ public:
 
     wxString      GetApplicationName();
     wxString      GetApplicationShortName();
+    wxString      GetApplicationHelpName();
     wxIconBundle* GetApplicationIcon();
     wxIconBundle* GetApplicationDisconnectedIcon();
     wxIconBundle* GetApplicationSnoozeIcon();
@@ -197,6 +198,7 @@ public:
     wxString      GetOrganizationName();
     wxString      GetOrganizationWebsite();
     wxString      GetOrganizationHelpUrl();
+    wxString      GetOrganizationReportBugUrl();
     int           GetDefaultTab();
     wxString      GetExitMessage();
     bool          IsBranded();
@@ -205,6 +207,7 @@ private:
     bool          m_bIsBranded;
     wxString      m_strApplicationName;
     wxString      m_strApplicationShortName;
+    wxString      m_strApplicationHelpName;
     CSkinIcon     m_iconApplicationIcon;
     CSkinIcon     m_iconApplicationIcon32;
     CSkinIcon     m_iconApplicationDisconnectedIcon;
@@ -213,6 +216,7 @@ private:
     wxString      m_strOrganizationName;
     wxString      m_strOrganizationWebsite;
     wxString      m_strOrganizationHelpUrl;
+    wxString      m_strOrganizationReportBugUrl;
     bool          m_bDefaultTabSpecified;
     int           m_iDefaultTab;
     wxString      m_strExitMessage;
@@ -254,8 +258,11 @@ public:
 
     wxString    GetAccountInfoMessage() { return m_strAccountInfoMessage; }
 
+    wxString    GetWizardTitle() { return m_strTitle; }
+
 private:
     wxString    m_strAccountInfoMessage;
+    wxString    m_strTitle;
 };
 
 

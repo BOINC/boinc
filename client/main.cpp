@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2018 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,10 +25,6 @@
 #include "boinc_win.h"
 #include "sysmon_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #else
 #include "config.h"
 #if HAVE_SYS_SOCKET_H
@@ -158,7 +154,7 @@ void log_message_error(const char* msg, int error_code) {
 }
 
 #ifndef _WIN32
-static void signal_handler(int signum) {
+static void signal_handler(int signum, siginfo_t*, void*) {
     msg_printf(NULL, MSG_INFO, "Received signal %d", signum);
     switch(signum) {
     case SIGHUP:
@@ -185,22 +181,24 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stderr, 0);
 
     cc_config.defaults();
+    nvc_config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!cc_config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
     }
 #endif
 
 #ifndef _WIN32
-    if (g_use_sandbox)
+    if (g_use_sandbox) {
         // Set file creation mask to be writable by both user and group and
         // world-executable but neither world-readable nor world-writable
         // Our umask will be inherited by all our child processes
         //
         umask (6);
+    }
 #endif
 
     // Initialize the BOINC Diagnostics Framework
@@ -233,7 +231,13 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-
+    
+    // NOTE: this must be called BEFORE newer_version_startup_check()
+    //
+    if (read_vc_config_file()) {
+       // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
+    }
+    
     // Win32 - detach from console if requested
 #ifdef _WIN32
     if (gstate.detach_console) {
@@ -357,9 +361,11 @@ int boinc_main_loop() {
     if (retval) return retval;
 
 #ifdef __APPLE__
-    // If we run too soon during system boot we can cause a kernel panic
+    // If we run too soon during system boot we can cause a kernel panic.
+    // Sleep if system has been up for less than 2 minutes
+    //
     if (gstate.executing_as_daemon) {
-        if (get_system_uptime() < 120) {    // If system has been up for less than 2 minutes
+        if (get_system_uptime() < 120) {
             boinc_sleep(30.);
         }
     }
@@ -456,12 +462,17 @@ int main(int argc, char** argv) {
         ) {
             int i, len=1024;
             char commandLine[1024];
+            char execpath[MAXPATHLEN];
             STARTUPINFO si;
             PROCESS_INFORMATION pi;
 
+            if (get_real_executable_path(execpath, sizeof(execpath))) {
+                strlcpy(execpath, argv[0], sizeof(execpath));
+            }
+
             argv[index] = "-detach_phase_two";
 
-            sprintf(commandLine, "\"%s\"", CLIENT_EXEC_FILENAME);
+            snprintf(commandLine, sizeof(commandLine), "\"%s\"", execpath);
             for (i = 1; i < argc; i++) {
                 strlcat(commandLine, " ", len);
                 strlcat(commandLine, argv[i], len);
@@ -470,8 +481,10 @@ int main(int argc, char** argv) {
             memset(&si, 0, sizeof(si));
             si.cb = sizeof(si);
 
-            // If process creation succeeds, we exit, if it fails punt and continue
-            // as usual.  We won't detach properly, but the program will run.
+            // If process creation succeeds, we exit,
+            // if it fails punt and continue as usual.
+            // We won't detach properly, but the program will run.
+            //
             if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
                 exit(0);
             }
@@ -510,6 +523,7 @@ int main(int argc, char** argv) {
     // current user is a member of both groups boinc_master and boinc_project.
     // However, this has not been thoroughly tested. Please see the comments
     // in SetupSecurity.cpp and check_security.cpp for more details.
+    //
     int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
 #if (defined(__APPLE__) && defined (_DEBUG))
@@ -538,6 +552,6 @@ int main(int argc, char** argv) {
     retval = boinc_main_loop();
 
 #endif
+    main_exited = true;
     return retval;
 }
-

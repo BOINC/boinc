@@ -17,7 +17,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#define snprintf _snprintf
 #else
 #include "config.h"
 #include <cstdarg>
@@ -55,7 +54,7 @@ void show_message(
     PROJ_AM *p, char* msg, int priority, bool is_html, const char* link
 ) {
     const char* x;
-    char message[1024], event_msg[1024], evt_message[2048];
+    char message[1024], event_msg[2048], evt_message[2048];
     double t = dtime();
     char* time_string = time_to_string(t);
 
@@ -78,7 +77,7 @@ void show_message(
         snprintf(event_msg, sizeof(event_msg), "[error] %s", message);
         break;
     case MSG_SCHEDULER_ALERT:
-        snprintf(event_msg, sizeof(event_msg), "%s: %s",
+        snprintf(event_msg, sizeof(event_msg), "%.64s: %s",
             _("Message from server"), message
         );
         break;

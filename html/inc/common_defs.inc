@@ -89,9 +89,11 @@ define('ERR_DB_NOT_UNIQUE',           -137);
 define('ERR_DB_CANT_CONNECT',         -138);
 define('ERR_PROJECT_DOWN',            -183);
 define('ERR_BAD_USER_NAME',           -188);
+define('ERR_NO_OPTION',               -191);
 define('ERR_BAD_EMAIL_ADDR',          -205);
 define('ERR_BAD_PASSWD',              -206);
 define('ERR_ACCT_CREATION_DISABLED',  -208);
 define('ERR_ATTACH_FAIL_INIT',        -209);
 define('ERR_ATTACH_FAIL_DOWNLOAD',    -210);
+define('ERR_ACCT_REQUIRE_CONSENT',    -242);
 ?>

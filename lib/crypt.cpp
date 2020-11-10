@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cctype>
@@ -28,11 +26,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf    _snprintf
-#define strdup      _strdup
 #endif
 
 #include <openssl/ssl.h>
@@ -740,7 +733,7 @@ char *check_validity(
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
         // TODO : replace '128'  
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);

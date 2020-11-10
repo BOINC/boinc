@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,11 +28,8 @@
 #include <vector>
 #ifdef __APPLE__
 #include "boinc_api.h"
+#include "mac_branding.h"
 #include <sys/socket.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "boinc_gl.h"
@@ -78,13 +75,6 @@ CC_STATE cc_state;
 CC_STATUS cc_status;
 
 #ifdef __APPLE__
-// Possible values of brandId (determined at run time on Mac):
-#define BOINC_BRAND_ID 0
-#define GRIDREPUBLIC_BRAND_ID 1
-#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
-#define CHARITYENGINE_BRAND_ID 3
-#define WORLDCOMMUNITYGRID_BRAND_ID 4
-
 char* brand_name = "BOINC";
 char* logo_file = "boinc_logo_black.jpg";
 # else
@@ -504,7 +494,9 @@ int main(int argc, char** argv) {
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
+#ifndef __APPLE__   // Can't access user's directories under sandbox security
         BOINC_DIAG_PERUSERLOGFILES |
+#endif
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
         BOINC_DIAG_TRACETOSTDOUT;
@@ -524,23 +516,18 @@ int main(int argc, char** argv) {
     }
     
 #ifdef __APPLE__
-    long brandId = BOINC_BRAND_ID;
-    // For GridRepublic or CharityEngine, the installer put a branding file in our data directory
+    long brandId = 0;
+    // For branded installs, the installer put a branding file in our data directory
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &brandId);
         fclose(f);
-        if (brandId == GRIDREPUBLIC_BRAND_ID) {
-            brand_name = "GridRepublic";
-            logo_file = "gridrepublic_ss_logo.jpg";
-        } else if (brandId == CHARITYENGINE_BRAND_ID) {
-            brand_name = "Charity Engine";
-            logo_file = "CE_ss_logo.jpg";
-        } else if (brandId == WORLDCOMMUNITYGRID_BRAND_ID) {
-            brand_name = "World Community Grid";
-            logo_file = "wcg_ss_logo.jpg";
-        }
     }
+    if ((brandId < 0) || (brandId > (NUMBRANDS-1))) {
+        brandId = 0;
+    }
+    brand_name = brandName[brandId];
+    logo_file = logoFile[brandId];
 #endif
 
     boinc_graphics_loop(argc, argv, "BOINC screensaver");

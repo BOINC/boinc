@@ -71,8 +71,14 @@ struct GLOBAL_PREFS_MASK {
     bool work_buf_additional_days;
     bool work_buf_min_days;
 
-    GLOBAL_PREFS_MASK();
-    void clear();
+    GLOBAL_PREFS_MASK(int){}
+    void clear() {
+        static const GLOBAL_PREFS_MASK x(0);
+        *this = x;
+    }
+    GLOBAL_PREFS_MASK() {
+        clear();
+    }
     bool are_prefs_set();
     bool are_simple_prefs_set();
     void set_all();
@@ -104,11 +110,10 @@ struct TIME_SPAN {
 struct WEEK_PREFS {
     TIME_SPAN days[7];
 
+    WEEK_PREFS() {}
     void clear() {
-        memset(this, 0, sizeof(WEEK_PREFS));
-    }
-    WEEK_PREFS() {
-        clear();
+        static const WEEK_PREFS init;
+        *this = init;
     }
 
     void set(int day, double start, double end);

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <libproc.h>
+#include "sandbox.h"
+#include "mac_branding.h"
 #endif
 
 #ifdef _WIN32
@@ -51,10 +53,6 @@
 #endif
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "network.h"
@@ -75,6 +73,9 @@
 
 using std::string;
 using std::vector;
+
+const char* HTTP_HEADER_DELIM = "\r\n\r\n";
+const size_t HTTP_HEADER_DELIM_LEN = strlen(HTTP_HEADER_DELIM);
 
 static void auth_failure(MIOFILE& fout) {
     fout.printf("<unauthorized/>\n");
@@ -102,9 +103,20 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     return 0;
 }
 
-// client passes its version, but ignore it for now
-//
 static void handle_exchange_versions(GUI_RPC_CONN& grc) {
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.parse_int("major", grc.client_api.major)) continue;
+        if (grc.xp.parse_int("minor", grc.client_api.minor)) continue;
+        if (grc.xp.parse_int("release", grc.client_api.release)) continue;
+        if (grc.xp.parse_string("name", grc.client_name)) continue;
+    }
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(NULL, MSG_INFO, "[gui_rpc] RPC client: %s; API %d.%d.%d",
+            grc.client_name.size() ? grc.client_name.c_str() : "unknown",
+            grc.client_api.major, grc.client_api.minor, grc.client_api.release
+        );
+    }
+
     grc.mfout.printf(
         "<server_version>\n"
         "   <major>%d</major>\n"
@@ -152,8 +164,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size(".", boinc_non_project, false);
-    dir_size("locale", size, false);
+    dir_size_alloc(".", boinc_non_project, false);
+    dir_size_alloc("locale", size, false);
     boinc_non_project += size;
 #ifdef __APPLE__
     if (gstate.launched_by_manager) {
@@ -163,9 +175,13 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         OSStatus err = noErr;
         
         retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) err = fnfErr;
-        if (! err) dir_size(path, manager_size, true);
-        if (! err) boinc_non_project += manager_size;
+        if (retval <= 0) {
+            err = fnfErr;
+        }
+        if (!err) {
+            dir_size_alloc(path, manager_size, true);
+            boinc_non_project += manager_size;
+        }
     }
 #endif
     boinc_total = boinc_non_project;
@@ -377,7 +393,7 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-// On Android, get product name, OS name, OS version, and MAC addr from GUI,
+// On Android, get product name, OS name, OS version, domain name (device name), and MAC addr from GUI,
 //
 static void handle_set_host_info(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
@@ -408,6 +424,12 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
                     safe_strcat(gstate.host_info.os_version, ")");
                 }
             }
+
+            // Device name
+            if (strlen(hi.domain_name)) {
+                safe_strcpy(gstate.host_info.domain_name, hi.domain_name);
+            }
+
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");
             return;
@@ -453,7 +475,7 @@ static void handle_set_network_mode(GUI_RPC_CONN& grc) {
 }
 
 static void handle_run_benchmarks(GUI_RPC_CONN& grc) {
-    gstate.start_cpu_benchmarks();
+    gstate.start_cpu_benchmarks(true);
     grc.mfout.printf("<success/>\n");
 }
 
@@ -726,7 +748,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     //
     for (unsigned i=0; i<gstate.projects.size(); i++) { 
         PROJECT* p = gstate.projects[i]; 
-        if (!strcmp(p->master_url, gstate.project_init.url)) { 
+        if (urls_match(p->master_url, gstate.project_init.url)) { 
             gstate.project_init.remove(); 
             break; 
         } 
@@ -736,15 +758,11 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         "<get_project_init_status>\n"
         "    <url>%s</url>\n"
         "    <name>%s</name>\n"
-        "    <team_name>%s</team_name>\n"
-        "    <setup_cookie>%s</setup_cookie>\n"
         "    %s\n"
         "    %s\n"
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
-        gstate.project_init.team_name,
-        gstate.project_init.setup_cookie,
         strlen(gstate.project_init.account_key)?"<has_account_key/>":"",
         gstate.project_init.embedded?"<embedded/>":""
     );
@@ -817,7 +835,12 @@ void handle_create_account(GUI_RPC_CONN& grc) {
     ACCOUNT_IN ai;
 
     ai.parse(grc.xp);
-    grc.create_account_op.do_rpc(ai);
+    if (ai.consented_to_terms && !grc.client_name.size()) {
+        grc.create_account_op.error_num = ERR_INVALID_STATE;
+        grc.mfout.printf("<error>&lt;name&gt; must be set in &lt;exchange_versions&gt; before using &lt;consented_to_terms/&gt;</error>\n");
+        return;
+    }
+    grc.create_account_op.do_rpc(ai, grc.client_name);
     grc.mfout.printf("<success/>\n");
 }
 
@@ -874,9 +897,46 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
         }
     }
 
+	// remove http(s):// at the beginning of project address
+	// there is no reason to connect to secure address project
+	// if we're already connected to the non-secure address
+	// or vice versa
+	// also clear last '/' character if present
+
+	const string http = "http://";
+	const string https = "https://";
+
+	string new_project_url = url;
+	size_t pos = new_project_url.find(http);
+	if (pos != string::npos) {
+		new_project_url.erase(pos, http.length());
+	}
+	else if ((pos = new_project_url.find(https)) != string::npos) {
+		new_project_url.erase(pos, https.length());
+	}
+	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+		new_project_url.erase(new_project_url.length() - 1, 1);
+	}
+
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (url == p->master_url) already_attached = true;
+		string project_url = p->master_url;
+
+		pos = project_url.find(http);
+		if (pos != string::npos) {
+			project_url.erase(pos, http.length());
+		}
+		else if ((pos = project_url.find(https)) != string::npos) {
+			project_url.erase(pos, https.length());
+		}
+		if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+			project_url.erase(project_url.length() - 1, 1);
+		}
+
+		if (new_project_url == project_url) {
+			already_attached = true;
+			break;
+		}
     }
 
     if (already_attached) {
@@ -1030,7 +1090,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        cc_config.client_download_url.c_str()
+        nvc_config.client_download_url.c_str()
     );
 }
 
@@ -1270,17 +1330,329 @@ static void handle_get_daily_xfer_history(GUI_RPC_CONN& grc) {
     daily_xfer_history.write_xml(grc.mfout);
 }
 
-static bool complete_post_request(char* buf) {
-    if (strncmp(buf, "POST", 4)) return false;
-    char* p = strstr(buf, "Content-Length: ");
+#ifdef __APPLE__
+static void stop_graphics_app(pid_t thePID, 
+                            long iBrandID, 
+                            char current_dir[], 
+                            char switcher_path[], 
+                            string theScreensaverLoginUser, 
+                            GUI_RPC_CONN& grc
+                            ) {
+    char* argv[16];
+    int argc;
+    char screensaverLoginUser[256];
+    int newPID = 0;
+    int retval;
+
+    if (g_use_sandbox) {
+        char pidString[10];
+        
+        snprintf(pidString, sizeof(pidString), "%d", thePID);
+    #if 1
+        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+        argv[1] = saverName[iBrandID];
+        argv[2] = "-kill_gfx";
+        argv[3] = pidString;
+        argc = 4;
+    #else 
+        argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+        argv[1] = "/bin/kill";
+        argv[2] = "-kill";
+        argv[3] = (char *)pidString;
+        argc = 4;
+    #endif
+        if (!theScreensaverLoginUser.empty()) {
+            argv[argc++] = "--ScreensaverLoginUser";
+            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+            argv[argc++] = screensaverLoginUser;
+        }
+        argv[argc] = 0;
+
+        retval = run_program(
+            current_dir, switcher_path,
+            argc, argv, 0, newPID
+        );
+    } else {
+        retval = kill_program(thePID);
+    }
+    if (retval) {
+        grc.mfout.printf("<error>attempt to kill graphics app failed</error>\n");
+        return;
+    }
+    grc.mfout.printf("<success/>\n");
+    return;
+}
+#endif
+
+// start, stop or get status of a graphics app on behalf of the screensaver.
+// (needed for Mac OS X 10.15+; "stop & "test" are used for Mac OS X 10.13+)
+//
+// <slot>n</slot> { <run/> | <runfullscreen/> }
+// <graphics_pid>p</graphics_pid> { <stop/> | <test/> }
+//
+// n is the slot number:
+//   if slot = -1, start the default screensaver
+// p is the process id to stop
+//   test returns 0 for the pid if it has exited, else returns the child's pid
+//
+static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
+#ifndef __APPLE__
+    grc.mfout.printf("<error>run_graphics_app RPC is currently available only on Mac OS</error>\n");
+#else
+    bool run = false;
+    bool runfullscreen = false;
+    bool stop = false;
+    bool test = false;
+    int slot = -2, retval;
+    pid_t p;
+    char* argv[16];
+    int argc;
+    int thePID = 0;
+    FILE *f;
+    long iBrandID;
+    string theScreensaverLoginUser;
+    char screensaverLoginUser[256];
+    char switcher_path[MAXPATHLEN];
+    char *execName, *execPath;
+    char current_dir[MAXPATHLEN];
+    char *execDir;
+    int newPID = 0;
+    ACTIVE_TASK* atp = NULL;
+    char cmd[256];
+    
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("/run_graphics_app")) break;
+        if (grc.xp.parse_int("slot", slot)) continue;
+        if (grc.xp.parse_bool("run", run)) continue;
+        if (grc.xp.parse_bool("runfullscreen", runfullscreen)) continue;
+        if (grc.xp.parse_bool("stop", stop)) continue;
+        if (grc.xp.parse_bool("test", test)) continue;
+        if (grc.xp.parse_int("graphics_pid", thePID)) continue;
+        if (grc.xp.parse_string("ScreensaverLoginUser", theScreensaverLoginUser)) continue;
+    }
+    
+    if (stop || test) {
+        if (thePID < 1) {
+            grc.mfout.printf("<error>missing or invalid process id</error>\n");
+            return;
+        }
+    } else if (run || runfullscreen) {
+        if (slot < -1) {
+            grc.mfout.printf("<error>missing or invalid slot</error>\n");
+            return;
+        }
+    } else {
+        grc.mfout.printf("<error>missing or invalid operation</error>\n");
+        return;
+    }
+
+    if (test) {
+        // returns 0 for the pid if it has exited, else returns the child's pid
+        p = 0;
+        snprintf(cmd, sizeof(cmd), "ps -p %d -o pid", thePID);
+        f = popen(cmd, "r");
+        if (f) {
+            fgets(cmd, sizeof(cmd), f); // Skip the header line
+            fscanf(f, "%d", &p);
+            pclose(f);
+            grc.mfout.printf(
+                "<graphics_pid>%d</graphics_pid>\n<success/>\n",
+                p
+            );
+        }
+        return;
+    }
+
+    // For branded installs, the Mac installer put a branding file in our data directory
+    iBrandID = 0;   // Default value
+    f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandID);
+        fclose(f);
+    }
+    if ((iBrandID < 0) || (iBrandID > (NUMBRANDS-1))) {
+        iBrandID = 0;
+    }
+
+    getcwd(current_dir, sizeof(current_dir));
+
+    if (g_use_sandbox) {
+        snprintf(switcher_path, sizeof(switcher_path), 
+            "%s/%s/%s",
+            current_dir, SWITCHER_DIR, SWITCHER_FILE_NAME
+        );
+    }
+
+    if (stop) {
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+                            theScreensaverLoginUser, grc);
+        grc.mfout.printf("<success/>\n");
+        return;
+    }
+
+    if (slot == -1) {
+        // start boincscr
+        //
+        execPath = (char*)"./boincscr";
+        execName = (char*)"boincscr";
+        execDir = current_dir;
+    } else {   // if (slot != -1)
+        // start a graphics app
+        //
+        atp = gstate.active_tasks.lookup_slot(slot);
+        if (!atp) {
+            grc.mfout.printf("<error>no job in slot</error>\n");
+            return;
+        }
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
+            grc.mfout.printf("<error>job not running</error>\n");
+            return;
+        }
+        if (!strlen(atp->app_version->graphics_exec_path)) {
+            grc.mfout.printf("<error>job has no graphics app</error>\n");
+            return;
+        }
+        
+        execPath = atp->app_version->graphics_exec_path;
+        execName = atp->app_version->graphics_exec_file;
+        execDir = atp->slot_path;
+    }
+
+    if (g_use_sandbox) {
+        if (slot == -1) {
+            argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+            argv[1] = execDir;
+            argv[2] = saverName[iBrandID];
+            argv[3] = "-default_gfx";
+            argv[4] = "boincscr";
+            argc = 5;
+        } else {
+            char theSlot[10];
+            sprintf(theSlot, "%d", slot);
+            argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
+            argv[1] = execDir;
+            argv[2] = saverName[iBrandID];
+            argv[3] = "-launch_gfx";
+            argv[4] = (char *)theSlot;
+            argc = 5;
+        }
+        
+        if (runfullscreen) {
+            argv[argc++] = "--fullscreen";
+        }
+        if (!theScreensaverLoginUser.empty()) {
+            argv[argc++] = "--ScreensaverLoginUser";
+            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+            argv[argc++] = screensaverLoginUser;
+        }
+        argv[argc] = 0;
+
+        retval = run_program(
+            execDir, switcher_path,
+            argc, argv, 0, newPID
+        );
+    } else {    // not g_use_sandbox
+        argv[0] = execName;
+        if (runfullscreen) {
+            argv[1] = (char*)"--fullscreen";
+            argc = 2;
+        } else {
+            argc = 1;
+        }
+        if (!theScreensaverLoginUser.empty()) {
+            argv[argc++] = "--ScreensaverLoginUser";
+            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+            argv[argc++] = screensaverLoginUser;
+        }
+        argv[argc] = 0;
+        retval = run_program(
+            execDir, execPath,
+            argc, argv, 0, newPID
+        );
+    }
+    
+    if (retval) {
+        grc.mfout.printf("<error>couldn't run graphics app</error>\n");
+        stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
+                            theScreensaverLoginUser, grc);
+    } else {
+        grc.mfout.printf("<success/>\n");
+    }
+    return;
+#endif  // __APPLE__
+}
+
+// We use a different authentication scheme for HTTP because
+// each request has its own connection.
+// Send clients an "authentication ID".
+// Each request has (in HTTP header vars) the ID,
+// a sequence number, and a hash of the seq# and the password.
+//
+struct AUTH_INFO {
+    int id;
+    long seqno;
+    char salt[64];
+};
+
+vector<AUTH_INFO> auth_infos;
+
+// check HTTP authentication info
+//
+bool valid_auth(int id, long seqno, char* hash, char* request) {
+    char buf[1024], my_hash[256];
+    //printf("valid_auth: id %d seqno %ld hash %s\n", id, seqno, hash);
+    for (unsigned int i=0; i<auth_infos.size(); i++) {
+        AUTH_INFO& ai = auth_infos[i];
+        if (ai.id != id) continue;
+        if (seqno <= ai.seqno) return false;
+        int n = request?(int)strlen(request):0;
+        snprintf(buf, sizeof(buf), "%ld%s%s", seqno, gstate.gui_rpcs.password, ai.salt);
+        md5_block((const unsigned char*)buf, (int)strlen(buf), my_hash,
+            (const unsigned char*)request, n
+        );
+        if (strcmp(hash, my_hash)) {
+            msg_printf(0, MSG_INFO, "got invalid GUI RPC request");
+            return false;
+        }
+        ai.seqno = seqno;   // bump seqno only if valid request
+        return true;
+    }
+    return false;
+}
+
+// create a new authentication ID
+//
+void handle_get_auth_id(MIOFILE& fout) {
+    static int id=0;
+    AUTH_INFO ai;
+    ai.id = id++;
+    ai.seqno = 0;
+    make_secure_random_string(ai.salt);
+    auth_infos.push_back(ai);
+    fout.printf("<auth_id>%d</auth_id>\n<auth_salt>%s</auth_salt>\n", ai.id, ai.salt);
+}
+
+// see if the HTTP request has valid authentication info
+//
+static bool authenticated_request(char* buf) {
+    int auth_id;
+    long auth_seqno;
+    char auth_hash[256];
+    const char* p = strcasestr(buf, "Auth-ID: ");
     if (!p) return false;
-    p += strlen("Content-Length: ");
-    int n = atoi(p);
-    p = strstr(p, "\r\n\r\n");
+    int n = sscanf(p+strlen("Auth-ID: "), "%d", &auth_id);
+    if (n != 1) return false;
+    p = strcasestr(buf, "Auth-Seqno: ");
     if (!p) return false;
-    p += 4;
-    if ((int)strlen(p) < n) return false;
-    return true;
+    n = sscanf(p+strlen("Auth-Seqno: "), "%ld", &auth_seqno);
+    if (n != 1) return false;
+    p = strcasestr(buf, "Auth-Hash: ");
+    if (!p) return false;
+    n = sscanf(p+strlen("Auth-Hash: "), "%64s", auth_hash);
+    if (n != 1) return false;
+    char* request = strstr(buf, HTTP_HEADER_DELIM);
+    if (request) request += HTTP_HEADER_DELIM_LEN;
+    return valid_auth(auth_id, auth_seqno, auth_hash, request);
 }
 
 static void handle_set_language(GUI_RPC_CONN& grc) {
@@ -1477,6 +1849,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("project_reset", handle_project_reset,                  true,   true,   false),
     GUI_RPC("project_update", handle_project_update,                true,   true,   false),
     GUI_RPC("retry_file_transfer", handle_retry_file_transfer,      true,   true,   false),
+    GUI_RPC("run_graphics_app", handle_run_graphics_app,            true,   true,   false),
 };
 
 // return nonzero only if we need to close the connection
@@ -1484,8 +1857,14 @@ GUI_RPC gui_rpcs[] = {
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse <boinc_gui_rpc_request>
-    if (grc.xp.get_tag()) return ERR_XML_PARSE;   // parse the request tag
+    if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
+        grc.mfout.printf("<error>missing boing_gui_rpc_request tag</error>\n");
+        return 0;
+    }
+    if (grc.xp.get_tag()) {    // parse the request tag
+        grc.mfout.printf("<error>missing request</error>\n");
+        return 0;
+    }
     for (unsigned int i=0; i<sizeof(gui_rpcs)/sizeof(GUI_RPC); i++) {
         GUI_RPC& gr = gui_rpcs[i];
         if (!grc.xp.match_tag(gr.req_tag) && !grc.xp.match_tag(gr.alt_req_tag)) {
@@ -1507,6 +1886,103 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     }
     grc.mfout.printf("<error>unrecognized op: %s</error>\n", grc.xp.parsed_tag);
     return 0;
+}
+
+// see if we got a complete HTTP POST request
+//
+static bool is_http_post_request(char* buf) {
+    if (strstr(buf, "POST") != buf) return false;
+    char* p = strstr(buf, "Content-Length: ");
+    if (!p) return false;
+    p += strlen("Content-Length: ");
+    int n = atoi(p);
+    p = strstr(p, HTTP_HEADER_DELIM);
+    if (!p) return false;
+    p += 4;
+    if ((int)strlen(p) < n) return false;
+    return true;
+}
+
+// remove HTTP header from request
+//
+static void strip_http_header(char* buf) {
+    char* p = strstr(buf, HTTP_HEADER_DELIM);
+    p += 4;
+    strcpy_overlap(buf, p);
+}
+
+static bool is_http_get_request(char* buf) {
+    return (strstr(buf, "GET") == buf);
+}
+
+// send HTTP error reply
+//
+void GUI_RPC_CONN::http_error(const char* msg) {
+    send(sock, msg, (int)strlen(msg), 0);
+}
+
+// handle a GET request, returning a file from the BOINC data dir.
+// This is unauthenticated so be paranoid:
+// - only .html, .js, and .css filenames
+// - no ..
+//
+void GUI_RPC_CONN::handle_get() {
+    // no one is using this feature and it's a potential security risk,
+    // so disable it for now.
+    //
+    return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+#if 0
+    if (!cc_config.allow_gui_rpc_get) {
+        return http_error("HTTP/1.0 403 Access denied\n\nAccess denied\n");
+    }
+
+    // get filename from GET /foo.html HTTP/1.1
+    // and make sure it's relative
+    //
+    char *p, *q=0;
+    p = strchr(request_msg, '/');
+    if (p) {
+        while (*p=='/') {
+            p++;
+        }
+        q = strchr(p, ' ');
+    }
+
+    if (!q) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+
+    *q = 0;
+    if (strstr(p, "..") || strchr(p, ':')) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad HTTP request\n");
+    }
+    if (!ends_with(p, ".html")
+        && !ends_with(p, ".js")
+        && !ends_with(p, ".css")
+    ) {
+        return http_error("HTTP/1.0 400 Bad request\n\nBad file type\n");
+    }
+
+    //  read the file
+    //
+    string file;
+    if (read_file_string(p, file)) {
+        return http_error("HTTP/1.0 404 Not Found\n\nFile not found\n");
+    }
+    int n = (int)file.size();
+    char buf[1024];
+    snprintf(buf, sizeof(buf),
+        "HTTP/1.1 200 OK\n"
+        "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
+        "Server: BOINC client\n"
+        "Connection: close\n"
+        "Content-Type: text/html; charset=utf-8\n"
+        "Content-Length: %d\n\n",
+        n
+    );
+    send(sock, buf, (int)strlen(buf), 0);
+    send(sock, file.c_str(), n, 0);
+#endif
 }
 
 // return nonzero only if we need to close the connection
@@ -1533,6 +2009,13 @@ int GUI_RPC_CONN::handle_rpc() {
         return ERR_READ;
     }
     request_msg[request_nbytes] = 0;
+
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
+        );
+    }
+
     if (!strncmp(request_msg, "OPTIONS", 7)) {
         char buf[1024];
         snprintf(buf, sizeof(buf),
@@ -1540,6 +2023,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "Server: BOINC client\n"
             "Access-Control-Allow-Origin: *\n"
             "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
+            "Access-Control-Allow-Headers: *\n"
             "Content-Length: 0\n"
             "Keep-Alive: timeout=2, max=100\n"
             "Connection: Keep-Alive\n"
@@ -1554,9 +2038,18 @@ int GUI_RPC_CONN::handle_rpc() {
         }
         return 0;
     }
+    if (is_http_get_request(request_msg)) {
+        handle_get();
+        return 1;
+    }
     bool http_request;
-    if (complete_post_request(request_msg)) {
+    if (is_http_post_request(request_msg)) {
         http_request = true;
+        if (authenticated_request(request_msg)) {
+            got_auth1 = got_auth2 = true;
+            auth_needed = false;
+        }
+        strip_http_header(request_msg);
     } else {
         p = strchr(request_msg, 3);
         if (p) {
@@ -1572,12 +2065,6 @@ int GUI_RPC_CONN::handle_rpc() {
         }
     }
     request_nbytes = 0;
-
-    if (log_flags.gui_rpc_debug) {
-        msg_printf(0, MSG_INFO,
-            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
-        );
-    }
 
     // Policy:
     // - the first auth failure gets an error message; after that, disconnect
@@ -1598,6 +2085,8 @@ int GUI_RPC_CONN::handle_rpc() {
             retval = handle_auth2(request_msg, mfout);
             got_auth2 = true;
         }
+    } else if (match_req(request_msg, "get_auth_id")) {
+        handle_get_auth_id(mfout);
     } else if (auth_needed && !is_local) {
         auth_failure(mfout);
         if (sent_unauthorized) {
@@ -1608,7 +2097,12 @@ int GUI_RPC_CONN::handle_rpc() {
         retval = handle_rpc_aux(*this);
     }
 
-    mfout.printf("</boinc_gui_rpc_reply>\n\003");
+#define XML_HEADER "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+
+    mfout.printf("</boinc_gui_rpc_reply>\n");
+    if (!http_request) {
+        mfout.printf("\003");   // delimiter for non-HTTP replies
+    }
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
@@ -1616,18 +2110,23 @@ int GUI_RPC_CONN::handle_rpc() {
             "HTTP/1.1 200 OK\n"
             "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
             "Server: BOINC client\n"
+            "Access-Control-Allow-Origin: *\n"
+            "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
+            "Access-Control-Allow-Headers: *\n"
             "Connection: close\n"
             "Content-Type: text/xml; charset=utf-8\n"
             "Content-Length: %d\n\n"
-            "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n",
-            n
+            XML_HEADER,
+            n+(int)strlen(XML_HEADER)
         );
         send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
         send(sock, p, n, 0);
-        p[n-1]=0;   // replace 003 with NULL
         if (log_flags.gui_rpc_debug) {
+            if (!http_request) {
+                p[n-1]=0;   // replace 003 with NULL
+            }
             if (n > 128) p[128] = 0;
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p

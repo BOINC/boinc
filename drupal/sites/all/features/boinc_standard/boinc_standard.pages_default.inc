@@ -361,6 +361,21 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'if user status then show profile',
+            'php' => '$account = $contexts[\'argument_uid_1\']->data;
+return ($account->status);
+',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display;
   $display->layout = 'one_sidebar_second';

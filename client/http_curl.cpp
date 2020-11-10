@@ -19,11 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define unlink   _unlink
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstring>
@@ -62,7 +57,6 @@ using std::vector;
 
 static CURLM* g_curlMulti = NULL;
 static char g_user_agent_string[256] = {""};
-static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 static unsigned int g_trace_count = 0;
 static bool got_expectation_failed = false;
     // Whether we've got a 417 HTTP error.
@@ -77,7 +71,7 @@ static void get_user_agent_string() {
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
-        char buf[256];
+        char buf[1024];
         snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
         safe_strcat(g_user_agent_string, buf);
     }
@@ -192,7 +186,7 @@ void libcurl_logdebug(
     char hdr[256];
     char buf[2048], *p = buf;
 
-    sprintf(hdr, "[ID#%d] %s", phop->trace_id, desc);
+    sprintf(hdr, "[ID#%u] %s", phop->trace_id, desc);
 
     strlcpy(buf, data, sizeof(buf));
 
@@ -601,11 +595,6 @@ int HTTP_OP::libcurl_exec(
     //
     setup_proxy_session(no_proxy_for_url(url));
 
-
-    // set the content type in the header
-    //
-    pcurlList = curl_slist_append(pcurlList, g_content_type);
-
     if (strlen(gstate.language)) {
         snprintf(buf, sizeof(buf), "Accept-Language: %s", gstate.language);
         pcurlList = curl_slist_append(pcurlList, buf);
@@ -694,7 +683,6 @@ int HTTP_OP::libcurl_exec(
         curl_formadd(&pcurlFormStart, &pcurlFormEnd,
            CURLFORM_FILECONTENT, infile,
            CURLFORM_CONTENTSLENGTH, content_length,
-           CURLFORM_CONTENTTYPE, g_content_type,
            CURLFORM_END
         );
         curl_formadd(&post, &last,

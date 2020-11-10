@@ -100,7 +100,7 @@ void print_to_log_file(const char *format, ...) {
     time_t t;
     safe_strcpy(path, "/Users/Shared/test_log.txt");
     //    strcpy(path, "/Users/");
-    //    strcat(path, getlogin());
+    //    strcat(path, getenv("USER"));
     //    strcat(path, "/Documents/test_log.txt");
     f = fopen(path, "a");
     if (!f) return;

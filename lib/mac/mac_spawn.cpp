@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -105,9 +105,9 @@ int callPosixSpawn(const char *cmdline) {
     }
     
 #if VERBOSE_SPAWN
-    fprintf(stderr, "***********");
+    fprintf(stderr, "***********\n");
     for (int i=0; i<argc; ++i) {
-        fprintf(stderr, "argv[%d]=%s", i, argv[i]);
+        fprintf(stderr, "argv[%d]=%s\n", i, argv[i]);
     }
     fprintf(stderr, "***********\n");
 #endif
@@ -116,8 +116,8 @@ int callPosixSpawn(const char *cmdline) {
 
     result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
 #if VERBOSE_SPAWN
-    fprintf(stderr, "callPosixSpawn command: %s", cmdline);
-    fprintf(stderr, "callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+    fprintf(stderr, "callPosixSpawn command: %s\n", cmdline);
+    fprintf(stderr, "callPosixSpawn: posix_spawnp returned %d: %s\n", result, strerror(result));
 #endif
     if (result) {
         return result;
@@ -127,7 +127,7 @@ int callPosixSpawn(const char *cmdline) {
 // CAF        if (val < 0) printf("first waitpid returned %d\n", val);
     if (status != 0) {
 #if VERBOSE_SPAWN
-        fprintf(stderr, "waitpid() returned status=%d", status);
+        fprintf(stderr, "waitpid() returned status=%d\n", status);
 #endif
         result = status;
     } else {
@@ -135,13 +135,13 @@ int callPosixSpawn(const char *cmdline) {
             result = WEXITSTATUS(status);
             if (result == 1) {
 #if VERBOSE_SPAWN
-                fprintf(stderr, "WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+                fprintf(stderr, "WEXITSTATUS(status) returned 1, errno=%d: %s\n", errno, strerror(errno));
 #endif
                 result = errno;
             }
 #if VERBOSE_SPAWN
             else if (result) {
-                fprintf(stderr, "WEXITSTATUS(status) returned %d", result);
+                fprintf(stderr, "WEXITSTATUS(status) returned %d\n", result);
             }
 #endif
         }   // end if (WIFEXITED(status)) else

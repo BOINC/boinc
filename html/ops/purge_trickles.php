@@ -19,11 +19,28 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // purge already-handled trickle messages from the DB
+//
+// no args: delete both up and down messages with handled != 0
+// msg_from_host N
+//    delete trickle ups with handled==N
+// msg_to_host N
+//    same, trickle down
 
 require_once("../inc/boinc_db.inc");
 $db = BoincDb::get();
 if (!$db) die("no DB connection");
-$db->do_query("delete from msg_from_host where handled <> 0");
-$db->do_query("delete from msg_to_host where handled <> 0");
+
+if ($argc == 1) {
+    $db->do_query("delete from msg_from_host where handled <> 0");
+    $db->do_query("delete from msg_to_host where handled <> 0");
+} else if ($argv[1] == "msg_from_host") {
+    $n = (int)$argv[2];
+    $db->do_query("delete from msg_from_host where handled = $n");
+} else if ($argv[1] == "msg_to_host") {
+    $n = (int)$argv[2];
+    $db->do_query("delete from msg_to_host where handled = $n");
+} else {
+    echo "usage: purge_trickles.php [msg_from_host | msg_to_host]\n";
+}
 
 ?>

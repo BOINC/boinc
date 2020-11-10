@@ -1162,6 +1162,74 @@ function update_5_9_2018() {
     ");
 }
 
+function update_8_23_2018() {
+    $retval = do_query("alter table host add index host_userid_cpid (userid, host_cpid)");
+    $retval = $retval && do_query("alter table host drop index host_user");
+    return $retval && do_query("alter table host add index host_domain_name (domain_name)");
+}
+
+
+function update_9_12_2018() {
+    do_query("create table consent (
+        id                      integer         not null auto_increment,
+        userid                  integer         not null,
+        consent_type_id         integer         not null,
+        consent_time            integer         not null,
+        consent_flag            tinyint         not null,
+        consent_not_required    tinyint         not null,
+        source                  varchar(255)    not null,
+        primary key (id),
+        index userid_ctid(userid, consent_type_id),
+        index consent_timestamp(consent_time),
+        index flag_ctid(consent_flag, consent_type_id)
+        ) engine=InnoDB;
+    ");
+
+    do_query("create table consent_type (
+        id                      integer         not null auto_increment,
+        shortname               varchar(255)    not null,
+        description             varchar(255)    not null,
+        enabled                 integer         not null,
+        project_specific        integer         not null,
+        privacypref             integer         not null,
+        primary key (id),
+        index consent_name (shortname)
+        ) engine=InnoDB;
+    ");
+
+    do_query("alter table consent
+       add foreign key(consent_type_id)
+       references consent_type(id)
+       on update cascade
+       on delete restrict;
+    ");
+
+    do_query("insert into consent_type
+        (shortname, description, enabled, project_specific, privacypref) values
+        ('ENROLL', 'General terms-of-use for this BOINC project.', 0, 0, 0);
+    ");
+    do_query("insert into consent_type
+        (shortname, description, enabled, project_specific, privacypref) values
+        ('STATSEXPORT', 'Do you consent to exporting your data to BOINC statistics aggregation Web sites?', 0, 0, 1);
+    ");
+
+    // SQL View representing the latest consent state of users for all
+    // consent_types. Used in sched/db_dump and Web site preferences to
+    // determine if a user has consented to a particular consent type.
+    do_query("create view latest_consent as
+SELECT userid,
+       consent_type_id,
+       consent_flag
+  FROM consent
+ WHERE NOT EXISTS
+       (SELECT *
+          FROM consent AS filter
+         WHERE consent.userid = filter.userid
+           AND consent.consent_type_id = filter.consent_type_id
+           AND filter.consent_time > consent.consent_time);
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1219,7 +1287,9 @@ $db_updates = array (
     array(27023, "update_4_6_2018"),
     array(27024, "update_4_18_2018"),
     array(27025, "update_4_19_2018"),
-    array(27026, "update_5_9_2018")
+    array(27026, "update_5_9_2018"),
+    array(27027, "update_8_23_2018"),
+    array(27028, "update_9_12_2018")
 );
 
 ?>

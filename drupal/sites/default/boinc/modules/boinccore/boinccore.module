@@ -412,6 +412,11 @@ function boinccore_rules_action_info() {
       ),
       'module' => 'BOINC core',
     ),
+    'boinccore_rules_action_mail_to_admins' => array(
+      'label' => t('Notify admins via email'),
+      'module' => 'BOINC core',
+      'eval input' => array('subject', 'message', 'from'),
+    ),
   );
 }
 
@@ -510,6 +515,33 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     // Remove redundant name field
     unset($form['_author']);
+
+    // If user is role='community member' only, then user may not post
+    // any comments in non-forum node-types, team_forums are also not
+    // allowed.. This allows users who have site-wide comment
+    // permission to comment on forums in special
+    // circumstances. Additionally, any comments require a captcha.
+    //
+    $node = node_load($form['nid']['#value']);
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if ($node->type == 'forum') {
+        if (module_exists('captcha')) {
+          $form['comment_captcha'] = array(
+            '#type' => 'captcha',
+            '#weight' => 1000,
+          );
+        }
+      }
+      else {
+        $form = NULL;
+        $form['from'] = array(
+          '#type'  => 'item',
+          '#value' => 'You do not have permission to post comments in this forum.',
+        );
+      }
+    }
     
     break;
     
@@ -545,6 +577,18 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</ul>',
       '#weight' => 1010,
     );
+
+    // Add captcha for role='community member'
+    $community_role = array_search('community member', user_roles(true));
+    $unrestricted_role = array_search('verified contributor', user_roles(true));
+    if ( (isset($account->roles[$community_role])) and (!isset($account->roles[$unrestricted_role])) ) {
+      if (module_exists('captcha')) {
+        $form['comment_captcha'] = array(
+          '#type' => 'captcha',
+          '#weight' => 1000,
+        );
+      }
+    }
 
     break;
   case 'boinccore_delete_confirm':
@@ -748,6 +792,21 @@ function boinccore_link($type, $object, $teaser = FALSE) {
   return $links;
 }
 
+/**
+ * Implementation of hook_mail_alter()
+ */
+function boinccore_mail_alter(&$message) {
+  /* This code alters the headers for all emails sent by the Drupal Web site to use
+     'Quote-Printable' as the encoding, both altering the header and modifies the body to the
+     new encoding.
+  */
+  $message['headers']['Content-Transfer-Encoding'] = 'Quoted-Printable';
+  if (is_array($message['body'])) {
+    $message['body'] = array_map( "quoted_printable_encode", $message['body'] );
+  } else {
+    $message['body'] = quoted_printable_encode($message['body']);
+  }
+}
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
@@ -791,6 +850,12 @@ function boinccore_node_control($nid = NULL, $action = NULL) {
   default:
   }
   node_save($node);
+  // If hiding a forum topic (node) and not an administrator, go to
+  // the forum page. Otherwise the user will reach an access-denied
+  // page.
+  if (($action=="hide") and (!user_access('administer forums'))) {
+    drupal_goto("community/forum/{$node->tid}");
+  }
   drupal_goto("node/{$nid}");
 }
 
@@ -1603,11 +1668,17 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
       if ($comment_order == COMMENT_ORDER_NEWEST_FIRST) {
         $gt_lt = '>';
       }
+      // don't filter hidden comments for admins/mods
+      $include_hidden = '';
+      if (in_array('administrator', array_values($user->roles)) ||
+          in_array('moderator', array_values($user->roles))) {
+        $include_hidden = 'OR status = 1';
+      }
       // See how many comments there are before (or after) this comment...
       $comment_offset = db_result(db_query('
         SELECT COUNT(*) FROM {comments}
-        WHERE nid = %d AND status = 0 AND timestamp %s %d',
-        $object->nid, $gt_lt, $object->timestamp));
+        WHERE nid = %d AND (status = 0 %s) AND timestamp %s %d',
+        $object->nid, $include_hidden, $gt_lt, $object->timestamp));
       if ($comment_offset) {
         // Get the number of comments per page
         if ($user->comments_per_page) {
@@ -1888,6 +1959,10 @@ function boinccore_get_country_list() {
 }
 
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Functions related to rules module
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
 /**
  * Action: Mark node for moderation
  */
@@ -1933,6 +2008,38 @@ function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$f
   // Select only non-anonymous user roles because anonymous users won't have emails.
   rules_action_mail_to_user_form($settings, $form);
 }
+
+
+/**
+ * Action: Send mail to admins.
+ */
+function boinccore_rules_action_mail_to_admins($settings) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
+  $mailing_list = variable_get('boinc_admin_mailing_list', '');
+  if (empty($mailing_list)) {
+    $mailing_list = variable_get('site_mail', '');
+    if (empty($mailing_list)) {
+      watchdog('boinccore',
+        'Attempting to email administrators, but there is no admin email list or site email to send to.', array(),
+        WATCHDOG_ERROR
+      );
+      return FALSE;
+    }
+  }
+  $settings['to'] = $mailing_list;
+  rules_action_mail($settings);
+}
+
+/**
+ * Action "Send mail to admins" configuration form
+ */
+function boinccore_rules_action_mail_to_admins_form($settings = array(), &$form) {
+  rules_action_mail_to_user_form($settings, $form);
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * BOINC Translation functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /*
  * BOINC wrapper for string translation

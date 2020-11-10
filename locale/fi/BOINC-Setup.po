@@ -1,17 +1,18 @@
 # BOINC setup localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2019 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2017
+# Petteri Karjalainen <penes81@gmail.com>, 2018
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2017-2019
 # Kasvain <kasvain@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-10-04 20:40+0000\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2019-08-04 07:43+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/boinc/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -21,31 +22,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+#: mac_installer/Installer.cpp:92 mac_installer/PostInstall.cpp:210
+#: mac_installer/uninstall.cpp:113
+#, c-format
+msgid "Branding array has too few entries: %s"
+msgstr " Taulukkomerkinnällä on liian vähän merkintöjä: %s"
+
+#: mac_installer/Installer.cpp:102 mac_installer/PostInstall.cpp:217
 msgid "Could not get user login name"
 msgstr "Käyttäjän kirjautumisnimeä ei saatu"
 
-#: mac_installer/Installer.cpp:199
+#: mac_installer/Installer.cpp:219
 #, c-format
-msgid "Sorry, this version of %s requires system 10.6 or higher."
-msgstr "Tämä versio %s -ohjelmasta vaatii 10.6-version tai uudemman."
+msgid "Sorry, this version of %s requires system 10.7 or higher."
+msgstr "Tämä versio %s -ohjelmasta vaatii 10.7-version tai uudemman."
 
-#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
-#: mac_installer/uninstall.cpp:1512
+#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1446
+#: mac_installer/uninstall.cpp:1472
 msgid "Yes"
 msgstr "Kyllä"
 
-#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
-#: mac_installer/uninstall.cpp:1513
+#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1447
+#: mac_installer/uninstall.cpp:1473
 msgid "No"
 msgstr "Ei"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:142
+#: mac_installer/PostInstall.cpp:153
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Tulisiko BOINCin olla käynnissä myös silloin, kun käyttäjä ei ole kirjautunut sisään?"
 
-#: mac_installer/PostInstall.cpp:1501
+#: mac_installer/PostInstall.cpp:1646
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -53,27 +60,31 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Käyttäjät, joilla on ylläpito-oikeudet, saavat automaattisesti ajaa ja hallinnoida %s.\n\nHaluatko myös muiden käyttäjien ajaa ja hallita %s tässä Macissa?"
 
-#: mac_installer/PostInstall.cpp:1529
+#: mac_installer/PostInstall.cpp:1674
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Haluatko asettaa %s näytönsäästäjäksi kaikille tämän Macin %s -käyttäjille?"
 
-#: mac_installer/uninstall.cpp:84
+#: mac_installer/uninstall.cpp:87
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:144
+#: mac_installer/uninstall.cpp:152
 msgid "Permission error after relaunch"
 msgstr "Käyttöoikeusvirhe uudelleenkäynnistyksen jälkeen"
 
-#: mac_installer/uninstall.cpp:149
+#: mac_installer/uninstall.cpp:157
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Poistaminen voi kestää useita minuutteja.\nOle kärsivällinen."
 
-#: mac_installer/uninstall.cpp:164
+#: mac_installer/uninstall.cpp:173
+msgid "Error saving user name"
+msgstr "Virhe tallennettaessa käyttäjänimeä"
+
+#: mac_installer/uninstall.cpp:184
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -81,22 +92,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Haluatko varmasti poistaa %s tietokoneelta?\n\nTämä poistaa ohjelmatiedostot mutta ei koske %s datatiedostoihin."
 
-#: mac_installer/uninstall.cpp:179
+#: mac_installer/uninstall.cpp:199
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Peruttu: %s ei koskettu."
 
-#: mac_installer/uninstall.cpp:243
+#: mac_installer/uninstall.cpp:262
 msgid "name  of user"
 msgstr "käyttäjän nimi"
 
-#: mac_installer/uninstall.cpp:296
+#: mac_installer/uninstall.cpp:315
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Haluatko poistaa myös VirtualBoxin tietokoneesta?\n(VirtualBox asennettiin BOINCin kanssa.)"
 
-#: mac_installer/uninstall.cpp:334
+#: mac_installer/uninstall.cpp:353
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -108,10 +119,10 @@ msgid ""
 "\"%s\"."
 msgstr "Poistaminen valmis.\n\n Seuraavat kohdat voi poistaa käyttämällä Finderia: \nhakemisto \"%s\"\n\njokaiselta käyttäjältä tiedosto\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:1510
+#: mac_installer/uninstall.cpp:1470
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: mac_installer/uninstall.cpp:1511
+#: mac_installer/uninstall.cpp:1471
 msgid "Continue..."
 msgstr "Jatka..."

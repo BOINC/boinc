@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,6 +37,9 @@
 # Build only 64-bit library 1/25/18
 # Fix wxWidgets 3.1.0 bug when wxStaticBox has no label 3/20/18
 # Fix wxWidgets 3.1.0 to not use backingScaleFactor API on OS 10.6 6/8/18
+# Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
+# Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
+# Updated 8/4/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 #
 ## This script requires OS 10.6 or later
 ##
@@ -91,6 +94,56 @@ ENDOFFILE
     rm -f /tmp/pngstruct_h_diff
 else
     echo "src/png/pngstruct.h already patched"
+fi
+
+echo ""
+
+# Patch src/osx/webview_webkit.mm
+if [ ! -f src/osx/webview_webkit.mm.orig ]; then
+    cat >> /tmp/webview_webkit_mm_diff << ENDOFFILE
+--- webview_webkit.mm    2016-02-28 13:33:37.000000000 -0800
++++ webview_webkit_patched.mm    2020-02-29 03:04:08.000000000 -0800
+@@ -32,8 +32,8 @@
+ #include <UIKit/UIWebView.h>
+ #else
+ #include <WebKit/WebKit.h>
+-#include <WebKit/HIWebView.h>
+-#include <WebKit/CarbonUtils.h>
++//#include <WebKit/HIWebView.h>
++//#include <WebKit/CarbonUtils.h>
+ #endif
+ #include <Foundation/NSURLError.h>
+ 
+ENDOFFILE
+    patch -bfi /tmp/webview_webkit_mm_diff src/osx/webview_webkit.mm
+    rm -f /tmp/webview_webkit_mm_diff
+else
+    echo "src/osx/webview_webkit.mm already patched"
+fi
+
+echo ""
+
+# Patch src/html/htmlctrl/webkit/webkit.mm
+if [ ! -f src/html/htmlctrl/webkit/webkit.mm.orig ]; then
+    cat >> /tmp/webkit_mm_diff << ENDOFFILE
+--- /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit.mm    2016-02-28 13:33:37.000000000 -0800
++++ /Volumes/Dev/BOINC_Dev/wxWidgets-3.1.0/src/html/htmlctrl/webkit/webkit_patched.mm    2020-02-29 03:04:07.000000000 -0800
+@@ -21,8 +21,8 @@
+ #include "wx/osx/private.h"
+ 
+ #include <WebKit/WebKit.h>
+-#include <WebKit/HIWebView.h>
+-#include <WebKit/CarbonUtils.h>
++//#include <WebKit/HIWebView.h>
++//#include <WebKit/CarbonUtils.h>
+ 
+ #include "wx/html/webkit.h"
+ 
+ENDOFFILE
+    patch -bfi /tmp/webkit_mm_diff src/html/htmlctrl/webkit/webkit.mm
+    rm -f /tmp/webkit_mm_diff
+else
+    echo "src/html/htmlctrl/webkit/webkit.mm already patched"
 fi
 
 echo ""
@@ -245,18 +298,27 @@ retval=0
 alreadyBuilt=0
 
 if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
-    if [ $? -eq 0 ]; then
-        alreadyBuilt=1
-        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -ne 0 ]; then
-            # already built for both 32 and 64 bit, rebuild for only 64 bit
-            alreadyBuilt=0
-            doclean="clean"
-        fi
-    else
-        # already built but not for correct architecture
-        doclean="clean"
+    GCCPATH=`xcrun -find gcc`
+    if [ $? -ne 0 ]; then
+        echo "ERROR: can't find gcc compiler"
+        return 1
+    fi
+
+    alreadyBuilt=1
+    GCC_can_build_x86_64="no"
+    GCC_can_build_arm64="no"
+
+    GCC_archs=`lipo -archs "${GCCPATH}"`
+    if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ $GCC_can_build_x86_64 == "yes" ]; then
+        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
+    fi
+    
+    if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 == "yes" ]; then
+        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
 fi
 
@@ -269,7 +331,11 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    
+    ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
+    ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
+    ## Xcode versions that can, otherwise it builds only the X86_64 library.
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -282,24 +348,27 @@ else
     fi
 fi
 
-if [ "${nodebug}" = "yes" ]; then
+if [ "${nodebug}" == "yes" ]; then
     return 0
 fi
 
 alreadyBuilt=0
 if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" ]; then
-    lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
-    if [ $? -eq 0 ]; then
-        alreadyBuilt=1
-        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch i386
-        if [ $? -ne 0 ]; then
-            # already built for both 32 and 64 bit, rebuild for only 64 bit
-            alreadyBuilt=0
-            doclean="clean"
-        fi
-    else
-        # already built but not for correct architectures
-        doclean="clean"
+    alreadyBuilt=1
+    GCC_can_build_x86_64="no"
+    GCC_can_build_arm64="no"
+
+    GCC_archs=`lipo -archs "${GCCPATH}"`
+    if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ GCC_can_build_x86_64 == "yes" ]; then
+        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
+    fi
+    
+    if [ $alreadyBuilt -eq 1 ] && [ GCC_can_build_arm64 == "yes" ]; then
+        lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch arm64
+        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
 fi
 
@@ -312,7 +381,16 @@ else
     ## We must override some of the build settings in wxWindows.xcodeproj
     ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
     ## for x86_64, so we must define WK_API_ENABLED=0
-    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug $doclean build ARCHS="x86_64" ONLY_ACTIVE_ARCH=="NO" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
+    ##
+    ## We don't use $doclean here because:
+    ## * As of Xcode 10, "clean" would delete both the Release and Debug builds, and
+    ## * If there is a previous build of wrong architecture, both Xcode 10 and 
+    ## earlier versions of Xcode correctly overwrite it with x86_64-only build.
+    ##
+    ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
+    ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
+    ## Xcode versions that can, otherwise it builds only the X86_64 library.
+    xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.7" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -include unistd.h" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -fno-strict-aliasing -fno-common -DWK_API_ENABLED=0 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="WXBUILDING __WXOSX_COCOA__ __WX__ wxUSE_BASE=1 _FILE_OFFSET_BITS=64 _LARGE_FILES MACOS_CLASSIC __WXMAC_XCODE__=1 SCI_LEXER WX_PRECOMP=1 wxUSE_UNICODE_UTF8=1 wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=${PIPESTATUS[0]}
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX

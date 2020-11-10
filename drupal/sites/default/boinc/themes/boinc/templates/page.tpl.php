@@ -301,7 +301,7 @@
 
           <?php print $highlight; ?>
 
-          <?php if ($title): ?>
+          <?php if (!empty($title)): ?>
             <h1 class="title"><?php print $title; ?></h1>
           <?php endif; ?>
           <?php print $help; ?>

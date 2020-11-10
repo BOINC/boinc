@@ -290,7 +290,10 @@ div.node-type-forum.not-first-page {
 .node-type-forum .moderator-links a,
 .node-type-team-forum .topic-id,
 .node-type-team-forum .standard-links a,
-.node-type-team-forum .moderator-links a {
+.node-type-team-forum .moderator-links a,
+.comment .style-like-link,
+.node-type-forum .style-like-link,
+.node-type-team-forum .style-like-link {
   color: #aaa;
   font-weight: bold;
   text-transform: uppercase;

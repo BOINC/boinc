@@ -65,7 +65,7 @@ UINT CAGetUsersGroupName::OnExecution()
     tstring     strGroupAlias;
     WCHAR       szName[UNLEN+1];
     DWORD       cchName = UNLEN;
-    UINT        uiReturnValue = -1;
+    UINT        uiReturnValue;
 
 
     uiReturnValue = GetProperty( _T("GROUPALIAS_USERS"), strGroupAlias );

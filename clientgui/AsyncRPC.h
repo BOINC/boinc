@@ -226,8 +226,8 @@ public:
     // transfer operations, but NOT init(), init_async(), close(), etc.
     int authorize(const char* passwd)
             { return RPC_Wait(RPC_AUTHORIZE, (void*)passwd); }
-    int exchange_versions(VERSION_INFO& arg1)
-            { return RPC_Wait(RPC_EXCHANGE_VERSIONS, (void*)&arg1); }
+    int exchange_versions(std::string client_name, VERSION_INFO& server)
+            { return RPC_Wait(RPC_EXCHANGE_VERSIONS, (void*)&client_name, (void*)&server); }
     int get_state(CC_STATE& arg1)
             { return RPC_Wait(RPC_GET_STATE, (void*)&arg1); }
     int get_results(RESULTS& arg1, bool& arg2)

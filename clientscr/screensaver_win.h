@@ -167,7 +167,7 @@ protected:
     DWORD WINAPI    DataManagementProc();
     static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
 
-    int             terminate_v6_screensaver(HANDLE& graphics_application);
+    int             terminate_v6_screensaver(HANDLE& graphics_application, RESULT* rp);
     int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
     int             terminate_default_screensaver(HANDLE& graphics_application);
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);

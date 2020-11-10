@@ -67,9 +67,7 @@
 #endif 
 
 #include "nvapi.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
+
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -96,13 +94,15 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
+#ifndef SIM
 #if !(defined(_WIN32) || defined(__APPLE__))
 
 static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
     int (*nvml_finish)()  = NULL;
     int (*nvml_driver)(char *f, unsigned int len) = NULL;
-    int dri_ver  = 0;
+    int dri_ver = 0;
+    int major=0, minor=0;
     void *handle = NULL;
     char driver_string[81];
 
@@ -121,8 +121,11 @@ static int nvidia_driver_version() {
 
     if (nvml_init()) goto end;
     if (nvml_driver(driver_string, 80)) goto end;
-    dri_ver = (int) (100. * atof(driver_string));
-
+    sscanf(driver_string, "%d.%d", &major, &minor);
+    dri_ver = major*100 + std::min(minor, 99);
+        // minor can in fact be > 99, at least on Linux
+        // encoding as MMnn doesn't work.
+        // this is a temporary workaround.
 end:
     if (nvml_finish) nvml_finish();
     if (handle) dlclose(handle);
@@ -130,6 +133,7 @@ end:
 }
 
 #endif 
+#endif // SIM
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
@@ -240,6 +244,7 @@ void COPROC_NVIDIA::get(
     char buf[256];
     int j, itemp;
     size_t global_mem = 0;
+    string s;
     COPROC_NVIDIA cc;
 
 #ifdef _WIN32
@@ -389,7 +394,7 @@ void* cudalib = NULL;
     warnings.push_back(buf);
 
     for (j=0; j<cuda_ndevs; j++) {
-        memset(&cc.prop, 0, sizeof(cc.prop));
+        cc.prop.clear();
         CUdevice device;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {
@@ -397,7 +402,7 @@ void* cudalib = NULL;
             warnings.push_back(buf);
             goto leave;
         }
-        (*p_cuDeviceGetName)(cc.prop.name, 256, device);
+        retval = (*p_cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
             sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
             warnings.push_back(buf);
@@ -444,6 +449,9 @@ void* cudalib = NULL;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
         cc.set_peak_flops();
+        if (cc.bad_gpu_peak_flops("CUDA", s)) {
+            warnings.push_back(s);
+        }
         get_available_nvidia_ram(cc, warnings);
         nvidia_gpus.push_back(cc);
     }
@@ -459,7 +467,10 @@ leave:
 #endif
 }
 
-
+// Find the most capable instance; copy to *this.
+// set is_used (USED, UNUSED, IGNORED) for each instance.
+// Don't use less-capable instances (unless use_all is set)
+//
 void COPROC_NVIDIA::correlate(
     bool use_all,    // if false, use only those equivalent to most capable
     vector<int>& ignore_devs

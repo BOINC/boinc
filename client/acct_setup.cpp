@@ -38,14 +38,15 @@
 #include "acct_setup.h"
 
 void ACCOUNT_IN::parse(XML_PARSER& xp) {
-    url = "";
-    email_addr = "";
-    passwd_hash = "";
-    user_name = "";
-    team_name = "";
-    server_cookie = "";
+    url.clear();
+    email_addr.clear();
+    passwd_hash.clear();
+    user_name.clear();
+    team_name.clear();
+    server_cookie.clear();
     ldap_auth = false;
     server_assigned_cookie = false;
+    consented_to_terms = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -56,6 +57,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("server_cookie", server_cookie)) continue;
         if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
         if (xp.parse_bool("server_assigned_cookie", server_assigned_cookie)) continue;
+        if (xp.parse_bool("consented_to_terms", consented_to_terms)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -152,7 +154,7 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
     }
 }
 
-int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
+int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai, string rpc_client_name) {
     int retval;
     string url;
     string parameter;
@@ -181,6 +183,13 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         escape_url(parameter);
         url += parameter;
     }
+
+    if (ai.consented_to_terms) {
+        parameter = rpc_client_name;
+        escape_url(parameter);
+        url += "&consent_flag=1&source=" + parameter;
+    }
+
     retval = gui_http->do_rpc(
         this, url.c_str(), CREATE_ACCOUNT_FILENAME, false
     );
@@ -383,7 +392,7 @@ int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
 ) {
     char url[1024];
     pli = _pli;
-    sprintf(url, "%slogin_token_lookup.php?user_id=%d&token=%s",
+    snprintf(url, sizeof(url), "%slogin_token_lookup.php?user_id=%d&token=%s",
         pli->master_url.c_str(), user_id, login_token
     );
     return gui_http->do_rpc(this, url, LOGIN_TOKEN_LOOKUP_REPLY, false);
@@ -437,10 +446,10 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         msg_printf(NULL, MSG_INFO,
             "Using account manager %s", pli->name.c_str()
         );
-        strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
-        strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
-        strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
-        strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
+        safe_strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
+        safe_strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        safe_strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
+        safe_strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
         gstate.acct_mgr_info.write_info();
     } else {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
@@ -450,8 +459,8 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
         );
         PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
         if (p) {
-            strcpy(p->user_name, user_name.c_str());
-            strcpy(p->team_name, team_name.c_str());
+            safe_strcpy(p->user_name, user_name.c_str());
+            safe_strcpy(p->team_name, team_name.c_str());
             xml_unescape(p->user_name);
             xml_unescape(p->team_name);
         }

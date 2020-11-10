@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.box = "bento/ubuntu-18.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -38,7 +38,8 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-
+  config.vm.synced_folder ".", "/vagrant_data", disabled: true
+  
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
@@ -66,6 +67,35 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]
       vb.customize ["modifyvm", :id, "--usbxhci", "on"]
   end
+
+  # Example of Hyper-V:
+  #
+  config.vm.provider "hyperv" do |hv, override|
+
+      # Set VM name
+      hv.vmname = "BOINC-Android-Development"
+
+      # Customize the number of CPU cores on the VM:
+      hv.cpus = 2
+
+      # Customize the amount of memory on the VM:
+      hv.memory = "4096"
+      
+      # Enable virtualization extensions for the virtual CPUs. 
+      hv.enable_virtualization_extensions = true
+
+      hv.vm_integration_services = {
+        guest_service_interface: true,
+        heartbeat: false,
+        shutdown: true,
+        time_synchronization: true
+      }
+
+      override.ssh.username = "vagrant"
+      config.ssh.password =  "vagrant"
+
+  end
+
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -81,11 +111,12 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", name: "Preparing desktop environment...", inline: <<-SHELL
-      add-apt-repository ppa:ubuntu-desktop/ubuntu-make
-      apt-get update
-      apt-get upgrade
-      apt-get --assume-yes install ubuntu-mate-core virtualbox-guest-x11
-      apt-get --assume-yes install ubuntu-make git automake libtool
+      export DEBIAN_FRONTEND=noninteractive;
+      add-apt-repository ppa:lyzardking/ubuntu-make
+      apt-get --assume-yes update
+      apt-get --assume-yes dist-upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
+      apt-get --assume-yes install lubuntu-core virtualbox-guest-x11
+      apt-get --assume-yes install ubuntu-make git automake libtool pkg-config unzip
       update-locale LC_ALL=en_US.UTF-8
   SHELL
 
@@ -96,8 +127,6 @@ Vagrant.configure("2") do |config|
           umake --verbose android android-studio --accept-license $HOME/Android/Android-Studio
           printf "\n# umake fix-up\nexport ANDROID_HOME=\$HOME/Android/Sdk\n" >> $HOME/.profile
           umake --verbose android android-sdk --accept-license $HOME/Android/Sdk
-          printf "\n# umake fix-up\nexport NDK_ROOT=\$HOME/Android/Ndk\n" >> $HOME/.profile
-          umake --verbose android android-ndk --accept-license $HOME/Android/Ndk
           yes | $HOME/Android/Sdk/tools/bin/sdkmanager --update
           yes | $HOME/Android/Sdk/tools/bin/sdkmanager "extras;android;m2repository" "extras;google;m2repository"
           mkdir $HOME/Desktop
@@ -107,28 +136,23 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell" do |s|
-      s.name = "Clone BOINC repository and configuring toolchain..."
+      s.name = "Cloning BOINC repository and configuring toolchain..."
       s.privileged  = false
       s.inline  = <<-SHELL
-          export OPENSSL_VERSION=1.0.2k
-          export CURL_VERSION=7.53.1
           git clone https://github.com/BOINC/boinc.git $HOME/BOINC
           export BUILD_TOOLS=`sed -n "s/.*buildToolsVersion\\s*\\"\\(.*\\)\\"/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
           export COMPILE_SDK=`sed -n "s/.*compileSdkVersion\\s*\\(\\d*\\)/\\1/p" $HOME/BOINC/android/BOINC/app/build.gradle`
           yes | $HOME/Android/Sdk/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}"
           yes | $HOME/Android/Sdk/tools/bin/sdkmanager "platforms;android-${COMPILE_SDK}"
           printf "\n# Build toolchains\nexport ANDROID_TC=\$HOME/Android/Toolchains\n" >> $HOME/.profile
-          mkdir $HOME/3rdParty
-          wget -O /tmp/openssl.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-          tar xzf /tmp/openssl.tgz --directory=$HOME/3rdParty
-          printf "\n# OpenSSL sources\nexport OPENSSL_SRC=\$HOME/3rdParty/openssl-${OPENSSL_VERSION}\n" >> $HOME/.profile
-          wget -O /tmp/curl.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-          tar xzf /tmp/curl.tgz --directory=$HOME/3rdParty
-          printf "\n# cURL sources\nexport CURL_SRC=\$HOME/3rdParty/curl-${CURL_VERSION}\n" >> $HOME/.profile
       SHELL
   end
 
-  config.vm.provision "shell", name: "Final cleanup and reboot...", inline: <<-SHELL
+  config.vm.provision "shell", name: "Final update, cleanup and reboot...", inline: <<-SHELL
+      export DEBIAN_FRONTEND=noninteractive;
+      apt-get --assume-yes update
+      apt-get --assume-yes upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
+      apt-get --assume-yes dist-upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --allow-downgrades --allow-remove-essential --allow-change-held-packages
       apt-get clean
       reboot
   SHELL

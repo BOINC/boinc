@@ -2,32 +2,19 @@
 set -e
 
 #
-# See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
+# See: https://boinc.berkeley.edu/trac/wiki/AndroidBuildClient
 #
 
 # Script to compile everything BOINC needs for Android
+export VERBOSE="no"
 
-./build_androidtc_arm.sh
-./build_androidtc_arm64.sh
-./build_androidtc_x86.sh
-./build_androidtc_x86_64.sh
-./build_androidtc_mips.sh
-./build_androidtc_mips64.sh
-./build_openssl_arm.sh
-./build_openssl_arm64.sh
-./build_openssl_x86.sh
-./build_openssl_x86_64.sh
-./build_openssl_mips.sh
-./build_openssl_mips64.sh
-./build_curl_arm.sh
-./build_curl_arm64.sh
-./build_curl_x86.sh
-./build_curl_x86_64.sh
-./build_curl_mips.sh
-./build_curl_mips64.sh
-./build_boinc_arm.sh
-./build_boinc_arm64.sh
-./build_boinc_x86.sh
-./build_boinc_x86_64.sh
-./build_boinc_mips.sh
-./build_boinc_mips64.sh
+cd ../
+BUILD_DIR="$PWD/3rdParty/buildCache"
+cd android/
+
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch arm
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch arm64
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch x86
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --arch x86_64
+
+echo '===== BOINC for all platforms build done ====='

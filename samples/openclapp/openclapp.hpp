@@ -66,7 +66,6 @@
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
-#include "graphics2.h"
 
 struct UC_SHMEM {
     double update_time;

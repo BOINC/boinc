@@ -22,9 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #ifndef STATUS_SUCCESS
 #define STATUS_SUCCESS                0x0         // may be in ntstatus.h
 #endif
@@ -69,6 +66,7 @@ using std::vector;
 #include "shmem.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 #include "util.h"
 
 #include "client_msgs.h"
@@ -131,14 +129,22 @@ bool ACTIVE_TASK_SET::poll() {
     static double last_finish_check_time = 0;
     if (gstate.clock_change || gstate.now - last_finish_check_time > 10) {
         last_finish_check_time = gstate.now;
+        int exit_code;
         for (i=0; i<active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks[i];
             if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
             if (atp->finish_file_time) {
-                // process is still there 10 sec after it wrote finish file.
-                // abort the job
-                atp->abort_task(EXIT_ABORTED_BY_CLIENT, "finish file present too long");
-            } else if (atp->finish_file_present()) {
+                if (gstate.now - atp->finish_file_time > FINISH_FILE_TIMEOUT) {
+                    // process is still there 5 min after it wrote finish file.
+                    // abort the job
+                    // Note: actually we should treat it as successful.
+                    // But this would be tricky.
+                    //
+                    atp->abort_task(EXIT_ABORTED_BY_CLIENT,
+                        "Process still present 5 min after writing finish file; aborting"
+                    );
+                }
+            } else if (atp->finish_file_present(exit_code)) {
                 atp->finish_file_time = gstate.now;
             }
         }
@@ -182,7 +188,7 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
-static void print_descendants(int pid, vector<int>desc, const char* where) {
+static void print_descendants(int pid, const vector<int>& desc, const char* where) {
     msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
         where, pid, (int)desc.size()
     );
@@ -463,7 +469,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             // if another process killed the app, it looks like exit(0).
             // So check for the finish file
             //
-            if (finish_file_present()) {
+            int e;
+            if (finish_file_present(e)) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 break;
             }
@@ -493,7 +500,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             char szError[1024];
             set_task_state(PROCESS_EXITED, "handle_exited_app");
             snprintf(err_msg, sizeof(err_msg),
-                "%s - exit code %d (0x%x)",
+                "%s - exit code %lu (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
             );
@@ -518,6 +525,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             double x;
             char buf[256];
             bool is_notice;
+            int e;
             if (temporary_exit_file_present(x, buf, is_notice)) {
                 handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
@@ -532,11 +540,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     snprintf(err_msg, sizeof(err_msg),
                         "process exited with code %d (0x%x, %d)",
                         result->exit_status, result->exit_status,
-                        (-1<<8)|result->exit_status
+                        (~0xff)|result->exit_status
                     );
                     gstate.report_result_error(*result, err_msg);
                 } else {
-                    if (finish_file_present()) {
+                    if (finish_file_present(e)) {
                         set_task_state(PROCESS_EXITED, "handle_exited_app");
                     } else {
                         handle_premature_exit(will_restart);
@@ -611,19 +619,28 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
 // structure of a finish file (see boinc_api.cpp)):
 // exit status (int)
-// message
-// "notice" or blank line
-// ... or empty
+// optional:
+//  message to show user
+//  "notice" or blank line
 //
-bool ACTIVE_TASK::finish_file_present() {
+bool ACTIVE_TASK::finish_file_present(int &exit_code) {
     char path[MAXPATHLEN], buf[1024], buf2[256];
     safe_strcpy(buf, "");
     safe_strcpy(buf2, "");
+
+    exit_code = 0;
+
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
-    fgets(buf, sizeof(buf), f);     // read (and discard) exit status
     char* p = fgets(buf, sizeof(buf), f);
+    if (p && strlen(buf)) {
+        int e;
+        if (sscanf(buf, "%d", &e) == 1) {
+            exit_code = e;
+        }
+    }
+    p = fgets(buf, sizeof(buf), f);
     if (p && strlen(buf)) {
         fgets(buf2, sizeof(buf2), f);
         msg_printf(result->project,
@@ -1535,7 +1552,7 @@ void ACTIVE_TASK_SET::get_msgs() {
         }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
-                char buf[256];
+                char buf[512];
                 sprintf(buf, "%s checkpointed", atp->result->name);
                 if (atp->overdue_checkpoint) {
                     gstate.request_schedule_cpus(buf);
@@ -1548,11 +1565,6 @@ void ACTIVE_TASK_SET::get_msgs() {
                 if (log_flags.checkpoint_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
                         "[checkpoint] result %s checkpointed",
-                        atp->result->name
-                    );
-                } else if (log_flags.task_debug) {
-                    msg_printf(atp->wup->project, MSG_INFO,
-                        "[task] result %s checkpointed",
                         atp->result->name
                     );
                 }
@@ -1619,7 +1631,7 @@ void ACTIVE_TASK::read_task_state_file() {
         );
         return;
     }
-    if (strcmp(s, result->project->master_url)) {
+    if (!urls_match(s, result->project->master_url)) {
         msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "wrong project URL in task state file"
         );

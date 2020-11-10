@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstdio>
@@ -37,14 +35,6 @@
 #include "util.h"
 
 #include "prefs.h"
-
-GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
-    clear();
-}
-
-void GLOBAL_PREFS_MASK::clear() {
-    memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
-}
 
 void GLOBAL_PREFS_MASK::set_all() {
     battery_charge_min_pct = true;
@@ -267,7 +257,6 @@ void GLOBAL_PREFS::defaults() {
     // mod_time, host_specific here
     // since they are outside of <venue> elements,
     // and this is called when find the right venue.
-    // Also, don't memset to 0
 }
 
 // values for fields with an enabling checkbox in the GUI.
@@ -284,9 +273,9 @@ void GLOBAL_PREFS::enabled_defaults() {
     max_bytes_sec_down = 100*KILO;
     max_bytes_sec_up = 100*KILO;
     cpu_times.start_hour = 0;
-    cpu_times.end_hour = 23.983;    // 23:59
+    cpu_times.end_hour = 24.0;    // 24:00
     net_times.start_hour = 0;
-    net_times.end_hour = 23.983;    // 23:59
+    net_times.end_hour = 24.0;    // 24:00
 }
 
 // call before parsing

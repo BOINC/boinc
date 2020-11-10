@@ -43,6 +43,8 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
     'boinc_app_list_url' => variable_get('boinc_app_list_url', ''),
+    'boinc_admin_mailing_list' => variable_get('boinc_admin_mailing_list', ''),
+    'boinc_admin_mailing_list_subject_tag' => variable_get('boinc_admin_mailing_list_subject_tag', ''),
     'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
     'boinc_project_config_keywords' => variable_get('boinc_project_config_keywords', ''),
   );
@@ -141,6 +143,18 @@ function boincuser_admin_environment(&$form_state) {
     '#title' => t('BOINC host scheduler log directory (optional)'),
     '#default_value' => $default['boinc_host_sched_logs_dir'],
     '#description' => t('The filesystem directory that contains host scheduler logs'),
+  );
+  $form['boinc_admin_mailing_list'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Admin mailing list'),
+    '#default_value' => $default['boinc_admin_mailing_list'],
+    '#description' => t('Enter an email-address which will be used to contact admisistrators. If empty, the site email configured in Settings -> Site Information will be used.'),
+  );
+  $form['boinc_admin_mailing_list_subject_tag'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Admin mailing list - subject tag'),
+    '#default_value' => $default['boinc_admin_mailing_list_subject_tag'],
+    '#description' => t('Text which will appear at the beginning of the subject for any admin notification emails. If empty, no tag will be included. Examples: [drupal-error].'),
   );
   $form['boinc_debug_mode'] = array(
     '#type' => 'checkbox',
@@ -325,6 +339,7 @@ function boincuser_admin_scheduler_submit($form, &$form_state) {
   * Drupal-BOINC Web site related options.
   */
 function boincuser_admin_weboptions(&$form_state) {
+  global $base_url;
   $form = array();
 
   //form defaults
@@ -336,12 +351,14 @@ function boincuser_admin_weboptions(&$form_state) {
     'boinc_weboptions_agreequestion' => variable_get('boinc_weboptions_agreequestion', 'Do you agree with the above terms of use?'),
     'boinc_weboptions_registrationtitle2' => variable_get('boinc_weboptions_registrationtitle2', 'Fill in your name, email, and choose a secure passphrase.'),
     'boinc_weboptions_existinguser_tou' => variable_get('boinc_weboptions_existinguser_tou', FALSE),
+    'boinc_weboptions_pathstoignore' => variable_get('boinc_weboptions_pathstoignore', "moderation\ncontent/moderation\nprivacy"),
     'boinc_weboptions_accountfinish' => variable_get('boinc_weboptions_accountfinish', ''),
     'boinc_weboptions_moderationpage' => variable_get('boinc_weboptions_moderationpage', ''),
     'boinc_weboptions_rulespolicies' => variable_get('boinc_weboptions_rulespolicies', ''),
     'boinc_other_frontpage' => variable_get('boinc_other_frontpage', ''),
+    'boinc_weboptions_blacklisted_usernames' => variable_get('boinc_weboptions_blacklisted_usernames', "admin\nadministrator\nmoderator"),
   );
-  
+
   // Define the form
   $form['registrationtitle'] = array(
     '#value' => '<h3>BOINC Registration</h3>',
@@ -398,6 +415,17 @@ function boincuser_admin_weboptions(&$form_state) {
     '#description' => t('If TRUE, existing users are forced to agree to a terms of use (if present) when the login and the system has detected they have not agreed. Otherwise they may login as normal. This option has no affect on whether or not new users must agree to the terms of use.'),
   );
 
+  $form['boinc_weboptions_pathstoignore'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Paths to ignore the Terms of Use page'),
+    '#default_value' => $default['boinc_weboptions_pathstoignore'],
+    '#cols' => 60,
+    '#rows' => 8,
+    '#description' => t('A list of Drupal URLs/paths to ignore for Terms of Use (ToU). If the option above \'Are existing users forced to agree to the Terms of Use?\' is activated, then some paths need to be ignored when checking if a user has agreed to the ToU. A good example is the logout path, "logout", or else users will not be able to logout!
+<p>There is a default list of paths that must be ignored or else the site will not function. They are not included in this box. Here you may provide additional paths to be ignored, for example the privacy policy page may be accessible so that users may read it before agreeing to the site\'s ToU.
+<p>Paths should be entered one per line. All paths should be <em>lower-case</em> and  should not include a leading \'/\'. Example: account/info/edit will allow the user to visit ' . $base_url . '/account/info/edit without first agreeing to the ToU. Regexp are allowed. Example: account/* will allow the user to visit any path starting with ' . $base_url . '/account/.'),
+  );
+
   $form['pathtitle'] = array(
     '#value' => '<h3>Path Options</h3>',
   );
@@ -428,7 +456,20 @@ function boincuser_admin_weboptions(&$form_state) {
     '#rows' => 8,
     '#description' => bts('Text to be displayed on the site\'s Home landing page.', array(), NULL, 'boinc:admin-boinc-other-options'),
   );
-    
+
+  $form['Othertitle'] = array(
+    '#value' => '<h3>Other Options</h3>',
+  );
+
+  $form['boinc_weboptions_blacklisted_usernames'] = array (
+    '#type' => 'textarea',
+    '#title' => t('BOINC username blacklist'),
+    '#default_value' => $default['boinc_weboptions_blacklisted_usernames'],
+    '#cols' => 60,
+    '#rows' => 7,
+    '#description' => t('Username blacklist: List of names that users will not be able to choose as their BOINC username. This will only affect Web registration and when a user changes their name using the Web site. Names should be entered one per line.<p>All names should be <em>lower-case</em>. The comparison made is case-insensitive.<p>If you wish to <em>disable</em> this feature, remove all names from this textbox; the blacklist will be empty.'),
+  );
+
   return system_settings_form($form);
 }
 

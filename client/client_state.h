@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@
 #define NEW_CPU_THROTTLE
 // do CPU throttling using a separate thread.
 // This makes it possible to throttle faster than the client's 1-sec poll period
+// NOTE: we can't actually do this because the runtime system's
+// poll period is currently 1 sec.
 
 #ifndef _WIN32
 #include <string>
@@ -60,18 +62,11 @@ using std::vector;
 #include "../sched/edf_sim.h"
 #endif
 
-#define WORK_FETCH_DONT_NEED 0
-    // project: suspended, deferred, or no new work (can't ask for more work)
-    // overall: not work_fetch_ok (from CPU policy)
-#define WORK_FETCH_OK        1
-    // project: has more than min queue * share, not suspended/def/nonewwork
-    // overall: at least min queue, work fetch OK
-#define WORK_FETCH_NEED      2
-    // project: less than min queue * resource share of DL/runnable results
-    // overall: less than min queue
-#define WORK_FETCH_NEED_IMMEDIATELY 3
-    // project: no downloading or runnable results
-    // overall: at least one idle CPU
+#define WF_EST_FETCH_TIME 180
+    // Figure that fetching work (possibly requesting from several projects)
+    // could take as long as this.
+    // So start work fetch this long before an instance becomes idle,
+    // in order to avoid idleness.
 
 // encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
@@ -233,6 +228,8 @@ struct CLIENT_STATE {
         // if nonzero, exit this many seconds after starting an app
     double app_started;
         // when the most recent app was started
+    bool cmdline_dir;
+        // data dir was specified on cmdline
 
 // --------------- acct_mgr.cpp:
     ACCT_MGR_INFO acct_mgr_info;
@@ -245,11 +242,14 @@ struct CLIENT_STATE {
     double new_version_check_time;
     double all_projects_list_check_time;
         // the time we last successfully fetched the project list
-    string newer_version;
     bool autologin_in_progress;
     bool autologin_fetching_project_list;
     PROJECT_LIST project_list;
     void process_autologin(bool first);
+
+// --------------- current_version.cpp:
+    string newer_version;
+    string client_version_check_url;
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
@@ -296,6 +296,10 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
+#ifdef __APPLE__
+    // Check whether the app can run on this CPU architecture
+    int can_run_on_this_CPU(char* exec_path);
+#endif
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
@@ -323,7 +327,7 @@ struct CLIENT_STATE {
         // another task that needs a shared-mem seg
     inline double work_buf_min() {
         double x = global_prefs.work_buf_min_days * 86400;
-        if (x < 180) x = 180;
+        if (x < WF_EST_FETCH_TIME) x = WF_EST_FETCH_TIME;
         return x;
     }
     inline double work_buf_additional() {
@@ -374,6 +378,7 @@ struct CLIENT_STATE {
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
+    void check_for_finished_jobs();
 
     ACTIVE_TASK* get_task(RESULT*);
 
@@ -382,7 +387,7 @@ struct CLIENT_STATE {
 
     void check_if_need_benchmarks();
     bool can_run_cpu_benchmarks();
-    void start_cpu_benchmarks();
+    void start_cpu_benchmarks(bool force = false);
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
     bool cpu_benchmarks_done();
@@ -396,6 +401,7 @@ struct CLIENT_STATE {
 
 // --------------- cs_files.cpp:
     void check_file_existence();
+    RESULT* file_info_to_result(FILE_INFO*);
     bool start_new_file_xfer(PERS_FILE_XFER&);
 
     int make_project_dirs();
@@ -540,7 +546,7 @@ extern THREAD throttle_thread;
 
 //////// TIME-RELATED CONSTANTS ////////////
 
-//////// CLIENT INTERNAL
+//////// POLLING PERIODS
 
 #define POLL_INTERVAL   1.0
     // the client will handle I/O (including GUI RPCs)
@@ -593,6 +599,10 @@ extern THREAD throttle_thread;
 #define RESULT_REPORT_IF_AT_LEAST_N 64
     // If a project has at least this many ready-to-report tasks, report them.
 
+#define WF_MAX_RUNNABLE_JOBS    1000
+    // don't fetch work from a project if it has this many runnable jobs.
+    // This is a failsafe mechanism to prevent infinite fetching
+
 //////// CPU SCHEDULING
 
 #define CPU_SCHED_PERIOD    60
@@ -621,6 +631,19 @@ extern THREAD throttle_thread;
 
 #define MAX_STARTUP_TIME    10
     // if app startup takes longer than this, quit loop
+
+#define MIN_TIME_BOUND  120.
+#define DEFAULT_TIME_BOUND  (12*3600.)
+    // if ACTIVE_TASK::max_elapsed_time is < MIN, set it to DEFAULT
+    // This is a sanity check, so that bad values for
+    // wup->rsc_fpops_bound or avp->flops won't cause jobs
+    // to get aborted after a few seconds
+    // The values are a bit arbitrary.
+
+#define FINISH_FILE_TIMEOUT 300
+    // if app process exists this long after writing finish file, abort it.
+    // NOTE: this used to be 10 sec and it wasn't enough,
+    // e.g. during heavy paging.
 
 //////// NETWORK
 
@@ -656,6 +679,5 @@ extern THREAD throttle_thread;
 #endif
 
 #define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
-#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
 
 #endif

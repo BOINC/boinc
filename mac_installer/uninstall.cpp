@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,6 +52,7 @@ using std::string;
 #include "mac_util.h"
 #include "translate.h"
 #include "file_names.h"
+#include "mac_branding.h"
 
 
 static OSStatus DoUninstall(void);
@@ -59,7 +60,9 @@ static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static void DeleteLoginItemOSAScript(char *userName);
 static Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw);
+static void DeleteScreenSaverLaunchAgent(passwd *pw);
 long GetBrandID(char *path);
+static Boolean IsUserLoggedIn(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
@@ -81,14 +84,6 @@ static char * gCatalog_Name = (char *)"BOINC-Setup";
 static char loginName[256];
 
 
-#define NUMBRANDS 5
-static char *appName[NUMBRANDS];
-static char *appPath[NUMBRANDS];
-static char *brandName[NUMBRANDS];
-static char *saverName[NUMBRANDS];
-static char *receiptName[NUMBRANDS];
-
-
 /* BEGIN TEMPORARY ITEMS TO ALLOW TRANSLATORS TO START WORK */
 void notused() {
     ShowMessage(true, false, false, (char *)_("OK"));
@@ -106,36 +101,6 @@ int main(int argc, char *argv[])
     FILE                        *f;
     OSStatus                    err = noErr;
     
-    appName[0] = "BOINCManager";
-    appPath[0] = "/Applications/BOINCManager.app";
-    brandName[0] = "BOINC";
-    saverName[0] = "BOINCSaver";
-    receiptName[0] = "/Library/Receipts/BOINC Installer.pkg";
-
-    appName[1] = "GridRepublic Desktop";
-    appPath[1] = "/Applications/GridRepublic Desktop.app";
-    brandName[1] = "GridRepublic";
-    saverName[1] = "GridRepublic";
-    receiptName[1] = "/Library/Receipts/GridRepublic Installer.pkg";
-
-    appName[2] = "Progress Thru Processors Desktop";
-    appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
-    brandName[2] = "Progress Thru Processors";
-    saverName[2] = "Progress Thru Processors";
-    receiptName[2] = "/Library/Receipts/Progress Thru Processors Installer.pkg";
-
-    appName[3] = "Charity Engine Desktop";
-    appPath[3] = "/Applications/Charity Engine Desktop.app";
-    brandName[3] = "Charity Engine";
-    saverName[3] = "Charity Engine";
-    receiptName[3] = "/Library/Receipts/Charity Engine Installer.pkg";
-
-    appName[4] = "World Community Grid";
-    appPath[4] = "/Applications/World Community Grid.app";
-    brandName[4] = "World Community Grid";
-    saverName[4] = "World Community Grid";
-    receiptName[4] = "/Library/Receipts/World Community Grid Installer.pkg";
-
     pathToSelf[0] = '\0';
     // Get the full path to our executable inside this application's bundle
     getPathToThisApp(pathToSelf, sizeof(pathToSelf));
@@ -145,6 +110,11 @@ int main(int argc, char *argv[])
     }
     strlcpy(pathToVBoxUninstallTool, pathToSelf, sizeof(pathToVBoxUninstallTool));
     strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
+
+    if (!check_branding_arrays(cmd, sizeof(cmd))) {
+        ShowMessage(false, false, false, (char *)_("Branding array has too few entries: %s"), cmd);
+        return -1;
+    }
 
     // To allow for branding, assume name of executable inside bundle is same as name of bundle
     p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
@@ -418,12 +388,12 @@ static OSStatus DoUninstall(void) {
     }
     
     // With fast user switching, each logged in user can be running
-    // a separate copy of the Manager; pkill terminates all of them
+    // a separate copy of the Manager; killall terminates all of them
     for (i=0; i<NUMBRANDS; ++i) {
 #if TESTING
         showDebugMsg("killing any running instances of %s", appName[i]);
 #endif
-        sprintf(cmd, "pkill -KILL \"%s\"", appName[i]);
+        snprintf(cmd, sizeof(cmd), "killall \"%s\"", appName[i]);
         callPosixSpawn(cmd);
     }
 
@@ -786,6 +756,12 @@ static OSStatus CleanupAllVisibleUsers(void)
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
 
+#if TESTING
+        showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
+                pw->pw_name);
+#endif
+        DeleteScreenSaverLaunchAgent(pw);
+        
         // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        callPosixSpawn (s);
@@ -992,12 +968,31 @@ cleanupSystemEvents:
 //
 Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
 {
+    static bool             alreadyCopied = false;
     struct stat             sbuf;
-    int                     i;
+    char                    path[MAXPATHLEN];
     char                    s[2048];
+    OSErr                   err;
+   
+    if (!alreadyCopied) {
+        getPathToThisApp(path, sizeof(path));
+        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
+        snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
+        err = callPosixSpawn(s);
+         if (err) {
+            printf("[2] Command %s returned error %d\n", s, err);
+            fflush(stdout);
+        } else {
+            alreadyCopied = true;
+        }
+
+        snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install\"</string>\n", appName[brandID]);
+        chmod(s, 0755);
+        chown(s, pw->pw_uid, pw->pw_gid);
+    }
     
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
-    // previously (such as by Uninstaller or by installing a differently branded BOINC.)
+    // previously (such as by Installer or by installing a differently branded BOINC.)
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -1014,23 +1009,21 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     fprintf(f, "<plist version=\"1.0\">\n");
     fprintf(f, "<dict>\n");
     fprintf(f, "\t<key>Label</key>\n");
-    fprintf(f, "\t<string>edu.berkeley.test</string>\n");
+    fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>sh</string>\n");
-    fprintf(f, "\t\t<string>-c</string>\n");
-    fprintf(f, "\t\t<string>");
-    for (i=0; i<NUMBRANDS; i++) {
-        fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[i]);
-    }
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Uninstall</string>\n", appName[brandID]);
     // If this user was previously authorized to run the Manager, there 
     // may still be a Login Item for this user, and the Login Item may
     // launch the Manager before the LaunchAgent deletes the Login Item.
     // To guard against this, we have the LaunchAgent kill the Manager
     // (for this user only) if it is running.
     //
-    fprintf(f, "pkill -9 -U %d \"%s\";", pw->pw_uid, appName[brandID]);
-    fprintf(f, "rm -f ~/Library/LaunchAgents/edu.berkeley.boinc.plist</string>\n");
+    // Actually, the uninstaller should have deleted the Manager before 
+    // that could happen, so this step is probably unnecessary.
+    //
+    fprintf(f, "\t\t<string>-d</string>\n");
+    fprintf(f, "\t\t<string>%s</string>\n", appName[brandID]);
     fprintf(f, "\t</array>\n");
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
@@ -1041,8 +1034,33 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     chmod(s, 0644);
     chown(s, pw->pw_uid, pw->pw_gid);
 
+    if (IsUserLoggedIn(pw->pw_name)) {
+        sprintf(s, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+        sprintf(s, "su -l \"%s\" -c 'launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+    }
+    
     return true;
 }
+
+// Some older versions of BOINC installed a Screensaver LaunchAgent for each user.
+// Even though we no longer do this, delete it if it exists, for backward compatibility
+void DeleteScreenSaverLaunchAgent(passwd *pw) {
+    char                    cmd[MAXPATHLEN];
+
+    sprintf(cmd, "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
+    if (boinc_file_exists(cmd)) {
+        sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), 
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+            pw->pw_name);
+        boinc_delete_file(cmd);
+    }
+}
+
 
 
 long GetBrandID(char *path)
@@ -1056,8 +1074,27 @@ long GetBrandID(char *path)
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
     return iBrandId;
+}
+
+
+static Boolean IsUserLoggedIn(const char *userName){
+    char s[1024];
+    
+    sprintf(s, "w -h \"%s\"", userName);
+    FILE *f = popen(s, "r");
+    if (f) {
+        if (PersistentFGets(s, sizeof(s), f) != NULL) {
+            pclose (f);
+            printf("User %s is currently logged in\n", userName);
+            return true; // this user is logged in (perhaps via fast user switching)
+        }
+        pclose (f);         
+    }
+    return false;
 }
 
 

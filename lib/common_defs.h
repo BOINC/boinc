@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,14 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// #defines and enums that are shared by more than one BOINC component
+// (e.g. client, server, Manager, etc.)
+// TODO: more enums, fewer defines
+
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
 #include "miofile.h"
 #include "parse.h"
-
-// #defines or enums that are shared by more than one BOINC component
-// (e.g. client, server, Manager, etc.)
 
 #define GUI_RPC_PORT 31416
     // for TCP connection
@@ -79,6 +80,8 @@
 #define NGRAPHICS_MSGS  7
 
 // process priorities
+// Unfortunately different areas of code use two different numbering schemes.
+// The following is used in wrapper job.xml files
 //
 #define PROCESS_PRIORITY_UNSPECIFIED    0
 #define PROCESS_PRIORITY_LOWEST     1
@@ -91,6 +94,17 @@
     // win: ABOVE_NORMAL; unix: -10
 #define PROCESS_PRIORITY_HIGHEST    5
     // win: HIGH; unix: -16
+
+// The following is used in cc_config.xml,
+// and passed to apps in the APP_INIT_DATA structure
+//
+#define CONFIG_PRIORITY_UNSPECIFIED -1
+#define CONFIG_PRIORITY_LOWEST      0
+#define CONFIG_PRIORITY_LOW         1
+#define CONFIG_PRIORITY_NORMAL      2
+#define CONFIG_PRIORITY_HIGH        3
+#define CONFIG_PRIORITY_HIGHEST     4
+#define CONFIG_PRIORITY_REALTIME    5
 
 // priorities for client messages
 //
@@ -362,5 +376,6 @@ struct DEVICE_STATUS {
 #else
 #define DEFAULT_SS_EXECUTABLE       "boincscr"
 #endif
+#define LINUX_CONFIG_FILE           "/etc/boinc-client/config.properties"
 
 #endif

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -612,6 +612,3 @@ bool CViewMessages::CloseClipboard() {
 }
 
 #endif
-
-
-const char *BOINC_RCSID_0be7149475 = "$Id: ViewMessages.cpp 21706 2010-06-08 18:56:53Z davea $";

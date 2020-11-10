@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -590,7 +590,9 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
@@ -644,5 +646,3 @@ int main(int argc, char** argv) {
         }
     }
 }
-
-const char *BOINC_RCSID_bd0d4938a6 = "$Id$";

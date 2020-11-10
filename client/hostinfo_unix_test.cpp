@@ -83,7 +83,7 @@ void strip_whitespace(string& str) {
 void strip_whitespace(char *str) {
     string s = str;
     strip_whitespace(s);
-    strcpy(str, s.c_str());
+    safe_strcpy(str, s.c_str());
 }
 
 // remove whitespace and quotes from start and end of a string
@@ -118,7 +118,7 @@ void strip_quotes(string& str) {
 void strip_quotes(char *str) {
     string s = str;
     strip_quotes(s);
-    strcpy(str, s.c_str());
+    safe_strcpy(str, s.c_str());
 }
 
 void unescape_os_release(char* buf) {
@@ -204,10 +204,10 @@ bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_I
     char buf[256], buf2[256];
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
     //string os_version_extra("");
-    strcpy(dist_pretty, "");
-    strcpy(dist_name, "");
-    strcpy(dist_version, "");
-    strcpy(dist_codename, "");
+    safe_strcpy(dist_pretty, "");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
+    safe_strcpy(dist_codename, "");
 
     switch (parser) {
     case lsbrelease: {
@@ -291,22 +291,22 @@ bool parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_I
     }
 
     if (found_something) {
-        strcpy(buf2, "");
+        safe_strcpy(buf2, "");
         if (strlen(dist_pretty)) {
             safe_strcat(buf2, dist_pretty);
         }
         else {
             if (strlen(dist_name)) {
                 safe_strcat(buf2, dist_name);
-                strcat(buf2, " ");
+                safe_strcat(buf2, " ");
             }
             if (strlen(dist_version)) {
                 safe_strcat(buf2, dist_version);
-                strcat(buf2, " ");
+                safe_strcat(buf2, " ");
             }
             if (strlen(dist_codename)) {
                 safe_strcat(buf2, dist_codename);
-                strcat(buf2, " ");
+                safe_strcat(buf2, " ");
             }
             strip_whitespace(buf2);
         }
@@ -372,27 +372,27 @@ int main(void) {
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return (EXIT_FAILURE);
 
-    strcpy(p_model, "");
+    safe_strcpy(p_model, "");
 
 #ifdef __mips__
-    strcpy(p_model, "MIPS ");
+    safe_strcpy(p_model, "MIPS ");
     model_hack = true;
 #elif __alpha__
-    strcpy(p_vendor, "HP (DEC) ");
+    safe_strcpy(p_vendor, "HP (DEC) ");
     vendor_hack = true;
 #elif __hppa__
-    strcpy(p_vendor, "HP ");
+    safe_strcpy(p_vendor, "HP ");
     vendor_hack = true;
 #elif __ia64__
-    strcpy(p_model, "IA-64 ");
+    safe_strcpy(p_model, "IA-64 ");
     model_hack = true;
 #elif defined(__arm__) || defined(__aarch64__)
-    strcpy(p_vendor, "ARM ");
+    safe_strcpy(p_vendor, "ARM ");
     vendor_hack = vendor_found = true;
 #endif
 
-    strcpy(features, "");
-    strcpy(product_name, "");
+    safe_strcpy(features, "");
+    safe_strcpy(product_name, "");
     while (fgets(buf, 256, f)) {
         strip_whitespace(buf);
         if (
@@ -417,7 +417,7 @@ int main(void) {
             } else if (!vendor_found) {
                 vendor_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_vendor) - strlen(p_vendor) - 1);
-                strcat(p_vendor, buf2);
+                safe_strcat(p_vendor, buf2);
             }
         }
 
@@ -431,9 +431,9 @@ int main(void) {
             strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
             if (strlen(product_name)) {
-                strcat(product_name, " ");
+                safe_strcat(product_name, " ");
             }
-            strcat(product_name, buf2);
+            safe_strcat(product_name, buf2);
         }
 #endif
         if (
@@ -456,7 +456,7 @@ int main(void) {
                 char *coma = NULL;
                 if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
                     *coma = '\0';    /* strip the unwanted line */
-                    strcpy(features, "altivec");
+                    safe_strcpy(features, "altivec");
                     features_found = true;
                 }
 #endif
@@ -476,7 +476,7 @@ int main(void) {
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
                 strip_whitespace(buf2);
-                strcat(p_model, buf2);
+                safe_strcat(p_model, buf2);
             }
         }
 
@@ -568,51 +568,51 @@ int main(void) {
     strlcpy(model_buf, p_model, sizeof(model_buf));
 #if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (model>=0) {
             sprintf(buf, "Model %d ", model);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
             sprintf(buf, "Stepping %d", stepping);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #else
     if (model_info_found) {
-        strcat(model_buf, " [");
+        safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
             sprintf(buf, "Impl %s ", implementer);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(architecture)>0) {
             sprintf(buf, "Arch %s ", architecture);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(variant)>0) {
             sprintf(buf, "Variant %s ", variant);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(cpu_part)>0) {
             sprintf(buf, "Part %s ", cpu_part);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(revision)>0) {
             sprintf(buf, "Rev %s", revision);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "]");
     }
 #endif
     if (strlen(features)) {
-        strcat(model_buf, "[");
-        strcat(model_buf, features);
-        strcat(model_buf, "]");
+        safe_strcat(model_buf, "[");
+        safe_strcat(model_buf, features);
+        safe_strcat(model_buf, "]");
     }
 
 
@@ -622,8 +622,8 @@ int main(void) {
     fclose(f);
 
     // detect OS name as in HOST_INFO::get_os_info()
-    strcpy(os_name, "");
-    strcpy(os_version, "");
+    safe_strcpy(os_name, "");
+    safe_strcpy(os_version, "");
 
 #if HAVE_SYS_UTSNAME_H
     struct utsname u;
@@ -664,10 +664,10 @@ int main(void) {
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
-    strcpy(dist_pretty, "");
-    strcpy(dist_name, "");
-    strcpy(dist_version, "");
-    strcpy(dist_codename, "");
+    safe_strcpy(dist_pretty, "");
+    safe_strcpy(dist_name, "");
+    safe_strcpy(dist_version, "");
+    safe_strcpy(dist_codename, "");
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
@@ -701,7 +701,7 @@ int main(void) {
         os_version_extra = (string)os_version;
         safe_strcpy(os_version, dist_version);
         if (strlen(dist_name)) {
-            strcat(os_name, " ");
+            safe_strcat(os_name, " ");
             safe_strcat(os_name, dist_name);
         }
     }
@@ -719,9 +719,9 @@ int main(void) {
     }
 
     if (!os_version_extra.empty()) {
-        strcat(os_version, " [");
-        strcat(os_version, os_version_extra.c_str());
-        strcat(os_version, "]");
+        safe_strcat(os_version, " [");
+        safe_strcat(os_version, os_version_extra.c_str());
+        safe_strcat(os_version, "]");
     }
 #endif //LINUX_LIKE_SYSTEM
     printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",

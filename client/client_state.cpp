@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,14 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef __APPLE__
-#include <Carbon/Carbon.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#include <mach/machine.h>
+#include <libkern/OSByteOrder.h>
+
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #ifdef _WIN32
@@ -36,10 +43,6 @@
 #endif
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #ifdef __EMX__
 #define INCL_DOS
 #include <os2.h>
@@ -51,6 +54,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 #include "util.h"
 #ifdef _WIN32
 #include "run_app_windows.h"
@@ -128,6 +132,7 @@ CLIENT_STATE::CLIENT_STATE()
     safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
+    cmdline_dir = false;
     exit_before_upload = false;
     run_test_app = false;
 #ifndef _WIN32
@@ -180,6 +185,7 @@ CLIENT_STATE::CLIENT_STATE()
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
+    client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
@@ -429,7 +435,7 @@ static void set_client_priority() {
 #ifdef __linux__
     char buf[1024];
     snprintf(buf, sizeof(buf), "ionice -c 3 -p %d", getpid());
-    system(buf);
+    if (!system(buf)) {}
 #endif
 }
 
@@ -501,9 +507,10 @@ int CLIENT_STATE::init() {
 
     FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
     if (f) {
-        fgets(client_brand, sizeof(client_brand), f);
-        strip_whitespace(client_brand);
-        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        if (fgets(client_brand, sizeof(client_brand), f)) {
+            strip_whitespace(client_brand);
+            msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        }
         fclose(f);
     }
 
@@ -623,6 +630,13 @@ int CLIENT_STATE::init() {
     // domain_name for Android
     //
     host_info.get_host_info(true);
+
+    // clear the VM extensions disabled flag.
+    // It's possible that the user enabled them since the last VM failure,
+    // or that the last failure was specious.
+    //
+    host_info.p_vm_extensions_disabled = false;
+
     set_ncpus();
     show_host_info();
 
@@ -633,6 +647,7 @@ int CLIENT_STATE::init() {
     // check for app_config.xml files in project dirs
     //
     check_app_config();
+    show_app_config();
 
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
@@ -640,6 +655,8 @@ int CLIENT_STATE::init() {
     cc_config.show();
 
     // inform the user if there's a newer version of client
+    // NOTE: this must be called AFTER
+    // read_vc_config_file()
     //
     newer_version_startup_check();
 
@@ -722,8 +739,6 @@ int CLIENT_STATE::init() {
 
     check_if_need_benchmarks();
 
-    log_show_projects();
-
     read_global_prefs();
 
     // do CPU scheduler and work fetch
@@ -755,6 +770,14 @@ int CLIENT_STATE::init() {
     process_autologin(true);
     acct_mgr_info.init();
     project_init.init();
+    // if project_init.xml specifies an account, attach
+    //
+    if (strlen(project_init.url) && strlen(project_init.account_key)) {
+        add_project(project_init.url, project_init.account_key, project_init.name, false);
+        project_init.remove();
+    }
+
+    log_show_projects();    // this must follow acct_mgr_info.init()
 
     // set up for handling GUI RPCs
     //
@@ -823,6 +846,11 @@ int CLIENT_STATE::init() {
         all_projects_list_check();
         notices.init_rss();
     }
+
+    // check for jobs with finish files
+    // (i.e. they finished just as client was exiting)
+    //
+    active_tasks.check_for_finished_jobs();
 
     // warn user if some jobs need more memory than available
     //
@@ -937,9 +965,6 @@ bool CLIENT_STATE::poll_slow_events() {
     static bool tasks_restarted = false;
     static bool first=true;
     double old_now = now;
-#ifdef __APPLE__
-    double idletime;
-#endif
 
     set_now();
 
@@ -973,12 +998,8 @@ bool CLIENT_STATE::poll_slow_events() {
 #ifdef ANDROID
     user_active = device_status.user_active;
 #else
-    user_active = !host_info.users_idle(
-        check_all_logins, global_prefs.idle_time_to_run
-#ifdef __APPLE__
-         , &idletime
-#endif
-    );
+    long idle_time = host_info.user_idle_time(check_all_logins);
+    user_active = idle_time < global_prefs.idle_time_to_run * 60;
 #endif
 
     if (user_active != old_user_active) {
@@ -1005,7 +1026,7 @@ bool CLIENT_STATE::poll_slow_events() {
     // If screensaver started client, this code tells client
     // to exit when user becomes active, accounting for all these factors.
     //
-    if (started_by_screensaver && (idletime < 30) && (getppid() == 1)) {
+    if (started_by_screensaver && (idle_time < 30) && (getppid() == 1)) {
         // pid is 1 if parent has exited
         requested_exit = true;
     }
@@ -1178,21 +1199,21 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #endif // ifndef SIM
 
-// See if the project specified by master_url already exists
-// in the client state record.  Ignore any trailing "/" characters
+// Find the project with the given master_url.
+// Ignore differences in protocol, case, and trailing /
 //
 PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
-    int len1, len2;
-    char *mu;
+    char buf[256];
 
-    len1 = (int)strlen(master_url);
-    if (master_url[strlen(master_url)-1] == '/') len1--;
+    safe_strcpy(buf, master_url);
+    canonicalize_master_url(buf, sizeof(buf));
+    char* p = strstr(buf, "//");
+    if (!p) return NULL;
 
     for (unsigned int i=0; i<projects.size(); i++) {
-        mu = projects[i]->master_url;
-        len2 = (int)strlen(mu);
-        if (mu[strlen(mu)-1] == '/') len2--;
-        if (!strncmp(master_url, projects[i]->master_url, max(len1,len2))) {
+        char* q = strstr(projects[i]->master_url, "//");
+        if (!q) continue;
+        if (!strcmp(p, q)) {
             return projects[i];
         }
     }
@@ -1307,8 +1328,14 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             char relpath[MAXPATHLEN], path[MAXPATHLEN];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
-            safe_strcpy(avp->graphics_exec_path, path);
-            safe_strcpy(avp->graphics_exec_file, fip->name);
+#ifdef __APPLE__
+            if (can_run_on_this_CPU(path))
+            
+#endif
+            {
+                safe_strcpy(avp->graphics_exec_path, path);
+                safe_strcpy(avp->graphics_exec_file, fip->name);
+            }
         }
 
         // any file associated with an app version must be signed
@@ -1423,7 +1450,8 @@ void CLIENT_STATE::print_summary() {
     }
     msg_printf(0, MSG_INFO, "%d persistent file xfers", (int)pers_file_xfers->pers_file_xfers.size());
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s http op state: %d", pers_file_xfers->pers_file_xfers[i]->fip->name, (pers_file_xfers->pers_file_xfers[i]->fxp?pers_file_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
+        const PERS_FILE_XFER* pers_file_xfer = pers_file_xfers->pers_file_xfers[i];
+        msg_printf(0, MSG_INFO, "    %s http op state: %d", pers_file_xfer->fip->name, pers_file_xfer->fxp?pers_file_xfer->fxp->http_op_state:-1);
     }
     msg_printf(0, MSG_INFO, "%d active tasks", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -2345,3 +2373,125 @@ bool CLIENT_STATE::abort_sequence_done() {
 }
 
 #endif
+
+#ifdef __APPLE__
+
+union headeru {
+    fat_header fat;
+    mach_header mach;
+};
+// Get the architecture of this computer's CPU: x86_64 or arm64.
+// Read the executable file's mach-o headers to determine the 
+// architecture(s) of its code.
+// Returns 1 if application can run natively on this computer,
+// else returns 0.
+//
+// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs 
+// properly run under Rosetta 2. Note: years ago, PowerPC apps emulated 
+// by Rosetta on i386 Macs crashed when running graphics.
+//
+
+int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
+    FILE *f;
+    int retval = 0;
+    
+    headeru myHeader;
+    fat_arch fatHeader;
+    
+    static bool x86_64_CPU = false;
+    static bool arm64_cpu = false;
+    static bool need_CPU_architecture = true;
+    uint32_t n, i, len;
+    uint32_t theMagic;
+    integer_t file_architecture;
+    
+    if (need_CPU_architecture) {
+        // Determine the architecture of the CPU we are running on
+        // ToDo: adjust this code accordingly.
+        uint32_t cputype = 0;
+        size_t size = sizeof (cputype);
+        int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);
+        if (res) return false;  // Should never happen
+        // Since we require MacOS >= 10.7, the CPU must be x86_64 or arm64 
+        x86_64_CPU = ((cputype &0xff) == CPU_TYPE_X86);
+        arm64_cpu = ((cputype &0xff) == CPU_TYPE_ARM);
+
+        need_CPU_architecture = false;
+    }
+    
+    f = boinc_fopen(exec_path, "rb");
+    if (!f) {
+        return retval;          // Should never happen
+    }
+    
+    myHeader.fat.magic = 0;
+    myHeader.fat.nfat_arch = 0;
+    
+    fread(&myHeader, 1, sizeof(fat_header), f);
+    theMagic = myHeader.mach.magic;
+    switch (theMagic) {
+    case MH_CIGAM:
+    case MH_MAGIC:
+    case MH_MAGIC_64:
+    case MH_CIGAM_64:
+       file_architecture = myHeader.mach.cputype;
+        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
+            file_architecture = OSSwapInt32(file_architecture);
+        }
+        if (x86_64_CPU && (file_architecture == CPU_TYPE_I386)) {
+            // Single-architecture i386 file on x86_64 CPU
+            if (compareOSVersionTo(10, 15) < 0) {   // OS >= 10.15 are 64-bit only
+                retval = 1;
+            }
+        } else
+        if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = 1; // Single-architecture x86_64 file on x86_64 CPU
+        } else
+        if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+            retval = 1; // Single-architecture arm64 file on arm64 CPU
+        } else
+        if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = 1; // Single-architecture x86_64 file emulated on arm64 CPU
+            // ToDo: determine whether emulated graphics apps work properly
+        }
+        break;
+    case FAT_MAGIC:
+    case FAT_CIGAM:
+        n = myHeader.fat.nfat_arch;
+        if (theMagic == FAT_CIGAM) {
+            n = OSSwapInt32(myHeader.fat.nfat_arch);
+        }
+           // Multiple architecture (fat) file
+        for (i=0; i<n; i++) {
+            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
+            if (len < sizeof(fat_arch)) {
+                break;          // Should never happen
+            }
+            file_architecture = fatHeader.cputype;
+            if (theMagic == FAT_CIGAM) {
+                file_architecture = OSSwapInt32(file_architecture);
+            }
+
+            if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = 1; // file with x86_64 architecture on x86_64 CPU
+                            break;
+            } else
+            if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+                retval = 1; // file with arm64 architecture on arm64 CPU
+                break;
+            } else
+            if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = 1; // file with x86_64 architecture emulated on arm64 CPU
+                // ToDo: determine whether emulated graphics apps work properly
+            }
+        }
+        break;
+    default:
+        break;
+    }
+
+    fclose (f);
+    return retval;
+}
+#endif
+

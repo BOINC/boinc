@@ -163,39 +163,41 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="label"></span>
       <span class="value"><?php print $name; ?></span>
     </div>
-    <div class="join-date">
-      <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
-      <span class="value"><?php print $join_date; ?></span>
-    </div>
-    <div class="country">
-      <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
-      <span class="value"><?php print $country; ?></span>
-    </div>
-    <div class="boincid">
-      <span class="value"><?php print bts('BOINC ID', array(), NULL, 'boinc:boincid'); ?>:</span>
-      <span class="value"><?php print $boincid; ?></span>
-    </div>
-    <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
-      <div class="website">
-        <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
-        <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
+    <?php if ($account->status==1): ?>
+      <div class="join-date">
+        <span class="label"><?php print bts('Member since', array(), NULL, 'boinc:user-info'); ?>:</span>
+        <span class="value"><?php print $join_date; ?></span>
       </div>
-    <?php endif; ?>
-    <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
-      <ul class="tab-list">
-        <?php foreach ($user_links as $key => $link): ?>
-          <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links)-1) ? ' last' : ''; ?>">
-            <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-      <ul class="tab-list">
-        <?php foreach ($user_links2l as $key => $link): ?>
-          <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links2l)-1) ? ' last' : ''; ?>">
-            <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <div class="country">
+        <span class="label"><?php print bts('Country', array(), NULL, 'boinc:country-of-origin'); ?>:</span>
+        <span class="value"><?php print $country; ?></span>
+      </div>
+      <div class="boincid">
+        <span class="value"><?php print bts('BOINC ID', array(), NULL, 'boinc:boincid'); ?>:</span>
+        <span class="value"><?php print $boincid; ?></span>
+      </div>
+      <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
+        <div class="website">
+          <span class="label"><?php print bts('Website', array(), NULL, 'boinc:website-of-user-of-team'); ?>:</span>
+          <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
+        </div>
+      <?php endif; ?>
+      <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
+        <ul class="tab-list">
+          <?php foreach ($user_links as $key => $link): ?>
+            <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links)-1) ? ' last' : ''; ?>">
+              <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+        <ul class="tab-list">
+          <?php foreach ($user_links2l as $key => $link): ?>
+            <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links2l)-1) ? ' last' : ''; ?>">
+              <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
     <?php endif; ?>
     <div class="clearfix"></div>
   </div>
@@ -228,4 +230,16 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <?php print bts('Profile does not exist.', array(), NULL, 'boinc:user-profile:-1:message-shown-when-there-is-no-profile'); ?>
     </div>
   <?php endif; ?>
+</div>
+<?php
+  $ddname = 'flag_abuse_reason-dropdown-user-' . $account->uid;
+?>
+<div class="dropdown">
+  <div id="<?php print $ddname; ?>" class="dropdown-content">
+    <?php print flag_create_link('abuse_user_1', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_2', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_3', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_4', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_5', $account->uid); ?>
+  </div>
 </div>

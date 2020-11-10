@@ -82,14 +82,10 @@ using std::string;
 #include "str_util.h"
 #include "svn_version.h"
 
-
-
-
 #define DEDICATED_USER_ID 1
 #define MAX_TO_ASSIGN 100
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     //must have two lines after content header.    Else you will get "Internal
     //Server Error" when executing script
     printf ("Content-type: text/plain\n\n");
@@ -98,19 +94,20 @@ int main(int argc, char *argv[])
     int retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-                                                "Can't parse config.xml: %s\n", boincerror(retval)
-                                                );
-        exit(1);
-        }
-
-
-    
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open DB\n");
+            "Can't parse config.xml: %s\n", boincerror(retval)
+        );
         exit(1);
     }
 
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "can't open DB: %s\n",
+            boinc_db.error_string()
+        );
+        exit(1);
+    }
 
     char buf[256];
 
@@ -130,8 +127,8 @@ int main(int argc, char *argv[])
     }
 
     int batch;
-    if (sscanf(query_str, "batch=%d", &batch) == 1){
-            printf ("Targetting batch id: %d\n\n", batch);
+    if (sscanf(query_str, "batch=%d", &batch) == 1) {
+        printf ("Targetting batch id: %d\n\n", batch);
     } else {
         printf ("Bad argument format. Should be \"batch=[id]\"\n");
         exit(1);

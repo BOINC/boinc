@@ -304,11 +304,8 @@ int CLIENT_STATE::latest_version(APP* app, char* platform) {
 // Find the ACTIVE_TASK in the current set with the matching PID
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
         if (atp->pid == pid) return atp;
     }
     return NULL;
@@ -317,14 +314,40 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
 // Find the ACTIVE_TASK in the current set with the matching result
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
         if (atp->result == result) {
             return atp;
         }
     }
     return NULL;
 }
+
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_slot(int slot) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK *atp = active_tasks[i];
+        if (atp->slot == slot) {
+            return atp;
+        }
+    }
+    return NULL;
+}
+
+#ifndef SIM
+// on startup, see if any active tasks have a finished file
+// i.e. they finished as the client was shutting down
+//
+void ACTIVE_TASK_SET::check_for_finished_jobs() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        int exit_code;
+        if (atp->finish_file_present(exit_code)) {
+            msg_printf(atp->wup->project, MSG_INFO,
+                "Found finish file for %s; exit code %d",
+                atp->result->name, exit_code
+            );
+            atp->handle_exited_app(exit_code);
+        }
+    }
+}
+#endif

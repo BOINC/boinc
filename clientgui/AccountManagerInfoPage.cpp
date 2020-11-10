@@ -169,7 +169,7 @@ void CAccountManagerInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer14->AddGrowableCol(1);
-    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
+    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxRIGHT, 10);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -205,7 +205,6 @@ wxWizardPageEx* CAccountManagerInfoPage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
     }
-    return NULL;
 }
 
 
@@ -302,10 +301,10 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             CAcctMgrListItem* pItem = new CAcctMgrListItem();
 
-            pItem->SetURL( pl.account_managers[i]->url.c_str() );
-            pItem->SetName( pl.account_managers[i]->name.c_str() );
-            pItem->SetImage( pl.account_managers[i]->image.c_str() );
-            pItem->SetDescription( pl.account_managers[i]->description.c_str() );
+            pItem->SetURL( wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8) );
+            pItem->SetName( wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8) );
+            pItem->SetImage( wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8) );
+            pItem->SetDescription( wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8) );
 
             
             m_pProjectListCtrl->Append(

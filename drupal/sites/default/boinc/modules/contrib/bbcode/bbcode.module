@@ -79,6 +79,13 @@ function bbcode_filter($op, $delta = 0, $format = -1, $text = '') {
         '#default_value' => variable_get("bbcode_encode_mailto_$format", 1), 
         '#options' => array(t('Disabled'), t('Enabled')), 
         '#description' => t('Whether to encode email addresses with javascript. With this method you will have clickable mailto links, but it will be a bit harder for spam robots to collect them.'));
+      $form['bbcode_filter']["bbcode_rewrite_email_$format"] = array(
+        '#type'          => 'select',
+        '#title'         => t('Email address rewrite'),
+        '#default_value' => variable_get("bbcode_rewrite_email_$format", 1),
+        '#options'       => array(t('Disabled'), t('Enabled')),
+        '#description'   => t('Whether to rewrite email addresses, replacing the "@" symbol with "-[at]-". This will be a bit harder for spam robots to collect them. If enabled, the "Convert addresses to links" option is ignored. And the "Email address encoding" is ignored.'),
+      );
       $form['bbcode_filter']["bbcode_paragraph_breaks_$format"] = array(
         '#type' => 'select',
         '#title' => t('Smart paragraph and line breaks'),
