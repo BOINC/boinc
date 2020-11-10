@@ -401,15 +401,22 @@ int RPC::parse_reply() {
 
 // Look for a GUI RPC password file and read it.
 // If fail, return a prescriptive message.
-// Win/Mac: look in current dir.
-// Linux: also look in a directory specified in
-// /etc/boinc-client/config.properties
+// Win/Mac: look in
+//  - current dir
+// Linux: look in:
+//  - current dir
+//  - a directory specified in /etc/boinc-client/config.properties
+//  - /var/lib/boinc-client
 //
+// Note: the Manager (on all platforms) has a -datadir cmdline option.
+// If present, it chdirs to that directory.
+
 int read_gui_rpc_password(char* buf, string& msg) {
     char msg_buf[1024];
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
     if (!f) {
 #if defined(__linux__)
+        char path[MAXPATHLEN];
         if (errno == EACCES) {
             sprintf(msg_buf,
                 "%s exists but can't be read.  Check the file permissions.",
@@ -418,9 +425,12 @@ int read_gui_rpc_password(char* buf, string& msg) {
             msg = msg_buf;
             return ERR_FOPEN;
         }
+
+        // look for config file
+        //
         FILE* g = fopen(LINUX_CONFIG_FILE, "r");
         if (g) {
-            char buf2[MAXPATHLEN], path[MAXPATHLEN];
+            char buf2[MAXPATHLEN];
             char *p = 0;
             while (fgets(buf2, MAXPATHLEN, g)) {
                 strip_whitespace(buf2);
@@ -455,16 +465,30 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 return ERR_FOPEN;
             }
         } else {
-            char buf2[MAXPATHLEN];
-            if (!getcwd(buf2, MAXPATHLEN)) {
-                strcpy(buf2, "");
+            // no config file; look in default data dir
+            //
+            sprintf(path, "%s/%s", LINUX_DEFAULT_DATA_DIR, GUI_RPC_PASSWD_FILE);
+            f = fopen(path, "r");
+            if (!f) {
+                if (errno == EACCES) {
+                    sprintf(msg_buf,
+                        "%s exists but can't be read.  Check the file permissions.",
+                        path
+                    );
+                    msg = msg_buf;
+                    return ERR_FOPEN;
+                }
+                char buf2[MAXPATHLEN];
+                if (!getcwd(buf2, MAXPATHLEN)) {
+                    strcpy(buf2, "");
+                }
+                sprintf(msg_buf, "No BOINC data directory was specified, and %s was not found in the current directory (%s).  See https://boinc.berkeley.edu/gui_rpc.php for more information.",
+                    GUI_RPC_PASSWD_FILE,
+                    buf2
+                );
+                msg = msg_buf;
+                return ERR_FOPEN;
             }
-            sprintf(msg_buf, "No BOINC data directory was specified, and %s was not found in the current directory (%s).  See https://boinc.berkeley.edu/gui_rpc.php for more information.",
-                GUI_RPC_PASSWD_FILE,
-                buf2
-            );
-            msg = msg_buf;
-            return ERR_FOPEN;
         }
 #else
         // non-Linux
