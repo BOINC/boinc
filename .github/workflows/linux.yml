@@ -7,9 +7,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
-  libs-build:
+  build:
+    name: ${{ matrix.type }}-build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [libs, server, client]
     steps:
       - uses: actions/checkout@v2
 
@@ -22,9 +25,21 @@ jobs:
         if: ${{ success() }}
         run: ./_autosetup
 
-      - name: configure libs and make
-        if: ${{ success() }}
-        run: ./configure --disable-server --disable-client --disable-manager && make
+      - name: configure libs
+        if: ${{ success() && matrix.type == 'libs' }}
+        run: ./configure --disable-server --disable-client --disable-manager
+
+      - name: configure server
+        if: ${{ success() && matrix.type == 'server' }}
+        run: ./configure --enable-server --disable-client --disable-manager
+
+      - name: configure client
+        if: ${{ success() && matrix.type == 'client' }}
+        run: ./configure --disable-server --enable-client --disable-manager
+        
+      - name: make
+        if: success()
+        run: make
 
       - name: deploy
         if: ${{ success() }}
