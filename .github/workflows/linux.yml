@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ${{ env.GITHUB_WORKSPACE	}}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
