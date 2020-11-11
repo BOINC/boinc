@@ -5,11 +5,6 @@ on:
   pull_request:
     branches: [ master ]
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ${{ env.GITHUB_WORKSPACE	}}
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -25,6 +20,7 @@ jobs:
 
       - name: configure libs and make
         run: ./configure --disable-server --disable-client --disable-manager && make
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
 
       - name: deploy
         if: ${{ success() }}
