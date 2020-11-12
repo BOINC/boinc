@@ -55,7 +55,7 @@ jobs:
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
         
       - name: make
-        if: success() && ! contains(matrix.type, 'mingw)
+        if: success() && ! contains(matrix.type, 'mingw')
         run: make
 
       - name: deploy
