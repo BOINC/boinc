@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client]
+        type: [libs, server, client, apps, manager1, manager2, libs-mingw, apps-mingw]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -38,8 +38,24 @@ jobs:
         if: ${{ success() && matrix.type == 'client' }}
         run: ./configure --disable-server --enable-client --disable-manager
         
+      - name: configure apps
+        if: success() && matrix.type == 'apps'
+        run: ./configure --enable-apps --disable-server --disable-client --disable-manager
+
+      - name: configure manager with webview
+        if: success() && matrix.type == 'manager1'
+        run: ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+
+      - name: configure manager without webview
+        if: success() && matrix.type == 'manager2'
+        run: ./3rdParty/buildLinuxDependencies.sh --disable-webview && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+
+      - name: make libs with mingw
+        if: success() && matrix.type == 'libs-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
+        
       - name: make
-        if: success()
+        if: success() && ! contains(matrix.type, 'mingw)
         run: make
 
       - name: deploy
