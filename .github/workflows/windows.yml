@@ -1,0 +1,28 @@
+name: Windows
+on:
+  push:
+    branches: [ master, cb_action_test ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: ${{ matrix.config }}-${{ matrix.platform }}-build
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        platform: [Win32, x64]
+        configuration: [Release]
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Install dependencies
+        run: vcpkg.exe integrate remove
+        #C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
+
+      - name: build
+        run: msbuild win_build\boinc_vs2019.sln /p:Configuration=${{ matrix.configuration }};Platform=${{ matrix.platform }};VcpkgTripletConfig=ci -m
+    
