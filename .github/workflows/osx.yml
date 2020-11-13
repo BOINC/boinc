@@ -1,0 +1,30 @@
+name: OSX
+on:
+  push:
+    branches: [ master, cb_action_test ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        type: [manager-osx]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: ./3rdParty/buildMacDependencies.sh -q
+
+      - name: make
+        if: success()
+        run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
+
+      - name: deploy
+        if: ${{ success() }}
+        run: echo "Would start deployment now"
+        #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
