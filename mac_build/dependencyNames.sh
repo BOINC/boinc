@@ -35,9 +35,9 @@
 ## build settings.
 ##
 
-opensslDirName="openssl-1.1.0g"
-opensslFileName="openssl-1.1.0g.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-1.1.0g.tar.gz"
+opensslDirName="openssl-1.1.0l"
+opensslFileName="openssl-1.1.0l.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-1.1.0l.tar.gz"
 
 caresDirName="c-ares-1.13.0"
 caresFileName="c-ares-1.13.0.tar.gz"
