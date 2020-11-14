@@ -22,7 +22,8 @@ jobs:
       - name: Install dependencies
         run: |
           vcpkg.exe integrate remove
-          C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
+          vsdevcmd.bat
+          #C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
 
       - name: build
         run: msbuild win_build\boinc_vs2019.sln /p:Configuration=${{ matrix.configuration }};Platform=${{ matrix.platform }};VcpkgTripletConfig=ci -m
