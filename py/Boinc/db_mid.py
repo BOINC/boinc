@@ -35,7 +35,7 @@ class front_Team:
 
 class front_Host:
     def __repr__(self):
-        return '<Host#%s %s>'%(self.id, self.user.name, self.domain_name)
+        return '<Host#%s %s %s>'%(self.id, self.user.name, self.domain_name)
 
 class front_Workunit:
     def __repr__(self):
