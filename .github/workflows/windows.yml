@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           vcpkg.exe integrate remove
-          vsdevcmd.bat
+          #vsdevcmd.bat
           #C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
 
       - name: build
