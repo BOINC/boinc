@@ -41,7 +41,7 @@ else
     else
       ax_try_lib="${ax_lib}"
     fi
-    LIBS="-L${prefix}/lib ${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
+    LIBS="${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
     AC_LINK_IFELSE(
     [AC_LANG_PROGRAM([[
 #define FREEGLUT_STATIC 1
@@ -50,7 +50,7 @@ else
 # endif
 # include <GL/glut.h>]],
                      [[glutMainLoop()]])],
-    [ax_cv_check_glut_libglut="-L${prefix}/lib ${ax_try_lib}"; break])
+    [ax_cv_check_glut_libglut="${ax_try_lib}"; break])
 
   done
   LIBS=${ax_save_LIBS}

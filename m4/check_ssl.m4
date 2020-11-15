@@ -46,7 +46,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
       SSL_CXXFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
-      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto"
+      SSL_LIBS="-lssl -lcrypto"
       AC_CHECK_LIB([dl], [dlopen], 
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       AC_CHECK_LIB([z], [gzopen], 
@@ -58,7 +58,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include/"
       SSL_CXXFLAGS="-I$ssldir/include/"
-      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto"
+      SSL_LIBS="-lssl -lcrypto"
       AC_CHECK_LIB([dl], [dlopen], 
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       AC_CHECK_LIB([z], [gzopen], 

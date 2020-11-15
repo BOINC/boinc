@@ -19,7 +19,7 @@ if test "X${with_apple_opengl_framework}" != "Xyes"; then
     else
       ax_try_lib="${ax_lib}"
     fi
-    LIBS="-L${prefix}/lib ${ax_try_lib} ${GL_LIBS} ${ax_save_LIBS}"
+    LIBS="${ax_try_lib} ${GL_LIBS} ${ax_save_LIBS}"
     #
     # libGLU typically links with libstdc++ on POSIX platforms. However,
     # setting the language to C++ means that test program source is named
@@ -37,7 +37,7 @@ if test "X${with_apple_opengl_framework}" != "Xyes"; then
 # endif
 # include <GL/glu.h>]],
                      [[gluBeginCurve(0)]])],
-    [ax_cv_check_glu_libglu="-L${prefix}/lib ${ax_try_lib}"; break])
+    [ax_cv_check_glu_libglu="${ax_try_lib}"; break])
     if test X$ax_compiler_ms = Xyes; then
       AC_LANG_POP([C])
     fi
