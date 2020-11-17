@@ -6,7 +6,6 @@ After=network-online.target
 [Service]
 Type=simple
 ProtectHome=true
-PrivateTmp=true
 ProtectSystem=strict
 ProtectControlGroups=true
 ReadWritePaths=-/var/lib/boinc -/etc/boinc-client
@@ -32,6 +31,7 @@ IOSchedulingClass=idle
 #PrivateUsers=true
 #CapabilityBoundingSet=
 #MemoryDenyWriteExecute=true
+#PrivateTmp=true  #Block X11 idle detection
 
 [Install]
 WantedBy=multi-user.target
