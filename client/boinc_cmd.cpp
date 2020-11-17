@@ -193,7 +193,7 @@ int main(int argc, char** argv) {
     MESSAGES messages;
     NOTICES notices;
     char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p, *q;
+    char* passwd=0, *p, *q;
     bool unix_domain = false;
     string msg;
 
@@ -202,12 +202,6 @@ int main(int argc, char** argv) {
 #elif defined(__APPLE__)
     chdir("/Library/Application Support/BOINC Data");
 #endif
-    safe_strcpy(passwd_buf, "");
-    retval = read_gui_rpc_password(passwd_buf, msg);
-    if (retval) {
-        fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
-        fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
-    }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -217,6 +211,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
 #endif
+
+    // parse command line.
+    // TODO: do this the right way.
+    // shouldn't require args to be in a particular order.
+
     if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[i], "--help")) usage();
@@ -268,6 +267,16 @@ int main(int argc, char** argv) {
         i++;
     }
     if (i == argc) usage();
+
+    if (!passwd) {
+        passwd = passwd_buf;
+        safe_strcpy(passwd_buf, "");
+        retval = read_gui_rpc_password(passwd_buf, msg);
+        if (retval) {
+            fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+            fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+        }
+    }
 
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //

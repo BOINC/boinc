@@ -416,11 +416,12 @@ int read_gui_rpc_password(char* buf, string& msg) {
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
     if (!f) {
 #if defined(__linux__)
+#define HELP_URL "https://boinc.berkeley.edu/gui_rpc.php"
         char path[MAXPATHLEN];
         if (errno == EACCES) {
             sprintf(msg_buf,
-                "%s exists but can't be read.  Check the file permissions.",
-                GUI_RPC_PASSWD_FILE
+                "%s exists but can't be read.  See %s",
+                GUI_RPC_PASSWD_FILE, HELP_URL
             );
             msg = msg_buf;
             return ERR_FOPEN;
@@ -445,12 +446,12 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 if (!f) {
                     if (errno == EACCES) {
                         sprintf(msg_buf,
-                            "%s exists but can't be read.  Check the file permissions.",
-                            path
+                            "%s exists but can't be read.  See %s",
+                            path, HELP_URL
                         );
                     } else {
-                        sprintf(msg_buf, "%s not found.  Try reinstalling BOINC.",
-                            path
+                        sprintf(msg_buf, "%s not found.  See %s",
+                            path, HELP_URL
                         );
                     }
                     msg = msg_buf;
@@ -458,8 +459,8 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 }
             } else {
                 sprintf(msg_buf,
-                    "No data_dir= found in %s.  Try reinstalling BOINC.",
-                    LINUX_CONFIG_FILE
+                    "No data_dir= found in %s.  See %s",
+                    LINUX_CONFIG_FILE, HELP_URL
                 );
                 msg = msg_buf;
                 return ERR_FOPEN;
@@ -472,19 +473,14 @@ int read_gui_rpc_password(char* buf, string& msg) {
             if (!f) {
                 if (errno == EACCES) {
                     sprintf(msg_buf,
-                        "%s exists but can't be read.  Check the file permissions.",
-                        path
+                        "%s exists but can't be read.  See %s",
+                        path, HELP_URL
                     );
                     msg = msg_buf;
                     return ERR_FOPEN;
                 }
-                char buf2[MAXPATHLEN];
-                if (!getcwd(buf2, MAXPATHLEN)) {
-                    strcpy(buf2, "");
-                }
-                sprintf(msg_buf, "No BOINC data directory was specified, and %s was not found in the current directory (%s).  See https://boinc.berkeley.edu/gui_rpc.php for more information.",
-                    GUI_RPC_PASSWD_FILE,
-                    buf2
+                sprintf(msg_buf, "%s not found.  See %s",
+                    GUI_RPC_PASSWD_FILE, HELP_URL
                 );
                 msg = msg_buf;
                 return ERR_FOPEN;
