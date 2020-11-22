@@ -45,10 +45,33 @@ static double os_version_num(HOST h) {
         if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
             return 100000000.0*a + 1000000.0*b + 100.0*c +d;
         }
-    } else if (strstr(h.os_name, "Android") || strstr(h.os_name, "Linux")) {
-        // example: 3.0.31-g6fb96c9
+    } else if (strstr(h.os_name, "Android")) {
+        // examples:
+        // 3.0.31-g6fb96c9
+        // 2.6.36.3
+        // 3.4.0
         //
         if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.*a + 100.*b + c;
+        }
+    } else if (strstr(h.os_name, "Linux")) {
+        // os_name seems to always contain "Linux".
+        // os_version is pretty diverse:
+        //
+        // Linux Mint 19 Tara [4.18.12-041812-generic|libc 2.27 (Ubuntu GLIBC 2.27-3ubuntu1)]
+        // CentOS Linux 7 (Core) [3.10.0-862.14.4.el7.x86_64|libc 2.17 (GNU libc)]
+        // Ubuntu 18.04.1 LTS [4.15.0-36-generic|libc 2.27 (Ubuntu GLIBC 2.27-3ubuntu1)]
+        // 3.13.0-103-generic
+        // 4.9.0-8-amd64
+        // Manjaro Linux [4.19.42-1-MANJARO|libc 2.29 (GNU libc)]
+
+        char* p = strchr(h.os_version, '[');
+        if (p) {
+            p++;
+        } else {
+            p = h.os_version;
+        }
+        if (sscanf(p, "%u.%u.%u", &a, &b, &c) == 3) {
             return 10000.*a + 100.*b + c;
         }
     }
