@@ -142,6 +142,7 @@ NSPoint gCurrentDelta;
 
 CGContextRef myContext;
 bool isErased;
+bool gIsBigSur = false;
 
 static SharedGraphicsController *mySharedGraphicsController;
 static bool runningSharedGraphics;
@@ -206,7 +207,8 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     gIsHighSierra = (compareOSVersionTo(10, 13) >= 0);
     gIsMojave = (compareOSVersionTo(10, 14) >= 0);
     gIsCatalina = (compareOSVersionTo(10, 15) >= 0);
-
+    gIsBigSur = (compareOSVersionTo(11, 0) >= 0);
+    
     if (gIsCatalina) {
         // Under OS 10.15, isPreview is often true even when it shouldn't be
         // so we use this hack instead
@@ -234,9 +236,14 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
     //
     // NOTE: Graphics apps must now be linked with the IOSurface framework.
     //
-    if (gIsCatalina) {
-        NSArray *allScreens = [ NSScreen screens ];
-        DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101500 // If built on Xcode 10.x or earlier
+    if (!gIsBigSur)  // If built with Xcode 10.x or earlier don't do this on Big Sur 
+#endif
+    {
+        if (gIsCatalina) {
+            NSArray *allScreens = [ NSScreen screens ];
+            DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
+        }
     }
     return self;
 }
