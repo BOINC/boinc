@@ -3855,7 +3855,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -3867,7 +3867,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1100",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3879,7 +3879,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -3934,21 +3934,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
-					"-DwxADJUST_MINSIZE=0",
-				);
-				"OTHER_CFLAGS[arch=*]" = (
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DSANDBOX",
-					"-D_NDEBUG",
-					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1070",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -3962,7 +3948,21 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1100",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DwxADJUST_MINSIZE=0",
+				);
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"-DHAVE_CONFIG_H",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-DNO_GCC_PRAGMA",
+					"-DNOCLIPBOARD",
+					"-D_THREAD_SAFE",
+					"-D__WXMAC__",
+					"-DSANDBOX",
+					"-D_NDEBUG",
+					"-DBUILDING_MANAGER",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
