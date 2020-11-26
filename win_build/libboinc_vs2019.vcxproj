@@ -134,6 +134,7 @@
     <ClInclude Include="..\lib\opencl_boinc.h" />
     <ClInclude Include="..\lib\parse.h" />
     <ClInclude Include="..\lib\prefs.h" />
+    <ClInclude Include="..\lib\pretty_printer.h" />
     <ClInclude Include="..\lib\proc_control.h" />
     <ClInclude Include="..\lib\procinfo.h" />
     <ClInclude Include="..\lib\project_init.h" />
@@ -191,6 +192,8 @@
     <ClCompile Include="..\lib\prefs.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="..\lib\pretty_printer.cpp" />
+    <ClCompile Include="..\lib\pretty_printer_tests.cpp" />
     <ClCompile Include="..\lib\proc_control.cpp" />
     <ClCompile Include="..\lib\procinfo.cpp" />
     <ClCompile Include="..\lib\procinfo_win.cpp" />

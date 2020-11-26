@@ -110,7 +110,7 @@ public:
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
-    void print();
+    void print(const bool& console_print);
 
     bool host_is_running_on_batteries();
     long user_idle_time(bool check_all_logins);

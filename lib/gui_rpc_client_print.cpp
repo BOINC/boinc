@@ -33,6 +33,10 @@
 #include <cstring>
 #endif
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "md5_file.h"
@@ -41,211 +45,313 @@
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"
+#include "pretty_printer.h"
 
 #include "gui_rpc_client.h"
 
 using std::string;
+using std::map;
+using std::pair;
 using std::vector;
 
-void DAILY_XFER_HISTORY::print() {
-    for (unsigned int i=0; i<daily_xfers.size(); i++) {
-        DAILY_XFER& dx = daily_xfers[i];
-        char buf[256];
-        time_t t = dx.when*86400;
-        struct tm* tm = localtime(&t);
-        strftime(buf, sizeof(buf)-1, "%d-%b-%Y", tm);
-        printf("%s: %.0f bytes uploaded, %.0f bytes downloaded\n",
-            buf, dx.up, dx.down
-        );
-    }
+// Helper function to generate strings with a given format
+template<typename T>
+string format(const string& format_string, T arguments) {
+    const auto size = snprintf(nullptr, 0, format_string.c_str(), arguments) + 1;
+    auto buf = vector<char>(size);
+    sprintf(buf.data(), format_string.c_str(), arguments);
+
+    return buf.data();
 }
 
-void GUI_URL::print() {
-    printf(
-        "GUI URL:\n"
-        "   name: %s\n"
-        "   description: %s\n"
-        "   URL: %s\n",
-        name.c_str(), description.c_str(), url.c_str()
-    );
-}
+// Helper function to print groups of structs
+template<typename T>
+void print_group(const string& group_name, vector<T>& items, const bool& console_print, pretty_printer& printer, const bool& print_printer = true) {
+    if (console_print) {
+        printf("\n======== %s ========\n", group_name.c_str());
+        for (unsigned int i = 0; i < items.size(); i++) {
+            pretty_printer item_printer = items.at(i)->get();
+            item_printer.change_spacing(1);
 
-void PROJECT::print_disk_usage() {
-    printf("   master URL: %s\n", master_url);
-    printf("   disk usage: %.2fMB\n", disk_usage/MEGA);
-}
+            printf("%d) -----------\n", i + 1);
+            printf("%s\n", item_printer.prettify(true).c_str());
+        }
 
-void PROJECT::print() {
-    unsigned int i;
+    } else {
+        if (items.empty()) return;
+        vector<pretty_printer> printers;
+        printers.reserve(items.size());
+        for (const auto item : items) {
+            printers.push_back(item->get());
+        }
 
-    printf("   name: %s\n", project_name.c_str());
-    printf("   master URL: %s\n", master_url);
-    printf("   user_name: %s\n", user_name.c_str());
-    printf("   team_name: %s\n", team_name.c_str());
-    printf("   resource share: %f\n", resource_share);
-    printf("   user_total_credit: %f\n", user_total_credit);
-    printf("   user_expavg_credit: %f\n", user_expavg_credit);
-    printf("   host_total_credit: %f\n", host_total_credit);
-    printf("   host_expavg_credit: %f\n", host_expavg_credit);
-    printf("   nrpc_failures: %d\n", nrpc_failures);
-    printf("   master_fetch_failures: %d\n", master_fetch_failures);
-    printf("   master fetch pending: %s\n", master_url_fetch_pending?"yes":"no");
-    printf("   scheduler RPC pending: %s\n", sched_rpc_pending?"yes":"no");
-    printf("   trickle upload pending: %s\n", trickle_up_pending?"yes":"no");
-    printf("   attached via Account Manager: %s\n", attached_via_acct_mgr?"yes":"no");
-    printf("   ended: %s\n", ended?"yes":"no");
-    printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
-    printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
-    printf("   disk usage: %.2fMB\n", disk_usage/MEGA);
-    time_t foo = (time_t)last_rpc_time;
-    printf("   last RPC: %s\n", ctime(&foo));
-    printf("   project files downloaded: %f\n", project_files_downloaded_time);
-    for (i=0; i<gui_urls.size(); i++) {
-        gui_urls[i].print();
-    }
-    printf("   jobs succeeded: %d\n", njobs_success);
-    printf("   jobs failed: %d\n", njobs_error);
-    printf("   elapsed time: %f\n", elapsed_time);
-    printf("   cross-project ID: %s\n", external_cpid);
-}
-
-void APP::print() {
-    printf("   name: %s\n", name);
-    printf("   Project: %s\n", project->project_name.c_str());
-}
-
-void APP_VERSION::print() {
-    printf("   project: %s\n", project->project_name.c_str());
-    printf("   application: %s\n", app->name);
-    printf("   platform: %s\n", platform);
-    if (strlen(plan_class)) {
-        printf("   plan class: %s\n", plan_class);
-    }
-    printf("   version: %.2f\n", version_num/100.0);
-    if (avg_ncpus != 1) {
-        printf("   avg #CPUS: %.3f\n", avg_ncpus);
-    }
-    if (gpu_type != PROC_TYPE_CPU) {
-        printf("   coprocessor type: %s\n", proc_type_name(gpu_type));
-        printf("   coprocessor usage: %.3f\n", gpu_usage);
-    }
-    printf("   estimated GFLOPS: %.2f\n", flops/1e9);
-    printf("   filename: %s\n", exec_filename);
-}
-
-void WORKUNIT::print() {
-    printf("   name: %s\n", name);
-    printf("   FP estimate: %e\n", rsc_fpops_est);
-    printf("   FP bound: %e\n", rsc_fpops_bound);
-    printf("   memory bound: %.2f MB\n", rsc_memory_bound/MEGA);
-    printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
-    if (!job_keywords.empty()) {
-        printf("   keywords:\n");
-        for (unsigned int i=0; i<job_keywords.keywords.size(); i++) {
-            KEYWORD &kw = job_keywords.keywords[i];
-            printf("      %s\n", kw.name.c_str());
+        printer.insert(group_name, printers);
+        if (print_printer) {
+            printf("%s\n", printer.prettify(console_print).c_str());
         }
     }
 }
 
-void RESULT::print() {
-    printf("   name: %s\n", name);
-    printf("   WU name: %s\n", wu_name);
-    printf("   project URL: %s\n", project_url);
-    time_t foo = (time_t)received_time;
-    printf("   received: %s", ctime(&foo));
+void DAILY_XFER_HISTORY::print(const bool& console_print) {
+    if (daily_xfers.empty()) {
+        printf("\n");
+        return;
+    }
+
+    pretty_printer printer(0);
+    for (const auto& xfer : daily_xfers) {
+        char buf[256];
+        time_t t = xfer.when * 86400;
+        struct tm* tm = localtime(&t);
+        strftime(buf, sizeof(buf) - 1, "%d-%b-%Y", tm);
+
+        map<string, int> info;
+        info["bytes uploaded"] = xfer.up;
+        info["bytes downloaded"] = xfer.down;;
+        printer.insert(buf, info);
+    }
+
+    printf("%s\n", printer.prettify(console_print).c_str());
+}
+
+pair<string, map<string, string>> GUI_URL::get() {
+    map<string, string> result;
+    result["description"] = description;
+    result["URL"] = url;
+
+    return pair<string, map<string, string>>(name, result);
+}
+
+pretty_printer PROJECT::get_disk_usage() {
+    pretty_printer result;
+    result.insert("master URL", master_url);
+    result.insert("disk usage", format("%.2fMB", disk_usage / MEGA));
+    return result;
+}
+
+pretty_printer PROJECT::get() {
+    pretty_printer result;
+
+    result.insert("name", project_name.c_str());
+    result.insert("master URL", master_url);
+    result.insert("user_name", user_name.c_str());
+    result.insert("team_name", team_name.c_str());
+    result.insert("resource share", resource_share);
+    result.insert("user_total_credit", user_total_credit);
+    result.insert("user_expavg_credit", user_expavg_credit);
+    result.insert("host_expavg_credit", host_total_credit);
+    result.insert("nrpc_failures", nrpc_failures);
+    result.insert("master_fetch_failures", master_fetch_failures);
+    result.insert("master fetch pending", master_url_fetch_pending);
+    result.insert("scheduler RPC pending", sched_rpc_pending ? true : false);
+    result.insert("trickle upload pending", trickle_up_pending);
+    result.insert("attached via Account Manager", attached_via_acct_mgr);
+    result.insert("ended", ended);
+    result.insert("suspended via GUI", suspended_via_gui);
+    result.insert("don't request more work", dont_request_more_work);
+
+    result.insert("disk usage", format("%.2fMB", disk_usage / MEGA));
+
+    auto const foo = (time_t)last_rpc_time;
+    auto time_string = string(ctime(&foo));
+    if (time_string.back() == '\n') {
+        time_string.pop_back();
+    }
+    result.insert("last RPC", time_string);
+    result.insert("project files downloaded", project_files_downloaded_time);
+
+    map<string, map<string, string>> urls;
+    for (auto url: gui_urls) {
+        urls[url.get().first] = url.get().second;
+    }
+    result.insert("GUI URLs", urls);
+
+    result.insert("jobs succeeded", njobs_success);
+    result.insert("jobs failed", njobs_error);
+    result.insert("elapsed time", elapsed_time);
+    result.insert("cross-project ID", external_cpid);
+
+    return result;
+}
+
+pretty_printer APP::get() const {
+    pretty_printer result;
+
+    result.insert("name", name);
+    result.insert("Project", project->project_name.c_str());
+
+    return result;
+}
+
+pretty_printer APP_VERSION::get() const {
+    pretty_printer result(3);
+
+    result.insert("project", project->project_name.c_str());
+    result.insert("application", app->name);
+    result.insert("platform", platform);
+    if (strlen(plan_class)) {
+        result.insert("plan class", plan_class);
+    }
+    result.insert("version", version_num / 100.0);
+    if (avg_ncpus != 1) {
+        result.insert("avg #CPUS", avg_ncpus);
+    }
+    if (gpu_type != PROC_TYPE_CPU) {
+        result.insert("coprocessor type", proc_type_name(gpu_type));
+        result.insert("coprocessor usage", gpu_usage);
+    }
+    result.change_decimal(2);
+    result.insert("estimated GFLOPS", flops/1e9);
+    result.insert("filename", exec_filename);
+
+    return result;
+}
+
+pretty_printer WORKUNIT::get() {
+    pretty_printer result;
+
+    result.insert("name", name);
+    result.insert("FP estimate", format("%e", rsc_fpops_est));
+    result.insert("FP bound", format("%e", rsc_fpops_bound));
+    result.insert("memory bound", format("%.2f MB", rsc_memory_bound / MEGA));
+    result.insert("disk bound", format("%.2f MB", rsc_disk_bound / MEGA));
+    if (!job_keywords.empty()) {
+        vector<string> keywords;
+        for (const auto& i : job_keywords.keywords) {
+            keywords.emplace_back(i.name);
+        }
+        result.insert("keywords", keywords);
+    }
+
+    return result;
+}
+
+pretty_printer RESULT::get() {
+    pretty_printer result;
+
+    result.insert("name", name);
+    result.insert("WU name", wu_name);
+    result.insert("project URL", project_url);
+
+    time_t foo = (time_t) received_time;
+    auto time_string = string(ctime(&foo));
+    if (time_string.back() == '\n') {
+        time_string.pop_back();
+    }
+    result.insert("received", time_string);
+
     foo = (time_t)report_deadline;
-    printf("   report deadline: %s", ctime(&foo));
-    printf("   ready to report: %s\n", ready_to_report?"yes":"no");
-    printf("   state: %s\n", result_client_state_string(state));
-    printf("   scheduler state: %s\n", result_scheduler_state_string(scheduler_state));
-    printf("   active_task_state: %s\n", active_task_state_string(active_task_state));
-    //printf("   stderr_out: %s\n", stderr_out.c_str());
-    printf("   app version num: %d\n", version_num);
-    printf("   resources: %s\n", strlen(resources)?resources:"1 CPU");
+    time_string = string(ctime(&foo));
+    if (time_string.back() == '\n') {
+        time_string.pop_back();
+    }
+    result.insert("report deadline", time_string);
+
+    result.insert("ready to report", ready_to_report);
+    result.insert("state", result_client_state_string(state));
+    result.insert("scheduler state", result_scheduler_state_string(scheduler_state));
+    result.insert("active_task_state", active_task_state_string(active_task_state));
+    //result.insert("stderr_out", stderr_out.c_str());
+    result.insert("app version num", version_num);
+    result.insert("resources", strlen(resources) ? resources : "1 CPU");
 
     // stuff for jobs that are not yet completed
     //
     if (state <= RESULT_FILES_DOWNLOADED) {
         if (suspended_via_gui) {
-            printf("   suspended via GUI: yes\n");
+            result.insert("suspended via GUI", true);
         }
-        printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
-        printf("   elapsed task time: %f\n", elapsed_time);
+        result.insert("estimated CPU time remaining", estimated_cpu_time_remaining);
     }
 
     // stuff for jobs that are running or have run
     //
     if (scheduler_state > CPU_SCHED_UNINITIALIZED) {
-        printf("   slot: %d\n", slot);
-        printf("   PID: %d\n", pid);
-        printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
-        printf("   current CPU time: %f\n", current_cpu_time);
-        printf("   fraction done: %f\n", fraction_done);
-        printf("   swap size: %.0f MB\n", swap_size/MEGA);
-        printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
+        result.insert("slot", slot);
+        result.insert("PID", pid);
+        result.insert("CPU time at last checkpoint", checkpoint_cpu_time);
+        result.insert("current CPU time", current_cpu_time);
+        result.insert("fraction done", fraction_done);
+        result.insert("swap size", format("%.0f MB", swap_size / MEGA));
+        result.insert("working set size", format("%.0f MB", working_set_size_smoothed / MEGA));
         if (bytes_sent || bytes_received) {
-            printf("   bytes sent: %.0f received: %.0f\n",
-                bytes_sent, bytes_received
-            );
+            result.change_decimal(0);
+            result.insert("bytes sent", bytes_sent);
+            result.insert("bytes received", bytes_received);
         }
     }
 
     // stuff for completed jobs
     //
     if (state > RESULT_FILES_DOWNLOADED) {
-        printf("   final CPU time: %f\n", final_cpu_time);
-        printf("   final elapsed time: %f\n", final_elapsed_time);
-        printf("   exit_status: %d\n", exit_status);
-        printf("   signal: %d\n", signal);
+        result.insert("final CPU time", final_cpu_time);
+        result.insert("final elapsed time", final_elapsed_time);
+        result.insert("exit_status", exit_status);
+        result.insert("signal", signal);
     }
+
+    return result;
 }
 
-void FILE_TRANSFER::print() {
-    printf("   name: %s\n", name.c_str());
-    printf("   direction: %s\n", is_upload?"upload":"download");
-    printf("   sticky: %s\n", sticky?"yes":"no");
-    printf("   xfer active: %s\n", xfer_active?"yes":"no");
-    printf("   time_so_far: %f\n", time_so_far);
-    printf("   bytes_xferred: %f\n", bytes_xferred);
-    printf("   xfer_speed: %f\n", xfer_speed);
+pretty_printer FILE_TRANSFER::get() {
+    pretty_printer result;
+
+    result.insert("name", name.c_str());
+    result.insert("direction", is_upload?"upload":"download");
+    result.insert("sticky", sticky);
+    result.insert("xfer active", xfer_active);
+    result.insert("time_so_far", time_so_far);
+    result.insert("bytes_xferred", bytes_xferred);
+    result.insert("xfer_speed", xfer_speed);
+
+    return result;
 }
 
-void MESSAGE::print() {
-    printf("%s %d %d %s\n",
-        project.c_str(), priority, timestamp, body.c_str()
-    );
+pretty_printer MESSAGE::get() const {
+    pretty_printer result;
+    result.insert("Project", project.c_str());
+    result.insert("Priority", priority);
+    result.insert("Timestamp", timestamp);
+    result.insert("Body", body.c_str());
+
+    return result;
 }
 
-void GR_PROXY_INFO::print() {
-    printf("HTTP server name: %s\n",this->http_server_name.c_str()); 
-    printf("HTTP server port: %d\n",this->http_server_port); 
-    printf("HTTP user name: %s\n",this->http_user_name.c_str()); 
-    //printf("HTTP user password: %s\n",this->http_user_passwd.c_str()); 
-    printf("SOCKS server name: %s\n",this->socks_server_name.c_str()); 
-    printf("SOCKS server port: %d\n",this->socks_server_port); 
-    printf("SOCKS5 user name: %s\n",this->socks5_user_name.c_str()); 
-    //printf("SOCKS5 user password: %s\n",this->socks5_user_passwd.c_str()); 
-    printf("no proxy hosts: %s\n",this->noproxy_hosts.c_str()); 
+void GR_PROXY_INFO::print(const bool& console_print) {
+    pretty_printer result;
+
+    result.insert("HTTP server name",this->http_server_name.c_str());
+    result.insert("HTTP server port",this->http_server_port);
+    result.insert("HTTP user name",this->http_user_name.c_str());
+    //result.insert("HTTP user password",this->http_user_passwd.c_str());
+    result.insert("SOCKS server name",this->socks_server_name.c_str());
+    result.insert("SOCKS server port",this->socks_server_port);
+    result.insert("SOCKS5 user name",this->socks5_user_name.c_str());
+    //result.insert("SOCKS5 user password",this->socks5_user_passwd.c_str());
+    result.insert("no proxy hosts",this->noproxy_hosts.c_str());
+
+    printf("%s\n", result.prettify(console_print).c_str());
 }
 
-void HOST_INFO::print() {
-    printf("  timezone: %d\n", timezone);
-    printf("  domain name: %s\n", domain_name);
-    printf("  IP addr: %s\n", ip_addr);
-    printf("  #CPUS: %d\n", p_ncpus);
-    printf("  CPU vendor: %s\n", p_vendor);
-    printf("  CPU model: %s\n", p_model);
-    printf("  CPU FP OPS: %f\n", p_fpops);
-    printf("  CPU int OPS: %f\n", p_iops);
-    //printf("  CPU mem BW: %f\n", p_membw);
-    printf("  OS name: %s\n", os_name);
-    printf("  OS version: %s\n", os_version);
-    printf("  mem size: %f\n", m_nbytes);
-    printf("  cache size: %f\n", m_cache);
-    printf("  swap size: %f\n", m_swap);
-    printf("  disk size: %f\n", d_total);
-    printf("  disk free: %f\n", d_free);
+void HOST_INFO::print(const bool& console_print) {
+    pretty_printer result;
+
+    result.insert("timezone", timezone);
+    result.insert("domain name", domain_name);
+    result.insert("IP addr", ip_addr);
+    result.insert("#CPUS", p_ncpus);
+    result.insert("CPU vendor", p_vendor);
+    result.insert("CPU model", p_model);
+    result.insert("CPU FP OPS", p_fpops);
+    result.insert("CPU int OPS", p_iops);
+    //result.insert("CPU mem BW", p_membw);
+    result.insert("OS name", os_name);
+    result.insert("OS version", os_version);
+    result.insert("mem size", m_nbytes);
+    result.insert("cache size", m_cache);
+    result.insert("swap size", m_swap);
+    result.insert("disk size", d_total);
+    result.insert("disk free", d_free);
 
     // Show GPU info.
     // This is harder than it should be,
@@ -257,254 +363,260 @@ void HOST_INFO::print() {
     COPROC_NVIDIA& cn = coprocs.nvidia;
     if (cn.count) {
         cn.description(buf, sizeof(buf));
-        printf("  NVIDIA GPU: %s\n", buf);
+        result.insert("NVIDIA GPU", buf);
         if (cn.count > 1) {
-            printf("    Count: %d\n", cn.count);
+            result.insert("Count", cn.count);
         }
         if (cn.have_opencl) {
             cn.opencl_prop.is_used = COPROC_USED;
             cn.opencl_prop.peak_flops = cn.peak_flops;
             cn.opencl_prop.opencl_available_ram = cn.available_ram;
             cn.opencl_prop.description(buf, sizeof(buf), "NVIDIA");
-            printf("    %s\n", buf);
+            const string& buf_string = buf;
+            result.insert("OpenCL", buf_string.substr(8, buf_string.size()));
         }
     }
     COPROC_ATI &ca = coprocs.ati;
     if (ca.count) {
         ca.description(buf, sizeof(buf));
-        printf("  AMD GPU: %s\n", buf);
+        result.insert("AMD GPU", buf);
         if (ca.count > 1) {
-            printf("    Count: %d\n", ca.count);
+            result.insert("Count", ca.count);
         }
         if (ca.have_opencl) {
             ca.opencl_prop.peak_flops = ca.peak_flops;
             ca.opencl_prop.opencl_available_ram = ca.available_ram;
             ca.opencl_prop.is_used = COPROC_USED;
             ca.opencl_prop.description(buf, sizeof(buf), "AMD");
-            printf("    %s\n", buf);
+            const string& buf_string = buf;
+            result.insert("OpenCL", buf_string.substr(8, buf_string.size()));
         }
     }
     COPROC_INTEL &ci = coprocs.intel_gpu;
     if (ci.count) {
-        printf("  Intel GPU\n");
+        result.insert("Intel GPU", buf);
         if (ci.count > 1) {
-            printf("    Count: %d\n", ci.count);
+            result.insert("Count", ci.count);
         }
         if (ci.have_opencl) {
             ci.opencl_prop.peak_flops = ci.peak_flops;
             ci.opencl_prop.opencl_available_ram = ci.opencl_prop.global_mem_size;
             ci.opencl_prop.is_used = COPROC_USED;
             ci.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
-            printf("    %s\n", buf);
+            const string& buf_string = buf;
+            result.insert("OpenCL", buf_string.substr(8, buf_string.size()));
         }
     }
+
+    if (console_print) {
+        result.change_spacing(1);
+    }
+    printf("%s\n", result.prettify(console_print).c_str());
 }
 
-void SIMPLE_GUI_INFO::print() {
-    unsigned int i;
-    printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
-    }
-    printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
-    }
+void SIMPLE_GUI_INFO::print(const bool& console_print) {
+    pretty_printer printer;
+    print_group("Projects", projects, console_print, printer, false);
+    print_group("Tasks", results, console_print, printer);
 }
 
-void TIME_STATS::print() {
-    printf("  now: %f\n", now);
-    printf("  on_frac: %f\n", on_frac);
-    printf("  connected_frac: %f\n", connected_frac);
-    printf("  cpu_and_network_available_frac: %f\n", cpu_and_network_available_frac);
-    printf("  active_frac: %f\n", active_frac);
-    printf("  gpu_active_frac: %f\n", gpu_active_frac);
+pretty_printer TIME_STATS::get() {
+    pretty_printer result;
+    result.insert("now", now);
+    result.insert("on_frac", on_frac);
+    result.insert("connected_frac", connected_frac);
+    result.insert("cpu_and_network_available_frac", cpu_and_network_available_frac);
+    result.insert("active_frac", active_frac);
+    result.insert("gpu_active_frac", gpu_active_frac);
+
     time_t foo = (time_t)client_start_time;
-    printf("  client_start_time: %s\n", ctime(&foo));
-    printf("  previous_uptime: %f\n", previous_uptime);
-    printf("  session_active_duration: %f\n", session_active_duration);
-    printf("  session_gpu_active_duration: %f\n", session_gpu_active_duration);
+    auto time_string = string(ctime(&foo));
+    if (time_string.back() == '\n') {
+        time_string.pop_back();
+    }
+    result.insert("client_start_time", time_string);
+
+    result.insert("previous_uptime", previous_uptime);
+    result.insert("session_active_duration", session_active_duration);
+    result.insert("session_gpu_active_duration", session_gpu_active_duration);
+
     foo = (time_t)total_start_time;
-    printf("  total_start_time: %s\n", ctime(&foo));
-    printf("  total_duration: %f\n", total_duration);
-    printf("  total_active_duration: %f\n", total_active_duration);
-    printf("  total_gpu_active_duration: %f\n", total_gpu_active_duration);
+    time_string = string(ctime(&foo));
+    if (time_string.back() == '\n') {
+        time_string.pop_back();
+    }
+    result.insert("total_start_time", time_string);
+
+    result.insert("total_duration", total_duration);
+    result.insert("total_active_duration", total_active_duration);
+    result.insert("total_gpu_active_duration", total_gpu_active_duration);
+
+    return result;
 }
 
-void CC_STATE::print() {
-    unsigned int i;
-    printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
-    }
-    printf("\n======== Applications ========\n");
-    for (i=0; i<apps.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        apps[i]->print();
-    }
-    printf("\n======== Application versions ========\n");
-    for (i=0; i<app_versions.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        app_versions[i]->print();
-    }
-    printf("\n======== Workunits ========\n");
-    for (i=0; i<wus.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        wus[i]->print();
-    }
-    printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
-    }
-    printf("\n======== Time stats ========\n");
-    time_stats.print();
-}
+void CC_STATE::print(const bool& console_print) {
+    pretty_printer status_printer;
 
-void print_status(
-    const char* name, int reason, int mode, int mode_perm, double delay
-) {
-    printf("%s status\n", name);
-    if (reason) {
-        printf("    suspended: %s\n", suspend_reason_string(reason));
+    print_group("Projects", projects, console_print, status_printer, false);
+    print_group("Applications", apps, console_print, status_printer, false);
+    print_group("Application versions", app_versions, console_print, status_printer, false);
+    print_group("Workunits", wus, console_print, status_printer, false);
+    print_group("Tasks", results, console_print, status_printer, false);
+
+    if (console_print) {
+        printf("\n======== Time stats ========\n");
+        auto time_stats_printer = time_stats.get();
+        time_stats_printer.change_spacing(1);
+
+        printf("%s\n", time_stats_printer.prettify(true).c_str());
     } else {
-        printf("    not suspended\n");
+        status_printer.insert("Time stats", time_stats.get());
+        printf("%s\n", status_printer.prettify().c_str());
     }
-    printf(
-        "    current mode: %s\n"
-        "    perm mode: %s\n"
-        "    perm becomes current in %.0f sec\n",
-        run_mode_string(mode),
-        run_mode_string(mode_perm),
-        delay
-    );
 }
 
-void CC_STATUS::print() {
-    printf("network connection status: %s\n",
-        network_status_string(network_status)
-    );
-    print_status("CPU",
+pretty_printer print_status (int reason, int mode, int mode_perm, double delay) {
+    pretty_printer printer;
+
+    if (reason) {
+        printer.insert("status", "suspended");
+        printer.insert("reason", suspend_reason_string(reason));
+    } else {
+        printer.insert("status", "not suspended");
+    }
+    printer.insert("current mode", run_mode_string(mode));
+    printer.insert("perm mode", run_mode_string(mode_perm));
+    printer.insert("perm becomes current in", format("%.0f sec", delay));
+
+    return printer;
+}
+
+void CC_STATUS::print(const bool& console_print) const {
+    pretty_printer result;
+    result.insert("network connection status", network_status_string(network_status));
+
+    result.insert("CPU Status", print_status(
         task_suspend_reason,
         task_mode,
         task_mode_perm,
         task_mode_delay
-    );
-    print_status("GPU",
+    ));
+    result.insert("GPU Status", print_status(
         gpu_suspend_reason,
         gpu_mode,
         gpu_mode_perm,
         gpu_mode_delay
-    );
-    print_status("Network",
+    ));
+    result.insert("Network Status", print_status(
         network_suspend_reason,
         network_mode,
         network_mode_perm,
         network_mode_delay
-    );
+    ));
+
+    printf("%s\n", result.prettify(console_print).c_str());
 }
 
-void PROJECTS::print() {
-    unsigned int i;
-    printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
+void PROJECTS::print(const bool& console_print) {
+    pretty_printer printer;
+    print_group("Projects", projects, console_print, printer);
+}
+
+void PROJECTS::print_urls(const bool& console_print) {
+    pretty_printer printer;
+    for (const auto& project : projects) {
+        printer.insert(project->project_name, project->master_url);
     }
+    printf("%s\n", printer.prettify(console_print).c_str());
 }
 
-void PROJECTS::print_urls() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        printf("%s\n", projects[i]->master_url);
-    }
-}
+void DISK_USAGE::print(const bool& console_print) {
+    if (console_print) {
+        printf("======== Disk usage ========\n");
+        printf("total: %.2fMB\n", d_total / MEGA);
+        printf("free: %.2fMB\n", d_free / MEGA);
 
-void DISK_USAGE::print() {
-    unsigned int i;
-    printf("======== Disk usage ========\n");
-    printf("total: %.2fMB\n", d_total/MEGA);
-    printf("free: %.2fMB\n", d_free/MEGA);
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print_disk_usage();
-    }
-}
+        for (unsigned int i = 0; i < projects.size(); i++) {
+            printf("%d) -----------\n", i + 1);
+            printf("%s\n", projects.at(i)->get_disk_usage().prettify(true).c_str());
+        }
 
-void RESULTS::print() {
-    unsigned int i;
-    printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
-    }
-}
-
-void FILE_TRANSFERS::print() {
-    unsigned int i;
-    printf("\n======== File transfers ========\n");
-    for (i=0; i<file_transfers.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        file_transfers[i]->print();
-    }
-}
-
-void MESSAGES::print() {
-    unsigned int i;
-    printf("\n======== Messages ========\n");
-    for (i=0; i<messages.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        messages[i]->print();
-    }
-}
-
-void PROJECT_CONFIG::print() {
-    printf(
-        "uses_username: %d\n"
-        "name: %s\n"
-        "min_passwd_length: %d\n",
-        uses_username,
-        name.c_str(),
-        min_passwd_length
-    );
-}
-
-void ACCOUNT_OUT::print() {
-    if (error_num) {
-        printf("error in account lookup: %s\n", boincerror(error_num));
     } else {
-        printf("account key: %s\n", authenticator.c_str());
+        pretty_printer printer;
+
+        map<string, string> disk_usage;
+        disk_usage["total"] = format("%.2fMB", d_total / MEGA);
+        disk_usage["free"] = format("%.2fMB", d_free / MEGA);
+        printer.insert("Disk usage", disk_usage);
+
+        vector<pretty_printer> printers;
+        for (const auto& project : projects) {
+            printers.push_back(project->get_disk_usage());
+        }
+        printer.insert("Projects", printers);
+
+        printf("%s\n", printer.prettify(console_print).c_str());
     }
 }
 
-void OLD_RESULT::print() {
-    printf(
-        "task %s:\n"
-        "   project URL: %s\n"
-        "   app name: %s\n"
-        "   exit status: %d\n"
-        "   elapsed time: %f sec\n"
-        "   completed time: %s\n"
-        "   reported time: %s\n",
-        result_name,
-        project_url,
-        app_name,
-        exit_status,
-        elapsed_time,
-        time_to_string(completed_time),
-        time_to_string(create_time)
-    );
+void RESULTS::print(const bool& console_print) {
+    pretty_printer printer;
+    print_group("Tasks", results, console_print, printer);
 }
 
-void ACCT_MGR_INFO::print() {
-    printf(
-        "Account manager info:\n"
-        "   Name: %s\n"
-        "   URL: %s\n",
-        acct_mgr_name.c_str(),
-        acct_mgr_url.c_str()
-    );
+void FILE_TRANSFERS::print(const bool& console_print) {
+    pretty_printer printer;
+    print_group("File transfers", file_transfers, console_print, printer);
+}
+
+void MESSAGES::print(const bool& console_print) const {
+    vector<MESSAGE*> message_vector;
+    for (const auto& message : messages) {
+        message_vector.push_back(message);
+    }
+
+    pretty_printer printer;
+    print_group("Messages", message_vector, console_print, printer);
+}
+
+void PROJECT_CONFIG::print(const bool& console_print) const {
+    pretty_printer printer;
+    printer.insert("use_username", uses_username);
+    printer.insert("name", name.c_str());
+    printer.insert("min_passwd_length", min_passwd_length);
+
+    printf("%s\n", printer.prettify(console_print).c_str());
+}
+
+void ACCOUNT_OUT::print(const bool& console_print) const {
+    pretty_printer printer;
+    if (error_num) {
+        printer.insert("error in account lookup", boincerror(error_num));
+    } else {
+        printer.insert("account key", authenticator.c_str());
+    }
+
+    printf("%s\n", printer.prettify(console_print).c_str());
+}
+
+pair<string, pretty_printer> OLD_RESULT::get() {
+    pretty_printer printer;
+    printer.insert("project_url", project_url);
+    printer.insert("app name", app_name);
+    printer.insert("exit status", exit_status);
+    printer.insert("elapsed time", elapsed_time);
+    printer.insert("completed time", time_to_string(completed_time));
+    printer.insert("reported time", time_to_string(create_time));
+
+    return pair<string, pretty_printer>(result_name, printer);
+}
+
+void ACCT_MGR_INFO::print(const bool& console_print) const {
+    map<string, string> info;
+    info["Name"] = acct_mgr_name;
+    info["URL"] = acct_mgr_url;
+
+    pretty_printer printer;
+    printer.insert("Account manager info", info);
+    printf("%s\n", printer.prettify(console_print).c_str());
 }

@@ -24,6 +24,7 @@
 
 #include "miofile.h"
 #include "parse.h"
+#include "pretty_printer.h"
 
 #define GUI_RPC_PORT 31416
     // for TCP connection
@@ -299,7 +300,8 @@ struct TIME_STATS {
 
     void write(MIOFILE&);
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get();
+
     TIME_STATS() {
         now = 0;
         on_frac = 1;

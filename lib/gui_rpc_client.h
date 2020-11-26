@@ -40,6 +40,8 @@
 #include <locale.h>
 
 #include <deque>
+#include <string>
+#include <map>
 
 #include "cc_config.h"
 #include "common_defs.h"
@@ -50,6 +52,11 @@
 #include "network.h"
 #include "notice.h"
 #include "prefs.h"
+#include "pretty_printer.h"
+
+using std::string;
+using std::map;
+using std::pair;
 
 struct GUI_URL {
     std::string name;
@@ -57,7 +64,7 @@ struct GUI_URL {
     std::string url;
 
     int parse(XML_PARSER&);
-    void print();
+    pair<string, map<string, string>> get();
 };
 
 // statistics at a specific day
@@ -184,8 +191,8 @@ struct PROJECT {
     PROJECT();
 
     int parse(XML_PARSER&);
-    void print();
-    void print_disk_usage();
+    pretty_printer get();
+    pretty_printer get_disk_usage();
     void clear();
     void get_name(std::string&);
 
@@ -201,7 +208,7 @@ struct APP {
     APP();
 
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get() const;
     void clear();
 };
 
@@ -226,7 +233,7 @@ struct APP_VERSION {
     int parse(XML_PARSER&);
     int parse_coproc(XML_PARSER&);
     int parse_file_ref(XML_PARSER&);
-    void print();
+    pretty_printer get() const;
     void clear();
 };
 
@@ -245,7 +252,7 @@ struct WORKUNIT {
     WORKUNIT();
 
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get();
     void clear();
 };
 
@@ -310,7 +317,7 @@ struct RESULT {
     RESULT();
 
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get();
     void clear();
 };
 
@@ -340,7 +347,7 @@ struct FILE_TRANSFER {
     FILE_TRANSFER();
 
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get();
     void clear();
 };
 
@@ -354,7 +361,7 @@ struct MESSAGE {
     MESSAGE();
 
     int parse(XML_PARSER&);
-    void print();
+    pretty_printer get() const;
     void clear();
 };
 
@@ -375,12 +382,12 @@ struct GR_PROXY_INFO {
     std::string socks5_user_passwd;
     bool socks5_remote_dns;
 
-	std::string noproxy_hosts;
+    std::string noproxy_hosts;
 
     GR_PROXY_INFO();
 
     int parse(XML_PARSER&);
-    void print();
+    void print(const bool& console_print);
     void clear();
 };
 
@@ -418,7 +425,7 @@ struct CC_STATE {
     RESULT* lookup_result(PROJECT*, const char* name);
     RESULT* lookup_result(const char* url, const char* name);
 
-    void print();
+    void print(const bool& console_print);
     void clear();
     int parse(XML_PARSER&);
     inline bool have_gpu() {
@@ -433,8 +440,8 @@ struct PROJECTS {
 
     PROJECTS(){}
 
-    void print();
-    void print_urls();
+    void print(const bool& console_print);
+    void print_urls(const bool& console_print);
     void clear();
 };
 
@@ -447,7 +454,7 @@ struct DISK_USAGE {
 
     DISK_USAGE(){clear();}
 
-    void print();
+    void print(const bool& console_print);
     void clear();
 };
 
@@ -456,7 +463,7 @@ struct RESULTS {
 
     RESULTS(){}
 
-    void print();
+    void print(const bool& console_print);
     void clear();
 };
 
@@ -465,7 +472,7 @@ struct FILE_TRANSFERS {
 
     FILE_TRANSFERS();
 
-    void print();
+    void print(const bool& console_print);
     void clear();
 };
 
@@ -474,7 +481,7 @@ struct MESSAGES {
 
     MESSAGES();
 
-    void print();
+    void print(const bool& console_print) const;
     void clear();
 };
 
@@ -498,7 +505,7 @@ struct ACCT_MGR_INFO {
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
-    void print();
+    void print(const bool& console_print) const;
     void clear();
 };
 
@@ -551,7 +558,7 @@ struct PROJECT_CONFIG {
     bool sched_stopped;         // scheduler disabled
     bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
-	std::string error_msg;
+    std::string error_msg;
     bool terms_of_use_is_html;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
@@ -565,7 +572,7 @@ struct PROJECT_CONFIG {
 
     int parse(XML_PARSER&);
     void clear();
-    void print();
+    void print(const bool& console_print) const;
 };
 
 struct ACCOUNT_IN {
@@ -586,14 +593,14 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
-	std::string error_msg;
+    std::string error_msg;
     std::string authenticator;
 
     ACCOUNT_OUT();
 
     int parse(XML_PARSER&);
     void clear();
-    void print();
+    void print(const bool& console_print) const;
 };
 
 struct CC_STATUS {
@@ -603,15 +610,15 @@ struct CC_STATUS {
     int task_suspend_reason;    // bitmap, see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
     int task_mode_perm;			// same, but permanent version
-	double task_mode_delay;		// time until perm becomes actual
+    double task_mode_delay;		// time until perm becomes actual
     int gpu_suspend_reason;
     int gpu_mode;
     int gpu_mode_perm;
-	double gpu_mode_delay;
+    double gpu_mode_delay;
     int network_suspend_reason;
     int network_mode;
     int network_mode_perm;
-	double network_mode_delay;
+    double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
     int max_event_log_lines;
@@ -620,13 +627,13 @@ struct CC_STATUS {
 
     int parse(XML_PARSER&);
     void clear();
-    void print();
+    void print(const bool& console_print) const;
 };
 
 struct SIMPLE_GUI_INFO {
     std::vector<PROJECT*> projects;
     std::vector<RESULT*> results;
-    void print();
+    void print(const bool& console_print);
 };
 
 struct DAILY_XFER {
@@ -640,7 +647,7 @@ struct DAILY_XFER {
 struct DAILY_XFER_HISTORY {
     std::vector <DAILY_XFER> daily_xfers;
     int parse(XML_PARSER&);
-    void print();
+    void print(const bool& console_print);
 };
 
 // Keep this consistent with client/result.h
@@ -656,7 +663,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
-    void print();
+    pair<string, pretty_printer> get();
 };
 
 struct RPC_CLIENT {
@@ -763,7 +770,7 @@ struct RPC_CLIENT {
     int get_app_config(const char* url, APP_CONFIGS& conf);
     int set_app_config(const char* url, APP_CONFIGS& conf);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
-	int set_language(const char*);
+    int set_language(const char*);
 };
 
 struct RPC {

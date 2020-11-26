@@ -32,8 +32,9 @@
 
 #include <vector>
 #include <string>
-using std::vector;
-using std::string;
+#include <map>
+#include <sstream>
+#include <iostream>
 
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
@@ -43,6 +44,11 @@ using std::string;
 #include "url.h"
 #include "version.h"
 #include "common_defs.h"
+#include "pretty_printer.h"
+
+using std::vector;
+using std::string;
+using std::map;
 
 void version(){
     printf("boinccmd,  built from %s \n", PACKAGE_STRING );
@@ -51,7 +57,7 @@ void version(){
 
 void usage() {
     fprintf(stderr, "\n\
-usage: boinccmd [--host hostname] [--passwd passwd] [--unix_domain] command\n\n\
+usage: boinccmd [--host hostname] [--passwd passwd] [--unix_domain] [--json] command\n\n\
 default hostname: localhost\n\
 default password: contents of gui_rpc_auth.cfg\n\
 Commands:\n\
@@ -165,11 +171,11 @@ void acct_mgr_do_rpc(
 
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
-    int i, retval, port=0;
+    int i, retval, port = 0;
     MESSAGES messages;
     NOTICES notices;
-    char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p, *q;
+    char passwd_buf[256], hostname_buf[256], * hostname = 0;
+    char* passwd = passwd_buf, * p, * q;
     bool unix_domain = false;
     string msg;
 
@@ -217,23 +223,23 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "invalid IPv6 syntax: %s\n", hostname_buf);
                 exit(1);
             }
-            hostname = p+1;
+            hostname = p + 1;
             *q = 0;
-            port = atoi(q+1);
+            port = atoi(q + 1);
         } else {
             hostname = hostname_buf;
             p = strchr(hostname, ':');
             if (p) {
-                q = strchr(p+1, ':');
+                q = strchr(p + 1, ':');
                 if (!q) {
-                    port = atoi(p+1);
-                    *p=0;
+                    port = atoi(p + 1);
+                    *p = 0;
                 }
             }
         }
         i++;
     }
-    if ((i<argc)&& !strcmp(argv[i], "--passwd")) {
+    if ((i < argc) && !strcmp(argv[i], "--passwd")) {
         if (++i == argc) usage();
         passwd = argv[i];
         i++;
@@ -257,7 +263,7 @@ int main(int argc, char** argv) {
     } else {
         retval = rpc.init(hostname, port);
         if (retval) {
-            fprintf(stderr, "can't connect to %s\n", hostname?hostname:"local host");
+            fprintf(stderr, "can't connect to %s\n", hostname ? hostname : "local host");
             exit(1);
         }
     }
@@ -285,55 +291,80 @@ int main(int argc, char** argv) {
         }
     }
 
-    char* cmd = next_arg(argc, argv, i);
+    pretty_printer printer;
+    auto console_print = true;
+    auto* cmd = next_arg(argc, argv, i);
+
+    if (!strcmp(cmd, "--json")) {
+        console_print = false;
+        cmd = next_arg(argc, argv, i);
+    }
+
     if (!strcmp(cmd, "--client_version")) {
         VERSION_INFO vi;
         string rpc_client_name = "boinccmd " BOINC_VERSION_STRING;
         retval = rpc.exchange_versions(rpc_client_name, vi);
         if (!retval) {
-            printf("Client version: %d.%d.%d\n", vi.major, vi.minor, vi.release);
+            if (console_print) {
+                std::ostringstream stream;
+                stream << vi.major << "." << vi.minor << "." << vi.release;
+                printer.insert("Client version", stream.str());
+
+            } else {
+                map<string, int> version;
+                version["Major"] = vi.major;
+                version["Minor"] = vi.minor;
+                version["Release"] = vi.release;
+
+                printer.insert("Client Version", version);
+            }
+
+            printf("%s\n", printer.prettify(console_print).c_str());
+            printer.clear();
         }
     } else if (!strcmp(cmd, "--get_state")) {
         CC_STATE state;
         retval = rpc.get_state(state);
-        if (!retval) state.print();
+        if (!retval) state.print(console_print);
     } else if (!strcmp(cmd, "--get_tasks")) {
         RESULTS results;
         retval = rpc.get_results(results);
-        if (!retval) results.print();
+        if (!retval) results.print(console_print);
     } else if (!strcmp(cmd, "--get_old_tasks")) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
         if (!retval) {
-            for (unsigned int j=0; j<ors.size(); j++) {
-                OLD_RESULT& o = ors[j];
-                o.print();
+            for (auto& o: ors) {
+                printer.insert(o.get().first, o.get().second);
             }
+
+            printf("%s\n", printer.prettify(console_print).c_str());
+            printer.clear();
         }
     } else if (!strcmp(cmd, "--get_file_transfers")) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
-        if (!retval) ft.print();
+        if (!retval) ft.print(console_print);
     } else if (!strcmp(cmd, "--get_daily_xfer_history")) {
         DAILY_XFER_HISTORY dxh;
         retval = rpc.get_daily_xfer_history(dxh);
-        if (!retval) dxh.print();
+        if (!retval) dxh.print(console_print);
     } else if (!strcmp(cmd, "--get_project_status")) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
-        if (!retval) ps.print();
+        if (!retval) ps.print(console_print);
     } else if (!strcmp(cmd, "--get_project_urls")) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
-        if (!retval) ps.print_urls();
+        if (!retval) ps.print_urls(console_print);
     } else if (!strcmp(cmd, "--get_simple_gui_info")) {
         SIMPLE_GUI_INFO info;
         retval = rpc.get_simple_gui_info(info);
-        if (!retval) info.print();
+        if (!retval) info.print(console_print);
     } else if (!strcmp(cmd, "--get_disk_usage")) {
         DISK_USAGE du;
         retval = rpc.get_disk_usage(du);
-        if (!retval) du.print();
+        if (!retval) du.print(console_print);
     } else if (!strcmp(cmd, "--task")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
@@ -341,63 +372,108 @@ int main(int argc, char** argv) {
         char* name = next_arg(argc, argv, i);
         safe_strcpy(result.name, name);
         char* op = next_arg(argc, argv, i);
+        auto done = false;
         if (!strcmp(op, "suspend")) {
             retval = rpc.result_op(result, "suspend");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "resume")) {
             retval = rpc.result_op(result, "resume");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "abort")) {
             retval = rpc.result_op(result, "abort");
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
         safe_strcpy(project.master_url, next_arg(argc, argv, i));
         canonicalize_master_url(project.master_url, sizeof(project.master_url));
         char* op = next_arg(argc, argv, i);
+        auto done = false;
         if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "suspend")) {
             retval = rpc.project_op(project, "suspend");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "resume")) {
             retval = rpc.project_op(project, "resume");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "detach")) {
             retval = rpc.project_op(project, "detach");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "update")) {
             retval = rpc.project_op(project, "update");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "nomorework")) {
             retval = rpc.project_op(project, "nomorework");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "allowmorework")) {
             retval = rpc.project_op(project, "allowmorework");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "detach_when_done")) {
             retval = rpc.project_op(project, "detach_when_done");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "dont_detach_when_done")) {
             retval = rpc.project_op(project, "dont_detach_when_done");
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--project_attach")) {
         char url[256];
         safe_strcpy(url, next_arg(argc, argv, i));
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
         ft.project_url = next_arg(argc, argv, i);
         ft.name = next_arg(argc, argv, i);
         char* op = next_arg(argc, argv, i);
+        auto done = false;
         if (!strcmp(op, "retry")) {
             retval = rpc.file_transfer_op(ft, "retry");
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "abort")) {
             retval = rpc.file_transfer_op(ft, "abort");
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--set_run_mode")) {
         char* op = next_arg(argc, argv, i);
         double duration;
+        auto done = false;
         if (i >= argc || (argv[i][0] == '-')) {
             duration = 0;
         } else {
@@ -405,16 +481,28 @@ int main(int argc, char** argv) {
         }
         if (!strcmp(op, "always")) {
             retval = rpc.set_run_mode(RUN_MODE_ALWAYS, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "auto")) {
             retval = rpc.set_run_mode(RUN_MODE_AUTO, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "never")) {
             retval = rpc.set_run_mode(RUN_MODE_NEVER, duration);
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--set_gpu_mode")) {
         char* op = next_arg(argc, argv, i);
         double duration;
+        auto done = false;
         if (i >= argc || (argv[i][0] == '-')) {
             duration = 0;
         } else {
@@ -422,21 +510,36 @@ int main(int argc, char** argv) {
         }
         if (!strcmp(op, "always")) {
             retval = rpc.set_gpu_mode(RUN_MODE_ALWAYS, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "auto")) {
             retval = rpc.set_gpu_mode(RUN_MODE_AUTO, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "never")) {
             retval = rpc.set_gpu_mode(RUN_MODE_NEVER, duration);
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
         double duration;
+        auto done = false;
         if (i >= argc || (argv[i][0] == '-')) {
             duration = 0;
         } else {
@@ -444,17 +547,28 @@ int main(int argc, char** argv) {
         }
         if (!strcmp(op, "always")) {
             retval = rpc.set_network_mode(RUN_MODE_ALWAYS, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "auto")) {
             retval = rpc.set_network_mode(RUN_MODE_AUTO, duration);
+            printer.insert("Result", retval);
         } else if (!strcmp(op, "never")) {
             retval = rpc.set_network_mode(RUN_MODE_NEVER, duration);
+            printer.insert("Result", retval);
         } else {
-            fprintf(stderr, "Unknown op %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+            done = true;
         }
+        if (!done) {
+            printf("%s\n", printer.prettify(console_print).c_str());
+        }
+        printer.clear();
     } else if (!strcmp(cmd, "--get_proxy_settings")) {
         GR_PROXY_INFO pi;
         retval = rpc.get_proxy_settings(pi);
-        if (!retval) pi.print();
+        if (!retval) pi.print(console_print);
     } else if (!strcmp(cmd, "--set_proxy_settings")) {
         GR_PROXY_INFO pi;
         pi.http_server_name = next_arg(argc, argv, i);
@@ -470,11 +584,16 @@ int main(int argc, char** argv) {
         if (pi.http_user_name.size()) pi.use_http_authentication = true;
         if (pi.socks_server_name.size()) pi.use_socks_proxy = true;
         retval = rpc.set_proxy_settings(pi);
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--get_message_count")) {
         int seqno;
         retval = rpc.get_message_count(seqno);
         if (!retval) {
-            printf("Greatest message sequence number: %d\n", seqno);
+            printer.insert("Greatest message sequence number", seqno);
+            printf("%s\n", printer.prettify(console_print).c_str());
+            printer.clear();
         }
     } else if (!strcmp(cmd, "--get_messages")) {
         int seqno;
@@ -486,16 +605,33 @@ int main(int argc, char** argv) {
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
             unsigned int j;
+            vector<pretty_printer> printers;
             for (j=0; j<messages.messages.size(); j++) {
                 MESSAGE& md = *messages.messages[j];
                 strip_whitespace(md.body);
-                printf("%d: %s (%s) [%s] %s\n",
-                    md.seqno,
-                    time_to_string(md.timestamp),
-                    prio_name(md.priority),
-                    md.project.c_str(),
-                    md.body.c_str()
-                );
+                if (console_print) {
+                    printf("%d: %s (%s) [%s] %s\n",
+                           md.seqno,
+                           time_to_string(md.timestamp),
+                           prio_name(md.priority),
+                           md.project.c_str(),
+                           md.body.c_str()
+                    );
+                } else {
+                    pretty_printer message_printer;
+
+                    message_printer.insert("Timestamp", time_to_string(md.timestamp));
+                    message_printer.insert("Priority", md.priority);
+                    message_printer.insert("Project", md.project.c_str());
+                    message_printer.insert("Body", md.body.c_str());
+
+                    printers.push_back(message_printer);
+                }
+            }
+            if (!console_print) {
+                printer.insert("Messages", printers);
+                printf("%s\n", printer.prettify(console_print).c_str());
+                printer.clear();
             }
         }
     } else if (!strcmp(cmd, "--get_notices")) {
@@ -508,20 +644,35 @@ int main(int argc, char** argv) {
         retval = rpc.get_notices(seqno, notices);
         if (!retval) {
             unsigned int j;
+            vector<pretty_printer> printers;
             for (j=0; j<notices.notices.size(); j++) {
                 NOTICE& n = *notices.notices[j];
                 strip_whitespace(n.description);
-                printf("%d: (%s) %s\n",
-                    n.seqno,
-                    time_to_string(n.create_time),
-                    n.description.c_str()
-                );
+                if (console_print) {
+                    printf("%d: (%s) %s\n",
+                           n.seqno,
+                           time_to_string(n.create_time),
+                           n.description.c_str()
+                    );
+                } else {
+                    pretty_printer notice_printer;
+                    notice_printer.insert("Create Time", time_to_string(n.create_time));
+                    notice_printer.insert("Description", n.description.c_str());
+
+                    printers.push_back(notice_printer);
+                }
+            }
+
+            if (!console_print) {
+                printer.insert("Notices", printers);
+                printf("%s\n", printer.prettify(console_print).c_str());
+                printer.clear();
             }
         }
     } else if (!strcmp(cmd, "--get_host_info")) {
         HOST_INFO hi;
         retval = rpc.get_host_info(hi);
-        if (!retval) hi.print();
+        if (!retval) hi.print(console_print);
     } else if (!strcmp(cmd, "--acct_mgr")) {
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "attach")) {
@@ -529,16 +680,24 @@ int main(int argc, char** argv) {
             char* am_name = next_arg(argc, argv, i);
             char* am_passwd = next_arg(argc, argv, i);
             acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
+            printf("{\n\n}");
         } else if (!strcmp(op, "info")) {
             ACCT_MGR_INFO ami;
             retval = rpc.acct_mgr_info(ami);
-            if (!retval) ami.print();
+            if (!retval) ami.print(console_print);
         } else if (!strcmp(op, "sync")) {
             acct_mgr_do_rpc(rpc, 0, 0, 0);
+            printf("{\n\n}");
         } else if (!strcmp(op, "detach")) {
             retval = rpc.acct_mgr_rpc("", "", "");
+            printer.insert("Result", retval);
+            printf("%s\n", printer.prettify(console_print).c_str());
+            printer.clear();
         } else {
-            printf("unknown operation %s\n", op);
+            string task_result = "Unknown operation ";
+            task_result += op;
+            printer.insert("Result", task_result);
+            fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
         }
     } else if (!strcmp(cmd, "--join_acct_mgr")) {
         char* am_url = next_arg(argc, argv, i);
@@ -547,14 +706,22 @@ int main(int argc, char** argv) {
         acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
     } else if (!strcmp(cmd, "--quit_acct_mgr")) {
         retval = rpc.acct_mgr_rpc("", "", "");
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
 #ifdef __APPLE__
     } else if (!strcmp(cmd, "--run_graphics_app")) {
         int operand = atoi(argv[2]);
         retval = rpc.run_graphics_app(argv[3], operand, getlogin());
         if (!strcmp(argv[3], "test") & !retval) {
-            printf("pid: %d\n", operand);
+            printer.insert("pid", operand);
+            printf("%s\n", printer.prettify(console_print).c_str());
+            printer.clear();
         }
 #endif
     } else if (!strcmp(cmd, "--get_project_config")) {
@@ -565,17 +732,20 @@ int main(int argc, char** argv) {
                 PROJECT_CONFIG pc;
                 retval = rpc.get_project_config_poll(pc);
                 if (retval) {
-                    printf("poll status: %s\n", boincerror(retval));
+                    printer.insert("poll status", boincerror(retval));
+                    printf("%s\n", printer.prettify(console_print).c_str());
                 } else {
                     if (pc.error_num) {
-                        printf("poll status: %s\n", boincerror(pc.error_num));
+                        printer.insert("poll status", boincerror(pc.error_num));
+                        printf("%s\n", printer.prettify(console_print).c_str());
                         if (pc.error_num != ERR_IN_PROGRESS) break;
                         boinc_sleep(1);
                     } else {
-                        pc.print();
+                        pc.print(console_print);
                         break;
                     }
                 }
+                printer.clear();
             }
         }
     } else if (!strcmp(cmd, "--lookup_account")) {
@@ -584,23 +754,28 @@ int main(int argc, char** argv) {
         lai.email_addr = next_arg(argc, argv, i);
         lai.passwd = next_arg(argc, argv, i);
         retval = rpc.lookup_account(lai);
-        printf("status: %s\n", boincerror(retval));
+        printer.insert("status", boincerror(retval));
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
         if (!retval) {
             ACCOUNT_OUT lao;
             while (1) {
                 retval = rpc.lookup_account_poll(lao);
                 if (retval) {
-                    printf("poll status: %s\n", boincerror(retval));
+                    printer.insert("poll status", boincerror(retval));
+                    printf("%s\n", printer.prettify(console_print).c_str());
                 } else {
                     if (lao.error_num) {
-                        printf("poll status: %s\n", boincerror(lao.error_num));
+                        printer.insert("poll status", boincerror(lao.error_num));
+                        printf("%s\n", printer.prettify(console_print).c_str());
                         if (lao.error_num != ERR_IN_PROGRESS) break;
                         boinc_sleep(1);
                     } else {
-                        lao.print();
+                        lao.print(console_print);
                         break;
                     }
                 }
+                printer.clear();
             }
         }
     } else if (!strcmp(cmd, "--create_account")) {
@@ -610,20 +785,23 @@ int main(int argc, char** argv) {
         cai.passwd = next_arg(argc, argv, i);
         cai.user_name = next_arg(argc, argv, i);
         retval = rpc.create_account(cai);
-        printf("status: %s\n", boincerror(retval));
+        printer.insert("status", boincerror(retval));
+        printf("%s\n", printer.prettify(console_print).c_str());
         if (!retval) {
             ACCOUNT_OUT lao;
             while (1) {
                 retval = rpc.create_account_poll(lao);
                 if (retval) {
-                    printf("poll status: %s\n", boincerror(retval));
+                    printer.insert("poll status", boincerror(retval));
+                    printf("%s\n", printer.prettify(console_print).c_str());
                 } else {
                     if (lao.error_num) {
-                        printf("poll status: %s\n", boincerror(lao.error_num));
+                        printer.insert("poll status", boincerror(lao.error_num));
+                        printf("%s\n", printer.prettify(console_print).c_str());
                         if (lao.error_num != ERR_IN_PROGRESS) break;
                         boinc_sleep(1);
                     } else {
-                        lao.print();
+                        lao.print(console_print);
                         break;
                     }
                 }
@@ -631,11 +809,19 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--read_global_prefs_override")) {
         retval = rpc.read_global_prefs_override();
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--read_cc_config")) {
         retval = rpc.read_cc_config();
-        printf("retval %d\n", retval);
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--set_app_config")) {
         // for testing purposes only
         //
@@ -646,9 +832,13 @@ int main(int argc, char** argv) {
         a.max_concurrent = 2;
         ac.app_configs.push_back(a);
         retval = rpc.set_app_config(next_arg(argc, argv, i), ac);
+        printer.insert("Result", retval);
+        printf("%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     } else if (!strcmp(cmd, "--get_app_config")) {
         APP_CONFIGS ac;
         retval = rpc.get_app_config(next_arg(argc, argv, i), ac);
+        // TODO: This needs json option
         if (!retval) {
             MIOFILE mf;
             mf.init_file(stdout);
@@ -658,7 +848,7 @@ int main(int argc, char** argv) {
         CC_STATUS cs;
         retval = rpc.get_cc_status(cs);
         if (!retval) {
-            cs.print();
+            cs.print(console_print);
         }
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
@@ -666,7 +856,9 @@ int main(int argc, char** argv) {
         usage();
     }
     if (retval) {
-        fprintf(stderr, "Operation failed: %s\n", boincerror(retval));
+        printer.insert("Operation failed", boincerror(retval));
+        fprintf(stderr, "%s\n", printer.prettify(console_print).c_str());
+        printer.clear();
     }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
@@ -674,4 +866,3 @@ int main(int argc, char** argv) {
 #endif
     exit(retval);
 }
-
