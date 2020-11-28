@@ -28,6 +28,7 @@
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "tinyxml2.h"
 
 // see parse_test.cpp for example usage of XML_PARSER
 
@@ -268,6 +269,31 @@ struct XML_PARSER {
         skip_unexpected(parsed_tag, verbose, msg);
     }
 };
+
+
+struct TINYXML_WRAPPER {
+    tinyxml2::XMLDocument doc;
+    tinyxml2::XMLElement* current_elem;
+
+    TINYXML_WRAPPER(MIOFILE*);
+    bool parse_start(const char*);
+    bool parse_str(const char*, char*, int);
+    bool parse_string(const char*, std::string&);
+    bool parse_int(const char*, int&);
+    bool parse_long(const char*, long&);
+    bool parse_double(const char*, double&);
+    bool parse_ulong(const char*, unsigned long&);
+    bool parse_ulonglong(const char*, unsigned long long&);
+    bool parse_bool(const char*, bool&);
+    int copy_element(std::string&);
+    void skip_unexpected(const char*, bool verbose, const char*);
+    void skip_unexpected(bool verbose=false, const char* msg="");
+    //bool get_tag(); // Temporary to stop compiler from complaining
+    bool get_tag(char* attrs=NULL, int attr_len=0);
+    bool match_tag(const char*);
+    bool get_attrs(char* attrs, int attr_len);
+};
+
 
 extern bool boinc_is_finite(double);
 

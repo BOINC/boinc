@@ -920,3 +920,362 @@ int XML_PARSER::copy_element(string& out) {
     out += end_tag;
     return 0;
 }
+
+
+/*
+START NEW XML PARSER DEFINITIONS
+
+The following functions are documented with the following structure:
+    Old: How the old parser worked
+    New: How this function works with the new parser
+    NOTE: Important information regarding behaviour that is different to the old parser
+
+This documentation was written by a different person than the original author
+of the XML_PARSER so the 'Old' descriptions may be innaccurate.
+*/
+
+// The XML wrapper requires a MIOFILE in the constructor.
+// For tinyxml, we simply want the FILE* stream.
+TINYXML_WRAPPER::TINYXML_WRAPPER(MIOFILE* in_file) {
+    doc.LoadFile(in_file->f);
+    current_elem = NULL;
+}
+
+
+/*
+Old: This function was almost an assertion of sorts, it would check to see
+whether the start tag you provided is equal to the first tag that the XML
+parser sees.
+
+New: Same as above
+
+NOTE: The <?xml?> tag at the start is not interpreted at all.
+*/
+bool TINYXML_WRAPPER::parse_start(const char* tag) { 
+    get_tag();
+
+    if (!strcmp(tag, current_elem->Value())) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+/*
+Old: Fetch a string from an element as a c-string after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::parse_str(const char* tag, char* dest, int len) {
+    if (match_tag(tag)) {
+        const char* data = current_elem->GetText();
+
+        if (strlen(data) <= len) {
+            strcpy(dest, data);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+/*
+Same as parse_str()
+*/
+bool TINYXML_WRAPPER::parse_string(const char* tag, std::string& dest) { 
+    if (match_tag(tag)) {
+        const char* data = current_elem->GetText();
+
+        dest = string(data);
+        return true;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch an int from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::parse_int(const char* tag, int& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryIntText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch a long from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::parse_long(const char* tag, long& dest) {
+    if (match_tag(tag)) {
+        int64_t tmp_dest;
+        
+        tinyxml2::XMLError error = current_elem->QueryInt64Text(&tmp_dest);
+
+        dest = tmp_dest; // Cast after fetching the value (avoids pointer casting)
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch a double from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::parse_double(const char* tag, double& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryDoubleText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch an unsigned long from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::parse_ulong(const char* tag, unsigned long& dest) {
+    if (match_tag(tag)) {
+        uint64_t tmp_dest;
+
+        tinyxml2::XMLError error = current_elem->QueryUnsigned64Text(&tmp_dest);
+
+        dest = tmp_dest;
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch an unsigned long long from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+
+NOTE: Tinyxml2 does not support long longs, only uint64_t. Hence if interpreting
+data bigger than a long, this may produce undefined behaviour.
+*/
+bool TINYXML_WRAPPER::parse_ulonglong(const char* tag, unsigned long long& dest) {
+    if (match_tag(tag)) {
+        uint64_t tmp_dest;
+
+        tinyxml2::XMLError error = current_elem->QueryUnsigned64Text(&tmp_dest);
+
+        dest = tmp_dest;
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Fetch a bool from an element after ensuring that the
+current tag is the one requested.
+
+New: Same as above
+
+NOTE: This does not support implicit booleans (ie, <myimpbool/>) and
+will return false if it comes accross one.
+*/
+bool TINYXML_WRAPPER::parse_bool(const char* tag, bool& dest) {
+    if (match_tag(tag)) {
+        tinyxml2::XMLError error = current_elem->QueryBoolText(&dest);
+
+        return !error;
+    }
+
+    return false;
+}
+
+
+/*
+Old: Copies the start tag, end tag and contents of an element into a string
+
+New: Same as above
+*/
+int TINYXML_WRAPPER::copy_element(std::string& dest) { 
+    tinyxml2::XMLPrinter elem_store;
+    current_elem->Accept(&elem_store);
+    
+    dest = string(elem_store.CStr());
+
+    // Trim trailing newline if exists
+    if (dest.back() == '\n') {
+        dest.pop_back();
+    }
+
+    return dest.length();
+}
+
+
+/*
+Old: Skips all elements until it reaches the end of the XML. It will
+also print a message for each tag if verbose=true. Usually this function is
+unused and rather the overloaded function below this one is to be used.
+`message` is the locality of the XML with respect to the program.
+For example if the XML is being read in the scheduler, then message could be
+"SCHEDULER".
+
+New: No longer needs the current tag. This implementation will iterate
+automatically without it.
+*/
+void TINYXML_WRAPPER::skip_unexpected(const char* __unused__, bool verbose, const char* message) { 
+    const char* current_tag;
+
+    while (current_elem) {
+        current_tag = current_elem->Value();
+
+        if (verbose) {
+            fprintf(stderr,
+                "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
+                time_to_string(dtime()), current_tag, message
+            );
+        }
+
+        get_tag();
+    }
+}
+
+
+// The overloaded version of the above function
+// This should be used over the above function
+void TINYXML_WRAPPER::skip_unexpected(bool verbose, const char* msg) {
+    // Handle any null pointers
+    if (msg == 0 || msg == NULL) {
+        msg = "";
+    }
+
+    skip_unexpected(NULL, verbose, msg);
+}
+
+
+/*
+Old: This function moves to the immediately next tag in a linear fashion.
+It will set `parsed_tag` to be the name of the next tag (excluding <>).
+You must run this function in conjunction with match_tag() in a while loop
+see if you have arrived at the correct tag. After this, you may then use any
+of the parse_*() functions.
+Optionally you may wish to pass in a buffer to store the attributes of the
+next element. You will also have to pass in the length of the buffer.
+The buffer will then have `name="value"` pairs separated by spaces if there
+is one or more attributes in the element.
+You can then use the parse_attr() function to pick the one you want.
+
+New: Because of the DOM structure of tinyxml2, we must perform a
+depth-first, in-order traversal of the DOM tree.
+*/
+bool TINYXML_WRAPPER::get_tag(char* attrs, int attr_len) { 
+    // If the current element is not set, use the root element
+    if (!current_elem) {
+        current_elem = doc.RootElement();
+
+        // Case where XML is empty
+        if (!current_elem) {
+            return true;
+        }
+    // Else perform a depth-first traversal of the XML
+    } else {
+        // If the current element has a child element, iterate to it
+        if (current_elem->FirstChildElement()) {
+            current_elem = current_elem->FirstChildElement();
+        // Else, move to the next sibling
+        } else {
+            // If there is no other siblings, then this is the end of the XML
+            if (!(current_elem = current_elem->NextSiblingElement())) {
+                return true;
+            }
+        }
+    }
+
+    // Fetch the attributes if requested
+    if (attrs) {
+        if (!get_attrs(attrs, attr_len)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+/*
+Old: Checks if the current `parsed_tag` is the same as the provided tag.
+
+New: Same as above
+*/
+bool TINYXML_WRAPPER::match_tag(const char* tag) {
+    // Short circuit: Returns false if current_elem is null
+    return current_elem && !strcmp(current_elem->Name(), tag);
+}
+
+
+/*
+This is a function not found in the old implementation, it is simply a helper
+function that does the heavy lifting for get_tag() when attributes are 
+requested. It will store them as  `name="value"` pairs separated by spaces if 
+there is one or more attributes in the element.
+*/
+bool TINYXML_WRAPPER::get_attrs(char* attrs, int attr_len) {
+    const tinyxml2::XMLAttribute* current_attr = current_elem->FirstAttribute();
+    const char* current_attr_name;
+    const char* current_attr_val;
+    int to_add_len;
+
+    strcpy(attrs, "");
+
+    while (current_attr) {
+        current_attr_name = current_attr->Name();
+        current_attr_val = current_attr->Value();
+
+        // Prevent buffer overflow/segfault
+        to_add_len = strlen(current_attr_name) + strlen(current_attr_val);
+        to_add_len += 5; // 1 '=' + 2 '"' + 1 ' ' + 1 '\0'
+
+        if (attr_len > to_add_len) {
+            strcat(attrs, current_attr_name);
+            strcat(attrs, "=\"");
+            strcat(attrs, current_attr_val);
+            strcat(attrs, "\"");
+        } else {
+            return false;
+        }
+
+        current_attr = current_attr->Next();
+
+        // Only add trailing space when there is another attribute
+        if (current_attr) {
+            strcat(attrs, " ");
+        }
+    }
+
+    return true;
+}
