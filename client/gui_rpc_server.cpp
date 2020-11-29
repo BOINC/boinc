@@ -120,7 +120,7 @@ bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
 }
 
 // read the GUI RPC password from gui_rpc_auth.cfg;
-// create one if missing or empty.
+// create one if missing
 //
 void GUI_RPC_CONN_SET::get_password() {
     int retval;
@@ -132,16 +132,15 @@ void GUI_RPC_CONN_SET::get_password() {
             strip_whitespace(password);
         }
         fclose(f);
-        if (strlen(password)) {
-            return;
-        }
 
-        // File is empty; don't allow this.
-        // Fall through and create a password.
+        // if password is empty, allow it but issue a warning
         //
-        msg_printf(NULL, MSG_INFO,
-            "%s is empty - assigning new GUI RPC password", GUI_RPC_PASSWD_FILE
-        );
+        if (!strlen(password)) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Warning: GUI RPC password is empty.  BOINC can be controlled by any user on this computer.  See https://boinc.berkeley.edu/gui_rpc_passwd.php for more information."
+            );
+        }
+        return;
     }
 
     // make a random password

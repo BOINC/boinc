@@ -56,7 +56,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
     unsigned int i;
-    char buf[256];
+    char buf[1024];
 
     ami = _ami;
 

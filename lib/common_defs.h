@@ -376,6 +376,14 @@ struct DEVICE_STATUS {
 #else
 #define DEFAULT_SS_EXECUTABLE       "boincscr"
 #endif
+
 #define LINUX_CONFIG_FILE           "/etc/boinc-client/config.properties"
+
+// Used by Manager and boinccmd to locate the data dir.
+// You can define this in "configure" if you want.
+//
+#ifndef LINUX_DEFAULT_DATA_DIR
+#define LINUX_DEFAULT_DATA_DIR      "/var/lib/boinc-client"
+#endif
 
 #endif

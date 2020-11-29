@@ -48,14 +48,15 @@ int main(int /*argc*/, char** argv) {
     APP_INIT_DATA   aid;
     FILE            *f;
     int             retval = -1;
-    int             i;
     char            libpath[8192];
     char            newlibs[256];
     char            *projectDirName;
     const char      *screensaverLoginUser = NULL;
+#ifdef __APPLE__
+    int             i;
     bool            launching_gfx=false;
     char            current_dir[MAXPATHLEN];
-
+#endif
 
     strcpy(boinc_project_user_name, "boinc_project");
     strcpy(boinc_project_group_name, "boinc_project");
