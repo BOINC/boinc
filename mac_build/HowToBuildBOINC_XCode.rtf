@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 7/15/20\
+Last updated 12/1/20\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-This document applies to BOINC version 7.17.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.16.14 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
@@ -61,7 +61,7 @@ Contents of this document:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.15.0, BOINC is built entirely for 64-bit Intel, including the BOINC libraries.\
+\cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors. As of 7.15.0, BOINC is built entirely for 64-bit Intel, including the BOINC libraries. As of 7.16.14, BOINC is built as Universal2 Binaries which can run on both 64-bit Intel and Apple Silicon (arm64) hardware. \
 You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.8.x or later and cross-compile for the various platforms. The remainder of this document describes that process.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
@@ -74,7 +74,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 Starting with version 7.15.0, the BOINC screensaver supports only Mac OS 10.7.0 and later.\
+\cf0 Starting with version 7.16.14, the BOINC screensaver supports only Mac OS 10.9.0 and later.\
 \pard\pardeftab720\sa260\qc\partightenfactor0
 
 \b\fs28 \cf0 Cross-Platform Development
@@ -164,11 +164,11 @@ ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver o
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 XCode will automatically check compatibility back to OS 10.7 if the following are defined during compilation:\
+\cf0 XCode will automatically check compatibility back to OS 10.9 if the following are defined during compilation:\
 \pard\pardeftab720\partightenfactor0
 
-\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1070\
-MAC_OS_X_VERSION_MIN_REQUIRED=1070\
+\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1090\
+MAC_OS_X_VERSION_MIN_REQUIRED=1090\
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs24 \cf0 \
@@ -267,12 +267,12 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \b0 You don't need to type the path to a file or folder into Terminal; just drag the file or folder icon from a Finder window onto the Terminal window.\
 
 \b Note 5:
-\b0  To be compatible with OS 10.7, the screensaver must be built with Garbage Collection (GC) supported (and without Automatic Reference Counting) , but Xcode versions later than 5.0.2 do not allow building with GC. To allow building with newer versions of Xcode while keeping backward compatibility to OS 10.7, the GIT repository includes the screensaver executable built with GC, while the Xcode project builds the screensaver with ARC (for newer versions of OS X.) The 
+\b0  To be compatible with OS 10.7 or earlier, the screensaver must be built with Garbage Collection (GC) supported (and without Automatic Reference Counting) , but Xcode versions later than 5.0.2 do not allow building with GC. To allow building with newer versions of Xcode while keeping backward compatibility to OS 10.7, the GIT repository includes the screensaver executable built with GC, while the Xcode project builds the screensaver with ARC (for newer versions of OS X.) The 
 \f1\fs26 release_boinc.sh
 \f0\fs24  script (described later in this document) adds both the GC and ARC builds of the screensaver to the installer; the installer code selects the correct screensaver for the target version of OS X at install time.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 \
-[6] Build BOINC as follows:\
+\cf0 [6] Build BOINC as follows:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf0 BOINC itself is built  using the 
@@ -415,7 +415,7 @@ The installer script uses the deployment (release) build of BOINC; it won't work
 You can find the current version number in the file 
 \f1\fs26 \{path\}/BOINC_dev/boinc/version.h
 \fs24 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\pard\pardeftab720\partightenfactor0
 
 \f4 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
@@ -452,7 +452,17 @@ Developer ID Application: John Smith\
 \f1\fs26 ~/BOINCCodeSignIdentities.txt
 \f0\fs24  file, then the script will not sign the installer or uninstaller.  Code signing is not necessary if you won't be transferring the built software over the Internet.   For more information on code signing identities see the documentation for the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/codesign.1.html"}}{\fldrslt 
 \f1\fs26 codesign}} utility, Apple's {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/"}}{\fldrslt Code Signing Guide}} and {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/content/technotes/tn2206/_index.htm"}}{\fldrslt Tech Note 2206}}.\
-\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+
+\f4 \cf0 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf0 Important:
+\b0  Code signed under MacOS 11.0 or later is not compatible with MacOS 10.11.6 or earlier and will be rejected with "Signature invalid." If backward compatibility is desired to allow installing and running on systems prior to MacOS 10.12.0, run the 
+\f1\fs26 release_boinc.sh
+\f0\fs24  script under MacOS 10.15.7 or earlier. You can do this even if you performed the previous steps under MacOS 11.0 or later.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \b\fs28 \cf0 Debugging and BOINC security
@@ -490,6 +500,9 @@ To restore the standard ownerships and permissions, run the installer or run the
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 If Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder.  Double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
+\
+====================== Additional notes from \expnd0\expndtw0\kerning0
+Robert Chalmers\kerning1\expnd0\expndtw0  ======================\
 \
 NOTE to building with XCode.\
 The general instructions in the mac_build folder in the file HowToBuildBOINC_XCode.pdf should also note that if you want to build using XCode in it's GUI implementation - not command line - alone, you need to put all the downloaded libraries in the folder directly above the build folder. For EG:\
