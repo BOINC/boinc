@@ -1840,11 +1840,7 @@ const vector<string> X_display_values_initialize() {
     // According to "man Xserver", each local Xserver will have a socket file
     // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
     // We will parse this directory for currently open Xservers and attempt
-    // to ultimately query them for their idle time. If we can't open this
-    // directory, or the display_values vector is otherwise empty, then a
-    // static list of guesses for open display servers is utilized instead
-    // (DISPLAY values ":{0..6}") that will attempt connections to the first
-    // seven open Xservers.
+    // to ultimately query them for their idle time. 
     //
     // If we were unable to open _any_ Xserver, then we will log this and
     // xss_idle returns true, effectively leaving idle detection up to other
@@ -1891,7 +1887,7 @@ const vector<string> X_display_values_initialize() {
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
 //
-long xss_idle() {
+long xss_idle(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
     const vector<string> display_values = X_display_values_initialize();
     vector<string>::const_iterator it;
@@ -1975,6 +1971,14 @@ long xss_idle() {
         }
 
         idle_time = min(idle_time, display_idle_time);
+
+        //If we need to check all X servers, let's check them all.
+        //Otherwise, let's stop after checking the first one.
+        if (check_all_logins) {
+            continue;
+        } else {
+            break;
+        }
     }
 
     // If none of the Xservers were queryable, report it
@@ -2005,7 +2009,7 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
 #if LINUX_LIKE_SYSTEM
 
 #if HAVE_XSS
-    idle_time = min(idle_time, xss_idle());
+    idle_time = min(idle_time, xss_idle(check_all_logins));
 #endif // HAVE_XSS
 
 #else

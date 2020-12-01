@@ -50,7 +50,7 @@ static void print_options(char* prog) {
         "    --allow_remote_gui_rpc         allow remote GUI RPC connections\n"
         "    --allow_multiple_clients       allow >1 instances per host\n"
         "    --attach_project <URL> <key>   attach to a project\n"
-        "    --check_all_logins             for idle detection, check remote logins too\n"
+        "    --check_all_logins             for idle detection, check remote and more than 1 local login too\n"
         "    --daemon                       run as daemon (Unix)\n"
         "    --detach_console               detach from console (Windows)\n"
         "    --detach_project <URL>         detach from a project\n"
