@@ -52,6 +52,7 @@
 ## updated 3/4/20 by Charlie Fenton to copy symbol tables directly from build
 ## Updated 7/29/20 by Charlie Fenton to build arm64 and x86_64 Universal2 Binary
 ## Updated 11/22/20 by Charlie Fenton to build DMG bare-core (apple-darwin) release
+## Updated 11/26/20 by Charlie Fenton to let installer show message if MacOS too old
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -240,6 +241,18 @@ cp -fp mac_installer/myDistribution ../BOINC_Installer/Installer\ templates
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 sed -i "" s/"x.y.z"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ templates/myDistribution
 
+## Add a statement in the ReadMe telling Minimum required MacOS version, if known
+OSVersion=`/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "${BUILDPATH}/BOINCManager.app/Contents/Info.plist"`
+if [ $? -eq 0 ]; then 
+sed -i "" s/"<MINOSVERS>"/"^#NOTE: This version of BOINC requires MacOS <OSVERS> or later.^#"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+tr "^#" "\\\\\n" < ../BOINC_Installer/Installer\ Resources/ReadMe.rtf > /tmp/ReadMe.rtf
+cp -f /tmp/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+sed -i "" s/"<OSVERS>"/"$OSVersion"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+
+else
+sed -i "" s/"<MINOSVERS>"/""/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+fi
+
 #### We don't customize BOINC Data directory name for branding
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/preupgrade
@@ -350,6 +363,10 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpRL "${BUILDPATH}/BOINC Installer.app" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
+
+## Allow the installer wrapper application to run on older versions of MacOS 
+## so it can display an appropriate error message.
+/usr/libexec/PlistBuddy -c "Set :LSMinimumSystemVersion 10.0" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Info.plist"
 
 cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
 

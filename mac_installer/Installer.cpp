@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -86,6 +86,8 @@ int main(int argc, char *argv[])
     FILE                    *restartNeededFile;
     FILE                    *f;
     long                    oldBrandID;
+    int                     major = 0;
+    int                     minor = 0;
 
     if (!check_branding_arrays(temp, sizeof(temp))) {
         ShowMessage((char *)_("Branding array has too few entries: %s"), temp);
@@ -209,13 +211,15 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 7) < 0) {
+
+    sscanf(Deployment_target, "%i.%i", &major, &minor);
+    if (compareOSVersionTo(major, minor) < 0) {
         LoadPreferredLanguages();
         BringAppToFront();
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.7 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system %s or higher."), brand, Deployment_target);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
