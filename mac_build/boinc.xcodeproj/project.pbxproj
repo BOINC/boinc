@@ -3805,6 +3805,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Installer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3818,6 +3827,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Installer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
