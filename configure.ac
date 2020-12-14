@@ -8,6 +8,7 @@ AC_PREREQ(2.58)
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 7.17.0)
 AC_CONFIG_MACRO_DIR([m4])
+AX_CXX_COMPILE_STDCXX_11
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
