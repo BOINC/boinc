@@ -15,7 +15,7 @@ final class CreateAccountTest extends TestCase
     var $email;
     var $hash;
 
-    public function setUp()
+    public function setUp(): void
     {
        $base_url = sprintf("%s://%s/%s/", protocol, host, base );
        $this->http = new GuzzleHttp\Client(['base_uri' => $base_url]);
@@ -98,7 +98,8 @@ final class CreateAccountTest extends TestCase
         $this->assertCount( 0, $xml->success);
     }
     
-    public function tearDown() {
+    public function tearDown(): void
+    {
         $this->http = null;
     }
 
