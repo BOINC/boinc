@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 final class ProjectConfigurationTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
        $base_url = sprintf("%s://%s/%s/", protocol, host, base );
        $this->http = new GuzzleHttp\Client(['base_uri' => $base_url]);
@@ -31,7 +31,8 @@ final class ProjectConfigurationTest extends TestCase
 	$this->assertEquals($base_url, (string) $xml->web_rpc_url_base);
     }
 
-    public function tearDown() {
+    public function tearDown(): void
+    {
         $this->http = null;
     }
 
