@@ -1,0 +1,41 @@
+name: OSX
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '20 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        type: [manager]
+      fail-fast: false
+    steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '12.2'
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.3
+        with:
+          path: 3rdParty/buildCache
+          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
+          restore-keys: osx-${{ matrix.type }}-
+
+      - name: install dependencies
+        run: ./3rdParty/buildMacDependencies.sh -q
+
+      - name: make
+        if: success()
+        run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
+
+      - name: deploy
+        if: ${{ success() }}
+        run: echo "Would start deployment now"
+        #run: ./deploy/prepare_deployment.sh osx_${BOINC_TYPE} deploy/osx_${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/osx_${BOINC_TYPE}/

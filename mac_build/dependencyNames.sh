@@ -35,17 +35,17 @@
 ## build settings.
 ##
 
-opensslDirName="openssl-1.1.0g"
-opensslFileName="openssl-1.1.0g.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-1.1.0g.tar.gz"
+opensslDirName="openssl-1.1.0l"
+opensslFileName="openssl-1.1.0l.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-1.1.0l.tar.gz"
 
 caresDirName="c-ares-1.13.0"
 caresFileName="c-ares-1.13.0.tar.gz"
 caresURL="https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz"
 
-curlDirName="curl-7.58.0"
-curlFileName="curl-7.58.0.tar.gz"
-curlURL="https://curl.haxx.se/download/curl-7.58.0.tar.gz"
+curlDirName="curl-7.73.0"
+curlFileName="curl-7.73.0.tar.gz"
+curlURL="https://curl.haxx.se/download/curl-7.73.0.tar.gz"
 
 wxWidgetsDirName="wxWidgets-3.1.0"
 wxWidgetsFileName="wxWidgets-3.1.0.tar.bz2"
