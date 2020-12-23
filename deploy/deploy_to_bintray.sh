@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -51,7 +51,7 @@ if [ "${BINTRAY_API_KEY}" == "" ] ; then
     exit 0
 fi
 
-CI_RUN="${TRAVIS:-false}"
+CI_RUN="${GITHUB_ACTIONS:-false}"
 BOINC_TYPE="$(basename "${SOURCE_DIR}")" # TODO: do not infer TYPE from directory, instead make it an argument
 API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
@@ -66,22 +66,23 @@ CURL="curl -u${BINTRAY_USER}:${BINTRAY_API_KEY} -H Accept:application/json -w \n
 #CURL="echo " # use this for local debugging
 
 BUILD_DATE=$(date "+%Y-%m-%d")
-GIT_REV=$(git rev-parse --short HEAD)
+GIT_REV=$(git rev-parse --short=8 HEAD)
 PKG_NAME="custom"
 PKG_DESC="Automated CI build of BOINC components"
 VERSION="custom_${BUILD_DATE}_${GIT_REV}"
 VERSION_DESC="Custom build created on ${BUILD_DATE}"
 RUN_CLEANUP="false"
 if [[ $CI_RUN == "true" ]]; then
-    case $TRAVIS_EVENT_TYPE in
+    case $GITHUB_EVENT_NAME in
         pull_request)
             PKG_NAME="pull-requests"
-            GIT_REV=${TRAVIS_PULL_REQUEST_SHA:0:8}
-            VERSION="PR${TRAVIS_PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
-            VERSION_DESC="CI build created from PR #${TRAVIS_PULL_REQUEST} on ${BUILD_DATE}"
+            GIT_REV=${PULL_REQUEST_SHA:0:8}
+            VERSION="PR${PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
+            VERSION_DESC="CI build created from PR #${PULL_REQUEST} on ${BUILD_DATE}"
         ;;
-        cron)
+        schedule)
             PKG_NAME="weekly"
+            GIT_REV=${GITHUB_SHA:0:8}
             VERSION="weekly_${BUILD_DATE}_${GIT_REV}"
             VERSION_DESC="Weekly CI build created on ${BUILD_DATE}"
             # run cleanup script once a month
@@ -89,9 +90,11 @@ if [[ $CI_RUN == "true" ]]; then
                 RUN_CLEANUP="true"
             fi
         ;;
-        *)
-            echo "event $TRAVIS_EVENT_TYPE not supported for deployment"
-            exit 0;
+        push)
+            PKG_NAME="master"
+            GIT_REV=${GITHUB_SHA:0:8}
+            VERSION="master_${BUILD_DATE}_${GIT_REV}"
+            VERSION_DESC="Master build created on ${BUILD_DATE}"
         ;;
     esac
 fi
@@ -118,7 +121,7 @@ ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/$
 
 echo "Adding attributes to version ${VERSION}"
 # this can be used to cleanup old versions
-pr="${TRAVIS_PULL_REQUEST:-0}"
+pr="${PULL_REQUEST:-0}"
 created=$(date -u +%s)
 data="[{\"name\": \"PR\", \"values\": [\"${pr}\"], \"type\": \"string\"},
             {\"name\": \"create_time_utc\", \"values\": [${created}], \"type\": \"number\"}]"
@@ -131,19 +134,19 @@ if [ -f "${SOURCE_DIR}/${BOINC_TYPE}.7z" ]; then
     ${CURL} -H Content-Type:application/octet-stream -T "${SOURCE_DIR}/${BOINC_TYPE}.7z" "${API}/content/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/${VERSION}/${BOINC_TYPE}_${VERSION}.7z?publish=1&override=1"
 fi
 
-if [ "$TRAVIS_BUILD_ID" ] ; then
-    echo "Adding Travis CI log to release notes..."
-    BUILD_LOG="https://travis-ci.org/BOINC/boinc/builds/${TRAVIS_BUILD_ID}"
-    #BUILD_LOG="https://api.travis-ci.org/jobs/${TRAVIS_JOB_ID}/log.txt?deansi=true"
-    data='{
-    "bintray": {
-    "syntax": "markdown",
-    "content": "'${BUILD_LOG}'"
-  }
-}'
-    set +x
-    ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions/${VERSION}/release_notes"
-fi
+# if [ "$TRAVIS_BUILD_ID" ] ; then
+#     echo "Adding Travis CI log to release notes..."
+#     BUILD_LOG="https://travis-ci.org/BOINC/boinc/builds/${TRAVIS_BUILD_ID}"
+#     #BUILD_LOG="https://api.travis-ci.org/jobs/${TRAVIS_JOB_ID}/log.txt?deansi=true"
+#     data='{
+#     "bintray": {
+#     "syntax": "markdown",
+#     "content": "'${BUILD_LOG}'"
+#   }
+# }'
+#     set +x
+#     ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions/${VERSION}/release_notes"
+# fi
 
 if [[ $RUN_CLEANUP == "true" ]]; then
     ./deploy/cleanup_bintray.sh

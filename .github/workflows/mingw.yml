@@ -1,0 +1,40 @@
+name: Linux-MinGW
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [libs-mingw, apps-mingw]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get install -y mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 p7zip-full
+
+      - name: Make libs with mingw
+        if: success() && matrix.type == 'libs-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
+
+      - name: Make apps with mingw
+        if: success() && matrix.type == 'apps-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
+
+      - name: Deploy to BinTray
+        if: ${{ success() && ! contains(matrix.type, 'libs-mingw') }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ./deploy/prepare_deployment.sh win_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/win_${{ matrix.type }}/
