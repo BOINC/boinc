@@ -86,17 +86,24 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" Condition="!Exists($(VcpkgRootDir))">
+  <PropertyGroup>
+    <CudaGuardFile>$(CudaRootDir)\cuda.10.2.lock</CudaGuardFile>
+  </PropertyGroup>
+  <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
+    <RemoveDir Directories="$(CudaRootDir)"/>
+  </Target>
+  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" DependsOnTargets="CleanUpCudaFolder" Condition="!Exists($(VcpkgRootDir)) Or !Exists($(CudaRootDir))">
     <MakeDir Directories="$(VcpkgRootDir)" />
     <MakeDir Directories="$(CudaRootDir)" />
   </Target>
-  <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="!Exists($(CudaNvccPath))">
+  <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="!Exists($(CudaNvccPath)) And !Exists($(CudaGuardFile))">
     <DownloadFile SourceUrl="https://www.7-zip.org/a/7za920.zip" DestinationFolder="$(TMP)" />
     <Unzip SourceFiles="$(TMP)\7za920.zip" DestinationFolder="$(TMP)\7z" OverwriteReadOnlyFiles="true" />
     <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/nvcc.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\nvcc.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
     <DownloadFile SourceUrl="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/network_installers/windows/x86_64/wddm2/cublas_dev.exe" DestinationFolder="$(TMP)" />
     <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
+    <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
     <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgExe))" />
