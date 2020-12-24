@@ -10,11 +10,11 @@ set git_rev=%GITHUB_SHA:~0,8%
 set pkg_version=custom_%build_date%_!git_rev!
 set pkg_version_desc=Custom build created on %build_date%
 if not defined GITHUB_ACTIONS (
-   set GITHUB_ACTIONS=False
+   set GITHUB_ACTIONS=false
 )
 set CI_RUN=%GITHUB_ACTIONS%
 
-if "%CI_RUN%" == "True" (
+if "%CI_RUN%" == "true" (
     if "%GITHUB_EVENT_NAME%" == "pull_request" (
         set pkg_name=pull-requests
         set git_rev=%PULL_REQUEST_SHA:~0,8%
