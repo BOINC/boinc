@@ -35,6 +35,7 @@
 # Updated 1/25/18 for bulding openssl 1.1.0g (updated comemnts only)
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 # Updated 10/20/20 To build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 12/24/20 for openssl-1.1.0l
 #
 ## This script requires OS 10.8 or later
 #
@@ -129,7 +130,7 @@ if [ ! -f Configurations/10-main.conf.orig ]; then
     cat >> /tmp/0-main_conf_diff << ENDOFFILE
 --- 10-main.conf    2017-11-02 07:29:01.000000000 -0700
 +++ 10-main_patched.con2020-10-19 01:34:06.000000000 -0700
-@@ -1614,6 +1614,14 @@
+@@ -1599,6 +1599,14 @@
          perlasm_scheme   => "macosx",
          shared_ldflag    => "-arch x86_64 -dynamiclib",
      },

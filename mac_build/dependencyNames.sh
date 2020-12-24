@@ -23,10 +23,12 @@
 ## This file is usually source'ed by scripts that build the dependencies.
 ##
 ## Update this file and the Xcode project build settings when upgrading
-## to a newer version of one of these libraries. Note that the scripts
-## buildcurl,sh and buildWxMac.sh contain code to patch source files
-## for their respective libraries, so they may need to be modified
-## for new versions of those source files.
+## to a newer version of one of these libraries.
+##
+## ** NOTE ** the scripts buildc-ares.sh, buildcurl.sh, buildopenssl.sh
+## and buildWxMac.sh contain code to patch source files for their
+## respective libraries, so they may need to be modified for new versions
+## of those source files.
 ##
 ## To ensure that rebuilds of older versions of BOINC always use the
 ## same versions of the third party libraries as the original builds,

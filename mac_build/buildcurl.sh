@@ -37,6 +37,7 @@
 # Updated 2/22/18 to avoid APIs not available in earlier versions of OS X
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 # Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 12/24/20 for curl 7.73.0
 #
 ## This script requires OS 10.8 or later
 #
@@ -66,7 +67,7 @@ function patch_curl_config {
     cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
 --- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
 +++ lib/curl_config1.h.in    2018-02-22 04:29:56.000000000 -0800
-@@ -141,5 +141,5 @@
+@@ -165,5 +165,5 @@
 
  /* Define to 1 if you have the __builtin_available function. */
 -#define HAVE_BUILTIN_AVAILABLE 1
@@ -82,7 +83,7 @@ ENDOFFILE
     cat >> /tmp/curl_config_h_diff2 << ENDOFFILE
 --- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
 +++ lib/curl_config2.h.in    2018-02-22 04:30:21.000000000 -0800
-@@ -144,5 +144,5 @@
+@@ -168,5 +168,5 @@
 
  /* Define to 1 if you have the clock_gettime function and monotonic timer. */
 -#define HAVE_CLOCK_GETTIME_MONOTONIC 1
