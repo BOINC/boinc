@@ -2944,13 +2944,13 @@ msgstr "ReCaptcha bolo vypísané nesprávne. Prosím, skúste to znovu."
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "Vaša prvá odpoveď bola označená ako spam protispamovým systémom Aksimet. Prosím, pozmeňte text vašej správy a skúste to znovu."
+msgstr "Vaša prvá odpoveď bola označená ako spam protispamovým systémom Akismet. Prosím, pozmeňte text vašej správy a skúste to znovu."
 
 #: html/user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "Vaša druhá odpoveď bola označená ako spam protispamovým systémom Aksimet. Prosím, pozmeňte text vašej správy a skúste to znovu."
+msgstr "Vaša druhá odpoveď bola označená ako spam protispamovým systémom Akismet. Prosím, pozmeňte text vašej správy a skúste to znovu."
 
 #: html/user/create_profile.php:241
 msgid "Your profile submission was empty."
@@ -4038,7 +4038,7 @@ msgstr "Len administrátori projektu tu môžu vytvárať témy. Vy, však, mô�
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr "Vaša správa bola označená ako spam protispamovým systémom Aksimet. Prosím, pozmeňte text vašej správy a skúste to znovu."
+msgstr "Vaša správa bola označená ako spam protispamovým systémom Akismet. Prosím, pozmeňte text vašej správy a skúste to znovu."
 
 #: html/user/forum_post.php:78
 msgid "Create new thread"
@@ -4099,7 +4099,7 @@ msgstr "Problém s odoslaním hlasu"
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr "Vaša správa bola vyhodnotená protispamovým systémom Aksimet ako spam. Prosím, pozmeňte text správy a skúste to znovu."
+msgstr "Vaša správa bola vyhodnotená protispamovým systémom Akismet ako spam. Prosím, pozmeňte text správy a skúste to znovu."
 
 #: html/user/forum_reply.php:91 html/user/forum_thread.php:164
 #: html/user/forum_thread.php:293
