@@ -1,6 +1,6 @@
 # Status
 
-![Build Status](https://github.com/BOINC/boinc/workflows/Linux/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Android/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master)
+![Build Status](https://github.com/BOINC/boinc/workflows/Linux/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/OSX/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Android/badge.svg) ![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master)
 
 # Social
 
