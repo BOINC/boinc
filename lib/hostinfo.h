@@ -156,6 +156,8 @@ int get_processor_group(HANDLE);
 
 #ifdef __APPLE__
     int get_system_uptime();
+    bool can_run_on_this_CPU(char* exec_path);
+        // can the app run on this CPU architecture?
 
 #ifdef __cplusplus
 extern "C" {

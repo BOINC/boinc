@@ -1485,7 +1485,8 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
 
     if (stop) {
         stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
-                            theScreensaverLoginUser, grc);
+            theScreensaverLoginUser, grc
+        );
         grc.mfout.printf("<success/>\n");
         return;
     }
@@ -1547,10 +1548,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         }
         argv[argc] = 0;
 
-        retval = run_program(
-            execDir, switcher_path,
-            argc, argv, 0, newPID
-        );
+        retval = run_program(execDir, switcher_path, argc, argv, 0, newPID);
     } else {    // not g_use_sandbox
         argv[0] = execName;
         if (runfullscreen) {
@@ -1574,7 +1572,8 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     if (retval) {
         grc.mfout.printf("<error>couldn't run graphics app</error>\n");
         stop_graphics_app(thePID, iBrandID, current_dir, switcher_path, 
-                            theScreensaverLoginUser, grc);
+            theScreensaverLoginUser, grc
+        );
     } else {
         grc.mfout.printf("<success/>\n");
     }
