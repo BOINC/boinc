@@ -30,18 +30,18 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 
-#include "str_util.h"
-#include "str_replace.h"
-#include "mac_util.h"
-#include "translate.h"
 #include "file_names.h"
 #include "mac_branding.h"
+#include "mac_util.h"
+#include "str_util.h"
+#include "str_replace.h"
+#include "translate.h"
+#include "util.h"
 
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
 #define boinc_project_user_name "boinc_project"
 #define boinc_project_group_name "boinc_project"
-
 
 OSErr Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);

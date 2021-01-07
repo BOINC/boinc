@@ -53,7 +53,7 @@ using std::string;
 #include "translate.h"
 #include "file_names.h"
 #include "mac_branding.h"
-
+#include "util.h"
 
 static OSStatus DoUninstall(void);
 static OSStatus CleanupAllVisibleUsers(void);
