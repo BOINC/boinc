@@ -15,17 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef __APPLE__
-#include <sys/types.h>
-#include <sys/sysctl.h>
-#include <mach-o/loader.h>
-#include <mach-o/fat.h>
-#include <mach/machine.h>
-#include <libkern/OSByteOrder.h>
-
-extern int compareOSVersionTo(int toMajor, int toMinor);
-#endif
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else

@@ -150,14 +150,15 @@ public:
 extern void make_secure_random_string(char*);
 
 #ifdef _WIN64
-int get_wsl_information(bool& wsl_available, WSLS& wsls);
-int get_processor_group(HANDLE);
+extern int get_wsl_information(bool& wsl_available, WSLS& wsls);
+extern int get_processor_group(HANDLE);
 #endif
 
 #ifdef __APPLE__
-    int get_system_uptime();
-    bool can_run_on_this_CPU(char* exec_path);
-        // can the app run on this CPU architecture?
+extern int compareOSVersionTo(int toMajor, int toMinor);
+extern int get_system_uptime();
+extern bool can_run_on_this_CPU(char* exec_path);
+    // can the app run on this CPU architecture?
 
 #ifdef __cplusplus
 extern "C" {
@@ -167,7 +168,7 @@ extern "C" {
 #include <IOKit/hidsystem/IOHIDParameter.h>
 #include <IOKit/hidsystem/event_status_driver.h>
 
-bool isDualGPUMacBook();
+extern bool isDualGPUMacBook();
 
 // Apple has removed NxIdleTime() beginning with OS 10.6, so we must try
 // loading it at run time to avoid a link error.  For details, please see
