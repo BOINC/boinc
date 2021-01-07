@@ -695,8 +695,8 @@ int get_real_executable_path(char* path, size_t max_len) {
 //  0 if the OS version we are running on is equal to x.y
 // +1 if the OS version we are running on is lgreater than x.y
 int compareOSVersionTo(int toMajor, int toMinor) {
-    static SInt32 major = -1;
-    static SInt32 minor = -1;
+    static int major = -1;
+    static int minor = -1;
 
     if (major < 0) {
         char vers[100], *p1 = NULL;
