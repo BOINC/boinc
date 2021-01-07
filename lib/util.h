@@ -117,4 +117,8 @@ extern double simtime;
 #define time(x) ((int)simtime)
 #endif
 
+#ifdef __APPLE__
+extern int compareOSVersionTo(int toMajor, int toMinor);
+#endif
+
 #endif

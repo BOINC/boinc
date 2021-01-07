@@ -35,8 +35,6 @@ extern "C" {
 
     OSStatus    GetPathToAppFromID(OSType creator, CFStringRef bundleID, char *path, size_t maxLen);
 
-    int         compareOSVersionTo(int toMajor, int toMinor);
-
 #ifdef __cplusplus
 }	// extern "C"
 #endif

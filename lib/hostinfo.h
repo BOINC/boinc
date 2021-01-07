@@ -155,7 +155,6 @@ extern int get_processor_group(HANDLE);
 #endif
 
 #ifdef __APPLE__
-extern int compareOSVersionTo(int toMajor, int toMinor);
 extern int get_system_uptime();
 extern bool can_run_on_this_CPU(char* exec_path);
     // can the app run on this CPU architecture?
