@@ -2014,9 +2014,9 @@ union headeru {
 // by Rosetta on i386 Macs crashed when running graphics.
 //
 
-int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
+bool can_run_on_this_CPU(char* exec_path) {
     FILE *f;
-    int retval = 0;
+    int retval = false;
     
     headeru myHeader;
     fat_arch fatHeader;
@@ -2063,19 +2063,17 @@ int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
         }
         if (x86_64_CPU && (file_architecture == CPU_TYPE_I386)) {
             // Single-architecture i386 file on x86_64 CPU
-            if (compareOSVersionTo(10, 15) < 0) {   // OS >= 10.15 are 64-bit only
-                retval = 1;
+            if (compareOSVersionTo(10, 15) < 0) {
+                // OS >= 10.15 are 64-bit only
+                retval = true;
             }
-        } else
-        if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
-            retval = 1; // Single-architecture x86_64 file on x86_64 CPU
-        } else
-        if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
-            retval = 1; // Single-architecture arm64 file on arm64 CPU
-        } else
-        if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
-            retval = 1; // Single-architecture x86_64 file emulated on arm64 CPU
-            // ToDo: determine whether emulated graphics apps work properly
+        } else if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file on x86_64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+            retval = true; // Single-architecture arm64 file on arm64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file emulated on arm64 CPU
+            // TODO: determine whether emulated graphics apps work properly
         }
         break;
     case FAT_MAGIC:
@@ -2084,7 +2082,9 @@ int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
         if (theMagic == FAT_CIGAM) {
             n = OSSwapInt32(myHeader.fat.nfat_arch);
         }
-           // Multiple architecture (fat) file
+
+        // Multiple architecture (fat) file
+        //
         for (i=0; i<n; i++) {
             len = fread(&fatHeader, 1, sizeof(fat_arch), f);
             if (len < sizeof(fat_arch)) {
@@ -2096,16 +2096,14 @@ int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
             }
 
             if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
-                retval = 1; // file with x86_64 architecture on x86_64 CPU
-                            break;
-            } else
-            if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
-                retval = 1; // file with arm64 architecture on arm64 CPU
+                retval = true; // file with x86_64 architecture on x86_64 CPU
                 break;
-            } else
-            if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
-                retval = 1; // file with x86_64 architecture emulated on arm64 CPU
-                // ToDo: determine whether emulated graphics apps work properly
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+                retval = true; // file with arm64 architecture on arm64 CPU
+                break;
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = true; // file with x86_64 architecture emulated on arm64 CPU
+                // TODO: determine whether emulated graphics apps work properly
             }
         }
         break;
@@ -2117,4 +2115,3 @@ int CLIENT_STATE::can_run_on_this_CPU(char* exec_path) {
     return retval;
 }
 #endif
-
