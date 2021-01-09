@@ -18,25 +18,17 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
-data class App
-@JvmOverloads // generates overloaded constructors
-constructor(
-        var name: String? = "",
-        var userFriendlyName: String? = "",
-        var nonCpuIntensive: Int = 0,
-        var project: Project? = null
+@Parcelize
+data class App @JvmOverloads constructor(
+    var name: String? = "",
+    var userFriendlyName: String? = "",
+    var nonCpuIntensive: Int = 0,
+    var project: Project? = null
 ) : Parcelable {
-    private constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readInt(),
-            parcel.readValue(Project::class.java.classLoader) as Project?
-    )
-
     val displayName: String?
         get() = if (userFriendlyName.isNullOrEmpty()) name else userFriendlyName
 
@@ -54,23 +46,5 @@ constructor(
         result = 31 * result + nonCpuIntensive
         result = 31 * result + project.hashCode()
         return result
-    }
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(name)
-        dest.writeString(userFriendlyName)
-        dest.writeInt(nonCpuIntensive)
-        dest.writeValue(project)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<App> = object : Parcelable.Creator<App> {
-            override fun createFromParcel(parcel: Parcel) = App(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<App>(size)
-        }
     }
 }

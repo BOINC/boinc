@@ -18,84 +18,51 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class HostInfo(
-        /**
-         * Local STANDARD time - UTC time (in seconds)
-         */
-        var timezone: Int = 0,
-        var domainName: String? = null,
-        var ipAddress: String? = null,
-        var hostCpid: String? = null,
-        var noOfCPUs: Int = 0,
-        var cpuVendor: String? = null,
-        var cpuModel: String? = null,
-        var cpuFeatures: String? = null,
-        var cpuFloatingPointOps: Double = 0.0,
-        var cpuIntegerOps: Double = 0.0,
-        var cpuMembw: Double = 0.0,
-        var productName: String? = null,
-        /**
-         * When benchmarks were last run, or zero
-         */
-        var cpuCalculated: Long = 0,
-        /**
-         * Total amount of memory in bytes
-         */
-        var memoryInBytes: Double = 0.0,
-        var memoryCache: Double = 0.0,
-        /**
-         * Total amount of swap space in bytes
-         */
-        var memorySwap: Double = 0.0,
-        /**
-         * Total amount of disk space in bytes
-         */
-        var totalDiskSpace: Double = 0.0,
-        /**
-         * Total amount of free disk space in bytes
-         */
-        var freeDiskSpace: Double = 0.0,
-        var osName: String? = null,
-        var osVersion: String? = null,
-        var virtualBoxVersion: String? = null
+    /**
+     * Local STANDARD time - UTC time (in seconds)
+     */
+    var timezone: Int = 0,
+    var domainName: String? = null,
+    var ipAddress: String? = null,
+    var hostCpid: String? = null,
+    var noOfCPUs: Int = 0,
+    var cpuVendor: String? = null,
+    var cpuModel: String? = null,
+    var cpuFeatures: String? = null,
+    var cpuFloatingPointOps: Double = 0.0,
+    var cpuIntegerOps: Double = 0.0,
+    var cpuMembw: Double = 0.0,
+    var productName: String? = null,
+    /**
+     * When benchmarks were last run, or zero
+     */
+    var cpuCalculated: Long = 0,
+    /**
+     * Total amount of memory in bytes
+     */
+    var memoryInBytes: Double = 0.0,
+    var memoryCache: Double = 0.0,
+    /**
+     * Total amount of swap space in bytes
+     */
+    var memorySwap: Double = 0.0,
+    /**
+     * Total amount of disk space in bytes
+     */
+    var totalDiskSpace: Double = 0.0,
+    /**
+     * Total amount of free disk space in bytes
+     */
+    var freeDiskSpace: Double = 0.0,
+    var osName: String? = null,
+    var osVersion: String? = null,
+    var virtualBoxVersion: String? = null
 ) : Parcelable {
-    private constructor(parcel: Parcel) :
-            this(parcel.readInt(), parcel.readString(), parcel.readString(), parcel.readString(),
-                    parcel.readInt(), parcel.readString(), parcel.readString(), parcel.readString(),
-                    parcel.readDouble(), parcel.readDouble(), parcel.readDouble(), parcel.readString(),
-                    parcel.readLong(), parcel.readDouble(), parcel.readDouble(), parcel.readDouble(),
-                    parcel.readDouble(), parcel.readDouble(), parcel.readString(), parcel.readString(),
-                    parcel.readString())
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(timezone)
-        dest.writeString(domainName)
-        dest.writeString(ipAddress)
-        dest.writeString(hostCpid)
-        dest.writeInt(noOfCPUs)
-        dest.writeString(cpuVendor)
-        dest.writeString(cpuModel)
-        dest.writeString(cpuFeatures)
-        dest.writeDouble(cpuFloatingPointOps)
-        dest.writeDouble(cpuIntegerOps)
-        dest.writeDouble(cpuMembw)
-        dest.writeString(productName)
-        dest.writeLong(cpuCalculated)
-        dest.writeDouble(memoryInBytes)
-        dest.writeDouble(memoryCache)
-        dest.writeDouble(memorySwap)
-        dest.writeDouble(totalDiskSpace)
-        dest.writeDouble(freeDiskSpace)
-        dest.writeString(osName)
-        dest.writeString(osVersion)
-        dest.writeString(virtualBoxVersion)
-    }
-
     object Fields {
         const val TIMEZONE = "timezone"
         const val DOMAIN_NAME = "domain_name"
@@ -118,14 +85,5 @@ data class HostInfo(
         const val OS_NAME = "os_name"
         const val OS_VERSION = "os_version"
         const val VIRTUALBOX_VERSION = "virtualbox_version"
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<HostInfo> = object : Parcelable.Creator<HostInfo> {
-            override fun createFromParcel(parcel: Parcel) = HostInfo(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<HostInfo>(size)
-        }
     }
 }

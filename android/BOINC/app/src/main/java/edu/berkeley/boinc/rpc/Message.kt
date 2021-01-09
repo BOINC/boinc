@@ -23,11 +23,11 @@ import android.os.Parcelable
 import java.io.Serializable
 
 data class Message(
-        var project: String = "",
-        var priority: Int = 0,
-        var seqno: Int = -1,
-        var timestamp: Long = 0,
-        var body: String? = null
+    var project: String = "",
+    var priority: Int = 0,
+    var seqno: Int = -1,
+    var timestamp: Long = 0,
+    var body: String? = null
 ) : Serializable, Parcelable {
     private constructor(parcel: Parcel) :
             this(parcel.readString() ?: "", parcel.readInt(), parcel.readInt(), parcel.readLong(),

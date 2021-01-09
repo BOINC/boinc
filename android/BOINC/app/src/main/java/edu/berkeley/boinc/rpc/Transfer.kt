@@ -18,49 +18,25 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.os.ParcelCompat.readBoolean
-import androidx.core.os.ParcelCompat.writeBoolean
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
+@Parcelize
 data class Transfer(
-        var name: String = "",
-        var projectUrl: String = "",
-        var noOfBytes: Long = 0,
-        var status: Int = 0,
-        var nextRequestTime: Long = 0,
-        var timeSoFar: Long = 0,
-        var bytesTransferred: Long = 0,
-        var transferSpeed: Float = 0f,
-        var projectBackoff: Long = 0,
-        var generatedLocally: Boolean = false,
-        var isTransferActive: Boolean = false,
-        var isUpload: Boolean = false
+    var name: String = "",
+    var projectUrl: String = "",
+    var noOfBytes: Long = 0,
+    var status: Int = 0,
+    var nextRequestTime: Long = 0,
+    var timeSoFar: Long = 0,
+    var bytesTransferred: Long = 0,
+    var transferSpeed: Float = 0f,
+    var projectBackoff: Long = 0,
+    var generatedLocally: Boolean = false,
+    var isTransferActive: Boolean = false,
+    var isUpload: Boolean = false
 ) : Serializable, Parcelable {
-    private constructor (parcel: Parcel) :
-            this(parcel.readString() ?: "", parcel.readString() ?: "",
-                    parcel.readLong(), parcel.readInt(), parcel.readLong(), parcel.readLong(),
-                    parcel.readLong(), parcel.readFloat(), parcel.readLong(), readBoolean(parcel),
-                    readBoolean(parcel), readBoolean(parcel))
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(name)
-        dest.writeString(projectUrl)
-        dest.writeLong(noOfBytes)
-        dest.writeInt(status)
-        dest.writeLong(nextRequestTime)
-        dest.writeLong(timeSoFar)
-        dest.writeLong(bytesTransferred)
-        dest.writeFloat(transferSpeed)
-        dest.writeLong(projectBackoff)
-        writeBoolean(dest, generatedLocally)
-        writeBoolean(dest, isTransferActive)
-        writeBoolean(dest, isUpload)
-    }
-
     object Fields {
         const val GENERATED_LOCALLY = "generated_locally"
         const val NBYTES = "nbytes"
@@ -71,16 +47,5 @@ data class Transfer(
         const val BYTES_XFERRED = "bytes_xferred"
         const val XFER_SPEED = "xfer_speed"
         const val PROJECT_BACKOFF = "project_backoff"
-    }
-
-    companion object {
-        private const val serialVersionUID = 1L
-
-        @JvmField
-        val CREATOR: Parcelable.Creator<Transfer> = object : Parcelable.Creator<Transfer> {
-            override fun createFromParcel(parcel: Parcel) = Transfer(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<Transfer>(size)
-        }
     }
 }

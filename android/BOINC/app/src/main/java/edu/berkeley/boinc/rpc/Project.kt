@@ -18,103 +18,77 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.os.ParcelCompat.readBoolean
-import androidx.core.os.ParcelCompat.writeBoolean
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
+@Parcelize
 data class Project(
-        var masterURL: String = "",
-        var projectDir: String = "",
-        var resourceShare: Float = 0f,
-        var projectName: String = "",
-        var userName: String = "",
-        var teamName: String = "",
-        var hostVenue: String = "",
-        var hostId: Int = 0,
-        val guiURLs: MutableList<GuiUrl?> = mutableListOf(),
-        var userTotalCredit: Double = 0.0,
-        var userExpAvgCredit: Double = 0.0,
-        /**
-         * As reported by server
-         */
-        var hostTotalCredit: Double = 0.0,
-        /**
-         * As reported by server
-         */
-        var hostExpAvgCredit: Double = 0.0,
-        var diskUsage: Double = 0.0,
-        var noOfRPCFailures: Int = 0,
-        var masterFetchFailures: Int = 0,
-        /**
-         * Earliest time to contact any server
-         */
-        var minRPCTime: Double = 0.0,
-        var downloadBackoff: Double = 0.0,
-        var uploadBackoff: Double = 0.0,
-        var cpuShortTermDebt: Double = 0.0,
-        var cpuLongTermDebt: Double = 0.0,
-        var cpuBackoffTime: Double = 0.0,
-        var cpuBackoffInterval: Double = 0.0,
-        var cudaDebt: Double = 0.0,
-        var cudaShortTermDebt: Double = 0.0,
-        var cudaBackoffTime: Double = 0.0,
-        var cudaBackoffInterval: Double = 0.0,
-        var atiDebt: Double = 0.0,
-        var atiShortTermDebt: Double = 0.0,
-        var atiBackoffTime: Double = 0.0,
-        var atiBackoffInterval: Double = 0.0,
-        var durationCorrectionFactor: Double = 0.0,
-        /**
-         * Need to contact scheduling server. Encodes the reason for the request.
-         */
-        var scheduledRPCPending: Int = 0,
-        var projectFilesDownloadedTime: Double = 0.0,
-        var lastRPCTime: Double = 0.0,
-        /**
-         * Need to fetch and parse the master URL
-         */
-        var masterURLFetchPending: Boolean = false,
-        var nonCPUIntensive: Boolean = false,
-        var suspendedViaGUI: Boolean = false,
-        var doNotRequestMoreWork: Boolean = false,
-        var schedulerRPCInProgress: Boolean = false,
-        var attachedViaAcctMgr: Boolean = false,
-        var detachWhenDone: Boolean = false,
-        var ended: Boolean = false,
-        var trickleUpPending: Boolean = false,
-        var noCPUPref: Boolean = false,
-        var noCUDAPref: Boolean = false,
-        var noATIPref: Boolean = false
+    var masterURL: String = "",
+    var projectDir: String = "",
+    var resourceShare: Float = 0f,
+    var projectName: String = "",
+    var userName: String = "",
+    var teamName: String = "",
+    var hostVenue: String = "",
+    var hostId: Int = 0,
+    val guiURLs: MutableList<GuiUrl?> = mutableListOf(),
+    var userTotalCredit: Double = 0.0,
+    var userExpAvgCredit: Double = 0.0,
+    /**
+     * As reported by server
+     */
+    var hostTotalCredit: Double = 0.0,
+    /**
+     * As reported by server
+     */
+    var hostExpAvgCredit: Double = 0.0,
+    var diskUsage: Double = 0.0,
+    var noOfRPCFailures: Int = 0,
+    var masterFetchFailures: Int = 0,
+    /**
+     * Earliest time to contact any server
+     */
+    var minRPCTime: Double = 0.0,
+    var downloadBackoff: Double = 0.0,
+    var uploadBackoff: Double = 0.0,
+    var cpuShortTermDebt: Double = 0.0,
+    var cpuLongTermDebt: Double = 0.0,
+    var cpuBackoffTime: Double = 0.0,
+    var cpuBackoffInterval: Double = 0.0,
+    var cudaDebt: Double = 0.0,
+    var cudaShortTermDebt: Double = 0.0,
+    var cudaBackoffTime: Double = 0.0,
+    var cudaBackoffInterval: Double = 0.0,
+    var atiDebt: Double = 0.0,
+    var atiShortTermDebt: Double = 0.0,
+    var atiBackoffTime: Double = 0.0,
+    var atiBackoffInterval: Double = 0.0,
+    var durationCorrectionFactor: Double = 0.0,
+    /**
+     * Need to contact scheduling server. Encodes the reason for the request.
+     */
+    var scheduledRPCPending: Int = 0,
+    var projectFilesDownloadedTime: Double = 0.0,
+    var lastRPCTime: Double = 0.0,
+    /**
+     * Need to fetch and parse the master URL
+     */
+    var masterURLFetchPending: Boolean = false,
+    var nonCPUIntensive: Boolean = false,
+    var suspendedViaGUI: Boolean = false,
+    var doNotRequestMoreWork: Boolean = false,
+    var schedulerRPCInProgress: Boolean = false,
+    var attachedViaAcctMgr: Boolean = false,
+    var detachWhenDone: Boolean = false,
+    var ended: Boolean = false,
+    var trickleUpPending: Boolean = false,
+    var noCPUPref: Boolean = false,
+    var noCUDAPref: Boolean = false,
+    var noATIPref: Boolean = false
 ) : Parcelable {
-    val name: String?
+    val name: String
         get() = if (projectName.isEmpty()) masterURL else projectName
-
-    private constructor(parcel: Parcel) :
-            this(masterURL = parcel.readString() ?: "", projectDir = parcel.readString() ?: "",
-                    resourceShare = parcel.readFloat(), projectName = parcel.readString() ?: "",
-                    userName = parcel.readString() ?: "", teamName = parcel.readString() ?: "",
-                    hostVenue = parcel.readString() ?: "", hostId = parcel.readInt(),
-                    userTotalCredit = parcel.readDouble(), userExpAvgCredit = parcel.readDouble(),
-                    hostTotalCredit = parcel.readDouble(), hostExpAvgCredit = parcel.readDouble(),
-                    diskUsage = parcel.readDouble(), noOfRPCFailures = parcel.readInt(),
-                    masterFetchFailures = parcel.readInt(), minRPCTime = parcel.readDouble(),
-                    downloadBackoff = parcel.readDouble(), uploadBackoff = parcel.readDouble(),
-                    cpuShortTermDebt = parcel.readDouble(), cpuBackoffTime = parcel.readDouble(),
-                    cpuBackoffInterval = parcel.readDouble(), cudaDebt = parcel.readDouble(),
-                    cudaShortTermDebt = parcel.readDouble(), cudaBackoffTime = parcel.readDouble(),
-                    cudaBackoffInterval = parcel.readDouble(), atiDebt = parcel.readDouble(),
-                    atiShortTermDebt = parcel.readDouble(), atiBackoffTime = parcel.readDouble(),
-                    atiBackoffInterval = parcel.readDouble(), durationCorrectionFactor = parcel.readDouble(),
-                    scheduledRPCPending = parcel.readInt(), projectFilesDownloadedTime = parcel.readDouble(),
-                    lastRPCTime = parcel.readDouble(), masterURLFetchPending = readBoolean(parcel),
-                    nonCPUIntensive = readBoolean(parcel), suspendedViaGUI = readBoolean(parcel),
-                    doNotRequestMoreWork = readBoolean(parcel), schedulerRPCInProgress = readBoolean(parcel),
-                    attachedViaAcctMgr = readBoolean(parcel), detachWhenDone = readBoolean(parcel),
-                    ended = readBoolean(parcel), trickleUpPending = readBoolean(parcel),
-                    noCPUPref = readBoolean(parcel), noCUDAPref = readBoolean(parcel), noATIPref = readBoolean(parcel),
-                    guiURLs = arrayListOf<GuiUrl?>().apply { parcel.readList(this as MutableList<*>, GuiUrl::class.java.classLoader) })
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -158,57 +132,6 @@ data class Project(
             schedulerRPCInProgress, attachedViaAcctMgr, detachWhenDone, ended, trickleUpPending,
             projectFilesDownloadedTime, lastRPCTime, noCPUPref, noCUDAPref, noATIPref)
 
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(masterURL)
-        dest.writeString(projectDir)
-        dest.writeFloat(resourceShare)
-        dest.writeString(projectName)
-        dest.writeString(userName)
-        dest.writeString(teamName)
-        dest.writeString(hostVenue)
-        dest.writeInt(hostId)
-        dest.writeDouble(userTotalCredit)
-        dest.writeDouble(userExpAvgCredit)
-        dest.writeDouble(hostTotalCredit)
-        dest.writeDouble(hostExpAvgCredit)
-        dest.writeDouble(diskUsage)
-        dest.writeInt(noOfRPCFailures)
-        dest.writeInt(masterFetchFailures)
-        dest.writeDouble(minRPCTime)
-        dest.writeDouble(downloadBackoff)
-        dest.writeDouble(uploadBackoff)
-        dest.writeDouble(cpuShortTermDebt)
-        dest.writeDouble(cpuBackoffTime)
-        dest.writeDouble(cpuBackoffInterval)
-        dest.writeDouble(cudaDebt)
-        dest.writeDouble(cudaShortTermDebt)
-        dest.writeDouble(cudaBackoffTime)
-        dest.writeDouble(cudaBackoffInterval)
-        dest.writeDouble(atiDebt)
-        dest.writeDouble(atiShortTermDebt)
-        dest.writeDouble(atiBackoffTime)
-        dest.writeDouble(atiBackoffInterval)
-        dest.writeDouble(durationCorrectionFactor)
-        dest.writeInt(scheduledRPCPending)
-        dest.writeDouble(projectFilesDownloadedTime)
-        dest.writeDouble(lastRPCTime)
-        writeBoolean(dest, masterURLFetchPending)
-        writeBoolean(dest, nonCPUIntensive)
-        writeBoolean(dest, suspendedViaGUI)
-        writeBoolean(dest, doNotRequestMoreWork)
-        writeBoolean(dest, schedulerRPCInProgress)
-        writeBoolean(dest, attachedViaAcctMgr)
-        writeBoolean(dest, detachWhenDone)
-        writeBoolean(dest, ended)
-        writeBoolean(dest, trickleUpPending)
-        writeBoolean(dest, noCPUPref)
-        writeBoolean(dest, noCUDAPref)
-        writeBoolean(dest, noATIPref)
-        dest.writeList(guiURLs.toList())
-    }
-
     object Fields {
         const val PROJECT_DIR = "project_dir"
         const val RESOURCE_SHARE = "resource_share"
@@ -250,14 +173,5 @@ data class Project(
         const val NO_CPU_PREF = "no_cpu_pref"
         const val NO_CUDA_PREF = "no_cuda_pref"
         const val NO_ATI_PREF = "no_ati_pref"
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<Project> = object : Parcelable.Creator<Project> {
-            override fun createFromParcel(parcel: Parcel) = Project(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<Project>(size)
-        }
     }
 }

@@ -18,91 +18,40 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.os.ParcelCompat.readBoolean
-import androidx.core.os.ParcelCompat.writeBoolean
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class GlobalPreferences(
-        var batteryChargeMinPct: Double = 0.0,
-        var batteryMaxTemperature: Double = 0.0,
-        var idleTimeToRun: Double = 0.0,
-        var suspendCpuUsage: Double = 0.0,
-        var workBufMinDays: Double = 0.0,
-        var workBufAdditionalDays: Double = 0.0,
-        var maxNoOfCPUsPct: Double = 0.0,
-        var cpuSchedulingPeriodMinutes: Double = 0.0,
-        var diskInterval: Double = 0.0,
-        var diskMaxUsedGB: Double = 0.0,
-        var diskMaxUsedPct: Double = 0.0,
-        var diskMinFreeGB: Double = 0.0,
-        var ramMaxUsedBusyFrac: Double = 0.0,
-        var ramMaxUsedIdleFrac: Double = 0.0,
-        var maxBytesSecUp: Double = 0.0,
-        var maxBytesSecDown: Double = 0.0,
-        var cpuUsageLimit: Double = 0.0,
-        var dailyTransferLimitMB: Double = 0.0,
-        var dailyTransferPeriodDays: Int = 0,
-        var cpuTimes: TimePreferences = TimePreferences(),
-        var netTimes: TimePreferences = TimePreferences(),
-        var runOnBatteryPower: Boolean = false,
-        var runIfUserActive: Boolean = false,
-        var runGpuIfUserActive: Boolean = false,
-        var leaveAppsInMemory: Boolean = false,
-        var doNotVerifyImages: Boolean = false,
-        var overrideFilePresent: Boolean = false,
-        var networkWiFiOnly: Boolean = false
+    var batteryChargeMinPct: Double = 0.0,
+    var batteryMaxTemperature: Double = 0.0,
+    var idleTimeToRun: Double = 0.0,
+    var suspendCpuUsage: Double = 0.0,
+    var workBufMinDays: Double = 0.0,
+    var workBufAdditionalDays: Double = 0.0,
+    var maxNoOfCPUsPct: Double = 0.0,
+    var cpuSchedulingPeriodMinutes: Double = 0.0,
+    var diskInterval: Double = 0.0,
+    var diskMaxUsedGB: Double = 0.0,
+    var diskMaxUsedPct: Double = 0.0,
+    var diskMinFreeGB: Double = 0.0,
+    var ramMaxUsedBusyFrac: Double = 0.0,
+    var ramMaxUsedIdleFrac: Double = 0.0,
+    var maxBytesSecUp: Double = 0.0,
+    var maxBytesSecDown: Double = 0.0,
+    var cpuUsageLimit: Double = 0.0,
+    var dailyTransferLimitMB: Double = 0.0,
+    var dailyTransferPeriodDays: Int = 0,
+    var cpuTimes: TimePreferences = TimePreferences(),
+    var netTimes: TimePreferences = TimePreferences(),
+    var runOnBatteryPower: Boolean = false,
+    var runIfUserActive: Boolean = false,
+    var runGpuIfUserActive: Boolean = false,
+    var leaveAppsInMemory: Boolean = false,
+    var doNotVerifyImages: Boolean = false,
+    var overrideFilePresent: Boolean = false,
+    var networkWiFiOnly: Boolean = false
 ) : Parcelable {
-    private constructor(parcel: Parcel) : this(batteryChargeMinPct = parcel.readDouble(),
-            batteryMaxTemperature = parcel.readDouble(), idleTimeToRun = parcel.readDouble(),
-            suspendCpuUsage = parcel.readDouble(), workBufMinDays = parcel.readDouble(),
-            workBufAdditionalDays = parcel.readDouble(), maxNoOfCPUsPct = parcel.readDouble(),
-            cpuSchedulingPeriodMinutes = parcel.readDouble(), diskInterval = parcel.readDouble(),
-            diskMaxUsedGB = parcel.readDouble(), diskMaxUsedPct = parcel.readDouble(),
-            diskMinFreeGB = parcel.readDouble(), ramMaxUsedBusyFrac = parcel.readDouble(),
-            ramMaxUsedIdleFrac = parcel.readDouble(), maxBytesSecUp = parcel.readDouble(),
-            maxBytesSecDown = parcel.readDouble(), cpuUsageLimit = parcel.readDouble(),
-            dailyTransferLimitMB = parcel.readDouble(), dailyTransferPeriodDays = parcel.readInt(),
-            cpuTimes = parcel.readValue(TimePreferences::class.java.classLoader) as TimePreferences,
-            netTimes = parcel.readValue(TimePreferences::class.java.classLoader) as TimePreferences,
-            runOnBatteryPower = readBoolean(parcel), runIfUserActive = readBoolean(parcel),
-            runGpuIfUserActive = readBoolean(parcel), leaveAppsInMemory = readBoolean(parcel),
-            doNotVerifyImages = readBoolean(parcel), overrideFilePresent = readBoolean(parcel),
-            networkWiFiOnly = readBoolean(parcel))
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeDouble(batteryChargeMinPct)
-        dest.writeDouble(batteryMaxTemperature)
-        dest.writeDouble(idleTimeToRun)
-        dest.writeDouble(suspendCpuUsage)
-        dest.writeDouble(workBufMinDays)
-        dest.writeDouble(workBufAdditionalDays)
-        dest.writeDouble(maxNoOfCPUsPct)
-        dest.writeDouble(cpuSchedulingPeriodMinutes)
-        dest.writeDouble(diskInterval)
-        dest.writeDouble(diskMaxUsedGB)
-        dest.writeDouble(diskMaxUsedPct)
-        dest.writeDouble(diskMinFreeGB)
-        dest.writeDouble(ramMaxUsedBusyFrac)
-        dest.writeDouble(ramMaxUsedIdleFrac)
-        dest.writeDouble(maxBytesSecUp)
-        dest.writeDouble(maxBytesSecDown)
-        dest.writeDouble(cpuUsageLimit)
-        dest.writeDouble(dailyTransferLimitMB)
-        dest.writeInt(dailyTransferPeriodDays)
-        dest.writeValue(cpuTimes)
-        dest.writeValue(netTimes)
-        writeBoolean(dest, runOnBatteryPower)
-        writeBoolean(dest, runIfUserActive)
-        writeBoolean(dest, runGpuIfUserActive)
-        writeBoolean(dest, leaveAppsInMemory)
-        writeBoolean(dest, doNotVerifyImages)
-        writeBoolean(dest, overrideFilePresent)
-        writeBoolean(dest, networkWiFiOnly)
-    }
-
     object Fields {
         const val BATTERY_CHARGE_MIN_PCT = "battery_charge_min_pct"
         const val BATTERY_MAX_TEMPERATURE = "battery_max_temperature"
@@ -130,14 +79,5 @@ data class GlobalPreferences(
         const val DONT_VERIFY_IMAGES = "dont_verify_images"
         const val OVERRIDE_FILE_PRESENT = "override_file_present"
         const val NETWORK_WIFI_ONLY = "network_wifi_only"
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<GlobalPreferences> = object : Parcelable.Creator<GlobalPreferences> {
-            override fun createFromParcel(parcel: Parcel) = GlobalPreferences(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<GlobalPreferences>(size)
-        }
     }
 }

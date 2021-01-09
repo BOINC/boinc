@@ -18,26 +18,8 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class GuiUrl(var name: String? = "", var description: String? = "", var url: String? = "") : Parcelable {
-    private constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, arg1: Int) {
-        dest.writeString(name)
-        dest.writeString(description)
-        dest.writeString(url)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<GuiUrl> = object : Parcelable.Creator<GuiUrl> {
-            override fun createFromParcel(parcel: Parcel) = GuiUrl(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<GuiUrl>(size)
-        }
-    }
-}
+@Parcelize
+data class GuiUrl(var name: String? = "", var description: String? = "", var url: String? = "") : Parcelable

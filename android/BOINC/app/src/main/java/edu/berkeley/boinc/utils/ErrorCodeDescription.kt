@@ -18,29 +18,11 @@
  */
 package edu.berkeley.boinc.utils
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class ErrorCodeDescription @JvmOverloads constructor(val code: Int = 0, val description: String? = "")
-    : Parcelable {
-    private constructor(parcel: Parcel) : this(parcel.readInt(), parcel.readString())
-
+@Parcelize
+data class ErrorCodeDescription(val code: Int = 0, val description: String? = "") : Parcelable {
     val isOK: Boolean
         get() = code == ERR_OK && description.isNullOrEmpty()
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(code)
-        parcel.writeString(description)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<ErrorCodeDescription> = object : Parcelable.Creator<ErrorCodeDescription> {
-            override fun createFromParcel(parcel: Parcel) = ErrorCodeDescription(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<ErrorCodeDescription>(size)
-        }
-    }
 }

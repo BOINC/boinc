@@ -18,34 +18,12 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class PlatformInfo internal constructor(
-        var name: String? = "",
-        var friendlyName: String? = "",
-        var planClass: String? = ""
-) : Parcelable {
-    private constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, arg1: Int) {
-        dest.writeString(name)
-        dest.writeString(friendlyName)
-        dest.writeString(planClass)
-    }
-
+@Parcelize
+data class PlatformInfo(var name: String? = "", var friendlyName: String? = "", var planClass: String? = "") : Parcelable {
     object Fields {
         const val NAME = "platform_name"
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<PlatformInfo> = object : Parcelable.Creator<PlatformInfo> {
-            override fun createFromParcel(parcel: Parcel) = PlatformInfo(parcel)
-
-            override fun newArray(size: Int) = arrayOfNulls<PlatformInfo>(size)
-        }
     }
 }
