@@ -94,6 +94,12 @@ android {
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
         }
+        xiaomi_release {
+            initWith release
+        }
+        xiaomi_debug {
+            initWith debug
+        }
     }
     compileOptions {
         sourceCompatibility '1.8'

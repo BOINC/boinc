@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -58,6 +58,8 @@ public class SplashActivity extends AppCompatActivity {
     private boolean mIsBound = false;
     private static IMonitor monitor = null;
 
+    private boolean mIsXiaomiSpecificFirstRun = true;
+
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -69,6 +71,8 @@ public class SplashActivity extends AppCompatActivity {
                 if(!monitor.boincMutexAcquired()) {
                     showNotExclusiveDialog();
                 }
+                mIsXiaomiSpecificFirstRun =
+                        BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor.getXiaomiStateFile();
                 // read log level from monitor preferences and adjust accordingly
                 Logging.setLogLevel(monitor.getLogLevel());
             }
@@ -90,6 +94,10 @@ public class SplashActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if(mIsBound) {
                 try {
+                    if (mIsXiaomiSpecificFirstRun) {
+                        startActivity(new Intent(SplashActivity.this, XiaomiLicenseActivity.class));
+                        return;
+                    }
                     int setupStatus = SplashActivity.monitor.getSetupStatus();
                     switch(setupStatus) {
                         case ClientStatus.SETUP_STATUS_AVAILABLE:

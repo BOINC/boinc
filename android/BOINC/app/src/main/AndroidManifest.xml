@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2020 University of California
+  Copyright (C) 2021 University of California
 
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -96,6 +96,18 @@
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".attach.BatchConflictListActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".XiaomiLicenseActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:noHistory="true"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".XiaomiWelcomeActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:noHistory="true"
                 android:theme="@style/AppTheme.NoActionBar" />
 
         <service

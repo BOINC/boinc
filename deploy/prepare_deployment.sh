@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -97,6 +97,8 @@ prepare_android() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-xiaomi_debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-xiaomi_release-unsigned.apk "${TARGET_DIR}"
     prepare_7z_archive
 }
 
