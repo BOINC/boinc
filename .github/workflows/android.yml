@@ -45,3 +45,8 @@ jobs:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: ./deploy/prepare_deployment.sh android_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_${{ matrix.type }}/*.7z

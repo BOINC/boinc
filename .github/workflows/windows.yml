@@ -70,3 +70,16 @@ jobs:
         run: |
           call deploy\prepare_deployment.bat
           call deploy\deploy_to_bintray.bat
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_apps/*.7z
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_client_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_client/*.7z
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_manager/*.7z

@@ -88,3 +88,9 @@ jobs:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        with:
+          name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_${{ matrix.type }}/*.7z
