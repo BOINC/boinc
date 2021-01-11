@@ -343,6 +343,7 @@ int check_file_signature(
     char clear_buf[MD5_LEN];
     int n, retval;
     DATA_BLOCK clear_signature;
+    clear_buf[0]=0;
 
     n = (int)strlen(md5_buf);
     clear_signature.data = (unsigned char*)clear_buf;
