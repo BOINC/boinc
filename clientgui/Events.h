@@ -152,6 +152,9 @@
 #define ID_TASK_NEWS_BOINC                      9700
 #define ID_TASK_NEWS_BOINCWEBSITE               9701
 
+// Shortcuts
+#define ID_SELECTALL                            9800
+
 //
 // Simple GUI
 //

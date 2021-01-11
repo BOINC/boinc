@@ -66,6 +66,8 @@ public:
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
 
+    void OnSelectAll( wxCommandEvent& event );
+
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
 	void OnPreferences( wxCommandEvent& event );
@@ -110,7 +112,7 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorEntry  m_Shortcuts[2];     // For keyboard shortcut
     wxAcceleratorTable* m_pAccelTable;
 
 private:
