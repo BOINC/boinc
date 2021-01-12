@@ -28,7 +28,7 @@ class BOINCUtilsIsOnlineTest {
     @Test
     fun `Expect isOnline property to call getActiveNetworkInfo() when API level is below 23`() {
         connectivityManager.isOnline
-
+        @Suppress("DEPRECATION")
         Mockito.verify(connectivityManager).activeNetworkInfo
     }
 
