@@ -35,6 +35,9 @@
 /html/nbproject/
 *.project
 
+# CLion files
+.idea
+
 #
 *.pfx
 *.pvk
