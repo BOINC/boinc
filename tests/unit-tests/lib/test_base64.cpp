@@ -55,10 +55,18 @@ namespace test_base64 {
 
     TEST_F(test_base64, r_base64_encode) {
         EXPECT_EQ(r_base64_encode("Boinc"), "Qm9pbmM=");
+        EXPECT_EQ(r_base64_encode("B o i n c"), "QiBvIGkgbiBj");
+        EXPECT_EQ(r_base64_encode("Bòíncüñ"), "QsOyw61uY8O8w7E=");
+        EXPECT_EQ(r_base64_encode("äöüß"), "w6TDtsO8w58=");
+        EXPECT_EQ(r_base64_encode("new\nline"), "bmV3CmxpbmU=");
     }
 
     TEST_F(test_base64, r_base64_decode) {
         EXPECT_EQ(r_base64_decode("Qm9pbmM="), "Boinc");
+        EXPECT_EQ(r_base64_decode("QiBvIGkgbiBj"), "B o i n c");
+        EXPECT_EQ(r_base64_decode("QsOyw61uY8O8w7E="), "Bòíncüñ");
+        EXPECT_EQ(r_base64_decode("w6TDtsO8w58="), "äöüß");
+        EXPECT_EQ(r_base64_decode("bmV3CmxpbmU="), "new\nline");
     }
 
 
