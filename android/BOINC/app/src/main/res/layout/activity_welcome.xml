@@ -53,7 +53,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/logo"
-                        android:text="@string/xiaomi_welcome_content_first" />
+                        android:text="@string/welcome_content_first" />
 
                 <TextView
                         android:id="@+id/content_welcome_second"
@@ -63,7 +63,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_first"
-                        android:text="@string/xiaomi_welcome_content_second" />
+                        android:text="@string/welcome_content_second" />
 
                 <TextView
                         android:id="@+id/content_welcome_third"
@@ -73,7 +73,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_second"
-                        android:text="@string/xiaomi_welcome_content_third" />
+                        android:text="@string/welcome_content_third" />
 
                 <TextView
                         android:id="@+id/content_welcome_fourth"
@@ -83,7 +83,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_third"
-                        android:text="@string/xiaomi_welcome_content_fourth" />
+                        android:text="@string/welcome_content_fourth" />
 
                 <TextView
                         android:id="@+id/content_welcome_fifth"
@@ -93,7 +93,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_fourth"
-                        android:text="@string/xiaomi_welcome_content_fifth" />
+                        android:text="@string/welcome_content_fifth" />
 
                 <TextView
                         android:id="@+id/content_welcome_sixth"
@@ -103,7 +103,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_fifth"
-                        android:text="@string/xiaomi_welcome_content_sixth" />
+                        android:text="@string/welcome_content_sixth" />
             </RelativeLayout>
         </ScrollView>
         <Button

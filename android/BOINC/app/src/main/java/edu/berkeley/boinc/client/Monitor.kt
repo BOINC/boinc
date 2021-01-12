@@ -97,7 +97,7 @@ class Monitor : LifecycleService() {
     private lateinit var fileNameNoMedia: String
     private lateinit var boincWorkingDir: String
     private lateinit var clientSocketAddress: String
-    private lateinit var fileNameXiaomiState: String
+    private lateinit var fileNameWelcomeState: String
 
     private var clientStatusInterval by Delegates.notNull<Int>()
     private var deviceStatusIntervalScreenOff: Int = 0
@@ -182,7 +182,7 @@ class Monitor : LifecycleService() {
         fileNameGuiAuthentication = getString(R.string.auth_file_name)
         fileNameAllProjectsList = getString(R.string.all_projects_list)
         fileNameNoMedia = getString(R.string.nomedia)
-        fileNameXiaomiState = "xiaomi.state"
+        fileNameWelcomeState = "welcome.state"
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
         deviceStatusIntervalScreenOff = resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
         clientSocketAddress = getString(R.string.client_socket_address)
@@ -277,13 +277,13 @@ class Monitor : LifecycleService() {
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 
-    fun getXiaomiStateFile() : Boolean {
-        val file = File(boincWorkingDir + fileNameXiaomiState)
+    fun getWelcomeStateFile() : Boolean {
+        val file = File(boincWorkingDir + fileNameWelcomeState)
         return file.exists();
     }
 
-    fun setXiaomiStateFile() {
-        val file = File(boincWorkingDir + fileNameXiaomiState)
+    fun setWelcomeStateFile() {
+        val file = File(boincWorkingDir + fileNameWelcomeState)
         if (!file.exists()) {
             file.createNewFile()
         }
@@ -937,13 +937,13 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getXiaomiStateFile(): Boolean {
-            return this@Monitor.getXiaomiStateFile()
+        override fun getWelcomeStateFile(): Boolean {
+            return this@Monitor.getWelcomeStateFile()
         }
 
         @Throws(RemoteException::class)
-        override fun setXiaomiStateFile() {
-            this@Monitor.setXiaomiStateFile()
+        override fun setWelcomeStateFile() {
+            this@Monitor.setWelcomeStateFile()
         }
 
         @Throws(RemoteException::class)

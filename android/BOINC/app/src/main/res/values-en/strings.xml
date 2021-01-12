@@ -304,28 +304,28 @@
     <string name="notice_notification_channel_name">Notices</string>
     <string name="notice_notification_channel_description">Displays notices from your projects.</string>
     <!-- Xiaomi specific strings -->
-    <string name="xiaomi_terms_of_use_content_first">Welcome to Xiaomi Mall! In order to provide a high-quality shopping experience,
+    <string name="terms_of_use_content_first">Welcome to Xiaomi Mall! In order to provide a high-quality shopping experience,
         the Mi Mall App needs to be connected to the Internet and use your location information to check product inventory,
         optimize delivery services and personalize product recommendations. You have the right to refuse or cancel this authorization.
     </string>
-    <string name="xiaomi_terms_of_use_content_second">Before using the App, please read and fully understand the "User Agreement"
+    <string name="terms_of_use_content_second">Before using the App, please read and fully understand the "User Agreement"
         and "Privacy Policy" of Xiaomi Mall, and understand your user rights and how your data are processed.
         If you agree to the content of the above agreement, please click "Agree" to start using our products and services.
         We will protect your personal information with the industry-leading security technology. Thank you for your trust in Xiaomi Mall.
     </string>
-    <string name="xiaomi_terms_of_use_content_user_agreement">User Agreement: https://www.mi.com/about/user-agreement</string>
-    <string name="xiaomi_terms_of_use_content_privacy_policy">Privacy Policy: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
-    <string name="xiaomi_welcome_content_first">Dear Mi Fans, hello, Da Jia Hao!</string>
-    <string name="xiaomi_welcome_content_second">I am David, founder of Boinc. Boinc is an open-source software platform for computing using volunteered resources.</string>
-    <string name="xiaomi_welcome_content_third">I would like to thank Mr. Lei Jun and Xiaomi and share some good news with you:
+    <string name="terms_of_use_content_user_agreement">User Agreement: https://www.mi.com/about/user-agreement</string>
+    <string name="terms_of_use_content_privacy_policy">Privacy Policy: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+    <string name="welcome_content_first">Dear Mi Fans, hello, Da Jia Hao!</string>
+    <string name="welcome_content_second">I am David, founder of Boinc. Boinc is an open-source software platform for computing using volunteered resources.</string>
+    <string name="welcome_content_third">I would like to thank Mr. Lei Jun and Xiaomi and share some good news with you:
         Mi 11 will become a mobile computing device officially certified by Boinc!
     </string>
-    <string name="xiaomi_welcome_content_fourth">With Qualcomm Snapdragon 888 build-in, Mi 11 boasts amazing computing power.
+    <string name="welcome_content_fourth">With Qualcomm Snapdragon 888 build-in, Mi 11 boasts amazing computing power.
         It can process tasks very quickly and provide help to research communities worldwide.
     </string>
-    <string name="xiaomi_welcome_content_fifth">I would like to thank all engineers at Xiaomi who contributed to the Boinc project.
+    <string name="welcome_content_fifth">I would like to thank all engineers at Xiaomi who contributed to the Boinc project.
         I encourage all Mi Fans to download Boinc on their phones, contribute a piece of your power while your phone is not being used.
     </string>
-    <string name="xiaomi_welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
+    <string name="welcome_content_sixth">Last but not least, to my Chinese friends - Happy Chinese New Year! Xin Nian Kuai Le!</string>
     <string name="agree_button">Agree</string>
 </resources>

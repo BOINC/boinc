@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
     private boolean mIsBound = false;
     private static IMonitor monitor = null;
 
-    private boolean mIsXiaomiSpecificFirstRun = true;
+    private boolean mIsWelcomeSpecificFirstRun = true;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -71,8 +71,8 @@ public class SplashActivity extends AppCompatActivity {
                 if(!monitor.boincMutexAcquired()) {
                     showNotExclusiveDialog();
                 }
-                mIsXiaomiSpecificFirstRun =
-                        BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor.getXiaomiStateFile();
+                mIsWelcomeSpecificFirstRun =
+                        BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor.getWelcomeStateFile();
                 // read log level from monitor preferences and adjust accordingly
                 Logging.setLogLevel(monitor.getLogLevel());
             }
@@ -94,8 +94,8 @@ public class SplashActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if(mIsBound) {
                 try {
-                    if (mIsXiaomiSpecificFirstRun) {
-                        startActivity(new Intent(SplashActivity.this, XiaomiLicenseActivity.class));
+                    if (mIsWelcomeSpecificFirstRun) {
+                        startActivity(new Intent(SplashActivity.this, LicenseActivity.class));
                         return;
                     }
                     int setupStatus = SplashActivity.monitor.getSetupStatus();

@@ -53,7 +53,7 @@
                     android:textColor="?android:attr/textColorPrimary"
                     android:layout_margin="10dp"
                     android:layout_below="@+id/logo"
-                    android:text="@string/xiaomi_terms_of_use_content_first" />
+                    android:text="@string/terms_of_use_content_first" />
 
             <TextView
                     android:id="@+id/content_second"
@@ -63,7 +63,7 @@
                     android:textColor="?android:attr/textColorPrimary"
                     android:layout_margin="10dp"
                     android:layout_below="@+id/content_first"
-                    android:text="@string/xiaomi_terms_of_use_content_second" />
+                    android:text="@string/terms_of_use_content_second" />
 
             <TextView
                     android:id="@+id/content_user_agreement"
@@ -74,7 +74,7 @@
                     android:layout_margin="10dp"
                     android:layout_below="@+id/content_second"
                     android:autoLink="web"
-                    android:text="@string/xiaomi_terms_of_use_content_user_agreement" />
+                    android:text="@string/terms_of_use_content_user_agreement" />
 
             <TextView
                     android:id="@+id/content_privacy_policy"
@@ -85,7 +85,7 @@
                     android:layout_margin="10dp"
                     android:layout_below="@+id/content_user_agreement"
                     android:autoLink="web"
-                    android:text="@string/xiaomi_terms_of_use_content_privacy_policy" />
+                    android:text="@string/terms_of_use_content_privacy_policy" />
         </RelativeLayout>
     </ScrollView>
     <Button

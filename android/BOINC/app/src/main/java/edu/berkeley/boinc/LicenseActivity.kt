@@ -21,17 +21,17 @@ package edu.berkeley.boinc
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import edu.berkeley.boinc.databinding.ActivityXiaomiLicenseBinding
+import edu.berkeley.boinc.databinding.ActivityLicenseBinding
 
-class XiaomiLicenseActivity : AppCompatActivity() {
+class LicenseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityXiaomiLicenseBinding.inflate(layoutInflater)
+        val binding = ActivityLicenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.agreeButton.setOnClickListener {
-            startActivity(Intent(this@XiaomiLicenseActivity, XiaomiWelcomeActivity::class.java))
+            startActivity(Intent(this@LicenseActivity, WelcomeActivity::class.java))
         }
         binding.cancelButton.setOnClickListener {
             finish()

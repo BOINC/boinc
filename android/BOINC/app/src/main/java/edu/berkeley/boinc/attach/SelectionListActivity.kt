@@ -159,7 +159,7 @@ class SelectionListActivity : AppCompatActivity() {
             monitor = IMonitor.Stub.asInterface(service)
             mIsBound = true
             if (BuildConfig.BUILD_TYPE.contains("xiaomi")) {
-                monitor!!.setXiaomiStateFile()
+                monitor!!.setWelcomeStateFile()
             }
             lifecycleScope.launch {
                 updateProjectList()

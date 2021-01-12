@@ -73,8 +73,8 @@ int getBatteryChargeStatus();           // implement: return getDeviceStatus().g
 String getAuthFilePath();               // implement: return Monitor.getAuthFilePath();
 int getBoincPlatform();                        // should be not necessary to be implemented as monitor interface
 void cancelNoticeNotification();
-boolean getXiaomiStateFile();
-void setXiaomiStateFile();
+boolean getWelcomeStateFile();
+void setWelcomeStateFile();
 
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;

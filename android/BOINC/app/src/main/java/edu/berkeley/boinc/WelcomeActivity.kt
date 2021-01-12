@@ -22,17 +22,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import edu.berkeley.boinc.attach.SelectionListActivity
-import edu.berkeley.boinc.databinding.ActivityXiaomiWelcomeBinding
+import edu.berkeley.boinc.databinding.ActivityWelcomeBinding
 
-class XiaomiWelcomeActivity : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityXiaomiWelcomeBinding.inflate(layoutInflater)
+        val binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.continueButton.setOnClickListener {
-            startActivity(Intent(this@XiaomiWelcomeActivity, SelectionListActivity::class.java))
+            startActivity(Intent(this@WelcomeActivity, SelectionListActivity::class.java))
         }
         binding.cancelButton.setOnClickListener {
             finish()
