@@ -65,7 +65,8 @@ public:
     void OnActivitySelection( wxCommandEvent& event );
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
-    void OnNextPage( wxCommandEvent &event);
+    void OnNextPage( wxCommandEvent &event );
+    void OnPrevPage( wxCommandEvent &event );
 
     void OnSelectAll( wxCommandEvent& event );
 
@@ -113,7 +114,7 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxAcceleratorEntry  m_Shortcuts[3];     // For keyboard shortcut
+    wxAcceleratorEntry  m_Shortcuts[4];     // For keyboard shortcut
     wxAcceleratorTable* m_pAccelTable;
 
 private:

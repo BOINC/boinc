@@ -154,7 +154,8 @@
 
 // Shortcuts
 #define ID_SELECTALL                            9800
-#define ID_NEXT_PAGE                            9801
+#define ID_NEXTPAGE                             9801
+#define ID_PREVPAGE                             9802
 
 //
 // Simple GUI
