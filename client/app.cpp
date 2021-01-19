@@ -759,6 +759,10 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             (fd - first_fraction_done)/(elapsed_time - first_fraction_done_elapsed_time)
         );
     }
+
+    // only report a graphics app if file exists and we can execute it
+    //
+    app_version->check_graphics_exec();
     if (strlen(app_version->graphics_exec_path)) {
         fout.printf(
             "   <graphics_exec_path>%s</graphics_exec_path>\n"
@@ -767,6 +771,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             slot_path
         );
     }
+
     if (strlen(web_graphics_url)) {
         fout.printf(
             "   <web_graphics_url>%s</web_graphics_url>\n",

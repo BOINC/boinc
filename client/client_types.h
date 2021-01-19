@@ -296,6 +296,8 @@ struct GPU_USAGE {
     double usage;
 };
 
+// if you add anything, initialize it in init()
+//
 struct APP_VERSION {
     char app_name[256];
     int version_num;
@@ -317,8 +319,14 @@ struct APP_VERSION {
     PROJECT* project;
     std::vector<FILE_REF> app_files;
     int ref_cnt;
+
+    // graphics app, if any
+    // the strings are filled in after exec is downloaded and verified
+    //
+    FILE_INFO *graphics_exec_fip;
     char graphics_exec_path[MAXPATHLEN];
     char graphics_exec_file[256];
+
     double max_working_set_size;
         // max working set of tasks using this app version.
         // unstarted jobs using this app version are assumed
@@ -361,6 +369,7 @@ struct APP_VERSION {
     inline bool is_opencl() {
         return (strstr(plan_class, "opencl") != NULL);
     }
+    void check_graphics_exec();
 };
 
 struct WORKUNIT {
