@@ -183,7 +183,7 @@ enum BATTERY_STATE {
     // some output file permanent failure
 
 // Values of FILE_INFO::status.
-// If the status is neither of these two,
+// If the status is none of these,
 // it's an error code indicating an unrecoverable error
 // in the transfer of the file,
 // or that the file was too big and was deleted.

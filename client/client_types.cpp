@@ -784,6 +784,7 @@ void APP_VERSION::init() {
     app = NULL;
     project = NULL;
     ref_cnt = 0;
+    graphics_exec_fip = NULL;
     safe_strcpy(graphics_exec_path,"");
     safe_strcpy(graphics_exec_file, "");
     max_working_set_size = 0;
@@ -1041,6 +1042,37 @@ bool APP_VERSION::api_version_at_least(int major, int minor) {
     if (maj < major) return false;
     if (maj > major) return true;
     return min >= minor;
+}
+
+// If app version has a graphics program,
+// see whether the exec is present and can be run.
+// If so fill in the file name and path.
+// Called from GUI RPC handler.
+//
+void APP_VERSION::check_graphics_exec() {
+    if (!graphics_exec_fip) return;
+    if (strlen(graphics_exec_path)) return;
+    if (graphics_exec_fip->status < 0) {
+        // download or verify of graphics exec failed; don't check again
+        //
+        graphics_exec_fip = NULL;
+        return;
+    }
+    if (graphics_exec_fip->status != FILE_PRESENT) return;
+
+    char relpath[MAXPATHLEN], path[MAXPATHLEN];
+    get_pathname(graphics_exec_fip, relpath, sizeof(relpath));
+    relative_to_absolute(relpath, path);
+#ifdef __APPLE__
+    if (!can_run_on_this_CPU(path)) {
+        // if can't run this exec, don't check again
+        //
+        graphics_exec_fip = NULL;
+        return;
+    }
+#endif
+    safe_strcpy(graphics_exec_path, path);
+    safe_strcpy(graphics_exec_file, graphics_exec_fip->name);
 }
 
 int FILE_REF::parse(XML_PARSER& xp) {
