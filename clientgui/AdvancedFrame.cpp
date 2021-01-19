@@ -755,9 +755,9 @@ bool CAdvancedFrame::CreateMenus() {
         delete m_pOldMenubar;
     }
 
-    m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'A', ID_SELECTALL);
-    m_Shortcuts[1].Set(wxACCEL_CTRL, WXK_TAB, ID_NEXTPAGE);
-    m_Shortcuts[2].Set(wxACCEL_CTRL|wxACCEL_SHIFT, WXK_TAB, ID_PREVPAGE);
+    m_Shortcuts[0].Set(wxACCEL_RAW_CTRL, (int)'A', ID_SELECTALL);
+    m_Shortcuts[1].Set(wxACCEL_RAW_CTRL, WXK_TAB, ID_NEXTPAGE);
+    m_Shortcuts[2].Set(wxACCEL_RAW_CTRL|wxACCEL_SHIFT, WXK_TAB, ID_PREVPAGE);
 
 
 #ifdef __WXMAC__
