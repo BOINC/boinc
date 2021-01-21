@@ -36,11 +36,10 @@ AC_DEFUN([SAH_DEFAULT_BITNESS],[
     AC_LANG_POP([C++])
   fi
 ])
-  
 
 AC_DEFUN([SAH_SELECT_BITNESS],[
-  AC_LANG_PUSH(C)
   SAH_DEFAULT_BITNESS
+  AC_LANG_PUSH(C)
   AC_MSG_CHECKING(Selecting $1 bit model)
   echo "int main() { return 0; }" >conftest.$ac_ext 
   if test "$1" != "${COMPILER_MODEL_BITS}"
