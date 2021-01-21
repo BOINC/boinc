@@ -1,23 +1,23 @@
 AC_DEFUN([SAH_DEFAULT_BITNESS],[
-  if test -z "${COMPILER_MODEL_BITS}"
-  then
-    AC_MSG_CHECKING(default bitness of compiler)
-    echo "int main() { return 0; }" >conftest.c
-    ${CC} ${CFLAGS} -c conftest.c >&5
-    COMPILER_MODEL_BITS=32
-    if test -f conftest.${OBJEXT} ; then
-      if test -n "`objdump --file-headers conftest.${OBJEXT} | grep 'file format' | grep 64`" -o -n "`file conftest.${OBJEXT} | grep -i 64-bit`" 
-      then
-        COMPILER_MODEL_BITS=64
-#      else
-#        if test -n "`objdump --file-headers conftest.${OBJEXT} | grep 'file format' | grep 16`" 
-#	then
-#          COMPILER_MODEL_BITS=16
-#        fi
+  if test -z "${COMPILER_MODEL_BITS}"; then
+    AC_LANG_PUSH([C])
+      AC_MSG_CHECKING([default bitness of C compiler])
+      echo "int main() { return 0; }" >conftest.$ac_ext
+      AC_REQUIRE_CPP
+      ${CC} ${CFLAGS} ${CPPFLAGS} -fno-lto -c conftest.$ac_ext 2>&AS_MESSAGE_LOG_FD >&AS_MESSAGE_LOG_FD
+      COMPILER_MODEL_BITS=32
+      if test -f conftest.${OBJEXT}; then
+        if test -n "$(${OBJDUMP} --file-headers conftest.${OBJEXT} | grep 'file format' | grep 64)" -o -n "$(file conftest.${OBJEXT} | grep -i 64-bit)"; then
+          COMPILER_MODEL_BITS=64
+        #else
+          #if test -n "$(${OBJDUMP} --file-headers conftest.${OBJEXT} | grep 'file format' | grep 16)"; then
+            #COMPILER_MODEL_BITS=16
+          #fi
+        fi
       fi
-    fi
-    /bin/rm conftest.c
-    AC_MSG_RESULT($COMPILER_MODEL_BITS)
+      /bin/rm conftest.$ac_ext conftest.${OBJEXT}
+      AC_MSG_RESULT([$COMPILER_MODEL_BITS])
+    AC_LANG_POP([C])
   fi
 ])
   
