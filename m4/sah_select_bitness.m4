@@ -18,6 +18,22 @@ AC_DEFUN([SAH_DEFAULT_BITNESS],[
       /bin/rm conftest.$ac_ext conftest.${OBJEXT}
       AC_MSG_RESULT([$COMPILER_MODEL_BITS])
     AC_LANG_POP([C])
+
+    AC_LANG_PUSH([C++])
+      AC_MSG_CHECKING([default bitness of C++ compiler])
+      echo "int main() { return 0; }" >conftest.$ac_ext
+      AC_REQUIRE_CPP
+      ${CXX} ${CXXFLAGS} ${CPPFLAGS} -fno-lto -c conftest.$ac_ext 2>&AS_MESSAGE_LOG_FD >&AS_MESSAGE_LOG_FD
+      if test -f conftest.${OBJEXT}; then
+        if test -n "$(${OBJDUMP} --file-headers conftest.${OBJEXT} | grep 'file format' | grep 64)" -o -n "$(file conftest.${OBJEXT} | grep -i 64-bit)"; then
+          if test "${COMPILER_MODEL_BITS}" != "64"; then
+            AC_MSG_ERROR([64 but not same as bitness in C])
+          fi
+        fi
+      fi
+      /bin/rm conftest.$ac_ext conftest.${OBJEXT}
+      AC_MSG_RESULT([$COMPILER_MODEL_BITS])
+    AC_LANG_POP([C++])
   fi
 ])
   
