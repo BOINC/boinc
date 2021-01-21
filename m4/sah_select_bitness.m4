@@ -39,25 +39,27 @@ AC_DEFUN([SAH_DEFAULT_BITNESS],[
 
 AC_DEFUN([SAH_SELECT_BITNESS],[
   SAH_DEFAULT_BITNESS
-  AC_LANG_PUSH(C)
-  AC_MSG_CHECKING(Selecting $1 bit model)
-  echo "int main() { return 0; }" >conftest.$ac_ext 
-  if test "$1" != "${COMPILER_MODEL_BITS}"
-  then
-    ${CC} ${CFLAGS} ${CPPFLAGS} -m$1 -c conftest.$ac_ext >&5
-    if test -f conftest.${OBJEXT} ; then
-      if test -n "`file conftest.${OBJEXT} | grep -i $1-bit`"
-      then
-        CFLAGS="${CFLAGS} -m$1"
-	AC_MSG_RESULT(-m$1)
-	COMPILER_MODEL_BITS=$1
+
+  AC_LANG_PUSH([C])
+    AC_MSG_CHECKING([if C compiler can use -m$1])
+    if test "$1" != "${COMPILER_MODEL_BITS}"; then
+      echo "int main() { return 0; }" >conftest.$ac_ext
+      AC_REQUIRE_CPP
+      ${CC} ${CFLAGS} ${CPPFLAGS} -m$1 -fno-lto -c conftest.$ac_ext 2>&AS_MESSAGE_LOG_FD >&AS_MESSAGE_LOG_FD
+      if test -f conftest.${OBJEXT}; then
+        if test -n "$(file conftest.${OBJEXT} | grep -i ${1}-bit)"; then
+          CFLAGS="${CFLAGS} -m$1"
+          AC_MSG_RESULT([ok use $1])
+        else
+          AC_MSG_ERROR([failed still $COMPILER_MODEL_BITS])
+        fi
       fi
-      AC_MSG_RESULT(failed)
+      /bin/rm conftest.$ac_ext conftest.${OBJEXT}
     fi
-  else
-    AC_MSG_RESULT(ok)
-  fi
-  AC_LANG_POP(C)
+    AC_MSG_RESULT([ok use $1])
+  AC_LANG_POP([C])
+
+  COMPILER_MODEL_BITS=$1
 ])
 
 AC_DEFUN([SAH_OPTION_BITNESS],[
