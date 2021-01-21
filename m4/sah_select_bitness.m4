@@ -47,7 +47,7 @@ AC_DEFUN([SAH_SELECT_BITNESS],[
       AC_REQUIRE_CPP
       ${CC} ${CFLAGS} ${CPPFLAGS} -m$1 -fno-lto -c conftest.$ac_ext 2>&AS_MESSAGE_LOG_FD >&AS_MESSAGE_LOG_FD
       if test -f conftest.${OBJEXT}; then
-        if test -n "$(file conftest.${OBJEXT} | grep -i ${1}-bit)"; then
+        if test -n "$(file conftest.${OBJEXT} | grep -i $1-bit)"; then
           CFLAGS="${CFLAGS} -m$1"
           AC_MSG_RESULT([ok use $1])
         else
@@ -55,8 +55,9 @@ AC_DEFUN([SAH_SELECT_BITNESS],[
         fi
       fi
       /bin/rm conftest.$ac_ext conftest.${OBJEXT}
+    else
+      AC_MSG_RESULT([ok use $1])
     fi
-    AC_MSG_RESULT([ok use $1])
   AC_LANG_POP([C])
 
   AC_LANG_PUSH([C++])
@@ -66,7 +67,7 @@ AC_DEFUN([SAH_SELECT_BITNESS],[
       AC_REQUIRE_CPP
       ${CXX} ${CXXFLAGS} ${CPPFLAGS} -m$1 -fno-lto -c conftest.$ac_ext 2>&AS_MESSAGE_LOG_FD >&AS_MESSAGE_LOG_FD
       if test -f conftest.${OBJEXT}; then
-        if test -n "$(file conftest.${OBJEXT} | grep -i ${1}-bit)"; then
+        if test -n "$(file conftest.${OBJEXT} | grep -i $1-bit)"; then
           CXXFLAGS="${CXXFLAGS} -m$1"
           AC_MSG_RESULT([ok use $1])
         else
@@ -74,8 +75,9 @@ AC_DEFUN([SAH_SELECT_BITNESS],[
         fi
       fi
       /bin/rm conftest.$ac_ext conftest.${OBJEXT}
+    else
+      AC_MSG_RESULT([ok use $1])
     fi
-    AC_MSG_RESULT([ok use $1])
   AC_LANG_POP([C++])
 
   COMPILER_MODEL_BITS=$1
