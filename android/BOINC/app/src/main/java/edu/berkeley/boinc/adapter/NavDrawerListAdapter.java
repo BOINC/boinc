@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -147,7 +147,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                     try {
                         final IMonitor monitor = BOINCActivity.monitor;
                         if (monitor != null)
-                            counter = monitor.getTasks().size();
+                            counter = monitor.getTasksCount();
                     }
                     catch(Exception e) {
                         if(Logging.ERROR) {
