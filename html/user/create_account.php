@@ -44,12 +44,19 @@ if (parse_bool($config, "disable_account_creation_rpc")) {
     }
 }
 
-if (defined('INVITE_CODES')) {
-    $invite_code = get_str("invite_code");
-    if (!preg_match(INVITE_CODES, $invite_code)) {
-        xml_error(-1, "Invalid invitation code");
-    }
-} 
+if (defined('INVITE_CODES_RPC')) {
+        $invite_code = get_str("invite_code");
+        if (!preg_match(INVITE_CODES_RPC, $invite_code)) {
+            xml_error(-1, "Invalid invitation code");
+        }
+} else {
+    if (defined('INVITE_CODES')) {
+        $invite_code = get_str("invite_code");
+        if (!preg_match(INVITE_CODES, $invite_code)) {
+            xml_error(-1, "Invalid invitation code");
+        }
+    } 
+}
 
 $email_addr = get_str("email_addr");
 $email_addr = strtolower($email_addr);
@@ -129,7 +136,13 @@ if ($user) {
         xml_error(ERR_DB_NOT_UNIQUE);
     }
     
-    if (defined('INVITE_CODES')) {
+
+    if (defined('INVITE_CODES_RPC')) {
+        // record the invite code
+        //
+        $r = BoincDb::escape_string($invite_code);
+        $user->update("signature='$r'");
+    } else if (defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
 
