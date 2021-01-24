@@ -89,7 +89,8 @@ GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();
 AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();
 List<Transfer> getTransfers();   // clientStatus.getTransfers();
-List<Result> getTasks();          // clientStatus.getTasks();
+List<Result> getTasks(in int start, in int count, in boolean isActive);          // clientStatus.getTasks(int, int, boolean);
+int getTasksCount(); // clientStatus.getTasksCount();
 Bitmap getProjectIconByName(in String name);  // clientStatus.getProjectIconByName(entries.get(position).project_name);
 Bitmap getProjectIcon(in String id);        // clientStatus.getProjectIcon(entries.get(position).id);
 String getProjectStatus(in String url);   // clientStatus.getProjectStatus(url);

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -300,14 +300,42 @@ public class ClientStatus {
         return status;
     }
 
-    public synchronized List<Result> getTasks() {
+    public synchronized List<Result> getTasks(int start, int count, boolean isActive) {
         if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
             if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "state is null");
+                Log.d(Logging.TAG, "tasks is null");
             }
             return Collections.emptyList();
         }
-        return results;
+
+        List<Result> tasks = new ArrayList<>();
+        int counter = 0;
+
+        for (Result res : results) {
+            if (tasks.size() == count) {
+                break;
+            }
+
+            if (start > counter++) {
+                continue;
+            }
+
+            if ((isActive && res.isActiveTask()) || (!isActive && !res.isActiveTask())) {
+                tasks.add(res);
+            }
+        }
+
+        return tasks;
+    }
+
+    public synchronized int getTasksCount() {
+        if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
+            if(Logging.DEBUG) {
+                Log.d(Logging.TAG, "tasksCount is null");
+            }
+            return 0;
+        }
+        return results.size();
     }
 
     public synchronized List<Transfer> getTransfers() {

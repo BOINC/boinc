@@ -1085,8 +1085,13 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getTasks(): List<Result> {
-            return clientStatus.tasks
+        override fun getTasks(start: Int, count: Int, isActive: Boolean): List<Result> {
+            return clientStatus.getTasks(start, count, isActive)
+        }
+
+        @Throws(RemoteException::class)
+        override fun getTasksCount(): Int {
+            return clientStatus.tasksCount
         }
 
         @Throws(RemoteException::class)
