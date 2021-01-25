@@ -62,8 +62,12 @@ pkginclude_HEADERS = \
     project_specific_defines.h
 endif
 
-# svn_version.h should always be rebuilt.
+# Define files for distclean command
+DISTCLEANFILES = \
+	clientgui/res/Makefile \
+	packages/generic/sea/Makefile
 
+# svn_version.h should always be rebuilt.
 BUILT_SOURCES = svn_version.h
 svn_version.h: generate_svn_version.sh
 	cd $(srcdir) && sh generate_svn_version.sh
@@ -80,5 +84,8 @@ stage: all
 	$(MAKE) DESTDIR=$(PWD)/stage install
 
 dist-hook:
-	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
+	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS -name Makefile`
 #	cd $(distdir) && ./_autosetup
+
+distclean-local:
+	cd packages/solaris/CSW && make distclean
