@@ -63,9 +63,30 @@ pkginclude_HEADERS = \
 endif
 
 # Define files for distclean command
-DISTCLEANFILES = \
-	clientgui/res/Makefile \
-	packages/generic/sea/Makefile
+DISTCLEANFILES =                                \
+   clientgui/res/Makefile                       \
+   packages/generic/sea/Makefile
+
+# Define files for maintainer-clean command
+MAINTAINERCLEANFILES =                          \
+    config.h.in                                 \
+    Makefile.in                                 \
+    aclocal.m4                                  \
+    autom4te.cache/*                            \
+    compile                                     \
+    config.guess                                \
+    config.sub                                  \
+    configure                                   \
+    depcomp                                     \
+    install-sh                                  \
+    ltmain.sh                                   \
+    m4/libtool.m4                               \
+    m4/ltoptions.m4                             \
+    m4/ltsugar.m4                               \
+    m4/ltversion.m4                             \
+    m4/lt~obsolete.m4                           \
+    missing                                     \
+    test-driver
 
 # svn_version.h should always be rebuilt.
 BUILT_SOURCES = svn_version.h
