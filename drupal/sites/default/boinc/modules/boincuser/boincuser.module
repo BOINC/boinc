@@ -557,6 +557,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         // remove them before continuing to core Drupal routines
         $edit['update_source'] = null;
         $edit['boincuser_name'] = null;
+        $edit['current_pass'] = null;
       }
       break;
 
