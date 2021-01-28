@@ -144,15 +144,9 @@ class TasksFragment : Fragment() {
         }
 
         //setup list and adapter
-        if (tasks.isNotEmpty()) {
-            //deep copy, so ArrayList adapter actually recognizes the difference
-            updateData(tasks, fullUpdate)
-            recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
-        } else {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "loadData: array is empty, rpc failed")
-            }
-        }
+        //deep copy, so ArrayList adapter actually recognizes the difference
+        updateData(tasks, fullUpdate)
+        recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
     }
 
     private fun updateData(newData: List<Result>, fullUpdate: Boolean) {
