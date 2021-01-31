@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2019 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -73,6 +73,8 @@ int getBatteryChargeStatus();           // implement: return getDeviceStatus().g
 String getAuthFilePath();               // implement: return Monitor.getAuthFilePath();
 int getBoincPlatform();                        // should be not necessary to be implemented as monitor interface
 void cancelNoticeNotification();
+boolean getWelcomeStateFile();
+void setWelcomeStateFile();
 
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
@@ -87,7 +89,8 @@ GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();
 AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();
 List<Transfer> getTransfers();   // clientStatus.getTransfers();
-List<Result> getTasks();          // clientStatus.getTasks();
+List<Result> getTasks(in int start, in int count, in boolean isActive);          // clientStatus.getTasks(int, int, boolean);
+int getTasksCount(); // clientStatus.getTasksCount();
 Bitmap getProjectIconByName(in String name);  // clientStatus.getProjectIconByName(entries.get(position).project_name);
 Bitmap getProjectIcon(in String id);        // clientStatus.getProjectIcon(entries.get(position).id);
 String getProjectStatus(in String url);   // clientStatus.getProjectStatus(url);

@@ -38,9 +38,9 @@
 
 #ifdef __EMX__
 static key_t get_shmem_name(const char* prog_name) {
-    char cwd[MAXPATHLEN], path[MAXPATHLEN];
+    char cwd[MAXPATHLEN+1], path[MAXPATHLEN+1];
     boinc_getcwd(cwd);
-    sprintf(path, "%s/init_data.xml", cwd);
+    snprintf(path, sizeof(path), "%s/init_data.xml", cwd);
     return ftok(path, 2);
 }
 #else
@@ -50,14 +50,14 @@ static void get_shmem_name(const char* prog_name, char* shmem_name) {
     APP_INIT_DATA aid;
     int retval = boinc_get_init_data(aid);
     if (retval) aid.slot = 0;
-    sprintf(shmem_name, "boinc_%s_%d", prog_name, aid.slot);
+    snprintf(shmem_name, MAXPATHLEN+1, "boinc_%s_%d", prog_name, aid.slot);
 }
 #endif
 
 void* boinc_graphics_make_shmem(const char* prog_name, int size) {
 #ifdef _WIN32
     HANDLE shmem_handle;
-    char shmem_name[MAXPATHLEN];
+    char shmem_name[MAXPATHLEN+1];
     void* p;
     get_shmem_name(prog_name, shmem_name);
     shmem_handle = create_shmem(shmem_name, size, &p);
@@ -70,7 +70,7 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
     int retval = create_shmem(key, size, 0, &p);
 #else
     // V6 Unix/Linux/Mac applications always use mmap() shared memory for graphics communication
-    char shmem_name[MAXPATHLEN];
+    char shmem_name[MAXPATHLEN+1];
     get_shmem_name(prog_name, shmem_name);
     int retval = create_shmem_mmap(shmem_name, size, &p);
     // make sure user/group RW permissions are set, but not other.
@@ -85,7 +85,7 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
 #ifdef _WIN32
 void* boinc_graphics_get_shmem(const char* prog_name) {
     HANDLE shmem_handle;
-    char shmem_name[MAXPATHLEN];
+    char shmem_name[MAXPATHLEN+1];
     void* p;
     get_shmem_name(prog_name, shmem_name);
     shmem_handle = attach_shmem(shmem_name, &p);
@@ -103,7 +103,7 @@ void* boinc_graphics_get_shmem(const char* prog_name) {
     retval = attach_shmem(key, &p);
 #else
     // V6 Unix/Linux/Mac applications always use mmap() shared memory for graphics communication
-    char shmem_name[MAXPATHLEN];
+    char shmem_name[MAXPATHLEN+1];
     get_shmem_name(prog_name, shmem_name);
     retval = attach_shmem_mmap(shmem_name, &p);
 #endif

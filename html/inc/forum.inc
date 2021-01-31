@@ -141,9 +141,9 @@ function show_forum_header($user) {
     // Search
     echo '
         <td>
-        <input type="hidden" name="search_max_time" value="30">
+        <input type="hidden" name="search_max_time" value="0">
         <input type="hidden" name="search_forum" value="-1">
-        <input type="hidden" name="search_sort" value="5">
+        <input type="hidden" name="search_sort" value="'.CREATE_TIME_NEW.'">
         <input type="text" class="" name="search_keywords">
         <input class="btn btn-primary btn-sm" title="'.tra("Search for words in forum messages").'" type="submit" value="'.tra("Search forums").'"><br>
         <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>

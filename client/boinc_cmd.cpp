@@ -163,13 +163,37 @@ void acct_mgr_do_rpc(
     }
 }
 
+// Get messages from client, and show any that are USER_ALERT priority.
+// Intended use: show user that GUI RPCs are not password-protected.
+// For now, do this after attach to project or AM
+//
+void show_alerts(RPC_CLIENT &rpc) {
+    MESSAGES messages;
+    int retval = rpc.get_messages(0, messages);
+    if (retval) {
+        fprintf(stderr, "Can't get alerts from client: %s\n",
+            boincerror(retval)
+        );
+        return;
+    }
+    for (unsigned int j=0; j<messages.messages.size(); j++) {
+        MESSAGE& md = *messages.messages[j];
+        if (md.priority != MSG_USER_ALERT) continue;
+        if (!md.project.empty()) continue;
+        strip_whitespace(md.body);
+        fprintf(stderr, "\nAlert from client: %s\n",
+            md.body.c_str()
+        );
+    }
+}
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
     MESSAGES messages;
     NOTICES notices;
     char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p, *q;
+    char* passwd=0, *p, *q;
     bool unix_domain = false;
     string msg;
 
@@ -178,12 +202,6 @@ int main(int argc, char** argv) {
 #elif defined(__APPLE__)
     chdir("/Library/Application Support/BOINC Data");
 #endif
-    safe_strcpy(passwd_buf, "");
-    retval = read_gui_rpc_password(passwd_buf, msg);
-    if (retval) {
-        fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
-        fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
-    }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -193,6 +211,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
 #endif
+
+    // parse command line.
+    // TODO: do this the right way.
+    // shouldn't require args to be in a particular order.
+
     if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[i], "--help")) usage();
@@ -244,6 +267,16 @@ int main(int argc, char** argv) {
         i++;
     }
     if (i == argc) usage();
+
+    if (!passwd) {
+        passwd = passwd_buf;
+        safe_strcpy(passwd_buf, "");
+        retval = read_gui_rpc_password(passwd_buf, msg);
+        if (retval) {
+            fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+            fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+        }
+    }
 
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //
@@ -382,6 +415,7 @@ int main(int argc, char** argv) {
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");
+        show_alerts(rpc);
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
@@ -529,6 +563,7 @@ int main(int argc, char** argv) {
             char* am_name = next_arg(argc, argv, i);
             char* am_passwd = next_arg(argc, argv, i);
             acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
+            show_alerts(rpc);
         } else if (!strcmp(op, "info")) {
             ACCT_MGR_INFO ami;
             retval = rpc.acct_mgr_info(ami);

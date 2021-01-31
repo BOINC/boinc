@@ -81,7 +81,7 @@ public:
 // Implementation
     WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
     bool IsBalloonsSupported();
-    long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
+    LRESULT WindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
 // Data members
 protected:

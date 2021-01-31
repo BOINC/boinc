@@ -451,7 +451,7 @@ AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 dnl curl is needed for client
 
-AS_IF([test "x${enable_client}" = "xyes"],
+AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
   [
     LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 

@@ -1,0 +1,96 @@
+name: Linux
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '10 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full
+
+      - name: Install dependencies for integration testing
+        if: matrix.type == 'integration-test'
+        run: |
+          sudo apt-get install ansible
+          sudo service mysql stop
+          ./integration_test/installTestSuite.sh
+
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.3
+        with:
+          path: 3rdParty/buildCache
+          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh') }}
+          restore-keys: linux-${{ matrix.type }}-
+
+      - name: Automake
+        if: ${{ success() }}
+        run: ./_autosetup
+
+      - name: Configure libs
+        if: ${{ success() && matrix.type == 'libs' }}
+        run: ./configure --disable-server --disable-client --disable-manager
+
+      - name: Configure server
+        if: ${{ success() && matrix.type == 'server' }}
+        run: ./configure --enable-server --disable-client --disable-manager
+
+      - name: Configure client
+        if: ${{ success() && matrix.type == 'client' }}
+        run: ./configure --disable-server --enable-client --disable-manager
+
+      - name: Configure apps
+        if: success() && matrix.type == 'apps'
+        run: ./configure --enable-apps --disable-server --disable-client --disable-manager
+
+      - name: Configure manager with webview
+        if: success() && matrix.type == 'manager-with-webview'
+        run: ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+
+      - name: Configure manager without webview
+        if: success() && matrix.type == 'manager-without-webview'
+        run: ./3rdParty/buildLinuxDependencies.sh --disable-webview && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+
+      - name: Configure server for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+
+      - name: Make
+        if: success() && ! contains(matrix.type, 'integration-test')
+        run: make
+
+      - name: Execute unit-test and report coverage
+        if: success() && matrix.type == 'unit-test'
+        run: ./tests/executeUnitTests.sh --report-coverage
+
+      - name: Execute integration-test
+        if: success() && matrix.type == 'integration-test'
+        run: ./integration_test/executeTestSuite.sh
+
+      - name: Deploy to BinTray
+        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        with:
+          name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_${{ matrix.type }}/*.7z

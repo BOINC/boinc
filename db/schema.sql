@@ -121,7 +121,7 @@ create table user (
     seti_total_cpu          double          not null,
 
     signature               varchar(254),
-        -- deprecated
+        -- stores invite code, if any, for users created via RPC
     has_profile             smallint        not null,
     cross_project_id        varchar(254)    not null,
     passwd_hash             varchar(254)    not null,
