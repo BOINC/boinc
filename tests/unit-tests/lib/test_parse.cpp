@@ -60,4 +60,67 @@ namespace test_parse {
         EXPECT_EQ(test, answer);
     }
 
+    TEST_F(test_parse, XML_PARSER) {
+
+        MIOFILE mf;
+
+        XML_PARSER xp(&mf);
+
+        mf.init_buf_read("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+"<blah>\n"
+"    <x>\n"
+"    asdlfkj\n"
+"      <x> fj</x>\n"
+"    </x>\n"
+"    <str>blah</str>\n"
+"    <int>  6\n"
+"    </int>\n"
+"    <double>6.555</double>\n"
+"    <bool>0</bool>\n"
+"</blah>");
+
+        EXPECT_TRUE(xp.parse_start("blah"));
+
+        int success = false;
+        int expects = 0;
+
+        char name[64];
+        strcpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+        int val;
+
+        double x;
+
+        bool flag;
+
+        while (!xp.get_tag()) {
+            if (!xp.is_tag) {
+                continue;
+            }
+            if (xp.match_tag("/blah")) {
+                success = true;
+            } else if (xp.parse_str("str", name, 64)) {
+                EXPECT_STREQ(name, "blah");
+                expects++;
+            } else if (xp.parse_int("int", val)) {
+                EXPECT_EQ(val, 6);
+                expects++;
+            } else if (xp.parse_double("double", x)) {
+                EXPECT_EQ(x, 6.555);
+                expects++;
+            } else if (xp.parse_bool("bool", flag)) {
+                EXPECT_FALSE(flag);
+                expects++;
+            } else {
+                xp.skip_unexpected(false, "xml test");
+                EXPECT_STREQ(xp.parsed_tag, "x");
+                expects++;
+            }
+        }
+
+        EXPECT_TRUE(success);
+        EXPECT_EQ(expects, 5);
+
+    }
+
 } // namespace
