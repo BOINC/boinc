@@ -41,6 +41,10 @@
 #include <cstring>
 #endif
 
+#ifdef __GLIBC__
+#include <gnu/libc-version.h>
+#endif
+
 #if HAVE_XSS
 #include <X11/extensions/scrnsaver.h> //X-based idle detection
 // prevents naming collision between X.h define of Always and boinc's
@@ -1379,6 +1383,12 @@ int HOST_INFO::get_memory_info() {
 // return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
 // return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
+#ifdef __GLIBC__
+int get_libc_version(string& version, string& extra_info) {
+    version = string(gnu_get_libc_version());
+    return BOINC_SUCCESS;
+}
+#else
 int get_libc_version(string& version, string& extra_info) {
     char buf[1024] = "";
     string strbuf;
@@ -1413,6 +1423,7 @@ int get_libc_version(string& version, string& extra_info) {
     }
     return BOINC_SUCCESS;
 }
+#endif
 #endif
 
 // get os_name, os_version
