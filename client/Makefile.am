@@ -24,7 +24,7 @@ if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
 endif
 
-bin_PROGRAMS = boinc_client boinccmd
+bin_PROGRAMS = boinc_client boinccmd boinc
 if !OS_WIN32
 bin_PROGRAMS += switcher
 endif
