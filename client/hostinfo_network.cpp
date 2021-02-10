@@ -44,6 +44,10 @@
 #include <Carbon/Carbon.h>
 #endif
 
+#ifdef ANDROID
+#include <sys/system_properties.h> // PROP_VALUE_MAX
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "mac_address.h"
@@ -58,17 +62,26 @@
 #include "hostinfo.h"
 
 // get domain name and IP address of this host
-// Android: if domain_name is empty, set it to android_xxxxxxxx
+// Android: if domain_name is empty, set it to "brand model xxxxxxxx"
+//          else fallback to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
     safe_strcpy(ip_addr, "");
 
 #ifdef ANDROID
     if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
+    char android_brand[PROP_VALUE_MAX];
+    char android_model[PROP_VALUE_MAX];
     char buf[256];
     make_random_string("", buf);
     buf[8] = 0;
-    snprintf(domain_name, sizeof(domain_name), "android_%s", buf);
+    __system_property_get("ro.product.brand", android_brand);
+    __system_property_get("ro.product.model", android_model);
+    if (strlen(android_brand) && strlen(android_model)) {
+        snprintf(domain_name, sizeof(domain_name), "%s %s %s", android_brand, android_model, buf);
+    } else {
+        snprintf(domain_name, sizeof(domain_name), "android_%s", buf);
+    }
     return 0;
 #endif
 
