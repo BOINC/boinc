@@ -1,0 +1,50 @@
+name: boinc
+base: core20
+version: '7.17.0'
+summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+parts:
+  build:
+    source: .
+    plugin: autotools
+    build-packages:
+      - pkg-config
+      - libssl-dev
+      - libcurl4-openssl-dev
+      - libz3-dev
+      - libwxgtk-webview3.0-gtk3-dev
+      - libgtk-3-dev
+      - libnotify-dev
+      - docbook2x
+    stage-packages:
+      - libcurl4
+    override-build: |
+      ./_autosetup
+      ./configure \
+        --prefix=/usr \
+        --disable-silent-rules \
+        --enable-dynamic-client-linkage \
+        --disable-manager \
+        --disable-server \
+        --disable-fcgi \
+        --enable-unicode \
+        --with-wx-config=/usr/bin/wx-config \
+        --with-ssl \
+        --with-x \
+        STRIP=: \
+        DOCBOOK2X_MAN=/usr/bin/docbook2x-man \
+        "CXXFLAGS=$(pkg-config gtk+-x11-3.0 --cflags --libs) -DNDEBUG"
+      make
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
+
+apps:
+  boinc:
+    command: usr/bin/boinc
