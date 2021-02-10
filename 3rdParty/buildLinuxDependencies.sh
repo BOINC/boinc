@@ -139,7 +139,7 @@ fi
 
 #download_and_build $DIRNAME $FILENAME $DOWNLOADURL $BUILDSCRIPT
 if [ "${gtest_only}" = "yes" ]; then
-    download_and_build "googletest-release-1.8.1" "release-1.8.1.tar.gz" "https://github.com/google/googletest/archive/release-1.8.1.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"
+    download_and_build "googletest-release-1.10.0" "release-1.10.0.tar.gz" "https://github.com/google/googletest/archive/release-1.10.0.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"
 else
     download_and_build "wxWidgets-3.0.2" "wxWidgets-3.0.2.tar.bz2" "https://sourceforge.net/projects/wxwindows/files/3.0.2/wxWidgets-3.0.2.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
 fi
