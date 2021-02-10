@@ -32,7 +32,6 @@ parts:
         --prefix=/usr \
         --disable-silent-rules \
         --enable-dynamic-client-linkage \
-        --disable-manager \
         --disable-server \
         --disable-fcgi \
         --enable-unicode \
@@ -48,3 +47,7 @@ parts:
 apps:
   boinc:
     command: usr/bin/boinc
+  boinccmd:
+    command: usr/bin/boinccmd
+  boincmgr:
+    command: usr/bin/boincmgr
