@@ -2,11 +2,11 @@
 
 | Build Status | Code Quality |
 | --- | --- |
-| ![Build Status](https://github.com/BOINC/boinc/workflows/Android/badge.svg) | [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) |
-| ![Build Status](https://github.com/BOINC/boinc/workflows/Linux/badge.svg) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) |
-| ![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
-| ![Build Status](https://github.com/BOINC/boinc/workflows/OSX/badge.svg) | |
-| ![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg) | |
+| [![Build Status](https://github.com/BOINC/boinc/workflows/Android/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Android+branch:master) | [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) |
+| [![Build Status](https://github.com/BOINC/boinc/workflows/Linux/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Linux+branch:master) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) |
+| [![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Linux-MinGW+branch:master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
+| [![Build Status](https://github.com/BOINC/boinc/workflows/OSX/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:OSX+branch:master) | |
+| [![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Windows+branch:master) | |
 
 # Social
 
