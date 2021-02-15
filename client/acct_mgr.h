@@ -187,7 +187,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
 
     int do_rpc(const ACCT_MGR_INFO&, bool via_gui);
     int parse(FILE*);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 
     explicit ACCT_MGR_OP(GUI_HTTP* p) {
         gui_http = p;
