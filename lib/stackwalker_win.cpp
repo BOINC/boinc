@@ -74,7 +74,7 @@ static tSW pSW = NULL;                      // StackWalk()
 static tUDSN pUDSN = NULL;                  // UnDecorateSymbolName()
 static tSSSO pSSSO = NULL;                  // SymbolServerSetOptions
 static tSDD pSDD = NULL;                    // SetDllDirectory
-static tGFVIS pGFVIS = NULL;                // GetFileVersionInfoSize 
+static tGFVIS pGFVIS = NULL;                // GetFileVersionInfoSize
 static tGFVI pGFVI = NULL;                  // GetFileVersionInfo
 static tVQV pVQV = NULL;                    // VerQueryValue
 
@@ -98,7 +98,7 @@ static CRITICAL_SECTION g_csFileOpenClose = {0};
 // ##########################################################################################
 
 
-bool DebuggerLoadLibrary( 
+bool DebuggerLoadLibrary(
     HINSTANCE* lphInstance, const std::string& strBOINCLocation, const std::string& strLibrary
 )
 {
@@ -234,7 +234,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
         fprintf(stderr, "SymGetModuleInfo(): GetLastError = %lu\n", gle);
     }
     else
-    { 
+    {
         switch ( Module.SymType )
         {
             case SymNone:
@@ -282,7 +282,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
 
                 // Version specified as part of the root record.
                 if (pVQV(lpData, "\\", (LPVOID*)&pFileInfo, &uiVarSize)) {
-                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d", 
+                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d",
                         HIWORD(pFileInfo->dwFileVersionMS),
                         LOWORD(pFileInfo->dwFileVersionMS),
                         HIWORD(pFileInfo->dwFileVersionLS),
@@ -380,8 +380,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentProcess(),
-        GetCurrentProcess(), 
-        &g_hProcess, 
+        GetCurrentProcess(),
+        &g_hProcess,
         0,
         false,
         DUPLICATE_SAME_ACCESS
@@ -559,8 +559,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // Microsoft Public Symbol Server
 	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore))) {
 		if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
-			strSymbolSearchPath += 
-				std::string( "srv*" ) + strLocalSymbolStore + 
+			strSymbolSearchPath +=
+				std::string( "srv*" ) + strLocalSymbolStore +
 				std::string( "*http://msdl.microsoft.com/download/symbols;" );
 		}
 	}
@@ -568,7 +568,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // Project Symbol Server
 	if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) && (0 < strlen(pszSymbolStore))) {
 		if (std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) {
-			strSymbolSearchPath += 
+			strSymbolSearchPath +=
 				std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
 				std::string( pszSymbolStore ) + std::string( ";" );
 		}
@@ -577,8 +577,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // BOINC Symbol Server
 	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
 		if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
-			strSymbolSearchPath += 
-				std::string( "srv*" ) + strLocalSymbolStore + 
+			strSymbolSearchPath +=
+				std::string( "srv*" ) + strLocalSymbolStore +
 				std::string( "*http://boinc.berkeley.edu/symstore;" );
 		}
 	}
@@ -656,7 +656,7 @@ int DebuggerDisplayDiagnostics()
 // #################################################################################
 // #################################################################################
 // Here the Stackwalk-Part begins.
-//   Some of the code is from an example from a book 
+//   Some of the code is from an example from a book
 //   But I couldn´t find the reference anymore... sorry...
 //   If someone knowns, please let me know...
 // #################################################################################
@@ -670,9 +670,9 @@ int DebuggerDisplayDiagnostics()
 // earliest opportunity, to avoid the interesting stackframes being gone
 // by the time you do the dump.
 
-// status: 
+// status:
 // - EXCEPTION_CONTINUE_SEARCH: exception wird weitergereicht
-// - EXCEPTION_CONTINUE_EXECUTION: 
+// - EXCEPTION_CONTINUE_EXECUTION:
 // - EXCEPTION_EXECUTE_HANDLER:
 DWORD StackwalkFilter(EXCEPTION_POINTERS *ep, DWORD status)
 {
@@ -728,32 +728,32 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     // Dump the Context data
 #if defined(_WIN64) && defined(_M_X64)
-    fprintf(stderr, 
+    fprintf(stderr,
         "rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n",
         Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
     );
-    fprintf(stderr, 
+    fprintf(stderr,
         "r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n",
         Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
     );
-    fprintf(stderr, 
+    fprintf(stderr,
         "r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n",
         Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
     );
-    fprintf(stderr, 
+    fprintf(stderr,
         "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
 #else
-    fprintf(stderr, 
+    fprintf(stderr,
         "eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n",
         Context.Eax, Context.Ebx, Context.Ecx, Context.Edx, Context.Esi, Context.Edi
     );
-    fprintf(stderr, 
+    fprintf(stderr,
         "eip=%.8x esp=%.8x ebp=%.8x\n",
         Context.Eip, Context.Esp, Context.Ebp
     );
-    fprintf(stderr, 
+    fprintf(stderr,
         "cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n",
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
@@ -791,7 +791,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
-  
+
     safe_strcpy(szMsgSymFromAddr, "");
     safe_strcpy(szMsgSymGetLineFromAddr, "");
     safe_strcpy(szMsgSymGetModuleInfo, "");
@@ -872,7 +872,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
                     szMsgSymGetModuleInfo,
                     sizeof(szMsgSymGetModuleInfo),
                     "SymGetModuleInfo(): GetLastError = '%lu'",
-                    gle                    
+                    gle
                 );
             }
         } // we seem to have a valid PC

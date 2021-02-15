@@ -1,4 +1,4 @@
-// 
+//
 // Contributor(s):
 //     DirectX 8.1 Screen Saver Framework from Microsoft.
 //     Microsoft Knowledge Base Article - 79212
@@ -98,11 +98,11 @@ public:
 
 
     //
-    // Infrastructure layer 
+    // Infrastructure layer
     //
 protected:
-	SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
-	VOID            EnumMonitors( VOID );
+    SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
+    VOID            EnumMonitors( VOID );
 
     BOOL            UtilGetRegKey(LPCTSTR name, DWORD& keyval);
     BOOL            UtilSetRegKey(LPCTSTR name, DWORD value);
@@ -170,12 +170,12 @@ protected:
     int             terminate_v6_screensaver(HANDLE& graphics_application, RESULT* rp);
     int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
     int             terminate_default_screensaver(HANDLE& graphics_application);
-	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
-	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
+    int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
+    int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
     void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     BOOL            HasProcessExited(HANDLE pid_handle, int &exitCode);
-    
+
     // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
 

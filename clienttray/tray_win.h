@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 
 #ifndef _BOINCTRAY_WIN_H
 #define _BOINCTRAY_WIN_H
@@ -37,7 +37,7 @@ protected:
 
     DWORD WINAPI            DataManagementProc();
     static DWORD WINAPI     DataManagementProcStub( LPVOID lpParam );
-	LRESULT                 TrayProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    LRESULT                 TrayProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
     static LRESULT CALLBACK TrayProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     HANDLE                  m_hDataManagementThread;

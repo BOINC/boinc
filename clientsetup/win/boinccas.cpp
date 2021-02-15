@@ -23,7 +23,7 @@
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    BOINCCABase::BOINCCABase
 //
 // Description: Initialize the Custom Action infrastructure.
@@ -31,8 +31,8 @@
 /////////////////////////////////////////////////////////////////////
 
 BOINCCABase::BOINCCABase(
-    MSIHANDLE hMSIHandle, 
-    const tstring& strActionName, 
+    MSIHANDLE hMSIHandle,
+    const tstring& strActionName,
     const tstring& strProgressTitle
     ) : m_hMSIHandle(hSINHandle), m_strActionName(strActionName), m_strProgressTitle(strProgressTitle), m_phActionStartRec(NULL), m_phActionDataRec(NULL), m_phProgressRec(NULL), m_phLogInfoRec(NULL)
 {
@@ -40,7 +40,7 @@ BOINCCABase::BOINCCABase(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    BOINCCABase::~BOINCCABase
 //
 // Description: Cleanup up allocation resources.
@@ -80,10 +80,10 @@ BOINCCABase::~BOINCCABase()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    Execute
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::Execute()
@@ -132,10 +132,10 @@ static BOOL IsVersionNewer(const tstring& v1, const tstring& v2) {
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    SetUpgradeParameters
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::SetUpgradeParameters()
@@ -153,10 +153,10 @@ UINT BOINCCABase::SetUpgradeParameters()
 }
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    IsUpgrading
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 BOOL BOINCCABase::IsUpgrading()
@@ -176,10 +176,10 @@ BOOL BOINCCABase::IsUpgrading()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnInitialize
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnInitialize()
@@ -223,23 +223,23 @@ UINT BOINCCABase::OnInitialize()
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
         _T("Starting Custom Action")
         );
-        
+
 
     return ERROR_SUCCESS;
 }
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnCleanup
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnCleanup()
@@ -249,10 +249,10 @@ UINT BOINCCABase::OnCleanup()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnInstall
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnInstall()
@@ -262,10 +262,10 @@ UINT BOINCCABase::OnInstall()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnRollback
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnRollback()
@@ -275,10 +275,10 @@ UINT BOINCCABase::OnRollback()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnCommit
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnCommit()
@@ -288,10 +288,10 @@ UINT BOINCCABase::OnCommit()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    OnExecution
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::OnExecution()
@@ -301,14 +301,14 @@ UINT BOINCCABase::OnExecution()
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GetRegistryValue
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::GetRegistryValue( 
-    const tstring& strName, 
+UINT BOINCCABase::GetRegistryValue(
+    const tstring& strName,
     tstring&      strValue,
     bool          bDisplayValue
     )
@@ -320,9 +320,9 @@ UINT BOINCCABase::GetRegistryValue(
     tstring strMessage;
 
 	lReturnValue = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
-		0, 
+        HKEY_LOCAL_MACHINE,
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+		0,
         KEY_READ,
         &hkSetupHive
     );
@@ -343,7 +343,7 @@ UINT BOINCCABase::GetRegistryValue(
     (*lpszRegistryValue) = NULL;
 
     // Now get the data
-    lReturnValue = RegQueryValueEx( 
+    lReturnValue = RegQueryValueEx(
         hkSetupHive,
         strName.c_str(),
         NULL,
@@ -373,7 +373,7 @@ UINT BOINCCABase::GetRegistryValue(
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -385,15 +385,15 @@ UINT BOINCCABase::GetRegistryValue(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    SetRegistryValue
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::SetRegistryValue( 
-    const tstring strName, 
-    const tstring strValue,
+UINT BOINCCABase::SetRegistryValue(
+    const tstring& strName,
+    const tstring& strValue,
     bool          bDisplayValue
     )
 {
@@ -402,8 +402,8 @@ UINT BOINCCABase::SetRegistryValue(
     tstring strMessage;
 
 	lReturnValue = RegCreateKeyEx(
-        HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+        HKEY_LOCAL_MACHINE,
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
 		0,
         NULL,
         REG_OPTION_NON_VOLATILE,
@@ -415,7 +415,7 @@ UINT BOINCCABase::SetRegistryValue(
 	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
 
     lReturnValue = RegSetValueEx(
-        hkSetupHive, 
+        hkSetupHive,
         strName.c_str(),
         0,
         REG_SZ,
@@ -436,7 +436,7 @@ UINT BOINCCABase::SetRegistryValue(
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -448,14 +448,14 @@ UINT BOINCCABase::SetRegistryValue(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GetProperty
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::GetProperty( 
-    const tstring strPropertyName, 
+UINT BOINCCABase::GetProperty(
+    const tstring& strPropertyName,
     tstring&      strPropertyValue,
     bool          bDisplayValue
     )
@@ -475,7 +475,7 @@ UINT BOINCCABase::GetProperty(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -497,7 +497,7 @@ UINT BOINCCABase::GetProperty(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -521,7 +521,7 @@ UINT BOINCCABase::GetProperty(
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -533,14 +533,14 @@ UINT BOINCCABase::GetProperty(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    SetProperty
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::SetProperty( 
-    const tstring& strPropertyName, 
+UINT BOINCCABase::SetProperty(
+    const tstring& strPropertyName,
     const tstring& strPropertyValue,
     bool          bDisplayValue
     )
@@ -568,7 +568,7 @@ UINT BOINCCABase::SetProperty(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -588,7 +588,7 @@ UINT BOINCCABase::SetProperty(
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -600,14 +600,14 @@ UINT BOINCCABase::SetProperty(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    GetComponentKeyFilename
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::GetComponentKeyFilename( 
-    const tstring& strComponentName, 
+UINT BOINCCABase::GetComponentKeyFilename(
+    const tstring& strComponentName,
     tstring&      strComponentKeyFilename
     )
 {
@@ -638,7 +638,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -652,7 +652,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -674,7 +674,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -689,7 +689,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -708,10 +708,10 @@ UINT BOINCCABase::GetComponentKeyFilename(
     case ERROR_FUNCTION_FAILED:
         MsiViewClose(hView);
         MsiCloseHandle(hDatabase);
-        
+
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -726,7 +726,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -745,10 +745,10 @@ UINT BOINCCABase::GetComponentKeyFilename(
     case ERROR_FUNCTION_FAILED:
         MsiViewClose(hView);
         MsiCloseHandle(hDatabase);
-        
+
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -763,7 +763,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -778,7 +778,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -800,7 +800,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -816,7 +816,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         LogMessage(
             INSTALLMESSAGE_INFO,
-            NULL, 
+            NULL,
             NULL,
             NULL,
             NULL,
@@ -838,7 +838,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
     LogMessage(
         INSTALLMESSAGE_INFO,
-        NULL, 
+        NULL,
         NULL,
         NULL,
         NULL,
@@ -850,10 +850,10 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    DisplayMessage
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::DisplayMessage(
@@ -865,8 +865,8 @@ UINT BOINCCABase::DisplayMessage(
     UINT        uiReturnValue = 0;
 
     uiReturnValue = ::MessageBox(
-        NULL, 
-        strMessage.c_str(), 
+        NULL,
+        strMessage.c_str(),
         _T("Installer Message"),
         uiPushButtonStyle | uiIconStyle | MB_SETFOREGROUND | MB_SERVICE_NOTIFICATION
         );
@@ -876,13 +876,13 @@ UINT BOINCCABase::DisplayMessage(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    LogProgress
 //
-// Description: 
+// Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::LogProgress( 
+UINT BOINCCABase::LogProgress(
     const tstring& strProgress
     )
 {
@@ -903,7 +903,7 @@ UINT BOINCCABase::LogProgress(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    LogMessage
 //
 // Description: This function writes to the MSI log file and displays
@@ -932,7 +932,7 @@ UINT BOINCCABase::LogMessage(
 
         // returns IDOK if successful
         uiReturnValue = MsiProcessMessage(
-            m_hMSIHandle, 
+            m_hMSIHandle,
             INSTALLMESSAGE(uiInstallMessageType),
             m_phLogInfoRec
             );
@@ -948,7 +948,7 @@ UINT BOINCCABase::LogMessage(
         MsiRecordSetString (phLogErrorRec, 0, _T("[1]"));
         MsiRecordSetString (phLogErrorRec, 1, strMessage.c_str());
 
-        // Return value to indicate which button is 
+        // Return value to indicate which button is
         // pushed on message box
         uiReturnValue = MsiProcessMessage(
             m_hMSIHandle,
@@ -963,7 +963,7 @@ UINT BOINCCABase::LogMessage(
 
 
 /////////////////////////////////////////////////////////////////////
-// 
+//
 // Function:    RebootWhenFinished
 //
 // Description: Reboot computer when setup completes installation.
