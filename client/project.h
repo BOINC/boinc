@@ -323,7 +323,7 @@ struct PROJECT : PROJ_AM {
     PROJECT();
     ~PROJECT(){}
     void init();
-    void copy_state_fields(PROJECT&);
+    void copy_state_fields(const PROJECT&);
     int write_account_file();
     int parse_account(FILE*);
     int parse_account_file_venue();
@@ -379,7 +379,7 @@ struct PROJECT : PROJ_AM {
     double completions_ratio_stdev;
     double completions_required_stdevs;
     PROJECT_RESULTS project_results;
-    void print_results(FILE*, SIM_RESULTS&);
+    void print_results(FILE*, const SIM_RESULTS&);
     void backoff();
     void update_dcf_stats(RESULT*);
 #endif

@@ -370,7 +370,7 @@ void do_unzip_inputs() {
     }
 }
 
-bool in_vector(string s, vector<string>& v) {
+bool in_vector(const string& s, vector<string>& v) {
     for (unsigned int i=0; i<v.size(); i++) {
         if (s == v[i]) return true;
     }

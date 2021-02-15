@@ -113,7 +113,7 @@ struct PROC_RESOURCES {
     }
 
     inline bool stop_scan_coproc(int rsc_type) {
-        COPROC& cp = pr_coprocs.coprocs[rsc_type];
+        const COPROC& cp = pr_coprocs.coprocs[rsc_type];
         for (int i=0; i<cp.count; i++) {
             if (cp.usage[i] < 1) return false;
         }
@@ -215,7 +215,7 @@ struct PROC_RESOURCES {
     }
 
     bool sufficient_coprocs(RESULT& r) {
-        APP_VERSION& av = *r.avp;
+        const APP_VERSION& av = *r.avp;
         int rt = av.gpu_usage.rsc_type;
         if (!rt) return true;
         double x = av.gpu_usage.usage;

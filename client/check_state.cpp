@@ -89,18 +89,18 @@ void CLIENT_STATE::check_file_xfer_pointer(FILE_XFER* p) {
     assert(0);
 }
 
-void CLIENT_STATE::check_app(APP& p) {
+void CLIENT_STATE::check_app(const APP& p) {
     check_project_pointer(p.project);
 }
 
-void CLIENT_STATE::check_file_info(FILE_INFO& p) {
+void CLIENT_STATE::check_file_info(const FILE_INFO& p) {
     if (p.pers_file_xfer) {
         check_pers_file_xfer_pointer(p.pers_file_xfer);
     }
     check_project_pointer(p.project);
 }
 
-void CLIENT_STATE::check_file_ref(FILE_REF& p) {
+void CLIENT_STATE::check_file_ref(const FILE_REF& p) {
     check_file_info_pointer(p.file_info);
 }
 
@@ -133,18 +133,18 @@ void CLIENT_STATE::check_result(RESULT& p) {
     check_project_pointer(p.project);
 }
 
-void CLIENT_STATE::check_active_task(ACTIVE_TASK& p) {
+void CLIENT_STATE::check_active_task(const ACTIVE_TASK& p) {
     check_result_pointer(p.result);
     check_workunit_pointer(p.wup);
     check_app_version_pointer(p.app_version);
 }
 
-void CLIENT_STATE::check_pers_file_xfer(PERS_FILE_XFER& p) {
+void CLIENT_STATE::check_pers_file_xfer(const PERS_FILE_XFER& p) {
     if (p.fxp) check_file_xfer_pointer(p.fxp);
     check_file_info_pointer(p.fip);
 }
 
-void CLIENT_STATE::check_file_xfer(FILE_XFER& p) {
+void CLIENT_STATE::check_file_xfer(const FILE_XFER& p) {
     check_file_info_pointer(p.fip);
 }
 

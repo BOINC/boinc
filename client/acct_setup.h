@@ -47,7 +47,7 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
         gui_http = p;
     }
     virtual ~GET_PROJECT_CONFIG_OP(){}
-    int do_rpc(std::string url);
+    int do_rpc(const std::string& url);
     virtual void handle_reply(int http_op_retval);
 };
 
@@ -73,7 +73,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
         gui_http = p;
     }
     virtual ~CREATE_ACCOUNT_OP(){}
-    int do_rpc(ACCOUNT_IN&, std::string rpc_client_name);
+    int do_rpc(ACCOUNT_IN&, const std::string& rpc_client_name);
     virtual void handle_reply(int http_op_retval);
 };
 

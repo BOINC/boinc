@@ -144,7 +144,7 @@ end:
 //
 // If "loose", ignore FLOPS and tolerate small memory diff
 //
-int nvidia_compare(COPROC_NVIDIA& c1, COPROC_NVIDIA& c2, bool loose) {
+int nvidia_compare(const COPROC_NVIDIA& c1, const COPROC_NVIDIA& c2, bool loose) {
     if (c1.prop.major > c2.prop.major) return 1;
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;

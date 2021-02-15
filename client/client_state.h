@@ -398,7 +398,7 @@ struct CLIENT_STATE {
 // --------------- cs_files.cpp:
     void check_file_existence();
     RESULT* file_info_to_result(FILE_INFO*);
-    bool start_new_file_xfer(PERS_FILE_XFER&);
+    bool start_new_file_xfer(const PERS_FILE_XFER&);
 
     int make_project_dirs();
     bool create_and_delete_pers_file_xfers();
@@ -486,15 +486,15 @@ struct CLIENT_STATE {
     void check_pers_file_xfer_pointer(PERS_FILE_XFER*);
     void check_file_xfer_pointer(FILE_XFER*);
 
-    void check_app(APP&);
-    void check_file_info(FILE_INFO&);
-    void check_file_ref(FILE_REF&);
+    void check_app(const APP&);
+    void check_file_info(const FILE_INFO&);
+    void check_file_ref(const FILE_REF&);
     void check_app_version(APP_VERSION&);
     void check_workunit(WORKUNIT&);
     void check_result(RESULT&);
-    void check_active_task(ACTIVE_TASK&);
-    void check_pers_file_xfer(PERS_FILE_XFER&);
-    void check_file_xfer(FILE_XFER&);
+    void check_active_task(const ACTIVE_TASK&);
+    void check_pers_file_xfer(const PERS_FILE_XFER&);
+    void check_file_xfer(const FILE_XFER&);
 
     void check_all();
     void free_mem();

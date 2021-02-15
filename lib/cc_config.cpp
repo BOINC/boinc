@@ -703,7 +703,7 @@ bool have_max_concurrent = false;
     // does any project have a max concurrent restriction?
 
 int APP_CONFIG::parse_gpu_versions(
-    XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
+    XML_PARSER& xp, MSG_VEC& mv, const LOG_FLAGS& log_flags
 ) {
     double x;
     char buf[1024];
@@ -734,7 +734,7 @@ int APP_CONFIG::parse_gpu_versions(
     return ERR_XML_PARSE;
 }
 
-int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
+int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, const LOG_FLAGS& log_flags) {
     char buf[1024];
     static const APP_CONFIG init;
     *this = init;
@@ -773,7 +773,7 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
 }
 
 int APP_VERSION_CONFIG::parse(
-    XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
+    XML_PARSER& xp, MSG_VEC& mv, const LOG_FLAGS& log_flags
 ) {
     char buf[1024];
     static const APP_VERSION_CONFIG init;

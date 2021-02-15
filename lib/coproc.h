@@ -433,7 +433,7 @@ struct COPROCS {
     // used in round-robin simulator and CPU scheduler,
     // to avoid messing w/ master copy
     //
-    void clone(COPROCS& c, bool copy_used) {
+    void clone(const COPROCS& c, bool copy_used) {
         n_rsc = c.n_rsc;
         for (int i=0; i<n_rsc; i++) {
             coprocs[i] = c.coprocs[i];
@@ -479,7 +479,7 @@ struct COPROCS {
     inline bool have_intel_gpu() {
         return (intel_gpu.count > 0);
     }
-    int add(COPROC& c) {
+    int add(const COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
         for (int i=1; i<n_rsc; i++) {
             if (!strcmp(c.type, coprocs[i].type)) {

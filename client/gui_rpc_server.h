@@ -102,7 +102,7 @@ class GUI_RPC_CONN_SET {
     int get_allowed_hosts();
     void get_password();
     int insert(GUI_RPC_CONN*);
-    bool check_allowed_list(sockaddr_storage& ip_addr);
+    bool check_allowed_list(const sockaddr_storage& ip_addr);
     bool remote_hosts_configured;
 public:
     int lsock;

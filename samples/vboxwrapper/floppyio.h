@@ -176,14 +176,14 @@ namespace FloppyIONS {
 
         // Change the message and return my instance
         // (Used for singleton format)
-        FloppyIOException * set(int _code, std::string _message) {
+        FloppyIOException * set(int _code, const std::string& _message) {
             init(_code, _message);
             return this;
         }
 
     private:
 
-        void init(int _code, std::string _message) {
+        void init(int _code, const std::string& _message) {
             code = _code;
             message = _message;
             std::stringstream ss;

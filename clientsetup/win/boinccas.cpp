@@ -986,3 +986,4 @@ UINT BOINCCABase::RebootWhenFinished()
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
+

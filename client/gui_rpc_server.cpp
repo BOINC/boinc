@@ -436,7 +436,7 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
     if (lsock > all.max_fd) all.max_fd = lsock;
 }
 
-bool GUI_RPC_CONN_SET::check_allowed_list(sockaddr_storage& peer_ip) {
+bool GUI_RPC_CONN_SET::check_allowed_list(const sockaddr_storage& peer_ip) {
     vector<sockaddr_storage>::iterator remote_iter = allowed_remote_ip_addresses.begin();
     while (remote_iter != allowed_remote_ip_addresses.end() ) {
         if (same_ip_addr(peer_ip, *remote_iter)) {

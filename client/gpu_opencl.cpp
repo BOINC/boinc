@@ -111,7 +111,7 @@ static bool is_intel(char* vendor) {
 
 // If "loose", tolerate small diff
 //
-static int opencl_compare(OPENCL_DEVICE_PROP& c1, OPENCL_DEVICE_PROP& c2, bool loose) {
+static int opencl_compare(const OPENCL_DEVICE_PROP& c1, const OPENCL_DEVICE_PROP& c2, bool loose) {
     if (c1.opencl_device_version_int > c2.opencl_device_version_int) return 1;
     if (c1.opencl_device_version_int < c2.opencl_device_version_int) return -1;
     if (loose) {

@@ -45,7 +45,7 @@ struct SIM_RESULTS {
     void compute_figures_of_merit();
     void print(FILE* f, bool human_readable=false);
     void parse(FILE* f);
-    void add(SIM_RESULTS& r);
+    void add(const SIM_RESULTS& r);
     void divide(int);
 };
 

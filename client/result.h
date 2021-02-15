@@ -245,7 +245,7 @@ struct OLD_RESULT {
 
 extern std::deque<OLD_RESULT> old_results;
 
-void add_old_result(RESULT&);
+void add_old_result(const RESULT&);
 extern void print_old_results(MIOFILE&);
 
 #endif

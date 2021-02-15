@@ -322,7 +322,7 @@ bool is_image_file(const char* filename) {
     return false;
 }
 
-void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
+void boinc_version_dir(PROJECT& p, const VERSION_INFO& vi, char* buf) {
     sprintf(buf, "%s/boinc_version_%d_%d_%d",
         p.project_dir(), vi.major, vi.minor, vi.release
     );

@@ -99,7 +99,7 @@ void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
 RSC_REASON RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     PROJECT *p, int rsc_type
 ) {
-    RSC_WORK_FETCH& rwf = rsc_work_fetch[rsc_type];
+    const RSC_WORK_FETCH& rwf = rsc_work_fetch[rsc_type];
     // see whether work fetch for this resource is banned
     // by prefs, config, project, or acct mgr
     //
@@ -1082,7 +1082,7 @@ void WORK_FETCH::init() {
 
 // clear backoff for app's resource
 //
-void WORK_FETCH::clear_backoffs(APP_VERSION& av) {
+void WORK_FETCH::clear_backoffs(const APP_VERSION& av) {
     av.project->rsc_pwf[av.gpu_usage.rsc_type].clear_backoff();
 }
 

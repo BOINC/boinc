@@ -53,7 +53,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // do an account manager RPC;
 // if URL is null, detach from current account manager
 //
-int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
+int ACCT_MGR_OP::do_rpc(const ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
     unsigned int i;
     char buf[1024];

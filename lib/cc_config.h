@@ -231,8 +231,8 @@ struct APP_CONFIG {
     bool report_results_immediately;
 
     APP_CONFIG(){}
-    int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
-    int parse_gpu_versions(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+    int parse(XML_PARSER&, MSG_VEC&, const LOG_FLAGS&);
+    int parse_gpu_versions(XML_PARSER&, MSG_VEC&, const LOG_FLAGS&);
 };
 
 struct APP_VERSION_CONFIG {
@@ -243,7 +243,7 @@ struct APP_VERSION_CONFIG {
     double ngpus;
 
     APP_VERSION_CONFIG(){}
-    int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
+    int parse(XML_PARSER&, MSG_VEC&, const LOG_FLAGS&);
 };
 
 struct APP_CONFIGS {
