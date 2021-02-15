@@ -28,7 +28,7 @@ public:
 
     CAValidateRebootRequest(MSIHANDLE hMSIHandle);
     ~CAValidateRebootRequest();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 };
 
 

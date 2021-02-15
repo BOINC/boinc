@@ -28,7 +28,7 @@ public:
 
     CACleanupOldBinaries(MSIHANDLE hMSIHandle);
     ~CACleanupOldBinaries();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

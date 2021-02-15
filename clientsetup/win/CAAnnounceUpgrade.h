@@ -28,7 +28,7 @@ public:
 
     CAAnnounceUpgrade(MSIHANDLE hMSIHandle);
     ~CAAnnounceUpgrade();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 };
 
 

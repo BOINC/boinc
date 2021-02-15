@@ -28,7 +28,7 @@ public:
 
     CAGrantBOINCAdminsVirtualBoxRights(MSIHANDLE hMSIHandle);
     ~CAGrantBOINCAdminsVirtualBoxRights();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

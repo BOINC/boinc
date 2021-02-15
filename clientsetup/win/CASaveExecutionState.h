@@ -28,7 +28,7 @@ public:
 
     CASaveExecutionState(MSIHANDLE hMSIHandle);
     ~CASaveExecutionState();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

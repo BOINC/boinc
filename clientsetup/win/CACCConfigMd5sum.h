@@ -28,7 +28,7 @@ public:
 
     CACCConfigMd5sum(MSIHANDLE hMSIHandle);
     ~CACCConfigMd5sum();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

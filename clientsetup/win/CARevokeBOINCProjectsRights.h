@@ -28,7 +28,7 @@ public:
 
     CARevokeBOINCProjectsRights(MSIHANDLE hMSIHandle);
     ~CARevokeBOINCProjectsRights();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

@@ -28,7 +28,7 @@ public:
 
     CAGetAdministratorsGroupName(MSIHANDLE hMSIHandle);
     ~CAGetAdministratorsGroupName();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

@@ -28,7 +28,7 @@ public:
 
     CAShutdownBOINCScreensaver(MSIHANDLE hMSIHandle);
     ~CAShutdownBOINCScreensaver();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

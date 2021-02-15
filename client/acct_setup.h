@@ -48,7 +48,7 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
     }
     virtual ~GET_PROJECT_CONFIG_OP(){}
     int do_rpc(std::string url);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 };
 
 struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
@@ -61,7 +61,7 @@ struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
     }
     virtual ~LOOKUP_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 };
 
 struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
@@ -74,7 +74,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
     }
     virtual ~CREATE_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&, std::string rpc_client_name);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 };
 
 struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
@@ -86,7 +86,7 @@ struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
     }
     virtual ~GET_PROJECT_LIST_OP(){}
     int do_rpc();
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 };
 
 struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
@@ -99,7 +99,7 @@ struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
     }
     virtual ~LOOKUP_LOGIN_TOKEN_OP(){}
     int do_rpc(PROJECT_LIST_ITEM*, int user_id, const char* login_token);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval) override;
 };
 
 struct PROJECT_ATTACH {

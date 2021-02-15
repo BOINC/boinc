@@ -30,7 +30,7 @@ public:
 
     CACreateProjectInitFile(MSIHANDLE hMSIHandle);
     ~CACreateProjectInitFile();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

@@ -28,7 +28,7 @@ public:
 
     CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
     ~CACreateBOINCAccounts();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

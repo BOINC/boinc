@@ -28,7 +28,7 @@ public:
 
     CACreateBOINCGroups(MSIHANDLE hMSIHandle);
     ~CACreateBOINCGroups();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

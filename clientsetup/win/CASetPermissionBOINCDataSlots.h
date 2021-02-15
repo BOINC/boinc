@@ -28,7 +28,7 @@ public:
 
     CASetPermissionBOINCDataSlots(MSIHANDLE hMSIHandle);
     ~CASetPermissionBOINCDataSlots();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

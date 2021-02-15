@@ -28,7 +28,7 @@ public:
 
     CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle);
     ~CACreateAcctMgrLoginFile();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 
