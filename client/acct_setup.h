@@ -42,7 +42,7 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
-    GET_PROJECT_CONFIG_OP(GUI_HTTP* p){
+    explicit GET_PROJECT_CONFIG_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }
@@ -55,7 +55,7 @@ struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
-    LOOKUP_ACCOUNT_OP(GUI_HTTP* p){
+    explicit LOOKUP_ACCOUNT_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }
@@ -68,7 +68,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
     std::string reply;
     int error_num;
 
-    CREATE_ACCOUNT_OP(GUI_HTTP* p){
+    explicit CREATE_ACCOUNT_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }
@@ -80,7 +80,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
 struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
     int error_num;
 
-    GET_PROJECT_LIST_OP(GUI_HTTP* p){
+    explicit GET_PROJECT_LIST_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }
@@ -93,7 +93,7 @@ struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
     int error_num;
     PROJECT_LIST_ITEM* pli;
 
-    LOOKUP_LOGIN_TOKEN_OP(GUI_HTTP* p){
+    explicit LOOKUP_LOGIN_TOKEN_OP(GUI_HTTP* p) : pli(NULL) {
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }

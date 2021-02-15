@@ -122,7 +122,7 @@ public:
     FILE_XFER_SET* file_xfers;
     std::vector<PERS_FILE_XFER*>pers_file_xfers;
 
-    PERS_FILE_XFER_SET(FILE_XFER_SET*);
+    explicit PERS_FILE_XFER_SET(FILE_XFER_SET*);
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);
     bool poll();

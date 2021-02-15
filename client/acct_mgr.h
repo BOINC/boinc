@@ -189,7 +189,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 
-    ACCT_MGR_OP(GUI_HTTP* p) {
+    explicit ACCT_MGR_OP(GUI_HTTP* p) {
         gui_http = p;
         via_gui = false;
         error_num = BOINC_SUCCESS;

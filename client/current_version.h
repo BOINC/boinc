@@ -25,7 +25,7 @@
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;
 
-    GET_CURRENT_VERSION_OP(GUI_HTTP* p){
+    explicit GET_CURRENT_VERSION_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }

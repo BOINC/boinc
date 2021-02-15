@@ -226,7 +226,7 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    DAILY_STATS(int){}
+    explicit DAILY_STATS(int){}
     void clear() {
         static const DAILY_STATS x(0);
         *this = x;
@@ -279,7 +279,7 @@ struct APP {
     bool ignore;
 #endif
 
-    APP(int){}
+    explicit APP(int){}
     void clear() {
         static const APP x(0);
         *this = x;

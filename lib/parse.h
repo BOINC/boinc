@@ -47,7 +47,7 @@ struct XML_PARSER {
     char parsed_tag[TAG_BUF_LEN];
     bool is_tag;
     MIOFILE* f;
-    XML_PARSER(MIOFILE*);
+    explicit XML_PARSER(MIOFILE*);
     void init(MIOFILE* mf) {
         f = mf;
     }
