@@ -281,7 +281,7 @@ void CLIENT_STATE::process_autologin(bool first) {
     static int project_id, user_id;
     static char login_token[256];
 
-    int n, retval;
+    int retval;
     char buf[256], *p;
 
     if (first) {
@@ -298,7 +298,7 @@ void CLIENT_STATE::process_autologin(bool first) {
         }
         msg_printf(NULL, MSG_INFO, "Read account data file");
         p += 2;
-        n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
+        int n = sscanf(p, "%d_%d_%[^. ]", &project_id, &user_id, login_token);
             // don't include the ".exe" or the " (1)"
         if (n != 3) {
             msg_printf(NULL, MSG_INFO, "bad account data: %s", buf);

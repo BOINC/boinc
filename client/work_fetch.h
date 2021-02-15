@@ -182,7 +182,7 @@ struct BUSY_TIME_ESTIMATOR {
     //
     inline void update(double dur, double nused) {
         if (ninstances==0) return;
-        int i, j;
+        int i;
         if (nused < 1) return;
         double best = 0;
         int ibest = 0;
@@ -193,6 +193,7 @@ struct BUSY_TIME_ESTIMATOR {
             }
         }
         int inused = (int) nused;     // ignore fractional usage
+	int j = 0;
         for (i=0; i<inused; i++) {
             j = (ibest + i) % ninstances;
             busy_time[j] += dur;

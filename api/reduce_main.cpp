@@ -78,12 +78,12 @@ void REDUCED_ARRAY_GEN::reset() {
 // reduce a single row.  This is called only if sdimx > rdimx;
 //
 void REDUCED_ARRAY_GEN::reduce_source_row(float* in, float* out) {
-    int i, ri;
+    int i;
 
     memset(out, 0, rdimx*sizeof(float));
     memset(itemp, 0, rdimx*sizeof(int));
     for (i=0; i<sdimx; i++) {
-        ri = (i*rdimx)/sdimx;
+        int ri = (i*rdimx)/sdimx;
         switch (reduce_method) {
         case REDUCE_METHOD_AVG:
             out[ri] += in[i];

@@ -176,7 +176,6 @@ int boinc_get_opencl_ids(
     APP_INIT_DATA aid;
     char *gpu_type = NULL;
     int gpu_device_num = -1;
-    int i;
 
     retval = boinc_parse_init_data_file();
     if (retval) return retval;
@@ -221,14 +220,14 @@ int boinc_get_opencl_ids(
                 // gpu_device_num and gpu_type fields were added in BOINC version 6.13.3.
                 // Very old versions of init_data.xml don't have gpu_device_num field
                 // but instead pass the device number as a command-line argument.
-                for (i=0; i<argc-1; i++) {
+                for (int i=0; i<argc-1; i++) {
                     if ((!strcmp(argv[i], "--device")) || (!strcmp(argv[i], "-device"))) {
                         gpu_device_num = atoi(argv[i+1]);
                         break;
                     }
                 }
             }
-            
+
             if (gpu_device_num < 0) {
                 // BOINC client apparently did not assign a GPU to this task.
                 fprintf(stderr, "Illegal value for gpu_device_num: %d in BOINC Client %d.%d.%d\n",

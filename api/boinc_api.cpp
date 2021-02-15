@@ -548,9 +548,8 @@ static void parallel_master(int child_pid) {
 
 int boinc_init() {
 #ifndef MSGS_FROM_FILE
-    int retval;
     if (!diagnostics_is_initialized()) {
-        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+        int retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
         if (retval) return retval;
     }
 #endif
