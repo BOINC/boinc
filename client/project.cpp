@@ -566,7 +566,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 // Some project data is stored in account file, other in client_state.xml
 // Copy fields that are stored in client_state.xml from "p" into "this"
 //
-void PROJECT::copy_state_fields(PROJECT& p) {
+void PROJECT::copy_state_fields(const PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     safe_strcpy(master_url, p.master_url);      // client_state.xml is authoritative
     safe_strcpy(project_name, p.project_name);

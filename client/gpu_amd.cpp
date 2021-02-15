@@ -54,7 +54,7 @@ static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings);
 // - local RAM
 // - speed
 //
-int ati_compare(COPROC_ATI& c1, COPROC_ATI& c2, bool loose) {
+int ati_compare(const COPROC_ATI& c1, const COPROC_ATI& c2, bool loose) {
     if (c1.attribs.doublePrecision && !c2.attribs.doublePrecision) return 1;
     if (!c1.attribs.doublePrecision && c2.attribs.doublePrecision) return -1;
     if (loose) {

@@ -32,21 +32,10 @@
 
 BOINCCABase::BOINCCABase(
     MSIHANDLE hMSIHandle, 
-    const tstring strActionName, 
-    const tstring strProgressTitle
-    )
+    const tstring& strActionName, 
+    const tstring& strProgressTitle
+    ) : m_hMSIHandle(hSINHandle), m_strActionName(strActionName), m_strProgressTitle(strProgressTitle), m_phActionStartRec(NULL), m_phActionDataRec(NULL), m_phProgressRec(NULL), m_phLogInfoRec(NULL)
 {
-
-    // Store the parameters for later use
-    m_hMSIHandle = hMSIHandle;
-    m_strActionName = strActionName;
-    m_strProgressTitle = strProgressTitle;
-
-    // Initialize all other values to zero or null
-	m_phActionStartRec = NULL;
-	m_phActionDataRec = NULL;
-    m_phProgressRec = NULL;
-    m_phLogInfoRec = NULL;
 }
 
 
@@ -126,7 +115,7 @@ UINT BOINCCABase::Execute()
 }
 
 
-static BOOL IsVersionNewer(const tstring v1, const tstring v2) {
+static BOOL IsVersionNewer(const tstring& v1, const tstring& v2) {
     int v1_maj=0, v1_min=0, v1_rel=0;
     int v2_maj=0, v2_min=0, v2_rel=0;
 
@@ -319,7 +308,7 @@ UINT BOINCCABase::OnExecution()
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::GetRegistryValue( 
-    const tstring strName, 
+    const tstring& strName, 
     tstring&      strValue,
     bool          bDisplayValue
     )
@@ -551,8 +540,8 @@ UINT BOINCCABase::GetProperty(
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::SetProperty( 
-    const tstring strPropertyName, 
-    const tstring strPropertyValue,
+    const tstring& strPropertyName, 
+    const tstring& strPropertyValue,
     bool          bDisplayValue
     )
 {
@@ -618,7 +607,7 @@ UINT BOINCCABase::SetProperty(
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::GetComponentKeyFilename( 
-    const tstring strComponentName, 
+    const tstring& strComponentName, 
     tstring&      strComponentKeyFilename
     )
 {
@@ -870,7 +859,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
 UINT BOINCCABase::DisplayMessage(
     const UINT         uiPushButtonStyle,       // push button sstyle to use in message box
     const UINT         uiIconStyle,             // icon style to use in message box
-    const tstring      strMessage               // message
+    const tstring&      strMessage               // message
     )
 {
     UINT        uiReturnValue = 0;
@@ -894,7 +883,7 @@ UINT BOINCCABase::DisplayMessage(
 //
 /////////////////////////////////////////////////////////////////////
 UINT BOINCCABase::LogProgress( 
-    const tstring strProgress
+    const tstring& strProgress
     )
 {
     UINT uiReturnValue = 0;
@@ -927,7 +916,7 @@ UINT BOINCCABase::LogMessage(
     const UINT    uiIconStyle,             // icon style to use in message box
     const UINT    uiErrorNumber,           // number of error in Error table
     const UINT    uiErrorCode,             // the return value from an api
-    const tstring strMessage               // message
+    const tstring& strMessage               // message
     )
 {
     UINT        uiReturnValue = 0;

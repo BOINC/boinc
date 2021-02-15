@@ -162,7 +162,7 @@ class MOVING_TEXT_PANEL {
 public:
 	MOVING_TEXT_PANEL();
     float pos[3];
-    void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
+    void init(float* pos, float* size, const COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
     void set_text(int lineno, const char* t);
     void get_pos(int lineno, float* pos);

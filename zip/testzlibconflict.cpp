@@ -193,11 +193,11 @@ int main()
         zipfile = result_dir + std::string("/test.zip");
         source_dir = home + std::string("/Testfiles");
 
-        if (boinc_filelist(source_dir.c_str(), ".txt", &zf) && zf.size()) {
+        if (boinc_filelist(source_dir, ".txt", &zf) && zf.size()) {
             // Compress and uncompress using boinc_zip
             retval = boinc_zip(ZIP_IT, zipfile, &zf);
             retval = boinc_zip(UNZIP_IT, zipfile, result_dir.c_str());
-    
+
             // Compress and uncompress using zlib
             source_file = zf[0].c_str();
             result_zipfile = result_dir + "/zlib_test.zip";

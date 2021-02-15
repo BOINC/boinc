@@ -185,7 +185,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     bool got_rss_feeds;
     std::vector<RSS_FEED>rss_feeds;
 
-    int do_rpc(ACCT_MGR_INFO&, bool via_gui);
+    int do_rpc(const ACCT_MGR_INFO&, bool via_gui);
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 

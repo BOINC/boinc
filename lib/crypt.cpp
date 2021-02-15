@@ -59,7 +59,7 @@
 // NOTE: since length may not be known to the reader,
 // we follow the data with a non-hex character '.'
 //
-int print_hex_data(FILE* f, DATA_BLOCK& x) {
+int print_hex_data(FILE* f, const DATA_BLOCK& x) {
     unsigned int i;
 
     for (i=0; i<x.len; i++) {
@@ -73,7 +73,7 @@ int print_hex_data(FILE* f, DATA_BLOCK& x) {
 
 // same, but write to buffer
 //
-int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
+int sprint_hex_data(char* out_buf, const DATA_BLOCK& x) {
     unsigned int i;
     const char hex[] = "0123456789abcdef";
     char* p = out_buf;
@@ -89,7 +89,7 @@ int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
     return 0;
 }
 
-int print_raw_data(FILE* f, DATA_BLOCK& x) {
+int print_raw_data(FILE* f, const DATA_BLOCK& x) {
     unsigned int i;
     for (i=0; i<x.len; i++) {
         //printf("%x ", x.data[i]);

@@ -83,7 +83,7 @@ bool StringVectorSort(const std::string& first, const std::string& second) {
 }
 
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const std::string szFileIn
+    int bZipType, const std::string& szFileZip, const std::string& szFileIn
 ) {
     ZipFileList tempvec;
     tempvec.push_back(szFileIn);
@@ -102,7 +102,7 @@ int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn) {
 }
 
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn
+    int bZipType, const std::string& szFileZip, const ZipFileList* pvectszFileIn
 ) {
     int carg;
     char** av;
@@ -196,8 +196,8 @@ int boinc_zip(
 // --------------------------------------------------------------------
 
 bool boinc_filelist(
-    const string directory,
-    const string pattern,
+    const string& directory,
+    const string& pattern,
     ZipFileList* pList,
     const unsigned char ucSort,
     const bool bClear

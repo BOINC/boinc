@@ -364,7 +364,7 @@ struct WORK_FETCH {
     void rr_init();
     void clear_request();
     void compute_shares();
-    void clear_backoffs(APP_VERSION&);
+    void clear_backoffs(const APP_VERSION&);
     void request_string(char*, int);
     bool requested_work();
     void copy_requests();

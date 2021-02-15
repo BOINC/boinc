@@ -80,11 +80,11 @@ struct DATA_BLOCK {
 
 // size of text-encoded signature
 #define SIGNATURE_SIZE_TEXT (SIGNATURE_SIZE_BINARY*2+20)
-extern int sprint_hex_data(char* p, DATA_BLOCK&);
+extern int sprint_hex_data(char* p, const DATA_BLOCK&);
 #ifdef _USING_FCGI_
 #undef FILE
 #endif
-extern int print_hex_data(FILE* f, DATA_BLOCK&);
+extern int print_hex_data(FILE* f, const DATA_BLOCK&);
 extern int scan_hex_data(FILE* f, DATA_BLOCK&);
 extern int print_key_hex(FILE*, KEY* key, int len);
 extern int scan_key_hex(FILE*, KEY* key, int len);
@@ -116,7 +116,7 @@ extern int check_string_signature(
 extern int check_string_signature2(
     const char* text, const char* signature, const char* key, bool&
 );
-extern int print_raw_data(FILE* f, DATA_BLOCK& x);
+extern int print_raw_data(FILE* f, const DATA_BLOCK& x);
 extern int scan_raw_data(FILE *f, DATA_BLOCK& x);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 extern int generate_signature(

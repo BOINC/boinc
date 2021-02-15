@@ -747,7 +747,7 @@ void SIM_RESULTS::parse(FILE* f) {
     );
 }
 
-void SIM_RESULTS::add(SIM_RESULTS& r) {
+void SIM_RESULTS::add(const SIM_RESULTS& r) {
     wasted_frac += r.wasted_frac;
     idle_frac += r.idle_frac;
     share_violation += r.share_violation;
@@ -761,7 +761,7 @@ void SIM_RESULTS::divide(int n) {
     monotony /= n;
 }
 
-void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
+void PROJECT::print_results(FILE* f, const SIM_RESULTS& sr) {
     double t = project_results.flops_used;
     double gt = sr.flops_used;
     fprintf(f, "%s: share %.2f total flops %.2fG (%.2f%%)\n"

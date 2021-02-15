@@ -62,7 +62,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
     canonicalize_master_url(url);
 }
 
-int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
+int GET_PROJECT_CONFIG_OP::do_rpc(const string& master_url) {
     int retval;
     string url;
 
@@ -154,7 +154,7 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
     }
 }
 
-int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai, string rpc_client_name) {
+int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai, const string& rpc_client_name) {
     int retval;
     string url;
     string parameter;

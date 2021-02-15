@@ -53,7 +53,7 @@ using std::vector;
 // Decide whether to consider starting a new file transfer
 // for the given persistent file transfer
 //
-bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
+bool CLIENT_STATE::start_new_file_xfer(const PERS_FILE_XFER& pfx) {
     unsigned int i;
     int ntotal=0, nproj=0;
 

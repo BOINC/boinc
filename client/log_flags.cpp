@@ -767,7 +767,7 @@ void process_gpu_exclusions() {
     }
 }
 
-bool gpu_excluded(APP* app, COPROC& cp, int ind) {
+bool gpu_excluded(APP* app, const COPROC& cp, int ind) {
     if (cc_config.no_gpus) return true;
     PROJECT* p = app->project;
     for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {

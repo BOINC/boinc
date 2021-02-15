@@ -27,8 +27,8 @@ public:
 
     BOINCCABase(
         MSIHANDLE          hMSIHandle, 
-        const tstring      strActionName,
-        const tstring      strProgressTitle
+        const tstring&      strActionName,
+        const tstring&      strProgressTitle
         );
 
     ~BOINCCABase();
@@ -54,33 +54,33 @@ public:
 
     // Registry Property Management
     UINT GetRegistryValue( 
-        const tstring      strName, 
+        const tstring&     strName, 
         tstring&           strValue,
         bool               bDisplayValue = true
         );
 
     UINT SetRegistryValue( 
-        const tstring      strName, 
-        const tstring      strValue,
+        const tstring&     strName, 
+        const tstring&     strValue,
         bool               bDisplayValue = true
         );
 
     // MSI Property Management
     UINT GetProperty( 
-        const tstring      strPropertyName, 
+        const tstring&     strPropertyName, 
         tstring&           strPropertyValue,
         bool               bDisplayValue = true
         );
 
     UINT SetProperty( 
-        const tstring      strPropertyName, 
-        const tstring      strPropertyValue,
+        const tstring&     strPropertyName, 
+        const tstring&     strPropertyValue,
         bool               bDisplayValue = true
         );
 
 	// MSI Database Management
     UINT GetComponentKeyFilename(
-        const tstring      strComponentName, 
+        const tstring&     strComponentName, 
         tstring&           strComponentKeyFilename
 		);
 
@@ -88,12 +88,12 @@ public:
     UINT DisplayMessage(
         const UINT         uiPushButtonStyle,       // push button style to use in message box
         const UINT         uiIconStyle,             // icon style to use in message box
-        const tstring      strMessage               // message
+        const tstring&     strMessage               // message
         );
 
     // MSI Logging Management
     UINT LogProgress(
-        const tstring      strProgress              // message to display
+        const tstring&     strProgress              // message to display
         );
 
     UINT LogMessage(
@@ -102,7 +102,7 @@ public:
         const UINT         uiIconStyle,             // icon style to use in message box
         const UINT         uiErrorNumber,           // number of error in Error table
         const UINT         uiErrorCode,             // the return value from an api
-        const tstring      strMessage               // message
+        const tstring&     strMessage               // message
         );
 
     // Reboot machine when setup has completed.

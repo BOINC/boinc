@@ -115,7 +115,7 @@ bool is_localhost(sockaddr_storage& s) {
     return false;
 }
 
-bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2) {
+bool same_ip_addr(const sockaddr_storage& s1, const sockaddr_storage& s2) {
 #ifdef _WIN32
     return (s1.sin_addr.s_addr == s2.sin_addr.s_addr);
 #else

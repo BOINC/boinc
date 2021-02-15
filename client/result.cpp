@@ -706,7 +706,7 @@ void RESULT::set_state(int val, const char* where) {
     }
 }
 
-void add_old_result(RESULT& r) {
+void add_old_result(const RESULT& r) {
     while (!old_results.empty()) {
         OLD_RESULT& ores = *old_results.begin();
         if (ores.create_time < gstate.now - 3600) {

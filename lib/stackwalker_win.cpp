@@ -99,7 +99,7 @@ static CRITICAL_SECTION g_csFileOpenClose = {0};
 
 
 bool DebuggerLoadLibrary( 
-    HINSTANCE* lphInstance, const std::string strBOINCLocation, const std::string strLibrary
+    HINSTANCE* lphInstance, const std::string& strBOINCLocation, const std::string& strLibrary
 )
 {
     std::string strTargetLibrary;

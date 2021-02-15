@@ -245,7 +245,7 @@ MOVING_TEXT_PANEL::MOVING_TEXT_PANEL() :
 }
 
 void MOVING_TEXT_PANEL::init(
-    float* p, float* s, COLOR& c, double d, double ch, double lw, double ls, double m
+    float* p, float* s, const COLOR& c, double d, double ch, double lw, double ls, double m
 ) {
     memcpy(pos, p, sizeof(pos));
     memcpy(base_pos, p, sizeof(base_pos));
