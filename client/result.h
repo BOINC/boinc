@@ -129,7 +129,7 @@ struct RESULT {
     }
 
     inline bool computing_done() {
-        if (state() >= RESULT_COMPUTE_ERROR) return true; 
+        if (state() >= RESULT_COMPUTE_ERROR) return true;
         if (ready_to_report) return true;
         return false;
     }

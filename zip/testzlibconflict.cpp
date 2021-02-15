@@ -172,7 +172,7 @@ void zerr(int ret)
 
 int main()
 {
-	int retval = -2;
+    int retval = -2;
     ZipFileList zf;
     std::string home, result_dir, zipfile, source_dir;
     std::string source_file, result_zipfile, result_file;
