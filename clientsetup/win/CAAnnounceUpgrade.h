@@ -26,7 +26,7 @@ class CAAnnounceUpgrade : public BOINCCABase
 {
 public:
 
-    CAAnnounceUpgrade(MSIHANDLE hMSIHandle);
+    explicit CAAnnounceUpgrade(MSIHANDLE hMSIHandle);
     ~CAAnnounceUpgrade();
     virtual UINT OnExecution();
 };

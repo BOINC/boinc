@@ -34,7 +34,7 @@ struct SIM_RESULTS {
     double idle_frac;
     int nrpcs;
 
-    SIM_RESULTS(int){}
+    explicit SIM_RESULTS(int){}
     void clear() {
         static const SIM_RESULTS x(0);
         *this = x;

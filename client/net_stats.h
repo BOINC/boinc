@@ -55,7 +55,7 @@ public:
     NET_INFO up;
     NET_INFO down;
 
-    NET_STATS(int){}
+    explicit NET_STATS(int){}
     void clear() {
         static const NET_STATS x(0);
         *this = x;
@@ -113,7 +113,7 @@ struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     virtual ~LOOKUP_WEBSITE_OP(){}
     int do_rpc(std::string&);
     virtual void handle_reply(int http_op_retval);
-    LOOKUP_WEBSITE_OP(GUI_HTTP* p){
+    explicit LOOKUP_WEBSITE_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }

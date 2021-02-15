@@ -26,7 +26,7 @@ class CACCConfigMd5sum : public BOINCCABase
 {
 public:
 
-    CACCConfigMd5sum(MSIHANDLE hMSIHandle);
+    explicit CACCConfigMd5sum(MSIHANDLE hMSIHandle);
     ~CACCConfigMd5sum();
     virtual UINT OnExecution();
 

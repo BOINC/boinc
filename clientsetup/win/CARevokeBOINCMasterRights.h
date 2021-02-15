@@ -26,7 +26,7 @@ class CARevokeBOINCMasterRights : public BOINCCABase
 {
 public:
 
-    CARevokeBOINCMasterRights(MSIHANDLE hMSIHandle);
+    explicit CARevokeBOINCMasterRights(MSIHANDLE hMSIHandle);
     ~CARevokeBOINCMasterRights();
     virtual UINT OnExecution();
 

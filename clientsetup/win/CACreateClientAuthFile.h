@@ -26,7 +26,7 @@ class CACreateClientAuthFile : public BOINCCABase
 {
 public:
 
-    CACreateClientAuthFile(MSIHANDLE hMSIHandle);
+    explicit CACreateClientAuthFile(MSIHANDLE hMSIHandle);
     ~CACreateClientAuthFile();
     virtual UINT OnExecution();
 

@@ -83,7 +83,7 @@ public:
     bool get_notice_refresh() {
         return notice_refresh;
     }
-    GUI_RPC_CONN(int);
+    explicit GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();
     void handle_auth1(MIOFILE&);

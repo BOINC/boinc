@@ -26,7 +26,7 @@ class CASetPermissionBOINCDataSlots : public BOINCCABase
 {
 public:
 
-    CASetPermissionBOINCDataSlots(MSIHANDLE hMSIHandle);
+    explicit CASetPermissionBOINCDataSlots(MSIHANDLE hMSIHandle);
     ~CASetPermissionBOINCDataSlots();
     virtual UINT OnExecution();
 

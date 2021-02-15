@@ -71,7 +71,7 @@ struct GLOBAL_PREFS_MASK {
     bool work_buf_additional_days;
     bool work_buf_min_days;
 
-    GLOBAL_PREFS_MASK(int){}
+    explicit GLOBAL_PREFS_MASK(int){}
     void clear() {
         static const GLOBAL_PREFS_MASK x(0);
         *this = x;

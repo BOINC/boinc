@@ -204,7 +204,7 @@ struct COPROC {
 
     OPENCL_DEVICE_PROP opencl_prop;
 
-    COPROC(int){}
+    explicit COPROC(int){}
     inline void clear() {
         static const COPROC x(0);
         *this = x;
@@ -283,7 +283,7 @@ struct CUDA_DEVICE_PROP {
     int   deviceOverlap;
     int   multiProcessorCount;
 
-    CUDA_DEVICE_PROP(int){}
+    explicit CUDA_DEVICE_PROP(int){}
     void clear() {
         static const CUDA_DEVICE_PROP x(0);
         *this = x;
@@ -305,7 +305,7 @@ struct COPROC_NVIDIA : public COPROC {
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_NVIDIA(): COPROC() {clear();}
-    COPROC_NVIDIA(int): COPROC() {}
+    explicit COPROC_NVIDIA(int): COPROC() {}
     void get(std::vector<std::string>& warnings);
     void correlate(
         bool use_all,
@@ -340,7 +340,7 @@ struct COPROC_ATI : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_ATI(int): COPROC() {}
+    explicit COPROC_ATI(int): COPROC() {}
     COPROC_ATI(): COPROC() {clear();}
     void get(std::vector<std::string>& warnings);
     void correlate(
@@ -363,7 +363,7 @@ struct COPROC_INTEL : public COPROC {
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
-    COPROC_INTEL(int): COPROC() {}
+    explicit COPROC_INTEL(int): COPROC() {}
     COPROC_INTEL(): COPROC() {clear();}
     void get(std::vector<std::string>& warnings);
     void correlate(

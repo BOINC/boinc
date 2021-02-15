@@ -26,7 +26,7 @@ class CAShutdownUD : public BOINCCABase
 {
 public:
 
-    CAShutdownUD(MSIHANDLE hMSIHandle);
+    explicit CAShutdownUD(MSIHANDLE hMSIHandle);
     ~CAShutdownUD();
     virtual UINT OnExecution();
 

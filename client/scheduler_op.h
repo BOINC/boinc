@@ -71,7 +71,7 @@ public:
         // used to randomize order
 
 public:
-    SCHEDULER_OP(HTTP_OP_SET*);
+    explicit SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
     int init_op_project(PROJECT*, int);
     int init_master_fetch(PROJECT*);

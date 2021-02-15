@@ -26,7 +26,7 @@ class CADeleteBOINCGroups : public BOINCCABase
 {
 public:
 
-    CADeleteBOINCGroups(MSIHANDLE hMSIHandle);
+    explicit CADeleteBOINCGroups(MSIHANDLE hMSIHandle);
     ~CADeleteBOINCGroups();
     virtual UINT OnExecution();
 

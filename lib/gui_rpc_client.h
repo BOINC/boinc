@@ -772,7 +772,7 @@ struct RPC {
     XML_PARSER xp;
     RPC_CLIENT* rpc_client;
 
-    RPC(RPC_CLIENT*);
+    explicit RPC(RPC_CLIENT*);
     ~RPC();
     int do_rpc(const char*);
     int parse_reply();

@@ -26,7 +26,7 @@ class CADeleteBOINCAccounts : public BOINCCABase
 {
 public:
 
-    CADeleteBOINCAccounts(MSIHANDLE hMSIHandle);
+    explicit CADeleteBOINCAccounts(MSIHANDLE hMSIHandle);
     ~CADeleteBOINCAccounts();
     virtual UINT OnExecution();
 

@@ -26,7 +26,7 @@ class CACreateBOINCAccounts : public BOINCCABase
 {
 public:
 
-    CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
+    explicit CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
     ~CACreateBOINCAccounts();
     virtual UINT OnExecution();
 

@@ -26,7 +26,7 @@ class CAValidateInstall : public BOINCCABase
 {
 public:
 
-    CAValidateInstall(MSIHANDLE hMSIHandle);
+    explicit CAValidateInstall(MSIHANDLE hMSIHandle);
     ~CAValidateInstall();
     virtual UINT OnExecution();
 

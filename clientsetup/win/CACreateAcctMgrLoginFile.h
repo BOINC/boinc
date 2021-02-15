@@ -26,7 +26,7 @@ class CACreateAcctMgrLoginFile : public BOINCCABase
 {
 public:
 
-    CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle);
+    explicit CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle);
     ~CACreateAcctMgrLoginFile();
     virtual UINT OnExecution();
 

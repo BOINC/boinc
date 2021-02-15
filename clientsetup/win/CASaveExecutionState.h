@@ -26,7 +26,7 @@ class CASaveExecutionState : public BOINCCABase
 {
 public:
 
-    CASaveExecutionState(MSIHANDLE hMSIHandle);
+    explicit CASaveExecutionState(MSIHANDLE hMSIHandle);
     ~CASaveExecutionState();
     virtual UINT OnExecution();
 

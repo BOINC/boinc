@@ -26,7 +26,7 @@ class CAShutdownBOINCScreensaver : public BOINCCABase
 {
 public:
 
-    CAShutdownBOINCScreensaver(MSIHANDLE hMSIHandle);
+    explicit CAShutdownBOINCScreensaver(MSIHANDLE hMSIHandle);
     ~CAShutdownBOINCScreensaver();
     virtual UINT OnExecution();
 

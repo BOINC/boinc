@@ -133,7 +133,7 @@ class DirScanner {
     DIR* dirp;
 #endif
 public:
-    DirScanner(std::string const& path);
+    explicit DirScanner(std::string const& path);
     ~DirScanner();
     bool scan(std::string& name);    // return true if file returned
 };

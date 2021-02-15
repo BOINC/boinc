@@ -26,7 +26,7 @@ class CACleanupOldBinaries : public BOINCCABase
 {
 public:
 
-    CACleanupOldBinaries(MSIHANDLE hMSIHandle);
+    explicit CACleanupOldBinaries(MSIHANDLE hMSIHandle);
     ~CACleanupOldBinaries();
     virtual UINT OnExecution();
 
