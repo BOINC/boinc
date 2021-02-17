@@ -472,6 +472,7 @@ void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
     
     bool isConnected = pDoc->IsConnected();
     wxMenu* menu = event.GetMenu();
+    if (!menu) return;
     
     menu->FindItem(ID_CLOSEWINDOW, &menuFile);
     menu->FindItem(ID_HELPBOINC, &menuHelp);
