@@ -1177,84 +1177,14 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
  * The % of runtime is taken from the global preference.
  * If the % is 100 no action is taken on the tasks.
  */
-static void throttler_timeslots() {
-    static unsigned int current_tick = 0;
-
-    client_mutex.lock(); //!< @todo a mutex should be in a RAII form
-
-    auto cpu_usage_limit = gstate.global_prefs.cpu_usage_limit;
-    if (cpu_usage_limit <   1.0) cpu_usage_limit =   1.0; // Run at least for one 1%
-    if (cpu_usage_limit > 100.0) cpu_usage_limit = 100.0;
-    const unsigned int run_time = std::round(cpu_usage_limit);
-
-    if (gstate.tasks_suspended) {
-	gstate.tasks_throttled = false;
-        goto exit;
-    } // if
-
-    gstate.tasks_throttled = (run_time != 100);
-
-    if (cpu_usage_limit == 100) {
-	for (auto apt : gstate.active_tasks.active_tasks) {
-		if (apt->task_state() == PROCESS_SUSPENDED) {
-			apt->throttler_remaining_runtime = 0;
-			apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);	
-		} // if
-	} // for
-	goto exit;
-    } // if
-
-    // Determine start tick for every active task, update runtime remaining, resume/suspend tasks
-    {
-	unsigned int tick = 0;
-        for (auto apt : gstate.active_tasks.active_tasks) {
-	    // Skip unknown tasks
-	    if (apt->task_state() != PROCESS_EXECUTING and apt->task_state() != PROCESS_SUSPENDED) continue;
-
-	    // Determine start tick, kind of spread each task behind the other
-	    //! @note in a multi core system task slots wrap around within the 100 second window
-	    apt->throttler_start_tick = tick % 100; 
-	    tick += run_time;
-
-	    // Refresh remaining runtime if start tick matches current tick, and start task is suspended
-	    if (current_tick == apt->throttler_start_tick) {
-	        apt->throttler_remaining_runtime = run_time;
-		if (apt->task_state() == PROCESS_SUSPENDED) {
-		    apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);
-		} // if
-	    } // if
-
-	    // Bog down remaining runtime when the user selects a shorter cpu usage limit
-	    if (apt->throttler_remaining_runtime > run_time) {
-		apt->throttler_remaining_runtime = run_time;
-	    } // if
-
-	    // Control tasks
-	    if (apt->throttler_remaining_runtime == 0) {
-                if (apt->task_state() == PROCESS_EXECUTING and not apt->result->non_cpu_intensive()) {
-		    apt->preempt(REMOVE_NEVER, SUSPEND_REASON_CPU_THROTTLE);
-		} // if
-            } // if
-
-	    // Decrement remaining runtime for running process
-	    if (apt->task_state() == PROCESS_EXECUTING) {
-	        --apt->throttler_remaining_runtime;
-            } // if
-        } // for
-    } // block
-
-exit:
-    client_mutex.unlock();
-    ++current_tick;
-    if (current_tick >= 100) current_tick = 0;
-    boinc_sleep(1);
-} // void
-
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
+    unsigned int current_tick = 0;
+    unsigned int task_count;
+    unsigned int spread;
 
     // Initialize diagnostics framework for this thread
     //
@@ -1262,8 +1192,85 @@ void* throttler(void*) {
 
     /** @internal maybe not such a good idea to have an infinate loop here, should check thread exit condition, but there isn't one present */
     while (1) {
-	// Throttler using timeslots for each task
-	throttler_timeslots();
+    	client_mutex.lock(); //!< @todo a mutex should be in a RAII form
+
+	auto cpu_usage_limit = gstate.global_prefs.cpu_usage_limit;
+    	if (cpu_usage_limit <   1.0) cpu_usage_limit =   1.0; // Run at least for one 1%
+    	if (cpu_usage_limit > 100.0) cpu_usage_limit = 100.0;
+    	const unsigned int run_time = std::round(cpu_usage_limit);
+
+    	if (gstate.tasks_suspended) {
+	   gstate.tasks_throttled = false;
+           goto end;
+        } // if
+
+        gstate.tasks_throttled = (run_time != 100);
+
+	// Count tasks; we need to know this to determine the spread; unsuspend if cpu_usage_limit == 100
+	task_count = 0;
+	for (auto apt : gstate.active_tasks.active_tasks) {
+            // Filter out CPU tasks
+	    if (apt->result->dont_throttle()) continue;
+	    if (apt->task_state() != PROCESS_EXECUTING and apt->task_state() != PROCESS_SUSPENDED) continue;
+	    // Unsuspend if no limit
+	    if (cpu_usage_limit >= 100 and apt->task_state() == PROCESS_SUSPENDED) {
+		apt->throttler_remaining_runtime = 0;
+		apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);	
+	    } // if
+	    // Count tasks
+            ++task_count;
+	} // for
+	if (cpu_usage_limit >= 100) goto end; // Nothing to do
+	if (task_count == 0) goto end; // Nothing to do
+
+	// Determine spread based on task count
+	spread = 100 / task_count;
+	if (spread == 0) spread = 1; // minimum of 1 second
+
+    	// Determine start tick for every active task, update runtime remaining, resume/suspend tasks
+    	{
+	    unsigned int tick = 0;
+            for (auto apt : gstate.active_tasks.active_tasks) {
+	        // Filter out CPU tasks
+		if (apt->result->dont_throttle()) continue;
+	        if (apt->task_state() != PROCESS_EXECUTING and apt->task_state() != PROCESS_SUSPENDED) continue;
+
+	        // Determine start tick; spread start of tasks evenly over 100 second window
+	        apt->throttler_start_tick = tick % 100; 
+	        tick += spread;
+
+	        // Refresh remaining runtime if start tick matches current tick, and run task if suspended
+	        if (current_tick == apt->throttler_start_tick) {
+	            apt->throttler_remaining_runtime = run_time;
+		    if (apt->task_state() == PROCESS_SUSPENDED) {
+		        apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);
+		    } // if
+	        } // if
+
+	        // Bog down remaining runtime when the user selects a shorter cpu usage limit
+	        if (apt->throttler_remaining_runtime > run_time) {
+		    apt->throttler_remaining_runtime = run_time;
+	        } // if
+
+		// Handle runtime
+		if (apt->task_state() == PROCESS_EXECUTING) {
+		    // Suspend task if runtime is over
+		    if (apt->throttler_remaining_runtime == 0) {
+                        apt->preempt(REMOVE_NEVER, SUSPEND_REASON_CPU_THROTTLE);
+		    } // if
+		    // Decrement remaining runtime for running process
+		    else {
+		       --apt->throttler_remaining_runtime;
+		    } // else
+		} // if
+            } // for
+    	} // block
+
+end:
+    	client_mutex.unlock();
+    	++current_tick;
+    	if (current_tick >= 100) current_tick = 0;
+    	boinc_sleep(1);
     } // while
 
     return 0;
