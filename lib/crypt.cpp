@@ -215,7 +215,9 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
         // coverity[check_return]
-        fscanf(f, "%2x", &n);
+        if (fscanf(f, "%2x", &n) != 1) {
+            return ERR_NULL;
+        }
         key->data[i] = n;
     }
     fs = fscanf(f, ".");

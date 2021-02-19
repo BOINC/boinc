@@ -6,7 +6,7 @@
 #    make -f Makefile.linux clean all
 # 3) do the same in this dir
 
-CC = g++ -I ../ -I ../lib/
+CC = g++ -O4 -Wall -I ../ -I ../lib/
 
 PROGS = boinc boinccmd
 
@@ -135,6 +135,7 @@ clean:
 
 LIBS = ../lib/lib.a \
     -lpthread \
+    -lX11 -lXss \
     -lssl -lcrypto \
     -L /usr/local/lib/ -lcurl -lz -ldl
 
