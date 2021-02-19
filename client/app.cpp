@@ -1217,9 +1217,9 @@ void* throttler(void*) {
             const auto task_state = apt->task_state();
             // Filter out CPU tasks
             if (apt->result->dont_throttle()) continue;
-            if (task_state != PROCESS_EXECUTING and task_state != PROCESS_SUSPENDED) continue;
+            if (task_state != PROCESS_EXECUTING && task_state != PROCESS_SUSPENDED) continue;
             // Unsuspend if no limit
-            if (cpu_usage_limit >= 100 and task_state == PROCESS_SUSPENDED) {
+            if (cpu_usage_limit >= 100 && task_state == PROCESS_SUSPENDED) {
                 apt->throttler_remaining_runtime = 0;
                 apt->unsuspend(SUSPEND_REASON_CPU_THROTTLE);
             } // if
@@ -1240,7 +1240,7 @@ void* throttler(void*) {
 	            const auto task_state = apt->task_state();
                 // Filter out CPU tasks
                 if (apt->result->dont_throttle()) continue;
-                if (task_state != PROCESS_EXECUTING and task_state != PROCESS_SUSPENDED) continue;
+                if (task_state != PROCESS_EXECUTING && task_state != PROCESS_SUSPENDED) continue;
 
                 // Determine start tick; spread start of tasks evenly over 100 second window
                 apt->throttler_start_tick = tick % 100; 
