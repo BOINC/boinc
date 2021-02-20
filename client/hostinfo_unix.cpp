@@ -110,7 +110,7 @@
 #endif
 
 #ifdef ARMV6
-    #include <sys/wait.h>
+#include <sys/wait.h>
 #endif
 
 #include "error_numbers.h"
