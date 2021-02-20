@@ -377,7 +377,7 @@ UINT BOINCCABase::GetRegistryValue(
         NULL,
         NULL,
         NULL,
-        strMessage.c_str()
+        strMessage
     );
 
     return ERROR_SUCCESS;
@@ -440,7 +440,7 @@ UINT BOINCCABase::SetRegistryValue(
         NULL,
         NULL,
         NULL,
-        strMessage.c_str()
+        strMessage
     );
 
     return ERROR_SUCCESS;
@@ -454,8 +454,8 @@ UINT BOINCCABase::SetRegistryValue(
 // Description:
 //
 /////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::GetProperty(
-    const tstring& strPropertyName,
+UINT BOINCCABase::GetProperty( 
+    const tstring& strPropertyName, 
     tstring&      strPropertyValue,
     bool          bDisplayValue
     )
@@ -479,7 +479,7 @@ UINT BOINCCABase::GetProperty(
             NULL,
             NULL,
             NULL,
-            strMessage.c_str()
+            strMessage
         );
         return ERROR_INSTALL_FAILURE;
         break;
@@ -501,7 +501,7 @@ UINT BOINCCABase::GetProperty(
             NULL,
             NULL,
             NULL,
-            strMessage.c_str()
+            strMessage
         );
         if ( lpszBuffer ) free( lpszBuffer );
         return ERROR_INSTALL_FAILURE;
@@ -525,7 +525,7 @@ UINT BOINCCABase::GetProperty(
         NULL,
         NULL,
         NULL,
-        strMessage.c_str()
+        strMessage
     );
 
     return ERROR_SUCCESS;
@@ -572,7 +572,7 @@ UINT BOINCCABase::SetProperty(
             NULL,
             NULL,
             NULL,
-            strMessage.c_str()
+            strMessage
         );
         return ERROR_INSTALL_FAILURE;
         break;
@@ -592,7 +592,7 @@ UINT BOINCCABase::SetProperty(
         NULL,
         NULL,
         NULL,
-        strMessage.c_str()
+        strMessage
     );
 
     return ERROR_SUCCESS;
@@ -842,7 +842,7 @@ UINT BOINCCABase::GetComponentKeyFilename(
         NULL,
         NULL,
         NULL,
-        strMessage.c_str()
+        strMessage
     );
 
     return ERROR_SUCCESS;
