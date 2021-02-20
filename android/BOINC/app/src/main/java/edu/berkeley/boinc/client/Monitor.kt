@@ -148,7 +148,7 @@ class Monitor : LifecycleService() {
             var platformName = ""
             val arch = System.getProperty("os.arch") ?: ""
             val normalizedArch = arch.toUpperCase(Locale.US)
-            if (normalizedArch.containsAny("ARM64", "AARCH64"))
+            if (normalizedArch.containsAny("ARM64", "AARCH64", "ARMV6"))
                 platformName = getString(R.string.boinc_platform_name_arm)
             else if ("X86_64" in normalizedArch)
                 platformName = getString(R.string.boinc_platform_name_x86)
