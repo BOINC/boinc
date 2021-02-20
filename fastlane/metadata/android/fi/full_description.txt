@@ -1,0 +1,3 @@
+Käytä puhelintasi tai tablettitietokonetta tutkimaan tauteja, ennustamaan ilmastonlämpenemistä tai löytämään pulsareita! BOINC valjastaa Android-laitteen käyttämättömän laskentatehon ja suorittaa laskentaa tieteelliselle projektille. Valittavana on useita tieteenaloja kuten Asteroids@home, Einstein@home, LHC@home, Moo!Wrapper, Rosetta@home, Universe@home, World Community Grid, Yoyo@home.
+
+BOINC laskee vain kun laite on kytketty verkkovirtaan ja on ladattu joten akku ei kulu. Tiedonsiirto tapahtuu WiFin kautta, joten se ei vaikuta tiedonsiirtorajaan.
