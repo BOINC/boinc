@@ -124,6 +124,7 @@ class Monitor : LifecycleService() {
             platformId = when {
                 normalizedArch.containsAny("ARM64", "AARCH64") -> R.string.boinc_platform_name_arm64
                 "X86_64" in normalizedArch -> R.string.boinc_platform_name_x86_64
+                "ARMV6" in normalizedArch -> R.string.boinc_platform_name_armv6
                 "ARM" in normalizedArch -> R.string.boinc_platform_name_arm
                 "86" in normalizedArch -> R.string.boinc_platform_name_x86
                 else -> {
@@ -633,6 +634,7 @@ class Monitor : LifecycleService() {
         get() {
             var archAssetsDirectory = ""
             when (boincPlatform) {
+                R.string.boinc_platform_name_armv6 -> archAssetsDirectory = getString(R.string.assets_dir_armv6)
                 R.string.boinc_platform_name_arm -> archAssetsDirectory = getString(R.string.assets_dir_arm)
                 R.string.boinc_platform_name_arm64 -> archAssetsDirectory = getString(R.string.assets_dir_arm64)
                 R.string.boinc_platform_name_x86 -> archAssetsDirectory = getString(R.string.assets_dir_x86)

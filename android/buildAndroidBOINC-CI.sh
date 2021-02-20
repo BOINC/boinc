@@ -24,6 +24,7 @@ export REV=1
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
 export NDK_VERSION=21d
+export NDK_ARMV6_VERSION=11
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export NDK_ROOT=$HOME/Android/Ndk
@@ -125,6 +126,7 @@ if [ "${doclean}" = "yes" ]; then
     mkdir -p "${BUILD_DIR}"
     echo "cleaning downloaded cache files"
     rm -f /tmp/ndk_${NDK_VERSION}.zip
+    rm -f /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip
     rm -f /tmp/openssl_${OPENSSL_VERSION}.tgz
     rm -f /tmp/curl_${CURL_VERSION}.tgz
 fi
@@ -137,9 +139,16 @@ export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
 export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
-export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
-export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
+export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}_armv6_done"
 export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
+
+if [ "$arch" = armv6 ]; then
+    export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_ARMV6_VERSION}-${arch}_done"
+    export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_ARMV6_VERSION}-${arch}_done"
+else
+    export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
+    export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
+fi
 
 createNDKFolder()
 {
@@ -167,7 +176,15 @@ else
     fi
 fi
 
+if [ ! -e "${NDK_ARMV6_FLAGFILE}" ]; then
+    rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
+    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
+    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
+    touch "${NDK_ARMV6_FLAGFILE}"
+fi
+
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
+export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
@@ -201,7 +218,28 @@ NeonTest()
     done
 }
 
+Armv6Test()
+{
+    list_libs="libcrypto.a libssl.a libcurl.a boinc"
+
+    for i in $list_libs; do
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" -name "$i") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+            echo [ERROR] "$i" is not armv6 cpu arch
+            exit 1
+        fi
+    done
+}
+
 case "$arch" in
+    "armv6")
+        ./build_androidtc_armv6.sh
+        ./build_openssl_armv6.sh
+        ./build_curl_armv6.sh
+        ./build_boinc_armv6.sh
+        NeonTest
+        Armv6Test
+        exit 0
+    ;;
     "arm")
         ./build_openssl_arm.sh
         ./build_curl_arm.sh
