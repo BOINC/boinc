@@ -1945,6 +1945,8 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 	m_PaintStatistics = new CPaintStatistics(this, ID_LIST_STATISTICSVIEW, wxDefaultPosition, wxSize(-1, -1), 0);
 	wxASSERT(m_PaintStatistics);
 
+	m_pTaskPane->SetLayoutDirection(wxLayout_LeftToRight);
+	m_PaintStatistics->SetLayoutDirection(wxLayout_LeftToRight);
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_PaintStatistics, 1, wxGROW|wxALL, 1);
 
