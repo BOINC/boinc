@@ -69,11 +69,10 @@ struct ASYNC_VERIFY {
     gzFile gzin;
     char inpath[MAXPATHLEN], temp_path[MAXPATHLEN], outpath[MAXPATHLEN];
 
-    ASYNC_VERIFY(){
+    ASYNC_VERIFY() : gzin(NULL) {
       fip = NULL;
       in = NULL;
       out = NULL;
-      gzin = NULL;
       safe_strcpy(inpath, "");
       safe_strcpy(temp_path, "");
       safe_strcpy(outpath, "");

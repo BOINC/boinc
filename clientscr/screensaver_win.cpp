@@ -100,19 +100,9 @@ INT WINAPI WinMain(
 }
 
 
-CScreensaver::CScreensaver() {
+CScreensaver::CScreensaver() : m_dwSaverMouseMoveCount(0), m_hWnd(NULL), m_hWndParent(NULL), m_bAllScreensSame(FALSE), m_bWindowed(FALSE), m_bWaitForInputIdle(FALSE), m_bErrorMode(FALSE), m_hrError(S_OK) {
     gspScreensaver = this;
 
-    m_dwSaverMouseMoveCount = 0;
-    m_hWnd = NULL;
-    m_hWndParent = NULL;
-    
-    m_bAllScreensSame = FALSE;
-    m_bWindowed = FALSE;
-    m_bWaitForInputIdle = FALSE;
-
-    m_bErrorMode = FALSE;
-    m_hrError = S_OK;
     m_szError[0] = _T('\0');
     m_strBOINCInstallDirectory.clear();
     m_strBOINCDataDirectory.clear();

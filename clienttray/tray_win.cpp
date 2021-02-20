@@ -37,10 +37,8 @@ INT WINAPI WinMain(
 }
 
 
-CBOINCTray::CBOINCTray() {
+CBOINCTray::CBOINCTray() : m_hDataManagementThread(NULL), m_bIdleTrackerInitialized(FALSE) {
     gspBOINCTray = this;
-    m_hDataManagementThread = NULL;
-    m_bIdleTrackerInitialized = FALSE;
 }
 
 

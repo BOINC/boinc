@@ -34,7 +34,7 @@ BOINCCABase::BOINCCABase(
     MSIHANDLE hMSIHandle,
     const tstring& strActionName,
     const tstring& strProgressTitle
-    ) : m_hMSIHandle(hSINHandle), m_strActionName(strActionName), m_strProgressTitle(strProgressTitle), m_phActionStartRec(NULL), m_phActionDataRec(NULL), m_phProgressRec(NULL), m_phLogInfoRec(NULL)
+    ) : m_hMSIHandle(hMSIHandle), m_strActionName(strActionName), m_strProgressTitle(strProgressTitle), m_phActionStartRec(NULL), m_phActionDataRec(NULL), m_phProgressRec(NULL), m_phLogInfoRec(NULL)
 {
 }
 
