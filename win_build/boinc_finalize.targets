@@ -1,13 +1,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-	<Content Include="..\locale\**\*.*">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <DeploymentContent>true</DeploymentContent>
-	  <Link>locale\%(RecursiveDir)\%(Filename)%(Extension)</Link>
-	</Content>
-	<Content Include="..\curl\ca-bundle.crt">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <DeploymentContent>true</DeploymentContent>
-	</Content>
-  </ItemGroup>
+<Target Name="AfterBuild">
+    <ItemGroup>
+        <LOCALE Include="..\locale\**\*.*" />
+		<CERT Include="..\curl\ca-bundle.crt" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LOCALE)" DestinationFolder="$(OutDir)\locale\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CERT)"   DestinationFolder="$(OutDir)"                        SkipUnchangedFiles="true" />
+</Target>
 </Project>
