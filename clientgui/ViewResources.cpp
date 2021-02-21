@@ -90,7 +90,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	CtrlBOINCPart.SetColour(wxColour(255,255,255));
 	m_pieCtrlBOINC->m_Series.Add(CtrlBOINCPart);
 	m_pieCtrlTotal->SetLayoutDirection(wxLayout_LeftToRight);
-	CtrlBOINCPart->SetLayoutDirection(wxLayout_LeftToRight);
+	m_pieCtrlBOINC->SetLayoutDirection(wxLayout_LeftToRight);
 	m_pieCtrlBOINC->Refresh();
 
     //init the flexGrid
