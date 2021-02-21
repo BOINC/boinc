@@ -1586,9 +1586,19 @@ inline long device_idle_time(const char *device) {
 static const struct dir_tty_dev {
     const char *dir;
     const char *dev;
+    const vector<string> ignore_list;
+
+    bool should_ignore(const string &devname) const {
+        for (const string &ignore : ignore_list) {
+            if (devname.rfind(ignore, 0) == 0) return true;
+        }
+        return false;
+    }
 } tty_patterns[] = {
 #ifdef unix
-    { "/dev", "tty" },
+    { "/dev", "tty",
+      {"ttyS", "ttyACM"},
+    },
     { "/dev", "pty" },
     { "/dev/pts", NULL },
 #endif
@@ -1615,6 +1625,11 @@ vector<string> get_tty_list() {
             //
             if (tty_patterns[i].dev) {
                 if ((strstr(devname, tty_patterns[i].dev) != devname)) continue;
+
+                // Ignore some devices. This could be, for example,
+                // ttyS* (serial port) or devACM* (serial USB) devices
+                // which may be used even without a user being active.
+                if (tty_patterns[i].should_ignore(devname)) continue;
             }
 
             sprintf(fullname, "%s/%s", tty_patterns[i].dir, devname);
