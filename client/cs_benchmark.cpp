@@ -231,7 +231,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 
 #ifdef _WIN32
 DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
-    return cpu_benchmarks((BENCHMARK_DESC*)p);
+  return cpu_benchmarks(static_cast<BENCHMARK_DESC*>(p));
 }
 #endif
 

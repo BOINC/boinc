@@ -470,7 +470,7 @@ void STARFIELD::build_stars(int sz, float sp) {
 	nstars=sz;
 
     if (stars) free(stars);
-    stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)nstars);
+    stars = static_cast<STAR*>(calloc(sizeof(STAR), (long unsigned int)nstars));
     if (!stars) {
         fprintf(stderr, "out of mem in STARFIELD::build_stars");
         sz = 0;
@@ -661,8 +661,8 @@ tImageJPG *LoadJPG(const char *filename) {
 
 	jpeg_create_decompress(&cinfo);
 	jpeg_stdio_src(&cinfo, pFile);
-	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));
-    if (!pImageData) {
+	pImageData = static_cast<tImageJPG*>(malloc(sizeof(tImageJPG)));
+        if (pImageData != NULL) {
         jpeg_destroy_decompress(&cinfo);
         fclose(pFile);
         fprintf(stderr, "out of mem in LoadJPG");

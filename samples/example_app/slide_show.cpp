@@ -184,7 +184,7 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     // worker application has not yet created shared memory
     //
     if (shmem == NULL) {
-        shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
+        shmem = static_cast<UC_SHMEM*>(boinc_graphics_get_shmem("uppercase"));
     }
     if (shmem) {
         shmem->countdown = 5;
