@@ -1044,7 +1044,7 @@ void make_graph(const char* title, const char* fname, int field) {
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(f, "\"%srec.dat\" using 1:%d title \"%s\" with lines%s",
+        fprintf(f, "\"%srec.dat\" using 1:%u title \"%s\" with lines%s",
             outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );

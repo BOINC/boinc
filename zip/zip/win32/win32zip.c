@@ -1838,7 +1838,7 @@ local void GetSD(char *path, char **bufptr, ush *size,
                        (char *)buffer, bytes);
 
   if (cbytes > 0x7FFF) {
-    sprintf(errbuf, "security info too large to store (%ld bytes), %d max", bytes, 0x7FFF);
+    sprintf(errbuf, "security info too large to store (%lu bytes), %d max", bytes, 0x7FFF);
     zipwarn(errbuf, "");
     zipwarn("security info not stored: ", path);
     if(DynBuffer) free(DynBuffer);
@@ -1863,7 +1863,7 @@ local void GetSD(char *path, char **bufptr, ush *size,
   pCentralHeader->lSize = bytes;
 
   if (noisy) {
-    sprintf(errbuf, " (%ld bytes security)", bytes);
+    sprintf(errbuf, " (%lu bytes security)", bytes);
     zipmessage_nl(errbuf, 0);
   }
 
