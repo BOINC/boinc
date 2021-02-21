@@ -453,7 +453,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
 
     njobs += (int)new_results.size();
     msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
-    sprintf(buf, "got %lu tasks<br>", new_results.size());
+    sprintf(buf, "got %zu tasks<br>", new_results.size());
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
@@ -1044,7 +1044,7 @@ void make_graph(const char* title, const char* fname, int field) {
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(f, "\"%srec.dat\" using 1:%d title \"%s\" with lines%s",
+        fprintf(f, "\"%srec.dat\" using 1:%u title \"%s\" with lines%s",
             outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );

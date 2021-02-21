@@ -2314,7 +2314,7 @@ int ask_for_split_write_path(current_disk)
   }
   if (mesg_line_started)
     fprintf(mesg, "\n");
-  fprintf(mesg, "\nOpening disk %d\n", num);
+  fprintf(mesg, "\nOpening disk %u\n", num);
   fprintf(mesg, "Hit ENTER to write to default path of\n");
   fprintf(mesg, "  %s\n", split_dir);
   fprintf(mesg, "or enter a new directory path (. for cur dir) and hit ENTER\n");

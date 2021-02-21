@@ -346,7 +346,7 @@ static int SetSD(__G__ path, fperms, eb_ptr, eb_len)
         if (SecuritySet(path, &VolumeCaps, security_data)) {
             error = PK_COOL;
             if (!uO.tflag && QCOND2)
-                Info(slide, 0, ((char *)slide, " (%ld bytes security)",
+                Info(slide, 0, ((char *)slide, " (%lu bytes security)",
                   ntsd_ucSize));
         }
     }
