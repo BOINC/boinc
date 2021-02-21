@@ -166,6 +166,10 @@ int boinc_parse_graphics_status(
     *elapsed_time = 0;
     *fraction_done = 0;
     memset(status, 0, sizeof(BOINC_STATUS));
+#ifndef __STDC_IEC_559__
+    status->working_set_size = 0.0;
+    status->max_working_set_size = 0.0;
+#endif
 
     if (!xp.parse_start("graphics_status")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
