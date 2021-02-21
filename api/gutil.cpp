@@ -665,6 +665,7 @@ tImageJPG *LoadJPG(const char *filename) {
         jpeg_destroy_decompress(&cinfo);
         fclose(pFile);
         fprintf(stderr, "out of mem in LoadJPG");
+        free(pImageData);
         return 0;
     }
 	DecodeJPG(&cinfo, pImageData);
