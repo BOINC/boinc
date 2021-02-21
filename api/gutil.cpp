@@ -661,8 +661,8 @@ tImageJPG *LoadJPG(const char *filename) {
 
 	jpeg_create_decompress(&cinfo);
 	jpeg_stdio_src(&cinfo, pFile);
-	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));
-    if (!pImageData) {
+	pImageData = static_cast<tImageJPG*>(malloc(sizeof(tImageJPG)));
+    if (pImageData == NULL) {
         jpeg_destroy_decompress(&cinfo);
         fclose(pFile);
         fprintf(stderr, "out of mem in LoadJPG");
