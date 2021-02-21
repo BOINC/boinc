@@ -1,10 +1,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-<Target Name="AfterBuild">
-    <ItemGroup>
-        <LOCALE Include="..\locale\**\*.*" />
-		<CERT Include="..\curl\ca-bundle.crt" />
-    </ItemGroup>
-    <Copy SourceFiles="@(LOCALE)" DestinationFolder="$(OutDir)\locale\%(RecursiveDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(CERT)"   DestinationFolder="$(OutDir)"                        SkipUnchangedFiles="true" />
-</Target>
+	<Target Name="AfterBuild">
+		<ItemGroup>
+			<LOCALE Include="..\locale\**\*.*" />
+			<CERT Include="..\curl\ca-bundle.crt" />
+		</ItemGroup>
+		<Copy SourceFiles="@(LOCALE)" DestinationFolder="$(OutDir)\locale\%(RecursiveDir)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(CERT)"   DestinationFolder="$(OutDir)"                        SkipUnchangedFiles="true" />
+	</Target>
 </Project>
