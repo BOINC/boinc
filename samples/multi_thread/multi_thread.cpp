@@ -138,7 +138,7 @@ UINT WINAPI worker(void* p) {
 void* worker(void* p) {
 #endif
     char buf[256];
-    THREAD* t = (THREAD*)p;
+    THREAD* t = static_cast<THREAD*>(p);
     for (int i=0; i<units_per_thread; i++) {
         double x = do_a_giga_flop(i);
         t->units_done++;
