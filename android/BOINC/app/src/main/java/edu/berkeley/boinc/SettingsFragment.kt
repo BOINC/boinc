@@ -33,10 +33,15 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.streams.asSequence
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
+    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private val STRING_LENGTH = 32;
+
 
     override fun onResume() {
         super.onResume()
@@ -80,8 +85,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             usedCpuCores?.max = hostInfo.noOfCPUs
         }
         
-        var autPath = BOINCActivity.monitor!!.authFilePath
-        var autKey = File(autPath).bufferedReader().readLine()
+        val autPath = BOINCActivity.monitor!!.authFilePath
+        val autFile = File(autPath)
+        var autKey = ""
+        if (autFile.exists()) {
+            autKey = autFile.bufferedReader().readLine()
+        }
+        if(autKey == "") {
+            autKey = generateRandomString()
+        }
         if ("authenticationKey" !in sharedPreferences) {
             sharedPreferences.edit { putString("authenticationKey", autKey) }
         }
@@ -199,8 +211,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             "authenticationKey" -> {
-                var autPath = BOINCActivity.monitor!!.authFilePath
-                var autKey  = sharedPreferences.getString(key, "")!!
+                val autPath = BOINCActivity.monitor!!.authFilePath
+                val autKey  = sharedPreferences.getString(key, "")!!
                 File(autPath).writeText(autKey)
             }
 
@@ -222,6 +234,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             1.0.coerceAtLeast(hostInfo.noOfCPUs.toDouble() * (pct / 100.0)).toInt()
 
     private fun numberCpuCoresToPct(hostInfo: HostInfo, ncpus: Int) = ncpus / hostInfo.noOfCPUs.toDouble() * 100
+
+    private fun generateRandomString() : String {
+        return ThreadLocalRandom.current()
+                .ints(STRING_LENGTH.toLong(), 0, charPool.size)
+                .asSequence()
+                .map(charPool::get)
+                .joinToString("")
+    }
 
     private fun formatOptionsToCcConfig(options: Set<String>): String {
         val builder = StringBuilder()
