@@ -376,4 +376,5 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="boinc_signing.targets" />
+  <Import Project="boinc_finalize.targets" />  
 </Project>
