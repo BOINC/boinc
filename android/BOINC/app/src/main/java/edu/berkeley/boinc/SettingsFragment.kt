@@ -32,6 +32,7 @@ import edu.berkeley.boinc.utils.setAppTheme
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.File
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
@@ -77,6 +78,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             usedCpuCores?.isVisible = false
         } else {
             usedCpuCores?.max = hostInfo.noOfCPUs
+        }
+        
+        var autPath = BOINCActivity.monitor!!.authFilePath
+        var autKey = File(autPath).bufferedReader().readLine()
+        if ("authenticationKey" !in sharedPreferences) {
+            sharedPreferences.edit { putString("authenticationKey", autKey) }
         }
     }
 
@@ -189,6 +196,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
+            }
+
+            "authenticationKey" -> {
+                var autPath = BOINCActivity.monitor!!.authFilePath
+                var autKey  = sharedPreferences.getString(key, "")!!
+                File(autPath).writeText(autKey)
             }
 
             // Debug

@@ -173,6 +173,7 @@
     <string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">Work unit buffer (days)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer (days)</string>
+    <string name="prefs_other_authentication_key">GUI authentication key</string>
     <string name="prefs_client_log_flags_header">BOINC client log flags</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
