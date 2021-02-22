@@ -1,5 +1,5 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Target Name="AfterBuild">
+	<Target Name="CopyCertificateAndLocaleFiles" DependsOnTargets="Build" AfterTargets="Build">
 		<ItemGroup>
 			<LOCALE Include="..\locale\**\*.*" />
 			<CERT Include="..\curl\ca-bundle.crt" />
