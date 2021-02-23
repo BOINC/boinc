@@ -96,10 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
-        preference.setSummaryProvider {
-            val autKey = readAutFileContent()
-            setAsterisks(autKey!!.length)
-        }
+        preference.setSummaryProvider { setAsterisks(readAutFileContent().length) }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -218,8 +215,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 var autKey = sharedPreferences.getString(key, "")!!
                 if (autKey.isEmpty()) {
                     autKey = readAutFileContent()
-                    sharedPreferences.edit { putString("authenticationKey", autKey) }
-                    findPreference<EditTextPreference>("authenticationKey")?.text = autKey
+                    sharedPreferences.edit { putString(key, autKey) }
+                    findPreference<EditTextPreference>(key)?.text = autKey
                     val toast = Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT)
                     toast.show()
                 } else {
