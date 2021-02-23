@@ -41,7 +41,6 @@
         android:textColor="?android:attr/textColorSecondary"/>
 
     <EditText
-        android:inputType="textPassword"
         android:id="@android:id/edit"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

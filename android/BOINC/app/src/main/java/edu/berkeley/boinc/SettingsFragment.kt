@@ -62,6 +62,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             sharedPreferences.edit { putString("deviceName", hostInfo.domainName) }
         }
 
+        var autKey = readAutFileContent()
+        if (autKey.isEmpty()) {
+            autKey = generateRandomString()
+            writeAutFileContent(autKey)
+        }
+        if ("authenticationKey" !in sharedPreferences) {
+            sharedPreferences.edit { putString("authenticationKey", autKey) }
+        }
+
         val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
         val stationaryDeviceSuspected = BOINCActivity.monitor!!.isStationaryDeviceSuspected
 
@@ -84,33 +93,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         } else {
             usedCpuCores?.max = hostInfo.noOfCPUs
         }
-        
-        val autPath = BOINCActivity.monitor!!.authFilePath
-        val autFile = File(autPath)
-        var autKey = ""
-        if (autFile.exists()) {
-            autKey = autFile.bufferedReader().readLine()
-        }
-        if (autKey == "") {
-            autKey = generateRandomString()
-            autFile.writeText(autKey)
-        }
-        if ("authenticationKey" !in sharedPreferences) {
-            sharedPreferences.edit { putString("authenticationKey", autKey) }
-        }
+
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
         preference.setSummaryProvider {
-            var autKey = autFile.bufferedReader().readLine()
+            val autKey = sharedPreferences.getString("authenticationKey", "")
             setAsterisks(autKey!!.length)
         }
-    }
-
-    // Return the password in asterisks
-    private fun setAsterisks(length: Int): String {
-        val sb = java.lang.StringBuilder()
-        for (s in 0 until length) {
-            sb.append("*") }
-        return sb.toString()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -295,4 +283,28 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
         }
     }
+
+    // Return the password in asterisks
+    private fun setAsterisks(length: Int): String {
+        val sb = java.lang.StringBuilder()
+        for (s in 0 until length) {
+            sb.append("*") }
+        return sb.toString()
+    }
+
+    private fun readAutFileContent(): String {
+        val autPath = BOINCActivity.monitor!!.authFilePath
+        val autFile = File(autPath)
+        var autKey = ""
+        if (autFile.exists()) {
+            autKey = autFile.bufferedReader().readLine()
+        }
+        return autKey
+    }
+
+    private fun writeAutFileContent(value: String) {
+        val autPath = BOINCActivity.monitor!!.authFilePath
+        val autFile = File(autPath)
+        autFile.writeText(value)
+    }    
 }
