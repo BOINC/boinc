@@ -91,12 +91,26 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         if (autFile.exists()) {
             autKey = autFile.bufferedReader().readLine()
         }
-        if(autKey == "") {
+        if (autKey == "") {
             autKey = generateRandomString()
+            autFile.writeText(autKey)
         }
         if ("authenticationKey" !in sharedPreferences) {
             sharedPreferences.edit { putString("authenticationKey", autKey) }
         }
+        val preference = findPreference<EditTextPreference>("authenticationKey")!!
+        preference.setSummaryProvider {
+            var autKey = autFile.bufferedReader().readLine()
+            setAsterisks(autKey!!.length)
+        }
+    }
+
+    // Return the password in asterisks
+    private fun setAsterisks(length: Int): String {
+        val sb = java.lang.StringBuilder()
+        for (s in 0 until length) {
+            sb.append("*") }
+        return sb.toString()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -212,8 +226,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             "authenticationKey" -> {
                 val autPath = BOINCActivity.monitor!!.authFilePath
-                val autKey  = sharedPreferences.getString(key, "")!!
-                File(autPath).writeText(autKey)
+                var autKey = sharedPreferences.getString(key, "")!!
+                if (autKey != "") {
+                    File(autPath).writeText(autKey)
+                }
             }
 
             // Debug
