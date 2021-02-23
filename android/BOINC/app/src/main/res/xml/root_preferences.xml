@@ -247,9 +247,8 @@
 
         <EditTextPreference
                 app:iconSpaceReserved="false"
-                app:dialogLayout="@xml/boinc_dialog_edittext"
                 app:key="authenticationKey"
-                app:title="@string/prefs_other_authentication_key"
+                app:title="@string/prefs_remote_authentication_key"
                 app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

@@ -22,6 +22,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
@@ -221,6 +222,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 else {
                     autKey = readAutFileContent()
                     sharedPreferences.edit { putString("authenticationKey", autKey) }
+                    findPreference<EditTextPreference>("authenticationKey")?.text = autKey
+                    val toast = Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT)
+                    toast.show()
                 }
             }
 
