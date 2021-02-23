@@ -216,15 +216,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "authenticationKey" -> {
                 val autPath = BOINCActivity.monitor!!.authFilePath
                 var autKey = sharedPreferences.getString(key, "")!!
-                if (autKey != "") {
-                    File(autPath).writeText(autKey)
-                }
-                else {
+                if (autKey.isEmpty()) {
                     autKey = readAutFileContent()
                     sharedPreferences.edit { putString("authenticationKey", autKey) }
                     findPreference<EditTextPreference>("authenticationKey")?.text = autKey
                     val toast = Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT)
                     toast.show()
+                } else {
+                    File(autPath).writeText(autKey)
                 }
             }
 
@@ -246,14 +245,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             1.0.coerceAtLeast(hostInfo.noOfCPUs.toDouble() * (pct / 100.0)).toInt()
 
     private fun numberCpuCoresToPct(hostInfo: HostInfo, ncpus: Int) = ncpus / hostInfo.noOfCPUs.toDouble() * 100
-
-    private fun generateRandomString() : String {
-        return ThreadLocalRandom.current()
-                .ints(STRING_LENGTH.toLong(), 0, charPool.size)
-                .asSequence()
-                .map(charPool::get)
-                .joinToString("")
-    }
 
     private fun formatOptionsToCcConfig(options: Set<String>): String {
         val builder = StringBuilder()
@@ -290,6 +281,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
         }
+    }
+
+    private fun generateRandomString() : String {
+        return ThreadLocalRandom.current()
+                .ints(STRING_LENGTH.toLong(), 0, charPool.size)
+                .asSequence()
+                .map(charPool::get)
+                .joinToString("")
     }
 
     // Return the password in asterisks
