@@ -211,7 +211,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             "authenticationKey" -> {
-                val autPath = BOINCActivity.monitor!!.authFilePath
                 var autKey = sharedPreferences.getString(key, "")!!
                 if (autKey.isEmpty()) {
                     autKey = readAutFileContent()
@@ -219,7 +218,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                     findPreference<EditTextPreference>(key)?.text = autKey
                     Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
                 } else {
-                    File(autPath).writeText(autKey)
+                    writeAutFileContent(autKey)
                 }
             }
 
