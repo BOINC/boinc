@@ -96,7 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
         preference.setSummaryProvider {
-            val autKey = sharedPreferences.getString("authenticationKey", "")
+            val autKey = readAutFileContent()
             setAsterisks(autKey!!.length)
         }
     }
@@ -217,6 +217,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 var autKey = sharedPreferences.getString(key, "")!!
                 if (autKey != "") {
                     File(autPath).writeText(autKey)
+                }
+                else {
+                    autKey = readAutFileContent()
+                    sharedPreferences.edit { putString("authenticationKey", autKey) }
                 }
             }
 
