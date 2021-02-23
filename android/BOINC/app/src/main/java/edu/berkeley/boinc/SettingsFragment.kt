@@ -217,8 +217,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                     autKey = readAutFileContent()
                     sharedPreferences.edit { putString(key, autKey) }
                     findPreference<EditTextPreference>(key)?.text = autKey
-                    val toast = Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT)
-                    toast.show()
+                    Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
                 } else {
                     File(autPath).writeText(autKey)
                 }
@@ -290,25 +289,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     // Return the password in asterisks
     private fun setAsterisks(length: Int): String {
-        val sb = java.lang.StringBuilder()
-        for (s in 0 until length) {
-            sb.append("*") }
-        return sb.toString()
+        return "*".repeat(length)
     }
 
     private fun readAutFileContent(): String {
-        val autPath = BOINCActivity.monitor!!.authFilePath
-        val autFile = File(autPath)
-        var autKey = ""
-        if (autFile.exists()) {
-            autKey = autFile.bufferedReader().readLine()
-        }
-        return autKey
+        val autFile = File(BOINCActivity.monitor!!.authFilePath)
+        return if (autFile.exists()) autFile.bufferedReader().readLine() else ""
     }
 
     private fun writeAutFileContent(value: String) {
-        val autPath = BOINCActivity.monitor!!.authFilePath
-        val autFile = File(autPath)
-        autFile.writeText(value)
-    }    
+        File(BOINCActivity.monitor!!.authFilePath).writeText(value)
+    }
 }
