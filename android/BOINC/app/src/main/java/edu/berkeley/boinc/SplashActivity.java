@@ -89,6 +89,18 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
+    class BenchmarksTask implements Runnable {
+        public boolean benchmarks = false;
+        @Override
+        public void run() {
+            try {
+                benchmarks = monitor.runBenchmarks();
+            } catch(Exception e) {
+                benchmarks = false;
+            }
+        }
+    }
+
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -113,7 +125,11 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
                             // run benchmarks to speed up project initialization
-                            boolean benchmarks = monitor.runBenchmarks();
+                            BenchmarksTask benchmarksTask = new BenchmarksTask();
+                            Thread t = new Thread(benchmarksTask);
+                            t.start();
+                            t.join();
+                            boolean benchmarks = benchmarksTask.benchmarks;
                             if(Logging.DEBUG) {
                                 Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
                             }
