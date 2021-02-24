@@ -263,12 +263,20 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "output close failure", e);
         }
         try {
-            mSocket.close();
+            if(mIsRemote){
+                mTcpmSocke.close();
+            } else {
+                mSocket.close();
+            }
             if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
         }
-        mSocket = null;
+        if (mIsRemote) {
+            mTcpmSocke = null;
+        } else {
+            mSocket = null;
+        }
     }
 
     /**
