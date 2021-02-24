@@ -31,6 +31,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class RpcClient {
     static final String AUTHORIZED = "authorized";
     static final String UNAUTHORIZED = "unauthorized";
 
+    private static final int CONNECT_TIMEOUT = 30000;
     private static final int READ_TIMEOUT = 15000;         // 15s
     private static final int READ_BUF_SIZE = 2048;
     private static final int RESULT_BUILDER_INIT_SIZE = 131072; // Yes, 128K
@@ -85,6 +88,8 @@ public class RpcClient {
     public static final int MGR_SYNC = 31;
 
     private LocalSocket mSocket;
+    private Socket mTcpmSocke;
+    private Boolean mIsRemote = false;
     private BufferedSource socketSource;
     private BufferedSink socketSink;
     private final byte[] mReadBuffer = new byte[READ_BUF_SIZE];
@@ -164,11 +169,50 @@ public class RpcClient {
      */
 
     /**
+     * Connect to BOINC core client via TCP Socket (abstract, "boinc_socket")
+     *
+     * @return true for success, false for failure
+     */
+    public boolean open(String address, int port) {
+        mIsRemote = true;
+        if (isConnected()) {
+            // Already connected
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "Attempt to connect when already connected");
+            // We better close current connection and reconnect (address/port could be different)
+            close();
+        }
+        try {
+            mTcpmSocke = new Socket();
+            mTcpmSocke.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
+            mTcpmSocke.setSoTimeout(READ_TIMEOUT);
+            socketSource = Okio.buffer(Okio.source(mTcpmSocke.getInputStream()));
+            socketSink = Okio.buffer(Okio.sink(mTcpmSocke.getOutputStream()));
+        } catch (IllegalArgumentException e) {
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "connect failure: illegal argument", e);
+            mTcpmSocke = null;
+            return false;
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
+            mTcpmSocke = null;
+            return false;
+        } catch (Exception e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+            mTcpmSocke = null;
+            return false;
+        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
+        return true;
+    }
+
+    /**
      * Connect to BOINC core client via Unix Domain Socket (abstract, "boinc_socket")
      *
      * @return true for success, false for failure
      */
     public boolean open(String socketAddress) {
+        mIsRemote = false;
         if (isConnected()) {
             // Already connected
             if (Logging.LOGLEVEL <= 4)
@@ -278,7 +322,11 @@ public class RpcClient {
      * @return true if connected to BOINC core client, false if not connected
      */
     public final boolean isConnected() {
-        return (mSocket != null && mSocket.isConnected());
+        if (mIsRemote) {
+            return (mTcpmSocke != null && mTcpmSocke.isConnected());
+        } else {
+            return (mSocket != null && mSocket.isConnected());
+        }
     }
 
     /**

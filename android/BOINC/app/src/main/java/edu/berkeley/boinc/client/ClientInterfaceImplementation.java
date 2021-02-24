@@ -591,4 +591,13 @@ public class ClientInterfaceImplementation extends RpcClient {
             Log.d(Logging.TAG, "setDomainName: success " + success);
         return success;
     }
+
+    /**
+     * Establishes socket connection to BOINC client.
+     * Requirement for information exchange via RPC
+     * @return success
+     */
+    public Boolean connect() {
+        return open("localhost", 31416);
+    }
 }
