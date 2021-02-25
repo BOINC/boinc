@@ -1221,7 +1221,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
 
-        FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
+        FEATURE_TEST(std_supported, (std_edx & ((UIint32)1 << 31)), "pbe ");
     }
 
     if (amd_supported || hygon_supported) {
@@ -1243,7 +1243,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
-        FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
+        FEATURE_TEST(ext_supported, (ext_edx & ((UInt32)1 << 31)), "3dnow ");
     }
 
 	if (struc_ext_supported) {
