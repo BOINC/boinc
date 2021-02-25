@@ -63,12 +63,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             sharedPreferences.edit { putString("deviceName", hostInfo.domainName) }
         }
 
-        var autKey = readAutFileContent()
-        if (autKey.isEmpty()) {
-            autKey = generateRandomString(passwordLength)
-            writeAutFileContent(autKey)
-        }
         if ("authenticationKey" !in sharedPreferences) {
+            var autKey = readAutFileContent()
+            if (autKey.isEmpty()) {
+                autKey = generateRandomString(passwordLength)
+                writeAutFileContent(autKey)
+            }
             sharedPreferences.edit { putString("authenticationKey", autKey) }
         }
 
