@@ -26,7 +26,7 @@ class CAShutdownBOINCManager : public BOINCCABase
 {
 public:
 
-    CAShutdownBOINCManager(MSIHANDLE hMSIHandle);
+    explicit CAShutdownBOINCManager(MSIHANDLE hMSIHandle);
     ~CAShutdownBOINCManager();
     virtual UINT OnExecution();
 

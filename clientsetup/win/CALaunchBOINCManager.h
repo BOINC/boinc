@@ -26,9 +26,9 @@ class CALaunchBOINCManager : public BOINCCABase
 {
 public:
 
-    CALaunchBOINCManager(MSIHANDLE hMSIHandle);
+    explicit CALaunchBOINCManager(MSIHANDLE hMSIHandle);
     ~CALaunchBOINCManager();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

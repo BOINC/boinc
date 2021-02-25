@@ -26,7 +26,7 @@ class CARestorePermissionBOINCData : public BOINCCABase
 {
 public:
 
-    CARestorePermissionBOINCData(MSIHANDLE hMSIHandle);
+    explicit CARestorePermissionBOINCData(MSIHANDLE hMSIHandle);
     ~CARestorePermissionBOINCData();
     virtual UINT OnExecution();
 

@@ -26,7 +26,7 @@ class CAGetUsersGroupName : public BOINCCABase
 {
 public:
 
-    CAGetUsersGroupName(MSIHANDLE hMSIHandle);
+    explicit CAGetUsersGroupName(MSIHANDLE hMSIHandle);
     ~CAGetUsersGroupName();
     virtual UINT OnExecution();
 

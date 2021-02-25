@@ -26,7 +26,7 @@ class CARevokeBOINCProjectRights : public BOINCCABase
 {
 public:
 
-    CARevokeBOINCProjectRights(MSIHANDLE hMSIHandle);
+    explicit CARevokeBOINCProjectRights(MSIHANDLE hMSIHandle);
     ~CARevokeBOINCProjectRights();
     virtual UINT OnExecution();
 

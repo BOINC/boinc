@@ -26,7 +26,7 @@ class CAValidateRebootRequest : public BOINCCABase
 {
 public:
 
-    CAValidateRebootRequest(MSIHANDLE hMSIHandle);
+    explicit CAValidateRebootRequest(MSIHANDLE hMSIHandle);
     ~CAValidateRebootRequest();
     virtual UINT OnExecution();
 };

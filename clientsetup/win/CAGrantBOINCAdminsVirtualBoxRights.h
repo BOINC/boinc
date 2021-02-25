@@ -26,7 +26,7 @@ class CAGrantBOINCAdminsVirtualBoxRights : public BOINCCABase
 {
 public:
 
-    CAGrantBOINCAdminsVirtualBoxRights(MSIHANDLE hMSIHandle);
+    explicit CAGrantBOINCAdminsVirtualBoxRights(MSIHANDLE hMSIHandle);
     ~CAGrantBOINCAdminsVirtualBoxRights();
     virtual UINT OnExecution();
 

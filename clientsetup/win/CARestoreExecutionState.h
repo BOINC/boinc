@@ -26,7 +26,7 @@ class CARestoreExecutionState : public BOINCCABase
 {
 public:
 
-    CARestoreExecutionState(MSIHANDLE hMSIHandle);
+    explicit CARestoreExecutionState(MSIHANDLE hMSIHandle);
     ~CARestoreExecutionState();
     virtual UINT OnExecution();
 

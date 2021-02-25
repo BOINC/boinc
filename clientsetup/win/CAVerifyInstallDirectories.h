@@ -26,7 +26,7 @@ class CAVerifyInstallDirectories : public BOINCCABase
 {
 public:
 
-    CAVerifyInstallDirectories(MSIHANDLE hMSIHandle);
+    explicit CAVerifyInstallDirectories(MSIHANDLE hMSIHandle);
     ~CAVerifyInstallDirectories();
     virtual UINT OnExecution();
 

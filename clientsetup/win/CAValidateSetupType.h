@@ -26,7 +26,7 @@ class CAValidateSetupType : public BOINCCABase
 {
 public:
 
-    CAValidateSetupType(MSIHANDLE hMSIHandle);
+    explicit CAValidateSetupType(MSIHANDLE hMSIHandle);
     ~CAValidateSetupType();
     virtual UINT OnExecution();
 

@@ -26,7 +26,7 @@ class CALaunchBOINCTray : public BOINCCABase
 {
 public:
 
-    CALaunchBOINCTray(MSIHANDLE hMSIHandle);
+    explicit CALaunchBOINCTray(MSIHANDLE hMSIHandle);
     ~CALaunchBOINCTray();
     virtual UINT OnExecution();
 

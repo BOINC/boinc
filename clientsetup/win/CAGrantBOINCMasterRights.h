@@ -26,7 +26,7 @@ class CAGrantBOINCMasterRights : public BOINCCABase
 {
 public:
 
-    CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle);
+    explicit CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle);
     ~CAGrantBOINCMasterRights();
     virtual UINT OnExecution();
 

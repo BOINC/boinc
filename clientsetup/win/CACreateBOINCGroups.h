@@ -26,7 +26,7 @@ class CACreateBOINCGroups : public BOINCCABase
 {
 public:
 
-    CACreateBOINCGroups(MSIHANDLE hMSIHandle);
+    explicit CACreateBOINCGroups(MSIHANDLE hMSIHandle);
     ~CACreateBOINCGroups();
     virtual UINT OnExecution();
 
