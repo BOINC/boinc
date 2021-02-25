@@ -41,7 +41,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-    private val STRING_LENGTH = 32;
+    private val passwordLength = 32;
 
 
     override fun onResume() {
@@ -65,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         var autKey = readAutFileContent()
         if (autKey.isEmpty()) {
-            autKey = generateRandomString()
+            autKey = generateRandomString(passwordLength)
             writeAutFileContent(autKey)
         }
         if ("authenticationKey" !in sharedPreferences) {
@@ -278,9 +278,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
-    private fun generateRandomString() : String {
+    private fun generateRandomString(length : Int) : String {
         return ThreadLocalRandom.current()
-                .ints(STRING_LENGTH.toLong(), 0, charPool.size)
+                .ints(length.toLong(), 0, charPool.size)
                 .asSequence()
                 .map(charPool::get)
                 .joinToString("")
