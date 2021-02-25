@@ -41,7 +41,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-    private val passwordLength = 32;
+    private val passwordLength = 32
+    private var autKey = ""
 
 
     override fun onResume() {
@@ -64,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         if ("authenticationKey" !in sharedPreferences) {
-            var autKey = readAutFileContent()
+            autKey = readAutFileContent()
             if (autKey.isEmpty()) {
                 autKey = generateRandomString(passwordLength)
                 writeAutFileContent(autKey)
@@ -96,7 +97,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
-        preference.setSummaryProvider { setAsterisks(readAutFileContent().length) }
+        preference.setSummaryProvider { setAsterisks(autKey.length) }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -211,13 +212,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             "authenticationKey" -> {
-                var autKey = sharedPreferences.getString(key, "")!!
-                if (autKey.isEmpty()) {
-                    autKey = readAutFileContent()
+                val currentAutKey = sharedPreferences.getString(key, "")!!
+                if (currentAutKey.isEmpty()) {
                     sharedPreferences.edit { putString(key, autKey) }
                     findPreference<EditTextPreference>(key)?.text = autKey
                     Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
                 } else {
+                    autKey = currentAutKey
                     writeAutFileContent(autKey)
                 }
             }
