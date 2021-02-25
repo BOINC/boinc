@@ -159,6 +159,7 @@ struct AM_ACCOUNT {
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
     AM_ACCOUNT() {
+	no_rsc = { false };
         safe_strcpy(url_signature, "");
         detach = false;
         update = false;
