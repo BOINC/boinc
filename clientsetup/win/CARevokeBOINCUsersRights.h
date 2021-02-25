@@ -28,7 +28,7 @@ public:
 
     explicit CARevokeBOINCUsersRights(MSIHANDLE hMSIHandle);
     ~CARevokeBOINCUsersRights();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

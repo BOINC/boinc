@@ -28,7 +28,7 @@ public:
 
     explicit CAShutdownUD(MSIHANDLE hMSIHandle);
     ~CAShutdownUD();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

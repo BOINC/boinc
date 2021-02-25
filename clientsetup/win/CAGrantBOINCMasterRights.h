@@ -28,7 +28,7 @@ public:
 
     explicit CAGrantBOINCMasterRights(MSIHANDLE hMSIHandle);
     ~CAGrantBOINCMasterRights();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

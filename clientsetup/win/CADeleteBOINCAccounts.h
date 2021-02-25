@@ -28,7 +28,7 @@ public:
 
     explicit CADeleteBOINCAccounts(MSIHANDLE hMSIHandle);
     ~CADeleteBOINCAccounts();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

@@ -28,7 +28,7 @@ public:
 
     explicit CAShutdownBOINC(MSIHANDLE hMSIHandle);
     ~CAShutdownBOINC();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

@@ -28,7 +28,7 @@ public:
 
     explicit CARestoreExecutionState(MSIHANDLE hMSIHandle);
     ~CARestoreExecutionState();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

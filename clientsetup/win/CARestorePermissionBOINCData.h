@@ -28,7 +28,7 @@ public:
 
     explicit CARestorePermissionBOINCData(MSIHANDLE hMSIHandle);
     ~CARestorePermissionBOINCData();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

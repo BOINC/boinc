@@ -28,7 +28,7 @@ public:
 
     explicit CASetPermissionBOINCDataProjects(MSIHANDLE hMSIHandle);
     ~CASetPermissionBOINCDataProjects();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

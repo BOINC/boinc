@@ -28,7 +28,7 @@ public:
 
     explicit CADeleteBOINCGroups(MSIHANDLE hMSIHandle);
     ~CADeleteBOINCGroups();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

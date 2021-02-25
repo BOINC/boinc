@@ -28,7 +28,7 @@ public:
 
     explicit CASetPermissionBOINC(MSIHANDLE hMSIHandle);
     ~CASetPermissionBOINC();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

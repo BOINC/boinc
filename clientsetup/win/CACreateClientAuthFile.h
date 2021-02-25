@@ -28,7 +28,7 @@ public:
 
     explicit CACreateClientAuthFile(MSIHANDLE hMSIHandle);
     ~CACreateClientAuthFile();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

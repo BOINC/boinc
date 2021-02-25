@@ -28,7 +28,7 @@ public:
 
     explicit CAValidateSetupType(MSIHANDLE hMSIHandle);
     ~CAValidateSetupType();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

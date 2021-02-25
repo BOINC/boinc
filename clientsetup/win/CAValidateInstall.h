@@ -28,7 +28,7 @@ public:
 
     explicit CAValidateInstall(MSIHANDLE hMSIHandle);
     ~CAValidateInstall();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
     BOOL ValidateExecutable( tstring strExecutable, tstring strDesiredVersion );
 };

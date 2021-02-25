@@ -28,7 +28,7 @@ public:
 
     explicit CAGetUsersGroupName(MSIHANDLE hMSIHandle);
     ~CAGetUsersGroupName();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

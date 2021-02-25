@@ -28,7 +28,7 @@ public:
 
     explicit CAVerifyInstallDirectories(MSIHANDLE hMSIHandle);
     ~CAVerifyInstallDirectories();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 

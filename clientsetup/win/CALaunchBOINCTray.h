@@ -28,7 +28,7 @@ public:
 
     explicit CALaunchBOINCTray(MSIHANDLE hMSIHandle);
     ~CALaunchBOINCTray();
-    virtual UINT OnExecution();
+    virtual UINT OnExecution() override;
 
 };
 
