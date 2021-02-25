@@ -69,7 +69,6 @@ UINT CACreateBOINCAccounts::OnExecution()
     tstring          strBOINCProjectAccountPassword;
     tstring          strComputerName;
     tstring          strProductType;
-    tstring          strDataDirectory;
     tstring          strEnableProtectedApplicationExecution;
     PSID             pSid;
     NET_API_STATUS   nasReturnValue;

@@ -64,7 +64,6 @@ UINT CARevokeBOINCMasterRights::OnExecution()
 {
     PSID        pSid;
     tstring     strBOINCMasterAccountUsername;
-    tstring     strOSVersion;
     UINT        uiReturnValue;
 
 

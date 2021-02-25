@@ -64,7 +64,6 @@ UINT CARevokeBOINCProjectRights::OnExecution()
 {
     PSID        pSid;
     tstring     strBOINCProjectAccountUsername;
-    tstring     strOSVersion;
     UINT        uiReturnValue;
 
 

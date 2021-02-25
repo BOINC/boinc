@@ -61,7 +61,6 @@ CAValidateRebootRequest::~CAValidateRebootRequest()
 UINT CAValidateRebootRequest::OnExecution()
 {
     tstring strInstallDirectory;
-    tstring strRebootRequested;
     tstring strRebootPendingFilename;
     FILE*   fRebootPending;
     UINT    uiReturnValue;

@@ -147,25 +147,6 @@ UINT CACreateBOINCGroups::OnExecution()
 
     }
 
-    // Create a SID for the 'boinc_project' user account.
-    if (_T("1") == strEnableProtectedApplicationExecution) {
-
-        if(!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(), &pBOINCProjectSID))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                GetLastError(),
-                _T("GetAccountSid Error for 'boinc_master' user account")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-    }
-
-
     // Create the 'boinc_admins' group if needed
     //
     LOCALGROUP_INFO_1 lgrpiAdmins;
