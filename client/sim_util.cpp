@@ -180,7 +180,7 @@ bool RANDOM_PROCESS::sample(double diff) {
     return value;
 }
 
-RANDOM_PROCESS::RANDOM_PROCESS() {
+RANDOM_PROCESS::RANDOM_PROCESS() : time_left(0), value(false), off_lambda(0), lambda(0) {
     frac = 1;
     last_time = 0;
 }

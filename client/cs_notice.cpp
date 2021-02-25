@@ -759,7 +759,7 @@ void RSS_FEED::delete_files() {
 
 ///////////// RSS_FEED_OP ////////////////
 
-RSS_FEED_OP::RSS_FEED_OP() {
+RSS_FEED_OP::RSS_FEED_OP() : canceled(false) {
     error_num = BOINC_SUCCESS;
     gui_http = &gstate.gui_http;
 }

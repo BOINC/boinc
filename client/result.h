@@ -94,7 +94,7 @@ struct RESULT {
     WORKUNIT* wup;
     PROJECT* project;
 
-    RESULT(){
+    RESULT(): coproc_indices({}) {
         clear();
     }
     ~RESULT(){}

@@ -69,7 +69,7 @@ struct ASYNC_VERIFY {
     gzFile gzin;
     char inpath[MAXPATHLEN], temp_path[MAXPATHLEN], outpath[MAXPATHLEN];
 
-    ASYNC_VERIFY(){
+    ASYNC_VERIFY() : gzin(NULL), md5_state({0}) {
       fip = NULL;
       in = NULL;
       out = NULL;

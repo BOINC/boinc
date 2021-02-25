@@ -87,7 +87,7 @@ ACTIVE_TASK::~ACTIVE_TASK() {
 #endif
 }
 
-ACTIVE_TASK::ACTIVE_TASK() {
+ACTIVE_TASK::ACTIVE_TASK() : graphics_request_queue({}), process_control_queue({}) {
 #ifdef _WIN32
     safe_strcpy(shmem_seg_name, "");
 #else
@@ -150,6 +150,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
+    graphics_pid = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {

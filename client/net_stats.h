@@ -55,7 +55,8 @@ public:
     NET_INFO up;
     NET_INFO down;
 
-    NET_STATS(int){}
+    explicit NET_STATS(int): up({}), down({}) {
+    }
     void clear() {
         static const NET_STATS x(0);
         *this = x;

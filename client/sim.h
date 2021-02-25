@@ -34,7 +34,8 @@ struct SIM_RESULTS {
     double idle_frac;
     int nrpcs;
 
-    SIM_RESULTS(int){}
+    explicit SIM_RESULTS(int) : flops_used(0), flops_wasted(0), nresults_met_deadline(0), nresults_missed_deadline(0), share_violation(0), monotony(0), wasted_frac(0), idle_frac(0), nrpcs(0) {
+    }
     void clear() {
         static const SIM_RESULTS x(0);
         *this = x;
