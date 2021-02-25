@@ -93,7 +93,7 @@ void ttf_load_fonts(
     if (bInit) return; // we've already been here
     bInit = true; // we're in now!
     ttf_cleanup();
-    memset(g_font, 0x00, sizeof(FTFont*) * NUM_FONT);
+    memset(g_font, 0x00, sizeof(FTFont*)); // CWE: 682
         // initialize to null's for error checking later
     char vpath[MAXPATHLEN];
     g_iFont = -1;
