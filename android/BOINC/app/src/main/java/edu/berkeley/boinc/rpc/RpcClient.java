@@ -330,11 +330,8 @@ public class RpcClient {
      * @return true if connected to BOINC core client, false if not connected
      */
     public final boolean isConnected() {
-        if (mIsRemote) {
-            return (mTcpSocke != null && mTcpSocke.isConnected());
-        } else {
-            return (mSocket != null && mSocket.isConnected());
-        }
+        return (mTcpSocke != null && mTcpSocke.isConnected()) ||
+               (mSocket != null && mSocket.isConnected());
     }
 
     /**
