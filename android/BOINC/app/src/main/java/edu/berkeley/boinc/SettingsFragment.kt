@@ -42,7 +42,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val prefs = BOINCActivity.monitor!!.prefs
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private val passwordLength = 32
-    private var autKey = ""
+    private var authKey = ""
 
 
     override fun onResume() {
@@ -65,12 +65,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         if ("authenticationKey" !in sharedPreferences) {
-            autKey = readAutFileContent()
-            if (autKey.isEmpty()) {
-                autKey = generateRandomString(passwordLength)
-                writeAutFileContent(autKey)
+            authKey = readAuthFileContent()
+            if (authKey.isEmpty()) {
+                authKey = generateRandomString(passwordLength)
+                writeAuthFileContent(authKey)
             }
-            sharedPreferences.edit { putString("authenticationKey", autKey) }
+            sharedPreferences.edit { putString("authenticationKey", authKey) }
         }
 
         val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
@@ -97,7 +97,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
-        preference.setSummaryProvider { setAsterisks(autKey.length) }
+        preference.setSummaryProvider { setAsterisks(authKey.length) }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -212,14 +212,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             "authenticationKey" -> {
-                val currentAutKey = sharedPreferences.getString(key, "")!!
-                if (currentAutKey.isEmpty()) {
-                    sharedPreferences.edit { putString(key, autKey) }
-                    findPreference<EditTextPreference>(key)?.text = autKey
+                val currentAuthKey = sharedPreferences.getString(key, "")!!
+                if (currentAuthKey.isEmpty()) {
+                    sharedPreferences.edit { putString(key, authKey) }
+                    findPreference<EditTextPreference>(key)?.text = authKey
                     Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
                 } else {
-                    autKey = currentAutKey
-                    writeAutFileContent(autKey)
+                    authKey = currentAuthKey
+                    writeAuthFileContent(authKey)
                 }
             }
 
@@ -292,12 +292,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         return "*".repeat(length)
     }
 
-    private fun readAutFileContent(): String {
-        val autFile = File(BOINCActivity.monitor!!.authFilePath)
-        return if (autFile.exists()) autFile.bufferedReader().readLine() else ""
+    private fun readAuthFileContent(): String {
+        val authFile = File(BOINCActivity.monitor!!.authFilePath)
+        return if (authFile.exists()) authFile.bufferedReader().readLine() else ""
     }
 
-    private fun writeAutFileContent(value: String) {
+    private fun writeAuthFileContent(value: String) {
         File(BOINCActivity.monitor!!.authFilePath).writeText(value)
     }
 }
