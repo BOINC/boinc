@@ -88,7 +88,7 @@ public class RpcClient {
     public static final int MGR_SYNC = 31;
 
     private LocalSocket mSocket;
-    private Socket mTcpSocke;
+    private Socket mTcpSocket;
     private Boolean mIsRemote = false;
     private BufferedSource socketSource;
     private BufferedSink socketSink;
@@ -183,23 +183,23 @@ public class RpcClient {
             close();
         }
         try {
-            mTcpSocke = new Socket();
-            mTcpSocke.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
-            mTcpSocke.setSoTimeout(READ_TIMEOUT);
-            socketSource = Okio.buffer(Okio.source(mTcpSocke.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(mTcpSocke.getOutputStream()));
+            mTcpSocket = new Socket();
+            mTcpSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
+            mTcpSocket.setSoTimeout(READ_TIMEOUT);
+            socketSource = Okio.buffer(Okio.source(mTcpSocket.getInputStream()));
+            socketSink = Okio.buffer(Okio.sink(mTcpSocket.getOutputStream()));
         } catch (IllegalArgumentException e) {
             if (Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "connect failure: illegal argument", e);
-            mTcpSocke = null;
+            mTcpSocket = null;
             return false;
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
-            mTcpSocke = null;
+            mTcpSocket = null;
             return false;
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
-            mTcpSocke = null;
+            mTcpSocket = null;
             return false;
         }
         if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
@@ -264,7 +264,7 @@ public class RpcClient {
         }
         try {
             if(mIsRemote){
-                mTcpSocke.close();
+                mTcpSocket.close();
             } else {
                 mSocket.close();
             }
@@ -273,7 +273,7 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
         }
         if (mIsRemote) {
-            mTcpSocke = null;
+            mTcpSocket = null;
         } else {
             mSocket = null;
         }
@@ -330,7 +330,7 @@ public class RpcClient {
      * @return true if connected to BOINC core client, false if not connected
      */
     public final boolean isConnected() {
-        return (mTcpSocke != null && mTcpSocke.isConnected()) ||
+        return (mTcpSocket != null && mTcpSocket.isConnected()) ||
                (mSocket != null && mSocket.isConnected());
     }
 
