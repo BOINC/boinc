@@ -184,7 +184,7 @@ public class RpcClient {
             mTcpSocket = null;
             return false;
         }
-        return initBuffersFromSocket();
+        return initBuffersFromSocket(false);
     }
 
     /**
@@ -203,7 +203,7 @@ public class RpcClient {
             mSocket = null;
             return false;
         }
-        return initBuffersFromSocket();
+        return initBuffersFromSocket(true);
     }
 
     /**
@@ -226,6 +226,11 @@ public class RpcClient {
         }
         try {
             if (mTcpSocket != null)  mTcpSocket.close();
+            if (Logging.DEBUG) Log.d(Logging.TAG, "close() - tcp Socket closed");
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "Tcp socket close failure", e);
+        }
+        try {
             if (mSocket    != null)  mSocket.close();
             if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
         } catch (IOException e) {
@@ -1348,9 +1353,8 @@ public class RpcClient {
         }
     }
 
-    private boolean initBuffersFromSocket()
+    private boolean initBuffersFromSocket(boolean isLocal)
     {
-        boolean isLocal = mSocket != null;
         try {
             socketSource = Okio.buffer(Okio.source(isLocal ? mSocket.getInputStream()  : mTcpSocket.getInputStream()));
             socketSink   = Okio.buffer(Okio.sink(  isLocal ? mSocket.getOutputStream() : mTcpSocket.getOutputStream()));
