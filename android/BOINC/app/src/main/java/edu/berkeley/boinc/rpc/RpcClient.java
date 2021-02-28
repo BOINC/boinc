@@ -184,24 +184,13 @@ public class RpcClient {
             mTcpSocket = new Socket();
             mTcpSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
             mTcpSocket.setSoTimeout(READ_TIMEOUT);
-            socketSource = Okio.buffer(Okio.source(mTcpSocket.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(mTcpSocket.getOutputStream()));
-        } catch (IllegalArgumentException e) {
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "connect failure: illegal argument", e);
-            mTcpSocket = null;
-            return false;
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
-            mTcpSocket = null;
-            return false;
-        } catch (Exception e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+            if(Logging.WARNING)
+                Log.w(Logging.TAG, "connect failure: IO", e);
             mTcpSocket = null;
             return false;
         }
-        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
-        return true;
+        return initBuffersFromSocket(mTcpSocket);
     }
 
     /**
@@ -221,20 +210,43 @@ public class RpcClient {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketAddress));
             mSocket.setSoTimeout(READ_TIMEOUT);
-            socketSource = Okio.buffer(Okio.source(mSocket.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(mSocket.getOutputStream()));
-        } catch (IllegalArgumentException e) {
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "connect failure: illegal argument", e);
-            mSocket = null;
-            return false;
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
             mSocket = null;
             return false;
+        }
+        return initBuffersFromSocket(mSocket);
+    }
+
+    private boolean initBuffersFromSocket(Object obj)
+    {   LocalSocket socket    = null;
+        Socket      tcpSocket = null;
+        boolean isLocal = false;
+        if(obj instanceof LocalSocket) {
+            socket = (LocalSocket) obj;
+            isLocal = true;
+        } else {
+            tcpSocket = (Socket) obj;
+            isLocal = false;
+        }
+        try {
+            socketSource = Okio.buffer(Okio.source(isLocal ? socket.getInputStream()  : tcpSocket.getInputStream()));
+            socketSink = Okio.buffer(Okio.sink(    isLocal ? socket.getOutputStream() : tcpSocket.getOutputStream()));
+        } catch (IllegalArgumentException e) {
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "connect failure: illegal argument", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
         } catch (Exception e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
-            mSocket = null;
+            mSocket    = null;
+            mTcpSocket = null;
             return false;
         }
         if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
@@ -266,8 +278,8 @@ public class RpcClient {
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
         }
-        mTcpSocket = null;
         mSocket    = null;
+        mTcpSocket = null;
     }
 
     /**
