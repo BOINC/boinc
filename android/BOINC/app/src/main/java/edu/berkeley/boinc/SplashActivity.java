@@ -156,6 +156,7 @@ public class SplashActivity extends AppCompatActivity {
                             if(Logging.DEBUG) {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
+                            // run benchmarks to speed up project initialization
                             TaskRunner taskRunner = new TaskRunner();
                             taskRunner.executeAsync(new BenchmarksTask(), (benchmarks) -> {
                                 if(Logging.DEBUG) {
