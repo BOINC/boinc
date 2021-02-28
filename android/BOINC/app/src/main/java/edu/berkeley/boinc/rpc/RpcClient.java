@@ -221,7 +221,7 @@ public class RpcClient {
     private boolean initBuffersFromSocket(Object obj)
     {   LocalSocket socket    = null;
         Socket      tcpSocket = null;
-        boolean isLocal = false;
+        boolean isLocal;
         if(obj instanceof LocalSocket) {
             socket = (LocalSocket) obj;
             isLocal = true;
