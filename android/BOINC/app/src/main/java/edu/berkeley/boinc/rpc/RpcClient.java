@@ -173,13 +173,7 @@ public class RpcClient {
      * @return true for success, false for failure
      */
     public boolean open(String address, int port) {
-        if (isConnected()) {
-            // Already connected
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "Attempt to connect when already connected");
-            // We better close current connection and reconnect (address/port could be different)
-            close();
-        }
+        closeOpenConnection();
         try {
             mTcpSocket = new Socket();
             mTcpSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
@@ -190,7 +184,7 @@ public class RpcClient {
             mTcpSocket = null;
             return false;
         }
-        return initBuffersFromSocket(mTcpSocket);
+        return initBuffersFromSocket();
     }
 
     /**
@@ -199,13 +193,7 @@ public class RpcClient {
      * @return true for success, false for failure
      */
     public boolean open(String socketAddress) {
-        if (isConnected()) {
-            // Already connected
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "Attempt to connect when already connected");
-            // We better close current connection and reconnect (address/port could be different)
-            close();
-        }
+        closeOpenConnection();
         try {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketAddress));
@@ -215,42 +203,7 @@ public class RpcClient {
             mSocket = null;
             return false;
         }
-        return initBuffersFromSocket(mSocket);
-    }
-
-    private boolean initBuffersFromSocket(Object obj)
-    {   LocalSocket socket    = null;
-        Socket      tcpSocket = null;
-        boolean isLocal;
-        if(obj instanceof LocalSocket) {
-            socket = (LocalSocket) obj;
-            isLocal = true;
-        } else {
-            tcpSocket = (Socket) obj;
-            isLocal = false;
-        }
-        try {
-            socketSource = Okio.buffer(Okio.source(isLocal ? socket.getInputStream()  : tcpSocket.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(    isLocal ? socket.getOutputStream() : tcpSocket.getOutputStream()));
-        } catch (IllegalArgumentException e) {
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "connect failure: illegal argument", e);
-            mSocket    = null;
-            mTcpSocket = null;
-            return false;
-        } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
-            mSocket    = null;
-            mTcpSocket = null;
-            return false;
-        } catch (Exception e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
-            mSocket    = null;
-            mTcpSocket = null;
-            return false;
-        }
-        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
-        return true;
+        return initBuffersFromSocket();
     }
 
     /**
@@ -1392,6 +1345,43 @@ public class RpcClient {
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
             return false;
+        }
+    }
+
+    private boolean initBuffersFromSocket()
+    {
+        boolean isLocal = mSocket != null;
+        try {
+            socketSource = Okio.buffer(Okio.source(isLocal ? mSocket.getInputStream()  : mTcpSocket.getInputStream()));
+            socketSink = Okio.buffer(Okio.sink(    isLocal ? mSocket.getOutputStream() : mTcpSocket.getOutputStream()));
+        } catch (IllegalArgumentException e) {
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "connect failure: illegal argument", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        } catch (Exception e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
+        return true;
+    }
+
+    private void closeOpenConnection() {
+        if (isConnected()) {
+            // Already connected
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "Attempt to connect when already connected");
+            // We better close current connection and reconnect (address/port could be different)
+            close();
         }
     }
 }
