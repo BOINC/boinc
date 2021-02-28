@@ -1353,7 +1353,7 @@ public class RpcClient {
         boolean isLocal = mSocket != null;
         try {
             socketSource = Okio.buffer(Okio.source(isLocal ? mSocket.getInputStream()  : mTcpSocket.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(    isLocal ? mSocket.getOutputStream() : mTcpSocket.getOutputStream()));
+            socketSink   = Okio.buffer(Okio.sink(  isLocal ? mSocket.getOutputStream() : mTcpSocket.getOutputStream()));
         } catch (IllegalArgumentException e) {
             if (Logging.LOGLEVEL <= 4)
                 Log.e(Logging.TAG, "connect failure: illegal argument", e);
