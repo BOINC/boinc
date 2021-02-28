@@ -1383,5 +1383,7 @@ public class RpcClient {
             // We better close current connection and reconnect (address/port could be different)
             close();
         }
+        mSocket    = null;
+        mTcpSocket = null;
     }
 }
