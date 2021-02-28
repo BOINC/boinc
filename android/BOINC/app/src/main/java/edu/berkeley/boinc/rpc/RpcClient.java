@@ -87,9 +87,8 @@ public class RpcClient {
     public static final int MGR_DETACH = 30;
     public static final int MGR_SYNC = 31;
 
-    private LocalSocket mSocket;
-    private Socket mTcpSocket;
-    private Boolean mIsRemote = false;
+    private LocalSocket mSocket    = null;
+    private Socket      mTcpSocket = null;
     private BufferedSource socketSource;
     private BufferedSink socketSink;
     private final byte[] mReadBuffer = new byte[READ_BUF_SIZE];
@@ -174,7 +173,6 @@ public class RpcClient {
      * @return true for success, false for failure
      */
     public boolean open(String address, int port) {
-        mIsRemote = true;
         if (isConnected()) {
             // Already connected
             if (Logging.LOGLEVEL <= 4)
@@ -212,7 +210,6 @@ public class RpcClient {
      * @return true for success, false for failure
      */
     public boolean open(String socketAddress) {
-        mIsRemote = false;
         if (isConnected()) {
             // Already connected
             if (Logging.LOGLEVEL <= 4)
@@ -263,20 +260,14 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "output close failure", e);
         }
         try {
-            if(mIsRemote){
-                mTcpSocket.close();
-            } else {
-                mSocket.close();
-            }
+            if (mTcpSocket != null)  mTcpSocket.close();
+            if (mSocket    != null)  mSocket.close();
             if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
         }
-        if (mIsRemote) {
-            mTcpSocket = null;
-        } else {
-            mSocket = null;
-        }
+        mTcpSocket = null;
+        mSocket    = null;
     }
 
     /**
