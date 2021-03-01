@@ -175,6 +175,7 @@
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer (days)</string>
     <string name="prefs_remote_authentication_key">GUI authentication key</string>
     <string name="prefs_remote_empty_password">Password update failed: value cannot be empty</string>
+    <string name="prefs_remote_boinc_relaunched">BOINC client will be relaunched after password change.</string>
     <string name="prefs_client_log_flags_header">BOINC client log flags</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>

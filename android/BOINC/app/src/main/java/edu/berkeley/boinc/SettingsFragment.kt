@@ -97,7 +97,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
 
         val preference = findPreference<EditTextPreference>("authenticationKey")!!
-        preference.setSummaryProvider { setAsterisks(authKey.length) }
+        preference.setSummaryProvider {
+            getString(R.string.prefs_remote_boinc_relaunched) + '\n' +
+            setAsterisks(authKey.length)
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
