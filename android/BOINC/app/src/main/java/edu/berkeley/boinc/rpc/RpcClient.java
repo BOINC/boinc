@@ -226,16 +226,15 @@ public class RpcClient {
         }
         try {
             if (mTcpSocket != null)  mTcpSocket.close();
-            if (Logging.DEBUG) Log.d(Logging.TAG, "close() - tcp Socket closed");
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "Tcp socket close failure", e);
         }
         try {
-            if (mSocket    != null)  mSocket.close();
-            if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
+            if (mSocket != null)  mSocket.close();
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
+            if (Logging.WARNING) Log.w(Logging.TAG, "Local socket close failure", e);
         }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
         mSocket    = null;
         mTcpSocket = null;
     }
