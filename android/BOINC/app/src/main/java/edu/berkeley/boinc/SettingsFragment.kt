@@ -22,6 +22,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
@@ -32,10 +33,17 @@ import edu.berkeley.boinc.utils.setAppTheme
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.streams.asSequence
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
+    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private val passwordLength = 32
+    private var authKey = ""
+
 
     override fun onResume() {
         super.onResume()
@@ -54,6 +62,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
         if ("deviceName" !in sharedPreferences) {
             sharedPreferences.edit { putString("deviceName", hostInfo.domainName) }
+        }
+
+        if ("authenticationKey" !in sharedPreferences) {
+            authKey = readAuthFileContent()
+            if (authKey.isEmpty()) {
+                authKey = generateRandomString(passwordLength)
+                writeAuthFileContent(authKey)
+            }
+            sharedPreferences.edit { putString("authenticationKey", authKey) }
         }
 
         val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
@@ -77,6 +94,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             usedCpuCores?.isVisible = false
         } else {
             usedCpuCores?.max = hostInfo.noOfCPUs
+        }
+
+        val preference = findPreference<EditTextPreference>("authenticationKey")!!
+        preference.setSummaryProvider {
+            getString(R.string.prefs_remote_boinc_relaunched) + '\n' +
+            setAsterisks(authKey.length)
         }
     }
 
@@ -191,6 +214,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
 
+            "authenticationKey" -> {
+                val currentAuthKey = sharedPreferences.getString(key, "")!!
+                if (currentAuthKey.isEmpty()) {
+                    sharedPreferences.edit { putString(key, authKey) }
+                    findPreference<EditTextPreference>(key)?.text = authKey
+                    Toast.makeText(activity, R.string.prefs_remote_empty_password, Toast.LENGTH_SHORT).show()
+                } else {
+                    authKey = currentAuthKey
+                    writeAuthFileContent(authKey)
+                }
+            }
+
             // Debug
             "clientLogFlags" -> {
                 lifecycleScope.launch {
@@ -245,5 +280,27 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         if (Logging.DEBUG) {
             Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
         }
+    }
+
+    private fun generateRandomString(length : Int) : String {
+        return ThreadLocalRandom.current()
+                .ints(length.toLong(), 0, charPool.size)
+                .asSequence()
+                .map(charPool::get)
+                .joinToString("")
+    }
+
+    // Return the password in asterisks
+    private fun setAsterisks(length: Int): String {
+        return "*".repeat(length)
+    }
+
+    private fun readAuthFileContent(): String {
+        val authFile = File(BOINCActivity.monitor!!.authFilePath)
+        return if (authFile.exists()) authFile.bufferedReader().readLine() else ""
+    }
+
+    private fun writeAuthFileContent(value: String) {
+        File(BOINCActivity.monitor!!.authFilePath).writeText(value)
     }
 }

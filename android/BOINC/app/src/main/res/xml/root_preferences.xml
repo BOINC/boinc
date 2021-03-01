@@ -245,6 +245,12 @@
                 app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header"
                 app:useSimpleSummaryProvider="true" />
 
+        <EditTextPreference
+                app:iconSpaceReserved="false"
+                app:key="authenticationKey"
+                app:title="@string/prefs_remote_authentication_key"
+                app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
