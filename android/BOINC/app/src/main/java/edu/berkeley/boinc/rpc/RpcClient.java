@@ -31,6 +31,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class RpcClient {
     static final String AUTHORIZED = "authorized";
     static final String UNAUTHORIZED = "unauthorized";
 
+    private static final int CONNECT_TIMEOUT = 30000;
     private static final int READ_TIMEOUT = 15000;         // 15s
     private static final int READ_BUF_SIZE = 2048;
     private static final int RESULT_BUILDER_INIT_SIZE = 131072; // Yes, 128K
@@ -84,7 +87,8 @@ public class RpcClient {
     public static final int MGR_DETACH = 30;
     public static final int MGR_SYNC = 31;
 
-    private LocalSocket mSocket;
+    private LocalSocket mSocket    = null;
+    private Socket      mTcpSocket = null;
     private BufferedSource socketSource;
     private BufferedSink socketSink;
     private final byte[] mReadBuffer = new byte[READ_BUF_SIZE];
@@ -164,40 +168,42 @@ public class RpcClient {
      */
 
     /**
+     * Connect to BOINC core client via TCP Socket (abstract, "boinc_socket")
+     *
+     * @return true for success, false for failure
+     */
+    public boolean open(String address, int port) {
+        closeOpenConnection();
+        try {
+            mTcpSocket = new Socket();
+            mTcpSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
+            mTcpSocket.setSoTimeout(READ_TIMEOUT);
+        } catch (IOException e) {
+            if(Logging.WARNING)
+                Log.w(Logging.TAG, "connect failure: IO", e);
+            mTcpSocket = null;
+            return false;
+        }
+        return initBuffersFromSocket(false);
+    }
+
+    /**
      * Connect to BOINC core client via Unix Domain Socket (abstract, "boinc_socket")
      *
      * @return true for success, false for failure
      */
     public boolean open(String socketAddress) {
-        if (isConnected()) {
-            // Already connected
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "Attempt to connect when already connected");
-            // We better close current connection and reconnect (address/port could be different)
-            close();
-        }
+        closeOpenConnection();
         try {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketAddress));
             mSocket.setSoTimeout(READ_TIMEOUT);
-            socketSource = Okio.buffer(Okio.source(mSocket.getInputStream()));
-            socketSink = Okio.buffer(Okio.sink(mSocket.getOutputStream()));
-        } catch (IllegalArgumentException e) {
-            if (Logging.LOGLEVEL <= 4)
-                Log.e(Logging.TAG, "connect failure: illegal argument", e);
-            mSocket = null;
-            return false;
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
             mSocket = null;
             return false;
-        } catch (Exception e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
-            mSocket = null;
-            return false;
         }
-        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
-        return true;
+        return initBuffersFromSocket(true);
     }
 
     /**
@@ -219,12 +225,18 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "output close failure", e);
         }
         try {
-            mSocket.close();
-            if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
+            if (mTcpSocket != null)  mTcpSocket.close();
         } catch (IOException e) {
-            if (Logging.WARNING) Log.w(Logging.TAG, "socket close failure", e);
+            if (Logging.WARNING) Log.w(Logging.TAG, "Tcp socket close failure", e);
         }
-        mSocket = null;
+        try {
+            if (mSocket != null)  mSocket.close();
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "Local socket close failure", e);
+        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "close() - Socket closed");
+        mSocket    = null;
+        mTcpSocket = null;
     }
 
     /**
@@ -278,7 +290,8 @@ public class RpcClient {
      * @return true if connected to BOINC core client, false if not connected
      */
     public final boolean isConnected() {
-        return (mSocket != null && mSocket.isConnected());
+        return (mTcpSocket != null && mTcpSocket.isConnected()) ||
+               (mSocket != null && mSocket.isConnected());
     }
 
     /**
@@ -1337,5 +1350,43 @@ public class RpcClient {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
             return false;
         }
+    }
+
+    private boolean initBuffersFromSocket(boolean isLocal)
+    {
+        try {
+            socketSource = Okio.buffer(Okio.source(isLocal ? mSocket.getInputStream()  : mTcpSocket.getInputStream()));
+            socketSink   = Okio.buffer(Okio.sink(  isLocal ? mSocket.getOutputStream() : mTcpSocket.getOutputStream()));
+        } catch (IllegalArgumentException e) {
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "connect failure: illegal argument", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        } catch (IOException e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure: IO", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        } catch (Exception e) {
+            if (Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+            mSocket    = null;
+            mTcpSocket = null;
+            return false;
+        }
+        if (Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
+        return true;
+    }
+
+    private void closeOpenConnection() {
+        if (isConnected()) {
+            // Already connected
+            if (Logging.LOGLEVEL <= 4)
+                Log.e(Logging.TAG, "Attempt to connect when already connected");
+            // We better close current connection and reconnect (address/port could be different)
+            close();
+        }
+        mSocket    = null;
+        mTcpSocket = null;
     }
 }

@@ -29,11 +29,17 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
@@ -89,6 +95,44 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
+    public static class TaskRunner {
+        private final Executor executor = Executors.newSingleThreadExecutor(); // change according to your requirements
+        private final Handler handler = new Handler(Looper.getMainLooper());
+
+        public interface Callback<R> {
+            void onComplete(R result);
+        }
+
+        public <R> void executeAsync(Callable<R> callable, Callback<R> callback) {
+            executor.execute(() -> {
+                try {
+                    final R result = callable.call();
+                    handler.post(() -> {
+                        callback.onComplete(result);
+                    });
+                }catch(Exception e){
+                    Log.d(Logging.TAG, e.getMessage());
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+
+    class BenchmarksTask implements Callable<Boolean> {
+        @Override
+        public Boolean call() {
+            // Some long running task
+            Boolean benchmarks = false;
+            try {
+                benchmarks = monitor.runBenchmarks();
+            }
+            catch(RemoteException e) {
+                e.printStackTrace();
+            }
+            return benchmarks;
+        }
+    }
+
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -113,10 +157,13 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
                             // run benchmarks to speed up project initialization
-                            boolean benchmarks = monitor.runBenchmarks();
-                            if(Logging.DEBUG) {
-                                Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
-                            }
+                            TaskRunner taskRunner = new TaskRunner();
+                            taskRunner.executeAsync(new BenchmarksTask(), (benchmarks) -> {
+                                if(Logging.DEBUG) {
+                                    Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
+                                }
+                            });
+
                             // forward to PROJECTATTACH
                             Intent startAttach = new Intent(SplashActivity.this, SelectionListActivity.class);
                             startActivity(startAttach);

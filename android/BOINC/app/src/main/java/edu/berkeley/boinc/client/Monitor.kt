@@ -110,6 +110,8 @@ class Monitor : LifecycleService() {
     private var screenOn = false
     private val forceReinstall = false // for debugging purposes //TODO
 
+    private var isRemote = false
+
     /**
      * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
      * Defaults to ARM
@@ -519,10 +521,12 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-    private fun runClient(): Boolean {
+    private fun runClient(remote : Boolean = false): Boolean {
+        isRemote = remote
         var success = false
         try {
-            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", "--gui_rpc_unix_domain")
+            val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
+            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
             if (Logging.ERROR) Log.w(Logging.TAG, "Launching '${cmd[0]}' from '$boincWorkingDir'")
             Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
             success = true
@@ -541,7 +545,11 @@ class Monitor : LifecycleService() {
      * @return Boolean success
      */
     private fun connectClient(): Boolean {
-        var success = clientInterface.open(clientSocketAddress)
+        var success = if (isRemote) {
+            clientInterface.connect()
+        } else {
+            clientInterface.open(clientSocketAddress)
+        }
         if (!success) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Connection failed!")
             return false
