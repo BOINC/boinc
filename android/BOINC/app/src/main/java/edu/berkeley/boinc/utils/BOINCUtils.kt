@@ -126,7 +126,7 @@ inline fun Long.secondsToLocalDateTime(
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
 
 class TaskRunner {
-    private val executor: Executor = Executors.newSingleThreadExecutor() // change according to your requirements
+    private val executor: Executor = Executors.newSingleThreadExecutor()
     private val handler = Handler(Looper.getMainLooper())
 
     interface Callback<R> {
