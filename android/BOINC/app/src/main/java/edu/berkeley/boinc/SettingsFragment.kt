@@ -20,8 +20,6 @@ package edu.berkeley.boinc
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
@@ -32,36 +30,15 @@ import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
+import edu.berkeley.boinc.utils.TaskRunner
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Callable
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
 
-class TaskRunner {
-    private val executor: Executor = Executors.newSingleThreadExecutor() // change according to your requirements
-    private val handler = Handler(Looper.getMainLooper())
-
-    interface Callback<R> {
-        fun onComplete(result: R)
-    }
-
-    fun <R> executeAsync(callable: Callable<R>, callback: Callback<R>) {
-        executor.execute {
-            try {
-                val result = callable.call()
-                handler.post { callback.onComplete(result) }
-            } catch (e: Exception) {
-                Log.d(Logging.TAG, e.message)
-                e.printStackTrace()
-            }
-        }
-    }
-}
 
 internal class QuitClientTask : Callable<Boolean> {
     override fun call(): Boolean {
@@ -272,7 +249,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
 
             "remoteEnable" -> {
-                val isRemote = sharedPreferences.getBoolean(key, false)!!
+                val isRemote = sharedPreferences.getBoolean(key, false)
                 BOINCActivity.monitor!!.isRemote = isRemote
                 findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
                 quitClient()
