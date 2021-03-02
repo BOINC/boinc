@@ -20,13 +20,14 @@ package edu.berkeley.boinc
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
-import edu.berkeley.boinc.client.ClientInterfaceImplementation
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
@@ -35,16 +36,53 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.concurrent.Callable
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
+
+class TaskRunner {
+    private val executor: Executor = Executors.newSingleThreadExecutor() // change according to your requirements
+    private val handler = Handler(Looper.getMainLooper())
+
+    interface Callback<R> {
+        fun onComplete(result: R)
+    }
+
+    fun <R> executeAsync(callable: Callable<R>, callback: Callback<R>) {
+        executor.execute {
+            try {
+                val result = callable.call()
+                handler.post { callback.onComplete(result) }
+            } catch (e: Exception) {
+                Log.d(Logging.TAG, e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+}
+
+internal class QuitClientTask : Callable<Boolean> {
+    override fun call(): Boolean {
+        // network task
+        var isQuit = false
+        try {
+            isQuit = BOINCActivity.monitor!!.quitClient()
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+        return isQuit
+    }
+}
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
+    private val taskRunner = TaskRunner()
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private val passwordLength = 32
     private var authKey = ""
-    private var isRemote = false
 
 
     override fun onResume() {
@@ -140,7 +178,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             // Power
             "powerSources" -> {
                 val powerSources = sharedPreferences.getStringSet(key,
-                        resources.getStringArray(R.array.power_source_default).toSet()) ?: emptySet()
+                        resources.getStringArray(R.array.power_source_default).toSet())
+                        ?: emptySet()
                 Log.d(Logging.TAG, "powerSources: $powerSources")
                 BOINCActivity.monitor!!.powerSourceAc = "wall" in powerSources
                 BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
@@ -151,7 +190,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             }
             "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
-                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
+                prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble()
+                        ?: 40.0
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
@@ -211,11 +251,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
             "workBufAdditionalDays" -> {
-                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
+                prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble()
+                        ?: 0.5
 
                 lifecycleScope.launch { writeClientPrefs(prefs) }
             }
 
+            // Remote
             "authenticationKey" -> {
                 val currentAuthKey = sharedPreferences.getString(key, "")!!
                 if (currentAuthKey.isEmpty()) {
@@ -225,14 +267,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 } else {
                     authKey = currentAuthKey
                     writeAuthFileContent(authKey)
-                    BOINCActivity.monitor!!.quit()
+                    quitClient()
                 }
             }
 
             "remoteEnable" -> {
-                isRemote = sharedPreferences.getBoolean(key, false)!!
+                val isRemote = sharedPreferences.getBoolean(key, false)!!
+                BOINCActivity.monitor!!.isRemote = isRemote
                 findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
-                BOINCActivity.monitor!!.quit()
+                quitClient()
             }
 
             // Debug
@@ -294,7 +337,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
-    private fun generateRandomString(length : Int) : String {
+    private fun generateRandomString(length: Int) : String {
         return ThreadLocalRandom.current()
                 .ints(length.toLong(), 0, charPool.size)
                 .asSequence()
@@ -314,5 +357,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun writeAuthFileContent(value: String) {
         File(BOINCActivity.monitor!!.authFilePath).writeText(value)
+    }
+
+    private fun quitClient() {
+        taskRunner.executeAsync(QuitClientTask(), object : TaskRunner.Callback<Boolean> {
+            override fun onComplete(result: Boolean) {
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "SettingActivity: quitClient returned: $result")
+                }
+            }
+        })
     }
 }

@@ -121,7 +121,7 @@ public class SplashActivity extends AppCompatActivity {
     class BenchmarksTask implements Callable<Boolean> {
         @Override
         public Boolean call() {
-            // Some long running task
+            // network task
             Boolean benchmarks = false;
             try {
                 benchmarks = monitor.runBenchmarks();

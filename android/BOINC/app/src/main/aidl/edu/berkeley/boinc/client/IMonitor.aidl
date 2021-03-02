@@ -75,8 +75,7 @@ int getBoincPlatform();                        // should be not necessary to be 
 void cancelNoticeNotification();
 boolean getWelcomeStateFile();
 void setWelcomeStateFile();
-void quit();
-boolean runClient(boolean remote);
+boolean quitClient();
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
 int getSetupStatus();         // clientStatus.setupStatus;
@@ -115,6 +114,7 @@ boolean getPowerSourceAc();
 boolean getPowerSourceUsb();
 boolean getPowerSourceWireless();
 void setShowAdvanced(in boolean isShow);
+void setIsRemote(in boolean isRemote);
 void setStationaryDeviceMode(in boolean mode);
 boolean getSuspendWhenScreenOn();
 void setSuspendWhenScreenOn(in boolean swso);

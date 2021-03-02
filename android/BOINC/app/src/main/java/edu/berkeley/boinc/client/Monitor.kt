@@ -290,9 +290,13 @@ class Monitor : LifecycleService() {
             file.createNewFile()
         }
     }
-    //Kill boinc client
-    fun quit() {
-        clientInterface.quit()
+
+    //Kill boinc client nicely
+    fun quitClient() : Boolean {
+        if(clientInterface.isConnected()) {
+            return clientInterface.quit()
+        }
+        return true
     }
     // --end-- public methods for Activities
     // multi-threaded frequent information polling
@@ -525,7 +529,7 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-     fun runClient(remote : Boolean): Boolean {
+     private fun runClient(remote : Boolean): Boolean {
         isRemote = remote
         var success = false
         try {
@@ -1152,6 +1156,11 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun setIsRemote(isRemote: Boolean) {
+            appPreferences.isRemote = isRemote
+        }
+
+        @Throws(RemoteException::class)
         override fun setStationaryDeviceMode(mode: Boolean) {
             appPreferences.stationaryDeviceMode = mode
         }
@@ -1206,12 +1215,8 @@ class Monitor : LifecycleService() {
             return mutex.isAcquired
         }
         @Throws(RemoteException::class)
-        override fun quit() {
-            return this@Monitor.quit()
-        }
-        @Throws(RemoteException::class)
-        override fun runClient(remote : Boolean) : Boolean{
-            return this@Monitor.runClient(remote)
+        override fun quitClient() : Boolean {
+            return this@Monitor.quitClient()
         }
     } // --end-- remote service
 
