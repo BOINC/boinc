@@ -290,6 +290,10 @@ class Monitor : LifecycleService() {
             file.createNewFile()
         }
     }
+    //Kill boinc client
+    fun quit() {
+        clientInterface.quit()
+    }
     // --end-- public methods for Activities
     // multi-threaded frequent information polling
     /**
@@ -521,7 +525,7 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-    private fun runClient(remote : Boolean = false): Boolean {
+     fun runClient(remote : Boolean = false): Boolean {
         isRemote = remote
         var success = false
         try {
@@ -1195,6 +1199,14 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
+        }
+        @Throws(RemoteException::class)
+        override fun quit() {
+            return this@Monitor.quit()
+        }
+        @Throws(RemoteException::class)
+        override fun runClient(remote : Boolean) : Boolean{
+            return this@Monitor.runClient(remote)
         }
     } // --end-- remote service
 

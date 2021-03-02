@@ -75,7 +75,8 @@ int getBoincPlatform();                        // should be not necessary to be 
 void cancelNoticeNotification();
 boolean getWelcomeStateFile();
 void setWelcomeStateFile();
-
+void quit();
+boolean runClient(boolean remote);
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
 int getSetupStatus();         // clientStatus.setupStatus;

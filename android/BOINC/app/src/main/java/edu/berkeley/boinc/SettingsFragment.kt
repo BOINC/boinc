@@ -26,6 +26,7 @@ import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
+import edu.berkeley.boinc.client.ClientInterfaceImplementation
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
@@ -43,6 +44,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private val passwordLength = 32
     private var authKey = ""
+    private var isRemote = false
 
 
     override fun onResume() {
@@ -64,7 +66,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             sharedPreferences.edit { putString("deviceName", hostInfo.domainName) }
         }
 
-        if ("authenticationKey" !in sharedPreferences) {
+        if(authKey.isEmpty()) {
             authKey = readAuthFileContent()
             if (authKey.isEmpty()) {
                 authKey = generateRandomString(passwordLength)
@@ -224,6 +226,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                     authKey = currentAuthKey
                     writeAuthFileContent(authKey)
                 }
+
+            }
+
+            "remoteEnable" -> {
+                isRemote = sharedPreferences.getBoolean(key, false)!!
+                findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
+                if (isRemote) {
+//                    BOINCActivity.monitor!!.quit();
+//                    BOINCActivity.monitor!!.runClient(true);
+                }
             }
 
             // Debug
@@ -266,6 +278,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<PreferenceCategory>("memory")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("other")?.isVisible = showAdvanced
         findPreference<PreferenceCategory>("debug")?.isVisible = showAdvanced
+        findPreference<PreferenceCategory>("remote")?.isVisible = showAdvanced
+        val isRemote = findPreference<CheckBoxPreference>("remoteEnable")?.isChecked
+        findPreference<EditTextPreference>("authenticationKey")?.isVisible = showAdvanced && isRemote == true
     }
 
     private suspend fun writeClientPrefs(prefs: GlobalPreferences) = coroutineScope {
