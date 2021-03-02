@@ -290,6 +290,14 @@ class Monitor : LifecycleService() {
             file.createNewFile()
         }
     }
+
+    //Kill boinc client nicely
+    fun quitClient() : Boolean {
+        if(clientInterface.isConnected()) {
+            return clientInterface.quit()
+        }
+        return true
+    }
     // --end-- public methods for Activities
     // multi-threaded frequent information polling
     /**
@@ -465,7 +473,7 @@ class Monitor : LifecycleService() {
         val clientPid = getPidForProcessName(clientProcessName)
         if (clientPid == null) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client")
-            if (!runClient()) {
+            if (!runClient(appPreferences.isRemote)) {
                 if (Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start")
                 return false
             }
@@ -521,7 +529,7 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-    private fun runClient(remote : Boolean = false): Boolean {
+    private fun runClient(remote : Boolean): Boolean {
         isRemote = remote
         var success = false
         try {
@@ -1058,6 +1066,11 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun getIsRemote(): Boolean {
+            return appPreferences.isRemote
+        }
+
+        @Throws(RemoteException::class)
         override fun getAutostart(): Boolean {
             return appPreferences.autostart
         }
@@ -1143,6 +1156,11 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun setIsRemote(isRemote: Boolean) {
+            appPreferences.isRemote = isRemote
+        }
+
+        @Throws(RemoteException::class)
         override fun setStationaryDeviceMode(mode: Boolean) {
             appPreferences.stationaryDeviceMode = mode
         }
@@ -1195,6 +1213,10 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
+        }
+        @Throws(RemoteException::class)
+        override fun quitClient() : Boolean {
+            return this@Monitor.quitClient()
         }
     } // --end-- remote service
 

@@ -129,6 +129,7 @@
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_other">Other</string>
     <string name="prefs_category_debug">Debug</string>
+    <string name="prefs_category_remote">Remote Control</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
     <string name="prefs_general_device_name_header">Device name</string>
@@ -159,6 +160,8 @@
     <string name="prefs_network_daily_xfer_limit_period_days_header">Daily transfer limit (Days)</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_remote_header">Enable Remote Control</string>
+    <string name="prefs_remote_summary">When changed, BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
     <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>

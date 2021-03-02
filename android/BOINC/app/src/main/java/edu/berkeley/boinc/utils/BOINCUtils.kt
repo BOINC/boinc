@@ -24,7 +24,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.RemoteException
+import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -40,6 +43,9 @@ import java.io.Reader
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.concurrent.Callable
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -118,3 +124,24 @@ inline fun Long.secondsToLocalDateTime(
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
+
+class TaskRunner {
+    private val executor: Executor = Executors.newSingleThreadExecutor()
+    private val handler = Handler(Looper.getMainLooper())
+
+    interface Callback<R> {
+        fun onComplete(result: R)
+    }
+
+    fun <R> executeAsync(callable: Callable<R>, callback: Callback<R>) {
+        executor.execute {
+            try {
+                val result = callable.call()
+                handler.post { callback.onComplete(result) }
+            } catch (e: Exception) {
+                Log.d(Logging.TAG, e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+}

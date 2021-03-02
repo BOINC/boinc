@@ -39,6 +39,7 @@
     <string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
     <!-- Default preferences of Android app-->
     <bool name="prefs_default_autostart">true</bool>
+    <bool name="prefs_default_remote">false</bool>
     <bool name="prefs_default_notification_notices">true</bool>
     <bool name="prefs_default_notification_suspended">false</bool>
     <bool name="prefs_default_advanced">false</bool>

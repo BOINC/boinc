@@ -245,6 +245,20 @@
                 app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header"
                 app:useSimpleSummaryProvider="true" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="remote"
+            app:title="@string/prefs_category_remote">
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_remote"
+                app:iconSpaceReserved="false"
+                app:key="remoteEnable"
+                app:summary="@string/prefs_remote_summary"
+                app:title="@string/prefs_remote_header" />
+
         <EditTextPreference
                 app:iconSpaceReserved="false"
                 app:key="authenticationKey"

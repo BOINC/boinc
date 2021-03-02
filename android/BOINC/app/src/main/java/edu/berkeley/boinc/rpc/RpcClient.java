@@ -1140,16 +1140,17 @@ public class RpcClient {
     /**
      * Tells the BOINC core client to exit.
      */
-    public synchronized void quit() {
+    public synchronized boolean quit() {
         try {
             sendRequest("<quit/>\n");
             SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
             if (parser == null)
-                return;
+                return true;
             mLastErrorMessage = parser.getErrorMessage();
         } catch (IOException e) {
             if (Logging.WARNING) Log.w(Logging.TAG, "error in quit()", e);
         }
+        return false;
     }
 
     /**
