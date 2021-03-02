@@ -529,7 +529,7 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-     private fun runClient(remote : Boolean): Boolean {
+    private fun runClient(remote : Boolean): Boolean {
         isRemote = remote
         var success = false
         try {
