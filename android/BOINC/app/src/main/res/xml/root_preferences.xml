@@ -257,6 +257,7 @@
                 app:defaultValue="@bool/prefs_default_remote"
                 app:iconSpaceReserved="false"
                 app:key="remoteEnable"
+                app:summary="@string/prefs_remote_summary"
                 app:title="@string/prefs_remote_header" />
         <EditTextPreference
                 app:iconSpaceReserved="false"

@@ -469,7 +469,7 @@ class Monitor : LifecycleService() {
         val clientPid = getPidForProcessName(clientProcessName)
         if (clientPid == null) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client")
-            if (!runClient()) {
+            if (!runClient(appPreferences.isRemote)) {
                 if (Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start")
                 return false
             }
@@ -525,7 +525,7 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-     fun runClient(remote : Boolean = false): Boolean {
+     fun runClient(remote : Boolean): Boolean {
         isRemote = remote
         var success = false
         try {
@@ -1059,6 +1059,11 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun getShowAdvanced(): Boolean {
             return appPreferences.showAdvanced
+        }
+
+        @Throws(RemoteException::class)
+        override fun getIsRemote(): Boolean {
+            return appPreferences.isRemote
         }
 
         @Throws(RemoteException::class)

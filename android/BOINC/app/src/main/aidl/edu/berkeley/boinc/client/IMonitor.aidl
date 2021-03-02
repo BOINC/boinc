@@ -102,6 +102,7 @@ List<ImageWrapper> getSlideshowForProject(in String url);   // clientStatus.getS
 void setAutostart(in boolean isAutoStart);          // Monitor.getAppPrefs().setAutostart(boolean);
 void setShowNotificationForNotices(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationForNotices(boolean);
 boolean getShowAdvanced();           // Monitor.getAppPrefs().getShowAdvanced();
+boolean getIsRemote();              // Monitor.getAppPrefs().getIsRemote();
 boolean getAutostart();              // Monitor.getAppPrefs().getAutostart();
 boolean getShowNotificationForNotices();       // Monitor.getAppPrefs().getShowNotificationForNotices();
 int getLogLevel();                   // Monitor.getAppPrefs().getLogLevel();

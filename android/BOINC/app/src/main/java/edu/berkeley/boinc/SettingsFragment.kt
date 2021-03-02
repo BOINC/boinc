@@ -225,17 +225,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 } else {
                     authKey = currentAuthKey
                     writeAuthFileContent(authKey)
+                    BOINCActivity.monitor!!.quit()
                 }
-
             }
 
             "remoteEnable" -> {
                 isRemote = sharedPreferences.getBoolean(key, false)!!
                 findPreference<EditTextPreference>("authenticationKey")?.isVisible = isRemote
-                if (isRemote) {
-//                    BOINCActivity.monitor!!.quit();
-//                    BOINCActivity.monitor!!.runClient(true);
-                }
+                BOINCActivity.monitor!!.quit()
             }
 
             // Debug

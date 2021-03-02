@@ -161,6 +161,7 @@
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_remote_header">Enable Remote</string>
+    <string name="prefs_remote_summary">When changed, BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
     <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
