@@ -173,6 +173,9 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     bdp->error_str[0] = '\0';
 
 #if defined(ANDROID) && defined(__arm__)
+#if defined(ARMV6)
+    retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+#else 
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)
@@ -186,6 +189,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     } else { // just run normal test
         retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     }
+#endif    
 #else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
 #endif

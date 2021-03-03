@@ -109,6 +109,10 @@
 #include "win/opt_x86.h"
 #endif
 
+#ifdef ARMV6
+#include <sys/wait.h>
+#endif
+
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
