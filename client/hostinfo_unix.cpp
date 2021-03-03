@@ -1599,7 +1599,7 @@ static const struct dir_tty_dev {
         return false;
     }
 } tty_patterns[] = {
-#ifdef unix
+#if defined(LINUX_LIKE_SYSTEM) and !defined(ANDROID)
     { "/dev", "tty",
       {"ttyS", "ttyACM"},
     },
