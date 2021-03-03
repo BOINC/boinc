@@ -24,16 +24,12 @@ import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
 import edu.berkeley.boinc.utils.TaskRunner
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Callable
 import java.util.concurrent.ThreadLocalRandom
@@ -50,6 +46,32 @@ internal class QuitClientTask : Callable<Boolean> {
             e.printStackTrace()
         }
         return isQuit
+    }
+}
+
+class WriteClientPrefsTask(private val prefs: GlobalPreferences) : Callable<Boolean>{
+    override fun call(): Boolean {
+        // network task
+        var isSuccess = false
+        try {
+            isSuccess = BOINCActivity.monitor!!.setGlobalPreferences(prefs)
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+        return isSuccess
+    }
+}
+
+class SetCcConfigTask(val flags: String) : Callable<Boolean> {
+    override fun call(): Boolean {
+        // network task
+        var isSuccess = false
+        try {
+            isSuccess = BOINCActivity.monitor!!.setCcConfig(flags)
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+        return isSuccess
     }
 }
 
@@ -136,20 +158,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             // Network
             "networkWiFiOnly" -> {
                 prefs.networkWiFiOnly = sharedPreferences.getBoolean(key, true)
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "dailyTransferLimitMB" -> {
                 val dailyTransferLimitMB = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
                 prefs.dailyTransferLimitMB = dailyTransferLimitMB?.toDouble() ?: 0.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "dailyTransferPeriodDays" -> {
                 val dailyTransferPeriodDays = sharedPreferences.getString(key, prefs.dailyTransferPeriodDays.toString())
                 prefs.dailyTransferPeriodDays = dailyTransferPeriodDays?.toInt() ?: 0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // Power
@@ -161,19 +180,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
                 BOINCActivity.monitor!!.powerSourceWireless = "wireless" in powerSources
                 prefs.runOnBatteryPower = "battery" in powerSources
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
                 prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "minBatteryLevel" -> {
                 prefs.batteryChargeMinPct = sharedPreferences.getInt(key, 90).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // CPU
@@ -181,54 +197,45 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 val usedCpuCores = sharedPreferences.getInt(key, pctCpuCoresToNumber(hostInfo,
                         prefs.maxNoOfCPUsPct))
                 prefs.maxNoOfCPUsPct = numberCpuCoresToPct(hostInfo, usedCpuCores)
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "cpuUsageLimit" -> {
                 prefs.cpuUsageLimit = sharedPreferences.getInt(key, 100).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "suspendCpuUsage" -> {
                 prefs.suspendCpuUsage = sharedPreferences.getInt(key, 50).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // Storage
             "diskMaxUsedPct" -> {
                 prefs.diskMaxUsedPct = sharedPreferences.getInt(key, 90).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "diskMinFreeGB" -> {
                 prefs.diskMinFreeGB = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "diskInterval" -> {
                 prefs.diskInterval = sharedPreferences.getString(key, "60")?.toDouble() ?: 60.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // Memory
             "maxRamUsedIdle" -> {
                 prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 50).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // Other
             "workBufMinDays" -> {
                 prefs.workBufMinDays = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
             "workBufAdditionalDays" -> {
                 prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs()
             }
 
             // Remote
@@ -254,16 +261,24 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Debug
             "clientLogFlags" -> {
-                lifecycleScope.launch {
-                    val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
-                    BOINCActivity.monitor!!.setCcConfig(formatOptionsToCcConfig(flags))
-                }
+                val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
+                setCcConfig(flags)
             }
             "logLevel" -> {
                 BOINCActivity.monitor!!.logLevel = sharedPreferences.getInt(key,
                         resources.getInteger(R.integer.prefs_default_loglevel))
             }
         }
+    }
+
+    private fun setCcConfig(flags: Set<String>) {
+        taskRunner.executeAsync(SetCcConfigTask(formatOptionsToCcConfig(flags)), object : TaskRunner.Callback<Boolean> {
+            override fun onComplete(result: Boolean) {
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "setCcConfig() async call returned: $result")
+                }
+            }
+        })
     }
 
     private fun pctCpuCoresToNumber(hostInfo: HostInfo, pct: Double) =
@@ -297,18 +312,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<EditTextPreference>("authenticationKey")?.isVisible = showAdvanced && isRemote == true
     }
 
-    private suspend fun writeClientPrefs(prefs: GlobalPreferences) = coroutineScope {
-        val success = async {
-            return@async try {
-                BOINCActivity.monitor!!.setGlobalPreferences(prefs)
-            } catch (e: RemoteException) {
-                false
+    private fun writeClientPrefs() {
+        taskRunner.executeAsync(WriteClientPrefsTask(prefs), object : TaskRunner.Callback<Boolean> {
+            override fun onComplete(result: Boolean) {
+                if (Logging.DEBUG) {
+                    Log.d(Logging.TAG, "writeClientPrefs() async call returned: $result")
+                }
             }
-        }
-
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
-        }
+        })
     }
 
     private fun generateRandomString(length: Int) : String {
