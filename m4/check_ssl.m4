@@ -18,7 +18,7 @@ AC_ARG_WITH(ssl,
     [check_ssl_dir="$withval"],
     [check_ssl_dir=])
 if test "x${PKGCONFIG}" != "x" -a "x${check_ssl_dir}" = "x" ; then
-    SSLDIR="`${PKGCONFIG} openssl --cflags-only-I | sed -e 's/-I//' -e 's/\/include\/openssl//' -e 's/\/include//' | grep '[a-z]' 2>/dev/null`"
+    SSLDIR="`${PKGCONFIG} openssl --cflags-only-I 2>/dev/null | sed -e 's/-I//' -e 's/\/include\/openssl//' -e 's/\/include//'`"
     if test "x${SSLDIR}" = "x" ; then
       if test -d "/usr/include/openssl" -o -f "/usr/include/ssl.h" ; then
         SSLDIR="/usr"
