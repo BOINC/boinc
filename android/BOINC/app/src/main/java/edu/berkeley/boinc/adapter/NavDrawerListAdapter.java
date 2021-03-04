@@ -105,7 +105,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                                navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
                                navDrawerItems.get(position).isProjectItem);
         }
-        if(convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
+        if(convertView == null || convertView.getTag() == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
             int layoutId = R.layout.navlist_listitem;
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
