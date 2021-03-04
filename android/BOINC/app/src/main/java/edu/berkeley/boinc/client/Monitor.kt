@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -97,6 +97,7 @@ class Monitor : LifecycleService() {
     private lateinit var fileNameNoMedia: String
     private lateinit var boincWorkingDir: String
     private lateinit var clientSocketAddress: String
+    private lateinit var fileNameWelcomeState: String
 
     private var clientStatusInterval by Delegates.notNull<Int>()
     private var deviceStatusIntervalScreenOff: Int = 0
@@ -108,6 +109,8 @@ class Monitor : LifecycleService() {
     // screen on/off updated by screenOnOffBroadcastReceiver
     private var screenOn = false
     private val forceReinstall = false // for debugging purposes //TODO
+
+    private var isRemote = false
 
     /**
      * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
@@ -123,6 +126,7 @@ class Monitor : LifecycleService() {
             platformId = when {
                 normalizedArch.containsAny("ARM64", "AARCH64") -> R.string.boinc_platform_name_arm64
                 "X86_64" in normalizedArch -> R.string.boinc_platform_name_x86_64
+                "ARMV6" in normalizedArch -> R.string.boinc_platform_name_armv6
                 "ARM" in normalizedArch -> R.string.boinc_platform_name_arm
                 "86" in normalizedArch -> R.string.boinc_platform_name_x86
                 else -> {
@@ -146,7 +150,7 @@ class Monitor : LifecycleService() {
             var platformName = ""
             val arch = System.getProperty("os.arch") ?: ""
             val normalizedArch = arch.toUpperCase(Locale.US)
-            if (normalizedArch.containsAny("ARM64", "AARCH64"))
+            if (normalizedArch.containsAny("ARM64", "AARCH64", "ARMV6"))
                 platformName = getString(R.string.boinc_platform_name_arm)
             else if ("X86_64" in normalizedArch)
                 platformName = getString(R.string.boinc_platform_name_x86)
@@ -181,6 +185,7 @@ class Monitor : LifecycleService() {
         fileNameGuiAuthentication = getString(R.string.auth_file_name)
         fileNameAllProjectsList = getString(R.string.all_projects_list)
         fileNameNoMedia = getString(R.string.nomedia)
+        fileNameWelcomeState = "welcome.state"
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
         deviceStatusIntervalScreenOff = resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
         clientSocketAddress = getString(R.string.client_socket_address)
@@ -275,6 +280,25 @@ class Monitor : LifecycleService() {
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 
+    fun getWelcomeStateFile() : Boolean {
+        val file = File(boincWorkingDir + fileNameWelcomeState)
+        return file.exists();
+    }
+
+    fun setWelcomeStateFile() {
+        val file = File(boincWorkingDir + fileNameWelcomeState)
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+    }
+
+    //Kill boinc client nicely
+    fun quitClient() : Boolean {
+        if(clientInterface.isConnected()) {
+            return clientInterface.quit()
+        }
+        return true
+    }
     // --end-- public methods for Activities
     // multi-threaded frequent information polling
     /**
@@ -450,7 +474,7 @@ class Monitor : LifecycleService() {
         val clientPid = getPidForProcessName(clientProcessName)
         if (clientPid == null) {
             if (Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client")
-            if (!runClient()) {
+            if (!runClient(appPreferences.isRemote)) {
                 if (Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start")
                 return false
             }
@@ -506,10 +530,12 @@ class Monitor : LifecycleService() {
      *
      * @return Boolean success
      */
-    private fun runClient(): Boolean {
+    private fun runClient(remote : Boolean): Boolean {
+        isRemote = remote
         var success = false
         try {
-            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", "--gui_rpc_unix_domain")
+            val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
+            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
             if (Logging.ERROR) Log.w(Logging.TAG, "Launching '${cmd[0]}' from '$boincWorkingDir'")
             Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
             success = true
@@ -528,7 +554,11 @@ class Monitor : LifecycleService() {
      * @return Boolean success
      */
     private fun connectClient(): Boolean {
-        var success = clientInterface.open(clientSocketAddress)
+        var success = if (isRemote) {
+            clientInterface.connect()
+        } else {
+            clientInterface.open(clientSocketAddress)
+        }
         if (!success) {
             if (Logging.ERROR) Log.e(Logging.TAG, "Connection failed!")
             return false
@@ -620,6 +650,7 @@ class Monitor : LifecycleService() {
         get() {
             var archAssetsDirectory = ""
             when (boincPlatform) {
+                R.string.boinc_platform_name_armv6 -> archAssetsDirectory = getString(R.string.assets_dir_armv6)
                 R.string.boinc_platform_name_arm -> archAssetsDirectory = getString(R.string.assets_dir_arm)
                 R.string.boinc_platform_name_arm64 -> archAssetsDirectory = getString(R.string.assets_dir_arm64)
                 R.string.boinc_platform_name_x86 -> archAssetsDirectory = getString(R.string.assets_dir_x86)
@@ -924,6 +955,16 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun getWelcomeStateFile(): Boolean {
+            return this@Monitor.getWelcomeStateFile()
+        }
+
+        @Throws(RemoteException::class)
+        override fun setWelcomeStateFile() {
+            this@Monitor.setWelcomeStateFile()
+        }
+
+        @Throws(RemoteException::class)
         override fun createAccountPolling(information: AccountIn): AccountOut {
             return clientInterface.createAccountPolling(information)
         }
@@ -1027,6 +1068,11 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun getIsRemote(): Boolean {
+            return appPreferences.isRemote
+        }
+
+        @Throws(RemoteException::class)
         override fun getAutostart(): Boolean {
             return appPreferences.autostart
         }
@@ -1062,8 +1108,13 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getTasks(): List<Result> {
-            return clientStatus.tasks
+        override fun getTasks(start: Int, count: Int, isActive: Boolean): List<Result> {
+            return clientStatus.getTasks(start, count, isActive)
+        }
+
+        @Throws(RemoteException::class)
+        override fun getTasksCount(): Int {
+            return clientStatus.tasksCount
         }
 
         @Throws(RemoteException::class)
@@ -1104,6 +1155,11 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun setShowAdvanced(isShow: Boolean) {
             appPreferences.showAdvanced = isShow
+        }
+
+        @Throws(RemoteException::class)
+        override fun setIsRemote(isRemote: Boolean) {
+            appPreferences.isRemote = isRemote
         }
 
         @Throws(RemoteException::class)
@@ -1159,6 +1215,10 @@ class Monitor : LifecycleService() {
         @Throws(RemoteException::class)
         override fun boincMutexAcquired(): Boolean {
             return mutex.isAcquired
+        }
+        @Throws(RemoteException::class)
+        override fun quitClient() : Boolean {
+            return this@Monitor.quitClient()
         }
     } // --end-- remote service
 

@@ -27,6 +27,7 @@
     <string name="nomedia" translatable="false">nomedia</string>
     <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
     <string name="assets_dir_arm64" translatable="false">arm64-v8a/</string>
+    <string name="assets_dir_armv6" translatable="false">armeabi/</string>
     <string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
     <string name="assets_dir_x86_64" translatable="false">x86_64/</string>
     <string name="assets_dir_x86" translatable="false">x86/</string>
@@ -34,11 +35,13 @@
     <string name="client_socket_address" translatable="false">edu_berkeley_boinc_client_socket</string>
     <!-- BOINC platform -->
     <string name="boinc_platform_name_arm64" translatable="false">aarch64-android-linux-gnu</string>
+    <string name="boinc_platform_name_armv6" translatable="false">armv6-android-linux-gnu</string>
     <string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
     <string name="boinc_platform_name_x86_64" translatable="false">x86_64-android-linux-gnu</string>
     <string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
     <!-- Default preferences of Android app-->
     <bool name="prefs_default_autostart">true</bool>
+    <bool name="prefs_default_remote">false</bool>
     <bool name="prefs_default_notification_notices">true</bool>
     <bool name="prefs_default_notification_suspended">false</bool>
     <bool name="prefs_default_advanced">false</bool>

@@ -202,9 +202,7 @@ struct USER {
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
-        // deprecated as of 9/2004 - may be used as temp
-        // currently used to store a nonce ID while email address
-        // is being verified.
+        // stores invite code, if any, for users created via RPC
     bool has_profile;
     char cross_project_id[256];
         // the "internal" cross-project ID;

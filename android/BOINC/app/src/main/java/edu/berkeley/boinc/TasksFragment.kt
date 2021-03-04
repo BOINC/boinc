@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -43,11 +43,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.collections.ArrayList
 import java.util.*
 
 class TasksFragment : Fragment() {
     private lateinit var recyclerViewAdapter: TaskRecyclerViewAdapter
     private val data: MutableList<TaskData> = ArrayList()
+    private var lastFullUpdateTimeStamp: Long = 0
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (Logging.VERBOSE) {
@@ -89,29 +91,65 @@ class TasksFragment : Fragment() {
         super.onPause()
     }
 
-    private fun loadData() {
-        // try to get current client status from monitor
-        val tmpA = try {
-            BOINCActivity.monitor!!.tasks
-        } catch (e: Exception) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "TasksActivity: Could not load data, clientStatus not initialized.")
-            }
-            return
-        }
-        //setup list and adapter
-        if (tmpA != null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
-            //deep copy, so ArrayList adapter actually recognizes the difference
-            updateData(tmpA)
-            recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
-        } else {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "loadData: array is null, rpc failed")
-            }
-        }
+    private fun loadTasks(start: Int, count: Int, isActive: Boolean): List<Result> {
+        return BOINCActivity.monitor?.getTasks(start, count, isActive) ?: emptyList()
     }
 
-    private fun updateData(newData: List<Result>) {
+    private fun loadTasks(isActive: Boolean): MutableList<Result> {
+        val tasks: MutableList<Result> = ArrayList()
+        var start = 0
+        val count = 10
+
+        while (true) {
+            val data = loadTasks(start, count, isActive)
+            tasks.addAll(data);
+            if (data.size < count) break
+            start += count
+        }
+
+        return tasks
+    }
+
+    private fun compareTwoListsOfActiveTasks(old: List<TaskData>, new: List<Result>): Boolean {
+        if (old.size != new.size) {
+            return false
+        }
+        return old.none { o -> new.indexOfFirst { it.name == o.id } == -1 }
+    }
+
+    private fun loadData() {
+        val tasks: MutableList<Result> = ArrayList()
+        val activeTasks: MutableList<TaskData> = ArrayList()
+        val timestamp = System.currentTimeMillis()
+        // perform full update every 10 seconds
+        var fullUpdate: Boolean = (timestamp - lastFullUpdateTimeStamp) > (10 * 1000)
+
+        for (task in data) {
+            if (task.isTaskActive) {
+                activeTasks.add(task)
+            }
+        }
+
+        val newActiveTasks = loadTasks(true)
+
+        if (!fullUpdate) {
+            fullUpdate = !(compareTwoListsOfActiveTasks(activeTasks, newActiveTasks))
+        }
+
+        tasks.addAll(newActiveTasks)
+
+        if (fullUpdate) {
+            tasks.addAll(loadTasks(false))
+            lastFullUpdateTimeStamp = timestamp
+        }
+
+        //setup list and adapter
+        //deep copy, so ArrayList adapter actually recognizes the difference
+        updateData(tasks, fullUpdate)
+        recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
+    }
+
+    private fun updateData(newData: List<Result>, fullUpdate: Boolean) {
         //loop through all received Result items to add new results
         for (rpcResult in newData) {
             //check whether this Result is new
@@ -126,8 +164,10 @@ class TasksFragment : Fragment() {
             }
         }
 
-        //loop through the list adapter to find removed (ready/aborted) Results
-        data.removeIf { item -> newData.none { it.name == item.id } }
+        if (fullUpdate) {
+            //loop through the list adapter to find removed (ready/aborted) Results
+            data.removeIf { item -> newData.none { it.name == item.id } }
+        }
     }
 
     inner class TaskData(var result: Result) {

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -35,6 +35,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.Callable;
+
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
@@ -43,6 +45,7 @@ import edu.berkeley.boinc.databinding.ActivitySplashBinding;
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import edu.berkeley.boinc.utils.TaskRunner;
 
 /**
  * Activity shown at start. Forwards to BOINCActivity automatically, once Monitor has connected to Client and received first data via RPCs.
@@ -58,6 +61,8 @@ public class SplashActivity extends AppCompatActivity {
     private boolean mIsBound = false;
     private static IMonitor monitor = null;
 
+    private boolean mIsWelcomeSpecificFirstRun = true;
+
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -69,6 +74,8 @@ public class SplashActivity extends AppCompatActivity {
                 if(!monitor.boincMutexAcquired()) {
                     showNotExclusiveDialog();
                 }
+                mIsWelcomeSpecificFirstRun =
+                        BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor.getWelcomeStateFile();
                 // read log level from monitor preferences and adjust accordingly
                 Logging.setLogLevel(monitor.getLogLevel());
             }
@@ -85,11 +92,30 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
+    class BenchmarksTask implements Callable<Boolean> {
+        @Override
+        public Boolean call() {
+            // network task
+            Boolean benchmarks = false;
+            try {
+                benchmarks = monitor.runBenchmarks();
+            }
+            catch(RemoteException e) {
+                e.printStackTrace();
+            }
+            return benchmarks;
+        }
+    }
+
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(mIsBound) {
                 try {
+                    if (mIsWelcomeSpecificFirstRun) {
+                        startActivity(new Intent(SplashActivity.this, LicenseActivity.class));
+                        return;
+                    }
                     int setupStatus = SplashActivity.monitor.getSetupStatus();
                     switch(setupStatus) {
                         case ClientStatus.SETUP_STATUS_AVAILABLE:
@@ -105,10 +131,13 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
                             // run benchmarks to speed up project initialization
-                            boolean benchmarks = monitor.runBenchmarks();
-                            if(Logging.DEBUG) {
-                                Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
-                            }
+                            TaskRunner taskRunner = new TaskRunner();
+                            taskRunner.executeAsync(new BenchmarksTask(), (benchmarks) -> {
+                                if(Logging.DEBUG) {
+                                    Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
+                                }
+                            });
+
                             // forward to PROJECTATTACH
                             Intent startAttach = new Intent(SplashActivity.this, SelectionListActivity.class);
                             startActivity(startAttach);

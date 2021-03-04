@@ -62,8 +62,33 @@ pkginclude_HEADERS = \
     project_specific_defines.h
 endif
 
-# svn_version.h should always be rebuilt.
+# Define files for distclean command
+DISTCLEANFILES =                                \
+   clientgui/res/Makefile                       \
+   packages/generic/sea/Makefile
 
+# Define files for maintainer-clean command
+MAINTAINERCLEANFILES =                          \
+    config.h.in                                 \
+    Makefile.in                                 \
+    aclocal.m4                                  \
+    autom4te.cache/*                            \
+    compile                                     \
+    config.guess                                \
+    config.sub                                  \
+    configure                                   \
+    depcomp                                     \
+    install-sh                                  \
+    ltmain.sh                                   \
+    m4/libtool.m4                               \
+    m4/ltoptions.m4                             \
+    m4/ltsugar.m4                               \
+    m4/ltversion.m4                             \
+    m4/lt~obsolete.m4                           \
+    missing                                     \
+    test-driver
+
+# svn_version.h should always be rebuilt.
 BUILT_SOURCES = svn_version.h
 svn_version.h: generate_svn_version.sh
 	cd $(srcdir) && sh generate_svn_version.sh
@@ -72,7 +97,7 @@ svn_version.h: generate_svn_version.sh
 # Add a stage target for staging a distribution
 
 clean-generic:
-	rm -rf stage *.gcov
+	rm -rf stage *.gcov $(BUILT_SOURCES)
 
 stage: all
 	if [ ! -d stage ] ; then mkdir stage ; fi
@@ -80,5 +105,8 @@ stage: all
 	$(MAKE) DESTDIR=$(PWD)/stage install
 
 dist-hook:
-	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
+	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS -name Makefile`
 #	cd $(distdir) && ./_autosetup
+
+distclean-local:
+	cd packages/solaris/CSW && make distclean

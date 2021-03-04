@@ -18,7 +18,7 @@ AC_ARG_WITH(ssl,
     [check_ssl_dir="$withval"],
     [check_ssl_dir=])
 if test "x${PKGCONFIG}" != "x" -a "x${check_ssl_dir}" = "x" ; then
-    SSLDIR="`${PKGCONFIG} openssl --cflags-only-I | sed -e 's/-I//' -e 's/\/include\/openssl//' -e 's/\/include//' | grep '[a-z]' 2>/dev/null`"
+    SSLDIR="`${PKGCONFIG} openssl --cflags-only-I 2>/dev/null | sed -e 's/-I//' -e 's/\/include\/openssl//' -e 's/\/include//'`"
     if test "x${SSLDIR}" = "x" ; then
       if test -d "/usr/include/openssl" -o -f "/usr/include/ssl.h" ; then
         SSLDIR="/usr"
@@ -46,7 +46,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
       SSL_CXXFLAGS="-I$ssldir/include -I$ssldir/include/openssl";
-      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto"
+      SSL_LIBS="-lssl -lcrypto"
       AC_CHECK_LIB([dl], [dlopen], 
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       AC_CHECK_LIB([z], [gzopen], 
@@ -58,7 +58,7 @@ if test "x${SSL_LIBS}" = "x" ; then
       SSLDIR="${ssldir}"
       SSL_CFLAGS="-I$ssldir/include/"
       SSL_CXXFLAGS="-I$ssldir/include/"
-      SSL_LIBS="-L$ssldir -L$ssldir/lib -lssl -lcrypto"
+      SSL_LIBS="-lssl -lcrypto"
       AC_CHECK_LIB([dl], [dlopen], 
           [SSL_LIBS="${SSL_LIBS} ${sah_lib_last}"])
       AC_CHECK_LIB([z], [gzopen], 

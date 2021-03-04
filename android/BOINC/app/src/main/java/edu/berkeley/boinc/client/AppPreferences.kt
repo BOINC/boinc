@@ -34,6 +34,7 @@ class AppPreferences @Inject constructor(val context: Context) {
     var showNotificationForNotices = prefs.getBoolean("showNotifications",
             context.resources.getBoolean(R.bool.prefs_default_notification_notices))
     var showAdvanced = prefs.getBoolean("showAdvanced", context.resources.getBoolean(R.bool.prefs_default_advanced))
+    var isRemote     = prefs.getBoolean("remoteEnable", context.resources.getBoolean(R.bool.prefs_default_remote))
     var logLevel = prefs.getInt("logLevel", context.resources.getInteger(R.integer.prefs_default_loglevel))
         set(value) {
             field = value

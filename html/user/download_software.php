@@ -44,6 +44,16 @@
 // 2) Put your project ID in a constant PROJECT_ID
 //    (this all works only for listed projects)
 
+// Can also be called as a web RPC;
+// see https://boinc.berkeley.edu/trac/wiki/WebRpc#download
+//  rpc              this says it's an RPC
+//  user_agent       web browser info
+//  authenticator    the account to link to
+// returns an XML doc of the form
+// <download_info>
+//   [ <manual/> ]  // not win or mac - tell user to visit BOINC download page
+//   <project_id>X</project_id>
+
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
 
@@ -52,8 +62,7 @@ define("VBOX_DOWNLOAD_URL", "https://www.virtualbox.org/wiki/Downloads");
 // take the user agent string reported by web browser,
 // and return best guess for platform
 //
-function get_platform() {
-    global $user_agent;
+function get_platform($user_agent) {
     if (strstr($user_agent, 'Windows')) {
         if (strstr($user_agent, 'Win64')||strstr($user_agent, 'WOW64')) {
             return 'windows_x86_64';
@@ -93,10 +102,9 @@ function is_windows() {
 
 // find release version for user's platform
 //
-function get_version($dev) {
-    global $user_agent;
+function get_version($user_agent, $dev) {
     $v = simplexml_load_file("versions.xml");
-    $p = get_platform();
+    $p = get_platform($user_agent);
     foreach ($v->version as $i=>$v) {
         if ((string)$v->dbplatform != $p) {
             continue;
@@ -232,7 +240,7 @@ function direct_to_boinc() {
     page_tail();
 }
 
-function show_download_page($user, $dev) {
+function show_download_page($user, $user_agent, $dev) {
     global $need_vbox, $project_id;
 
     // If no project ID, we can't use simplified install
@@ -241,7 +249,7 @@ function show_download_page($user, $dev) {
         direct_to_boinc();
         return;
     }
-    $v = get_version($dev);
+    $v = get_version($user_agent, $dev);
 
     // if we can't figure out the user's platform,
     // take them to the download page on the BOINC site
@@ -346,25 +354,94 @@ function installed() {
     page_tail();
 }
 
+// RPC handler
+//
+function handle_get_info() {
+    require_once("../inc/xml.inc");
+    global $config, $user;
+    xml_header();
+    $rpc_key = get_str('rpc_key');
+    if ($rpc_key != parse_config($config, "<rpc_key>")) {
+        xml_error(-1, "RPC key mismatch");
+    }
+    $user = BoincUser::lookup_auth(get_str('auth'));
+    if (!$user) {
+        xml_error(-1, "user not found");
+    }
+    $project_id = parse_config($config, '<project_id>');
+    if (!$project_id) {
+        xml_error(-1, "no project ID");
+    }
+    $user_agent = get_str('user_agent');
+    $v = get_version($user_agent, false);
+    if (!$v) {
+        xml_error(-1, "no version for platform");
+    }
+
+    $want_vbox = parse_bool($config, 'need_vbox')
+        || parse_bool($config, 'recommend_vbox')
+    ;
+
+    $token = make_login_token($user);
+    echo sprintf(
+'<download_info>
+    <project_id>%s</project_id>
+    <token>%s</token>
+    <user_id>%d</user_id>
+    <platform>%s</platform>
+    <boinc>
+        <filename>%s</filename>
+        <size_mb>%s</size_mb>
+        <boinc_version>%s</boinc_version>
+    </boinc>
+',
+        $project_id,
+        $token,
+        $user->id,
+        (string)$v->platform,
+        (string)$v->filename,
+        (string)$v->size_mb,
+        (string)$v->version_num
+    );
+    if ($v->vbox_filename && $want_vbox) {
+        echo sprintf(
+'   <boinc_vbox>
+        <filename>%s</filename>
+        <size_mb>%s</size_mb>
+        <boinc_version>%s</boinc_version>
+        <vbox_version>%s</vbox_version>
+    </boinc_vbox>
+',
+            (string)$v->vbox_filename,
+            (string)$v->vbox_size_mb,
+            (string)$v->version_num,
+            (string)$v->vbox_version
+        );
+    }
+    echo '</download_info>
+';
+}
+
 // get config.xml items
 //
 $need_vbox = parse_bool($config, "need_vbox");
 $recommend_vbox = parse_bool($config, "recommend_vbox");
 $project_id = parse_config($config, "<project_id>");
 
-$user = get_logged_in_user();
 $action = get_str("action", true);
-$dev = get_str("dev", true);
-
-$user_agent = get_str("user_agent", true);      // for debugging
-if (!$user_agent) {
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-}
 
 if ($action == "installed") {
     installed();
+} else if ($action == 'get_info') {
+    handle_get_info();
 } else {
-    show_download_page($user, $dev);
+    $dev = get_str("dev", true);
+    $user_agent = get_str("user_agent", true);      // for debugging
+    if (!$user_agent) {
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    }
+    $user = get_logged_in_user();
+    show_download_page($user, $user_agent, $dev);
 }
 
 ?>

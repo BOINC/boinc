@@ -50,15 +50,20 @@ def buildVersionName() {
 
 preBuild.doFirst {
     def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
-    def clientName = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
-    def clientCabundle = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
+    def clientName      = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
+    def clientCabundle  = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
     def allProjectsList = new XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
+    def nomedia         = new XmlParser().parse(configFile).string.find { it.@name.equals 'nomedia' }.text()
+    def client_config   = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_config' }.text()
     assert file("src/main/assets/arm64-v8a/"    + clientName).exists()
+    assert file("src/main/assets/armeabi/"      + clientName).exists()
     assert file("src/main/assets/armeabi-v7a/"  + clientName).exists()
     assert file("src/main/assets/x86/"          + clientName).exists()
     assert file("src/main/assets/x86_64/"       + clientName).exists()
     assert file("src/main/assets/" + clientCabundle).exists()
     assert file("src/main/assets/" + allProjectsList).exists()
+    assert file("src/main/assets/" + nomedia).exists()
+    assert file("src/main/assets/" + client_config).exists()
 }
 
 android {
@@ -93,6 +98,12 @@ android {
             debuggable true
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
+        }
+        xiaomi_release {
+            initWith release
+        }
+        xiaomi_debug {
+            initWith debug
         }
     }
     compileOptions {
@@ -154,6 +165,7 @@ dependencies {
 
     // Dagger dependencies
     implementation "com.google.dagger:dagger:$dagger_version"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 

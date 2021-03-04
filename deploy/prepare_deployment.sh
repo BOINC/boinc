@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,7 +19,7 @@
 #
 
 ## support script to put all build artefacts into a defined location
-## BOINC_TYPE should always be consistent with content in .travis.yml and appveyor.yml
+## BOINC_TYPE should always be consistent with content in CI configuration files
 ## Change artefacts in each prepare_*() function below.
 ## Don't hardlink files because this can be run on a filesystem without hardlinks
 ## On error always exit non-zero so the deploy script does not run
@@ -85,6 +85,8 @@ prepare_manager() {
 
 prepare_apps_mingw() {
     mkdir -p "${TARGET_DIR}"
+    cp_if_exists lib/wrapper.exe "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 prepare_osx() {
@@ -95,13 +97,15 @@ prepare_android() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-xiaomi_debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-xiaomi_release-unsigned.apk "${TARGET_DIR}"
     prepare_7z_archive
 }
 
 ROOTDIR=$(pwd)
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
-    echo "BOINC_TYPE : [client | apps | manager | apps-mingw | manager-osx | manager-android]"
+    echo "BOINC_TYPE : [linux_client | linux_apps | linux_manager-with-webview | linux_manager-without-webview | win_apps-mingw | osx_manager | android_manager]"
     echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
     exit 1
 fi
@@ -110,22 +114,25 @@ TYPE="$1"
 TARGET_DIR="${2:-deploy/$TYPE/}"
 
 case $TYPE in
-    client)
+    linux_client)
         prepare_client
     ;;
-    apps)
+    linux_apps)
         prepare_apps
     ;;
-    manager)
+    linux_manager-with-webview)
         prepare_manager
     ;;
-    apps-mingw)
+    linux_manager-without-webview)
+        prepare_manager
+    ;;
+    win_apps-mingw)
         prepare_apps_mingw
     ;;
-    manager-osx)
+    osx_manager)
         prepare_osx
     ;;
-    manager-android)
+    android_manager)
         prepare_android
     ;;
     *)

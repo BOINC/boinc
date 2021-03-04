@@ -694,9 +694,8 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     return 0;
 #elif defined(__EMX__)
-    char cmd[2*MAXPATHLEN];
+    char cmd[2*MAXPATHLEN+4+2+4+1]; // 2 blanks, 4 '"'s, 1 terminating 0
     snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
-    cmd[sizeof(cmd)-1] = 0;
     return system(cmd);
 #else
     // POSIX requires that shells run from an application will use the 

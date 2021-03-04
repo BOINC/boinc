@@ -401,26 +401,37 @@ int RPC::parse_reply() {
 
 // Look for a GUI RPC password file and read it.
 // If fail, return a prescriptive message.
-// Win/Mac: look in current dir.
-// Linux: also look in a directory specified in
-// /etc/boinc-client/config.properties
+// Win/Mac: look in
+//  - current dir
+// Linux: look in:
+//  - current dir
+//  - a directory specified in /etc/boinc-client/config.properties
+//  - /var/lib/boinc-client
 //
+// Note: the Manager (on all platforms) has a -datadir cmdline option.
+// If present, it chdirs to that directory.
+
 int read_gui_rpc_password(char* buf, string& msg) {
     char msg_buf[1024];
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
     if (!f) {
 #if defined(__linux__)
+#define HELP_URL "https://boinc.berkeley.edu/gui_rpc.php"
+        char path[MAXPATHLEN];
         if (errno == EACCES) {
             sprintf(msg_buf,
-                "%s exists but can't be read.  Check the file permissions.",
-                GUI_RPC_PASSWD_FILE
+                "%s exists but can't be read.  See %s",
+                GUI_RPC_PASSWD_FILE, HELP_URL
             );
             msg = msg_buf;
             return ERR_FOPEN;
         }
+
+        // look for config file
+        //
         FILE* g = fopen(LINUX_CONFIG_FILE, "r");
         if (g) {
-            char buf2[MAXPATHLEN], path[MAXPATHLEN];
+            char buf2[MAXPATHLEN];
             char *p = 0;
             while (fgets(buf2, MAXPATHLEN, g)) {
                 strip_whitespace(buf2);
@@ -435,12 +446,12 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 if (!f) {
                     if (errno == EACCES) {
                         sprintf(msg_buf,
-                            "%s exists but can't be read.  Check the file permissions.",
-                            path
+                            "%s exists but can't be read.  See %s",
+                            path, HELP_URL
                         );
                     } else {
-                        sprintf(msg_buf, "%s not found.  Try reinstalling BOINC.",
-                            path
+                        sprintf(msg_buf, "%s not found.  See %s",
+                            path, HELP_URL
                         );
                     }
                     msg = msg_buf;
@@ -448,18 +459,32 @@ int read_gui_rpc_password(char* buf, string& msg) {
                 }
             } else {
                 sprintf(msg_buf,
-                    "No data_dir= found in %s.  Try reinstalling BOINC.",
-                    LINUX_CONFIG_FILE
+                    "No data_dir= found in %s.  See %s",
+                    LINUX_CONFIG_FILE, HELP_URL
                 );
                 msg = msg_buf;
                 return ERR_FOPEN;
             }
         } else {
-            sprintf(msg_buf, "%s not found.  Try reinstalling BOINC.",
-                GUI_RPC_PASSWD_FILE
-            );
-            msg = msg_buf;
-            return ERR_FOPEN;
+            // no config file; look in default data dir
+            //
+            sprintf(path, "%s/%s", LINUX_DEFAULT_DATA_DIR, GUI_RPC_PASSWD_FILE);
+            f = fopen(path, "r");
+            if (!f) {
+                if (errno == EACCES) {
+                    sprintf(msg_buf,
+                        "%s exists but can't be read.  See %s",
+                        path, HELP_URL
+                    );
+                    msg = msg_buf;
+                    return ERR_FOPEN;
+                }
+                sprintf(msg_buf, "%s not found.  See %s",
+                    GUI_RPC_PASSWD_FILE, HELP_URL
+                );
+                msg = msg_buf;
+                return ERR_FOPEN;
+            }
         }
 #else
         // non-Linux
@@ -478,16 +503,10 @@ int read_gui_rpc_password(char* buf, string& msg) {
         return ERR_FOPEN;
 #endif
     }
-    char* p = fgets(buf, 256, f);
-    if (p) {
-        // trim CR
-        //
-        int n = (int)strlen(buf);
-        if (n && buf[n-1]=='\n') {
-            buf[n-1] = 0;
-        }
+    buf[0] = 0;
+    if (fgets(buf, 256, f)) {
+        strip_whitespace(buf);
     }
     fclose(f);
     return 0;
 }
-

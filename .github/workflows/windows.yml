@@ -1,0 +1,87 @@
+name: Windows
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '15 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.configuration }}-${{ matrix.platform }}-build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [x64]
+        configuration: [Release]
+    env:
+      VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\,readwrite'
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Download GoogleTestAdapter
+        uses: suisei-cn/actions-download-file@v1
+        id: DownloadGoogleTestAdapter
+        with:
+          url: "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix"
+          target: ${{ github.workspace }}\temp\
+
+      - name: Unzip GoogleTestAdapter
+        uses: DuckSoft/extract-7z-action@v1.0
+        with:
+          pathSource: ${{ github.workspace }}\temp\GoogleTestAdapter-0.18.0.vsix
+          pathTarget: ${{ github.workspace }}\temp\GoogleTestAdapter
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup vstest
+        uses: darenm/Setup-VSTest@v1
+
+      - name: Fix vcpkg
+        run: vcpkg.exe integrate remove
+
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.3
+        with:
+          path: |
+            ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\
+            ${{ github.workspace }}\3rdParty\Windows\cuda\
+          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
+          restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
+
+      - name: Build
+        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
+
+      - name: Run tests
+        run: vstest.console.exe win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter
+
+      - name: Deploy to BinTray
+        if: ${{ success() }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+          platform: ${{ matrix.platform }}
+          configuration: ${{ matrix.configuration }}
+        shell: cmd
+        run: |
+          call deploy\prepare_deployment.bat
+          call deploy\deploy_to_bintray.bat
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_apps_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_apps/*.7z
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_client_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_client/*.7z
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win_manager_${{ github.event.pull_request.head.sha }}
+          path: deploy/win_manager/*.7z

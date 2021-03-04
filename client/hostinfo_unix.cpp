@@ -41,6 +41,10 @@
 #include <cstring>
 #endif
 
+#ifdef __GLIBC__
+#include <gnu/libc-version.h>
+#endif
+
 #if HAVE_XSS
 #include <X11/extensions/scrnsaver.h> //X-based idle detection
 // prevents naming collision between X.h define of Always and boinc's
@@ -105,6 +109,10 @@
 #include "win/opt_x86.h"
 #endif
 
+#ifdef ARMV6
+#include <sys/wait.h>
+#endif
+
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
@@ -124,6 +132,14 @@ using std::min;
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#include <mach/machine.h>
+#include <libkern/OSByteOrder.h>
+
+extern int compareOSVersionTo(int toMajor, int toMinor);
 
 #ifdef __cplusplus
 extern "C" {
@@ -1371,6 +1387,12 @@ int HOST_INFO::get_memory_info() {
 // return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
 // return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
+#ifdef __GLIBC__
+int get_libc_version(string& version, string& extra_info) {
+    version = string(gnu_get_libc_version());
+    return BOINC_SUCCESS;
+}
+#else
 int get_libc_version(string& version, string& extra_info) {
     char buf[1024] = "";
     string strbuf;
@@ -1405,6 +1427,7 @@ int get_libc_version(string& version, string& extra_info) {
     }
     return BOINC_SUCCESS;
 }
+#endif
 #endif
 
 // get os_name, os_version
@@ -1567,9 +1590,19 @@ inline long device_idle_time(const char *device) {
 static const struct dir_tty_dev {
     const char *dir;
     const char *dev;
+    const vector<string> ignore_list;
+
+    bool should_ignore(const string &devname) const {
+        for (const string &ignore : ignore_list) {
+            if (devname.rfind(ignore, 0) == 0) return true;
+        }
+        return false;
+    }
 } tty_patterns[] = {
-#ifdef unix
-    { "/dev", "tty" },
+#if defined(LINUX_LIKE_SYSTEM) and !defined(ANDROID)
+    { "/dev", "tty",
+      {"ttyS", "ttyACM"},
+    },
     { "/dev", "pty" },
     { "/dev/pts", NULL },
 #endif
@@ -1596,6 +1629,11 @@ vector<string> get_tty_list() {
             //
             if (tty_patterns[i].dev) {
                 if ((strstr(devname, tty_patterns[i].dev) != devname)) continue;
+
+                // Ignore some devices. This could be, for example,
+                // ttyS* (serial port) or devACM* (serial USB) devices
+                // which may be used even without a user being active.
+                if (tty_patterns[i].should_ignore(devname)) continue;
             }
 
             sprintf(fullname, "%s/%s", tty_patterns[i].dir, devname);
@@ -1988,3 +2026,122 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
 }
 
 #endif  // ! __APPLE__
+
+#ifdef __APPLE__
+
+union headeru {
+    fat_header fat;
+    mach_header mach;
+};
+// Get the architecture of this computer's CPU: x86_64 or arm64.
+// Read the executable file's mach-o headers to determine the 
+// architecture(s) of its code.
+// Returns 1 if application can run natively on this computer,
+// else returns 0.
+//
+// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs 
+// properly run under Rosetta 2. Note: years ago, PowerPC apps emulated 
+// by Rosetta on i386 Macs crashed when running graphics.
+//
+
+bool can_run_on_this_CPU(char* exec_path) {
+    FILE *f;
+    int retval = false;
+    
+    headeru myHeader;
+    fat_arch fatHeader;
+    
+    static bool x86_64_CPU = false;
+    static bool arm64_cpu = false;
+    static bool need_CPU_architecture = true;
+    uint32_t n, i, len;
+    uint32_t theMagic;
+    integer_t file_architecture;
+    
+    if (need_CPU_architecture) {
+        // Determine the architecture of the CPU we are running on
+        // ToDo: adjust this code accordingly.
+        uint32_t cputype = 0;
+        size_t size = sizeof (cputype);
+        int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);
+        if (res) return false;  // Should never happen
+        // Since we require MacOS >= 10.7, the CPU must be x86_64 or arm64 
+        x86_64_CPU = ((cputype &0xff) == CPU_TYPE_X86);
+        arm64_cpu = ((cputype &0xff) == CPU_TYPE_ARM);
+
+        need_CPU_architecture = false;
+    }
+    
+    f = boinc_fopen(exec_path, "rb");
+    if (!f) {
+        return retval;          // Should never happen
+    }
+    
+    myHeader.fat.magic = 0;
+    myHeader.fat.nfat_arch = 0;
+    
+    fread(&myHeader, 1, sizeof(fat_header), f);
+    theMagic = myHeader.mach.magic;
+    switch (theMagic) {
+    case MH_CIGAM:
+    case MH_MAGIC:
+    case MH_MAGIC_64:
+    case MH_CIGAM_64:
+       file_architecture = myHeader.mach.cputype;
+        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
+            file_architecture = OSSwapInt32(file_architecture);
+        }
+        if (x86_64_CPU && (file_architecture == CPU_TYPE_I386)) {
+            // Single-architecture i386 file on x86_64 CPU
+            if (compareOSVersionTo(10, 15) < 0) {
+                // OS >= 10.15 are 64-bit only
+                retval = true;
+            }
+        } else if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file on x86_64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+            retval = true; // Single-architecture arm64 file on arm64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file emulated on arm64 CPU
+            // TODO: determine whether emulated graphics apps work properly
+        }
+        break;
+    case FAT_MAGIC:
+    case FAT_CIGAM:
+        n = myHeader.fat.nfat_arch;
+        if (theMagic == FAT_CIGAM) {
+            n = OSSwapInt32(myHeader.fat.nfat_arch);
+        }
+
+        // Multiple architecture (fat) file
+        //
+        for (i=0; i<n; i++) {
+            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
+            if (len < sizeof(fat_arch)) {
+                break;          // Should never happen
+            }
+            file_architecture = fatHeader.cputype;
+            if (theMagic == FAT_CIGAM) {
+                file_architecture = OSSwapInt32(file_architecture);
+            }
+
+            if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = true; // file with x86_64 architecture on x86_64 CPU
+                break;
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+                retval = true; // file with arm64 architecture on arm64 CPU
+                break;
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = true; // file with x86_64 architecture emulated on arm64 CPU
+                // TODO: determine whether emulated graphics apps work properly
+            }
+        }
+        break;
+    default:
+        break;
+    }
+
+    fclose (f);
+    return retval;
+}
+#endif
