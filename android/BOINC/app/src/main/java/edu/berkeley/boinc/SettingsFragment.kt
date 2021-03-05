@@ -40,19 +40,6 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
 
 
-internal class QuitClientTask : Callable<Boolean> {
-    override fun call(): Boolean {
-        // network task
-        var isQuit = false
-        try {
-            isQuit = BOINCActivity.monitor!!.quitClient()
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
-        return isQuit
-    }
-}
-
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
@@ -334,12 +321,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun quitClient() {
-        taskRunner.executeAsync(QuitClientTask(), object : TaskRunner.Callback<Boolean> {
-            override fun onComplete(result: Boolean) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "SettingActivity: quitClient returned: $result")
-                }
-            }
-        })
+        BOINCActivity.monitorAsync!!.quitClientAsync() { result: Boolean ->
+            Log.d(Logging.TAG, "SettingActivity: quitClient returned: $result")
+        }
     }
 }
