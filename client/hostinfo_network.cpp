@@ -82,6 +82,9 @@ int HOST_INFO::get_local_network_info() {
     } else {
         snprintf(domain_name, sizeof(domain_name), "android_%s", buf);
     }
+    if (!cc_config.device_name.empty()) {
+        safe_strcpy(domain_name, cc_config.device_name.c_str());
+    }
     return 0;
 #endif
 
