@@ -124,24 +124,3 @@ inline fun Long.secondsToLocalDateTime(
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
-
-class TaskRunner {
-    private val executor: Executor = Executors.newSingleThreadExecutor()
-    private val handler = Handler(Looper.getMainLooper())
-
-    interface Callback<R> {
-        fun onComplete(result: R)
-    }
-
-    fun <R> executeAsync(callable: Callable<R>, callback: Callback<R>) {
-        executor.execute {
-            try {
-                val result = callable.call()
-                handler.post { callback.onComplete(result) }
-            } catch (e: Exception) {
-                Log.d(Logging.TAG, e.message)
-                e.printStackTrace()
-            }
-        }
-    }
-}

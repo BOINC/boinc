@@ -20,22 +20,15 @@ package edu.berkeley.boinc
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging
 import edu.berkeley.boinc.utils.setAppTheme
-import edu.berkeley.boinc.utils.TaskRunner
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.io.File
-import java.util.concurrent.Callable
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.streams.asSequence
 
@@ -43,7 +36,6 @@ import kotlin.streams.asSequence
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private val hostInfo = BOINCActivity.monitor!!.hostInfo // Get the hostinfo from client via RPC
     private val prefs = BOINCActivity.monitor!!.prefs
-    private val taskRunner = TaskRunner()
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     private val passwordLength = 32
     private var authKey = ""
@@ -123,20 +115,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             // Network
             "networkWiFiOnly" -> {
                 prefs.networkWiFiOnly = sharedPreferences.getBoolean(key, true)
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "dailyTransferLimitMB" -> {
                 val dailyTransferLimitMB = sharedPreferences.getString(key, prefs.dailyTransferLimitMB.toString())
                 prefs.dailyTransferLimitMB = dailyTransferLimitMB?.toDouble() ?: 0.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "dailyTransferPeriodDays" -> {
                 val dailyTransferPeriodDays = sharedPreferences.getString(key, prefs.dailyTransferPeriodDays.toString())
                 prefs.dailyTransferPeriodDays = dailyTransferPeriodDays?.toInt() ?: 0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // Power
@@ -148,19 +137,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 BOINCActivity.monitor!!.powerSourceUsb = "usb" in powerSources
                 BOINCActivity.monitor!!.powerSourceWireless = "wireless" in powerSources
                 prefs.runOnBatteryPower = "battery" in powerSources
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "stationaryDeviceMode" -> BOINCActivity.monitor!!.stationaryDeviceMode = sharedPreferences.getBoolean(key, false)
             "maxBatteryTemp" -> {
                 prefs.batteryMaxTemperature = sharedPreferences.getString(key, "40")?.toDouble() ?: 40.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "minBatteryLevel" -> {
                 prefs.batteryChargeMinPct = sharedPreferences.getInt(key, 90).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // CPU
@@ -168,54 +154,45 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 val usedCpuCores = sharedPreferences.getInt(key, pctCpuCoresToNumber(hostInfo,
                         prefs.maxNoOfCPUsPct))
                 prefs.maxNoOfCPUsPct = numberCpuCoresToPct(hostInfo, usedCpuCores)
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "cpuUsageLimit" -> {
                 prefs.cpuUsageLimit = sharedPreferences.getInt(key, 100).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "suspendCpuUsage" -> {
                 prefs.suspendCpuUsage = sharedPreferences.getInt(key, 50).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // Storage
             "diskMaxUsedPct" -> {
                 prefs.diskMaxUsedPct = sharedPreferences.getInt(key, 90).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "diskMinFreeGB" -> {
                 prefs.diskMinFreeGB = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "diskInterval" -> {
                 prefs.diskInterval = sharedPreferences.getString(key, "60")?.toDouble() ?: 60.0
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // Memory
             "maxRamUsedIdle" -> {
                 prefs.ramMaxUsedIdleFrac = sharedPreferences.getInt(key, 50).toDouble()
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // Other
             "workBufMinDays" -> {
                 prefs.workBufMinDays = sharedPreferences.getString(key, "0.1")?.toDouble() ?: 0.1
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
             "workBufAdditionalDays" -> {
                 prefs.workBufAdditionalDays = sharedPreferences.getString(key, "0.5")?.toDouble() ?: 0.5
-
-                lifecycleScope.launch { writeClientPrefs(prefs) }
+                writeClientPrefs(prefs)
             }
 
             // Remote
@@ -241,10 +218,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
             // Debug
             "clientLogFlags" -> {
-                lifecycleScope.launch {
-                    val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
-                    BOINCActivity.monitor!!.setCcConfig(formatOptionsToCcConfig(flags))
-                }
+                val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
+                BOINCActivity.monitor!!.setCcConfigAsync(formatOptionsToCcConfig(flags))
             }
             "logLevel" -> {
                 BOINCActivity.monitor!!.logLevel = sharedPreferences.getInt(key,
@@ -284,17 +259,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<EditTextPreference>("authenticationKey")?.isVisible = showAdvanced && isRemote == true
     }
 
-    private suspend fun writeClientPrefs(prefs: GlobalPreferences) = coroutineScope {
-        val success = async {
-            return@async try {
-                BOINCActivity.monitor!!.setGlobalPreferences(prefs)
-            } catch (e: RemoteException) {
-                false
+    private fun writeClientPrefs(prefs: GlobalPreferences) {
+        BOINCActivity.monitor!!.setGlobalPreferencesAsync(prefs) {
+            success : Boolean ->
+            if (Logging.DEBUG) {
+                Log.d(Logging.TAG, "writeClientPrefs() async call returned: $success")
             }
-        }
-
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "writeClientPrefs() async call returned: ${success.await()}")
         }
     }
 
@@ -321,7 +291,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun quitClient() {
-        BOINCActivity.monitorAsync!!.quitClientAsync() { result: Boolean ->
+        BOINCActivity.monitor!!.quitClientAsync() { result: Boolean ->
             Log.d(Logging.TAG, "SettingActivity: quitClient returned: $result")
         }
     }

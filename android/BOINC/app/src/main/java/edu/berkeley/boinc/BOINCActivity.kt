@@ -67,16 +67,16 @@ class BOINCActivity : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
-            monitor = IMonitor.Stub.asInterface(service)
-            monitorAsync = MonitorAsync(monitor)
+            imonitor = IMonitor.Stub.asInterface(service)
+            monitor = MonitorAsync(imonitor)
             mIsBound = true
             determineStatus()
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
             // This should not happen
+            imonitor = null
             monitor = null
-            monitorAsync = null
             mIsBound = false
             Log.e(Logging.TAG, "BOINCActivity onServiceDisconnected")
         }
@@ -449,8 +449,8 @@ class BOINCActivity : AppCompatActivity() {
 
     companion object {
         @JvmField
-        var monitor: IMonitor? = null
-        var monitorAsync: MonitorAsync? = null
+        var monitor: MonitorAsync? = null
+        private var imonitor: IMonitor? = null
         var mIsBound = false
     }
 }

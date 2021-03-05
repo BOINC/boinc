@@ -41,11 +41,11 @@ import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.client.MonitorAsync;
 import edu.berkeley.boinc.databinding.ActivitySplashBinding;
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
-import edu.berkeley.boinc.utils.TaskRunner;
 
 /**
  * Activity shown at start. Forwards to BOINCActivity automatically, once Monitor has connected to Client and received first data via RPCs.
@@ -59,7 +59,8 @@ public class SplashActivity extends AppCompatActivity {
     private ActivitySplashBinding binding;
 
     private boolean mIsBound = false;
-    private static IMonitor monitor = null;
+    private static IMonitor imonitor = null;
+    private static MonitorAsync monitor = null;
 
     private boolean mIsWelcomeSpecificFirstRun = true;
 
@@ -67,8 +68,9 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established
-            mIsBound = true;
-            monitor = IMonitor.Stub.asInterface(service);
+            mIsBound     = true;
+            imonitor      = IMonitor.Stub.asInterface(service);
+            monitor = new MonitorAsync(imonitor);
             try {
                 // check whether BOINC was able to acquire mutex
                 if(!monitor.boincMutexAcquired()) {
@@ -79,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
                 // read log level from monitor preferences and adjust accordingly
                 Logging.setLogLevel(monitor.getLogLevel());
             }
-            catch(RemoteException e) {
+            catch(Exception e) {
                 Log.w(Logging.TAG, "initializing log level failed.");
             }
         }
@@ -88,24 +90,10 @@ public class SplashActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             mIsBound = false;
-            monitor = null;
+            imonitor = null;
+            monitor  = null;
         }
     };
-
-    class BenchmarksTask implements Callable<Boolean> {
-        @Override
-        public Boolean call() {
-            // network task
-            Boolean benchmarks = false;
-            try {
-                benchmarks = monitor.runBenchmarks();
-            }
-            catch(RemoteException e) {
-                e.printStackTrace();
-            }
-            return benchmarks;
-        }
-    }
 
     private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
         @Override
@@ -131,11 +119,11 @@ public class SplashActivity extends AppCompatActivity {
                                 Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT");
                             }
                             // run benchmarks to speed up project initialization
-                            TaskRunner taskRunner = new TaskRunner();
-                            taskRunner.executeAsync(new BenchmarksTask(), (benchmarks) -> {
+                            monitor.runBenchmarksAsync((benchmarks) -> {
                                 if(Logging.DEBUG) {
                                     Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
                                 }
+                                return null;
                             });
 
                             // forward to PROJECTATTACH
