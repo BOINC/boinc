@@ -24,10 +24,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.os.RemoteException
-import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -43,9 +40,10 @@ import java.io.Reader
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.concurrent.Callable
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
+import kotlinx.coroutines.Deferred
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.CoroutineContext.Element
+import kotlin.coroutines.CoroutineContext.Key
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -62,6 +60,26 @@ fun setAppTheme(theme: String) {
         "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         "system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+}
+
+fun <R> createContextFromDeferred(deferred: Deferred<R>): CoroutineContext {
+    return  object : CoroutineContext {
+        override fun plus(coroutineContext: CoroutineContext): CoroutineContext {
+            return deferred.plus(coroutineContext)
+        }
+
+        override fun minusKey(key: CoroutineContext.Key<*>): CoroutineContext {
+            return deferred.minusKey(key)
+        }
+
+        override fun <R> fold(initial: R, operation: (R, Element) -> R): R {
+            return deferred.fold(initial, operation)
+        }
+
+        override fun <E : Element> get(key: Key<E>): E? {
+            return deferred[key]
+        }
     }
 }
 
@@ -124,3 +142,4 @@ inline fun Long.secondsToLocalDateTime(
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
+

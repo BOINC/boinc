@@ -30,12 +30,9 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.Callable;
 
 import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
@@ -59,7 +56,6 @@ public class SplashActivity extends AppCompatActivity {
     private ActivitySplashBinding binding;
 
     private boolean mIsBound = false;
-    private static IMonitor imonitor = null;
     private static MonitorAsync monitor = null;
 
     private boolean mIsWelcomeSpecificFirstRun = true;
@@ -68,9 +64,8 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been established
-            mIsBound     = true;
-            imonitor      = IMonitor.Stub.asInterface(service);
-            monitor = new MonitorAsync(imonitor);
+            mIsBound = true;
+            monitor  = new MonitorAsync(IMonitor.Stub.asInterface(service));
             try {
                 // check whether BOINC was able to acquire mutex
                 if(!monitor.boincMutexAcquired()) {
@@ -90,7 +85,6 @@ public class SplashActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName className) {
             // This should not happen
             mIsBound = false;
-            imonitor = null;
             monitor  = null;
         }
     };

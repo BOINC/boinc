@@ -41,9 +41,14 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.MonitorAsync;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.Deferred;
+import static kotlinx.coroutines.BuildersKt.runBlocking;
 
 public class NavDrawerListAdapter extends BaseAdapter {
     private Context context;
@@ -197,9 +202,13 @@ public class NavDrawerListAdapter extends BaseAdapter {
     public String getProjectNameForMasterUrl(String masterUrl) {
         String projectName = null;
         try {
-            final IMonitor monitor = BOINCActivity.monitor;
+            final MonitorAsync monitor = BOINCActivity.monitor;
             if (monitor != null) {
-                final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
+                Deferred<ProjectInfo> depi = monitor.getProjectInfoAsync(masterUrl, null);
+                CoroutineContext coroutineContext = BOINCUtils.createContextFromDeferred(depi);
+                ProjectInfo pi = runBlocking(coroutineContext,(coroutineScope, continuation) ->
+                        depi.await(continuation)
+                );
                 projectName = pi.getName();
             }
         }
