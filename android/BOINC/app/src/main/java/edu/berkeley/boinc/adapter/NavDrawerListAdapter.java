@@ -183,7 +183,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         Bitmap bm = null;
         try {
             final IMonitor monitor = BOINCActivity.monitor;
-            if (monitor != null)
+            if (monitor != null && masterUrl != null)
                 bm = monitor.getProjectIcon(masterUrl);
         }
         catch(Exception e) {
@@ -195,12 +195,14 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public String getProjectNameForMasterUrl(String masterUrl) {
-        String projectName = null;
+        String projectName = "";
         try {
             final IMonitor monitor = BOINCActivity.monitor;
-            if (monitor != null) {
+            if (monitor != null  && masterUrl != null) {
                 final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
-                projectName = pi.getName();
+                if (pi != null) {
+                    projectName = pi.getName();
+                }
             }
         }
         catch(Exception e) {
