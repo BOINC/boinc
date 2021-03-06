@@ -1208,7 +1208,7 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getProjectInfo(url: String): ProjectInfo {
+        override fun getProjectInfo(url: String): ProjectInfo? {
             return clientInterface.getProjectInfo(url)
         }
 

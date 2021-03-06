@@ -60,7 +60,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         result
     }
 
-    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo) -> Unit)? = null) = GlobalScope.async {
+    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) = GlobalScope.async {
         val result  = getProjectInfo(url)
         if (callback != null) {
             callback(result)
@@ -164,7 +164,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.accountManagers
     }
 
-    override fun getProjectInfo(url: String?): ProjectInfo {
+    override fun getProjectInfo(url: String?): ProjectInfo? {
         return monitor.getProjectInfo(url)
     }
 
@@ -268,15 +268,15 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.tasksCount
     }
 
-    override fun getProjectIconByName(name: String?): Bitmap {
+    override fun getProjectIconByName(name: String?): Bitmap? {
         return monitor.getProjectIconByName(name)
     }
 
-    override fun getProjectIcon(id: String?): Bitmap {
+    override fun getProjectIcon(id: String): Bitmap? {
         return monitor.getProjectIcon(id)
     }
 
-    override fun getProjectStatus(url: String?): String {
+    override fun getProjectStatus(url: String): String {
         return monitor.getProjectStatus(url)
     }
 

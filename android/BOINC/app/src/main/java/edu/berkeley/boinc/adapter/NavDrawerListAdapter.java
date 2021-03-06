@@ -110,7 +110,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                                navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
                                navDrawerItems.get(position).isProjectItem);
         }
-        if(convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
+        if(convertView == null || convertView.getTag() == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
             int layoutId = R.layout.navlist_listitem;
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
@@ -188,7 +188,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         Bitmap bm = null;
         try {
             final IMonitor monitor = BOINCActivity.monitor;
-            if (monitor != null)
+            if (monitor != null && masterUrl != null)
                 bm = monitor.getProjectIcon(masterUrl);
         }
         catch(Exception e) {
@@ -200,16 +200,19 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public String getProjectNameForMasterUrl(String masterUrl) {
-        String projectName = null;
+        String projectName = "";
         try {
             final MonitorAsync monitor = BOINCActivity.monitor;
-            if (monitor != null) {
+            if (monitor != null && masterUrl != null) {
+//                final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
                 Deferred<ProjectInfo> depi = monitor.getProjectInfoAsync(masterUrl, null);
                 CoroutineContext coroutineContext = BOINCUtils.createContextFromDeferred(depi);
                 ProjectInfo pi = runBlocking(coroutineContext,(coroutineScope, continuation) ->
                         depi.await(continuation)
                 );
-                projectName = pi.getName();
+                if (pi != null) {
+                    projectName = pi.getName();
+                }
             }
         }
         catch(Exception e) {
