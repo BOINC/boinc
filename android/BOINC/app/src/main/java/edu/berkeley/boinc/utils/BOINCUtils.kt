@@ -67,26 +67,6 @@ fun setAppTheme(theme: String) {
     }
 }
 
-fun <R> createContextFromDeferred(deferred: Deferred<R>): CoroutineContext {
-    return  object : CoroutineContext {
-        override fun plus(coroutineContext: CoroutineContext): CoroutineContext {
-            return deferred.plus(coroutineContext)
-        }
-
-        override fun minusKey(key: CoroutineContext.Key<*>): CoroutineContext {
-            return deferred.minusKey(key)
-        }
-
-        override fun <R> fold(initial: R, operation: (R, Element) -> R): R {
-            return deferred.fold(initial, operation)
-        }
-
-        override fun <E : Element> get(key: Key<E>): E? {
-            return deferred[key]
-        }
-    }
-}
-
 suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
     val runMode = async {
         return@async try {
@@ -147,8 +127,8 @@ inline fun Long.secondsToLocalDateTime(
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
 
-class TaskRunner<V>(defaultValueResult: V, private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
-    private var result: V = defaultValueResult
+class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
+    private var result: V? = null
     private val executor: Thread = Thread()
     private val handler = Handler(Looper.getMainLooper())
 
@@ -156,7 +136,7 @@ class TaskRunner<V>(defaultValueResult: V, private val callback: ((V) -> Unit)? 
         executor.run {
             try {
                 result = callable.call()
-                handler.post { callback?.invoke(result) }
+                handler.post { callback?.invoke(result!!) }
             } catch (e: Exception) {
                 Log.d(Logging.TAG, e.message)
                 e.printStackTrace()
@@ -166,6 +146,6 @@ class TaskRunner<V>(defaultValueResult: V, private val callback: ((V) -> Unit)? 
 
     fun await(): V {
         executor.join()
-        return result
+        return result!!
     }
 }

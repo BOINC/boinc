@@ -31,23 +31,23 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
     val monitor = monitor!!
 
     fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(false, callback, {quitClient()})
+        return TaskRunner(callback, {quitClient()})
     }
 
     fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(false, callback, {runBenchmarks()})
+        return TaskRunner(callback, {runBenchmarks()})
     }
 
     fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null)  : TaskRunner<Boolean> {
-        return TaskRunner(false, callback, {setGlobalPreferences(prefs)})
+        return TaskRunner(callback, {setGlobalPreferences(prefs)})
     }
 
     fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(false, callback, {setCcConfig(config)})
+        return TaskRunner(callback, {setCcConfig(config)})
     }
 
     fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) : TaskRunner<ProjectInfo?> {
-        return TaskRunner(null, callback, {getProjectInfo(url)})
+        return TaskRunner(callback, {getProjectInfo(url)})
     }
 
     override fun asBinder(): IBinder {
