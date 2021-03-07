@@ -42,6 +42,12 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
     fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) =
         TaskRunner(callback, {getProjectInfo(url)})
 
+    fun setRunModeAsync(mode: Int, callback: ((Boolean) -> Unit)? = null) =
+            TaskRunner(callback, {setRunMode(mode)})
+
+    fun setNetworkModeAsync(mode: Int, callback: ((Boolean) -> Unit)? = null) =
+            TaskRunner(callback, {setNetworkMode(mode)})
+
     override fun asBinder(): IBinder {
         return monitor.asBinder()
     }

@@ -37,7 +37,6 @@ import edu.berkeley.boinc.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import java.io.IOException
 import java.io.Reader
@@ -46,9 +45,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.Callable
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.CoroutineContext.Element
-import kotlin.coroutines.CoroutineContext.Key
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -68,23 +64,10 @@ fun setAppTheme(theme: String) {
     }
 }
 
-suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
-    val runMode = async {
-        return@async try {
-            BOINCActivity.monitor!!.setRunMode(mode)
-        } catch (e: RemoteException) {
-            false
-        }
-    }
-    val networkMode = async {
-        return@async try {
-            BOINCActivity.monitor!!.setNetworkMode(mode)
-        } catch (e: RemoteException) {
-            false
-        }
-    }
-
-    return@coroutineScope runMode.await() && networkMode.await()
+fun writeClientModeAsync(mode: Int): Boolean {
+    val runMode = BOINCActivity.monitor!!.setRunModeAsync(mode)
+    val networkMode = BOINCActivity.monitor!!.setNetworkModeAsync(mode)
+    return runMode.await() && networkMode.await()
 }
 
 //from https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable

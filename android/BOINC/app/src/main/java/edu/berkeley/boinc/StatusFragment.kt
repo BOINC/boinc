@@ -222,7 +222,7 @@ class StatusFragment : Fragment() {
         startActivity(Intent(activity, SelectionListActivity::class.java))
     }
 
-    private suspend fun writeClientMode(mode: Int) {
+    private fun writeClientMode(mode: Int) {
         val success = writeClientModeAsync(mode)
 
         if (success) {

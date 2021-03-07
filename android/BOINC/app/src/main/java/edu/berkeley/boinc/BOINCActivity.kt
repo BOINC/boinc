@@ -429,7 +429,7 @@ class BOINCActivity : AppCompatActivity() {
         supportActionBar!!.title = mTitle
     }
 
-    private suspend fun writeClientMode(mode: Int) {
+    private fun writeClientMode(mode: Int) {
         val success = writeClientModeAsync(mode)
 
         if (success) {
