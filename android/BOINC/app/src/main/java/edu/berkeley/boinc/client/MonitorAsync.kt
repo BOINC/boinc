@@ -28,19 +28,19 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
     val monitor = monitor!!
 
     fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) =
-        TaskRunner(callback, {quitClient()})
+            TaskRunner(callback, {quitClient()})
 
     fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) =
-        TaskRunner(callback, {runBenchmarks()})
+            TaskRunner(callback, {runBenchmarks()})
 
     fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null) =
-        TaskRunner(callback, {setGlobalPreferences(prefs)})
+            TaskRunner(callback, {setGlobalPreferences(prefs)})
 
     fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) =
-        TaskRunner(callback, {setCcConfig(config)})
+            TaskRunner(callback, {setCcConfig(config)})
 
     fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) =
-        TaskRunner(callback, {getProjectInfo(url)})
+            TaskRunner(callback, {getProjectInfo(url)})
 
     fun setRunModeAsync(mode: Int, callback: ((Boolean) -> Unit)? = null) =
             TaskRunner(callback, {setRunMode(mode)})
