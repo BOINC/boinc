@@ -126,7 +126,7 @@ class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable:
         }
     }
 
-    fun await() = runBlocking {
+    fun await(): V = runBlocking {
         deferred.await()
     }
 }
