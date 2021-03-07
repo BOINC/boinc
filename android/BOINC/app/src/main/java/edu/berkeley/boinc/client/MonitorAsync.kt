@@ -22,50 +22,32 @@ import android.graphics.Bitmap
 import android.os.IBinder
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.ErrorCodeDescription
+import edu.berkeley.boinc.utils.TaskRunner
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import java.util.concurrent.Callable
 
 class MonitorAsync(monitor: IMonitor?) : IMonitor {
     val monitor = monitor!!
 
-    fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) = GlobalScope.async {
-        val result  = quitClient()
-        if (callback != null) {
-            callback(result)
-        }
-        result
+    fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
+        return TaskRunner(false, callback, {quitClient()})
     }
 
-    fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) = GlobalScope.async {
-        val result  = runBenchmarks()
-        if (callback != null) {
-            callback(result)
-        }
-        result
+    fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
+        return TaskRunner(false, callback, {runBenchmarks()})
     }
 
-    fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null) = GlobalScope.async {
-        val result = setGlobalPreferences(prefs)
-        if (callback != null) {
-            callback(result)
-        }
-        result
+    fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null)  : TaskRunner<Boolean> {
+        return TaskRunner(false, callback, {setGlobalPreferences(prefs)})
     }
 
-    fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) = GlobalScope.async {
-        val result  = setCcConfig(config)
-        if (callback != null) {
-            callback(result)
-        }
-        result
+    fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
+        return TaskRunner(false, callback, {setCcConfig(config)})
     }
 
-    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) = GlobalScope.async {
-        val result  = getProjectInfo(url)
-        if (callback != null) {
-            callback(result)
-        }
-        result
+    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) : TaskRunner<ProjectInfo?> {
+        return TaskRunner(null, callback, {getProjectInfo(url)})
     }
 
     override fun asBinder(): IBinder {

@@ -24,7 +24,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.RemoteException
+import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -41,6 +44,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlinx.coroutines.Deferred
+import java.util.concurrent.Callable
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.CoroutineContext.Element
 import kotlin.coroutines.CoroutineContext.Key
@@ -143,3 +147,25 @@ inline fun Long.secondsToLocalDateTime(
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
 
+class TaskRunner<V>(defaultValueResult: V, private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
+    private var result: V = defaultValueResult
+    private val executor: Thread = Thread()
+    private val handler = Handler(Looper.getMainLooper())
+
+    init  {
+        executor.run {
+            try {
+                result = callable.call()
+                handler.post { callback?.invoke(result) }
+            } catch (e: Exception) {
+                Log.d(Logging.TAG, e.message)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun await(): V {
+        executor.join()
+        return result
+    }
+}

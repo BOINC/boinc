@@ -46,6 +46,7 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import edu.berkeley.boinc.utils.TaskRunner;
 import kotlin.coroutines.CoroutineContext;
 import kotlinx.coroutines.Deferred;
 import static kotlinx.coroutines.BuildersKt.runBlocking;
@@ -204,12 +205,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
         try {
             final MonitorAsync monitor = BOINCActivity.monitor;
             if (monitor != null && masterUrl != null) {
-//                final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
-                Deferred<ProjectInfo> depi = monitor.getProjectInfoAsync(masterUrl, null);
-                CoroutineContext coroutineContext = BOINCUtils.createContextFromDeferred(depi);
-                ProjectInfo pi = runBlocking(coroutineContext,(coroutineScope, continuation) ->
-                        depi.await(continuation)
-                );
+                TaskRunner<ProjectInfo> task = monitor.getProjectInfoAsync(masterUrl, null);
+                ProjectInfo pi = task.await();
                 if (pi != null) {
                     projectName = pi.getName();
                 }
