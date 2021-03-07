@@ -130,20 +130,20 @@ inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getCol
 
 class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
     private var deferred = GlobalScope.async {
-        var result : V? = null
         try {
-            result = callable.call()
-            callback?.invoke(result!!)
+            val result = callable.call()
+            callback?.invoke(result)
+            result
         }
         catch (e: Exception)
         {
             Log.d(Logging.TAG, e.message)
             e.printStackTrace()
+            throw e
         }
-        result!!
     }
 
     fun await() = runBlocking {
-            deferred.await()
+        deferred.await()
     }
 }
