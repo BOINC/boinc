@@ -253,6 +253,10 @@ struct CLIENT_STATE {
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
+// --------------- coplien's form
+  CLIENT_STATE(const CLIENT_STATE&);
+  CLIENT_STATE &operator=(const CLIENT_STATE&);
+
     void show_host_info();
     bool is_new_client();
     int init();
