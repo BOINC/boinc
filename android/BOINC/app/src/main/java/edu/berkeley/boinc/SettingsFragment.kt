@@ -261,7 +261,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun writeClientPrefs(prefs: GlobalPreferences) {
         BOINCActivity.monitor!!.setGlobalPreferencesAsync(prefs) {
-            success : Boolean ->
+            success: Boolean ->
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "writeClientPrefs() async call returned: $success")
             }
@@ -291,7 +291,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun quitClient() {
-        BOINCActivity.monitor!!.quitClientAsync() { result: Boolean ->
+        BOINCActivity.monitor!!.quitClientAsync { result: Boolean ->
             Log.d(Logging.TAG, "SettingActivity: quitClient returned: $result")
         }
     }

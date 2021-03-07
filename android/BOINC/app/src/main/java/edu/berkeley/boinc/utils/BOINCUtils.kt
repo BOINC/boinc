@@ -117,9 +117,7 @@ class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable:
             val result = callable.call()
             callback?.invoke(result)
             result
-        }
-        catch (e: Exception)
-        {
+        } catch (e: Exception) {
             Log.d(Logging.TAG, e.message)
             e.printStackTrace()
             throw e
