@@ -150,10 +150,10 @@ void acct_mgr_do_rpc(
                     if (amrr.error_num != ERR_IN_PROGRESS) break;
                     boinc_sleep(1);
                 } else {
-                    int j, n = (int)amrr.messages.size();
+                    int n = (int)amrr.messages.size();
                     if (n) {
                         printf("Messages from account manager:\n");
-                        for (j=0; j<n; j++) {
+                        for (int j=0; j<n; j++) {
                             printf("%s\n", amrr.messages[j].c_str());
                         }
                     }
