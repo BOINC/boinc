@@ -16,7 +16,7 @@ VERBOSE="${VERBOSE:-no}"
 export BOINC=".." #BOINC source code
 
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/armv6}"
+export ANDROIDTC="${ANDROID_TC_ARMV6:-$ANDROID_TC/armv6}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
@@ -37,7 +37,7 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
-    echo "===== building BOINC for armv6 from $PWD ====="    
+    echo "===== building BOINC for armv6 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make distclean 1>$STDOUT_TARGET 2>&1

@@ -16,7 +16,7 @@ VERBOSE="${VERBOSE:-no}"
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
 
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/armv6}"
+export ANDROIDTC="${ANDROID_TC_ARMV6:-$ANDROID_TC/armv6}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"

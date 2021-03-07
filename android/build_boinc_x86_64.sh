@@ -33,9 +33,6 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie -lat
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
-# Prepare android toolchain and environment
-./build_androidtc_x86_64.sh
-
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
     echo "===== building BOINC for x86-64 from $PWD ====="    
