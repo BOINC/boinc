@@ -68,7 +68,7 @@ class ProjectDetailsFragment : Fragment() {
         get() {
             try {
                 project = BOINCActivity.monitor!!.projects.firstOrNull { it.masterURL == url }
-                projectInfo = BOINCActivity.monitor!!.getProjectInfo(url)
+                projectInfo = BOINCActivity.monitor!!.getProjectInfoAsync(url).await()
             } catch (e: Exception) {
                 if (Logging.ERROR) {
                     Log.e(Logging.TAG, "ProjectDetailsFragment getCurrentProjectData could not" +

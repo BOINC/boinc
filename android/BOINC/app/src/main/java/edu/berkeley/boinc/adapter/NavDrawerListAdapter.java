@@ -205,8 +205,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         try {
             final MonitorAsync monitor = BOINCActivity.monitor;
             if (monitor != null && masterUrl != null) {
-                TaskRunner<ProjectInfo> task = monitor.getProjectInfoAsync(masterUrl, null);
-                ProjectInfo pi = task.await();
+                ProjectInfo pi = monitor.getProjectInfoAsync(masterUrl, null).await();
                 if (pi != null) {
                     projectName = pi.getName();
                 }
