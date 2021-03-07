@@ -24,8 +24,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import androidx.annotation.ColorRes
@@ -37,13 +35,16 @@ import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
 import java.io.IOException
 import java.io.Reader
+import java.lang.Exception
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import kotlinx.coroutines.Deferred
 import java.util.concurrent.Callable
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.CoroutineContext.Element
@@ -128,24 +129,21 @@ inline fun Long.secondsToLocalDateTime(
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
 
 class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
-    private var result: V? = null
-    private val executor: Thread = Thread()
-    private val handler = Handler(Looper.getMainLooper())
-
-    init  {
-        executor.run {
-            try {
-                result = callable.call()
-                handler.post { callback?.invoke(result!!) }
-            } catch (e: Exception) {
-                Log.d(Logging.TAG, e.message)
-                e.printStackTrace()
-            }
+    private var deferred = GlobalScope.async {
+        var result : V? = null
+        try {
+            result = callable.call()
+            callback?.invoke(result!!)
         }
+        catch (e: Exception)
+        {
+            Log.d(Logging.TAG, e.message)
+            e.printStackTrace()
+        }
+        result!!
     }
 
-    fun await(): V {
-        executor.join()
-        return result!!
+    fun await() = runBlocking {
+            deferred.await()
     }
 }

@@ -23,32 +23,24 @@ import android.os.IBinder
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.ErrorCodeDescription
 import edu.berkeley.boinc.utils.TaskRunner
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import java.util.concurrent.Callable
 
 class MonitorAsync(monitor: IMonitor?) : IMonitor {
     val monitor = monitor!!
 
-    fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(callback, {quitClient()})
-    }
+    fun quitClientAsync(callback: ((Boolean) -> Unit)? = null) =
+        TaskRunner(callback, {quitClient()})
 
-    fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(callback, {runBenchmarks()})
-    }
+    fun runBenchmarksAsync(callback: ((Boolean) -> Unit)? = null) =
+        TaskRunner(callback, {runBenchmarks()})
 
-    fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null)  : TaskRunner<Boolean> {
-        return TaskRunner(callback, {setGlobalPreferences(prefs)})
-    }
+    fun setGlobalPreferencesAsync(prefs: GlobalPreferences, callback: ((Boolean) -> Unit)? = null) =
+        TaskRunner(callback, {setGlobalPreferences(prefs)})
 
-    fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) : TaskRunner<Boolean> {
-        return TaskRunner(callback, {setCcConfig(config)})
-    }
+    fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) =
+        TaskRunner(callback, {setCcConfig(config)})
 
-    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) : TaskRunner<ProjectInfo?> {
-        return TaskRunner(callback, {getProjectInfo(url)})
-    }
+    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) =
+        TaskRunner(callback, {getProjectInfo(url)})
 
     override fun asBinder(): IBinder {
         return monitor.asBinder()
