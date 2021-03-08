@@ -124,7 +124,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.setGlobalPreferences(pref)
     }
 
-    override fun transferOperation(list: List<Transfer>?, op: Int): Boolean {
+    override fun transferOperation(list: List<Transfer>, op: Int): Boolean {
         return monitor.transferOperation(list, op)
     }
 

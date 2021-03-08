@@ -435,7 +435,8 @@ class ProjectsFragment : Fragment() {
                     return BOINCActivity.monitor!!.addAcctMgrErrorNum("", "", "")
                             .code == ERR_OK
                 RpcClient.TRANSFER_RETRY ->
-                    return BOINCActivity.monitor!!.transferOperation(data.projectTransfers, operation)
+                    return data.projectTransfers.isNullOrEmpty() ||
+                         BOINCActivity.monitor!!.transferOperation(data.projectTransfers!!, operation)
                 else -> if (Logging.ERROR && operation != RpcClient.TRANSFER_ABORT) {
                     Log.e(Logging.TAG, "ProjectOperationAsync could not match operation: $operation")
                 }

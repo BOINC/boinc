@@ -242,7 +242,7 @@
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Not connected to WiFi.</string>
     <string name="suspend_battery_charging">Waiting for battery to charge.</string>
-    <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches %1$d% (currently %2$d%)</string>
+    <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches %1$d%% (currently %2$d%%)</string>
     <string name="suspend_battery_overheating">Waiting for battery to cool down</string>
     <string name="suspend_user_req">Resuming computation…</string>
     <!--rpc reasons-->
