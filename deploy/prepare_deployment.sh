@@ -93,12 +93,22 @@ prepare_osx() {
     mkdir -p "${TARGET_DIR}"
 }
 
-prepare_android() {
+prepare_android_manager() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-xiaomi_debug.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/release/app-xiaomi_release-unsigned.apk "${TARGET_DIR}"
+    prepare_7z_archive
+}
+
+prepare_android_apps() {
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_armv6_uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm_uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm64_uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_x86_uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_x86_64_uc2 "${TARGET_DIR}"
     prepare_7z_archive
 }
 
@@ -133,7 +143,10 @@ case $TYPE in
         prepare_osx
     ;;
     android_manager)
-        prepare_android
+        prepare_android_manager
+    ;;
+    android_apps)
+        prepare_android_apps
     ;;
     *)
         echo "unrecognized BOINC_TYPE $key"

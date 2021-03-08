@@ -3,7 +3,7 @@ set -e
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -50,6 +50,7 @@ isPathCanonical() {
 doclean=""
 cache_dir=""
 arch=""
+component=""
 silent=""
 verbose="${VERBOSE:-no}"
 ci=""
@@ -70,6 +71,10 @@ while [ $# -gt 0 ]; do
         ;;
         --arch)
         arch="$2"
+        shift
+        ;;
+        --component)
+        component="$2"
         shift
         ;;
         --silent)
@@ -208,62 +213,191 @@ export VERBOSE=$verbose
 
 NeonTest()
 {
-    list_libs="libcrypto.a libssl.a libcurl.a"
-
-    for i in $list_libs; do
-        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$i") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
-            echo [ERROR] "$i" contains neon optimization
+    while [ $# -gt 0 ]; do
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
+        shift
     done
+}
+
+NeonTestClient()
+{
+    NeonTest libcrypto.a libssl.a libcurl.a
+}
+
+NeonTestLibs()
+{
+    NeonTest libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
 }
 
 Armv6Test()
 {
-    list_libs="libcrypto.a libssl.a libcurl.a boinc"
-
-    for i in $list_libs; do
-        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" -name "$i") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
-            echo [ERROR] "$i" is not armv6 cpu arch
+    while [ $# -gt 0 ]; do
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples/example_app" -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+            echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi
+        shift
     done
+}
+
+Armv6TestClient()
+{
+    Armv6Test libcrypto.a libssl.a libcurl.a boinc
+}
+
+Armv6TestLibs()
+{
+    Armv6Test libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
+}
+
+Armv6TestApps()
+{
+    Armv6Test uc2
 }
 
 case "$arch" in
     "armv6")
         ./build_androidtc_armv6.sh
-        ./build_openssl_armv6.sh
-        ./build_curl_armv6.sh
-        ./build_boinc_armv6.sh
-        NeonTest
-        Armv6Test
-        exit 0
+        case "$component" in
+            "client")
+                ./build_openssl_armv6.sh
+                ./build_curl_armv6.sh
+                ./build_boinc_armv6.sh
+                NeonTestClient
+                Armv6TestClient
+                exit 0
+            ;;
+            "libs")
+                ./build_libraries_armv6.sh
+                NeonTestLibs
+                Armv6TestLibs
+                exit 0
+            ;;
+            "apps")
+                ./build_libraries_armv6.sh
+                ./build_example_armv6.sh
+                NeonTestLibs
+                Armv6TestLibs
+                Armv6TestApps
+                if [ "$ci" = "yes" ]; then
+                    cp ../samples/example_app/uc2 ../samples/example_app/android_armv6_uc2
+                fi
+                exit 0
+            ;;
+            *)
+                echo "unknown component: $component"
+                exit 1
+            ;;
+        esac
     ;;
     "arm")
-        ./build_openssl_arm.sh
-        ./build_curl_arm.sh
-        ./build_boinc_arm.sh
-        NeonTest
-        exit 0
+        case "$component" in
+            "client")
+                ./build_openssl_arm.sh
+                ./build_curl_arm.sh
+                ./build_boinc_arm.sh
+                NeonTestClient
+                exit 0
+            ;;
+            "libs")
+                ./build_libraries_arm.sh
+                NeonTestLibs
+                exit 0
+            ;;
+            "apps")
+                ./build_libraries_arm.sh
+                ./build_example_arm.sh
+                if [ "$ci" = "yes" ]; then
+                    cp ../samples/example_app/uc2 ../samples/example_app/android_arm_uc2
+                fi
+                exit 0
+            ;;
+            *)
+                echo "unknown component: $component"
+                exit 1
+            ;;
+        esac
     ;;
     "arm64")
-        ./build_openssl_arm64.sh
-        ./build_curl_arm64.sh
-        ./build_boinc_arm64.sh
-        exit 0
+        case "$component" in
+            "client")
+                ./build_openssl_arm64.sh
+                ./build_curl_arm64.sh
+                ./build_boinc_arm64.sh
+                exit 0
+            ;;
+            "libs")
+                ./build_libraries_arm64.sh
+                exit 0
+            ;;
+            "apps")
+                ./build_libraries_arm64.sh
+                ./build_example_arm64.sh
+                if [ "$ci" = "yes" ]; then
+                    cp ../samples/example_app/uc2 ../samples/example_app/android_arm64_uc2
+                fi
+                exit 0
+            ;;
+            *)
+                echo "unknown component: $component"
+                exit 1
+            ;;
+        esac
     ;;
     "x86")
-        ./build_openssl_x86.sh
-        ./build_curl_x86.sh
-        ./build_boinc_x86.sh
-        exit 0
+        case "$component" in
+            "client")
+                ./build_openssl_x86.sh
+                ./build_curl_x86.sh
+                ./build_boinc_x86.sh
+                exit 0
+            ;;
+            "libs")
+                ./build_libraries_x86.sh
+                exit 0
+            ;;
+            "apps")
+                ./build_libraries_x86.sh
+                ./build_example_x86.sh
+                if [ "$ci" = "yes" ]; then
+                    cp ../samples/example_app/uc2 ../samples/example_app/android_x86_uc2
+                fi
+                exit 0
+            ;;
+            *)
+                echo "unknown component: $component"
+                exit 1
+            ;;
+        esac
     ;;
     "x86_64")
-        ./build_openssl_x86_64.sh
-        ./build_curl_x86_64.sh
-        ./build_boinc_x86_64.sh
-        exit 0
+        case "$component" in
+            "client")
+                ./build_openssl_x86_64.sh
+                ./build_curl_x86_64.sh
+                ./build_boinc_x86_64.sh
+                exit 0
+            ;;
+            "libs")
+                ./build_libraries_x86_64.sh
+                exit 0
+            ;;
+            "apps")
+                ./build_libraries_x86_64.sh
+                ./build_example_x86_64.sh
+                if [ "$ci" = "yes" ]; then
+                    cp ../samples/example_app/uc2 ../samples/example_app/android_x86_64_uc2
+                fi
+                exit 0
+            ;;
+            *)
+                echo "unknown component: $component"
+                exit 1
+            ;;
+        esac
     ;;
 esac
 

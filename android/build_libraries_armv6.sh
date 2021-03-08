@@ -16,28 +16,29 @@ VERBOSE="${VERBOSE:-no}"
 
 export BOINC=".." #BOINC source code
 
-export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
-export ANDROIDTC="${ANDROID_TC_ARM:-$ANDROID_TC/arm}"
-export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/"
-export TCBINARIES="$TOOLCHAINROOT/bin"
+export ANDROIDTC="${ANDROID_TC_ARMV6:-$ANDROID_TC/armv6}"
+export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
-export TCSYSROOT="$TOOLCHAINROOT/sysroot"
+export TCSYSROOT="$ANDROIDTC/sysroot"
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
-export CC=armv7a-linux-androideabi16-clang
-export CXX=armv7a-linux-androideabi16-clang++
+export CC=arm-linux-androideabi-clang
+export CXX=arm-linux-androideabi-clang++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
+export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
+
+# Prepare android toolchain and environment
+./build_androidtc_armv6.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 
     cd "$BOINC"
-    echo "===== building BOINC Libraries for arm from $PWD ====="
+    echo "===== building BOINC Libraries for armv6 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && [ -f "Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make distclean 1>$STDOUT_TARGET 2>&1
@@ -48,6 +49,8 @@ if [ -n "$COMPILEBOINC" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
         ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --disable-largefile --enable-boinczip
+        sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
+        mv client/Makefile.out client/Makefile
     fi
     if [ "$VERBOSE" = "no" ]; then
         make --silent
@@ -58,6 +61,6 @@ if [ -n "$COMPILEBOINC" ]; then
         make stage SHELL="/bin/bash -x"    
         make install SHELL="/bin/bash -x"    
     fi
-    echo "===== building BOINC Libraries for arm done ====="
+    echo "===== building BOINC Libraries for armv6 done ====="
 
 fi

@@ -39,7 +39,7 @@ We are going to use Ubuntu 20.04 as an example, other versions should be similar
 
         $ cd ~/boinc/android
 
-        $ ./build_all.sh
+        $ ./build_client.sh
 
     You should see this once you are done compiling:
 

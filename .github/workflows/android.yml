@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [manager]
+        type: [manager, libs, apps]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -35,13 +35,22 @@ jobs:
           key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
           restore-keys: android-${{ matrix.type }}-
 
-      - name: Build
+      - name: Build manager
+        if: ${{ success() && matrix.type == 'manager' }}
         run:  |
-          ./android/ci_build_all.sh
+          ./android/ci_build_manager.sh
           bash <(curl -s https://codecov.io/bash)
+      
+      - name: Build libs
+        if: ${{ success() && matrix.type == 'libs' }}
+        run: ./android/ci_build_libraries.sh
+
+      - name: Build apps
+        if: ${{ success() && matrix.type == 'apps' }}
+        run: ./android/ci_build_apps.sh
 
       - name: Deploy to BinTray
-        if: ${{ success() }}
+        if: ${{ success() && ! contains(matrix.type, 'libs') }}
         env:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
@@ -49,6 +58,7 @@ jobs:
         run: ./deploy/prepare_deployment.sh android_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/
 
       - uses: actions/upload-artifact@v2
+        if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/android_${{ matrix.type }}/*.7z

@@ -35,7 +35,7 @@ Provide a turn-key VM for Android development
    1. Log in with `vagrant/vagrant`
    1. Open a terminal
       1. `cd ~/BOINC/android`
-      1. `./build_all.sh`
+      1. `./build_client.sh`
    1. Start Android Studio
    1. No need to change anything in the setup assitant (just complete it)
       * OK / Next / Next / Finish / Finish
