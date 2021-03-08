@@ -52,15 +52,15 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.asBinder()
     }
 
-    override fun attachProject(url: String?, projectName: String?, authenticator: String?): Boolean {
+    override fun attachProject(url: String, projectName: String, authenticator: String): Boolean {
         return monitor.attachProject(url, projectName, authenticator)
     }
 
-    override fun checkProjectAttached(url: String?): Boolean {
+    override fun checkProjectAttached(url: String): Boolean {
         return monitor.checkProjectAttached(url)
     }
 
-    override fun lookupCredentials(credentials: AccountIn?): AccountOut {
+    override fun lookupCredentials(credentials: AccountIn): AccountOut {
         return monitor.lookupCredentials(credentials)
     }
 
@@ -68,23 +68,23 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.projectOp(status, url)
     }
 
-    override fun resultOp(op: Int, url: String?, name: String?): Boolean {
+    override fun resultOp(op: Int, url: String, name: String): Boolean {
         return monitor.resultOp(op, url, name)
     }
 
-    override fun createAccountPolling(information: AccountIn?): AccountOut {
+    override fun createAccountPolling(information: AccountIn): AccountOut {
         return monitor.createAccountPolling(information)
     }
 
-    override fun readAuthToken(path: String?): String {
+    override fun readAuthToken(path: String): String {
         return monitor.readAuthToken(path)
     }
 
-    override fun getProjectConfigPolling(url: String?): ProjectConfig {
+    override fun getProjectConfigPolling(url: String): ProjectConfig {
         return monitor.getProjectConfigPolling(url)
     }
 
-    override fun addAcctMgrErrorNum(url: String?, userName: String?, pwd: String?): ErrorCodeDescription {
+    override fun addAcctMgrErrorNum(url: String, userName: String, pwd: String): ErrorCodeDescription {
         return monitor.addAcctMgrErrorNum(url, userName, pwd)
     }
 
@@ -92,7 +92,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.acctMgrInfo
     }
 
-    override fun synchronizeAcctMgr(url: String?): Boolean {
+    override fun synchronizeAcctMgr(url: String): Boolean {
         return monitor.synchronizeAcctMgr(url)
     }
 
@@ -116,11 +116,11 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.getNotices(seq)
     }
 
-    override fun setCcConfig(config: String?): Boolean {
+    override fun setCcConfig(config: String): Boolean {
         return monitor.setCcConfig(config)
     }
 
-    override fun setGlobalPreferences(pref: GlobalPreferences?): Boolean {
+    override fun setGlobalPreferences(pref: GlobalPreferences): Boolean {
         return monitor.setGlobalPreferences(pref)
     }
 
@@ -264,7 +264,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.rssNotices
     }
 
-    override fun getSlideshowForProject(url: String?): List<ImageWrapper> {
+    override fun getSlideshowForProject(url: String): List<ImageWrapper> {
         return monitor.getSlideshowForProject(url)
     }
 
