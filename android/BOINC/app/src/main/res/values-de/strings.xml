@@ -234,7 +234,7 @@
   <string name="suspend_os">Gestoppt von Android.</string>
   <string name="suspend_wifi">Nicht per WLAN verbunden.</string>
   <string name="suspend_battery_charging">Warten bis der Akku geladen ist.</string>
-  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt, wenn der Ladezustand größer %1$d% ist (aktuell: %2$d%)</string>
+  <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt, wenn der Ladezustand größer %1$d%% ist (aktuell: %2$d%%)</string>
   <string name="suspend_battery_overheating">Warten bis der Akku abgekühlt ist</string>
   <string name="suspend_user_req">Berechnung wird fortgesetzt…</string>
   <!--rpc reasons-->

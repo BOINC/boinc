@@ -252,7 +252,7 @@
   <string name="suspend_os">Зупинено Android-ом.</string>
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
   <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
-  <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне %1$d % (зараз %2$d %)</string>
+  <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне %1$d%% (зараз %2$d%%)</string>
   <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
   <string name="suspend_user_req">Поновлення обчислень...</string>
   <!--rpc reasons-->

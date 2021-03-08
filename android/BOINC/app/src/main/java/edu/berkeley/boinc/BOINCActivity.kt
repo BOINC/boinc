@@ -44,6 +44,7 @@ import edu.berkeley.boinc.attach.SelectionListActivity
 import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.client.MonitorAsync
 import edu.berkeley.boinc.databinding.MainBinding
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
 import edu.berkeley.boinc.utils.*
@@ -66,7 +67,7 @@ class BOINCActivity : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
-            monitor = IMonitor.Stub.asInterface(service)
+            monitor = MonitorAsync(IMonitor.Stub.asInterface(service))
             mIsBound = true
             determineStatus()
         }
@@ -428,7 +429,7 @@ class BOINCActivity : AppCompatActivity() {
         supportActionBar!!.title = mTitle
     }
 
-    private suspend fun writeClientMode(mode: Int) {
+    private fun writeClientMode(mode: Int) {
         val success = writeClientModeAsync(mode)
 
         if (success) {
@@ -446,7 +447,7 @@ class BOINCActivity : AppCompatActivity() {
 
     companion object {
         @JvmField
-        var monitor: IMonitor? = null
+        var monitor: MonitorAsync? = null
         var mIsBound = false
     }
 }

@@ -41,9 +41,15 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.MonitorAsync;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.BOINCUtils;
 import edu.berkeley.boinc.utils.Logging;
+import edu.berkeley.boinc.utils.TaskRunner;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.Deferred;
+import static kotlinx.coroutines.BuildersKt.runBlocking;
 
 public class NavDrawerListAdapter extends BaseAdapter {
     private Context context;
@@ -105,7 +111,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                                navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
                                navDrawerItems.get(position).isProjectItem);
         }
-        if(convertView == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
+        if(convertView == null || convertView.getTag() == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
             int layoutId = R.layout.navlist_listitem;
             if(navDrawerItems.get(position).isSubItem()) {
                 layoutId = R.layout.navlist_listitem_subitem;
@@ -183,7 +189,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         Bitmap bm = null;
         try {
             final IMonitor monitor = BOINCActivity.monitor;
-            if (monitor != null)
+            if (monitor != null && masterUrl != null)
                 bm = monitor.getProjectIcon(masterUrl);
         }
         catch(Exception e) {
@@ -195,12 +201,14 @@ public class NavDrawerListAdapter extends BaseAdapter {
     }
 
     public String getProjectNameForMasterUrl(String masterUrl) {
-        String projectName = null;
+        String projectName = "";
         try {
-            final IMonitor monitor = BOINCActivity.monitor;
-            if (monitor != null) {
-                final ProjectInfo pi = monitor.getProjectInfo(masterUrl);
-                projectName = pi.getName();
+            final MonitorAsync monitor = BOINCActivity.monitor;
+            if (monitor != null && masterUrl != null) {
+                ProjectInfo pi = monitor.getProjectInfoAsync(masterUrl, null).await();
+                if (pi != null) {
+                    projectName = pi.getName();
+                }
             }
         }
         catch(Exception e) {

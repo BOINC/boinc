@@ -42,7 +42,7 @@ data class Notice(
         /**
          * If notice is associated with a project
          */
-        var projectName: String? = null,
+        var projectName: String = "",
         var isPrivate: Boolean = false,
         var isServerNotice: Boolean = false,
         var isClientNotice: Boolean = false
@@ -51,7 +51,7 @@ data class Notice(
             : this(seqno = parcel.readInt(), title = parcel.readString() ?: "",
             description = parcel.readString() ?: "", createTime = parcel.readDouble(),
             arrivalTime = parcel.readDouble(), category = parcel.readString() ?: "",
-            link = parcel.readString() ?: "", projectName = parcel.readString(),
+            link = parcel.readString() ?: "", projectName = parcel.readString() ?: "",
             isPrivate = readBoolean(parcel), isServerNotice = readBoolean(parcel),
             isClientNotice = readBoolean(parcel))
 

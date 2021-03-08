@@ -246,7 +246,7 @@ BOINC应当暂停运算？</string>
   <string name="suspend_os">已被Android系统暂停。</string>
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">您的电池需要充电。</string>
-  <string name="suspend_battery_charging_long">计算将在电池充电至%1$d%后继续（当前电量 %2$d%）</string>
+  <string name="suspend_battery_charging_long">计算将在电池充电至%1$d%%后继续（当前电量 %2$d%%）</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
   <string name="suspend_user_req">正在恢复计算...</string>
   <!--rpc reasons-->

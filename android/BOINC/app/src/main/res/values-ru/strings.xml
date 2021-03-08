@@ -238,7 +238,7 @@
   <string name="suspend_os">Android остановил.</string>
   <string name="suspend_wifi">Нет подключения к WiFi.</string>
   <string name="suspend_battery_charging">Ожидание увеличения уровня заряда батареи.</string>
-  <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет %1$d% (в настоящее время %2$d%)</string>
+  <string name="suspend_battery_charging_long">Расчёты возобновятся, когда заряд батареи достигнет %1$d%% (в настоящее время %2$d%%)</string>
   <string name="suspend_battery_overheating">Ожидание охлаждения батареи</string>
   <string name="suspend_user_req">Возобновление расчётов…</string>
   <!--rpc reasons-->

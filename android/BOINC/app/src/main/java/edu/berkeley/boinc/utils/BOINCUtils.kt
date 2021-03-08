@@ -24,8 +24,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import androidx.annotation.ColorRes
@@ -37,15 +35,16 @@ import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.GlobalScope
 import java.io.IOException
 import java.io.Reader
+import java.lang.Exception
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.Callable
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 val ConnectivityManager.isOnline: Boolean
     get() {
@@ -65,23 +64,10 @@ fun setAppTheme(theme: String) {
     }
 }
 
-suspend fun writeClientModeAsync(mode: Int) = coroutineScope {
-    val runMode = async {
-        return@async try {
-            BOINCActivity.monitor!!.setRunMode(mode)
-        } catch (e: RemoteException) {
-            false
-        }
-    }
-    val networkMode = async {
-        return@async try {
-            BOINCActivity.monitor!!.setNetworkMode(mode)
-        } catch (e: RemoteException) {
-            false
-        }
-    }
-
-    return@coroutineScope runMode.await() && networkMode.await()
+fun writeClientModeAsync(mode: Int): Boolean {
+    val runMode = BOINCActivity.monitor!!.setRunModeAsync(mode)
+    val networkMode = BOINCActivity.monitor!!.setNetworkModeAsync(mode)
+    return runMode.await() && networkMode.await()
 }
 
 //from https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
@@ -125,23 +111,21 @@ inline fun Long.secondsToLocalDateTime(
 @Suppress("NOTHING_TO_INLINE")
 inline fun Context.getColorCompat(@ColorRes colorId: Int) = ContextCompat.getColor(this, colorId)
 
-class TaskRunner {
-    private val executor: Executor = Executors.newSingleThreadExecutor()
-    private val handler = Handler(Looper.getMainLooper())
-
-    interface Callback<R> {
-        fun onComplete(result: R)
+class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable: Callable<V>) {
+    private var deferred = GlobalScope.async {
+        try {
+            val result = callable.call()
+            callback?.invoke(result)
+            result
+        } catch (e: Exception) {
+            if (Logging.ERROR) {
+                Log.e(Logging.TAG, "BOINCUtils.TaskRunner error: ", e)
+            }
+            throw e
+        }
     }
 
-    fun <R> executeAsync(callable: Callable<R>, callback: Callback<R>) {
-        executor.execute {
-            try {
-                val result = callable.call()
-                handler.post { callback.onComplete(result) }
-            } catch (e: Exception) {
-                Log.d(Logging.TAG, e.message)
-                e.printStackTrace()
-            }
-        }
+    fun await(): V = runBlocking {
+        deferred.await()
     }
 }
