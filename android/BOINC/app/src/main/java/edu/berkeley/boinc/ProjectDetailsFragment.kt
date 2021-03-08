@@ -48,7 +48,7 @@ import kotlinx.coroutines.*
 import java.util.*
 
 class ProjectDetailsFragment : Fragment() {
-    private var url: String? = null
+    private var url: String = ""
 
     // might be null for projects added via manual URL attach
     private var projectInfo: ProjectInfo? = null
@@ -103,7 +103,7 @@ class ProjectDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // get data
-        url = requireArguments().getString("url")
+        url = requireArguments().getString("url") ?: ""
         currentProjectData
         setHasOptionsMenu(true) // enables fragment specific menu
         super.onCreate(savedInstanceState)

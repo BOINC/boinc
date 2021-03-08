@@ -225,7 +225,7 @@ class ProjectsFragment : Fragment() {
     }
 
     // takes list of all ongoing transfers and a project id (url) and returns transfer that belong to given project
-    private fun mapTransfersToProject(id: String, allTransfers: List<Transfer>): List<Transfer?> {
+    private fun mapTransfersToProject(id: String, allTransfers: List<Transfer>): List<Transfer> {
         // project id matches url in transfer, add to list
         val projectTransfers = allTransfers.filter { it.projectUrl == id }
         if (Logging.VERBOSE) {
@@ -240,17 +240,17 @@ class ProjectsFragment : Fragment() {
             // can be either project or account manager
             var project: Project?,
             var acctMgrInfo: AcctMgrInfo?,
-            var projectTransfers: List<Transfer?>?
+            var projectTransfers: List<Transfer>?
     ) {
         var lastServerNotice: Notice? = null
         // == url
         @JvmField
-        var id: String? = null
+        var id: String = ""
         @JvmField
         var isMgr = false
         private var listEntry = this
 
-        fun updateProjectData(data: Project?, acctMgrInfo: AcctMgrInfo?, projectTransfers: List<Transfer?>?) {
+        fun updateProjectData(data: Project?, acctMgrInfo: AcctMgrInfo?, projectTransfers: List<Transfer>?) {
             if (isMgr) {
                 this.acctMgrInfo = acctMgrInfo
             } else {
@@ -393,7 +393,7 @@ class ProjectsFragment : Fragment() {
                 dialog.show()
             } else if (operation == VISIT_WEBSITE) { // command does not require confirmation and is not RPC based
                 dialogControls!!.dismiss()
-                startActivity(Intent(Intent.ACTION_VIEW, data.id!!.toUri()))
+                startActivity(Intent(Intent.ACTION_VIEW, data.id.toUri()))
             } else { // command does not require confirmation, but is RPC based
                 lifecycleScope.launch {
                     performProjectOperationAsync(data, operation)

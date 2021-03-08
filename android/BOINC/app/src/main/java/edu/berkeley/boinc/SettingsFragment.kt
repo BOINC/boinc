@@ -109,7 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 setAdvancedPreferencesVisibility()
             }
             "suspendWhenScreenOn" -> BOINCActivity.monitor!!.suspendWhenScreenOn = sharedPreferences.getBoolean(key, true)
-            "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, ""))
+            "deviceName" -> BOINCActivity.monitor!!.setDomainName(sharedPreferences.getString(key, "") ?: "")
             "theme" -> setAppTheme(sharedPreferences.getString(key, "light")!!)
 
             // Network

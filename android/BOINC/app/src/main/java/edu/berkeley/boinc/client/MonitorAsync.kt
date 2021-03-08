@@ -39,7 +39,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
     fun setCcConfigAsync(config: String, callback: ((Boolean) -> Unit)? = null) =
             TaskRunner(callback, {setCcConfig(config)})
 
-    fun getProjectInfoAsync(url: String?, callback: ((ProjectInfo?) -> Unit)? = null) =
+    fun getProjectInfoAsync(url: String, callback: ((ProjectInfo?) -> Unit)? = null) =
             TaskRunner(callback, {getProjectInfo(url)})
 
     fun setRunModeAsync(mode: Int, callback: ((Boolean) -> Unit)? = null) =
@@ -64,7 +64,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.lookupCredentials(credentials)
     }
 
-    override fun projectOp(status: Int, url: String?): Boolean {
+    override fun projectOp(status: Int, url: String): Boolean {
         return monitor.projectOp(status, url)
     }
 
@@ -124,7 +124,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.setGlobalPreferences(pref)
     }
 
-    override fun transferOperation(list: List<Transfer?>?, op: Int): Boolean {
+    override fun transferOperation(list: List<Transfer>?, op: Int): Boolean {
         return monitor.transferOperation(list, op)
     }
 
@@ -144,11 +144,11 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.accountManagers
     }
 
-    override fun getProjectInfo(url: String?): ProjectInfo? {
+    override fun getProjectInfo(url: String): ProjectInfo? {
         return monitor.getProjectInfo(url)
     }
 
-    override fun setDomainName(deviceName: String?): Boolean {
+    override fun setDomainName(deviceName: String): Boolean {
         return monitor.setDomainName(deviceName)
     }
 
