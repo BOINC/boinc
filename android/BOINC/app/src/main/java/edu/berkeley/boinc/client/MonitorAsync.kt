@@ -248,7 +248,7 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         return monitor.tasksCount
     }
 
-    override fun getProjectIconByName(name: String?): Bitmap? {
+    override fun getProjectIconByName(name: String): Bitmap? {
         return monitor.getProjectIconByName(name)
     }
 
