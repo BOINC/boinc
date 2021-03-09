@@ -220,6 +220,9 @@ if test x$enable_apps = xyes ; then
   AX_CHECK_CL
   if test "X$no_cl" = "Xyes"; then
     AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
+    enable_openclapp=no
+  else
+    enable_openclapp=yes
   fi
   configured_to_build="${configured_to_build} apps"
 fi
@@ -1073,6 +1076,7 @@ AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${en
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
+AM_CONDITIONAL(ENABLE_OPENCLAPP, [test "${enable_openclapp}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
