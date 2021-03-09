@@ -217,6 +217,10 @@ if test x$enable_server = xyes ; then
   configured_to_build="${configured_to_build} server"
 fi
 if test x$enable_apps = xyes ; then
+  AX_CHECK_CL
+  if test "X$no_cl" = "Xyes"; then
+    AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
+  fi
   configured_to_build="${configured_to_build} apps"
 fi
 if test x$enable_unit_tests = xyes ; then
