@@ -5,5 +5,7 @@ include $(top_srcdir)/Makefile.incl
 ## list the apps that should be build
 SUBDIRS = condor example_app multi_thread sleeper vboxmonitor vboxwrapper worker wrapper
 ## NOTE: nvcuda and wrappture need external libraries
-
+if CL_CFLAGS
+   SUBDIRS = $(SUBDIRS) openclapp
+endif
 maintainer-clean:
