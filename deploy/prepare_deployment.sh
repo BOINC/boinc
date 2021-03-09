@@ -74,6 +74,7 @@ prepare_apps() {
     cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_DIR}"
     cp_if_exists samples/worker/worker "${TARGET_DIR}"
     cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
+    cp_if_exists samples/openclapp/openclapp "${TARGET_DIR}"
     prepare_7z_archive
 }
 
