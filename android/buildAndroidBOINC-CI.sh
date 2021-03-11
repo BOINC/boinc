@@ -170,9 +170,9 @@ if [ "$ci" = "yes" ]; then
         rm -rf "${PREFIX}/${arch}"
         rm -rf "${OPENSSL_FLAGFILE}"
         rm -rf "${CURL_FLAGFILE}"
+        createNDKFolder
         touch "${NDK_CI_FLAGFILE}"
     fi
-    createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
         export CREATED_NDK_FOLDER="no"
