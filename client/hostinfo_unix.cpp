@@ -239,11 +239,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 #elif LINUX_LIKE_SYSTEM
     static enum {
-      Detect,
-      ProcAPM,
-      ProcACPI,
-      SysClass,
-      NoBattery
+        Detect,
+        ProcAPM,
+        ProcACPI,
+        SysClass,
+        NoBattery
     } method = Detect;
     static char path[64] = "";
 
@@ -896,20 +896,24 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     }
 
     snprintf(host.p_vendor, sizeof(host.p_vendor), "%.12s",
-        cpuInfo.eax_0.vendor_id);
+        cpuInfo.eax_0.vendor_id
+    );
 
     maxStandardFunction = cpuInfo.eax_0.max_eax;
-    if (maxStandardFunction >= 500)
-        maxStandardFunction = 0; /* old Pentium sample chips has
-                                    cpu signature here */
+    if (maxStandardFunction >= 500) {
+        // old Pentium sample chips has cpu signature here
+        maxStandardFunction = 0;
+    }
 
-    /* Extended cpuid */
+    // Extended cpuid
     get_cpuid(&cpuInfo, 0x80000000, cpu);
 
     // extended cpuid is only supported if max_eax is greater
     // than the service id
-    if (cpuInfo.eax_0.max_eax > 0x80000000)
+    //
+    if (cpuInfo.eax_0.max_eax > 0x80000000) {
         maxExtendedFunction = cpuInfo.eax_0.max_eax & 0xff;
+    }
 
     if (maxExtendedFunction >=4 ) {
         char buffer[49];
@@ -931,8 +935,9 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
         // cut off leading spaces (names are right aligned)
         name = buffer;
-        while (name[0] == ' ')
+        while (name[0] == ' ') {
             name++;
+        }
 
         // the BIOS may not have set the processor name
         if (name[0]) {
@@ -940,7 +945,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
         } else {
             // Intel CPUs don't seem to have the genuine vendor field
             snprintf(brand_string, sizeof(brand_string), "%.12s",
-                cpuInfo.eax_0.vendor_id);
+                cpuInfo.eax_0.vendor_id
+            );
         }
     }
 
@@ -964,7 +970,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     snprintf(host.p_model, sizeof(host.p_model),
         "%s [Family %u Model %u Stepping %u]", brand_string, family, model,
-        stepping);
+        stepping
+    );
 
     static const char *kFeatures[32] = {
         "fpu", "vme", "de", "pse",
@@ -984,7 +991,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
             snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
-                kFeatures[i]);
+                kFeatures[i]
+            );
             strlcat(host.p_features, buf, sizeof(host.p_features));
             found++;
         }
@@ -1003,7 +1011,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
             if ((cpuInfo.eax_1.extended_features & (1UL << i)) &&
                 kFeatures2[i] != NULL) {
                 snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
-                    kFeatures2[i]);
+                    kFeatures2[i]
+                );
                 strlcat(host.p_features, buf, sizeof(host.p_features));
                 found++;
             }
@@ -1614,12 +1623,11 @@ static const struct dir_tty_dev {
     { "/dev", "tty",
       {"ttyS", "ttyACM"},
     },
-    { "/dev", "pty" },
-    { "/dev/pts", NULL },
+    { "/dev", "pty", {}},
+    { "/dev/pts", NULL, {}},
 #endif
-    // add other ifdefs here as necessary.
-    { NULL, NULL },
 };
+#define N_TTY_PATTERNS sizeof(tty_patterns)/sizeof(dir_tty_dev)
 
 // Make a list of all TTY devices on the system.
 //
@@ -1628,8 +1636,7 @@ vector<string> get_tty_list() {
     char fullname[1024];
     vector<string> tty_list;
 
-    for (int i=0; ; i++) {
-        if (tty_patterns[i].dir == NULL) break;
+    for (unsigned int i=0; i<N_TTY_PATTERNS; i++) {
         DIRREF dev = dir_open(tty_patterns[i].dir);
         if (!dev) continue;
         while (1) {
@@ -1644,6 +1651,7 @@ vector<string> get_tty_list() {
                 // Ignore some devices. This could be, for example,
                 // ttyS* (serial port) or devACM* (serial USB) devices
                 // which may be used even without a user being active.
+                //
                 if (tty_patterns[i].should_ignore(devname)) continue;
             }
 
@@ -1668,12 +1676,15 @@ vector<string> get_tty_list() {
 
 inline long all_tty_idle_time() {
     static vector<string> tty_list;
+    static bool first = true;
     struct stat sbuf;
-    unsigned int i;
     long idle_time = USER_IDLE_TIME_INF;
 
-    if (tty_list.size()==0) tty_list=get_tty_list();
-    for (i=0; i<tty_list.size(); i++) {
+    if (first) {
+        first = false;
+        tty_list = get_tty_list();
+    }
+    for (unsigned int i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
             // printf("tty: %s %d %d\n",tty_list[i].c_str(), sbuf.st_atime, t);
@@ -1688,6 +1699,7 @@ inline long all_tty_idle_time() {
 // We can't link the client with the AppKit framework because the client
 // must be setuid boinc_master. So the client uses this to get the system
 // up time instead of our getTimeSinceBoot() function in lib/mac_util.mm.
+//
 int get_system_uptime() {
     struct timeval tv;
     size_t len = sizeof(tv);
@@ -1757,7 +1769,7 @@ long HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
     } else {
         // When the system first starts up, allow time for HIDSystem to be available if needed
         if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
-             msg_printf(NULL, MSG_INFO,
+            msg_printf(NULL, MSG_INFO,
                 "Could not connect to HIDSystem: user idle detection is disabled."
             );
             error_posted = true;
@@ -1766,8 +1778,9 @@ long HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
     }
 
     if (!gstate.executing_as_daemon) {
-        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType
-                (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType (
+            kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType
+        );
 
         if (idleTimeFromCG < idleTime) {
             idleTime = idleTimeFromCG;
@@ -2044,6 +2057,7 @@ union headeru {
     fat_header fat;
     mach_header mach;
 };
+
 // Get the architecture of this computer's CPU: x86_64 or arm64.
 // Read the executable file's mach-o headers to determine the 
 // architecture(s) of its code.
@@ -2054,7 +2068,6 @@ union headeru {
 // properly run under Rosetta 2. Note: years ago, PowerPC apps emulated 
 // by Rosetta on i386 Macs crashed when running graphics.
 //
-
 bool can_run_on_this_CPU(char* exec_path) {
     FILE *f;
     int retval = false;
