@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [client-with-dynamic-lib, libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -43,6 +43,10 @@ jobs:
       - name: Automake
         if: ${{ success() }}
         run: ./_autosetup
+
+      - name: Configure dynamic
+        if: ${{ success() && matrix.type == 'client-with-dynamic-lib' }}
+        run: ./configure --enable-apps --enable-client --disable-manager --enable-dynamic-client-linkage  --disable-fcgi --enable-libraries --enable-unicode --enable-shared --enable-static --enable-dynamic-client-linkage --with-ssl
 
       - name: Configure libs
         if: ${{ success() && matrix.type == 'libs' }}
@@ -85,7 +89,7 @@ jobs:
         run: ./integration_test/executeTestSuite.sh
 
       - name: Deploy to BinTray
-        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && ! contains(matrix.type, 'client-with-dynamic-lib') }}
         env:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
@@ -93,7 +97,7 @@ jobs:
         run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/
 
       - uses: actions/upload-artifact@v2
-        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && ! contains(matrix.type, 'client-with-dynamic-lib') }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}/*.7z
