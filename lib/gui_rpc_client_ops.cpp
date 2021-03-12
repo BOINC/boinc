@@ -1970,26 +1970,38 @@ int RPC_CLIENT::run_benchmarks() {
 // if slot = -1, start the default screensaver
 // screensaverLoginUser is the login name of the user running the screensaver
 //
-int RPC_CLIENT::run_graphics_app(const char *operation, int& operand, const char *screensaverLoginUser) {
+int RPC_CLIENT::run_graphics_app(
+    const char *operation, int& operand, const char *screensaverLoginUser
+) {
     char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
     int thePID = -1;
-    bool stop = false;
     bool test = false;
     
     snprintf(buf, sizeof(buf), "<run_graphics_app>\n");
     
     if (!strcmp(operation, "run")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
+        snprintf(buf, sizeof(buf),
+            "<run_graphics_app>\n<slot>%d</slot>\n<run/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n",
+            operand, screensaverLoginUser
+        );
     } else if (!strcmp(operation, "runfullscreen")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<slot>%d</slot>\n<runfullscreen/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
+        snprintf(buf, sizeof(buf),
+            "<run_graphics_app>\n<slot>%d</slot>\n<runfullscreen/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n",
+            operand, screensaverLoginUser
+        );
     } else if (!strcmp(operation, "stop")) {
-        snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<stop/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n", operand, screensaverLoginUser);
-        stop = true;
-        } else if (!strcmp(operation, "test")) {
-            snprintf(buf, sizeof(buf), "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<test/>\n", operand);
-            test = true;
+        snprintf(buf, sizeof(buf),
+            "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<stop/>\n<ScreensaverLoginUser>%s</ScreensaverLoginUser>\n",
+            operand, screensaverLoginUser
+        );
+    } else if (!strcmp(operation, "test")) {
+        snprintf(buf, sizeof(buf),
+            "<run_graphics_app>\n<graphics_pid>%d</graphics_pid>\n<test/>\n",
+            operand
+        );
+        test = true;
     } else {
         operand = -1;
         return -1;

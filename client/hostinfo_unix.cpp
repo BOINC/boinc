@@ -298,8 +298,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
             );
             fsys = fopen(path, "r");
             if (!fsys) continue;
-            (void) fgets(buf, sizeof(buf), fsys);
+            char *p = fgets(buf, sizeof(buf), fsys);
             fclose(fsys);
+            if (p == NULL) {
+                break;
+            }
             // AC adapters have type "Mains"
             if ((strstr(buf, "mains") != NULL) || (strstr(buf, "Mains") != NULL)) {
                 method = SysClass;
@@ -331,7 +334,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             int     apm_ac_line_status=1;
 
             // supposedly we're on batteries if the 5th entry is zero.
-            (void) fscanf(fapm, "%10s %d.%d %x %x",
+            int n = fscanf(fapm, "%10s %d.%d %x %x",
                 apm_driver_version,
                 &apm_major_version,
                 &apm_minor_version,
@@ -340,6 +343,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             );
 
             fclose(fapm);
+            if (n != 5) return false;
 
             return (apm_ac_line_status == 0);
         }
@@ -350,13 +354,15 @@ bool HOST_INFO::host_is_running_on_batteries() {
             if (!facpi) return false;
 
             char buf[128];
-            (void) fgets(buf, sizeof(buf), facpi);
+            char *p = fgets(buf, sizeof(buf), facpi);
 
             fclose(facpi);
+            if (p == NULL) return false;
 
-            if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL))
+            if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) {
                 // on batteries if ac adapter is "off-line" (or maybe "offline")
                 return (strstr(buf, "off") != NULL);
+            }
 
             return false;
         }
@@ -367,8 +373,9 @@ bool HOST_INFO::host_is_running_on_batteries() {
             if (!fsys) return false;
 
             int online;
-            (void) fscanf(fsys, "%d", &online);
+            int n = fscanf(fsys, "%d", &online);
             fclose(fsys);
+            if (n != 1) return false;
 
             // online is 1 if on AC power, 0 if on battery
             return (0 == online);
@@ -391,10 +398,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
         for (devn = 0;; devn++) {
             mib[2] = devn;
             if (sysctl(mib, 3, &snsrdev, &sdlen, NULL, 0) == -1) {
-                if (errno == ENXIO)
+                if (errno == ENXIO) {
                     continue;
-                if (errno == ENOENT)
+                }
+                if (errno == ENOENT) {
                     break;
+                }
             }
             if (!strcmp("acpiac0", snsrdev.xname)) {
                 break;
@@ -405,11 +414,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
     }
 
     if (sysctl(mib, 5, &s, &slen, NULL, 0) != -1) {
-        if (s.value)
+        if (s.value) {
             // AC present
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     return false;
@@ -418,11 +428,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
     size_t len = sizeof(ac);
 
     if (sysctlbyname("hw.acpi.acline", &ac, &len, NULL, 0) != -1) {
-        if (ac)
+        if (ac) {
             // AC present
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     return false;
@@ -1388,7 +1399,7 @@ int HOST_INFO::get_memory_info() {
 // return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
 #ifdef __GLIBC__
-int get_libc_version(string& version, string& extra_info) {
+int get_libc_version(string& version, string&) {
     version = string(gnu_get_libc_version());
     return BOINC_SUCCESS;
 }

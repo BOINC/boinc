@@ -642,11 +642,12 @@ bool ACTIVE_TASK::finish_file_present(int &exit_code) {
     }
     p = fgets(buf, sizeof(buf), f);
     if (p && strlen(buf)) {
-        fgets(buf2, sizeof(buf2), f);
-        msg_printf(result->project,
-            strstr(buf2, "notice")?MSG_USER_ALERT:MSG_INFO,
-            "Message from task: %s", buf
-        );
+        if (fgets(buf2, sizeof(buf2), f)) {
+            msg_printf(result->project,
+                strstr(buf2, "notice")?MSG_USER_ALERT:MSG_INFO,
+                "Message from task: %s", buf
+            );
+        }
     }
     fclose(f);
     return true;
@@ -667,8 +668,14 @@ bool ACTIVE_TASK::temporary_exit_file_present(
     } else {
         x = y;
     }
-    (void) fgets(buf, 256, f);     // read the \n
-    (void) fgets(buf, 256, f);
+    char *p = fgets(buf, 256, f);     // read the \n
+    if (p) {
+        p = fgets(buf, 256, f);
+    }
+    if (p == NULL) {
+        fclose(f);
+        return false;
+    }
     strip_whitespace(buf);
     is_notice = false;
     if (fgets(buf2, 256, f)) {
@@ -1617,8 +1624,11 @@ void ACTIVE_TASK::read_task_state_file() {
     FILE* f = boinc_fopen(path, "r");
     if (!f) return;
     buf[0] = 0;
-    (void) fread(buf, 1, 4096, f);
+    size_t n = fread(buf, 1, 4096, f);
     fclose(f);
+    if (n == 0) {
+        return;
+    }
     buf[4095] = 0;
     double x;
     // TODO: use XML parser

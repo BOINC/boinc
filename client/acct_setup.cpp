@@ -289,8 +289,11 @@ void CLIENT_STATE::process_autologin(bool first) {
         //
         FILE* f = boinc_fopen(ACCOUNT_DATA_FILENAME, "r");
         if (!f) return;
-        fgets(buf, 256, f);
+        p = fgets(buf, 256, f);
         fclose(f);
+        if (p == NULL) {
+            return;
+        }
         p = strstr(buf, "__");
         if (!p) {
             boinc_delete_file(ACCOUNT_DATA_FILENAME);

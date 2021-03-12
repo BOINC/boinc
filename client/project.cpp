@@ -719,7 +719,7 @@ void PROJECT::delete_project_file_symlinks() {
 
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        snprintf(path, sizeof(path), "%s/%s", project_dir(), fref.open_name);
+        snprintf(path, sizeof(path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -779,8 +779,8 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        snprintf(link_path, sizeof(link_path), "%s/%s", project_dir(), fref.open_name);
-        snprintf(file_path, sizeof(file_path), "%s/%s", project_dir(), fip->name);
+        snprintf(link_path, sizeof(link_path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
+        snprintf(file_path, sizeof(file_path), "%.*s/%s", DIR_LEN, project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
