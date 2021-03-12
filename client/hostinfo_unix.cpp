@@ -1626,9 +1626,8 @@ static const struct dir_tty_dev {
     { "/dev", "pty", {}},
     { "/dev/pts", NULL, {}},
 #endif
-    // add other ifdefs here as necessary.
-    { NULL, NULL, {}},
 };
+#define N_TTY_PATTERNS sizeof(tty_patterns)/sizeof(dir_tty_dev)
 
 // Make a list of all TTY devices on the system.
 //
@@ -1637,8 +1636,7 @@ vector<string> get_tty_list() {
     char fullname[1024];
     vector<string> tty_list;
 
-    for (int i=0; ; i++) {
-        if (tty_patterns[i].dir == NULL) break;
+    for (unsigned int i=0; i<N_TTY_PATTERNS; i++) {
         DIRREF dev = dir_open(tty_patterns[i].dir);
         if (!dev) continue;
         while (1) {
