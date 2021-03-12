@@ -1066,6 +1066,7 @@ int ACTIVE_TASK::start(bool test) {
         // hook up stderr to a specially-named file
         //
         if (freopen(STDERR_FILE, "a", stderr) == NULL) {
+            _exit(errno);
         }
 
         // lower our priority if needed
@@ -1249,10 +1250,6 @@ void run_test_app() {
     ACTIVE_TASK_SET ats;
     RESULT result;
     int retval;
-
-    char buf[256];
-    if (getcwd(buf, sizeof(buf)) == NULL) {   // so we can see where we're running
-    }
 
     gstate.run_test_app = true;
 

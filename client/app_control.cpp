@@ -669,7 +669,9 @@ bool ACTIVE_TASK::temporary_exit_file_present(
         x = y;
     }
     char *p = fgets(buf, 256, f);     // read the \n
-    p = fgets(buf, 256, f);
+    if (p) {
+        p = fgets(buf, 256, f);
+    }
     if (p == NULL) {
         fclose(f);
         return false;
