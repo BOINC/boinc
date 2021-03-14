@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu bionic main universe'
           sudo apt-get -qq update
-          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev
+          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libwxgtk-webview3.0-gtk3-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev libssl-dev libice-dev libjpeg-dev libsm-dev libsqlite3-dev pkg-config libtool libxml2-utils zlib1g-dev python3-all
 
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
