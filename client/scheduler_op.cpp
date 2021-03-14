@@ -134,7 +134,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         // and project list
         //
         if (!cc_config.no_info_fetch) {
-            gstate.new_version_check();
+//            gstate.new_version_check();
             gstate.all_projects_list_check();
         }
     }

@@ -57,6 +57,7 @@ int main() {
         exit(1);
     }
     parse(f);
+    fclose(f);
 }
 
 /* try it with something like:

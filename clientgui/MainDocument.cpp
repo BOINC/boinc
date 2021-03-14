@@ -1704,7 +1704,6 @@ void CMainDocument::KillGraphicsApp(HANDLE pid) {
 }
 #else
 void CMainDocument::KillGraphicsApp(int pid) {
-    char* argv[6];
     char currentDir[1024];
     char thePIDbuf[20];
     int id, iRetVal;
@@ -1712,12 +1711,13 @@ void CMainDocument::KillGraphicsApp(int pid) {
 
     if (g_use_sandbox) {
         snprintf(thePIDbuf, sizeof(thePIDbuf), "%d", pid);
-        argv[0] = "switcher";
-        argv[1] = "/bin/kill";
-        argv[2] =  "kill";
-        argv[3] = "-KILL";
-        argv[4] = thePIDbuf;
-        argv[5] = 0;
+        char* const argv[6] = {
+           strdup("switcher"),
+	    strdup("/bin/kill"),
+	    strdup("kill"),
+	    strdup("-KILL"),
+	    thePIDbuf,0
+        };
 
         iRetVal = run_program(
             getcwd(currentDir, sizeof(currentDir)),
@@ -1727,6 +1727,10 @@ void CMainDocument::KillGraphicsApp(int pid) {
             0,
             id
         );
+	free(argv[0]);
+	free(argv[1]);
+	free(argv[2]);
+	free(argv[3]);
     } else {
         kill_program(pid);
     }

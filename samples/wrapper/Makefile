@@ -41,5 +41,5 @@ REGEXP_OBJS = \
 	regexp_memory.o \
 	regexp_report.o
 
-wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a $(PTHREAD) -lboinc_api -lboinc -lboinc_zip
+wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_ZIP_DIR)/libboinc_zip.a $(REGEXP_OBJS)
+	$(CXX) $(CPPFLAGS) $(PTHREAD) -static -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_ZIP_DIR)/libboinc_zip.a $(BOINC_LIB_DIR)/libboinc.a

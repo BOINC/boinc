@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 # configxml.py - module to read and parse config.xml, run_state.xml
 

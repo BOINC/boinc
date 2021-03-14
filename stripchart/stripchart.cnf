@@ -4,7 +4,7 @@ use Time::Local;
 $majorversion = 2; $minorversion = 1;
 
 # Directory where gnuplot is
-$gnuplot = "/usr/local/bin"
+$gnuplot = "/usr/bin"
  
 # Temporary files
 $suffix = rand(10000);
@@ -38,7 +38,7 @@ $daysecs = 86400;
 $tzdiff = timegm($sec,$min,$hour,$mday,$mon,$year) - timelocal($sec,$min,$hour,$mday,$mon,$year);
 
 # Where is the stripchart executable located?
-$stripchartexe = "./stripchart"
+$stripchartexe = "/usr/lib/cgi-bin/stripchart"
  
 # What is the default number of stripcharts?
 $defaultnumcharts = 1;
@@ -48,11 +48,11 @@ $defaultflags = "-s";
 
 # Where is the list of datafiles for stripchart.cgi?
 # Note: there is a sample copy in the samples directory: 
-$datafilelist = "datafiles";
+$datafilelist = "/usr/share/stripchart/datafiles";
  
-# Where is the list of user-definied cgi queries?
+# Where is the list of user-defined cgi queries?
 # Note: this file gets created by the cgi - must put it somewhere that the cgi user can write to 
-$queryfilelist = "querylist";
+$queryfilelist = "/tmp/querylist";
 
 # What time is it right now?
 $rightnow = time;

@@ -61,17 +61,17 @@ install: uc2
 # because otherwise you might get a version in /usr/lib etc.
 
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o uc2 uc2.o libstdc++.a -pthread \
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -pthread -o uc2 uc2.o libstdc++.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a
 
 ucn: ucn.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o ucn ucn.o libstdc++.a -pthread \
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -pthread -o ucn ucn.o libstdc++.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a
 
 uc2_graphics: uc2_graphics.o ttfont.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o libstdc++.a -pthread \
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -pthread -o uc2_graphics uc2_graphics.o ttfont.o libstdc++.a \
 	$(BOINC_API_DIR)/libboinc_graphics2.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \
@@ -79,7 +79,7 @@ uc2_graphics: uc2_graphics.o ttfont.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(
     -lftgl -lGL -lX11 -lXmu -lm
 
 slide_show: slide_show.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
-	$(CXX) $(CXXFLAGS) -o slide_show slide_show.o libstdc++.a -pthread \
+	$(CXX) $(CXXFLAGS) -static -pthread -o slide_show slide_show.o libstdc++.a \
 	$(BOINC_API_DIR)/libboinc_graphics2.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \

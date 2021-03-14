@@ -40,7 +40,7 @@ MFILE::MFILE() {
 }
 
 MFILE::~MFILE() {
-    if (buf) free(buf);
+    close();
 }
 
 int MFILE::open(const char* path, const char* mode) {

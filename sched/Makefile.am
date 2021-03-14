@@ -4,7 +4,6 @@
 include $(top_srcdir)/Makefile.incl
 
 AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS)
-AM_LDFLAGS += -static
 
 if ENABLE_LIBRARIES
 
@@ -25,8 +24,8 @@ lib_LTLIBRARIES = libsched.la
 libsched_la_SOURCES = $(libsched_sources)
 libsched_la_CFLAGS = $(AM_CPPFLAGS)
 libsched_la_CXXFLAGS = $(AM_CPPFLAGS)
-libsched_la_LDFLAGS= -version-number $(LIBBOINC_VERSION)
-libsched_la_LIBADD= $(SSL_LIBS)
+libsched_la_LDFLAGS= -version-number $(LIBBOINC_VERSION) $(SSL_LIBS)
+libsched_la_LIBADD= $(LIBBOINC) $(LIBBOINC_CRYPT)
 
 ## install only headers that are meant for exporting the API !!
 if INSTALL_HEADERS
@@ -48,7 +47,7 @@ libsched_fcgi_la_SOURCES = $(libsched_sources)
 libsched_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 libsched_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 libsched_fcgi_la_LDFLAGS= -version-number $(LIBBOINC_VERSION)
-libsched_fcgi_la_LIBADD=
+libsched_fcgi_la_LIBADD= $(LIBBOINC_CRYPT)
 
 endif
 # end of "if ENABLE_FCGI"
@@ -278,7 +277,7 @@ update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SERVERLIBS)
 
 file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
-file_upload_handler_LDADD = $(FUHLIBS)
+file_upload_handler_LDADD = $(FUHLIBS) $(LIBBOINC)
 
 make_work_SOURCES = make_work.cpp
 make_work_LDADD = $(SERVERLIBS)
@@ -319,7 +318,7 @@ fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.cpp \
     sched_config.cpp
 fcgi_file_upload_handler_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_file_upload_handler_LDADD = $(SERVERLIBS_FCGI)
+fcgi_file_upload_handler_LDADD = $(SERVERLIBS_FCGI) $(LIBBOINC)
 
 endif
 # end of "if ENABLE_FCGI"

@@ -20,7 +20,7 @@ all: $(PROGS)
 install: all
 
 libstdc++.a:
-	ln -s `g++ -print-file-name=libstdc++.a`
+	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
 clean: distclean
 
@@ -28,6 +28,6 @@ distclean:
 	rm -f $(PROGS) *.o libstdc++.a
 
 sleeper: sleeper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -pthread -o sleeper sleeper.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 
 .PHONY: all install clean distclean

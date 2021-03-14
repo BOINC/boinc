@@ -151,7 +151,12 @@ DIRREF dir_open(const char* p) {
     dirp->handle = INVALID_HANDLE_VALUE;
 #else
     dirp = opendir(p);
-    if (!dirp) return NULL;
+    if (!dirp) {
+        char b[MAXPATHLEN+1];
+        boinc_getcwd(b);
+        fprintf(stderr,"dir_open: Could not open directory '%s' from '%s'.\n",p,b);
+        return NULL;
+    }
 #endif
     return dirp;
 }
@@ -777,7 +782,7 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     //
     int retval = rename(old, newf);
     if (retval) {
-        char buf[MAXPATHLEN+MAXPATHLEN];
+        char buf[MAXPATHLEN+MAXPATHLEN+1+7];
         sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
 #ifdef __APPLE__
         // system() is deprecated in Mac OS 10.10.

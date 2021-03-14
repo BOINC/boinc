@@ -6,13 +6,8 @@ install-exec-hook:
 		$(INSTALL) -d $(DESTDIR)$(sysconfdir)/init.d ; \
 		$(INSTALL) -b boinc-client $(DESTDIR)$(sysconfdir)/init.d/boinc-client ; \
 	fi
-	if [ -d /usr/lib/systemd/system ] ; then \
-		$(INSTALL) -d $(DESTDIR)/usr/lib/systemd/system/ ; \
-		$(INSTALL_DATA) boinc-client.service $(DESTDIR)/usr/lib/systemd/system/boinc-client.service ; \
-	elif [ -d /lib/systemd/system ] ; then \
-		$(INSTALL) -d $(DESTDIR)/lib/systemd/system/ ; \
-		$(INSTALL_DATA) boinc-client.service $(DESTDIR)/lib/systemd/system/boinc-client.service ; \
-	fi
+	$(INSTALL) -d $(DESTDIR)/usr/lib/systemd/system/ ; \
+	$(INSTALL_DATA) boinc-client.service $(DESTDIR)/usr/lib/systemd/system/boinc-client.service ; \
 	if [ -d /etc/sysconfig ] ; then \
 	  $(INSTALL) -d $(DESTDIR)$(sysconfdir)/sysconfig ; \
 	  $(INSTALL_DATA) $(srcdir)/boinc-client.conf $(DESTDIR)$(sysconfdir)/sysconfig/boinc-client ; \

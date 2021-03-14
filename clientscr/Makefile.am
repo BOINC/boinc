@@ -5,7 +5,6 @@ include $(top_srcdir)/Makefile.incl
 
 AM_LDFLAGS += -lpthread
 if ENABLE_CLIENT_RELEASE
-  AM_LDFLAGS += -static-libtool-libs
 ## for an entirely statically linked library, you may want to try
 ## -all-static instead.  There's a good chance it won't work properly,
 ## so we'll use the safer "-static-libtool-libs" by default.
