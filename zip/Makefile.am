@@ -62,11 +62,7 @@ endif
 lib_LTLIBRARIES = libboinc_zip.la
 libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
 libboinc_zip_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
-libboinc_zip_la_LIBADD = $(LIBBOINC)
-libboinc_zip_la_AR = gcc-ar
-libboinc_zip_la_RANLIB = gcc-ranlib
-libboinc_zip_a_AR = gcc-ar
-libboinc_zip_a_RANLIB = gcc-ranlib
+libboinc_zip_la_LIBADD =
 
 # Some OSs may not prefix libraries with lib.
 # For example OS2

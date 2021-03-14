@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 # boincxml.py - XML utilities for boinc
 

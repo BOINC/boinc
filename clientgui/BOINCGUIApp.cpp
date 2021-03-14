@@ -49,9 +49,6 @@
 #include "procinfo.h"
 #include "sg_BoincSimpleFrame.h"
 
-#ifndef PATH_MAX
-#define PATH_MAX 4096
-#endif
 
 bool s_bSkipExitConfirmation = false;
 

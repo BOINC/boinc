@@ -66,7 +66,7 @@ int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
 //
 void get_pathname(FILE_INFO* fip, char* path, int len) {
     PROJECT* p = fip->project;
-    char buf[std::max(len,MAXPATHLEN)];
+    char buf[MAXPATHLEN];
 
     // for testing purposes, it's handy to allow a FILE_INFO without
     // an associated PROJECT.
@@ -88,28 +88,28 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
 }
 
 void get_sched_request_filename(PROJECT& project, char* buf, int len) {
-    char url[std::max(len,MAXPATHLEN)];
+    char url[1024];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", SCHED_OP_REQUEST_BASE, url);
 }
 
 void get_sched_reply_filename(PROJECT& project, char* buf, int len) {
-    char url[std::max(len,MAXPATHLEN)];
+    char url[1024];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
 }
 
 void get_master_filename(PROJECT& project, char* buf, int len) {
-    char url[std::max(len,MAXPATHLEN)];
+    char url[1024];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", MASTER_BASE, url);
 }
 
 void job_log_filename(PROJECT& project, char* buf, int len) {
-    char url[std::max(len,MAXPATHLEN)];
+    char url[1024];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.txt", JOB_LOG_BASE, url);
@@ -217,7 +217,7 @@ int make_slot_dir(int slot) {
 // delete unused stuff in the slots/ directory
 //
 void delete_old_slot_dirs() {
-    char filename[MAXPATHLEN], path[MAXPATHLEN];
+    char filename[1024], path[MAXPATHLEN];
     DIRREF dirp;
     int retval;
 

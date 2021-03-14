@@ -29,10 +29,10 @@ distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 wrappture.o: wrappture.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o wrappture.o wrappture.cpp
+	g++ $(CXXFLAGS) -c -o wrappture.o wrappture.cpp
 
 wrappture_example: wrappture.o wrappture_example.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(RAPPTURE_DIR)/librappture.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -static -pthread -o wrappture_example wrappture_example.o wrappture.o $(RAPPTURE_DIR)/librappture.a libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	g++ $(CXXFLAGS) -o wrappture_example wrappture_example.o wrappture.o $(RAPPTURE_DIR)/librappture.a libstdc++.a -pthread -lboinc_api -lboinc -lexpat -lz
 
 fermi: fermi.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -static -o fermi fermi.cpp
+	g++ $(CSSFLAGS) -o fermi fermi.cpp

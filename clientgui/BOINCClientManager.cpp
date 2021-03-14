@@ -199,11 +199,6 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     if (IsBOINCCoreRunning()) return true;
 
-// Disables for Linux/UNIX the part of code of this function that starts with comment "Unix based systems"
-#ifdef __WXGTK__
-    else return false;
-#endif
-
 #if defined(__WXMSW__)
     const char*  pszExecute = NULL;
     const char*  pszDataDirectory = NULL;
@@ -439,11 +434,6 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
 
 #ifdef __WXMAC__
     // Mac Manager shuts down client only if Manager started client
-    if (!m_bBOINCStartedByManager) return;
-#endif
-
-#ifdef __WXGTK__
-    // Linux Manager shuts down client only if Manager started client
     if (!m_bBOINCStartedByManager) return;
 #endif
 

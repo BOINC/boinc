@@ -80,13 +80,7 @@ int setenv(const char *name, const char *value, int overwrite) {
             }
             if (i!=envstrings.end()) {
                 // we allocated this string.  Reallocate it.
-		char *b=buf;
                 buf=(char *)realloc(buf,strlen(name)+strlen(value)+2);
-		if (!buf) {
-		    free(b);
-		    errno=ENOMEM;
-		    return -1;
-		}
                 *i=buf;
             } else {
                 // someone else allocated the string.  Allocate new memory.

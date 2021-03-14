@@ -7,9 +7,7 @@ echo "#ifndef SVN_VERSION_H" > $TMPFILE
 echo "#define SVN_VERSION_H" >> $TMPFILE
 echo "" >> $TMPFILE
 
-if [ -d "debian" ]; then
-    CMD=""
-elif [ -d .git/svn ]; then
+if [ -d .git/svn ]; then
     CMD="git svn info"
 elif [ -d .git ]; then
     GIT_LOG=`git log -n1 --pretty="format:%H"`

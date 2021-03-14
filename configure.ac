@@ -28,7 +28,7 @@ dnl AM_INIT_AUTOMAKE(dist-zip subdir-objects)
 
 AM_INIT_AUTOMAKE(dist-zip)
 
-#m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
 
@@ -63,12 +63,6 @@ AC_PROG_MAKE_SET
 SAH_LINKS
 AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
-
-dnl ------
-dnl  essential for LTO and static applications in apps and samples
-AC_PROG_RANLIB
-AM_PROG_AR
-dnl ------
 
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))

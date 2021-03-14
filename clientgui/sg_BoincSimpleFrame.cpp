@@ -91,7 +91,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
-    //EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
+    EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
     EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
     EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
@@ -153,18 +153,6 @@ bool CSimpleFrame::CreateMenus() {
         strMenuDescription
     );
 
-/* 
-   On Linux distributions, BOINC runs as a service. Users must not be able to
-   try stopping the service from exit menu entry.
-   This leads to unexpected behaviour, like:
-   - service being killed;
-   - service still running.
-   Moreover, the Manager will no longer be able to connect to the client, unless
-   the user connects to 127.0.0.1. Then if the Manager is connected to the client
-   by using 127.0.0.1 address, the "Exit from BOINC Manager" entry will not
-   show any frame asking the user if he wants to stop the service.
-*/
-#ifndef __WXGTK_
     strMenuDescription.Printf(
         _("Exit %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -180,7 +168,6 @@ bool CSimpleFrame::CreateMenus() {
         strMenuName,
         strMenuDescription
     );
-#endif
 
 #ifdef __WXMAC__
     // wxWidgets actually puts this in the BOINCManager menu
@@ -331,7 +318,6 @@ bool CSimpleFrame::CreateMenus() {
     );
     menuHelp->AppendSeparator();
 
-/*
     strMenuName.Printf(
         _("Check for new %s version"),
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -354,7 +340,6 @@ bool CSimpleFrame::CreateMenus() {
     );
     menuHelp->AppendSeparator();
 
-*/
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()

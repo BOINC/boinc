@@ -27,4 +27,4 @@ distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 vboxmonitor: vboxmonitor.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -static -pthread -o vboxmonitor vboxmonitor.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	g++ $(CXXFLAGS) -o vboxmonitor vboxmonitor.o libstdc++.a -pthread -lboinc_api -lboinc

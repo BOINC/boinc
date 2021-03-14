@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/env perl
 
 # The contents of this file are subject to the Mozilla Public License
 # Version 1.0 (the "License"); you may not use this file except in
@@ -44,7 +44,7 @@ use File::Basename;
 ################
  
 # Where is the .cnf file? 
-$cnfpath = "/etc/stripchart.cnf";
+$cnfpath = "./stripchart.cnf";
 
 # Read it in: 
 open (CNFFILE,$cnfpath) or die "cannot open configuration file: $cnfpath\nmake sure this variable is set properly"; 

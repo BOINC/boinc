@@ -29,10 +29,10 @@ $(srcdir)/Boinc/boinc_db.py: $(top_srcdir)/db/boinc_db.h $(top_srcdir)/db/boinc_
 # all: $(srcdir)/Boinc/boinc_db.py
 
 all-local:
-	python3 setup.py build --build-base=$(top_builddir)/py
+	python setup.py build --build-base=$(top_builddir)/py
 
 install-exec-local:
-	python3 setup.py install --prefix=$(prefix) --root=$(DESTDIR)
+	python setup.py install --prefix=$(prefix) --root=$(DESTDIR)
 
 clean:
 	rm -rf $(top_builddir)/py/lib.*

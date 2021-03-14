@@ -42,6 +42,7 @@ dist_tools_DATA = \
     gui_urls.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
+AM_LDFLAGS += -static
 
 cancel_jobs_SOURCES = cancel_jobs.cpp
 cancel_jobs_LDADD = $(SERVERLIBS)

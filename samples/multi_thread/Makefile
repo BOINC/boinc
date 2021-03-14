@@ -26,4 +26,4 @@ distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 multi_thread: multi_thread.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CPPFLAGS) -static -pthread -o multi_thread multi_thread.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) -o multi_thread multi_thread.o libstdc++.a -pthread -lboinc_api -lboinc

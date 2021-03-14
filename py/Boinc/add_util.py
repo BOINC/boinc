@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 # add_util.py - used in make_project
 

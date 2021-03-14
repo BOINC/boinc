@@ -184,6 +184,7 @@ bool CLIENT_STATE::rr_simulation() {
     vector<RESULT*> active;
     unsigned int i;
     double x;
+    vector<RESULT*>::iterator it;
     bool rval = false;
 
     if (log_flags.rr_simulation) {
@@ -286,9 +287,7 @@ bool CLIENT_STATE::rr_simulation() {
         int last_active_size = active.size();
         int last_proj_active_size = pbest->active.size();
 
-        {
-        vector<RESULT*>::iterator it;
-	// remove *rpbest from active set,
+        // remove *rpbest from active set,
         // and adjust CPU time left for other results
         //
         it = active.begin();
@@ -302,10 +301,7 @@ bool CLIENT_STATE::rr_simulation() {
                 ++it;
             }
         }
-	}
 
-	{
-        vector<RESULT*>::iterator it;
         // remove *rpbest from its project's active set
         //
         it = pbest->active.begin();
@@ -317,7 +313,6 @@ bool CLIENT_STATE::rr_simulation() {
                 ++it;
             }
         }
-	}
 
         // If project has more results, add one to active set.
         //

@@ -11,7 +11,7 @@ distclean:
 	rm -f $(PROGS) *.o
 
 worker: worker.o
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -o worker worker.o
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker worker.o
 
 install: all
 

@@ -8,5 +8,5 @@
 
 import sys, os
 
-TOP_BUILD_DIR = "/usr/share/boinc-server-maker"
+TOP_BUILD_DIR = "@TOP_BUILD_DIR@"
 sys.path.insert(0, os.path.join(TOP_BUILD_DIR, 'py'))

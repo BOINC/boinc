@@ -168,8 +168,6 @@ int main(int argc, char** argv) {
         if (!fpub) die("fopen");
         print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
         print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-	fclose(fpriv);
-	fclose(fpub);
 
     } else if (!strcmp(argv[1], "-sign")) {
         if (argc < 4) {
@@ -184,7 +182,6 @@ int main(int argc, char** argv) {
         signature.len = 256;
         retval = sign_file(argv[2], private_key, signature);
         print_hex_data(stdout, signature);
-	fclose(fpriv);
     } else if (!strcmp(argv[1], "-sign_string")) {
         if (argc < 4) {
             usage();
@@ -196,7 +193,6 @@ int main(int argc, char** argv) {
         if (retval) die("scan_key_hex\n");
         generate_signature(argv[2], cbuf, private_key);
         puts(cbuf);
-	fclose(fpriv);
     } else if (!strcmp(argv[1], "-verify")) {
         if (argc < 5) {
             usage();
@@ -211,8 +207,6 @@ int main(int argc, char** argv) {
         signature.data = signature_buf;
         signature.len = 256;
         retval = scan_hex_data(f, signature);
-	fclose(f);
-	fclose(fpub);
         if (retval) die("scan_hex_data");
 
         char md5_buf[64];
@@ -242,8 +236,6 @@ int main(int argc, char** argv) {
         if (!fpub) die("fopen");
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
         if (retval) die("read_public_key");
-	fclose(fpriv);
-	fclose(fpub);
         strcpy((char*)buf2, "encryption test successful");
         in.data = buf2;
         in.len = strlen((char*)in.data);
@@ -262,7 +254,6 @@ int main(int argc, char** argv) {
         signature.data = signature_buf;
         signature.len = 256;
         retval = scan_hex_data(f, signature);
-	fclose(f);
         if (retval) die("cannot scan_hex_data");
         certpath = check_validity(argv[4], argv[2], signature.data, argv[5]);
         if (certpath == NULL) {
@@ -435,7 +426,6 @@ int main(int argc, char** argv) {
                     die("fopen");
                 }
                 print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-		fclose(fpub);
             }
         }
     } else {

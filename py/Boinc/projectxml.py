@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 # projectxml.py - module to read and parse project.xml
 
