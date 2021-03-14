@@ -46,7 +46,7 @@ jobs:
 
       - name: Configure dynamic
         if: ${{ success() && matrix.type == 'client-with-dynamic-lib' }}
-        run: ./configure --disable-option-checking --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking --enable-client --enable-manager --enable-dynamic-client-linkage --enable-server --disable-fcgi --enable-libraries --enable-unicode --enable-shared --enable-dynamic-client-linkage --with-ssl --enable-apps
+        run: ./configure --disable-option-checking --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking --enable-client --enable-manager --enable-dynamic-client-linkage --enable-server --disable-fcgi --enable-libraries --enable-unicode --enable-shared --enable-dynamic-client-linkage --with-ssl
 
       - name: Configure libs
         if: ${{ success() && matrix.type == 'libs' }}
