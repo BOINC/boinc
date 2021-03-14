@@ -46,7 +46,7 @@ jobs:
 
       - name: Configure dynamic
         if: ${{ success() && matrix.type == 'client-with-dynamic-lib' }}
-        run: ./configure --build=x86_64-linux-gnu --prefix=/usr --includedir=/usr/include --mandir=/usr/share/man --infodir=/usr/share/infoatedir=/var --disable-option-checking --disable-silent-rules --libdir=/usr/lib/x86_64-linux-gnu --runstatedir=/run --disable-maintainer-mode --disable-dependency-tracking --build x86_64-linux-gnu --with-boinc-platform=x86_64-pc-linux-gnu --with-boinc-alt-platform=x86_64-linux-gnu --prefix=/usr --bindir=/usr/bin --localstatedir=/var/lib --enable-client --enable-manager --enable-dynamic-client-linkage --enable-server --disable-fcgi --enable-libraries --enable-unicode --enable-shared --enable-dynamic-client-linkage --with-ssl
+        run: ./configure --disable-option-checking --disable-silent-rules --disable-maintainer-mode --disable-dependency-tracking --enable-client --enable-manager --enable-dynamic-client-linkage --enable-server --disable-fcgi --enable-libraries --enable-unicode --enable-shared --enable-dynamic-client-linkage --with-ssl
 
       - name: Configure libs
         if: ${{ success() && matrix.type == 'libs' }}
