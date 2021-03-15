@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
         signature.len = 256;
         retval = sign_file(argv[2], private_key, signature);
         print_hex_data(stdout, signature);
-	fclose(fpriv);
+        fclose(fpriv);
     } else if (!strcmp(argv[1], "-sign_string")) {
         if (argc < 4) {
             usage();
@@ -262,7 +262,7 @@ int main(int argc, char** argv) {
         signature.data = signature_buf;
         signature.len = 256;
         retval = scan_hex_data(f, signature);
-	fclose(f);
+        fclose(f);
         if (retval) die("cannot scan_hex_data");
         certpath = check_validity(argv[4], argv[2], signature.data, argv[5]);
         if (certpath == NULL) {
