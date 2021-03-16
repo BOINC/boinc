@@ -50,11 +50,6 @@ if test x${enable_dependency_tracking} != xno ; then
   enable_dependency_tracking=yes
 fi
 
-AX_CHECK_CL
-if test "x$with_opencl" = "xno"; then
-  AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
-fi
-
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -559,6 +554,13 @@ dnl ---------- decide wether to build the graphical boinc-api libs or not
 dnl check for X11
 AC_PATH_X
 AC_PATH_XTRA
+
+
+dnl Check for CL library opencl
+AX_CHECK_CL
+if test "x$with_opencl" = "xno"; then
+  AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
+fi
 
 dnl check for GL library
 AX_CHECK_GL
