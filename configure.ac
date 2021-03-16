@@ -50,6 +50,11 @@ if test x${enable_dependency_tracking} != xno ; then
   enable_dependency_tracking=yes
 fi
 
+AX_CHECK_CL
+if test "x$with_opencl" = "xno"; then
+  AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
+fi
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -217,13 +222,6 @@ if test x$enable_server = xyes ; then
   configured_to_build="${configured_to_build} server"
 fi
 if test x$enable_apps = xyes ; then
-  AX_CHECK_CL
-  if test "X$no_cl" = "Xyes"; then
-    AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
-    enable_openclapp=no
-  else
-    enable_openclapp=yes
-  fi
   configured_to_build="${configured_to_build} apps"
 fi
 if test x$enable_unit_tests = xyes ; then
@@ -1076,11 +1074,11 @@ AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${en
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
-AM_CONDITIONAL(ENABLE_OPENCLAPP, [test "${enable_openclapp}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
+AM_CONDITIONAL(BUILD_OPENCL, [test "x$with_opencl" = "xyes"])
 
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)

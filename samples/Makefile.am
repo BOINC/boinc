@@ -7,7 +7,7 @@ include $(top_srcdir)/Makefile.incl
 SUBDIRS = condor example_app multi_thread sleeper vboxmonitor vboxwrapper worker wrapper
 
 ## build openclapp if you have opencl on your device
-if ENABLE_OPENCLAPP
+if BUILD_OPENCL
 SUBDIRS += openclapp
 endif
 
