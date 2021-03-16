@@ -716,6 +716,7 @@ struct RPC_CLIENT {
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
     int set_host_info(HOST_INFO&);
+    int reset_host_info();
     int quit();
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
