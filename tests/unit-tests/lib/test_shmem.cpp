@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _WIN32
+
 #include "gtest/gtest.h"
 #include "shmem.h"
 
@@ -55,9 +57,6 @@ namespace test_shmem {
         // Objects declared here can be used by all tests in the test case for Foo.
     };
 
-
-#ifndef _WIN32
-
     // Test shmem functions for Unix/Linux/Mac V5 applications
     TEST_F(test_shmem, shmem) {
         void* p;
@@ -68,6 +67,6 @@ namespace test_shmem {
         EXPECT_EQ(destroy_shmem(KEY), 0);
     }
 
-#endif
-
 } // namespace
+
+#endif
