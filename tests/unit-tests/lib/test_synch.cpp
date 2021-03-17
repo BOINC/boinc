@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _WIN32
+
 #include "gtest/gtest.h"
 #include "synch.h"
 
@@ -63,3 +65,5 @@ namespace test_synch {
     }
 
 } // namespace
+
+#endif
