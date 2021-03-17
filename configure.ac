@@ -128,6 +128,12 @@ AC_ARG_ENABLE(unit-tests,
     [enable_unit_tests=${enableval}],
     [enable_unit_tests=no])
 
+AC_ARG_ENABLE(new-version-check,
+    AS_HELP_STRING([--enable-new-version-check],
+                   [enable checking for new versions in boinc]),
+    [enable_new_version_check=${enableval}],
+    [enable_new_version_check=yes])
+
 AC_ARG_ENABLE(pkg-libs,
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
@@ -225,6 +231,9 @@ if test x$enable_apps = xyes ; then
     enable_openclapp=yes
   fi
   configured_to_build="${configured_to_build} apps"
+fi
+if test x$enable_new_version_check = xyes ; then
+  AC_DEFINE([ENABLE_NEW_VERSION_CHECK], [1], "check for new version enabled")
 fi
 if test x$enable_unit_tests = xyes ; then
   configured_to_build="${configured_to_build} unit-tests"

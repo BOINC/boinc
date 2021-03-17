@@ -647,7 +647,9 @@ int CLIENT_STATE::init() {
     // NOTE: this must be called AFTER
     // read_vc_config_file()
     //
+#ifdef ENABLE_NEW_VERSION_CHECK
     newer_version_startup_check();
+#endif
 
     // parse account files again,
     // now that we know the host's venue on each project

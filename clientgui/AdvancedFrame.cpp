@@ -195,7 +195,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
+#ifdef ENABLE_NEW_VERSION_CHECK
     EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
+#endif
     EVT_MENU(ID_REPORT_BUG, CAdvancedFrame::OnReportBug)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
@@ -684,6 +686,7 @@ bool CAdvancedFrame::CreateMenus() {
     );
     menuHelp->AppendSeparator();
 
+#ifdef ENABLE_NEW_VERSION_CHECK
     strMenuName.Printf(
         _("Check for new %s version"),
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -698,6 +701,7 @@ bool CAdvancedFrame::CreateMenus() {
         strMenuDescription
     );
     menuHelp->AppendSeparator();
+#endif
 
     menuHelp->Append(
         ID_REPORT_BUG,

@@ -1,5 +1,6 @@
 /* Platform independent version definitions... */
 
+#include "config.h"
 #ifndef BOINC_VERSION_H
 #define BOINC_VERSION_H
 

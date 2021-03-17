@@ -91,7 +91,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+#ifdef ENABLE_NEW_VERSION_CHECK
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
+#endif
     EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
     EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
     EVT_MOVE(CSimpleFrame::OnMove)
@@ -318,6 +320,7 @@ bool CSimpleFrame::CreateMenus() {
     );
     menuHelp->AppendSeparator();
 
+#ifdef ENABLE_NEW_VERSION_CHECK
     strMenuName.Printf(
         _("Check for new %s version"),
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -332,6 +335,7 @@ bool CSimpleFrame::CreateMenus() {
         strMenuDescription
     );
     menuHelp->AppendSeparator();
+#endif
 
     menuHelp->Append(
         ID_REPORT_BUG,
