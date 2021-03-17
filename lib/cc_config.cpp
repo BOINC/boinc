@@ -229,6 +229,7 @@ void CC_CONFIG::defaults() {
         ignore_gpu_instance[i].clear();
     }
     max_event_log_lines = DEFAULT_MAX_EVENT_LOG_LINES;
+    disable_version_check = false;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
@@ -318,6 +319,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
         if (xp.parse_bool("allow_gui_rpc_get", allow_gui_rpc_get)) continue;
+        if (xp.parse_bool("disable_version_check", disable_version_check)) continue;
         if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
@@ -389,6 +391,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
+        if (xp.parse_bool("disable_version_check", disable_version_check)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
@@ -623,6 +626,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 
     out.printf(
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
+        "        <disable_version_check>%d</disable_version_check>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
         "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
@@ -638,6 +642,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <process_priority>%d</process_priority>\n"
         "        <process_priority_special>%d</process_priority_special>\n",
         max_event_log_lines,
+        disable_version_check,
         max_file_xfers,
         max_file_xfers_per_project,
         max_stderr_file_size,

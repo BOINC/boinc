@@ -91,6 +91,15 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+
+    pDoc->GetCoreClientStatus(status, true);
+
+    if (!status.disable_version_check) {
+        EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
+    }
+
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
     EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
     EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
@@ -318,20 +327,24 @@ bool CSimpleFrame::CreateMenus() {
     );
     menuHelp->AppendSeparator();
 
-    strMenuName.Printf(
-        _("Check for new %s version"),
-        pSkinAdvanced->GetApplicationShortName().c_str()
-    );
-    strMenuDescription.Printf(
-        _("Check for new %s version"),
-        pSkinAdvanced->GetApplicationShortName().c_str()
-    );
-    menuHelp->Append(
-        ID_CHECK_VERSION,
-        strMenuName,
-        strMenuDescription
-    );
-    menuHelp->AppendSeparator();
+    pDoc->GetCoreClientStatus(status, true);
+
+    if (!status.check_new_version) {
+        strMenuName.Printf(
+            _("Check for new %s version"),
+            pSkinAdvanced->GetApplicationShortName().c_str()
+        );
+        strMenuDescription.Printf(
+            _("Check for new %s version"),
+            pSkinAdvanced->GetApplicationShortName().c_str()
+        );
+        menuHelp->Append(
+            ID_CHECK_VERSION,
+            strMenuName,
+            strMenuDescription
+        );
+        menuHelp->AppendSeparator();
+    }
 
     menuHelp->Append(
         ID_REPORT_BUG,

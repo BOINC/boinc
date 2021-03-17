@@ -614,6 +614,7 @@ struct CC_STATUS {
     bool disallow_attach;
     bool simple_gui_only;
     int max_event_log_lines;
+    bool disable_version_check;
 
     CC_STATUS();
 

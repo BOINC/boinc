@@ -174,6 +174,7 @@ struct CC_CONFIG {
     std::vector<int> ignore_gpu_instance[NPROC_TYPES];
     bool lower_client_priority;
     int max_event_log_lines;
+    bool disable_version_check;
     int max_file_xfers;
     int max_file_xfers_per_project;
     double max_stderr_file_size;

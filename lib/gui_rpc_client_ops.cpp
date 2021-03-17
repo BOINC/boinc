@@ -1416,6 +1416,7 @@ int CC_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
+        if (xp.parse_bool("disable_version_check", disable_version_check)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1439,6 +1440,7 @@ void CC_STATUS::clear() {
     disallow_attach = false;
     simple_gui_only = false;
     max_event_log_lines = 0;
+    disable_version_check = false;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
