@@ -314,6 +314,12 @@ def lock_file(filename):
     file = open(filename,'w')
     locks.append(file)
     try:
+        # https://docs.python.org/3/library/os.html#inheritance-of-file-descriptors
+        # "Since Python 3.4, file descriptors created by Python are non-inheritable
+        # by default."  Therefore, we must explicitly flag the file as inheritable,
+        # otherwise it will get discarded upon calling os.execvp() and the lock
+        # will be lost.
+        "set_inheritable" in dir(os) and os.set_inheritable(file.fileno(), True)
         return fcntl.lockf(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
     except IOError:
         return -1
