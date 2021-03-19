@@ -1247,12 +1247,12 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         }
     }
     if (parse_retval) {
-        grc.mfout.printf("<error>XML parse failed<error/>\n");
+        grc.mfout.printf("<error>XML parse failed</error>\n");
         return;
     }
     PROJECT* p = gstate.lookup_project(url.c_str());
     if (!p) {
-        grc.mfout.printf("<error>no such project<error/>\n");
+        grc.mfout.printf("<error>no such project</error>\n");
         return;
     }
     char path[MAXPATHLEN];
@@ -1262,7 +1262,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         msg_printf(p, MSG_INTERNAL_ERROR,
             "Can't open app config file %s", path
         );
-        grc.mfout.printf("<error>can't open app_config.xml file<error/>\n");
+        grc.mfout.printf("<error>can't open app_config.xml file</error>\n");
         return;
 
     }
