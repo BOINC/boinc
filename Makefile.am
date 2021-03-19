@@ -32,7 +32,7 @@ if ENABLE_CLIENT
 endif
 
 if ENABLE_MANAGER
-   CLIENTGUI_SUBDIRS = clientgui locale
+   CLIENTGUI_SUBDIRS = clientgui locale clientgui/res
 if BUILD_X11_SCREENSAVER
    CLIENTGUI_SUBDIRS += clientscr
 endif
