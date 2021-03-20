@@ -367,10 +367,14 @@ OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
 dnl LT_INIT
+enable_shared_user=$enable_shared
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
+if test "$enable_shared_user" != no -a "$enable_shared" = no ; then
+  AC_MSG_ERROR([Project is configured to produce shared libraries, but compiler doesn't support shared libraries creation.])
+fi
 
 SAH_OPTION_BITNESS
 
