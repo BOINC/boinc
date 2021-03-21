@@ -58,23 +58,24 @@ namespace test_md5_file {
         EXPECT_EQ(result, "92b9cccc0b98c3a0b8d0df25a421c0e3");
     }
 
-#ifndef _WIN32
-
     TEST_F(test_md5_file, make_secure_random_string_os) {
-        char output[32];
+        char output[33];
         EXPECT_EQ(make_secure_random_string_os(output), 0);
     }
 
     TEST_F(test_md5_file, md5_file) {
         char output[33];
         double bytes;
-        int result = md5_file("../unit-tests/lib/test_md5_file.txt", output, bytes);
+#ifdef _WIN32
+        const string md5_file_path = "../../../../tests/unit-tests/lib/test_md5_file.txt";
+#else
+        const string md5_file_path = "../unit-tests/lib/test_md5_file.txt";
+#endif
+        int result = md5_file(md5_file_path.c_str(), output, bytes);
         EXPECT_EQ(result, 0);
         EXPECT_STREQ(output, "3b13c74a05696e71f9aeb4e6f10cbae8");
         EXPECT_EQ(bytes, 737);
     }
-
-#endif
 
 } // namespace
 
