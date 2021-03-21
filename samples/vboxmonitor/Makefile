@@ -2,14 +2,31 @@
 
 # Change the following to match your installation
 BOINC_DIR = ../..
-BOINC_API_DIR = $(BOINC_DIR)/api
-BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
+BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
-CXXFLAGS = -g \
+ifndef ANDROID
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+
+  LINUX_LDFLAGS = libstdc++.a -lpthread
+  LINUX_STDLIB  = libstdc++.a
+else
+  BOINC_API_DIR = $(TCINCLUDES)/lib
+  BOINC_LIB_DIR = $(TCINCLUDES)/lib
+  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
+
+  LINUX_LDFLAGS = 
+  LINUX_STDLIB  = 
+endif
+
+CXXFLAGS += -g \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
-    -I$(BOINC_LIB_DIR) \
-    -I$(BOINC_API_DIR) \
+    -I$(BOINC_SOURCE_API_DIR) \
+    -I$(BOINC_SOURCE_LIB_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L.
@@ -19,12 +36,12 @@ PROGS = vboxmonitor
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `g++ -print-file-name=libstdc++.a`
+	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
 clean: distclean
 
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
-vboxmonitor: vboxmonitor.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) -o vboxmonitor vboxmonitor.o libstdc++.a -pthread -lboinc_api -lboinc
+vboxmonitor: vboxmonitor.o $(LINUX_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxmonitor vboxmonitor.o $(LINUX_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)

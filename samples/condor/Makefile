@@ -1,18 +1,35 @@
-all: boinc_gahp
+BOINC_DIR = ../..
+BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
+BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
+
+ifndef ANDROID
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+  
+  LINUX_LDFLAGS  = -lpthread
+  BOINC_LIB_DIR  = $(BOINC_SOURCE_LIB_DIR)
+else
+  BOINC_API_DIR = $(TCINCLUDES)/lib
+  BOINC_LIB_DIR = $(TCINCLUDES)/lib
+  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
+
+  LINUX_LDFLAGS  = 
+endif
+
+PROGS = boinc_gahp
+
+all: $(PROGS)
 
 clean:
-	rm -f boinc_gahp
+	rm -f $(PROGS)
 
 distclean: clean
 
 distclean-recursive: clean
 
-boinc_gahp: boinc_gahp.cpp ../../lib/remote_submit.h ../../lib/remote_submit.cpp ../../svn_version.h ../../version.h
-	g++ -g -O2 -I../../lib -I../.. \
-	-o boinc_gahp boinc_gahp.cpp ../../lib/remote_submit.cpp \
-	-L../../lib -lboinc -lpthread -lcurl
-
-test: test.cpp ../../lib/remote_submit.cpp ../../lib/remote_submit.h
-	g++ -g -o test -I../../lib \
-	test.cpp ../../lib/remote_submit.cpp \
-	-L../../lib -lboinc -lcurl
+boinc_gahp: boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.h $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp $(BOINC_DIR)/svn_version.h $(BOINC_DIR)/version.h
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -g -O2 -I$(BOINC_DIR) -I$(BOINC_SOURCE_LIB_DIR) \
+	-o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
+	-L$(BOINC_LIB_DIR) -lcurl -lssl -lcrypto -lboinc $(LINUX_LDFLAGS) $(STDCPPTC)

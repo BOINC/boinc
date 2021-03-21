@@ -2,10 +2,25 @@
 
 # Change the following to match your installation
 BOINC_DIR = ../..
-BOINC_API_DIR = $(BOINC_DIR)/api
-BOINC_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_ZIP_DIR = $(BOINC_DIR)/zip
-PTHREAD = -pthread
+BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
+BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
+
+ifndef ANDROID
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+
+  LINUX_LDFLAGS = libstdc++.a -lpthread
+  LINUX_STDLIB  = libstdc++.a
+else
+  BOINC_API_DIR = $(TCINCLUDES)/lib
+  BOINC_LIB_DIR = $(TCINCLUDES)/lib
+  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
+
+  LINUX_LDFLAGS = 
+  LINUX_STDLIB  = 
+endif
 
 CXXFLAGS += -g -O0 \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
@@ -41,5 +56,5 @@ REGEXP_OBJS = \
 	regexp_memory.o \
 	regexp_report.o
 
-wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a $(PTHREAD) -lboinc_api -lboinc -lboinc_zip
+wrapper: wrapper.o $(LINUX_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) $(LINUX_LDFLAGS) -lboinc_api -lboinc -lboinc_zip $(STDCPPTC)
