@@ -1,25 +1,37 @@
 # makefile for openclapp BOINC example appication using AMD GPU on Linux.
 
 BOINC_DIR = ../..
-BOINC_API_DIR = $(BOINC_DIR)/api
-BOINC_LIB_DIR = $(BOINC_DIR)/lib 
+BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
+BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
-CXXFLAGS = -g \
+ifndef ANDROID
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+else
+  BOINC_API_DIR = $(TCINCLUDES)/lib
+  BOINC_LIB_DIR = $(TCINCLUDES)/lib
+  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
+endif
+
+CXXFLAGS += -g \
     -I$(BOINC_DIR) \
-    -I$(BOINC_LIB_DIR) \
-    -I$(BOINC_API_DIR) \
+    -I$(BOINC_SOURCE_API_DIR) \
+    -I$(BOINC_SOURCE_LIB_DIR) \
     -I$(AMDAPPSDKROOT)/include \
     -I/usr/local/cuda/include \
     -L. \
-    -L$(BOINC_LIB_DIR) \
     -L$(BOINC_API_DIR) \
+    -L$(BOINC_LIB_DIR) \
     -L$(AMDAPPSDKROOT)/lib/x86 \
     -L/usr/local/cuda/lib \
     -L/lib/i386-linux-gnu
+
 ## The above 2 lines work around an Ubuntu LD_LIBRARY_PATH bug described in: 
 ## <https://help.ubuntu.com/community/EnvironmentVariables#File-location_related_variables>
 
-PROGS = openclapp \
+PROGS = openclapp 
 
 all: $(PROGS)
 

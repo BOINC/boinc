@@ -105,11 +105,56 @@ prepare_android_manager() {
 
 prepare_android_apps() {
     mkdir -p "${TARGET_DIR}"
-    cp_if_exists samples/example_app/android_armv6_uc2 "${TARGET_DIR}"
-    cp_if_exists samples/example_app/android_arm_uc2 "${TARGET_DIR}"
-    cp_if_exists samples/example_app/android_arm64_uc2 "${TARGET_DIR}"
-    cp_if_exists samples/example_app/android_x86_uc2 "${TARGET_DIR}"
+    
+    # boinc_gahp
+    cp_if_exists samples/condor/android_armv6_boinc_gahp  "${TARGET_DIR}"
+    cp_if_exists samples/condor/android_arm_boinc_gahp    "${TARGET_DIR}"
+    cp_if_exists samples/condor/android_arm64_boinc_gahp  "${TARGET_DIR}"
+    cp_if_exists samples/condor/android_x86_boinc_gahp    "${TARGET_DIR}"
+    cp_if_exists samples/condor/android_x86_64_boinc_gahp "${TARGET_DIR}"
+
+    # uc2
+    cp_if_exists samples/example_app/android_armv6_uc2  "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm_uc2    "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm64_uc2  "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_x86_uc2    "${TARGET_DIR}"
     cp_if_exists samples/example_app/android_x86_64_uc2 "${TARGET_DIR}"
+
+    # ucn
+    cp_if_exists samples/example_app/android_armv6_ucn  "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm_ucn    "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_arm64_ucn  "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_x86_ucn    "${TARGET_DIR}"
+    cp_if_exists samples/example_app/android_x86_64_ucn "${TARGET_DIR}"
+
+    # multi_thread
+    cp_if_exists samples/multi_thread/android_armv6_multi_thread  "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/android_arm_multi_thread    "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/android_arm64_multi_thread  "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/android_x86_multi_thread    "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/android_x86_64_multi_thread "${TARGET_DIR}"
+
+    # sleeper
+    cp_if_exists samples/sleeper/android_armv6_sleeper  "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/android_arm_sleeper    "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/android_arm64_sleeper  "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/android_x86_sleeper    "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/android_x86_64_sleeper "${TARGET_DIR}"
+
+    # worker
+    cp_if_exists samples/worker/android_armv6_worker  "${TARGET_DIR}"
+    cp_if_exists samples/worker/android_arm_worker    "${TARGET_DIR}"
+    cp_if_exists samples/worker/android_arm64_worker  "${TARGET_DIR}"
+    cp_if_exists samples/worker/android_x86_worker    "${TARGET_DIR}"
+    cp_if_exists samples/worker/android_x86_64_worker "${TARGET_DIR}"
+
+    # wrapper
+    cp_if_exists samples/wrapper/android_armv6_wrapper  "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/android_arm_wrapper    "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/android_arm64_wrapper  "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/android_x86_wrapper    "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/android_x86_64_wrapper "${TARGET_DIR}"
+
     prepare_7z_archive
 }
 

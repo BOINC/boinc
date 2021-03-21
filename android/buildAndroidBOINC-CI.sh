@@ -214,7 +214,7 @@ export VERBOSE=$verbose
 NeonTest()
 {
     while [ $# -gt 0 ]; do
-        if [ $(readelf -A $(find $ANDROID_TC/${arch} -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+        if [ $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
             echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
@@ -235,7 +235,7 @@ NeonTestLibs()
 Armv6Test()
 {
     while [ $# -gt 0 ]; do
-        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples/example_app" -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
             echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi
@@ -255,7 +255,32 @@ Armv6TestLibs()
 
 Armv6TestApps()
 {
-    Armv6Test uc2
+    Armv6Test boinc_gahp uc2 ucn multi_thread sleeper worker wrapper
+}
+
+RenameAllApps()
+{
+    list_apps="../samples/condor/ boinc_gahp
+                ../samples/example_app/ uc2 
+                ../samples/example_app/ ucn
+                ../samples/multi_thread/ multi_thread
+                ../samples/sleeper/ sleeper
+                ../samples/worker/ worker
+                ../samples/wrapper/ wrapper
+                "
+
+    RenameApp $1 $list_apps
+}
+
+RenameApp()
+{
+    arch=$1
+    shift
+    while [ $# -gt 0 ]; do
+        mv "$1$2" "$1android_${arch}_$2"
+        shift
+        shift
+    done
 }
 
 case "$arch" in
@@ -277,13 +302,15 @@ case "$arch" in
                 exit 0
             ;;
             "apps")
+                ./build_openssl_armv6.sh
+                ./build_curl_armv6.sh
                 ./build_libraries_armv6.sh
                 ./build_example_armv6.sh
                 NeonTestLibs
                 Armv6TestLibs
                 Armv6TestApps
                 if [ "$ci" = "yes" ]; then
-                    cp ../samples/example_app/uc2 ../samples/example_app/android_armv6_uc2
+                    RenameAllApps armv6
                 fi
                 exit 0
             ;;
@@ -308,10 +335,12 @@ case "$arch" in
                 exit 0
             ;;
             "apps")
+                ./build_openssl_arm.sh
+                ./build_curl_arm.sh
                 ./build_libraries_arm.sh
                 ./build_example_arm.sh
                 if [ "$ci" = "yes" ]; then
-                    cp ../samples/example_app/uc2 ../samples/example_app/android_arm_uc2
+                    RenameAllApps arm
                 fi
                 exit 0
             ;;
@@ -334,10 +363,12 @@ case "$arch" in
                 exit 0
             ;;
             "apps")
+                ./build_openssl_arm64.sh
+                ./build_curl_arm64.sh
                 ./build_libraries_arm64.sh
                 ./build_example_arm64.sh
                 if [ "$ci" = "yes" ]; then
-                    cp ../samples/example_app/uc2 ../samples/example_app/android_arm64_uc2
+                    RenameAllApps arm64
                 fi
                 exit 0
             ;;
@@ -360,10 +391,12 @@ case "$arch" in
                 exit 0
             ;;
             "apps")
+                ./build_openssl_x86.sh
+                ./build_curl_x86.sh
                 ./build_libraries_x86.sh
                 ./build_example_x86.sh
                 if [ "$ci" = "yes" ]; then
-                    cp ../samples/example_app/uc2 ../samples/example_app/android_x86_uc2
+                    RenameAllApps x86
                 fi
                 exit 0
             ;;
@@ -386,10 +419,12 @@ case "$arch" in
                 exit 0
             ;;
             "apps")
+                ./build_openssl_x86_64.sh
+                ./build_curl_x86_64.sh
                 ./build_libraries_x86_64.sh
                 ./build_example_x86_64.sh
                 if [ "$ci" = "yes" ]; then
-                    cp ../samples/example_app/uc2 ../samples/example_app/android_x86_64_uc2
+                    RenameAllApps x86_64
                 fi
                 exit 0
             ;;
