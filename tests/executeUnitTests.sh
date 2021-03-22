@@ -55,7 +55,7 @@ done
 command -v cmake >/dev/null 2>&1 || { echo >&2 "cmake is needed but not installed.  Aborting."; exit 1; }
 
 if [ "${report}" = "yes" ]; then
-    command -v gcov >/dev/null 2>&1 || { echo >&2 "gcov (lcov) is needed but not installed.  Aborting."; exit 1; }
+    command -v gcov 2>&1 || { echo >&2 "gcov (lcov) is needed but not installed.  Aborting."; exit 1; }
 fi
 
 cd tests || exit 1
