@@ -78,7 +78,9 @@ jobs:
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
-        run: ./tests/executeUnitTests.sh --report-coverage
+        run: |
+          gcov -v
+          ./tests/executeUnitTests.sh --report-coverage
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
