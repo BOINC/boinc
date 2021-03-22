@@ -39,7 +39,6 @@ jobs:
         if: ${{ success() && matrix.type == 'manager' }}
         run:  |
           ./android/ci_build_manager.sh
-          bash <(curl -s https://codecov.io/bash)
       
       - name: Build libs
         if: ${{ success() && matrix.type == 'libs' }}
@@ -57,8 +56,16 @@ jobs:
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: ./deploy/prepare_deployment.sh android_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/android_${{ matrix.type }}/*.7z
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        if: ${{ success() && matrix.type == 'manager' }}
+        with:
+          fail_ci_if_error: true
+          verbose: false
