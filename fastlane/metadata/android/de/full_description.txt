@@ -1,0 +1,4 @@
+Nutze dein Smartphone oder Tablet, um Krankheiten zu erforschen, Klimaveränderungen vorherzusagen oder neue Pulsare zu entdecken! BOINC nutzt die ansonsten ungenutzte Rechenleistung deines Gerätes, um wissenschaftliche Projekte zu unterstützen. Du kannst dabei zwischen Projekten aus verschiedenen Bereichen, von führenden wissenschaftlichen Institutionen wählen. BOINC rechnet nur wenn dein Smartphone oder Tablet am Strom angeschlossen und vollständig geladen ist, damit dein Akku nicht belastet wird. BOINC übermittelt die wissenschaftlichen Daten nur per WLAN, um das Datenlimit deines Mobilfunktarifs nicht zu belasten.
+
+Supports:
+Asteroids@home, Einstein@home, LHC@home, Moo!Wrapper, Rosetta@home, Universe@home, World Community Grid, Yoyo@home.
