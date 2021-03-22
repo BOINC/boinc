@@ -75,6 +75,8 @@ prepare_apps() {
     cp_if_exists samples/worker/worker "${TARGET_DIR}"
     cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
     cp_if_exists samples/openclapp/openclapp "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/wrappture_example "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/fermi "${TARGET_DIR}"
     prepare_7z_archive
 }
 
@@ -174,6 +176,9 @@ case $TYPE in
         prepare_client
     ;;
     linux_apps)
+        prepare_apps
+    ;;
+    linux_rappture)
         prepare_apps
     ;;
     linux_manager-with-webview)

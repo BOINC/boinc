@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, server, client, apps, rappture, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -59,6 +59,10 @@ jobs:
       - name: Configure apps
         if: success() && matrix.type == 'apps'
         run: ./configure --enable-apps --disable-server --disable-client --disable-manager
+
+      - name: Configure rappture app
+        if: success() && matrix.type == 'rappture'
+        run: linux/configure_rappture_app.sh
 
       - name: Configure manager with webview
         if: success() && matrix.type == 'manager-with-webview'
