@@ -19,7 +19,7 @@ jobs:
       VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\,readwrite'
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 2
 
