@@ -80,5 +80,6 @@ if [ "${report}" = "yes" ]; then
     #for T in lib sched; do
     #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     #done
+    cat ./base64.cpp.gcov
     bash <(curl -s https://codecov.io/bash)
 fi
