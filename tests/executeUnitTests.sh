@@ -78,7 +78,7 @@ done
 cd ../..
 if [ "${report}" = "yes" ]; then
     for T in lib sched; do
-       [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" *.o -exec cp "{}" ./${T}/.libs/  \;
+       [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" -exec cp "{}" ./${T}/.libs/  \;
     done
     # find . -iname "*.gcda"
     # ls -l ./lib/.libs/
