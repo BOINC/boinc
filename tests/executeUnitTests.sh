@@ -77,10 +77,10 @@ done
 
 cd ../..
 if [ "${report}" = "yes" ]; then
-    # for T in lib sched; do
-    #    [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" -exec cp "{}" ./${T}/.libs/  \;
-    # done
-    find . -iname "*.gcda"
+    for T in lib sched; do
+       [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" -exec mv "{}" ./${T}/.libs/  \;
+    done
+    # find . -iname "*.gcda"
     # ls -l ./lib/.libs/
     # echo "./lib/.libs/libboinc_la-base64.gcno"
     # cat ./lib/.libs/libboinc_la-base64.gcno
