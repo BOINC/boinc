@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: ${{ matrix.type }}-build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
