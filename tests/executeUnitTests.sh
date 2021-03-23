@@ -81,6 +81,7 @@ if [ "${report}" = "yes" ]; then
     #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
     #done
     find . -iname "*.gcda"
+    ls -l ./lib/.libs/
     bash <(curl -s https://codecov.io/bash)
     cat ./base64.cpp.gcov
 fi
