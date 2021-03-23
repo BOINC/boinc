@@ -80,7 +80,9 @@ if [ "${report}" = "yes" ]; then
     # for T in lib sched; do
     #    [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" -exec mv "{}" ./${T}/.libs/  \;
     # done
-    # find . -iname "*.gcda"
+    find . -iname "*.gcda"
+    find . -iname "*.gcno"
+    find . -iname "*.o"
     # ls -l ./lib/.libs/
     # echo "./lib/.libs/libboinc_la-base64.gcno"
     # cat ./lib/.libs/libboinc_la-base64.gcno
@@ -88,6 +90,6 @@ if [ "${report}" = "yes" ]; then
     # echo "./lib/libboinc_la-base64.gcda"
     # cat ./lib/libboinc_la-base64.gcda
     # echo "./lib/libboinc_la-base64.gcda end"
-    bash <(curl -s https://raw.githubusercontent.com/AenBleidd/codecov-bash/vko_fix_gcov_ubuntu_20.04/codecov)
+    bash <(curl -s https://codecov.io/bash)
     cat ./base64.cpp.gcov
 fi
