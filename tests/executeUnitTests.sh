@@ -88,6 +88,6 @@ if [ "${report}" = "yes" ]; then
     echo "./lib/libboinc_la-base64.gcda"
     cat ./lib/libboinc_la-base64.gcda
     echo "./lib/libboinc_la-base64.gcda end"
-    bash <(curl -s https://codecov.io/bash)
+    bash <(curl -s https://github.com/AenBleidd/codecov-bash/blob/vko_fix_gcov_ubuntu_20.04/codecov)
     cat ./base64.cpp.gcov
 fi
