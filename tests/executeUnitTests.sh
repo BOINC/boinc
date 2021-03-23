@@ -77,17 +77,17 @@ done
 
 cd ../..
 if [ "${report}" = "yes" ]; then
-    #for T in lib sched; do
-    #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
-    #done
-    find . -iname "*.gcda"
-    ls -l ./lib/.libs/
-    echo "./lib/.libs/libboinc_la-base64.gcno"
-    cat ./lib/.libs/libboinc_la-base64.gcno
-    echo "./lib/.libs/libboinc_la-base64.gcno end"
-    echo "./lib/libboinc_la-base64.gcda"
-    cat ./lib/libboinc_la-base64.gcda
-    echo "./lib/libboinc_la-base64.gcda end"
+    for T in lib sched; do
+       [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" *.o -exec cp "{}" ./${T}/.libs/  \;
+    done
+    # find . -iname "*.gcda"
+    # ls -l ./lib/.libs/
+    # echo "./lib/.libs/libboinc_la-base64.gcno"
+    # cat ./lib/.libs/libboinc_la-base64.gcno
+    # echo "./lib/.libs/libboinc_la-base64.gcno end"
+    # echo "./lib/libboinc_la-base64.gcda"
+    # cat ./lib/libboinc_la-base64.gcda
+    # echo "./lib/libboinc_la-base64.gcda end"
     bash <(curl -s https://codecov.io/bash)
     cat ./base64.cpp.gcov
 fi
