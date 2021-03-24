@@ -91,5 +91,6 @@ if [ "${report}" = "yes" ]; then
     # cat ./lib/libboinc_la-base64.gcda
     # echo "./lib/libboinc_la-base64.gcda end"
     bash <(curl -s https://raw.githubusercontent.com/AenBleidd/codecov-bash/vko_fix_gcov_ubuntu_20.04/codecov)
+    echo '===== base64.cpp.gcov ====='
     cat ./base64.cpp.gcov
 fi
