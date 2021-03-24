@@ -80,8 +80,8 @@ if [ "${report}" = "yes" ]; then
     # for T in lib sched; do
     #    [ -d "${T}" ] && find ./${T} -maxdepth 1 -iname "*.gcda" -exec mv "{}" ./${T}/.libs/  \;
     # done
-    find . -iname "*.gcda"
-    find . -iname "*.gcno"
+    # find . -iname "*.gcda"
+    # find . -iname "*.gcno"
     # find . -iname "*.o"
     # ls -l ./lib/.libs/
     # echo "./lib/.libs/libboinc_la-base64.gcno"
