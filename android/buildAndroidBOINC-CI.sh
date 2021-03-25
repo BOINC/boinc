@@ -21,6 +21,7 @@ set -e
 
 # When you want to invalidate openssl and curl without change their versions.
 export REV=1
+export ARMV6_REV=1
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
 export NDK_VERSION=21d
@@ -144,7 +145,7 @@ export COMPILEOPENSSL="no"
 export COMPILECURL="no"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
 export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
-export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}_armv6_done"
+export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
 
 if [ "$arch" = armv6 ]; then
