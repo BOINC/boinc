@@ -215,7 +215,7 @@ export VERBOSE=$verbose
 NeonTest()
 {
     while [ $# -gt 0 ]; do
-        if [ $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+        if [ $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | tail -n +1 | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
             echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
@@ -236,7 +236,7 @@ NeonTestLibs()
 Armv6Test()
 {
     while [ $# -gt 0 ]; do
-        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | tail -n +1 | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
             echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi
