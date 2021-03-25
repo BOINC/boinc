@@ -13,6 +13,9 @@ if [ ! -d "android" ]; then
     exit 1
 fi
 
+make distclean
+android/clear_environment.sh full
+
 echo '===== BOINC Client for all platforms build start ====='
 android/build_component.sh --ci --component client
 echo '===== BOINC Client for all platforms build done ====='
