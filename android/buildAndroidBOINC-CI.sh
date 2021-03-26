@@ -21,14 +21,11 @@ set -e
 
 # When you want to invalidate openssl and curl without change their versions.
 export REV=1
+export ARMV6_REV=1
 export OPENSSL_VERSION=1.0.2s
 export CURL_VERSION=7.62.0
 export NDK_VERSION=21d
 export NDK_ARMV6_VERSION=15c
-
-export ANDROID_HOME=$HOME/Android/Sdk
-export NDK_ROOT=$HOME/Android/Ndk
-export ANDROID_TC=$HOME/Android/Toolchains
 
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
@@ -142,9 +139,9 @@ fi
 
 export COMPILEOPENSSL="no"
 export COMPILECURL="no"
-export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}_done"
-export NDK_CI_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${arch}-${REV}_done"
-export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}_armv6_done"
+export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
+export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
+export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
 
 if [ "$arch" = armv6 ]; then
@@ -157,35 +154,49 @@ fi
 
 createNDKFolder()
 {
-    if [ $CREATED_NDK_FOLDER = "no" ]; then
-        rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-        wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-        unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
-        export CREATED_NDK_FOLDER="yes"
-    fi
+    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
+    wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+    unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
+}
+
+createNDKARMV6Folder()
+{
+    rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
+    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
+    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
 }
 
 if [ "$ci" = "yes" ]; then
-    if [ ! -e "${NDK_CI_FLAGFILE}" ]; then
-        rm -rf "${PREFIX}/${arch}"
-        rm -rf "${OPENSSL_FLAGFILE}"
-        rm -rf "${CURL_FLAGFILE}"
-        touch "${NDK_CI_FLAGFILE}"
+    if [ $CREATED_NDK_FOLDER = "no" ]; then
+        createNDKFolder
+        export $CREATED_NDK_FOLDER="yes"
     fi
-    createNDKFolder
 else
     if [ ! -e "${NDK_FLAGFILE}" ]; then
-        export CREATED_NDK_FOLDER="no"
         createNDKFolder
         touch "${NDK_FLAGFILE}"
     fi
 fi
 
+if [ ! -e "${ANDROID_TC_FLAGFILE}" ]; then
+    if [ $arch != "armv6" ]; then
+        rm -rf "${PREFIX}/${arch}"
+        echo delete "${PREFIX}/${arch}"
+        rm -rf "${OPENSSL_FLAGFILE}"
+        rm -rf "${CURL_FLAGFILE}"
+        touch ${ANDROID_TC_FLAGFILE}
+    fi
+fi
+
 if [ ! -e "${NDK_ARMV6_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
-    touch "${NDK_ARMV6_FLAGFILE}"
+    if [ $arch = "armv6" ]; then
+        rm -rf "${PREFIX}/${arch}"
+        echo delete "${PREFIX}/${arch}"
+        rm -rf "${OPENSSL_FLAGFILE}"
+        rm -rf "${CURL_FLAGFILE}"
+        createNDKARMV6Folder
+        touch "${NDK_ARMV6_FLAGFILE}"
+    fi
 fi
 
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
@@ -215,6 +226,7 @@ NeonTest()
 {
     while [ $# -gt 0 ]; do
         if [ $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon)
             echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
@@ -236,6 +248,7 @@ Armv6Test()
 {
     while [ $# -gt 0 ]; do
         if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch:")
             echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi
