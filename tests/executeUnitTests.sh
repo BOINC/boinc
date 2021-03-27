@@ -83,8 +83,8 @@ if [ "${report}" = "yes" ]; then
     find . -iname "*base64*.gcda" -ls
     find . -iname "*base64*.gcno" -ls
     find . -iname "*base64*.o" -ls
-    curl --upload-file ./lib/libboinc_la-base64.gcda https://transfer.sh/libboinc_la-base64.gcda
-    curl --upload-file ./lib/libboinc_la-base64.gcno https://transfer.sh/libboinc_la-base64.gcno
+    #curl --upload-file ./lib/libboinc_la-base64.gcda https://transfer.sh/libboinc_la-base64.gcda
+    #curl --upload-file ./lib/libboinc_la-base64.gcno https://transfer.sh/libboinc_la-base64.gcno
     # ls -l ./lib/.libs/
     # echo "./lib/.libs/libboinc_la-base64.gcno"
     # cat ./lib/.libs/libboinc_la-base64.gcno
