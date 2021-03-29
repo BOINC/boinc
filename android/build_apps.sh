@@ -9,5 +9,5 @@ fi
 export VERBOSE="no"
 
 echo '===== BOINC apps for all platforms build start ====='
-android/build_component.sh --component apps
+android/build_component.sh --component apps --with-vcpkg
 echo '===== BOINC apps for all platforms build done ====='

@@ -51,6 +51,7 @@ component=""
 silent=""
 verbose="${VERBOSE:-no}"
 ci=""
+build_with_vcpkg=""
 
 while [ $# -gt 0 ]; do
     key="$1"
@@ -74,6 +75,9 @@ while [ $# -gt 0 ]; do
         component="$2"
         shift
         ;;
+        --with-vcpkg)
+        build_with_vcpkg="yes"
+        ;;
         --silent)
         silent="yes"
         ;;
@@ -91,17 +95,17 @@ while [ $# -gt 0 ]; do
 done
 
 if [ "x$cache_dir" != "x" ]; then
-    if isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ]; then
-         PREFIX="$cache_dir"
-     else
-         echo "cache_dir must be an absolute path without ./ or ../ in it"
-         exit 1
-     fi
+    if  ! ( isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ] ); then
+        echo "cache_dir must be an absolute path without ./ or ../ in it"
+        exit 1
+    fi
 else
     cd ../
-    PREFIX="$(pwd)/3rdParty/buildCache/android-tc"
+    cache_dir="$(pwd)/3rdParty/buildCache"
     cd android/
 fi
+
+PREFIX="$cache_dir"/android-tc
 
 if [ "x$build_dir" != "x" ]; then
     if isPathCanonical "$build_dir" && [ "$build_dir" != "/" ]; then
@@ -142,7 +146,15 @@ export COMPILECURL="no"
 export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
-export CREATED_NDK_FOLDER=${CREATED_NDK_FOLDER:-"no"}
+export VCPKG_UPDATED=${VCPKG_UPDATED:-"no"}
+export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
+export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
+export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
+export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
+export VCPKG_ROOT="$cache_dir/vcpkg"
+export ANDROID_TC=$PREFIX
+export VERBOSE=$verbose
+export BUILD_WITH_VCPKG=$build_with_vcpkg
 
 if [ "$arch" = armv6 ]; then
     export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_ARMV6_VERSION}-${arch}_done"
@@ -166,16 +178,9 @@ createNDKARMV6Folder()
     unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
 }
 
-if [ "$ci" = "yes" ]; then
-    if [ $CREATED_NDK_FOLDER = "no" ]; then
-        createNDKFolder
-        export $CREATED_NDK_FOLDER="yes"
-    fi
-else
-    if [ ! -e "${NDK_FLAGFILE}" ]; then
-        createNDKFolder
-        touch "${NDK_FLAGFILE}"
-    fi
+if [ ! -e "${NDK_FLAGFILE}" ]; then
+    createNDKFolder
+    touch "${NDK_FLAGFILE}"
 fi
 
 if [ ! -e "${ANDROID_TC_FLAGFILE}" ]; then
@@ -199,8 +204,165 @@ if [ ! -e "${NDK_ARMV6_FLAGFILE}" ]; then
     fi
 fi
 
-export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
-export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
+if [ ! -d $NDK_ROOT ]; then
+    createNDKFolder
+fi
+
+if [ ! -d $NDK_ARMV6_ROOT ]; then
+    createNDKARMV6Folder
+fi
+
+patchVcpkgScripts()
+{
+echo "
+set(VCPKG_TARGET_ARCHITECTURE arm)
+set(VCPKG_CRT_LINKAGE static)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+" > $VCPKG_ROOT/triplets/community/arm-android.cmake
+
+echo "
+set(VCPKG_TARGET_ARCHITECTURE arm64)
+set(VCPKG_CRT_LINKAGE static)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+" > $VCPKG_ROOT/triplets/community/arm64-android.cmake
+
+echo "
+set(VCPKG_TARGET_ARCHITECTURE x86)
+set(VCPKG_CRT_LINKAGE static)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+" > $VCPKG_ROOT/triplets/community/x86-android.cmake
+
+echo "
+set(VCPKG_TARGET_ARCHITECTURE x64)
+set(VCPKG_CRT_LINKAGE static)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+" > $VCPKG_ROOT/triplets/community/x64-android.cmake
+
+echo "
+set(VCPKG_TARGET_ARCHITECTURE arm)
+set(VCPKG_CRT_LINKAGE static)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+" > $VCPKG_ROOT/triplets/community/armv6-android.cmake
+
+echo "
+set(ANDROID_CPP_FEATURES \"rtti exceptions\" CACHE STRING \"\")
+set(CMAKE_SYSTEM_NAME Android CACHE STRING \"\")
+set(ANDROID_TOOLCHAIN clang CACHE STRING \"\")
+if(DEFINED ENV{ANDROID_NATIVE_API_LEVEL})
+    set(ANDROID_NATIVE_API_LEVEL \$ENV{ANDROID_NATIVE_API_LEVEL})
+else()
+    set(ANDROID_NATIVE_API_LEVEL \${CMAKE_SYSTEM_VERSION} CACHE STRING \"\")
+endif()
+set(CMAKE_ANDROID_NDK_TOOLCHAIN_VERSION clang CACHE STRING \"\")
+ 
+if (VCPKG_TARGET_TRIPLET MATCHES \"^arm64-android\")
+    set(ANDROID_ABI arm64-v8a CACHE STRING \"\")
+elseif(VCPKG_TARGET_TRIPLET MATCHES \"^armv6-android\")
+    set(ANDROID_ABI armeabi CACHE STRING \"\")
+elseif(VCPKG_TARGET_TRIPLET MATCHES \"^arm-android\")
+    set(ANDROID_ABI armeabi-v7a CACHE STRING \"\")
+elseif(VCPKG_TARGET_TRIPLET MATCHES \"^x64-android\")
+    set(ANDROID_ABI x86_64 CACHE STRING \"\")
+elseif(VCPKG_TARGET_TRIPLET MATCHES \"^x86-android\")
+    set(ANDROID_ABI x86 CACHE STRING \"\")
+else()
+    message(FATAL_ERROR \"Unknown ABI for target triplet \${VCPKG_TARGET_TRIPLET}\")
+endif()
+ 
+if (VCPKG_CRT_LINKAGE STREQUAL \"dynamic\")
+    set(ANDROID_STL c++_shared CACHE STRING \"\")
+else()
+    set(ANDROID_STL c++_static CACHE STRING \"\")
+endif()
+ 
+if(DEFINED ENV{ANDROID_NDK_HOME})
+    set(ANDROID_NDK_HOME \$ENV{ANDROID_NDK_HOME})
+else()
+    set(ANDROID_NDK_HOME \"\$ENV{ProgramData}/Microsoft/AndroidNDK64/android-ndk-r13b/\")
+    if(NOT EXISTS \"\${ANDROID_NDK_HOME}\")
+        # Use Xamarin default installation folder
+        set(ANDROID_NDK_HOME \"\$ENV{ProgramFiles\(x86\)}/Android/android-sdk/ndk-bundle\")
+    endif()
+endif()
+ 
+if(NOT EXISTS \"\${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake\")
+    message(FATAL_ERROR \"Could not find android ndk. Searched at \${ANDROID_NDK_HOME}\")
+endif()
+ 
+include(\"\${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake\")
+ 
+if(NOT _VCPKG_ANDROID_TOOLCHAIN)
+set(_VCPKG_ANDROID_TOOLCHAIN 1)
+get_property( _CMAKE_IN_TRY_COMPILE GLOBAL PROPERTY IN_TRY_COMPILE )
+if(NOT _CMAKE_IN_TRY_COMPILE)
+    string(APPEND CMAKE_C_FLAGS \" -fPIC \${VCPKG_C_FLAGS} \")
+    string(APPEND CMAKE_CXX_FLAGS \" -fPIC \${VCPKG_CXX_FLAGS} \")
+    string(APPEND CMAKE_C_FLAGS_DEBUG \" \${VCPKG_C_FLAGS_DEBUG} \")
+    string(APPEND CMAKE_CXX_FLAGS_DEBUG \" \${VCPKG_CXX_FLAGS_DEBUG} \")
+    string(APPEND CMAKE_C_FLAGS_RELEASE \" \${VCPKG_C_FLAGS_RELEASE} \")
+    string(APPEND CMAKE_CXX_FLAGS_RELEASE \" \${VCPKG_CXX_FLAGS_RELEASE} \")
+ 
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS \" \${VCPKG_LINKER_FLAGS} \")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS \" \${VCPKG_LINKER_FLAGS} \")
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS_DEBUG \" \${VCPKG_LINKER_FLAGS_DEBUG} \")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG \" \${VCPKG_LINKER_FLAGS_DEBUG} \")
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS_RELEASE \" \${VCPKG_LINKER_FLAGS_RELEASE} \")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE \" \${VCPKG_LINKER_FLAGS_RELEASE} \")
+endif()
+endif()
+" > $VCPKG_ROOT/scripts/toolchains/android.cmake
+}
+
+if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
+    export XDG_CACHE_HOME=$PREFIX/.cache
+    echo arch=$arch
+    if [ ! -d "$VCPKG_ROOT" ]; then
+        mkdir -p $cache_dir
+        git -C $cache_dir clone https://github.com/microsoft/vcpkg
+    fi
+    if [ $VCPKG_UPDATED = "no" ]; then
+        git -C $VCPKG_ROOT pull
+        $VCPKG_ROOT/bootstrap-vcpkg.sh
+        export VCPKG_UPDATED="yes"
+        patchVcpkgScripts
+    fi
+    if [ $arch = "armv6" ]; then
+        export ANDROID_NATIVE_API_LEVEL=16
+        export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
+        $VCPKG_ROOT/vcpkg install rappture:armv6-android
+    fi
+    if [ $arch = "arm" ]; then
+        export ANDROID_NATIVE_API_LEVEL=16
+        export ANDROID_NDK_HOME=$NDK_ROOT
+
+        $VCPKG_ROOT/vcpkg install rappture:arm-android
+    fi
+    if [ $arch = "arm64" ]; then
+        export ANDROID_NATIVE_API_LEVEL=21
+        export ANDROID_NDK_HOME=$NDK_ROOT
+
+        $VCPKG_ROOT/vcpkg install rappture:arm64-android
+    fi
+    if [ $arch = "x86" ]; then
+        export ANDROID_NATIVE_API_LEVEL=16
+        export ANDROID_NDK_HOME=$NDK_ROOT
+
+        $VCPKG_ROOT/vcpkg install rappture:x86-android
+    fi
+    if [ $arch = "x86_64" ]; then
+        export ANDROID_NATIVE_API_LEVEL=21
+        export ANDROID_NDK_HOME=$NDK_ROOT
+
+        $VCPKG_ROOT/vcpkg install rappture:x64-android
+    fi
+
+    $VCPKG_ROOT/vcpkg upgrade --no-dry-run
+fi
 
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
@@ -208,7 +370,6 @@ if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILEOPENSSL="yes"
 fi
-export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
@@ -216,11 +377,6 @@ if [ ! -e "${CURL_FLAGFILE}" ]; then
     tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
     export COMPILECURL="yes"
 fi
-export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
-
-export ANDROID_TC=$PREFIX
-
-export VERBOSE=$verbose
 
 NeonTest()
 {
@@ -268,7 +424,7 @@ Armv6TestLibs()
 
 Armv6TestApps()
 {
-    Armv6Test boinc_gahp uc2 ucn multi_thread sleeper worker wrapper
+    Armv6Test boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi
 }
 
 RenameAllApps()
@@ -280,6 +436,8 @@ RenameAllApps()
                 ../samples/sleeper/ sleeper
                 ../samples/worker/ worker
                 ../samples/wrapper/ wrapper
+                ../samples/wrappture/ wrappture_example
+                ../samples/wrappture/ fermi
                 "
 
     RenameApp $1 $list_apps

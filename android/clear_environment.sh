@@ -12,7 +12,7 @@ fi
 
 if [ "full" = "$1" ]; then
     echo "full clean"
-    rm -rf 3rdParty/buildCache/
+    rm -rf 3rdParty/buildCache/android-tc
 else
     echo "soft clean"
 fi

@@ -15,6 +15,7 @@ fi
 
 ci=""
 component=""
+build_with_vcpkg=""
 
 while [ $# -gt 0 ]; do
     key="$1"
@@ -25,6 +26,9 @@ while [ $# -gt 0 ]; do
         --component)
         component=$2
         shift
+        ;;
+        --with-vcpkg)
+        build_with_vcpkg="$key"
         ;;
         *)
         echo "unrecognized option $key"
@@ -40,10 +44,10 @@ fi
 
 cd android
 
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component --arch armv6
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component --arch arm
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component --arch arm64
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component --arch x86
-./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component --arch x86_64
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch armv6
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch arm
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch arm64
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch x86
+./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch x86_64
 
 cd ..

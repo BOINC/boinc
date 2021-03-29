@@ -169,6 +169,9 @@ samples/vboxmonitor/vboxmonitor
 samples/vboxwrapper/vboxwrapper
 samples/worker/worker
 samples/wrapper/wrapper
+samples/openclapp/openclapp
+samples/wrappture/wrappture_example
+samples/wrappture/fermi
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census

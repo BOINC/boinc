@@ -20,6 +20,7 @@ export BOINC_API_DIR="$BOINC/api"
 export BOINC_LIB_DIR="$BOINC/lib"
 export BOINC_ZIP_DIR="$BOINC/zip"
 
+export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
 export ANDROID="yes"
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
@@ -29,6 +30,12 @@ export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCL
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+
+VCPKG_FLAG=""
+
+if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    VCPKG_FLAG="--enable-vcpkg"
+fi
 
 if [ -n "$COMPILEBOINC" ]; then
     cd $BOINC
@@ -43,7 +50,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=armv6-linux --with-boinc-platform="armv-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --enable-apps --disable-server --disable-manager --disable-client --disable-libraries --disable-shared --enable-static --disable-largefile --enable-boinczip
+        ./configure --host=armv6-linux --with-boinc-platform="armv-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --enable-apps $VCPKG_FLAG --disable-server --disable-manager --disable-client --disable-libraries --disable-shared --enable-static --disable-largefile --enable-boinczip
     fi
     if [ "$VERBOSE" = "no" ]; then
         make --silent
