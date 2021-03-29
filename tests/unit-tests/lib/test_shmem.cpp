@@ -15,9 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _WIN32
-
 #include "gtest/gtest.h"
+
+#if defined(_WIN32)
+    #include "boinc_win.h"
+#endif
+
 #include "shmem.h"
 
 #define KEY 0xbeefcafe
@@ -68,5 +71,3 @@ namespace test_shmem {
     }
 
 } // namespace
-
-#endif
