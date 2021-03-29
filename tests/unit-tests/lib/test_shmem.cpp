@@ -17,13 +17,11 @@
 
 #include "gtest/gtest.h"
 
-#if defined(_WIN32)
+#ifdef _WIN32
     #include "boinc_win.h"
 #endif
 
 #include "shmem.h"
-
-#define KEY 0xbeefcafe
 
 using namespace std;
 
@@ -60,14 +58,26 @@ namespace test_shmem {
         // Objects declared here can be used by all tests in the test case for Foo.
     };
 
-    // Test shmem functions for Unix/Linux/Mac V5 applications
+    // Test shmem functions for Windows/Unix/Linux/Mac V5 applications
     TEST_F(test_shmem, shmem) {
         void* p;
+
+#ifdef _WIN32
+        const std::string KEY("0xbeefcafe");
+
+        HANDLE handle = create_shmem(reinterpret_cast<LPCTSTR>(KEY.c_str()), 100, &p);
+        EXPECT_NE(handle, INVALID_HANDLE_VALUE);
+        HANDLE handle2 = attach_shmem(reinterpret_cast<LPCTSTR>(KEY.c_str()), &p);
+        EXPECT_NE(handle2, INVALID_HANDLE_VALUE);
+        EXPECT_EQ(detach_shmem(handle, &p), 0);
+        EXPECT_EQ(detach_shmem(handle2, &p), 0);
+#else
+#define KEY 0xbeefcafe
+
         EXPECT_EQ(create_shmem(KEY, 100, false, &p), 0);
-
         EXPECT_EQ(attach_shmem(KEY, &p), 0);
-
         EXPECT_EQ(destroy_shmem(KEY), 0);
+#endif
     }
 
 } // namespace
