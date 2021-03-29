@@ -226,7 +226,7 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    explicit DAILY_STATS(int) : day(0), user_total_credit(0), user_expavg_credit(0), host_total_credit(0), host_expavg_credit(0) {}
+  explicit DAILY_STATS(int) : user_total_credit(0), user_expavg_credit(0), host_total_credit(0), host_expavg_credit(0), day(0) { }
     void clear() {
         static const DAILY_STATS x(0);
         *this = x;
@@ -279,7 +279,8 @@ struct APP {
     bool ignore;
 #endif
 
-  explicit APP(int) : name({}), user_friendly_name({}), non_cpu_intensive(false), fraction_done_exact(false), project(NULL), report_results_immediately(false), max_concurrent(0), non_excluded_instances({}), app_n_concurrent(0) {}
+  explicit APP(int) : name({}), user_friendly_name({}), non_cpu_intensive(false), fraction_done_exact(false), project(NULL), report_results_immediately(false), max_concurrent(0), non_excluded_instances({}), app_n_concurrent(0) { }
+
 #ifdef SIM
     latency_bound = 0;
     fpops_est = 0;

@@ -1221,7 +1221,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
 
-        FEATURE_TEST(std_supported, (std_edx & ((UIint32)1 << 31)), "pbe ");
+        FEATURE_TEST(std_supported, (std_edx & ((UInt32)1 << 31)), "pbe ");
     }
 
     if (amd_supported || hygon_supported) {
