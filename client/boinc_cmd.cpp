@@ -89,6 +89,7 @@ Commands:\n\
  --quit_acct_mgr                    same as --acct_mgr detach\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
+ --reset_host_info                  have client get mem size, #CPUs etc. again\n\
  --run_benchmarks\n\
  --run_graphics_app id op         (Macintosh only) run, test or stop graphics app\n\
    op = run | runfullscreen | stop | test\n\
@@ -669,6 +670,8 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--read_cc_config")) {
         retval = rpc.read_cc_config();
         printf("retval %d\n", retval);
+    } else if (!strcmp(cmd, "--reset_host_info")) {
+        retval = rpc.reset_host_info();
     } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
     } else if (!strcmp(cmd, "--set_app_config")) {

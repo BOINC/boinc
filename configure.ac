@@ -217,13 +217,6 @@ if test x$enable_server = xyes ; then
   configured_to_build="${configured_to_build} server"
 fi
 if test x$enable_apps = xyes ; then
-  AX_CHECK_CL
-  if test "X$no_cl" = "Xyes"; then
-    AC_MSG_WARN([OpenCL is missing, OpenClApp example is disable])
-    enable_openclapp=no
-  else
-    enable_openclapp=yes
-  fi
   configured_to_build="${configured_to_build} apps"
 fi
 if test x$enable_unit_tests = xyes ; then
@@ -374,10 +367,14 @@ OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
 dnl LT_INIT
+enable_shared_user=$enable_shared
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
+if test "$enable_shared_user" != no -a "$enable_shared" = no ; then
+  AC_MSG_ERROR([Project is configured to produce shared libraries, but compiler doesn't support shared libraries creation.])
+fi
 
 SAH_OPTION_BITNESS
 
@@ -561,6 +558,12 @@ dnl ---------- decide wether to build the graphical boinc-api libs or not
 dnl check for X11
 AC_PATH_X
 AC_PATH_XTRA
+
+dnl Check for CL library opencl
+AX_CHECK_CL
+if test "x$with_opencl" = "xno"; then
+  AC_MSG_WARN([OpenCL is missing, OpenClApp example is disabled])
+fi
 
 dnl check for GL library
 AX_CHECK_GL
@@ -1064,6 +1067,7 @@ dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
 AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
+AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1076,11 +1080,11 @@ AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${en
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
-AM_CONDITIONAL(ENABLE_OPENCLAPP, [test "${enable_openclapp}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
+AM_CONDITIONAL(BUILD_OPENCL, [test "x$with_opencl" = "xyes"])
 
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)

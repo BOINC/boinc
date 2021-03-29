@@ -153,7 +153,7 @@ int DB_CONN::affected_rows() {
     return (int)x;
 }
 
-int DB_CONN::insert_id() {
+DB_ID_TYPE DB_CONN::insert_id() {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* rp;
@@ -162,7 +162,7 @@ int DB_CONN::insert_id() {
     if (retval) return retval;
     rp = mysql_store_result(mysql);
     row = mysql_fetch_row(rp);
-    int x = atoi(row[0]);
+    DB_ID_TYPE x = atol(row[0]);
     mysql_free_result(rp);
     return x;
 }

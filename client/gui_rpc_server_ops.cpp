@@ -631,6 +631,16 @@ static void handle_get_host_info(GUI_RPC_CONN& grc) {
     gstate.host_info.write(grc.mfout, true, true);
 }
 
+static void handle_reset_host_info(GUI_RPC_CONN& grc) {
+    gstate.host_info.get_host_info(true);
+    // the amount of RAM or #CPUs may have changed
+    //
+    gstate.set_ncpus();
+    gstate.request_schedule_cpus("reset_host_info");
+    gstate.show_host_info();
+    grc.mfout.printf("<success/>\n");
+}
+
 static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     unsigned int i;
     ACTIVE_TASK* atp;
@@ -1237,12 +1247,12 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         }
     }
     if (parse_retval) {
-        grc.mfout.printf("<error>XML parse failed<error/>\n");
+        grc.mfout.printf("<error>XML parse failed</error>\n");
         return;
     }
     PROJECT* p = gstate.lookup_project(url.c_str());
     if (!p) {
-        grc.mfout.printf("<error>no such project<error/>\n");
+        grc.mfout.printf("<error>no such project</error>\n");
         return;
     }
     char path[MAXPATHLEN];
@@ -1252,7 +1262,7 @@ static void handle_set_app_config(GUI_RPC_CONN& grc) {
         msg_printf(p, MSG_INTERNAL_ERROR,
             "Can't open app config file %s", path
         );
-        grc.mfout.printf("<error>can't open app_config.xml file<error/>\n");
+        grc.mfout.printf("<error>can't open app_config.xml file</error>\n");
         return;
 
     }
@@ -1743,10 +1753,7 @@ struct GUI_RPC {
     char alt_req_tag[256];
     GUI_RPC_HANDLER handler;
     bool auth_required;
-        // operations that require authentication only for non-local clients.
-        // Use this only for information that should be available to people
-        // sharing this computer (e.g. what jobs are running)
-        // but not for anything sensitive (passwords etc.)
+        // operations that require authentication with RPC key
     bool enable_network;
         // RPCs that should enable network communication for 5 minutes,
         // overriding other factors.
@@ -1764,7 +1771,7 @@ struct GUI_RPC {
     }
 };
 
-                                                                    // local auth required
+                                                                    // auth required
                                                                             // enable network
                                                                                     // read-only
 GUI_RPC gui_rpcs[] = {
@@ -1819,6 +1826,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("read_global_prefs_override", handle_read_global_prefs_override,
                                                                     true,   false,  false),
     GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
+    GUI_RPC("reset_host_info", handle_reset_host_info,              true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),
     GUI_RPC("set_app_config", handle_set_app_config,                true,   false,  false),

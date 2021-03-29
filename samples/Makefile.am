@@ -4,10 +4,14 @@ include $(top_srcdir)/Makefile.incl
 
 ## list the apps that should be build
 ## NOTE: nvcuda and wrappture need external libraries
-SUBDIRS = condor example_app multi_thread sleeper vboxmonitor vboxwrapper worker wrapper
+SUBDIRS = condor example_app multi_thread sleeper worker wrapper
+
+if !ANDROID
+SUBDIRS += vboxmonitor vboxwrapper
+endif
 
 ## build openclapp if you have opencl on your device
-if ENABLE_OPENCLAPP
+if BUILD_OPENCL
 SUBDIRS += openclapp
 endif
 

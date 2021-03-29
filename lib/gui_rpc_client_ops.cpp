@@ -2240,6 +2240,17 @@ int RPC_CLIENT::set_host_info(HOST_INFO& h) {
     return rpc.parse_reply();
 }
 
+int RPC_CLIENT::reset_host_info() {
+    SET_LOCALE sl;
+    RPC rpc(this);
+    char buf[1024];
+
+    snprintf(buf, sizeof(buf), "<reset_host_info>\n</reset_host_info>\n");
+    int retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
+}
+
 int RPC_CLIENT::quit() {
     int retval;
     SET_LOCALE sl;
