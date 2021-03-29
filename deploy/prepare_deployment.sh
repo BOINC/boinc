@@ -75,6 +75,8 @@ prepare_apps() {
     cp_if_exists samples/worker/worker "${TARGET_DIR}"
     cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
     cp_if_exists samples/openclapp/openclapp "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/wrappture_example "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/fermi "${TARGET_DIR}"
     prepare_7z_archive
 }
 
@@ -154,6 +156,20 @@ prepare_android_apps() {
     cp_if_exists samples/wrapper/android_arm64_wrapper  "${TARGET_DIR}"
     cp_if_exists samples/wrapper/android_x86_wrapper    "${TARGET_DIR}"
     cp_if_exists samples/wrapper/android_x86_64_wrapper "${TARGET_DIR}"
+
+    # wrappture_example
+    cp_if_exists samples/wrappture/android_armv6_wrappture_example  "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_arm_wrappture_example    "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_arm64_wrappture_example  "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_x86_wrappture_example    "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_x86_64_wrappture_example "${TARGET_DIR}"
+
+    # fermi
+    cp_if_exists samples/wrappture/android_armv6_fermi  "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_arm_fermi    "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_arm64_fermi  "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_x86_fermi    "${TARGET_DIR}"
+    cp_if_exists samples/wrappture/android_x86_64_fermi "${TARGET_DIR}"
 
     prepare_7z_archive
 }
