@@ -12,6 +12,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.61.0}" #CURL sources, required by BOINC
 
@@ -32,6 +33,20 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -fun
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent 1>$STDOUT_TARGET"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for arm from $PWD ====="    
@@ -45,13 +60,10 @@ if [ "$COMPILECURL" = "yes" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=arm-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent 1>$STDOUT_TARGET
-        make install --silent 1>$STDOUT_TARGET
-    else
-        make SHELL="/bin/bash -x"
-        make install SHELL="/bin/bash -x"
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make install $MAKE_FLAGS
+
     if  [ ! -z ${CURL_FLAGFILE} ]; then
         touch "${CURL_FLAGFILE}"
     fi

@@ -12,6 +12,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
 
@@ -34,6 +35,20 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_armv6.sh
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent 1>$STDOUT_TARGET"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ "$COMPILEOPENSSL" = "yes" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for armv6 from $PWD ====="
@@ -50,13 +65,10 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent 1>$STDOUT_TARGET
-        make install_sw --silent 1>$STDOUT_TARGET
-    else
-        make SHELL="/bin/bash -x"
-        make install_sw SHELL="/bin/bash -x"
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make install_sw $MAKE_FLAGS
+    
     if  [ ! -z ${OPENSSL_FLAGFILE} ]; then
         touch "${OPENSSL_FLAGFILE}"
     fi	

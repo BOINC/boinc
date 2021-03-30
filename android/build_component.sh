@@ -44,6 +44,8 @@ fi
 
 cd android
 
+rm -rf /tmp/vcpkg_updated
+
 ./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch armv6
 ./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch arm
 ./buildAndroidBOINC-CI.sh --cache_dir "$ANDROID_TC" --build_dir "$BUILD_DIR" --silent $ci --component $component $build_with_vcpkg --arch arm64
