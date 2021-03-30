@@ -74,11 +74,3 @@ if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 for T in lib sched; do
     [ -d "${T}" ] && ./${T}/test_${T};
 done
-
-cd ../..
-if [ "${report}" = "yes" ]; then
-    #for T in lib sched; do
-    #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
-    #done
-    bash <(curl -s https://codecov.io/bash)
-fi
