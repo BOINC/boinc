@@ -59,7 +59,7 @@ boinc_client_SOURCES = \
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -D_USE_CURL -I../../curl-7.14.0/include -I $(srcdir)/win $(AM_CPPFLAGS) -O3
 boinc_client_LDFLAGS = -static-libgcc
-boinc_client_LDADD = -L/usr/local/ssl/lib -lssl -L../../curl-7.14.0/lib -lcurl -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
+boinc_client_LDADD = -L/usr/local/ssl/lib -L../../curl-7.14.0/lib -L../lib -lcurl -lssl -lcrypto -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 # the following don't do anything

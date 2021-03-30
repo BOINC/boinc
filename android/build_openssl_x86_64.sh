@@ -7,7 +7,6 @@ set -e
 
 # Script to compile OpenSSL for Android
 
-COMPILEOPENSSL="${COMPILEOPENSSL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -36,18 +35,18 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 MAKE_FLAGS=""
 
 if [ $VERBOSE = "no" ]; then
-    MAKE_FLAGS="$MAKE_FLAGS --silent 1>$STDOUT_TARGET"
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
 else
     MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
 fi
 
 if [ $CI = "yes" ]; then
-    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+    MAKE_FLAGS1="$MAKE_FLAGS -j $(nproc --all)"
 else
-    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+    MAKE_FLAGS1="$MAKE_FLAGS -j $NPROC_USER"
 fi
 
-if [ "$COMPILEOPENSSL" = "yes" ]; then
+if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then
@@ -63,12 +62,16 @@ if [ "$COMPILEOPENSSL" = "yes" ]; then
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
         mv Makefile.out Makefile
     fi
-    echo MAKE_FLAGS=$MAKE_FLAGS
-    make $MAKE_FLAGS
-    make install_sw $MAKE_FLAGS
-    
-    if  [ ! -z ${OPENSSL_FLAGFILE} ]; then
-        touch "${OPENSSL_FLAGFILE}"
+    if [ $VERBOSE = "no" ]; then
+        echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"
+        make $MAKE_FLAGS 1>$STDOUT_TARGET
+        make install_sw $MAKE_FLAGS 1>$STDOUT_TARGET
+    else
+        echo MAKE_FLAGS=$MAKE_FLAGS
+        make $MAKE_FLAGS
+        make install_sw $MAKE_FLAGS
     fi
+    
+    touch "${OPENSSL_FLAGFILE}"
     echo "===== openssl for x86-64 build done ====="
 fi

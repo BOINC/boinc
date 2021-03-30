@@ -141,9 +141,6 @@ if [ "${silent}" = "yes" ]; then
     export STDOUT_TARGET="/dev/null"
 fi
 
-export COMPILEOPENSSL="no"
-export COMPILECURL="no"
-export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
@@ -159,9 +156,11 @@ export BUILD_WITH_VCPKG=$build_with_vcpkg
 if [ "$arch" = armv6 ]; then
     export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_ARMV6_VERSION}-${arch}_done"
     export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_ARMV6_VERSION}-${arch}_done"
+    export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_ARMV6_VERSION}-${arch}-${ARMV6_REV}_done"
 else
     export CURL_FLAGFILE="$PREFIX/curl-${CURL_VERSION}-${NDK_VERSION}-${arch}_done"
     export OPENSSL_FLAGFILE="$PREFIX/openssl-${OPENSSL_VERSION}-${NDK_VERSION}-${arch}_done"
+    export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 fi
 
 createNDKFolder()
@@ -183,25 +182,9 @@ if [ ! -e "${NDK_FLAGFILE}" ]; then
     touch "${NDK_FLAGFILE}"
 fi
 
-if [ ! -e "${ANDROID_TC_FLAGFILE}" ]; then
-    if [ $arch != "armv6" ]; then
-        rm -rf "${PREFIX}/${arch}"
-        echo delete "${PREFIX}/${arch}"
-        rm -rf "${OPENSSL_FLAGFILE}"
-        rm -rf "${CURL_FLAGFILE}"
-        touch ${ANDROID_TC_FLAGFILE}
-    fi
-fi
-
 if [ ! -e "${NDK_ARMV6_FLAGFILE}" ]; then
-    if [ $arch = "armv6" ]; then
-        rm -rf "${PREFIX}/${arch}"
-        echo delete "${PREFIX}/${arch}"
-        rm -rf "${OPENSSL_FLAGFILE}"
-        rm -rf "${CURL_FLAGFILE}"
-        createNDKARMV6Folder
-        touch "${NDK_ARMV6_FLAGFILE}"
-    fi
+    createNDKARMV6Folder
+    touch "${NDK_ARMV6_FLAGFILE}"
 fi
 
 if [ ! -d $NDK_ROOT ]; then
@@ -212,18 +195,24 @@ if [ ! -d $NDK_ARMV6_ROOT ]; then
     createNDKARMV6Folder
 fi
 
+if [ ! -e "${ANDROID_TC_FLAGFILE}" ]; then
+    rm -rf "${PREFIX}/${arch}"
+    echo delete "${PREFIX}/${arch}"
+    rm -rf "${OPENSSL_FLAGFILE}"
+    rm -rf "${CURL_FLAGFILE}"
+    touch ${ANDROID_TC_FLAGFILE}
+fi
+
 if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
     wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
     tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
-    export COMPILEOPENSSL="yes"
 fi
 
 if [ ! -e "${CURL_FLAGFILE}" ]; then
     rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
     wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
     tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
-    export COMPILECURL="yes"
 fi
 
 patchVcpkgScripts()
@@ -427,6 +416,11 @@ Armv6TestApps()
     Armv6Test boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi
 }
 
+NeonTestApps()
+{
+    NeonTest  boinc_gahp uc2 ucn multi_thread sleeper worker wrapper
+}
+
 RenameAllApps()
 {
     list_apps="../samples/condor/ boinc_gahp
@@ -478,6 +472,7 @@ case "$arch" in
                 ./build_libraries_armv6.sh
                 ./build_example_armv6.sh
                 NeonTestLibs
+                NeonTestApps
                 Armv6TestLibs
                 Armv6TestApps
                 if [ "$ci" = "yes" ]; then
@@ -510,6 +505,8 @@ case "$arch" in
                 ./build_curl_arm.sh
                 ./build_libraries_arm.sh
                 ./build_example_arm.sh
+                NeonTestLibs
+                NeonTestApps
                 if [ "$ci" = "yes" ]; then
                     RenameAllApps arm
                 fi

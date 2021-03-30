@@ -7,7 +7,6 @@ set -e
 
 # Script to compile Libcurl for Android
 
-COMPILECURL="${COMPILECURL:-yes}"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -38,7 +37,7 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 MAKE_FLAGS=""
 
 if [ $VERBOSE = "no" ]; then
-    MAKE_FLAGS="$MAKE_FLAGS --silent 1>$STDOUT_TARGET"
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
 else
     MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
 fi
@@ -49,7 +48,7 @@ else
     MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
 fi
 
-if [ "$COMPILECURL" = "yes" ]; then
+if [ ! -e "${CURL_FLAGFILE}" ]; then
     cd "$CURL"
     echo "===== building curl for armv6 from $PWD ====="    
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
@@ -62,12 +61,16 @@ if [ "$COMPILECURL" = "yes" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=armv6-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
     fi
-    echo MAKE_FLAGS=$MAKE_FLAGS
-    make $MAKE_FLAGS
-    make install $MAKE_FLAGS
+    if [ $VERBOSE = "no" ]; then
+        echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"
+        make $MAKE_FLAGS 1>$STDOUT_TARGET
+        make install $MAKE_FLAGS 1>$STDOUT_TARGET
+    else
+        echo MAKE_FLAGS=$MAKE_FLAGS
+        make $MAKE_FLAGS
+        make install $MAKE_FLAGS
+    fi
     
-    if  [ ! -z ${CURL_FLAGFILE} ]; then
-        touch "${CURL_FLAGFILE}"
-    fi	
+    touch "${CURL_FLAGFILE}"
     echo "===== curl for armv6 build done ====="
 fi

@@ -134,10 +134,11 @@ clean:
 	rm -f $(PROGS) $(BOINC_OBJ) dependencies
 
 LIBS = ../lib/lib.a \
+    -L /usr/local/lib/ \
     -lpthread \
     -lX11 -lXss \
-    -lssl -lcrypto \
-    -L /usr/local/lib/ -lcurl -lz -ldl
+    -lcurl -lssl -lcrypto \
+    -lz -ldl
 
 .cpp.o:
 	$(CC) -c -o $*.o $<
