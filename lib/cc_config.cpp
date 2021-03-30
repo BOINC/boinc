@@ -864,19 +864,21 @@ int APP_CONFIGS::parse_file(FILE* f, MSG_VEC& mv, LOG_FLAGS& log_flags) {
 
 void APP_CONFIGS::write(MIOFILE& out) {
     out.printf(
-        "   <app_config>\n"
+        "<app_config>\n"
     );
     for (unsigned int i=0; i<app_configs.size(); i++) {
         APP_CONFIG& ac = app_configs[i];
         out.printf(
-            "       <app>\n"
-            "           <name>%s</name>\n"
-            "           <max_concurrent>%d</max_concurrent>\n"
-            "           <gpu_gpu_usage>%f</gpu_gpu_usage>\n"
-            "           <gpu_cpu_usage>%f</gpu_cpu_usage>\n"
-            "           <fraction_done_exact>%d</fraction_done_exact>\n"
-            "           <report_results_immediately>%d</report_results_immediately>\n"
-            "       </app>\n",
+            "    <app>\n"
+            "        <name>%s</name>\n"
+            "        <max_concurrent>%d</max_concurrent>\n"
+            "        <gpu_versions>\n"
+            "            <gpu_usage>%f</gpu_usage>\n"
+            "            <cpu_usage>%f</cpu_usage>\n"
+            "        </gpu_versions>\n"
+            "        <fraction_done_exact>%d</fraction_done_exact>\n"
+            "        <report_results_immediately>%d</report_results_immediately>\n"
+            "    </app>\n",
             ac.name,
             ac.max_concurrent,
             ac.gpu_gpu_usage,
@@ -888,13 +890,13 @@ void APP_CONFIGS::write(MIOFILE& out) {
     for (unsigned int i=0; i<app_version_configs.size(); i++) {
         APP_VERSION_CONFIG& avc = app_version_configs[i];
         out.printf(
-            "       <app_version>\n"
-            "           <app_name>%s</app_name>\n"
-            "           <plan_class>%s</plan_class>\n"
-            "           <cmdline>%s</cmdline>\n"
-            "           <avg_ncpus>%f</avg_ncpus>\n"
-            "           <ngpus>%f</ngpus>\n"
-            "       </app_version>\n",
+            "    <app_version>\n"
+            "        <app_name>%s</app_name>\n"
+            "        <plan_class>%s</plan_class>\n"
+            "        <cmdline>%s</cmdline>\n"
+            "        <avg_ncpus>%f</avg_ncpus>\n"
+            "        <ngpus>%f</ngpus>\n"
+            "    </app_version>\n",
             avc.app_name,
             avc.plan_class,
             avc.cmdline,
@@ -903,9 +905,9 @@ void APP_CONFIGS::write(MIOFILE& out) {
         );
     }
     out.printf(
-        "       <project_max_concurrent>%d</project_max_concurrent>\n"
-        "       <report_results_immediately>%d</report_results_immediately>\n"
-        "   </app_config>\n",
+        "    <project_max_concurrent>%d</project_max_concurrent>\n"
+        "    <report_results_immediately>%d</report_results_immediately>\n"
+        "</app_config>\n",
         project_max_concurrent,
         report_results_immediately?1:0
     );
