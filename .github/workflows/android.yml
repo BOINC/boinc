@@ -33,7 +33,6 @@ jobs:
         with:
           path: 3rdParty/buildCache
           key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
-          restore-keys: android-${{ matrix.type }}-
 
       - name: Build manager
         if: ${{ success() && matrix.type == 'manager' }}
