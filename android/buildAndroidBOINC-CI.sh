@@ -51,7 +51,7 @@ component=""
 silent=""
 verbose="${VERBOSE:-no}"
 ci=""
-build_with_vcpkg=""
+build_with_vcpkg="no"
 
 while [ $# -gt 0 ]; do
     key="$1"
@@ -146,7 +146,6 @@ export COMPILECURL="no"
 export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
-export VCPKG_UPDATED=${VCPKG_UPDATED:-"no"}
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
@@ -154,6 +153,7 @@ export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 export VCPKG_ROOT="$cache_dir/vcpkg"
 export ANDROID_TC=$PREFIX
 export VERBOSE=$verbose
+export CI=$ci
 export BUILD_WITH_VCPKG=$build_with_vcpkg
 
 if [ "$arch" = armv6 ]; then
@@ -210,6 +210,20 @@ fi
 
 if [ ! -d $NDK_ARMV6_ROOT ]; then
     createNDKARMV6Folder
+fi
+
+if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
+    rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
+    wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+    tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
+    export COMPILEOPENSSL="yes"
+fi
+
+if [ ! -e "${CURL_FLAGFILE}" ]; then
+    rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
+    wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+    tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
+    export COMPILECURL="yes"
 fi
 
 patchVcpkgScripts()
@@ -320,16 +334,16 @@ endif()
 
 if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
     export XDG_CACHE_HOME=$PREFIX/.cache
-    echo arch=$arch
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $cache_dir
         git -C $cache_dir clone https://github.com/microsoft/vcpkg
     fi
-    if [ $VCPKG_UPDATED = "no" ]; then
+    if [ ! -e /tmp/vcpkg_updated ]; then
+        git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
-        export VCPKG_UPDATED="yes"
         patchVcpkgScripts
+        touch /tmp/vcpkg_updated
     fi
     if [ $arch = "armv6" ]; then
         export ANDROID_NATIVE_API_LEVEL=16
@@ -362,20 +376,6 @@ if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
     fi
 
     $VCPKG_ROOT/vcpkg upgrade --no-dry-run
-fi
-
-if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
-    wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
-    export COMPILEOPENSSL="yes"
-fi
-
-if [ ! -e "${CURL_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
-    wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-    tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
-    export COMPILECURL="yes"
 fi
 
 NeonTest()

@@ -7,6 +7,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC="$(pwd)/.." #BOINC source code
 
@@ -38,6 +39,20 @@ if [ $BUILD_WITH_VCPKG = "yes" ]; then
     VCPKG_FLAG="--enable-vcpkg"
 fi
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ -n "$COMPILEBOINC" ]; then
     cd $BOINC    
     echo "===== building example for arm64 from $PWD ====="
@@ -53,10 +68,7 @@ if [ -n "$COMPILEBOINC" ]; then
         ./_autosetup
         ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --enable-apps $VCPKG_FLAG --disable-server --disable-manager --disable-client --disable-libraries --disable-shared --enable-static --enable-boinczip
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent
-    else
-        make SHELL="/bin/bash -x"
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
     echo "===== building example for arm64 done ====="
 fi

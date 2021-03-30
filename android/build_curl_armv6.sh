@@ -12,6 +12,7 @@ STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 CURL="${CURL_SRC:-$HOME/src/curl-7.61.0}" #CURL sources, required by BOINC
 
@@ -34,6 +35,20 @@ export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 # Prepare android toolchain and environment
 ./build_androidtc_armv6.sh
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent 1>$STDOUT_TARGET"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ "$COMPILECURL" = "yes" ]; then
     cd "$CURL"
     echo "===== building curl for armv6 from $PWD ====="    
@@ -47,13 +62,10 @@ if [ "$COMPILECURL" = "yes" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./configure --host=armv6-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent 1>$STDOUT_TARGET
-        make install --silent 1>$STDOUT_TARGET
-    else
-        make SHELL="/bin/bash -x"
-        make install SHELL="/bin/bash -x"
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make install $MAKE_FLAGS
+    
     if  [ ! -z ${CURL_FLAGFILE} ]; then
         touch "${CURL_FLAGFILE}"
     fi	

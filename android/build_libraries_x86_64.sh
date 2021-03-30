@@ -13,6 +13,7 @@ COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC=".." #BOINC source code
 
@@ -34,6 +35,20 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie -lat
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ -n "$COMPILEBOINC" ]; then
 
     cd "$BOINC"
@@ -49,15 +64,11 @@ if [ -n "$COMPILEBOINC" ]; then
         ./_autosetup
         ./configure --host=x86_64-linux --with-boinc-platform="x86_64-android-linux-gnu" --with-boinc-alt-platform="x86-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent
-        make stage --silent
-        make install --silent
-    else
-        make SHELL="/bin/bash -x"
-        make stage SHELL="/bin/bash -x"    
-        make install SHELL="/bin/bash -x"    
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make stage $MAKE_FLAGS
+    make install $MAKE_FLAGS
+    
     echo "===== building BOINC Libraries for x86-64 done ====="
 
 fi

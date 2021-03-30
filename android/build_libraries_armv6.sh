@@ -13,6 +13,7 @@ COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC=".." #BOINC source code
 
@@ -35,6 +36,20 @@ export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 # Prepare android toolchain and environment
 ./build_androidtc_armv6.sh
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ -n "$COMPILEBOINC" ]; then
 
     cd "$BOINC"
@@ -52,15 +67,11 @@ if [ -n "$COMPILEBOINC" ]; then
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent
-        make stage --silent
-        make install --silent
-    else
-        make SHELL="/bin/bash -x"
-        make stage SHELL="/bin/bash -x"    
-        make install SHELL="/bin/bash -x"    
-    fi
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make stage $MAKE_FLAGS
+    make install $MAKE_FLAGS
+    
     echo "===== building BOINC Libraries for armv6 done ====="
 
 fi

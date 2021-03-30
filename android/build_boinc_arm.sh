@@ -12,6 +12,7 @@ COMPILEBOINC="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
+NPROC_USER="${NPROC_USER:-1}"
 
 export BOINC=".." #BOINC source code
 
@@ -33,6 +34,20 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT" 
 
+MAKE_FLAGS=""
+
+if [ $VERBOSE = "no" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS --silent"
+else
+    MAKE_FLAGS="$MAKE_FLAGS SHELL=\"/bin/bash -x\""
+fi
+
+if [ $CI = "yes" ]; then
+    MAKE_FLAGS="$MAKE_FLAGS -j $(nproc --all)"
+else
+    MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
+fi
+
 if [ -n "$COMPILEBOINC" ]; then
     cd "$BOINC"
     echo "===== building BOINC for arm from $PWD ====="    
@@ -47,14 +62,9 @@ if [ -n "$COMPILEBOINC" ]; then
         ./_autosetup
         ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
     fi
-    if [ "$VERBOSE" = "no" ]; then
-        make --silent
-        make stage --silent
-    else
-        make SHELL="/bin/bash -x"
-        make stage SHELL="/bin/bash -x"
-    fi
-    
+    echo MAKE_FLAGS=$MAKE_FLAGS
+    make $MAKE_FLAGS
+    make stage $MAKE_FLAGS
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
