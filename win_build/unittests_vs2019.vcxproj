@@ -23,14 +23,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -97,6 +97,7 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_base64.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboinc_vs2019.vcxproj">
