@@ -185,7 +185,7 @@ class EventLogActivity : AppCompatActivity() {
         when {
             type == 0 -> {
                 text.append(getString(R.string.eventlog_client_header)).append("\n\n")
-                for (index in 0 until clientLogList.childCount) {
+                for (index in 0 until clientLogList.adapter?.itemCount!!) {
                     text.append(clientLogRecyclerViewAdapter.getDateTimeString(index))
                     text.append("|")
                     text.append(clientLogRecyclerViewAdapter.getProject(index))
