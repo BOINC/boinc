@@ -27,6 +27,7 @@
 // The declarations below must be kept in sync with
 // the corresponding ones in Mac_Saver_ModuleView.h
 #ifdef _DEBUG
+    #undef _T
     #define _T(x) x
 #endif
 

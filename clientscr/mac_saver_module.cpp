@@ -317,7 +317,7 @@ CScreensaver::CScreensaver() {
     m_iGraphicsStartingMsgCounter = 0;
     saverState = SaverState_Idle;
     m_wasAlreadyRunning = false;
-    m_CoreClientPID = nil;
+    m_CoreClientPID = 0;
     setSSMessageText(0);
     m_CurrentBannerMessage = 0;
     m_bQuitDataManagementProc = false;

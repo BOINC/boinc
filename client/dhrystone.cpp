@@ -94,7 +94,7 @@ int dhrystone(
     double                  benchtime;
     double Dhrystones_Per_Second;
 
-    register unsigned long  Run_Index;
+    REG unsigned long  Run_Index;
 
 
   Next_Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));

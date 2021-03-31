@@ -63,9 +63,9 @@ void CSimplePanelBase::MakeBGBitMap() {
     wxBitmap whiteBmp;
     wxImage bgImage;
     wxImage whiteImage;
-    register unsigned char *bgImagePixels;
-    register unsigned char *whitePixels;
-    register int i, j, k;
+    unsigned char *bgImagePixels;
+    unsigned char *whitePixels;
+    int i, j, k;
     CSimpleGUIPanel* backgroundPanel = (CSimpleGUIPanel*)GetParent();
     wxPen bgPen(*wxWHITE, 1, wxTRANSPARENT);
     wxBrush bgBrush(*wxWHITE);
