@@ -537,7 +537,17 @@ class Monitor : LifecycleService() {
             val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
             val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
             if (Logging.ERROR) Log.w(Logging.TAG, "Launching '${cmd[0]}' from '$boincWorkingDir'")
-            Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
+            var envpStr = ""
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val envLLP = System.getenv("LD_LIBRARY_PATH")
+                envpStr = "LD_LIBRARY_PATH="
+                if (envLLP != null) envpStr += envLLP + ":"
+                if (Process.is64Bit()) envpStr += "/vendor/lib64/:/vendor/lib64/egl:"
+                envpStr += "/vendor/lib:/vendor/lib/egl"
+            }
+            val envp = arrayOf(envpStr)
+            if (Logging.DEBUG) Log.w(Logging.TAG, "Setting envp '${envp[0]}'")
+            Runtime.getRuntime().exec(cmd, envp, File(boincWorkingDir))
             success = true
         } catch (e: IOException) {
             if (Logging.ERROR) {
