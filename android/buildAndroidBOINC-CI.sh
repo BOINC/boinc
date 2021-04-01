@@ -94,6 +94,10 @@ while [ $# -gt 0 ]; do
     shift # past argument or value
 done
 
+cd ../
+vcpkg_ports_dir="$(pwd)/3rdParty/vcpkg_ports"
+cd android/
+
 if [ "x$cache_dir" != "x" ]; then
     if  ! ( isPathCanonical "$cache_dir" && [ "$cache_dir" != "/" ] ); then
         echo "cache_dir must be an absolute path without ./ or ../ in it"
@@ -215,114 +219,44 @@ if [ ! -e "${CURL_FLAGFILE}" ]; then
     tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
 fi
 
-patchVcpkgScripts()
+packegesToInstall()
 {
-echo "
-set(VCPKG_TARGET_ARCHITECTURE arm)
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Android)
-" > $VCPKG_ROOT/triplets/community/arm-android.cmake
+    pkgs="rappture"
+    echo $(packegesList $1 $pkgs)
+}
 
-echo "
-set(VCPKG_TARGET_ARCHITECTURE arm64)
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Android)
-" > $VCPKG_ROOT/triplets/community/arm64-android.cmake
-
-echo "
-set(VCPKG_TARGET_ARCHITECTURE x86)
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Android)
-" > $VCPKG_ROOT/triplets/community/x86-android.cmake
-
-echo "
-set(VCPKG_TARGET_ARCHITECTURE x64)
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Android)
-" > $VCPKG_ROOT/triplets/community/x64-android.cmake
-
-echo "
-set(VCPKG_TARGET_ARCHITECTURE arm)
-set(VCPKG_CRT_LINKAGE static)
-set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_CMAKE_SYSTEM_NAME Android)
-" > $VCPKG_ROOT/triplets/community/armv6-android.cmake
-
-echo "
-set(ANDROID_CPP_FEATURES \"rtti exceptions\" CACHE STRING \"\")
-set(CMAKE_SYSTEM_NAME Android CACHE STRING \"\")
-set(ANDROID_TOOLCHAIN clang CACHE STRING \"\")
-if(DEFINED ENV{ANDROID_NATIVE_API_LEVEL})
-    set(ANDROID_NATIVE_API_LEVEL \$ENV{ANDROID_NATIVE_API_LEVEL})
-else()
-    set(ANDROID_NATIVE_API_LEVEL \${CMAKE_SYSTEM_VERSION} CACHE STRING \"\")
-endif()
-set(CMAKE_ANDROID_NDK_TOOLCHAIN_VERSION clang CACHE STRING \"\")
- 
-if (VCPKG_TARGET_TRIPLET MATCHES \"^arm64-android\")
-    set(ANDROID_ABI arm64-v8a CACHE STRING \"\")
-elseif(VCPKG_TARGET_TRIPLET MATCHES \"^armv6-android\")
-    set(ANDROID_ABI armeabi CACHE STRING \"\")
-elseif(VCPKG_TARGET_TRIPLET MATCHES \"^arm-android\")
-    set(ANDROID_ABI armeabi-v7a CACHE STRING \"\")
-elseif(VCPKG_TARGET_TRIPLET MATCHES \"^x64-android\")
-    set(ANDROID_ABI x86_64 CACHE STRING \"\")
-elseif(VCPKG_TARGET_TRIPLET MATCHES \"^x86-android\")
-    set(ANDROID_ABI x86 CACHE STRING \"\")
-else()
-    message(FATAL_ERROR \"Unknown ABI for target triplet \${VCPKG_TARGET_TRIPLET}\")
-endif()
- 
-if (VCPKG_CRT_LINKAGE STREQUAL \"dynamic\")
-    set(ANDROID_STL c++_shared CACHE STRING \"\")
-else()
-    set(ANDROID_STL c++_static CACHE STRING \"\")
-endif()
- 
-if(DEFINED ENV{ANDROID_NDK_HOME})
-    set(ANDROID_NDK_HOME \$ENV{ANDROID_NDK_HOME})
-else()
-    set(ANDROID_NDK_HOME \"\$ENV{ProgramData}/Microsoft/AndroidNDK64/android-ndk-r13b/\")
-    if(NOT EXISTS \"\${ANDROID_NDK_HOME}\")
-        # Use Xamarin default installation folder
-        set(ANDROID_NDK_HOME \"\$ENV{ProgramFiles\(x86\)}/Android/android-sdk/ndk-bundle\")
-    endif()
-endif()
- 
-if(NOT EXISTS \"\${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake\")
-    message(FATAL_ERROR \"Could not find android ndk. Searched at \${ANDROID_NDK_HOME}\")
-endif()
- 
-include(\"\${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake\")
- 
-if(NOT _VCPKG_ANDROID_TOOLCHAIN)
-set(_VCPKG_ANDROID_TOOLCHAIN 1)
-get_property( _CMAKE_IN_TRY_COMPILE GLOBAL PROPERTY IN_TRY_COMPILE )
-if(NOT _CMAKE_IN_TRY_COMPILE)
-    string(APPEND CMAKE_C_FLAGS \" -fPIC \${VCPKG_C_FLAGS} \")
-    string(APPEND CMAKE_CXX_FLAGS \" -fPIC \${VCPKG_CXX_FLAGS} \")
-    string(APPEND CMAKE_C_FLAGS_DEBUG \" \${VCPKG_C_FLAGS_DEBUG} \")
-    string(APPEND CMAKE_CXX_FLAGS_DEBUG \" \${VCPKG_CXX_FLAGS_DEBUG} \")
-    string(APPEND CMAKE_C_FLAGS_RELEASE \" \${VCPKG_C_FLAGS_RELEASE} \")
-    string(APPEND CMAKE_CXX_FLAGS_RELEASE \" \${VCPKG_CXX_FLAGS_RELEASE} \")
- 
-    string(APPEND CMAKE_SHARED_LINKER_FLAGS \" \${VCPKG_LINKER_FLAGS} \")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS \" \${VCPKG_LINKER_FLAGS} \")
-    string(APPEND CMAKE_SHARED_LINKER_FLAGS_DEBUG \" \${VCPKG_LINKER_FLAGS_DEBUG} \")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG \" \${VCPKG_LINKER_FLAGS_DEBUG} \")
-    string(APPEND CMAKE_SHARED_LINKER_FLAGS_RELEASE \" \${VCPKG_LINKER_FLAGS_RELEASE} \")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE \" \${VCPKG_LINKER_FLAGS_RELEASE} \")
-endif()
-endif()
-" > $VCPKG_ROOT/scripts/toolchains/android.cmake
+packegesList()
+{
+    arch=$1
+    shift
+    list_pkgs=""
+    while [ $# -gt 0 ]; do
+        if [ $arch = "armv6" ]; then
+            list_pkgs="$list_pkgs $1:armv6-android"
+        fi
+        if [ $arch = "arm" ]; then
+            list_pkgs="$list_pkgs $1:arm-android"
+        fi
+        if [ $arch = "neon" ]; then
+            list_pkgs="$list_pkgs $1:arm-android-neon"
+        fi
+        if [ $arch = "arm64" ]; then
+            list_pkgs="$list_pkgs $1:arm64-android"
+        fi
+        if [ $arch = "x86" ]; then
+            list_pkgs="$list_pkgs $1:x86-android"
+        fi
+        if [ $arch = "x86_64" ]; then
+            list_pkgs="$list_pkgs $1:x64-android"
+        fi
+        shift
+    done
+    echo $list_pkgs
 }
 
 if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
     export XDG_CACHE_HOME=$PREFIX/.cache
+    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $cache_dir
         git -C $cache_dir clone https://github.com/microsoft/vcpkg
@@ -331,47 +265,52 @@ if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
         git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
-        patchVcpkgScripts
         touch /tmp/vcpkg_updated
     fi
     if [ $arch = "armv6" ]; then
-        export ANDROID_NATIVE_API_LEVEL=16
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
-        $VCPKG_ROOT/vcpkg install rappture:armv6-android
+
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
     fi
     if [ $arch = "arm" ]; then
-        export ANDROID_NATIVE_API_LEVEL=16
         export ANDROID_NDK_HOME=$NDK_ROOT
+        export ANDROID_ARM_NEON="FALSE"
 
-        $VCPKG_ROOT/vcpkg install rappture:arm-android
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
+    fi
+    if [ $arch = "arm" ]; then
+        export ANDROID_NDK_HOME=$NDK_ROOT
+        export ANDROID_ARM_NEON="TRUE"
+
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall neon) $vcpkg_flags
     fi
     if [ $arch = "arm64" ]; then
-        export ANDROID_NATIVE_API_LEVEL=21
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install rappture:arm64-android
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
     fi
     if [ $arch = "x86" ]; then
-        export ANDROID_NATIVE_API_LEVEL=16
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install rappture:x86-android
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
     fi
     if [ $arch = "x86_64" ]; then
-        export ANDROID_NATIVE_API_LEVEL=21
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install rappture:x64-android
+        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
     fi
 
     $VCPKG_ROOT/vcpkg upgrade --no-dry-run
 fi
 
+list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi"
+
 NeonTest()
 {
     while [ $# -gt 0 ]; do
-        if [ $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
-            echo $(readelf -A $(find $ANDROID_TC/${arch}  -type f -name "$1") | grep -i neon)
+        echo "NeonTest: readelf -A" "$1"
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} "../samples" -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/${arch} "../samples" -type f -name "$1") | grep -i neon)
             echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
@@ -392,6 +331,7 @@ NeonTestLibs()
 Armv6Test()
 {
     while [ $# -gt 0 ]; do
+        echo "Armv6Test: readelf -A" "$1"
         if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
             echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch:")
             echo [ERROR] "$1" is not armv6 cpu arch
@@ -413,12 +353,12 @@ Armv6TestLibs()
 
 Armv6TestApps()
 {
-    Armv6Test boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi
+    Armv6Test $list_apps_name
 }
 
 NeonTestApps()
 {
-    NeonTest  boinc_gahp uc2 ucn multi_thread sleeper worker wrapper
+    NeonTest  $list_apps_name
 }
 
 RenameAllApps()
