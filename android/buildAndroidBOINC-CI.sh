@@ -105,11 +105,11 @@ if [ "x$cache_dir" != "x" ]; then
     fi
 else
     cd ../
-    cache_dir="$(pwd)/3rdParty/buildCache"
+    cache_dir="$(pwd)/3rdParty/buildCache/android"
     cd android/
 fi
 
-PREFIX="$cache_dir"/android-tc
+PREFIX="$cache_dir/android-tc"
 
 if [ "x$build_dir" != "x" ]; then
     if isPathCanonical "$build_dir" && [ "$build_dir" != "/" ]; then
@@ -128,9 +128,9 @@ mkdir -p "${PREFIX}"
 mkdir -p "${BUILD_DIR}"
 
 if [ "${doclean}" = "yes" ]; then
-    echo "cleaning cache"
-    rm -rf "${PREFIX}"
-    mkdir -p "${PREFIX}"
+    echo "cleaning cache dir"
+    rm -rf "${cache_dir}"
+    mkdir -p "${cache_dir}"
     echo "cleaning build dir"
     rm -rf "${BUILD_DIR}"
     mkdir -p "${BUILD_DIR}"
@@ -151,7 +151,7 @@ export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
-export VCPKG_ROOT="$cache_dir/vcpkg"
+export VCPKG_ROOT="$BUILD_DIR/vcpkg"
 export ANDROID_TC=$PREFIX
 export VERBOSE=$verbose
 export CI=$ci
@@ -255,11 +255,11 @@ packegesList()
 }
 
 if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
-    export XDG_CACHE_HOME=$PREFIX/.cache
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default"
+    export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
+    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
-        mkdir -p $cache_dir
-        git -C $cache_dir clone https://github.com/microsoft/vcpkg
+        mkdir -p $BUILD_DIR
+        git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
@@ -274,13 +274,11 @@ if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
     fi
     if [ $arch = "arm" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
-        export ANDROID_ARM_NEON="FALSE"
 
         $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
     fi
     if [ $arch = "arm" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
-        export ANDROID_ARM_NEON="TRUE"
 
         $VCPKG_ROOT/vcpkg install $(packegesToInstall neon) $vcpkg_flags
     fi
