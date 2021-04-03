@@ -6,12 +6,11 @@ BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
-BUILD_DIR = $(BOINC_DIR)/3rdParty/buildCache
-
 ifndef ANDROID
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
   BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
   VCPKG_DIR     = $(BUILD_DIR)/vcpkg/installed/x64-linux
   LINUX_LDFLAGS = libstdc++.a -lpthread
   LINUX_STDLIB  = libstdc++.a
