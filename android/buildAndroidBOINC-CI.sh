@@ -207,21 +207,28 @@ if [ ! -e "${ANDROID_TC_FLAGFILE}" ]; then
     touch ${ANDROID_TC_FLAGFILE}
 fi
 
-if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
-    wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-    tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
+if [ $arch != "armv6" -a ! -d ${PREFIX}/${arch} ]; then
+    mkdir -p ${PREFIX}/${arch}
 fi
 
-if [ ! -e "${CURL_FLAGFILE}" ]; then
-    rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
-    wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
-    tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
+if [ $build_with_vcpkg = "no" -o $arch = "armv6" ]; then
+
+    if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
+        rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
+        wget -c --no-verbose -O /tmp/openssl_${OPENSSL_VERSION}.tgz https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+        tar xzf /tmp/openssl_${OPENSSL_VERSION}.tgz --directory=$BUILD_DIR
+    fi
+
+    if [ ! -e "${CURL_FLAGFILE}" ]; then
+        rm -rf "$BUILD_DIR/curl-${CURL_VERSION}"
+        wget -c --no-verbose -O /tmp/curl_${CURL_VERSION}.tgz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz
+        tar xzf /tmp/curl_${CURL_VERSION}.tgz --directory=$BUILD_DIR
+    fi
 fi
 
 packegesToInstall()
 {
-    pkgs="rappture"
+    pkgs="rappture curl[core,openssl]"
     echo $(packegesList $1 $pkgs)
 }
 
@@ -254,7 +261,7 @@ packegesList()
     echo $list_pkgs
 }
 
-if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
+if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
     export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
@@ -301,14 +308,43 @@ if [ $component = "apps" -a $build_with_vcpkg = "yes" ]; then
     $VCPKG_ROOT/vcpkg upgrade --no-dry-run
 fi
 
-list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper wrappture_example fermi"
+vcpkgDir()
+{
+    arch=$1
+    shift
+    vcpkg_dir="$VCPKG_ROOT/installed"
+    
+    if [ $arch = "armv6" ]; then
+        vcpkg_dir="$vcpkg_dir/armv6-android"
+    elif [ $arch = "arm" ]; then
+        vcpkg_dir="$vcpkg_dir/arm-android"
+    elif [ $arch = "arm64" ]; then
+        vcpkg_dir="$vcpkg_dir/arm64-android"
+    elif [ $arch = "x86" ]; then
+        vcpkg_dir="$vcpkg_dir/x86-android"
+    elif [ $arch = "x86_64" ]; then
+        vcpkg_dir="$vcpkg_dir/x64-android"
+    fi
+
+    echo $vcpkg_dir
+}
+
+list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper"
+
+if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+    list_apps_name="$list_apps_name wrappture_example fermi"
+fi
 
 NeonTest()
 {
     while [ $# -gt 0 ]; do
         echo "NeonTest: readelf -A" "$1"
-        if [ $(readelf -A $(find $ANDROID_TC/${arch} "../samples" -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
-            echo $(readelf -A $(find $ANDROID_TC/${arch} "../samples" -type f -name "$1") | grep -i neon)
+        vcpkg_dir_search=""
+        if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+            vcpkg_dir_search=$(vcpkgDir $arch)
+        fi
+        if [ $(readelf -A $(find $ANDROID_TC/${arch} "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/${arch} "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i neon)
             echo [ERROR] "$1" contains neon optimization
             exit 1
         fi
@@ -330,8 +366,12 @@ Armv6Test()
 {
     while [ $# -gt 0 ]; do
         echo "Armv6Test: readelf -A" "$1"
-        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch: v6" | head -c1 | wc -c) -eq 0 ]; then
-            echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" -type f -name "$1") | grep -i "Tag_CPU_arch:")
+        vcpkg_dir_search=""
+        if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+            vcpkg_dir_search=$(vcpkgDir $arch)
+        fi
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i -E "Tag_CPU_arch: (v6|v5TE)" | head -c1 | wc -c) -eq 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i "Tag_CPU_arch:")
             echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi
@@ -362,15 +402,19 @@ NeonTestApps()
 RenameAllApps()
 {
     list_apps="../samples/condor/ boinc_gahp
-                ../samples/example_app/ uc2 
+                ../samples/example_app/ uc2
                 ../samples/example_app/ ucn
                 ../samples/multi_thread/ multi_thread
                 ../samples/sleeper/ sleeper
                 ../samples/worker/ worker
                 ../samples/wrapper/ wrapper
+                "
+if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+    list_apps="$list_apps
                 ../samples/wrappture/ wrappture_example
                 ../samples/wrappture/ fermi
                 "
+fi
 
     RenameApp $1 $list_apps
 }

@@ -46,7 +46,7 @@ else
     MAKE_FLAGS1="$MAKE_FLAGS -j $NPROC_USER"
 fi
 
-if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
+if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ]; then

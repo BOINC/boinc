@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [manager, libs, apps]
+        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         if: ${{ success() && matrix.type == 'manager' }}
         run:  |
           ./android/ci_build_manager.sh
-      
+
       - name: Build libs
         if: ${{ success() && matrix.type == 'libs' }}
         run: ./android/ci_build_libraries.sh
@@ -46,6 +46,18 @@ jobs:
       - name: Build apps
         if: ${{ success() && matrix.type == 'apps' }}
         run: ./android/ci_build_apps.sh
+
+      - name: Build vcpkg manager
+        if: ${{ success() && matrix.type == 'manager-vcpkg' }}
+        run: ./android/ci_build_vcpkg_manager.sh
+
+      - name: Build vcpkg libs
+        if: ${{ success() && matrix.type == 'libs-vcpkg' }}
+        run: ./android/ci_build_vcpkg_libraries.sh
+
+      - name: Build vcpkg apps
+        if: ${{ success() && matrix.type == 'apps-vcpkg' }}
+        run: ./android/ci_build_vcpkg_apps.sh
 
       - name: Deploy to BinTray
         if: ${{ success() && ! contains(matrix.type, 'libs') }}

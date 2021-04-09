@@ -210,6 +210,12 @@ case $TYPE in
     android_apps)
         prepare_android_apps
     ;;
+    android_manager-vcpkg)
+        prepare_android_manager
+    ;;
+    android_apps-vcpkg)
+        prepare_android_apps
+    ;;
     *)
         echo "unrecognized BOINC_TYPE $key"
         exit 1

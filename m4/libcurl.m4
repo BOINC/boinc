@@ -73,36 +73,36 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
      AC_PATH_PROG([_libcurl_config],[curl-config])
      if test x$_libcurl_config != "x" ; then
         AC_CACHE_CHECK([for the version of libcurl],
-	   [libcurl_cv_lib_curl_version],
+           [libcurl_cv_lib_curl_version],
            [libcurl_cv_lib_curl_version=`$_libcurl_config --version | $AWK '{print $[]2}'`])
 
-	_libcurl_version=`echo $libcurl_cv_lib_curl_version | $_libcurl_version_parse`
-	_libcurl_wanted=`echo ifelse([$2],,[0],[$2]) | $_libcurl_version_parse`
+        _libcurl_version=`echo $libcurl_cv_lib_curl_version | $_libcurl_version_parse`
+        _libcurl_wanted=`echo ifelse([$2],,[0],[$2]) | $_libcurl_version_parse`
 
         if test $_libcurl_wanted -gt 0 ; then
-	   AC_CACHE_CHECK([for libcurl >= version $2],
-	      [libcurl_cv_lib_version_ok],
+           AC_CACHE_CHECK([for libcurl >= version $2],
+              [libcurl_cv_lib_version_ok],
               [
-   	      if test $_libcurl_version -ge $_libcurl_wanted ; then
-	         libcurl_cv_lib_version_ok=yes
-      	      else
-	         libcurl_cv_lib_version_ok=no
-  	      fi
+                 if test $_libcurl_version -ge $_libcurl_wanted ; then
+                 libcurl_cv_lib_version_ok=yes
+                    else
+                 libcurl_cv_lib_version_ok=no
+                fi
               ])
         fi
 
-	if test $_libcurl_wanted -eq 0 || test x$libcurl_cv_lib_version_ok = xyes ; then
+        if test $_libcurl_wanted -eq 0 || test x$libcurl_cv_lib_version_ok = xyes ; then
            if test x"$LIBCURL_CPPFLAGS" = "x" ; then
               LIBCURL_CPPFLAGS=`$_libcurl_config --cflags`
            fi
 
            if test x"$LIBCURL" = "x" ; then
-	      if test "x${disable_static_linkage}" = "xno" ; then
-	        if $_libcurl_config --static-libs 2>&1 > /dev/null ; then
-	          LIBCURL="`$_libcurl_config --static-libs`"
+              if test "x${disable_static_linkage}" = "xno" ; then
+                if $_libcurl_config --static-libs 2>&1 > /dev/null ; then
+                  LIBCURL="`$_libcurl_config --static-libs`"
                 fi
-	      fi
-	   fi
+              fi
+           fi
 
            if test x"$LIBCURL" = "x" ; then
               LIBCURL="`$_libcurl_config --libs`"
@@ -117,27 +117,30 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
               fi
 
               # This is so silly, but Apple actually has a bug in their
-	      # curl-config script.  Fixed in Tiger, but there are still
-	      # lots of Panther installs around.
+              # curl-config script.  Fixed in Tiger, but there are still
+              # lots of Panther installs around.
               case "${host}" in
                  powerpc-apple-darwin7*)
                     LIBCURL=`echo $LIBCURL | sed -e 's|-arch i386||g'`
-		    ;;
+                    ;;
+                 armv6-*)
+                    LIBCURL="-lcurl -lssl -lcrypto -lz -latomic"
+                    ;;
               esac
            fi
 
-	   # All curl-config scripts support --feature
-	   _libcurl_features=`$_libcurl_config --feature`
+           # All curl-config scripts support --feature
+           _libcurl_features=`$_libcurl_config --feature`
 
            # Is it modern enough to have --protocols? (7.12.4)
-	   if test $_libcurl_version -ge 461828 ; then
+           if test $_libcurl_version -ge 461828 ; then
               _libcurl_protocols=`$_libcurl_config --protocols`
            fi
-	else
+        else
            _libcurl_try_link=no
-	fi
+        fi
 
-	unset _libcurl_wanted
+        unset _libcurl_wanted
      fi
 
      # do we need the ldap libraries?
@@ -152,7 +155,7 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
      # some curl configs have the ber and ldap libraries in the wrong order, 
      # so lets add -lber after -lldap.  
      if test "x`echo $LIBCURL | grep ldap`" != "x" -a \
-	     "x`echo $LIBCURL | grep lber`" != "x" ; then
+             "x`echo $LIBCURL | grep lber`" != "x" ; then
        AC_CHECK_LIB([lber],[ber_scanf],
          LIBCURL="`echo $LIBCURL | sed -e 's/ldap /ldap -llber /'`"
        )
@@ -209,8 +212,8 @@ x=CURLOPT_VERBOSE;
 
         if test $libcurl_cv_lib_curl_usable = yes ; then
 
-	   # Does curl_free() exist in this version of libcurl?
-	   # If not, fake it with free()
+           # Does curl_free() exist in this version of libcurl?
+           # If not, fake it with free()
 
            _libcurl_save_cppflags=$CPPFLAGS
            CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
@@ -218,8 +221,8 @@ x=CURLOPT_VERBOSE;
            LIBS="$LIBS $LIBCURL"
 
            AC_CHECK_FUNC(curl_free,,
-  	      AC_DEFINE(curl_free,free,
-		[Define curl_free() as free() if our version of curl lacks curl_free.]))
+                AC_DEFINE(curl_free,free,
+                [Define curl_free() as free() if our version of curl lacks curl_free.]))
 
            CPPFLAGS=$_libcurl_save_cppflags
            LIBS=$_libcurl_save_libs
@@ -232,36 +235,36 @@ x=CURLOPT_VERBOSE;
            AC_SUBST(LIBCURL)
 
            for _libcurl_feature in $_libcurl_features ; do
-	      AC_DEFINE_UNQUOTED(AS_TR_CPP(libcurl_feature_$_libcurl_feature),[1])
-	      eval AS_TR_SH(libcurl_feature_$_libcurl_feature)=yes
+              AC_DEFINE_UNQUOTED(AS_TR_CPP(libcurl_feature_$_libcurl_feature),[1])
+              eval AS_TR_SH(libcurl_feature_$_libcurl_feature)=yes
            done
 
-	   if test x$libcurl_feature_SSL = xyes ; then
-	      LIBCURL_CABUNDLE=`$_libcurl_config --ca 2>/dev/null`
+           if test x$libcurl_feature_SSL = xyes ; then
+              LIBCURL_CABUNDLE=`$_libcurl_config --ca 2>/dev/null`
               AC_DEFINE_UNQUOTED(LIBCURL_CABUNDLE,"${LIBCURL_CABUNDLE}",[Define to the name of libcurl's certification file])
            fi
 
 
-	   if test "x$_libcurl_protocols" = "x" ; then
+           if test "x$_libcurl_protocols" = "x" ; then
 
-	      # We don't have --protocols, so just assume that all
-	      # protocols are available
-	      _libcurl_protocols="HTTP FTP GOPHER FILE TELNET LDAP DICT"
+              # We don't have --protocols, so just assume that all
+              # protocols are available
+              _libcurl_protocols="HTTP FTP GOPHER FILE TELNET LDAP DICT"
 
-	      if test x$libcurl_feature_SSL = xyes ; then
-	         _libcurl_protocols="$_libcurl_protocols HTTPS"
+              if test x$libcurl_feature_SSL = xyes ; then
+                 _libcurl_protocols="$_libcurl_protocols HTTPS"
 
-		 # FTPS wasn't standards-compliant until version
-		 # 7.11.0
-		 if test $_libcurl_version -ge 461568; then
-		    _libcurl_protocols="$_libcurl_protocols FTPS"
-		 fi
-	      fi
-	   fi
+                 # FTPS wasn't standards-compliant until version
+                 # 7.11.0
+                 if test $_libcurl_version -ge 461568; then
+                    _libcurl_protocols="$_libcurl_protocols FTPS"
+                 fi
+              fi
+           fi
 
-	   for _libcurl_protocol in $_libcurl_protocols ; do
-	      AC_DEFINE_UNQUOTED(AS_TR_CPP(libcurl_protocol_$_libcurl_protocol),[1])
-	      eval AS_TR_SH(libcurl_protocol_$_libcurl_protocol)=yes
+           for _libcurl_protocol in $_libcurl_protocols ; do
+              AC_DEFINE_UNQUOTED(AS_TR_CPP(libcurl_protocol_$_libcurl_protocol),[1])
+              eval AS_TR_SH(libcurl_protocol_$_libcurl_protocol)=yes
            done
         fi
      fi

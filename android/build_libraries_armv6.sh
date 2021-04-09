@@ -7,7 +7,7 @@ set -e
 
 # Script to compile various BOINC libraries for Android to be used
 # by science applications
-
+BUILD_WITH_VCPKG="no"
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"
@@ -22,6 +22,18 @@ export ANDROIDTC="${ANDROID_TC_ARMV6:-$ANDROID_TC/armv6}"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
+export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
+
+CONFIG_FLAGS=""
+CONFIG_LDFLAGS=""
+
+if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+    CONFIG_FLAGS="--with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-vcpkg"
+else
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES"
+    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+fi
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
@@ -29,7 +41,7 @@ export CXX=arm-linux-androideabi-clang++
 export LD=arm-linux-androideabi-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
+export LDFLAGS="$CONFIG_LDFLAGS -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
@@ -63,7 +75,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-client --disable-shared --enable-static --disable-largefile --enable-boinczip
+        ./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" $CONFIG_FLAGS --disable-server --disable-manager --disable-client --disable-shared --enable-static --disable-largefile --enable-boinczip
         sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
         mv client/Makefile.out client/Makefile
     fi
