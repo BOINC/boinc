@@ -6,18 +6,18 @@ if [ ! -d "linux" ]; then
     exit 1
 fi
 
-cache_dir="$PWD/3rdParty/buildCache/linux"
-build_dir="$PWD/3rdParty/linux"
-vcpkg_root="$build_dir/vcpkg"
+CACHE_DIR="$PWD/3rdParty/buildCache/linux"
+BUILD_DIR="$PWD/3rdParty/linux"
+VCPKG_ROOT="$BUILD_DIR/vcpkg"
 
-export XDG_CACHE_HOME=$cache_dir/vcpkgcache
+export XDG_CACHE_HOME=$CACHE_DIR/vcpkgcache
 
-if [ ! -d $vcpkg_root ]; then
-    mkdir -p $build_dir
-    git -C $build_dir clone https://github.com/microsoft/vcpkg
+if [ ! -d $VCPKG_ROOT ]; then
+    mkdir -p $BUILD_DIR
+    git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
 fi
 
-git -C $vcpkg_root pull
-$vcpkg_root/bootstrap-vcpkg.sh
-$vcpkg_root/vcpkg install rappture --clean-after-build
-$vcpkg_root/vcpkg upgrade --no-dry-run
+git -C $VCPKG_ROOT pull
+$VCPKG_ROOT/bootstrap-vcpkg.sh
+$VCPKG_ROOT/vcpkg install rappture curl[core,openssl] --clean-after-build
+$VCPKG_ROOT/vcpkg upgrade --no-dry-run

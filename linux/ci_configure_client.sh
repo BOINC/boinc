@@ -15,4 +15,4 @@ linux/update_vcpkg.sh
 
 chmod +x "$VCPKG_DIR/share/curl/curl-config"
 export _libcurl_config="$VCPKG_DIR/share/curl/curl-config"
-./configure --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-apps --disable-server --disable-client --disable-manager
+./configure --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager

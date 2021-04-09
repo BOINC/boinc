@@ -123,6 +123,9 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
                  powerpc-apple-darwin7*)
                     LIBCURL=`echo $LIBCURL | sed -e 's|-arch i386||g'`
                     ;;
+                 x86_64-pc-linux-gnu)
+                    LIBCURL=`echo $LIBCURL -ldl`
+                    ;;                    
                  armv6-*)
                     LIBCURL="-lcurl -lssl -lcrypto -lz -latomic"
                     ;;
