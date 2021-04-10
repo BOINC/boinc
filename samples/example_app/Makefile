@@ -6,21 +6,20 @@ BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 FREETYPE_DIR = /usr/include/freetype2
 
-ifndef ANDROID
-  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
-  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
-
-  LINUX_LDFLAGS = -lpthread libstdc++.a
-  LINUX_STDLIB  = libstdc++.a
-
-else
+ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
   BOINC_ZIP_DIR = $(TCINCLUDES)/lib
 
-  LINUX_LDFLAGS = 
-  LINUX_STDLIB  = 
+  MAKEFILE_LDFLAGS = 
+  MAKEFILE_STDLIB  = 
+else
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+
+  MAKEFILE_LDFLAGS = -lpthread libstdc++.a
+  MAKEFILE_STDLIB  = libstdc++.a
 endif
 
 CXXFLAGS += -g \
@@ -79,14 +78,14 @@ install: uc2
 # specify library paths explicitly (rather than -l)
 # because otherwise you might get a version in /usr/lib etc.
 
-uc2: uc2.o $(LINUX_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+uc2: uc2.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o uc2 uc2.o \
-	-lboinc_api -lboinc $(LINUX_LDFLAGS) \
+	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
 	$(STDCPPTC)
 
-ucn: ucn.o $(LINUX_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+ucn: ucn.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o ucn ucn.o \
-	-lboinc_api -lboinc $(LINUX_LDFLAGS) \
+	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
 	$(STDCPPTC)
 
 uc2_graphics: uc2_graphics.o ttfont.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a

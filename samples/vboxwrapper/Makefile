@@ -6,20 +6,20 @@ BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
-ifndef ANDROID
-  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
-  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
-
-  LINUX_LDFLAGS = libstdc++.a -lpthread
-  LINUX_STDLIB  = libstdc++.a
-else
+ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
   BOINC_ZIP_DIR = $(TCINCLUDES)/lib
 
-  LINUX_LDFLAGS = 
-  LINUX_STDLIB  = 
+  MAKEFILE_LDFLAGS = 
+  MAKEFILE_STDLIB  = 
+else
+  BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
+  BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
+  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
+
+  MAKEFILE_LDFLAGS = libstdc++.a -lpthread
+  MAKEFILE_STDLIB  = libstdc++.a
 endif
 
 CXXFLAGS += -g \
@@ -64,5 +64,5 @@ vboxlogging.o: vboxlogging.cpp
 vboxwrapper.o: vboxwrapper.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxwrapper.cpp
 
-vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(LINUX_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(LINUX_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
