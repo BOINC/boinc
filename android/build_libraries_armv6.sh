@@ -7,7 +7,7 @@ set -e
 
 # Script to compile various BOINC libraries for Android to be used
 # by science applications
-BUILD_WITH_VCPKG="no"
+
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"

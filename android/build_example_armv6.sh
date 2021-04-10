@@ -2,7 +2,7 @@
 set -e
 
 #script to compile Example for Android
-BUILD_WITH_VCPKG="no"
+
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 COMPILEBOINC="yes"
 CONFIGURE="yes"

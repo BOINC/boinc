@@ -6,7 +6,7 @@ set -e
 #
 
 # Script to compile OpenSSL for Android
-BUILD_WITH_VCPKG="no"
+
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
