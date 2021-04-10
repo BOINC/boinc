@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -41,24 +41,36 @@ jobs:
           restore-keys: linux-${{ matrix.type }}-
 
       - name: Automake
-        if: ${{ success() }}
+        if: success()
         run: ./_autosetup
 
       - name: Configure libs
-        if: ${{ success() && matrix.type == 'libs' }}
+        if: success() && matrix.type == 'libs'
         run: ./configure --disable-server --disable-client --disable-manager
 
-      - name: Configure server
-        if: ${{ success() && matrix.type == 'server' }}
-        run: ./configure --enable-server --disable-client --disable-manager
-
       - name: Configure client
-        if: ${{ success() && matrix.type == 'client' }}
+        if: success() && matrix.type == 'client'
         run: ./configure --disable-server --enable-client --disable-manager
 
       - name: Configure apps
         if: success() && matrix.type == 'apps'
+        run: ./configure --enable-apps --disable-server --disable-client --disable-manager
+
+      - name: Configure vcpkg libs
+        if: success() && matrix.type == 'libs-vcpkg'
+        run: linux/ci_configure_libs.sh
+
+      - name: Configure vcpkg client
+        if: success() && matrix.type == 'client-vcpkg'
+        run: linux/ci_configure_client.sh
+
+      - name: Configure vcpkg apps
+        if: success() && matrix.type == 'apps-vcpkg'
         run: linux/ci_configure_apps.sh
+
+      - name: Configure server
+        if: success() && matrix.type == 'server'
+        run: ./configure --enable-server --disable-client --disable-manager
 
       - name: Configure manager with webview
         if: success() && matrix.type == 'manager-with-webview'
@@ -85,7 +97,7 @@ jobs:
         run: ./integration_test/executeTestSuite.sh
 
       - name: Deploy to BinTray
-        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
         env:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
