@@ -34,21 +34,29 @@ int GUI_HTTP::do_rpc(
     GUI_HTTP_OP* op, const char* url, const char* output_file, bool is_bkgd
 ) {
     int retval;
-
+    printf("GUI_HTTP::do_rpc 1\n");
     // this check should be done at a higher level.
     // Do it here too just in case
     //
     if (gui_http_state != GUI_HTTP_STATE_IDLE) {
+        printf("GUI_HTTP::do_rpc 1.1\n");
         return ERR_RETRY;
     }
-
+    printf("GUI_HTTP::do_rpc 2\n");
     boinc_delete_file(output_file);
+    printf("GUI_HTTP::do_rpc 3\n");
     retval = http_op.init_get(0, url, output_file, true, 0, 0);
+    printf("GUI_HTTP::do_rpc 4\n");
     if (retval) return retval;
+    printf("GUI_HTTP::do_rpc 5\n");
     gstate.http_ops->insert(&http_op);
+    printf("GUI_HTTP::do_rpc 6\n");
     gui_http_op = op;
+    printf("GUI_HTTP::do_rpc 7\n");
     gui_http_state = GUI_HTTP_STATE_BUSY;
+    printf("GUI_HTTP::do_rpc 8\n");
     http_op.is_background = is_bkgd;
+    printf("GUI_HTTP::do_rpc 9\n");
     return 0;
 }
 

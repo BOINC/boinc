@@ -832,7 +832,7 @@ int CLIENT_STATE::init() {
     // and initialize notice RSS feeds
     //
     if (!cc_config.no_info_fetch) {
-        printf("tal 1");
+        printf("tal 1\n");
         all_projects_list_check();
         notices.init_rss();
     }

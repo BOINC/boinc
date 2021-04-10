@@ -221,18 +221,26 @@ int libcurl_debugfunction(
 }
 
 void HTTP_OP::init(PROJECT* p) {
+    printf("HTTP_OP::init 1\n");
     reset();
+    printf("HTTP_OP::init 2\n");
     start_time = gstate.now;
     start_bytes_xferred = 0;
     project = p;
+    printf("HTTP_OP::init 3\n");
 }
 
 void HTTP_OP::reset() {
+    printf("HTTP_OP::reset 1\n");
     req1 = NULL;
     req1_len = 0;
+    printf("HTTP_OP::reset 2\n");
     safe_strcpy(infile, "");
+    printf("HTTP_OP::reset 3\n");
     safe_strcpy(outfile, "");
+    printf("HTTP_OP::reset 4\n");
     safe_strcpy(error_msg, "");
+    printf("HTTP_OP::reset 5\n");
     CurlResult = CURLE_OK;
     bTempOutfile = true;
     want_download = false;
@@ -246,7 +254,9 @@ void HTTP_OP::reset() {
     start_bytes_xferred = 0;
     bSentHeader = false;
     project = 0;
+    printf("HTTP_OP::reset 6\n");
     close_socket();
+    printf("HTTP_OP::reset 7\n");
 }
 
 
@@ -284,22 +294,32 @@ int HTTP_OP::init_get(
     PROJECT* p, const char* url, const char* out, bool del_old_file,
     double off, double size
 ) {
+    printf("HTTP_OP::init_get 1\n");
     if (del_old_file) {
+        printf("HTTP_OP::init_get 1.1\n");
         unlink(out);
     }
+    printf("HTTP_OP::init_get 2\n");
     req1 = NULL;  // not using req1, but init_post2 uses it
     file_offset = off;
+    printf("HTTP_OP::init_get 3\n");
     HTTP_OP::init(p);
+    printf("HTTP_OP::init_get 4\n");
     // usually have an outfile on a get
     if (off != 0) {
+        printf("HTTP_OP::init_get 5\n");
         bytes_xferred = off;
         start_bytes_xferred = off;
     }
+    printf("HTTP_OP::init_get 6\n");
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
+    printf("HTTP_OP::init_get 7\n");
     if (log_flags.http_debug) {
+        printf("HTTP_OP::init_get 7.1\n");
         msg_printf(project, MSG_INFO, "[http] HTTP_OP::init_get(): %s", url);
     }
+    printf("HTTP_OP::init_get 8\n");
     return HTTP_OP::libcurl_exec(url, NULL, out, off, size, false);
 }
 
@@ -418,40 +438,54 @@ int HTTP_OP::libcurl_exec(
 #endif
     bool is_post
 ) {
+    printf("HTTP_OP::libcurl_exec 1\n");
     CURLMcode curlMErr;
     char buf[256];
     static int outfile_seqno=0;
-
+    printf("HTTP_OP::libcurl_exec 2\n");
     if (g_user_agent_string[0] == 0x00) {
+        printf("HTTP_OP::libcurl_exec 2.1\n");
         get_user_agent_string();
     }
-
+    printf("HTTP_OP::libcurl_exec 3\n");
     if (in) {
+        printf("HTTP_OP::libcurl_exec 3.1\n");
         safe_strcpy(infile, in);
     }
+    printf("HTTP_OP::libcurl_exec 4\n");
     if (out) {
+        printf("HTTP_OP::libcurl_exec 4.1\n");
         bTempOutfile = false;
         safe_strcpy(outfile, out);
+        printf("HTTP_OP::libcurl_exec 4.2\n");
     } else {
+        printf("HTTP_OP::libcurl_exec 4.3\n");
         // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
         snprintf(outfile, sizeof(outfile), "http_temp_%d", outfile_seqno++);
+        printf("HTTP_OP::libcurl_exec 4.4\n");
     }
-
+    printf("HTTP_OP::libcurl_exec 5\n");
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
+    printf("HTTP_OP::libcurl_exec 6\n");
     if (!curlEasy) {
+        printf("HTTP_OP::libcurl_exec 6.1\n");
         if (log_flags.http_debug) {
+            printf("HTTP_OP::libcurl_exec 6.1.1\n");
             msg_printf(project, MSG_INFO, "Couldn't create curlEasy handle");
+            printf("HTTP_OP::libcurl_exec 1\n");
         }
+        printf("HTTP_OP::libcurl_exec 6.2\n");
         return ERR_HTTP_TRANSIENT; // returns 0 (CURLM_OK) on successful handle creation
     }
-
+    printf("HTTP_OP::libcurl_exec 7\n");
     // the following seems to be a no-op
     // curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
-
+    printf("HTTP_OP::libcurl_exec 8\n");
     string_substitute(url, m_url, sizeof(m_url), " ", "%20");
+    printf("HTTP_OP::libcurl_exec 9\n");
     curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
-
+    printf("HTTP_OP::libcurl_exec 10\n");
     // This option determines whether curl verifies that the server
     // claims to be who you want it to be.
     // When negotiating an SSL connection,
@@ -472,7 +506,8 @@ int HTTP_OP::libcurl_exec(
     // the server claims. The server could be lying.
     // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
-    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+    printf("HTTP_OP::libcurl_exec 11\n");
+    curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);    
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 0);
 
     // the following sets "tough" certificate checking
@@ -481,6 +516,7 @@ int HTTP_OP::libcurl_exec(
     // (cert not 3rd party trusted)
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
+    printf("HTTP_OP::libcurl_exec 12\n");
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
@@ -530,50 +566,65 @@ int HTTP_OP::libcurl_exec(
         }
     }
 #else
+    printf("HTTP_OP::libcurl_exec 13\n");
     if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
+        printf("HTTP_OP::libcurl_exec 13.1\n");
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
         //
         curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
     }
+    printf("HTTP_OP::libcurl_exec 14\n");
 #endif
-
+    printf("HTTP_OP::libcurl_exec 15\n");
     // set the user agent as this boinc client & version
     //
     curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
-
+    printf("HTTP_OP::libcurl_exec 16\n");
     // bypass any signal handlers that curl may want to install
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
+    printf("HTTP_OP::libcurl_exec 17\n");
 
     // bypass progress meter
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
-
+    printf("HTTP_OP::libcurl_exec 18\n");
 #ifndef _WIN32
     // arrange for a function to get called between socket() and connect()
     // so that we can mark the socket as close-on-exec
     //
+    printf("HTTP_OP::libcurl_exec 19\n");
     curl_easy_setopt(curlEasy, CURLOPT_SOCKOPTFUNCTION, set_cloexec);
+    printf("HTTP_OP::libcurl_exec 20\n");
 #endif
     // setup timeouts
     //
+    printf("HTTP_OP::libcurl_exec 21\n");
     curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
+    printf("HTTP_OP::libcurl_exec 22\n");
     curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, cc_config.http_transfer_timeout_bps);
+    printf("HTTP_OP::libcurl_exec 23\n");
     curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, cc_config.http_transfer_timeout);
+    printf("HTTP_OP::libcurl_exec 24\n");
     curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
-
+    printf("HTTP_OP::libcurl_exec 25\n");
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
     if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm") || got_expectation_failed) {
+        printf("HTTP_OP::libcurl_exec 25.1\n");
         curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
+    printf("HTTP_OP::libcurl_exec 26\n");
     curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
+    printf("HTTP_OP::libcurl_exec 27\n");
     curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
+    printf("HTTP_OP::libcurl_exec 28\n");
     curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
+    printf("HTTP_OP::libcurl_exec 29\n");
     curl_easy_setopt(curlEasy, CURLOPT_POST301, 1L);
-
+    printf("HTTP_OP::libcurl_exec 30\n");
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
     // use gzip at the application level.
@@ -582,82 +633,106 @@ int HTTP_OP::libcurl_exec(
     // Per: http://curl.haxx.se/dev/readme-encoding.html
     // NULL disables, empty string accepts all.
     if (out) {
+        printf("HTTP_OP::libcurl_exec 30.1\n");
         if (ends_with(out, ".gzt") || ends_with(out, ".gz") || ends_with(out, ".tgz")) {
+            printf("HTTP_OP::libcurl_exec 30.1.1\n");
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
         } else {
+            printf("HTTP_OP::libcurl_exec 30.1.2\n");
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
         }
     } else {
+        printf("HTTP_OP::libcurl_exec 30.2\n");
         curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
-
+    printf("HTTP_OP::libcurl_exec 31\n");
     // setup any proxy they may need
     //
     setup_proxy_session(no_proxy_for_url(url));
-
+    printf("HTTP_OP::libcurl_exec 32\n");
     if (strlen(gstate.language)) {
+        printf("HTTP_OP::libcurl_exec 32.1\n");
         snprintf(buf, sizeof(buf), "Accept-Language: %s", gstate.language);
         pcurlList = curl_slist_append(pcurlList, buf);
     }
-
+    printf("HTTP_OP::libcurl_exec 33\n");
     // set the file offset for resumable downloads
     //
     if (!is_post && offset>0.0f) {
+        printf("HTTP_OP::libcurl_exec 33.1\n");
         file_offset = offset;
         snprintf(buf, sizeof(buf), "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, buf);
     }
-
+    printf("HTTP_OP::libcurl_exec 34\n");
     // set up an output file for the reply
     //
     if (strlen(outfile)) {
+        printf("HTTP_OP::libcurl_exec 34.1\n");
         if (file_offset > 0) {
+            printf("HTTP_OP::libcurl_exec 34.1.1\n");
             fileOut = boinc_fopen(outfile, "ab+");
         } else {
 #ifdef _WIN32
             // on Win, pre-allocate big files to avoid fragmentation
             //
+            printf("HTTP_OP::libcurl_exec 34.2\n");
             if (size > 1e6) {
+                printf("HTTP_OP::libcurl_exec 34.2.1\n");
                 boinc_allocate_file(outfile, size);
             }
+            printf("HTTP_OP::libcurl_exec 34.3\n");
 #endif
+            printf("HTTP_OP::libcurl_exec 34.4\n");
             fileOut = boinc_fopen(outfile, "wb+");
         }
+        printf("HTTP_OP::libcurl_exec 35\n");
         if (!fileOut) {
+            printf("HTTP_OP::libcurl_exec 35.1\n");
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Can't create HTTP response output file %s", outfile
             );
             http_op_retval = ERR_FOPEN;
             http_op_state = HTTP_STATE_DONE;
+            printf("HTTP_OP::libcurl_exec 35.2\n");
             return ERR_FOPEN;
         }
+        printf("HTTP_OP::libcurl_exec 36\n");
         // we can make the libcurl_write "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
         //
+        printf("HTTP_OP::libcurl_exec 37\n");
         curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION, libcurl_write);
         // note that in my lib_write I'm sending in a pointer
         // to this instance of HTTP_OP
         //
+        printf("HTTP_OP::libcurl_exec 38\n");
         curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
+        printf("HTTP_OP::libcurl_exec 39\n");
     }
-
+    printf("HTTP_OP::libcurl_exec 40\n");
     if (is_post) {
+        printf("HTTP_OP::libcurl_exec 40.1\n");
         want_upload = true;
         want_download = false;
         if (infile && strlen(infile)>0) {
+            printf("HTTP_OP::libcurl_exec 40.1.1\n");
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
+                printf("HTTP_OP::libcurl_exec 40.1.1.1\n");
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "No HTTP input file %s", infile);
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
+                printf("HTTP_OP::libcurl_exec 40.1.1.2\n");
                 return ERR_FOPEN;
             }
         }
-
+        printf("HTTP_OP::libcurl_exec 40.2\n");
         if (pcurlList) { // send custom headers if required
+            printf("HTTP_OP::libcurl_exec 40.2.1\n");
             curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
-
+        printf("HTTP_OP::libcurl_exec 40.3\n");
         // set the data file info to read for the PUT/POST
         // note the use of this curl typedef for large filesizes
 
@@ -670,7 +745,7 @@ int HTTP_OP::libcurl_exec(
         curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE_LARGE, fs);
         curl_easy_setopt(curlEasy, CURLOPT_PUT, 1L);
 #endif
-
+        printf("HTTP_OP::libcurl_exec 40.4\n");
         // HTTP POST method
         // set the multipart form for the file --
         // boinc just has the one section (file)
@@ -691,7 +766,7 @@ int HTTP_OP::libcurl_exec(
         );
         curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
 #endif
-
+        printf("HTTP_OP::libcurl_exec 40.5\n");
         curl_off_t fs = (curl_off_t) content_length;
 
         pByte = NULL;
@@ -701,31 +776,40 @@ int HTTP_OP::libcurl_exec(
         // for now it just fwrite's to the file request, which is sufficient
         //
         curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
+        printf("HTTP_OP::libcurl_exec 40.6\n");
         curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDSIZE_LARGE, fs);
+        printf("HTTP_OP::libcurl_exec 40.7\n");
         curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION, libcurl_read);
+        printf("HTTP_OP::libcurl_exec 40.8\n");
         // in my lib_write I'm sending in a pointer to this instance of HTTP_OP
         //
         curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
-
+        printf("HTTP_OP::libcurl_exec 40.9\n");
         // callback function to rewind input file
         //
         curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
+        printf("HTTP_OP::libcurl_exec 40.10\n");
         curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
+        printf("HTTP_OP::libcurl_exec 40.11\n");
 
         curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
+        printf("HTTP_OP::libcurl_exec 40.12\n");
     } else {  // GET
+        printf("HTTP_OP::libcurl_exec 40.13\n");
         want_upload = false;
         want_download = true;
 
         // now write the header, pcurlList gets freed in net_xfer_curl
         //
         if (pcurlList) { // send custom headers if required
+            printf("HTTP_OP::libcurl_exec 40.14\n");
             curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
-
+        printf("HTTP_OP::libcurl_exec 40.15\n");
         // setup the GET!
         //
         curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
+        printf("HTTP_OP::libcurl_exec 40.16\n");
     }
 
 #ifdef __APPLE__
@@ -738,24 +822,28 @@ int HTTP_OP::libcurl_exec(
 
     // turn on debug info if tracing enabled
     //
+    printf("HTTP_OP::libcurl_exec 41\n");
     if (log_flags.http_debug) {
+        printf("HTTP_OP::libcurl_exec 41.1\n");
         curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
         curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
     }
-
+    printf("HTTP_OP::libcurl_exec 42\n");
     // last but not least, add this to the curl_multi
-
+    printf("HTTP_OP::libcurl_exec 43\n");
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) {
+        printf("HTTP_OP::libcurl_exec 43.1\n");
         // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_INTERNAL_ERROR,
             "Couldn't add curlEasy handle to curlMulti"
         );
+        printf("HTTP_OP::libcurl_exec 43.2\n");
         return ERR_HTTP_TRANSIENT;
         // returns 0 (CURLM_OK) on successful handle creation
     }
-
+    printf("HTTP_OP::libcurl_exec 44\n");
     return 0;
 }
 
@@ -919,20 +1007,32 @@ int curl_cleanup() {
 void HTTP_OP::close_socket() {
     // this cleans up the curlEasy, and "spoofs" the old close_socket
     //
+    printf("HTTP_OP::close_socket 1\n");
     if (pcurlList) {
+        printf("HTTP_OP::close_socket 1.1\n");
         curl_slist_free_all(pcurlList);
+        printf("HTTP_OP::close_socket 1.2\n");
         pcurlList = NULL;
     }
+    printf("HTTP_OP::close_socket 2\n");
     if (curlEasy && pcurlFormStart) {
+        printf("HTTP_OP::close_socket 2.1\n");
         curl_formfree(pcurlFormStart);
+        printf("HTTP_OP::close_socket 2.2\n");
         curl_formfree(pcurlFormEnd);
+        printf("HTTP_OP::close_socket 2.3\n");
         pcurlFormStart = pcurlFormEnd = NULL;
     }
+    printf("HTTP_OP::close_socket 4\n");
     if (curlEasy && g_curlMulti) {  // release this handle
+        printf("HTTP_OP::close_socket 4.1\n");
         curl_multi_remove_handle(g_curlMulti, curlEasy);
+        printf("HTTP_OP::close_socket 4.2\n");
         curl_easy_cleanup(curlEasy);
+        printf("HTTP_OP::close_socket 4.3\n");
         curlEasy = NULL;
     }
+    printf("HTTP_OP::close_socket 5\n");
 }
 
 void HTTP_OP::close_file() {

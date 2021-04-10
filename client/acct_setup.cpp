@@ -210,18 +210,24 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
 }
 
 int GET_PROJECT_LIST_OP::do_rpc() {
+    printf("tal 1.4.1\n");
     int retval;
     char buf[256];
-
+    printf("tal 1.4.2\n");
     sprintf(buf, "https://boinc.berkeley.edu/project_list.php");
+    printf("tal 1.4.3\n");
     retval = gui_http->do_rpc(
         this, buf, ALL_PROJECTS_LIST_FILENAME_TEMP, true
     );
+    printf("tal 1.4.4\n");
     if (retval) {
+        printf("tal 1.4.5\n");
         error_num = retval;
     } else {
+        printf("tal 1.4.6\n");
         error_num = ERR_IN_PROGRESS;
     }
+    printf("tal 1.4.7\n");
     return retval;
 }
 
@@ -261,14 +267,22 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 }
 
 void CLIENT_STATE::all_projects_list_check() {
+    printf("tal 1.1\n");
     if (cc_config.dont_contact_ref_site) return;
+    printf("tal 1.2\n");
     if (get_project_list_op.gui_http->gui_http_state == GUI_HTTP_STATE_BUSY) return;
+    printf("tal 1.3\n");
     if (all_projects_list_check_time) {
+        printf("tal 1.3.1\n");
         if (now - all_projects_list_check_time < ALL_PROJECTS_LIST_CHECK_PERIOD) {
+            printf("tal 1.3.2\n");
             return;
         }
+        printf("tal 1.3.3\n");
     }
+    printf("tal 1.4\n");
     get_project_list_op.do_rpc();
+    printf("tal 1.5\n");
 }
 
 // called at startup (first=true)
