@@ -23,6 +23,18 @@ export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/"
 export TCBINARIES="$TOOLCHAINROOT/bin"
 export TCINCLUDES="$ANDROIDTC/i686-linux-android"
 export TCSYSROOT="$TOOLCHAINROOT/sysroot"
+export VCPKG_DIR=$VCPKG_ROOT/installed/x86-android
+
+CONFIG_FLAGS=""
+CONFIG_LDFLAGS=""
+
+if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+    CONFIG_FLAGS="--with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-vcpkg"
+else
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES"
+    CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+fi
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=i686-linux-android16-clang
@@ -30,7 +42,7 @@ export CXX=i686-linux-android16-clang++
 export LD=i686-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++"
+export LDFLAGS="$CONFIG_LDFLAGS -llog -fPIE -pie -latomic -static-libstdc++"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR="$TCSYSROOT"
 
@@ -60,7 +72,11 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl="$TCINCLUDES" --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
+        if [ $BUILD_WITH_VCPKG = "yes" ]; then
+            chmod +x "$VCPKG_DIR/share/curl/curl-config"
+            export _libcurl_config="$VCPKG_DIR/share/curl/curl-config"
+        fi
+        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
     fi
     echo MAKE_FLAGS=$MAKE_FLAGS
     make $MAKE_FLAGS

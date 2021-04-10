@@ -46,7 +46,7 @@ else
     MAKE_FLAGS="$MAKE_FLAGS -j $NPROC_USER"
 fi
 
-if [ ! -e "${CURL_FLAGFILE}" ]; then
+if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
     cd "$CURL"
     echo "===== building curl for x86-64 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
