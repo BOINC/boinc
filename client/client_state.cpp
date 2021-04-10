@@ -832,6 +832,7 @@ int CLIENT_STATE::init() {
     // and initialize notice RSS feeds
     //
     if (!cc_config.no_info_fetch) {
+        printf("tal 1");
         all_projects_list_check();
         notices.init_rss();
     }
@@ -1143,6 +1144,7 @@ bool CLIENT_STATE::poll_slow_events() {
             //      delete the FILE_XFER
 
         if (!cc_config.no_info_fetch) {
+            printf("tal 2");
             POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
         }
     }
