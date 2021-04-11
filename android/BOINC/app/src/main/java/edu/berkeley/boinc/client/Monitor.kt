@@ -538,13 +538,14 @@ class Monitor : LifecycleService() {
             val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
             if (Logging.ERROR) Log.w(Logging.TAG, "Launching '${cmd[0]}' from '$boincWorkingDir'")
             var envpStr = ""
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val envLLP = System.getenv("LD_LIBRARY_PATH")
-                envpStr = "LD_LIBRARY_PATH="
-                if (envLLP != null) envpStr += envLLP + ":"
-                if (Process.is64Bit()) envpStr += "/vendor/lib64/:/vendor/lib64/egl:"
-                envpStr += "/vendor/lib:/vendor/lib/egl"
-            }
+
+            val envLLP = System.getenv("LD_LIBRARY_PATH")
+            envpStr = "LD_LIBRARY_PATH="
+            if (envLLP != null) envpStr += "$envLLP:"
+            val is64 = Build.VERSION.SDK_INT >= 21 && (System.getProperty("os.arch") ?: "").contains("64")
+            if (is64) envpStr += "/vendor/lib64/:/vendor/lib64/egl:"
+            envpStr += "/vendor/lib:/vendor/lib/egl"
+
             val envp = arrayOf(envpStr)
             if (Logging.DEBUG) Log.w(Logging.TAG, "Setting envp '${envp[0]}'")
             Runtime.getRuntime().exec(cmd, envp, File(boincWorkingDir))
