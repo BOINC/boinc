@@ -23,24 +23,21 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Download GoogleTestAdapter
+      - name: Download OpenCppCoverage
         uses: suisei-cn/actions-download-file@v1
-        id: DownloadGoogleTestAdapter
+        id: DownloadOpenCppCoverage
         with:
-          url: "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix"
+          url: "https://opencppcoverage.gallerycdn.vsassets.io/extensions/opencppcoverage/opencppcoverageplugin/0.9.7.1/1581265346391/OpenCppCoverage-0.9.7.1.vsix"
           target: ${{ github.workspace }}\temp\
 
-      - name: Unzip GoogleTestAdapter
+      - name: Unzip OpenCppCoverage
         uses: DuckSoft/extract-7z-action@v1.0
         with:
-          pathSource: ${{ github.workspace }}\temp\GoogleTestAdapter-0.18.0.vsix
-          pathTarget: ${{ github.workspace }}\temp\GoogleTestAdapter
+          pathSource: ${{ github.workspace }}\temp\OpenCppCoverage-0.9.7.1.vsix
+          pathTarget: ${{ github.workspace }}\temp\OpenCppCoverage
 
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1
-
-      - name: Setup vstest
-        uses: darenm/Setup-VSTest@v1
 
       - name: Fix vcpkg
         run: vcpkg.exe integrate remove
@@ -58,7 +55,8 @@ jobs:
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
 
       - name: Run tests
-        run: vstest.console.exe win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter
+        working-directory: win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}
+        run: ${{ github.workspace }}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{ github.workspace }} --export_type=cobertura:cobertura.xml -- unittests.exe --gtest_output=xml:gtest.xml
 
       - name: Deploy to BinTray
         if: ${{ success() }}
@@ -85,3 +83,10 @@ jobs:
         with:
           name: win_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/win_manager/*.7z
+      
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        if: success()
+        with:
+          fail_ci_if_error: true
+          verbose: false
