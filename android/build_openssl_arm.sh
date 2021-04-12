@@ -27,8 +27,8 @@ export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=armv7a-linux-androideabi16-clang
 export CXX=armv7a-linux-androideabi16-clang++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -D__ANDROID_API__=16 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv7-a -Wl,--fix-cortex-a8"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
@@ -49,7 +49,7 @@ fi
 if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for arm from $PWD ====="
-    if [ -n "$MAKECLEAN" ]; then
+    if [ -n "$MAKECLEAN" -a -e "${OPENSSL}/Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make clean 1>$STDOUT_TARGET 2>&1
         else
@@ -57,7 +57,7 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
         fi
     fi
     if [ -n "$CONFIGURE" ]; then
-        ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" 1>$STDOUT_TARGET
+        ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" --prefix="$TCINCLUDES" 1>$STDOUT_TARGET
         # override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
         mv Makefile.out Makefile

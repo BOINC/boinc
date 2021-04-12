@@ -6,7 +6,7 @@ set -e
 #
 
 # Script to compile OpenSSL for Android
-BUILD_WITH_VCPKG="no"
+
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -26,8 +26,8 @@ export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=arm-linux-androideabi-clang
 export CXX=arm-linux-androideabi-clang++
 export LD=arm-linux-androideabi-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6"
+export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
+export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
@@ -51,7 +51,7 @@ fi
 if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     cd "$OPENSSL"
     echo "===== building openssl for armv6 from $PWD ====="
-    if [ -n "$MAKECLEAN" ]; then
+    if [ -n "$MAKECLEAN" -a -e "${OPENSSL}/Makefile" ]; then
         if [ "$VERBOSE" = "no" ]; then
             make clean 1>$STDOUT_TARGET 2>&1
         else
@@ -59,7 +59,7 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
         fi
     fi
     if [ -n "$CONFIGURE" ]; then
-        ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" 1>$STDOUT_TARGET
+        ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" --prefix="$TCINCLUDES" 1>$STDOUT_TARGET
         # override flags in Makefile
         sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
         mv Makefile.out Makefile
