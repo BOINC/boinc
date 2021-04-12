@@ -173,6 +173,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     testImplementation 'androidx.test:core:1.3.0'
+    testImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'androidx.test:rules:1.3.0'
     testImplementation 'com.google.guava:guava-testlib:28.2-jre'
     testImplementation 'junit:junit:4.13'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
@@ -183,9 +186,6 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
 }
 repositories {
     mavenCentral()
