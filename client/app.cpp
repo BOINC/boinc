@@ -505,9 +505,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     double new_cpu_time = pi.user_time + pi.kernel_time;
     if (!first) {
         non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
-        // processes might have exited in the last 10 sec,
-        // causing this to be negative.
-        if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
+        // Processes might have exited in the last 10 sec, causing
+        // this to be negative. In that case, be conservative about
+        // the non-BOINC CPU usage and assume it to be 50%.
+        if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0.5;
         if (log_flags.mem_usage_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[mem_usage] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
