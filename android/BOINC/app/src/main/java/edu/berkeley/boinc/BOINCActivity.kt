@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -40,6 +40,7 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem
+import edu.berkeley.boinc.attach.AttachAccountManagerActivity
 import edu.berkeley.boinc.attach.SelectionListActivity
 import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
@@ -282,6 +283,7 @@ class BOINCActivity : AppCompatActivity() {
                 }
                 R.string.menu_eventlog -> startActivity(Intent(this, EventLogActivity::class.java))
                 R.string.projects_add -> startActivity(Intent(this, SelectionListActivity::class.java))
+                R.string.attachproject_acctmgr_header -> startActivity(Intent(this, AttachAccountManagerActivity::class.java))
                 R.string.tab_preferences -> {
                     ft.replace<SettingsFragment>(R.id.frame_container)
                     fragmentChanges = true
@@ -323,6 +325,7 @@ class BOINCActivity : AppCompatActivity() {
                 if (numberProjectsInNavList != monitor!!.projects.size) {
                     numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects(monitor!!.projects)
                 }
+                mDrawerListAdapter.updateUseAccountManagerItem()
             }
         } catch (e: Exception) {
             if (Logging.ERROR) {

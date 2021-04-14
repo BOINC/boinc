@@ -20,42 +20,54 @@ package edu.berkeley.boinc.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import edu.berkeley.boinc.attach.ProjectInfoFragment.Companion.newInstance
-import edu.berkeley.boinc.attach.SelectionListActivity
+import edu.berkeley.boinc.attach.AttachActivity
 import edu.berkeley.boinc.databinding.AttachProjectListLayoutListItemBinding
 import edu.berkeley.boinc.utils.Logging
 
-class SelectionRecyclerViewAdapter(
-        private val activity: SelectionListActivity,
-        private val entries: List<ProjectListEntry>
-) : RecyclerView.Adapter<SelectionRecyclerViewAdapter.ViewHolder>() {
+class AttachActivityItemAdapter(
+        private val attachActivityItems: List<AttachActivityItem>,
+        private val activity: AttachActivity
+) : RecyclerView.Adapter<AttachActivityItemAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = AttachProjectListLayoutListItemBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = entries.size
+    override fun getItemCount(): Int = attachActivityItems.count()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val listItem = entries[position]
+        val attachActivityItem = attachActivityItems[position]
 
-        // element is project option
-        holder.name.text = listItem.info?.name
-        holder.description.text = listItem.info?.generalArea
-        holder.summary.text = listItem.info?.summary
-        holder.checkBox.isChecked = listItem.isChecked
-        holder.checkBox.setOnClickListener { listItem.isChecked = !listItem.isChecked }
-        holder.textWrapper.setOnClickListener {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
-                        listItem.info?.name)
+        holder.name.text = attachActivityItem.text
+        holder.description.text = attachActivityItem.description
+        holder.checkBox.visibility = View.GONE
+        holder.summary.visibility = View.GONE
+        holder.buttonImage.visibility = View.VISIBLE
+        val listener = View.OnClickListener {
+            when (attachActivityItem.type) {
+                AttachActivityItemType.ACCOUNT_MANAGER -> {
+                    if (Logging.DEBUG) {
+                        Log.d(Logging.TAG, "AttachActivityItemAdapter: account manager clicked.")
+                    }
+                    activity.startAccountManagerActivity()
+                }
+                AttachActivityItemType.ALL_PROJECTS -> {
+                    if (Logging.DEBUG) {
+                        Log.d(Logging.TAG, "AttachActivityItemAdapter: projects clicked.")
+                    }
+                    activity.startSelectionProjectActivity()
+                }
             }
-            val dialog = newInstance(listItem.info)
-            dialog.show(activity.supportFragmentManager, "ProjectInfoFragment")
         }
-    }
+        holder.root.setOnClickListener(listener)
+        holder.name.setOnClickListener(listener)
+        holder.description.setOnClickListener(listener)
+        holder.buttonImage.setOnClickListener(listener)
+     }
+
 
     inner class ViewHolder(binding: AttachProjectListLayoutListItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
@@ -64,6 +76,6 @@ class SelectionRecyclerViewAdapter(
         val description = binding.description
         val summary = binding.summary
         val checkBox = binding.checkBox
-        val textWrapper = binding.textWrapper
+        val buttonImage = binding.amButtonImage
     }
 }

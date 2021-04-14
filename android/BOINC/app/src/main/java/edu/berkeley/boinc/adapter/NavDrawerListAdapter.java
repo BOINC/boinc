@@ -247,6 +247,49 @@ public class NavDrawerListAdapter extends BaseAdapter {
         return numberAdded;
     }
 
+    public void updateUseAccountManagerItem() {
+        NavDrawerItem item = null;
+        int projectAddItemIndex = -1;
+        for(int i = 0; i < navDrawerItems.size(); i++) {
+            if (item == null && navDrawerItems.get(i).title.equals(context.getString(R.string.attachproject_acctmgr_header))) {
+                item = navDrawerItems.get(i);
+                continue;
+            }
+            if (projectAddItemIndex == -1 && navDrawerItems.get(i).title.equals(context.getString(R.string.projects_add))) {
+                projectAddItemIndex = i;
+                continue;
+            }
+        }
+        if (item != null && isAccountManagerPresent())
+        {
+            navDrawerItems.remove(item);
+            this.notifyDataSetChanged();
+        }
+        if (item == null && !isAccountManagerPresent())
+        {
+            navDrawerItems.add(projectAddItemIndex + 1, new NavDrawerItem(R.string.attachproject_acctmgr_header,
+                                                    R.drawable.ic_account_manager));
+            this.notifyDataSetChanged();
+        }
+    }
+
+    private boolean isAccountManagerPresent() {
+        boolean statusAcctMgrPresent = false;
+        try {
+            final IMonitor monitor = BOINCActivity.monitor;
+            if (monitor != null) {
+                statusAcctMgrPresent = monitor.getClientAcctMgrInfo().isPresent();
+            }
+        }
+        catch(Exception e) {
+            // data retrieval failed, continue...
+            if (Logging.ERROR) {
+                Log.d(Logging.TAG, "AcctMgrInfo data retrieval failed.");
+            }
+        }
+        return statusAcctMgrPresent;
+    }
+
     public class NavDrawerItem {
         private int id;
         private String title;

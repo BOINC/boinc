@@ -34,7 +34,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.berkeley.boinc.attach.SelectionListActivity;
+import edu.berkeley.boinc.attach.AttachActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
@@ -121,14 +121,14 @@ public class SplashActivity extends AppCompatActivity {
                             });
 
                             // forward to PROJECTATTACH
-                            Intent startAttach = new Intent(SplashActivity.this, SelectionListActivity.class);
+                            Intent startAttach = new Intent(SplashActivity.this, AttachActivity.class);
                             startActivity(startAttach);
                             break;
                         case ClientStatus.SETUP_STATUS_ERROR:
                             if(Logging.ERROR) {
                                 Log.e(Logging.TAG, "SplashActivity SETUP_STATUS_ERROR");
                             }
-                            // do not show log here. error is just a notification of timeout, which is followed by an intermediate (and indefinate) retry
+                            // do not show log here. error is just a notification of timeout, which is followed by an intermediate (and indefinite) retry
                             break;
                     }
                 }

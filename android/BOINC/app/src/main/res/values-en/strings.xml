@@ -57,9 +57,12 @@
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_button_forgotpw">Forgot Password</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Use BOINC account manager to add and manage multiple projects
+    <string name="attachproject_acctmgr_list_desc">Use account manager to control this device
     </string>
-    <string name="attachproject_acctmgr_header">Add account manager</string>
+    <string name="attachproject_acctmgr_header">Use account manager</string>
+    <string name="attachproject_attach_projects_header">Add projects</string>
+    <string name="attachproject_attach_projects_desc">Add projects from the list of projects
+    </string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
     <string name="attachproject_acctmgr_header_pwd">Password:</string>

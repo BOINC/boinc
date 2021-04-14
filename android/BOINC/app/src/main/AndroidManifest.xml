@@ -109,6 +109,13 @@
                 android:label="@string/app_name"
                 android:noHistory="true"
                 android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".attach.AttachActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".attach.AttachAccountManagerActivity"
+                android:noHistory="true"
+                android:theme="@style/AppTheme.NoActionBar" />
 
         <service
                 android:name=".client.Monitor"
