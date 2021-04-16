@@ -22,8 +22,8 @@ set -e
 # When you want to invalidate openssl and curl without change their versions.
 export REV=1
 export ARMV6_REV=1
-export OPENSSL_VERSION=1.0.2s
-export CURL_VERSION=7.62.0
+export OPENSSL_VERSION=1.1.1j
+export CURL_VERSION=7.74.0
 export NDK_VERSION=21d
 export NDK_ARMV6_VERSION=15c
 
@@ -145,6 +145,10 @@ if [ "${silent}" = "yes" ]; then
     export STDOUT_TARGET="/dev/null"
 fi
 
+if [ $arch = "armv6" ]; then
+    build_with_vcpkg="no"
+fi
+
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
@@ -211,7 +215,7 @@ if [ $arch != "armv6" -a ! -d ${PREFIX}/${arch} ]; then
     mkdir -p ${PREFIX}/${arch}
 fi
 
-if [ $build_with_vcpkg = "no" -o $arch = "armv6" ]; then
+if [ $build_with_vcpkg = "no" ]; then
 
     if [ ! -e "${OPENSSL_FLAGFILE}" ]; then
         rm -rf "$BUILD_DIR/openssl-${OPENSSL_VERSION}"
@@ -261,7 +265,7 @@ packegesList()
     echo $list_pkgs
 }
 
-if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+if [ $build_with_vcpkg = "yes" ]; then
     export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
@@ -331,7 +335,7 @@ vcpkgDir()
 
 list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper"
 
-if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+if [ $build_with_vcpkg = "yes" ]; then
     list_apps_name="$list_apps_name wrappture_example fermi"
 fi
 
@@ -340,7 +344,7 @@ NeonTest()
     while [ $# -gt 0 ]; do
         echo "NeonTest: readelf -A" "$1"
         vcpkg_dir_search=""
-        if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+        if [ $build_with_vcpkg = "yes" ]; then
             vcpkg_dir_search=$(vcpkgDir $arch)
         fi
         if [ $(readelf -A $(find $ANDROID_TC/${arch} "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i neon | head -c1 | wc -c) -ne 0 ]; then
@@ -367,7 +371,7 @@ Armv6Test()
     while [ $# -gt 0 ]; do
         echo "Armv6Test: readelf -A" "$1"
         vcpkg_dir_search=""
-        if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+        if [ $build_with_vcpkg = "yes" ]; then
             vcpkg_dir_search=$(vcpkgDir $arch)
         fi
         if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i -E "Tag_CPU_arch: (v6|v5TE)" | head -c1 | wc -c) -eq 0 ]; then
@@ -409,7 +413,7 @@ RenameAllApps()
                 ../samples/worker/ worker
                 ../samples/wrapper/ wrapper
                 "
-if [ $build_with_vcpkg = "yes" -a $arch != "armv6" ]; then
+if [ $build_with_vcpkg = "yes" ]; then
     list_apps="$list_apps
                 ../samples/wrappture/ wrappture_example
                 ../samples/wrappture/ fermi

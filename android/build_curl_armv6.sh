@@ -6,7 +6,7 @@ set -e
 #
 
 # Script to compile Libcurl for Android
-BUILD_WITH_VCPKG="no"
+
 STDOUT_TARGET="${STDOUT_TARGET:-/dev/stdout}"
 CONFIGURE="yes"
 MAKECLEAN="yes"
@@ -59,7 +59,7 @@ if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
         fi
     fi
     if [ -n "$CONFIGURE" ]; then
-        ./configure --host=armv6-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom --without-zlib 1>$STDOUT_TARGET
+        ./configure --host=armv6-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
     fi
     if [ $VERBOSE = "no" ]; then
         echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"
