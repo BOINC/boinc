@@ -48,7 +48,8 @@ public class ClientNotification {
         Intent intent = new Intent(context, BOINCActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.putExtra("targetFragment", R.string.tab_tasks);
+        contentIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     /**
@@ -140,7 +141,7 @@ public class ClientNotification {
 
     @SuppressLint("InlinedApi")
     private Notification buildNotification(ClientStatus status, Boolean active, List<Result> activeTasks) {
-        // get current client computingstatus
+        // get current client computing status
         Integer computingStatus = status.computingStatus;
         // get status strings from ClientStatus
         String statusDesc = status.getCurrentStatusDescription();
