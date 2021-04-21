@@ -858,6 +858,23 @@
         <keywords>23 24</keywords>
     </project>
     <project>
+        <name>iThena</name>
+        <id>13</id>
+        <url>https://root.ithena.net/usr/</url>
+        <web_url>https://root.ithena.net/usr/</web_url>
+        <general_area>Computer science and Computer networks</general_area>
+        <specific_area>Computer science</specific_area>
+        <description><![CDATA[The iThena distributed project concerns experimental mapping of network structures included in the Internet. The project is in closed beta phase. Currently, the only application available in the project (iThena CNode) performs a sequence of traceroute procedures from client computers. The resulting data is sent back to the server and submitted to the main database, where it can be further analyzed.]]></description>
+        <home>Cyber-Complex Foundation</home>
+    <platforms>
+        <name>windows_intelx86</name>
+		<name>i686-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Do research in computer science and computer networks</summary>
+        <keywords>1 20 43</keywords>
+    </project>
+    <project>
         <name>MindModeling@Home</name>
         <id>3</id>
         <url>https://mindmodeling.org/</url>
