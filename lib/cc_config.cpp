@@ -831,7 +831,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             continue;
         }
         if (xp.parse_int("project_max_concurrent", n)) {
-            if (n >= 0) {
+            if (n > 0) {
                 have_max_concurrent = true;
                 project_has_mc = true;
                 project_max_concurrent = n;
