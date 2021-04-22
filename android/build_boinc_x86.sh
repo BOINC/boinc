@@ -73,8 +73,7 @@ if [ -n "$COMPILEBOINC" ]; then
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
         if [ $BUILD_WITH_VCPKG = "yes" ]; then
-            chmod +x "$VCPKG_DIR/share/curl/curl-config"
-            export _libcurl_config="$VCPKG_DIR/share/curl/curl-config"
+            export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
         fi
         ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static --disable-largefile
     fi
