@@ -145,10 +145,6 @@ if [ "${silent}" = "yes" ]; then
     export STDOUT_TARGET="/dev/null"
 fi
 
-if [ $arch = "armv6" ]; then
-    build_with_vcpkg="no"
-fi
-
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
