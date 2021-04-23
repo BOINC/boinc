@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2020 University of California
+  Copyright (C) 2021 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -75,9 +75,12 @@
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_button_forgotpw">Forgot Password</string>
     <!-- account manager -->
-    <string name="attachproject_acctmgr_list_desc">Use BOINC account manager to add and manage multiple projects
+    <string name="attachproject_acctmgr_list_desc">Use account manager to control this device
     </string>
-    <string name="attachproject_acctmgr_header">Add account manager</string>
+    <string name="attachproject_acctmgr_header">Use account manager</string>
+    <string name="attachproject_attach_projects_header">Add projects</string>
+    <string name="attachproject_attach_projects_desc">Add projects from the list of projects
+    </string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
     <string name="attachproject_acctmgr_header_pwd">Password:</string>

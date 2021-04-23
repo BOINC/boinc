@@ -38,21 +38,6 @@ class ProjectListEntryTest {
     }
 
     @Test
-    fun `Check that isAccountManager is set to False when ProjectInfo is passed to constructor`() {
-        val projectInfo = ProjectInfo("Test Project", "https://testproject.com")
-        val projectListEntry = ProjectListEntry(projectInfo)
-
-        Assertions.assertFalse(projectListEntry.isAccountManager)
-    }
-
-    @Test
-    fun `Check that isAccountManager is set to True when default constructor is called`() {
-        val projectListEntry = ProjectListEntry()
-
-        Assertions.assertTrue(projectListEntry.isAccountManager)
-    }
-
-    @Test
     fun `Check that isChecked is set to False when ProjectInfo is passed to constructor`() {
         val projectInfo = ProjectInfo("Test Project", "https://testproject.com")
         val projectListEntry = ProjectListEntry(projectInfo)
@@ -61,15 +46,9 @@ class ProjectListEntryTest {
     }
 
     @Test
-    fun `Check that isChecked is set to False when default contructor is called`() {
-        val projectListEntry = ProjectListEntry()
-
-        Assertions.assertFalse(projectListEntry.isChecked)
-    }
-
-    @Test
     fun `Check that isChecked correctly saves its state`() {
-        val projectListEntry = ProjectListEntry()
+        val projectInfo = ProjectInfo("Test Project", "https://testproject.com")
+        val projectListEntry = ProjectListEntry(projectInfo)
 
         Assertions.assertFalse(projectListEntry.isChecked)
 

@@ -33,7 +33,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.BuildConfig
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.adapter.ProjectListEntry
@@ -134,13 +133,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     private fun onCancel() {
-        // go to projects screen and clear history
-        startActivity(Intent(this, BOINCActivity::class.java).apply {
-            // add flags to return to main activity and clearing all others and clear the back stack
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra("targetFragment", R.string.tab_projects) // make activity display projects fragment
-        })
+        finish()
     }
 
     override fun onBackPressed() {
@@ -212,21 +205,6 @@ class SelectionListActivity : AppCompatActivity() {
     private suspend fun updateProjectList() {
         retrieveProjectList() ?: return
 
-        // If AccountManager is already connected, user should not be able to connect more AMs
-        // Hide 'Add Account Manager' option
-        var statusAcctMgrPresent = false
-        try {
-            val statusAcctMgr = BOINCActivity.monitor!!.clientAcctMgrInfo
-            statusAcctMgrPresent = statusAcctMgr.isPresent
-        } catch (e: Exception) {
-            // data retrieval failed, continue...
-            if (Logging.ERROR) {
-                Log.d(Logging.TAG, "AcctMgrInfo data retrieval failed.")
-            }
-        }
-        if (!statusAcctMgrPresent) {
-            entries.add(ProjectListEntry()) // add account manager option to bottom of list
-        }
         binding.projectsRecyclerView.adapter = SelectionRecyclerViewAdapter(this, entries)
         binding.projectsRecyclerView.layoutManager = LinearLayoutManager(this)
     }

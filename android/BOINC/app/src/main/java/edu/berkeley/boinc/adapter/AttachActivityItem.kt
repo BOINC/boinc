@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,14 +18,13 @@
  */
 package edu.berkeley.boinc.adapter
 
-import edu.berkeley.boinc.rpc.ProjectInfo
+data class AttachActivityItem (
+        val type: AttachActivityItemType,
+        val text: String,
+        val description: String
+)
 
-class ProjectListEntry {
-    var info: ProjectInfo? = null
-        private set
-    var isChecked = false
-
-    constructor(info: ProjectInfo) {
-        this.info = info
-    }
+enum class AttachActivityItemType {
+    ALL_PROJECTS,
+    ACCOUNT_MANAGER
 }
