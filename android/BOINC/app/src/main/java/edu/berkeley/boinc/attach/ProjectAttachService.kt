@@ -359,6 +359,7 @@ class ProjectAttachService : LifecycleService() {
          * @return returns status conflict
          */
         fun lookupAndAttach(forceLookup: Boolean): Int {
+            var isForceLookup = forceLookup
             if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "ProjectAttachWrapper.attach: attempting: $name")
             }
@@ -374,60 +375,80 @@ class ProjectAttachService : LifecycleService() {
             }
             result = Companion.RESULT_ONGOING
 
-            // get credentials
-            // check if project allows registration
-            val statusCredentials = if (forceLookup || config!!.clientAccountCreationDisabled) {
-                // registration disabled, e.g. WCG
+            var statusCredentials : AccountOut? = null
+
+            var retry = true
+            while (retry) {
+                retry = false
+                // get credentials
+                // check if project allows registration
+                statusCredentials = if (isForceLookup || config!!.clientAccountCreationDisabled) {
+                    // registration disabled, e.g. WCG
+                    if (Logging.DEBUG) {
+                        Log.d(Logging.TAG,
+                                "AttachProjectAsyncTask: account creation disabled, try login. for: " + config!!.name)
+                    }
+                    login()
+                } else {
+                    // registration enabled
+                    register()
+                }
                 if (Logging.DEBUG) {
                     Log.d(Logging.TAG,
-                            "AttachProjectAsyncTask: account creation disabled, try login. for: " + config!!.name)
+                            "AttachProjectAsyncTask: retrieving credentials returned: " +
+                                    statusCredentials!!.errorNum + ":" + statusCredentials.errorMsg +
+                                    ". for: " + config!!.name)
                 }
-                login()
-            } else {
-                // registration enabled
-                register()
-            }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG,
-                        "AttachProjectAsyncTask: retrieving credentials returned: " +
-                                statusCredentials!!.errorNum + ":" + statusCredentials.errorMsg +
-                                ". for: " + config!!.name)
+
+                // check success
+                if (statusCredentials == null) {
+                    if (Logging.ERROR) {
+                        Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
+                    }
+                    result = Companion.RESULT_UNDEFINED
+                    return Companion.RESULT_UNDEFINED
+                } else if (statusCredentials.errorNum != ERR_OK || !statusCredentials.errorMsg.isNullOrEmpty()) {
+                    if (Logging.ERROR) {
+                        Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
+                                statusCredentials.errorNum)
+                    }
+                    return when (statusCredentials.errorNum) {
+                        ERR_DB_NOT_UNIQUE -> {
+                            result = Companion.RESULT_NAME_NOT_UNIQUE
+                            Companion.RESULT_NAME_NOT_UNIQUE
+                        }
+                        ERR_BAD_PASSWD -> {
+                            result = Companion.RESULT_BAD_PASSWORD
+                            Companion.RESULT_BAD_PASSWORD
+                        }
+                        ERR_DB_NOT_FOUND -> {
+                            result = Companion.RESULT_UNKNOWN_USER
+                            Companion.RESULT_UNKNOWN_USER
+                        }
+                        else -> {
+                            if (!statusCredentials.errorMsg.isNullOrEmpty() && !isForceLookup) {
+                                retry = true
+                                isForceLookup = true
+                                continue
+                            }
+                            if (Logging.WARNING) {
+                                Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " +
+                                        statusCredentials.errorNum)
+                            }
+                            result = Companion.RESULT_UNDEFINED
+                            Companion.RESULT_UNDEFINED
+                        }
+                    }
+                }
             }
 
-            // check success
             if (statusCredentials == null) {
                 if (Logging.ERROR) {
                     Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
                 }
+
                 result = Companion.RESULT_UNDEFINED
                 return Companion.RESULT_UNDEFINED
-            } else if (statusCredentials.errorNum != ERR_OK) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
-                            statusCredentials.errorNum)
-                }
-                return when (statusCredentials.errorNum) {
-                    ERR_DB_NOT_UNIQUE -> {
-                        result = Companion.RESULT_NAME_NOT_UNIQUE
-                        Companion.RESULT_NAME_NOT_UNIQUE
-                    }
-                    ERR_BAD_PASSWD -> {
-                        result = Companion.RESULT_BAD_PASSWORD
-                        Companion.RESULT_BAD_PASSWORD
-                    }
-                    ERR_DB_NOT_FOUND -> {
-                        result = Companion.RESULT_UNKNOWN_USER
-                        Companion.RESULT_UNKNOWN_USER
-                    }
-                    else -> {
-                        if (Logging.WARNING) {
-                            Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " +
-                                    statusCredentials.errorNum)
-                        }
-                        result = Companion.RESULT_UNDEFINED
-                        Companion.RESULT_UNDEFINED
-                    }
-                }
             }
 
             // attach project
