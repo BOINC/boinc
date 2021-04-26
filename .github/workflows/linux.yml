@@ -96,6 +96,19 @@ jobs:
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
 
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
       - name: Deploy to BinTray
         if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
         env:

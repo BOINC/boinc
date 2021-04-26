@@ -58,6 +58,19 @@ jobs:
         working-directory: win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}
         run: ${{ github.workspace }}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{ github.workspace }} --export_type=cobertura:cobertura.xml -- unittests.exe --gtest_output=xml:gtest.xml
 
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z a -t7z -mx=9 deploy/logs.7z -r0 3rdParty/Windows/vcpkg/buildtrees/*.log
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
       - name: Deploy to BinTray
         if: ${{ success() }}
         env:
