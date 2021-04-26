@@ -407,7 +407,7 @@ class ProjectAttachService : LifecycleService() {
                     }
                     result = Companion.RESULT_UNDEFINED
                     return Companion.RESULT_UNDEFINED
-                } else if (statusCredentials.errorNum != ERR_OK || !statusCredentials.errorMsg.isNullOrEmpty()) {
+                } else if (statusCredentials.errorNum != ERR_OK) {
                     if (Logging.ERROR) {
                         Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
                                 statusCredentials.errorNum)
@@ -426,7 +426,7 @@ class ProjectAttachService : LifecycleService() {
                             Companion.RESULT_UNKNOWN_USER
                         }
                         else -> {
-                            if (!statusCredentials.errorMsg.isNullOrEmpty() && !isForceLookup) {
+                            if (!isForceLookup) {
                                 retry = true
                                 isForceLookup = true
                                 continue
