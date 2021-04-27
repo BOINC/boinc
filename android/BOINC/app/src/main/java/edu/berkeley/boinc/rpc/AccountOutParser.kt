@@ -32,8 +32,10 @@ class AccountOutParser : BaseParser() {
     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
         if (localName.equalsAny(ERROR_NUM, AccountOut.Fields.ERROR_MSG,
-                        AccountOut.Fields.AUTHENTICATOR, ignoreCase = true)) {
-            accountOut = AccountOut()
+                                AccountOut.Fields.AUTHENTICATOR, ignoreCase = true)) {
+            if (!this::accountOut.isInitialized) {
+                accountOut = AccountOut()
+            }
         } else {
             mElementStarted = true
             mCurrentElement.setLength(0)
