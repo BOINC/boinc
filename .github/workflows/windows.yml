@@ -71,18 +71,15 @@ jobs:
           name: windows_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Deploy to BinTray
+      - name: Prepare artifacts for deploy
         if: ${{ success() }}
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
           platform: ${{ matrix.platform }}
           configuration: ${{ matrix.configuration }}
         shell: cmd
-        run: |
-          call deploy\prepare_deployment.bat
-          call deploy\deploy_to_bintray.bat
+        run: call deploy\prepare_deployment.bat
 
       - uses: actions/upload-artifact@v2
         with:

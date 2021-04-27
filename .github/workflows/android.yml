@@ -47,15 +47,15 @@ jobs:
         if: ${{ success() && matrix.type == 'apps' }}
         run: ./android/ci_build_apps.sh
 
-      - name: Build vcpkg manager
+      - name: Build manager with vcpkg
         if: ${{ success() && matrix.type == 'manager-vcpkg' }}
         run: ./android/ci_build_vcpkg_manager.sh
 
-      - name: Build vcpkg libs
+      - name: Build libs with vcpkg
         if: ${{ success() && matrix.type == 'libs-vcpkg' }}
         run: ./android/ci_build_vcpkg_libraries.sh
 
-      - name: Build vcpkg apps
+      - name: Build apps with vcpkg
         if: ${{ success() && matrix.type == 'apps-vcpkg' }}
         run: ./android/ci_build_vcpkg_apps.sh
 
@@ -72,13 +72,12 @@ jobs:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Deploy to BinTray
+      - name: Prepare artifacts for deploy
         if: ${{ success() && ! contains(matrix.type, 'libs') }}
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: ./deploy/prepare_deployment.sh android_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/
+        run: ./deploy/prepare_deployment.sh android_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
