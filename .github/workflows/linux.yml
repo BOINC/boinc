@@ -56,15 +56,15 @@ jobs:
         if: success() && matrix.type == 'apps'
         run: ./configure --enable-apps --disable-server --disable-client --disable-manager
 
-      - name: Configure vcpkg libs
+      - name: Configure libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
         run: linux/ci_configure_libs.sh
 
-      - name: Configure vcpkg client
+      - name: Configure client with vcpkg
         if: success() && matrix.type == 'client-vcpkg'
         run: linux/ci_configure_client.sh
 
-      - name: Configure vcpkg apps
+      - name: Configure apps with vcpkg
         if: success() && matrix.type == 'apps-vcpkg'
         run: linux/ci_configure_apps.sh
 
@@ -109,13 +109,12 @@ jobs:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
-      - name: Deploy to BinTray
+      - name: Prepare artifacts for deploy
         if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/
+        run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2

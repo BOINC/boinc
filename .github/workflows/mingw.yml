@@ -31,13 +31,12 @@ jobs:
         if: success() && matrix.type == 'apps-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
 
-      - name: Deploy to BinTray
+      - name: Prepare artifacts for deploy
         if: ${{ success() && ! contains(matrix.type, 'libs-mingw') }}
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: ./deploy/prepare_deployment.sh win_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/win_${{ matrix.type }}/
+        run: ./deploy/prepare_deployment.sh win_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
