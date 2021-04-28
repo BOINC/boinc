@@ -70,5 +70,5 @@ if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
     fi
     
     touch "${CURL_FLAGFILE}"
-    echo "===== curl for x86-64 build done ====="
+    echo "\e[1;32m===== curl for x86-64 build done =====\e[0m"
 fi

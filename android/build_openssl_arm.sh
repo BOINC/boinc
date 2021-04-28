@@ -73,5 +73,5 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     fi
 
     touch "${OPENSSL_FLAGFILE}"
-    echo "===== openssl for arm build done ====="
+    echo "\e[1;32m===== openssl for arm build done =====\e[0m"
 fi

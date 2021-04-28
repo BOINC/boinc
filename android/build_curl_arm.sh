@@ -69,5 +69,5 @@ if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
         make install $MAKE_FLAGS
     fi
     touch "${CURL_FLAGFILE}"
-    echo "===== curl for arm build done ====="
+    echo "\e[1;32m===== curl for arm build done =====\e[0m"
 fi
