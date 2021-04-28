@@ -81,5 +81,5 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     echo MAKE_FLAGS=$MAKE_FLAGS
     make $MAKE_FLAGS
-    echo "===== building example for arm64 done ====="
+    echo "\e[1;32m===== building example for arm64 done =====\e[0m"
 fi

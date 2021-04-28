@@ -98,6 +98,6 @@ if [ -n "$COMPILEBOINC" ]; then
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
-    echo "===== BOINC for armv6 build done ====="
+    echo "\e[1;32m===== BOINC for armv6 build done =====\e[0m"
 
 fi

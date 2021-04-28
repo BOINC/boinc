@@ -81,6 +81,6 @@ if [ -n "$COMPILEBOINC" ]; then
     make stage $MAKE_FLAGS
     make install $MAKE_FLAGS
     
-    echo "===== building BOINC Libraries for arm64 done ====="
+    echo "\e[1;32m===== building BOINC Libraries for arm64 done =====\e[0m"
 
 fi
