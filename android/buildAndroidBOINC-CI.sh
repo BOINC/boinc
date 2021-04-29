@@ -270,7 +270,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
-        git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+        git -C $BUILD_DIR clone https://github.com/ras0219/vcpkg -b dev/roschuma/curl-android
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
