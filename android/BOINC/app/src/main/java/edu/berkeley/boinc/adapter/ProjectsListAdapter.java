@@ -46,8 +46,11 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.CcState;
+import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.rpc.TransferStatus;
 import edu.berkeley.boinc.utils.Logging;
 
 public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
@@ -215,6 +218,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 boolean downloadsPresent = false;
                 boolean transfersActive = false; // true if at least one transfer is active
                 long nextRetryS = 0;
+                int transferStatus = 0;
                 for(Transfer trans : data.getProjectTransfers()) {
                     if(trans.isUpload()) {
                         numberTransfersUpload++;
@@ -229,6 +233,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                     }
                     else if(trans.getNextRequestTime() < nextRetryS || nextRetryS == 0) {
                         nextRetryS = trans.getNextRequestTime();
+                        transferStatus = trans.getStatus();
                     }
                 }
 
@@ -248,22 +253,30 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 
                 String activityStatus = ""; // will never be empty
                 String activityExplanation = "";
-                if(!transfersActive) { // no transfers active, give reason
-                    activityStatus += activity.getResources().getString(R.string.trans_pending);
 
-                    if(nextRetryS > 0) { // next try at defined time
-                        long retryInSeconds = Duration.between(Instant.ofEpochSecond(nextRetryS),
-                                                               Instant.now()).getSeconds();
-                        // if timestamp is in the past, do not write anything
-                        if(retryInSeconds >= 0) {
-                            final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
-                            activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
-                                                                                     formattedTime);
+                if (nextRetryS > Instant.now().getEpochSecond()) {
+                    activityStatus += activity.getResources().getString(R.string.trans_pending);
+                    long retryInSeconds = Duration.between(Instant.now(),
+                                                           Instant.ofEpochSecond(nextRetryS)).getSeconds();
+                    // if timestamp is in the past, do not write anything
+                    if(retryInSeconds >= 0) {
+                        final String formattedTime = DateUtils.formatElapsedTime(retryInSeconds);
+                        activityExplanation += activity.getResources().getString(R.string.trans_retry_in,
+                                                                                 formattedTime);
+                    }
+                } else if(TransferStatus.ERR_GIVEUP_DOWNLOAD.getStatus() == transferStatus || TransferStatus.ERR_GIVEUP_UPLOAD.getStatus() == transferStatus) {
+                    activityStatus += activity.getResources().getString(R.string.trans_failed);
+                } else {
+                    if(BOINCActivity.monitor.getNetworkSuspendReason() != 0) {
+                        activityStatus += activity.getResources().getString(R.string.trans_suspended);
+                    } else {
+                        if (transfersActive) {
+                            activityStatus += activity.getResources().getString(R.string.trans_active);
+                        }
+                        else {
+                            activityStatus += activity.getResources().getString(R.string.trans_pending);
                         }
                     }
-                }
-                else { // transfers active
-                    activityStatus += activity.getResources().getString(R.string.trans_active);
                 }
 
                 transfersString +=

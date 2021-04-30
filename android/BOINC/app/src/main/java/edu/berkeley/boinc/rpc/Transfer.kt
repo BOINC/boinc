@@ -24,6 +24,11 @@ import androidx.core.os.ParcelCompat.readBoolean
 import androidx.core.os.ParcelCompat.writeBoolean
 import java.io.Serializable
 
+enum class TransferStatus(val status: Int) {
+    ERR_GIVEUP_DOWNLOAD(-114),
+    ERR_GIVEUP_UPLOAD(-115)
+}
+
 data class Transfer(
         var name: String = "",
         var projectUrl: String = "",
