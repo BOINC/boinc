@@ -46,8 +46,6 @@ import java.util.List;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.CcState;
-import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.TransferStatus;
