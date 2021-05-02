@@ -35,7 +35,7 @@
     <string name="attachproject_hint_contribtion_header">كيفية المساهمة</string>
     <string name="attachproject_hint_contribtion_wifi">1. اتصل بالشبكة اللاسلكية</string>
     <string name="attachproject_hint_contribtion_charger">2. قم بتوصيل الشاحن</string>
-    <string name="attachproject_hint_contribtion_screen">3. قم بإيقاف الشاشة</string>
+    <string name="attachproject_hint_contribtion_screen">4. قم بإيقاف الشاشة</string>
     <string name="attachproject_hint_projectwebsite_header">قم بزيارة مواقع المشاريع من اجل:</string>
     <string name="attachproject_hint_projectwebsite_science">التعرف على المزيد حول العلم</string>
     <string name="attachproject_hint_projectwebsite_stats">عرض إحصائيات المساهمة</string>

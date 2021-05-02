@@ -49,11 +49,12 @@
     <!-- working -->
     <string name="attachproject_working_attaching">Attaching %1$s</string> <!-- e.g. Attaching Einstein@Home -->
     <!-- hints -->
-    <string name="attachproject_hints_header">Hint</string> <!-- e.g. Hint 1/2 -->
+    <string name="attachproject_hints_header">Tip</string> <!-- e.g. Hint 1/2 -->
     <string name="attachproject_hint_contribtion_header">How to contribute:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Connect to WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Plug in Charger</string>
-    <string name="attachproject_hint_contribtion_screen">3. Turn off Screen</string>
+    <string name="attachproject_hint_contribtion_app">3. Run BOINC and keep it open</string>
+    <string name="attachproject_hint_contribtion_screen">4. Turn off Screen</string>
     <string name="attachproject_hint_projectwebsite_header">Visit project websites to:</string>
     <string name="attachproject_hint_projectwebsite_science">Learn more about the science</string>
     <string name="attachproject_hint_projectwebsite_stats">View contribution statistics</string>

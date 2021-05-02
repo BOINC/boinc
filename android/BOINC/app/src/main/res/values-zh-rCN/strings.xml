@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_header">如何参与：</string>
   <string name="attachproject_hint_contribtion_wifi">1、连接到WiFi网络</string>
   <string name="attachproject_hint_contribtion_charger">2、插上充电器</string>
-  <string name="attachproject_hint_contribtion_screen">3、关闭屏幕（锁屏）</string>
+  <string name="attachproject_hint_contribtion_screen">4、关闭屏幕（锁屏）</string>
   <string name="attachproject_hint_projectwebsite_header">访问项目网站以：</string>
   <string name="attachproject_hint_projectwebsite_science">了解更多科学方面的内容</string>
   <string name="attachproject_hint_projectwebsite_stats">查看所做贡献的统计数据</string>

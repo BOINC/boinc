@@ -34,7 +34,7 @@ projekto interneto svetainę</string>
   <string name="attachproject_hint_contribtion_header">Kaip prisidėti:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Prisijunkite prie WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Prijunkite kroviklį</string>
-  <string name="attachproject_hint_contribtion_screen">3. Išjunkite ekraną</string>
+  <string name="attachproject_hint_contribtion_screen">4. Išjunkite ekraną</string>
   <string name="attachproject_hint_projectwebsite_header">Aplankykite projekto svetainę:</string>
   <string name="attachproject_hint_projectwebsite_science">Sužinokite daugiau apie mokslą</string>
   <string name="attachproject_hint_projectwebsite_stats">Peržiūrėti indėlio statistiką</string>

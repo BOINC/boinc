@@ -35,7 +35,7 @@ izena emateko
   <string name="attachproject_hint_contribtion_header">Nola lagundu:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Konektatu WIFIra </string>
   <string name="attachproject_hint_contribtion_charger">2. Entxufatu kargagailua</string>
-  <string name="attachproject_hint_contribtion_screen">3. Itzali pantaila</string>
+  <string name="attachproject_hint_contribtion_screen">4. Itzali pantaila</string>
   <string name="attachproject_hint_projectwebsite_header">Begiratu proiektuaren webguneak:</string>
   <string name="attachproject_hint_projectwebsite_science">Zientziari buruz azalpen gehiago</string>
   <string name="attachproject_hint_projectwebsite_stats">Begiratu emandako laguntzaren estatistika</string>

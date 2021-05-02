@@ -34,7 +34,7 @@
     <string name="attachproject_hint_contribtion_header">כיצד לתרום:</string>
     <string name="attachproject_hint_contribtion_wifi">1. התחבר ל-WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. חבר מטען</string>
-    <string name="attachproject_hint_contribtion_screen">3. כבה את המסך</string>
+    <string name="attachproject_hint_contribtion_screen">4. כבה את המסך</string>
     <string name="attachproject_hint_projectwebsite_header">בקר באתר המיזם כדי:</string>
     <string name="attachproject_hint_projectwebsite_science">למד עוד אודות המדע</string>
     <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>

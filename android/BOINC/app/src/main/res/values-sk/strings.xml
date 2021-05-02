@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_header">Ako pomôcť:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Pripojiť k WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Pripojte nabíjačku</string>
-  <string name="attachproject_hint_contribtion_screen">3. Vypnite obrazovku</string>
+  <string name="attachproject_hint_contribtion_screen">4. Vypnite obrazovku</string>
   <string name="attachproject_hint_projectwebsite_header">Navštívte stránky projektov na:</string>
   <string name="attachproject_hint_projectwebsite_science">Zistiť viac o vede</string>
   <string name="attachproject_hint_projectwebsite_stats">Skontrolovať štatistiky</string>

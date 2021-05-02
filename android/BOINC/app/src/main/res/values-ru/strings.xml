@@ -33,7 +33,7 @@
   <string name="attachproject_hint_contribtion_header">Как помочь:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Подключиться к Wi-Fi</string>
   <string name="attachproject_hint_contribtion_charger">2. Подключить зарядное устройство</string>
-  <string name="attachproject_hint_contribtion_screen">3. Отключить экран</string>
+  <string name="attachproject_hint_contribtion_screen">4. Отключить экран</string>
   <string name="attachproject_hint_projectwebsite_header">Посетить веб-сайты проектов для:</string>
   <string name="attachproject_hint_projectwebsite_science">Узнать больше о науке</string>
   <string name="attachproject_hint_projectwebsite_stats">Посмотреть статистику участия</string>

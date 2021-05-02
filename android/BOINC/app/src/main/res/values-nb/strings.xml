@@ -36,7 +36,7 @@
     <string name="attachproject_hint_contribtion_header">Hvordan bidra:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Koble til WIFI</string>
     <string name="attachproject_hint_contribtion_charger">2. Plugg inn lader</string>
-    <string name="attachproject_hint_contribtion_screen">3. Slå av skjerm</string>
+    <string name="attachproject_hint_contribtion_screen">4. Slå av skjerm</string>
     <string name="attachproject_hint_projectwebsite_header">Besøk prosjektets hjemmeside:</string>
     <string name="attachproject_hint_projectwebsite_science">Lær mer om vitenskapen</string>
     <string name="attachproject_hint_projectwebsite_stats">Vis bidragsstatistikk</string>

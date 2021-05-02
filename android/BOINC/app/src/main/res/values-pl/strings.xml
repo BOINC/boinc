@@ -33,7 +33,7 @@
     <string name="attachproject_hint_contribtion_header">Jak się przyczyniać:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Podłącz się do sieci Wi-Fi</string>
     <string name="attachproject_hint_contribtion_charger">2. Przypnij ładowarkę</string>
-    <string name="attachproject_hint_contribtion_screen">3. Wyłącz ekran</string>
+    <string name="attachproject_hint_contribtion_screen">4. Wyłącz ekran</string>
     <string name="attachproject_hint_projectwebsite_header">Wejdź na witrynę internetową projektu aby:</string>
     <string name="attachproject_hint_projectwebsite_science">Dowiedzieć się więcej o zagadnieniu naukowym</string>
     <string name="attachproject_hint_projectwebsite_stats">Przeglądać statystyki przyczynienia</string>

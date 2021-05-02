@@ -35,7 +35,7 @@ k registraci
   <string name="attachproject_hint_contribtion_header">Jak přispět:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Připojte se k WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Připojte nabíječku</string>
-  <string name="attachproject_hint_contribtion_screen">3. Vypněte obrazovku</string>
+  <string name="attachproject_hint_contribtion_screen">4. Vypněte obrazovku</string>
   <string name="attachproject_hint_projectwebsite_header">Navštivte webové stránky projektu:</string>
   <string name="attachproject_hint_projectwebsite_science">Chvi se dozvědět více o vědě</string>
   <string name="attachproject_hint_projectwebsite_stats">Zobrazit statistiky přispívání</string>

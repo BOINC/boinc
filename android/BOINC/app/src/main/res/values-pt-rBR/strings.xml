@@ -33,7 +33,7 @@
   <string name="attachproject_hint_contribtion_header">Como contribuir:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Conecte-se ao WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Conecte o Carregador</string>
-  <string name="attachproject_hint_contribtion_screen">3. Desligue a Tela</string>
+  <string name="attachproject_hint_contribtion_screen">4. Desligue a Tela</string>
   <string name="attachproject_hint_projectwebsite_header">Visite os sites do projeto para:</string>
   <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>

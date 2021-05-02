@@ -37,7 +37,7 @@
     <string name="attachproject_hint_contribtion_header">Hogyan tovább:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Csatlakozás a WiFi-hez</string>
     <string name="attachproject_hint_contribtion_charger">2. Töltő csatlakoztatása</string>
-    <string name="attachproject_hint_contribtion_screen">3. Képernyő kikapcsolása</string>
+    <string name="attachproject_hint_contribtion_screen">4. Képernyő kikapcsolása</string>
     <string name="attachproject_hint_projectwebsite_header">Nézd a projekt weboldalakat is:</string>
     <string name="attachproject_hint_projectwebsite_science">Tudj meg többet a tudományról</string>
     <string name="attachproject_hint_projectwebsite_stats">Közreműködők statisztikája</string>

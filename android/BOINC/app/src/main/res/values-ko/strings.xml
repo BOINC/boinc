@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_header">공헌하는 법:</string>
   <string name="attachproject_hint_contribtion_wifi">1. WiFi에 연결하기</string>
   <string name="attachproject_hint_contribtion_charger">2. 충전기를 꼽으세요</string>
-  <string name="attachproject_hint_contribtion_screen">3. 화면을 끄세요</string>
+  <string name="attachproject_hint_contribtion_screen">4. 화면을 끄세요</string>
   <string name="attachproject_hint_projectwebsite_header">프로젝트 웹사이트 방문하기:</string>
   <string name="attachproject_hint_projectwebsite_science">과학에 대해 더 알아보기</string>
   <string name="attachproject_hint_projectwebsite_stats">공헌 통계 보기</string>

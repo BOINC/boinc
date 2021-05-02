@@ -35,7 +35,7 @@
     <string name="attachproject_hint_contribtion_header">Как да допринесете:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Свържете се с WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Включете зарядно устройство</string>
-    <string name="attachproject_hint_contribtion_screen">3. Изключете екрана</string>
+    <string name="attachproject_hint_contribtion_screen">4. Изключете екрана</string>
     <string name="attachproject_hint_projectwebsite_header">Посетете уебсайтовете на проектите, за да:</string>
     <string name="attachproject_hint_projectwebsite_science">Научите повече за науката зад проекта</string>
     <string name="attachproject_hint_projectwebsite_stats">Видите статистика за приноса</string>

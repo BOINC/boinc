@@ -36,7 +36,7 @@
     <string name="attachproject_hint_contribtion_header">Kā līdzdarboties:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Pieslēdzies WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Pieslēdz lādētāju</string>
-    <string name="attachproject_hint_contribtion_screen">3. Izslēdz ekrānu</string>
+    <string name="attachproject_hint_contribtion_screen">4. Izslēdz ekrānu</string>
     <string name="attachproject_hint_projectwebsite_header">Apmeklējiet projekta vietni, lai:</string>
     <string name="attachproject_hint_projectwebsite_science">Uzzināt vairāk par zinātni</string>
     <string name="attachproject_hint_projectwebsite_stats">Apskatīt ieguldījuma statistiku</string>
