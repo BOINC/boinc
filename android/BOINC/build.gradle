@@ -2,10 +2,13 @@
 buildscript {
     ext.kotlin_version = '1.4.30'
     repositories {
-        jcenter()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
+        }
+        maven {
+            url 'https://repo1.maven.org/maven2/'
+            name 'Central Repository'
         }
         google()
     }
@@ -18,7 +21,6 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
