@@ -26,10 +26,11 @@
 
 require_once("../inc/util.inc");
 
-// strip leading AMD or NVIDIA
+// strip leading AMD, NVIDIA, etc.
+// This avoids showing the same model twice
 //
 function strip_vendor($model) {
-    foreach (array("AMD ", "NVIDIA ") as $maker) {
+    foreach (array("AMD ", "NVIDIA ", "ATI ", "Intel(R) ") as $maker) {
         $n = strlen($maker);
         if (substr($model, 0, $n) == $maker) {
             return substr($model, $n);
