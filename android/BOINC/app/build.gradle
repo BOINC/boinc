@@ -11,7 +11,7 @@ import org.ajoberstar.grgit.Grgit
 
 // Use commit date as version code (valid up to 07/18/2036)
 def buildVersionCode() {
-    def repo = Grgit.open()
+    def repo = Grgit.open(currentDir: project.rootDir)
     def head = repo.head()
 
     // Sanity check across git plugins
