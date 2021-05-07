@@ -26,6 +26,19 @@
 
 require_once("../inc/util.inc");
 
+// strip leading AMD, NVIDIA, etc.
+// This avoids showing the same model twice
+//
+function strip_vendor($model) {
+    foreach (array("AMD ", "NVIDIA ", "ATI ", "Intel(R) ") as $maker) {
+        $n = strlen($maker);
+        if (substr($model, 0, $n) == $maker) {
+            return substr($model, $n);
+        }
+    }
+    return $model;
+}
+
 // take a host.serialnum field (which may encode several GPUs)
 // and extract the model name for the given vendor
 //
@@ -37,7 +50,7 @@ function get_gpu_model($x, $vendor) {
         $d = explode("|", $desc);
         if ($d[0] == "BOINC") continue;
         if ($d[0] != $vendor) continue;
-        return $d[1];
+        return strip_vendor(trim($d[1]));
     }
     return null;
 }
