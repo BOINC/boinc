@@ -1,7 +1,7 @@
 /*
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2016 University of California
+  Copyright (C) 2021 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -206,13 +206,8 @@ public class NoticeNotification {
                    BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
         catch(Exception e) {
-            if(Log.isLoggable(Logging.TAG, Log.DEBUG)) {
-                Log.d(
-                        Logging.TAG,
-                        e.getLocalizedMessage(),
-                        e
-                );
-            }
+            Log.d(Logging.TAG, e.getLocalizedMessage(), e);
+            
             return BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
     }

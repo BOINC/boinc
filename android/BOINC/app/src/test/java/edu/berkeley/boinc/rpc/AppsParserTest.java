@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -41,7 +42,7 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class AppsParserTest {
     private static final String USER_FRIENDLY_NAME = "User-friendly name";
 
@@ -64,6 +65,7 @@ public class AppsParserTest {
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
         mockStatic(Xml.class);
+        mockStatic(Log.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 
@@ -136,6 +138,8 @@ public class AppsParserTest {
     @Test
     public void testParser_whenXmlAppHasNameUserFriendlyNameAndInvalidNonCpuIntensive_thenExpectAppWithoutNonCpuIntensive()
             throws SAXException {
+        mockStatic(Log.class);
+
         appsParser.startElement(null, AppsParser.APP_TAG, null, null);
         appsParser.startElement(null, RPCCommonTags.NAME, null, null);
         appsParser.characters("Name".toCharArray(), 0, 4);

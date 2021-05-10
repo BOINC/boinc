@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -70,19 +70,17 @@ class ProjectDetailsFragment : Fragment() {
                 project = BOINCActivity.monitor!!.projects.firstOrNull { it.masterURL == url }
                 projectInfo = BOINCActivity.monitor!!.getProjectInfoAsync(url).await()
             } catch (e: Exception) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "ProjectDetailsFragment getCurrentProjectData could not" +
-                            " retrieve project list")
-                }
+                Log.e(Logging.TAG, "ProjectDetailsFragment getCurrentProjectData could not" +
+                        " retrieve project list")
             }
-            if (project == null && Logging.WARNING) {
+            if (project == null) {
                 Log.w(Logging.TAG,
                         "ProjectDetailsFragment getCurrentProjectData could not find project for URL: $url")
             }
-            if (projectInfo == null && Logging.WARNING) {
+            if (projectInfo == null) {
                 Log.d(Logging.TAG,
                         "ProjectDetailsFragment getCurrentProjectData could not find project" +
-                                " attach list for URL: $url")
+                        " attach list for URL: $url")
             }
         }
 
@@ -110,9 +108,8 @@ class ProjectDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "ProjectDetailsFragment onCreateView")
-        }
+        Log.d(Logging.TAG, "ProjectDetailsFragment onCreateView")
+
         // Inflate the layout for this fragment
         _binding = ProjectDetailsLayoutBinding.inflate(inflater, container, false)
         return binding.root
@@ -194,8 +191,8 @@ class ProjectDetailsFragment : Fragment() {
                 }
                 R.id.projects_control_reset -> showConfirmationDialog(RpcClient.PROJECT_RESET)
                 R.id.projects_control_remove -> showConfirmationDialog(RpcClient.PROJECT_DETACH)
-                else -> if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
+                else -> {
+                    Log.e(Logging.TAG, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
                 }
             }
         }
@@ -299,25 +296,20 @@ class ProjectDetailsFragment : Fragment() {
                 binding.statusWrapper.visibility = View.GONE
             }
         } catch (e: Exception) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ProjectDetailsFragment.updateChangingItems error: ", e)
-            }
+            Log.e(Logging.TAG, "ProjectDetailsFragment.updateChangingItems error: ", e)
         }
     }
 
     // executes project operations in new thread
     private suspend fun performProjectOperation(operation: Int) = coroutineScope {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "performProjectOperation()")
-        }
+        Log.d(Logging.TAG, "performProjectOperation()")
 
         val success = async {
             return@async try {
                 BOINCActivity.monitor!!.projectOp(operation, project!!.masterURL)
             } catch (e: Exception) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "performProjectOperation() error: ", e)
-                }
+                Log.e(Logging.TAG, "performProjectOperation() error: ", e)
+
                 false
             }
         }.await()
@@ -326,38 +318,32 @@ class ProjectDetailsFragment : Fragment() {
             try {
                 BOINCActivity.monitor!!.forceRefresh()
             } catch (e: RemoteException) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "performProjectOperation() error: ", e)
-                }
+                Log.e(Logging.TAG, "performProjectOperation() error: ", e)
             }
-        } else if (Logging.WARNING) {
-            Log.w(Logging.TAG, "performProjectOperation() failed.")
+        } else {
+            Log.e(Logging.TAG, "performProjectOperation() failed.")
         }
     }
 
     private suspend fun updateSlideshowImages() = coroutineScope {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG,
-                    "UpdateSlideshowImagesAsync updating images in new thread. project:" +
-                            " $project!!.masterURL")
-        }
+        Log.d(Logging.TAG,
+                "UpdateSlideshowImagesAsync updating images in new thread. project:" +
+                " $project!!.masterURL")
+
         val success = withContext(Dispatchers.Default) {
             slideshowImages = try {
                 BOINCActivity.monitor!!.getSlideshowForProject(project!!.masterURL)
             } catch (e: Exception) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "updateSlideshowImages: Could not load data, " +
-                            "clientStatus not initialized.")
-                }
+                Log.e(Logging.TAG, "updateSlideshowImages: Could not load data, " +
+                        "clientStatus not initialized.")
+
                 return@withContext false
             }
             return@withContext slideshowImages.isNotEmpty()
         }
 
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG,
-                    "UpdateSlideshowImagesAsync success: $success, images: ${slideshowImages.size}")
-        }
+        Log.d(Logging.TAG,
+                "UpdateSlideshowImagesAsync success: $success, images: ${slideshowImages.size}")
         if (success && slideshowImages.isNotEmpty()) {
             binding.slideshowLoading.visibility = View.GONE
             for (image in slideshowImages) {

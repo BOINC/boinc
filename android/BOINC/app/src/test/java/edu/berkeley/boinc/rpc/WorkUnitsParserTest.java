@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -34,10 +35,11 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class WorkUnitsParserTest {
     private static final String WORK_UNIT_NAME = "Work Unit";
 
@@ -145,6 +147,8 @@ public class WorkUnitsParserTest {
     @Test
     public void testParser_whenXmlWorkUnitHasNameAndInvalidVersionNum_thenExpectListWithWorkUnitWithOnlyName()
             throws SAXException {
+        mockStatic(Log.class);
+
         workUnitsParser.startElement(null, WorkUnitsParser.WORKUNIT_TAG, null, null);
         workUnitsParser.startElement(null, RPCCommonTags.NAME, null, null);
         workUnitsParser.characters(WORK_UNIT_NAME.toCharArray(), 0, WORK_UNIT_NAME.length());

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -63,9 +63,7 @@ class AcctMgrInfoParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "AcctMgrInfoParser.endElement error: ", e)
-            }
+            Log.e(Logging.TAG, "AcctMgrInfoParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -79,9 +77,9 @@ class AcctMgrInfoParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.accountMgrInfo
             } catch (e: SAXException) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "AcctMgrRPCReplyParser: malformatted XML")
-                }
+                Log.e(Logging.TAG, "AcctMgrInfoParser: malformed XML ", e)
+                Log.d(Logging.TAG, "AcctMgrInfoParser: $rpcResult")
+
                 null
             }
         }

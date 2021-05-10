@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -54,9 +54,8 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity onCreate")
-        }
+
+        Log.d(Logging.TAG, "BatchProcessingActivity onCreate")
 
         // setup layout
         binding = AttachProjectBatchProcessingLayoutBinding.inflate(layoutInflater)
@@ -83,9 +82,8 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "BatchProcessingActivity onDestroy")
-        }
+        Log.d(Logging.TAG, "BatchProcessingActivity onDestroy")
+
         super.onDestroy()
         doUnbindService()
     }
@@ -104,14 +102,13 @@ class BatchProcessingActivity : AppCompatActivity() {
     // triggered by continue button
     fun continueClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         val conflicts = attachService!!.anyUnresolvedConflicts()
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
-        }
+
+        Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
+
         if (conflicts) {
             // conflicts occurred, bring up resolution screen
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "attachProject(): conflicts exists, open resolution activity...")
-            }
+            Log.d(Logging.TAG, "attachProject(): conflicts exists, open resolution activity...")
+
             startActivity(Intent(this@BatchProcessingActivity,
                     BatchConflictListActivity::class.java).apply {
                 putExtra("conflicts", true)
@@ -129,9 +126,8 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // triggered by share button
     fun shareClicked(@Suppress("UNUSED_PARAMETER") v: View) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.")
-        }
+        Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.")
+
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             
@@ -159,9 +155,9 @@ class BatchProcessingActivity : AppCompatActivity() {
     // adapts header text and icons when hint selection changes
     private fun adaptHintHeader() {
         val position = binding.hintContainer.currentItem
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: $position")
-        }
+
+        Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: $position")
+
         val hintText = getString(R.string.attachproject_hints_header) + " ${position + 1}/$NUM_HINTS"
         binding.hintHeaderText.text = hintText
         var leftVisibility = View.VISIBLE
@@ -179,17 +175,15 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // previous image in hint header clicked
     fun previousHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.")
-        }
+        Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.")
+
         binding.hintContainer.currentItem--
     }
 
     // previous image in hint header clicked
     fun nextHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.")
-        }
+        Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.")
+
         binding.hintContainer.currentItem++
     }
 
@@ -228,43 +222,39 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     private suspend fun attachProject() {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberOfSelectedProjects}" +
-                    " projects to attach....")
-        }
+        Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberOfSelectedProjects}" +
+                " projects to attach....")
+
         // shown while project configs are loaded
         binding.attachStatusText.text = getString(R.string.attachproject_login_loading)
 
         withContext(Dispatchers.Default) {
             // wait until service is ready
             while (!attachService!!.projectConfigRetrievalFinished) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "attachProject(): project config retrieval has" +
-                            " not finished yet, wait...")
-                }
+                Log.d(Logging.TAG, "attachProject(): project config retrieval has" +
+                        " not finished yet, wait...")
+
                 delay(1000)
             }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "attachProject(): project config retrieval finished," +
-                        " continue with attach.")
-            }
+
+            Log.d(Logging.TAG, "attachProject(): project config retrieval finished," +
+                    " continue with attach.")
+
             // attach projects, one at a time
             attachService!!.selectedProjects
                     // skip already tried projects in batch processing
                     .filter { it.result == RESULT_READY }
                     .onEach {
-                        if (Logging.DEBUG) {
-                            Log.d(Logging.TAG, "attachProject(): trying: ${it.info?.name}")
-                        }
+                        Log.d(Logging.TAG, "attachProject(): trying: ${it.info?.name}")
+
                         binding.attachStatusText.text = getString(R.string.attachproject_working_attaching,
                                 it.info?.name)
                     }
                     .map { it.lookupAndAttach(false) }
-                    .filter { it != RESULT_SUCCESS && Logging.ERROR }
+                    .filter { it != RESULT_SUCCESS }
                     .forEach { Log.e(Logging.TAG, "attachProject() attach returned conflict: $it") }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "attachProject(): finished.")
-            }
+            
+            Log.d(Logging.TAG, "attachProject(): finished.")
         }
 
         binding.attachStatusOngoingWrapper.visibility = View.GONE

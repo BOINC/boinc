@@ -52,18 +52,16 @@ class TasksFragment : Fragment() {
     private var lastFullUpdateTimeStamp: Long = 0
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (Logging.VERBOSE) {
-                Log.d(Logging.TAG, "TasksActivity onReceive")
-            }
+            Log.d(Logging.TAG, "TasksActivity onReceive")
+
             loadData()
         }
     }
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (Logging.DEBUG) {
             Log.d(Logging.TAG, "TasksFragment onCreateView")
-        }
+
         // Inflate the layout for this fragment
         val binding = TasksLayoutBinding.inflate(inflater, container, false)
         recyclerViewAdapter = TaskRecyclerViewAdapter(this, data)
@@ -75,18 +73,16 @@ class TasksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         //register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "TasksFragment register receiver")
-        }
+        Log.d(Logging.TAG, "TasksFragment register receiver")
+
         requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
         loadData()
     }
 
     override fun onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "TasksFragment remove receiver")
-        }
+        Log.d(Logging.TAG, "TasksFragment remove receiver")
+
         requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
@@ -155,9 +151,8 @@ class TasksFragment : Fragment() {
             //check whether this Result is new
             val index = data.indexOfFirst { it.id == rpcResult.name }
             if (index == -1) { // result is new, add
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "new result found, id: " + rpcResult.name)
-                }
+                Log.d(Logging.TAG, "new result found, id: " + rpcResult.name)
+
                 data.add(TaskData(rpcResult))
             } else { // result was present before, update its data
                 data[index].updateResultData(rpcResult)
@@ -185,25 +180,22 @@ class TasksFragment : Fragment() {
                 return
             }
             if (currentState == nextState) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "nextState met! $nextState")
-                }
+                Log.d(Logging.TAG, "nextState met! $nextState")
+
                 nextState = -1
                 loopCounter = 0
             } else {
                 if (loopCounter < transitionTimeout) {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG,
-                                "nextState not met yet! " + nextState + " vs " + currentState + " loopCounter: " +
-                                        loopCounter)
-                    }
+                    Log.d(Logging.TAG,
+                            "nextState not met yet! " + nextState + " vs " + currentState + " loopCounter: " +
+                            loopCounter)
+
                     loopCounter++
                 } else {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG,
-                                "transition timed out! " + nextState + " vs " + currentState + " loopCounter: " +
-                                        loopCounter)
-                    }
+                    Log.d(Logging.TAG,
+                            "transition timed out! " + nextState + " vs " + currentState + " loopCounter: " +
+                            loopCounter)
+
                     nextState = -1
                     loopCounter = 0
                 }
@@ -244,15 +236,13 @@ class TasksFragment : Fragment() {
                         dialogBinding.cancel.setOnClickListener { dialog.dismiss() }
                         dialog.show()
                     }
-                    else -> if (Logging.WARNING) {
-                        Log.w(Logging.TAG, "could not map operation tag")
+                    else -> {
+                        Log.e(Logging.TAG, "could not map operation tag")
                     }
                 }
                 recyclerViewAdapter.notifyDataSetChanged() //force list adapter to refresh
             } catch (e: Exception) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "failed parsing view tag")
-                }
+                Log.e(Logging.TAG, "failed parsing view tag")
             }
         }
 
@@ -280,14 +270,12 @@ class TasksFragment : Fragment() {
     suspend fun performResultOperation(url: String, name: String, operation: Int) = coroutineScope {
         val success = withContext(Dispatchers.Default) {
             try {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "URL: $url, Name: $name, operation: $operation")
-                }
+                Log.d(Logging.TAG, "URL: $url, Name: $name, operation: $operation")
+
                 return@withContext BOINCActivity.monitor!!.resultOp(operation, url, name)
             } catch (e: Exception) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "performResultOperation() error: ", e)
-                }
+                Log.e(Logging.TAG, "performResultOperation() error: ", e)
+
             }
             return@withContext false
         }
@@ -296,12 +284,10 @@ class TasksFragment : Fragment() {
             try {
                 BOINCActivity.monitor!!.forceRefresh()
             } catch (e: RemoteException) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "performResultOperation() error: ", e)
-                }
+                Log.e(Logging.TAG, "performResultOperation() error: ", e)
             }
-        } else if (Logging.WARNING) {
-            Log.w(Logging.TAG, "performResultOperation() failed.")
+        } else {
+            Log.e(Logging.TAG, "performResultOperation() failed.")
         }
     }
 }

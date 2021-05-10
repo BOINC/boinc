@@ -118,9 +118,8 @@ class TaskRunner<V>(private val callback: ((V) -> Unit)? , private val callable:
             callback?.invoke(result)
             result
         } catch (e: Exception) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "BOINCUtils.TaskRunner error: ", e)
-            }
+            Log.e(Logging.TAG, "BOINCUtils.TaskRunner error: ", e)
+
             throw e
         }
     }

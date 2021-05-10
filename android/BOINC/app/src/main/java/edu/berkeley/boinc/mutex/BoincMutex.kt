@@ -51,9 +51,7 @@ class BoincMutex @Inject constructor(private val socket: LocalSocket) {
             socket.bind(LocalSocketAddress("boinc_mutex"))
             isAcquired = true
         } catch (e: IOException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "BoincMutex.acquire error: ", e)
-            }
+            Log.e(Logging.TAG, "BoincMutex.acquire error: ", e)
         }
         return socket.isBound
     }
@@ -67,9 +65,7 @@ class BoincMutex @Inject constructor(private val socket: LocalSocket) {
                 socket.close()
                 isAcquired = false
             } catch (e: IOException) {
-                if (Logging.ERROR) {
-                    Log.e(Logging.TAG, "BoincMutex.release error: ", e)
-                }
+                Log.e(Logging.TAG, "BoincMutex.release error: ", e)
             }
         }
     }

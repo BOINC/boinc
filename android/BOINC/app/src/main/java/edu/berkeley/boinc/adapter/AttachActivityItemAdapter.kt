@@ -49,15 +49,13 @@ class AttachActivityItemAdapter(
         val listener = View.OnClickListener {
             when (attachActivityItem.type) {
                 AttachActivityItemType.ACCOUNT_MANAGER -> {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG, "AttachActivityItemAdapter: account manager clicked.")
-                    }
+                    Log.d(Logging.TAG, "AttachActivityItemAdapter: account manager clicked.")
+
                     activity.startAccountManagerActivity()
                 }
                 AttachActivityItemType.ALL_PROJECTS -> {
-                    if (Logging.DEBUG) {
-                        Log.d(Logging.TAG, "AttachActivityItemAdapter: projects clicked.")
-                    }
+                    Log.d(Logging.TAG, "AttachActivityItemAdapter: projects clicked.")
+
                     activity.startSelectionProjectActivity()
                 }
             }

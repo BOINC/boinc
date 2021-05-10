@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -119,6 +119,8 @@ public class CcStatusParserTest {
 
     @Test
     public void testParser_whenXmlCcStatusHasInvalidTaskMode_thenExpectDefaultCcStatus() throws SAXException {
+        mockStatic(Log.class);
+
         ccStatusParser.startElement(null, CcStatusParser.CC_STATUS_TAG, null, null);
         ccStatusParser.startElement(null, CcStatus.Fields.TASK_MODE, null, null);
         ccStatusParser.characters("One".toCharArray(), 0, 3);

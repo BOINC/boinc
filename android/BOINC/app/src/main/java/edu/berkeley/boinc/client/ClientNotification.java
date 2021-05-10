@@ -1,3 +1,21 @@
+/*
+ * This file is part of BOINC.
+ * http://boinc.berkeley.edu
+ * Copyright (C) 2021 University of California
+ *
+ * BOINC is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * BOINC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package edu.berkeley.boinc.client;
 
 import android.annotation.SuppressLint;
@@ -78,8 +96,10 @@ public class ClientNotification {
                 for(int x = 0; x < activeTasks.size(); x++) {
                     if(!activeTasks.get(x).getName().equals(mOldActiveTasks.get(x).getName())) {
                         activeTasksChanged = true;
-                        Log.d(Logging.TAG, "Active task: " + activeTasks.get(x).getName()
-                                           + ", old active task: " + mOldActiveTasks.get(x).getName());
+
+                        Log.d(Logging.TAG, "Active task: " + activeTasks.get(x).getName() +
+                                ", old active task: " +
+                                mOldActiveTasks.get(x).getName());
                         break;
                     }
                 }
@@ -94,16 +114,15 @@ public class ClientNotification {
         }
 
         // update notification, only if it hasn't been shown before, or after change in status
-        if(Logging.VERBOSE) {
-            Log.d(Logging.TAG,
-                  "ClientNotification: notification needs update? "
-                  + (mOldComputingStatus == -1)
-                  + activeTasksChanged
-                  + !notificationShown
-                  + (updatedStatus.computingStatus != mOldComputingStatus)
-                  + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
-                     && updatedStatus.computingSuspendReason != mOldSuspendReason));
-        }
+        Log.d(Logging.TAG,
+                "ClientNotification: notification needs update? "
+                + (mOldComputingStatus == -1)
+                + activeTasksChanged
+                + !notificationShown
+                + (updatedStatus.computingStatus != mOldComputingStatus)
+                + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
+                    && updatedStatus.computingSuspendReason != mOldSuspendReason));
+
         if(mOldComputingStatus == -1
            || activeTasksChanged
            || !notificationShown
@@ -113,9 +132,9 @@ public class ClientNotification {
 
             // update, build and notify
             nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientNotification: update");
-            }
+
+            Log.d(Logging.TAG, "ClientNotification: update");
+
             notificationShown = true;
 
             // save status for comparison next time
@@ -133,9 +152,9 @@ public class ClientNotification {
     // Notification must be built, before setting service to foreground!
     private void setForegroundState(Monitor service) {
         service.startForeground(notificationId, n);
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.");
-        }
+
+        Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.");
+
         foreground = true;
     }
 

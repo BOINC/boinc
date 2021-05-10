@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,7 +18,9 @@
  */
 package edu.berkeley.boinc.rpc
 
+import android.util.Log
 import android.util.Xml
+import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
@@ -43,25 +45,29 @@ class SimpleReplyParser : BaseParser() {
     @Throws(SAXException::class)
     override fun endElement(uri: String?, localName: String, qName: String?) {
         super.endElement(uri, localName, qName)
-        if (localName.equals(MessageCountParser.REPLY_TAG, ignoreCase = true)) {
-            mInReply = false
-        } else if (mInReply && !mParsed) {
-            when {
-                localName.equals("success", ignoreCase = true) -> {
-                    result = true
-                    mParsed = true
-                }
-                localName.equals("failure", ignoreCase = true) -> {
-                    result = false
-                    mParsed = true
-                }
-                localName.equals("error", ignoreCase = true) -> {
-                    trimEnd()
-                    errorMessage = mCurrentElement.toString()
-                    result = false
-                    mParsed = true
+        try {
+            if (localName.equals(MessageCountParser.REPLY_TAG, ignoreCase = true)) {
+                mInReply = false
+            } else if (mInReply && !mParsed) {
+                when {
+                    localName.equals("success", ignoreCase = true) -> {
+                        result = true
+                        mParsed = true
+                    }
+                    localName.equals("failure", ignoreCase = true) -> {
+                        result = false
+                        mParsed = true
+                    }
+                    localName.equals("error", ignoreCase = true) -> {
+                        trimEnd()
+                        errorMessage = mCurrentElement.toString()
+                        result = false
+                        mParsed = true
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "SimpleReplyParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -74,6 +80,9 @@ class SimpleReplyParser : BaseParser() {
                 Xml.parse(reply, parser)
                 parser
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "SimpleReplyParser: malformed XML ", e)
+                Log.d(Logging.TAG, "SimpleReplyParser: $reply")
+                
                 null
             }
         }

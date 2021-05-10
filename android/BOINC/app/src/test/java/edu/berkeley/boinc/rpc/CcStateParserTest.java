@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -38,7 +39,7 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class CcStateParserTest {
     /* Project test values */
     private static final int BYTES_IN_1_GB = 1073741824;
@@ -75,6 +76,7 @@ public class CcStateParserTest {
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectNull() throws Exception {
         mockStatic(Xml.class);
+        mockStatic(Log.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 
@@ -344,6 +346,8 @@ public class CcStateParserTest {
     @Test
     public void testParser_whenXmlCcStateHasVersionInfoWithInvalidMajorVersion_thenExpectCcStateWithDefaultMajorVersion()
             throws SAXException {
+        mockStatic(Log.class);
+
         ccStateParser.startElement(null, CcStateParser.CLIENT_STATE_TAG, null, null);
         ccStateParser.startElement(null, CcStateParser.CORE_CLIENT_MAJOR_VERSION_TAG, null, null);
         ccStateParser.characters("One".toCharArray(), 0, 3);

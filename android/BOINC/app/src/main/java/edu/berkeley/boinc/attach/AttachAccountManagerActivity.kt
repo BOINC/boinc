@@ -72,7 +72,8 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
         }
 
         binding.continueButton.setOnClickListener {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachAccountManagerActivity continue clicked")
+            Log.d(Logging.TAG, "AttachAccountManagerActivity continue clicked")
+
             if (!checkDeviceOnline()) return@setOnClickListener
             if (asIsBound) {
                 // get user input
@@ -96,7 +97,9 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
                 lifecycleScope.launch {
                     attachProject(url, name, pwd)
                 }
-            } else if (Logging.DEBUG) Log.d(Logging.TAG, "AttachAccountManagerActivity service not bound, do nothing...")
+            } else {
+                Log.d(Logging.TAG, "AttachAccountManagerActivity service not bound, do nothing...")
+            }
         }
 
         doBindService()
@@ -122,7 +125,8 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
         if (!online) {
             val toast = Toast.makeText(this, R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT)
             toast.show()
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachAccountManagerActivity not online, stop!")
+
+            Log.d(Logging.TAG, "AttachAccountManagerActivity not online, stop!")
         }
         return online
     }
@@ -138,7 +142,8 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
         val result = withContext(Dispatchers.Default) { attachService!!.attachAcctMgr(url, name, pwd) }
 
         if (result.isOK) {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "AttachAccountManagerActivity attachProject() finished, start main activity")
+            Log.d(Logging.TAG, "AttachAccountManagerActivity attachProject() finished, start main activity")
+
             val intent = Intent(this@AttachAccountManagerActivity, BOINCActivity::class.java).apply {
                 // add flags to return to main activity and clearing all others and clear the back stack
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -161,7 +166,8 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
     }
 
     private fun mapErrorNumToString(code: Int): String {
-        if (Logging.DEBUG) Log.d(Logging.TAG, "mapErrorNumToString for error: $code")
+        Log.d(Logging.TAG, "mapErrorNumToString for error: $code")
+
         val stringResource = when (code) {
             ERR_DB_NOT_FOUND -> R.string.attachproject_error_wrong_name
             ERR_GETHOSTBYNAME -> R.string.attachproject_error_no_internet
@@ -205,7 +211,8 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
                 val accountManagers = try {
                     monitor!!.accountManagers
                 } catch (e: Exception) {
-                    if (Logging.ERROR) Log.e(Logging.TAG, "AttachAccountManagerActivity onCreate() mMonitorConnection error: $e")
+                    Log.e(Logging.TAG, "AttachAccountManagerActivity onCreate() mMonitorConnection error: $e")
+
                     emptyList<AccountManager>()
                 }
                 val adapterData = accountManagers.map { AccountManagerSpinner(it.name, it.url) }
@@ -227,6 +234,7 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
             // This should not happen
             monitor = null
             mIsBound = false
+            
             Log.e(Logging.TAG, "BAttachAccountManagerActivity onServiceDisconnected")
         }
     }

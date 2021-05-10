@@ -48,10 +48,9 @@ class SelectionRecyclerViewAdapter(
         holder.checkBox.isChecked = listItem.isChecked
         holder.checkBox.setOnClickListener { listItem.isChecked = !listItem.isChecked }
         holder.textWrapper.setOnClickListener {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
-                        listItem.info?.name)
-            }
+            Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
+                    listItem.info?.name)
+
             val dialog = newInstance(listItem.info)
             dialog.show(activity.supportFragmentManager, "ProjectInfoFragment")
         }

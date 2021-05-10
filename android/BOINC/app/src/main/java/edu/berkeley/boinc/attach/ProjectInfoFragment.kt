@@ -39,23 +39,20 @@ class ProjectInfoFragment : DialogFragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectInfoFragment onCreateView")
-        }
+        Log.d(Logging.TAG, "ProjectInfoFragment onCreateView")
+
         _binding = AttachProjectInfoLayoutBinding.inflate(inflater, container, false)
 
         // get data
         val info: ProjectInfo? = requireArguments().getParcelable("info")
         if (info == null) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ProjectInfoFragment info is null, return.")
-            }
+            Log.e(Logging.TAG, "ProjectInfoFragment info is null, return.")
+
             dismiss()
             return binding.root
         }
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.name)
-        }
+
+        Log.d(Logging.TAG, "ProjectInfoFragment project: " + info.name)
 
         // set texts
         binding.projectName.text = info.name
@@ -67,14 +64,13 @@ class ProjectInfoFragment : DialogFragment() {
 
         // setup return button
         binding.continueButton.setOnClickListener {
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "ProjectInfoFragment continue clicked")
-            }
+            Log.d(Logging.TAG, "ProjectInfoFragment continue clicked")
+
             dismiss()
         }
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl)
-        }
+
+        Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl)
+
         Glide.with(this).asBitmap().placeholder(R.drawable.ic_boinc).load(info.imageUrl)
                 .transform(ScaleBitmapBy2()).into(binding.projectLogo)
         return binding.root

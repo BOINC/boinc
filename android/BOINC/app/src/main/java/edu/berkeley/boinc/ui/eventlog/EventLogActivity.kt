@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -52,9 +52,8 @@ class EventLogActivity : AppCompatActivity() {
 
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            if (Logging.VERBOSE) {
-                Log.d(Logging.TAG, "EventLogActivity onServiceConnected")
-            }
+            Log.d(Logging.TAG, "EventLogActivity onServiceConnected")
+
             monitor = IMonitor.Stub.asInterface(service)
             mIsBound = true
 
@@ -70,7 +69,7 @@ class EventLogActivity : AppCompatActivity() {
 
     val monitorService: IMonitor
         get() {
-            if (!mIsBound && Logging.WARNING) {
+            if (!mIsBound) {
                 Log.w(Logging.TAG, "Fragment trying to obtain service reference, but Monitor" +
                         " not bound in EventLogActivity")
             }
@@ -151,9 +150,7 @@ class EventLogActivity : AppCompatActivity() {
             clipboard.setPrimaryClip(clipData)
             Toast.makeText(applicationContext, R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "onCopy failed")
-            }
+            Log.e(Logging.TAG, "onCopy failed")
         }
     }
 
@@ -170,9 +167,7 @@ class EventLogActivity : AppCompatActivity() {
             // Send it off to the Activity-Chooser
             startActivity(Intent.createChooser(emailIntent, "Send mail..."))
         } catch (e: Exception) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "onEmailTo failed")
-            }
+            Log.e(Logging.TAG, "onEmailTo failed")
         }
     }
 
@@ -201,8 +196,8 @@ class EventLogActivity : AppCompatActivity() {
                     text.append("\n")
                 }
             }
-            Logging.WARNING -> {
-                Log.w(Logging.TAG, "EventLogActivity could not determine which log active.")
+            else -> {
+                Log.e(Logging.TAG, "EventLogActivity could not determine which log active.")
             }
         }
         return text.toString()

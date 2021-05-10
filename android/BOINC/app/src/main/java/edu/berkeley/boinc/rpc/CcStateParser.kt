@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -236,10 +236,8 @@ class CcStateParser : BaseParser() {
                 mElementStarted = false
                 ccState.versionInfo = mVersionInfo
             }
-        } catch (e: NumberFormatException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "CcStateParser.endElement error: ", e)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "CcStateParser.endElement error: ", e)
         }
     }
 
@@ -261,6 +259,9 @@ class CcStateParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.ccState
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "CcStateParser: malformed XML ", e)
+                Log.d(Logging.TAG, "CcStateParser: $rpcResult")
+
                 null
             }
         }

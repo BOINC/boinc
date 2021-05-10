@@ -99,9 +99,8 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "ProjectsListAdapter: Could not load data, clientStatus not initialized.");
-            }
+            Log.w(Logging.TAG, "ProjectsListAdapter: Could not load data, clientStatus not initialized.");
+
             return null;
         }
     }
@@ -174,9 +173,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 statusText = BOINCActivity.monitor.getProjectStatus(data.getProject().getMasterURL());
             }
             catch(Exception e) {
-                if(Logging.ERROR) {
-                    Log.e(Logging.TAG, "ProjectsListAdapter.getView error: ", e);
-                }
+                Log.e(Logging.TAG, "ProjectsListAdapter.getView error: ", e);
             }
             TextView tvStatus = vi.findViewById(R.id.project_status);
             if(statusText.isEmpty()) {

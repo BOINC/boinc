@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -108,10 +108,8 @@ class ProjectConfigReplyParser : BaseParser() {
                 }
             }
             mElementStarted = false
-        } catch (e: NumberFormatException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ProjectConfigReplyParser.endElement error: ", e)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "ProjectConfigReplyParser.endElement error: ", e)
         }
     }
 
@@ -137,6 +135,9 @@ class ProjectConfigReplyParser : BaseParser() {
                 Xml.parse(rpcResult.replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>", ""), parser)
                 parser.projectConfig
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "ProjectConfigReplyParser: malformed XML ", e)
+                Log.d(Logging.TAG, "ProjectConfigReplyParser: $rpcResult")
+
                 null
             }
         }

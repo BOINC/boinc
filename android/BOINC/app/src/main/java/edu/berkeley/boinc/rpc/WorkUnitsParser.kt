@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -77,10 +77,8 @@ class WorkUnitsParser : BaseParser() {
                     }
                 }
             }
-        } catch (e: NumberFormatException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "WorkunitsParser.endElement error: ", e)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "WorkUnitsParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -100,6 +98,9 @@ class WorkUnitsParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.workUnits
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "WorkUnitsParser: malformed XML ", e)
+                Log.d(Logging.TAG, "WorkUnitsParser: $rpcResult")
+
                 emptyList()
             }
         }

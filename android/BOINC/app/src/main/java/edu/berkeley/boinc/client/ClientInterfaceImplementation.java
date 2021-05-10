@@ -109,18 +109,13 @@ public class ClientInterfaceImplementation extends RpcClient {
         try (BufferedReader br = new BufferedReader(new FileReader(new File(authFilePath)))) {
             authKey = br.readLine();
         } catch (FileNotFoundException fnfe) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "Auth file not found: ", fnfe);
-            }
+            Log.e(Logging.TAG, "Auth file not found: ", fnfe);
         } catch (IOException ioe) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "IOException: ", ioe);
-            }
+            Log.e(Logging.TAG, "IOException: ", ioe);
         }
 
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "Authentication key acquired. length: " + StringUtils.length(authKey));
-        }
+        Log.d(Logging.TAG, "Authentication key acquired. length: " + StringUtils.length(authKey));
+
         return authKey;
     }
 
@@ -145,9 +140,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
                 config = getProjectConfigPoll();
                 if (config == null) {
-                    if (Logging.ERROR) {
-                        Log.e(Logging.TAG, "ClientInterfaceImplementation.getProjectConfigPolling: returned null.");
-                    }
+                    Log.e(Logging.TAG, "ClientInterfaceImplementation.getProjectConfigPolling: returned null.");
+
                     return null;
                 }
                 if (config.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
@@ -155,17 +149,13 @@ public class ClientInterfaceImplementation extends RpcClient {
                 } else {
                     //final result ready
                     if (config.getErrorNum() == 0) {
-                        if (Logging.DEBUG) {
-                            Log.d(Logging.TAG,
-                                    "ClientInterfaceImplementation.getProjectConfigPolling: ProjectConfig retrieved: " +
-                                            config.getName());
-                        }
+                        Log.d(Logging.TAG,
+                                "ClientInterfaceImplementation.getProjectConfigPolling: ProjectConfig retrieved: " +
+                                config.getName());
                     } else {
-                        if (Logging.DEBUG) {
-                            Log.d(Logging.TAG,
-                                    "ClientInterfaceImplementation.getProjectConfigPolling: final result with error_num: " +
-                                            config.getErrorNum());
-                        }
+                        Log.d(Logging.TAG,
+                                "ClientInterfaceImplementation.getProjectConfigPolling: final result with error_num: " +
+                                config.getErrorNum());
                     }
                 }
             }
@@ -196,7 +186,7 @@ public class ClientInterfaceImplementation extends RpcClient {
                 reply = projectAttachPoll();
             }
             return (reply != null && reply.getErrorNum() == BOINCErrors.ERR_OK);
-        } else if (Logging.DEBUG) {
+        } else {
             Log.d(Logging.TAG, "rpc.projectAttach failed.");
         }
         return false;
@@ -213,17 +203,14 @@ public class ClientInterfaceImplementation extends RpcClient {
         try {
             List<Project> attachedProjects = getProjectStatus();
             for (Project project : attachedProjects) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, project.getMasterURL() + " vs " + url);
-                }
+                Log.d(Logging.TAG, project.getMasterURL() + " vs " + url);
+
                 if (project.getMasterURL().equals(url)) {
                     return true;
                 }
             }
         } catch (Exception e) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ClientInterfaceImplementation.checkProjectAttached() error: ", e);
-            }
+            Log.e(Logging.TAG, "ClientInterfaceImplementation.checkProjectAttached() error: ", e);
         }
         return false;
     }
@@ -250,9 +237,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
                 auth = lookupAccountPoll();
                 if (auth == null) {
-                    if (Logging.ERROR) {
-                        Log.e(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: returned null.");
-                    }
+                    Log.e(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: returned null.");
+
                     return null;
                 }
                 if (auth.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
@@ -260,19 +246,15 @@ public class ClientInterfaceImplementation extends RpcClient {
                 } else {
                     //final result ready
                     if (auth.getErrorNum() == 0) {
-                        if (Logging.DEBUG) {
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: authenticator retrieved.");
-                        }
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.lookupCredentials: authenticator retrieved.");
                     } else {
-                        if (Logging.DEBUG) {
-                            Log.d(Logging.TAG,
-                                    "ClientInterfaceImplementation.lookupCredentials: final result with error_num: " +
-                                    auth.getErrorNum());
-                        }
+                        Log.d(Logging.TAG,
+                                "ClientInterfaceImplementation.lookupCredentials: final result with error_num: " +
+                                auth.getErrorNum());
                     }
                 }
             }
-        } else if (Logging.DEBUG) {
+        } else {
             Log.d(Logging.TAG, "rpc.lookupAccount failed.");
         }
         return auth;
@@ -291,8 +273,8 @@ public class ClientInterfaceImplementation extends RpcClient {
         boolean success = true;
         for (Transfer transfer : transfers) {
             success = success && transferOp(operation, transfer.getProjectUrl(), transfer.getName());
-            if (Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.getName() + " " +
-                                                  success);
+
+            Log.d(Logging.TAG, "transfer: " + transfer.getName() + " " + success);
         }
         return success;
     }
@@ -318,8 +300,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
                 auth = createAccountPoll();
                 if (auth == null) {
-                    if (Logging.ERROR)
-                        Log.e(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: returned null.");
+                    Log.e(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: returned null.");
+
                     return null;
                 }
                 if (auth.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
@@ -327,17 +309,15 @@ public class ClientInterfaceImplementation extends RpcClient {
                 } else {
                     //final result ready
                     if (auth.getErrorNum() == 0) {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: authenticator retrieved.");
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: authenticator retrieved.");
                     } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: final result with error_num: "
-                                               + auth.getErrorNum());
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.createAccountPolling: final result with error_num: "
+                                + auth.getErrorNum());
                     }
                 }
             }
         } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.createAccount returned false.");
+            Log.d(Logging.TAG, "rpc.createAccount returned false.");
         }
         return auth;
     }
@@ -363,12 +343,10 @@ public class ClientInterfaceImplementation extends RpcClient {
                     loop = false;
                     //final result ready
                     if (reply == null) {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: failed, reply null.");
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: failed, reply null.");
                     } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned "
-                                               + reply.getErrorNum());
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.addAcctMgr: returned " + 
+                                reply.getErrorNum());
                     }
                 } else {
                     try {
@@ -378,7 +356,7 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
             }
         } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+            Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
         }
         return reply;
     }
@@ -405,8 +383,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
                 reply = getProjectConfigPoll();
                 if (reply == null) {
-                    if (Logging.ERROR)
-                        Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: getProjectConfigreturned null.");
+                    Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: getProjectConfigreturned null.");
+
                     return false;
                 }
                 if (reply.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
@@ -414,17 +392,15 @@ public class ClientInterfaceImplementation extends RpcClient {
                 } else {
                     //final result ready
                     if (reply.getErrorNum() == 0) {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: project config retrieved.");
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: project config retrieved.");
                     } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronize" +
-                                               "AcctMgr: final result with error_num: " + reply.getErrorNum());
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronize" +
+                                "AcctMgr: final result with error_num: " + reply.getErrorNum());
                     }
                 }
             }
         } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.getProjectConfig returned false.");
+            Log.d(Logging.TAG, "rpc.getProjectConfig returned false.");
         }
 
         // 2nd acct_mgr_rpc with <use_config_file/>
@@ -440,8 +416,8 @@ public class ClientInterfaceImplementation extends RpcClient {
                 }
                 reply2 = acctMgrRPCPoll();
                 if (reply2 == null) {
-                    if (Logging.ERROR)
-                        Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acctMgrRPCPoll returned null.");
+                    Log.e(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acctMgrRPCPoll returned null.");
+
                     return false;
                 }
                 if (reply2.getErrorNum() == BOINCErrors.ERR_IN_PROGRESS) {
@@ -449,16 +425,14 @@ public class ClientInterfaceImplementation extends RpcClient {
                 } else {
                     //final result ready
                     if (reply2.getErrorNum() == 0) {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acct mngr reply retrieved.");
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: acct mngr reply retrieved.");
                     } else {
-                        if (Logging.DEBUG)
-                            Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply2.getErrorNum());
+                        Log.d(Logging.TAG, "ClientInterfaceImplementation.synchronizeAcctMgr: final result with error_num: " + reply2.getErrorNum());
                     }
                 }
             }
         } else {
-            if (Logging.DEBUG) Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
+            Log.d(Logging.TAG, "rpc.acctMgrRPC returned false.");
         }
 
         return true;
@@ -499,7 +473,7 @@ public class ClientInterfaceImplementation extends RpcClient {
             msgs.removeIf(message -> message.getSeqno() >= seqNo);
         }
 
-        if(!msgs.isEmpty() && Logging.DEBUG) {
+        if(!msgs.isEmpty()) {
             Log.d(Logging.TAG, "getEventLogMessages: returning array with " + msgs.size()
                                + " entries. for lowerBound: " + lowerBound + " at 0: "
                                + msgs.get(0).getSeqno() + " at " + (msgs.size() - 1) + ": "
@@ -517,8 +491,7 @@ public class ClientInterfaceImplementation extends RpcClient {
      * @return list of attachable projects
      */
     List<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
+        Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 
         List<ProjectInfo> allProjectsList = getAllProjectsList(); // all_projects_list.xml
         List<Project> attachedProjects = getState().getProjects(); // currently attached projects
@@ -554,9 +527,9 @@ public class ClientInterfaceImplementation extends RpcClient {
             }
         }
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: "
-                               + attachableProjects.size());
+        Log.d(Logging.TAG, "getAttachableProjects: number of candidates found: "+ 
+                attachableProjects.size());
+
         return attachableProjects;
     }
 
@@ -568,9 +541,8 @@ public class ClientInterfaceImplementation extends RpcClient {
     List<AccountManager> getAccountManagers() {
         List<AccountManager> accountManagers = getAccountManagersList(); // from all_projects_list.xml
 
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "getAccountManagers: number of account managers found: "
-                               + accountManagers.size());
+        Log.d(Logging.TAG, "getAccountManagers: number of account managers found: " + accountManagers.size());
+
         return accountManagers;
     }
 
@@ -580,15 +552,17 @@ public class ClientInterfaceImplementation extends RpcClient {
             if (tmp.getUrl().equals(url))
                 return tmp;
         }
-        if (Logging.ERROR)
-            Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
+
+        Log.e(Logging.TAG, "getProjectInfo: could not find info for: " + url);
+
         return null;
     }
 
     boolean setDomainName(String deviceName) {
         boolean success = setDomainNameRpc(deviceName);
-        if (Logging.DEBUG)
-            Log.d(Logging.TAG, "setDomainName: success " + success);
+
+        Log.d(Logging.TAG, "setDomainName: success " + success);
+        
         return success;
     }
 
