@@ -46,12 +46,10 @@ class AttachActivity : AppCompatActivity() {
             statusAcctMgrPresent = statusAcctMgr.isPresent
         } catch (e: Exception) {
             // data retrieval failed, continue...
-            if (Logging.ERROR) {
-                Log.d(Logging.TAG, "AcctMgrInfo data retrieval failed.")
-            }
+            Log.e(Logging.TAG, "AcctMgrInfo data retrieval failed.")
         }
 
-        var attachAtivityItemList = listOf(
+        var attachActivityItemList = listOf(
                 AttachActivityItem(
                         AttachActivityItemType.ALL_PROJECTS,
                         getString(R.string.attachproject_attach_projects_header),
@@ -59,14 +57,14 @@ class AttachActivity : AppCompatActivity() {
         ).toMutableList()
 
         if (!statusAcctMgrPresent) {
-            attachAtivityItemList.add(AttachActivityItem(
+            attachActivityItemList.add(AttachActivityItem(
                     AttachActivityItemType.ACCOUNT_MANAGER,
                     getString(R.string.attachproject_acctmgr_header),
                     getString(R.string.attachproject_acctmgr_list_desc)
             ))
         }
 
-        binding.itemsRecyclerView.adapter = AttachActivityItemAdapter(attachAtivityItemList, this)
+        binding.itemsRecyclerView.adapter = AttachActivityItemAdapter(attachActivityItemList, this)
         binding.itemsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.cancelButton.setOnClickListener {

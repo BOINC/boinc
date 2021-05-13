@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -108,16 +108,14 @@ public class EventLogGuiFragment extends Fragment {
                 }
                 x++;
             }
-            if(Logging.VERBOSE) {
-                Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
-            }
+
+            Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
+
             adapter.notifyDataSetChanged();
             binding.getRoot().setRefreshing(false);
         }
         catch(IOException e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "readLogcat failed", e);
-            }
+            Log.e(Logging.TAG, "readLogcat failed", e);
         }
     }
 }

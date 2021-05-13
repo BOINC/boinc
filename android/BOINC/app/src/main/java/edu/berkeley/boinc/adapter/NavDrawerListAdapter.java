@@ -106,11 +106,10 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(Logging.VERBOSE) {
-            Log.d(Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems.get(position).title +
-                               navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
-                               navDrawerItems.get(position).isProjectItem);
-        }
+        Log.d(Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems.get(position).title +
+                navDrawerItems.get(position).isCounterVisible + navDrawerItems.get(position).isSubItem +
+                navDrawerItems.get(position).isProjectItem);
+
         if(convertView == null || convertView.getTag() == null || !(convertView.getTag()).equals(navDrawerItems.get(position).title)) {
             int layoutId = R.layout.navlist_listitem;
             if(navDrawerItems.get(position).isSubItem()) {
@@ -156,9 +155,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                             counter = monitor.getTasksCount();
                     }
                     catch(Exception e) {
-                        if(Logging.ERROR) {
-                            Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
-                        }
+                        Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
                     }
                     break;
                 case R.string.tab_notices:
@@ -168,9 +165,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                             counter = monitor.getRssNotices().size();
                     }
                     catch(Exception e) {
-                        if(Logging.ERROR) {
-                            Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
-                        }
+                        Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e);
                     }
                     break;
             }
@@ -193,9 +188,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
                 bm = monitor.getProjectIcon(masterUrl);
         }
         catch(Exception e) {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectIconForMasterUrl error: ", e);
-            }
+            Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectIconForMasterUrl error: ", e);
         }
         return bm;
     }
@@ -212,9 +205,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
             }
         }
         catch(Exception e) {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e);
-            }
+            Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e);
         }
         return projectName;
     }
@@ -240,9 +231,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
             numberAdded++;
         }
 
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
-        }
+        Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
+
         this.notifyDataSetChanged();
         return numberAdded;
     }
@@ -283,9 +273,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         }
         catch(Exception e) {
             // data retrieval failed, continue...
-            if (Logging.ERROR) {
-                Log.d(Logging.TAG, "AcctMgrInfo data retrieval failed.");
-            }
+            Log.e(Logging.TAG, "AcctMgrInfo data retrieval failed.");
         }
         return statusAcctMgrPresent;
     }
@@ -330,9 +318,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
             this.projectMasterUrl = masterUrl;
             this.isProjectItem = true;
             this.isSubItem = true;
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "NavDrawerItem: created hash code " + id + " for project " + name);
-            }
+
+            Log.d(Logging.TAG, "NavDrawerItem: created hash code " + id + " for project " + name);
         }
 
         /**

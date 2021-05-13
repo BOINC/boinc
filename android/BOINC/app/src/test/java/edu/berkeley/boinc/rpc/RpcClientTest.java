@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -17,6 +17,8 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  */
 package edu.berkeley.boinc.rpc;
+
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,10 +39,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({AccountOutParser.class, AcctMgrRPCReplyParser.class, GlobalPreferencesParser.class,
+@PrepareForTest({Log.class, AccountOutParser.class, AcctMgrRPCReplyParser.class, GlobalPreferencesParser.class,
                  SimpleReplyParser.class})
 public class RpcClientTest {
     private static final String CREATE_ACCOUNT_TEMPLATE = "<create_account>\n" +
@@ -191,6 +194,7 @@ public class RpcClientTest {
     @Test
     public void testCreateAccount_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse() throws IOException {
         mockStatic(SimpleReplyParser.class);
+        mockStatic(Log.class);
 
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
@@ -220,6 +224,7 @@ public class RpcClientTest {
     @Test
     public void testCreateAccountPoll_whenIOExceptionIsThrown_thenExpectNull() throws IOException {
         mockStatic(AccountOutParser.class);
+        mockStatic(Log.class);
 
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
         Mockito.when(rpcClient.createAccountPoll()).thenCallRealMethod();
@@ -283,6 +288,7 @@ public class RpcClientTest {
     @Test
     public void testLookupAccount_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse() throws IOException {
         mockStatic(SimpleReplyParser.class);
+        mockStatic(Log.class);
 
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
@@ -309,6 +315,7 @@ public class RpcClientTest {
     @Test
     public void testLookupAccountPoll_whenIOExceptionIsThrown_thenExpectNull() throws IOException {
         mockStatic(AccountOutParser.class);
+        mockStatic(Log.class);
 
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
         Mockito.when(rpcClient.lookupAccountPoll()).thenCallRealMethod();
@@ -328,6 +335,7 @@ public class RpcClientTest {
     @Test
     public void testAcctMgrRPCPoll_whenIOExceptionIsThrown_thenExpectNull() throws IOException {
         mockStatic(AccountOutParser.class);
+        mockStatic(Log.class);
 
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
         Mockito.when(rpcClient.acctMgrRPCPoll()).thenCallRealMethod();
@@ -345,9 +353,10 @@ public class RpcClientTest {
     }
 
     @Test
-    public void tesGetGlobalPreferencesWorkingStruct_whenIOExceptionIsThrown_thenExpectNull()
+    public void testGetGlobalPreferencesWorkingStruct_whenIOExceptionIsThrown_thenExpectNull()
             throws IOException {
         mockStatic(AccountOutParser.class);
+        mockStatic(Log.class);
 
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
         Mockito.when(rpcClient.getGlobalPrefsWorkingStruct()).thenCallRealMethod();
@@ -414,6 +423,8 @@ public class RpcClientTest {
     @Test
     public void testSetGlobalPrefsOverrideStruct_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse()
             throws IOException {
+        mockStatic(Log.class);
+
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
 
         assertFalse(rpcClient.setGlobalPrefsOverrideStruct(new GlobalPreferences()));
@@ -427,6 +438,8 @@ public class RpcClientTest {
     @Test
     public void testReadGlobalPrefsOverride_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse()
             throws IOException {
+        mockStatic(Log.class);
+
         Mockito.doThrow(new IOException()).when(rpcClient).sendRequest(anyString());
         Mockito.when(rpcClient.readGlobalPrefsOverride()).thenCallRealMethod();
 
@@ -456,6 +469,7 @@ public class RpcClientTest {
     public void testRunBenchmarks_whenIOExceptionIsThrown_thenExpectSuccessToBeFalse()
             throws IOException {
         mockStatic(SimpleReplyParser.class);
+        mockStatic(Log.class);
 
         PowerMockito.when(SimpleReplyParser.parse(anyString())).thenReturn(simpleReplyParser);
         Mockito.when(simpleReplyParser.getResult()).thenReturn(true);

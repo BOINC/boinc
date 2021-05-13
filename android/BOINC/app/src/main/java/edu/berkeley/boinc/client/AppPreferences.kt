@@ -51,10 +51,9 @@ class AppPreferences @Inject constructor(val context: Context) {
 
     init {
         Logging.setLogLevel(logLevel)
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG,
-                    "appPrefs read successful." + autostart + showNotificationForNotices +
-                            showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless)
-        }
+
+        Log.d(Logging.TAG,
+                "appPrefs read successful." + autostart + showNotificationForNotices +
+                showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless)
     }
 }

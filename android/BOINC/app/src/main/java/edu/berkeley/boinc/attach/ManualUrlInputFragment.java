@@ -52,9 +52,7 @@ public class ManualUrlInputFragment extends DialogFragment {
 
         Button continueButton = v.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(view -> {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
-            }
+            Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
 
             if(!checkDeviceOnline()) {
                 return;
@@ -95,9 +93,8 @@ public class ManualUrlInputFragment extends DialogFragment {
         if(!online) {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
-            }
+            
+            Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
         }
         return online;
     }

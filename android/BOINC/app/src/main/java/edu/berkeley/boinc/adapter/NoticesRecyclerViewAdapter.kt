@@ -56,9 +56,8 @@ class NoticesRecyclerViewAdapter(
         holder.root.setOnClickListener {
             val link = listItem.link
 
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "noticeClick: $link")
-            }
+            Log.d(Logging.TAG, "noticeClick: $link")
+
             if (link.isNotEmpty()) {
                 fragment.requireActivity().startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
             }
@@ -84,9 +83,8 @@ class NoticesRecyclerViewAdapter(
         return try {
             BOINCActivity.monitor!!.getProjectIconByName(notices[position].projectName)
         } catch (e: Exception) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
-            }
+            Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
+
             null
         }
     }

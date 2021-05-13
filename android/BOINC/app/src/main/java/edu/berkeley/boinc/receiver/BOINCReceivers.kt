@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -31,15 +31,12 @@ class BootReceiver : BroadcastReceiver() {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             val prefs = AppPreferences(context)
             if (prefs.autostart) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
-                }
+                Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
+
                 context.startService(Intent(context, Monitor::class.java))
             } else {
                 // do nothing
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
-                }
+                Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
             }
         }
     }
@@ -55,11 +52,9 @@ class PackageReplacedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_PACKAGE_REPLACED) {
             if (intent.dataString.toString().contains("edu.berkeley.boinc")) {
-                if (Logging.ERROR) {
-                    Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...")
-                }
+                Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...")
                 context.startService(Intent(context, Monitor::class.java))
-            } else if (Logging.DEBUG) {
+            } else {
                 Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.dataString)
             }
         }
@@ -70,6 +65,7 @@ class PowerConnectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_POWER_CONNECTED) {
             Log.d(Logging.TAG, "power connected, start service...")
+
             context.startService(Intent(context, Monitor::class.java))
         }
     }

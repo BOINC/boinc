@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -41,10 +41,9 @@ class BatchConflictRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val listItem = entries[position]
-        if (Logging.VERBOSE) {
-            Log.d(Logging.TAG, "BatchConflictListAdapter.getView for: ${listItem.name} at" +
-                    " position: $position with result: ${listItem.result}")
-        }
+
+        Log.d(Logging.TAG, "BatchConflictListAdapter.getView for: ${listItem.name} at" +
+                " position: $position with result: ${listItem.result}")
 
         holder.name.text = listItem.name
         if (listItem.result == ProjectAttachService.RESULT_SUCCESS) {
@@ -67,9 +66,8 @@ class BatchConflictRecyclerViewAdapter(
             holder.status.text = listItem.resultDescription
             holder.resolveButtonImage.visibility = View.VISIBLE
             holder.resolveItemWrapper.setOnClickListener {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
-                }
+                Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
+
                 val dialog = IndividualCredentialInputFragment.newInstance(listItem)
                 dialog.show(activity.supportFragmentManager, listItem.name)
             }
@@ -88,9 +86,8 @@ class BatchConflictRecyclerViewAdapter(
             holder.status.text = listItem.resultDescription
             holder.resolveButtonImage.visibility = View.VISIBLE
             holder.resolveItemWrapper.setOnClickListener {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
-                }
+                Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
+
                 val dialog = IndividualCredentialInputFragment.newInstance(listItem)
                 dialog.show(activity.supportFragmentManager, listItem.name)
             }

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2016 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -96,8 +96,8 @@ public class DeviceStatus {
         change |= determineNetworkStatus();
         change |= determineUserActive();
 
-        if(change && Logging.DEBUG) {
-            Log.i(Logging.TAG,
+        if(change) {
+            Log.d(Logging.TAG,
                   "change: " + " - stationary device: " + stationaryDeviceMode + " ; ac: " +
                   status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
                   " ; temperature: " + status.getBatteryTemperatureCelsius() + " ; wifi: " +
@@ -181,9 +181,8 @@ public class DeviceStatus {
             // WiFi or ethernet is online
             if(!status.isWiFiOnline()) {
                 change = true; // if different from before, set flag
-                if(Logging.ERROR) {
-                    Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
-                }
+
+                Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
             }
             status.setWiFiOnline(true);
         }
@@ -233,9 +232,8 @@ public class DeviceStatus {
 
                 if(!stationaryDeviceMode) { // should not change during run-time. just triggered on initial read
                     change = true;
-                    if(Logging.ERROR) {
-                        Log.d(Logging.TAG, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing");
-                    }
+
+                    Log.w(Logging.TAG, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing");
                 }
                 stationaryDeviceMode = true;
                 setAttributesForStationaryDevice();

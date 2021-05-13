@@ -47,9 +47,9 @@ public class CredentialInputActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "CredentialInputActivity onCreate");
-        }
+
+        Log.d(Logging.TAG, "CredentialInputActivity onCreate");
+
         doBindService();
         binding = AttachProjectCredentialInputLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -73,9 +73,7 @@ public class CredentialInputActivity extends AppCompatActivity {
 
     // triggered by continue button
     public void continueClicked(View v) {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
-        }
+        Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
 
         // set credentials in service
         if(asIsBound) {
@@ -88,23 +86,19 @@ public class CredentialInputActivity extends AppCompatActivity {
             }
         }
         else {
-            if(Logging.ERROR) {
-                Log.e(Logging.TAG, "CredentialInputActivity.continueClicked: service not bound.");
-            }
+            Log.e(Logging.TAG, "CredentialInputActivity.continueClicked: service not bound.");
+
             return;
         }
 
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "CredentialInputActivity.continueClicked: starting BatchProcessingActivity...");
-        }
+        Log.d(Logging.TAG, "CredentialInputActivity.continueClicked: starting BatchProcessingActivity...");
+
         startActivity(new Intent(this, BatchProcessingActivity.class));
     }
 
     // triggered by individual button
     public void individualClicked(View v) {
-        if(Logging.DEBUG) {
-            Log.d(Logging.TAG, "CredentialInputActivity.individualClicked.");
-        }
+        Log.d(Logging.TAG, "CredentialInputActivity.individualClicked.");
 
         // set credentials in service, in case user typed before deciding btwn batch and individual attach
         if(asIsBound) {

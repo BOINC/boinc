@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -38,9 +38,7 @@ class NoticesFragment : Fragment() {
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
     private val mClientStatusChangeRec = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (Logging.VERBOSE) {
-                Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()")
-            }
+            Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()")
 
             // data retrieval
             val notices = updateNotices()
@@ -54,9 +52,8 @@ class NoticesFragment : Fragment() {
     private var data: MutableList<Notice> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (Logging.VERBOSE) {
-            Log.d(Logging.TAG, "NoticesFragment onCreateView")
-        }
+        Log.d(Logging.TAG, "NoticesFragment onCreateView")
+
         val binding = NoticesLayoutBinding.inflate(inflater, container, false)
 
         noticesRecyclerViewAdapter = NoticesRecyclerViewAdapter(this, data)
@@ -66,27 +63,23 @@ class NoticesFragment : Fragment() {
     }
 
     override fun onResume() {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "NoticesFragment onResume()")
-        }
+        Log.d(Logging.TAG, "NoticesFragment onResume()")
+
         activity?.registerReceiver(mClientStatusChangeRec, ifcsc)
 
         // clear notice notification
         try {
             BOINCActivity.monitor!!.cancelNoticeNotification()
         } catch (e: Exception) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e)
-            }
+            Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e)
         }
         super.onResume()
     }
 
     override fun onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "NoticesFragment remove receiver")
-        }
+        Log.d(Logging.TAG, "NoticesFragment remove receiver")
+
         activity?.unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
@@ -96,9 +89,8 @@ class NoticesFragment : Fragment() {
             BOINCActivity.monitor!!.rssNotices.sortedWith(compareBy<Notice> { it.createTime }
                     .reversed())
         } catch (e: Exception) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)
-            }
+            Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)
+
             emptyList()
         }
     }

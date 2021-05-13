@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -262,9 +262,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private fun writeClientPrefs(prefs: GlobalPreferences) {
         BOINCActivity.monitor!!.setGlobalPreferencesAsync(prefs) {
             success: Boolean ->
-            if (Logging.DEBUG) {
                 Log.d(Logging.TAG, "writeClientPrefs() async call returned: $success")
-            }
         }
     }
 

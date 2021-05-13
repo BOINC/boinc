@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -50,9 +50,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
     // results.
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (Logging.VERBOSE) {
-                Log.d(Logging.TAG, "BatchConflictListActivity ClientStatusChange - onReceive()")
-            }
+            Log.d(Logging.TAG, "BatchConflictListActivity ClientStatusChange - onReceive()")
+
             if (asIsBound) {
                 recyclerViewAdapter.notifyDataSetChanged()
             }
@@ -69,9 +68,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
 
             // set data, if manual url
             if (!manualUrl.isNullOrEmpty()) {
-                if (Logging.DEBUG) {
-                    Log.d(Logging.TAG, "BatchConflictListActivity manual URL found: $manualUrl")
-                }
+                Log.d(Logging.TAG, "BatchConflictListActivity manual URL found: $manualUrl")
+
                 attachService!!.setManuallySelectedProject(manualUrl!!)
                 manualUrl = ""
             }
@@ -84,9 +82,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
                 adapter = recyclerViewAdapter
                 layoutManager = LinearLayoutManager(this@BatchConflictListActivity)
             }
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size + " elements.")
-            }
+
+            Log.d(Logging.TAG, "BatchConflictListActivity setup list with " + results.size + " elements.")
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -98,9 +95,9 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchConflictListActivity onCreate")
-        }
+
+        Log.d(Logging.TAG, "BatchConflictListActivity onCreate")
+
         doBindService()
         // setup layout
         binding = AttachProjectBatchConflictsLayoutBinding.inflate(layoutInflater)
@@ -127,9 +124,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
     }
 
     override fun onDestroy() {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "BatchConflictListActivity onDestroy")
-        }
+        Log.d(Logging.TAG, "BatchConflictListActivity onDestroy")
+
         doUnbindService()
         super.onDestroy()
     }
@@ -159,9 +155,8 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
     }
 
     override fun onFinish(project: ProjectAttachWrapper, login: Boolean, email: String, name: String, pwd: String) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog")
-        }
+        Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog")
+
         if (asIsBound && !attachService!!.verifyInput(email, name, pwd)) {
             return
         }
@@ -180,17 +175,15 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
 
     private suspend fun attachProject(project: ProjectAttachWrapper, login: Boolean, email: String,
                                       name: String, pwd: String) {
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "attachProject(): ${project.config?.name}")
-        }
+        Log.d(Logging.TAG, "attachProject(): ${project.config?.name}")
+
         if (asIsBound) {
             project.result = RESULT_ONGOING
             // adapt layout to changed state
             recyclerViewAdapter.notifyDataSetChanged()
         } else {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "attachProject(): service not bound, cancel.")
-            }
+            Log.e(Logging.TAG, "attachProject(): service not bound, cancel.")
+
             return
         }
 
@@ -202,9 +195,7 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
             project.lookupAndAttach(login)
         }
 
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "attachProject(): finished, result: " + project.result)
-        }
+        Log.d(Logging.TAG, "attachProject(): finished, result: " + project.result)
 
         // adapt layout to changed state
         recyclerViewAdapter.notifyDataSetChanged()

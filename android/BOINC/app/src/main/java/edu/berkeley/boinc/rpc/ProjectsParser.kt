@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -168,10 +168,8 @@ class ProjectsParser : BaseParser() {
                     mProject.noATIPref = mCurrentElement.toString() != "0"
                 }
             }
-        } catch (e: NumberFormatException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "ProjectsParser.endElement error: ", e)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "ProjectsParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -192,6 +190,9 @@ class ProjectsParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.projects
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "ProjectsParser: malformed XML ", e)
+                Log.d(Logging.TAG, "ProjectsParser: $rpcResult")
+
                 emptyList()
             }
         }

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -40,7 +41,7 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class AppVersionsParserTest {
     private static final String APP_NAME = "App Name";
 
@@ -63,6 +64,7 @@ public class AppVersionsParserTest {
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
         mockStatic(Xml.class);
+        mockStatic(Log.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 
@@ -102,6 +104,8 @@ public class AppVersionsParserTest {
     @Test
     public void testParser_whenXmlAppVersionHasAppNameAndInvalidVersionNum_thenExpectAppVersionWithoutVersionNum()
             throws SAXException {
+        mockStatic(Log.class);
+
         appVersionsParser.startElement(null, AppVersionsParser.APP_VERSION_TAG, null, null);
         appVersionsParser.startElement(null, AppVersion.Fields.APP_NAME, null, null);
         appVersionsParser.characters(APP_NAME.toCharArray(), 0, APP_NAME.length());

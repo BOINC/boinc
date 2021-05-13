@@ -60,9 +60,8 @@ class SelectionListActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "AttachProjectListActivity onCreate")
-        }
+        Log.d(Logging.TAG, "AttachProjectListActivity onCreate")
+
         doBindService()
 
         // setup layout
@@ -71,9 +70,8 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (Logging.VERBOSE) {
-            Log.v(Logging.TAG, "AttachProjectListActivity onDestroy")
-        }
+        Log.d(Logging.TAG, "AttachProjectListActivity onDestroy")
+
         doUnbindService()
         super.onDestroy()
     }
@@ -85,9 +83,8 @@ class SelectionListActivity : AppCompatActivity() {
         if (!checked) {
             val toast = Toast.makeText(applicationContext, R.string.attachproject_list_header, Toast.LENGTH_SHORT)
             toast.show()
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectListActivity no project selected, stop!")
-            }
+
+            Log.d(Logging.TAG, "AttachProjectListActivity no project selected, stop!")
         }
         return checked
     }
@@ -102,9 +99,8 @@ class SelectionListActivity : AppCompatActivity() {
         if (!online) {
             val toast = Toast.makeText(applicationContext, R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT)
             toast.show()
-            if (Logging.DEBUG) {
-                Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!")
-            }
+
+            Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!")
         }
         return online
     }
@@ -123,9 +119,9 @@ class SelectionListActivity : AppCompatActivity() {
                 selectedProjectsDebug.append(tmp.info!!.name).append(",")
             }
         }
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "SelectionListActivity: selected projects: $selectedProjectsDebug")
-        }
+
+        Log.d(Logging.TAG, "SelectionListActivity: selected projects: $selectedProjectsDebug")
+
         attachService!!.setSelectedProjects(selected) // returns immediately
 
         // start credential input activity
@@ -217,37 +213,44 @@ class SelectionListActivity : AppCompatActivity() {
             try {
                 data = monitor!!.attachableProjects
             } catch (e: RemoteException) {
-                if (Log.isLoggable(Logging.TAG, Log.WARN)) {
-                    Log.w(Logging.TAG, e)
-                }
+                Log.w(Logging.TAG,
+                        "retrieveProjectList(): failed to get attachable projects: $e"
+                    )
             }
             if (!coroutineContext.isActive) {
                 return@withContext data // Does not matter if data == null or not
             }
             if (data == null) {
-                if (Logging.WARNING) {
-                    Log.w(Logging.TAG, "retrieveProjectList(): failed to retrieve data, retry....")
-                }
+                Log.w(Logging.TAG, "retrieveProjectList(): failed to retrieve data, retry....")
+
                 delay(500)
             } else {
                 retry = false
             }
         }
-        if (Logging.DEBUG) {
-            Log.d(Logging.TAG, "monitor.getAttachableProjects returned with " + data!!.size + " elements")
-        }
-        // Clear current ProjectListEntries since we successfully have got new ProjectInfos
-        entries.clear()
-        // Transform ProjectInfos into ProjectListEntries
-        for (i in data!!.indices.reversed()) {
-            if (!coroutineContext.isActive) {
-                return@withContext data
-            }
-            entries.add(ProjectListEntry(data[i]))
-        }
 
-        // Sort ProjectListEntries off the UI thread
-        entries.sortWith(Comparator { e1, e2 -> e1.info!!.name.compareTo(e2.info!!.name, ignoreCase = true) })
+        Log.d(Logging.TAG, "monitor.getAttachableProjects returned with " + data!!.size + " elements")
+
+        @Suppress("SENSELESS_COMPARISON")
+        if (data != null) {
+            // Clear current ProjectListEntries since we successfully have got new ProjectInfos
+            entries.clear()
+            // Transform ProjectInfos into ProjectListEntries
+            for (i in data.indices.reversed()) {
+                if (!coroutineContext.isActive) {
+                    return@withContext data
+                }
+                entries.add(ProjectListEntry(data[i]))
+            }
+
+            // Sort ProjectListEntries off the UI thread
+            entries.sortWith(Comparator { e1, e2 ->
+                e1.info!!.name.compareTo(
+                    e2.info!!.name,
+                    ignoreCase = true
+                )
+            })
+        }
         return@withContext data
     }
 }

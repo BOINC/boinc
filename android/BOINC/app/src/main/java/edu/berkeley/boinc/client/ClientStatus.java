@@ -165,21 +165,17 @@ public class ClientStatus {
 
             if(acquire) { // acquire wakeLock
                 wakeLock.acquire();
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "wakeLock acquired");
-                }
+
+                Log.d(Logging.TAG, "wakeLock acquired");
             }
             else { // release wakeLock
                 wakeLock.release();
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "wakeLock released");
-                }
+
+                Log.d(Logging.TAG, "wakeLock released");
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception during setWakeLock " + acquire, e);
-            }
+            Log.w(Logging.TAG, "Exception during setWakeLock " + acquire, e);
         }
     }
 
@@ -194,21 +190,17 @@ public class ClientStatus {
 
             if(acquire) { // acquire wakeLock
                 wifiLock.acquire();
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "wifiLock acquired");
-                }
+
+                Log.d(Logging.TAG, "wifiLock acquired");
             }
             else { // release wakeLock
                 wifiLock.release();
-                if(Logging.DEBUG) {
-                    Log.d(Logging.TAG, "wifiLock released");
-                }
+
+                Log.d(Logging.TAG, "wifiLock released");
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "Exception during setWifiLock " + acquire, e);
-            }
+            Log.w(Logging.TAG, "Exception during setWifiLock " + acquire, e);
         }
     }
 
@@ -222,9 +214,7 @@ public class ClientStatus {
             context.sendBroadcast(clientChanged, null);
         }
         else {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus cant fire, not context set!");
-            }
+            Log.d(Logging.TAG, "ClientStatus cant fire, not context set!");
         }
     }
 
@@ -240,22 +230,20 @@ public class ClientStatus {
         this.acctMgrInfo = acctMgrInfo;
         parseClientStatus();
         appendNewNotices(newNotices);
-        if(Logging.VERBOSE) {
-            Log.v(Logging.TAG,
-                  "setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" +
-                  transfers.size() + " // computing: " + computingParseError + computingStatus +
-                  computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
-        }
+
+        Log.d(Logging.TAG,
+                "setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" +
+                transfers.size() + " // computing: " + computingParseError + computingStatus +
+                computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
+
         if(!computingParseError && !networkParseError && !setupStatusParseError) {
             fire(); // broadcast that status has changed
         }
         else {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG,
-                      "ClientStatus discard status change due to parse error" + computingParseError + computingStatus +
-                      computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" +
-                      setupStatusParseError);
-            }
+            Log.d(Logging.TAG,
+                    "ClientStatus discard status change due to parse error" + computingParseError + computingStatus +
+                    computingSuspendReason + "-" + networkParseError + networkStatus + networkSuspendReason + "-" +
+                    setupStatusParseError);
         }
     }
 
@@ -292,9 +280,8 @@ public class ClientStatus {
 
     public synchronized CcStatus getClientStatus() {
         if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "state is null");
-            }
+            Log.d(Logging.TAG, "state is null");
+
             return null;
         }
         return status;
@@ -302,9 +289,8 @@ public class ClientStatus {
 
     public synchronized List<Result> getTasks(int start, int count, boolean isActive) {
         if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "tasks is null");
-            }
+            Log.d(Logging.TAG, "tasks is null");
+
             return Collections.emptyList();
         }
 
@@ -330,9 +316,8 @@ public class ClientStatus {
 
     public synchronized int getTasksCount() {
         if(results == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "tasksCount is null");
-            }
+            Log.d(Logging.TAG, "tasksCount is null");
+
             return 0;
         }
         return results.size();
@@ -340,9 +325,8 @@ public class ClientStatus {
 
     public synchronized List<Transfer> getTransfers() {
         if(transfers == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "transfers is null");
-            }
+            Log.d(Logging.TAG, "transfers is null");
+
             return Collections.emptyList();
         }
         return transfers;
@@ -350,9 +334,8 @@ public class ClientStatus {
 
     public synchronized GlobalPreferences getPrefs() {
         if(prefs == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "prefs is null");
-            }
+            Log.d(Logging.TAG, "prefs is null");
+
             return null;
         }
         return prefs;
@@ -360,9 +343,8 @@ public class ClientStatus {
 
     public synchronized List<Project> getProjects() {
         if(projects == null) { //check in case monitor is not set up yet (e.g. while logging in)
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "getProject() state is null");
-            }
+            Log.d(Logging.TAG, "getProject() state is null");
+
             return Collections.emptyList();
         }
         return projects;
@@ -423,9 +405,8 @@ public class ClientStatus {
 
     public synchronized HostInfo getHostInfo() {
         if(hostinfo == null) {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "getHostInfo() state is null");
-            }
+            Log.d(Logging.TAG, "getHostInfo() state is null");
+
             return null;
         }
         return hostinfo;
@@ -469,7 +450,7 @@ public class ClientStatus {
                 if(tmp != null) {
                     images.add(new ImageWrapper(tmp, project.getProjectName(), filePath));
                 }
-                else if(Logging.DEBUG) {
+                else {
                     Log.d(Logging.TAG, "loadSlideshowImagesFromFile(): null for path: " + filePath);
                 }
             }
@@ -481,9 +462,8 @@ public class ClientStatus {
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
     @Nullable
     public synchronized Bitmap getProjectIcon(String masterUrl) {
-        if(Logging.VERBOSE) {
-            Log.v(Logging.TAG, "getProjectIcon for: " + masterUrl);
-        }
+        Log.v(Logging.TAG, "getProjectIcon for: " + masterUrl);
+
         try {
             // loop through all projects
             for(Project project : projects) {
@@ -493,10 +473,9 @@ public class ClientStatus {
                             parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
                                                    project.getProjectDir());
                     if(iconAbsPath == null) {
-                        if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
-                                               masterUrl);
-                        }
+                        Log.v(Logging.TAG, "getProjectIcon could not parse sym link for project: " +
+                                masterUrl);
+
                         return null;
                     }
                     return BitmapFactory.decodeFile(iconAbsPath);
@@ -504,13 +483,11 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "getProjectIcon failed", e);
-            }
+            Log.w(Logging.TAG, "getProjectIcon failed", e);
         }
-        if(Logging.WARNING) {
-            Log.w(Logging.TAG, "getProjectIcon: project not found.");
-        }
+
+        Log.w(Logging.TAG, "getProjectIcon: project not found.");
+
         return null;
     }
 
@@ -518,9 +495,8 @@ public class ClientStatus {
     // bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
     @Nullable
     public synchronized Bitmap getProjectIconByName(String projectName) {
-        if(Logging.VERBOSE) {
-            Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
-        }
+        Log.v(Logging.TAG, "getProjectIconByName for: " + projectName);
+
         try {
             // loop through all projects
             for(Project project : projects) {
@@ -530,11 +506,10 @@ public class ClientStatus {
                             parseSoftLinkToAbsPath(project.getProjectDir() + "/stat_icon",
                                                    project.getProjectDir());
                     if(iconAbsPath == null) {
-                        if(Logging.VERBOSE) {
-                            Log.v(Logging.TAG,
-                                  "getProjectIconByName could not parse sym link for project: " +
-                                  projectName);
-                        }
+                        Log.v(Logging.TAG,
+                                "getProjectIconByName could not parse sym link for project: " +
+                                projectName);
+
                         return null;
                     }
                     return BitmapFactory.decodeFile(iconAbsPath);
@@ -542,13 +517,11 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "getProjectIconByName failed", e);
-            }
+            Log.w(Logging.TAG, "getProjectIconByName failed", e);
         }
-        if(Logging.WARNING) {
-            Log.w(Logging.TAG, "getProjectIconByName: project not found.");
-        }
+
+        Log.w(Logging.TAG, "getProjectIconByName: project not found.");
+
         return null;
     }
 
@@ -591,9 +564,7 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "error parsing setup status string", e);
-            }
+            Log.w(Logging.TAG, "error parsing setup status string", e);
         }
         return statusTitle;
     }
@@ -639,9 +610,7 @@ public class ClientStatus {
                                                                  minCharge, currentCharge);
                             }
                             catch(Exception e) {
-                                if(Logging.ERROR) {
-                                    Log.e(Logging.TAG, "ClientStatus.getCurrentStatusDescription error: ", e);
-                                }
+                                Log.e(Logging.TAG, "ClientStatus.getCurrentStatusDescription error: ", e);
                             }
                             break;
                         case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
@@ -697,9 +666,7 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG, "error parsing setup status string", e);
-            }
+            Log.w(Logging.TAG, "error parsing setup status string", e);
         }
         return statusString;
     }
@@ -726,12 +693,8 @@ public class ClientStatus {
         }
         catch(Exception e) {
             setupStatusParseError = true;
-            if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) {
-                Log.e(Logging.TAG, "parseProjectStatus - Exception", e);
-            }
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "error parsing setup status (project state)");
-            }
+
+            Log.e(Logging.TAG, "parseProjectStatus - Exception: ", e);
         }
     }
 
@@ -781,12 +744,7 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) {
-                Log.e(Logging.TAG, "ClientStatus parseComputingStatus - Exception", e);
-            }
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus error - client computing status");
-            }
+            Log.e(Logging.TAG, "ClientStatus parseComputingStatus - Exception: ", e);
         }
     }
 
@@ -814,22 +772,16 @@ public class ClientStatus {
             }
         }
         catch(Exception e) {
-            if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) {
-                Log.e(Logging.TAG, "ClientStatus parseNetworkStatus - Exception", e);
-            }
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus error - client network status");
-            }
+            Log.e(Logging.TAG, "ClientStatus parseNetworkStatus - Exception", e);
         }
     }
 
     private void appendNewNotices(List<Notice> newNotices) {
         for(Notice newNotice : newNotices) {
-            if(Logging.DEBUG) {
-                Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " +
-                                   newNotice.getSeqno() + " is server notice: " +
-                                   newNotice.isServerNotice());
-            }
+            Log.d(Logging.TAG, "ClientStatus.appendNewNotices new notice with seq number: " +
+                    newNotice.getSeqno() + " is server notice: " +
+                    newNotice.isServerNotice());
+
             if(newNotice.getSeqno() > mostRecentNoticeSeqNo) {
                 if(!newNotice.isClientNotice() && !newNotice.isServerNotice()) {
                     rssNotices.add(newNotice);
@@ -862,9 +814,7 @@ public class ClientStatus {
                 softLinkContent = Charset.defaultCharset().decode(bb).toString();
             }
             catch(IOException e) {
-                if(Logging.WARNING) {
-                    Log.w(Logging.TAG, "IOException in parseIconFileName()", e);
-                }
+                Log.w(Logging.TAG, "IOException in parseIconFileName()", e);
             }
         }
         catch(Exception e) {
@@ -878,10 +828,9 @@ public class ClientStatus {
         Pattern statIconPattern = Pattern.compile("/(\\w+?\\.?\\w*?)</soft_link>");
         Matcher m = statIconPattern.matcher(softLinkContent);
         if(!m.find()) {
-            if(Logging.WARNING) {
-                Log.w(Logging.TAG,
-                      "parseSoftLinkToAbsPath() could not match pattern in soft link file: " + pathOfSoftLink);
-            }
+            Log.w(Logging.TAG,
+                    "parseSoftLinkToAbsPath() could not match pattern in soft link file: " + pathOfSoftLink);
+
             return null;
         }
         String fileName = m.group(1);

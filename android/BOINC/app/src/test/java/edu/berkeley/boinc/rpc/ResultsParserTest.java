@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
  */
 package edu.berkeley.boinc.rpc;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.junit.Before;
@@ -40,7 +41,7 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Xml.class)
+@PrepareForTest({Log.class, Xml.class})
 public class ResultsParserTest {
     private static final long TEN_BILLION = 10_000_000_000L;
     private static final String TEN_BILLION_STR = Long.toString(TEN_BILLION);
@@ -66,6 +67,7 @@ public class ResultsParserTest {
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
         mockStatic(Xml.class);
+        mockStatic(Log.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 
@@ -186,6 +188,8 @@ public class ResultsParserTest {
     @Test
     public void testParser_whenXmlResultForNonActiveTaskHasNameAndInvalidVersionNumber_thenExpectListWithResultWithoutVersionNumber()
             throws SAXException {
+        mockStatic(Log.class);
+
         resultsParser.startElement(null, ResultsParser.RESULT_TAG, null, null);
         resultsParser.startElement(null, RPCCommonTags.NAME, null, null);
         resultsParser.characters(NAME.toCharArray(), 0, NAME.length());

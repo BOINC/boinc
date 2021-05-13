@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -68,6 +68,7 @@ public class MessagesParserTest {
     @Test
     public void testParse_whenSAXExceptionIsThrown_thenExpectEmptyList() throws Exception {
         mockStatic(Xml.class);
+        mockStatic(Log.class);
 
         doThrow(new SAXException()).when(Xml.class, "parse", anyString(), any(ContentHandler.class));
 

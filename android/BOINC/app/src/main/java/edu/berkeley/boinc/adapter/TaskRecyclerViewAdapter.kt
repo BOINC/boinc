@@ -187,9 +187,8 @@ class TaskRecyclerViewAdapter(
         return try {
             BOINCActivity.monitor!!.getProjectIcon(taskList[position].result.projectURL)
         } catch (e: Exception) {
-            if (Logging.WARNING) {
-                Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
-            }
+            Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
+
             null
         }
     }
@@ -218,9 +217,8 @@ class TaskRecyclerViewAdapter(
                 PROCESS_QUIT_PENDING -> fragment.getString(R.string.tasks_active_quit_pending)
                 PROCESS_SUSPENDED -> fragment.getString(R.string.tasks_active_suspended)
                 else -> {
-                    if (Logging.WARNING) {
-                        Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
-                    }
+                    Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
+
                     ""
                 }
             }
@@ -236,9 +234,8 @@ class TaskRecyclerViewAdapter(
                 RESULT_ABORTED -> fragment.getString(R.string.tasks_result_aborted)
                 RESULT_UPLOAD_FAILED -> fragment.getString(R.string.tasks_result_upload_failed)
                 else -> {
-                    if (Logging.WARNING) {
-                        Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
-                    }
+                    Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
+
                     ""
                 }
             }

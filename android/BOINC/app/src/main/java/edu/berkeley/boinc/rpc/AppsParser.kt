@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -65,11 +65,8 @@ class AppsParser : BaseParser() {
                 }
             }
             mElementStarted = false
-        } catch (e: NumberFormatException) {
-            if (Logging.WARNING) {
-                Log.d(Logging.TAG, "AcctMgrRPCReplyParser NumberFormatException: "
-                        + e.message)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "AppsParser.endElement error: ", e)
         }
     }
 
@@ -88,6 +85,9 @@ class AppsParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.apps
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "AppsParser: malformed XML ", e)
+                Log.d(Logging.TAG, "AppsParser: $rpcResult")
+
                 emptyList()
             }
         }

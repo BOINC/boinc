@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -91,10 +91,8 @@ class TransfersParser : BaseParser() {
                     mTransfer.projectBackoff = mCurrentElement.toDouble().toLong()
                 }
             }
-        } catch (e: NumberFormatException) {
-            if (Logging.ERROR) {
-                Log.e(Logging.TAG, "TransfersParser.endElement error: ", e)
-            }
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "TransfersParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -116,6 +114,9 @@ class TransfersParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.transfers
             } catch (e: SAXException) {
+                Log.e(Logging.TAG, "TransfersParser: malformed XML ", e)
+                Log.d(Logging.TAG, "TransfersParser: $rpcResult")
+
                 emptyList()
             }
         }

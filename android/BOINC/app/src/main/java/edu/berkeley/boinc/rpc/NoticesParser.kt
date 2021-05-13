@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -20,6 +20,7 @@ package edu.berkeley.boinc.rpc
 
 import android.util.Log
 import android.util.Xml
+import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 
@@ -74,9 +75,8 @@ class NoticesParser : BaseParser() {
                 }
             }
             mElementStarted = false
-        } catch (e: NumberFormatException) {
-            Log.d("NoticesParser", "NumberFormatException " + localName + " "
-                    + mCurrentElement.toString())
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "NoticesParser.endElement error: ", e)
         }
     }
 
@@ -89,7 +89,9 @@ class NoticesParser : BaseParser() {
                 Xml.parse(rpcResult.replace("&", "&amp;"), parser)
                 parser.notices
             } catch (e: SAXException) {
-                Log.d("NoticesParser", "SAXException " + e.message + e.exception)
+                Log.e(Logging.TAG, "NoticesParser: malformed XML ", e)
+                Log.d(Logging.TAG, "NoticesParser: $rpcResult")
+
                 emptyList()
             }
         }
