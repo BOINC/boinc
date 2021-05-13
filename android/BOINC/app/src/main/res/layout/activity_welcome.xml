@@ -103,6 +103,7 @@
                         android:textColor="?android:attr/textColorPrimary"
                         android:layout_margin="5dp"
                         android:layout_below="@+id/content_welcome_fifth"
+                        android:visibility="gone"
                         android:text="@string/welcome_content_sixth" />
             </RelativeLayout>
         </ScrollView>
