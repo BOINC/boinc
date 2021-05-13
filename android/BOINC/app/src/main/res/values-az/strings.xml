@@ -35,7 +35,7 @@
     <string name="attachproject_hint_contribtion_header">Yardım:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Wi-Fi-a bağlan</string>
     <string name="attachproject_hint_contribtion_charger">2. Adapteri qoş</string>
-    <string name="attachproject_hint_contribtion_screen">3. Ekranı söndür</string>
+    <string name="attachproject_hint_contribtion_screen">4. Ekranı söndür</string>
     <string name="attachproject_hint_projectwebsite_header">Layihələrin veb-səhifələrini ziyarət edin:</string>
     <string name="attachproject_hint_projectwebsite_science">Elm haqqında daha çox bilmək</string>
     <string name="attachproject_hint_projectwebsite_stats">İştirak statistikasına baxmaq</string>

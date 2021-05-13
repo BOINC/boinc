@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_header">Comment participer :</string>
   <string name="attachproject_hint_contribtion_wifi">1. Se connecter au WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Branchez votre chargeur</string>
-  <string name="attachproject_hint_contribtion_screen">3. Éteindre l\'écran</string>
+  <string name="attachproject_hint_contribtion_screen">4. Éteindre l\'écran</string>
   <string name="attachproject_hint_projectwebsite_header">Visitez les sites web des projets :</string>
   <string name="attachproject_hint_projectwebsite_science">En savoir plus au sujet du projet</string>
   <string name="attachproject_hint_projectwebsite_stats">Voir les statistiques de contribution</string>

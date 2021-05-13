@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="0.25">
+            android:layout_weight="0.2">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="0.25">
+            android:layout_weight="0.2">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="0.25">
+            android:layout_weight="0.2">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="0.25">
+            android:layout_weight="0.2">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -110,11 +110,39 @@
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/hint_contribution_image_3"
                 android:layout_toLeftOf="@+id/hint_contribution_image_3"
-                android:text="@string/attachproject_hint_contribtion_screen"
+                android:text="@string/attachproject_hint_contribtion_app"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/attachproject_hint_contribtion_app"
+                app:srcCompat="@drawable/ic_account_manager" />
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_4"
+                android:layout_toLeftOf="@+id/hint_contribution_image_4"
+                android:text="@string/attachproject_hint_contribtion_screen"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+                android:id="@+id/hint_contribution_image_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

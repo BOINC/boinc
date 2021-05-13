@@ -35,7 +35,7 @@
     <string name="attachproject_hint_contribtion_header">Kako doprineti:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Konektovati na WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Priključiti punjač</string>
-    <string name="attachproject_hint_contribtion_screen">3. Isključite ekran</string>
+    <string name="attachproject_hint_contribtion_screen">4. Isključite ekran</string>
     <string name="attachproject_hint_projectwebsite_header">Posetite sajtove projekta na:</string>
     <string name="attachproject_hint_projectwebsite_science">Saznajte više o nauci</string>
     <string name="attachproject_hint_projectwebsite_stats">Pogledajte statistiku doprinošenja</string>

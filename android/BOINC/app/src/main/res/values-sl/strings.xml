@@ -33,7 +33,7 @@
     <string name="attachproject_hint_contribtion_header">Kako sodelovati:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Povežite se na WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Vstavite napajalnik</string>
-    <string name="attachproject_hint_contribtion_screen">3. Izklopite zaslon</string>
+    <string name="attachproject_hint_contribtion_screen">4. Izklopite zaslon</string>
     <string name="attachproject_hint_projectwebsite_header">Obiščite spletne strani projekta za:</string>
     <string name="attachproject_hint_projectwebsite_science">Izvedite več o znanosti</string>
     <string name="attachproject_hint_projectwebsite_stats">Pokaži statistike sodelovanja</string>

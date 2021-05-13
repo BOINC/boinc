@@ -34,7 +34,7 @@ för att registrera ett konto</string>
   <string name="attachproject_hint_contribtion_header">Hur du kan hjälpa till:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Anslut till WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Koppla in batteriladdare</string>
-  <string name="attachproject_hint_contribtion_screen">3. Stäng av skärmen</string>
+  <string name="attachproject_hint_contribtion_screen">4. Stäng av skärmen</string>
   <string name="attachproject_hint_projectwebsite_header">Besök projektets hemsida för att:</string>
   <string name="attachproject_hint_projectwebsite_science">Lära dig mer om vetenskapen</string>
   <string name="attachproject_hint_projectwebsite_stats">Visa statistik över bidragande</string>

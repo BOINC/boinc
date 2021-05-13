@@ -35,7 +35,7 @@
   <string name="attachproject_hint_contribtion_header">如何貢獻:</string>
   <string name="attachproject_hint_contribtion_wifi">1.連線到WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2.接上充電器</string>
-  <string name="attachproject_hint_contribtion_screen">3.關閉螢幕</string>
+  <string name="attachproject_hint_contribtion_screen">4.關閉螢幕</string>
   <string name="attachproject_hint_projectwebsite_header">造訪專案網站：</string>
   <string name="attachproject_hint_projectwebsite_science">更深入了解科學</string>
   <string name="attachproject_hint_projectwebsite_stats">查看貢獻統計</string>

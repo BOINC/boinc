@@ -35,7 +35,7 @@
     <string name="attachproject_hint_contribtion_header">როგორ შეიტანოთ ღვაწლი:</string>
     <string name="attachproject_hint_contribtion_wifi">1. შეუერთდით WiFi-ს</string>
     <string name="attachproject_hint_contribtion_charger">2. შეაერთეთ დამტენი</string>
-    <string name="attachproject_hint_contribtion_screen">3. გამორთეთ ეკრანი</string>
+    <string name="attachproject_hint_contribtion_screen">4. გამორთეთ ეკრანი</string>
     <string name="attachproject_hint_projectwebsite_header">შედით პროექტის ვებ-გვერდებზე შემდეგისთვის:</string>
     <string name="attachproject_hint_projectwebsite_science">გაიგოთ მეტი მეცნიერებაზე</string>
     <string name="attachproject_hint_projectwebsite_stats">ნახოთ ღვაწლის შეტანის სტატისტიკა</string>

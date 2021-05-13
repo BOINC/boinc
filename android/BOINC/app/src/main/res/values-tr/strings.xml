@@ -33,7 +33,7 @@
     <string name="attachproject_hint_contribtion_header">Nasıl katkı sağlanır:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Kablosuz Ağa Bağlan</string>
     <string name="attachproject_hint_contribtion_charger">2. Şarja Cihazını Takın</string>
-    <string name="attachproject_hint_contribtion_screen">3. Ekranı Kapat</string>
+    <string name="attachproject_hint_contribtion_screen">4. Ekranı Kapat</string>
     <string name="attachproject_hint_projectwebsite_header">Proje web sitelerine git:</string>
     <string name="attachproject_hint_projectwebsite_science">Bilim hakkında daha fazlasını öğren</string>
     <string name="attachproject_hint_projectwebsite_stats">Katkı istatistiklerini gör</string>

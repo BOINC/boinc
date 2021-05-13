@@ -33,7 +33,7 @@
   <string name="attachproject_hint_contribtion_header">貢献する方法: </string>
   <string name="attachproject_hint_contribtion_wifi">1. WiFiに接続します</string>
   <string name="attachproject_hint_contribtion_charger">2. 充電器につなぎます</string>
-  <string name="attachproject_hint_contribtion_screen">3. 画面の電源を切ります</string>
+  <string name="attachproject_hint_contribtion_screen">4. 画面の電源を切ります</string>
   <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問 : </string>
   <string name="attachproject_hint_projectwebsite_science">この科学に関する詳細情報</string>
   <string name="attachproject_hint_projectwebsite_stats">貢献の統計を見る</string>

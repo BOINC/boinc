@@ -37,7 +37,7 @@
     <string name="attachproject_hint_contribtion_header">Com contribuir:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Connectar a una xarxa WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2, Connectar el carregador</string>
-    <string name="attachproject_hint_contribtion_screen">3. Desactivar la Pantalla</string>
+    <string name="attachproject_hint_contribtion_screen">4. Desactivar la Pantalla</string>
     <string name="attachproject_hint_projectwebsite_header">Visita els llocs web dels projectes a:</string>
     <string name="attachproject_hint_projectwebsite_science">Apren més sobre la ciència</string>
     <string name="attachproject_hint_projectwebsite_stats">Veure les estadístiques de les contibucions</string>
