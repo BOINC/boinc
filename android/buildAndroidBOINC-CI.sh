@@ -22,7 +22,7 @@ set -e
 # When you want to invalidate openssl and curl without change their versions.
 export REV=1
 export ARMV6_REV=1
-export OPENSSL_VERSION=1.1.1j
+export OPENSSL_VERSION=1.1.1k
 export CURL_VERSION=7.74.0
 export NDK_VERSION=21d
 export NDK_ARMV6_VERSION=15c
