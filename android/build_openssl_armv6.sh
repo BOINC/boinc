@@ -60,9 +60,6 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" --prefix="$TCINCLUDES" 1>$STDOUT_TARGET
-        # override flags in Makefile
-        sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
-        mv Makefile.out Makefile
     fi
     if [ $VERBOSE = "no" ]; then
         echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"

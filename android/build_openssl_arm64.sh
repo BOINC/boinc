@@ -18,7 +18,7 @@ OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered b
 export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
 export ANDROIDTC="${ANDROID_TC_ARM64:-$ANDROID_TC/arm64}"
-export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/"
+export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64"
 export TCBINARIES="$TOOLCHAINROOT/bin"
 export TCINCLUDES="$ANDROIDTC/aarch64-linux-android"
 export TCSYSROOT="$TOOLCHAINROOT/sysroot"
@@ -58,9 +58,6 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES" --prefix="$TCINCLUDES" 1>$STDOUT_TARGET
-        # override flags in Makefile
-        sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g" Makefile > Makefile.out
-        mv Makefile.out Makefile
     fi
     if [ $VERBOSE = "no" ]; then
         echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"
