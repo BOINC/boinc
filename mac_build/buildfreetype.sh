@@ -32,6 +32,7 @@
 # Updated 1/25/18 for any version of FreeType (changed only comments)
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 # Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 5/18/21 for compatibility with zsh
 #
 ## This script requires OS 10.8 or later
 #
@@ -97,19 +98,19 @@ fi
 GCC_can_build_x86_64="no"
 GCC_can_build_arm64="no"
 GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libfreetype.a" ]; then
         alreadyBuilt=1
 
-        if [ $GCC_can_build_x86_64 == "yes" ]; then
+        if [ $GCC_can_build_x86_64 = "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
         
-        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 == "yes" ]; then
+        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libfreetype.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
@@ -164,7 +165,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.7
 ./configure --enable-shared=NO --prefix=${lprefix} --without-png --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
 
-if [ "${doclean}" == "yes" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean
 fi
 
@@ -173,7 +174,7 @@ if [ $? -ne 0 ]; then return 1; fi
 
 # Now see if we can build for arm64
 # Note: Some versions of Xcode 12 don't support building for arm64
-if [ $GCC_can_build_arm64 == "yes" ]; then
+if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"

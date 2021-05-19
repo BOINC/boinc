@@ -40,6 +40,7 @@
 # Update for compatibility with Xcode 10 (this script for BOINC 7.15+ only) 10/14/18
 # Add patches to build with Xcode 11 and OS 10.15 sdk 3/1/20
 # Updated 8/4/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 5/18/21 for compatibility with zsh
 #
 ## This script requires OS 10.6 or later
 ##
@@ -309,14 +310,14 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" 
     GCC_can_build_arm64="no"
 
     GCC_archs=`lipo -archs "${GCCPATH}"`
-    if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-    if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-    if [ $GCC_can_build_x86_64 == "yes" ]; then
+    if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ $GCC_can_build_x86_64 = "yes" ]; then
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
     
-    if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 == "yes" ]; then
+    if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
@@ -348,7 +349,7 @@ else
     fi
 fi
 
-if [ "${nodebug}" == "yes" ]; then
+if [ "${nodebug}" = "yes" ]; then
     return 0
 fi
 
@@ -359,14 +360,14 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathDbg}/libwx_osx_cocoa_static.a" 
     GCC_can_build_arm64="no"
 
     GCC_archs=`lipo -archs "${GCCPATH}"`
-    if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-    if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-    if [ GCC_can_build_x86_64 == "yes" ]; then
+    if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+    if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+    if [ GCC_can_build_x86_64 = "yes" ]; then
         lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch x86_64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
     
-    if [ $alreadyBuilt -eq 1 ] && [ GCC_can_build_arm64 == "yes" ]; then
+    if [ $alreadyBuilt -eq 1 ] && [ GCC_can_build_arm64 = "yes" ]; then
         lipo "${libPathDbg}/libwx_osx_cocoa_static.a" -verify_arch arm64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
     fi
