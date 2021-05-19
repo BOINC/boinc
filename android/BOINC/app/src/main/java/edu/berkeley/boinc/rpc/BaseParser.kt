@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,14 +18,17 @@
  */
 package edu.berkeley.boinc.rpc
 
+import androidx.annotation.VisibleForTesting
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
 
 open class BaseParser : DefaultHandler() {
     @JvmField
-    protected var mCurrentElement = StringBuilder()
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    var mCurrentElement = StringBuilder()
     @JvmField
-    protected var mElementStarted = false
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    var mElementStarted = false
 
     @Throws(SAXException::class)
     override fun characters(ch: CharArray, start: Int, length: Int) {
@@ -50,7 +53,8 @@ open class BaseParser : DefaultHandler() {
         }
     }
 
-    protected fun trimEnd() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun trimEnd() {
         val length = mCurrentElement.length
         // Trim trailing spaces
         for (i in length - 1 downTo 0) {
