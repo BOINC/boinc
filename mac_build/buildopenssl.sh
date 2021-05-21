@@ -36,6 +36,7 @@
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 # Updated 10/20/20 To build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 12/24/20 for openssl-1.1.0l
+# Updated 5/18/21 for compatibility with zsh
 #
 ## This script requires OS 10.8 or later
 #
@@ -87,21 +88,21 @@ fi
 GCC_can_build_x86_64="no"
 GCC_can_build_arm64="no"
 GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" == *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" == *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
         alreadyBuilt=1
 
-        if [ $GCC_can_build_x86_64 == "yes" ]; then
+        if [ $GCC_can_build_x86_64 = "yes" ]; then
             lipo "${libPath}/libssl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
             lipo "${libPath}/libcrypto.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
         
-        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 == "yes" ]; then
+        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
             lipo "${libPath}/libssl.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
             lipo "${libPath}/libcrypto.a" -verify_arch arm64
@@ -203,7 +204,7 @@ else
     if [ $? -ne 0 ]; then return 1; fi
 fi
 
-if [ "${doclean}" == "yes" ]; then
+if [ "${doclean}" = "yes" ]; then
     make clean 1>$stdout_target
 fi
 
@@ -212,7 +213,7 @@ if [ $? -ne 0 ]; then return 1; fi
 
 # Now see if we can build for arm64
 # Note: Some versions of Xcode 12 don't support building for arm64
-if [ $GCC_can_build_arm64 == "yes" ]; then
+if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
@@ -270,6 +271,9 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
     # Get the names of the current versions of and openssl from the
     # dependencyNames.sh file in the same directory as this script.
     myScriptPath="${BASH_SOURCE[0]}"
+    if [ -z ${myScriptPath} ]; then
+        myScriptPath="$0"   # for zsh
+    fi
     myScriptDir="${myScriptPath%/*}"
     source "${myScriptDir}/dependencyNames.sh"
 
