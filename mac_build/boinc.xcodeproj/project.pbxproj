@@ -41,6 +41,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D7424D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */; };
@@ -583,6 +584,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B1A32E54265D206800896566 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B13E2D0E265564D100D5C977;
+			remoteInfo = detect_rosetta_cpu;
+		};
+		B1A32E57265D20FB00896566 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
+			remoteInfo = libboinc;
+		};
 		DD095D1E0F3B22DE000902F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -838,6 +853,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B13E2D0D265564D100D5C977 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DD3E15350A774397007E0084 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -873,6 +897,9 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
+		B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = detect_rosetta_cpu; sourceTree = BUILT_PRODUCTS_DIR; };
+		B13E2D11265564D100D5C977 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = detect_rosetta_cpu.cpp; sourceTree = "<group>"; };
 		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
 		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
@@ -981,7 +1008,6 @@
 		DD40825707D3076400163EF5 /* reduce_lib.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = reduce_lib.cpp; sourceTree = "<group>"; };
 		DD40825807D3076400163EF5 /* reduce_main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = reduce_main.cpp; sourceTree = "<group>"; };
 		DD40825907D3076400163EF5 /* reduce.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reduce.h; path = ../api/reduce.h; sourceTree = SOURCE_ROOT; };
-		DD40827D07D30AA800163EF5 /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = ../samples/jpeglib/jpeglib.h; sourceTree = SOURCE_ROOT; };
 		DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxPieCtrl.cpp; path = ../clientgui/common/wxPieCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxPieCtrl.h; path = ../clientgui/common/wxPieCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD4688410C165F3C0089F500 /* Uninstall BOINC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Uninstall BOINC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1371,6 +1397,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B13E2D0C265564D100D5C977 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD1277B1081F3D67007B5DE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1581,6 +1614,7 @@
 				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
 				DD3EAAA6216A25AD00BC673C /* boinc_finish_install */,
 				DD5F654123605B41009ED2A2 /* gfx_cleanup */,
+				B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1588,7 +1622,6 @@
 		20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */ = {
 			isa = PBXGroup;
 			children = (
-				DD40827D07D30AA800163EF5 /* jpeglib.h */,
 				F54B8FBE02AC0A0C01FB7237 /* client */,
 				DD81C3F707C5D03B0098A04D /* clientgui */,
 				DDB873950C85072500E0DE1F /* clientscr */,
@@ -1599,6 +1632,7 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
+				B13E2D10265564D100D5C977 /* detect_rosetta_cpu */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1646,6 +1680,14 @@
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
+		};
+		B13E2D10265564D100D5C977 /* detect_rosetta_cpu */ = {
+			isa = PBXGroup;
+			children = (
+				B13E2D11265564D100D5C977 /* main.cpp */,
+			);
+			path = detect_rosetta_cpu;
+			sourceTree = "<group>";
 		};
 		DD1277BC081F3E59007B5DE1 /* mac_installer */ = {
 			isa = PBXGroup;
@@ -2078,6 +2120,7 @@
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.cpp */,
 				DD344B9307C5AE2E0043025C /* cs_statefile.cpp */,
 				DD344B9407C5AE2E0043025C /* cs_trickle.cpp */,
+				B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */,
 				DD344B9507C5AE2E0043025C /* dhrystone.cpp */,
 				DD344B9607C5AE2E0043025C /* dhrystone.h */,
 				DD344B9707C5AE2E0043025C /* dhrystone2.cpp */,
@@ -2196,6 +2239,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B13E2D13265564D100D5C977 /* Build configuration list for PBXNativeTarget "detect_rosetta_cpu" */;
+			buildPhases = (
+				B13E2D0B265564D100D5C977 /* Sources */,
+				B13E2D0C265564D100D5C977 /* Frameworks */,
+				B13E2D0D265564D100D5C977 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = detect_rosetta_cpu;
+			productName = detect_rosetta_cpu;
+			productReference = B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */;
+			productType = "com.apple.product-type.tool";
+		};
 		DD1277B2081F3D67007B5DE1 /* PostInstall */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2371091CBDAE0048316E /* Build configuration list for PBXNativeTarget "PostInstall" */;
@@ -2518,6 +2578,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				B1A32E58265D20FB00896566 /* PBXTargetDependency */,
+				B1A32E55265D206800896566 /* PBXTargetDependency */,
 				DD25E20D220438090040366F /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
@@ -2583,6 +2645,9 @@
 			attributes = {
 				LastUpgradeCheck = 0620;
 				TargetAttributes = {
+					B13E2D0E265564D100D5C977 = {
+						CreatedOnToolsVersion = 12.5;
+					};
 					DD3EAAA5216A25AD00BC673C = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -2627,6 +2692,7 @@
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
 				DD5F654023605B41009ED2A2 /* gfx_cleanup */,
+				B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */,
 			);
 		};
 /* End PBXProject section */
@@ -2972,6 +3038,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B13E2D0B265564D100D5C977 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD1277B0081F3D67007B5DE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3607,6 +3681,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B1A32E55265D206800896566 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */;
+			targetProxy = B1A32E54265D206800896566 /* PBXContainerItemProxy */;
+		};
+		B1A32E58265D20FB00896566 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD407A4907D2FB1200163EF5 /* libboinc */;
+			targetProxy = B1A32E57265D20FB00896566 /* PBXContainerItemProxy */;
+		};
 		DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD89161C0F3B17E900DE5B1C /* ss_app */;
@@ -3801,6 +3885,123 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B13E2D14265564D100D5C977 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lboinc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		B13E2D15265564D100D5C977 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-lboinc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Deployment;
+		};
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4745,6 +4946,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B13E2D13265564D100D5C977 /* Build configuration list for PBXNativeTarget "detect_rosetta_cpu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B13E2D14265564D100D5C977 /* Development */,
+				B13E2D15265564D100D5C977 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		DD1AFEB50A512D8700EE5B82 /* Build configuration list for PBXNativeTarget "Install_BOINC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
