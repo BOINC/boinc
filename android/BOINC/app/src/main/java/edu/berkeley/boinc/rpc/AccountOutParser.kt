@@ -36,10 +36,9 @@ class AccountOutParser : BaseParser() {
             if (!this::accountOut.isInitialized) {
                 accountOut = AccountOut()
             }
-        } else {
-            mElementStarted = true
-            mCurrentElement.setLength(0)
         }
+        mElementStarted = true
+        mCurrentElement.setLength(0)
     }
 
     @Throws(SAXException::class)

@@ -177,6 +177,7 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
     testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
     testImplementation 'org.robolectric:robolectric:4.3.1'
+    testImplementation "io.mockk:mockk:1.11.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junit5_version"
 }
