@@ -157,11 +157,11 @@ lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch x86_64
 if [ $? -eq 0 ]; then Products_Have_x86_64="yes"; fi
 lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch arm64
 if [ $? -eq 0 ]; then Products_Have_arm64="yes"; fi
-if [ $Products_Have_x86_64 == "no" ] && [ $Products_Have_arm64 == "no" ]; then
+if [ $Products_Have_x86_64 = "no" ] && [ $Products_Have_arm64 = "no" ]; then
     echo "ERROR: could not determine architecture of BOINC Manager"
 fi
-if [ $Products_Have_arm64 == "yes" ]; then
-    if [ $Products_Have_x86_64 == "yes" ]; then
+if [ $Products_Have_arm64 = "yes" ]; then
+    if [ $Products_Have_x86_64 = "yes" ]; then
         arch="universal"
     else
         arch="arm64"

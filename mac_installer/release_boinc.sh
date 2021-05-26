@@ -53,6 +53,7 @@
 ## Updated 7/29/20 by Charlie Fenton to build arm64 and x86_64 Universal2 Binary
 ## Updated 11/22/20 by Charlie Fenton to build DMG bare-core (apple-darwin) release
 ## Updated 11/26/20 by Charlie Fenton to let installer show message if MacOS too old
+## Updated 5/26/21 to support zsh & detecting X86_64 features emulated by Rosetta 2
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -192,11 +193,11 @@ lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch x86_64
 if [ $? -eq 0 ]; then Products_Have_x86_64="yes"; fi
 lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch arm64
 if [ $? -eq 0 ]; then Products_Have_arm64="yes"; fi
-if [ $Products_Have_x86_64 == "no" ] && [ $Products_Have_arm64 == "no" ]; then
+if [ $Products_Have_x86_64 = "no" ] && [ $Products_Have_arm64 = "no" ]; then
     echo "ERROR: could not determine architecture of BOINC Manager"
 fi
-if [ $Products_Have_arm64 == "yes" ]; then
-    if [ $Products_Have_x86_64 == "yes" ]; then
+if [ $Products_Have_arm64 = "yes" ]; then
+    if [ $Products_Have_x86_64 = "yes" ]; then
         arch="universal"
     else
         arch="arm64"
@@ -540,7 +541,7 @@ if [ -n "${APPSIGNINGIDENTITY}" ]; then
     # Code Sign switcher for the stand-alone boinc client if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/switcher"
 
-    if [ $arch == "universal" ]; then
+    if [ $arch = "universal" ]; then
     # Workaround for code signing problem under Xcode 12.2:
     # Code sign each architecture separately then combine into a uiversal binary
     lipo "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd" -thin x86_64 -output "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/boinccmd-x86_64"
