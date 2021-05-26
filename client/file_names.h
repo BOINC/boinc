@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,7 +71,9 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
 #define NVC_CONFIG_FILE             "nvc_config.xml"
-#define COPROC_INFO_FILENAME        "coproc_info.xml"
+#define COPROC_INFO_FILENAME        "coproc_info.txt"
+#define EMULATED_CPU_INFO_EXECUTABLE "detect_rosetta_cpu"
+#define EMULATED_CPU_INFO_FILENAME  "emulated_cpu_info.txt"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define DAILY_XFER_HISTORY_FILENAME "daily_xfer_history.xml"

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -892,6 +892,24 @@ static void get_cpu_info_mac(HOST_INFO& host) {
 
     sysctlbyname("hw.optional.ucnormal_mem", &feature, &len, NULL, 0);
     if (feature) feature_string += " ucnormal_mem";
+
+    // read features of the emulated CPU if there is a file containing these
+    char fpath[MAXPATHLEN];
+    boinc_getcwd(fpath);
+    strcat(fpath,"/");
+    strcat(fpath,EMULATED_CPU_INFO_FILENAME);
+    if (boinc_file_exists(fpath)) {
+        FILE* fp = boinc_fopen(fpath, "r");
+        if (fp) {
+            fgets(features, sizeof(features), fp);
+	    feature_string += features;
+            fclose(fp);
+        } else if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO, "[x86_64-M1] couldn't open file %s", fpath);
+        }
+    } else if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO, "[x86_64-M1] didn't find file %s", fpath);
+    }
 #endif // defined(__i386__) || defined(__x86_64__)
 
     strncpy(features,feature_string.c_str(),sizeof(features));
