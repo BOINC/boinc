@@ -527,9 +527,11 @@ public class ClientStatus {
 
     List<Result> getExecutingTasks() {
         List<Result> activeTasks = new ArrayList<>();
-        for(Result tmp : results) {
-            if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
-                activeTasks.add(tmp);
+        if (results != null && results.size() > 0) {
+            for(Result tmp : results) {
+                if(tmp.isActiveTask() && tmp.getActiveTaskState() == BOINCDefs.PROCESS_EXECUTING) {
+                    activeTasks.add(tmp);
+                }
             }
         }
         return activeTasks;
