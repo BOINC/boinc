@@ -63,7 +63,7 @@ jobs:
         if: ${{ failure() }}
         uses: edgarrc/action-7z@v1.0.4
         with:
-          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/android/vcpkg/buildtrees/*.log
+          args: 7z a -t7z -mx=9 deploy/logs.7z config.log android/BOINC/app/build/reports/ -r0 3rdParty/android/vcpkg/buildtrees/*.log
       
       - name: Upload logs on failure
         if: ${{ failure() }}
