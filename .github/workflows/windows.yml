@@ -51,6 +51,18 @@ jobs:
           key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
           restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
 
+      - name: Configure Python
+        if: ${{ success() }}
+        shell: cmd
+        run: |
+          pip install boto3
+
+      - name: Download vcpkg binary cache
+        if: ${{ success() }}
+        shell: cmd
+        run: |
+          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+
       - name: Build
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
 
@@ -100,3 +112,13 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
+
+      - name: Upload vcpkg binary cache
+        if: ${{ success() }}
+        shell: cmd
+        env:
+          BUCKET: ${{ secrets.S3_BUCKET }}
+          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+        run: |
+          python deploy\manage_vcpkg_archive_cache.py upload ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "%ACCESS_KEY%" "%SECRET_KEY%"          

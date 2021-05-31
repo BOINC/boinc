@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -53,6 +53,7 @@ extern int compareOSVersionTo(int toMajor, int toMinor);
 
 #include "client_types.h"
 #include "client_state.h"
+#include "client_msgs.h"
 #include "log_flags.h"
 #include "project.h"
 
@@ -71,6 +72,90 @@ void CLIENT_STATE::add_platform(const char* platform) {
     platforms.push_back(pp);
 }
 
+
+#if defined (__APPLE__) && defined (__arm64__)
+// detect a possibly emulated x86_64 CPU and its features on a Apple Silicon M1 Mac
+//
+int launch_child_process_to_detect_emulated_cpu() {
+    int prog;
+    char data_dir[MAXPATHLEN];
+    char execpath[MAXPATHLEN];
+    int retval = 0;
+
+    retval = boinc_delete_file(EMULATED_CPU_INFO_FILENAME);
+    if (retval) {
+        msg_printf(0, MSG_INFO,
+            "Failed to delete old %s. error code %d",
+            EMULATED_CPU_INFO_FILENAME, retval
+        );
+    } else {
+        for (;;) {
+            if (!boinc_file_exists(EMULATED_CPU_INFO_FILENAME)) break;
+            boinc_sleep(0.01);
+        }
+    }
+
+
+    // write the EMULATED_CPU_INFO into the BOINC data dir
+    boinc_getcwd(data_dir);
+
+    // the execuable should be in BOINC data dir
+    strncpy(execpath, data_dir, sizeof(execpath));
+    strncat(execpath, "/" EMULATED_CPU_INFO_EXECUTABLE, sizeof(execpath) - strlen(execpath) - 1);
+
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[x86_64-M1] launching child process at %s",
+            execpath
+        );
+    }
+
+    int argc = 1;
+    char* const argv[2] = {
+         const_cast<char *>(execpath),
+         NULL
+    };
+
+    retval = run_program(
+        data_dir,
+        execpath,
+        argc,
+        argv,
+        0,
+        prog
+    );
+
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[x86_64-M1] run_program of child process returned error %d",
+                retval
+            );
+        }
+        return retval;
+    }
+
+    retval = get_exit_status(prog);
+    if (retval) {
+        char buf[200];
+        if (WIFEXITED(retval)) {
+            int code = WEXITSTATUS(retval);
+            snprintf(buf, sizeof(buf), "process exited with status %d: %s", code, strerror(code));
+        } else if (WIFSIGNALED(retval)) {
+            int sig = WTERMSIG(retval);
+            snprintf(buf, sizeof(buf), "process was terminated by signal %d", sig);
+        } else {
+            snprintf(buf, sizeof(buf), "unknown status %d", retval);
+        }
+        msg_printf(0, MSG_INFO,
+            "Emulated CPU detection failed: %s",
+            buf
+        );
+    }
+
+    return retval;
+}
+#endif
 
 // determine the list of supported platforms.
 //
@@ -106,8 +191,9 @@ void CLIENT_STATE::detect_platforms() {
     }
 #elif defined(__arm64__)
     add_platform("arm64-apple-darwin");
-//TODO: Add test for Mac OS Version when Apple Rosetta emulator is removed 
-    add_platform("x86_64-apple-darwin");
+    if (!launch_child_process_to_detect_emulated_cpu()) {
+        add_platform("x86_64-apple-darwin");
+    }
 #else
 #error Mac client now requires a 64-bit system
 #endif
