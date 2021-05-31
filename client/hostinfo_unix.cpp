@@ -910,9 +910,10 @@ static void get_cpu_info_mac(HOST_INFO& host) {
     } else if (log_flags.coproc_debug) {
         msg_printf(0, MSG_INFO, "[x86_64-M1] didn't find file %s", fpath);
     }
-#endif // defined(__i386__) || defined(__x86_64__)
 
     strncpy(features,feature_string.c_str(),sizeof(features));
+
+#endif // defined(__i386__) || defined(__x86_64__)
 
     // Convert Mac CPU features string to match that returned by Linux
     for(p=features; *p; p++) {
