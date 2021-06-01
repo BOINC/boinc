@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -805,30 +805,115 @@ void use_cpuid(HOST_INFO& host) {
 static void get_cpu_info_mac(HOST_INFO& host) {
     int p_model_size = sizeof(host.p_model);
     size_t len;
-#if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
     char features[P_FEATURES_SIZE];
     char *p;
     char *sep=" ";
-    int family, stepping, model;
-
-    len = sizeof(host.p_vendor);
-    sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
+    int family, stepping, model, feature;
+    string feature_string;
 
     len = sizeof(brand_string);
     sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
 
-    len = sizeof(family);
-    sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+#if defined(__i386__) || defined(__x86_64__)
 
-    len = sizeof(model);
-    sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+    // on an Apple M1 chip the cpu.vendor is broken, family, model and stepping don't exist
+    if (!strncmp(brand_string, "Apple M", strlen("Apple M"))) {
 
-    len = sizeof(stepping);
-    sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+        strcpy(host.p_vendor, "Apple");
+        strncpy(host.p_model, brand_string, sizeof(host.p_model));
+
+    } else {
+
+        len = sizeof(host.p_vendor);
+        sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
+
+        len = sizeof(family);
+        sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+
+        len = sizeof(model);
+        sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+
+        len = sizeof(stepping);
+        sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+
+        snprintf(
+            host.p_model, sizeof(host.p_model),
+            "%s [x86 Family %d Model %d Stepping %d]",
+            brand_string, family, model, stepping
+        );
+    }
 
     len = sizeof(features);
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
+
+#else // defined(__i386__) || defined(__x86_64__)
+
+    strcpy(host.p_vendor, "Apple");
+    strncpy(host.p_model, brand_string, sizeof(host.p_model));
+
+    features[0] = '\0';
+    len = sizeof(feature);
+    feature_string="";
+
+    sysctlbyname("hw.optional.amx_version", &feature, &len, NULL, 0);
+    snprintf(features, sizeof(features), "amx_version_%d", feature);
+    feature_string += features;
+
+    sysctlbyname("hw.optional.arm64", &feature, &len, NULL, 0);
+    if (feature) feature_string += " arm64";
+
+    sysctlbyname("hw.optional.armv8_1_atomics", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_1_atomics";
+
+    sysctlbyname("hw.optional.armv8_2_fhm", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_fhm";
+
+    sysctlbyname("hw.optional.armv8_2_sha3", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_sha3";
+
+    sysctlbyname("hw.optional.armv8_2_sha512", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_sha512";
+
+    sysctlbyname("hw.optional.armv8_crc32", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_crc32";
+
+    sysctlbyname("hw.optional.floatingpoint", &feature, &len, NULL, 0);
+    if (feature) feature_string += " floatingpoint";
+
+    sysctlbyname("hw.optional.neon", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon";
+
+    sysctlbyname("hw.optional.neon_fp16", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon_fp16";
+
+    sysctlbyname("hw.optional.neon_hpfp", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon_hpfp";
+
+    sysctlbyname("hw.optional.ucnormal_mem", &feature, &len, NULL, 0);
+    if (feature) feature_string += " ucnormal_mem";
+
+    // read features of the emulated CPU if there is a file containing these
+    char fpath[MAXPATHLEN];
+    boinc_getcwd(fpath);
+    strcat(fpath,"/");
+    strcat(fpath,EMULATED_CPU_INFO_FILENAME);
+    if (boinc_file_exists(fpath)) {
+        FILE* fp = boinc_fopen(fpath, "r");
+        if (fp) {
+            fgets(features, sizeof(features), fp);
+	    feature_string += features;
+            fclose(fp);
+        } else if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO, "[x86_64-M1] couldn't open file %s", fpath);
+        }
+    } else if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO, "[x86_64-M1] didn't find file %s", fpath);
+    }
+
+    strncpy(features,feature_string.c_str(),sizeof(features));
+
+#endif // defined(__i386__) || defined(__x86_64__)
 
     // Convert Mac CPU features string to match that returned by Linux
     for(p=features; *p; p++) {
@@ -850,15 +935,6 @@ static void get_cpu_info_mac(HOST_INFO& host) {
             safe_strcat(host.p_features, p);
         }
     }
-
-    snprintf(
-        host.p_model, sizeof(host.p_model),
-        "%s [x86 Family %d Model %d Stepping %d]",
-        brand_string, family, model, stepping
-    );
-#else
-// TODO: Add code for Apple arm64 CPU
-#endif
 
     host.p_model[p_model_size-1] = 0;
 
