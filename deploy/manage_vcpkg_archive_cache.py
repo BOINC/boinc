@@ -18,6 +18,8 @@ def s3_upload(local_file, s3_file, bucket, access_key, secret_key):
         print("The file was not found")
     except NoCredentialsError:
         print("Credentials not available")
+    except Exception:
+        print("Upload failed")
 
 def s3_download(local_file, s3_file, bucket):
     print('Downloading', s3_file, '->', local_file)
@@ -26,10 +28,10 @@ def s3_download(local_file, s3_file, bucket):
     try:
         s3.download_file(bucket, s3_file, local_file)
         print("Download Successful")
-        return True
     except NoCredentialsError:
         print("Credentials not available")
-        return False
+    except Exception:
+        print("Download failed")
 
 def s3_list(bucket):
     s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED))
