@@ -20,10 +20,10 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up JDK 1.9
+      - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 1.9
+          java-version: "11"
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
