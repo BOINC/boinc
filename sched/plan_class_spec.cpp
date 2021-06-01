@@ -29,6 +29,29 @@
 
 using std::string;
 
+int REGEX_CLAUSE::init(const char* p) {
+    present = true;
+    negate = false;
+    if (*p == '!') {
+        p++;
+        negate = true;
+    }
+    if (regcomp(&regex, p, REG_EXTENDED|REG_NOSUB) ) {
+        return ERR_XML_PARSE;
+    }
+    return 0;
+}
+
+// return true if clause is present and string doesn't match
+//
+bool REGEX_CLAUSE::mismatch(const char* p) {
+    if (!present) {
+        return false;
+    }
+    bool match = (regexec(&regex, p, 0, NULL, 0) == 0);
+    return negate?match:!match;
+}
+
 // return a numerical OS version for Darwin/OSX and Windows,
 // letting us define numerical ranges for these OS versions
 //
@@ -302,9 +325,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // host summary
     //
-    if (have_host_summary_regex
-        && regexec(&(host_summary_regex), g_reply->host.serialnum, 0, NULL, 0)
-    ) {
+    if (host_summary_regex.mismatch(g_reply->host.serialnum)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: host summary '%s' didn't match regexp\n",
@@ -316,7 +337,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // OS version
     //
-    if (have_os_regex && regexec(&(os_regex), sreq.host.os_version, 0, NULL, 0)) {
+    if (os_regex.mismatch(sreq.host.os_version)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: OS version '%s' didn't match regexp\n",
@@ -389,7 +410,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // CPU vendor and model
     //
-    if (have_cpu_vendor_regex && regexec(&(cpu_vendor_regex), sreq.host.p_vendor, 0, NULL, 0)) {
+    if (cpu_vendor_regex.mismatch(sreq.host.p_vendor)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: CPU vendor '%s' didn't match regexp\n",
@@ -399,7 +420,7 @@ bool PLAN_CLASS_SPEC::check(
         return false;
     }
 
-    if (have_cpu_model_regex && regexec(&(cpu_model_regex), sreq.host.p_model, 0, NULL, 0)) {
+    if (cpu_model_regex.mismatch (sreq.host.p_model)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: CPU model '%s' didn't match regexp\n",
@@ -521,7 +542,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // project-specific preference
     //
-    if (have_project_prefs_regex && strlen(project_prefs_tag)) {
+    if (project_prefs_regex.present && strlen(project_prefs_tag)) {
         char tag[256], value[256];
         char buf[65536];
         extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
@@ -533,7 +554,7 @@ bool PLAN_CLASS_SPEC::check(
                 project_prefs_tag, p?"true":"false"
             );
         }
-        if (p ? regexec(&(project_prefs_regex), value, 0, NULL, 0) : !project_prefs_default_true) {
+        if (p ? project_prefs_regex.mismatch(value) : !project_prefs_default_true) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: project prefs setting '%s' value='%s' prevents using plan class.\n",
@@ -1066,35 +1087,31 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("nthreads_cmdline", nthreads_cmdline)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
-            if (regcomp(&(os_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+            if (os_regex.init(buf)) {
                 log_messages.printf(MSG_CRITICAL, "BAD OS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
-            have_os_regex = true;
             continue;
         }
         if (xp.parse_str("cpu_vendor_regex", buf, sizeof(buf))) {
-            if (regcomp(&(cpu_vendor_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+            if (cpu_vendor_regex.init(buf)) {
                 log_messages.printf(MSG_CRITICAL, "BAD CPU VENDOR REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
-            have_cpu_vendor_regex = true;
             continue;
         }
         if (xp.parse_str("cpu_model_regex", buf, sizeof(buf))) {
-            if (regcomp(&(cpu_model_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+            if (cpu_model_regex.init(buf)) {
                 log_messages.printf(MSG_CRITICAL, "BAD CPU MODEL REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
-            have_cpu_model_regex = true;
             continue;
         }
         if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
-            if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+            if (host_summary_regex.init(buf)) {
                 log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
-            have_host_summary_regex = true;
             continue;
         }
         if (xp.parse_int("user_id", user_id)) continue;
@@ -1105,11 +1122,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("max_android_version", max_android_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
-            if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+            if (project_prefs_regex.init(buf)) {
                 log_messages.printf(MSG_CRITICAL, "BAD PROJECT PREFS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
-            have_project_prefs_regex = true;
             continue;
         }
         if (xp.parse_bool("project_prefs_default_true", project_prefs_default_true)) continue;
@@ -1198,20 +1214,15 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     mem_usage_per_cpu = 0;
     nthreads_cmdline = false;
     projected_flops_scale = 1;
-    have_os_regex = false;
-    have_cpu_vendor_regex = false;
-    have_cpu_model_regex = false;
     min_os_version = 0;
     max_os_version = 0;
     min_android_version = 0;
     max_android_version = 0;
     strcpy(project_prefs_tag, "");
-    have_project_prefs_regex = false;
     project_prefs_default_true = false;
     avg_ncpus = 0;
     min_core_client_version = 0;
     max_core_client_version = 0;
-    have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
     min_wu_id=0;

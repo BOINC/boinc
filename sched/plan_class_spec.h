@@ -23,7 +23,23 @@
 #include <vector>
 #include <regex.h>
 
-// if you add anything here, initialize if in the constructor
+// represents a plan class clause with a regular expression
+//
+struct REGEX_CLAUSE {
+    bool present;   // clause is present
+    bool negate;    // regex is negated (starts with !)
+    regex_t regex;  // compiled regex
+
+    REGEX_CLAUSE() {
+        present = 0;
+    }
+    int init(const char* p);
+        // p is the regex, possibly preceded by !
+    bool mismatch(const char*);
+        // clause is present, and the string doesn't match it
+};
+
+// if you add anything here, initialize it in the constructor
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
@@ -40,27 +56,22 @@ struct PLAN_CLASS_SPEC {
     double mem_usage_per_cpu;
     bool nthreads_cmdline;
     double projected_flops_scale;
-    bool have_os_regex;
-    regex_t os_regex;
-    bool have_cpu_vendor_regex;
-    regex_t cpu_vendor_regex;
-    bool have_cpu_model_regex;
-    regex_t cpu_model_regex;
+    REGEX_CLAUSE os_regex;
+    REGEX_CLAUSE cpu_vendor_regex;
+    REGEX_CLAUSE cpu_model_regex;
     double min_os_version;
         // Win versions can be 9 digits; may as well be safe
     double max_os_version;
     int min_android_version;
     int max_android_version;
     char project_prefs_tag[256];
-    bool have_project_prefs_regex;
-    regex_t project_prefs_regex;
+    REGEX_CLAUSE project_prefs_regex;
     bool project_prefs_default_true;
     double avg_ncpus;
     int min_core_client_version;
     int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
-    bool have_host_summary_regex;
-    regex_t host_summary_regex;
+    REGEX_CLAUSE host_summary_regex;
     int user_id;
     double infeasible_random;
     long min_wu_id;
