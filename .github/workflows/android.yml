@@ -34,6 +34,16 @@ jobs:
           path: 3rdParty/buildCache
           key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
 
+      - name: Configure Python
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        run: |
+          pip install boto3
+
+      - name: Download vcpkg binary cache
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+
       - name: Build manager
         if: ${{ success() && matrix.type == 'manager' }}
         run:  |
@@ -92,3 +102,12 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
+
+      - name: Upload vcpkg binary cache
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        env:
+          BUCKET: ${{ secrets.S3_BUCKET }}
+          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py upload 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "$ACCESS_KEY" "$SECRET_KEY"
