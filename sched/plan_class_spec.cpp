@@ -32,6 +32,7 @@ using std::string;
 int REGEX_CLAUSE::init(const char* p) {
     present = true;
     negate = false;
+    expr = p;
     if (*p == '!') {
         p++;
         negate = true;
@@ -328,8 +329,9 @@ bool PLAN_CLASS_SPEC::check(
     if (host_summary_regex.mismatch(g_reply->host.serialnum)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: host summary '%s' didn't match regexp\n",
-                g_reply->host.serialnum
+                "[version] plan_class_spec: host summary '%s' didn't match regexp %s\n",
+                g_reply->host.serialnum,
+                host_summary_regex.expr.c_str()
             );
         }
         return false;
@@ -340,8 +342,9 @@ bool PLAN_CLASS_SPEC::check(
     if (os_regex.mismatch(sreq.host.os_version)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: OS version '%s' didn't match regexp\n",
-                sreq.host.os_version
+                "[version] plan_class_spec: OS version '%s' didn't match regexp %s\n",
+                sreq.host.os_version,
+                os_regex.expr.c_str()
             );
         }
         return false;
@@ -413,8 +416,9 @@ bool PLAN_CLASS_SPEC::check(
     if (cpu_vendor_regex.mismatch(sreq.host.p_vendor)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: CPU vendor '%s' didn't match regexp\n",
-                sreq.host.p_vendor
+                "[version] plan_class_spec: CPU vendor '%s' didn't match regexp %s\n",
+                sreq.host.p_vendor,
+                cpu_vendor_regex.expr.c_str()
             );
         }
         return false;
@@ -423,8 +427,9 @@ bool PLAN_CLASS_SPEC::check(
     if (cpu_model_regex.mismatch (sreq.host.p_model)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: CPU model '%s' didn't match regexp\n",
-                sreq.host.p_model
+                "[version] plan_class_spec: CPU model '%s' didn't match regexp %s\n",
+                sreq.host.p_model,
+                cpu_model_regex.expr.c_str()
             );
         }
         return false;

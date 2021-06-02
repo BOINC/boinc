@@ -23,12 +23,15 @@
 #include <vector>
 #include <regex.h>
 
-// represents a plan class clause with a regular expression
+// Represents a plan class clause with a regular expression
+// (os, cpu_vendor, etc.).
+// Has the compiled regex, and whether it's negated
 //
 struct REGEX_CLAUSE {
-    bool present;   // clause is present
-    bool negate;    // regex is negated (starts with !)
-    regex_t regex;  // compiled regex
+    bool present;       // clause is present
+    bool negate;        // regex is negated (starts with !)
+    std::string expr;   // the regex string
+    regex_t regex;      // compiled regex
 
     REGEX_CLAUSE() {
         present = 0;
@@ -36,7 +39,7 @@ struct REGEX_CLAUSE {
     int init(const char* p);
         // p is the regex, possibly preceded by !
     bool mismatch(const char*);
-        // clause is present, and the string doesn't match it
+        // return true if clause is present and the string doesn't match it
 };
 
 // if you add anything here, initialize it in the constructor
