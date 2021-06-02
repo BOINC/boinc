@@ -809,13 +809,13 @@ static void get_cpu_info_mac(HOST_INFO& host) {
     char features[P_FEATURES_SIZE];
     char *p;
     char *sep=" ";
-    int family, stepping, model, feature;
-    string feature_string;
 
     len = sizeof(brand_string);
     sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
 
 #if defined(__i386__) || defined(__x86_64__)
+
+    int family, stepping, model;
 
     // on an Apple M1 chip the cpu.vendor is broken, family, model and stepping don't exist
     if (!strncmp(brand_string, "Apple M", strlen("Apple M"))) {
@@ -848,6 +848,9 @@ static void get_cpu_info_mac(HOST_INFO& host) {
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
 
 #else // defined(__i386__) || defined(__x86_64__)
+
+    int feature;
+    string feature_string;
 
     strcpy(host.p_vendor, "Apple");
     strncpy(host.p_model, brand_string, sizeof(host.p_model));
