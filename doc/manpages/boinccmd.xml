@@ -4,7 +4,7 @@
  This is the manual page for boinccmd, a command tool that provides an
  interactive command-line interface for the core client.
 
- Copyright © 2007-2020 University of California
+ Copyright © 2007-2021 University of California
 
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -170,7 +170,7 @@
           </term>
           <listitem>
               <para>Attach to an account using the project URL and authenticator
-                (send via email after <option>--create_account</option> was
+                (sent via email after <option>--create_account</option> was
                 successful).</para>
           </listitem>
         </varlistentry>
