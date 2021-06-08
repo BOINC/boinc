@@ -204,8 +204,10 @@ class Monitor : LifecycleService() {
         // register screen on/off receiver
         val onFilter = IntentFilter(Intent.ACTION_SCREEN_ON)
         val offFilter = IntentFilter(Intent.ACTION_SCREEN_OFF)
+        val batteryFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         registerReceiver(screenOnOffReceiver, onFilter)
         registerReceiver(screenOnOffReceiver, offFilter)
+        registerReceiver(batteryReceiver, batteryFilter)
     }
 
     override fun onDestroy() {
@@ -853,6 +855,14 @@ class Monitor : LifecycleService() {
             }
         }
     }
+
+    private var batteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateStatus()
+            forceRefresh()
+        }
+    }
+
 
     private suspend fun setClientRunMode(runMode: Int) = coroutineScope {
         try {
