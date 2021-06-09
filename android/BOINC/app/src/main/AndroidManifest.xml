@@ -27,8 +27,9 @@
             android:normalScreens="true"
             android:smallScreens="true"
             android:xlargeScreens="true" /> <!-- Required Permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -122,20 +123,24 @@
                 android:process=":remote" />
         <service android:name=".attach.ProjectAttachService" />
 
-        <receiver android:name=".receiver.BootReceiver">
+        <receiver android:name=".receiver.BootReceiver"
+                  android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.PowerConnectedReceiver">
-            <intent-filter>
+        <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.PackageReplacedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
+                <category android:name="android.intent.category.DEFAULT" />
                 <data
                         android:path="edu.berkeley.boinc"
                         android:scheme="package" />

@@ -21,6 +21,7 @@ package edu.berkeley.boinc.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import edu.berkeley.boinc.client.AppPreferences
 import edu.berkeley.boinc.client.Monitor
@@ -33,7 +34,11 @@ class BootReceiver : BroadcastReceiver() {
             if (prefs.autostart) {
                 Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
 
-                context.startService(Intent(context, Monitor::class.java))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(Intent(context, Monitor::class.java))
+                } else {
+                    context.startService(Intent(context, Monitor::class.java))
+                }
             } else {
                 // do nothing
                 Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
@@ -53,7 +58,11 @@ class PackageReplacedReceiver : BroadcastReceiver() {
         if (intent.action == Intent.ACTION_PACKAGE_REPLACED) {
             if (intent.dataString.toString().contains("edu.berkeley.boinc")) {
                 Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...")
-                context.startService(Intent(context, Monitor::class.java))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(Intent(context, Monitor::class.java))
+                } else {
+                    context.startService(Intent(context, Monitor::class.java))
+                }
             } else {
                 Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.dataString)
             }
@@ -65,8 +74,11 @@ class PowerConnectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_POWER_CONNECTED) {
             Log.d(Logging.TAG, "power connected, start service...")
-
-            context.startService(Intent(context, Monitor::class.java))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(Intent(context, Monitor::class.java))
+            } else {
+                context.startService(Intent(context, Monitor::class.java))
+            }
         }
     }
 }
