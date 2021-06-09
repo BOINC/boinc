@@ -31,7 +31,9 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2.1.3
         with:
-          path: 3rdParty/buildCache
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/android/vcpkgcache/
           key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
 
       - name: Configure Python
@@ -106,7 +108,6 @@ jobs:
       - name: Upload vcpkg binary cache
         if: ${{ success() && contains(matrix.type, 'vcpkg') }}
         env:
-          BUCKET: ${{ secrets.S3_BUCKET }}
           ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
         run: |
