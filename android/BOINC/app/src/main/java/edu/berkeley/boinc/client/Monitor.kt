@@ -204,10 +204,9 @@ class Monitor : LifecycleService() {
         // register screen on/off receiver
         val onFilter = IntentFilter(Intent.ACTION_SCREEN_ON)
         val offFilter = IntentFilter(Intent.ACTION_SCREEN_OFF)
-        val batteryFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         registerReceiver(screenOnOffReceiver, onFilter)
         registerReceiver(screenOnOffReceiver, offFilter)
-        registerReceiver(batteryReceiver, batteryFilter)
+        forceRefresh()
     }
 
     override fun onDestroy() {
@@ -282,11 +281,11 @@ class Monitor : LifecycleService() {
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
     fun forceRefresh() {
-        if (!mutex.isAcquired) return  // do not try to update if client is not running
-        
         Log.d(Logging.TAG, "forceRefresh()")
         
         try {
+            updateTimer.cancel()
+            updateTimer.purge()
             updateTimer.schedule(StatusUpdateTimerTask(), 0)
         } catch (e: Exception) {
             Log.w(Logging.TAG, "Monitor.forceRefresh error: ", e)
@@ -850,19 +849,10 @@ class Monitor : LifecycleService() {
                 screenOn = true
                 
                 Log.d(Logging.TAG, "screenOnOffReceiver: screen turned on, force data refresh...")
-                
                 forceRefresh()
             }
         }
     }
-
-    private var batteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            updateStatus()
-            forceRefresh()
-        }
-    }
-
 
     private suspend fun setClientRunMode(runMode: Int) = coroutineScope {
         try {
