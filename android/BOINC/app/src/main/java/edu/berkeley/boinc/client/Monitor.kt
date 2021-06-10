@@ -102,7 +102,7 @@ class Monitor : LifecycleService() {
     private var clientStatusInterval by Delegates.notNull<Int>()
     private var deviceStatusIntervalScreenOff: Int = 0
     private val updateTimer = Timer(true) // schedules frequent client status update
-    private val statusUpdateTask: TimerTask = StatusUpdateTimerTask()
+    private val statusUpdateTask = StatusUpdateTimerTask()
     private var updateBroadcastEnabled = false
     private var screenOffStatusOmitCounter = 0
 
@@ -173,7 +173,7 @@ class Monitor : LifecycleService() {
         super.onBind(intent)
         
         Log.d(Logging.TAG, "Monitor onBind")
-        
+
         return mBinder
     }
 
@@ -206,7 +206,7 @@ class Monitor : LifecycleService() {
         val offFilter = IntentFilter(Intent.ACTION_SCREEN_OFF)
         registerReceiver(screenOnOffReceiver, onFilter)
         registerReceiver(screenOnOffReceiver, offFilter)
-        forceRefresh()
+        forceSchedule()
     }
 
     override fun onDestroy() {
@@ -216,7 +216,7 @@ class Monitor : LifecycleService() {
         
         updateBroadcastEnabled = false // prevent broadcast from currently running update task
         updateTimer.cancel() // cancel task
-
+        statusUpdateTask.hasStartedSchedule = false
         // there might be still other AsyncTasks executing RPCs
         // close sockets in a synchronized way
         clientInterface.close()
@@ -228,6 +228,7 @@ class Monitor : LifecycleService() {
         }
         updateBroadcastEnabled = false // prevent broadcast from currently running update task
         updateTimer.cancel() // cancel task
+        statusUpdateTask.hasStartedSchedule = false
         mutex.release() // release BOINC mutex
 
         // release locks, if held.
@@ -251,7 +252,10 @@ class Monitor : LifecycleService() {
             // register and start update task
             // using .scheduleAtFixedRate() can cause a series of bunched-up runs
             // when previous executions are delayed (e.g. during clientSetup() )
-            updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
+            if (!statusUpdateTask.hasStartedSchedule) {
+                updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
+                statusUpdateTask.hasStartedSchedule = true
+            }
         }
         if (!mutex.isAcquired) Log.e(Logging.TAG, "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC.")
 
@@ -282,14 +286,25 @@ class Monitor : LifecycleService() {
      */
     fun forceRefresh() {
         Log.d(Logging.TAG, "forceRefresh()")
-        
+
         try {
-            updateTimer.cancel()
-            updateTimer.purge()
-            updateTimer.schedule(StatusUpdateTimerTask(), 0)
+            updateTimer.schedule(statusUpdateTask, 0)
         } catch (e: Exception) {
             Log.w(Logging.TAG, "Monitor.forceRefresh error: ", e)
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    }
+
+    fun forceSchedule() {
+        if (!statusUpdateTask.hasStartedSchedule) {
+            Log.d(Logging.TAG, "forceRefresh()")
+
+            try {
+                updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
+                statusUpdateTask.hasStartedSchedule = true
+            } catch (e: Exception) {
+                Log.w(Logging.TAG, "Monitor.forceRefresh error: ", e)
+            } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+        }
     }
 
     fun getWelcomeStateFile() : Boolean {
@@ -317,6 +332,7 @@ class Monitor : LifecycleService() {
      * Task to frequently and asynchronously poll the client's status. Executed in different thread.
      */
     private inner class StatusUpdateTimerTask : TimerTask() {
+        public var hasStartedSchedule = false
         override fun run() {
             updateStatus()
         }
