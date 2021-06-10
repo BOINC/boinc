@@ -124,20 +124,23 @@
         <service android:name=".attach.ProjectAttachService" />
 
         <receiver android:name=".receiver.BootReceiver"
-                  android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+                  android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+                  android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.PowerConnectedReceiver">
+        <receiver android:name=".receiver.PowerConnectedReceiver"
+                  android:enabled="true">
         <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.PackageReplacedReceiver">
+        <receiver android:name=".receiver.PackageReplacedReceiver"
+                  android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <category android:name="android.intent.category.DEFAULT" />
