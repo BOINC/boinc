@@ -285,10 +285,12 @@ class Monitor : LifecycleService() {
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
     fun forceRefresh() {
+        if (!mutex.isAcquired) return  // do not try to update if client is not running
+
         Log.d(Logging.TAG, "forceRefresh()")
 
         try {
-            updateTimer.schedule(statusUpdateTask, 0)
+            updateTimer.schedule(StatusUpdateTimerTask(), 0)
         } catch (e: Exception) {
             Log.w(Logging.TAG, "Monitor.forceRefresh error: ", e)
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
