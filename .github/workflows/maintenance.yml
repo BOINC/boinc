@@ -12,6 +12,10 @@ jobs:
         type: [maintenance]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          
       - name: Configure Python
         run: |
           pip install boto3
