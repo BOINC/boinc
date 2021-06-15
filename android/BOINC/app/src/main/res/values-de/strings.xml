@@ -174,9 +174,12 @@
   <string name="projects_control_remove_acctmgr">Deaktivieren</string>
   <!--project confirm dialog-->
   <string name="projects_confirm_title">Projekt %1$s?</string>
+  <string name="projects_confirm_message">Sind sie sicher das sie %2$s%1$swollen?</string>
+  <string name="projects_confirm_detach_message">durch BOINC</string>
   <string name="projects_confirm_detach_confirm">Entfernen</string>
   <string name="projects_confirm_reset_confirm">Zurücksetzen</string>
   <string name="projects_confirm_remove_acctmgr_title">Kontoverwaltung deaktivieren</string>
+  <string name="projects_confirm_remove_acctmgr_message">Nutzung beenden</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Deaktivieren</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Aufgabenname:</string>
@@ -184,6 +187,7 @@
   <string name="tasks_header_project_paused">(angehalten)</string>
   <string name="tasks_header_deadline">Ablaufdatum:</string>
   <string name="tasks_result_new">neu</string>
+  <string name="tasks_result_files_downloading">lädt herunter</string>
   <string name="tasks_result_files_downloaded">herunterladen abgeschlossen</string>
   <string name="tasks_result_compute_error">Berechnungsfehler</string>
   <string name="tasks_result_files_uploading">hochladen</string>
@@ -263,7 +267,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2020 Universität von Kalifornien, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Dank dem Max Planck Institut für Gravitationsphysik, IBM und HTC, für die Unterstützung.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

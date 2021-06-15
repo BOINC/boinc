@@ -281,7 +281,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія %1$s</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">\u00A9 2003–2020 Каліфорнійський університет, Берклі.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC
         Corporation за їх підтримку.

@@ -270,7 +270,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="about_version">Verze %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
-  <string name="about_copyright">/u00A9 2003-2019 Univerzita v Kalifornii, Berkeley.</string>
+  <string name="about_copyright">/u00A9 2003-2021 Univerzita v Kalifornii, Berkeley.</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC
@@ -298,4 +298,6 @@ aplikaci z: %2$s
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Main notification channel (notices)-->
+  <string name="main_notification_channel_name">Zprávy</string>
 </resources>

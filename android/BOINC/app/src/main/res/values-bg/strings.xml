@@ -23,11 +23,11 @@
     <string name="attachproject_conflict_not_unique">Акаунтът съществува, но е с различна парола</string>
     <string name="attachproject_conflict_bad_password">Неправилна парола</string>
     <string name="attachproject_conflict_unknown_user">Акаунтът не съществува</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува. Посетете уебсайта на
-        проекта, за да се регистрирате.
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува, посетете сайта на проекта
+        за да се регистрирате
+</string>
     <!--working-->
-    <string name="attachproject_working_attaching">Присъединяване %1$s</string>
+    <string name="attachproject_working_attaching">Привързване %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Подсказка</string>
@@ -57,8 +57,7 @@
     <string name="attachproject_login_button_login">Впиши се</string>
     <string name="attachproject_login_button_forgotpw">Забравена парола</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Използвайте BOINC акаунт мениджър, за да добавяте или управлявате
-        няколко проекта
+    <string name="attachproject_acctmgr_list_desc">Използвайте управител за BOINC акаунт, за да добавите и управлявате множество проекти
     </string>
     <string name="attachproject_acctmgr_header">Добави акаунт мениджър</string>
     <string name="attachproject_acctmgr_header_url">URL адрес</string>
@@ -78,8 +77,7 @@
     <string name="attachproject_error_project_down">Проектът е офлайн</string>
     <string name="attachproject_error_email_bad_syntax">Имейл адресът не е приет</string>
     <string name="attachproject_error_bad_pwd">Паролата не е приета</string>
-    <string name="attachproject_error_creation_disabled">Създаването на нов акаунт за този проект е деактивирано
-    </string>
+    <string name="attachproject_error_creation_disabled">Създаването на нов акаунт за този проект е деактивирано</string>
     <string name="attachproject_error_invalid_url">Невалиден URL адрес</string>
     <!--tab names-->
     <string name="tab_status">Статус</string>
@@ -96,8 +94,7 @@
     <string name="status_idle">Няма задачи</string>
     <string name="status_idle_long">Изчакване за задачи…</string>
     <string name="status_computing_disabled">Временно прекратено</string>
-    <string name="status_computing_disabled_long">Натиснете play, за да подновите връзката по интернет и изчисленията.
-    </string>
+    <string name="status_computing_disabled_long">Натиснете play, за да подновите връзката по интернет и изчисленията.</string>
     <string name="status_launching">Стартиране…</string>
     <string name="status_noproject">Изберете проект, в който искате да участвате.</string>
     <string name="status_benchmarking">Тестване на CPU-то...</string>
@@ -109,8 +106,9 @@
     <string name="prefs_category_cpu">Процесор</string>
     <string name="prefs_category_storage">Съхранение</string>
     <string name="prefs_category_memory">Памет</string>
+    <string name="prefs_category_other">Други</string>
     <string name="prefs_category_debug">Отстраняване на грешки</string>
-    <string name="prefs_show_advanced_header">Покажи разширените предпочитания и контроли…</string>
+    <string name="prefs_show_advanced_header">Покажи разширени предпочитания и контроли</string>
     <string name="prefs_suspend_when_screen_on">Спирай изчисленията когато екранът е включен</string>
     <string name="prefs_stationary_device_mode_header">Режим на стационарно устройство</string>
     <string name="prefs_stationary_device_mode_description">Разрешава изчисленията независимо от настройките за
@@ -140,12 +138,9 @@
     <string name="prefs_network_wifi_only_header">Прехвърляй задачи само през WiFi</string>
     <string name="prefs_autostart_header">Автоматично стартиране</string>
     <string name="prefs_show_notification_notices_header">Показвай известия за новини</string>
-    <string name="prefs_show_notification_suspended_header">Показвай известия докато изчисленията са временно
-        прекратени
-    </string>
+    <string name="prefs_show_notification_suspended_header">Показвай известия докато изчисленията са временно прекратени</string>
     <string name="prefs_cpu_number_cpus_header">Използвани CPU ядра</string>
-    <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.
-    </string>
+    <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.</string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при CPU употреба над</string>
     <string name="prefs_cpu_other_load_suspension_description">Определя кога BOINC спира изчисленията поради заетост на
         процесора от други приложения
@@ -153,9 +148,7 @@
     <string name="prefs_cpu_time_max_header">CPU лимит</string>
     <string name="prefs_cpu_time_max_description">Ограничава CPU време, което BOINC използва за изчисления.</string>
     <string name="prefs_memory_max_idle_header">RAM лимит</string>
-    <string name="prefs_memory_max_idle_description">Ограничава количеството RAM, което е позволено на задачите да
-        заемат.
-    </string>
+    <string name="prefs_memory_max_idle_description">Ограничава количеството RAM, което е позволено на задачите да заемат.</string>
     <string name="prefs_client_log_flags_header">Флагове за записите на BOINC Клиента</string>
     <string name="prefs_gui_log_level_header">Степен на вербалност на записите на GUI</string>
     <string name="prefs_gui_log_level_description">Дефинира нивото на подробност на съобщенията от GUI.</string>
@@ -236,8 +229,7 @@
     <string name="eventlog_email_subject">Регистър на Събития на BOINC за Андроид:</string>
     <!--suspend reasons-->
     <string name="suspend_unknown">Изчисленията са временно прекратени.</string>
-    <string name="suspend_batteries">Свържете вашето устройство към зарядно устройство, за да продължите изчисленията.
-    </string>
+    <string name="suspend_batteries">Свържете вашето устройство към зарядно устройство, за да продължите изчисленията.</string>
     <string name="suspend_screen_on">Изключете екрана, за да продължите изчисленията.</string>
     <string name="suspend_useractive">Потребителят е активен.</string>
     <string name="suspend_tod">Извън рамката за изчислително време.</string>
@@ -307,4 +299,6 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">Известия</string>
 </resources>

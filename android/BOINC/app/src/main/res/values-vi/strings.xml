@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BONIC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Tiếp tục</string>
+  <string name="generic_button_finish">Hoàn thành</string>
+  <!--attach project-->
+  <!--selection list-->
+  <!--credential input-->
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_pwd">Mật khẩu:</string>
+  <string name="attachproject_login_button_login">Đăng nhập</string>
+  <string name="attachproject_login_button_forgotpw">Quên mật khẩu</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Người dùng:</string>
+  <string name="attachproject_acctmgr_header_pwd">Mật khẩu:</string>
+  <!--error strings-->
+  <string name="attachproject_error_short_pwd">Mật khẩu quá ngắn</string>
+  <string name="attachproject_error_no_url">Hãy liền địa chỉ dự án vào chỗ trống</string>
+  <string name="attachproject_error_no_email">Hãy liền địa chỉ email vào chỗ trống</string>
+  <string name="attachproject_error_no_pwd">Hãy liền mật khẩu vào chỗ trống</string>
+  <string name="attachproject_error_no_name">Hãy liền tên tài khoản vào chỗ trống</string>
+  <string name="attachproject_error_unknown">thất bại</string>
+  <string name="attachproject_error_bad_username">Tên tài khoản bị từ chối</string>
+  <string name="attachproject_error_email_in_use">Địa chỉ email đã được dùng</string>
+  <string name="attachproject_error_project_down">Dự án đăng ký đang offline</string>
+  <string name="attachproject_error_invalid_url">Địa chỉ URL không hợp lệ</string>
+  <!--tab names-->
+  <string name="tab_projects">Dự án</string>
+  <string name="tab_tasks">Công việc</string>
+  <!--status strings-->
+  <string name="status_running_long">Cảm ơn vì đóng góp của bạn.</string>
+  <string name="status_launching">Đang bắt đầu...</string>
+  <string name="status_benchmarking">Đang kiểm tra...</string>
+  <string name="status_image_description">ảnh của dự án</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_cpu">CPU</string>
+  <!--projects tab strings-->
+  <!--project status strings-->
+  <!--project controls-->
+  <!--project confirm dialog-->
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_cancel">Huỷ bỏ</string>
+  <!--transfers tab strings-->
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_help">Trợ giúp</string>
+  <!--about dialog-->
+  <string name="about_name">BONIC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Main notification channel (notices)-->
+</resources>

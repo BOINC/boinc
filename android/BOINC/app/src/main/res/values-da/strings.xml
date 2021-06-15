@@ -4,7 +4,7 @@
     <string name="app_name">BOINC</string>
     <!--generic. used by multiple Activities/tabs-->
     <string name="generic_button_continue">Fortsæt</string>
-    <string name="generic_button_finish">Færdig</string>
+    <string name="generic_button_finish">Afslut</string>
     <!--attach project-->
     <!--selection list-->
     <string name="attachproject_list_desc">Vælg videnskabelige projekter, du vil bidrage til:</string>
@@ -18,16 +18,16 @@
     <string name="attachproject_credential_input_show_pwd">Vis adgangskode</string>
     <string name="attachproject_individual_credential_input">Forbind projekter individuelt</string>
     <!--conflicts-->
-    <string name="attachproject_conflicts_desc">Der opstod problemer med at forbinde videnskabelige projekter:</string>
+    <string name="attachproject_conflicts_desc">Der opstod problemer under tilføjelsen af videnskabelige projekter:</string>
     <string name="attachproject_conflict_undefined">Kunne ikke forbinde</string>
     <string name="attachproject_conflict_not_unique">Konto eksisterer med en anden adgangskode</string>
-    <string name="attachproject_conflict_bad_password">Adgangskode ukorrekt</string>
+    <string name="attachproject_conflict_bad_password">Forkert adgangskode</string>
     <string name="attachproject_conflict_unknown_user">Konto eksisterer ikke</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto eksisterer ikke; besøg projektets webside
-        for at registrere
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto findes ikke, besøg projektets hjemmeside
+        for at registrere en konto
     </string>
     <!--working-->
-    <string name="attachproject_working_attaching">Forbinder %1$s</string>
+    <string name="attachproject_working_attaching">Tilføjer %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
     <string name="attachproject_hints_header">Tip</string>
@@ -36,12 +36,12 @@
     <string name="attachproject_hint_contribtion_wifi">1. Forbind til WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Tilslut oplader</string>
     <string name="attachproject_hint_contribtion_screen">4. Sluk skærmen</string>
-    <string name="attachproject_hint_projectwebsite_header">Besøg projekt-websider for at:</string>
-    <string name="attachproject_hint_projectwebsite_science">Lære mere om videnskaben</string>
+    <string name="attachproject_hint_projectwebsite_header">Besøg projekthjemmesider for at:</string>
+    <string name="attachproject_hint_projectwebsite_science">Lær mere om videnskaben</string>
     <string name="attachproject_hint_projectwebsite_stats">Se bidragsstatistik</string>
-    <string name="attachproject_hint_projectwebsite_community">Tale med andre frivillige</string>
-    <string name="attachproject_hint_platforms_header">BOINC findes også til din bærbare eller stationære computer;
-        besøg boinc.berkeley.edu for at finde ud af mere.
+    <string name="attachproject_hint_projectwebsite_community">Kom i kontakt med andre frivillige</string>
+    <string name="attachproject_hint_platforms_header">BOINC findes også til din computer og bærbar, besøg
+        boinc.barkeley.edu for at lære mere
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontakter projekt-server …</string>
@@ -57,9 +57,7 @@
     <string name="attachproject_login_button_login">Log ind</string>
     <string name="attachproject_login_button_forgotpw">Glemt adgangskode</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Brug BOINC kontohåndtering for at tilføje og vedligeholde adskillige
-        projekter
-    </string>
+    <string name="attachproject_acctmgr_list_desc">Brug BOINC konto-manager for at tilføje og administrere projekter</string>
     <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Bruger:</string>
@@ -107,49 +105,50 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Lagring</string>
     <string name="prefs_category_memory">Hukommelse</string>
+    <string name="prefs_category_other">Andre</string>
     <string name="prefs_category_debug">Fejlsøgning</string>
-    <string name="prefs_show_advanced_header">Vis avancerede indstillinger …</string>
+    <string name="prefs_show_advanced_header">Vis udvidede indstillinger</string>
     <string name="prefs_suspend_when_screen_on">Sæt beregning på pause, når skærmen er tændt</string>
+    <string name="prefs_general_device_name_header">Enhedsnavn</string>
+    <string name="prefs_theme_header">Tema</string>
     <string name="prefs_stationary_device_mode_header">Tilstand for stationære enheder</string>
-    <string name="prefs_stationary_device_mode_description">Tillader beregning uanset strømindstillinger. Kun
-        tilgængelig, hvis enheden ikke har et batteri.
-    </string>
+    <string name="prefs_stationary_device_mode_description">Tillader beregning uden hensyn til strømforbrugsprofil. Anvend kun dette hvis enheden ikke har et batteri.</string>
     <string name="prefs_power_source_header">Strømkilder for beregning</string>
-    <string name="prefs_power_source_description">Vælger strømkilder, som BOINC må beregne under.</string>
+    <string name="prefs_power_source_description">Vælg strøm-kilder som BOINC har lov til at anvende til beregning.</string>
     <string name="prefs_power_source_ac">Oplader til stikkontakt</string>
     <string name="prefs_power_source_usb">USB-forbindelse</string>
     <string name="prefs_power_source_wireless">Trådløs oplader</string>
     <string name="prefs_power_source_battery">Batteri</string>
-    <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
-    <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
-    <string name="battery_temperature_max_header">Maks. batteritemperatur</string>
-    <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det
-        anbefales ikke at ændre denne værdi.
-    </string>
-    <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
-    <string name="prefs_disk_min_free_gb_header">Min. lagringsplads</string>
-    <string name="prefs_disk_access_interval_header">Interval for tilgang</string>
+    <string name="battery_charge_min_pct_header">Min. batteriniveau (%)</string>
+    <string name="battery_charge_min_pct_description">Ved et lavere batteriniveau end det definerede, stopper beregning i BOINC.</string>
+    <string name="battery_temperature_max_header">Max. batteritemperatur (°C)</string>
+    <string name="battery_temperature_max_description">BOINC stopper beregning når batteritemperatur overstiger det definerede. Det anbefales ikke at ændre denne værdi.</string>
+    <string name="prefs_disk_max_pct_header">Max. anvendt harddiskplads (%)</string>
+    <string name="prefs_disk_min_free_gb_header">Min. reserveret harddiskplads (GB)</string>
+    <string name="prefs_disk_access_interval_header">Tilgangsinterval (sekunder)</string>
     <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
-    <string name="prefs_network_daily_xfer_limit_mb_header">Daglig begrænsning på overførsler</string>
+    <string name="prefs_network_daily_xfer_limit_mb_header">Daglig overførselsgrænse (MB)</string>
+    <string name="prefs_network_daily_xfer_limit_period_days_header">Daglig overførselsgrænse (Dage)</string>
     <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
     <string name="prefs_show_notification_suspended_header">Vis notifikation under suspendering</string>
     <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
-    <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til
-        beregninger.
-    </string>
-    <string name="prefs_cpu_other_load_suspension_header">Pause ved CPU-belastning over</string>
-    <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC sætter beregninger på pause på
-        grund af andre app\'ers CPU-forbrug.
-    </string>
-    <string name="prefs_cpu_time_max_header">CPU-begrænsning</string>
+    <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger.</string>
+    <string name="prefs_cpu_other_load_suspension_header">Stands når CPU-forbrug over (%)</string>
+    <string name="prefs_cpu_other_load_suspension_description">Bestemmer hvornår BOINC standser beregning på grund af andre applikationers CPU-forbrug.</string>
+    <string name="prefs_cpu_time_max_header">CPU-grænse (%)</string>
     <string name="prefs_cpu_time_max_description">Begrænser CPU-tiden, som BOINC bruger til beregninger.</string>
-    <string name="prefs_memory_max_idle_header">RAM-begrænsning</string>
+    <string name="prefs_memory_max_idle_header">RAM-grænse (%)</string>
     <string name="prefs_memory_max_idle_description">Begrænser mængden af RAM, som opgaver tillades at optage.</string>
-    <string name="prefs_client_log_flags_header">Log-flag for BOINC-klient</string>
+    <string name="prefs_other_store_at_least_x_days_of_work_header">Arbejdsenhedsbuffer (dage)</string>
+    <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Yderligere arbejdsenhedsbuffer (dage)</string>
+    <string name="prefs_client_log_flags_header">BOINC klient-log flags</string>
     <string name="prefs_gui_log_level_header">GUI-logniveau</string>
     <string name="prefs_gui_log_level_description">Specificerer uddybningsniveau for GUI-logbeskeder.</string>
+    <string name="prefs_theme_light">Lys</string>
+    <string name="prefs_theme_dark">Mørk</string>
+    <string name="prefs_theme_system">Systemstandard</string>
     <!--projects tab strings-->
     <string name="projects_add">Tilføj projekt</string>
     <string name="projects_icon">Projekt-ikon</string>
@@ -178,11 +177,13 @@
     <string name="projects_control_sync_acctmgr">Synkronisér</string>
     <string name="projects_control_remove_acctmgr">Deaktivér</string>
     <!--project confirm dialog-->
-    <string name="projects_confirm_detach_message">Er du sikker på, at du vil fjerne</string>
+    <string name="projects_confirm_title">Projekt %1$s?</string>
+    <string name="projects_confirm_message">Er du sikker på at du vil %1$s %2$s?</string>
+    <string name="projects_confirm_detach_message">fra BOINC</string>
     <string name="projects_confirm_detach_confirm">Fjern</string>
     <string name="projects_confirm_reset_confirm">Nulstil</string>
     <string name="projects_confirm_remove_acctmgr_title">Deaktivér kontohåndtering</string>
-    <string name="projects_confirm_remove_acctmgr_message">Er du sikker på, du vil stoppe med at bruge</string>
+    <string name="projects_confirm_remove_acctmgr_message">stop med at bruge</string>
     <string name="projects_confirm_remove_acctmgr_confirm">Deaktivér</string>
     <!--tasks tab strings-->
     <string name="tasks_header_name">Opgavenavn:</string>
@@ -190,7 +191,7 @@
     <string name="tasks_header_project_paused">(suspenderet)</string>
     <string name="tasks_header_deadline">Deadline:</string>
     <string name="tasks_result_new">ny</string>
-    <string name="tasks_result_files_downloading">venter på download</string>
+    <string name="tasks_result_files_downloading">downloader</string>
     <string name="tasks_result_files_downloaded">download komplet</string>
     <string name="tasks_result_compute_error">beregningsfejl</string>
     <string name="tasks_result_files_uploading">uploader</string>
@@ -214,7 +215,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
-    <string name="trans_retry_in">prøv igen om %1$s</string>
+    <string name="trans_retry_in">forsøg igen om %1$s</string>
     <string name="trans_suspended">suspenderet</string>
     <string name="trans_active">aktiv</string>
     <string name="trans_pending">afventer</string>
@@ -263,16 +264,16 @@
     <string name="menu_run_mode_enable">Genoptag</string>
     <string name="menu_about">Om</string>
     <string name="menu_help">Hjælp</string>
+    <string name="menu_report_issue">Rapportér Problem</string>
     <!--about dialog-->
     <string name="about_button">Tilbage</string>
     <string name="about_title">Om</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+    <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
-    <string name="about_credits">Tak til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC
-        Corporation for deres støtte.
-    </string>
+    <string name="about_credits">Tak til Max Planck Institut for Gravitationel Fysik, samt virksomhederne IBM og HTC for deres støtte.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Ny besked fra %1$s</item>
@@ -280,20 +281,19 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">App til frivillig beregning detekteret</string>
-    <string name="nonexcl_dialog_text">En anden app til frivillig beregning kører på denne enhed. Kun én version kan
-        køre ad gangen.
-    </string>
+    <string name="nonexcl_dialog_text">En anden frivillig-beregningsapplikation kører på denne enhed. Kun én version kan køre ad gangen.</string>
     <string name="nonexcl_dialog_exit">Afslut</string>
     <!--social integration-->
     <string name="social_invite_button">Invitér venner</string>
     <string name="social_invite_intent_title">Hvordan vil du dele?</string>
     <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
-    <string name="social_invite_content_body">Jeg bruger min %1$s til at lave beregninger for videnskaben! Det kan du
-        også! Download app\'en fra: %2$s
-    </string>
+    <string name="social_invite_content_body">Jeg bruger min %1$s til at udføre beregninger for videnskaben. Du kan også være med! Download applikationen her: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">Meddelelser</string>
+    <string name="main_notification_channel_description">Viser meddelelser fra dine projekter.</string>
 </resources>

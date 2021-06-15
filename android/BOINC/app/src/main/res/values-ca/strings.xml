@@ -14,9 +14,7 @@
     <string name="attachproject_list_no_internet">No hi ha connexió a Internet</string>
     <!--credential input-->
     <string name="attachproject_credential_input_sing_desc">Entra la informació del teu compte:</string>
-    <string name="attachproject_credential_input_desc">Entra la informació del teu compte per els projectes
-        seleccionats:
-    </string>
+    <string name="attachproject_credential_input_desc">Entra la informació del teu compte per els projectes seleccionats:</string>
     <string name="attachproject_credential_input_show_pwd">Mostra la contrasenya</string>
     <string name="attachproject_individual_credential_input">Afegir els projectes individualment:</string>
     <!--conflicts-->
@@ -36,7 +34,7 @@
     <!--e.g. Hint 1/2-->
     <string name="attachproject_hint_contribtion_header">Com contribuir:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Connectar a una xarxa WiFi</string>
-    <string name="attachproject_hint_contribtion_charger">2, Connectar el carregador</string>
+    <string name="attachproject_hint_contribtion_charger">2. Connectar el carregador</string>
     <string name="attachproject_hint_contribtion_screen">4. Desactivar la Pantalla</string>
     <string name="attachproject_hint_projectwebsite_header">Visita els llocs web dels projectes a:</string>
     <string name="attachproject_hint_projectwebsite_science">Apren més sobre la ciència</string>
@@ -80,8 +78,7 @@
     <string name="attachproject_error_project_down">El projecte està desconnectat</string>
     <string name="attachproject_error_email_bad_syntax">Adreça de correu electrònic rebutjada</string>
     <string name="attachproject_error_bad_pwd">Contrasenya rebutjada</string>
-    <string name="attachproject_error_creation_disabled">La creació de comptes està desactivada en aquest projecte
-    </string>
+    <string name="attachproject_error_creation_disabled">La creació de comptes està desactivada en aquest projecte</string>
     <string name="attachproject_error_invalid_url">URL incorrecte</string>
     <!--tab names-->
     <string name="tab_status">Estatus</string>
@@ -98,8 +95,7 @@
     <string name="status_idle">Res a fer</string>
     <string name="status_idle_long">Esperant feines...</string>
     <string name="status_computing_disabled">Suspès</string>
-    <string name="status_computing_disabled_long">Premeu play per reprendre la connexió per xarxa i la computació.
-    </string>
+    <string name="status_computing_disabled_long">Premeu play per reprendre la connexió per xarxa i la computació.</string>
     <string name="status_launching">S\'està iniciant...</string>
     <string name="status_noproject">Tria un projecte per participar-hi.</string>
     <string name="status_benchmarking">Executamt proves...</string>
@@ -111,6 +107,7 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Emmagatzematge</string>
     <string name="prefs_category_memory">Memòria</string>
+    <string name="prefs_category_other">Un altre</string>
     <string name="prefs_category_debug">Depura</string>
     <string name="prefs_show_advanced_header">Mostra les preferències i controls avançats...</string>
     <string name="prefs_suspend_when_screen_on">Atura el càlcul quan la pantalla estigui activa</string>
@@ -144,9 +141,7 @@
     <string name="prefs_show_notification_notices_header">Mostra una notificació per a nous avisos</string>
     <string name="prefs_show_notification_suspended_header">Mostra una notificació quan es suspengui</string>
     <string name="prefs_cpu_number_cpus_header">Nuclis de CPU usats</string>
-    <string name="prefs_cpu_number_cpus_description">Limita el nombre de nuclis de CPU que BOINC utilitza per la
-        computació.
-    </string>
+    <string name="prefs_cpu_number_cpus_description">Limita el nombre de nuclis de CPU que BOINC utilitza per la computació.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pausa en l\'ús de la CPU per sobre de</string>
     <string name="prefs_cpu_other_load_suspension_description">Determina quan BOINC pausa el còmput degut a l\'ús de la
         CPU per altres aplicacions.
@@ -154,12 +149,10 @@
     <string name="prefs_cpu_time_max_header">Límit de CPU</string>
     <string name="prefs_cpu_time_max_description">Limita el temps de CPU que BOINC utilitza per la computació.</string>
     <string name="prefs_memory_max_idle_header">RAM límit</string>
-    <string name="prefs_memory_max_idle_description">Limita la quantitat de RAM que les tasques poden utilitzar.
-    </string>
+    <string name="prefs_memory_max_idle_description">Limita la quantitat de RAM que les tasques poden utilitzar.</string>
     <string name="prefs_client_log_flags_header">Marques de registre del client de BOINC</string>
     <string name="prefs_gui_log_level_header">Nivell de registre GUI</string>
-    <string name="prefs_gui_log_level_description">Especifica el nivell de detall dels missatges de registre GUI.
-    </string>
+    <string name="prefs_gui_log_level_description">Especifica el nivell de detall dels missatges de registre GUI.</string>
     <!--projects tab strings-->
     <string name="projects_add">Afegeix el projecte</string>
     <string name="projects_icon">Icona delprojecte</string>
@@ -275,6 +268,7 @@
     <string name="menu_run_mode_enable">Reprèn</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_help">Ajuda</string>
+    <string name="menu_report_issue">Informa d\'un problema</string>
     <!--about dialog-->
     <string name="about_button">Retorna</string>
     <string name="about_title">Sobre</string>
@@ -308,4 +302,6 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">Notícies</string>
 </resources>

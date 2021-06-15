@@ -107,9 +107,10 @@
   <string name="prefs_category_memory">Pamäť</string>
   <string name="prefs_category_other">Ostatné</string>
   <string name="prefs_category_debug">Ladenie</string>
-  <string name="prefs_show_advanced_header">Zobraziť pokročilé nastavenia...</string>
+  <string name="prefs_show_advanced_header">Zobraziť pokročilé nastavenia a ovládania</string>
   <string name="prefs_suspend_when_screen_on">Pozastaviť výpočty keď je obrazovka zapnutá</string>
   <string name="prefs_general_device_name_header">Názov zariadenia</string>
+  <string name="prefs_theme_header">Téma vzhľadu</string>
   <string name="prefs_stationary_device_mode_header">Mód neprenosného zariadenia</string>
   <string name="prefs_stationary_device_mode_description">Umožní počítanie bez ohľadu na nastavenie napájania. Zapnite len
         ak zariadenie nemá batériu.
@@ -120,32 +121,36 @@
   <string name="prefs_power_source_usb">Pripojenie USB</string>
   <string name="prefs_power_source_wireless">Bezdrôtová nabíjačka</string>
   <string name="prefs_power_source_battery">Batéria</string>
-  <string name="battery_charge_min_pct_header">Minimálna úroveň stavu batérie</string>
+  <string name="battery_charge_min_pct_header">Min. úroveň batérie (%)</string>
   <string name="battery_charge_min_pct_description">BOINC pozastaví výpočet, pokiaľ stav batérie klesne pod danú úroveň.</string>
-  <string name="battery_temperature_max_header">Maximálna teplota batérie</string>
+  <string name="battery_temperature_max_header">Max. teplota batérie (°C)</string>
   <string name="battery_temperature_max_description">BOINC pozastaví výpočet ak teplota batérie stúpne nad danú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
-  <string name="prefs_disk_max_pct_header">Maximum použitého úložného priestoru</string>
-    <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
-  <string name="prefs_disk_access_interval_header">Interval prístupov</string>
+  <string name="prefs_disk_max_pct_header">Max. použitia úložného priestoru (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Min. zostatok úložiska (GB)</string>
+  <string name="prefs_disk_access_interval_header">Interval prístupov (sekundy)</string>
   <string name="prefs_disk_access_interval_description">Odporučiť interval medzi prístupmi na disk</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Denný limit prenosov (Dni)</string>
   <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
   <string name="prefs_autostart_header">Automatický štart</string>
   <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
   <string name="prefs_show_notification_suspended_header">Zobraziť upozornenie pri pozastavení</string>
   <string name="prefs_cpu_number_cpus_header">Používané jadrá procesoru</string>
   <string name="prefs_cpu_number_cpus_description">Obmedzí počet jadier procesoru ktoré BOINC používa pri výpočtoch</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pozastaví pri využití procesoru nad</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pozastaviť pri využití procesoru nad (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Určí, kedy BOINC pozastaví výpočty kvôli využitiu procesora inými aplikáciami.</string>
-  <string name="prefs_cpu_time_max_header">Limit procesoru</string>
+  <string name="prefs_cpu_time_max_header">Limit procesora (%)</string>
   <string name="prefs_cpu_time_max_description">Obmedzí procesorový čas, ktorý BOINC využíva na výpočty.</string>
-  <string name="prefs_memory_max_idle_header">Limit RAM</string>
+  <string name="prefs_memory_max_idle_header">Limit pamäte RAM (%)</string>
   <string name="prefs_memory_max_idle_description">Nastaví koľko RAM môžu úlohy využiť</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovných úloh</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočný zásobník pracovných úloh</string>
-  <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Zásoba pracovných úloh (dni)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Dodatočná zásoba pracovných úloh (dni)</string>
+  <string name="prefs_client_log_flags_header">Nastavenia zaznamenávania BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
+  <string name="prefs_theme_light">Svetlá</string>
+  <string name="prefs_theme_dark">Tmavá</string>
+  <string name="prefs_theme_system">Podľa systému</string>
   <!--projects tab strings-->
   <string name="projects_add">Pripojiť sa k projektu</string>
   <string name="projects_icon">Ikona projektu</string>
@@ -159,7 +164,7 @@
   <string name="projects_status_schedrpcpending">Žiadosť plánovača nevyriešená</string>
   <string name="projects_status_schedrpcinprogress">Spracováva sa požiadavka plánovača</string>
   <string name="projects_status_trickleuppending">Rýchla správa o stave čaká na odoslanie</string>
-  <string name="projects_status_backoff">Komunikácia je naplánovaná o: %1$s</string>
+  <string name="projects_status_backoff">Komunikácia naplánovaná o: %1$s</string>  
   <!--project controls-->
   <string name="projects_control_dialog_title">Príkazy projektu:</string>
   <string name="projects_control_visit_website">Navštíviť stránku</string>
@@ -175,12 +180,12 @@
   <string name="projects_control_remove_acctmgr">Deaktivovať</string>
   <!--project confirm dialog-->
   <string name="projects_confirm_title">%1$s projekt?</string>
-  <string name="projects_confirm_message">Skutočne chcete %1$s %2$s?</string>
-  <string name="projects_confirm_detach_message">Skutočne chcete odstrániť</string>
+  <string name="projects_confirm_message">Naozaj chcete %1$s %2$s?</string>
+  <string name="projects_confirm_detach_message">z BOINC</string>
   <string name="projects_confirm_detach_confirm">Odobrať</string>
   <string name="projects_confirm_reset_confirm">Resetovať</string>
   <string name="projects_confirm_remove_acctmgr_title">Deaktivovať Správcu konta</string>
-  <string name="projects_confirm_remove_acctmgr_message">Skutočne chcete prestať používať</string>
+  <string name="projects_confirm_remove_acctmgr_message">prestať používať</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Deaktivovať</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Názov úlohy:</string>
@@ -188,7 +193,7 @@
   <string name="tasks_header_project_paused">(pozastavené)</string>
   <string name="tasks_header_deadline">Odoslať do:</string>
   <string name="tasks_result_new">nový</string>
-  <string name="tasks_result_files_downloading">čakanie na stiahnutie</string>
+  <string name="tasks_result_files_downloading">sťahuje sa</string>
   <string name="tasks_result_files_downloaded">sťahovanie dokončené</string>
   <string name="tasks_result_compute_error">chyba výpočtu</string>
   <string name="tasks_result_files_uploading">odosielanie</string>
@@ -212,7 +217,7 @@
   <!--transfers tab strings-->
   <string name="trans_upload">Odosielanie</string>
   <string name="trans_download">Sťahovanie</string>
-  <string name="trans_retry_in">zopakuje sa o %1$s</string>
+  <string name="trans_retry_in">zopakovať o %1$s</string>
   <string name="trans_suspended">pozastavené</string>
   <string name="trans_active">prebieha</string>
   <string name="trans_pending">čaká</string>
@@ -239,7 +244,7 @@
   <string name="suspend_os">Zastavené Androidom.</string>
   <string name="suspend_wifi">Nepripojené k WiFi.</string>
   <string name="suspend_battery_charging">Čakanie na nabitie batérie.</string>
-  <string name="suspend_battery_charging_long">Výpočty sa obnovia, keď nabitie batérie dosiahne</string>
+  <string name="suspend_battery_charging_long">Výpočty sa obnovia, keď nabitie batérie dosiahne %1$d%% (teraz je %2$d%%)</string>
   <string name="suspend_battery_overheating">Čakanie na ochladenie batérie</string>
   <string name="suspend_user_req">Obnovovanie výpočtov...</string>
   <!--rpc reasons-->
@@ -269,7 +274,7 @@
   <string name="about_version">Verzia %1$s</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
-  <string name="about_copyright">\u00A9 2003–2019 Kalifornská univerzita, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Kalifornská univerzita, Berkeley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
   <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC
 Corporation za ich podporu.</string>
@@ -296,4 +301,7 @@ Corporation za ich podporu.</string>
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Main notification channel (notices)-->
+  <string name="main_notification_channel_name">Oznamy</string>
+  <string name="main_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
 </resources>

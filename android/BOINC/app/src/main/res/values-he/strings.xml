@@ -23,7 +23,8 @@
     <string name="attachproject_conflict_not_unique">החשבון קיים עם סיסמה אחרת</string>
     <string name="attachproject_conflict_bad_password">סיסמה שגויה</string>
     <string name="attachproject_conflict_unknown_user">החשבון לא קיים</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון אינו קיים, בקר באתר המיזם כדי להירשם
+    <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון לא קיים, יש לבקר בדף המיזם
+        כדי להירשם
     </string>
     <!--working-->
     <string name="attachproject_working_attaching">מצרף %1$s</string>
@@ -39,8 +40,8 @@
     <string name="attachproject_hint_projectwebsite_science">למד עוד אודות המדע</string>
     <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>
     <string name="attachproject_hint_projectwebsite_community">צור קשר עם מתנדבים אחרים</string>
-    <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב או המחשב הנייד, בקר ב-boinc.berkeley.edu
-        כדי ללמוד עוד.
+    <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב הנייח או הנייד שלך, יש לבקר בכתובת
+        boinc.berkeley.edu כדי לדעת עוד.
     </string>
     <!--project login-->
     <string name="attachproject_login_loading">יוצר קשר עם שרת המיזם...</string>
@@ -56,7 +57,7 @@
     <string name="attachproject_login_button_login">היכנס</string>
     <string name="attachproject_login_button_forgotpw">שכחתי סיסמה</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">השתמש במנהל החשבון של BOINC כדי להוסיף ולנהל מיזמים מרובים</string>
+    <string name="attachproject_acctmgr_list_desc">ניתן להשתמש במנהל החשבונות של BOINC כדי להוסיף ולנהל מספר מיזמים</string>
     <string name="attachproject_acctmgr_header">הוסף מנהל חשבונות</string>
     <string name="attachproject_acctmgr_header_url">כתובת אינטרנט</string>
     <string name="attachproject_acctmgr_header_name">משתמש:</string>
@@ -104,24 +105,26 @@
     <string name="prefs_category_cpu">מעבד</string>
     <string name="prefs_category_storage">אחסון</string>
     <string name="prefs_category_memory">זיכרון</string>
+    <string name="prefs_category_other">אחר</string>
     <string name="prefs_category_debug">איתור באגים</string>
     <string name="prefs_show_advanced_header">הצג העדפות ובקרות מתקדמים...</string>
     <string name="prefs_suspend_when_screen_on">השהה חישוב כאשר המסך מופעל</string>
+    <string name="prefs_general_device_name_header">שם המכשיר</string>
     <string name="prefs_stationary_device_mode_header">מצב ההתקן נייח</string>
-    <string name="prefs_stationary_device_mode_description">אפשר חישוב ללא תלות בההעדפות של כוח. אפשר רק אם אין סוללה
-        להתקן.
+    <string name="prefs_stationary_device_mode_description">לאפשר חישוב ללא תלות בהגדרות צריכת החשמל. ניתן להפעיל
+        רק אם למכשיר הזה אין סוללה.
     </string>
     <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
-    <string name="prefs_power_source_description">בחר מקורות כוח של-BOINC מותר להשתמש עבור מחשוב.</string>
+    <string name="prefs_power_source_description">בוחר מקורות חשמל בהם מותר ל־BOINC להשתמש לטובת חישוב.</string>
     <string name="prefs_power_source_ac">שקע קיר</string>
     <string name="prefs_power_source_usb">חיבור USB</string>
     <string name="prefs_power_source_wireless">מטען אלחוטי</string>
     <string name="prefs_power_source_battery">סוללה</string>
     <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית</string>
-    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב ברמה של טעינת סוללה נמוכה מהמוגדר.</string>
+    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב אם עצמת הסוללה נמוכה מתחת לסף המוגדר.</string>
     <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה</string>
-    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעל טמפרטורת סוללה שהוגדרה. לא מומלץ לשנות
-        ערך זה.
+    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעבר לסף טמפרטורה מוגדר.
+        לא מומלץ לשנות את הערך הזה.
     </string>
     <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש</string>
     <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי</string>
@@ -135,7 +138,7 @@
     <string name="prefs_cpu_number_cpus_header">ליבות מעבד בשימוש</string>
     <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל</string>
-    <string name="prefs_cpu_other_load_suspension_description">קבע מתי BOINC משהה את החישוב עקב שמוש במעבד של יישומים
+    <string name="prefs_cpu_other_load_suspension_description">החלטה מתי BOINC יעצור את החישוב עקב ניצול המעבד על ידי יישומונים
         אחרים.
     </string>
     <string name="prefs_cpu_time_max_header">הגבלת מעבד</string>
@@ -258,6 +261,7 @@
     <string name="menu_run_mode_enable">חדש פעולה</string>
     <string name="menu_about">על אודות</string>
     <string name="menu_help">עזרה</string>
+    <string name="menu_report_issue">דיווח על תקלה</string>
     <!--about dialog-->
     <string name="about_button">חזור</string>
     <string name="about_title">על אודות</string>
@@ -265,7 +269,9 @@
     <string name="about_version">גירסה %1$s</string>
     <string name="about_name_long">התשתית הפתוחה של ברקלי עבור מחשוב רשת</string>
     <string name="about_copyright_reserved">כל הזכויות שמורות.</string>
-    <string name="about_credits">תודות למכון מקס פלנק לפיסיקה כבידתית, תאגיד IBM וחברת HTC על תמיכתם.</string>
+    <string name="about_credits">תודתנו נתונה למכון מקס פלנק לפיזיקה כבידתית, לתאגיד IBM ולתאגיד HTC
+       על תמיכתם הרבה.
+    </string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">הודעות חדשות מ-%1$s</item>
@@ -275,19 +281,22 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">זוהה יישוון מחשוב בהתנדבות</string>
-    <string name="nonexcl_dialog_text">יישומון מחשוב בהתנדבות נוסף פועל במכשיר זה. ניתן להפעיל גירסה אחת בלבד בכל פעם.
+    <string name="nonexcl_dialog_text">יישומון חישוביות התנדבותית נוסף פועל על מכשיר זה. רק גרסה אחת יכול לפעול
+        בו־זמנית.
     </string>
     <string name="nonexcl_dialog_exit">צא</string>
     <!--social integration-->
     <string name="social_invite_button">הזמן חברים</string>
     <string name="social_invite_intent_title">כיצד ברצונך לשתף?</string>
     <string name="social_invite_content_title">אני עושה מדע עם הטלפון החכם שלי!</string>
-    <string name="social_invite_content_body">אני משתמשב-%1$s שלי כדי לעשות מחשוב עבור המדע. גם אתה יכול! הורד את היישום
-        מ- %2$s
+    <string name="social_invite_content_body">ה־%1$s שלי משמש אותי לערוך חישובים לטובת המדע. כל אחד יכול! ניתן להוריד את
+        היישומון דרך: %2$s
     </string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">הודעות</string>
 </resources>

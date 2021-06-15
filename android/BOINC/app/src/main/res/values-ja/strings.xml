@@ -26,6 +26,7 @@
   <string name="attachproject_conflict_unknown_user_creation_disabled">アカウントが存在しません。プロジェクトのウェブサイトをご覧下さい。
 登録する</string>
   <!--working-->
+  <string name="attachproject_working_attaching">%1$sに追加中</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">ヒント</string>
@@ -127,6 +128,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_disk_access_interval_header">アクセス間隔(秒)</string>
   <string name="prefs_disk_access_interval_description">記憶領域への読み書き間隔</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">一日あたりの転送容量制限(MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">一日あたりの転送容量制限(日間)</string>
   <string name="prefs_network_wifi_only_header">WiFiでのみタスクを転送する</string>
   <string name="prefs_autostart_header">自動起動</string>
   <string name="prefs_show_notification_notices_header">新しいお知らせがあった場合通知を表示</string>
@@ -139,6 +141,9 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_cpu_time_max_description">BOINCが計算のために使用するCPU時間を制限します。</string>
   <string name="prefs_memory_max_idle_header">RAMの制限(%)</string>
   <string name="prefs_memory_max_idle_description">タスクが専有できるRAMの総計のを制限します。</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">ワークユニットの量(日間)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">追加のワークユニット量(日間)</string>
+  <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
   <string name="prefs_theme_light">白</string>
@@ -237,7 +242,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="suspend_os">Androidによって停止されました。</string>
   <string name="suspend_wifi">WiFiに接続されていません。</string>
   <string name="suspend_battery_charging">バッテリーへの充電を待機中。</string>
-  <string name="suspend_battery_charging_long">バッテリーの充電量が%1$d%に達すると計算が再開されます(現在%2$d%)</string>
+  <string name="suspend_battery_charging_long">バッテリーの充電量が%1$d%%に達すると計算が再開されます(現在%2$d%%)</string>
   <string name="suspend_battery_overheating">バッテリーが冷めるのを待機中</string>
   <string name="suspend_user_req">計算を再開しています…</string>
   <!--rpc reasons-->
@@ -266,7 +271,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2020 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">Max Planck Institute for Gravitational Physics、IBM CorporationおよびHTC Corporationのサポートに感謝します。</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

@@ -95,9 +95,7 @@
     <string name="status_idle">İş yoxdur</string>
     <string name="status_idle_long">Tapşırıqlar gözlənilir...</string>
     <string name="status_computing_disabled">Dayandılrılıb</string>
-    <string name="status_computing_disabled_long">Hesabların bərpası və məlumatların ötürülməsi üçün Play düyməsini
-        vurun.
-    </string>
+    <string name="status_computing_disabled_long">Hesabların bərpası və məlumatların ötürülməsi üçün Play düyməsini vurun.</string>
     <string name="status_launching">Başlayır...</string>
     <string name="status_noproject">İştirak üçün layihəni seçin.</string>
     <string name="status_benchmarking">İş fəaliyyətinin yoxlanılması...</string>
@@ -109,6 +107,7 @@
     <string name="prefs_category_cpu">Prosessor</string>
     <string name="prefs_category_storage">Disk</string>
     <string name="prefs_category_memory">Yaddaş</string>
+    <string name="prefs_category_other">Digər</string>
     <string name="prefs_category_debug">Sazlanma</string>
     <string name="prefs_show_advanced_header">İdarə elementlərini və əlavə nizamlamaları göstər...</string>
     <string name="prefs_suspend_when_screen_on">Ekran sönəndə, hesablamanı dayandır</string>
@@ -141,8 +140,7 @@
     <string name="prefs_show_notification_notices_header">Yeni bildirişlər üçün bildirişi göstərin</string>
     <string name="prefs_show_notification_suspended_header">Yuxu rejiminə keçdikdə bildirişi göstərin</string>
     <string name="prefs_cpu_number_cpus_header">İstifadə olunacaq CPU nüvələri</string>
-    <string name="prefs_cpu_number_cpus_description">BOINC hesablama üçün CPU nüvələrinin sayını məhdudlaşdırır.
-    </string>
+    <string name="prefs_cpu_number_cpus_description">BOINC hesablama üçün CPU nüvələrinin sayını məhdudlaşdırır.</string>
     <string name="prefs_cpu_other_load_suspension_header">CPU istifadəsini dayandırın</string>
     <string name="prefs_cpu_other_load_suspension_description">BOINC digər tətbiqlərin CPU-nun istifadəsi səbəbindən
         hesablamanı dayandırdığını müəyyənləşdirir.
@@ -301,4 +299,6 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">Bildirişlər</string>
 </resources>

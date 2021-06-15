@@ -95,8 +95,7 @@
     <string name="status_idle">გასაკეთებელი არაფერია</string>
     <string name="status_idle_long">დავალებების ლოდინში...</string>
     <string name="status_computing_disabled">შეჩერებულია</string>
-    <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.
-    </string>
+    <string name="status_computing_disabled_long">გთხოვთ, დააჭიროთ \"დაკვრას\" ქსელის და გამოთვლის გასაგრძელებლად.</string>
     <string name="status_launching">მიმდინარეობს დაწყება...</string>
     <string name="status_noproject">აირჩიეთ პროექტი მონაწილეობის მისაღებად.</string>
     <string name="status_benchmarking">მიმდინარეობს წარმადობის შემოწმება...</string>
@@ -108,6 +107,7 @@
     <string name="prefs_category_cpu">ცპ</string>
     <string name="prefs_category_storage">მეხსიერება</string>
     <string name="prefs_category_memory">ოპერატიული მეხსიერება</string>
+    <string name="prefs_category_other">სხვა</string>
     <string name="prefs_category_debug">დებაგი</string>
     <string name="prefs_show_advanced_header">დამატებითი პარამეტრების და კონტროლების ჩვენება...</string>
     <string name="prefs_suspend_when_screen_on">გამოთვლის შეჩერება, როდესაც ეკრანი ჩართული</string>
@@ -141,9 +141,7 @@
     <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>
     <string name="prefs_show_notification_suspended_header">შეტყობინებების ჩვენება, როდესაც შეჩერებულია</string>
     <string name="prefs_cpu_number_cpus_header">გამოყენებული ცპ-ს ბირთვები</string>
-    <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების
-        რაოდენობას
-    </string>
+    <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების რაოდენობას</string>
     <string name="prefs_cpu_other_load_suspension_header">შეჩერება, როდესაც ცპ-ს გამოყენება აღემატება</string>
     <string name="prefs_cpu_other_load_suspension_description">წყვეთს, თუ როდის შეაჩეროს გამოთვლები BOINC-მა სხვა
         აპლიკაციების ცპ-ს გამოყენების მიხედვით
@@ -151,9 +149,7 @@
     <string name="prefs_cpu_time_max_header">ცპ-ს შეზღუდვა</string>
     <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
     <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
-    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების
-        უფლება აქვს BOINC-ს
-    </string>
+    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
     <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
     <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
     <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
@@ -303,4 +299,6 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">შეტყობინებები</string>
 </resources>

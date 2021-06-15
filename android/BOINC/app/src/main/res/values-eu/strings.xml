@@ -273,7 +273,7 @@ pausarazten duen zehazten du.
   <string name="about_name">BOINC</string>
   <string name="about_version">Bertsioa %1$s</string>
   <string name="about_name_long">Sare bidezko Konputaziorako Berkeleyko Azpiegitura Irekia</string>
-  <string name="about_copyright">\u00A9 2003–2019 Kaliforniako Unibertsitatea Berkeleyn.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Kaliforniako Unibertsitatea Berkeleyn.</string>
   <string name="about_copyright_reserved">Eskubide guztiak erreserbatuta.</string>
   <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC 
 Korporazioari beraien laguntzagatik.
@@ -300,4 +300,6 @@ aplikazioa hemendik: %2$s
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
 </string>
   <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/product/B00DCCGLAG</string>
+  <!--Main notification channel (notices)-->
+  <string name="main_notification_channel_name">Oharrak</string>
 </resources>

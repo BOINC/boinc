@@ -103,6 +103,7 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Skladište</string>
     <string name="prefs_category_memory">Memorija</string>
+    <string name="prefs_category_other">Drugo</string>
     <string name="prefs_category_debug">Otkloni grešku</string>
     <string name="prefs_show_advanced_header">Prikaži napredno podešavanje i upravljanje</string>
     <string name="prefs_suspend_when_screen_on">Pauziraj rad dok je ekran uključen</string>
@@ -272,4 +273,6 @@
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--Main notification channel (notices)-->
+    <string name="main_notification_channel_name">Obaveštenja</string>
 </resources>
