@@ -58,7 +58,19 @@ def upload(os_name, dir, bucket, access_key, secret_key):
             if (not found):
                 s3_upload(file_path, file_name, bucket, access_key, secret_key)
 
+def cleanup(dir):
+    if not os.path.isdir(dir):
+        return
+    for filename in os.listdir(dir):
+        file_path = os.path.join(dir, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
 def download(os_name, dir, bucket):
+    cleanup(dir)
     objects = s3_list(bucket)
     if objects:
         for object in objects:
@@ -73,12 +85,13 @@ def download(os_name, dir, bucket):
                 s3_download(local_file, key, bucket)
 
 def download_all(dir, bucket):
+    cleanup(dir)
     objects = s3_list(bucket)
     if objects:
         for object in objects:
             key = object['Key']
             local_file = os.path.join(dir, key)
-            s3_download(local_file, key, bucket)                
+            s3_download(local_file, key, bucket)
 
 def s3_remove(s3_file, bucket, access_key, secret_key):
     print('Removing', s3_file)
@@ -89,7 +102,7 @@ def s3_remove(s3_file, bucket, access_key, secret_key):
         print("Remove successful")
     except Exception as ex:
         print("Remove failed: ", ex)
-    
+
 def remove_files(files, bucket, access_key, secret_key):
     for file in files:
         s3_remove(os.path.basename(file), bucket, access_key, secret_key)
