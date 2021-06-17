@@ -4,13 +4,19 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.berkeley.boinc.DetectRosettaCPU</string>
+	<string>edu.berkeley.boinc.OKToRunIntelApps</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string> detect_rosetta_cpu </string>
+	<string>BOINC_OK_To_Run_Intel_Apps</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>7.17.0</string>
+	<string>5.10.7</string>
 </dict>
 </plist>

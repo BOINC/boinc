@@ -36,6 +36,7 @@ int main () {
 
     len = sizeof(features);
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
+    chdir("/Library/Application Support/BOINC Data");
     if ((fp = boinc_fopen(EMULATED_CPU_INFO_FILENAME, "w"))) {
         fprintf(fp," %s\n", features);
         fclose(fp);

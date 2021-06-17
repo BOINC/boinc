@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     
     // detect_rosetta_cpu
-    err = FixInfoPlistFile("DetectRosettaCPU-Info.plist");
+    err = FixInfoPlistFile("BOINC_OK_To_Run_Intel_Apps-Info.plist");
     if (err) retval = err;
     
     // WaitPermissions is not currently used

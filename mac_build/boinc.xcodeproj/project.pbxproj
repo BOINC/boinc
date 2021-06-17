@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				DD3AA9C2267B40E100013C96 /* PBXTargetDependency */,
 				DDF9EC15144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC17144EB36E005D6144 /* PBXTargetDependency */,
@@ -41,7 +42,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD000D6A24D0208E0083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D6B24D020940083DE77 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD000D7424D0244D0083DE77 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */; };
@@ -96,6 +96,7 @@
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
 		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DD3AA9BC267B2C9E00013C96 /* detect_rosetta_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */; };
@@ -584,20 +585,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B15487172667809100A9FDBA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
-			remoteInfo = libboinc;
-		};
-		B1A32E54265D206800896566 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B13E2D0E265564D100D5C977;
-			remoteInfo = detect_rosetta_cpu;
-		};
 		DD095D1E0F3B22DE000902F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -611,13 +598,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD1277B2081F3D67007B5DE1;
 			remoteInfo = Installer;
-		};
-		DD157A5E2675EB5200350364 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
 		};
 		DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -639,6 +619,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
 			remoteInfo = SetVersion;
+		};
+		DD3AA9BD267B2D2B00013C96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DD3AA9BF267B2D3200013C96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
+			remoteInfo = libboinc;
+		};
+		DD3AA9C1267B40E100013C96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3AA9AA267B258500013C96;
+			remoteInfo = BOINC_Intel_Apps_OK;
 		};
 		DD3E14D50A774397007E0084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -860,15 +861,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B13E2D0D265564D100D5C977 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		DD3E15350A774397007E0084 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -904,7 +896,6 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
-		B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = detect_rosetta_cpu; sourceTree = BUILT_PRODUCTS_DIR; };
 		B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = detect_rosetta_cpu.cpp; sourceTree = "<group>"; };
 		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
@@ -1000,6 +991,7 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3AA9AB267B258500013C96 /* BOINC_OK_To_Run_Intel_Apps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINC_OK_To_Run_Intel_Apps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAA6216A25AD00BC673C /* boinc_finish_install */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_finish_install; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
@@ -1403,13 +1395,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B13E2D0C265564D100D5C977 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD1277B1081F3D67007B5DE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1430,6 +1415,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DD35352F07E1E05C00C4718D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3AA9A8267B258500013C96 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1620,7 +1612,7 @@
 				DDF9EC03144EB14B005D6144 /* libboinc_opencl.a */,
 				DD3EAAA6216A25AD00BC673C /* boinc_finish_install */,
 				DD5F654123605B41009ED2A2 /* gfx_cleanup */,
-				B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */,
+				DD3AA9AB267B258500013C96 /* BOINC_OK_To_Run_Intel_Apps.app */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -2236,25 +2228,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B13E2D13265564D100D5C977 /* Build configuration list for PBXNativeTarget "detect_rosetta_cpu" */;
-			buildPhases = (
-				B13E2D0B265564D100D5C977 /* Sources */,
-				B13E2D0C265564D100D5C977 /* Frameworks */,
-				B13E2D0D265564D100D5C977 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DD157A5F2675EB5200350364 /* PBXTargetDependency */,
-				B15487182667809100A9FDBA /* PBXTargetDependency */,
-			);
-			name = detect_rosetta_cpu;
-			productName = detect_rosetta_cpu;
-			productReference = B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */;
-			productType = "com.apple.product-type.tool";
-		};
 		DD1277B2081F3D67007B5DE1 /* PostInstall */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2371091CBDAE0048316E /* Build configuration list for PBXNativeTarget "PostInstall" */;
@@ -2310,6 +2283,25 @@
 			productName = api_libboinc;
 			productReference = DD35353107E1E05C00C4718D /* libboinc_api.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		DD3AA9AA267B258500013C96 /* BOINC_Intel_Apps_OK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD3AA9BB267B259000013C96 /* Build configuration list for PBXNativeTarget "BOINC_Intel_Apps_OK" */;
+			buildPhases = (
+				DD3AA9A7267B258500013C96 /* Sources */,
+				DD3AA9A8267B258500013C96 /* Frameworks */,
+				DD3AA9A9267B258500013C96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD3AA9BE267B2D2B00013C96 /* PBXTargetDependency */,
+				DD3AA9C0267B2D3200013C96 /* PBXTargetDependency */,
+			);
+			name = BOINC_Intel_Apps_OK;
+			productName = BOINC_Intel_Apps_OK;
+			productReference = DD3AA9AB267B258500013C96 /* BOINC_OK_To_Run_Intel_Apps.app */;
+			productType = "com.apple.product-type.application";
 		};
 		DD3E14D30A774397007E0084 /* mgr_boinc */ = {
 			isa = PBXNativeTarget;
@@ -2577,7 +2569,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B1A32E55265D206800896566 /* PBXTargetDependency */,
 				DD25E20D220438090040366F /* PBXTargetDependency */,
 			);
 			name = BOINC_Client;
@@ -2643,8 +2634,8 @@
 			attributes = {
 				LastUpgradeCheck = 0620;
 				TargetAttributes = {
-					B13E2D0E265564D100D5C977 = {
-						CreatedOnToolsVersion = 12.5;
+					DD3AA9AA267B258500013C96 = {
+						CreatedOnToolsVersion = 10.1;
 					};
 					DD3EAAA5216A25AD00BC673C = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -2663,6 +2654,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
 			projectDirPath = "";
@@ -2690,7 +2682,7 @@
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
 				DD5F654023605B41009ED2A2 /* gfx_cleanup */,
-				B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */,
+				DD3AA9AA267B258500013C96 /* BOINC_Intel_Apps_OK */,
 			);
 		};
 /* End PBXProject section */
@@ -2710,6 +2702,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3AA9A9267B258500013C96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2938,10 +2937,11 @@
 				"$(SRCROOT)/English.lproj/ScreenSaver-InfoPlist.strings",
 				"$(SRCROOT)/English.lproj/Uninstaller-InfoPlist.strings",
 				"$(SRCROOT)/BoincCmd-Info.plist",
+				"$(SRCROOT)/BOINC_OK_To_Run_Intel_Apps-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait\n\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait $!\n";
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3036,14 +3036,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B13E2D0B265564D100D5C977 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B13E2D172655655000D5C977 /* detect_rosetta_cpu.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD1277B0081F3D67007B5DE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3081,6 +3073,14 @@
 				DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */,
 				DDE41C260C1FCA8F00CA1F86 /* graphics2_util.cpp in Sources */,
 				DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD3AA9A7267B258500013C96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3AA9BC267B2C9E00013C96 /* detect_rosetta_cpu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3679,16 +3679,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B15487182667809100A9FDBA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD407A4907D2FB1200163EF5 /* libboinc */;
-			targetProxy = B15487172667809100A9FDBA /* PBXContainerItemProxy */;
-		};
-		B1A32E55265D206800896566 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */;
-			targetProxy = B1A32E54265D206800896566 /* PBXContainerItemProxy */;
-		};
 		DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD89161C0F3B17E900DE5B1C /* ss_app */;
@@ -3698,11 +3688,6 @@
 			isa = PBXTargetDependency;
 			target = DD1277B2081F3D67007B5DE1 /* PostInstall */;
 			targetProxy = DD127876081F44E5007B5DE1 /* PBXContainerItemProxy */;
-		};
-		DD157A5F2675EB5200350364 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DD157A5E2675EB5200350364 /* PBXContainerItemProxy */;
 		};
 		DD1AFEA50A512D8700EE5B82 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3718,6 +3703,21 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
 			targetProxy = DD25E20C220438090040366F /* PBXContainerItemProxy */;
+		};
+		DD3AA9BE267B2D2B00013C96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DD3AA9BD267B2D2B00013C96 /* PBXContainerItemProxy */;
+		};
+		DD3AA9C0267B2D3200013C96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD407A4907D2FB1200163EF5 /* libboinc */;
+			targetProxy = DD3AA9BF267B2D3200013C96 /* PBXContainerItemProxy */;
+		};
+		DD3AA9C2267B40E100013C96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3AA9AA267B258500013C96 /* BOINC_Intel_Apps_OK */;
+			targetProxy = DD3AA9C1267B40E100013C96 /* PBXContainerItemProxy */;
 		};
 		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3888,30 +3888,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B13E2D14265564D100D5C977 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = x86_64;
-				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				INFOPLIST_FILE = "DetectRosettaCPU-Info.plist";
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.DetectRosettaCPU;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Development;
-		};
-		B13E2D15265564D100D5C977 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = x86_64;
-				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
-				INFOPLIST_FILE = "DetectRosettaCPU-Info.plist";
-				OTHER_LDFLAGS = "-lboinc";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.DetectRosettaCPU;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Deployment;
-		};
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3954,6 +3930,34 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
 				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Deployment;
+		};
+		DD3AA9B9267B259000013C96 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				INFOPLIST_FILE = "BOINC_OK_To_Run_Intel_Apps-Info.plist";
+				OTHER_LDFLAGS = "-lboinc";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.OKToRunIntelApps;
+				PRODUCT_NAME = BOINC_OK_To_Run_Intel_Apps;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Development;
+		};
+		DD3AA9BA267B259000013C96 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				INFOPLIST_FILE = "BOINC_OK_To_Run_Intel_Apps-Info.plist";
+				OTHER_LDFLAGS = "-lboinc";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.OKToRunIntelApps;
+				PRODUCT_NAME = BOINC_OK_To_Run_Intel_Apps;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
 		};
@@ -4856,20 +4860,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B13E2D13265564D100D5C977 /* Build configuration list for PBXNativeTarget "detect_rosetta_cpu" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B13E2D14265564D100D5C977 /* Development */,
-				B13E2D15265564D100D5C977 /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		DD1AFEB50A512D8700EE5B82 /* Build configuration list for PBXNativeTarget "Install_BOINC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD1AFEB60A512D8700EE5B82 /* Development */,
 				DD1AFEB90A512D8700EE5B82 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DD3AA9BB267B259000013C96 /* Build configuration list for PBXNativeTarget "BOINC_Intel_Apps_OK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3AA9B9267B259000013C96 /* Development */,
+				DD3AA9BA267B259000013C96 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
