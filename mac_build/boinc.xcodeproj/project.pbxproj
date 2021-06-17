@@ -2941,7 +2941,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait $!\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# run SetVersion in background so we can wait for it to finish running\n# Important: Xcode considers this script finished when all the files specified\n# in the \"Output Files\" list below have been written. If a target is dependent \n# on a file created by SetVersion, be sure it is listed as an Output File to \n# this script. Otherwise, the build may fail due to a race condition.\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait $!\n";
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
