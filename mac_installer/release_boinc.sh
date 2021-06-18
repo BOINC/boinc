@@ -152,6 +152,11 @@
 ## - for more information:
 ##  $ xcrun altool --help
 ##  $ man stapler
+##
+## TODO: Add code to optionally automate notarization either in this script or
+## TODO: in a separate script. Perhaps adapt notarization and stapler code from 
+## TODO: <https://github.com/smittytone/scripts/blob/master/packcli.zsh>
+##
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
