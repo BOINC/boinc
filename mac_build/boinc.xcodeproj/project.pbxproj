@@ -898,7 +898,6 @@
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = detect_rosetta_cpu; sourceTree = BUILT_PRODUCTS_DIR; };
-		B13E2D11265564D100D5C977 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = detect_rosetta_cpu.cpp; sourceTree = "<group>"; };
 		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
@@ -1632,7 +1631,6 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
-				B13E2D10265564D100D5C977 /* detect_rosetta_cpu */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1680,14 +1678,6 @@
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
-		};
-		B13E2D10265564D100D5C977 /* detect_rosetta_cpu */ = {
-			isa = PBXGroup;
-			children = (
-				B13E2D11265564D100D5C977 /* main.cpp */,
-			);
-			path = detect_rosetta_cpu;
-			sourceTree = "<group>";
 		};
 		DD1277BC081F3E59007B5DE1 /* mac_installer */ = {
 			isa = PBXGroup;
