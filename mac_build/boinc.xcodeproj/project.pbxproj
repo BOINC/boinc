@@ -2933,7 +2933,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
+			shellScript = "# Important: To ensure that the relevant *info.plist and *InfoPlist.strings\n# files are available by the time they are needed for building a target:\n# [1] include SetVersion in that target's \"Target Dependencies\" and\n# [2] if a target is dependent on a file created by SetVersion, be sure \n# the file is listed as an Output File for this script. Otherwise, the \n# build may fail due to a race condition.\n#\n# Also, make sure the template used by SetVersion to create the file exists \n# in clientgui/mac/templates.\n#\n# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# Run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait $!\n";
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
