@@ -7,6 +7,7 @@
 | [![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Linux-MinGW+branch:master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
 | [![Build Status](https://github.com/BOINC/boinc/workflows/OSX/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:OSX+branch:master) | |
 | [![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Windows+branch:master) | |
+| [![Maintenance](https://github.com/BOINC/boinc/actions/workflows/maintenance.yml/badge.svg)](https://github.com/BOINC/boinc/actions/workflows/maintenance.yml) | |
 
 # Social
 
