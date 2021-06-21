@@ -27,11 +27,15 @@ CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
 if [ $BUILD_WITH_VCPKG = "yes" ]; then
+    CONFIG_CFLAGS="-I$VCPKG_DIR/include"
+    CONFIG_CXXFLAGS="-I$VCPKG_DIR/include"
     CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-vcpkg"
+    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --enable-vcpkg"
 else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES"
+    CONFIG_CFLAGS="-I$TCINCLUDES/include"
+    CONFIG_CXXFLAGS="-I$TCINCLUDES/include"
     CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES"
 fi
 
 export ANDROID="yes"
@@ -39,10 +43,10 @@ export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
 export CC=x86_64-linux-android21-clang
 export CXX=x86_64-linux-android21-clang++
 export LD=x86_64-linux-android-ld
-export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21 -I$TCINCLUDES/include -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -D__ANDROID_API__=21 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
+export CFLAGS="--sysroot=$TCSYSROOT $CONFIG_CFLAGS -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
+export CXXFLAGS="--sysroot=$TCSYSROOT $CONFIG_CXXFLAGS -DANDROID -DANDROID_64 -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="$CONFIG_LDFLAGS -L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -lz"
-export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
+export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g"
 
 ENABLE_VCPKG_FLAG=""
 

@@ -455,8 +455,7 @@ dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
 fi
 dnl ---------- SSL (m4/check_ssl.m4)
-AS_IF([test "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes"],
-  [CHECK_SSL])
+CHECK_SSL
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 dnl curl is needed for client

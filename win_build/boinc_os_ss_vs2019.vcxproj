@@ -74,7 +74,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../win_build;../;../api/;../lib;../client/;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../;../api/;../lib;../client/;../coprocs/OpenCL/include;$(VcpkgInstalledDir)/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -100,7 +100,7 @@
       <AdditionalIncludeDirectories>../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib;libcrypto.lib;libssl.lib;Ws2_32.Lib;Crypt32.Lib</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -112,6 +112,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/debug/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,7 +127,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../win_build;../api/;../lib/;../client;..;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../api/;../lib/;../client;..;../coprocs/OpenCL/include;$(VcpkgInstalledDir)/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -152,7 +153,7 @@
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmt.lib;libcpmt.lib;opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcrypto.lib;libssl.lib;libcmt.lib;libcpmt.lib;opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;advapi32.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib;Ws2_32.Lib;Crypt32.Lib</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -162,6 +163,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SetChecksum>true</SetChecksum>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>$(VcpkgInstalledDir)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
