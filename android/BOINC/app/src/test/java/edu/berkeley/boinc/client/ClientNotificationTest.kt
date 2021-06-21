@@ -243,7 +243,7 @@ class ClientNotificationTest {
     }
 
     @Test
-    fun `When active is false then expect foreground to be false`() {
+    fun `When active is false then expect foreground to be true`() {
         val monitor = mockkClass(Monitor::class)
         justRun { monitor.startForeground(any(), any()) }
         val clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
@@ -251,7 +251,7 @@ class ClientNotificationTest {
 
         clientNotification.update(clientStatus, monitor, false)
 
-        Assert.assertFalse(clientNotification.foreground)
+        Assert.assertTrue(clientNotification.foreground)
     }
 
     @Test

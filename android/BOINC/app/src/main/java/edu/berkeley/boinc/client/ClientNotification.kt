@@ -134,7 +134,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
         // start foreground service, if requested
         // notification instance exists now, but might be out-dated (if screen is off)
-        if (active && !foreground) {
+        if (!foreground) {
             setForegroundState(service)
         }
     }
