@@ -30,6 +30,9 @@
 #include <unistd.h>
 #endif
 
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
 struct FDSET_GROUP {
     fd_set read_fds;
     fd_set write_fds;
@@ -57,6 +60,11 @@ extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
 extern int boinc_get_port(bool is_remote, int& port);
+
+// tls
+extern void init_openssl();
+extern SSL_CTX* create_context();
+extern void configure_context(SSL_CTX *ctx);
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef int BOINC_SOCKLEN_T;
