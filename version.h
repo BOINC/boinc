@@ -3,23 +3,23 @@
 #ifndef BOINC_VERSION_H
 #define BOINC_VERSION_H
 
-/* Major part of BOINC version number */
+/* client version number */
 #define BOINC_MAJOR_VERSION 7
-
-/* Minor part of BOINC version number */
 #define BOINC_MINOR_VERSION 17
-
-/* Release part of BOINC version number */
 #define BOINC_RELEASE 0
+#define BOINC_VERSION_STRING "7.17.0"
 
-/* Release part of wrapper version number */
+/* server version: must match html/inc/server_version.inc */
+#define SERVER_MAJOR_VERSION 1
+#define SERVER_MINOR_VERSION 1
+#define SERVER_RELEASE 0
+#define SERVER_VERSION_STRING "1.1.0"
+
+/* wrapper version number */
 #define WRAPPER_RELEASE 26016
 
-/* Release part of vboxwrapper version number */
+/* vboxwrapper version number */
 #define VBOXWRAPPER_RELEASE 26202
-
-/* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "7.17.0"
 
 /* Package is a pre-release (Alpha/Beta) package */
 #define BOINC_PRERELEASE 1

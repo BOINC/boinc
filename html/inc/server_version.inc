@@ -3,6 +3,8 @@
 // the server code release number (major/minor/release).
 // Update this when you do a server release.
 
+// This should agree with version.h
+
 // public releases have even minor #,
 // and are assumed to have a branch on github.
 // dev versions (e.g. master) have an odd minor #

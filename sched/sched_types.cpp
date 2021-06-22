@@ -24,6 +24,7 @@
 #include <string>
 #include <cstring>
 
+#include "version.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "str_util.h"
@@ -766,7 +767,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         "Content-type: text/xml\n\n"
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n",
-        BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
+        SERVER_MAJOR_VERSION*100+SERVER_MINOR_VERSION
     );
     if (sreq.core_client_version >= 70028) {
         fprintf(fout, "<dont_use_dcf/>\n");
