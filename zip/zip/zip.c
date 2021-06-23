@@ -1699,11 +1699,11 @@ local int DisplayRunningStats()
   }
   if (display_counts) {
     if (noisy) {
-      fprintf(mesg, "%3ld/%3ld ", files_so_far, files_total - files_so_far);
+      fprintf(mesg, "%3lu/%3lu ", files_so_far, files_total - files_so_far);
       mesg_line_started = 1;
     }
     if (logall) {
-      fprintf(logfile, "%3ld/%3ld ", files_so_far, files_total - files_so_far);
+      fprintf(logfile, "%3lu/%3lu ", files_so_far, files_total - files_so_far);
       logfile_line_started = 1;
     }
   }
@@ -3441,7 +3441,7 @@ char **argv;            /* command line tokens */
 
         default:
           /* should never get here as get_option will exit if not in table */
-          sprintf(errbuf, "no such option ID: %ld", option);
+          sprintf(errbuf, "no such option ID: %lu", option);
           ZIPERR(ZE_PARMS, errbuf);
 
      }  /* switch */
@@ -3994,7 +3994,7 @@ char **argv;            /* command line tokens */
         struct tm *now;
         time_t clocktime;
 
-        fprintf(logfile, "\nTotal %ld entries (", files_total);
+        fprintf(logfile, "\nTotal %lu entries (", files_total);
         DisplayNumString(logfile, bytes_total);
         fprintf(logfile, " bytes)");
 
@@ -5991,7 +5991,7 @@ char **argv;            /* command line tokens */
       struct tm *now;
       time_t clocktime;
 
-      fprintf(logfile, "\nTotal %ld entries (", files_total);
+      fprintf(logfile, "\nTotal %lu entries (", files_total);
       if (good_bytes_so_far != bytes_total) {
         fprintf(logfile, "planned ");
         DisplayNumString(logfile, bytes_total);
