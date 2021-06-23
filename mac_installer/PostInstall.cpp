@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -131,10 +131,6 @@ static Boolean IsUserLoggedIn(const char *userName);
 void FindAllVisibleUsers(void);
 long GetBrandID(char *path);
 int TestRPCBind(void);
-#ifdef __arm64__
-int check_rosetta2_installed();
-int optionally_install_rosetta2();
-#endif  // __arm64__
 pid_t FindProcessPID(char* name, pid_t thePID);
 static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
@@ -348,15 +344,6 @@ int main(int argc, char *argv[])
         tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
-
-#ifdef __arm64__
-    int rosetta_result = check_rosetta2_installed();
-    printf("check_rosetta2_installed() returned %d\n", rosetta_result);
-    
-    if (rosetta_result == EBADARCH){
-        optionally_install_rosetta2();
-    }
-#endif  // __arm64__
 
     Success = false;
     
@@ -2187,73 +2174,6 @@ int TestRPCBind()
     
     return retval;
 }
-
-
-#ifdef __arm64__
-int check_rosetta2_installed() {
-    int prog;
-    const char * data_dir = "/Library/Application Support/BOINC Data";
-    char execpath[MAXPATHLEN];
-    int retval = 0;
-
-    // write the EMULATED_CPU_INFO into the BOINC data dir
-    // the execuable should be in BOINC data dir
-    strncpy(execpath, data_dir, sizeof(execpath));
-    strncat(execpath, "/" EMULATED_CPU_INFO_EXECUTABLE, sizeof(execpath) - strlen(execpath) - 1);
-
-    int argc = 1;
-    char* const argv[2] = {
-         const_cast<char *>(execpath),
-         NULL
-    };
-
-    retval = run_program(
-        data_dir,
-        execpath,
-        argc,
-        argv,
-        0,
-        prog
-    );
-
-    if (retval) {
-         return retval;
-    }
-
-    retval = get_exit_status(prog);
-    if (retval) {
-        if (WIFEXITED(retval)) {
-            return (WEXITSTATUS(retval));
-        } else if (WIFSIGNALED(retval)) {
-            return (WTERMSIG(retval));
-        } else {
-            return -1;
-        }
-    }
-
-    return 0;
-}
-
-
-int optionally_install_rosetta2() {
-    int err = 0;
-    const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
-    
-    Boolean answer = ShowMessage(true,
-        (char *)_("BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n\n"
-        "Do you want to install Rosetta 2 now?"
-        ));
-    printf("User answered %s to installing Rosetta 2\n", answer? "yes" : "no");
-    if (answer) {
-    
-        err = callPosixSpawn(cmd);
-        REPORT_ERROR(err);
-        printf("%s returned %d\n", cmd, err);
-        fflush(stdout);
-    }
-    return err;
-}
-#endif  // __arm64__
 
 
 pid_t FindProcessPID(char* name, pid_t thePID)
