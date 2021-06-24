@@ -1,6 +1,5 @@
 plugins {
-    id 'org.ajoberstar.grgit' version '4.0.2'
-    id 'com.palantir.git-version' version '0.12.3'
+    id 'org.ajoberstar.grgit' version '4.1.0'
 }
 
 apply plugin: 'com.android.application'
@@ -13,38 +12,53 @@ import org.ajoberstar.grgit.Grgit
 def buildVersionCode() {
     def repo = Grgit.open(currentDir: project.rootDir)
     def head = repo.head()
-
-    // Sanity check across git plugins
-    assert head.getAbbreviatedId(10) == versionDetails().gitHash: "Internal error: SHA1 mismatch!"
-
-    return head.time
+    def versionCode = head.time
+    println "versionCode: " + versionCode
+    return versionCode
 }
 
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
-    def pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)(?<suffix>[-_\.]?.*)/
-    def version = ': DEVELOPMENT'
+    def pattern = /(?<tag>.+)-(?<offset>\d+)-g(?<hash>[0-9a-f]+)/
+    def version = '7.17.0 : DEVELOPMENT'
+    def isDev = true
+    def offset = -1
+    def tag = ""
 
-    def head = versionDetails()
-    def tag = head.lastTag
-    def match = (tag =~ pattern)
+    def repo = Grgit.open(currentDir: project.rootDir)
+    def head = repo.head()
+    def tagWithOffset = repo.describe(longDescr:true, tags: true)
+    def match = (tagWithOffset =~ pattern)
 
-    // Sanity checks for tag format
-    if (match.hasGroup() && 1L == match.size() && 5L == match[0].size() && head.commitDistance == 0) {
-        def major = match.group('major')
-        def minor = match.group('minor')
-        def revision = match.group('revision')
-        def suffix = match.group('suffix')
-        version = "${major}.${minor}.${revision}${suffix}"
-        assert !suffix.endsWith('.dirty'): "Dirty working tree detected! Preventing release build!"
-    } else {
-        println "Warning! Non-release tag or offset found: $tag (offset: $head.commitDistance)"
-        println "Flagging as DEVELOPMENT build..."
+    if(match.hasGroup() && 1L == match.size() && 4L == match[0].size()) {
+        offset = match.group('offset')
+        tag = match.group('tag')
+    }
+    if ('0' == offset) {
+        pattern = /client_release\/\d+\.\d+\/(?<major>\d+)\.(?<minor>\d+)\.(?<revision>\d+)/
+        match = (tag =~ pattern)
+
+        // Sanity checks for tag format
+        if (match.hasGroup() && 1L == match.size() && 4L == match[0].size()) {
+            def major = match.group('major')
+            def minor = match.group('minor')
+            def revision = match.group('revision')
+            version = "${major}.${minor}.${revision}"
+            // Sanity check for tag name
+            assert tag == repo.describe(tags: true): "Different tag names detected"
+            assert repo.status().clean: "Dirty working tree detected! Preventing release build!"
+            isDev = false
+        }
     }
 
-    def commit = versionDetails().gitHash
-
-    return "${version} (${commit})"
+    def commit = head.getAbbreviatedId(10)
+    def versionName = "${version} (${commit})"
+    println "versionName: " + versionName
+    if(isDev) {
+        println "Warning! Non-release tag or offset found: $tag (offset: $offset)"
+        println "Flagging as DEVELOPMENT build..."
+    }
+    return versionName
 }
 
 preBuild.doFirst {
