@@ -26,7 +26,7 @@
   <!--working-->
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">راهنمایی</string>
+  <string name="attachproject_hints_header">پیشنهاد</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">روش مشارکت:</string>
   <string name="attachproject_hint_contribtion_wifi">1. به وای فای وصل شوید</string>
@@ -46,7 +46,12 @@
   <string name="attachproject_login_header_id_email">ایمیل :</string>
   <string name="attachproject_login_header_id_name">نام :</string>
   <string name="attachproject_login_header_pwd">گذرواژه :</string>
+  <string name="attachproject_login_button_registration">ثبت نام</string>
+  <string name="attachproject_login_button_login">ورود</string>
+  <string name="attachproject_login_button_forgotpw">فراموشی رمزعبور</string>
   <!--account manager-->
+  <string name="attachproject_attach_projects_header">اضافه کردن پروژه</string>
+  <string name="attachproject_acctmgr_header_name">کاربر:</string>
   <string name="attachproject_acctmgr_header">افزودن مدیر حساب</string>
   <string name="attachproject_acctmgr_header_pwd">گذرواژه :</string>
   <!--error strings-->
@@ -55,7 +60,20 @@
   <string name="tab_tasks">کارها</string>
   <string name="tab_preferences">تنظیمات</string>
   <!--status strings-->
+  <string name="status_launching">در حال شروع شدن...</string>
+  <string name="status_image_description">تصویر پروژه</string>
   <!--preferences tab strings-->
+  <string name="prefs_category_general">عمومی</string>
+  <string name="prefs_category_network">شبکه</string>
+  <string name="prefs_category_power">انرژی</string>
+  <string name="prefs_category_cpu">پردازنده</string>
+  <string name="prefs_category_storage">ذخیره سازی</string>
+  <string name="prefs_category_memory">حافظه</string>
+  <string name="prefs_category_debug">اشکال زدایی</string>
+  <string name="prefs_category_remote">کنترل از راه دور</string>
+  <string name="prefs_general_device_name_header">نام دستگاه</string>
+  <string name="prefs_theme_header">قالب</string>
+  <string name="prefs_power_source_battery">باتری</string>
   <!--projects tab strings-->
   <string name="projects_add">افزودن پروژه</string>
   <!--project status strings-->
@@ -77,5 +95,6 @@
   <!--multi BOINC compatibility-->
   <!--social integration-->
   <!--first parameter: device manufacturer, second: URL-->
-  <!--Main notification channel (notices)-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
 </resources>

@@ -181,6 +181,7 @@
     <string name="confirm_image_desc">Диалог подтверждения</string>
     <!--transfers tab strings-->
     <string name="trans_download">Prenesi</string>
+    <string name="trans_failed">neuspešno</string>
     <string name="trans_retry_in">повтор через %1$s</string>
     <string name="trans_active">активна</string>
     <string name="trans_pending">ожидает</string>
@@ -234,6 +235,7 @@
     <!--multi BOINC compatibility-->
     <!--social integration-->
     <!--first parameter: device manufacturer, second: URL-->
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Obvestila</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Obvestila</string>
 </resources>

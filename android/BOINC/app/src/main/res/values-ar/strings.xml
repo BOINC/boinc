@@ -210,6 +210,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">رفع</string>
     <string name="trans_download">تنزيل</string>
+    <string name="trans_failed">فشل</string>
     <string name="trans_retry_in">اعادة المحاولة في غضون %1$s</string>
     <string name="trans_suspended">معلق</string>
     <string name="trans_active">نشط</string>
@@ -291,6 +292,7 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">الإشعارات</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">الإشعارات</string>
 </resources>

@@ -58,7 +58,7 @@
     <string name="attachproject_login_button_forgotpw">Przypomnij hasło</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Użyj menedżera kont BOINC, aby dodawać i zarządzać wieloma projektami</string>
-    <string name="attachproject_acctmgr_header">Dodawanie zarządcy kont</string>
+    <string name="attachproject_acctmgr_header">Użyj menedżera kont</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Użytkownik:</string>
     <string name="attachproject_acctmgr_header_pwd">Hasło:</string>
@@ -120,10 +120,10 @@ jeśli urządzenie nie ma baterii.</string>
     <string name="prefs_power_source_usb">Przypięcie USB</string>
     <string name="prefs_power_source_wireless">Ładowarka bezprzewodowa</string>
     <string name="prefs_power_source_battery">Akumulator</string>
-    <string name="battery_charge_min_pct_header">Minimalny poziom załadowania akumulatora</string>
+    <string name="battery_charge_min_pct_header">Minimalny poziom naładowania akumulatora (%)</string>
     <string name="battery_charge_min_pct_description">BOINC wstrzymuje przetwarzanie, gdy stopień naładowania baterii znajdzie się poniżej określonego poziomu.
     </string>
-    <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora</string>
+    <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora (°C)</string>
     <string name="battery_temperature_max_description">BOINC wstrzymuje przetwarzanie, gdy temperatura baterii znajdzie się powyżej określonego poziomu.
         Zalecane jest pozostawienie tej wartości bez zmian.
     </string>
@@ -213,6 +213,7 @@ użycie CPU przez inne aplikacje.
     <!--transfers tab strings-->
     <string name="trans_upload">wysyłanie</string>
     <string name="trans_download">pobieranie</string>
+    <string name="trans_failed">Brak powodzenia</string>
     <string name="trans_retry_in">ponowna próba za %1$s</string>
     <string name="trans_suspended">zawieszony</string>
     <string name="trans_active">aktywny</string>
@@ -295,6 +296,7 @@ użycie CPU przez inne aplikacje.
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Wiadomości</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Wiadomości</string>
 </resources>

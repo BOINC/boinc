@@ -56,7 +56,7 @@
     <string name="attachproject_login_button_forgotpw">Aţi Uitat Parola</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Folosiți un manager de cont BOINC pentru a adăuga și gestiona proiecte multiple</string>
-    <string name="attachproject_acctmgr_header">Adaugă manager de cont</string>
+    <string name="attachproject_acctmgr_header">Utilizaţi manager de cont</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Utilizator:</string>
     <string name="attachproject_acctmgr_header_pwd">Parolă:</string>
@@ -203,6 +203,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Încarcă</string>
     <string name="trans_download">Descarcă</string>
+    <string name="trans_failed">eşuat</string>
     <string name="trans_retry_in">reîncearcă în %1$s</string>
     <string name="trans_suspended">suspendat</string>
     <string name="trans_active">activ</string>
@@ -279,6 +280,7 @@
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Anunţuri</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Anunţuri</string>
 </resources>

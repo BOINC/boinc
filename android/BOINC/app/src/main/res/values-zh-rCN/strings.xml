@@ -58,7 +58,7 @@
   <string name="attachproject_login_button_forgotpw">忘记密码</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">使用BOINC帐户管理器添加或管理多个项目</string>
-  <string name="attachproject_acctmgr_header">添加项目管理器</string>
+  <string name="attachproject_acctmgr_header">使用帐户管理器</string>
   <string name="attachproject_acctmgr_header_url">网址</string>
   <string name="attachproject_acctmgr_header_name">用户：</string>
   <string name="attachproject_acctmgr_header_pwd">密码：</string>
@@ -220,6 +220,7 @@ BOINC应当暂停运算？</string>
   <string name="trans_upload">上传</string>
   <string name="trans_download">下载</string>
   <string name="trans_retry_in">%1$s后重试</string>
+  <string name="trans_failed">失败</string>
   <string name="trans_suspended">已暂停</string>
   <string name="trans_active">活动</string>
   <string name="trans_pending">等待中</string>
@@ -299,9 +300,10 @@ APP下载：%2$s</string>
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">通知</string>
-  <string name="main_notification_channel_description">显示项目发送的通知。</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">通知</string>
+  <string name="notice_notification_channel_description">显示项目发送的通知。</string>
   <!-- Xiaomi specific strings -->
   <string name="terms_of_use_content_first">欢迎您使用小米商城！为了提供优质的购物体验，小米商城App需要联网并使用您的位置信息，
     以获取周边商品库存、优化配送服务和进行个性化商品推荐，你有权拒绝或取消授权</string>

@@ -58,7 +58,7 @@
     <string name="attachproject_login_button_forgotpw">Glemt adgangskode</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Brug BOINC konto-manager for at tilføje og administrere projekter</string>
-    <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
+    <string name="attachproject_acctmgr_header">Brug kontohåndtering</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Bruger:</string>
     <string name="attachproject_acctmgr_header_pwd">Adgangskode:</string>
@@ -216,6 +216,7 @@
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
     <string name="trans_retry_in">forsøg igen om %1$s</string>
+    <string name="trans_failed">mislykkedes</string>
     <string name="trans_suspended">suspenderet</string>
     <string name="trans_active">aktiv</string>
     <string name="trans_pending">afventer</string>
@@ -293,7 +294,8 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Meddelelser</string>
-    <string name="main_notification_channel_description">Viser meddelelser fra dine projekter.</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Meddelelser</string>
+    <string name="notice_notification_channel_description">Viser meddelelser fra dine projekter.</string>
 </resources>

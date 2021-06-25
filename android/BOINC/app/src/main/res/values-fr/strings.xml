@@ -59,7 +59,7 @@
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Utilisez un gestionnaire de compte BOINC pour ajouter et gérer de nombreux projets
 </string>
-  <string name="attachproject_acctmgr_header">Ajouter un gestionnaire de compte</string>
+  <string name="attachproject_acctmgr_header">Utiliser le gestionnaire de compte</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Utilisateur :</string>
   <string name="attachproject_acctmgr_header_pwd">Mot de passe :</string>
@@ -225,6 +225,7 @@
   <string name="trans_upload">Envoi</string>
   <string name="trans_download">Téléchargement</string>
   <string name="trans_retry_in">réessayer dans %1$s</string>
+  <string name="trans_failed">échoué</string>
   <string name="trans_suspended">suspendu</string>
   <string name="trans_active">actif</string>
   <string name="trans_pending">en attente</string>
@@ -308,7 +309,8 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Notifications</string>
-  <string name="main_notification_channel_description">Affiche les notifications de vos projets.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Notifications</string>
+  <string name="notice_notification_channel_description">Affiche les notifications de vos projets.</string>
 </resources>

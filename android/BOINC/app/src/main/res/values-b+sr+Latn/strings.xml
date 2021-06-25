@@ -56,7 +56,7 @@
     <string name="attachproject_login_button_forgotpw">Lozinka zaboravljena</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Koristite BOINC upravnik naloga da dotate i održavate više projekata</string>
-    <string name="attachproject_acctmgr_header">Dodajte upravnika naloga</string>
+    <string name="attachproject_acctmgr_header">Koristite menadžer naloga</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Korisnik:</string>
     <string name="attachproject_acctmgr_header_pwd">Lozinka:</string>
@@ -203,6 +203,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Otpremanje</string>
     <string name="trans_download">Preuzimanje</string>
+    <string name="trans_failed">neuspelo</string>
     <string name="trans_retry_in">Pokušaj ponovo za %1$s</string>
     <string name="trans_suspended">zaustavljeno</string>
     <string name="trans_active">aktivno</string>
@@ -273,6 +274,7 @@
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Obaveštenja</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Obaveštenja</string>
 </resources>

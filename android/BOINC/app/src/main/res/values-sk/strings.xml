@@ -58,7 +58,7 @@
   <string name="attachproject_login_button_forgotpw">Zabudnuté heslo</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Použiť správcu účtu BOINC na spravovanie viacerých projektov</string>
-  <string name="attachproject_acctmgr_header">Pridať správcu účtu</string>
+  <string name="attachproject_acctmgr_header">Použiť Správcu konta</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Používateľ:</string>
   <string name="attachproject_acctmgr_header_pwd">Heslo:</string>
@@ -218,6 +218,7 @@
   <string name="trans_upload">Odosielanie</string>
   <string name="trans_download">Sťahovanie</string>
   <string name="trans_retry_in">zopakovať o %1$s</string>
+  <string name="trans_failed">zlyhalo</string>
   <string name="trans_suspended">pozastavené</string>
   <string name="trans_active">prebieha</string>
   <string name="trans_pending">čaká</string>
@@ -301,7 +302,8 @@ Corporation za ich podporu.</string>
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Oznamy</string>
-  <string name="main_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Oznamy</string>
+  <string name="notice_notification_channel_description">Zobrazí oznamy z vašich projektov.</string>
 </resources>

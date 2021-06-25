@@ -56,7 +56,7 @@
   <string name="attachproject_login_button_forgotpw">Esqueci a Senha</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Use o gerenciador de contas do BOINC para adicionar e gerenciar múltiplos projetos</string>
-  <string name="attachproject_acctmgr_header">Adicionar gerenciador de contas</string>
+  <string name="attachproject_acctmgr_header">Usar gerenciador de conta</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Usuário:</string>
   <string name="attachproject_acctmgr_header_pwd">Senha:</string>
@@ -214,6 +214,7 @@
   <string name="trans_upload">Upload</string>
   <string name="trans_download">Download</string>
   <string name="trans_retry_in">tentar novamente em %1$s</string>
+  <string name="trans_failed">falha</string>
   <string name="trans_suspended">suspenso</string>
   <string name="trans_active">ativo</string>
   <string name="trans_pending">pendente</string>
@@ -289,7 +290,8 @@
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Avisos</string>
-  <string name="main_notification_channel_description">Exibe eventos de seus projetos.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Avisos</string>
+  <string name="notice_notification_channel_description">Exibe eventos de seus projetos.</string>
 </resources>

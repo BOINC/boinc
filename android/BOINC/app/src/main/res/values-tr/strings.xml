@@ -55,7 +55,7 @@ proje web sitesini ziyaret edin.</string>
     <string name="attachproject_login_button_forgotpw">Parolamı unuttum</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Birden fazla proje eklemek ve yönetmek için BOINC hesap yöneticisini kullanın.</string>
-    <string name="attachproject_acctmgr_header">Hesap Yöneticisi ekle</string>
+    <string name="attachproject_acctmgr_header">Hesap yöneticisi kullan</string>
     <string name="attachproject_acctmgr_header_url">Adres</string>
     <string name="attachproject_acctmgr_header_name">Kullanıcı:</string>
     <string name="attachproject_acctmgr_header_pwd">Parola:</string>
@@ -203,6 +203,7 @@ proje web sitesini ziyaret edin.</string>
     <!--transfers tab strings-->
     <string name="trans_upload">Yükleme</string>
     <string name="trans_download">İndirme</string>
+    <string name="trans_failed">başarısız</string>
     <string name="trans_retry_in">yeniden denenecek %1$s</string>
     <string name="trans_suspended">durakladı</string>
     <string name="trans_active">sürüyor</string>
@@ -278,6 +279,7 @@ proje web sitesini ziyaret edin.</string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Bildirimler</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Bildirimler</string>
 </resources>

@@ -34,7 +34,8 @@
   <string name="attachproject_hint_contribtion_header">貢献する方法: </string>
   <string name="attachproject_hint_contribtion_wifi">1. WiFiに接続します</string>
   <string name="attachproject_hint_contribtion_charger">2. 充電器につなぎます</string>
-  <string name="attachproject_hint_contribtion_screen">4. 画面の電源を切ります</string>
+  <string name="attachproject_hint_contribtion_app">3. BOINCを起動し、オープンにしておく</string>
+  <string name="attachproject_hint_contribtion_screen">4. 画面をオフにする</string>
   <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問 : </string>
   <string name="attachproject_hint_projectwebsite_science">この科学に関する詳細情報</string>
   <string name="attachproject_hint_projectwebsite_stats">貢献の統計を見る</string>
@@ -55,8 +56,10 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="attachproject_login_button_login">サインイン</string>
   <string name="attachproject_login_button_forgotpw">パスワードを忘れた</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">BOINCアカウントマネージャーを使用して、複数のプロジェクトを追加および管理します</string>
-  <string name="attachproject_acctmgr_header">アカウント・マネージャを追加</string>
+  <string name="attachproject_acctmgr_list_desc">この端末の管理にアカウントマネージャーを使用します。</string>
+  <string name="attachproject_acctmgr_header">アカウント・マネージャを使用</string>
+  <string name="attachproject_attach_projects_header">プロジェクトを追加</string>
+  <string name="attachproject_attach_projects_desc">プロジェクト一覧からプロジェクトを追加</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">ユーザー名: </string>
   <string name="attachproject_acctmgr_header_pwd">パスワード: </string>
@@ -105,6 +108,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_category_memory">メモリ</string>
   <string name="prefs_category_other">その他</string>
   <string name="prefs_category_debug">デバッグ</string>
+  <string name="prefs_category_remote">リモート操作</string>
   <string name="prefs_show_advanced_header">詳細な設定とコントロールを表示</string>
   <string name="prefs_suspend_when_screen_on">画面の電源が入っている時は計算を一時停止</string>
   <string name="prefs_general_device_name_header">デバイス名</string>
@@ -131,6 +135,8 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">一日あたりの転送容量制限(日間)</string>
   <string name="prefs_network_wifi_only_header">WiFiでのみタスクを転送する</string>
   <string name="prefs_autostart_header">自動起動</string>
+  <string name="prefs_remote_header">リモート操作の有効化</string>
+  <string name="prefs_remote_summary">変更すると、BOINCクライアントが再起動します。</string>
   <string name="prefs_show_notification_notices_header">新しいお知らせがあった場合通知を表示</string>
   <string name="prefs_show_notification_suspended_header">一時停止中に通知を表示</string>
   <string name="prefs_cpu_number_cpus_header">使用されるCPUコア数</string>
@@ -143,6 +149,9 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_memory_max_idle_description">タスクが専有できるRAMの総計のを制限します。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">ワークユニットの量(日間)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">追加のワークユニット量(日間)</string>
+  <string name="prefs_remote_authentication_key">GUI認証キー</string>
+  <string name="prefs_remote_empty_password">パスワード更新の失敗：値を空にすることができません</string>
+  <string name="prefs_remote_boinc_relaunched">パスワード変更後にBOINCクライアントが再起動します。</string>
   <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
@@ -216,6 +225,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="trans_upload">アップロード</string>
   <string name="trans_download">ダウンロード</string>
   <string name="trans_retry_in">次の時間内に再試行 %1$s</string>
+  <string name="trans_failed">失敗</string>
   <string name="trans_suspended">一時停止中</string>
   <string name="trans_active">アクティブ</string>
   <string name="trans_pending">保留中</string>
@@ -242,7 +252,7 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="suspend_os">Androidによって停止されました。</string>
   <string name="suspend_wifi">WiFiに接続されていません。</string>
   <string name="suspend_battery_charging">バッテリーへの充電を待機中。</string>
-  <string name="suspend_battery_charging_long">バッテリーの充電量が%1$d%%に達すると計算が再開されます(現在%2$d%%)</string>
+  <string name="suspend_battery_charging_long">バッテリーの充電量が %1$d%% に達すると計算を再開します。(現在 %2$d%%)</string>
   <string name="suspend_battery_overheating">バッテリーが冷めるのを待機中</string>
   <string name="suspend_user_req">計算を再開しています…</string>
   <!--rpc reasons-->
@@ -290,7 +300,10 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">お知らせ</string>
-  <string name="main_notification_channel_description">プロジェクトからのお知らせを表示します。</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">非通知のお知らせを表示します。</string>
+  <string name="notice_notification_channel_name">お知らせ</string>
+  <string name="notice_notification_channel_description">プロジェクトからのお知らせを表示します。</string>
+  <string name="agree_button">同意</string>
 </resources>

@@ -60,7 +60,7 @@
     <string name="attachproject_acctmgr_list_desc">გამოიყენეთ BOINC ანგარიშის მმართველი მრავალი პროექტის დასამატებლად და
         სამართველად
     </string>
-    <string name="attachproject_acctmgr_header">ანგარიშის მმართველის დამატება</string>
+    <string name="attachproject_acctmgr_header">ანგარიშის მმართველის გამოყენება</string>
     <string name="attachproject_acctmgr_header_url">URL-ი</string>
     <string name="attachproject_acctmgr_header_name">მომხმარებელი:</string>
     <string name="attachproject_acctmgr_header_pwd">აროლი:</string>
@@ -217,6 +217,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">ატვირთვა</string>
     <string name="trans_download">გადმოწერა</string>
+    <string name="trans_failed">ვერ მოხერხდა</string>
     <string name="trans_retry_in">თავიდან სწდა მოხდება %1$s</string>
     <string name="trans_suspended">შეჩერებულია</string>
     <string name="trans_active">აქტიურია</string>
@@ -299,6 +300,7 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">შეტყობინებები</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC-ი</string>
+    <string name="notice_notification_channel_name">შეტყობინებები</string>
 </resources>

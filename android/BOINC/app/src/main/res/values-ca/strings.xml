@@ -60,7 +60,7 @@
     <string name="attachproject_acctmgr_list_desc">Utilitza l\'administrador de comptes de BOINC per afegir i gestionar
         múltiples projectes
     </string>
-    <string name="attachproject_acctmgr_header">Afegir gestor de comptes</string>
+    <string name="attachproject_acctmgr_header">Utilitzar l\'administrador de comptes</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Usuari:</string>
     <string name="attachproject_acctmgr_header_pwd">Contrasenya:</string>
@@ -217,6 +217,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Puja</string>
     <string name="trans_download">Descarrega</string>
+    <string name="trans_failed">ha fallat</string>
     <string name="trans_retry_in">re intentar en %1$s</string>
     <string name="trans_suspended">suspès</string>
     <string name="trans_active">activa</string>
@@ -302,6 +303,7 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Notícies</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Notícies</string>
 </resources>

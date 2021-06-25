@@ -156,6 +156,7 @@
   <!--transfers tab strings-->
   <string name="trans_upload">อัปโหลด</string>
   <string name="trans_download">ดาวน์โหลด</string>
+  <string name="trans_failed">ล้มเหลว</string>
   <string name="trans_suspended">ระงับแล้ว</string>
   <string name="trans_header_name">ไฟล์:</string>
   <!--eventlog tab strings-->
@@ -195,6 +196,7 @@
   <string name="social_invite_intent_title">จะทำอย่างไรถ้าต้องการที่จะเข้าร่วม</string>
   <string name="social_invite_content_title">ฉันกำลังทำโครงการวิทยาศาสตร์บนสมาร์ทโฟนของฉัน!</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">การแจ้งเตือน</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">การแจ้งเตือน</string>
 </resources>

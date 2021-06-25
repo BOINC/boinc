@@ -33,6 +33,7 @@
   <string name="attachproject_hint_contribtion_header">So können Sie beitragen:</string>
   <string name="attachproject_hint_contribtion_wifi">1. WLAN Verbindung herstellen</string>
   <string name="attachproject_hint_contribtion_charger">2. Ladegerät anschließen</string>
+  <string name="attachproject_hint_contribtion_app">BOINC ausführen und offen lassen</string>
   <string name="attachproject_hint_contribtion_screen">4. Bildschirm ausschalten</string>
   <string name="attachproject_hint_projectwebsite_header">Die Projektwebseite besuchen um:</string>
   <string name="attachproject_hint_projectwebsite_science">Mehr über die Wissenschaft zu erfahren</string>
@@ -54,7 +55,8 @@
   <string name="attachproject_login_button_forgotpw">Passwort vergessen</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Eine BOINC-Kontoverwaltung nutzen, um mehrere Projekte hinzuzufügen und zu verwalten. </string>
-  <string name="attachproject_acctmgr_header">Kontoverwaltung hinzufügen</string>
+  <string name="attachproject_acctmgr_header">Kontoverwaltung benutzen</string>
+  <string name="attachproject_attach_projects_header">Projekte hinzufügen</string>
   <string name="attachproject_acctmgr_header_url">Adresse</string>
   <string name="attachproject_acctmgr_header_name">Benutzer:</string>
   <string name="attachproject_acctmgr_header_pwd">Passwort:</string>
@@ -139,6 +141,7 @@
   <string name="prefs_memory_max_idle_description">Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeitspuffer (Tage)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Max. zusätzlicher Arbeitspuffer (Tage)</string>
+  <string name="prefs_remote_empty_password">Passwortänderung fehlgeschlagen: Passwort kann nicht leer sein</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
@@ -212,6 +215,7 @@
   <string name="trans_upload">Hochladen</string>
   <string name="trans_download">Herunterladen</string>
   <string name="trans_retry_in">Erneuter Versuch in  %1$s</string>
+  <string name="trans_failed">fehlgeschlagen</string>
   <string name="trans_suspended">angehalten</string>
   <string name="trans_active">aktiv</string>
   <string name="trans_pending">ausstehend</string>
@@ -287,7 +291,8 @@
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">https://www.amazon.de/gp/product/B00DCCGLAG</string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Nachrichten</string>
-  <string name="main_notification_channel_description">Nachrichten von den Projekten anzeigen.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Nachrichten</string>
+  <string name="notice_notification_channel_description">Nachrichten von den Projekten anzeigen.</string>
 </resources>

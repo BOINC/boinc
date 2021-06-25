@@ -112,6 +112,7 @@
   <!--tasks tab strings-->
   <!--confirmation dialog-->
   <!--transfers tab strings-->
+  <string name="trans_failed">խափանում</string>
   <!--eventlog tab strings-->
   <!--suspend reasons-->
   <!--rpc reasons-->
@@ -121,6 +122,7 @@
   <!--multi BOINC compatibility-->
   <!--social integration-->
   <!--first parameter: device manufacturer, second: URL-->
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Ծանուցումներ</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Ծանուցումներ</string>
 </resources>

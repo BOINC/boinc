@@ -35,6 +35,7 @@
   <string name="attachproject_hint_contribtion_header">Kuinka osallistua:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Kytkeydy WiFiin</string>
   <string name="attachproject_hint_contribtion_charger">2. Kytke laturi</string>
+  <string name="attachproject_hint_contribtion_app">3. Käynnistä BOINC ja pidä se avoinna</string>
   <string name="attachproject_hint_contribtion_screen">4. Sammuta näyttö</string>
   <string name="attachproject_hint_projectwebsite_header">Käy projektin nettisivuilla:</string>
   <string name="attachproject_hint_projectwebsite_science">Lisätietoa tieteestä</string>
@@ -57,9 +58,12 @@
   <string name="attachproject_login_button_login">Kirjaudu sisään</string>
   <string name="attachproject_login_button_forgotpw">Salasana unohtunut</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Käytä BOINC tilihallitsijaa lisätäksesi ja hallinnoidaksesi useita projekteja
+  <string name="attachproject_acctmgr_list_desc">Käytä tilihallitsijaa tämän laitteen hallintaan
     </string>
-  <string name="attachproject_acctmgr_header">Lisää tilihallitsija</string>
+  <string name="attachproject_acctmgr_header">Käytä tilihallitsijaa</string>
+  <string name="attachproject_attach_projects_header">Lisää projekteja</string>
+  <string name="attachproject_attach_projects_desc">Lisää projekteja projektiluettelosta
+    </string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Käyttäjä:</string>
   <string name="attachproject_acctmgr_header_pwd">Salasana:</string>
@@ -108,6 +112,7 @@
   <string name="prefs_category_memory">Muisti</string>
   <string name="prefs_category_other">Muu</string>
   <string name="prefs_category_debug">Virheenjäljitys</string>
+  <string name="prefs_category_remote">Etähallinta</string>
   <string name="prefs_show_advanced_header">Näytä lisäasetukset ja ohjaimet</string>
   <string name="prefs_suspend_when_screen_on">Tauota laskenta näytön ollessa päällä</string>
   <string name="prefs_general_device_name_header">Laitenimi</string>
@@ -138,25 +143,31 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Päivittäinen siirtoraja (päivää)</string>
   <string name="prefs_network_wifi_only_header">Siirrä tehtävät vain WiFin kautta</string>
   <string name="prefs_autostart_header">Automaattikäynnistys</string>
+  <string name="prefs_remote_header">Salli etähallinta</string>
+  <string name="prefs_remote_summary">Muutettaessa BOINC käynnistyy uudelleen.</string>
   <string name="prefs_show_notification_notices_header">Näytä ilmoitus uusista ilmoituksista</string>
   <string name="prefs_show_notification_suspended_header">Näytä ilmoitus hyllytettäessä</string>
   <string name="prefs_cpu_number_cpus_header">Käytetyt CPU-ytimet</string>
   <string name="prefs_cpu_number_cpus_description">Rajoittaa CPU-ytimien määrää, jota BOINC käyttää laskentaan.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Tauota prosessorikäytön ylittäessä</string>
+  <string name="prefs_cpu_other_load_suspension_header">Tauota prosessorikäytön ylittäessä (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Määrittää, milloin BOINC tauottaa laskennan toisten
         sovellusten takia.
     </string>
-  <string name="prefs_cpu_time_max_header">CPU raja</string>
+  <string name="prefs_cpu_time_max_header">CPU-raja (%)</string>
   <string name="prefs_cpu_time_max_description">Rajoittaa prosessoriaikaa, jota BOINC käyttää laskentaan.</string>
-  <string name="prefs_memory_max_idle_header">RAM raja</string>
+  <string name="prefs_memory_max_idle_header">RAM-raja (%)</string>
   <string name="prefs_memory_max_idle_description">Rajoittaa RAM-muistin määrää, joka tehtäville annetaan.</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Työpakettien määrä</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Työpakettien lisämäärä</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Työpakettimäärä (päivää)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Työpakettien lisämäärä (päivää)</string>
+  <string name="prefs_remote_authentication_key">GUI varmenneavain</string>
+  <string name="prefs_remote_empty_password">Salasanan päivitys epäonnistui: arvo ei voi olla tyhjä</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC käynnistyy uudelleen salasanan vaihdon jälkeen.</string>
   <string name="prefs_client_log_flags_header">BOINC-ohjelman lokiliput</string>
   <string name="prefs_gui_log_level_header">GUI-kirjaustaso</string>
   <string name="prefs_gui_log_level_description">Määrittää GUI-kirjaustason tarkkuuden.</string>
   <string name="prefs_theme_light">Vaalea</string>
   <string name="prefs_theme_dark">Tumma</string>
+  <string name="prefs_theme_system">Järjestelmän oletus</string>
   <!--projects tab strings-->
   <string name="projects_add">Lisää projekti</string>
   <string name="projects_icon">Projektin kuvake</string>
@@ -185,7 +196,7 @@
   <string name="projects_control_sync_acctmgr">Synkronoi</string>
   <string name="projects_control_remove_acctmgr">Poista</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Haluatko varmasti poistaa</string>
+  <string name="projects_confirm_detach_message">BOINCista</string>
   <string name="projects_confirm_detach_confirm">Poista</string>
   <string name="projects_confirm_reset_confirm">Nollaa</string>
   <string name="projects_confirm_remove_acctmgr_title">Poista tilihallitsija käytöstä</string>
@@ -222,6 +233,7 @@
   <string name="trans_upload">Lähetä</string>
   <string name="trans_download">Lataa</string>
   <string name="trans_retry_in">uudelleenyritys %1$s</string>
+  <string name="trans_failed">epäonnistui</string>
   <string name="trans_suspended">hyllytetty</string>
   <string name="trans_active">aktiivinen</string>
   <string name="trans_pending">odottaa</string>
@@ -247,7 +259,7 @@
   <string name="suspend_os">Androidin pysäyttämä.</string>
   <string name="suspend_wifi">Ei WiFi-yhteyttä.</string>
   <string name="suspend_battery_charging">Odotetaan akun latautumista.</string>
-  <string name="suspend_battery_charging_long">Laskenta jatkuu akun varaustilan saavuttaessa</string>
+  <string name="suspend_battery_charging_long">Laskenta jatkuu akun varaustilan saavuttaessa %1$d%% (nyt %2$d%%)</string>
   <string name="suspend_battery_overheating">Odotetaan akun jäähtymistä</string>
   <string name="suspend_user_req">Jatketaan laskentaa…</string>
   <!--rpc reasons-->
@@ -304,6 +316,9 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Ilmoitukset</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Ilmoitukset</string>
+  <string name="notice_notification_channel_description">Näyttää ilmoituksia projekteistasi.</string>
+  <string name="agree_button">Hyväksy</string>
 </resources>

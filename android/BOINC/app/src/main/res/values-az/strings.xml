@@ -60,7 +60,7 @@
     <string name="attachproject_acctmgr_list_desc">Bir neçə layihə əlavə etmək və idarə etmək üçün BOINC layihə
         menecerini istifadə et
     </string>
-    <string name="attachproject_acctmgr_header">Layihə menecerini əlavə et</string>
+    <string name="attachproject_acctmgr_header">Hesab meneceri istifadə edin</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">İstifadəçi:</string>
     <string name="attachproject_acctmgr_header_pwd">Şifrə:</string>
@@ -216,6 +216,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Yükləmə</string>
     <string name="trans_download">Endirmə</string>
+    <string name="trans_failed">uğursuz</string>
     <string name="trans_retry_in">yenidən cəhd edin %1$s</string>
     <string name="trans_suspended">dayandırıldı</string>
     <string name="trans_active">aktivdir</string>
@@ -299,6 +300,7 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Bildirişlər</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Bildirişlər</string>
 </resources>

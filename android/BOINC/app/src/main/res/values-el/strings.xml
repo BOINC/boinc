@@ -50,7 +50,7 @@
   <string name="attachproject_login_button_login">Είσοδος</string>
   <string name="attachproject_login_button_forgotpw">Ξέχασα τον κωδικό</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_header">Προσθήκη διαχειριστή έργου</string>
+  <string name="attachproject_acctmgr_header">Χρήση διαχειριστή λογαριασμού</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Χρήστης:</string>
   <string name="attachproject_acctmgr_header_pwd">Κωδικός:</string>
@@ -143,6 +143,7 @@
   <string name="confirm_cancel">Ακύρωση</string>
   <!--transfers tab strings-->
   <string name="trans_download">Λήψη</string>
+  <string name="trans_failed">απέτυχε</string>
   <string name="trans_suspended">αναστολή</string>
   <string name="trans_active">ενεργό</string>
   <string name="trans_pending">εκκρεμεί</string>
@@ -162,6 +163,7 @@
   <string name="nonexcl_dialog_exit">Έξοδος</string>
   <!--social integration-->
   <!--first parameter: device manufacturer, second: URL-->
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Ανακοινώσεις</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Ανακοινώσεις</string>
 </resources>

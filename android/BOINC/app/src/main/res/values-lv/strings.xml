@@ -35,6 +35,7 @@
     <string name="attachproject_hint_contribtion_header">Kā līdzdarboties:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Pieslēdzies WiFi</string>
     <string name="attachproject_hint_contribtion_charger">2. Pieslēdz lādētāju</string>
+    <string name="attachproject_hint_contribtion_app">3. Startē BOINC un atstāj to atvērtu</string>
     <string name="attachproject_hint_contribtion_screen">4. Izslēdz ekrānu</string>
     <string name="attachproject_hint_projectwebsite_header">Apmeklējiet projekta vietni, lai:</string>
     <string name="attachproject_hint_projectwebsite_science">Uzzināt vairāk par zinātni</string>
@@ -60,7 +61,7 @@
     <string name="attachproject_acctmgr_list_desc">Lietot BOINC kontu menedžeri, lai pievienotu un pārvaldītu vairākus
         projektus
     </string>
-    <string name="attachproject_acctmgr_header">Pievienot konta menedžeri</string>
+    <string name="attachproject_acctmgr_header">Lietot konta menedžeri</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Lietotājs:</string>
     <string name="attachproject_acctmgr_header_pwd">Parole:</string>
@@ -217,6 +218,7 @@
     <string name="trans_upload">Augšupielāde</string>
     <string name="trans_download">Lejupielāde</string>
     <string name="trans_retry_in">atkārtos pēc %1$s</string>
+    <string name="trans_failed">neizdevās</string>
     <string name="trans_suspended">atlikts</string>
     <string name="trans_active">aktīvs</string>
     <string name="trans_pending">gaida</string>
@@ -265,6 +267,7 @@
     <string name="menu_run_mode_enable">Atsākt</string>
     <string name="menu_about">Par</string>
     <string name="menu_help">Palīdzība</string>
+    <string name="menu_report_issue">Ziņot par problēmu</string>
     <!--about dialog-->
     <string name="about_button">Atgriezties</string>
     <string name="about_title">Par</string>
@@ -300,6 +303,7 @@
     </string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Paziņojumi</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Paziņojumi</string>
 </resources>

@@ -54,7 +54,7 @@
   <string name="attachproject_login_button_forgotpw">Wachtwoord Vergeten</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten toe te voegen en te onderhouden</string>
-  <string name="attachproject_acctmgr_header">Account manager toevoegen</string>
+  <string name="attachproject_acctmgr_header">Accountmanager gebruiken</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
   <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
@@ -212,6 +212,7 @@
   <string name="trans_upload">Upload</string>
   <string name="trans_download">Download</string>
   <string name="trans_retry_in">opnieuw proberen in %1$s</string>
+  <string name="trans_failed">mislukt</string>
   <string name="trans_suspended">onderbroken</string>
   <string name="trans_active">actief</string>
   <string name="trans_pending">in behandeling</string>
@@ -289,7 +290,8 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Berichten</string>
-  <string name="main_notification_channel_description">Notificaties van de projecten weergeven.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Berichten</string>
+  <string name="notice_notification_channel_description">Notificaties van de projecten weergeven.</string>
 </resources>

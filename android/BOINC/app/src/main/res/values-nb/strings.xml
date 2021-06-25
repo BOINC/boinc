@@ -29,12 +29,13 @@
     <string name="attachproject_working_attaching">Legger til %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
     <!--hints-->
-    <string name="attachproject_hints_header">Hint</string>
+    <string name="attachproject_hints_header">Tips</string>
     <!--e.g. Hint 1/2-->
     <string name="attachproject_hint_contribtion_header">Hvordan bidra:</string>
     <string name="attachproject_hint_contribtion_wifi">1. Koble til WIFI</string>
     <string name="attachproject_hint_contribtion_charger">2. Plugg inn lader</string>
-    <string name="attachproject_hint_contribtion_screen">4. Slå av skjerm</string>
+    <string name="attachproject_hint_contribtion_app">3. Kjør BOINC og hold den åpen</string>
+    <string name="attachproject_hint_contribtion_screen">4. Skru av skjerm</string>
     <string name="attachproject_hint_projectwebsite_header">Besøk prosjektets hjemmeside:</string>
     <string name="attachproject_hint_projectwebsite_science">Lær mer om vitenskapen</string>
     <string name="attachproject_hint_projectwebsite_stats">Vis bidragsstatistikk</string>
@@ -55,8 +56,10 @@ boinc.berkeley.edu for å lærer mer</string>
     <string name="attachproject_login_button_login">Logg inn</string>
     <string name="attachproject_login_button_forgotpw">Glemt passord</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Bruk BOINC kontobehandler for å legge til og administrere flere prosjekt </string>
-    <string name="attachproject_acctmgr_header">Legg til kontobehandler</string>
+    <string name="attachproject_acctmgr_list_desc">Bruk en kontobehander for å styre denne enheten</string>
+    <string name="attachproject_acctmgr_header">Bruk kontobehandler</string>
+    <string name="attachproject_attach_projects_header">Legg til prosjekter </string>
+    <string name="attachproject_attach_projects_desc">Legg til prosjekter fra liste over prosjekter</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Bruker:</string>
     <string name="attachproject_acctmgr_header_pwd">Passord:</string>
@@ -105,6 +108,7 @@ boinc.berkeley.edu for å lærer mer</string>
     <string name="prefs_category_memory">Minne</string>
     <string name="prefs_category_other">Annen</string>
     <string name="prefs_category_debug">Feilsøk</string>
+    <string name="prefs_category_remote">Fjernstyring</string>
     <string name="prefs_show_advanced_header">Vis avansert kontroll og instillinger</string>
     <string name="prefs_suspend_when_screen_on">Sett beregning på pause mens skjermen er på</string>
     <string name="prefs_general_device_name_header">Enhetsnavn</string>
@@ -113,13 +117,15 @@ boinc.berkeley.edu for å lærer mer</string>
     <string name="prefs_stationary_device_mode_description">Tillater beregning uavhengig av strøminnstillinger. Kun
 aktiver hvis enheten ikke har batteri.</string>
     <string name="prefs_power_source_header">Strømkilder for beregning</string>
-    <string name="prefs_power_source_description">Velger strømkilder BOINC har lov til å bruke til beregning.</string>
+    <string name="prefs_power_source_description">Velger strømkilder BOINC har lov til å bruke til beregning.
+</string>
     <string name="prefs_power_source_ac">Stikkontakt</string>
     <string name="prefs_power_source_usb">USB tilkobling</string>
     <string name="prefs_power_source_wireless">Trådløs lader</string>
     <string name="prefs_power_source_battery">Batteri</string>
     <string name="battery_charge_min_pct_header">Minimal batterinivå (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC suspenderer beregning under definert batteriladningsnivå.</string>
+    <string name="battery_charge_min_pct_description">BOINC suspenderer beregning under definert batteriladningsnivå.
+</string>
     <string name="battery_temperature_max_header">Maksimal batteritemperatur (°C)</string>
     <string name="battery_temperature_max_description">BOINC suspenderer beregning over definert batteritemperatur. Det
 anbefales ikke å endre denne verdien.</string>
@@ -131,6 +137,8 @@ anbefales ikke å endre denne verdien.</string>
     <string name="prefs_network_daily_xfer_limit_period_days_header">Daglig overføringsgrense (dager)</string>
     <string name="prefs_network_wifi_only_header">Overfør oppgaver kun når WIFI er tilkoblet</string>
     <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_remote_header">Tillat fjernstyring</string>
+    <string name="prefs_remote_summary">BOINC klienten vil restarte etter endringer</string>
     <string name="prefs_show_notification_notices_header">Vis varsel for nye notater</string>
     <string name="prefs_show_notification_suspended_header">Vis notis når beregning er på pause</string>
     <string name="prefs_cpu_number_cpus_header">Benyttede CPU kjerner</string>
@@ -144,6 +152,9 @@ apper\'s CPU-bruk.</string>
     <string name="prefs_memory_max_idle_description">Begrenser mengden minne BOINC tildeler oppgaver</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">Arbeidsenhetsbuffer (dager)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Ekstra arbeidsenhetsbuffer (dager)</string>
+    <string name="prefs_remote_authentication_key">Autentiseringsnøkkel for brukergrensesnitt</string>
+    <string name="prefs_remote_empty_password">Passord oppdatering feilet: Kan ikke være tomt</string>
+    <string name="prefs_remote_boinc_relaunched">BOINC klienten vil restarte etter at passordet er endret.</string>
     <string name="prefs_client_log_flags_header">BOINC-klientloggflagg</string>
     <string name="prefs_gui_log_level_header">GUI loggnivå</string>
     <string name="prefs_gui_log_level_description">Spesifiserer detaljnivået til GUI-loggmeldinger.</string>
@@ -217,6 +228,7 @@ apper\'s CPU-bruk.</string>
     <string name="trans_upload">Last opp</string>
     <string name="trans_download">Nedlasting</string>
     <string name="trans_retry_in">prøver igjen om %1$s</string>
+    <string name="trans_failed">mislyktes</string>
     <string name="trans_suspended">suspendert</string>
     <string name="trans_active">aktiv</string>
     <string name="trans_pending">venter</string>
@@ -243,7 +255,7 @@ apper\'s CPU-bruk.</string>
     <string name="suspend_os">Stoppet av Android.</string>
     <string name="suspend_wifi">Ikke koblet til WIFI.</string>
     <string name="suspend_battery_charging">Venter på at batteriet skal lades</string>
-    <string name="suspend_battery_charging_long">Beregning vil fortsette når batteriladingen når %1$d%% (for tiden %2$d%%)</string>
+    <string name="suspend_battery_charging_long">Beregninger vil fortsette når batteriet når %1$d%%(for tiden %2$d%%)</string>
     <string name="suspend_battery_overheating">Venter på at batteriet skal kjøles av</string>
     <string name="suspend_user_req">Gjenopptar beregning ...</string>
     <!--rpc reasons-->
@@ -295,7 +307,9 @@ app fra: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-    <!--Main notification channel (notices)-->
-    <string name="main_notification_channel_name">Varsler</string>
-    <string name="main_notification_channel_description">Viser varsler fra prosjektene dine.</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Varsler</string>
+    <string name="notice_notification_channel_description">Viser varsler fra prosjektene dine.</string>
+    <string name="agree_button">Aksepterer</string>
 </resources>
