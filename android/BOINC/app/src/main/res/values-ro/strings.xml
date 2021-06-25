@@ -23,7 +23,9 @@
     <string name="attachproject_conflict_not_unique">Contul există cu o altă parolă</string>
     <string name="attachproject_conflict_bad_password">Parolă incorectă</string>
     <string name="attachproject_conflict_unknown_user">Contul nu există</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului pentru înregistrare</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului
+        pentru înregistrare
+    </string>
     <!--working-->
     <string name="attachproject_working_attaching">Se atașează %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -54,7 +56,7 @@
     <string name="attachproject_login_button_forgotpw">Aţi Uitat Parola</string>
     <!--account manager-->
     <string name="attachproject_acctmgr_list_desc">Folosiți un manager de cont BOINC pentru a adăuga și gestiona proiecte multiple</string>
-    <string name="attachproject_acctmgr_header">Adaugă manager de cont</string>
+    <string name="attachproject_acctmgr_header">Utilizaţi manager de cont</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Utilizator:</string>
     <string name="attachproject_acctmgr_header_pwd">Parolă:</string>
@@ -101,6 +103,7 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Stocare</string>
     <string name="prefs_category_memory">Memorie</string>
+    <string name="prefs_category_other">Altele</string>
     <string name="prefs_category_debug">Depanare</string>
     <string name="prefs_show_advanced_header">Arată preferinţe şi control avansat…</string>
     <string name="prefs_suspend_when_screen_on">Opriți calculele când ecranul este aprins</string>
@@ -200,6 +203,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Încarcă</string>
     <string name="trans_download">Descarcă</string>
+    <string name="trans_failed">eşuat</string>
     <string name="trans_retry_in">reîncearcă în %1$s</string>
     <string name="trans_suspended">suspendat</string>
     <string name="trans_active">activ</string>
@@ -249,6 +253,7 @@
     <string name="menu_run_mode_enable">Reia</string>
     <string name="menu_about">Despre</string>
     <string name="menu_help">Ajutor</string>
+    <string name="menu_report_issue">Raportează Probleme</string>
     <!--about dialog-->
     <string name="about_button">Înapoi</string>
     <string name="about_title">Despre</string>
@@ -275,4 +280,7 @@
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Anunţuri</string>
 </resources>

@@ -25,7 +25,7 @@
   <string name="attachproject_conflict_unknown_user">Account bestaat niet</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek projectwebsite om te registreren</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Toevoegen %1$s</string>
+  <string name="attachproject_working_attaching">%1$s aan het toevoegen</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Hint</string>
@@ -54,7 +54,7 @@
   <string name="attachproject_login_button_forgotpw">Wachtwoord Vergeten</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten toe te voegen en te onderhouden</string>
-  <string name="attachproject_acctmgr_header">Account manager toevoegen</string>
+  <string name="attachproject_acctmgr_header">Accountmanager gebruiken</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
   <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
@@ -103,9 +103,10 @@
   <string name="prefs_category_memory">Geheugen</string>
   <string name="prefs_category_other">Anders</string>
   <string name="prefs_category_debug">Foutoplossing</string>
-  <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen...</string>
+  <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen</string>
   <string name="prefs_suspend_when_screen_on">Pauzeer berekening wanneer scherm ingeschakeld is</string>
   <string name="prefs_general_device_name_header">Apparaatnaam</string>
+  <string name="prefs_theme_header">Thema</string>
   <string name="prefs_stationary_device_mode_header">Stationaire apparaatmodus</string>
   <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroomvoorkeuren. Alleen inschakelen als het apparaat geen batterij heeft.</string>
   <string name="prefs_power_source_header">Stroombronnen voor berekeningen</string>
@@ -114,32 +115,36 @@
   <string name="prefs_power_source_usb">USB verbinding</string>
   <string name="prefs_power_source_wireless">Draadloze oplader</string>
   <string name="prefs_power_source_battery">Accu</string>
-  <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
+  <string name="battery_charge_min_pct_header">Min. batterijniveau (%)</string>
   <string name="battery_charge_min_pct_description">BOINC pauzeert de berekening onder een bepaald batterijniveau.</string>
-  <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
+  <string name="battery_temperature_max_header">Max. batterij temperatuur (°C)</string>
   <string name="battery_temperature_max_description">BOINC stopt de berekening boven een bepaalde batterijtemperatuur. Het is niet aanbevolen deze waarde te veranderen.</string>
-  <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
-    <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
-  <string name="prefs_disk_access_interval_header">Toegangs interval</string>
+  <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte (GB)</string>
+  <string name="prefs_disk_access_interval_header">Toegangs interval (seconde)</string>
   <string name="prefs_disk_access_interval_description">Suggereert een interval bij schijf gebruik</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Dagelijkse overdracht limiet</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Dagelijkse overdracht limiet (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Dagelijkse overdracht limiet (Dagen)</string>
   <string name="prefs_network_wifi_only_header">Taken alleen bijwerken via WiFi</string>
   <string name="prefs_autostart_header">Autostart</string>
   <string name="prefs_show_notification_notices_header">Melding weergeven voor nieuwe berichten</string>
   <string name="prefs_show_notification_suspended_header">Melding weergeven wanneer gepauzeerd</string>
   <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
   <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik van meer dan</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik hoger dan (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Bepaald wanneer BOINC de berekening pauzeert vanwege CPU gebruik door andere apps.</string>
-  <string name="prefs_cpu_time_max_header">CPU limiet</string>
+  <string name="prefs_cpu_time_max_header">CPU limiet (%)</string>
   <string name="prefs_cpu_time_max_description">Beperkt de CPU tijd gebruikt door BOINC voor berekeningen.</string>
-  <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
+  <string name="prefs_memory_max_idle_header">RAM limiet (%)</string>
   <string name="prefs_memory_max_idle_description">Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken.</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Werkeenheid buffer</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra werkeenheid buffer</string>
-  <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">werkeendheid buffer (dagen)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra werkeenheid buffer (dagen)</string>
+  <string name="prefs_client_log_flags_header">BOINC Client log markering</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
+  <string name="prefs_theme_light">licht</string>
+  <string name="prefs_theme_dark">Donker</string>
+  <string name="prefs_theme_system">Systeem standaard</string>
   <!--projects tab strings-->
   <string name="projects_add">Project toevoegen</string>
   <string name="projects_icon">Project icoon</string>
@@ -153,7 +158,7 @@
   <string name="projects_status_schedrpcpending">Bijwerkverzoek in behandeling</string>
   <string name="projects_status_schedrpcinprogress">Bijwerkverzoek is bezig</string>
   <string name="projects_status_trickleuppending">Trickle up bericht in behandeling</string>
-  <string name="projects_status_backoff">Communicatie gepland over: %1$s</string>
+  <string name="projects_status_backoff">Communicatie gepland in: \'%1$s\' </string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Project opdrachten:</string>
   <string name="projects_control_visit_website">Bezoek website</string>
@@ -168,11 +173,13 @@
   <string name="projects_control_sync_acctmgr">Bijwerken</string>
   <string name="projects_control_remove_acctmgr">Uitzetten</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Weet je zeker dat je</string>
+  <string name="projects_confirm_title">\'%1$s\' project?</string>
+  <string name="projects_confirm_message">weet u zeker dat us \'%1$s\' \'%2$s\' ?</string>
+  <string name="projects_confirm_detach_message">van BOINC</string>
   <string name="projects_confirm_detach_confirm">Verwijderen</string>
   <string name="projects_confirm_reset_confirm">Resetten</string>
   <string name="projects_confirm_remove_acctmgr_title">Accountmanager uitzetten</string>
-  <string name="projects_confirm_remove_acctmgr_message">Weet je zeker dat je wilt stoppen met het gebruik van</string>
+  <string name="projects_confirm_remove_acctmgr_message">gebruik stoppen</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Uitzetten</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Taaknaam:</string>
@@ -180,7 +187,7 @@
   <string name="tasks_header_project_paused">(onderbroken)</string>
   <string name="tasks_header_deadline">Deadline:</string>
   <string name="tasks_result_new">nieuw</string>
-  <string name="tasks_result_files_downloading">wacht op downloaden</string>
+  <string name="tasks_result_files_downloading">Aan het downloaden</string>
   <string name="tasks_result_files_downloaded">downloaden voltooid</string>
   <string name="tasks_result_compute_error">verwerkingsfout</string>
   <string name="tasks_result_files_uploading">uploaden</string>
@@ -197,14 +204,15 @@
   <string name="tasks_custom_ready_to_report">klaar om te rapporteren</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Taak afbreken?</string>
-  <string name="confirm_abort_task_message">Taak afbreken: %1$s</string>
+  <string name="confirm_abort_task_message">taak afbreken: %1$s</string>
   <string name="confirm_abort_task_confirm">Afbreken</string>
   <string name="confirm_cancel">Annuleren</string>
   <string name="confirm_image_desc">Bevestigingsdialoog</string>
   <!--transfers tab strings-->
   <string name="trans_upload">Upload</string>
   <string name="trans_download">Download</string>
-  <string name="trans_retry_in">opnieuw over %1$s</string>
+  <string name="trans_retry_in">opnieuw proberen in %1$s</string>
+  <string name="trans_failed">mislukt</string>
   <string name="trans_suspended">onderbroken</string>
   <string name="trans_active">actief</string>
   <string name="trans_pending">in behandeling</string>
@@ -231,7 +239,7 @@
   <string name="suspend_os">Gestopt door Android.</string>
   <string name="suspend_wifi">Niet verbonden met WiFi.</string>
   <string name="suspend_battery_charging">Wachten op laden van batterij.</string>
-  <string name="suspend_battery_charging_long">Berekeningen worden hervat op batterij niveau van</string>
+  <string name="suspend_battery_charging_long">Berekenen wordt hervat wanneer het batterijniveau %1$d%% is (huidig niveau %2$d%%) </string>
   <string name="suspend_battery_overheating">Wacht op afkoelen batterij</string>
   <string name="suspend_user_req">Berekeningen hervatten...</string>
   <!--rpc reasons-->
@@ -260,7 +268,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
   <string name="about_credits">Met dank aan het Max Planck Instituut voor Gravitationele Natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
@@ -282,4 +290,8 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Berichten</string>
+  <string name="notice_notification_channel_description">Notificaties van de projecten weergeven.</string>
 </resources>

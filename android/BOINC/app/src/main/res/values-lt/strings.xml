@@ -208,6 +208,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <!--transfers tab strings-->
   <string name="trans_upload">Išsiuntimas</string>
   <string name="trans_download">Parsisiuntimas</string>
+  <string name="trans_failed">nepavyko</string>
   <string name="trans_retry_in">bandyti dar kartą %1$s</string>
   <string name="trans_suspended">pristabdyta</string>
   <string name="trans_active">aktyvus</string>
@@ -264,7 +265,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versija %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2019 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>
   <string name="about_credits">Dėkojame Max Planck Institute for Gravitational Physics, IBM Corporation ir HTC
         Corporation už jų pagalbą.
@@ -292,4 +293,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Pranešimai</string>
 </resources>

@@ -35,6 +35,7 @@
   <string name="attachproject_hint_contribtion_header">Як прийняти участь:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Підключити пристрій до WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Підключити пристрій до джерела живлення</string>
+  <string name="attachproject_hint_contribtion_app">3. Активувати BOINC та тримати його відкритим</string>
   <string name="attachproject_hint_contribtion_screen">4. Вимкнути екран</string>
   <string name="attachproject_hint_projectwebsite_header">Відвідати інтернет сторінку проекту:</string>
   <string name="attachproject_hint_projectwebsite_science">Дізнатися більше про науковий аспект</string>
@@ -57,9 +58,10 @@
   <string name="attachproject_login_button_login">Увійти</string>
   <string name="attachproject_login_button_forgotpw">Забули пароль?</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Використовуйте менеджер проектів BOINC, щоб додати та керувати декількома проектами
-</string>
-  <string name="attachproject_acctmgr_header">Додати менеджер проектів</string>
+  <string name="attachproject_acctmgr_list_desc">Використовуй менеджер акаунтів для керування цим пристроєм</string>
+  <string name="attachproject_acctmgr_header">Використати менеджер проектів</string>
+  <string name="attachproject_attach_projects_header">Додати проекти</string>
+  <string name="attachproject_attach_projects_desc">Додати новий проект зі списку проектів</string>
   <string name="attachproject_acctmgr_header_url">Адреса (URL)</string>
   <string name="attachproject_acctmgr_header_name">Користувач:</string>
   <string name="attachproject_acctmgr_header_pwd">Пароль:</string>
@@ -108,6 +110,7 @@
   <string name="prefs_category_memory">Пам`ять</string>
   <string name="prefs_category_other">Інше</string>
   <string name="prefs_category_debug">Діагностика</string>
+  <string name="prefs_category_remote">Віддалене керування</string>
   <string name="prefs_show_advanced_header">Показати додаткові налаштування та елементи керування</string>
   <string name="prefs_suspend_when_screen_on">Призупиняти обчислення, коли екран увімкнуто</string>
   <string name="prefs_general_device_name_header">Ім\'я пристрою</string>
@@ -139,6 +142,8 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Денний ліміт передачі (Днів)</string>
   <string name="prefs_network_wifi_only_header">Передавати завдання тільки через WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
+  <string name="prefs_remote_header">Увімкнути віддалене керування</string>
+  <string name="prefs_remote_summary">При зміні, клієнт BOINC буде перезапущений.</string>
   <string name="prefs_show_notification_notices_header">Сповіщати про нові повідомлення</string>
   <string name="prefs_show_notification_suspended_header">Сповіщати навіть коли призупинено</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
@@ -153,6 +158,9 @@
   <string name="prefs_memory_max_idle_description">Обмеження кількості RAM, доступної для використання.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач (днів)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Додатковий буфер для задач (днів)</string>
+  <string name="prefs_remote_authentication_key">GUI ключ автентифікації</string>
+  <string name="prefs_remote_empty_password">Помилка при зміні паролю: пароль не має бути порожнім </string>
+  <string name="prefs_remote_boinc_relaunched">Клієнт BOINC буде перезапущений після зміни пароля.</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
   <string name="prefs_gui_log_level_description">Задає рівень деталізації повідомлень журналу GUI.</string>
@@ -226,6 +234,7 @@
   <string name="trans_upload">Відправлення</string>
   <string name="trans_download">Завантаження</string>
   <string name="trans_retry_in">повториться через  %1$s</string>
+  <string name="trans_failed">не вдалася</string>
   <string name="trans_suspended">призупинено</string>
   <string name="trans_active">активна</string>
   <string name="trans_pending">в очікуванні</string>
@@ -252,7 +261,7 @@
   <string name="suspend_os">Зупинено Android-ом.</string>
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
   <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
-  <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне %1$d%% (зараз %2$d%%)</string>
+  <string name="suspend_battery_charging_long">Обчислення буде відновлено коли рівень батареї досягне %1$d%% (наразі %2$d%%)</string>
   <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
   <string name="suspend_user_req">Поновлення обчислень...</string>
   <!--rpc reasons-->
@@ -281,7 +290,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія %1$s</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">\u00A9 2003–2020 Каліфорнійський університет, Берклі.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC
         Corporation за їх підтримку.
@@ -311,7 +320,10 @@
 </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
 </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Повідомлення</string>
-  <string name="main_notification_channel_description">Відображає повідомлення про ваші проекти.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Відображати важливі сповіщення</string>
+  <string name="notice_notification_channel_name">Повідомлення</string>
+  <string name="notice_notification_channel_description">Відображає повідомлення про ваші проекти.</string>
+  <string name="agree_button">Погоджуюсь</string>
 </resources>

@@ -23,7 +23,8 @@
     <string name="attachproject_conflict_not_unique">Hesap farklı bir şifreyle mevcut</string>
     <string name="attachproject_conflict_bad_password">Şifre hatalı</string>
     <string name="attachproject_conflict_unknown_user">Hesap yok</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap yok, kayıt için proje web sitesini ziyaret edin</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap bulunamadı, kayıt olmak için 
+proje web sitesini ziyaret edin.</string>
     <!--working-->
     <string name="attachproject_working_attaching">Ekleniyor %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -38,7 +39,7 @@
     <string name="attachproject_hint_projectwebsite_science">Bilim hakkında daha fazlasını öğren</string>
     <string name="attachproject_hint_projectwebsite_stats">Katkı istatistiklerini gör</string>
     <string name="attachproject_hint_projectwebsite_community">Diğer gönüllülerle bağlantıya geç</string>
-    <string name="attachproject_hint_platforms_header">BOINC bilgisayarınız için kullanılabilir, daha fazla bilgi için boinc.berkeley.edu adresini ziyaret edin.</string>
+    <string name="attachproject_hint_platforms_header">BOINC\'e bilgisayar ve laptoplarınızdan da erişebilirsiniz. Daha fazla bilgi için, boinc.berkeley.edu adresini ziyaret edin.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Proje sunucusuna bağlanılıyor...</string>
     <string name="attachproject_login_header_general_area">Genel alan:</string>
@@ -53,8 +54,8 @@
     <string name="attachproject_login_button_login">Giriş yap</string>
     <string name="attachproject_login_button_forgotpw">Parolamı unuttum</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Proje eklemek ya da yönetmek için BOINC hesap yöneticisini kullan</string>
-    <string name="attachproject_acctmgr_header">Hesap Yöneticisi ekle</string>
+    <string name="attachproject_acctmgr_list_desc">Birden fazla proje eklemek ve yönetmek için BOINC hesap yöneticisini kullanın.</string>
+    <string name="attachproject_acctmgr_header">Hesap yöneticisi kullan</string>
     <string name="attachproject_acctmgr_header_url">Adres</string>
     <string name="attachproject_acctmgr_header_name">Kullanıcı:</string>
     <string name="attachproject_acctmgr_header_pwd">Parola:</string>
@@ -101,21 +102,23 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Depolama</string>
     <string name="prefs_category_memory">Bellek</string>
+    <string name="prefs_category_other">Diğer</string>
     <string name="prefs_category_debug">Hata kaydı</string>
     <string name="prefs_show_advanced_header">Gelişmiş tercihler ve kontrolleri görüntüle...</string>
     <string name="prefs_suspend_when_screen_on">Ekran açıkken hesaplamayı duraklat</string>
+    <string name="prefs_general_device_name_header">Cihaz adı</string>
     <string name="prefs_stationary_device_mode_header">Sabit cihaz modu</string>
-    <string name="prefs_stationary_device_mode_description">Güç tercihlerinin hesaplanmasına izin verir. Cihazın pili yoksa etkinleştirin.</string>
+    <string name="prefs_stationary_device_mode_description">Güç seçeneklerinden bağımsız olarak işlemeye izin verir. Sadece cihazın bataryası bulunmuyorsa aktif edin.</string>
     <string name="prefs_power_source_header">Hesaplama için güç kaynakları</string>
-    <string name="prefs_power_source_description">BOINC hesaplama için kullanmasına izin verilen güç kaynakları seçer.</string>
+    <string name="prefs_power_source_description">Hesaplama yapmak için izin verilen BOINC güç kaynağını seçer.</string>
     <string name="prefs_power_source_ac">Duvar soketi</string>
     <string name="prefs_power_source_usb">USB bağlantı</string>
     <string name="prefs_power_source_wireless">Kablosuz Şarj Edici</string>
     <string name="prefs_power_source_battery">Pil</string>
     <string name="battery_charge_min_pct_header">En az pil seviyesi</string>
-    <string name="battery_charge_min_pct_description">BOINC, pil seviyesi bu değerin altına düşerse hesaplamayı duraklatır.</string>
+    <string name="battery_charge_min_pct_description">Batarya şarj durumu, belirlenmiş düzeyin altına indiğinde, BOINC hesaplamayı durdurur.</string>
     <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
-    <string name="battery_temperature_max_description">BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu değeri değiştirmeniz önerilmez.</string>
+    <string name="battery_temperature_max_description">Batarya sıcaklığı, belirlenmiş düzeyin üstüne çıktığında, BOINC hesaplamayı durdurur. Bu değerin değiştirilmemesi önerilir.</string>
     <string name="prefs_disk_max_pct_header">En çok depolama alanı kullanımı</string>
     <string name="prefs_disk_min_free_gb_header">En az boş depolama alanı</string>
     <string name="prefs_disk_access_interval_header">Erişim zaman aralığı</string>
@@ -128,7 +131,7 @@
     <string name="prefs_cpu_number_cpus_header">Kullanılacak CPU çekirdekleri</string>
     <string name="prefs_cpu_number_cpus_description">BOINC\'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı.</string>
     <string name="prefs_cpu_other_load_suspension_header">CPU kullanımı fazlaysa duraklat</string>
-    <string name="prefs_cpu_other_load_suspension_description">BOINC nedeniyle diğer uygulamaların CPU kullanımı için hesaplama duraklama zamanını belirler.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Diğer uygulamaların işlemci kullanımından dolayı, BOINC\'in hesaplamayı durdurduğu durumları tespit eder.</string>
     <string name="prefs_cpu_time_max_header">CPU sınırı</string>
     <string name="prefs_cpu_time_max_description">BOINC\'in hesaplama için kullanabileceği CPU gücü.</string>
     <string name="prefs_memory_max_idle_header">Bellek limiti</string>
@@ -200,6 +203,7 @@
     <!--transfers tab strings-->
     <string name="trans_upload">Yükleme</string>
     <string name="trans_download">İndirme</string>
+    <string name="trans_failed">başarısız</string>
     <string name="trans_retry_in">yeniden denenecek %1$s</string>
     <string name="trans_suspended">durakladı</string>
     <string name="trans_active">sürüyor</string>
@@ -249,6 +253,7 @@
     <string name="menu_run_mode_enable">Sürdür</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_help">Yardım</string>
+    <string name="menu_report_issue">Sorun Bildir</string>
     <!--about dialog-->
     <string name="about_button">Geri dön</string>
     <string name="about_title">Hakkında</string>
@@ -256,7 +261,7 @@
     <string name="about_version">Sürüm %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
-    <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM ve HTC şirketlerine teşekkürler.</string>
+    <string name="about_credits">Yerçekimsel Fizik için Max Planck Enstitüsü\'ne, destekleri için IBM ve HTC şirketlerine teşekkür ederiz.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Yeni bildirim - %1$s</item>
@@ -264,14 +269,17 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Gönüllü hesaplama uygulaması tespit edildi.</string>
-    <string name="nonexcl_dialog_text">Bu cihazda başka bir gönüllü hesaplama uygulaması çalışıyor. Aynı anda sadece bir versiyon çalışabilir.</string>
+    <string name="nonexcl_dialog_text">Bir başka gönüllü hesaplama uygulaması bu cihazda çalışıyor. Aynı anda sadece bir versiyon çalışabilir.</string>
     <string name="nonexcl_dialog_exit">Çıkış</string>
     <!--social integration-->
     <string name="social_invite_button">Arkadaşlarını davet et</string>
     <string name="social_invite_intent_title">Nasıl paylaşmak istiyorsunuz?</string>
     <string name="social_invite_content_title">Akıllı telefonumdan bilim yapıyorum!</string>
-    <string name="social_invite_content_body">Bilim adına hesaplama yapmak için %1$s mı kullanıyorum. Sende katılabilirsin! Uygulamayı %2$s dan indirebilirsin.</string>
+    <string name="social_invite_content_body">Ben %1$s\'i , bilim için hesaplamada kullanıyorum. Sen de kullanabilirsin! Buradan uygulamayı indir: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+    <!--Notification channels-->
+    <string name="main_notification_channel_name">BOINC</string>
+    <string name="notice_notification_channel_name">Bildirimler</string>
 </resources>

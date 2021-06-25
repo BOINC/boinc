@@ -59,7 +59,7 @@
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Utilisez un gestionnaire de compte BOINC pour ajouter et gérer de nombreux projets
 </string>
-  <string name="attachproject_acctmgr_header">Ajouter un gestionnaire de compte</string>
+  <string name="attachproject_acctmgr_header">Utiliser le gestionnaire de compte</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Utilisateur :</string>
   <string name="attachproject_acctmgr_header_pwd">Mot de passe :</string>
@@ -108,9 +108,10 @@
   <string name="prefs_category_memory">Mémoire</string>
   <string name="prefs_category_other">Divers</string>
   <string name="prefs_category_debug">Déboguer</string>
-  <string name="prefs_show_advanced_header">Montrer les préférences avancées...</string>
+  <string name="prefs_show_advanced_header">Afficher les préférences et commandes avancées</string>
   <string name="prefs_suspend_when_screen_on">Suspendre le calcul quand l\'écran est allumé</string>
   <string name="prefs_general_device_name_header">Nom de l\'appareil</string>
+  <string name="prefs_theme_header">Thème</string>
   <string name="prefs_stationary_device_mode_header">Mode appareil fixe</string>
   <string name="prefs_stationary_device_mode_description">Permet le calcul indépendamment des préférences d’alimentation.
         Valide seulement si l\'appareil n\'a pas de batterie.
@@ -122,37 +123,41 @@
   <string name="prefs_power_source_usb">Connexion USB</string>
   <string name="prefs_power_source_wireless">Chargeur sans fil</string>
   <string name="prefs_power_source_battery">Batterie</string>
-  <string name="battery_charge_min_pct_header">Niveau minimum de batterie</string>
+  <string name="battery_charge_min_pct_header">Niveau minimum de la batterie (%)</string>
   <string name="battery_charge_min_pct_description">BOINC suspend le calcul en dessous du niveau de charge défini.
 </string>
-  <string name="battery_temperature_max_header">Température batterie maximale</string>
+  <string name="battery_temperature_max_header">Température maximale de la batterie (°C)</string>
   <string name="battery_temperature_max_description">BOINC suspend le calcul au dessus de la température de batterie définie.
         Il n\'est pas recommandé de modifier cette valeur.
     </string>
-  <string name="prefs_disk_max_pct_header">Espace de stockage maximum utilisé</string>
-    <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
-  <string name="prefs_disk_access_interval_header">Intervalle d\'accès</string>
+  <string name="prefs_disk_max_pct_header">Espace de stockage maximal utilisé (%)</string>
+    <string name="prefs_disk_min_free_gb_header">Capacité de stockage de réserve minimale (GB)</string>
+  <string name="prefs_disk_access_interval_header">Intervalle d\'accès (secondes)</string>
   <string name="prefs_disk_access_interval_description">Suggère un intervalle entre les accès disque</string>
-  <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert journalier</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert quotidienne (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Limite de transfert quotidienne (jours)</string>
   <string name="prefs_network_wifi_only_header">Transférer les tâches seulement en WiFi</string>
   <string name="prefs_autostart_header">Démarrage automatique</string>
   <string name="prefs_show_notification_notices_header">Afficher des notifications pour les nouveaux messages</string>
   <string name="prefs_show_notification_suspended_header">Afficher une notification lorsque les calculs sont suspendus</string>
   <string name="prefs_cpu_number_cpus_header">Cœurs du processeur utilisés</string>
   <string name="prefs_cpu_number_cpus_description">Limiter le nombre de cœurs du processeur que BOINC peut utiliser pour les calculs.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Mettre en pause si l\'utilisation du processeur dépasse</string>
+  <string name="prefs_cpu_other_load_suspension_header">Suspendre le calcul lorsque l’utilisation du processeur dépasse (%)</string>
   <string name="prefs_cpu_other_load_suspension_description">Détermine si BOINC doit suspendre les calculs
         du fait de l\'exécution d\'autres applications.
     </string>
-  <string name="prefs_cpu_time_max_header">Limite du processeur</string>
+  <string name="prefs_cpu_time_max_header">Limite du processeur (%)</string>
   <string name="prefs_cpu_time_max_description">Limite le temps processeur que BOINC utilise pour les calculs.</string>
-  <string name="prefs_memory_max_idle_header">Limite de la mémoire vive</string>
+  <string name="prefs_memory_max_idle_header">Limite de la mémoire vive (%)</string>
   <string name="prefs_memory_max_idle_description">Limite la quantité de mémoire vive que les tâches peuvent utiliser. </string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">Unité de travail tampon</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Unités de travail tampon additionnelles</string>
-  <string name="prefs_client_log_flags_header">Drapeaux de journal du client BOINC</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Tampon d\'unité de travail (jours)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Tampon d\'unité de travail supplémentaire (jours)</string>
+  <string name="prefs_client_log_flags_header">Indicateurs de journal du client BOINC</string>
   <string name="prefs_gui_log_level_header">Niveau de l’interface graphique du journal</string>
   <string name="prefs_gui_log_level_description">Définit le niveau de détail de l’interface graphique des messages du journal.</string>
+  <string name="prefs_theme_light">Clair</string>
+  <string name="prefs_theme_dark">Sombre</string>
+  <string name="prefs_theme_system">Valeur par défaut du système</string>
   <!--projects tab strings-->
   <string name="projects_add">Ajout de projet</string>
   <string name="projects_icon">Icône de projet</string>
@@ -181,11 +186,13 @@
   <string name="projects_control_sync_acctmgr">Synchroniser</string>
   <string name="projects_control_remove_acctmgr">Désactiver</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_message">Êtes-vous sûr de vouloir supprimer </string>
+  <string name="projects_confirm_title">le projet %1$s ?</string>
+  <string name="projects_confirm_message">Voulez-vous vraiment %1$s %2$s ?</string>
+  <string name="projects_confirm_detach_message">depuis BOINC</string>
   <string name="projects_confirm_detach_confirm">Supprimer</string>
   <string name="projects_confirm_reset_confirm">Réinitialiser</string>
   <string name="projects_confirm_remove_acctmgr_title">Désactiver le gestionnaire de compte</string>
-  <string name="projects_confirm_remove_acctmgr_message">Êtes-vous sûr de vouloir cesser d\'utiliser </string>
+  <string name="projects_confirm_remove_acctmgr_message">arrête d\'utiliser</string>
   <string name="projects_confirm_remove_acctmgr_confirm">Désactiver</string>
   <!--tasks tab strings-->
   <string name="tasks_header_name">Nom de la tâche :</string>
@@ -193,7 +200,7 @@
   <string name="tasks_header_project_paused"> (suspendu)</string>
   <string name="tasks_header_deadline">Date limite d’envoi :</string>
   <string name="tasks_result_new">nouveau</string>
-  <string name="tasks_result_files_downloading">En attente de téléchargement</string>
+  <string name="tasks_result_files_downloading">téléchargement</string>
   <string name="tasks_result_files_downloaded">Téléchargement terminé</string>
   <string name="tasks_result_compute_error">erreur de calcul</string>
   <string name="tasks_result_files_uploading">envoi</string>
@@ -218,6 +225,7 @@
   <string name="trans_upload">Envoi</string>
   <string name="trans_download">Téléchargement</string>
   <string name="trans_retry_in">réessayer dans %1$s</string>
+  <string name="trans_failed">échoué</string>
   <string name="trans_suspended">suspendu</string>
   <string name="trans_active">actif</string>
   <string name="trans_pending">en attente</string>
@@ -244,7 +252,7 @@
   <string name="suspend_os">Stoppé par Android.</string>
   <string name="suspend_wifi">Pas connecté au WiFi.</string>
   <string name="suspend_battery_charging">En attente de la recharge de la batterie.</string>
-  <string name="suspend_battery_charging_long">Le calcul reprendra lorsque la charge de la batterie atteindra</string>
+  <string name="suspend_battery_charging_long">Le calcul reprendra lorsque la charge de la batterie atteindra %1$d%% (est actuellement à %2$d%%)</string>
   <string name="suspend_battery_overheating">En attente du refroidissement de la batterie</string>
   <string name="suspend_user_req">Reprise du calcul...</string>
   <!--rpc reasons-->
@@ -273,7 +281,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2019 Université de Californie, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Université de Californie, Berkeley.</string>
   <string name="about_copyright_reserved">Tous droits réservés.</string>
   <string name="about_credits">Merci à l\'Institut de Physique Gravitationnelle Max Planck
         et aux entreprises IBM et HTC pour leur soutien.
@@ -301,4 +309,8 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Notifications</string>
+  <string name="notice_notification_channel_description">Affiche les notifications de vos projets.</string>
 </resources>

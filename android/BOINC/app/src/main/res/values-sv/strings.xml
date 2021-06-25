@@ -34,6 +34,7 @@ för att registrera ett konto</string>
   <string name="attachproject_hint_contribtion_header">Hur du kan hjälpa till:</string>
   <string name="attachproject_hint_contribtion_wifi">1. Anslut till WiFi</string>
   <string name="attachproject_hint_contribtion_charger">2. Koppla in batteriladdare</string>
+  <string name="attachproject_hint_contribtion_app">3. Kör BOINC och lämna det öppet</string>
   <string name="attachproject_hint_contribtion_screen">4. Stäng av skärmen</string>
   <string name="attachproject_hint_projectwebsite_header">Besök projektets hemsida för att:</string>
   <string name="attachproject_hint_projectwebsite_science">Lära dig mer om vetenskapen</string>
@@ -55,8 +56,11 @@ boinc.berkeley.edu för att veta mer.</string>
   <string name="attachproject_login_button_login">Logga in</string>
   <string name="attachproject_login_button_forgotpw">Glömt lösenord</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Använd BOINC kontohanterare för att lägga till och hantera flera projekt</string>
-  <string name="attachproject_acctmgr_header">Lägg till kontohanterare</string>
+  <string name="attachproject_acctmgr_list_desc">Använd en kontohanterare för kontrollera denna enhet.</string>
+  <string name="attachproject_acctmgr_header">Använd kontohanteraren</string>
+  <string name="attachproject_attach_projects_header">Lägg till projekt</string>
+  <string name="attachproject_attach_projects_desc">Add projects from the list of projects
+    </string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Användare:</string>
   <string name="attachproject_acctmgr_header_pwd">Lösenord:</string>
@@ -105,6 +109,7 @@ boinc.berkeley.edu för att veta mer.</string>
   <string name="prefs_category_memory">Minne</string>
   <string name="prefs_category_other">Övrigt</string>
   <string name="prefs_category_debug">Felsök</string>
+  <string name="prefs_category_remote">Fjärrstyrning</string>
   <string name="prefs_show_advanced_header">Visa avancerade inställningar och kontroller</string>
   <string name="prefs_suspend_when_screen_on">Pausa beräkning när skärmen är på</string>
   <string name="prefs_general_device_name_header">Enhetsnamn</string>
@@ -131,6 +136,8 @@ Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Daglig överföringsgräns (Dagar)</string>
   <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
   <string name="prefs_autostart_header">Autostart</string>
+  <string name="prefs_remote_header">Aktivera fjärrstyrning</string>
+  <string name="prefs_remote_summary">BOINC startas om när detta ändras.</string>
   <string name="prefs_show_notification_notices_header">Visa avisering för nya BOINC-meddelanden</string>
   <string name="prefs_show_notification_suspended_header">Visa avisering även i pausat läge</string>
   <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
@@ -144,6 +151,9 @@ appars CPU-användning.</string>
   <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Antal arbetsuppgifter (dagar)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Ytterligare arbetsuppgifter (dagar)</string>
+  <string name="prefs_remote_authentication_key">GUI autentiseringsnyckel</string>
+  <string name="prefs_remote_empty_password">Lösenordsändring misslyckades: Fältet får inte vara tomt</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC klienten startas om efter lösenordsbyte.</string>
   <string name="prefs_client_log_flags_header">BOINC-klient loggflaggor</string>
   <string name="prefs_gui_log_level_header">Användargränssnittets (GUI) loggningsnivå</string>
   <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI) loggningsmeddelanden.</string>
@@ -217,6 +227,7 @@ appars CPU-användning.</string>
   <string name="trans_upload">Skicka</string>
   <string name="trans_download">Hämta</string>
   <string name="trans_retry_in">försök igen om %1$s</string>
+  <string name="trans_failed">misslyckades</string>
   <string name="trans_suspended">i vänteläge</string>
   <string name="trans_active">aktiv</string>
   <string name="trans_pending">väntar</string>
@@ -272,7 +283,7 @@ appars CPU-användning.</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">\u00A9 2003–2020 Kaliforniens Universitet, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Kaliforniens Universitet, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
   <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, företaget IBM och till företaget HTC
 för deras stöd till oss.</string>
@@ -297,7 +308,10 @@ appen från: %2$s</string>
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">Meddelanden</string>
-  <string name="main_notification_channel_description">Visa notiser från dina projekt.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Visar icke märkta notiser</string>
+  <string name="notice_notification_channel_name">Meddelanden</string>
+  <string name="notice_notification_channel_description">Visa notiser från dina projekt.</string>
+  <string name="agree_button">Godkänn</string>
 </resources>

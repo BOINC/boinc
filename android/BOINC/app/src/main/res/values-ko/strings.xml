@@ -58,7 +58,7 @@
   <string name="attachproject_login_button_forgotpw">비밀번호 분실</string>
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">여러 프로젝트를 추가 및 관리하기 위해 BOINC 계정 관리자를 이용하세요</string>
-  <string name="attachproject_acctmgr_header">계정 관리자 추가</string>
+  <string name="attachproject_acctmgr_header">계정 관리자 사용</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">사용자:</string>
   <string name="attachproject_acctmgr_header_pwd">비밀번호:</string>
@@ -218,6 +218,7 @@
   <string name="trans_upload">업로드</string>
   <string name="trans_download">다운로드</string>
   <string name="trans_retry_in">%1$s 재시도</string>
+  <string name="trans_failed">실패</string>
   <string name="trans_suspended">일시 정지됨</string>
   <string name="trans_active">활성</string>
   <string name="trans_pending">보류</string>
@@ -244,7 +245,7 @@
   <string name="suspend_os">안드로이드에서 정지시킴.</string>
   <string name="suspend_wifi">WiFi에 연결되지 않았습니다.</string>
   <string name="suspend_battery_charging">전지가 충전되길 기다리는 중.</string>
-  <string name="suspend_battery_charging_long">배터리가 %1$d%만큼 충전되면 연산이 재개됩니다 (현재 %2$d%)</string>
+  <string name="suspend_battery_charging_long">배터리가 %1$d%%만큼 충전되면 연산이 재개됩니다 (현재 %2$d%%)</string>
   <string name="suspend_battery_overheating">전지가 식길 기다리는 중</string>
   <string name="suspend_user_req">연산 재개 중…</string>
   <!--rpc reasons-->
@@ -273,7 +274,7 @@
   <string name="about_name">보잉크</string>
   <string name="about_version">버전 %1$s</string>
   <string name="about_name_long">네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체</string>
-  <string name="about_copyright">\u00A9 2003–2020 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">모든 권리 보유</string>
   <string name="about_credits">막스 플랑크 중력 물리학 연구소, IBM Corporation, HTC의
  지원에 감사드립니다.</string>
@@ -295,7 +296,8 @@
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
-  <!--Main notification channel (notices)-->
-  <string name="main_notification_channel_name">공지 사항</string>
-  <string name="main_notification_channel_description">프로젝트에서 온 공지 사항을 표시합니다.</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">공지 사항</string>
+  <string name="notice_notification_channel_description">프로젝트에서 온 공지 사항을 표시합니다.</string>
 </resources>

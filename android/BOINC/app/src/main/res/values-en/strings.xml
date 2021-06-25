@@ -110,9 +110,13 @@
     <string name="prefs_category_cpu">CPU</string>
     <string name="prefs_category_storage">Storage</string>
     <string name="prefs_category_memory">Memory</string>
+    <string name="prefs_category_other">Other</string>
     <string name="prefs_category_debug">Debug</string>
+    <string name="prefs_category_remote">Remote Control</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
+    <string name="prefs_general_device_name_header">Device name</string>
+    <string name="prefs_theme_header">Theme</string>
     <string name="prefs_stationary_device_mode_header">Stationary device mode</string>
     <string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only
         enable if device does not have a battery.
@@ -136,8 +140,11 @@
     <string name="prefs_disk_access_interval_header">Access interval (seconds)</string>
     <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (MB)</string>
+    <string name="prefs_network_daily_xfer_limit_period_days_header">Daily transfer limit (Days)</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
+    <string name="prefs_remote_header">Enable Remote Control</string>
+    <string name="prefs_remote_summary">When changed, BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
     <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
@@ -150,9 +157,17 @@
     <string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
     <string name="prefs_memory_max_idle_header">RAM limit (%)</string>
     <string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
+    <string name="prefs_other_store_at_least_x_days_of_work_header">Work unit buffer (days)</string>
+    <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer (days)</string>
+    <string name="prefs_remote_authentication_key">GUI authentication key</string>
+    <string name="prefs_remote_empty_password">Password update failed: value cannot be empty</string>
+    <string name="prefs_remote_boinc_relaunched">BOINC client will be relaunched after password change.</string>
     <string name="prefs_client_log_flags_header">BOINC client log flags</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
+    <string name="prefs_theme_light">Light</string>
+    <string name="prefs_theme_dark">Dark</string>
+    <string name="prefs_theme_system">System default</string>
     <!--projects tab strings-->
     <string name="projects_add">Add project</string>
     <string name="projects_icon">Project icon</string>
@@ -195,7 +210,7 @@
     <string name="tasks_header_project_paused">(suspended)</string>
     <string name="tasks_header_deadline">Deadline:</string>
     <string name="tasks_result_new">new</string>
-    <string name="tasks_result_files_downloading">waiting for download</string>
+    <string name="tasks_result_files_downloading">downloading</string>
     <string name="tasks_result_files_downloaded">download complete</string>
     <string name="tasks_result_compute_error">computation error</string>
     <string name="tasks_result_files_uploading">uploading</string>
@@ -220,6 +235,7 @@
     <string name="trans_upload">Upload</string>
     <string name="trans_download">Download</string>
     <string name="trans_retry_in">retry in %1$s</string>
+    <string name="trans_failed">failed</string>
     <string name="trans_suspended">suspended</string>
     <string name="trans_active">active</string>
     <string name="trans_pending">pending</string>
@@ -268,13 +284,14 @@
     <string name="menu_run_mode_enable">Resume</string>
     <string name="menu_about">About</string>
     <string name="menu_help">Help</string>
+    <string name="menu_report_issue">Report Issue</string>
     <!--about dialog-->
     <string name="about_button">Return</string>
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC
         Corporation for their support.

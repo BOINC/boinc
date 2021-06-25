@@ -59,7 +59,7 @@ boinc.berkeley.edu pro více informací.
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Použít správce účtu BOINC pro přidání a správu vícero projektů
 </string>
-  <string name="attachproject_acctmgr_header">Přidat správce účtu</string>
+  <string name="attachproject_acctmgr_header">Použít Správce účtu</string>
   <string name="attachproject_acctmgr_header_url">URL adresa</string>
   <string name="attachproject_acctmgr_header_name">Uživatel:</string>
   <string name="attachproject_acctmgr_header_pwd">Heslo:</string>
@@ -213,6 +213,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <!--transfers tab strings-->
   <string name="trans_upload">Odesílání</string>
   <string name="trans_download">Stáhování</string>
+  <string name="trans_failed">nezdařilo se</string>
   <string name="trans_retry_in">opakovat za %1$s</string>
   <string name="trans_suspended">pozastaveno</string>
   <string name="trans_active">probíhá</string>
@@ -270,7 +271,7 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="about_version">Verze %1$s</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
-  <string name="about_copyright">/u00A9 2003-2019 Univerzita v Kalifornii, Berkeley.</string>
+  <string name="about_copyright">/u00A9 2003-2021 Univerzita v Kalifornii, Berkeley.</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC
@@ -298,4 +299,7 @@ aplikaci z: %2$s
     </string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
     </string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Zprávy</string>
 </resources>

@@ -59,7 +59,7 @@ azalpen gehiagorako begiratu boinc.berkeley.edu.
   <!--account manager-->
   <string name="attachproject_acctmgr_list_desc">Erabili BOINCen kontu-administratzailea proiektuak gehitu eta kudeatzeko
 </string>
-  <string name="attachproject_acctmgr_header">Gehitu kontu-administratzailea</string>
+  <string name="attachproject_acctmgr_header">Erabili kontu-administratzailea</string>
   <string name="attachproject_acctmgr_header_url">URLa</string>
   <string name="attachproject_acctmgr_header_name">Erabiltzailea:</string>
   <string name="attachproject_acctmgr_header_pwd">Pasahitza:</string>
@@ -217,6 +217,7 @@ pausarazten duen zehazten du.
   <!--transfers tab strings-->
   <string name="trans_upload">Kargatu</string>
   <string name="trans_download">Jaitsi</string>
+  <string name="trans_failed">huts eginda</string>
   <string name="trans_retry_in">saiatu berriro %1$s</string>
   <string name="trans_suspended">etenda</string>
   <string name="trans_active">aktibo</string>
@@ -273,7 +274,7 @@ pausarazten duen zehazten du.
   <string name="about_name">BOINC</string>
   <string name="about_version">Bertsioa %1$s</string>
   <string name="about_name_long">Sare bidezko Konputaziorako Berkeleyko Azpiegitura Irekia</string>
-  <string name="about_copyright">\u00A9 2003–2019 Kaliforniako Unibertsitatea Berkeleyn.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Kaliforniako Unibertsitatea Berkeleyn.</string>
   <string name="about_copyright_reserved">Eskubide guztiak erreserbatuta.</string>
   <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC 
 Korporazioari beraien laguntzagatik.
@@ -300,4 +301,7 @@ aplikazioa hemendik: %2$s
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
 </string>
   <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/product/B00DCCGLAG</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Oharrak</string>
 </resources>
