@@ -54,6 +54,7 @@
 ## Updated 11/22/20 by Charlie Fenton to build DMG bare-core (apple-darwin) release
 ## Updated 11/26/20 by Charlie Fenton to let installer show message if MacOS too old
 ## Updated 5/27/21 to support zsh & detecting X86_64 features emulated by Rosetta 2
+## Updated 6/24/21 allow installing BOINC on arm64 Macs without Rosetta 2 installed
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -246,6 +247,21 @@ cp -fp mac_installer/myDistribution ../BOINC_Installer/Installer\ templates
 # Update version number
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 sed -i "" s/"x.y.z"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ templates/myDistribution
+
+# Fix hostArchitectures option
+has_x86_64="no"
+has_arm64="no"
+client_archs=`lipo -info "${BUILDPATH}/boinc"`
+if [[ "${client_archs}" = *"x86_64"* ]]; then has_x86_64="yes"; fi
+if [[ "${client_archs}" = *"arm64"* ]]; then has_arm64="yes"; fi
+
+if [ $has_x86_64 = "no" ]; then
+    sed -i "" s/"x86_64,arm64"/"arm64"/g ../BOINC_Installer/Installer\ templates/myDistribution
+else
+    if [ $has_arm64 = "no" ]; then
+        sed -i "" s/"x86_64,arm64"/"x86_64"/g ../BOINC_Installer/Installer\ templates/myDistribution
+    fi
+fi
 
 ## Add a statement in the ReadMe telling Minimum required MacOS version, if known
 OSVersion=`/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "${BUILDPATH}/BOINCManager.app/Contents/Info.plist"`

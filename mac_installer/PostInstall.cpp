@@ -131,6 +131,10 @@ static Boolean IsUserLoggedIn(const char *userName);
 void FindAllVisibleUsers(void);
 long GetBrandID(char *path);
 int TestRPCBind(void);
+#ifdef __arm64__
+int check_rosetta2_installed();
+int optionally_install_rosetta2();
+#endif  // __arm64__
 pid_t FindProcessPID(char* name, pid_t thePID);
 static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
@@ -192,6 +196,8 @@ int main(int argc, char *argv[])
     Boolean                 Success;
     long                    brandID = 0;
     long                    oldBrandID = 0;
+    int                     major = 0;
+    int                     minor = 0;
     int                     i;
     pid_t                   installerPID = 0, coreClientPID = 0;
     OSStatus                err;
@@ -271,11 +277,12 @@ int main(int argc, char *argv[])
 
     LoadPreferredLanguages();
 
-    if (compareOSVersionTo(10, 9) < 0) {
+    sscanf(Deployment_target, "%i.%i", &major, &minor);
+    if (compareOSVersionTo(major, minor) < 0) {
         BringAppToFront();
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
-        ShowMessage(false, "Sorry, this version of %s requires system 10.9 or higher.", brandName[brandID]);
+        ShowMessage(false, (char *)_("Sorry, this version of %s requires system %s or higher."), brandName[brandID], Deployment_target);
 
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
@@ -344,6 +351,15 @@ int main(int argc, char *argv[])
         tempDirName, ACCOUNT_DATA_FILENAME);
     err = callPosixSpawn (s);
     REPORT_ERROR(err);
+
+#ifdef __arm64__ 
+    int rosetta_result = check_rosetta2_installed();
+    printf("check_rosetta2_installed() returned %d\n", rosetta_result);
+    
+    if (rosetta_result == EBADARCH){
+        optionally_install_rosetta2();
+    }
+#endif  // __arm64__
 
     Success = false;
     
@@ -2174,6 +2190,73 @@ int TestRPCBind()
     
     return retval;
 }
+
+
+#ifdef __arm64__
+int check_rosetta2_installed() {
+    int prog;
+    const char * data_dir = "/Library/Application Support/BOINC Data";
+    char execpath[MAXPATHLEN];
+    int retval = 0;
+
+    // write the EMULATED_CPU_INFO into the BOINC data dir
+    // the execuable should be in BOINC data dir
+    strncpy(execpath, data_dir, sizeof(execpath));
+    strncat(execpath, "/" EMULATED_CPU_INFO_EXECUTABLE, sizeof(execpath) - strlen(execpath) - 1);
+
+    int argc = 1;
+    char* const argv[2] = {
+         const_cast<char *>(execpath),
+         NULL
+    };
+
+    retval = run_program(
+        data_dir,
+        execpath,
+        argc,
+        argv,
+        0,
+        prog
+    );
+
+    if (retval) {
+         return retval;
+    }
+
+    retval = get_exit_status(prog);
+    if (retval) {
+        if (WIFEXITED(retval)) {
+            return (WEXITSTATUS(retval));
+        } else if (WIFSIGNALED(retval)) {
+            return (WTERMSIG(retval));
+        } else {
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+
+int optionally_install_rosetta2() {
+    int err = 0;
+    const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
+    
+    Boolean answer = ShowMessage(true,
+        (char *)_("BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n\n"
+        "Do you want to install Rosetta 2 now?"
+        ));
+    printf("User answered %s to installing Rosetta 2\n", answer? "yes" : "no");
+    if (answer) {
+    
+        err = callPosixSpawn(cmd);
+        REPORT_ERROR(err);
+        printf("%s returned %d\n", cmd, err);
+        fflush(stdout);
+    }
+    return err;
+}
+#endif  // __arm64__
 
 
 pid_t FindProcessPID(char* name, pid_t thePID)

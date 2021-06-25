@@ -4462,6 +4462,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
 					"-D_MAC_INSTALLER",
 					"-DSANDBOX",
 					"-include",
@@ -4635,6 +4636,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
 					"-D_MAC_INSTALLER",
 					"-DSANDBOX",
 					"-include",

@@ -35,7 +35,6 @@
 #include "mac_util.h"
 #include "translate.h"
 #include "file_names.h"
-#include "util.h"
 #include "mac_branding.h"
 
 #define boinc_master_user_name "boinc_master"
@@ -50,11 +49,7 @@ Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static long GetOldBrandID(void);
-static Boolean ShowMessage(Boolean askYesNo, const char *format, ...);
-#ifdef __arm64__
-int check_rosetta2_installed();
-int optionally_install_rosetta2();
-#endif  // __arm64__
+static void ShowMessage(const char *format, ...);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
 void print_to_log_file(const char *format, ...);
@@ -84,7 +79,6 @@ int main(int argc, char *argv[])
     char                    pkgPath[MAXPATHLEN];
     char                    postInstallAppPath[MAXPATHLEN];
     char                    temp[MAXPATHLEN], temp2[MAXPATHLEN];
-    char                    savedWD[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     OSStatus                err = noErr;
@@ -96,7 +90,7 @@ int main(int argc, char *argv[])
     int                     minor = 0;
 
     if (!check_branding_arrays(temp, sizeof(temp))) {
-        ShowMessage(false, (char *)_("Branding array has too few entries: %s"), temp);
+        ShowMessage((char *)_("Branding array has too few entries: %s"), temp);
         return -1;
     }
 
@@ -106,7 +100,7 @@ int main(int argc, char *argv[])
 
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0] == '\0') {
-        ShowMessage(false, (char *)_("Could not get user login name"));
+        ShowMessage((char *)_("Could not get user login name"));
         return 0;
     }
 
@@ -214,20 +208,7 @@ int main(int argc, char *argv[])
     sprintf(temp, "pkgutil --expand \"%s\" /tmp/%s/expanded_BOINC.pkg", pkgPath, tempDirName);
     err = callPosixSpawn(temp);
     REPORT_ERROR(err);
-
     if (err == noErr) {
-        getcwd(savedWD, sizeof(savedWD));
-        snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
-        callPosixSpawn(temp);
-        snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", tempDirName);
-        mkdir(temp, 0777);
-        chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
-        chdir(temp);
-        // Exptract the installer package payload to a temporary location
-        snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", tempDirName);
-        callPosixSpawn(temp);
-        chdir(savedWD);
-
         GetPreferredLanguages();
     }
 
@@ -238,22 +219,13 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage(false, (char *)_("Sorry, this version of %s requires system %s or higher."), brand, Deployment_target);
+        ShowMessage((char *)_("Sorry, this version of %s requires system %s or higher."), brand, Deployment_target);
 
         snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
         err = callPosixSpawn(temp);
         REPORT_ERROR(err);
         return -1;
     }
-
-#ifdef __arm64__ 
-    int rosetta_result = check_rosetta2_installed();
-    printf("check_rosetta2_installed() returned %d\n", rosetta_result);
-    
-    if (rosetta_result == EBADARCH){
-        optionally_install_rosetta2();
-    }
-#endif  // __arm64__
 
     snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
     err = callPosixSpawn(temp);
@@ -420,6 +392,7 @@ static void GetPreferredLanguages() {
     struct dirent *dp;
     char temp[MAXPATHLEN];
     char searchPath[MAXPATHLEN];
+    char savedWD[MAXPATHLEN];
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
@@ -429,6 +402,18 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
+
+    getcwd(savedWD, sizeof(savedWD));
+    snprintf(temp, sizeof(temp), "rm -dfR /tmp/%s/BOINC_payload", tempDirName);
+    callPosixSpawn(temp);
+    snprintf(temp, sizeof(temp), "/tmp/%s/BOINC_payload", tempDirName);
+    mkdir(temp, 0777);
+    chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
+    chdir(temp);
+    // Extract the installer package payload to a temporary location
+    snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", tempDirName);
+    callPosixSpawn(temp);
+    chdir(savedWD);
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
@@ -605,7 +590,7 @@ static long GetOldBrandID()
 }
 
 
-static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
+static void ShowMessage(const char *format, ...) {
   // CAUTION: vsprintf will produce undesirable results if the string
   // contains a % character that is not a format specification!
   // But CFString is OK!
@@ -620,7 +605,7 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
     if (myBundleRef) {
         myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
     }
-    
+   
 #if 1
     va_start(args, format);
     vsprintf(s, format, args);
@@ -632,98 +617,17 @@ static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
     // If defaultButton is nil or an empty string, a default localized
     // button title ("OK" in English) is used.
     
-#if 0
-    enum {
-   kCFUserNotificationDefaultResponse = 0,
-   kCFUserNotificationAlternateResponse = 1,
-   kCFUserNotificationOtherResponse = 2,
-   kCFUserNotificationCancelResponse = 3
-};
-#endif
-
     CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
-    CFStringRef yes = CFStringCreateWithCString(NULL, (char*)_((char*)"Yes"), kCFStringEncodingUTF8);
-    CFStringRef no = CFStringCreateWithCString(NULL, (char*)_((char*)"No"), kCFStringEncodingUTF8);
 
     BringAppToFront();
-    SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+    CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
                 myIconURLRef, NULL, NULL, CFSTR(" "), myString,
-                askYesNo ? yes : NULL, askYesNo ? no : NULL, NULL,
+                NULL, NULL, NULL,
                 &responseFlags);
     
-       
     if (myIconURLRef) CFRelease(myIconURLRef);
     if (myString) CFRelease(myString);
-    if (yes) CFRelease(yes);
-    if (no) CFRelease(no);
-
-    if (retval) return false;
-    return (responseFlags == kCFUserNotificationDefaultResponse);
 }
-
-
-#ifdef __arm64__
-int check_rosetta2_installed() {
-    int prog;
-    char execpath[MAXPATHLEN];
-    int retval = 0;
-
-    snprintf(execpath, sizeof(execpath),
-            "/tmp/%s/BOINC_payload/Library/Application Support/BOINC Data/%s",
-            tempDirName, EMULATED_CPU_INFO_EXECUTABLE);
-    int argc = 1;
-    char* const argv[2] = {
-         const_cast<char *>(execpath),
-         NULL
-    };
-
-    retval = run_program(
-        "/tmp",
-        execpath,
-        argc,
-        argv,
-        0,
-        prog
-    );
-
-    if (retval) {
-         return retval;
-    }
-
-    retval = get_exit_status(prog);
-    if (retval) {
-        if (WIFEXITED(retval)) {
-            return (WEXITSTATUS(retval));
-        } else if (WIFSIGNALED(retval)) {
-            return (WTERMSIG(retval));
-        } else {
-            return -1;
-        }
-    }
-
-    return 0;
-}
-
-
-int optionally_install_rosetta2() {
-    int err = 0;
-    const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
-    
-    Boolean answer = ShowMessage(true,
-        (char *)_("BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n\n"
-        "Do you want to install Rosetta 2 now?"
-        ));
-    printf("User answered %s to installing Rosetta 2\n", answer? "yes" : "no");
-    if (answer) {
-    
-        err = callPosixSpawn(cmd);
-        REPORT_ERROR(err);
-        printf("%s returned %d\n", cmd, err);
-        fflush(stdout);
-    }
-    return err;
-}
-#endif  // __arm64__
 
 
 static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon )

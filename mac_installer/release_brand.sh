@@ -219,6 +219,21 @@ sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g ../BOINC_Installer/Installer\ 
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 sed -i "" s/"x.y.z"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ templates/myDistribution
 
+# Fix hostArchitectures option
+has_x86_64="no"
+has_arm64="no"
+client_archs=`lipo -info "${BUILDPATH}/boinc"`
+if [[ "${client_archs}" = *"x86_64"* ]]; then has_x86_64="yes"; fi
+if [[ "${client_archs}" = *"arm64"* ]]; then has_arm64="yes"; fi
+
+if [ $has_x86_64 = "no" ]; then
+    sed -i "" s/"x86_64,arm64"/"arm64"/g ../BOINC_Installer/Installer\ templates/myDistribution
+else
+    if [ $has_arm64 = "no" ]; then
+        sed -i "" s/"x86_64,arm64"/"x86_64"/g ../BOINC_Installer/Installer\ templates/myDistribution
+    fi
+fi
+
 #### We don't customize BOINC Data directory name for branding
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/preupgrade
