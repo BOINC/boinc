@@ -374,7 +374,7 @@ Armv6Test()
 
 Armv6TestClient()
 {
-    Armv6Test libcrypto.a libssl.a libcurl.a boinc
+    Armv6Test libcrypto.a libssl.a libcurl.a boinc.so
 }
 
 Armv6TestLibs()

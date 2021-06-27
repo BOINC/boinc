@@ -92,7 +92,7 @@ if [ -n "$COMPILEBOINC" ]; then
     echo "Copy Assets"
     cd android
     mkdir -p "BOINC/app/src/main/assets"
-    cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi/boinc"
+    cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/armeabi/boinc.so"
     cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
     cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 

@@ -308,7 +308,11 @@ preBuild.doFirst {
 android {
     compileSdkVersion 30
     buildToolsVersion '31.0.0'
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/assets']
+        }
+    }
     buildFeatures {
         viewBinding true
     }
