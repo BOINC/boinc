@@ -263,7 +263,12 @@ packegesList()
 
 if [ $build_with_vcpkg = "yes" ]; then
     export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/default --clean-after-build"
+    if [ $ci = "yes" ]; then
+        triplets_setup="ci"
+    else
+        triplets_setup="default"
+    fi
+    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
