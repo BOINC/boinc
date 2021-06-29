@@ -2248,7 +2248,6 @@ int optionally_install_rosetta2() {
         ));
     printf("User answered %s to installing Rosetta 2\n", answer? "yes" : "no");
     if (answer) {
-    
         err = callPosixSpawn(cmd);
         REPORT_ERROR(err);
         printf("%s returned %d\n", cmd, err);
