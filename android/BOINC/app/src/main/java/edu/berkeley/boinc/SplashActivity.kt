@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.security.ProviderInstaller
 import edu.berkeley.boinc.attach.AttachActivity
 import edu.berkeley.boinc.client.ClientStatus
 import edu.berkeley.boinc.client.IMonitor
@@ -116,6 +117,12 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+
+        try {
+            ProviderInstaller.installIfNeeded(applicationContext)
+        } catch (e: Exception) {
+            Log.e(Logging.TAG, "Cannot install ssl: ", e)
+        }
 
         // Use BOINC logo in Recent Apps Switcher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // API 21
