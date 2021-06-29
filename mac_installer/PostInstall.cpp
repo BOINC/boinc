@@ -2240,6 +2240,7 @@ int check_rosetta2_installed() {
 
 int optionally_install_rosetta2() {
     int err = 0;
+    int i;
     const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
     
     Boolean answer = ShowMessage(true,
@@ -2252,6 +2253,15 @@ int optionally_install_rosetta2() {
         REPORT_ERROR(err);
         printf("%s returned %d\n", cmd, err);
         fflush(stdout);
+        if (err) return err;
+        
+        // Wait up to 20 seconds for system to install Rosetta 2
+        for (i=0; i<20; ++i) {
+            boinc_sleep(1); 
+            err = check_rosetta2_installed();
+            if (err == 0) break;
+        }
+        printf("check_rosetta2_installed() returned %d after %d seconds.\n", err, i+1);
     }
     return err;
 }
