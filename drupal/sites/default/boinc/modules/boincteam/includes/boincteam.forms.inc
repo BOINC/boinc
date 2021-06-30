@@ -830,7 +830,7 @@ function boincteam_sendmessagetoteam_submit($form, &$form_state) {
     'from'    => '',
     'to'      => "webmaster@{$base_url}",
     'boincteam_headers' => array(
-      'Bcc'     => implode(',', $member_emails),
+      'Bcc'     => implode(', ', $member_emails),
     ),
     'subject' => $form_state['validated_built_message']['subject'],
     'message' => $mybody,
