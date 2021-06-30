@@ -826,6 +826,9 @@ function boincteam_sendmessagetoteam_submit($form, &$form_state) {
       . "To reply to the sender using a Direct Message (DM), please use this link:\n"
       . "${site_url}";
 
+  // Transform HTML body into plain text
+  $mybody = drupal_html_to_text($mybody);
+
   $emailsettings = array(
     'from'    => '',
     'to'      => "webmaster@{$base_url}",
