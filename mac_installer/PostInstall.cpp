@@ -355,6 +355,7 @@ int main(int argc, char *argv[])
 #ifdef __arm64__ 
     int rosetta_result = check_rosetta2_installed();
     printf("check_rosetta2_installed() returned %d\n", rosetta_result);
+    fflush(stdout);
     
     if (rosetta_result == EBADARCH){
         optionally_install_rosetta2();
@@ -738,6 +739,7 @@ int DeleteReceipt()
                 sprintf(s, "su -l \"%s\" -c 'open -jg \"%s\" --args -s'", pw->pw_name, appPath[brandID]);
                 err = callPosixSpawn(s);
                 printf("command: %s returned error %d\n", s, err);
+                fflush(stdout);
            }
         }
     }
@@ -1014,6 +1016,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             if (err) {
                 REPORT_ERROR(true);
                 fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+                fflush(stdout);
             }
             // Wait for the process to start
             for (i=0; i<50; ++i) {      // 5 seconds max delay
@@ -1312,10 +1315,12 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
         seteuid(saved_uid);     // Set effective uid back to privileged user
             if (appRefs == NULL) {
                 printf("Call to LSCopyApplicationURLsForBundleIdentifier returned NULL\n");
+                fflush(stdout);
                 goto registerOurApp;
             }
         n = CFArrayGetCount(appRefs);   // Returns all results at once, in database order
         printf("LSCopyApplicationURLsForBundleIdentifier returned %ld results\n", n);
+        fflush(stdout);
     } else {
         n = 500;    // Prevent infinite loop
     }
@@ -1339,15 +1344,18 @@ static void FixLaunchServicesDataBase(uid_t userID, long brandID) {
             seteuid(saved_uid);     // Set effective uid back to privileged user
             if (err) {
                 printf("Call %ld to GetPathToAppFromID returned error %d\n", i, err);
+                fflush(stdout);
                 break;
             }
         }
         if (strncmp(boincPath, appPath[brandID], sizeof(boincPath)) == 0) {
             printf("**** Keeping %s\n", boincPath);
+            fflush(stdout);
             if (appRefs) CFRelease(appRefs);
             return;     // Our (possibly branded) BOINC Manager app is now at top of database
         }
         printf("Unregistering %3ld: %s\n", i, boincPath);
+        fflush(stdout);
         // Remove this entry from the Launch Services database
         sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -u \"%s\"", userID, boincPath);
         err = callPosixSpawn(cmd);
@@ -1363,6 +1371,7 @@ registerOurApp:
     // We have exhausted the Launch Services database without finding our
     // (possibly branded) BOINC Manager app, so add it to the dataabase
     printf("%s was not found in Launch Services database; registering it now\n", appPath[brandID]);
+    fflush(stdout);
     sprintf(cmd, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"%s\"", userID, appPath[brandID]);
     err = callPosixSpawn(cmd);
     if (err) {
@@ -1436,6 +1445,7 @@ static void LoadPreferredLanguages(){
             if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
                 REPORT_ERROR(true);
                 printf("could not load catalog for langage %s\n", language);
+                fflush(stdout);
             }
         }
     }
@@ -1659,6 +1669,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 }
             }
             printf("[1] Current Screensaver Selection for user %s is: \"%s\"\n", pw->pw_name, s);
+            fflush(stdout);
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
@@ -1830,9 +1841,10 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
                 pw->pw_name, geteuid(), deleteLoginItem);
             fflush(stdout);
-           SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
 
             printf("[2] calling FixLaunchServicesDataBase for user %s\n", pw->pw_name);
+            fflush(stdout);
             FixLaunchServicesDataBase(pw->pw_uid, brandID);
         } else {
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n", 
@@ -2059,6 +2071,7 @@ static Boolean IsUserLoggedIn(const char *userName){
         if (PersistentFGets(s, sizeof(s), f) != NULL) {
             pclose (f);
             printf("User %s is currently logged in\n", userName);
+            fflush(stdout);
             return true; // this user is logged in (perhaps via fast user switching)
         }
         pclose (f);         
@@ -2240,7 +2253,7 @@ int check_rosetta2_installed() {
 
 int optionally_install_rosetta2() {
     int err = 0;
-    int i;
+    int i = 0;
     const char *cmd = "/usr/sbin/softwareupdate --install-rosetta --agree-to-license";
     
     Boolean answer = ShowMessage(true,
@@ -2248,6 +2261,7 @@ int optionally_install_rosetta2() {
         "Do you want to install Rosetta 2 now?"
         ));
     printf("User answered %s to installing Rosetta 2\n", answer? "yes" : "no");
+    fflush(stdout);
     if (answer) {
         err = callPosixSpawn(cmd);
         REPORT_ERROR(err);
@@ -2256,12 +2270,14 @@ int optionally_install_rosetta2() {
         if (err) return err;
         
         // Wait up to 20 seconds for system to install Rosetta 2
-        for (i=0; i<20; ++i) {
-            boinc_sleep(1); 
+        for (;;) {
             err = check_rosetta2_installed();
             if (err == 0) break;
+            if (++i > 20) break;
+            boinc_sleep(1);
         }
         printf("check_rosetta2_installed() returned %d after %d seconds.\n", err, i+1);
+        fflush(stdout);
     }
     return err;
 }
