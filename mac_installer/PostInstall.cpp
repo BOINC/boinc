@@ -2269,14 +2269,16 @@ int optionally_install_rosetta2() {
         fflush(stdout);
         if (err) return err;
         
-        // Wait up to 20 seconds for system to install Rosetta 2
+        // Wait up to 20 seconds for system to install Rosetta 2.
+        // My tests seem to show that callPosixSpawn() does not return until after
+        // installaton of Rosetta 2 is complete, but do this anyway to be sure.
         for (;;) {
             err = check_rosetta2_installed();
             if (err == 0) break;
             if (++i > 20) break;
             boinc_sleep(1);
         }
-        printf("check_rosetta2_installed() returned %d after %d seconds.\n", err, i+1);
+        printf("check_rosetta2_installed() returned %d after %d seconds.\n", err, i);
         fflush(stdout);
     }
     return err;
