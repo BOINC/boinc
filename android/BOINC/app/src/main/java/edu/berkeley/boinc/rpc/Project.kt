@@ -147,8 +147,9 @@ data class Project(
                 teamName == other.teamName && hostVenue == other.hostVenue && guiURLs == other.guiURLs
     }
 
-    override fun hashCode() = Objects.hash(masterURL.toLowerCase(Locale.ROOT), projectDir, resourceShare,
-            projectName, userName.toLowerCase(Locale.ROOT), teamName, hostVenue, hostId, guiURLs,
+    override fun hashCode() = Objects.hash(
+            masterURL.lowercase(Locale.ROOT), projectDir, resourceShare,
+            projectName, userName.lowercase(Locale.ROOT), teamName, hostVenue, hostId, guiURLs,
             userTotalCredit, userExpAvgCredit, hostTotalCredit, hostExpAvgCredit, diskUsage,
             noOfRPCFailures, masterFetchFailures, minRPCTime, downloadBackoff, uploadBackoff,
             cpuShortTermDebt, cpuLongTermDebt, cpuBackoffTime, cpuBackoffInterval, cudaDebt,

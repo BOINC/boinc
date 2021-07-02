@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.text.SpannableString
@@ -123,7 +124,12 @@ class ProjectDetailsFragment : Fragment() {
     override fun onAttach(context: Context) {
         if (context is Activity) {
             val size = Point()
-            context.windowManager.defaultDisplay.getSize(size)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                @Suppress("DEPRECATION")
+                context.windowManager.defaultDisplay.getSize(size)
+            } else {
+                context.display!!.getRealSize(size)
+            }
             width = size.x
             height = size.y
         }
@@ -213,13 +219,14 @@ class ProjectDetailsFragment : Fragment() {
             val removeStr = getString(R.string.projects_confirm_detach_confirm)
             tvTitle.text = getString(R.string.projects_confirm_title, removeStr)
             tvMessage.text = getString(R.string.projects_confirm_message,
-                    removeStr.toLowerCase(Locale.ROOT), project!!.projectName + " "
+                removeStr.lowercase(Locale.ROOT), project!!.projectName + " "
                             + getString(R.string.projects_confirm_detach_message))
             confirm.text = removeStr
         } else if (operation == RpcClient.PROJECT_RESET) {
             val resetStr = getString(R.string.projects_confirm_reset_confirm)
             tvTitle.text = getString(R.string.projects_confirm_title, resetStr)
-            tvMessage.text = getString(R.string.projects_confirm_message, resetStr.toLowerCase(Locale.ROOT),
+            tvMessage.text = getString(R.string.projects_confirm_message,
+                resetStr.lowercase(Locale.ROOT),
                     project!!.projectName)
             confirm.text = resetStr
         }
