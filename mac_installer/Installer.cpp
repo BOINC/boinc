@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 
     // Write a file containing the project auto-attach key into our temp
     // directory because the BOINC Data directory may not yet exist.
-    // PostInstall.app will copy it into the BOINC Data directory laer
+    // PostInstall.app will copy it into the BOINC Data directory later
     snprintf(temp2, sizeof(temp2), "%s/%s", temp, ACCOUNT_DATA_FILENAME);
     if (boinc_file_exists(temp2)) {
         // If the project server put account_data.txt file in the same
@@ -410,6 +410,7 @@ static void GetPreferredLanguages() {
     mkdir(temp, 0777);
     chmod(temp, 0777);  // Needed because mkdir sets permissions restricted by umask (022)
     chdir(temp);
+    // Extract the installer package payload to a temporary location
     snprintf(temp, sizeof(temp), "cpio -i -I /tmp/%s/expanded_BOINC.pkg/BOINC.pkg/Payload", tempDirName);
     callPosixSpawn(temp);
     chdir(savedWD);
@@ -774,7 +775,7 @@ void print_to_log_file(const char *format, ...) {
 //    strlcpy(buf, getenv("HOME"), sizeof(buf));
 //    strlcat(buf, "/Documents/test_log.txt", sizeof(buf));
 
-    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors", tempDirName);
+    snprintf(buf, sizeof(buf), "/tmp/%s/BOINC_Installer_Errors.txt", tempDirName);
     f = fopen(buf, "a");
     if (!f) return;
 
