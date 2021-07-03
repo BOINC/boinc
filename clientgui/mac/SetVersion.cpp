@@ -19,10 +19,18 @@
  *  SetVersion.cpp
  *  boinc
  *
- *  Created by Charlie Fenton on 3/29/05.
- *  Last updated by Charlie Fenton on 5/8/13.
- *
  */
+
+// Important: To ensure that the relevant *info.plist and *InfoPlist.strings
+// files are available by the time they are needed for building a target:
+// [1] include SetVersion in that target's "Target Dependencies" phase, 
+// [2] if a target is dependent on a file created by SetVersion, make sure 
+// the file is listed as an Output File for SetVersion's script phase. 
+// Otherwise, the build may fail due to a race condition.
+//
+// Also, make sure the template used by SetVersion to create the file exists 
+// in clientgui/mac/templates.
+//
 
 // Set STAND_ALONE TRUE if testing as a separate applicaiton
 #define STAND_ALONE 0
@@ -93,6 +101,7 @@ int main(int argc, char** argv) {
     err = FixInfoPlistFile("Uninstaller-Info.plist");
     if (err) retval = err;
     
+    // SystemMenu is not currently used
     err = FixInfoPlistFile("SystemMenu-Info.plist");
     if (err) retval = err;
 
@@ -104,6 +113,7 @@ int main(int argc, char** argv) {
     err = FixInfoPlistFile("WaitPermissions-Info.plist");
     if (err) retval = err;
     
+    // The following are not used by Xcode, and are probably obsolete
     err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     if (err) retval = err;
     

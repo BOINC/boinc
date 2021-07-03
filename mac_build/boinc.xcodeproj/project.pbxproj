@@ -898,7 +898,6 @@
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = detect_rosetta_cpu; sourceTree = BUILT_PRODUCTS_DIR; };
-		B13E2D11265564D100D5C977 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B13E2D162655655000D5C977 /* detect_rosetta_cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = detect_rosetta_cpu.cpp; sourceTree = "<group>"; };
 		DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
@@ -1632,7 +1631,6 @@
 				DD81C79E144D8F97000BE61A /* jpeg */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
 				20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */,
-				B13E2D10265564D100D5C977 /* detect_rosetta_cpu */,
 				195DF8C9FE9D4F0611CA2CBB /* Products */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
@@ -1680,14 +1678,6 @@
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
-		};
-		B13E2D10265564D100D5C977 /* detect_rosetta_cpu */ = {
-			isa = PBXGroup;
-			children = (
-				B13E2D11265564D100D5C977 /* main.cpp */,
-			);
-			path = detect_rosetta_cpu;
-			sourceTree = "<group>";
 		};
 		DD1277BC081F3E59007B5DE1 /* mac_installer */ = {
 			isa = PBXGroup;
@@ -2943,7 +2933,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
+			shellScript = "# Important: To ensure that the relevant *info.plist and *InfoPlist.strings\n# files are available by the time they are needed for building a target:\n# [1] include SetVersion in that target's \"Target Dependencies\" and\n# [2] if a target is dependent on a file created by SetVersion, be sure \n# the file is listed as an Output File for this script. Otherwise, the \n# build may fail due to a race condition.\n#\n# Also, make sure the template used by SetVersion to create the file exists \n# in clientgui/mac/templates.\n#\n# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n# Run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\" &\nwait $!\n";
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4472,6 +4462,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
 					"-D_MAC_INSTALLER",
 					"-DSANDBOX",
 					"-include",
@@ -4645,6 +4636,7 @@
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
+					"-DDeployment_target=\\\"$MACOSX_DEPLOYMENT_TARGET\\\"",
 					"-D_MAC_INSTALLER",
 					"-DSANDBOX",
 					"-include",
