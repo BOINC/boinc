@@ -18,17 +18,21 @@
 
 // functions dealing with the consent and consent_type tables.
 
-include_once("../inc/boinc_db.inc");
-include_once("../inc/util.inc");
+require_once("../inc/boinc_db.inc");
+require_once("../inc/util.inc");
 
 define('CONSENT_TYPE_ENROLL','ENROLL');
+
+// Utility function to check the terms of use.
+function check_termsofuse() {
+    return defined('TERMSOFUSE_FILE') and file_exists(TERMSOFUSE_FILE);
+}
 
 function consent_to_a_policy($user, $consent_type_id, $consent_flag, $consent_not_required, $source, $ctime = 0) {
     $mys = BoincDb::escape_string($source);
     if ($ctime==0) {
         $mytime = $user->create_time;
-    }
-    else {
+    } else {
         $mytime = $ctime;
     }
     return BoincConsent::insert(
@@ -72,12 +76,13 @@ function intercept_login($user, $perm, $in_next_url = "") {
     $config = get_config();
     if ( parse_bool($config, "enable_login_mustagree_termsofuse") and $checkct and check_termsofuse() and (!check_user_consent($user, CONSENT_TYPE_ENROLL))) {
         // sent user to terms-of-use Web form after login
+        $mytoken = create_token($user->id, TOKEN_TYPE_LOGIN_INTERCEPT, TOKEN_DURATION_TWO_HOURS);
+        send_cookie('logintoken', $mytoken, false);
         send_cookie('tempuserid', $user->id, false);
         send_cookie('tempperm', $perm, false);
         $save_url = $in_next_url;
         return "user_agreetermsofuse.php?next_url=$save_url";
-    }
-    else {
+    } else {
         send_cookie('auth', $user->authenticator, $perm);
         return $in_next_url;
     }

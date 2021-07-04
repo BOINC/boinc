@@ -143,7 +143,6 @@ wxWizardPageEx* CErrProxyInfoPage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYPAGE);
     }
-    return NULL;
 }
   
 /*!

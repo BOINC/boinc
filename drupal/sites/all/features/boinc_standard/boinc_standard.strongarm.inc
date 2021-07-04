@@ -31,14 +31,14 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'bbcode_encode_mailto_4';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['bbcode_encode_mailto_4'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'bbcode_encode_mailto_6';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['bbcode_encode_mailto_6'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -82,6 +82,20 @@ function boinc_standard_strongarm() {
   $strongarm->name = 'bbcode_paragraph_breaks_6';
   $strongarm->value = '2';
   $export['bbcode_paragraph_breaks_6'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_rewrite_email_4';
+  $strongarm->value = '1';
+  $export['bbcode_rewrite_email_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_rewrite_email_6';
+  $strongarm->value = '1';
+  $export['bbcode_rewrite_email_6'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -216,7 +230,8 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'filter_pathologic_local_paths_4';
-  $strongarm->value = '/';
+  $strongarm->value = '/
+';
   $export['filter_pathologic_local_paths_4'] = $strongarm;
 
   $strongarm = new stdClass;

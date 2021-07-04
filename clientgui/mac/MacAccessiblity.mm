@@ -329,7 +329,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return [NSNumber numberWithBool:YES];
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        return NO;
+        return [NSNumber numberWithBool:NO];
 
     } else if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
         return NSAccessibilityStaticTextRole;
@@ -626,7 +626,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return [NSNumber numberWithBool:YES];
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        return NO;
+        return [NSNumber numberWithBool:NO];
 
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         return NSAccessibilityUnignoredAncestor(parent);
@@ -926,7 +926,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return NSAccessibilityRoleDescription(NSAccessibilityListRole, nil);
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        return NO;
+        return [NSNumber numberWithBool:NO];
         
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         return NSAccessibilityUnignoredAncestor(parent);
@@ -1248,7 +1248,7 @@ static BOOL AccessibilityEnabled = false;
         return NSAccessibilityRoleDescription(NSAccessibilityGroupRole, nil);
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        return NO;
+        return [NSNumber numberWithBool:NO];
     
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         return NSAccessibilityUnignoredAncestor(parent);
@@ -1540,7 +1540,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
         return [NSNumber numberWithBool:YES];
 
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        return NO;
+        return [NSNumber numberWithBool:NO];
 
     } else if ([attribute isEqualToString:NSAccessibilityNumberOfCharactersAttribute]) {
         NSString *s = [self getValue];

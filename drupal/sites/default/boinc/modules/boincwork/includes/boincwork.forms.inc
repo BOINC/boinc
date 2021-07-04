@@ -669,7 +669,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $result = boincwork_save_prefs($prefs, 'general', $venue);
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating global prefs for user @id: @message', array('@id' => $account->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
@@ -769,6 +769,34 @@ function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
   
   $total_credit = $old_host->total_credit + $new_host->total_credit;
   $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+
+  if ($new_host->rpc_seqno == $old_host->id) {
+    rules_invoke_event('boincwork_circular_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Circular merge attempted, target host rpc_seqno is equal to old host\'s id: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge due to a circular merge error. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
+
+  if ($new_host->userid==0) {
+    rules_invoke_event('boincwork_zombie_merge_error', $old_host->id, $new_host->id, variable_get('boinc_admin_mailing_list_subject_tag', ''));
+    watchdog('boincwork',
+      'Zombie merge attempted, target host has userid=0: old host id=%old_host, target host id=%new_host',
+      array(
+        '%old_host' => $old_host->id,
+        '%new_host' => $new_host->id,
+      ),
+      WATCHDOG_WARNING
+    );
+    $message = 'Could not merge because the target host has userid=0. The site administrators have been contacted about this issue, and will investigate further.';
+    return FALSE;
+  }
   
   // Move credit from the old host to the new host
   db_set_active('boinc_rw');
@@ -1119,12 +1147,12 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
     if ($app_types->ati) {
       $form['resource']['no_ati'] = array(
-        '#title' => bts('Use ATI GPU', array(), NULL, 'boinc:account-preferences-project'),
+        '#title' => bts('Use AMD GPU', array(), NULL, 'boinc:account-preferences-project'),
         '#type' => 'radios',
         '#options' => $form['boolean_options']['#value'],
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_ati'] ? 0 : 1,
-        '#description' => bts('Request ATI GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
+        '#description' => bts('Request AMD GPU tasks from this project.', array(), NULL, 'boinc:account-preferences-project')
       );
     }
     if ($app_types->intel_gpu) {
@@ -1363,7 +1391,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   }
   
   if (!$result) {
-    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysql_error()), WATCHDOG_ERROR);
+    watchdog('boincwork', 'Error updating project prefs for user @id: @message', array('@id' => $user->id, '@message' => mysqli_error()), WATCHDOG_ERROR);
     drupal_set_message(t('Your changes could not be saved. Please contact support!'), 'error');
   }
   elseif (!drupal_get_messages('status', FALSE)) {
@@ -1699,7 +1727,7 @@ function communityprefs_form_submit($form, &$form_state) {
   user_save($user, $settings);
   
   drupal_set_message(bts('Your community preferences have been updated.', array(), NULL, 'boinc:account-preferences-community'));
-  
+
   // Form will not redirect if storage is set; not good if language changes
   unset($form_state['storage']);
 }
@@ -1728,7 +1756,7 @@ function boincwork_privacyprefs_form(&$form_state) {
       'show_hosts' => ($boincuser->show_hosts) ? 1 : 0
     )
   );
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
@@ -1750,7 +1778,7 @@ function boincwork_privacyprefs_form(&$form_state) {
     '#default_value' => $default['privacy']['send_email']
   );
   $form['privacy']['show_hosts'] = array(
-    '#title' => bts('Should @project show your computers on its web site?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
+    '#title' => bts('Should @project show your computers on its website?', array('@project' => variable_get('site_name', 'Drupal-BOINC')), NULL, 'boinc:account-preferences-privacy'),
     '#description' => bts('At times, you may be asked to enable this option in order to receive help from the forums. Advanced users may need to be able to inspect your computers\' information in order to help diagnose any problems.', array(), NULL, 'boinc:account-preferences-privacy'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
@@ -1772,6 +1800,20 @@ function boincwork_privacyprefs_form(&$form_state) {
       '#attributes' => array('class' => 'fancy'),
       '#default_value' => $currstate,
     );
+
+    // Add a description with link to the question 'Do you consent to
+    // exporting your data...'.
+    $mypatt = '/Do you consent to exporting your data/';
+    if (preg_match($mypatt, $ct['description']) ) {
+      $form['privacy']['privacyconsent_'.$ct['shortname']]['#description'] = bts('See our !privacy_policy_link for the current list of statistics exports.',
+      array(
+        '!privacy_policy_link' => l(
+          bts('privacy policy', array(), NULL, 'boinc:account-preferences-privacy'),
+          '/privacy'
+        )
+      ),
+      NULL, 'boinc:account-preferences-privacy');
+    }
   }
 
   // Ignore and block users

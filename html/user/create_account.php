@@ -34,18 +34,29 @@ if ($retval) xml_error($retval);
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
-    xml_error(ERR_ACCT_CREATION_DISABLED);
+    xml_error(-1, "The project is not accepting new accounts.");
 }
 if (parse_bool($config, "disable_account_creation_rpc")) {
-    xml_error(ERR_ACCT_CREATION_DISABLED);
+    if (parse_bool($config, "no_web_account_creation")) {
+        xml_error(-1, "The project is not accepting new accounts.");
+    } else {
+        xml_error(-1, "Please visit the project web site to create an account, then try again.");
+    }
 }
 
-if(defined('INVITE_CODES')) {
-    $invite_code = get_str("invite_code");
-    if (!preg_match(INVITE_CODES, $invite_code)) {
-        xml_error(ERR_ATTACH_FAIL_INIT);
-    }
-} 
+if (defined('INVITE_CODES_RPC')) {
+        $invite_code = get_str("invite_code");
+        if (!preg_match(INVITE_CODES_RPC, $invite_code)) {
+            xml_error(-1, "Invalid invitation code");
+        }
+} else {
+    if (defined('INVITE_CODES')) {
+        $invite_code = get_str("invite_code");
+        if (!preg_match(INVITE_CODES, $invite_code)) {
+            xml_error(-1, "Invalid invitation code");
+        }
+    } 
+}
 
 $email_addr = get_str("email_addr");
 $email_addr = strtolower($email_addr);
@@ -85,18 +96,58 @@ if ($user) {
         $authenticator = $user->authenticator;
     }
 } else {
+    // Get consent type setting
+    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+
+    // Projects can require explicit consent for account creation
+    // by setting "account_creation_rpc_require_consent" to 1 in
+    // config.xml
+    //
+    if (parse_bool($config, "account_creation_rpc_require_consent")) {
+        // Consistency checks
+        //
+        if (!check_termsofuse()) {
+            error_log("Project configuration error! " .
+                "Terms of use undefined while 'account_creation_rpc_require_consent' enabled!"
+            );
+        }
+        if (!$checkct) {
+            error_log("Project configuration error! " .
+              "'CONSENT_TYPE_ENROLL' disabled while 'account_creation_rpc_require_consent' enabled!"
+            );
+        }
+
+        // Check consent requirement
+        //
+        if (is_null($consent_flag) or !$source) {
+            xml_error(ERR_ACCT_REQUIRE_CONSENT,
+                "This project requires you to consent to its terms of use. " .
+                "Please update your BOINC software " .
+                "or register via the project's website " .
+                "or contact your account manager's provider."
+            );
+        }
+    }
+
+    // Create user account
+    //
     $user = make_user($email_addr, $user_name, $passwd_hash, 'International');
     if (!$user) {
         xml_error(ERR_DB_NOT_UNIQUE);
     }
     
-    if (defined('INVITE_CODES')) {
+
+    if (defined('INVITE_CODES_RPC')) {
+        // record the invite code
+        //
+        $r = BoincDb::escape_string($invite_code);
+        $user->update("signature='$r'");
+    } else if (defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
 
-    // If the project has configured to use the CONSENT_TYPE_ENROLL, then
-    // record it.
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
+    // If the project is configured to use the CONSENT_TYPE_ENROLL, record it.
+    //
     if ($checkct and check_termsofuse()) {
         // As of Sept 2018, this code allows 'legacy' boinc clients to
         // create accounts. If consent_flag is null the code creates
@@ -114,12 +165,6 @@ if ($user) {
         // * not agree.
         //   -> no create account RPC at all
         //
-        // In the future, when the majority of BOINC clients and
-        // Account Managers have been updated to use the consent_flag
-        // parameter, then this code should be revised to only allow
-        // clients who do use this flag to continue. I.e., if
-        // is_null($consent_flag) returns TRUE, then return an
-        // xml_error(-1, ...).
         if ( (!is_null($consent_flag)) and $source) {
             // Record the user giving consent in database - if consent_flag is 0,
             // this is an 'anonymous account' and consent_not_required is
@@ -134,7 +179,6 @@ if ($user) {
             }
         }
     }
-
 }
 
 if ($team_name) {

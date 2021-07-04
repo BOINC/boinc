@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,7 +60,9 @@ static OSStatus CleanupAllVisibleUsers(void);
 static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
 static void DeleteLoginItemOSAScript(char *userName);
 static Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw);
+static void DeleteScreenSaverLaunchAgent(passwd *pw);
 long GetBrandID(char *path);
+static Boolean IsUserLoggedIn(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
@@ -754,6 +756,12 @@ static OSStatus CleanupAllVisibleUsers(void)
             DeleteLoginItemLaunchAgent(brandID, pw);
         }
 
+#if TESTING
+        showDebugMsg("calling DeleteScreenSaverLaunchAgent for user %s, euid = %d\n", 
+                pw->pw_name);
+#endif
+        DeleteScreenSaverLaunchAgent(pw);
+        
         // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        callPosixSpawn (s);
@@ -968,7 +976,7 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
    
     if (!alreadyCopied) {
         getPathToThisApp(path, sizeof(path));
-        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(s)-1);
+        strncat(path, "/Contents/Resources/boinc_finish_install", sizeof(path)-1);
         snprintf(s, sizeof(s), "cp -f \"%s\" \"/Library/Application Support/BOINC Data/%s_Finish_Uninstall\"", path, appName[brandID]);
         err = callPosixSpawn(s);
          if (err) {
@@ -1026,8 +1034,33 @@ Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw)
     chmod(s, 0644);
     chown(s, pw->pw_uid, pw->pw_gid);
 
+    if (IsUserLoggedIn(pw->pw_name)) {
+        sprintf(s, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+        sprintf(s, "su -l \"%s\" -c 'launchctl load /Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(s);
+    }
+    
     return true;
 }
+
+// Some older versions of BOINC installed a Screensaver LaunchAgent for each user.
+// Even though we no longer do this, delete it if it exists, for backward compatibility
+void DeleteScreenSaverLaunchAgent(passwd *pw) {
+    char                    cmd[MAXPATHLEN];
+
+    sprintf(cmd, "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", pw->pw_name);
+    if (boinc_file_exists(cmd)) {
+        sprintf(cmd, "su -l \"%s\" -c 'launchctl unload /Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist'", pw->pw_name, pw->pw_name);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), 
+            "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc-sshelper.plist", 
+            pw->pw_name);
+        boinc_delete_file(cmd);
+    }
+}
+
 
 
 long GetBrandID(char *path)
@@ -1045,6 +1078,23 @@ long GetBrandID(char *path)
         iBrandId = 0;
     }
     return iBrandId;
+}
+
+
+static Boolean IsUserLoggedIn(const char *userName){
+    char s[1024];
+    
+    sprintf(s, "w -h \"%s\"", userName);
+    FILE *f = popen(s, "r");
+    if (f) {
+        if (PersistentFGets(s, sizeof(s), f) != NULL) {
+            pclose (f);
+            printf("User %s is currently logged in\n", userName);
+            return true; // this user is logged in (perhaps via fast user switching)
+        }
+        pclose (f);         
+    }
+    return false;
 }
 
 

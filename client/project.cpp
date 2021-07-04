@@ -18,21 +18,14 @@
 #include <boinc_win.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include <string.h>
-
 #include "str_replace.h"
 #include "url.h"
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
 #include "result.h"
 #include "sandbox.h"
-
 #include "project.h"
 
 PROJECT::PROJECT() {
@@ -44,10 +37,14 @@ void PROJECT::init() {
     safe_strcpy(authenticator, "");
     safe_strcpy(_project_dir, "");
     safe_strcpy(_project_dir_absolute, "");
-    project_specific_prefs = "";
-    gui_urls = "";
+    project_specific_prefs.clear();
+    gui_urls.clear();
     resource_share = 100;
+    resource_share_frac = 0.0;
+    disk_resource_share = 0.0;
     desired_disk_usage = 0;
+    ddu = 0.0;
+    disk_quota = 0.0;
     for (int i=0; i<MAX_RSC; i++) {
         no_rsc_pref[i] = false;
         no_rsc_config[i] = false;
@@ -86,6 +83,8 @@ void PROJECT::init() {
     next_rpc_time = 0;
     last_rpc_time = 0;
     trickle_up_pending = false;
+    disk_usage = 0.0;
+    disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
@@ -108,8 +107,16 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
+    proj_n_concurrent = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
+    sched_priority = 0.0;
+    rr_sim_cpu_share = 0.0;
+    rr_sim_active = false;
+    nresults_returned = 0;
+    checked = false;
+    dont_contact = false;
+    n_ready = 0;
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
@@ -403,6 +410,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
         "    <resource_share>%f</resource_share>\n"
+        "    <disk_usage>%f</disk_usage>\n"
+        "    <disk_share>%f</disk_share>\n"
         "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -440,6 +449,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
         resource_share,
+        disk_usage, disk_share,
         desired_disk_usage,
         duration_correction_factor,
         sched_rpc_pending,
@@ -543,10 +553,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <cpu_ec>%f</cpu_ec>\n"
             "    <cpu_time>%f</cpu_time>\n"
             "    <gpu_ec>%f</gpu_ec>\n"
-            "    <gpu_time>%f</gpu_time>\n"
-            "    <disk_usage>%f</disk_usage>\n"
-            "    <disk_share>%f</disk_share>\n",
-            cpu_ec, cpu_time, gpu_ec, gpu_time, disk_usage, disk_share
+            "    <gpu_time>%f</gpu_time>\n",
+            cpu_ec, cpu_time, gpu_ec, gpu_time
         );
     }
     out.printf(
@@ -560,6 +568,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
+    safe_strcpy(master_url, p.master_url);      // client_state.xml is authoritative
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
@@ -710,7 +719,7 @@ void PROJECT::delete_project_file_symlinks() {
 
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        snprintf(path, sizeof(path), "%s/%s", project_dir(), fref.open_name);
+        snprintf(path, sizeof(path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -770,8 +779,8 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        snprintf(link_path, sizeof(link_path), "%s/%s", project_dir(), fref.open_name);
-        snprintf(file_path, sizeof(file_path), "%s/%s", project_dir(), fip->name);
+        snprintf(link_path, sizeof(link_path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
+        snprintf(file_path, sizeof(file_path), "%.*s/%s", DIR_LEN, project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -970,54 +979,31 @@ void PROJECT::check_no_apps() {
     }
 }
 
-// show a notice if we can't possibly get work from this project,
-// and there's something the user could do about it
+// show devices this project is not allowed to compute for
+// because of a user setting
 //
 void PROJECT::show_no_work_notice() {
-    bool show_ams = false, show_prefs=false, show_config = false;
-    bool user_action_possible = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
-        if (!banned_by_user) {
-            // work for this resource is possible; return
-            notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-            return;
-        }
-        if (no_rsc_pref[i]) show_prefs = true;
-        if (no_rsc_config[i]) show_config = true;
-        if (no_rsc_ams[i]) show_ams = true;
-        user_action_possible = true;
-    }
-    if (!user_action_possible) {
-        // no work is possible because project has no apps for any resource
-        //
-        notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-        return;
-    }
+            // project can't use resource anyway
 
-    bool first = true;
-    string x;
-    x = NO_WORK_MSG;
-    x += "  ";
-    x += _("To fix this, you can ");
-    if (show_prefs) {
-        first = false;
-        x += _("change Project Preferences on the project's web site");
-    }
-    if (show_config) {
-        if (!first) {
-            x += ", or ";
+        if (no_rsc_pref[i]) {
+            msg_printf(this, MSG_INFO,
+                "Not using %s: project preferences",
+                rsc_name_long(i)
+            );
         }
-        x += _("remove GPU exclusions in your cc_config.xml file");
-        first = false;
-    }
-    if (show_ams) {
-        if (!first) {
-            x += ", or ";
+        if (no_rsc_config[i]) {
+            msg_printf(this, MSG_INFO,
+                "Not using %s: GPU exclusions in cc_config.xml",
+                rsc_name_long(i)
+            );
         }
-        x += _("change your settings at your account manager web site");
+        if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
+            msg_printf(this, MSG_INFO,
+                "Not using %s: account manager settings",
+                rsc_name_long(i)
+            );
+        }
     }
-    x += ".";
-    msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
 }

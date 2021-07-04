@@ -299,6 +299,62 @@ function handle_admin($user) {
     page_tail();
 }
 
+
+// show the statics of mem/disk usage of jobs in a batch
+//
+function handle_batch_stats($user) {
+    $batch_id = get_int('batch_id');
+    $batch = BoincBatch::lookup_id($batch_id);
+    $results = BoincResult::enum("batch = $batch->id");
+    page_head("Statistics for batch $batch_id");
+    $n = 0;
+    $wss_sum = 0;
+    $swap_sum = 0;
+    $disk_sum = 0;
+    $wss_max = 0;
+    $swap_max = 0;
+    $disk_max = 0;
+    foreach ($results as $r) {
+        if ($r->outcome != RESULT_OUTCOME_SUCCESS) {
+            continue;
+        }
+        // pre-7.3.16 clients don't report usage info
+        //
+        if ($r->peak_working_set_size == 0) {
+            continue;
+        }
+        $n++;
+        $wss_sum += $r->peak_working_set_size;
+        if ($r->peak_working_set_size > $wss_max) {
+            $wss_max = $r->peak_working_set_size;
+        }
+        $swap_sum += $r->peak_swap_size;
+        if ($r->peak_swap_size > $swap_max) {
+            $swap_max = $r->peak_swap_size;
+        }
+        $disk_sum += $r->peak_disk_usage;
+        if ($r->peak_disk_usage > $disk_max) {
+            $disk_max = $r->peak_disk_usage;
+        }
+    }
+    if ($n == 0) {
+        echo "No qualifying results.";
+        page_tail();
+        return;
+    }
+    start_table();
+    row2("qualifying results", $n);
+    row2("mean WSS", size_string($wss_sum/$n));
+    row2("max WSS", size_string($wss_max));
+    row2("mean swap", size_string($swap_sum/$n));
+    row2("max swap", size_string($swap_max));
+    row2("mean disk usage", size_string($disk_sum/$n));
+    row2("max disk usage", size_string($disk_max));
+    end_table();
+
+    page_tail();
+}
+
 // show the details of an existing batch
 //
 function handle_query_batch($user) {
@@ -323,14 +379,10 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    row2("Output File Size (MB)", number_format(batch_output_file_size($batch->id)/1e6,2));
+    row2("Output File Size", size_string(batch_output_file_size($batch->id)));
     end_table();
-    if (batch_output_file_size($batch->id) <= 1e8) {
-        $url = boinc_get_output_files_url($user, $batch_id);
-        show_button($url, "Get zipped output files");
-    } else {
-        echo "<br/>The output file size of this batch is too big, it will be uploaded by FTP<br/>";
-    }
+    $url = boinc_get_output_files_url($user, $batch_id);
+    show_button($url, "Get zipped output files");
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
         echo "<p></p>";
@@ -348,6 +400,9 @@ function handle_query_batch($user) {
         );
         break;
     }
+    show_button("submit.php?action=batch_stats&batch_id=$batch_id",
+        "Show memory/disk usage statistics"
+    );
 
     echo "<h2>Jobs</h2>\n";
     start_table();
@@ -577,6 +632,7 @@ case '': handle_main($user); break;
 case 'abort_batch': handle_abort_batch($user); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'admin': handle_admin($user); break;
+case 'batch_stats': handle_batch_stats($user); break;
 case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;

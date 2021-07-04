@@ -24,6 +24,10 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/consent.inc");
 
+if (empty($_POST)) {
+    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+}
+
 // Get the next url from POST
 $next_url = post_str("next_url", true);
 $next_url = urldecode($next_url);
@@ -39,18 +43,33 @@ if (!$agree) {
 }
 
 // Obtain data from cookies
+if (isset($_COOKIE['logintoken'])) {
+    $logintoken = $_COOKIE['logintoken'];
+} else {
+    error_page(tra("Website error when attempting to agree to terms of use."));
+}
+
 if (isset($_COOKIE['tempuserid'])) {
     $userid = $_COOKIE['tempuserid'];
-}
-else {
+} else {
     error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
 }
+
 if (isset($_COOKIE['tempperm'])) {
     $perm = $_COOKIE['tempperm'];
+} else {
+    $perm = false;
 }
-else {
-    error_page(tra("Website error when attempting to agree to terms of use. Please contact the site administrators."));
+
+// Verify login token to authenticate the account.
+// Delete the token immediately afterwards to prevent any abuse or
+// misuse of the token.
+if (!is_valid_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT)) {
+    delete_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT);
+    error_page(tra("Authentication error attempting to agree to terms of use."));
 }
+delete_token($userid, $logintoken, TOKEN_TYPE_LOGIN_INTERCEPT);
+
 $user = BoincUser::lookup_id_nocache($userid);
 $authenticator = $user->authenticator;
 
@@ -68,6 +87,7 @@ if ($checkct) {
 
 // Log-in user
 send_cookie('auth', $authenticator, $perm);
+clear_cookie('logintoken');
 clear_cookie('tempuserid');
 clear_cookie('tempperm');
 

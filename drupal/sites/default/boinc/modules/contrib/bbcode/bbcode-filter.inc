@@ -31,8 +31,9 @@ function _bbcode_filter_process(&$body, $format = -1) {
   // Apply line and paragraph breaks (skipping preformatted code)
   if ($mode) {
 
-    if ($mode == 1) 	// Line breaks only (starting with PHP 4.0.5, nl2br() is XHTML compliant)
+    if ($mode == 1) {	// Line breaks only (starting with PHP 4.0.5, nl2br() is XHTML compliant)
       $body = nl2br($body);
+    }
 
     if ($mode == 2) {	// Line and paragraph breaks (may not always be XHTML compliant)
       $body  = preg_replace("/(\r\n|\n|\r)/", "\n", $body);
@@ -40,21 +41,28 @@ function _bbcode_filter_process(&$body, $format = -1) {
       $parts = explode("\n\n", $body);
       for ($i=0; $i<sizeof($parts); $i++) {
          // No linebreaks if paragraph starts with an HTML tag
-         if ( !preg_match('/^<.*>/', $parts[$i]) ) 
+         if ( !preg_match('/^<.*>/', $parts[$i]) ) {
            $parts[$i] = nl2br($parts[$i]);
+         }
 
          // Some tags should not be in paragraph blocks
-         if ( !preg_match('/^(?:<|\[)(?:table|list|ol|ul|pre|select|form|blockquote|hr)/i', $parts[$i]) ) 
+         if ( !preg_match('/^(?:0<|\[)(?:h1|h2|h3|h4|table|list|ol|ul|pre|select|form|blockquote|hr)/i', $parts[$i]) ) {
            $parts[$i] = '<p>'. $parts[$i] .'</p>';
+         }
       }
       $body = implode("\n\n", $parts);
     }
+  }
 
-    // Reinsert preformatted code blocks
-    foreach ($pre as $i => $code_tag) 
-       $body = str_replace("***pRe_sTrInG$i***", $code_tag, $body);
+  // Reinsert preformatted code blocks
+  foreach ($pre as $i => $code_tag) {
+    $body = str_replace("***pRe_sTrInG$i***", $code_tag, $body);
   }
   
+  // Implement [notag]
+  $body = preg_replace_callback('#\[notag(?::\w+)?\](.*?)\[/notag(?::\w+)?\]#si',
+    function ($matches) { return _bbcode_notag_tag($matches[1]); }, $body);
+
   // Replace any improper quote tags with proper quote tags
   $body = str_replace('[quote/]', '[/quote]', $body);
   
@@ -86,8 +94,8 @@ function _bbcode_filter_process(&$body, $format = -1) {
   if (stristr($body, '[size=') !== FALSE) { // prevent useless processing
     $arr = array(
       'tag'         => 'size',
-      'pattern'     => '#\[\x07=([\d]+)(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#esi',
-      'replacement' => '"<span style=\"font-size:". _bbcode_round_size_val(\'$1\') ."px\">". str_replace(\'\"\', \'"\', \'$2\') ."</span>"',
+      'pattern' => '#\[\x07=([\w-]+)(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#si',
+      'call' => function ($matches) { return '<span style="font-size:'. _bbcode_size_val($matches[1]) .'">'. str_replace('\"', '"', $matches[2]) .'</span>'; },
       'text'        => $body);
     $body = _bbcode_replace_nest_tag($arr);
   } // end processing for [size]
@@ -101,6 +109,17 @@ function _bbcode_filter_process(&$body, $format = -1) {
       'text'        => $body);
     $body = _bbcode_replace_nest_tag($arr);
   } // end processing for [color]
+
+  // begin processing for [highlight]
+  if (stristr($body, '[highlight=') !== FALSE) { // prevent useless processing
+    $arr = array(
+      'tag' => 'highlight',
+      'pattern' => '#\[\x07=([\#\w]+)(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#si',
+      'replacement' => '<span style="background-color:$1">$2</span>',
+      'text' => $body,
+    );
+    $body = _bbcode_replace_nest_tag($arr);
+  } // end processing for [highlight]
 
   // begin processing for [font]
   if (stristr($body, '[font=') !== FALSE) { // prevent useless processing
@@ -139,27 +158,36 @@ function _bbcode_filter_process(&$body, $format = -1) {
     // replace to <ol>/<ul> and </ol>/</ul> tags
     // It will be better to use &count and do-while, if php 5 or higher.
     while (preg_match("#\[\x07[=]*((?-i)[cds1aAiI])*(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#si", $body)) {
-      $body = preg_replace("#\[\x07[=]*((?-i)[cds1aAiI])*(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#esi", '"<". $l_type[\'$1\']["tag"] ." class=\"bb-list\" style=\"list-style-type:". $l_type[\'$1\']["style"] .";\">". str_replace(\'\"\', \'"\', \'$2\') ."</". $l_type[\'$1\']["tag"] .">"', $body);
+      $body = preg_replace_callback("#\[\x07[=]*((?-i)[cds1aAiI])*(?::\w+)?\]([^\x07]*)\[/\x07(?::\w+)?\]#si",
+	    function ($matches) use($l_type) { return '<'. $l_type[$matches[1]]["tag"] .' class="bb-list" style="list-style-type:'. $l_type[$matches[1]]["style"] .';">'. str_replace('\"', '"', $matches[2]) .'</'. $l_type[$matches[1]]["tag"] .'>'; },
+		$body);
     }
 
     // remove <br /> tags
     $body = preg_replace('#(<[/]*([uo]l|li).*>.*)<br />#i', '$1', $body);
   } // end processing for [list] and [*]
 
+  // PHP and HTML code blocks (syntax highlighted)
+  $body = preg_replace_callback('#\[(php|html)(?::\w+)?\](?:[\r\n])*(.*?)\[/(php|html)(?::\w+)?\]#si',
+    function ($matches) { return _bbcode_php_tag($matches[2]); }, $body);
+
+  // Headings and indexes - articles will almost always need them
+  $body = preg_replace_callback('#\[index style=(ol|ul)\]#si',
+    function ($matches) { return _bbcode_generate_index($body, $matches[1]); }, $body);
+  $body = preg_replace_callback('#\[index\s*/?\]#si',
+    function ($matches) use ($body) { return _bbcode_generate_index($body); }, $body);
+  $body = preg_replace_callback('#\[h([1-6])(?::\w+)?\](.*?)\[/h[1-6](?::\w+)?\]#si',
+    function ($matches) { return _bbcode_generate_heading($matches[1], $matches[2]); }, $body);
+
   // Define BBCode tags
   $preg = array(
-    // Implement [notag]
-    '#\[notag(?::\w+)?\](.*?)\[/notag(?::\w+)?\]#sie'        => '_bbcode_notag_tag(\'\\1\')',
-
-    // Headings and indexes - articles will almost always need them
-    '#\[h([1-6])(?::\w+)?\](.*?)\[/h[1-6](?::\w+)?\]#sie'    => '_bbcode_generate_heading(\\1, \'\\2\')',
-    '#\[index\s*/?\]#sie'                                    => '_bbcode_generate_index($body)',
-    '#\[index style=(ol|ul)\]#sie'                           => '_bbcode_generate_index($body, \'\\1\')',
-
     // Font, text and alignment
+	'#\[p\](.*?)\[/p\]#si' => '<p>\\1</p>',
     '#\[align=(\w+)(?::\w+)?\](.*?)\[/align(?::\w+)?\]#si'   => '<span style="text-align:\\1">\\2</span>',
     '#\[float=(left|right)(?::\w+)?\](.*?)\[/float(?::\w+)?\]#si' => '<span style="float:\\1">\\2</span>',
     '#\[justify(?::\w+)?\](.*?)\[/justify(?::\w+)?\]#si'     => '<div style="text-align:justify;">\\1</div>',
+    '#\[indent(?::\w+)?\](.*?)\[/indent(?::\w+)?\]#si' => '<span style="margin-left:10px;">\\1</span>',
+    '#\[tab\](\d*)\[/tab\]#si' => '<span style="margin-left:\\1px;"></span>',
     '#\[(b|strong)(?::\w+)?\](.*?)\[/(b|strong)(?::\w+)?\]#si' => '<span style="font-weight:bold">\\2</span>',
     '#\[(i|em)(?::\w+)?\](.*?)\[/(i|em)(?::\w+)?\]#si'       => '<span style="font-style:italic">\\2</span>',
     '#\[u(?::\w+)?\](.*?)\[/u(?::\w+)?\]#si'                 => '<span style="text-decoration:underline">\\1</span>',
@@ -174,7 +202,7 @@ function _bbcode_filter_process(&$body, $format = -1) {
     '#\[url(?::\w+)?\]www\.([\w:;&,%+~!=@\/\.\-\#\?]+?)\[/url(?::\w+)?\]#si' => '<a href="http://www.\\1" class="bb-url">\\1</a>',
     '#\[url(?::\w+)?\]([\w:;&,%+~!=@\/\.\-\#\?]+?)\[/url(?::\w+)?\]#si'   => '<a href="\\1" class="bb-url">\\1</a>',
     '#\[url=www\.([\w:;&,%+~!=@\/\.\-\#\?]+?)\](.*?)\[/url(?::\w+)?\]#si' => '<a href="http://www.\\1" class="bb-url">\\2</a>',
-    '#\[url=([\w:;&,%+~!=@\/\.\-\#\?]+?)\](.*?)\[/url(?::\w+)?\]#si'      => '<a href="\\1" class="bb-url">\\2</a>',
+    '#\[url="?\'?([\w:;&,%+~!=@\/\.\-\#\?]+?)"?\'?\](.*?)\[/url(?::\w+)?\]#si' => '<a href="\\1" class="bb-url">\\2</a>',
 
     // Anchor tags for linking within documents
     '#\[anchor=(\w+)(?::\w+)?\](.*?)\[/anchor(?::\w+)?\]#si' => '<a name="\\1">\\2</a>',
@@ -197,13 +225,11 @@ function _bbcode_filter_process(&$body, $format = -1) {
     '#\[quote=(?:&quot;|"|\')?(.*?)["\']?(?:&quot;|"|\')?\]#i' => '<div class="bb-quote"><b>'.$quote_user.'</b><blockquote class="bb-quote-body">',
     '#\[/quote(?::\w+)?\]#si'                                  => '</blockquote></div>',
 
-    // PHP code blocks (syntax highlighted)
-    '#\[php(?::\w+)?\](?:[\r\n])*(.*?)\[/php(?::\w+)?\]#sie' => '_bbcode_php_tag(\'\\1\')',
-
     // Links to popular sites
     '#\[google(?::\w+)?\]([\w\s-]+?)\[/google(?::\w+)?\]#si'       => '<a href="http://www.google.com/search?q=\\1">\\1</a>',
     '#\[wikipedia(?::\w+)?\]([\w\s-]+?)\[/wikipedia(?::\w+)?\]#si' => '<a href="http://www.wikipedia.org/wiki/\\1">\\1</a>',
-    '#\[youtube\]([0-9a-zA-Z_\-]+)\[/youtube\]#si'                 => '<object width="425" height="366"><param name="movie" value="http://www.youtube.com/v/\\1"></param><embed src="http://www.youtube.com/v/\\1" type="application/x-shockwave-flash" width="425" height="366"></embed></object>',
+    '#\[youtube\]([0-9a-zA-Z_\-]+)\[/youtube\]#si' => '<iframe width="425" height="366" src="//www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>',
+     // Table tags
 
     // Table tags
     '#\[table\](.+?)\[/table\]#si'                           => '<table class="bb-table">\\1</table>', 
@@ -243,6 +269,11 @@ function _bbcode_filter_process(&$body, $format = -1) {
       $body);
   }
 
+  // Re-write email addresses
+  if (variable_get("bbcode_rewrite_email_$format", 1)) {
+    $body = preg_replace('#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1\\2-[at]-\\3', $body);
+  }
+
   // Turns web and e-mail addresses into clickable links
   if (variable_get("bbcode_make_links_$format", 1)) {
 
@@ -264,10 +295,11 @@ function _bbcode_filter_process(&$body, $format = -1) {
 
     // matches an email@domain type address at the start of a line, or after a space.
     // Note: Only the followed chars are valid; alphanums, "-", "_" and or ".".
-    if (variable_get("bbcode_encode_mailto_$format", 1))
-      $ret = preg_replace_callback("#([\t\r\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", '_bbcode_encode_mailto', $ret);
-    else 
-      $ret = preg_replace('#([\t\r\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1<a href="mailto:\\2@\\3">\\2@\\3</a>', $ret);
+    if (variable_get("bbcode_encode_mailto_$format", 1)) {
+      $ret = preg_replace_callback("#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", '_bbcode_encode_mailto', $ret);
+    } else {
+      $ret = preg_replace('#((?<=^|[\t\r\n >\(\[\]\|]))([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i', '\\1<a href="mailto:\\2@\\3">\\2@\\3</a>', $ret);
+    }
 
     // Remove our padding
     $ret = str_replace("\x07", '', $ret);
@@ -348,20 +380,30 @@ function _bbcode_php_tag($text = NULL) {
   return '<pre>'. highlight_string( str_replace('<br />', '', stripslashes($text)), true) .'</pre>';
 }
 
-function _bbcode_round_size_val($size) {
-  if ($size < 6)
-      return 6;
-  elseif ($size > 48)
-      return 48;
+function _bbcode_size_val($size) {
+  if (!is_numeric($size))	  // Return values like 10px or xx-small.
+    return $size;
+
+  if ($size < 6)	// Normalize too small size values.
+    return '6px';
+  elseif ($size <= 48)	// Less than 49 is px, more is % values.
+    return $size . 'px';
   else
-     return $size;
+    return $size . '%';
 }
 
 function _bbcode_replace_nest_tag($arr = NULL) {
-  $text = preg_replace('#(\[[/]*)'. $arr['tag'] .'(.*?\])#si', "$1\x07$2", $arr['text']);
+  $text = preg_replace('#(\[[/]*)' . $arr['tag'] . '(.*?\])#si', "$1\x07$2", $arr['text']);
   // It will be better to use &count and do-while, if php 5 or higher.
-  while (preg_match($arr['pattern'], $text)) {
-    $text = preg_replace($arr['pattern'], $arr['replacement'], $text);
+
+  if (array_key_exists('call', $arr)) {
+    while (preg_match($arr['pattern'], $text)) {
+      $text = preg_replace_callback($arr['pattern'], $arr['call'], $text);
+    }
+  } else {
+    while (preg_match($arr['pattern'], $text)) {
+      $text = preg_replace($arr['pattern'], $arr['replacement'], $text);
+    }
   }
   return $text;
 }

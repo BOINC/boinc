@@ -21,22 +21,17 @@
 #define PROJECT_INIT_FILENAME       "project_init.xml"
 
 // represents the contents of project_init.xml,
-// specifying an account to attach to initially
+// specifying a project, and optionally an account, to attach to initially
 //
 class PROJECT_INIT {
 public:
     char url[256];
     char name[256];
-    char team_name[256];
     char account_key[256];
-
-    // Opaque data, project-supplied, that must be passed to
-    // Web RPC along with account key
-    //
-    char setup_cookie[256];
 
     // Is the project_init.xml file embedded in the installer?
     // Or was it generated from of the command line of the install.
+    // No longer used.
     //
     bool embedded;
 
@@ -48,6 +43,7 @@ public:
 	// Used by installers to create/modify project_init.xml in the data
 	// directory at install time.
     // Useful for creating automated install processes.
+    //
     int write();
 };
 

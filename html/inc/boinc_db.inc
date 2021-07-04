@@ -133,9 +133,9 @@ class BoincDb extends DbConn {
             self::get_aux($readonly, $fallback_mode);
             if (!self::$instance) {
                 if ($generating_xml) {
-                    xml_error(-138, "the project's database server is down");
+                    xml_error(-138, "Can't connect to database");
                 } else {
-                    show_project_down();
+                    error_page("Can't connect to database");
                 }
             }
         }

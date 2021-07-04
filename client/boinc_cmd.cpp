@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,8 @@
 //
 // usage: boinccmd [--host hostname] [--passwd passwd] command
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"
@@ -92,7 +89,12 @@ Commands:\n\
  --quit_acct_mgr                    same as --acct_mgr detach\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
+ --reset_host_info                  have client get mem size, #CPUs etc. again\n\
  --run_benchmarks\n\
+ --run_graphics_app id op         (Macintosh only) run, test or stop graphics app\n\
+   op = run | runfullscreen | stop | test\n\
+   id = slot # for run or runfullscreen, process ID for stop or test\n\
+   id = -1 for default screensaver (boincscr)\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_host_info product_name\n\
@@ -162,20 +164,45 @@ void acct_mgr_do_rpc(
     }
 }
 
+// Get messages from client, and show any that are USER_ALERT priority.
+// Intended use: show user that GUI RPCs are not password-protected.
+// For now, do this after attach to project or AM
+//
+void show_alerts(RPC_CLIENT &rpc) {
+    MESSAGES messages;
+    int retval = rpc.get_messages(0, messages);
+    if (retval) {
+        fprintf(stderr, "Can't get alerts from client: %s\n",
+            boincerror(retval)
+        );
+        return;
+    }
+    for (unsigned int j=0; j<messages.messages.size(); j++) {
+        MESSAGE& md = *messages.messages[j];
+        if (md.priority != MSG_USER_ALERT) continue;
+        if (!md.project.empty()) continue;
+        strip_whitespace(md.body);
+        fprintf(stderr, "\nAlert from client: %s\n",
+            md.body.c_str()
+        );
+    }
+}
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
     MESSAGES messages;
     NOTICES notices;
     char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p, *q;
+    char* passwd=0, *p, *q;
     bool unix_domain = false;
+    string msg;
 
 #ifdef _WIN32
     chdir_to_data_dir();
+#elif defined(__APPLE__)
+    chdir("/Library/Application Support/BOINC Data");
 #endif
-    safe_strcpy(passwd_buf, "");
-    read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -185,6 +212,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
 #endif
+
+    // parse command line.
+    // TODO: do this the right way.
+    // shouldn't require args to be in a particular order.
+
     if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[i], "--help")) usage();
@@ -237,6 +269,16 @@ int main(int argc, char** argv) {
     }
     if (i == argc) usage();
 
+    if (!passwd) {
+        passwd = passwd_buf;
+        safe_strcpy(passwd_buf, "");
+        retval = read_gui_rpc_password(passwd_buf, msg);
+        if (retval) {
+            fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+            fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+        }
+    }
+
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //
 #if 1
@@ -280,7 +322,8 @@ int main(int argc, char** argv) {
     char* cmd = next_arg(argc, argv, i);
     if (!strcmp(cmd, "--client_version")) {
         VERSION_INFO vi;
-        retval = rpc.exchange_versions(vi);
+        string rpc_client_name = "boinccmd " BOINC_VERSION_STRING;
+        retval = rpc.exchange_versions(rpc_client_name, vi);
         if (!retval) {
             printf("Client version: %d.%d.%d\n", vi.major, vi.minor, vi.release);
         }
@@ -373,6 +416,7 @@ int main(int argc, char** argv) {
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");
+        show_alerts(rpc);
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
@@ -422,7 +466,6 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
@@ -521,6 +564,7 @@ int main(int argc, char** argv) {
             char* am_name = next_arg(argc, argv, i);
             char* am_passwd = next_arg(argc, argv, i);
             acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
+            show_alerts(rpc);
         } else if (!strcmp(op, "info")) {
             ACCT_MGR_INFO ami;
             retval = rpc.acct_mgr_info(ami);
@@ -541,6 +585,14 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+#ifdef __APPLE__
+    } else if (!strcmp(cmd, "--run_graphics_app")) {
+        int operand = atoi(argv[2]);
+        retval = rpc.run_graphics_app(argv[3], operand, getlogin());
+        if (!strcmp(argv[3], "test") & !retval) {
+            printf("pid: %d\n", operand);
+        }
+#endif
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));
@@ -618,6 +670,8 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--read_cc_config")) {
         retval = rpc.read_cc_config();
         printf("retval %d\n", retval);
+    } else if (!strcmp(cmd, "--reset_host_info")) {
+        retval = rpc.reset_host_info();
     } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
     } else if (!strcmp(cmd, "--set_app_config")) {

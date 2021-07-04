@@ -29,30 +29,37 @@
 
 // reasons for not fetching work from a project
 //
-#define CANT_FETCH_WORK_NON_CPU_INTENSIVE           1
-#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI           2
-#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING    3
-#define CANT_FETCH_WORK_MIN_RPC_TIME                4
-#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK      5
-#define CANT_FETCH_WORK_DOWNLOAD_STALLED            6
-#define CANT_FETCH_WORK_RESULT_SUSPENDED            7
-#define CANT_FETCH_WORK_TOO_MANY_UPLOADS            8
-#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY        9
-#define CANT_FETCH_WORK_DONT_NEED                   10
-#define CANT_FETCH_WORK_TOO_MANY_RUNNABLE           11
+typedef enum {
+    PROJECT_REASON_NONE = 0,
+    PROJECT_REASON_NON_CPU_INTENSIVE,
+    PROJECT_REASON_SUSPENDED_VIA_GUI,
+    PROJECT_REASON_MASTER_URL_FETCH_PENDING,
+    PROJECT_REASON_MIN_RPC_TIME,
+    PROJECT_REASON_DONT_REQUEST_MORE_WORK,
+    PROJECT_REASON_DOWNLOAD_STALLED,
+    PROJECT_REASON_RESULT_SUSPENDED,
+    PROJECT_REASON_TOO_MANY_UPLOADS,
+    PROJECT_REASON_NOT_HIGHEST_PRIORITY,
+    PROJECT_REASON_DONT_NEED,
+    PROJECT_REASON_TOO_MANY_RUNNABLE,
+    PROJECT_REASON_MAX_CONCURRENT,
+} PROJECT_REASON;
 
 // in case of DONT_NEED, per-resource reason
 //
-#define DONT_FETCH_GPUS_NOT_USABLE                  1
-#define DONT_FETCH_PREFS                            2
-#define DONT_FETCH_CONFIG                           3
-#define DONT_FETCH_NO_APPS                          4
-#define DONT_FETCH_AMS                              5
-#define DONT_FETCH_ZERO_SHARE                       7
-#define DONT_FETCH_BUFFER_FULL                      8
-#define DONT_FETCH_NOT_HIGHEST_PRIO                 9
-#define DONT_FETCH_BACKED_OFF                       10
-#define DONT_FETCH_DEFER_SCHED                      11
+typedef enum {
+    RSC_REASON_NONE = 0,
+    RSC_REASON_GPUS_NOT_USABLE,
+    RSC_REASON_PREFS,
+    RSC_REASON_CONFIG,
+    RSC_REASON_NO_APPS,
+    RSC_REASON_AMS,
+    RSC_REASON_ZERO_SHARE,
+    RSC_REASON_BUFFER_FULL,
+    RSC_REASON_NOT_HIGHEST_PRIO,
+    RSC_REASON_BACKED_OFF,
+    RSC_REASON_DEFER_SCHED
+} RSC_REASON;
 
 struct PROJECT;
 struct RESULT;
@@ -86,6 +93,7 @@ struct RSC_PROJECT_WORK_FETCH {
     int n_runnable_jobs;
     double sim_nused;
         // # of instances used at this point in the simulation
+        // Used for GPU exclusion logic
     double nused_total;     // sum of instances over all runnable jobs
     int ncoprocs_excluded;
         // number of excluded instances
@@ -96,14 +104,23 @@ struct RSC_PROJECT_WORK_FETCH {
     int deadlines_missed_copy;
         // copy of the above used during schedule_cpus()
     std::deque<RESULT*> pending;
+        // temp during RR_SIM::simulate(); jobs running or waiting to run
     std::deque<RESULT*>::iterator pending_iter;
+        // temp during RR_SIM::pick_jobs_to_run()
     bool has_deferred_job;
         // This project has a coproc job of the given type for which
         // the job is deferred because of a temporary_exit() call.
         // Don't fetch more jobs of this type; they might have same problem
-    int rsc_project_reason;
+    RSC_REASON rsc_project_reason;
         // If zero, it's OK to ask this project for this type of work.
         // If nonzero, the reason why it's not OK
+
+    // stuff for max concurrent logic
+    //
+    double max_nused;
+        // max # instances used so far in simulation.
+    double mc_shortfall;
+        // project's shortfall for this resources, given MC limits
 
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
@@ -121,7 +138,9 @@ struct RSC_PROJECT_WORK_FETCH {
         deadlines_missed_copy = 0;
         pending.clear();
         has_deferred_job = false;
-        rsc_project_reason = 0;
+        rsc_project_reason = RSC_REASON_NONE;
+        max_nused = 0.0;
+        mc_shortfall = 0.0;
     }
 
     inline void reset() {
@@ -132,9 +151,9 @@ struct RSC_PROJECT_WORK_FETCH {
     inline void reset_rec_accounting() {
         secs_this_rec_interval = 0;
     }
-    int compute_rsc_project_reason(PROJECT*, int rsc_type);
+    RSC_REASON compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
-    void rr_init();
+    void rr_init(PROJECT*);
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -207,7 +226,9 @@ struct RSC_WORK_FETCH {
     double shortfall;
         // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
+        // # idle instances now (at the beginning of RR sim)
     double sim_nused;
+        // # instance used at this point in RR sim
     COPROC_INSTANCE_BITMAP sim_used_instances;
         // bitmap of instances used in simulation,
         // taking into account GPU exclusions
@@ -221,7 +242,7 @@ struct RSC_WORK_FETCH {
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     BUSY_TIME_ESTIMATOR busy_time_estimator;
-    int dont_fetch_reason;
+    RSC_REASON dont_fetch_reason;
 #ifdef SIM
     double estimated_delay;
 #endif
@@ -271,7 +292,7 @@ struct RSC_WORK_FETCH {
         saturated_time = 0;
         deadline_missed_instances = 0;
         busy_time_estimator.init(0);
-        dont_fetch_reason = 0;
+        dont_fetch_reason = RSC_REASON_NONE;
 #ifdef SIM
         estimated_delay = 0.0;
 #endif
@@ -294,15 +315,23 @@ struct PROJECT_WORK_FETCH {
         // temporary copy used during schedule_cpus() and work fetch
     double rec_temp_save;
         // temporary used during RR simulation
-    int project_reason;
-    int compute_project_reason(PROJECT*);
+    PROJECT_REASON project_reason;
+        // if nonzero, reason which we can't fetch work from this project
     int n_runnable_jobs;
+        // set by RR simulation
+    bool at_max_concurrent_limit;
     bool request_if_idle_and_uploading;
         // Set when a job finishes.
         // If we're uploading but a resource is idle, make a work request.
         // If this succeeds, clear the flag.
+
+    PROJECT_WORK_FETCH(int) {}
+    void clear() {
+        static const PROJECT_WORK_FETCH x(0);
+        *this = x;
+    }
     PROJECT_WORK_FETCH() {
-        memset(this, 0, sizeof(*this));
+        clear();
     }
     void reset(PROJECT*);
     void rr_init(PROJECT*);
@@ -313,6 +342,7 @@ struct PROJECT_WORK_FETCH {
 //
 struct WORK_FETCH {
     std::vector<PROJECT*> projects_sorted;
+
         // projects in decreasing priority order
     void setup();
     PROJECT* choose_project();
@@ -350,6 +380,6 @@ extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
 extern const char* project_reason_string(PROJECT* p, char* buf, int len);
-extern const char* rsc_project_reason_string(int);
+extern const char* rsc_reason_string(RSC_REASON);
 
 #endif

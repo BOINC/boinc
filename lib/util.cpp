@@ -15,12 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef  _WIN32
-#ifndef __STDWX_H__
+#if defined(_WIN32)
 #include "boinc_win.h"
-#else
-#include "stdwx.h"
-#endif
 #include "str_replace.h"
 #include "win_util.h"
 #endif
@@ -414,7 +410,7 @@ int read_file_string(
 
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* /*file*/, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
@@ -427,12 +423,13 @@ int run_program(
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
 
-    safe_strcpy(cmdline, "");
-    for (int i=0; i<argc; i++) {
+    // lpApplicationName needs to be NULL for CreateProcess to search path
+    // but argv[0] may be full path or just filename
+    // 'file' should be something runnable so use that as program name
+    snprintf(cmdline, sizeof(cmdline), "\"%s\"", file);
+    for (int i=1; i<argc; i++) {
+        safe_strcat(cmdline, " ");
         safe_strcat(cmdline, argv[i]);
-        if (i<argc-1) {
-            safe_strcat(cmdline, " ");
-        }
     }
 
     retval = CreateProcessA(
@@ -484,12 +481,13 @@ int run_program(
         FCGI::perror("execvp");
 #else
         perror("execvp");
+        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
 #endif
         exit(errno);
     }
 
     if (nsecs) {
-        boinc_sleep(3);
+        boinc_sleep(nsecs);
         if (waitpid(pid, 0, WNOHANG) == pid) {
             return -1;
         }

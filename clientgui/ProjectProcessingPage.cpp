@@ -191,7 +191,6 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
         // An error must have occurred
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
-    return NULL;
 }
   
 /*!
@@ -416,11 +415,10 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 ai->ldap_auth = pWA->project_config.ldap_auth;
 
                 // Configure for project assigned hash lookup
-                ai->server_assigned_cookie = pWA->GetProjectSetupCookie().size() ? 1 : 0;
-                ai->server_cookie = (const char*)pWA->GetProjectSetupCookie().mb_str();
 
-                if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue() && !pWA->GetProjectSetupCookie().size()) {
+                if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
 					creating_account = true;
+                    ai->consented_to_terms = pWA->GetConsentedToTerms();
 
                     // Wait until we are done processing the request.
                     dtStartExecutionTime = wxDateTime::Now();
@@ -435,7 +433,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         !CHECK_CLOSINGINPROGRESS()
                     ) {
                         if (ERR_RETRY == ao->error_num) {
-                            pDoc->rpc.create_account(*ai);
+                            retval = pDoc->rpc.create_account(*ai);
+                            if (retval) break;
                         }
 
                         dtCurrentExecutionTime = wxDateTime::Now();
@@ -501,12 +500,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
                         (ERR_BAD_PASSWD == ao->error_num)
                     ) {
-                        if (!pWA->GetProjectAuthenticator().IsEmpty() || !pWA->GetProjectSetupCookie().IsEmpty()) {
+                        if (!pWA->GetProjectAuthenticator().IsEmpty()) {
                             if (!pWA->GetProjectAuthenticator().IsEmpty()) {
                                 pWA->SetProjectAuthenticator(wxEmptyString);
-                            }
-                            if (!pWA->GetProjectSetupCookie().IsEmpty()) {
-                                pWA->SetProjectSetupCookie(wxEmptyString);
                             }
                             pWA->PushPage(ID_ACCOUNTINFOPAGE);
                         }

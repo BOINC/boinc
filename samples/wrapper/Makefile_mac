@@ -1,7 +1,7 @@
 # makefile for BOINC wrapper application on Macintosh.
 # This is invoked from BuildMacWrapper.sh shell script.
 # It should not be used by itself without the script.
-# Updated 4/14/15 for compatibility with Xcode 6
+# Updated 8/28/20 for compatibility with Xcode 10
 
 # Change the following to match your installation
 BOINC_DIR = ../..
@@ -11,13 +11,17 @@ BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
-CXXFLAGS = $(VARIANTFLAGS) \
+CFLAGS = $(VARIANTFLAGS) \
 	-g \
     -I$(BOINC_CONFIG_DIR) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_ZIP_DIR) \
+    -I$(BOINC_ZIP_DIR)
+
+CPPFLAGS = $(CFLAGS) -stdlib=libc++
+    
+LDFLAGS = $(CPPFLAGS)  \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L$(BOINC_ZIP_DIR) \
@@ -42,19 +46,19 @@ REGEXP_OBJS = \
 	regexp_report.o
 
 regexp.o: regexp.c
-	$(CXX) $(CXXFLAGS) -c regexp.c
+	$(CC) $(CFLAGS) -c regexp.c
 
 regsub.o: regsub.c
-	$(CXX) $(CXXFLAGS) -c regsub.c
+	$(CC) $(CFLAGS) -c regsub.c
 
 regerror.o: regerror.c
-	$(CXX) $(CXXFLAGS) -c regerror.c
+	$(CC) $(CFLAGS) -c regerror.c
 
 regexp_memory.o: regexp_memory.c
-	$(CXX) $(CXXFLAGS) -c regexp_memory.c
+	$(CC) $(CFLAGS) -c regexp_memory.c
 
 regexp_report.o: regexp_report.c
-	$(CXX) $(CXXFLAGS) -c regexp_report.c
+	$(CC) $(CFLAGS) -c regexp_report.c
 
 wrapper: wrapper.o $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) -pthread -lboinc_api -lboinc -lboinc_zip
+	$(CPP) $(LDFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) -pthread -lboinc_api -lboinc -lboinc_zip

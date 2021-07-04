@@ -1,0 +1,135 @@
+<?php
+
+
+/**
+ * @file
+ * main file for module providing a block
+ */
+
+/**
+ * Create the block if user has permission and we are viewing
+ * a node and the node has enough data to generate a table of
+ * contents.
+ */
+function _tableofcontents_block_view() {
+  global $_tableofcontents_block_processing;
+  global $_tableofcontents_block_toc;
+
+  // check whether we are viewing a node
+  if (arg(0) != 'node' || !is_numeric(arg(1))) {    // no block
+    return;
+  }
+
+  $node = node_load(arg(1));
+
+  // verify user's access to view the node
+  if (!node_access('view', $node)) {
+    return;
+  }
+
+  $_tableofcontents_block_processing = TRUE;
+  $text = node_view($node, FALSE, TRUE, FALSE);
+  unset($_tableofcontents_block_processing);
+
+  module_load_include('pages.inc', 'tableofcontents');
+  $_tableofcontents_block_toc = '[toc]';
+  $text = _tableofcontents_process(0, 'block', $text);
+  unset($_tableofcontents_block_toc);
+
+  if ($text) {
+    $block['content'] = $text;
+    $block['subject'] = t('Table of contents');
+    $block['weight'] = 0;
+    return $block;
+  }
+  // no block
+}
+
+/**
+ * Create a form to setup the Table of contents block.
+ */
+function _tableofcontents_block_form() {
+  // we get the filter form
+  module_load_include('admin.inc', 'tableofcontents');
+  $filter_form = _tableofcontents_settings('block');
+
+  // then we change a few things
+  $form = $filter_form['tableofcontents'];
+
+  // adapt some messages
+  $form['tableofcontents_min_limit_block']['#title'] = t('Number of headers to show table of contents');
+  $form['tableofcontents_min_limit_block']['#description'] = t('The minimum number of headers before the table of contents is shown.');
+
+  // forced values are never shown to the user
+  unset($form['tableofcontents_on_off']); // all the on/off are not handle-able in the block
+  unset($form['tableofcontents_security_options']); // these are part of the filter only
+  unset($form['tableofcontents_back_to_top']); // this is really only possible in the node at this point
+  unset($form['tableofcontents_numbering']['tableofcontents_number_headers_block']);
+  unset($form['tableofcontents_other']['tableofcontents_show_on_print_pages_block']);
+
+  return $form;
+}
+
+function _tableofcontents_block_save($edit) {
+  variable_set('tableofcontents_allowed_tags_block',          $edit['tableofcontents_allowed_tags_block']);
+  variable_set('tableofcontents_attachments_block',           $edit['tableofcontents_attachments_block']);
+  variable_set('tableofcontents_collapsed_block',             $edit['tableofcontents_collapsed_block']);
+  variable_set('tableofcontents_comments_block',              $edit['tableofcontents_comments_block']);
+  variable_set('tableofcontents_comments_level_block',        $edit['tableofcontents_comments_level_block']);
+  variable_set('tableofcontents_id_generator_block',          $edit['tableofcontents_id_generator_block']);
+  variable_set('tableofcontents_hide_show_block',             $edit['tableofcontents_hide_show_block']);
+  variable_set('tableofcontents_maxlevel_block',              $edit['tableofcontents_maxlevel_block']);
+  variable_set('tableofcontents_minlevel_block',              $edit['tableofcontents_minlevel_block']);
+  variable_set('tableofcontents_number_end_letter_block',     $edit['tableofcontents_number_end_letter_block']);
+  variable_set('tableofcontents_number_mode_block',           $edit['tableofcontents_number_mode_block']);
+  variable_set('tableofcontents_number_separator_block',      $edit['tableofcontents_number_separator_block']);
+  variable_set('tableofcontents_number_start_letter_block',   $edit['tableofcontents_number_start_letter_block']);
+  variable_set('tableofcontents_numbering_block',             $edit['tableofcontents_numbering_block']);
+  variable_set('tableofcontents_id_separator_block',          $edit['tableofcontents_id_separator_block']);
+  variable_set('tableofcontents_id_stripping_block',          $edit['tableofcontents_id_stripping_block']);
+  variable_set('tableofcontents_identifier_introducer_block', $edit['tableofcontents_identifier_introducer_block']);
+  variable_set('tableofcontents_title_block',                 $edit['tableofcontents_title_block']);
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function tableofcontents_block_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+  case 'list':
+    $blocks[0]['info'] = t('Table of contents');
+    $blocks[0]['cache'] = BLOCK_CACHE_PER_PAGE;
+    return $blocks;
+
+  case 'configure':
+    return _tableofcontents_block_form();
+
+  case 'save':
+    _tableofcontents_block_save($edit);
+    break;
+
+  case 'view':
+    return _tableofcontents_block_view();
+
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function tableofcontents_block_form_filter_admin_configure_alter(&$form, &$form_state) {
+  // verify that the table of contents is turned in that filter.
+  if (isset($form['tableofcontents'])) {
+    $format = $form['format']['#value'];
+
+    // add block specific settings to this filter
+    $form['tableofcontents']['tableofcontents_block_only_table_' . $format] = array(
+      '#title' => t('Block-only table of contents'),
+      '#type' => 'checkbox',
+      '#default_value' => variable_get('tableofcontents_block_only_table_' . $format, FALSE),
+      '#description' => 'When checked, all the table of contents are removed from node bodies, only headers are altered. This allows for a block-only table of contents.',
+    );
+  }
+}
+
+// vim: ts=2 sw=2 et syntax=php

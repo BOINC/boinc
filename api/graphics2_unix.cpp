@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -46,8 +46,10 @@ static int win=0;
 static int checkparentcounter=0;
 
 #ifdef __APPLE__
-
 static bool need_show = false;
+
+// Set to true to draw both directly to window and also to offscreen buffer
+bool debugSharedOffscreenBuffer = false;
 #endif
 
 bool fullscreen;
@@ -119,7 +121,7 @@ static void maybe_render() {
 
     if (throttled_app_render(new_width, new_height, dtime())) {
 #ifdef __APPLE__
-        if (UseSharedOffscreenBuffer()) {
+        if (UseSharedOffscreenBuffer() && !debugSharedOffscreenBuffer) {
             return; // Don't waste cycles drawing to hidden window on screen
         }
 #endif
@@ -135,9 +137,13 @@ static void maybe_render() {
                     ypos = new_ypos;
                     width = new_width;
                     height = new_height;
+
                 } else {
                     if (size_changed && (++size_changed > 10)) {
                         size_changed = 0;
+#ifdef __APPLE__
+                        ClearDocumentEditedDot();
+#endif
                         FILE *f = boinc_fopen("gfx_info", "w");
                         if (f) {
                             // ToDo: change this to XML

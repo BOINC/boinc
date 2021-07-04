@@ -1,0 +1,114 @@
+name: Android
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '5 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "11"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.3
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/android/vcpkgcache/
+          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
+
+      - name: Configure Python
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        run: |
+          pip install boto3
+
+      - name: Download vcpkg binary cache
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+
+      - name: Build manager
+        if: ${{ success() && matrix.type == 'manager' }}
+        run:  |
+          ./android/ci_build_manager.sh
+
+      - name: Build libs
+        if: ${{ success() && matrix.type == 'libs' }}
+        run: ./android/ci_build_libraries.sh
+
+      - name: Build apps
+        if: ${{ success() && matrix.type == 'apps' }}
+        run: ./android/ci_build_apps.sh
+
+      - name: Build manager with vcpkg
+        if: ${{ success() && matrix.type == 'manager-vcpkg' }}
+        run: ./android/ci_build_vcpkg_manager.sh
+
+      - name: Build libs with vcpkg
+        if: ${{ success() && matrix.type == 'libs-vcpkg' }}
+        run: ./android/ci_build_vcpkg_libraries.sh
+
+      - name: Build apps with vcpkg
+        if: ${{ success() && matrix.type == 'apps-vcpkg' }}
+        run: ./android/ci_build_vcpkg_apps.sh
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z a -t7z -mx=9 deploy/logs.7z config.log android/BOINC/app/build/reports/ -r0 3rdParty/android/vcpkg/buildtrees/*.log
+      
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: ${{ success() && ! contains(matrix.type, 'libs') }}
+        env:
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ./deploy/prepare_deployment.sh android_${{ matrix.type }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        if: ${{ ! contains(matrix.type, 'libs') }}
+        with:
+          name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/android_${{ matrix.type }}/*.7z
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        if: ${{ success() && matrix.type == 'manager' }}
+        with:
+          fail_ci_if_error: true
+          verbose: false
+
+      - name: Upload vcpkg binary cache
+        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+        env:
+          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py upload 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "$ACCESS_KEY" "$SECRET_KEY"

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <string>
 #include <vector>
 
@@ -582,7 +583,6 @@ void write_user(USER& user, ZFILE* f, bool /*detail*/) {
         "<user>\n"
         " <id>%lu</id>\n"
         " <name>%s</name>\n"
-        " <country>%s</country>\n"
         " <create_time>%d</create_time>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
@@ -590,14 +590,19 @@ void write_user(USER& user, ZFILE* f, bool /*detail*/) {
         " <cpid>%s</cpid>\n",
         user.id,
         name,
-        user.country,
         user.create_time,
         user.total_credit,
         user.expavg_credit,
         user.expavg_time,
         cpid
     );
-    if (strlen(user.url)) {
+    if (config.user_country && strlen(user.country)) {
+        f->write(
+            " <country>%s</country>\n",
+            user.country
+        );
+    }
+    if (config.user_url && strlen(user.url)) {
         f->write(
             " <url>%s</url>\n",
             url
@@ -640,7 +645,7 @@ void write_badge_user(char* output_dir) {
     DB_BADGE_USER bu;
     char path[MAXPATHLEN];
     ZFILE zf("badge_users", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_user.gz", output_dir);
+    sprintf(path, "%s/badge_user", output_dir);
     zf.open(path);
     while (!bu.enumerate("")) {
         zf.write(
@@ -661,7 +666,7 @@ void write_badge_team(char* output_dir) {
     DB_BADGE_TEAM bt;
     char path[MAXPATHLEN];
     ZFILE zf("badge_teams", COMPRESSION_GZIP);
-    sprintf(path, "%s/badge_team.gz", output_dir);
+    sprintf(path, "%s/badge_team", output_dir);
     zf.open(path);
     while (!bt.enumerate("")) {
         zf.write(
@@ -1266,9 +1271,11 @@ int main(int argc, char** argv) {
         config.replica_db_user,
         config.replica_db_passwd
     ))) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         if (retry_period == 0) exit(1);
-	boinc_sleep(retry_period);
+        boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
@@ -1350,5 +1357,3 @@ int main(int argc, char** argv) {
     }
     log_messages.printf(MSG_NORMAL, "db_dump finished\n");
 }
-
-const char *BOINC_RCSID_500089bde6 = "$Id$";

@@ -143,6 +143,16 @@
 							Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;"
 							DisplayName="sm_20"
 						/>
+						<EnumValue
+							Value="30"
+							Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;"
+							DisplayName="sm_20"
+						/>
+						<EnumValue
+							Value="32"
+							Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;"
+							DisplayName="sm_32"
+						/>
 					</Values>
 				</EnumProperty>
 				<EnumProperty
@@ -182,6 +192,16 @@
 							Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;"
 							DisplayName="sm_20"
 						/>
+						<EnumValue
+							Value="30"
+							Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;"
+							DisplayName="sm_20"
+						/>
+						<EnumValue
+							Value="32"
+							Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;"
+							DisplayName="sm_32"
+						/>
 					</Values>
 				</EnumProperty>
 				<EnumProperty
@@ -220,6 +240,16 @@
 							Value="20"
 							Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;"
 							DisplayName="sm_20"
+						/>
+						<EnumValue
+							Value="30"
+							Switch="-gencode=arch=compute_30,code=\&quot;sm_30,compute_30\&quot;"
+							DisplayName="sm_20"
+						/>
+						<EnumValue
+							Value="32"
+							Switch="-gencode=arch=compute_32,code=\&quot;sm_32,compute_32\&quot;"
+							DisplayName="sm_32"
 						/>
 					</Values>
 				</EnumProperty>

@@ -26,6 +26,55 @@ function boinc_standard_input_formats() {
       // Print debugging info
       'boinctranslate_filter_debug' => '0',
     ),
+    // Settings for: pathologic module
+    'pathologic' => array(
+      // Also considered local
+      'filter_pathologic_local_paths' => '/
+',
+      // Output full absolute URLs
+      'filter_pathologic_absolute' => 1,
+    ),
+    // Settings for: bbcode module
+    'bbcode' => array(
+      // Convert addresses to links
+      'bbcode_make_links' => '1',
+      // Spam link deterrent
+      'bbcode_filter_nofollow' => '0',
+      // Email address encoding
+      'bbcode_encode_mailto' => '0',
+      // Email address rewrite
+      'bbcode_rewrite_email' => '1',
+      // Smart paragraph and line breaks
+      'bbcode_paragraph_breaks' => '2',
+      // Print debugging info
+      'bbcode_debug' => '0',
+    ),
+    // Settings for: htmlpurifier module
+    'htmlpurifier' => array(
+      'htmlpurifier_clear_cac' => array(
+          '#description' => NULL,
+          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
+        ),
+      // Display help text
+      'htmlpurifier_help' => 1,
+      'htmlpurifier_config' => array(
+          '#description' => NULL,
+          '#value' => array(
+            'Attr.EnableID' => '0',
+            'AutoFormat.AutoParagraph' => '1',
+            'AutoFormat.Linkify' => '1',
+            'AutoFormat.RemoveEmpty' => '0',
+            'Null_HTML.Allowed' => '1',
+            'HTML.ForbiddenAttributes' => '',
+            'HTML.ForbiddenElements' => '',
+            'HTML.SafeObject' => '0',
+            'Output.FlashCompat' => '0',
+            'URI.DisableExternalResources' => '0',
+            'URI.DisableResources' => '0',
+            'Null_URI.Munge' => '1',
+          ),
+        ),
+    ),
     // Settings for: tableofcontents module
     'tableofcontents' => array(
       // Hide the table of contents tags
@@ -66,7 +115,7 @@ function boinc_standard_input_formats() {
       'tableofcontents_id_generator' => 'title',
       // List of tags allowed in table headers
       'tableofcontents_allowed_tags' => '<em> <i> <strong> <b> <u> <del> <ins> <sub> <sup> <cite> <strike> <s> <tt> <span> <font> <abbr> <acronym> <dfn> <q> <bdo> <big> <small>',
-      // Attachments
+      // Show attachments in the table of contents
       'tableofcontents_attachments' => 0,
       // Add the comments to the table of contents
       'tableofcontents_comments' => 0,
@@ -97,77 +146,31 @@ function boinc_standard_input_formats() {
       // Numbering suffix
       'tableofcontents_number_end_letter' => '.',
     ),
-    // Settings for: pathologic module
-    'pathologic' => array(
-      // Also considered local
-      'filter_pathologic_local_paths' => '/',
-      // Output full absolute URLs
-      'filter_pathologic_absolute' => 1,
-    ),
-    // Settings for: bbcode module
-    'bbcode' => array(
-      // Convert addresses to links
-      'bbcode_make_links' => '1',
-      // Spam link deterrent
-      'bbcode_filter_nofollow' => '0',
-      // Email address encoding
-      'bbcode_encode_mailto' => '1',
-      // Smart paragraph and line breaks
-      'bbcode_paragraph_breaks' => '2',
-      // Print debugging info
-      'bbcode_debug' => '0',
-    ),
-    // Settings for: htmlpurifier module
-    'htmlpurifier' => array(
-      'htmlpurifier_clear_cac' => array(
-          '#description' => NULL,
-          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
-        ),
-      // Display help text
-      'htmlpurifier_help' => 1,
-      'htmlpurifier_config' => array(
-          '#description' => NULL,
-          '#value' => array(
-            'Attr.EnableID' => '0',
-            'AutoFormat.AutoParagraph' => '1',
-            'AutoFormat.Linkify' => '1',
-            'AutoFormat.RemoveEmpty' => '0',
-            'Null_HTML.Allowed' => '1',
-            'HTML.ForbiddenAttributes' => '',
-            'HTML.ForbiddenElements' => '',
-            'HTML.SafeObject' => '0',
-            'Output.FlashCompat' => '0',
-            'URI.DisableExternalResources' => '0',
-            'URI.DisableResources' => '0',
-            'Null_URI.Munge' => '1',
-          ),
-        ),
-    ),
   );
   $input_format->filters = array(
     'boinctranslate' => array(
       // Delta => Weight for: BOINC translation filter to help split content into chunks for translations.
-      '0' => '1',
-    ),
-    'tableofcontents' => array(
-      // Delta => Weight for: Table of contents
-      '0' => '2',
+      '0' => '-10',
     ),
     'pathologic' => array(
       // Delta => Weight for: Pathologic
-      '0' => '3',
+      '0' => '-9',
     ),
     'bbcode' => array(
       // Delta => Weight for: BBCode
-      '0' => '4',
+      '0' => '-8',
     ),
     'htmlpurifier' => array(
       // Delta => Weight for: HTML Purifier
-      '0' => '5',
+      '0' => '-7',
+    ),
+    'tableofcontents' => array(
+      // Delta => Weight for: Table of contents
+      '0' => '-6',
     ),
     'image_caption_filter' => array(
       // Delta => Weight for: Image caption filter
-      '0' => '6',
+      '0' => '-5',
     ),
   );
   $input_format->machine = 'rich_text';
@@ -184,11 +187,9 @@ function boinc_standard_input_formats() {
   );
   $input_format->filters = array(
     'boinctranslate' => array(
-      // Delta => Weight for: BOINC translation filter to help split content into chunks for translations.
       '0' => '10',
     ),
     'filter' => array(
-      // Delta => Weight for: HTML filter
       '0' => '10',
     ),
   );

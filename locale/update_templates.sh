@@ -1,9 +1,12 @@
 #!/bin/bash
 
-set -e # abort if a command exits non-zero
-
 # update template files from source and send them to transifex
 # Then commit and push changes.
+#
+# Run this in boinc/
+# ** Make sure you're on "master" on github **
+
+set -e # abort if a command exits non-zero
 
 testmode=0
 if test $# -gt 0; then

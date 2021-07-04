@@ -18,10 +18,8 @@
 // Write and parse HOST_INFO structures.
 // Used by client and GUI
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstdio>
@@ -43,6 +41,9 @@ HOST_INFO::HOST_INFO() {
     clear_host_info();
 }
 
+// this must NOT clear coprocs
+// (initialization logic assumes that)
+//
 void HOST_INFO::clear_host_info() {
     timezone = 0;
     safe_strcpy(domain_name, "");
@@ -83,6 +84,7 @@ void HOST_INFO::clear_host_info() {
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
+    clear_host_info();
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_double("p_fpops", p_fpops)) {
@@ -167,7 +169,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
 int HOST_INFO::write(
     MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
-    char pv[265], pm[256], pf[1024], osn[256], osv[256], pn[256];
+    char pv[265], pm[256], pf[P_FEATURES_SIZE], osn[256], osv[256], pn[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",

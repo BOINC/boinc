@@ -1,0 +1,13 @@
+; $Id$
+name = Flag Abuse Reason
+description = Allow users to give a reason for flagged content
+core = 6.x
+package = Flags
+dependencies[] = comment
+dependencies[] = flag
+dependencies[] = node
+dependencies[] = user
+project = "flag_abuse_reason"
+datestamp = "1557420000"
+version = "6.x-1.x"
+

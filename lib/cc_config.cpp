@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <algorithm>
 #endif
 
 #include "common_defs.h"
@@ -38,22 +39,15 @@
 
 using std::string;
 
-LOG_FLAGS::LOG_FLAGS() {
-    init();
-}
-
 void LOG_FLAGS::init() {
-    memset(this, 0, sizeof(LOG_FLAGS));
-    // on by default (others are off by default)
-    //
-    task = true;
-    file_xfer = true;
-    sched_ops = true;
+    static const LOG_FLAGS x;
+    *this = x;
 }
 
 // Parse log flag preferences
 //
 int LOG_FLAGS::parse(XML_PARSER& xp) {
+    init();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
@@ -207,6 +201,7 @@ CC_CONFIG::CC_CONFIG() {
 //
 void CC_CONFIG::defaults() {
     abort_jobs_on_exit = false;
+    allow_gui_rpc_get = false;
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
@@ -246,8 +241,8 @@ void CC_CONFIG::defaults() {
     no_opencl = false;
     no_priority_change = false;
     os_random_only = false;
-    process_priority = -1;
-    process_priority_special = -1;
+    process_priority = CONFIG_PRIORITY_UNSPECIFIED;
+    process_priority_special = CONFIG_PRIORITY_UNSPECIFIED;
     proxy_info.clear();
     rec_half_life = 10*86400;
 #ifdef ANDROID
@@ -267,6 +262,7 @@ void CC_CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     vbox_window = false;
+    ignore_tty.clear();
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -311,6 +307,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         ignore_gpu_instance[i].clear();
     }
     exclude_gpus.clear();
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -320,6 +317,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_bool("abort_jobs_on_exit", abort_jobs_on_exit)) continue;
+        if (xp.parse_bool("allow_gui_rpc_get", allow_gui_rpc_get)) continue;
         if (xp.parse_bool("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool("allow_remote_gui_rpc", allow_remote_gui_rpc)) continue;
         if (xp.parse_string("alt_platform", s)) {
@@ -393,8 +391,8 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
@@ -429,11 +427,17 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients 
         // may have written their default values to CONFIG_FILE. 
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
@@ -500,9 +504,11 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     out.printf(
         "    <options>\n"
         "        <abort_jobs_on_exit>%d</abort_jobs_on_exit>\n"
+        "        <allow_gui_rpc_get>%d</allow_gui_rpc_get>\n"
         "        <allow_multiple_clients>%d</allow_multiple_clients>\n"
         "        <allow_remote_gui_rpc>%d</allow_remote_gui_rpc>\n",
         abort_jobs_on_exit ? 1 : 0,
+        allow_gui_rpc_get ? 1 : 0,
         allow_multiple_clients ? 1 : 0,
         allow_remote_gui_rpc ? 1 : 0
     );
@@ -619,8 +625,8 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
-        "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
-        "        <max_stdout_file_size>%d</max_stdout_file_size>\n"
+        "        <max_stderr_file_size>%f</max_stderr_file_size>\n"
+        "        <max_stdout_file_size>%f</max_stdout_file_size>\n"
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"
@@ -680,6 +686,12 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         use_certs_only,
         vbox_window
     );
+    for (i=0; i<ignore_tty.size(); ++i) {
+        out.printf(
+            "        <ignore_tty>%s</ignore_tty>\n",
+            ignore_tty[i].c_str()
+        );
+    }
 
     out.printf("    </options>\n</cc_config>\n");
     return 0;
@@ -688,6 +700,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
 // app_config.xml stuff
 
 bool have_max_concurrent = false;
+    // does any project have a max concurrent restriction?
 
 int APP_CONFIG::parse_gpu_versions(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
@@ -713,7 +726,7 @@ int APP_CONFIG::parse_gpu_versions(
             continue;
         }
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
     }
@@ -723,13 +736,16 @@ int APP_CONFIG::parse_gpu_versions(
 
 int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_CONFIG));
+    static const APP_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
         if (xp.parse_str("name", name, 256)) continue;
         if (xp.parse_int("max_concurrent", max_concurrent)) {
-            if (max_concurrent) have_max_concurrent = true;
+            if (max_concurrent) {
+                have_max_concurrent = true;
+            }
             continue;
         }
         if (xp.match_tag("gpu_versions")) {
@@ -747,7 +763,7 @@ int APP_CONFIG::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
         // unparsed XML not considered an error; maybe it should be?
         //
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
@@ -760,11 +776,12 @@ int APP_VERSION_CONFIG::parse(
     XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags
 ) {
     char buf[1024];
-    memset(this, 0, sizeof(APP_VERSION_CONFIG));
+    static const APP_VERSION_CONFIG init;
+    *this = init;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -775,7 +792,7 @@ int APP_VERSION_CONFIG::parse(
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
         if (xp.parse_double("ngpus", ngpus)) continue;
         if (log_flags.unparsed_xml) {
-            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %s", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "Unparsed line in app_config.xml: %.128s", xp.parsed_tag);
             mv.push_back(string(buf));
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_VERSION_CONFIG::parse");
@@ -790,7 +807,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
     clear();
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            snprintf(buf, sizeof(buf), "unexpected text '%s' in app_config.xml", xp.parsed_tag);
+            snprintf(buf, sizeof(buf), "unexpected text '%.128s' in app_config.xml", xp.parsed_tag);
             mv.push_back(string(buf));
             return ERR_XML_PARSE;
         }
@@ -800,6 +817,10 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             int retval = ac.parse(xp, mv, log_flags);
             if (retval) return retval;
             app_configs.push_back(ac);
+            if (ac.max_concurrent) {
+                project_has_mc = true;
+                project_min_mc = project_min_mc?std::min(project_min_mc, ac.max_concurrent):ac.max_concurrent;
+            }
             continue;
         }
         if (xp.match_tag("app_version")) {
@@ -810,16 +831,18 @@ int APP_CONFIGS::parse(XML_PARSER& xp, MSG_VEC& mv, LOG_FLAGS& log_flags) {
             continue;
         }
         if (xp.parse_int("project_max_concurrent", n)) {
-            if (n >= 0) {
+            if (n > 0) {
                 have_max_concurrent = true;
+                project_has_mc = true;
                 project_max_concurrent = n;
+                project_min_mc = project_min_mc?std::min(project_min_mc, n):n;
             }
             continue;
         }
         if (xp.parse_bool("report_results_immediately", report_results_immediately)) {
             continue;
         }
-        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %s", xp.parsed_tag);
+        snprintf(buf, sizeof(buf), "Unknown tag in app_config.xml: %.128s", xp.parsed_tag);
         mv.push_back(string(buf));
 
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");
@@ -841,19 +864,21 @@ int APP_CONFIGS::parse_file(FILE* f, MSG_VEC& mv, LOG_FLAGS& log_flags) {
 
 void APP_CONFIGS::write(MIOFILE& out) {
     out.printf(
-        "   <app_config>\n"
+        "<app_config>\n"
     );
     for (unsigned int i=0; i<app_configs.size(); i++) {
         APP_CONFIG& ac = app_configs[i];
         out.printf(
-            "       <app>\n"
-            "           <name>%s</name>\n"
-            "           <max_concurrent>%d</max_concurrent>\n"
-            "           <gpu_gpu_usage>%f</gpu_gpu_usage>\n"
-            "           <gpu_cpu_usage>%f</gpu_cpu_usage>\n"
-            "           <fraction_done_exact>%d</fraction_done_exact>\n"
-            "           <report_results_immediately>%d</report_results_immediately>\n"
-            "       </app>\n",
+            "    <app>\n"
+            "        <name>%s</name>\n"
+            "        <max_concurrent>%d</max_concurrent>\n"
+            "        <gpu_versions>\n"
+            "            <gpu_usage>%f</gpu_usage>\n"
+            "            <cpu_usage>%f</cpu_usage>\n"
+            "        </gpu_versions>\n"
+            "        <fraction_done_exact>%d</fraction_done_exact>\n"
+            "        <report_results_immediately>%d</report_results_immediately>\n"
+            "    </app>\n",
             ac.name,
             ac.max_concurrent,
             ac.gpu_gpu_usage,
@@ -865,13 +890,13 @@ void APP_CONFIGS::write(MIOFILE& out) {
     for (unsigned int i=0; i<app_version_configs.size(); i++) {
         APP_VERSION_CONFIG& avc = app_version_configs[i];
         out.printf(
-            "       <app_version>\n"
-            "           <app_name>%s</app_name>\n"
-            "           <plan_class>%s</plan_class>\n"
-            "           <cmdline>%s</cmdline>\n"
-            "           <avg_ncpus>%f</avg_ncpus>\n"
-            "           <ngpus>%f</ngpus>\n"
-            "       </app_version>\n",
+            "    <app_version>\n"
+            "        <app_name>%s</app_name>\n"
+            "        <plan_class>%s</plan_class>\n"
+            "        <cmdline>%s</cmdline>\n"
+            "        <avg_ncpus>%f</avg_ncpus>\n"
+            "        <ngpus>%f</ngpus>\n"
+            "    </app_version>\n",
             avc.app_name,
             avc.plan_class,
             avc.cmdline,
@@ -880,9 +905,9 @@ void APP_CONFIGS::write(MIOFILE& out) {
         );
     }
     out.printf(
-        "       <project_max_concurrent>%d</project_max_concurrent>\n"
-        "       <report_results_immediately>%d</report_results_immediately>\n"
-        "   </app_config>\n",
+        "    <project_max_concurrent>%d</project_max_concurrent>\n"
+        "    <report_results_immediately>%d</report_results_immediately>\n"
+        "</app_config>\n",
         project_max_concurrent,
         report_results_immediately?1:0
     );

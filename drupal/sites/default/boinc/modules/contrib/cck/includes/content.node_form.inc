@@ -59,8 +59,8 @@ function content_field_form(&$form, &$form_state, $field, $get_delta = NULL) {
       // If there was an AHAH add more button in this field, don't save it.
       unset($items[$field['field_name'] .'_add_more']);
     }
-    elseif (!empty($node->$field['field_name'])) {
-      $items = $node->$field['field_name'];
+    elseif (!empty($node->{$field['field_name']})) {
+      $items = $node->{$field['field_name']};
     }
     elseif (empty($node->nid)) {
       if (content_callback('widget', 'default value', $field) != CONTENT_CALLBACK_NONE) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,7 +17,7 @@
 
 // DEPRECATED - DO NOT USE
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
@@ -98,5 +98,3 @@ bool boinc_graphics_possible() {
 #endif
     return true;
 }
-
-const char *BOINC_RCSID_b2ceed0813 = "$Id$";

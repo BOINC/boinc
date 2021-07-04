@@ -15,13 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define snprintf_s _snprintf_s
 #endif
 
 #ifdef HAVE_INTRIN_H
@@ -1130,7 +1125,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
 	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
-    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0;
+    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0, hygon_supported = 0;
 
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
@@ -1143,6 +1138,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     }
     if (strcmp(vendor, "AuthenticAMD") == 0) {
         amd_supported = 1;
+    }
+    if (strcmp(vendor, "HygonGenuine") == 0) {
+        hygon_supported = 1;
     }
 
     get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
@@ -1226,8 +1224,8 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
 
-    if (amd_supported) {
-        // AMD only features
+    if (amd_supported || hygon_supported) {
+        // AMD or Hygon features
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 6)), "sse4a ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw ");
@@ -1296,7 +1294,7 @@ int get_processor_info(
     char* p_features, int p_features_size, double& p_cache, int& p_ncpus
 ) {
     int family = 0, model = 0, stepping = 0, cache = 0;
-    char vendor_name[256], processor_name[256], features[256];
+    char vendor_name[256], processor_name[256], features[P_FEATURES_SIZE];
 
     get_processor_vendor(vendor_name, sizeof(vendor_name));
     get_processor_version(family, model, stepping);
@@ -1359,10 +1357,8 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
         }
     }
 
-    if (pIfTable != NULL) {
-        free(pIfTable);
-        pIfTable = NULL;
-    }
+    free(pIfTable);
+    pIfTable = NULL;
 
     return iRetVal;
 }
@@ -1415,6 +1411,56 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
+// get info about processor groups
+//
+static void show_proc_info(SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX &pi) {
+    for (int i=0; i<pi.Group.ActiveGroupCount; i++) {
+        PROCESSOR_GROUP_INFO &pgi = pi.Group.GroupInfo[i];
+        msg_printf(NULL, MSG_INFO, "Windows processor group %d: %d processors",
+            i, pgi.ActiveProcessorCount
+        );
+    }
+}
+
+typedef BOOL (WINAPI *GLPI)(
+    LOGICAL_PROCESSOR_RELATIONSHIP, PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX, PDWORD
+);
+void HOST_INFO::win_get_processor_info() {
+    n_processor_groups = 0;
+    GLPI glpi = (GLPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetLogicalProcessorInformationEx");
+    if (!glpi) return;
+    SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX buf[64];
+    DWORD size = sizeof(buf);
+    glpi(
+        RelationGroup,
+        buf,
+        &size
+    );
+    char *p = (char*)buf;
+    while (size > 0) {
+        PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX pi = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)p;
+        show_proc_info(*pi);
+        p += pi->Size;
+        size -= pi->Size;
+        n_processor_groups++;
+    }
+}
+
+typedef BOOL (WINAPI *GPGA)(HANDLE, PUSHORT, PUSHORT);
+int get_processor_group(HANDLE process_handle) {
+    USHORT groups[1], count;
+    static GPGA gpga = 0;
+    if (!gpga) {
+        gpga = (GPGA) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProcessGroupAffinity");
+    }
+    if (!gpga) return 0;
+    count = 1;
+    BOOL ret = gpga(process_handle, &count, groups);
+    if (ret && count>0) {
+        return groups[0];
+    }
+    return -1;
+}
 
 // Gets host information; called on startup and before each sched RPC
 //
@@ -1456,6 +1502,7 @@ int HOST_INFO::get_host_info(bool init) {
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }
+    win_get_processor_info();
     return 0;
 }
 
@@ -1492,7 +1539,7 @@ int HOST_INFO::get_host_battery_state() {
     SYSTEM_POWER_STATUS Status;
     ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
     if (!GetSystemPowerStatus(&Status)) {
-        return false;
+        return BATTERY_STATE_UNKNOWN;
     }
 
     // Sometimes the system reports the ACLineStatus as an
@@ -1512,10 +1559,6 @@ int HOST_INFO::get_host_battery_state() {
     return BATTERY_STATE_UNKNOWN;
 }
 
-bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
-    double seconds_idle = get_idle_tick_count() / 1000;
-    double seconds_time_to_run = 60 * idle_time_to_run;
-    return seconds_idle > seconds_time_to_run;
+long HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
+    return get_idle_tick_count() / 1000;
 }
-
-

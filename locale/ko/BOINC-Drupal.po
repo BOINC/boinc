@@ -5,14 +5,15 @@
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Jin Lee <ysjbserver@naver.com>, 2015
+# ysjbserver <ysjbserver@naver.com>, 2015
+# ysjbserver <ysjbserver@naver.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2018-01-26 05:32+0000\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2020-04-30 15:05+0000\n"
+"Last-Translator: 김 건우 <rlarjsdn122@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,20 +26,20 @@ msgid "I'm new"
 msgstr "새 사용자"
 
 msgid "I'm a BOINC user"
-msgstr "BOINC 사용자입니다"
+msgstr "보잉크 사용자입니다"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "이 사이트에서 코멘트를 작성하려면 @count 이상의 크레딧을 벌어야 됩니다."
+msgstr "이 누리집에서 댓글을 작성하려면 크레딧을 @count 넘게 벌어야 합니다."
 
 msgid "Enforced by version @number"
-msgstr "@number 버전 이상이 필요함"
+msgstr "@number 판 이상이 필요함"
 
 msgid "Total Credit"
 msgstr "총 크레딧"
 
 msgid "App ID"
-msgstr "App ID"
+msgstr "무른모 식별자"
 
 msgid "Friends (@count)"
 msgstr "친구 (@count)"
@@ -47,116 +48,116 @@ msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning neutron stars "
 "(also called pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home은 LIGO 중력파 감지기에서 뽑아온 데이터를 이용해 회전하는 중성자 별(흔히 펄서로 알려짐)에서 온 중력파를 찾기 위해서 여러분의 컴퓨터가 쉬는 동안에 화면 보호기를 실행해 연산을 하는 프로그램입니다."
+msgstr "Einstein@Home은 흔히 맥동전파원이라고 알려진 회전하는 중성자 별에서 온 중력파를 찾으려고, 레이저 간섭계 중력파 관측소의 중력파 감지기에서 뽑아온 자료를 여러분의 전산기가 쉬는 동안에 화면 보호기를 실행해 연산을 하는 풀그림입니다."
 
 msgid "Run while computer is on battery power?"
-msgstr "컴퓨터가 배터리로 동작할 때에도 실행합니까?"
+msgstr "전산기가 전지로 동작할 때에도 실행할까요?"
 
 msgid "Only applies to portable computers"
-msgstr "이동식 컴퓨터에만 적용됩니다"
+msgstr "이동식 전산기에만 적용합니다."
 
 msgid "Run while computer is in use?"
-msgstr "컴퓨터를 사용하는 동안 실행합니까?"
+msgstr "전산기를 사용하는 동안에도 실행할까요?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "컴퓨터를 사용하는 동안에도 GPU를 사용합니까?"
+msgstr "전산기를 사용하는 동안에도 그림 처리 장치를 사용할까요?"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"사용 중\"은 마우스/키보드 입력 시간을 뜻합니다"
+msgstr "\"사용 중\"은 다람쥐 또는 자판을 입력함을 뜻합니다."
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "마우스/키보드 입력이 이 시간 안에 있으면"
+msgstr "다람쥐/자판을 입력하고 있으면"
 
 msgid "Needed to enter low-power mode on some computers"
-msgstr "어떤 컴퓨터에서는 저전력 모드로 진입이 필요합니다"
+msgstr "일부 전산기에서 저전력 상태에 돌입하는데 필요함."
 
 msgid "Suspend work if CPU usage is above"
-msgstr "CPU 사용량이 이 값 이상일 때 일시중지"
+msgstr "중앙처리장치 사용량이 이 값 이상일 때 일시중지"
 
 msgid "0 means no restriction. Enforced by version @number"
-msgstr "0은 무제한을 뜻합니다. @number 버전 이상이 필요합니다"
+msgstr "0은 무제한을 뜻합니다. @number 판 이상이 필요합니다"
 
 msgid "Do work only between the hours of:"
-msgstr "이 시간 사이에만 작업 실행:"
+msgstr "이 시간에만 작업 실행:"
 
 msgid "No restriction if equal"
 msgstr "똑같으면 제한이 없음"
 
 msgid "Leave tasks in memory while suspended?"
-msgstr "일시중지 시에도 태스크를 메모리에 남겨둡니까?"
+msgstr "일시중지 시에도 작업을 막기억장치에 남겨둘까요?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "만약 \"네\"라고 답하면 일시중지된 태스크는 스왑 영역을 소모합니다"
+msgstr "\"네\"라고 답하면 일시중지된 작업이 교환 영역을 차지합니다"
 
 msgid "Recommended: @period minutes"
 msgstr "추천값: @period 분"
 
 msgid "On multiprocessors, use at most"
-msgstr "다중 프로세서일 경우 최대한"
+msgstr "다중 처리기이면 최대한 사용"
 
 msgid "processors"
-msgstr "프로세서"
+msgstr "처리기"
 
 msgid "Set to 0 for no limit"
 msgstr "0으로 설정하면 무제한"
 
 msgid "Can be used to reduce CPU heat"
-msgstr "사용하면 CPU 발열을 줄일 수 있습니다"
+msgstr "사용하면 중앙처리장치 발열을 줄일 수 있습니다"
 
 msgid "Disk: use at most"
-msgstr "디스크: 최대 사용량"
+msgstr "저장판: 최대 사용량"
 
 msgid "Disk: leave free at least"
-msgstr "디스크: 최소한"
+msgstr "저장판: 최소 사용량"
 
 msgid "Values smaller than @number are ignored"
-msgstr "@number 보다 작은 값은 무시됩니다"
+msgstr "@number 보다 작은 값은 무시합니다"
 
 msgid "Tasks checkpoint to disk at most every"
-msgstr "태스크 기록지점을 지정된 시간마다 기록"
+msgstr "지정한 시간마다 작업 기록 지점 남김"
 
 msgid "Swap space: use at most"
-msgstr "스왑 영역: 최대 사용량"
+msgstr "교환 영역: 최대 사용량"
 
 msgid "Computer is connected to the Internet about every"
-msgstr "컴퓨터가 이 시간마다 인터넷에 연결되도록 함"
+msgstr "이 시간마다 전산기를 누리망에 연결"
 
 msgid ""
 "Leave blank or 0 if always connected. @project will try to maintain at least"
 " this much work."
-msgstr "공란으로 남겨두거나 0은 항상 연결됩니다. @project 는 이 값보다 더 많은 작업량을 유지하려고 시도합니다."
+msgstr "빈칸과 0은 항상 연결함을 뜻합니다. @project (은)는 이 값보다 더 많은 작업량을 유지하려고 합니다."
 
 msgid "Maintain enough work for an additional"
-msgstr "추가적으로 충분한 작업량을 유지하기"
+msgstr "추가로 충분한 작업량을 유지하기"
 
 msgid "Matters only if you have a modem, ISDN, or VPN connection"
 msgstr "모뎀, ISDN, VPN 연결시에만 관계가 있습니다"
 
 msgid "Maximum download rate"
-msgstr "최대 다운로드 속도"
+msgstr "최대 내려받기 속도"
 
 msgid "Maximum upload rate"
-msgstr "최대 업로드 속도"
+msgstr "최대 올려주기 속도"
 
 msgid "Use network only between the hours of:"
-msgstr "이 시간 사이에만 네트워크 사용:"
+msgstr "이 시간에만 통신망 사용:"
 
 msgid "Transfer at most"
 msgstr "최대 전송량"
 
 msgid "Skip image file verification?"
-msgstr "이미지 파일 검증을 건너뜁니까?"
+msgstr "이미지 기록철 검증을 건너뜁니까?"
 
 msgid ""
 "Check this ONLY if your Internet provider modifies image files (UMTS does "
 "this, for example). Skipping verification reduces the security of BOINC."
-msgstr "인터넷 제공자가 이미지 파일을 변경할 경우에만 체크하세요.(예를 들어 UMTS가 이렇게 합니다)검증을 건너뛸 경우에는 BOINC의 보안성이 감소됩니다."
+msgstr "누리망 제공자가 이미지 기록철을 변경할 경우에만 체크하세요.(예를 들어 UMTS가 이렇게 합니다)검증을 건너뛸 경우에는 보잉크의 보안성이 감소됩니다."
 
 msgid "What is @this_project?"
 msgstr "@this_project은 무엇입니까?"
 
 msgid "Project"
-msgstr "프로젝트"
+msgstr "사업"
 
 msgid "Total credits"
 msgstr "총 크레딧"
@@ -165,7 +166,7 @@ msgid "Recent avg credits"
 msgstr "최근 평균 크레딧"
 
 msgid "Web site"
-msgstr "웹 사이트"
+msgstr "누리집"
 
 #: preference set
 msgctxt "preference set"
@@ -176,10 +177,10 @@ msgid "Reply"
 msgstr "답변"
 
 msgid "Reply to this comment with quote"
-msgstr "이 코멘트를 인용해 답변 달기"
+msgstr "이 댓글을 인용해 답변 달기"
 
 msgid "this project"
-msgstr "이 프로젝트"
+msgstr "이 사업"
 
 msgid "Featured"
 msgstr "특집"
@@ -191,7 +192,7 @@ msgid "Seconds"
 msgstr "초"
 
 msgid "project"
-msgstr "프로젝트"
+msgstr "사업"
 
 msgid ""
 "!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
@@ -203,20 +204,20 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!site에서 !name이 당신을 친구로 추가했습니다. 이 요청을 승인하거나 거부할 수 있습니다. 요청을 거절해도 통지가 전송되지는 않으나, 해당 요청 또한 이 계정에서 삭제될 것입니다.\n\n이 요청을 보려면 아래 링크를 따라가세요:\n!link\n\n!message\n\n감사합니다.\nThe !site 팀"
+msgstr "!site에서 !name(이)가 당신을 친구로 추가했습니다. 이 요청을 승인하거나 거부할 수 있습니다. 요청을 거절해도 통지가 전송되지는 않으나, 해당 요청 또한 이 계정에서 삭제될 것입니다.\n\n이 요청을 보려면 아래 연결 주소를 따라가세요:\n!link\n\n!message\n\n감사합니다.\n!site 조직"
 
 msgid "Please set the minimum time required between posts."
-msgstr "포스트와 포스트 사이의 최소 시간 간격을 설정하세요."
+msgstr "게시물과 게시물 사이의 최소 시간 간격을 설정하세요."
 
 msgid ""
 "Please set the minimum total credit that a user must earn in order to post "
 "to this message board."
-msgstr "이 메세지 게시판에 글을 쓰기 위해서 사용자가 벌어야 할 최소 전체 크레딧을 설정하세요."
+msgstr "이 소식 게시판에 글을 쓰기 위해서 사용자가 벌어야 할 최소 전체 크레딧을 설정하세요."
 
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
-msgstr "이 메세지 게시판에 글을 쓰기 위해서 사용자에게 요구할 최소 평균 크레딧을 설정하세요."
+msgstr "이 소식 게시판에 글을 쓰기 위해서 사용자에게 요구할 최소 평균 크레딧을 설정하세요."
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -228,34 +229,34 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!site에서 !name이 당신을 친구로 인정했습니다.\n\n해당 사용자 프로필을 보려면 아래 링크를 따라가세요:\n!link\n\n!message\n\n감사합니다.\nThe !site 팀"
+msgstr "!site에서 !name(이)가 당신을 친구로 인정했습니다.\n\n해당 사용자 인물 소개을 보려면 아래 연결 주소를 따라가세요:\n!link\n\n!message\n\n감사합니다.\n!site 조직"
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "이미 최근에 창설자 교체가 요청되었습니다. 90일동안에는 오직 하나의 요청만이 허용됩니다."
+msgstr "이미 최근에 창설자 교체가 요청되었습니다. 90일 동안에는 요청 하나만 가능합니다."
 
 msgid "Team name is required."
-msgstr "팀 이름이 필요합니다."
+msgstr "동아리 이름이 필요합니다."
 
 msgid "You are banned from community participation until @date"
-msgstr "@date 동안 커뮤니티 참여가 차단당했습니다"
+msgstr "@date 동안 이용자 모임 참여를 차단당했습니다"
 
 msgid "There is no user on your team with that email address."
-msgstr "해당 이메일 주소를 가진 사용자가 팀에 없습니다."
+msgstr "해당 전자 우편 주소를 가진 사용자가 동아리에 없습니다."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
 "screensaver to search for gravitational waves from spinning isolated compact"
 " objects (among which are pulsars) using data from the LIGO gravitational "
 "wave detector."
-msgstr "Einstein@Home은 LIGO 중력파 감지기에서 뽑아온 데이터를 이용해 (펄서들 중에서)회전하는 고립된 소형 천체에서 온 중력파를 찾기 위해서 여러분의 컴퓨터 대기 시간 중에 화면 보호기를 실행해 연산을 하는 프로그램입니다."
+msgstr "Einstein@Home은 흔히 맥동전파원이라고 알려진 고립된 밀집성에서 온 중력파를 찾으려고, 레이저 간섭계 중력파 관측소의 중력파 감지기에서 뽑아온 자료를 여러분의 전산기가 대기 시간 중에 화면 보호기를 실행해 연산을 하는 풀그림입니다."
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to search for"
 " gravitational waves from spinning isolated compact objects (among which are"
 " pulsars) using data from the LIGO gravitational wave detector."
-msgstr "Einstein@Home은 LIGO 중력파 감지기에서 뽑아온 데이터를 이용해 (펄서들 중에서)회전하는 고립된 소형 천체에서 온 중력파를 찾기 위해서 여러분의 컴퓨터 대기 시간 중에 연산을 하는 프로그램입니다."
+msgstr "Einstein@Home은 맥동전파원 중 회전하는 고립된 밀집성에서 온 중력파를 찾으려고, 레이저 간섭계 중력파 관측소의 중력파 감지기에서 뽑아온 자료를 여러분의 전산기가 대기 시간 중에 화면 보호기를 실행해 연산을 하는 풀그림입니다."
 
 msgid "Add separate preferences for @venue"
 msgstr "@venue 개별 환경설정 추가"
@@ -263,10 +264,10 @@ msgstr "@venue 개별 환경설정 추가"
 msgid ""
 "Team member @name has requested team foundership. This may be because you "
 "left the team or have not had contact with the team for a long time."
-msgstr "팀원 @name 은 이 팀의 창설자로 요청되었습니다. 아마도 당신이 팀을 떠났거나 오랜 시간동안 팀에 접촉하지 않았기 때문일 것입니다."
+msgstr "동아리원 @name (이)가 이 동아리의 창설자로 요청되었습니다. 아마도 당신이 동아리을 떠났거나 오랜 시간동안 동아리에 접촉하지 않았기 때문일 것입니다."
 
 msgid "The team founder has 1 day to respond to your transfer request."
-msgstr "창설자는 1일 안에 전달받은 요청에 응답해야 합니다."
+msgstr "창설자는 하루 안에 전달받은 요청에 응답해야 합니다."
 
 msgid "Message board title is required."
 msgstr "게시판 제목이 필요합니다."
@@ -274,23 +275,23 @@ msgstr "게시판 제목이 필요합니다."
 msgid ""
 "Warning: Your content <a href=\"@url\">must be re-indexed</a> before Apache "
 "Solr will search comments."
-msgstr "경고: 해당 내용은 Apache Solr가 코멘트 검색을 하기 전에 <a href=\"@url\">반드시 재 인덱싱</a>되어야 합니다."
+msgstr "경고: 해당 내용은아파치 솔라가 댓글 검색을 하기 전에 <a href=\"@url\">반드시 다시 색인</a>되어야 합니다."
 
 msgid ""
 "Select the content types where the comments are indexed by Apace Solr. Your "
 "content must be re-indexed after changing this configuration."
-msgstr "Apace Solr로 인덱싱된 코멘트의 컨텐츠 종류를 선택해 주세요. 해당 컨텐츠는 이 설정 변경후 반드시 재 인덱싱되어야 합니다."
+msgstr "아파치 솔라로 색인된 댓글의 내용 종류를 선택해 주세요. 해당 내용은 이 설정 변경 후 반드시 다시 색인되어야 합니다."
 
 msgid ""
 "If changing a user's email, you must also change the password "
 "simultaneously."
-msgstr "이메일을 변경하려면 비밀번호도 일제히 변경하셔야 됩니다."
+msgstr "전자 우편을 변경하려면 비밀번호도 같이 변경하셔야 됩니다."
 
 msgid ""
 "Usage: 'Save configuration' will save the above preferences into the drupal "
 "database. These will be the preset computing (global) preferences that will "
 "fill in the preferences form once a user loads the Account Preferences page."
-msgstr "사용법: '설정 저장'은 상기된 환경설정을 drupal 데이터베이스에 저장할 것입니다. 이는 프리셋 연산 (전역)환경설정으로 지정되어서 사용자가 계정 환경설정 페이지에서 불러올 때마다 환경설정 양식을 채울 것입니다."
+msgstr "사용법: '설정 저장'은 위 환경설정을 드루팔 자료기지에 저장합니다. 이는 기본 설정 연산 (전역)환경설정으로 지정되어서 사용자가 계정 환경설정 쪽에서 불러올 때마다 환경설정 양식을 채울 것입니다."
 
 msgid ""
 "'Save configuration with disk usage settings from config.xml' will save the "
@@ -300,7 +301,7 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr "'config.xml에서 가져온 디스크 사용량 설정값과 설정 저장'은 상기 환경설정을 drupal 데이터베이스에 저장하면서 디스크 사용량 설정값을 BOINC 프로젝트 config.xml 파일에서 불러옵니다. 이는 위에 기록된 모든 디스크 사용량 설정값을 덮어쓰기합니다. 경고: 사용자 개인 환경설정은 drupal 데이터베이스 속에 저장된 config.xml에서 디스크 사용량 설정값을 불러올 경우, 바뀌지 않습니다. 그 설정값은 반드시 개별 환경설정에서 설정값을 수동으로 바꿔야 합니다."
+msgstr "'config.xml에서 가져온 저장판 사용량 설정값과 설정 저장'은 상기 환경설정을 드루팔 자료기지에 저장하면서 저장판 사용량 설정값을 보잉크 사업 config.xml 기록철에서 불러옵니다. 이는 위에 기록된 모든 저장판 사용량 설정값을 덮어씁니다. 경고: 사용자 개인 환경설정은 드루팔 자료기지 속에 저장된 config.xml에서 저장판 사용량 설정값을 불러올 경우, 바뀌지 않습니다. 그 설정값은 반드시 개별 환경설정에서 설정값을 수동으로 바꿔야 합니다."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -320,12 +321,12 @@ msgstr "자격 증명"
 #: menu-link
 msgctxt "menu-link"
 msgid "Dashboard"
-msgstr "대시보드"
+msgstr "알림판"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "BOINC"
-msgstr "BOINC"
+msgstr "보잉크"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -342,7 +343,7 @@ msgstr "여러분을 말해 보세요. 자신이 어디서 왔고 나이, 직업
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Your opinions about this project"
-msgstr "이 프로젝트에 대한 의견"
+msgstr "이 사업에 대한 의견"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -351,7 +352,7 @@ msgid ""
 "   1. Why do you run @this_project?\n"
 "   2. What are your views about the project?\n"
 "   3. Any suggestions?"
-msgstr "@this_project 에 대한 여러분의 생각을 말해 보세요\n   1. 왜 @this_project 를 실행하세요?\n   2. 프로젝트에 대해서 어떤 관점을 갖고 계신가요?\n   3. 다른 제안할 것이 있다면?"
+msgstr "@this_project 에 대한 여러분의 생각을 말해 보세요\n   1. 왜 @this_project (을)를 실행하세요?\n   2. 사업에 대해서 어떤 관점을 갖고 계신가요?\n   3. 다른 제안할 것이 있다면?"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -371,12 +372,12 @@ msgstr "국가"
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Profile image"
-msgstr "프로필 이미지"
+msgstr "인물 소개 이미지"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid "Website URL"
-msgstr "웹 사이트 URL"
+msgstr "누리집 주소"
 
 #: frontpage
 msgctxt "frontpage"
@@ -386,12 +387,12 @@ msgstr "@this_project 진행률"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Projects"
-msgstr "프로젝트"
+msgstr "사업"
 
 #: friends-page
 msgctxt "friends-page"
 msgid "No Friends have been added."
-msgstr "추가된 친구가 없습니다."
+msgstr "추가한 친구가 없습니다."
 
 #: friends-page
 msgctxt "friends-page"
@@ -406,17 +407,17 @@ msgstr "친구 요청"
 #: friends-page
 msgctxt "friends-page"
 msgid "Awaiting Friend Approvals"
-msgstr "친구 승인 대기중"
+msgstr "친구 승인 대기"
 
 #: search-page
 msgctxt "search-page"
 msgid "Search site"
-msgstr "사이트 검색"
+msgstr "누리집 검색"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "News"
-msgstr "뉴스"
+msgstr "새 소식"
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -426,12 +427,12 @@ msgstr "증명서"
 #: account-host-list
 msgctxt "account-host-list"
 msgid "All computers"
-msgstr "모든 컴퓨터"
+msgstr "모든 전산기"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Computers active in past 30 days"
-msgstr "과거 30일동안 활동중인 컴퓨터"
+msgstr "과거 30일 동안 활동한 전산기"
 
 #: menu-link
 msgctxt "menu-link"
@@ -441,12 +442,12 @@ msgstr "환경 설정"
 #: menu-link
 msgctxt "menu-link"
 msgid "Community"
-msgstr "커뮤니티"
+msgstr "이용자 모임"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Privacy"
-msgstr "개인정보"
+msgstr "개인 정보"
 
 #: menu-link
 msgctxt "menu-link"
@@ -461,37 +462,37 @@ msgstr "구독"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Updated"
-msgstr "업데이트됨"
+msgstr "갱신함"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Queue"
-msgstr "큐"
+msgstr "대기열"
 
 #: menu-link
 msgctxt "menu-link"
 msgid "Profile"
-msgstr "프로필"
+msgstr "인물 소개"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "Active in past 30 days"
-msgstr "과거 30일동안 활동"
+msgstr "과거 30일 동안의 활동"
 
 #: user-host-list
 msgctxt "user-host-list"
 msgid "All computers"
-msgstr "컴퓨터"
+msgstr "전산기"
 
 #: user-info
 msgctxt "user-info"
 msgid "Joined"
-msgstr "가입됨"
+msgstr "가입함"
 
 #: user-info
 msgctxt "user-info"
 msgid "Posts"
-msgstr "포스트"
+msgstr "게시물"
 
 #: user-info
 msgctxt "user-info"
@@ -511,17 +512,17 @@ msgstr "쪽지함"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Compose new"
-msgstr "신규 구서"
+msgstr "신규 구성"
 
 #: accountpage
 msgctxt "accountpage"
 msgid "Show computers"
-msgstr "컴퓨터 보기"
+msgstr "전산기 보기"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject profile"
-msgstr "프로필 거부"
+msgstr "인물 소개 거부"
 
 #: moderate-ban-user
 msgctxt "moderate-ban-user"
@@ -531,27 +532,27 @@ msgstr "사용자 추방"
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Authenticator login"
-msgstr "인증 부호 로그인"
+msgstr "인증 부호 계정 들어가기"
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "No content is in the queue for moderation."
-msgstr "큐에 관리할 목록이 없습니다."
+msgstr "대기열에 관리할 목록이 없습니다."
 
 #: moderate-user-page
 msgctxt "moderate-user-page"
 msgid "User profile moderation queue"
-msgstr "사용자 프로필 관리 큐"
+msgstr "사용자 인물 소개 관리 대기열"
 
 #: account-host-list
 msgctxt "account-host-list"
 msgid "Active in past 30 days"
-msgstr "과거 30일동안 활동"
+msgstr "과거 30일 동안의 활동"
 
 #: forum-comment-form
 msgctxt "forum-comment-form"
 msgid "Comment form"
-msgstr "코멘트 양식"
+msgstr "댓글 양식"
 
 #: menu-link:-1:ignoreoverwrite
 msgctxt "menu-link:-1:ignoreoverwrite"
@@ -566,22 +567,22 @@ msgstr "국가"
 #: menu-link
 msgctxt "menu-link"
 msgid "Login"
-msgstr "로그인"
+msgstr "계정 들어가기"
 
 #: email-address-to-login
 msgctxt "email-address-to-login"
 msgid "Email address"
-msgstr "이메일 주소"
+msgstr "전자 우편 주소"
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Enter your @s email address."
-msgstr "@s 이메일 주소를 입력하세요."
+msgstr "@s 전자 우편 주소를 입력하세요."
 
 #: standard-login-page
 msgctxt "standard-login-page"
 msgid "Log in"
-msgstr "로그인"
+msgstr "계정 들어가기"
 
 #: menu-link
 msgctxt "menu-link"
@@ -601,17 +602,17 @@ msgstr "계정"
 #: footer-link:-1:ignoreoverwrite
 msgctxt "footer-link:-1:ignoreoverwrite"
 msgid "Applications"
-msgstr "응용 프로그램"
+msgstr "응용 풀그림"
 
 #: footer-link
 msgctxt "footer-link"
 msgid "Server status"
-msgstr "서버 상태"
+msgstr "전산 교환기(서버) 상태"
 
 #: team-id
 msgctxt "team-id"
 msgid "Team ID"
-msgstr "팀 ID"
+msgstr "동아리 식별자"
 
 #: view-team-info
 msgctxt "view-team-info"
@@ -631,7 +632,7 @@ msgstr "이름"
 #: team-members
 msgctxt "team-members"
 msgid "Members"
-msgstr "맴버"
+msgstr "회원"
 
 #: user-or-team-total-credits
 msgctxt "user-or-team-total-credits"
@@ -641,7 +642,7 @@ msgstr "총 크레딧"
 #: user-details
 msgctxt "user-details"
 msgid "User ID"
-msgstr "사용자 ID"
+msgstr "사용자 식별자"
 
 #: user-on-team
 msgctxt "user-on-team"
@@ -661,32 +662,32 @@ msgstr "사용자가 가입함"
 #: team-history-timestamp
 msgctxt "team-history-timestamp"
 msgid "Timestamp"
-msgstr "타임스탬프"
+msgstr "날짜 도장"
 
 #: user-id
 msgctxt "user-id"
 msgid "Id"
-msgstr "Id"
+msgstr "식별자"
 
 #: user-info
 msgctxt "user-info"
 msgid "Account Key"
-msgstr "계정 키"
+msgstr "계정 열쇠"
 
 #: user-info
 msgctxt "user-info"
 msgid "Member since"
-msgstr "참여 시작일"
+msgstr "참여한 날짜"
 
 #: user-info
 msgctxt "user-info"
 msgid "CPID"
-msgstr "CPID"
+msgstr "CPID "
 
 #: user-info
 msgctxt "user-info"
 msgid "Email Address"
-msgstr "이메일 주소"
+msgstr "전자 우편 주소"
 
 #: user-info
 msgctxt "user-info"
@@ -701,7 +702,7 @@ msgstr "우편 번호"
 #: user-info
 msgctxt "user-info"
 msgid "Send Email"
-msgstr "이메일 보내기"
+msgstr "전자 우편 보내기"
 
 #: user-info
 msgctxt "user-info"
@@ -711,12 +712,12 @@ msgstr "호스트 보여주기"
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "URL"
-msgstr "URL"
+msgstr "누리망 주소"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computer ID"
-msgstr "컴퓨터 ID"
+msgstr "전산기 식별자"
 
 #: host-list
 msgctxt "host-list"
@@ -726,7 +727,7 @@ msgstr "위치"
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time work is allowed"
-msgstr "BOINC가 실행되는 동안 허가된 작업의 시간(%)"
+msgstr "보잉크에게 허가된 실행 작업 시간(%)"
 
 #: host-details
 msgctxt "host-details"
@@ -741,12 +742,12 @@ msgstr "생성 시각"
 #: host-details
 msgctxt "host-details"
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "BOINC가 실행되는 동안, 호스트가 인터넷에 연결된 시간(%)"
+msgstr "보잉크가 실행되는 동안, 호스트가 누리망에 연결한 시간(%)"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average CPU efficiency"
-msgstr "평균 CPU 효율"
+msgstr "평균 중앙처리장치 효율"
 
 #: host-details
 msgctxt "host-details"
@@ -756,7 +757,7 @@ msgstr "사용 가능한 공간"
 #: host-details
 msgctxt "host-details"
 msgid "Total disk space"
-msgstr "전체 디스크 용량"
+msgstr "전체 저장판 용량"
 
 #: details:-1:name-of-the-host-or-task-or-workunit-etc-being-viewed-ignoreoverwrite
 msgctxt ""
@@ -768,7 +769,7 @@ msgstr "이름"
 #: host-details
 msgctxt "host-details"
 msgid "Task duration correction factor"
-msgstr "태스크 지연 보정값"
+msgstr "작업 지연 보정값"
 
 #: host-details
 msgctxt "host-details"
@@ -778,72 +779,72 @@ msgstr "평균 크레딧"
 #: host-details
 msgctxt "host-details"
 msgid "External IP address"
-msgstr "외부 IP 주소"
+msgstr "외부 누리망 통신 규약(아이피) 주소"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cross project ID"
-msgstr "공유 프로젝트 ID"
+msgstr "공유 사업 식별자"
 
 #: host-details
 msgctxt "host-details"
 msgid "Last IP address"
-msgstr "마지막 IP 주소"
+msgstr "마지막 누리망 통신 규약(아이피) 주소"
 
 #: host-details
 msgctxt "host-details"
 msgid "Cache"
-msgstr "캐시"
+msgstr "시렁"
 
 #: host-details
 msgctxt "host-details"
 msgid "Memory"
-msgstr "메모리"
+msgstr "막기억장치"
 
 #: host-details
 msgctxt "host-details"
 msgid "Swap space"
-msgstr "스왑 영역"
+msgstr "교환 영역"
 
 #: host-details
 msgctxt "host-details"
 msgid "Maximum daily WU quota per CPU"
-msgstr "CPU당 최대 일일 WU 할당량"
+msgstr "중앙처리장치당 최대 일일 WU 할당량"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average download rate"
-msgstr "평균 다운로드 속도"
+msgstr "평균 내려받는 속도"
 
 #: host-details
 msgctxt "host-details"
 msgid "Average upload rate"
-msgstr "평균 업로드 속도"
+msgstr "평균 올려주는 속도"
 
 #: host-details
 msgctxt "host-details"
 msgid "Same IP address count"
-msgstr "동일 IP 주소 카운트"
+msgstr "동일 누리망 통신 규약(아이피) 주소 개수"
 
 #: host-details
 msgctxt "host-details"
 msgid "% of time BOINC client is running"
-msgstr "BOINC 클라이언트가 동작한 시간(%)"
+msgstr "보잉크 클라이언트가 동작한 시간(%)"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system"
-msgstr "운영체제(OS)"
+msgstr "운영체제"
 
 #: host-details
 msgctxt "host-details"
 msgid "Operating system version"
-msgstr "운영 체제 버전"
+msgstr "운영체제 판본"
 
 #: host-details
 msgctxt "host-details"
 msgid "Measured floating point speed"
-msgstr "부동소수점 연산 속도"
+msgstr "고정 소수점 연산 속도"
 
 #: host-details
 msgctxt "host-details"
@@ -853,22 +854,22 @@ msgstr "정수 연산 속도"
 #: host-details
 msgctxt "host-details"
 msgid "CPU model"
-msgstr "CPU 종류"
+msgstr "중앙처리장치 종류"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of processors"
-msgstr "프로세서 수"
+msgstr "처리기 수"
 
 #: host-details
 msgctxt "host-details"
 msgid "CPU"
-msgstr "CPU"
+msgstr "중앙처리장치"
 
 #: host-details
 msgctxt "host-details"
 msgid "Number of times client has contacted server"
-msgstr "클라이언트가 서버와 통신한 횟수"
+msgstr "클라이언트가 전산 교환기(서버)와 통신한 횟수"
 
 #: host-details
 msgctxt "host-details"
@@ -878,7 +879,7 @@ msgstr "마지막 통신"
 #: host-details
 msgctxt "host-details"
 msgid "Serial number"
-msgstr "시리얼 번호"
+msgstr "일련 번호"
 
 #: host-details
 msgctxt "host-details"
@@ -888,37 +889,37 @@ msgstr "시간대"
 #: platform-details
 msgctxt "platform-details"
 msgid "Platform ID"
-msgstr "플랫폼 ID"
+msgstr "기반 식별자"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task ID"
-msgstr "태스크 ID"
+msgstr "작업 식별자"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit ID"
-msgstr "작업 유닛 ID"
+msgstr "작업 단위 식별자"
 
 #: task-details
 msgctxt "task-details"
 msgid "Host ID"
-msgstr "호스트 ID"
+msgstr "호스트 식별자"
 
 #: application-details
 msgctxt "application-details"
 msgid "Application ID"
-msgstr "응용 프로그램 ID"
+msgstr "응용 풀그림 식별자"
 
 #: task-details
 msgctxt "task-details"
 msgid "Application version"
-msgstr "응용 프로그램 버전"
+msgstr "응용 풀그림 판본"
 
 #: task-details
 msgctxt "task-details"
 msgid "Claimed credit"
-msgstr "요청된 크레딧"
+msgstr "요청한 크레딧"
 
 #: task-details
 msgctxt "task-details"
@@ -928,7 +929,7 @@ msgstr "클라이언트 상태"
 #: task-details
 msgctxt "task-details"
 msgid "CPU time"
-msgstr "CPU 시간"
+msgstr "중앙처리장치 시각"
 
 #: task-details:-1:ignoreoverwrite
 msgctxt "task-details:-1:ignoreoverwrite"
@@ -963,7 +964,7 @@ msgstr "수신 시각"
 #: task-details
 msgctxt "task-details"
 msgid "Report deadline"
-msgstr "리포트 마감 시각"
+msgstr "보고 마감 시각"
 
 #: task-details
 msgctxt "task-details"
@@ -973,7 +974,7 @@ msgstr "송신 시각"
 #: task-details
 msgctxt "task-details"
 msgid "Server state"
-msgstr "서버 상태"
+msgstr "전산 교환기(서버) 상태"
 
 #: task-details
 msgctxt "task-details"
@@ -988,17 +989,17 @@ msgstr "인증 현황"
 #: task-details
 msgctxt "task-details"
 msgid "Peak working set size"
-msgstr "최대 작업 세트 크기"
+msgstr "최대 작업 집합 크기"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak swap size"
-msgstr "최대 스왑 크기"
+msgstr "최대 교환 크기"
 
 #: task-details
 msgctxt "task-details"
 msgid "Peak disk usage"
-msgstr "최대 디스크 사용량"
+msgstr "최대 저장판 사용량"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1008,7 +1009,7 @@ msgstr "인정받은 크레딧"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Canonical result ID"
-msgstr "인정받은 결과 ID"
+msgstr "인정받은 결과 식별자"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1018,7 +1019,7 @@ msgstr "생성 시각"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Error mask"
-msgstr "오류 마스크"
+msgstr "오류 본"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1035,17 +1036,17 @@ msgstr "이름"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max error tasks"
-msgstr "최대 오류 태스크 수"
+msgstr "최대 오류난 작업 수"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max success tasks"
-msgstr "최대 성공 태스크 수"
+msgstr "최대 성공한 작업 수"
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max total tasks"
-msgstr "최대 총합 태스크 수"
+msgstr "최대 총합 작업 수"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -1065,47 +1066,47 @@ msgstr "결과물 목표치"
 #: application-details
 msgctxt "application-details"
 msgid "Application version ID"
-msgstr "응용 프로그램 버전 ID"
+msgstr "응용 풀그림 판본 식별자"
 
 #: application-details
 msgctxt "application-details"
 msgid "Plan class"
-msgstr "프로그램 종류"
+msgstr "풀그림 종류"
 
 #: application-details
 msgctxt "application-details"
 msgid "Version number"
-msgstr "버전 숫자"
+msgstr "판 번호"
 
 #: host-details
 msgctxt "host-details"
 msgid "Computer"
-msgstr "컴퓨터"
+msgstr "전산기"
 
 #: application-details
 msgctxt "application-details"
 msgid "App version ID"
-msgstr "App 버저 ID"
+msgstr "무른모 판본 식별자"
 
 #: application-details
 msgctxt "application-details"
 msgid "Consecutive valid tasks"
-msgstr "연속적으로 유효한 태스크"
+msgstr "연속적으로 유효한 작업"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks completed"
-msgstr "완료된 태스크 수"
+msgstr "완료된 작업 수"
 
 #: application-details
 msgctxt "application-details"
 msgid "Max tasks per day"
-msgstr "하루 태스크 최대량"
+msgstr "하루 작업 최대량"
 
 #: application-details
 msgctxt "application-details"
 msgid "Number of tasks today"
-msgstr "오늘의 태스크 수"
+msgstr "오늘의 작업 수"
 
 #: application-details:-1:ignoreoverwrite
 msgctxt "application-details:-1:ignoreoverwrite"
@@ -1120,22 +1121,22 @@ msgstr "편집"
 #: moderate-profiles
 msgctxt "moderate-profiles"
 msgid "Unvetted profiles"
-msgstr "검사되지 않은 프로필"
+msgstr "검사되지 않은 인물 소개"
 
 #: team-dashboard
 msgctxt "team-dashboard"
 msgid "Team"
-msgstr "팀"
+msgstr "동아리"
 
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "Posts contributed"
-msgstr "포스트가 투고됨"
+msgstr "게시물이 투고됨"
 
 #: rss-feed-description
 msgctxt "rss-feed-description"
 msgid "The latest news from the @site_name project"
-msgstr "@site_name 프로젝트에서 온 최신 뉴스"
+msgstr "@site_name 사업에서 온 최신 소식"
 
 #: forum-reply-to-comment-with-quote
 msgctxt "forum-reply-to-comment-with-quote"
@@ -1145,7 +1146,7 @@ msgstr "인용구"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment with a quote"
-msgstr "이 코멘트를 인용해 답변 달기"
+msgstr "이 댓글를 인용해 답변 달기"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
@@ -1155,7 +1156,7 @@ msgstr "시작일: @join_date"
 #: mini-user-stats
 msgctxt "mini-user-stats"
 msgid "Posts: @post_count"
-msgstr "포스트: @post_count"
+msgstr "게시물: @post_count"
 
 #: mini-user-stats
 msgctxt "mini-user-stats"
@@ -1170,7 +1171,7 @@ msgstr "RAC: @user_rac"
 #: message-header
 msgctxt "message-header"
 msgid "Message @id"
-msgstr "메세지 @id"
+msgstr "소식 @id"
 
 #: comment-action-links
 msgctxt "comment-action-links"
@@ -1185,7 +1186,7 @@ msgstr "Stderr 출력 값"
 #: message-header
 msgctxt "message-header"
 msgid "message @id"
-msgstr "메세지 @id"
+msgstr "소식 @id"
 
 #: message-header
 msgctxt "message-header"
@@ -1215,22 +1216,22 @@ msgstr "오늘의 사용자"
 #: front-page
 msgctxt "front-page"
 msgid "Over 500,000 volunteers and counting."
-msgstr "5십만 이상의 기여자 혹은 그 이상."
+msgstr "오십만 이상의 기여자 혹은 그 이상."
 
 #: front-page
 msgctxt "front-page"
 msgid "Windows"
-msgstr "Windows"
+msgstr "윈도우"
 
 #: front-page
 msgctxt "front-page"
 msgid "Mac"
-msgstr "Mac"
+msgstr "맥"
 
 #: front-page
 msgctxt "front-page"
 msgid "Linux"
-msgstr "Linux"
+msgstr "리눅스"
 
 #: front-page
 msgctxt "front-page"
@@ -1245,7 +1246,7 @@ msgstr "토론하기"
 #: menu-link
 msgctxt "menu-link"
 msgid "Logout"
-msgstr "로그아웃"
+msgstr "나가기"
 
 #: footer-link
 msgctxt "footer-link"
@@ -1260,12 +1261,12 @@ msgstr "익명"
 #: help-with-user-input-with-BBCode
 msgctxt "help-with-user-input-with-BBCode"
 msgid "BBcode help"
-msgstr "BB코드 도움말"
+msgstr "전자 게시판 부호 도움말"
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post comment"
-msgstr "코멘트 쓰기"
+msgstr "댓글 쓰기"
 
 #: form-cancel
 msgctxt "form-cancel"
@@ -1280,19 +1281,19 @@ msgstr "자세히"
 #: host-tasks-link
 msgctxt "host-tasks-link"
 msgid "Tasks"
-msgstr "태스크"
+msgstr "작업"
 
 #: host-list
 msgctxt "host-list"
 msgid "Computers pending"
-msgstr "보류된 컴퓨터"
+msgstr "보류된 전산기"
 
 #: host-list
 msgctxt "host-list"
 msgid ""
 "This user does not yet have any associated computers. Computers will be "
 "displayed when they have earned their first credits."
-msgstr "이 사용자는 아직 연동된 컴퓨터가 없습니다. 컴퓨터는 해당 컴퓨터로 첫 크레딧을 번 이후에 표시됩니다."
+msgstr "이 사용자가 연동한 전산기가 아직 없습니다. 전산기는 해당 전산기로 첫 크레딧을 번 이후에 표시됩니다."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -1307,12 +1308,12 @@ msgstr "자세히"
 #: host-list
 msgctxt "host-list"
 msgid "Computers hidden"
-msgstr "컴퓨터가 숨겨짐"
+msgstr "전산기 숨김"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has chosen not to show information about their computers."
-msgstr "이 사용자는 컴퓨터 정보를 보여주지 않기로 정해놓았습니다."
+msgstr "이 사용자는 전산기 정보를 보여주지 않기로 정해놓았습니다."
 
 #: project-name:-1:ignoreoverwrite
 msgctxt "project-name:-1:ignoreoverwrite"
@@ -1322,7 +1323,7 @@ msgstr "이름"
 #: page-submitted-info
 msgctxt "page-submitted-info"
 msgid "Submitted by !username on !datetime"
-msgstr "!username 이 !datetime 에 제출함"
+msgstr "!username (이)가 !datetime 에 제출함"
 
 #: user-profile
 msgctxt "user-profile"
@@ -1337,12 +1338,12 @@ msgstr "의견"
 #: website-of-user-of-team
 msgctxt "website-of-user-of-team"
 msgid "Website"
-msgstr "웹 사이트"
+msgstr "누리집"
 
 #: users-table
 msgctxt "users-table"
 msgid "View user profile."
-msgstr "사용자의 프로필을 봅니다."
+msgstr "사용자의 인물 소개을 봅니다."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
@@ -1354,17 +1355,17 @@ msgctxt "account-credentials-change"
 msgid ""
 "Enter your current password if changing your email\n"
 "          address or password."
-msgstr "이메일 주소 또는 비밀번호를 변경하려면 현재 사용 중인\n          비밀번호를 입력하세요."
+msgstr "전자 우편 주소 또는 비밀번호를 변경하려면 현재 사용 중인\n          비밀번호를 입력하세요."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "BOINC user ID"
-msgstr "BOINC 사용ㅈ ID"
+msgstr "보잉크 사용자 식별자"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Drupal user ID"
-msgstr "Drupal 사용자 ID"
+msgstr "드루팔 사용자 식별자"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
@@ -1379,7 +1380,7 @@ msgstr "약한 계정 키"
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid "Cross-project ID"
-msgstr "공유 프로젝트 ID"
+msgstr "공유 사업 식별자"
 
 #: form-save
 msgctxt "form-save"
@@ -1427,7 +1428,7 @@ msgctxt ""
 "account-preferences-preset:-1:for a user to choose a computing or project "
 "preference preset."
 msgid "Presets"
-msgstr "프리셋"
+msgstr "기본 설정"
 
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
@@ -1457,7 +1458,7 @@ msgstr "사용자 지정"
 #: account-preferences-preset
 msgctxt "account-preferences-preset"
 msgid "Update preset"
-msgstr "프리셋 업데이트"
+msgstr "기본 설정 갱신"
 
 #: account-preferences-option
 msgctxt "account-preferences-option"
@@ -1467,42 +1468,42 @@ msgstr "고급 설정"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Processor usage"
-msgstr "프로세서 사용량"
+msgstr "처리기 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is on battery?"
-msgstr "컴퓨터가 배터리로 동작할 때에도 실행합니까?"
+msgstr "전산기가 전지로 동작할 때에도 실행합니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr "배터리 전원으로 작동하는 이동식 모드일 때 연산을 일시중지"
+msgstr "전지 전원으로 작동하는 이동 상태일 때 연산을 일시중지"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when computer is in use?"
-msgstr "컴퓨터를 사용하는 동안 일시중지합니까?"
+msgstr "전산기를 사용하는 동안 일시중지합니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing and file transfers when you're using the computer."
-msgstr "사용자가 컴퓨터를 사용 중일때 연산 및 파일 전송을 일시중지"
+msgstr "사용자가 전산기를 사용할 때는 연산 및 기록철 전송을 일시중지"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend GPU computing when computer is in use?"
-msgstr "컴퓨터를 사용하는 동안 GPU를 일시중지합니까?"
+msgstr "전산기를 사용하는 동안 그림 처리 장치를 일시중지합니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends GPU computing when you're using the computer."
-msgstr "사용자가 컴퓨터를 사용 중일때 GPU 연산을 일시중지"
+msgstr "사용자가 전산기를 사용할 때는 그림 처리 장치 연산을 일시중지"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "\"In use\" means mouse/keyboard input in last"
-msgstr "\"사용 중\"은 마우스/키보드 입력 시간을 뜻합니다"
+msgstr "\"사용 중\"은 다람쥐/자판 입력 시간을 뜻합니다"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1512,27 +1513,27 @@ msgstr "분"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This determines when the computer is considered \"in use\"."
-msgstr "이 항목은 컴퓨터가 \"사용 중\"으로 고려할 때를 결정합니다."
+msgstr "이 항목은 전산기가 \"사용 중\"으로 고려할 때를 결정합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when no mouse/keyboard input in last"
-msgstr "마우스/키보드 입력이 이 시간 안에 있으면"
+msgstr "다람쥐/자판 입력이 이 시간 안에 있으면"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "이 항목은 어떤 컴퓨터가 사용 중이 아닐 때 저전력 모드로 진입하는 것을 허용합니다."
+msgstr "이 항목은 전산기를 사용하지 않을 때 저전력 상태로 들어갈 수 있게 합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "비 BOINC CPU 사용량이 이 값 이상일 때 일시중지"
+msgstr "보잉크 외의 중앙처리장치 사용량이 이 값 이상일 때 일시중지"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "컴퓨터가 다른 프로그램을 바쁘게 실행중일 때 연산을 일시중지"
+msgstr "전산기가 다른 풀그림을 바쁘게 실행할 때는 연산을 일시중지"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1552,7 +1553,7 @@ msgstr "각 날짜별로 특정 시간대에만 연산을 수행합니다."
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Leave non-GPU tasks in memory while suspended?"
-msgstr "일시중지 시에도 비GPU 태스크를 메모리에 남겨둡니까?"
+msgstr "일시중지 시에도 비그림 처리 장치 작업을 막기억장치에 남겨둡니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1560,17 +1561,17 @@ msgid ""
 "If \"Yes\", suspended tasks stay in memory, and resume with no work lost. If"
 " \"No\", suspended tasks are removed from memory, and resume from their last"
 " checkpoint."
-msgstr "\"예\"일 경우, 일시중지된 태스크는 메모리에 남으며, 재개시 작업량이 줄지 않습니다. \"아니오\"일 경우, 일시중지된 태스크는 메모리에서 제거되며, 재개시 마지막 기록지점에서 시작합니다."
+msgstr "\"예\"일 경우, 일시중지된 작업은 막기억장치에 남으며, 재개시 작업량이 줄지 않습니다. \"아니오\"일 경우, 일시중지된 작업은 막기억장치에서 제거되며, 재개시 마지막 기록지점에서 시작합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Switch between tasks every"
-msgstr "태스크를 설정시간마다 전환"
+msgstr "작업을 설정시간마다 전환"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "If you run several projects, BOINC may switch between them this often."
-msgstr "여러 프로젝트를 수행할 경우, BOINC가 얼마나 자주 그것들을 교체할지 결정합니다."
+msgstr "여러 사업을 수행할 때, 얼마나 자주 연산하는 사업을 바꿀지 정합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1580,19 +1581,19 @@ msgstr "최대 사용량"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the processors"
-msgstr "% (프로세서)"
+msgstr "% (처리기)"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "다른 응용 프로그램을 위해 CPU를 유휴 상태로 남겨둡니다. 예시: 75%이면 8코어 CPU 중 6코어를 사용합니다."
+msgstr "다른 응용 풀그림을 위해 중앙처리장치를 유휴 상태로 남겨둡니다. 예시: 75%이면 8단위 중앙처리장치 중 6단위를 사용합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "% of the CPU time"
-msgstr "% (CPU 시간)"
+msgstr "% (중앙처리장치 시간)"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1600,34 +1601,34 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "연산하는 동안 매 몇 초간 CPU 온도 및 에너지 사용량을 줄이기 위해 연산의 일시중지/재개를 반복합니다. 예시: 75%는 3초간 연산을 하고 1초간 대기하며 이 동작을 반복합니다."
+msgstr "연산하는 동안 매 몇 초간 중앙처리장치 온도 및 에너지 사용량을 줄이기 위해 연산의 일시중지/재개를 반복합니다. 예시: 75%는 3초간 연산을 하고 1초간 대기하며 이 동작을 반복합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk and memory usage"
-msgstr "디스크와 메모리 사용량"
+msgstr "저장판와 막기억장치 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: use no more than"
-msgstr "디스크: 최대 사용량"
+msgstr "저장판: 최대 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the total amount of disk space used by BOINC."
-msgstr "전체 디스크 공간 중 BOINC가 사용하는 용량을 제한합니다."
+msgstr "전체 저장판 공간 중 보잉크가 사용하는 용량을 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Disk: leave at least"
-msgstr "디스크: 최소한"
+msgstr "저장판: 최소한"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where BOINC "
 "stores data."
-msgstr "BOINC 데이터가 저장되는 볼륨에서 여유 공간으로 남겨둘 디스크 용량을 제한합니다."
+msgstr "보잉크 자료가 저장되는 볼륨에서 여유 공간으로 남겨둘 저장판 용량을 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1639,12 +1640,12 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Limit the percentage of disk space used by BOINC on the volume where it "
 "stores data."
-msgstr "BOINC 데이터가 저장되는 볼륨에서 사용하는 디스크 공간의 퍼센테이지를 제한합니다."
+msgstr "보잉크 자료가 저장되는 볼륨에서 사용하는 저장판 공간의 퍼센테이지를 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Request tasks to checkpoint at most every"
-msgstr "태스크 기록지점을 지정된 시간마다 기록"
+msgstr "작업 기록지점을 지정된 시간마다 기록"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -1656,42 +1657,42 @@ msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "태스크가 얼마나 자주 현재 상태를 디스크에 저장하는지 제어합니다. 그렇게 함으로써 해당 지점에서 재시작할 수 있습니다."
+msgstr "작업을 얼마나 자주 현재 상태를 저장판에 저장할 제어합니다. 이로써 해당 지점에서 재시작할 수 있습니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Page/swap file: use at most"
-msgstr "페이지/스왑 파일: 최대 사용량"
+msgstr "쪽/교환 기록철: 최대 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the swap space (page file) used by BOINC."
-msgstr "BOINC에서 사용하는 스왑 공간(페이지 파일)을 제한합니다."
+msgstr "보잉크에서 사용하는 교환 공간(쪽 기록철)을 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is in use, use at most"
-msgstr "메모리: 컴퓨터 사용시 최대 사용량"
+msgstr "막기억장치: 전산기 사용시 최대 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're using the computer."
-msgstr "컴퓨터 사용시 BOINC에서 사용하는 메모리를 제한합니다."
+msgstr "전산기 사용시 보잉크에서 사용하는 막기억장치를 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Memory: when computer is not in use, use at most"
-msgstr "메모리: 컴퓨터 미사용시 최대 사용량"
+msgstr "막기억장치: 전산기 미사용시 최대 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the memory used by BOINC when you're not using the computer."
-msgstr "컴퓨터 미사용시 BOINC에서 사용하는 메모리를 제한합니다."
+msgstr "전산기 미사용시 보잉크에서 사용하는 막기억장치를 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Network usage"
-msgstr "네트워크 사용량"
+msgstr "통신망 사용량"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1706,7 +1707,7 @@ msgstr "일치 작업량"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "컴퓨터를 부지런히 돌리기 위해 충분한 태스크를 저장합니다."
+msgstr "전산기를 부지런히 돌리기 위해 충분한 작업을 저장합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1723,12 +1724,12 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "최소 한도 이상으로 추가적인 태스크를 저장합니다.  또한 프로젝트 서버에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
+msgstr "최소 한도 이상으로 추가적인 작업을 저장합니다.  또한 사업 전산 교환기(서버)에 연락할 때 얼마나 많은 작업량을 요청할지 결정합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Confirm before connecting to Internet?"
-msgstr "인터넷 접속 전에 확인합니까?"
+msgstr "누리망 접속 전에 확인합니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1743,32 +1744,32 @@ msgstr "완료되면 접속을 끊습니까?"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit download rate to"
-msgstr "최대 다운로드 속도"
+msgstr "최대 내려받기 속도"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the download rate of file transfers."
-msgstr "파일 전송 중 다운로드 속도를 제한합니다."
+msgstr "기록철 전송 중 내려받기 속도를 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit upload rate to"
-msgstr "최대 업로드 속도"
+msgstr "최대 올려주기 속도"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Limit the upload rate of file transfers."
-msgstr "파일 전송 중 최대 업로드 속도를 제한합니다."
+msgstr "기록철 전송 중 최대 올려주기 속도를 제한합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only between"
-msgstr "이 시간 사이에만 전송:"
+msgstr "이 시간에만 전송:"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Transfer files only during a particular period each day."
-msgstr "각 날짜별로 특정 시간대에만 파일을 전송합니다."
+msgstr "각 날짜별로 특정 시간대에만 기록철을 전송합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1778,24 +1779,24 @@ msgstr "사용량 제한"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
-msgstr "예시: BOINC는 매 30 일동안에는 최대 2000 MB까지 전송하게 됩니다."
+msgstr "예시: 보잉크는 매 30일동안에는 최대 2000MB까지 전송합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Skip data verification for image files?"
-msgstr "이미지 파일의 데이터 검증을 건너뜁니까?"
+msgstr "이미지 기록철의 자료 검증을 건너뜁니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "Only select \"Yes\" if your Internet provider modifies image files. Skipping"
 " verification reduces the security of BOINC."
-msgstr "인터넷 제공자가 이미지 파일을 변경할 경우에만 \"네\"에 체크하세요. 검증을 건너뛸 경우에는 BOINC의 보안성이 감소됩니다."
+msgstr "누리망 제공자가 이미지 기록철을 변경할 경우에만 \"네\"로 설정하세요. 검증을 건너뛸 경우에는 보잉크의 보안이 감소합니다."
 
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Show comparison view"
-msgstr "비교 모드로 보여주기"
+msgstr "비교하여 보기"
 
 #: host-details
 msgctxt "host-details"
@@ -1829,64 +1830,64 @@ msgid ""
 "project. Example: if you participate in two BOINC projects with resource "
 "shares of 100 and 200, the first will get 1/3 of your resources and the "
 "second will get 2/3."
-msgstr "이 프로젝트에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 BOINC 프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다."
+msgstr "이 사업에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 보잉크 사업에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use CPU"
-msgstr "CPU 사용"
+msgstr "중앙처리장치 사용"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request CPU-only tasks from this project."
-msgstr "이 프로젝트에 CPU 전용 태스크를 요청합니다."
+msgstr "이 사업에 중앙처리장치 전용 작업을 요청합니다."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use NVIDIA GPU"
-msgstr "NVIDIA GPU 사용"
+msgstr "엔비디아 그림 처리 장치 사용"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request NVIDIA GPU tasks from this project."
-msgstr "이 프로젝트에 NVIDIA GPU 태스크ㄹ 요청합니다"
+msgstr "이 사업에 엔비디아 그림 처리 장치용 작업을 요청합니다"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use ATI GPU"
-msgstr "ATI GPU 사용"
+msgstr "ATI 그림 처리 장치 사용"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request ATI GPU tasks from this project."
-msgstr "이 프로젝트에 ATI GPU 태스크를 요청합니다."
+msgstr "이 사업에 ATI 그림 처리 장치 작업을 요청합니다."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Use INTEL GPU"
-msgstr "Intel GPU 사용"
+msgstr "인텔 그림 처리 장치 사용"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Request Intel GPU tasks from this project."
-msgstr "이 프로젝트에 Intel GPU 태스크를 요청합니다."
+msgstr "이 사업에 인텔 그림 처리 장치 작업을 요청합니다."
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Beta settings"
-msgstr "베타 설정"
+msgstr "시험판 설정"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Run test applications?"
-msgstr "테스트 프로그램을 실행합니까?"
+msgstr "시험용 풀그림을 실행합니까?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
-msgstr "이는 프로그램 개발에 도움을 주지만, 해당 컴퓨터에서 실행에 실패할 수도 있습니다"
+msgstr "이는 풀그림 개발에 도움을 주지만, 해당 전산기에서 실행에 실패할 수도 있습니다"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1896,7 +1897,7 @@ msgstr " 기본 값: @default"
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Applications"
-msgstr "응용 프로그램"
+msgstr "응용 풀그림"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
@@ -1906,7 +1907,7 @@ msgstr "기본 설정"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "Set used for new computers"
-msgstr "새 컴퓨터 설정"
+msgstr "새 전산기 설정"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1926,12 +1927,12 @@ msgstr "알림 설정"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for private messages?"
-msgstr "쪽지 수신시 이메일 알림을 받겠습니까?"
+msgstr "쪽지 수신시 전자 우편 알림을 받겠습니까?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Receive email notification for friend requests?"
-msgstr "친구 요청시 이메일 알림을 받겠습니까?"
+msgstr "친구 요청시 전자 우편 알림을 받겠습니까?"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1948,31 +1949,31 @@ msgctxt "account-preferences-community"
 msgid ""
 "This account's default language for e-mails and preferred language for site "
 "presentation."
-msgstr "이메일 및 사이트 전반적인 선호 언어로 지정된 이 계정의 기본 언어입니다."
+msgstr "전자 우편 및 누리집 전반적인 선호 언어로 지정된 이 계정의 기본 언어입니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr "만약 이메일 주소와 연관되고 <a href=\"@gravatar-check\">인증된 그라바타</a>를 가지고 있다면 사용자 사진으로 사용할 수 있습니다."
+msgstr "만약 전자 우편 주소와 연관되고 <a href=\"@gravatar-check\">인증된 그라바타</a>를 가지고 있다면 사용자 사진으로 사용할 수 있습니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "사용자 사진을 올리면 그라바타는 보이지 않을 것입니다."
+msgstr "사용자 사진을 올리면 그라바타는 보이지 않습니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, use it for your user picture."
-msgstr "만약 이메일 주소와 연관되고 <a href=\"@gravatar-check\">인증된 그라바타</a>를 가지고 있다면 사용자 사진으로 사용해 보세요."
+msgstr "만약 전자 우편 주소와 연관되고 <a href=\"@gravatar-check\">인증된 그라바타</a>를 가지고 있다면 사용자 사진으로 사용해 보세요."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "아바타를 올리면 그라바타는 보이지 않을 것입니다."
+msgstr "아바타를 올리면 그라바타는 보이지 않습니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1982,12 +1983,12 @@ msgstr "아바타 설정"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Upload an avatar"
-msgstr "아바타 업로드"
+msgstr "아바타 올려두기"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Forum settings"
-msgstr "포럼 설정"
+msgstr "토론장 설정"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -1997,22 +1998,22 @@ msgstr "토론 주제에서는 최대 @comments_per_page 를 보여줍니다"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "comments per page"
-msgstr "페이지당 코멘트 수"
+msgstr "쪽당 댓글 수"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Sort comments in discussions"
-msgstr "토론 상의 코멘트 정렬"
+msgstr "토론 댓글 정렬"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Newest post first"
-msgstr "최신 포스트 순"
+msgstr "최신 게시물 순"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Oldest post first"
-msgstr "오래된 포스트 순"
+msgstr "오래된 게시물 순"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -2022,17 +2023,17 @@ msgstr "서명"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "작성한 서명은 여러분이 쓴 코멘트 하단에 공개되며 표시됩니다."
+msgstr "작성한 서명은 여러분이 쓴 댓글 하단에 공개되며 표시됩니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Hide signatures in forums"
-msgstr "포럼에서 서명 숨기기"
+msgstr "토론장에서 서명 숨기기"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Ignore Users in forums:"
-msgstr "포럼에서 무시할 사용자:"
+msgstr "토론장에서 무시할 사용자:"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
@@ -2047,22 +2048,22 @@ msgstr "개인정보 설정"
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "@project 와 소속 팀(전부)에서 이메일을 받길 원하십니까?"
+msgstr "@project 와 소속 동아리(전부)에서 전자 우편을 받길 원하십니까?"
 
 #: account-preferences-privacy
 msgctxt "account-preferences-privacy"
 msgid "Should @project show your computers on its web site?"
-msgstr "@project 의 컴퓨터 목록을 웹 사이트 상에 공개하시겠습니까?"
+msgstr "@project 의 전산기 목록을 누리집에 공개하시겠습니까?"
 
 #: host-list
 msgctxt "host-list"
 msgid "No active computers"
-msgstr "활동 중인 컴퓨터 없음"
+msgstr "활동하는 전산기 없음"
 
 #: host-list
 msgctxt "host-list"
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "이 사용자는 최근 30일이내에 활동 중인 컴퓨터가 없습니다."
+msgstr "이 사용자는 최근 30일 이내에 활동한 전산기가 없습니다."
 
 #: forum-post-posted-time-not-available
 msgctxt "forum-post-posted-time-not-available"
@@ -2077,17 +2078,17 @@ msgstr "@time 전"
 #: forum-column
 msgctxt "forum-column"
 msgid "Threads"
-msgstr "스레드"
+msgstr "글타래"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Posts"
-msgstr "포스트"
+msgstr "게시물"
 
 #: forum-column
 msgctxt "forum-column"
 msgid "Last post"
-msgstr "마지막 포스트"
+msgstr "마지막 게시물"
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2097,7 +2098,7 @@ msgid ""
 "moderators without warning or discussion. Do not respond to offensive "
 "postings. Click on the \"report\" button at the bottom of the post to call "
 "it to the attention of the moderators."
-msgstr "공격적이거나 무례한 포스트를 작성하지 마시고 여러분이 쓰는 글에 책임을 지세요. 공격적인 포스트나 스레드는 토론이나 경고없이 포럼 관리자가 삭제할 수도 있습니다. 공격적인 포스트에는 응답하지 마십시오. 포스트 하단의 \"신고\" 버튼을 클릭해서 관리자를 호출할 수 있습니다."
+msgstr "공격적이거나 무례한 게시물를 작성하지 마시고 여러분이 쓰는 글에 책임을 지세요. 공격적인 게시물나 글타래는 토론이나 경고없이 토론장 관리자가 삭제할 수도 있습니다. 공격적인 게시물에는 응답하지 마십시오. 게시물 하단의 \"신고\" 단추을 클릭해서 관리자를 호출할 수 있습니다."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
@@ -2107,12 +2108,12 @@ msgid ""
 "where you are free to discuss anything relevant to the underlying science. "
 "Participants interested in broader discussions should post to unofficial "
 "forums for @project."
-msgstr "우리는 기초적인 과학에 관련된, 어떠한 것이라도 자유롭게 토론하는 과학 메세지 게시판을 제외하고 @project나 BOINC와 연관된 메세지 게시판 상의 모든 토론을 보존하길 요청합니다. 광범위한 토론에 흥미를 가진 참여자들은 @project용 비공식 포럼에 포스팅을 할 수 있습니다."
+msgstr "우리는 기초적인 과학에 관련된, 어떠한 것이라도 자유롭게 토론하는 과학 소식 게시판을 제외하고 @project나 보잉크와 연관된 소식 게시판 상의 모든 토론을 보존하길 요청합니다. 광범위한 토론에 흥미를 가진 참여자들은 @project용 비공식 토론장에 글을 게시 할 수 있습니다."
 
 #: forum-fine-print
 msgctxt "forum-fine-print"
 msgid "These message boards now support BBCode tags only."
-msgstr "이 게시판은 이제 BB코드 태그만 지원합니다."
+msgstr "이 게시판은 이제 전자 게시판 부호 보람만 지원합니다."
 
 #: forum-footer
 msgctxt "forum-footer"
@@ -2122,37 +2123,37 @@ msgstr "구독 관리"
 #: team-general-info
 msgctxt "team-general-info"
 msgid "Teams"
-msgstr "팀"
+msgstr "동아리"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "access team members' email addresses"
-msgstr "팀 멤버의 이메일 주소를 열람"
+msgstr "동아리원의 전자 우편 주소를 열람"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "edit the team's name and description"
-msgstr "팀 이름과 개요를 수정합니다"
+msgstr "동아리 이름과 개요를 수정합니다"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "add or remove team admins"
-msgstr "팀 관리자 추가/삭제"
+msgstr "동아리 관리자 추가/삭제"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "remove members from the team"
-msgstr "팀에서 멤버 추방하기"
+msgstr "동아리에서 동아리원 추방하기"
 
 #: team-general-info
 msgctxt "team-general-info"
 msgid "disband a team if it has no members"
-msgstr "만약 팀 멤버가 없으면 팀을 해산할 수 있습니다"
+msgstr "동아리원 없으면 동아리을 해산할 수 있습니다"
 
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "My team"
-msgstr "내 팀"
+msgstr "내 동아리"
 
 #: account-team-panel
 msgctxt "account-team-panel"
@@ -2162,17 +2163,17 @@ msgstr "@team 회원입니다."
 #: account-team-panel
 msgctxt "account-team-panel"
 msgid "View my team"
-msgstr "내 팀 보기"
+msgstr "내 동아리 보기"
 
 #: search-team
 msgctxt "search-team"
 msgid "Search teams"
-msgstr "팀 검색"
+msgstr "동아리 검색"
 
 #: tasks-pending
 msgctxt "tasks-pending"
 msgid "Tasks are pending for this workunit."
-msgstr "이 작업 유닛용 태스크 처리가 보류중입니다."
+msgstr "이 작업 단위용 작업 처리가 보류중입니다."
 
 #: news-submitted-info
 msgctxt "news-submitted-info"
@@ -2182,7 +2183,7 @@ msgstr "!datetime 에 제출됨"
 #: Comments-section-header
 msgctxt "Comments-section-header"
 msgid "Comments"
-msgstr "코멘트"
+msgstr "댓글"
 
 #: form-clear
 msgctxt "form-clear"
@@ -2194,22 +2195,22 @@ msgctxt "account-preferences"
 msgid ""
 "This will remove all of your settings from the @name preference set. Are you"
 " sure?"
-msgstr "계속 진행하면 @name 환경설정 세트에서 설정값들이 모두 제거됩니다. 계속하시겠습니까?"
+msgstr "계속 진행하면 @name 환경설정 집합에서 설정값들이 모두 제거됩니다. 계속하시겠습니까?"
 
 #: task-list
 msgctxt "task-list"
 msgid "No @type tasks"
-msgstr "@type 태스크 없음"
+msgstr "@type 작업 없음"
 
 #: task-list
 msgctxt "task-list"
 msgid "There are no tasks of this type on record"
-msgstr "레코드상에 이 유형의 태스크가 없습니다"
+msgstr "기록에 이 유형의 작업이 없습니다"
 
 #: host-details
 msgctxt "host-details"
 msgid "Show IP address"
-msgstr "IP 주소 보이기"
+msgstr "누리망 통신 규약(아이피) 주소 보이기"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -2219,7 +2220,7 @@ msgstr "시간"
 #: form-merge
 msgctxt "form-merge"
 msgid "Merge"
-msgstr "병합"
+msgstr "합치기"
 
 #: view-team-info
 msgctxt "view-team-info"
@@ -2229,27 +2230,27 @@ msgstr "종류"
 #: view-team-info
 msgctxt "view-team-info"
 msgid "New members in last day"
-msgstr "전 날의 새로운 맴버"
+msgstr "전 날의 새로운 회원"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Total members"
-msgstr "전체 맴버"
+msgstr "전체 회원"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Active members"
-msgstr "활동하는 맴버"
+msgstr "활동하는 회원"
 
 #: view-team-info
 msgctxt "view-team-info"
 msgid "Members with credit"
-msgstr "크레딧을 가진 맴버"
+msgstr "크레딧을 가진 회원"
 
 #: website-of-user-or-team
 msgctxt "website-of-user-or-team"
 msgid "Website"
-msgstr "웹 사이트"
+msgstr "누리집"
 
 #: team-description
 msgctxt "team-description"
@@ -2259,7 +2260,7 @@ msgstr "개요"
 #: account-dashboard
 msgctxt "account-dashboard"
 msgid "no projects..."
-msgstr "프로젝트 없음..."
+msgstr "사업 없음..."
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -2271,12 +2272,12 @@ msgstr "설정 '@venue' 환경설정을 찾을 수 없습니다. 계정에 다�
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "데스크탑 소프트웨어를 다운로드하세요"
+msgstr "전산기용 무른모를 내려받으세요"
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer"
-msgstr "설치 프로그램 실행"
+msgstr "설치 풀그림 실행"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2286,7 +2287,7 @@ msgstr "답변"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this comment"
-msgstr "이 코멘트에 답변 달기"
+msgstr "이 댓글에 답변 달기"
 
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
@@ -2301,12 +2302,12 @@ msgstr "메세지 전송"
 #: forum-post-new-comment
 msgctxt "forum-post-new-comment"
 msgid "Post new comment"
-msgstr "새 코멘트 쓰기"
+msgstr "새 댓글 쓰기"
 
 #: recent-posts
 msgctxt "recent-posts"
 msgid "commented on"
-msgstr "코멘트함"
+msgstr "댓글함"
 
 #: recent-posts
 msgctxt "recent-posts"
@@ -2331,7 +2332,7 @@ msgstr "잠그기"
 #: forum-lock-comment
 msgctxt "forum-lock-comment"
 msgid "Lock this thread for comments"
-msgstr "이 스레드에서 코멘트 쓰기 잠그기"
+msgstr "이 글타래에서 댓글 쓰기 잠그기"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
@@ -2351,22 +2352,22 @@ msgstr "변환하기"
 #: forum-convert-comment-to-topic
 msgctxt "forum-convert-comment-to-topic"
 msgid "Convert this comment to a new topic"
-msgstr "이 코멘트를 새 주제로 변환합니다"
+msgstr "이 댓글를 새 주제로 변환합니다"
 
 #: forum-hide-comment
 msgctxt "forum-hide-comment"
 msgid "Hide this comment"
-msgstr "이 코멘트 숨기기"
+msgstr "이 댓글 숨기기"
 
 #: forum-delete-comment
 msgctxt "forum-delete-comment"
 msgid "Delete this comment"
-msgstr "이 코멘트 삭제"
+msgstr "이 댓글 삭제"
 
 #: forum-edit-comment
 msgctxt "forum-edit-comment"
 msgid "Edit this comment"
-msgstr "이 코멘트 수정"
+msgstr "이 댓글 수정"
 
 #: search-with-no-results
 msgctxt "search-with-no-results"
@@ -2376,7 +2377,7 @@ msgstr "결과를 찾지 못했습니다..."
 #: user-profile:-1:message-shown-when-awating-moderation
 msgctxt "user-profile:-1:message-shown-when-awating-moderation"
 msgid "Profile awaiting moderator approval"
-msgstr "관리자 승인을 기다리는 프로필"
+msgstr "관리자 승인을 기다리는 인물 소개"
 
 #: friend-add
 msgctxt "friend-add"
@@ -2386,7 +2387,7 @@ msgstr "친구로 추가"
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: \"!topic_name\"에 코멘트 쓰기"
+msgstr "!site: \"!topic_name\"에 댓글 쓰기"
 
 #: forum-topic-subscription-email-notification
 msgctxt "forum-topic-subscription-email-notification"
@@ -2403,7 +2404,7 @@ msgstr "!site 에서 이 주제를 보려면 여기를 클릭: \n!comment_url"
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave team"
-msgstr "팀 떠나기"
+msgstr "동아리 떠나기"
 
 #: leave-team-panel
 msgctxt "leave-team-panel"
@@ -2413,7 +2414,7 @@ msgstr "@this_team 에서 탈퇴하길 원하시면 여기를 클릭하세요"
 #: leave-team-panel
 msgctxt "leave-team-panel"
 msgid "Leave this team"
-msgstr "이 팀 떠나기"
+msgstr "이 동아리 떠나기"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -2425,7 +2426,7 @@ msgctxt "team-request-foundership"
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "팀 창설자가 미활동중이고 창설자 직을 맡길 원한다면, 하단의 @this_team 창설자 요청을 클릭하세요."
+msgstr "동아리 창설자가 미활동중이고 창설자 직을 맡길 원한다면, 하단의 @this_team 창설자 요청을 클릭하세요."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -2442,30 +2443,30 @@ msgctxt "account-host-delete"
 msgid ""
 "This will delete host @id from your account forever. Are you sure this is "
 "OK?"
-msgstr "호스트 @id 를 여러분 계정에서 영원히 삭제합니다. 계속해도 괜찮습니까?"
+msgstr "호스트 @id (을)를 여러분 계정에서 영원히 삭제합니다. 계속해도 괜찮습니까?"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a new team"
-msgstr "새로운 팀 만들기"
+msgstr "새로운 동아리 만들기"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid ""
 "If you cannot find a team that is right for you, you can create a team."
-msgstr "만약 여러분에게 맞는 팀을 찾지 못했다면, 팀을 만들 수 있습니다."
+msgstr "만약 여러분에게 맞는 동아리을 찾지 못했다면, 동아리을 만들 수 있습니다."
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Login to create a new team"
-msgstr "새로운 팀을 만들기 위해 로그인"
+msgstr "새로운 동아리을 만드려고 계정 들어가기"
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "If you're already running BOINC, select <i>Add\n"
 "      Project</i>."
-msgstr "이미 BOINC를 실행하고 있다면, <i>프로젝트\n      추가</i>를 선택하세요."
+msgstr "이미 보잉크를 실행하고 있다면, <i>사업\n      추가</i>를 선택하세요."
 
 #: join-page
 msgctxt "join-page"
@@ -2474,7 +2475,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version."
-msgstr "만약 커맨드라인 버전 BOINC를 실행하고 있다면,\n        먼저 BOINC 관리자 소프트웨어로(필요하다면 다른 곳에서) 해당 프로젝트\n        계정을 생성하고 생성한 계정으로 커맨드라인 버전에\n        접속하십시오."
+msgstr "만약 명령줄 판 보잉크를 실행하고 있다면,\n        먼저 보잉크 관리자 무른모로(필요하다면 다른 곳에서) 해당 사업\n        계정을 생성하고 생성한 계정으로 명령줄판에\n        접속하십시오."
 
 #: join-page
 msgctxt "join-page"
@@ -2482,7 +2483,7 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version to create an account\n"
 "        at this project."
-msgstr "만약 BOINC 5.0 이전 버전을 실행하고 있으며,\n        이 프로젝트에 계정을 생성하고자 한다면 보다 최신 버전으로\n        업그레이드하세요."
+msgstr "만약 보잉크 5.0 이전 판을 실행하고 있으며,\n        이 사업에 계정을 생성하고자 한다면 보다 최신 판으로\n        업그레이드하세요."
 
 #: ignore-user-content
 msgctxt "ignore-user-content"
@@ -2497,32 +2498,32 @@ msgstr "여기"
 #: coment-from-ignored-user
 msgctxt "coment-from-ignored-user"
 msgid "!username is on your !ignore_list. Click !here to view this post."
-msgstr "!username 는 !ignore_list 에 있습니다. 이 포스트를 보려면 !here 를 클릭하세요."
+msgstr "!username 는 !ignore_list 에 있습니다. 이 게시물를 보려면 !here 를 클릭하세요."
 
 #: comment-preview-title
 msgctxt "comment-preview-title"
 msgid "Revise or post comment"
-msgstr "코멘트 쓰기 혹은 수정"
+msgstr "댓글 쓰기 혹은 수정"
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "This is not available until your profile is set up."
-msgstr "사용자 프로필이 설정되기 전에는 사용할 수 없습니다."
+msgstr "사용자 인물 소개이 설정되기 전에는 사용할 수 없습니다."
 
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Create a profile"
-msgstr "프로필 만들기"
+msgstr "인물 소개 만들기"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "You must earn 1 more credit!"
-msgstr "반드시 1 크레딧이상 벌어야 됩니다!"
+msgstr "반드시 1 크레딧 이상 벌어야 됩니다!"
 
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join team"
-msgstr "팀 가입"
+msgstr "동아리 가입"
 
 #: join-team-panel
 msgctxt "join-team-panel"
@@ -2532,7 +2533,7 @@ msgstr "@this_team 에 회원으로 가입하려면 여기를 클릭하세요"
 #: join-team-panel
 msgctxt "join-team-panel"
 msgid "Join this team"
-msgstr "이 팀에 가입"
+msgstr "이 동아리에 가입"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -2547,14 +2548,14 @@ msgstr "비밀번호를 잊었습니다"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "authenticator-based login"
-msgstr "인증 부호로 로그인 하기"
+msgstr "인증 부호로 계정 들어가기 하기"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid ""
 "Enter your email address to receive instructions for resetting your password"
 " (or use the !authenticator_login)."
-msgstr "비밀번호 재설정 안내문을 받을 이메일 주소를 입력하세요(혹은 !authenticator_login 을 사용하세요)."
+msgstr "비밀번호 재설정 안내문을 받을 전자 우편 주소를 입력하세요(혹은 !authenticator_login (을)를 사용하세요)."
 
 #: form-send
 msgctxt "form-send"
@@ -2566,46 +2567,46 @@ msgctxt "authenticator-login-page"
 msgid ""
 "If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr "만약 해당 계정의 이메일 주소를 잊었거나, 이메일을 받을 수 없는 경우:"
+msgstr "만약 해당 계정의 전자 우편 주소를 잊었거나, 전자 우편을 받을 수 없는 경우:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "If you have run BOINC under the account, you can still access it. Here's "
 "how:"
-msgstr "해당 계정으로 BOINC를 실행하고 있다면 계속 접근할 수 있습니다. 방법:"
+msgstr "해당 계정으로 보잉크를 실행하고 있다면 계속 접근할 수 있습니다. 방법:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "BOINC documentation"
-msgstr "BOINC 문서"
+msgstr "보잉크 문서"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Go to the BOINC data directory on your computer (see !boinc_wiki for help "
 "finding this)."
-msgstr "컴퓨터 상의 BOINC 데이터 디렉토리로 이동하세요(해당 항목을 찾는데 도움이 필요하면 !boinc_wiki 를 보세요)."
+msgstr "전산기 상의 보잉크 자료 자료방으로 이동하세요(해당 항목을 찾는데 도움이 필요하면 !boinc_wiki 를 보세요)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Find your account file for this project; it will have a name like %file "
 "(where the project URL is %url)."
-msgstr "이 프로젝트용 계정 파일을 찾으세요. %file 이름을 가지고 있을 것입니다(프로젝트 URL은 %url 입니다)."
+msgstr "이 사업용 계정 기록철을 찾으세요. %file 이름을 가지고 있을 것입니다(사업 누리망 주소은 %url 입니다)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "메모장같은 텍스트 편집기로 파일을 여세요. 다음 내용을 볼 수 있습니다:"
+msgstr "메모장같은 텍스트 편집기로 기록철을 여세요. 다음 내용을 볼 수 있습니다:"
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid ""
 "Select and Copy the string between &lt;authenticator&gt; and "
 "&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "&lt;authenticator&gt; 과 &lt;/authenticator&gt; 사이에 있는 문자열을 선택하고 복사하세요(상단에 있는 %auth 는 예제입니다)."
+msgstr "&lt;authenticator&gt; (와)과 &lt;/authenticator&gt; 사이에 있는 문자열을 선택하고 복사하세요(상단에 있는 %auth (은)는 예제입니다)."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
@@ -2617,12 +2618,12 @@ msgctxt "authenticator-login-page"
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr "여러분의 계정으로 로그인할 것입니다. 계정의 메일 주소와 비밀번호를 업데이트하세요."
+msgstr "여러분의 계정으로 들어갑니다. 계정의 메일 주소와 비밀번호를 갱신하세요."
 
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Log in with authenticator"
-msgstr "인증 부호로 로그인 하기"
+msgstr "인증 부호로 계정 들어가기"
 
 #: form-ok
 msgctxt "form-ok"
@@ -2632,46 +2633,46 @@ msgstr "확인"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "@email 로 된 계정이 존재하지 않습니다 -- 등록하려면 \"새 계정 만들기\"를 선택하세요"
+msgstr "@email (으)로 된 계정이 존재하지 않습니다 -- 등록하려면 \"새 계정 만들기\"를 선택하세요"
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
 msgid ""
 "Authentication is required when changing E-mail address or setting new "
 "password."
-msgstr "이메일 주소를 변경하거나 새로운 비밀번호를 설정할 때는 인증이 필요합니다."
+msgstr "전자 우편 주소를 변경하거나 새로운 비밀번호를 설정할 때는 인증이 필요합니다."
 
 #: forum-post-new-topic
 msgctxt "forum-post-new-topic"
 msgid "Post new topic"
-msgstr "새 주제를 포스트하기"
+msgstr "새 주제를 게시하기"
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Sorry, unrecognized email address or password."
-msgstr "죄송합니다. 인정되지 않은 이메일 주소 혹은 비밀번호입니다."
+msgstr "죄송합니다. 인정되지 않은 전자 우편 주소 혹은 비밀번호입니다."
 
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Have you forgotten your password?"
-msgstr "비밀번호를 잊어 버렸습니까?"
+msgstr "비밀번호를 잊어버렸습니까?"
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "이 값들은 여러분이 참여하는 모든 BOINC 프로젝트에 적용됩니다."
+msgstr "이 값은 여러분이 참여하는 모든 보잉크 사업에 적용됩니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "여러 프로젝트에 연결된 컴퓨터는 가장 최근에 수정된 환경설정을 사용하게 될 것입니다."
+msgstr "여러 사업에 등록한 전산기는 가장 최근에 바꾼 환경설정을 사용합니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Preferences last modified: @mod_time"
-msgstr "마지막 환경설정 시각: @mod_time"
+msgstr "마지막으로 환경설정을 바꾼 시각: @mod_time"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -2686,7 +2687,7 @@ msgstr "보기 전환"
 #: account-preferences-comuting
 msgctxt "account-preferences-comuting"
 msgid "Transfer files only between:"
-msgstr "이 시간 사이에만 파일 전송:"
+msgstr "이 시간에만 기록철 전송:"
 
 #: account-preference
 msgctxt "account-preference"
@@ -2721,7 +2722,7 @@ msgstr "불명"
 #: add-new-user
 msgctxt "add-new-user"
 msgid "A BOINC account already exists for @email."
-msgstr "@email 를 사용한 BOINC 계정이 이미 있습니다."
+msgstr "@email (을)를 사용한 보잉크 계정이 이미 있습니다."
 
 #: friend-remove
 msgctxt "friend-remove"
@@ -2731,7 +2732,7 @@ msgstr "친구 제거"
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create new team"
-msgstr "새로운 팀 만들기"
+msgstr "새 동아리 만들기"
 
 #: friends-page
 msgctxt "friends-page"
@@ -2751,7 +2752,7 @@ msgstr "작성됨"
 #: account-preferences-community
 msgctxt "account-preferences-community"
 msgid "Your community preferences have been updated."
-msgstr "커뮤니티 환경설정이 업데이트되었습니다."
+msgstr "이용자 모임 환경설정이 갱신되었습니다."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -2761,17 +2762,17 @@ msgstr "유효하지 않은 설정값 \"%preference\""
 #: team-forum
 msgctxt "team-forum"
 msgid "Team forum"
-msgstr "팀 포럼"
+msgstr "동아리 토론장"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "A discussion forum has been set up for team members."
-msgstr "팀 회원 전용 토론 포럼이 설정되었습니다."
+msgstr "동아리 회원 전용 토론 토론장이 설정되었습니다."
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Enter forum"
-msgstr "포럼 입장"
+msgstr "토론장 입장"
 
 #: friends-page
 msgctxt "friends-page"
@@ -2786,17 +2787,17 @@ msgstr "!name 이 친구 요청을 수락했습니다 [!site]"
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve profile"
-msgstr "프로필 승인"
+msgstr "인물 소개 승인"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Approve this profile content"
-msgstr "이 프로필 내용을 승인합니다"
+msgstr "이 인물 소개 내용을 승인합니다"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reject this profile content"
-msgstr "이 프로필 내용을 거부합니다"
+msgstr "이 인물 소개 내용을 거부합니다"
 
 #: forum-unsticky-comment
 msgctxt "forum-unsticky-comment"
@@ -2816,17 +2817,17 @@ msgstr "숨김 해제"
 #: forum-unhide-comment
 msgctxt "forum-unhide-comment"
 msgid "Unhide this comment"
-msgstr "이 코멘트 숨김 해제"
+msgstr "이 댓글 숨김 해제"
 
 #: comment-action-link
 msgctxt "comment-action-link"
 msgid "Unpublished"
-msgstr "미공개됨"
+msgstr "미공개"
 
 #: create-team-panel
 msgctxt "create-team-panel"
 msgid "Create a team"
-msgstr "팀 만들기"
+msgstr "동아리 만들기"
 
 #: form-choose
 msgctxt "form-choose"
@@ -2836,37 +2837,37 @@ msgstr "종류를 선택하세요"
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name"
-msgstr "팀 이름"
+msgstr "동아리 이름"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "Text only, no HTML tags"
-msgstr "텍스트 전용, HTML 태그 미허용"
+msgstr "텍스트 전용, HTML 보람 미허용"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team name -- HTML version (optional)"
-msgstr "팀 이름 -- HTML 버전 (선택 사항)"
+msgstr "동아리 이름 -- HTML 판 (선택 사항)"
 
 #: team-form-help
 msgctxt "team-form-help"
 msgid "You may use limited HTML tags"
-msgstr "제한된 HTML 태그를 사용할 수 있습니다"
+msgstr "제한된 HTML 보람를 사용할 수 있습니다"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Team website (optional)"
-msgstr "팀 웹 사이트 (선택 사항)"
+msgstr "동아리 누리집 (선택 사항)"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Displayed on the team's page"
-msgstr "팀 페이지 상에 표시됩니다"
+msgstr "동아리 쪽에 표시됩니다"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Type of team"
-msgstr "팀 종류"
+msgstr "동아리 종류"
 
 #: team-create/edit
 msgctxt "team-create/edit"
@@ -2876,27 +2877,27 @@ msgstr "회원 가입을 허가합니까?"
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Description of team"
-msgstr "팀 개요"
+msgstr "동아리 개요"
 
 #: team-form-save
 msgctxt "team-form-save"
 msgid "Save team"
-msgstr "팀 저장"
+msgstr "동아리 저장"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team"
-msgstr "팀 관리"
+msgstr "동아리 관리"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "View member list"
-msgstr "멤버 목록 보기"
+msgstr "회원 목록 보기"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Member names and emails"
-msgstr "멤버 이름 및 이메일"
+msgstr "회원 이름 및 전자 우편"
 
 #: team-manage
 msgctxt "team-manage"
@@ -2906,7 +2907,7 @@ msgstr "변경 내역 보기"
 #: team-manage
 msgctxt "team-manage"
 msgid "See member activity"
-msgstr "멤버 활동도 보기"
+msgstr "회원 활동도 보기"
 
 #: team-manage
 msgctxt "team-manage"
@@ -2921,7 +2922,7 @@ msgstr "게시판 생성 및 관리"
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members"
-msgstr "맴버 추방"
+msgstr "회원 추방"
 
 #: team-manage
 msgctxt "team-manage"
@@ -2931,36 +2932,36 @@ msgstr "창설자 변경"
 #: team-manage
 msgctxt "team-manage"
 msgid "Manage team admins"
-msgstr "팀 관리자 관리"
+msgstr "동아리 관리자 관리"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Edit team info"
-msgstr "팀 정보 수정"
+msgstr "동아리 정보 수정"
 
 #: team-manage
 msgctxt "team-manage"
 msgid "Remove team"
-msgstr "팀 해체"
+msgstr "동아리 지우기"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
-msgstr "때때로 BOINC는 실수로 같은 컴퓨터를 다른 모델로 인정합니다. 여러분은 오래된 모델을 새로운 모델로 통합시켜서 바로잡을 수 있습니다."
+msgstr "가끔 같은 전산기를 다른 전산기로 오인하는 경우가 있습니다. 옛 전산기를 새 전산기에 합쳐 바로잡을 수 있습니다."
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
 "with computer ID @id)"
-msgstr "@name 과 동일한 컴퓨터인지 체크하세요 (@date @time 에 생성된 컴퓨터 @id)"
+msgstr "@name 과 동일한 전산기인지 확인하세요 (@date @time 에 생성된 전산기 @id)"
 
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "@old_id 가 성공적으로 @id 에 병합되었습니다."
+msgstr "@old_id (이)를 @id (와)과 합치는데 성공했습니다."
 
 #: account-credentials-change
 msgctxt "account-credentials-change"
@@ -2980,22 +2981,22 @@ msgstr "숨김"
 #: account-host-merge
 msgctxt "account-host-merge"
 msgid "Computer @old_id has been merged successfully into @id."
-msgstr "컴퓨터 @old_id 가 성공적으로 @id 에 병합되었습니다."
+msgstr "전산기 @old_id (이)가 성공적으로 @id 에 병합되었습니다."
 
 #: link-to-BOINC-wide-teams-Website
 msgctxt "link-to-BOINC-wide-teams-Website"
 msgid "BOINC-wide teams site"
-msgstr "BOINC 전역 팀 사이트"
+msgstr "보잉크 전역 동아리 누리집"
 
 #: team-edit-warning-message
 msgctxt "team-edit-warning-message"
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr "이 항목은 BOINC 전역 팀입니다. !site 에서 변경할 수 있습니다."
+msgstr "이 항목은 보잉크 전역 동아리입니다. !site 에서 변경할 수 있습니다."
 
 #: post-forum-comment
 msgctxt "post-forum-comment"
 msgid "Post topic"
-msgstr "새 주제 포스트하기"
+msgstr "새 주제 게시물하기"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3010,7 +3011,7 @@ msgstr "현재 창설자는 @count 일 안에 교체 요청에 응답해야 합�
 #: account-preferences
 msgctxt "account-preferences"
 msgid "Invalid data type for @field"
-msgstr "유효하지 않은 데이터 종류 @field"
+msgstr "유효하지 않은 자료 종류 @field"
 
 #: account-preferences
 msgctxt "account-preferences"
@@ -3025,7 +3026,7 @@ msgstr "잠금 해제"
 #: forum-unlock-comment
 msgctxt "forum-unlock-comment"
 msgid "Unlock this thread for comments"
-msgstr "이 스레드에서 코멘트 쓰기 잠금 해제"
+msgstr "이 글타래에서 댓글 쓰기 잠금 해제"
 
 #: friends-add
 msgctxt "friends-add"
@@ -3050,12 +3051,12 @@ msgstr "친구 요청 취소"
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid "At least one application must be selected"
-msgstr "최소한 애플리케이션 하나는 선택되어야 합니다"
+msgstr "최소한 응용 무른모 하나는 선택되어야 합니다"
 
 #: team-forum
 msgctxt "team-forum"
 msgid "Create team message board"
-msgstr "팀 게시판 생성하기"
+msgstr "동아리 게시판 생성하기"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
@@ -3065,7 +3066,7 @@ msgstr "게시판 제목"
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
 msgid "Minimum time between posts"
-msgstr "포스트 사이의 최소 시간 간격"
+msgstr "게시물 사이의 최소 시간 간격"
 
 #: team-forum-create/edit
 msgctxt "team-forum-create/edit"
@@ -3100,7 +3101,7 @@ msgstr "게시판 정보"
 #: team-forum
 msgctxt "team-forum"
 msgid "Only members may post"
-msgstr "회원만 포스트할 수 있게 합니다"
+msgstr "회원만 게시물할 수 있게 합니다"
 
 #: team-forum
 msgctxt "team-forum"
@@ -3110,7 +3111,7 @@ msgstr "회원만 읽을 수 있게 합니다(선택 사항)"
 #: team-forum
 msgctxt "team-forum"
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "창설자 & 팀 관리자는 관리자 권한을 가집니다"
+msgstr "창설자 & 동아리 관리자는 관리자 권한을 가집니다"
 
 #: search-user
 msgctxt "search-user"
@@ -3126,7 +3127,7 @@ msgstr "요청에 응답하기"
 msgctxt "team-founder-change"
 msgid ""
 "A foundership transfer request has been made for your team. Please !respond."
-msgstr "소속된 팀에서 창설자 교체 요청이 제기되었습니다. !respond 하세요."
+msgstr "소속된 동아리에서 창설자 교체 요청이 제기되었습니다. !respond 하세요."
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3139,7 +3140,7 @@ msgid ""
 "If you don't decline the request by @date, @name will have the option of "
 "assuming team foundership. (note: To accept the request, assign foundership "
 "to @name using the form below)"
-msgstr "만약 @date 까지 요청을 거부하지 않으면, @name 이(가) 팀 창설자를 맡을지 선택할 것입니다. (노트: 요청을 수락하려면, 하단 양식을 사용해서 @name 을(를) 창설자로 승인해 주세요)"
+msgstr "만약 @date 까지 요청을 거부하지 않으면, @name 이(가) 동아리 창설자를 맡을지 선택할 것입니다. (알림: 요청을 수락하려면, 하단 양식을 사용해서 @name 을(를) 창설자로 승인해 주세요)"
 
 #: team-request-foundership-response
 msgctxt "team-request-foundership-response"
@@ -3154,7 +3155,7 @@ msgstr "창설자 지정"
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Changing the team founder"
-msgstr "팀 창설자 변경하기"
+msgstr "동아리 창설자 변경하기"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
@@ -3164,7 +3165,7 @@ msgstr "창설자 변경에 대한 설명:"
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Any member of the team is eligible"
-msgstr "팀 회원 누구나 자격이 있습니다"
+msgstr "동아리 회원 누구나 자격이 있습니다"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
@@ -3174,7 +3175,7 @@ msgstr "현재 창설자는 일반 사용자가 됩니다"
 #: team-founder-panel
 msgctxt "team-founder-panel"
 msgid "Foundership can be requested by team members:"
-msgstr "팀 회원에게서 요청받은 창설자 후보:"
+msgstr "동아리 회원이 요청한 창설자 후보:"
 
 #: team-founder-panel
 msgctxt "team-founder-panel"
@@ -3204,7 +3205,7 @@ msgstr "이 인증 부호는 유효하지 않습니다."
 #: forgot-password
 msgctxt "forgot-password"
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email 은 올바른 이메일 주소가 아닙니다. 다시 확인해주세요"
+msgstr "@email 은 올바른 전자 우편 주소가 아닙니다. 다시 확인해주세요"
 
 #: friend-approve
 msgctxt "friend-approve"
@@ -3229,74 +3230,74 @@ msgstr "해당 인식 부호를 가진 계정이 없습니다."
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Add team admin"
-msgstr "팀 관리자 추가"
+msgstr "동아리 관리자 추가"
 
 #: team--add-admin
 msgctxt "team--add-admin"
 msgid "Enter email address"
-msgstr "이메일 주소를 입력하세요"
+msgstr "전자 우편 주소를 입력하세요"
 
 #: team-manage-admins
 msgctxt "team-manage-admins"
 msgid "Current team admins"
-msgstr "현재 팀 관리자들"
+msgstr "현재 동아리 관리자들"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "About team admins"
-msgstr "팀 관리자 정보"
+msgstr "동아리 관리자 정보"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins can:"
-msgstr "팀 관리자가 가능한 것:"
+msgstr "동아리 관리자가 가능한 것:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Edit team information"
-msgstr "팀 정보 수정하기"
+msgstr "동아리 정보 수정하기"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "View the team's join / quit history"
-msgstr "팀 가입 / 탈퇴 이력 보기"
+msgstr "동아리 가입 / 탈퇴 이력 보기"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Moderate the team forum"
-msgstr "팀 포럼 관리하기"
+msgstr "동아리 토론장 관리하기"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Remove members from the team"
-msgstr "팀에서 멤버 추방하기"
+msgstr "동아리에서 회원 추방하기"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Disband a team if it has no members"
-msgstr "팀 멤버가 없을 경우 팀을 해산할 수 있습니다"
+msgstr "동아리 회원가 없을 경우 동아리을 해산할 수 있습니다"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Team admins cannot:"
-msgstr "팀 관리자가 불가능한 것:"
+msgstr "동아리 관리자가 불가능한 것:"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Change the team founder"
-msgstr "팀 창설자 변경하기"
+msgstr "동아리 창설자 변경하기"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid "Add / Remove team admins"
-msgstr "팀 관리자 추가 / 제거"
+msgstr "동아리 관리자 추가 / 제거"
 
 #: team-admins-panel
 msgctxt "team-admins-panel"
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
-msgstr "만약 팀 관리자가 팀을 나가면, 팀 관리자 직책이 사라지게 됩니다. 잘 알고 믿을 수 있는 사람만 선택하길 추천합니다"
+msgstr "만약 동아리 관리자가 동아리을 나가면, 동아리 관리자 직책이 사라지게 됩니다. 잘 알고 믿을 수 있는 사람만 선택하길 추천합니다"
 
 #: team-general-info
 msgctxt "team-general-info"
@@ -3304,12 +3305,12 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "@project 참여자는 팀을 결성할 수 있습니다. 사용자는 단 하나의 팀에만 속할 수 있습니다. 팀은 언제든지 가입하거나 탈퇴할 수 있습니다. 팀에 가입하려면, 팀 페이지를 방문하고 \"이 팀에 가입\" 버튼을 클릭하세요. 각 팀은 다음 창설자가 있습니다:"
+msgstr "@project 참여자는 동아리을 결성할 수 있습니다. 사용자는 단 하나의 동아리에만 속할 수 있습니다. 동아리은 언제든지 가입하거나 탈퇴할 수 있습니다. 동아리에 가입하려면, 동아리 쪽를 방문하고 \"이 동아리에 가입\" 단추을 클릭하세요. 각 동아리은 다음 창설자가 있습니다:"
 
 #: join-page
 msgctxt "join-page"
 msgid "When prompted enter @siteurl"
-msgstr "명령창이 뜨면 @siteurl 을 입력하세요"
+msgstr "명령창이 뜨면 @siteurl (을)를 입력하세요"
 
 #: forgot-password
 msgctxt "forgot-password"
@@ -3321,21 +3322,21 @@ msgctxt "forgot-password"
 msgid ""
 "No account exists for @email -- please create an account using a BOINC "
 "client -- !instructions"
-msgstr "@email 로 된 계정이 존재하지 않습니다 -- BOINC 클라이언트를 사용해서 계정을 생성하세요 -- !instructions"
+msgstr "@email (으)로 된 계정이 존재하지 않습니다 -- 보잉크 클라이언트를 사용해서 계정을 생성하세요 -- !instructions"
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "@count days have elapsed since your request and the founder has not "
 "responded."
-msgstr "요청이 제기되고서 창설자가 반응을 보이지 않은 지 @count 일이 지났습니다."
+msgstr "요청이 제기되고서 창설자가 반응을 보이지 않은지 @count 일이 지났습니다."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
 msgid ""
 "You now have @count days to assume foundership before another team member "
 "may submit a request."
-msgstr "이전에 다른 팀 회원이 제출한 요청으로 인해 창설자 직을 맡은 후 현재 @count 일이 지났습니다."
+msgstr "이전에 다른 동아리 회원이 제출한 요청으로 인해 창설자 직을 맡은 후 현재 @count 일이 지났습니다."
 
 #: team-request-foundership
 msgctxt "team-request-foundership"
@@ -3355,32 +3356,32 @@ msgstr "유보"
 #: account-task-table
 msgctxt "account-task-table"
 msgid "Tasks for your account"
-msgstr "계정내 태스크"
+msgstr "계정내 작업"
 
 #: task-table
 msgctxt "task-table"
 msgid "Application"
-msgstr "응용 프로그램"
+msgstr "응용 풀그림"
 
 #: task-table
 msgctxt "task-table"
 msgid "All applications"
-msgstr "모든 응용 프로그램"
+msgstr "모든 응용 풀그림"
 
 #: task-table
 msgctxt "task-table"
 msgid "Task ID"
-msgstr "태스크 ID"
+msgstr "작업 식별자"
 
 #: task-table
 msgctxt "task-table"
 msgid "Workunit ID"
-msgstr "작업 유닛 ID"
+msgstr "작업 단위 식별자"
 
 #: task-table
 msgctxt "task-table"
 msgid "Computer"
-msgstr "컴퓨터"
+msgstr "전산기"
 
 #: task-table
 msgctxt "task-table"
@@ -3405,7 +3406,7 @@ msgstr "실행 시간"
 #: task-table
 msgctxt "task-table"
 msgid "CPU time"
-msgstr "CPU 시간"
+msgstr "중앙처리장치 시간"
 
 #: task-table
 msgctxt "task-table"
@@ -3435,7 +3436,7 @@ msgstr "유보"
 #: task-table
 msgctxt "task-table"
 msgid "Valid"
-msgstr "유혀"
+msgstr "유효"
 
 #: task-table
 msgctxt "task-table"
@@ -3465,36 +3466,36 @@ msgstr "이 호스트 설정을 변경하도록 허가되지 않았습니다."
 #: host-task-table
 msgctxt "host-task-table"
 msgid "Tasks for computer @host_id"
-msgstr "컴퓨터 @host_id 내 태스크"
+msgstr "전산기 @host_id 내 작업"
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "The location for this host has been updated."
-msgstr "이 호스트의 위치가 업데이트되었습니다."
+msgstr "이 호스트의 위치가 갱신되었습니다."
 
 #: account-host-details
 msgctxt "account-host-details"
 msgid "This will take effect next time the host contacts the project."
-msgstr "다음 번에 해당 호스트가 프로젝트 서버와 연결될 때 적용될 것입니다."
+msgstr "다음 번에 해당 호스트가 사업 전산 교환기(서버)와 연결될 때 적용될 것입니다."
 
 #: user-profile:-1:message-shown-when-there-is-no-profile
 msgctxt "user-profile:-1:message-shown-when-there-is-no-profile"
 msgid "Profile does not exist."
-msgstr "프로필이 존재하지 않습니다."
+msgstr "인물 소개이 존재하지 않습니다."
 
 #: account-computing-preferences
 msgctxt "account-computing-preferences"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "계속하면 \"@name\" 환경 설정 세트에서 모든 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
+msgstr "계속하면 \"@name\" 환경 설정 집합에서 모든 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
 
 #: account-preferences-project
 msgctxt "account-preferences-project"
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
 " you sure?"
-msgstr "계속하면 \"@name\" 환경 설정 세트에서 모든 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
+msgstr "계속하면 \"@name\" 환경 설정 집합에서 모든 설정값들을 제거하게 됩니다. 계속하시겠습니까?"
 
 #: team-forum
 msgctxt "team-forum"
@@ -3504,41 +3505,41 @@ msgstr "@team 에서 사용할 게시판을 만들 수 있습니다"
 #: forgot-password
 msgctxt "forgot-password"
 msgid "Please enter your email address"
-msgstr "이메일 주소를 입력해 주세요"
+msgstr "전자 우편 주소를 입력해 주세요"
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "BOINC 데스크탑 소프트웨어를 다운로드하세요."
+msgstr "보잉크 전산기 무른모를 내려받으세요."
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "For Android devices, download BOINC from the Google Play Store or Amazon App"
 " Store."
-msgstr "안드로이드 기기라면 Google Play Store나 Amazon App Store에서 BOINC를 다운로드하세요."
+msgstr "안드로이드 기기라면 구글 플레이 스토어나 아마존 앱 스토어에서 보잉크를 내려받기하세요."
 
 #: join-page
 msgctxt "join-page"
 msgid "Run the installer."
-msgstr "설치 프로그램을 실행해 주세요."
+msgstr "설치 풀그림을 실행해 주세요."
 
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr "목록 중에서 @sitename 을 고르거나 @siteurl 을 입력하세요."
+msgstr "목록 중에서 @sitename (을)를 고르거나 @siteurl (을)를 입력하세요."
 
 #: join-page
 msgctxt "join-page"
 msgid "Install BOINC on this device if not already present."
-msgstr "아직 설치되지 않았다면 이 기기에 BOINC를 설치하세요."
+msgstr "아직 설치되지 않았다면 이 기기에 보잉크를 설치하세요."
 
 #: join-page
 msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr "<i>도구 / 프로젝트 추가</i>를 선택하세요. 목록에서 @sitename 을 선택하거나 @siteurl 를 입력합니다."
+msgstr "<i>도구 / 사업 추가</i>를 선택하세요. 목록에서 @sitename (을)를 선택하거나 @siteurl (을)를 입력합니다."
 
 #: join-page
 msgctxt "join-page"
@@ -3547,7 +3548,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr "만약 커맨드라인 버전 BOINC를 실행하고 있다면,\n        우선 이 프로젝트에 계정을 생성하기 위해 BOINC 관리자 소프트웨어를\n        사용해주시고 <b>!boinccmd</b>를 사용해서 생성된 계정으로\n        커맨드라인 버전과 접속시켜 주세요."
+msgstr "만약 명령줄판 보잉크를 실행하고 있다면,\n        우선 이 사업에 계정을 생성하기 위해 보잉크 관리자 무른모를\n        사용해주시고 <b>!boinccmd</b>를 사용해서 생성된 계정으로\n        명령줄판에 접속하세요."
 
 #: join-page
 msgctxt "join-page"
@@ -3555,52 +3556,52 @@ msgid ""
 "If you're running a pre-5.0 version of BOINC, please\n"
 "        upgrade to a more recent version of BOINC to create an account\n"
 "        at @this_project."
-msgstr "만약 BOINC 5.0 이전 버전을 실행하고 있으며,\n        @this_project 계정을 생성하고자 한다면 보다 최신 버전으로\n        업그레이드하세요."
+msgstr "만약 보잉크 5.0 이전 판을 실행하고 있으며,\n        @this_project 계정을 생성하고자 한다면 보다 최신판으로\n        판올림하세요."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "@user is the founder of @team!"
-msgstr "@user 는 @team 의 창설자입니다!"
+msgstr "@user (은)는 @team 의 창설자입니다!"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "BOINC translation filter to help split content into chunks for translations."
-msgstr "BOINC 번역 필터는 번역용 말뭉치 속에서 컨텐츠르 분리하는 것을 도와줍니다."
+msgstr "보잉크 번역 거르개는 번역용 말뭉치 속에서 내용을 분리를 도와줍니다."
 
 #: input-filter-help
 msgctxt "input-filter-help"
 msgid "Splits node content into chunks for translation."
-msgstr "번역용 말뭉치 속 노드 컨텐ㅊ 분리"
+msgstr "번역용 말뭉치 속 마디 내용 분리"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "BOINC translate filter"
-msgstr "BOINC 번역 필터"
+msgstr "보잉크 번역 거르개"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Content types to filter"
-msgstr "컨텐츠 종류별 필터"
+msgstr "내용 종류별 거르개"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Choose which content (node) types wich will be split into chunks for "
 "translation."
-msgstr "번역용 말뭉치 속에서 분리할 컨텐츠(노드) 종류를 선택하세요."
+msgstr "번역용 말뭉치 속에서 분리할 내용(마디) 종류를 선택하세요."
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid "Print debugging info"
-msgstr "디버깅 정보 출력"
+msgstr "시험 가동 정보 출력"
 
 #: adminpage-boinctranslate-inputfilter
 msgctxt "adminpage-boinctranslate-inputfilter"
 msgid ""
 "Prints additional debugging information. This option should be disabled on "
 "production sites."
-msgstr "추가적인 디버깅 정보를 출력합니다. 이 옵션은 상용 사이트에서 비활성화가 가능합니다."
+msgstr "추가적인 시험 가동 정보를 출력합니다. 이 선택은 상용 누리집에서 비활성화가 가능합니다."
 
 #: join-page
 msgctxt "join-page"
@@ -3610,7 +3611,7 @@ msgstr "규칙과 정책"
 #: join-page
 msgctxt "join-page"
 msgid "Read our !rules_and_policies."
-msgstr "!rules_and_policies 을 읽어주십시오."
+msgstr "!rules_and_policies (을)를 읽어주십시오."
 
 #: account-password
 msgctxt "account-password"
@@ -3635,14 +3636,14 @@ msgstr "모든 주제를 읽음으로 표시"
 #: forum
 msgctxt "forum"
 msgid "Mark all forums read"
-msgstr "모든 포럼을 읽음으로 표시"
+msgstr "모든 토론장을 읽음으로 표시"
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
-msgstr "CAPTCHA 인증 오류: 알 수 없는 CAPTCHA 세션 ID. 이 문제가 지속되면 사이트 관리자에게 연락하세요."
+msgstr "CAPTCHA 인증 오류: 알 수 없는 CAPTCHA 작업 식별자. 이 문제가 지속되면 누리집 관리자에게 연락하세요."
 
 #: account-profile-edit
 msgctxt "account-profile-edit"
@@ -3652,22 +3653,22 @@ msgstr "입력한 CAPTCHA 답변이 올바르지 않습니다."
 #: general-access-error
 msgctxt "general-access-error"
 msgid "Access denied. You must login to view this page."
-msgstr "접근이 거부되었습니다. 이 페이지를 보려면 로그인해야 됩니다."
+msgstr "접근이 거부되었습니다. 이 쪽를 보려면 계정 들어가기해야 됩니다."
 
 #: general-access-error
 msgctxt "general-access-error"
 msgid "You are not authorized to access this page."
-msgstr "이 페이지로의 접근이 허가되지 않았습니다."
+msgstr "이 쪽으로의 접근이 허가되지 않았습니다."
 
 #: forum
 msgctxt "forum"
 msgid "Disable rich-text"
-msgstr "리치 텍스트 비활성화"
+msgstr "서식 있는 글월 비활성화"
 
 #: forum
 msgctxt "forum"
 msgid "Enable rich-text"
-msgstr "리치 텍스트 활성화"
+msgstr "서식 있는 글월 활성화"
 
 #: forum-thread-subscribe
 msgctxt "forum-thread-subscribe"
@@ -3702,7 +3703,7 @@ msgstr "무시 목록"
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
 msgid "All tasks"
-msgstr "모든 태스크"
+msgstr "모든 작업"
 
 #: workunit-and-host-lists
 msgctxt "workunit-and-host-lists"
@@ -3717,7 +3718,7 @@ msgstr "실행 시간 (초)"
 #: task-details
 msgctxt "task-details"
 msgid "CPU time (sec)"
-msgstr "CPU 시간 (초)"
+msgstr "중앙처리장치 시간 (초)"
 
 #: workunit-details
 msgctxt "workunit-details"
@@ -3727,29 +3728,29 @@ msgstr "인정받은 결과"
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Max # of error/total/success tasks"
-msgstr "최대 오류/전체/성공 태스크 수"
+msgstr "최대 오류/전체/성공 작업 수"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Message for site's Home Page"
-msgstr "사이트 초기 화면에 들어갈 내용"
+msgstr "누리집 초기 화면에 들어갈 내용"
 
 #: admin-boinc-other-options
 msgctxt "admin-boinc-other-options"
 msgid "Text to be displayed on the site's Home landing page."
-msgstr "입력한 내용은 사이트 초기 페이지 상에 표시됩니다."
+msgstr "입력한 내용은 누리집 초기 쪽 상에 표시됩니다."
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for rejecting this profile"
-msgstr "이 프로필의 거절 사유"
+msgstr "이 인물 소개의 거절 사유"
 
 #: moderate-user
 msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of the problem and how to fix it."
-msgstr "사용자에게 거절 사유가 포함되어서 이메일로 전송됩니다. 간단한 문제 설명과 어떻게 고칠 수 있는지를 적어 주세요."
+msgstr "사용자에게 거절 사유가 포함되어서 전자 우편로 전송됩니다. 간단한 문제 설명과 어떻게 고칠 수 있는지를 적어 주세요."
 
 #: form-submit
 msgctxt "form-submit"
@@ -3776,7 +3777,7 @@ msgctxt "moderate-user"
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
 "explanation of why the user is being banned."
-msgstr "사용자에게 차단 사유가 포함되어서 이메일로 전송됩니다. 왜 사용자가 차단되었는지 믿을 만한 설명을 적어주세요."
+msgstr "사용자에게 차단 사유가 포함되어서 전자 우편로 전송됩니다. 왜 사용자가 차단되었는지 믿을 만한 설명을 적어주세요."
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -3786,12 +3787,12 @@ msgstr "차단할 기간"
 #: moderate-user
 msgctxt "moderate-user"
 msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "차단 일수를 선택하세요. 0으로 설정하면 영구적으로 차단됩니다."
+msgstr "차단 일수를 선택하세요. 0으로 설정하면 영구적으로 차단합니다."
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "A team named \"@name\" already exists."
-msgstr "\"@name\"로 된 팀 이름이 이미 존재합니다."
+msgstr "\"@name\"(으)로 된 동아리 이름이 이미 존재합니다."
 
 #: team-forum
 msgctxt "team-forum"
@@ -3806,27 +3807,27 @@ msgstr "게시판에 저장"
 #: team-forum
 msgctxt "team-forum"
 msgid "This is a team-only message board"
-msgstr "이 게시판은 팀 전용 게시판입니다"
+msgstr "이 게시판은 동아리 전용 게시판입니다"
 
 #: team-create/edit
 msgctxt "team-create/edit"
 msgid "Please select a team type."
-msgstr "팀 종류를 선택하세요."
+msgstr "동아리 종류를 선택하세요."
 
 #: boincid
 msgctxt "boincid"
 msgid "BOINC ID"
-msgstr "BOINC ID"
+msgstr "보잉크 식별자"
 
 #: task-details
 msgctxt "task-details"
 msgid "Task not found in database."
-msgstr "데이터베이스에서 태스크를 찾지 못했습니다."
+msgstr "자료기지에서 작업을 찾지 못했습니다."
 
 #: workunit-details
 msgctxt "workunit-details"
 msgid "Workunit not found in database."
-msgstr "데이터베이스에서 작업 유닛을 찾지 못했습니다."
+msgstr "자료기지에서 작업 유닛을 찾지 못했습니다."
 
 #: task-details-errorlog
 msgctxt "task-details-errorlog"
@@ -3836,7 +3837,7 @@ msgstr "Stderr 출력 값"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to moderation."
-msgstr "비고: 사용자 프로필은 관리 대상입니다."
+msgstr "비고: 사용자 인물 소개은 관리 대상입니다."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3845,12 +3846,12 @@ msgid ""
 "Your BOINC client should start working on assigned tasks soon, without any "
 "additional action or configuration. Please visit the links below for more "
 "information and additional options. (Links will open in a new window.)"
-msgstr "@user_name 님, @site_name 에 참여해 주셔서 감사합니다. 계정이 생성되었습니다. BOINC 클라이언트는 어떠한 추가적인 동작이나 설정없이 곧 할당된 태스크로 작업을 시작할 것입니다. 더 많은 정보 및 추가적인 옵션은 아래 링크를 방문해 주세요. (링크는 새 창으로 열립니다.)"
+msgstr "@user_name 님, @site_name 에 참여해 주셔서 감사합니다. 계정이 생성되었습니다. 보잉크 클라이언트는 어떠한 추가적인 동작이나 설정없이 곧 할당된 작업로 작업을 시작할 것입니다. 더 많은 정보 및 추가적인 옵션은 아래 연결 주소를 방문해 주세요. (연결 주소는 새 창으로 열립니다.)"
 
 #: account-fininsh
 msgctxt "account-fininsh"
 msgid "Community Preferences"
-msgstr "커뮤니티 환경 설정"
+msgstr "이용자 모임 환경 설정"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3862,7 +3863,7 @@ msgctxt "account-finish"
 msgid ""
 "Your username is used to identify yourself to other volunteers on this Web "
 "site."
-msgstr "사용자 이름은 이 웹 사이트상에서 다른 기여자들과 여러분 자신을 식별하는데 사용됩니다."
+msgstr "사용자 이름은 이 누리집상에서 다른 기여자들과 여러분 자신을 식별하는데 사용됩니다."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3879,26 +3880,26 @@ msgstr "연산 환경 설정"
 #: account-finish
 msgctxt "account-finish"
 msgid "Change your !computing_preferences."
-msgstr "!computing_preferences 을 변경하세요."
+msgstr "!computing_preferences (을)를 변경하세요."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "You may adjust how much CPU, RAM, and Disk space the BOINC client is allowed"
 " to use for tasks on your computer."
-msgstr "컴퓨터에서 태스크 작업용으로 BOINC 클라이언트가 사용하도록 허가된 CPU, RAM, 디스크 용량을 조정할 수 있습니다."
+msgstr "전산기에서 작업 작업용으로 보잉크 클라이언트가 사용하도록 허가된 중앙처리장치, 막기억장치, 저장판 용량을 조정할 수 있습니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "By default, you will run @site_name tasks without any additional "
 "configuration."
-msgstr "기본적으로 어떠한 추가적인 설정없이 @site_name 태스크를 실행할 것입니다."
+msgstr "기본적으로 어떠한 추가적인 설정없이 @site_name 작업을 실행할 것입니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "forums"
-msgstr "포럼"
+msgstr "토론장"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3906,44 +3907,44 @@ msgid ""
 "It is recommended new volunteers leave the default settings until they gain "
 "experience running some tasks. Ask questions in the !forums to get advice "
 "before making changes to a setting you don't understand."
-msgstr "새로운 기여자는 특정 태스크를 실행하면서 경험을 얻을 때까지 기본 설정값으로 남겨두길 추천합니다. 여러분이 이해하지 못한 설정값을 변경하기 전에 !forums 에서 조언을 얻을 질문을 하길 바랍니다."
+msgstr "새로운 기여자는 특정 작업을 실행하면서 경험을 얻을 때까지 기본 설정값으로 남겨두길 추천합니다. 여러분이 이해하지 못한 설정값을 변경하기 전에 !forums 에서 조언을 얻을 질문을 하길 바랍니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "User Profile"
-msgstr "사용자 프로필"
+msgstr "사용자 인물 소개"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Create a !user_profile."
-msgstr "!user_profile 을 만드세요."
+msgstr "!user_profile (을)를 만드세요."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "A user profile will inform other volunteers who you are and why you joined "
 "@site_name."
-msgstr "사용자 프로필은 다른 기여자들에게 여러분이 누군지, 왜 @site_name 에 가입했는지 알려줄 것입니다."
+msgstr "사용자 인물 소개은 다른 기여자들에게 여러분이 누군지, 왜 @site_name 에 가입했는지 알려줄 것입니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Team"
-msgstr "팀"
+msgstr "동아리"
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Join a !team."
-msgstr "!team 가입하세요."
+msgstr "!team 에 가입하세요."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "You may join a team, made up of other volunteers."
-msgstr "다른 기여자들로 구성된 팀에 가입할 수도 있습니다."
+msgstr "다른 기여자들로 구성된 동아리에 가입할 수도 있습니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Account Dashboard"
-msgstr "계정 대시보드"
+msgstr "계정 알림판"
 
 #: account-finish
 msgctxt "account-finish"
@@ -3955,7 +3956,7 @@ msgctxt "account-finish"
 msgid ""
 "Your account dashboard has information and links about your computer(s) and "
 "task(s) assigned."
-msgstr "계정 대시보드는 여러분 컴퓨터와 할당된 태스크의 정보와 링크를 가지고 있습니다."
+msgstr "계정 알림판는 여러분 전산기와 할당된 작업의 정보와 연결 주소를 가지고 있습니다."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3965,12 +3966,12 @@ msgstr "도움말"
 #: account-finish
 msgctxt "account-finish"
 msgid "Visit our !help pages."
-msgstr "!help 페이지를 방문해주세요."
+msgstr "!help 쪽를 방문해주세요."
 
 #: account-finish
 msgctxt "account-finish"
 msgid "Ask for help in our community's !forums."
-msgstr "도움말을 커뮤니티 !forums 에서 얻으세요."
+msgstr "도움말을 이용자 모임 !forums 에서 얻으세요."
 
 #: account-finish
 msgctxt "account-finish"
@@ -3985,19 +3986,19 @@ msgstr "마지막으로 수정된 시각: @mod_time"
 #: host-details
 msgctxt "host-details"
 msgid "Host not found in database."
-msgstr "데이터베이스에서 호스트를 찾을 수 없습니다."
+msgstr "자료기지에서 호스트를 찾을 수 없습니다."
 
 #: account-finish
 msgctxt "account-finish"
 msgid ""
 "ERROR: There was a problem loading your account. Try logging in with your "
 "user name and password."
-msgstr "오류: 계정을 불러오는 중에 문제가 생겼습니다. 사용자 본인의 ID와 비밀번호로 로그인해 보세요."
+msgstr "오류: 계정을 불러오는 중에 문제가 생겼습니다. 사용자 본인의 식별자와 비밀번호로 계정 들어가기해 보세요."
 
 #: team-add-admin
 msgctxt "team-add-admin"
 msgid "There is no user on your team with that email address."
-msgstr "해당 이메일 주소를 가진 사용자가 팀에 없습니다."
+msgstr "해당 전자 우편 주소를 가진 사용자가 동아리에 없습니다."
 
 #: account-finish
 msgctxt "account-finish"
@@ -4007,21 +4008,21 @@ msgstr "수정"
 #: account-finish
 msgctxt "account-finish"
 msgid "Please note: user profiles are subject to !moderation."
-msgstr "노트: 사용자 프로필은 !moderation 해야 될 의무가 있습니다."
+msgstr "알림: 사용자 인물 소개은 !moderation 해야 될 의무가 있습니다."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "By default a search matches ANY search term. Results with more than one term"
 " will be presented higher in the search results."
-msgstr "검색은 기본적으로 아무 검색어나 매칭됩니다. 한 단어 이상의 결과물은 검색 결과에서 보다 상단에 표시됩니다."
+msgstr "검색은 기본적으로 모든 검색어와 일치합니다. 한 단어 이상의 결과물은 검색 결과에서 보다 상단에 표시됩니다."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"
 msgid ""
 "You may use 'AND' to have the search engine return results with ALL search "
 "terms."
-msgstr "검색 엔진은 'AND'를 사용하면 모든 검색어가 포함된 결과물을 반환합니다."
+msgstr "검색 엔진에 'AND'를 사용하면 모든 검색어가 포함된 결과물을 반환합니다."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"

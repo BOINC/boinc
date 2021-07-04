@@ -23,9 +23,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -372,11 +369,14 @@ void COPROC_ATI::get(
         cc.attribs = attribs;
         cc.info = info;
         safe_strcpy(cc.name, gpu_name.c_str());
-        snprintf(cc.version, sizeof(cc.version), "%d.%d.%d", cal_major, cal_minor, cal_imp);
+        snprintf(cc.version, sizeof(cc.version), "%u.%u.%u", cal_major, cal_minor, cal_imp);
         cc.amdrt_detected = amdrt_detected;
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         cc.set_peak_flops();
+        if (cc.bad_gpu_peak_flops("CAL", s)) {
+            warnings.push_back(s);
+        }
         get_available_ati_ram(cc, warnings);
         ati_gpus.push_back(cc);
     }

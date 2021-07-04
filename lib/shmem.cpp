@@ -17,14 +17,8 @@
 
 // interfaces for accessing shared memory segments
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #ifdef __EMX__
@@ -339,7 +333,10 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
         // area to all zeros because they write beyond the old EOF. 
         // See the lseek man page for details.
         lseek(fd, size-1, SEEK_SET);
-        write(fd, "\0", 1);
+        if (1 != write(fd, "\0", 1)) {
+	    close(fd);
+	    return ERR_SHMGET;
+	}
     }
 
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);

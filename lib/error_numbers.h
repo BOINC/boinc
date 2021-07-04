@@ -213,6 +213,8 @@
 #define ERR_CHMOD           -239
 #define ERR_STAT            -240
 #define ERR_FCLOSE          -241
+#define ERR_ACCT_REQUIRE_CONSENT -242
+#define ERR_INVALID_STATE   -243
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

@@ -231,3 +231,15 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     </div>
   <?php endif; ?>
 </div>
+<?php
+  $ddname = 'flag_abuse_reason-dropdown-user-' . $account->uid;
+?>
+<div class="dropdown">
+  <div id="<?php print $ddname; ?>" class="dropdown-content">
+    <?php print flag_create_link('abuse_user_1', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_2', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_3', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_4', $account->uid); ?>
+    <?php print flag_create_link('abuse_user_5', $account->uid); ?>
+  </div>
+</div>

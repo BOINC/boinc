@@ -95,6 +95,7 @@ static void handle_no_rsc_pref(PROJECT* p, const char* name) {
 
 // parse an account_*.xml file, ignoring <venue> elements
 // (since we don't know the host venue yet)
+// Called at startup and after scheduler RPC
 //
 int PROJECT::parse_account(FILE* in) {
     char buf2[256];
@@ -195,6 +196,7 @@ int PROJECT::parse_account(FILE* in) {
 // and parsing that for resource share and prefs.
 // Call this only after client_state.xml has been read
 // (so that we know the host venue)
+// Called at startup and after scheduler RPC
 //
 int PROJECT::parse_account_file_venue() {
     char attr_buf[256], venue[256], path[MAXPATHLEN], buf2[256];
@@ -330,8 +332,8 @@ int CLIENT_STATE::parse_account_files() {
         if (!f) continue;
         project = new PROJECT;
 
-        // Assume master_url_fetch_pending, sched_rpc_pending are
-        // true until we read client_state.xml
+        // Assume we need to fetch master file and do sched RPC
+        // unless client_state.xml says otherwise
         //
         project->master_url_fetch_pending = true;
         project->sched_rpc_pending = RPC_REASON_INIT;
@@ -354,10 +356,6 @@ int CLIENT_STATE::parse_account_files() {
         }
     }
     return 0;
-}
-
-void DAILY_STATS::clear() {
-    memset(this, 0, sizeof(DAILY_STATS));
 }
 
 int DAILY_STATS::parse(FILE* in) {
@@ -429,10 +427,10 @@ int CLIENT_STATE::parse_statistics_files() {
 
     DirScanner dir(".");
     while (dir.scan(name)) {
-        PROJECT temp;
         if (is_statistics_file(name.c_str())) {
             f = boinc_fopen(name.c_str(), "r");
             if (!f) continue;
+            PROJECT temp;
             retval = temp.parse_statistics(f);
             fclose(f);
             if (retval) {
@@ -544,6 +542,8 @@ int CLIENT_STATE::add_project(
     safe_strcpy(project->authenticator, auth);
     safe_strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
+    project->master_url_fetch_pending = true;
+    project->sched_rpc_pending = RPC_REASON_INIT;
 
     retval = project->write_account_file();
     if (retval) {

@@ -28,7 +28,6 @@
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
-#include "browser.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"

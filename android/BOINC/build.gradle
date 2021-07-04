@@ -1,23 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.kotlin_version = '1.5.20'
     repositories {
-        jcenter()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven {
+            url 'https://repo1.maven.org/maven2/'
+            name 'Central Repository'
+        }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0'
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
     }
 }
+
+apply plugin: "com.vanniktech.android.junit.jacoco"

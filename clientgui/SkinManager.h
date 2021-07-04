@@ -198,6 +198,7 @@ public:
     wxString      GetOrganizationName();
     wxString      GetOrganizationWebsite();
     wxString      GetOrganizationHelpUrl();
+    wxString      GetOrganizationReportBugUrl();
     int           GetDefaultTab();
     wxString      GetExitMessage();
     bool          IsBranded();
@@ -215,6 +216,7 @@ private:
     wxString      m_strOrganizationName;
     wxString      m_strOrganizationWebsite;
     wxString      m_strOrganizationHelpUrl;
+    wxString      m_strOrganizationReportBugUrl;
     bool          m_bDefaultTabSpecified;
     int           m_iDefaultTab;
     wxString      m_strExitMessage;

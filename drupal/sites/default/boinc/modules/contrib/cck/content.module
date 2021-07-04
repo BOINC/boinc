@@ -362,8 +362,8 @@ function content_view(&$node, $teaser = FALSE, $page = FALSE) {
  */
 function content_view_field($field, $node, $teaser = FALSE, $page = FALSE) {
   $output = '';
-  if (isset($node->$field['field_name'])) {
-    $items = $node->$field['field_name'];
+  if (isset($node->{$field['field_name']})) {
+    $items = $node->{$field['field_name']};
 
     // Use 'full'/'teaser' if not specified otherwise.
     $node->build_mode = isset($node->build_mode) ? $node->build_mode : NODE_BUILD_NORMAL;
@@ -374,7 +374,7 @@ function content_view_field($field, $node, $teaser = FALSE, $page = FALSE) {
     $function = $module .'_field';
     if (function_exists($function)) {
       $function('sanitize', $node, $field, $items, $teaser, $page);
-      $node->$field['field_name'] = $items;
+      $node->{$field['field_name']} = $items;
     }
 
     $view = content_field('view', $node, $field, $items, $teaser, $page);
@@ -710,7 +710,7 @@ function content_field($op, &$node, $field, &$items, $teaser, $page) {
         foreach (array_keys($field['columns']) as $column) {
           $items[0][$column] = NULL;
         }
-        $node->$field['field_name'] = $items;
+        $node->{$field['field_name']} = $items;
       }
 
       // If there was an AHAH add more button in this field, don't save it.
@@ -880,8 +880,8 @@ function content_field($op, &$node, $field, &$items, $teaser, $page) {
 
     case 'prepare translation':
       $addition = array();
-      if (isset($node->translation_source->$field['field_name'])) {
-        $addition[$field['field_name']] = $node->translation_source->$field['field_name'];
+      if (isset($node->translation_source->{$field['field_name']})) {
+        $addition[$field['field_name']] = $node->translation_source->{$field['field_name']};
       }
       return $addition;
   }
@@ -1059,13 +1059,13 @@ function content_storage($op, $node) {
 
       // Handle multiple fields.
       foreach ($type['fields'] as $field) {
-        if ($field['multiple'] && isset($node->$field['field_name'])) {
+        if ($field['multiple'] && isset($node->{$field['field_name']})) {
           $db_info = content_database_info($field);
           // Delete and insert, rather than update, in case a value was added.
           if ($op == 'update') {
             db_query('DELETE FROM {'. $db_info['table'] .'} WHERE vid = %d', $node->vid);
           }
-          foreach ($node->$field['field_name'] as $delta => $item) {
+          foreach ($node->{$field['field_name']} as $delta => $item) {
             $record = array();
             foreach ($db_info['columns'] as $column => $attributes) {
               $record[$attributes['column']] = $item[$column];
@@ -1242,7 +1242,7 @@ function _content_field_invoke($op, &$node, $teaser = NULL, $page = NULL) {
 
   $return = array();
   foreach ($type['fields'] as $field) {
-    $items = isset($node->$field['field_name']) ? $node->$field['field_name'] : array();
+    $items = isset($node->{$field['field_name']}) ? $node->{$field['field_name']} : array();
 
     // Make sure AHAH 'add more' button isn't sent to the fields for processing.
     unset($items[$field['field_name'] .'_add_more']);
@@ -1259,8 +1259,8 @@ function _content_field_invoke($op, &$node, $teaser = NULL, $page = NULL) {
       }
     }
     // test for values in $items in case modules added items on insert
-    if (isset($node->$field['field_name']) || count($items)) {
-      $node->$field['field_name'] = $items;
+    if (isset($node->{$field['field_name']}) || count($items)) {
+      $node->{$field['field_name']} = $items;
     }
   }
   return $return;
@@ -1282,7 +1282,7 @@ function _content_field_invoke_default($op, &$node, $teaser = NULL, $page = NULL
   }
   else {
     foreach ($type['fields'] as $field) {
-      $items = isset($node->$field['field_name']) ? $node->$field['field_name'] : array();
+      $items = isset($node->{$field['field_name']}) ? $node->{$field['field_name']} : array();
       $result = content_field($op, $node, $field, $items, $teaser, $page);
       if (is_array($result)) {
         $return = array_merge($return, $result);
@@ -1290,8 +1290,8 @@ function _content_field_invoke_default($op, &$node, $teaser = NULL, $page = NULL
       else if (isset($result)) {
         $return[] = $result;
       }
-      if (isset($node->$field['field_name'])) {
-        $node->$field['field_name'] = $items;
+      if (isset($node->{$field['field_name']})) {
+        $node->{$field['field_name']} = $items;
       }
     }
   }

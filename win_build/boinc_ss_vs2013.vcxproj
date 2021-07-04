@@ -304,12 +304,14 @@
     <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
     <ClCompile Include="..\clientscr\ss_app.cpp" />
     <ClCompile Include="..\api\ttfont.cpp" />
+    <ClCompile Include="..\lib\keyword.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\cc_config.h" />
     <ClInclude Include="..\clientscr\boinc_ss_opengl.h" />
     <ClInclude Include="..\clientscr\ss_app.h" />
     <ClInclude Include="..\api\ttfont.h" />
+    <ClInclude Include="..\lib\keyword.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\clientscr\boinc_ss_opengl.rc" />

@@ -28,10 +28,6 @@
 #include "mac_spawn.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
@@ -366,20 +362,25 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             }
             // handle transition from old clients which didn't store result.platform;
-            // skip for anon platform
+            // skip for anon platform and emulator
+            //
+#ifdef SIM
+            safe_strcpy(rp->platform, get_primary_platform());
+#else
             if (!project->anonymous_platform) {
                 if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
                     safe_strcpy(rp->platform, get_primary_platform());
                     rp->version_num = latest_version(rp->wup->app, rp->platform);
                 }
             }
+#endif
             rp->avp = lookup_app_version(
                 rp->wup->app, rp->platform, rp->version_num, rp->plan_class
             );
             if (!rp->avp) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "No application found for task: %s %d %s; discarding",
-                    rp->platform, rp->version_num, rp->plan_class
+                    "No application found for task %s: platform %s version %d plan class %s; discarding",
+                    rp->wup->name, rp->platform, rp->version_num, rp->plan_class
                 );
                 delete rp;
                 continue;

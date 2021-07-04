@@ -96,7 +96,7 @@ function show_join_form() {
     if ($recaptcha_public_key) {
         form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
     }
-    form_submit("Join");
+    form_submit(tra("Join"));
     form_end();
     page_tail();
 }
@@ -111,7 +111,7 @@ function join_action() {
         $prefs = compute_prefs_xml($preset);
         $user->update("global_prefs='$prefs'");
     }
-    Header("Location: download.php");
+    Header("Location: download_software.php");
     send_cookie('auth', $user->authenticator, false);
 }
 

@@ -202,9 +202,7 @@ struct USER {
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
-        // deprecated as of 9/2004 - may be used as temp
-        // currently used to store a nonce ID while email address
-        // is being verified.
+        // stores invite code, if any, for users created via RPC
     bool has_profile;
     char cross_project_id[256];
         // the "internal" cross-project ID;
@@ -489,7 +487,7 @@ struct WORKUNIT {
         // without consensus (i.e. WU is nondeterministic)
     char result_template_file[64];
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double rsc_bandwidth_bound;
         // send only to hosts with at least this much download bandwidth
     DB_ID_TYPE fileset_id;
@@ -618,7 +616,7 @@ struct RESULT {
     int exit_status;                // application exit status, if any
     DB_ID_TYPE teamid;
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double elapsed_time;
         // AKA runtime; returned by 6.10+ clients
     double flops_estimate;
@@ -696,7 +694,7 @@ struct MSG_FROM_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // message handler has processed this
+    int handled;                    // message handler has processed this
     char xml[MSG_FROM_HOST_BLOB_SIZE];
     void clear();
 };
@@ -706,7 +704,7 @@ struct MSG_TO_HOST {
     int create_time;
     DB_ID_TYPE hostid;
     char variety[256];              // project-defined; what kind of msg
-    bool handled;                   // scheduler has sent this
+    int handled;                    // scheduler has sent this
     char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };

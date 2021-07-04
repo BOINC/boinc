@@ -10,8 +10,6 @@
 */
 #ifndef UTIL    /* this file contains nothing used by UTIL */
 
-#include "../zip.h"
-
 #include <ctype.h>
 #if !defined(__EMX__) && !defined(__CYGWIN__)
 #include <direct.h>     /* for rmdir() */
@@ -30,6 +28,8 @@
 #endif
 
 #include <io.h>
+
+#include "../zip.h"
 
 #define PAD           0
 #define PATH_END      '/'

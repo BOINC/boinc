@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstdio>
@@ -59,7 +57,7 @@ static inline char* realloc_aux(char* p, size_t len) {
         return (char*)malloc(64*1024);
     }
 #ifdef _WIN32
-    if (_msize(p) >= (unsigned int)len) return p;
+    if (_msize(p) >= len) return p;
     return (char*) realloc(p, len*2);
 #else
     return (char*) realloc(p, len);
@@ -88,7 +86,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
         );
         exit(1);
     }
-    strncpy(buf+len, buf2, n);
+    strncpy(buf+len, buf2, n+1);
     len += n;
     buf[len] = 0;
     return k;
@@ -108,7 +106,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
         fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::write(); len %d size %lu nitems %lu\n",
+            "ERROR: realloc() failed in MFILE::write(); len %d size %zu nitems %zu\n",
             len, size, nitems
         );
         exit(1);
@@ -142,7 +140,7 @@ int MFILE::puts(const char* p) {
         );
         exit(1);
     }
-    strncpy(buf+len, p, n);
+    strncpy(buf+len, p, n+1);
     len += n;
     buf[len] = 0;
     return n;

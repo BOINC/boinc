@@ -381,7 +381,7 @@ function boincstats_get_project_stats($type = 'total', $cpid = NULL) {
   $stats_xml = NULL;
   $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
   $result = drupal_http_request($target_url);
-  if (in_array($result->code, array(200, 304))) {
+  if (in_array($result->code, array(200, 304)) || in_array($result->redirect_code, array(200, 304))) {
     $stats_xml = simplexml_load_string($result->data);
   }
   watchdog('boincstats', $target_url);

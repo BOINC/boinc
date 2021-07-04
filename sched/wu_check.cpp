@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,7 +71,9 @@ int handle_result(DB_RESULT& result) {
         );
         return 1;
     }
-    get_file_path(wu, path);
+    if (get_file_path(wu, path)) { // no input files
+        return 0;
+    }
     f = fopen(path, "r");
     if (f) {
         fclose(f);
@@ -144,7 +146,7 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        printf("boinc_db.open: %s\n", boincerror(retval));
+        printf("boinc_db.open failed: %s\n", boinc_db.error_string());
         exit(1);
     }
 
@@ -167,5 +169,3 @@ int main(int argc, char** argv) {
     }
     printf("%d out of %d errors\n", nerr, n);
 }
-
-const char *BOINC_RCSID_8f4e399992 = "$Id$";

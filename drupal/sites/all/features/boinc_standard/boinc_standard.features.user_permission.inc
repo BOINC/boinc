@@ -30,6 +30,20 @@ function boinc_standard_user_default_permissions() {
     ),
   );
 
+  // Exported permission: access ckeditor
+  $permissions['access ckeditor'] = array(
+    'name' => 'access ckeditor',
+    'roles' => array(
+      '0' => 'administrator',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
+      '3' => 'community member',
+      '4' => 'content editor',
+      '5' => 'moderator',
+      '6' => 'verified contributor',
+    ),
+  );
+
   // Exported permission: access content
   $permissions['access content'] = array(
     'name' => 'access content',
@@ -67,6 +81,14 @@ function boinc_standard_user_default_permissions() {
   // Exported permission: administer blocks
   $permissions['administer blocks'] = array(
     'name' => 'administer blocks',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
+  // Exported permission: administer ckeditor
+  $permissions['administer ckeditor'] = array(
+    'name' => 'administer ckeditor',
     'roles' => array(
       '0' => 'administrator',
     ),

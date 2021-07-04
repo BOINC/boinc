@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -58,6 +58,8 @@ using std::string;
 
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
+
+#define FUH_MIN_FREE_SPACE 1e9
 
 char this_filename[256];
 string variety = "";
@@ -149,13 +151,13 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
     bytes_left = nbytes - offset;
 
     while (bytes_left > 0) {
-        int n, m, to_write;
+        size_t m;
 
-        m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
+        m = bytes_left<(double)BLOCK_SIZE ? (size_t)bytes_left : BLOCK_SIZE;
 
         // try to get m bytes from socket (n>=0 is number actually returned)
         //
-        n = fread(buf, 1, m, in);
+        size_t n = fread(buf, 1, m, in);
 
         // delay opening the file until we've done the first socket read
         // to avoid filesystem lockups (WCG, possible paranoia)
@@ -219,8 +221,8 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
             if (sbuf.st_size < offset) {
                 close(fd);
                 return return_error(ERR_TRANSIENT,
-                    "length of file %s %d bytes < offset %.0f bytes",
-                    name, (int)sbuf.st_size, offset
+                    "length of file %s %zu bytes < offset %.0f bytes",
+                    name, sbuf.st_size, offset
                 );
             }
             if (offset) {
@@ -238,15 +240,15 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
             }
             if (sbuf.st_size > offset) {
                 log_messages.printf(MSG_NORMAL,
-                    "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
-                     this_filename, (int)sbuf.st_size, offset
+                    "file %s length on disk %zu bytes; host upload starting at %.0f bytes.\n",
+                     this_filename, sbuf.st_size, offset
                 );
             }
         }
 
         // try to write n bytes to file
         //
-        to_write=n;
+        size_t to_write=n;
         while (to_write > 0) {
             ssize_t ret = write(fd, buf+n-to_write, to_write);
             if (ret < 0) {
@@ -462,7 +464,7 @@ bool volume_full(char* path) {
     double total, avail;
     int retval = get_filesystem_info(total, avail, path);
     if (retval) return false;
-    if (avail<1e6) {
+    if (avail < FUH_MIN_FREE_SPACE) {
         return true;
     }
     return false;
@@ -819,5 +821,3 @@ int main(int argc, char *argv[]) {
 #endif
     return 0;
 }
-
-const char *BOINC_RCSID_470a0d4d11 = "$Id$";

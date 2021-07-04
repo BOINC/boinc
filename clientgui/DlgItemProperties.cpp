@@ -69,18 +69,18 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
     
     wxBoxSizer *bSizer2 = new wxBoxSizer(wxHORIZONTAL);
-    m_bSizer1->Add(bSizer2, 0, wxALIGN_BOTTOM | wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 12);
+    m_bSizer1->Add(bSizer2, 0, wxALIGN_RIGHT | wxALL, 12);
 
     m_pCopyAllButton = new wxButton(this, ID_COPYALL, _("Copy &All"), wxDefaultPosition, wxDefaultSize);
-    bSizer2->Add(m_pCopyAllButton, 0, wxALIGN_BOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    bSizer2->Add(m_pCopyAllButton, 0, wxALIGN_BOTTOM | wxALL, 5);
 
     m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy &Selected"), wxDefaultPosition, wxDefaultSize);
-    bSizer2->Add(m_pCopySelectedButton, 0, wxALIGN_BOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    bSizer2->Add(m_pCopySelectedButton, 0, wxALIGN_BOTTOM | wxALL, 5);
     m_pCopySelectedButton->Enable(false);
 
     m_btnClose = new wxButton( this, wxID_OK, _("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClose->SetDefault(); 
-    bSizer2->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+    bSizer2->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALL, 5 );
     
     SetSizer( m_bSizer1 );
     Layout();

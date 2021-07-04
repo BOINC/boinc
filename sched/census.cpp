@@ -76,7 +76,9 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     log_messages.printf(MSG_NORMAL, "Starting\n");

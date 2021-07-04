@@ -18,10 +18,8 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #ifdef __EMX__
@@ -61,6 +59,8 @@
 
 #include "diagnostics.h"
 
+bool main_exited;   // set at end of main()
+
 #ifdef ANDROID_VOODOO
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
@@ -82,7 +82,6 @@ static _CrtMemState finish_snapshot;
 static _CrtMemState difference_snapshot;
 
 #endif
-
 
 static int         diagnostics_initialized = false;
 static int         flags;
@@ -155,6 +154,15 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     int n;
     (*retVal) = 0;
 
+    // can't call CRT functions after main returns
+    //
+    if (main_exited) return 0;
+#if defined(wxUSE_GUI)
+    // in wxWidgets, we don't know if main has returned
+    return 0;
+#else
+
+
     switch(reportType){
 
     case _CRT_WARN:
@@ -180,8 +188,8 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
         break;
 
     }
-
     return(TRUE);
+#endif
 }
 
 #endif //  _DEBUG
@@ -295,10 +303,10 @@ int diagnostics_init(
             boinc_mkdir(user_dir);
         }
 
-        snprintf(stdout_log, sizeof(stdout_log), "%s/%s.txt", user_dir, stdout_prefix);
-        snprintf(stdout_archive, sizeof(stdout_archive), "%s/%s.old", user_dir, stdout_prefix);
-        snprintf(stderr_log, sizeof(stderr_log), "%s/%s.txt", user_dir, stderr_prefix);
-        snprintf(stderr_archive, sizeof(stderr_archive), "%s/%s.old", user_dir, stderr_prefix);
+        snprintf(stdout_log, sizeof(stdout_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
 
     } else {
 
@@ -697,7 +705,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = (void (*)(int))handler;
+        temp.sa_sigaction = handler;
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -756,7 +764,7 @@ static char *xtoa(size_t x) {
 #ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
-void boinc_catch_signal(int signal, struct siginfo *, void *) {
+void boinc_catch_signal(int signal, siginfo_t*, void *) {
 #endif  // ANDROID
 #else
 void boinc_catch_signal(int signal) {
@@ -784,7 +792,7 @@ void boinc_catch_signal(int signal) {
     size = backtrace (array, 64);
 //  Anything that calls malloc here (i.e *printf()) will probably fail
 //  so we'll do it the hard way.
-    (void) write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
+    int retval = write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
     char mbuf[10];
     char *p=mbuf+9;
     int i=size;
@@ -793,11 +801,12 @@ void boinc_catch_signal(int signal) {
       *(p--)=i%10+'0';
       i/=10;
     }
-    (void) write(fileno(stderr),p+1,strlen(p+1));
-    (void) write(fileno(stderr)," frames):",strlen(" frames):"));
+    retval = write(fileno(stderr),p+1,strlen(p+1));
+    retval = write(fileno(stderr)," frames):",strlen(" frames):"));
     mbuf[0]=10;
-    (void) write(fileno(stderr),mbuf,1);
+    retval = write(fileno(stderr),mbuf,1);
     backtrace_symbols_fd(array, size, fileno(stderr));
+    if (retval) {}
 #endif
 
 #ifdef __APPLE__
@@ -989,7 +998,7 @@ void boinc_info(const char* pszFormat, ...){
 }
 #endif
 
-void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
+void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size) {
     if (stdout_size) max_stdout_file_size = stdout_size;
     if (stderr_size) max_stderr_file_size = stderr_size;
 }

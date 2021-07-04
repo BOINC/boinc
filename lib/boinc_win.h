@@ -29,20 +29,26 @@
 #pragma warning(disable: 4996)  // deprecated function names
 #pragma warning(disable: 4127)  // constant conditional expression
 #pragma warning(disable: 4244)  // conversion from int to char
-#define getpid _getpid
+#define chdir       _chdir
+#define finite      _finite
+#define getpid      _getpid
 #define getcwd      _getcwd
 #define strdate     _strdate
-#define strdup _strdup
+#define strdup      _strdup
 #define stricmp     _stricmp
 #define strtime     _strtime
+#define unlink      _unlink
+#define snprintf_s  _snprintf_s
 #if _MSC_VER < 1900
-#define snprintf _snprintf
+#define snprintf    _snprintf
 #endif
 #endif
 
 #ifdef __MINGW32__
 #define strdate     _strdate
 #define strtime     _strtime
+#define getcwd    _getcwd
+#define finite   _finite
 #endif
 
 #ifndef HAVE_CONFIG_H
@@ -146,7 +152,6 @@
 #define SECURITY_WIN32
 #endif
 
-
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
 /* If we're not running under CYGWIN use windows networking */
@@ -157,9 +162,6 @@
 #include <winsock2.h>
 #elif defined(HAVE_WINSOCK_H)
 #include <winsock.h>
-#endif
-#ifdef HAVE_WINHTTP_H
-#include <winhttp.h>
 #endif
 
 #ifndef HAVE_SOCKLEN_T
@@ -191,6 +193,9 @@ typedef size_t socklen_t;
 #include <share.h>
 #include <shlobj.h>
 #include <userenv.h>
+#ifdef HAVE_WINHTTP_H
+#include <winhttp.h>
+#endif
 #include <aclapi.h>
 #include <psapi.h>
 #include <iphlpapi.h>

@@ -82,11 +82,8 @@
 // (not counting the part after the last checkpoint in an episode).
 
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "version.h"
 #include "win_util.h"
 #else
@@ -1071,7 +1068,9 @@ int resume_activities() {
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
-        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        if (pids.size() == 0) {
+            pids.push_back(GetCurrentProcessId());
+        }
         suspend_or_resume_threads(pids, timer_thread_id, true, true);
     } else {
         ResumeThread(worker_thread_handle);

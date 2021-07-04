@@ -410,7 +410,6 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
-    return NULL;
 }
 
 
@@ -814,15 +813,42 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     }
 
     // Check if we are already attached to that project: 
+    const std::string http = "http://";
+    const std::string https = "https://";
+
+	std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+	canonicalize_master_url(new_project_url);
+	// remove http(s):// at the beginning of project address
+	// there is no reason to connect to secure address project
+	// if we're already connected to the non-secure address
+	// or vice versa
+	// also clear last '/' character if present
+	size_t pos = new_project_url.find(http);
+	if (pos != std::string::npos) {
+		new_project_url.erase(pos, http.length());
+	}
+	else if ((pos = new_project_url.find(https)) != std::string::npos) {
+		new_project_url.erase(pos, https.length());
+	}
+	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
+		new_project_url.erase(new_project_url.length() - 1, 1);
+	}
  	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
  	    PROJECT* project = pDoc->project(i);
         if (project) {
-            std::string project_url = project->master_url;
-            std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+            std::string project_url = project->master_url;            
 
             canonicalize_master_url(project_url);
-            canonicalize_master_url(new_project_url);
-                
+
+            if ((pos = project_url.find(http)) != std::string::npos) {
+                project_url.erase(pos, http.length());
+            } else if ((pos = project_url.find(https)) != std::string::npos) {
+                project_url.erase(pos, https.length());
+            }
+			if (project_url.length() >= 1 && project_url[project_url.length() - 1] == '/') {
+				project_url.erase(project_url.length() - 1, 1);
+			}
+
             if (project_url == new_project_url) {
                 bAlreadyAttached = true;
                 break;

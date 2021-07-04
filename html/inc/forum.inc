@@ -141,9 +141,9 @@ function show_forum_header($user) {
     // Search
     echo '
         <td>
-        <input type="hidden" name="search_max_time" value="30">
+        <input type="hidden" name="search_max_time" value="0">
         <input type="hidden" name="search_forum" value="-1">
-        <input type="hidden" name="search_sort" value="5">
+        <input type="hidden" name="search_sort" value="'.CREATE_TIME_NEW.'">
         <input type="text" class="" name="search_keywords">
         <input class="btn btn-primary btn-sm" title="'.tra("Search for words in forum messages").'" type="submit" value="'.tra("Search forums").'"><br>
         <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>
@@ -220,17 +220,15 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-// start a table containing messages, where the layout is fixed
-// (to accommodate long [pre] lines)
-// and the left column (author info) has fixed size
+// start a table of forum posts
 //
 function start_forum_table($headings) {
     $a = array();
     foreach ($headings as $h) {
         $a[] = null;
     }
-    $a[0] = 'style="width: 10em;"';
-    start_table('table-striped', 'table-layout:fixed');
+    $a[1] = 'style="width: 100%"';
+    start_table('table-striped');
     row_heading_array($headings, $a);
 }
 
@@ -454,6 +452,12 @@ function show_posts(
         echo "<script>function jumpToUnread(){};</script>";
     }
 
+    // if thread has no visible posts, user has seen them all
+    //
+    if ($num_shown == 0) {
+        $latest_shown_timestamp = time();
+    }
+
     if ($logged_in_user) {
         if (!$forum_log || $latest_shown_timestamp > $forum_log->timestamp) {
             BoincForumLogging::replace(
@@ -511,10 +515,6 @@ function show_post(
     global $country_to_iso3166_2;
 
     $user = BoincUser::lookup_id($post->user);
-    BoincForumPrefs::lookup($user);
-    if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
-        return;
-    }
 
     // If the user no longer exists, skip the post
     //
@@ -523,6 +523,11 @@ function show_post(
     }
 
     $config = get_config();
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
+        return;
+    }
+
     $no_forum_rating = parse_bool($config, "no_forum_rating");
 
     $tokens = "";
@@ -566,7 +571,7 @@ function show_post(
     $is_posted_by_special = false;
     for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
         if ($user->prefs && $user->prefs->privilege($keys[$i])) {
-            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+            $fstatus.="<nobr>".$special_user_bitfield[$keys[$i]]."<nobr><br>";
             $is_posted_by_special = true;
         }
     }
@@ -588,7 +593,7 @@ function show_post(
         <a name=\"$post->id\"></a>
     ";
 
-    echo user_links($user, 0);
+    echo user_links($user, 0, 30);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     echo "<span class=\"small\">";
@@ -628,7 +633,7 @@ function show_post(
         // - put the .png's in html/user/flags/
         // - put define("COUNTRY_FLAGS", 1); in your html/project/project.inc
         //
-        if (defined("COUNTRY_FLAGS")) {
+        if (USER_COUNTRY && defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
                 echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png>\n";
@@ -698,7 +703,7 @@ function show_post(
 
         // show message in a panel
         //
-        echo '<div class="panel panel-default">
+        echo '<div class="panel panel-default" style="word-break: break-word;">
             <div class="panel-body">'
             .$posttext
             .'</div></div>
@@ -750,6 +755,11 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     $content = output_transform($post->content, $options);
     $when = time_diff_str($post->timestamp, time());
     $user = BoincUser::lookup_id($post->user);
+    if (!$user){
+        return;
+    }
+
+    $config = get_config();
     $title = cleanup_title($thread->title);
     if ($post->hidden) {
         $deleted = "<br><font color=red>[".tra("Hidden by a moderator")."]</font>";
@@ -1318,6 +1328,7 @@ function show_thread_and_context($thread, $user) {
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
+    if (!$owner) return;
     echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
     case 0:

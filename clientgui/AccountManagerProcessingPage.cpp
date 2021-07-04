@@ -300,7 +300,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
     
-            if (!iReturnValue && !reply.error_num) {
+            if (!iReturnValue && (!reply.error_num && reply.messages.size() == 0)) {
                 SetProjectAttachSucceeded(true);
                 pWA->SetAttachedToProjectSuccessfully(true);
             } else {
@@ -382,7 +382,6 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
-    return NULL;
 }
 
 /*!

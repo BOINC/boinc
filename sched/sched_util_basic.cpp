@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -281,6 +281,9 @@ int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "ati")) {
         return PROC_TYPE_AMD_GPU;
     }
+    if (strstr(plan_class, "amd")) {
+        return PROC_TYPE_AMD_GPU;
+    }
     if (strstr(plan_class, "intel_gpu")) {
         return PROC_TYPE_INTEL_GPU;
     }
@@ -327,5 +330,3 @@ void continue_simulation(const char *daemonname){
 }
 
 #endif
-
-const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

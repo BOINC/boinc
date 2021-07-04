@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #ifdef _USING_FCGI_
@@ -30,10 +28,6 @@
 
 #ifdef _WIN32
 #include <wincrypt.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #ifdef ANDROID
@@ -99,13 +93,18 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     return 0;
 }
 
-int md5_block(const unsigned char* data, int nbytes, char* output) {
+int md5_block(const unsigned char* data, int nbytes, char* output,
+    const unsigned char* data2, int nbytes2     // optional 2nd block
+) {
     unsigned char binout[16];
     int i;
 
     md5_state_t state;
     md5_init(&state);
     md5_append(&state, data, nbytes);
+    if (data2) {
+        md5_append(&state, data2, nbytes2);
+    }
     md5_finish(&state, binout);
     for (i=0; i<16; i++) {
         sprintf(output+2*i, "%02x", binout[i]);
@@ -120,28 +119,32 @@ std::string md5_string(const unsigned char* data, int nbytes) {
     return std::string(output);
 }
 
-// make a random 32-char string
-// (the MD5 of some quasi-random bits)
+// make a secure (i.e. hard to guess)
+// 32-char string using OS-supplied random bits
 //
-int make_random_string(char* out) {
+int make_secure_random_string_os(char* out) {
     char buf[256];
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
         
     if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
-        return -1;
+        if (GetLastError() == NTE_BAD_KEYSET) {
+            if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET)) {
+                return -1;
+            }
+        } else {
+            return -2;
+        }
     }
     
     if(! CryptGenRandom(hCryptProv, (DWORD) 32, (BYTE *) buf)) {
         CryptReleaseContext(hCryptProv, 0);
-        return -1;
+        return -3;
     }
         
     CryptReleaseContext(hCryptProv, 0);
 #elif defined ANDROID
-    // /dev/random not available on Android, using stdlib function instead
-    int i = rand();
-    snprintf(buf, sizeof(buf), "%d", i);
+    return -1;
 #else
 #ifndef _USING_FCGI_
     FILE* f = fopen("/dev/random", "r");
@@ -153,7 +156,7 @@ int make_random_string(char* out) {
     }
     size_t n = fread(buf, 32, 1, f);
     fclose(f);
-    if (n != 1) return -1;
+    if (n != 1) return -2;
 #endif
     md5_block((const unsigned char*)buf, 32, out);
     return 0;

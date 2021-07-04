@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -301,7 +301,9 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %s\n", boincerror(retval));
+        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
@@ -328,6 +330,3 @@ int main(int argc, char** argv) {
         check_stop_daemons();
     } while (!one_pass);
 }
-
-
-const char *BOINC_RCSID_7841370789 = "$Id$";

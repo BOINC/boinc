@@ -89,9 +89,12 @@ function navbar_right($user) {
             );
         } else {
             echo sprintf('
-                <li><a href="%screate_account_form.php">Sign Up</a></li>
-                <li><a href="%slogin_form.php">Login</a></li>
-                ', url_base(), url_base()
+                <li><a href="%ssignup.php">%s</a></li>
+                <li><a href="%slogin_form.php">%s</a></li>
+                ', url_base(),
+                tra("Join"),
+                url_base(),
+                tra("Login")
             );
         }
     }
@@ -158,7 +161,7 @@ function sample_navbar(
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
     $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
-    $x[] = array(tra("Help"), $url_prefix."help.php");
+    $x[] = array(tra("Help"), $url_prefix."welcome.php");
     navbar_menu(tra("Project"), $x);
 
     if (NO_COMPUTING) {
@@ -211,7 +214,7 @@ function sample_navbar(
 // output a panel.
 // $content_func is a function that generates the panel contents
 //
-function panel($title, $content_func, $class="panel-primary") {
+function panel($title, $content_func, $class="panel-primary", $body_class="") {
     echo sprintf('<div class="panel %s">
         ', $class
     );
@@ -222,9 +225,9 @@ function panel($title, $content_func, $class="panel-primary") {
             </div>
         ';
     }
-    echo '
-        <div class="panel-body">
-    ';
+    echo sprintf('<div class="panel-body %s">
+        ', $body_class
+    );
     $content_func();
     echo '
         </div>

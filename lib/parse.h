@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,8 +22,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#include "config.h"
 
 #include "miofile.h"
 #include "error_numbers.h"
@@ -287,29 +285,7 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
-#if defined(_WIN32) && !defined(__MINGW32__)
-#define boinc_strtoull _strtoui64
-#else
-#if defined(HAVE_STRTOULL) || defined(__MINGW32__)
-#define boinc_strtoull strtoull
-#else
-inline unsigned long long boinc_strtoull(const char *s, char **, int) {
-    char buf[64];
-    char *p;
-    unsigned long long y;
-    strncpy(buf, s, sizeof(buf)-1);
-    strip_whitespace(buf);
-    p = strstr(buf, "0x");
-    if (!p) p = strstr(buf, "0X");
-    if (p) {
-        sscanf(p, "%llx", &y);
-    } else {
-        sscanf(buf, "%llu", &y);
-    }
-    return y;
-}
-#endif
-#endif
+extern unsigned long long boinc_strtoull(const char *, char **, int);
 
 // parse an integer of the form <tag>1234</tag>
 // return true if it's there

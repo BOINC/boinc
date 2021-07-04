@@ -256,7 +256,10 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         iReturnValue = AddCacheElement();
                         wxASSERT(!iReturnValue);
                     }
-                    wxASSERT(GetDocCount() == GetCacheCount());
+                    int n = GetDocCount(), m = GetCacheCount();
+                    if (n != m) {
+                        wxASSERT(false);
+                    }
                     m_pListPane->SetItemCount(iDocCount);
                     m_bNeedSort = true;
                } else {
@@ -278,7 +281,9 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     // to draw the bottom items.  This could happen
                     // if the list was scrolled near the bottom and
                     // the user selected "Show active tasks."
-                    m_pListPane->EnsureVisible(iDocCount - 1);
+                    if (m_pListPane->GetItemCount() <= m_pListPane->GetCountPerPage()) {
+                        m_pListPane->EnsureVisible(iDocCount - 1);
+                    }
 #endif
                     m_bNeedSort = true;
                 }

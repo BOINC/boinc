@@ -102,7 +102,8 @@ mac_sources = \
     mac/QMachOImage.c \
     mac/QMachOImageList.c \
     mac/QSymbols.c \
-    mac/QTaskMemory.c
+    mac/QTaskMemory.c \
+    mac/mac_branding.cpp
 mac_headers = \
     mac/dyld_gdb.h \
     mac/mac_backtrace.h \
@@ -112,7 +113,8 @@ mac_headers = \
     mac/QMachOImage.h \
     mac/QMachOImageList.h \
     mac/QSymbols.h \
-    mac/QTaskMemory.h
+    mac/QTaskMemory.h \
+    mac/mac_branding.h
 win_sources=
 win_headers=
 else # !(OS_WIN32 || OS_MAC)
@@ -185,6 +187,9 @@ libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
+if OS_FREEBSD
+libboinc_la_LDFLAGS += -lexecinfo
+endif
 libboinc_la_LIBADD =
 
 if ENABLE_BOINCCRYPT
@@ -244,7 +249,7 @@ $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
 clean: clean-am
-	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC)
+	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC) *.gcno *.gcda *.gcov
 
 endif
 # end of "if ENABLE_LIBRARIES"

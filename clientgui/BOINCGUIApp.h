@@ -38,7 +38,9 @@
 class wxLogBOINC;
 class CBOINCBaseFrame;
 class CMainDocument;
+#ifndef __WXGTK__
 class CTaskBarIcon;
+#endif
 class CSkinManager;
 class CDlgEventLog;
 class CRPCFinishedEvent;
@@ -78,7 +80,9 @@ protected:
     CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
+#ifndef __WXGTK__
     CTaskBarIcon*       m_pTaskBarIcon;
+#endif
     CDlgEventLog*       m_pEventLog;
     bool                m_bEventLogWasActive;
     bool                m_bProcessingActivateAppEvent;
@@ -104,6 +108,7 @@ protected:
     int                 m_iGUISelected;
     bool                m_bDebugSkins;
     bool                m_bMultipleInstancesOK;
+    bool                m_bHostnamePasswordSet;
     bool                m_bFilterEvents;
     bool                m_bAboutDialogIsOpen;
     bool                m_bRunDaemon;  
@@ -133,10 +138,13 @@ public:
     wxString            GetArguments()              { return m_strBOINCArguments; }
     int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
+#ifndef __WXGTK__
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
+#endif
 
     bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
+    bool                IsHostnamePasswordSet()     { return m_bHostnamePasswordSet; }
 
 #ifdef __WXMAC__
     void                OnFinishInit();

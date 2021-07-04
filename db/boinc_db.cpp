@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -132,6 +132,8 @@ DB_HOST_DELETED::DB_HOST_DELETED(DB_CONN* dc) :
     DB_BASE("host_deleted", dc?dc:&boinc_db){}
 DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
     DB_BASE("workunit", dc?dc:&boinc_db){}
+DB_BATCH::DB_BATCH(DB_CONN* dc) :
+    DB_BASE("batch", dc?dc:&boinc_db){}
 DB_CREDITED_JOB::DB_CREDITED_JOB(DB_CONN* dc) :
     DB_BASE("credited_job", dc?dc:&boinc_db){}
 DB_RESULT::DB_RESULT(DB_CONN* dc) :
@@ -149,9 +151,13 @@ DB_USER_SUBMIT::DB_USER_SUBMIT(DB_CONN* dc) :
 DB_STATE_COUNTS::DB_STATE_COUNTS(DB_CONN* dc) :
     DB_BASE("state_counts", dc?dc:&boinc_db){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db) {
+    nitems_this_query = 0;
+}
 DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
-    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+    DB_BASE_SPECIAL(dc?dc:&boinc_db) {
+    nitems_this_query = 0;
+}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db
 ){
@@ -206,6 +212,7 @@ DB_ID_TYPE DB_TEAM::get_id() {return id;}
 DB_ID_TYPE DB_HOST::get_id() {return id;}
 DB_ID_TYPE DB_HOST_DELETED::get_id() {return hostid;}
 DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
+DB_ID_TYPE DB_BATCH::get_id() {return id;}
 DB_ID_TYPE DB_RESULT::get_id() {return id;}
 DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
 DB_ID_TYPE DB_MSG_TO_HOST::get_id() {return id;}
@@ -1793,8 +1800,11 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(
         sprintf(buf, " file_delete_state=%d,", ti.file_delete_state);
         strcat(updates, buf);
     }
+    // Don't update transition_time if it changed in database because something
+    // happened in background (usually, another result was uploaded).
+    // Instead, force another run of transitioner to handle these changes.
     if (ti.transition_time != ti_original.transition_time) {
-        sprintf(buf, " transition_time=%d,", ti.transition_time);
+        sprintf(buf, " transition_time=if(transition_time=%d,%d,%d),", ti_original.transition_time, ti.transition_time, (int)time(NULL));
         strcat(updates, buf);
     }
     if (ti.hr_class != ti_original.hr_class) {
@@ -2896,6 +2906,3 @@ void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
     project_specific = atoi(r[i++]);
     privacypref = atoi(r[i++]);
 }
-
-
-const char *BOINC_RCSID_ac374386c8 = "$Id$";

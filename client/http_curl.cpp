@@ -19,11 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define unlink   _unlink
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstring>
@@ -76,7 +71,7 @@ static void get_user_agent_string() {
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
-        char buf[256];
+        char buf[1024];
         snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
         safe_strcat(g_user_agent_string, buf);
     }
@@ -191,7 +186,7 @@ void libcurl_logdebug(
     char hdr[256];
     char buf[2048], *p = buf;
 
-    sprintf(hdr, "[ID#%d] %s", phop->trace_id, desc);
+    sprintf(hdr, "[ID#%u] %s", phop->trace_id, desc);
 
     strlcpy(buf, data, sizeof(buf));
 

@@ -19,8 +19,8 @@
 require_once("../inc/consent.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-if(file_exists('../../release.inc'))
-    include '../../release.inc';
+require_once("../inc/account_ownership.inc");
+require_once("../inc/server_version.inc");
 
 BoincDb::get(true);
 xml_header();
@@ -40,7 +40,7 @@ function show_platforms() {
                 <platform_name>$platform->name</platform_name>
                 <user_friendly_name>$platform->user_friendly_name</user_friendly_name>";
             if ($platform->plan_class) $xmlFragment .= "
-                <plan_class>$platform->plan_class</plan_class>\n"; 
+                <plan_class>$platform->plan_class</plan_class>\n";
             $xmlFragment .= "
             </platform>";
         }
@@ -66,15 +66,9 @@ echo "<project_config>
     <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
 
-if ( isset($git_commit) ) {
-    echo "<git_commit>$git_commit</git_commit>\n";
-}
+echo "<server_version>$server_version_str</server_version>\n";
 
-if ( isset($server_version) ) {
-    echo "<server_version>$server_version</server_version>\n";
-}
-
-if (parse_config($config, "<account_manager>")) {
+if (parse_bool($config, "account_manager")) {
     echo "    <account_manager/>\n";
 }
 
@@ -118,16 +112,17 @@ show_platforms();
 // Conditional added to allow for backwards-compatability. If a
 // project has not defined the constant TERMSOFUSE_FILE, then look for
 // the terms_of_use.txt file in the project base directory.
+//
 if (defined('TERMSOFUSE_FILE')) {
   $tou_file = TERMSOFUSE_FILE;
-}
-else {
+} else {
   $tou_file =  "../../terms_of_use.txt";
 }
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
 
     // Also check consent type ENROLL is enabled.
+    //
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
     if ($terms_of_use and $checkct) {
         echo "    <terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
@@ -140,6 +135,12 @@ if (LDAP_HOST) {
 
 if (file_exists("../../project_keywords.xml")) {
     readfile("../../project_keywords.xml");
+}
+
+if (is_readable($account_ownership_public_key)) {
+    echo "    <account_ownership_public_key>";
+    echo base64_encode(file_get_contents($account_ownership_public_key));
+    echo "</account_ownership_public_key>\n";
 }
 
 echo "</project_config>";

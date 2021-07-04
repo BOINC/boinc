@@ -13,12 +13,12 @@
  */
 #define __ZIP_C
 
-#include "zip.h"
 #include <time.h>       /* for tzset() declaration */
 #if defined(WIN32) || defined(WINDLL)
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 #endif
+#include "zip.h"
 #ifdef WINDLL
 #  include <setjmp.h>
 #  include "windll/windll.h"

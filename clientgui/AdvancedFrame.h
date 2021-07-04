@@ -62,13 +62,11 @@ public:
     void OnChangeView( wxCommandEvent& event );
     void OnChangeGUI( wxCommandEvent& event );
 
-    void OnWizardAttachProject( wxCommandEvent& event );
-    void OnWizardUpdate( wxCommandEvent& event );
-    void OnWizardDetach( wxCommandEvent& event );
-
     void OnActivitySelection( wxCommandEvent& event );
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
+
+    void OnSelectAll( wxCommandEvent& event );
 
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
@@ -89,6 +87,7 @@ public:
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
     void OnCheckVersion( wxCommandEvent& event );
+    void OnReportBug( wxCommandEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
@@ -98,8 +97,6 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
-
-    void ResetReminderTimers();
 
     bool RestoreState();
     bool SaveState();
@@ -115,7 +112,7 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorEntry  m_Shortcuts[2];     // For keyboard shortcut
     wxAcceleratorTable* m_pAccelTable;
 
 private:
@@ -126,8 +123,7 @@ private:
 
     wxString        m_strBaseTitle;
 
-    bool            CreateMenu();
-    bool            DeleteMenu();
+    bool            CreateMenus();
 
     bool            CreateNotebook();
     bool            RepopulateNotebook();

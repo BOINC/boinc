@@ -81,7 +81,7 @@ int dhrystone(
 ){
         One_Fifty       Int_1_Loc;
   REG   One_Fifty       Int_2_Loc;
-        One_Fifty       Int_3_Loc;
+        One_Fifty       Int_3_Loc=0;
   REG   char            Ch_Index;
         Enumeration     Enum_Loc;
         Str_30          Str_1_Loc;
@@ -94,7 +94,7 @@ int dhrystone(
     double                  benchtime;
     double Dhrystones_Per_Second;
 
-    register unsigned long  Run_Index;
+    REG unsigned long  Run_Index;
 
 
   Next_Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));

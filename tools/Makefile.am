@@ -33,14 +33,13 @@ dist_sched_SCRIPTS = \
 
 dist_tools_SCRIPTS = \
     appmgr \
-    db_query \
     manage_privileges \
     run_in_ops \
-    stage_file \
-    watch_tcp
+    stage_file
 
 dist_tools_DATA = \
-    project.xml
+    project.xml \
+    gui_urls.xml
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static

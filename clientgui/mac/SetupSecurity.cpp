@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,9 +40,6 @@
 static OSStatus UpdateNestedDirectories(char * basepath);
 static OSStatus MakeXMLFilesPrivate(char * basepath);
 static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5, char *arg6);
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
-#endif
 #ifdef _DEBUG
 static OSStatus SetFakeMasterNames(void);
 #endif
@@ -1061,52 +1058,10 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 void ShowSecurityError(const char *format, ...) {
     va_list                 args;
 
-#ifdef __x86_64__
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
-#else
-    char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    ModalFilterUPP          ErrorDlgFilterProcUPP;
-    
-    va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
-    va_end(args);
-
-    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
-
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = ErrorDlgFilterProcUPP;
-    alertParams.defaultText = "\pOK";
-    alertParams.cancelText = NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = 0;
-    alertParams.position = kWindowDefaultPosition;
-
-    BringAppToFront();
-    
-    StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
-
-    DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
-#endif
 }
-
-
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
-    // We need this because this is a command-line application so it does not get normal events
-    if (GetCurrentEventButtonState()) {
-        *theItemHit = kStdOkItemIndex;
-        return true;
-    }
-    
-    return StdFilterProc(theDialog, theEvent, theItemHit);
-}
-#endif
 
 
 // return time of day (seconds since 1970) as a double

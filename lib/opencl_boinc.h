@@ -45,7 +45,7 @@ struct OPENCL_DEVICE_PROP {
     cl_device_fp_config double_fp_config;   // Double precision
     cl_bool endian_little;              // TRUE if little-endian
     cl_device_exec_capabilities execution_capabilities;
-    char extensions[1024];              // List of device extensions
+    char extensions[2048];              // List of device extensions
     cl_ulong global_mem_size;           // in bytes (OpenCL can report 4GB Max)
     cl_ulong local_mem_size;
     cl_uint max_clock_frequency;        // in MHz
@@ -85,8 +85,10 @@ struct OPENCL_DEVICE_PROP {
 #endif
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, int buflen, const char* type);
+    OPENCL_DEVICE_PROP(){}
     void clear() {
-        memset(this, 0, sizeof(*this));
+        static const OPENCL_DEVICE_PROP x;
+        *this = x;
     }
 };
 

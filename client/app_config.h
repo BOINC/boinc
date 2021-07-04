@@ -24,6 +24,8 @@ extern bool have_max_concurrent;
 extern void max_concurrent_init();
     // clear app and project counters
 
-extern void check_app_config();
+extern void check_app_config(const char* prefix="");
+
+extern void show_app_config();
 
 #endif

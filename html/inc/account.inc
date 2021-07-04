@@ -51,8 +51,9 @@ function toggle_passwd() {
     }
 }
 </script>
-<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
-        ', $name
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>%s</small></label>
+        ', $name,
+        tra("Show password")
     );
 }
 
@@ -102,14 +103,16 @@ function create_account_form($teamid, $next_url) {
         ),
         "passwd", "", "password",'id="passwd"',passwd_visible_checkbox("passwd")
     );
-    form_select(
-        sprintf('<span title="%s">%s</span>',
-            tra("Select the country you want to represent, if any."),
-            tra("Country")
-        ),
-        "country",
-        country_select_options()
-    );
+    if (USER_COUNTRY) {
+        form_select(
+            sprintf('<span title="%s">%s</span>',
+                tra("Select the country you want to represent, if any."),
+                tra("Country")
+            ),
+            "country",
+            country_select_options()
+        );
+    }
     if (POSTAL_CODE) {
         form_input_text(
             tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
@@ -156,7 +159,7 @@ function login_form($next_url) {
         array(array("stay_logged_in", "", true)), 
         'tabindex="3"'
     );
-    form_submit("Log in", 'tabindex="4"');
+    form_submit(tra("Log in"), 'tabindex="4"');
     form_end();
 }
 
