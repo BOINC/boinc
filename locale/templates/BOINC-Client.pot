@@ -1,13 +1,13 @@
 # BOINC client localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 #
 # This file is distributed under the same license as BOINC.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 59b2f31273e93e096aef98acb0f0a7298f6c0f46\n"
+"Project-Id-Version: BOINC 727574412daa89958ba4913da77685f8ee4d4276\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -17,17 +17,17 @@ msgstr ""
 msgid "Message from account manager"
 msgstr ""
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr ""
 
-#: client/client_state.cpp:338
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
 
-#: client/client_state.cpp:706
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 
@@ -35,18 +35,18 @@ msgstr ""
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr ""
 
-#: client/cs_scheduler.cpp:624
+#: client/cs_scheduler.cpp:620
 #, c-format
 msgid ""
 "This project is using an old URL.  When convenient, remove the project, then "
 "add %s"
 msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr ""
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr ""
 
@@ -79,28 +79,28 @@ msgstr ""
 msgid "A new version of %s is available"
 msgstr ""
 
-#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
+#: client/gpu_detect.cpp:257 client/gpu_detect.cpp:300
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr ""
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:510
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr ""
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
