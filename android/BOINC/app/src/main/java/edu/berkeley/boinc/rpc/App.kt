@@ -49,8 +49,8 @@ constructor(
     }
 
     override fun hashCode(): Int {
-        var result = name?.toLowerCase(Locale.ROOT).hashCode()
-        result = 31 * result + userFriendlyName?.toLowerCase(Locale.ROOT).hashCode()
+        var result = name?.lowercase(Locale.ROOT).hashCode()
+        result = 31 * result + userFriendlyName?.lowercase(Locale.ROOT).hashCode()
         result = 31 * result + nonCpuIntensive
         result = 31 * result + project.hashCode()
         return result

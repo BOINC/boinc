@@ -19,7 +19,7 @@ cd android/BOINC
 
 echo '===== BOINC Manager build start ====='
 
-./gradlew clean assemble jacocoTestReportDebug
+./gradlew clean assemble jacocoTestReportDebug  --warning-mode all
 
 echo '===== BOINC Manager build done ====='
 

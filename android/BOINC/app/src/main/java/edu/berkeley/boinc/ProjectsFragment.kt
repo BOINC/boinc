@@ -346,7 +346,7 @@ class ProjectsFragment : Fragment() {
                         val removeStr = getString(R.string.projects_confirm_detach_confirm)
                         dialogBinding.title.text = getString(R.string.projects_confirm_title, removeStr)
                         dialogBinding.message.text = getString(R.string.projects_confirm_message,
-                                removeStr.toLowerCase(Locale.ROOT),
+                            removeStr.lowercase(Locale.ROOT),
                                 data.project!!.projectName + " "
                                         + getString(R.string.projects_confirm_detach_message))
                         dialogBinding.confirm.text = removeStr
@@ -355,7 +355,7 @@ class ProjectsFragment : Fragment() {
                         val resetStr = getString(R.string.projects_confirm_reset_confirm)
                         dialogBinding.title.text = getString(R.string.projects_confirm_title, resetStr)
                         dialogBinding.message.text = getString(R.string.projects_confirm_message,
-                                resetStr.toLowerCase(Locale.ROOT),
+                            resetStr.lowercase(Locale.ROOT),
                                 data.project!!.projectName)
                         dialogBinding.confirm.text = resetStr
                     }
