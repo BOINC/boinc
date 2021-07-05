@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2020 University of California
+ * Copyright (C) 2021 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -49,6 +49,11 @@ public class ManualUrlInputFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.attach_project_manual_url_input_dialog, container, false);
 
         urlInputET = v.findViewById(R.id.url_input);
+        urlInputET.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus && urlInputET.getText().length() == 0) {
+                urlInputET.setText("https://");
+            }
+        });
 
         Button continueButton = v.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(view -> {
