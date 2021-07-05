@@ -143,6 +143,10 @@ android {
             }
         }
     }
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:unchecked'
+        options.deprecation = true
+    }
     tasks.withType(Test) {
         testLogging {
             events "passed", "skipped", "failed"

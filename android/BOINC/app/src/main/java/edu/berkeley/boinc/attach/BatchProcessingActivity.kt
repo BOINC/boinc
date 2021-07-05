@@ -28,12 +28,18 @@ import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
+import edu.berkeley.boinc.attach.HintFragment.HINT_TYPE_CONTRIBUTION
+import edu.berkeley.boinc.attach.HintFragment.HINT_TYPE_PLATFORMS
+import edu.berkeley.boinc.attach.HintFragment.HINT_TYPE_PROJECTWEBSITE
+import edu.berkeley.boinc.attach.HintFragment.newInstance
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_READY
 import edu.berkeley.boinc.attach.ProjectAttachService.Companion.RESULT_SUCCESS
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
@@ -50,8 +56,6 @@ class BatchProcessingActivity : AppCompatActivity() {
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
 
-    private val hints: MutableList<HintFragment> = ArrayList() // hint fragments
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,18 +65,11 @@ class BatchProcessingActivity : AppCompatActivity() {
         binding = AttachProjectBatchProcessingLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // create hint fragments
-        hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_CONTRIBUTION))
-        hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PROJECTWEBSITE))
-        hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_PLATFORMS))
-
         // Instantiate a PagerAdapter.
         // provides content to pager
-        val mPagerAdapter = HintPagerAdapter(supportFragmentManager)
+        val mPagerAdapter = HintPagerAdapter(supportFragmentManager, lifecycle)
         binding.hintContainer.adapter = mPagerAdapter
-        binding.hintContainer.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrollStateChanged(arg0: Int) {}
-            override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
+        binding.hintContainer.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(arg0: Int) {
                 adaptHintHeader()
             }
@@ -130,7 +127,7 @@ class BatchProcessingActivity : AppCompatActivity() {
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            
+
             val flag = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 @Suppress("DEPRECATION")
                 Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET
@@ -253,7 +250,7 @@ class BatchProcessingActivity : AppCompatActivity() {
                     .map { it.lookupAndAttach(false) }
                     .filter { it != RESULT_SUCCESS }
                     .forEach { Log.e(Logging.TAG, "attachProject() attach returned conflict: $it") }
-            
+
             Log.d(Logging.TAG, "attachProject(): finished.")
         }
 
@@ -262,11 +259,16 @@ class BatchProcessingActivity : AppCompatActivity() {
         binding.shareButton.visibility = View.VISIBLE
     }
 
-    private inner class HintPagerAdapter internal constructor(fm: FragmentManager)
-        : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        override fun getItem(position: Int) = hints[position]
-
-        override fun getCount() = NUM_HINTS
+    private inner class HintPagerAdapter constructor(fm: FragmentManager, lc: Lifecycle)
+        : FragmentStateAdapter(fm, lc) {
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> newInstance(HINT_TYPE_CONTRIBUTION)
+                1 -> newInstance(HINT_TYPE_PROJECTWEBSITE)
+                else -> newInstance(HINT_TYPE_PLATFORMS)
+            }
+        }
+        override fun getItemCount(): Int = NUM_HINTS
     }
 
     companion object {

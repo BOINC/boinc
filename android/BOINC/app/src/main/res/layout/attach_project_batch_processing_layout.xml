@@ -78,7 +78,7 @@
                 app:srcCompat="@drawable/ic_baseline_arrow_forward" />
     </RelativeLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/hint_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

@@ -24,7 +24,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
@@ -162,20 +161,7 @@ public class DeviceStatus {
      */
     private boolean determineNetworkStatus() {
         boolean change = false;
-        final boolean isWiFiOrEthernet;
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            isWiFiOrEthernet = isNetworkTypeWiFiOrEthernetOnAPI23AndHigher();
-        }
-        else {
-            int networkType = -1;
-            final NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
-            if(activeNetwork != null) {
-                networkType = activeNetwork.getType();
-            }
-            isWiFiOrEthernet = networkType == ConnectivityManager.TYPE_WIFI ||
-                               networkType == ConnectivityManager.TYPE_ETHERNET;
-        }
+        final boolean isWiFiOrEthernet = isNetworkTypeWiFiOrEthernet();
 
         if(isWiFiOrEthernet) {
             // WiFi or ethernet is online
@@ -197,20 +183,31 @@ public class DeviceStatus {
         return change;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean isNetworkTypeWiFiOrEthernetOnAPI23AndHigher() {
-        final Network network = connManager.getActiveNetwork();
-
-        if (network != null) {
-            final NetworkCapabilities networkCapabilities = connManager
-                    .getNetworkCapabilities(network);
-            if (networkCapabilities != null) {
-                return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                       networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+    private boolean isNetworkTypeWiFiOrEthernet() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final Network network = connManager.getActiveNetwork();
+            if (network != null) {
+                final NetworkCapabilities networkCapabilities = connManager
+                        .getNetworkCapabilities(network);
+                if (networkCapabilities != null) {
+                    return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                           networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+                }
             }
+            return false;
+        } else {
+            @SuppressWarnings( "deprecation" )
+            final android.net.NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+            if(activeNetwork == null) {
+                return false;
+            }
+            @SuppressWarnings( "deprecation" )
+            final int networkType = activeNetwork.getType();
+            @SuppressWarnings( "deprecation" )
+            final boolean result = networkType == ConnectivityManager.TYPE_WIFI ||
+                             networkType == ConnectivityManager.TYPE_ETHERNET;
+            return result;
         }
-
-        return false;
     }
 
     /**
