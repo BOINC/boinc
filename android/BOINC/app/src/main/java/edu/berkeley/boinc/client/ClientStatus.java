@@ -149,7 +149,7 @@ public class ClientStatus {
         // You should consider using context.getApplicationContext().getSystemService() rather than
         // context.getSystemService()
         WifiManager wm = ContextCompat.getSystemService(context.getApplicationContext(), WifiManager.class);
-        wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "MyWifiLock");
+        wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "MyWifiLock");
         wifiLock.setReferenceCounted(false);
     }
 
