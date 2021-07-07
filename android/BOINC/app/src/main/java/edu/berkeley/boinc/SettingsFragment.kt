@@ -222,8 +222,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 BOINCActivity.monitor!!.setCcConfigAsync(formatOptionsToCcConfig(flags))
             }
             "logLevel" -> {
-                BOINCActivity.monitor!!.logLevel = sharedPreferences.getInt(key,
-                        resources.getInteger(R.integer.prefs_default_loglevel))
+                val logLevel = sharedPreferences.getInt(key,
+                    resources.getInteger(R.integer.prefs_default_loglevel))
+                BOINCActivity.monitor!!.logLevel = logLevel
+                Logging.setLogLevel(logLevel)
             }
         }
     }
