@@ -54,6 +54,7 @@
 
     <application
             android:name=".BOINCApplication"
+            android:extractNativeLibs="true"
             android:allowBackup="true"
             android:banner="@drawable/ic_boinc_logo"
             android:icon="@mipmap/ic_launcher"

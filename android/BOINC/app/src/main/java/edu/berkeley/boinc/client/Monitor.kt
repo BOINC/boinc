@@ -111,6 +111,7 @@ class Monitor : LifecycleService() {
     private val forceReinstall = false // for debugging purposes //TODO
 
     private var isRemote = false
+    private var binaryPath = ""
 
     /**
      * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
@@ -195,6 +196,11 @@ class Monitor : LifecycleService() {
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
         deviceStatusIntervalScreenOff = resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
         clientSocketAddress = getString(R.string.client_socket_address)
+        binaryPath = try {
+            applicationInfo.nativeLibraryDir
+        } catch (e: Exception) {
+            ""
+        }
 
         Log.d(Logging.TAG, "Monitor onCreate(): singletons initialized")
 
@@ -444,14 +450,15 @@ class Monitor : LifecycleService() {
         Log.d(Logging.TAG, "Monitor.clientSetup()")
         
         clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING, true)
-        val clientProcessName = boincWorkingDir + fileNameClient
-        val md5AssetClient = computeMd5(fileNameClient, true)
-        val md5InstalledClient = computeMd5(clientProcessName, false)
+        val fullFileNameCABundle = boincWorkingDir + fileNameCABundle
+        val md5AssetCABundle = computeMd5(fileNameCABundle, true)
+        val md5InstalledCABundle = computeMd5(fullFileNameCABundle, false)
 
-        // If client hashes do not match, we need to install the one that is a part
-        // of the package. Shutdown the currently running client if needed.
+        val clientProcessName = "$binaryPath/$fileNameClient"
+
+        // Shutdown the currently running client if needed.
         //
-        if (forceReinstall || md5InstalledClient != md5AssetClient) {
+        if (forceReinstall || md5InstalledCABundle != md5AssetCABundle) {
             Log.d(Logging.TAG, "Hashes of installed client does not match binary in assets - re-install.")
 
             // try graceful shutdown using RPC (faster)
@@ -553,12 +560,12 @@ class Monitor : LifecycleService() {
         isRemote = remote
         var success = false
         try {
-            val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
-            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
-            
-            Log.i(Logging.TAG, "Launching '${cmd[0]}' from '$boincWorkingDir'")
-            
-            Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
+            val param = if (isRemote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
+            val cmd = arrayOf("$binaryPath/$fileNameClient", "--daemon", param)
+            Log.i(Logging.TAG, "Command $binaryPath/$fileNameClient --daemon $param")
+
+            val res = Runtime.getRuntime().exec(cmd, null, File(boincWorkingDir))
+            Log.i(Logging.TAG, "Launched: '${cmd[0]}' from: $boincWorkingDir  res: $res")
             success = true
         } catch (e: IOException) {
             Log.e(Logging.TAG, "Starting BOINC client failed with exception: " + e.message)
@@ -599,11 +606,6 @@ class Monitor : LifecycleService() {
      * @return Boolean success
      */
     private fun installClient(): Boolean {
-        if (!installFile(fileNameClient, true, "")) {
-            Log.e(Logging.TAG, INSTALL_FAILED + fileNameClient)
-            
-            return false
-        }
         if (!installFile(fileNameCABundle, false, "")) {
             Log.e(Logging.TAG, INSTALL_FAILED + fileNameCABundle)
             
@@ -695,7 +697,7 @@ class Monitor : LifecycleService() {
     private fun computeMd5(fileName: String, inAssets: Boolean): String {
         try {
             val source = if (inAssets) {
-                applicationContext.assets.open(assetsDirForCpuArchitecture + fileName).source()
+                applicationContext.assets.open(fileName).source()
             } else {
                 File(fileName).source()
             }.buffer()
