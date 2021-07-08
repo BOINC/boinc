@@ -448,6 +448,7 @@ case "$arch" in
                 exit 0
             ;;
             "libs")
+                ./build_openssl_armv6.sh
                 ./build_libraries_armv6.sh
                 NeonTestLibs
                 Armv6TestLibs
@@ -483,6 +484,7 @@ case "$arch" in
                 exit 0
             ;;
             "libs")
+                ./build_openssl_arm.sh
                 ./build_libraries_arm.sh
                 NeonTestLibs
                 exit 0
@@ -514,6 +516,7 @@ case "$arch" in
                 exit 0
             ;;
             "libs")
+                ./build_openssl_arm64.sh
                 ./build_libraries_arm64.sh
                 exit 0
             ;;
@@ -542,6 +545,7 @@ case "$arch" in
                 exit 0
             ;;
             "libs")
+                ./build_openssl_x86.sh
                 ./build_libraries_x86.sh
                 exit 0
             ;;
@@ -570,6 +574,7 @@ case "$arch" in
                 exit 0
             ;;
             "libs")
+                ./build_openssl_x86_64.sh
                 ./build_libraries_x86_64.sh
                 exit 0
             ;;
