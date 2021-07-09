@@ -41,6 +41,11 @@
 
 #include "network.h"
 
+#include <openssl/pem.h>
+#include <openssl/conf.h>
+#include <openssl/x509v3.h>
+#include <openssl/engine.h>
+
 using std::perror;
 using std::sprintf;
 
@@ -215,6 +220,148 @@ int resolve_hostname_or_ip_addr(
     // else resolve the name
     //
     return resolve_hostname(hostname, ip_addr);
+}
+
+int print_error_cb(const char* str, size_t len, void* u) {
+    perror(str);
+    return 1;
+}
+
+void init_openssl()
+{
+    OpenSSL_add_ssl_algorithms();
+    SSL_load_error_strings();	
+}
+
+void cleanup_openssl()
+{
+    EVP_cleanup();
+}
+
+int add_ext(X509 *cert, int nid, char *value) 
+{
+    X509_EXTENSION *ex;
+    X509V3_CTX ctx;
+    /* This sets the 'context' of the extensions. */
+    /* No configuration database */
+    X509V3_set_ctx_nodb(&ctx);
+    /* Issuer and subject certs: both the target since it is self signed,
+        * no request and no CRL
+        */
+    X509V3_set_ctx(&ctx, cert, cert, NULL, NULL, 0);
+    ex = X509V3_EXT_conf_nid(NULL, &ctx, nid, value);
+    if (!ex)
+        return 0;
+
+    X509_add_ext(cert,ex,-1);
+    X509_EXTENSION_free(ex);
+    return 1;
+}
+
+int mkcert(X509** x509p, EVP_PKEY** pkeyp, int bits, int serial, int days)
+{
+    X509* x;
+    EVP_PKEY* pk;
+    RSA* rsa;
+    X509_NAME* name = NULL;
+
+    if ((pkeyp == NULL) || (*pkeyp == NULL))
+    {
+        if ((pk = EVP_PKEY_new()) == NULL)
+        {
+            abort();
+        }
+    }
+    else
+        pk = *pkeyp;
+
+    if ((x509p == NULL) || (*x509p == NULL))
+    {
+        if ((x = X509_new()) == NULL)
+            return 0;
+    }
+    else
+        x = *x509p;
+
+    rsa = RSA_generate_key(bits, RSA_F4, NULL, NULL);
+    if (!EVP_PKEY_assign_RSA(pk, rsa))
+    {
+        abort();
+    }
+    rsa = NULL;
+
+    X509_set_version(x, 2);
+    ASN1_INTEGER_set(X509_get_serialNumber(x), serial);
+    X509_gmtime_adj(X509_get_notBefore(x), 0);
+    X509_gmtime_adj(X509_get_notAfter(x), (long)60 * 60 * 24 * days);
+    X509_set_pubkey(x, pk);
+
+    name = X509_get_subject_name(x);
+
+    /* Its self signed so set the issuer name to be the same as the
+     * subject.
+     */
+    X509_set_issuer_name(x, name);
+
+    /* Add various extensions: standard extensions */
+    add_ext(x, NID_basic_constraints, "critical,CA:TRUE,pathlen:0");
+
+    if (!X509_sign(x, pk, EVP_md5()))
+        return 0;
+
+    *x509p = x;
+    *pkeyp = pk;
+    return 1;
+}
+
+SSL_CTX* create_context()
+{
+    const SSL_METHOD *method;
+    SSL_CTX *ctx;
+
+    method = TLSv1_2_server_method();
+
+    ctx = SSL_CTX_new(method);
+    if (!ctx) {
+		perror("Unable to create SSL context");
+        ERR_print_errors_cb(print_error_cb, NULL);
+		exit(EXIT_FAILURE);
+    }
+    return ctx;
+}
+
+/* Set private key and local certificate */
+void configure_context(SSL_CTX *ctx)
+{
+    SSL_CTX_set_ecdh_auto(ctx, 1);
+
+    /* Create key and certificate */
+    X509* x509 = NULL;
+    EVP_PKEY* pk = NULL;
+    mkcert(&x509, &pk, 2048, 0, 365);
+
+    /* set the local certificate */
+    int status = SSL_CTX_use_certificate(ctx, x509);
+    if (1 != status)  {
+        ERR_print_errors_cb(print_error_cb, NULL);
+	    exit(EXIT_FAILURE);
+    }
+
+    /* set the private key */
+    status = SSL_CTX_use_PrivateKey(ctx, pk);
+    if (1 != status) {
+        ERR_print_errors_cb(print_error_cb, NULL);
+	    exit(EXIT_FAILURE);
+    }
+
+    /* verify private key */
+    status = SSL_CTX_check_private_key(ctx);
+    if (1 != status)
+    {
+        perror("Private key does not match the public certificate");
+        ERR_print_errors_cb(print_error_cb, NULL);
+        exit(EXIT_FAILURE);
+    }
 }
 
 int boinc_socket(int& fd, int protocol) {

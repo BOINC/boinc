@@ -94,6 +94,10 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) :
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
+    if (ssl != NULL) {
+        SSL_shutdown(ssl);
+        SSL_free(ssl);
+    }
     boinc_close_socket(sock);
 }
 
@@ -270,6 +274,8 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
             "Failed to bind Unix domain socket"
         );
         boinc_close_socket(lsock);
+        SSL_CTX_free(ctx);
+        cleanup_openssl();
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
@@ -278,6 +284,8 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
             "Failed to listen on Unix domain socket"
         );
         boinc_close_socket(lsock);
+        SSL_CTX_free(ctx);
+        cleanup_openssl();
         return ERR_LISTEN;
     }
 #endif
@@ -294,6 +302,10 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
     sockaddr_in addr;
     int retval;
     bool first = true;
+
+    init_openssl();
+    ctx = create_context();
+    configure_context(ctx);
 
     if (first) {
         get_password();
@@ -350,6 +362,8 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
             );
         }
         boinc_close_socket(lsock);
+        SSL_CTX_free(ctx);
+        cleanup_openssl();
         lsock = -1;
         return ERR_BIND;
     }
@@ -365,6 +379,8 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
             );
         }
         boinc_close_socket(lsock);
+        SSL_CTX_free(ctx);
+        cleanup_openssl();
         lsock = -1;
         return ERR_LISTEN;
     }
@@ -518,6 +534,13 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
                     "[gui_rpc] got new GUI RPC connection"
                 );
             }
+            
+            /* get new SSL state with context */
+            SSL* ssl = SSL_new(ctx);
+                      
+            gr->ssl = ssl;
+            gr->is_tls = false;
+            
             insert(gr);
         }
     }
@@ -568,6 +591,8 @@ void GUI_RPC_CONN_SET::close() {
     }
     if (lsock >= 0) {
         boinc_close_socket(lsock);
+        SSL_CTX_free(ctx);
+        cleanup_openssl();
         lsock = -1;
     }
     for (unsigned int i=0; i<gui_rpcs.size(); i++) {
