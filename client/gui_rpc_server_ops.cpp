@@ -1995,15 +1995,57 @@ void GUI_RPC_CONN::handle_get() {
 // return nonzero only if we need to close the connection
 //
 int GUI_RPC_CONN::handle_rpc() {
-    int n, retval=0;
+    int n=0, t=0, retval=0;
     char* p;
 
     int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
+    
+    // Check for hello tls messge
+    t = recv(sock, request_msg + request_nbytes, left, MSG_PEEK);
+    if (is_tls ||
+        request_nbytes + t > 2 &&
+        '\x16' == request_msg[0] &&
+        '\x3' == request_msg[1] &&
+        '\x1' == request_msg[2])
+    {
+        is_tls = true;
+    }
+    if (is_tls) {
+        /* set connection socket to SSL state */
+        int status = SSL_set_fd(ssl, sock);
+        if (1 != status) {
+            ERR_print_errors_cb(print_error_cb, NULL);
+        } else {
+            status = SSL_accept(ssl);
+            if (1 != status) {
+                int err = SSL_get_error(ssl, status);
+                if (err == SSL_ERROR_WANT_READ) {
+                    /* Wait for data to be read */
+                } else if (err == SSL_ERROR_WANT_WRITE) {
+                    /* Write data to continue */
+                } else if (err == SSL_ERROR_SYSCALL) {
+                    perror("Client terminate the connection");
+                } else if (err == SSL_ERROR_SSL) {
+                    /* Hard error */
+                    ERR_print_errors_cb(print_error_cb, NULL);
+                } else if (err == SSL_ERROR_ZERO_RETURN) {
+                    /* Hard error */
+                    ERR_print_errors_cb(print_error_cb, NULL);
+                }                
+            } else {
+                n = SSL_read(ssl, request_msg + request_nbytes, left);
+                if (n <= 0) {
+                    ERR_print_errors_cb(print_error_cb, NULL);
+                }
+            }
+        }
+    } else {
 #ifdef _WIN32
-    n = recv(sock, request_msg+request_nbytes, left, 0);
+        n = recv(sock, request_msg + request_nbytes, left, 0);
 #else
-    n = read(sock, request_msg+request_nbytes, left);
+        n = read(sock, request_msg + request_nbytes, left);
 #endif
+    }
     if (n <= 0) {
         request_nbytes = 0;
         return ERR_READ;
@@ -2126,10 +2168,18 @@ int GUI_RPC_CONN::handle_rpc() {
             XML_HEADER,
             n+(int)strlen(XML_HEADER)
         );
-        send(sock, buf, (int)strlen(buf), 0);
+        if (is_tls) {            
+            SSL_write(ssl, buf, (int)strlen(buf));
+        } else {
+            send(sock, buf, (int)strlen(buf), 0);
+        }
     }
     if (p) {
-        send(sock, p, n, 0);
+        if (is_tls) {
+            SSL_write(ssl, p, n);
+        } else {
+            send(sock, p, n, 0);
+        }
         if (log_flags.gui_rpc_debug) {
             if (!http_request) {
                 p[n-1]=0;   // replace 003 with NULL

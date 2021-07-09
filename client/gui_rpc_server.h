@@ -42,6 +42,8 @@
 class GUI_RPC_CONN {
 public:
     int sock;
+    SSL* ssl;
+    bool is_tls;
     MIOFILE mfout;
     MFILE mout;
     MIOFILE mfin;
@@ -106,6 +108,7 @@ class GUI_RPC_CONN_SET {
     bool remote_hosts_configured;
 public:
     int lsock;
+    SSL_CTX* ctx;
     double time_of_last_rpc_needing_network;
         // time of the last RPC that needs network access to handle
 
