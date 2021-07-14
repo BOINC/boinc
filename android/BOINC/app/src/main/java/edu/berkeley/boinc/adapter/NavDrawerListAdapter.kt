@@ -56,20 +56,22 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
         return navDrawerItems.firstOrNull { it.id == id }
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
-        var view = convertView
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         Log.d(
             Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems[position].title +
                     navDrawerItems[position].counterVisibility + navDrawerItems[position].isSubItem +
                     navDrawerItems[position].isProjectItem
         )
-        if (view.tag == null || view.tag != navDrawerItems[position].title) {
+        val view : View
+        if (convertView == null || convertView.tag == null || convertView.tag != navDrawerItems[position].title) {
             var layoutId = R.layout.navlist_listitem
             if (navDrawerItems[position].isSubItem) {
                 layoutId = R.layout.navlist_listitem_subitem
             }
             val mInflater = context.getSystemService<LayoutInflater>()
             view = mInflater!!.inflate(layoutId, null)
+        } else {
+            view = convertView
         }
         val imgIcon = view.findViewById<ImageView>(R.id.icon)
         val txtTitle = view.findViewById<TextView>(R.id.title)
