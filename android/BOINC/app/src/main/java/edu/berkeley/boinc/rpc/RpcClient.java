@@ -32,13 +32,17 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.BOINCUtils;
@@ -88,7 +92,7 @@ public class RpcClient {
     public static final int MGR_SYNC = 31;
 
     private LocalSocket mSocket    = null;
-    private Socket      mTcpSocket = null;
+    private SSLSocket mTcpSocket = null;
     private BufferedSource socketSource;
     private BufferedSink socketSink;
     private final byte[] mReadBuffer = new byte[READ_BUF_SIZE];
@@ -175,10 +179,14 @@ public class RpcClient {
     public boolean open(String address, int port) {
         closeOpenConnection();
         try {
-            mTcpSocket = new Socket();
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+            sslContext.init(null, null, null);
+            sslContext.createSSLEngine();
+            SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            mTcpSocket = (SSLSocket)sslsocketfactory.createSocket();
             mTcpSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
             mTcpSocket.setSoTimeout(READ_TIMEOUT);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e(Logging.TAG, "connect failure: IO", e);
             
             mTcpSocket = null;
