@@ -41,8 +41,23 @@
 
 #include "network.h"
 
+#include <openssl/pem.h>
+#include <openssl/conf.h>
+#include <openssl/x509v3.h>
+#include <openssl/engine.h>
+
 using std::perror;
 using std::sprintf;
+
+#define RSA_KEY_BITS (4096)
+#define CERT_DAYS (365)
+
+#define REQ_DN_C "US"
+#define REQ_DN_ST ""
+#define REQ_DN_L ""
+#define REQ_DN_O "Berkeley University"
+#define REQ_DN_OU ""
+#define REQ_DN_CN "BOINC"
 
 const char* socket_error_str() {
     static char buf[80];
@@ -217,10 +232,15 @@ int resolve_hostname_or_ip_addr(
     return resolve_hostname(hostname, ip_addr);
 }
 
+int print_error_cb(const char* str, size_t len, void* u) {
+    perror(str);
+    return 1;
+}
+
 void init_openssl()
-{ 
-    SSL_load_error_strings();	
+{
     OpenSSL_add_ssl_algorithms();
+    SSL_load_error_strings();	
 }
 
 void cleanup_openssl()
@@ -228,37 +248,300 @@ void cleanup_openssl()
     EVP_cleanup();
 }
 
+int add_ext(X509 *cert, int nid, char *value) 
+{
+    X509_EXTENSION *ex;
+    X509V3_CTX ctx;
+    /* This sets the 'context' of the extensions. */
+    /* No configuration database */
+    X509V3_set_ctx_nodb(&ctx);
+    /* Issuer and subject certs: both the target since it is self signed,
+        * no request and no CRL
+        */
+    X509V3_set_ctx(&ctx, cert, cert, NULL, NULL, 0);
+    ex = X509V3_EXT_conf_nid(NULL, &ctx, nid, value);
+    if (!ex)
+        return 0;
+
+    X509_add_ext(cert,ex,-1);
+    X509_EXTENSION_free(ex);
+    return 1;
+}
+
+int mkcert(X509** x509p, EVP_PKEY** pkeyp, int bits, int serial, int days)
+{
+    X509* x;
+    EVP_PKEY* pk;
+    RSA* rsa;
+    X509_NAME* name = NULL;
+
+    if ((pkeyp == NULL) || (*pkeyp == NULL))
+    {
+        if ((pk = EVP_PKEY_new()) == NULL)
+        {
+            abort();
+        }
+    }
+    else
+        pk = *pkeyp;
+
+    if ((x509p == NULL) || (*x509p == NULL))
+    {
+        if ((x = X509_new()) == NULL)
+            return 0;
+    }
+    else
+        x = *x509p;
+
+    rsa = RSA_generate_key(bits, RSA_F4, NULL, NULL);
+    if (!EVP_PKEY_assign_RSA(pk, rsa))
+    {
+        abort();
+    }
+    rsa = NULL;
+
+    X509_set_version(x, 2);
+    ASN1_INTEGER_set(X509_get_serialNumber(x), serial);
+    X509_gmtime_adj(X509_get_notBefore(x), 0);
+    X509_gmtime_adj(X509_get_notAfter(x), (long)60 * 60 * 24 * days);
+    X509_set_pubkey(x, pk);
+
+    name = X509_get_subject_name(x);
+
+    /* This function creates and adds the entry, working out the
+     * correct string type and performing checks on its length.
+     * Normally we'd check the return value for errors...
+     */
+    X509_NAME_add_entry_by_txt(name, "C",
+        MBSTRING_ASC, (const unsigned char*)REQ_DN_C, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "O", 
+        MBSTRING_ASC, (unsigned char*)REQ_DN_O, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "CN",
+        MBSTRING_ASC, (const unsigned char*)REQ_DN_CN, -1, -1, 0);
+
+    /* Its self signed so set the issuer name to be the same as the
+     * subject.
+     */
+    X509_set_issuer_name(x, name);
+
+    /* Add various extensions: standard extensions */
+    add_ext(x, NID_basic_constraints, "critical,CA:TRUE");
+    add_ext(x, NID_key_usage, "critical,keyCertSign,cRLSign");
+
+    add_ext(x, NID_subject_key_identifier, "sha1");
+
+    if (!X509_sign(x, pk, EVP_sha1()))
+        return 0;
+
+    *x509p = x;
+    *pkeyp = pk;
+    return 1;
+}
+
+void key_csr_free(EVP_PKEY** key, X509_REQ** req, RSA* rsa, BIGNUM* e)
+{
+    EVP_PKEY_free(*key);
+    X509_REQ_free(*req);
+    RSA_free(rsa);
+    BN_free(e);
+}
+
+int generate_key_csr(EVP_PKEY** key, X509_REQ** req, int bits)
+{
+    *key = NULL;
+    *req = NULL;
+    RSA* rsa = NULL;
+    BIGNUM* e = NULL;
+
+    *key = EVP_PKEY_new();
+    if (!*key) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+    *req = X509_REQ_new();
+    if (!*req) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+    rsa = RSA_new();
+    if (!rsa) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+    e = BN_new();
+    if (!e) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+
+    BN_set_word(e, 65537);
+    if (!RSA_generate_key_ex(rsa, bits, e, NULL)) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+    if (!EVP_PKEY_assign_RSA(*key, rsa)) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+
+    X509_REQ_set_pubkey(*req, *key);
+
+    /* Set the DN of the request. */
+    X509_NAME* name = X509_REQ_get_subject_name(*req);
+    X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (const unsigned char*)REQ_DN_C, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "ST", MBSTRING_ASC, (const unsigned char*)REQ_DN_ST, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "L", MBSTRING_ASC, (const unsigned char*)REQ_DN_L, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (const unsigned char*)REQ_DN_O, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "OU", MBSTRING_ASC, (const unsigned char*)REQ_DN_OU, -1, -1, 0);
+    X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (const unsigned char*)REQ_DN_CN, -1, -1, 0);
+
+    /* Self-sign the request to prove that we posses the key. */
+    if (!X509_REQ_sign(*req, *key, EVP_sha256())) {
+        key_csr_free(key, req, rsa, e);
+        return 0;
+    }
+
+    BN_free(e);
+
+    return 1;
+}
+
+int generate_set_random_serial(X509* crt)
+{
+    /* Generates a 20 byte random serial number and sets in certificate. */
+    unsigned char serial_bytes[20];
+    if (RAND_bytes(serial_bytes, sizeof(serial_bytes)) != 1) return 0;
+    serial_bytes[0] &= 0x7f; /* Ensure positive serial! */
+    BIGNUM* bn = BN_new();
+    BN_bin2bn(serial_bytes, sizeof(serial_bytes), bn);
+    ASN1_INTEGER* serial = ASN1_INTEGER_new();
+    BN_to_ASN1_INTEGER(bn, serial);
+
+    X509_set_serialNumber(crt, serial); // Set serial.
+
+    ASN1_INTEGER_free(serial);
+    BN_free(bn);
+    return 1;
+}
+
+void key_pair_free(EVP_PKEY** key, X509** crt, X509_REQ* req)
+{
+    EVP_PKEY_free(*key);
+    X509_REQ_free(req);
+    X509_free(*crt);
+}
+
+int generate_signed_key_pair(EVP_PKEY* ca_key, X509* ca_crt, EVP_PKEY** key, X509** crt, int bits, int days)
+{
+    /* Generate the private key and corresponding CSR. */
+    X509_REQ* req = NULL;
+    if (!generate_key_csr(key, &req, bits)) {
+        fprintf(stderr, "Failed to generate key and/or CSR!\n");
+        return 0;
+    }
+
+    /* Sign with the CA. */
+    *crt = X509_new();
+    if (!*crt) {
+        key_pair_free(key, crt, req);
+        return 0;
+    }
+
+    X509_set_version(*crt, 2); /* Set version to X509v3 */
+
+    /* Generate random 20 byte serial. */
+    if (!generate_set_random_serial(*crt)) {
+        key_pair_free(key, crt, req);
+        return 0;
+    }
+
+    /* Set issuer to CA's subject. */
+    X509_set_issuer_name(*crt, X509_get_subject_name(ca_crt));
+
+    /* Set validity of certificate to 2 years. */
+    X509_gmtime_adj(X509_get_notBefore(*crt), 0);
+    X509_gmtime_adj(X509_get_notAfter(*crt), (long)60 * 60 * 24 * days);
+
+    /* Get the request's subject and just use it (we don't bother checking it since we generated
+     * it ourself). Also take the request's public key. */
+    X509_set_subject_name(*crt, X509_REQ_get_subject_name(req));
+    EVP_PKEY* req_pubkey = X509_REQ_get_pubkey(req);
+    X509_set_pubkey(*crt, req_pubkey);
+    EVP_PKEY_free(req_pubkey);
+
+    /* Now perform the actual signing with the CA. */
+    if (X509_sign(*crt, ca_key, EVP_sha256()) == 0) {
+        key_pair_free(key, crt, req);
+        return 0;
+    }
+
+    X509_REQ_free(req);
+    return 1;
+}
+
 SSL_CTX* create_context()
 {
     const SSL_METHOD *method;
     SSL_CTX *ctx;
 
-    method = SSLv23_server_method();
+    method = TLSv1_2_server_method();
 
     ctx = SSL_CTX_new(method);
     if (!ctx) {
-	perror("Unable to create SSL context");
-	ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+		perror("Unable to create SSL context");
+        ERR_print_errors_cb(print_error_cb, NULL);
+		exit(EXIT_FAILURE);
     }
-
     return ctx;
 }
 
+/* Set private key and local certificate */
 void configure_context(SSL_CTX *ctx)
-{
-    SSL_CTX_set_ecdh_auto(ctx, 1);
+{    
+    SSL_CTX_set_ecdh_auto(ctx, 2);
 
-    /* Set the key and cert */
-    if (SSL_CTX_use_certificate_file(ctx, "cert.pem", SSL_FILETYPE_PEM) <= 0) {
-        ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+    EVP_PKEY* ca_key = NULL;
+    X509* ca_crt = NULL;
+
+    mkcert(&ca_crt, &ca_key, RSA_KEY_BITS, 0, CERT_DAYS);
+
+    /* Generate keypair and then print it byte-by-byte for demo purposes. */
+    EVP_PKEY* key = NULL;
+    X509* crt = NULL;
+
+    int status = generate_signed_key_pair(ca_key, ca_crt, &key, &crt, RSA_KEY_BITS, 365);
+    if (1 != status) {
+        ERR_print_errors_cb(print_error_cb, NULL);
+        exit(EXIT_FAILURE);
     }
 
-    if (SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM) <= 0 ) {
-        ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+    /* set the local certificate */
+    status = SSL_CTX_use_certificate(ctx, crt);
+    if (1 != status) {
+        ERR_print_errors_cb(print_error_cb, NULL);
+        exit(EXIT_FAILURE);
     }
+
+    /* set the private key */
+    status = SSL_CTX_use_PrivateKey(ctx, key);
+    if (1 != status) {
+        ERR_print_errors_cb(print_error_cb, NULL);
+	    exit(EXIT_FAILURE);
+    }
+
+    /* verify private key */
+    status = SSL_CTX_check_private_key(ctx);
+    if (1 != status)
+    {
+        perror("Private key does not match the public certificate");
+        ERR_print_errors_cb(print_error_cb, NULL);
+        exit(EXIT_FAILURE);
+    }
+
+    X509_free(crt);
+    EVP_PKEY_free(key);
+    X509_free(ca_crt);
+    EVP_PKEY_free(ca_key);
 }
 
 int boinc_socket(int& fd, int protocol) {

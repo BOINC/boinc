@@ -64,7 +64,9 @@ extern int boinc_get_port(bool is_remote, int& port);
 // tls
 extern void init_openssl();
 extern SSL_CTX* create_context();
-extern void configure_context(SSL_CTX *ctx);
+extern void configure_context(SSL_CTX* ctx);
+extern void cleanup_openssl();
+extern int print_error_cb(const char* str, size_t len, void* u);
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef int BOINC_SOCKLEN_T;
