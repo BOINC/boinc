@@ -39,8 +39,7 @@
     <string name="attachproject_hint_projectwebsite_stats">عرض إحصائيات المساهمة</string>
     <string name="attachproject_hint_projectwebsite_community">التواصل مع المتطوعين الآخرين</string>
     <string name="attachproject_hint_platforms_header">BOINC متوفر ايضا لجهاز الكمبيوتر المنزلى أو المحمول، لمعرفة
-        المزيد الرجاء زيارة موقعنا على الإنترنت boinc.berkeley.edu
-    </string>
+        المزيد الرجاء زيارة موقعنا على الإنترنت boinc.berkeley.edu</string>
     <!--project login-->
     <string name="attachproject_login_loading">الاتصال بخادم المشروع...</string>
     <string name="attachproject_login_header_general_area">المعلومات العامة:</string>
@@ -108,23 +107,19 @@
     <string name="prefs_suspend_when_screen_on">إيقاف الحوسبة مؤقتا عند تشغيل الشاشة</string>
     <string name="prefs_stationary_device_mode_header">وضع الجهاز الثابت</string>
     <string name="prefs_stationary_device_mode_description">السماح بالحوسبة بغض النظر عن تفضيلات الطاقة، مكن فقط في حالة
-        عدم وجود بطارية بالجهاز.
-    </string>
+        عدم وجود بطارية بالجهاز.</string>
     <string name="prefs_power_source_header">مصادر الطاقة للحوسبة.</string>
-    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية.
-    </string>
+    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية.</string>
     <string name="prefs_power_source_ac">مقبس الحائط</string>
     <string name="prefs_power_source_usb">اتصال USB</string>
     <string name="prefs_power_source_wireless">شاحن لاسلكي</string>
     <string name="prefs_power_source_battery">البطارية</string>
     <string name="battery_charge_min_pct_header">الحد الادنى لمستوي البطارية</string>
     <string name="battery_charge_min_pct_description">يقوم BOINC بتعليق العمليات الحسابية حين انخفاض نسبة البطارية عن
-        المستوى المقرر.
-    </string>
+        المستوى المقرر.</string>
     <string name="battery_temperature_max_header">اقصى درجة حرارة للبطارية</string>
     <string name="battery_temperature_max_description">يقوم BOINC بوقف العمليات الحسابية عند تخطي البطارية درجة الحرارة
-        المقررة. لا ينصح بتغيير هذه القيمة.
-    </string>
+        المقررة. لا ينصح بتغيير هذه القيمة.</string>
     <string name="prefs_disk_max_pct_header">الحد الاقصى للسعة التخزينية المستخدمة</string>
     <string name="prefs_disk_min_free_gb_header">الحد الأدنى للسعة التخزينية</string>
     <string name="prefs_disk_access_interval_header">فاصل الوصول</string>
@@ -138,8 +133,7 @@
     <string name="prefs_cpu_number_cpus_description">يحدد عدد أنوية المعالج المستخدمة من قبل BOINC للحوسبة.</string>
     <string name="prefs_cpu_other_load_suspension_header">إيقاف استخدام المعالج عند حد أقصاه</string>
     <string name="prefs_cpu_other_load_suspension_description">يقرر الحد الأقصى الذى يتم عنده وقف عمليات BOINC لصالح
-        التطبيقات الأخرى.
-    </string>
+        التطبيقات الأخرى.</string>
     <string name="prefs_cpu_time_max_header">الحد الأقصى للمعالج</string>
     <string name="prefs_cpu_time_max_description">يحدد وقت المعالج المستغرق للقيام بعمليات BOINC الحسابية</string>
     <string name="prefs_memory_max_idle_header">الحد الأقصى للذاكرة</string>
@@ -267,31 +261,25 @@
     <string name="about_version">اصدار %1$s</string>
     <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">جامعة بيركلي بكاليفورنيا
-        \u00A9 2003–2021
-    </string>
+        \u00A9 2003–2021</string>
     <string name="about_copyright_reserved">جميع الحقوق محفوظة</string>
     <string name="about_credits">كل الشكر والتقدير لكل من معهد ماكس بلانك لفيزياء الجاذبية، شركة أي بي أم وشركة إتش تي
-        سي لدعمهم.
-    </string>
+        سي لدعمهم.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">تم الكشف على تطبيق الحوسبة التطوعى</string>
     <string name="nonexcl_dialog_text">هناك اصدار اخر من التطبيق قيد العمل على الجهاز, الرجاء العلم انه يمكنك تشغيل نسخة
-        واحدة فقط.
-    </string>
+        واحدة فقط.</string>
     <string name="nonexcl_dialog_exit">خروج</string>
     <!--social integration-->
     <string name="social_invite_button">إضافة صديق</string>
     <string name="social_invite_intent_title">كيف ترغب بالمشاركة؟</string>
     <string name="social_invite_content_title">أنا أقوم بالعلوم على هاتفي الذكي!</string>
     <string name="social_invite_content_body">أنا أستخدم %1$sالخاص بي للقيام بعمليات حسابية لصالح العلم. تسطيع القيام
-        بذلك أيضا قم بتحميل التطبيق من %2$s
-    </string>
+        بذلك أيضا قم بتحميل التطبيق من %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="notice_notification_channel_name">الإشعارات</string>

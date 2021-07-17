@@ -23,9 +23,7 @@
     <string name="attachproject_conflict_not_unique">A fiók létezik, eltérő jelszóval</string>
     <string name="attachproject_conflict_bad_password">Helytelen jelszó</string>
     <string name="attachproject_conflict_unknown_user">A fiók nem létezik</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">A fiók nem létezik. Látogassa meg a projekt weboldalát
-        a regisztrációhoz
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">A fiók nem létezik. Látogassa meg a projekt weboldalát a regisztrációhoz</string>
     <!--working-->
     <string name="attachproject_working_attaching">%1$s hozzáadása</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -41,9 +39,7 @@
     <string name="attachproject_hint_projectwebsite_science">Tudjon meg többet a tudományról</string>
     <string name="attachproject_hint_projectwebsite_stats">Nézze meg a közreműködés statisztikáit</string>
     <string name="attachproject_hint_projectwebsite_community">Lépjen kapcsolatba más önkéntesekkel</string>
-    <string name="attachproject_hint_platforms_header">A BOINC elérhető számítógépen vagy laptopon is.
-        További információkért látogassa meg a boinc.berkeley.edu oldalt.
-    </string>
+    <string name="attachproject_hint_platforms_header">A BOINC elérhető számítógépen vagy laptopon is. További információkért látogassa meg a boinc.berkeley.edu oldalt.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kapcsolódás a projekt kiszolgálójához…</string>
     <string name="attachproject_login_header_general_area">Általános terület:</string>
@@ -58,12 +54,10 @@
     <string name="attachproject_login_button_login">Bejelentkezés</string>
     <string name="attachproject_login_button_forgotpw">Elfelejtett jelszó</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Fiókkezelő használata az eszköz vezérléséhez
-</string>
+    <string name="attachproject_acctmgr_list_desc">Fiókkezelő használata az eszköz vezérléséhez</string>
     <string name="attachproject_acctmgr_header">Fiókkezelő használata</string>
     <string name="attachproject_attach_projects_header">Projektek hozzáadása</string>
-    <string name="attachproject_attach_projects_desc">Projektek hozzáadása a projeketek listájáról
-</string>
+    <string name="attachproject_attach_projects_desc">Projektek hozzáadása a projeketek listájáról</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">Felhasználó:</string>
     <string name="attachproject_acctmgr_header_pwd">Jelszó:</string>
@@ -118,23 +112,17 @@
     <string name="prefs_general_device_name_header">Eszköznév</string>
     <string name="prefs_theme_header">Téma</string>
     <string name="prefs_stationary_device_mode_header">Mozdulatlan készülék mód</string>
-    <string name="prefs_stationary_device_mode_description">Az energiabeállításokra tekintet nélkül engedélyezi a számítást.
-        Csak akkor engedélyezze, ha az eszköznek nincs akkumulátora.
-    </string>
+    <string name="prefs_stationary_device_mode_description">Az energiabeállításokra tekintet nélkül engedélyezi a számítást. Csak akkor engedélyezze, ha az eszköznek nincs akkumulátora.</string>
     <string name="prefs_power_source_header">Energiaforrások a számításhoz</string>
-    <string name="prefs_power_source_description">Kiválasztja a BOINC által használható energiaforrásokat a számításhoz.
-    </string>
+    <string name="prefs_power_source_description">Kiválasztja a BOINC által használható energiaforrásokat a számításhoz.</string>
     <string name="prefs_power_source_ac">Fali csatlakozó</string>
     <string name="prefs_power_source_usb">USB kapcsolat</string>
     <string name="prefs_power_source_wireless">Vezeték nélküli töltő</string>
     <string name="prefs_power_source_battery">Akkumulátor</string>
     <string name="battery_charge_min_pct_header">Legkisebb akkumulátorszint (%)</string>
-    <string name="battery_charge_min_pct_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátortöltöttségi szint alatt.
-    </string>
+    <string name="battery_charge_min_pct_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátortöltöttségi szint alatt.</string>
     <string name="battery_temperature_max_header">Legnagyobb akkumulátor-hőmérséklet (°C)</string>
-    <string name="battery_temperature_max_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátor-hőmérséklet
-        fölött. Nem ajánlott ezen érték megváltoztatása.
-    </string>
+    <string name="battery_temperature_max_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátor-hőmérséklet fölött. Nem ajánlott ezen érték megváltoztatása.</string>
     <string name="prefs_disk_max_pct_header">Legnagyobb használt tárhely (%)</string>
     <string name="prefs_disk_min_free_gb_header">Legkisebb tartaléktárhely (GB)</string>
     <string name="prefs_disk_access_interval_header">Hozzáférési időköz (másodperc)</string>
@@ -150,9 +138,7 @@
     <string name="prefs_cpu_number_cpus_header">Használt processzormagok</string>
     <string name="prefs_cpu_number_cpus_description">Korlátozza a BOINC általi számításhoz használt processzormagok számát.</string>
     <string name="prefs_cpu_other_load_suspension_header">Szüneteltetés processzorhasználat felett (%)</string>
-    <string name="prefs_cpu_other_load_suspension_description">Meghatározza, hogy a BOINC szüneteltesse a számítást más
-        alkalmazások processzorhasználata miatt.
-    </string>
+    <string name="prefs_cpu_other_load_suspension_description">Meghatározza, hogy a BOINC szüneteltesse a számítást más alkalmazások processzorhasználata miatt.</string>
     <string name="prefs_cpu_time_max_header">Processzorkorlát (%)</string>
     <string name="prefs_cpu_time_max_description">Korlátozza a BOINC általi számításhoz használt processzoridőt.</string>
     <string name="prefs_memory_max_idle_header">Memóriakorlát (%)</string>
@@ -293,9 +279,7 @@
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing (Berkeley nyílt hálózati számítási infrastruktúra)</string>
     <string name="about_copyright">\u00A9 2003–2021 Kaliforniai Egyetem, Berkeley.</string>
     <string name="about_copyright_reserved">Minden jog fenntartva.</string>
-    <string name="about_credits">Köszönet a Max Planck Institute for Gravitational Physic, az IBM Corporation és a HTC
-        Corporation támogatásához.
-    </string>
+    <string name="about_credits">Köszönet a Max Planck Institute for Gravitational Physic, az IBM Corporation és a HTC Corporation támogatásához.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Új értesítés innen: %1$s</item>
@@ -303,22 +287,16 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelve</string>
-    <string name="nonexcl_dialog_text">Egy másik önkéntes számítási alkalmazás is fut ezen az eszközön.
-        Egyszerre csak egy verzió futtatható.
-    </string>
+    <string name="nonexcl_dialog_text">Egy másik önkéntes számítási alkalmazás is fut ezen az eszközön. Egyszerre csak egy verzió futtatható.</string>
     <string name="nonexcl_dialog_exit">Kilépés</string>
     <!--social integration-->
     <string name="social_invite_button">Ismerősök meghívása</string>
     <string name="social_invite_intent_title">Hogyan szeretné megosztani?</string>
     <string name="social_invite_content_title">Tudományos munkát végzek az okostelefonomon!</string>
-    <string name="social_invite_content_body">Én %1$s segítségével számolok a tudományért. Ezt Ön is megteheti!
-        Töltse le az alkalmazást innen: %2$s
-    </string>
+    <string name="social_invite_content_body">Én %1$s segítségével számolok a tudományért. Ezt Ön is megteheti! Töltse le az alkalmazást innen: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="main_notification_channel_description">Megjeleníti a nem értesítési értesítéseket.</string>

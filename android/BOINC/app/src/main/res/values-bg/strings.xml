@@ -23,9 +23,7 @@
     <string name="attachproject_conflict_not_unique">Акаунтът съществува, но е с различна парола</string>
     <string name="attachproject_conflict_bad_password">Неправилна парола</string>
     <string name="attachproject_conflict_unknown_user">Акаунтът не съществува</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува, посетете сайта на проекта
-        за да се регистрирате
-</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Акаунтът не съществува, посетете сайта на проекта за да се регистрирате</string>
     <!--working-->
     <string name="attachproject_working_attaching">Прикачване %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -41,9 +39,7 @@
     <string name="attachproject_hint_projectwebsite_science">Научите повече за науката зад проекта</string>
     <string name="attachproject_hint_projectwebsite_stats">Видите статистика за приноса си</string>
     <string name="attachproject_hint_projectwebsite_community">Се свържете с други доброволци</string>
-    <string name="attachproject_hint_platforms_header">BOINC е достъпен и за компютър или лаптоп, посетете
-        boinc.berkeley.edu за да научите повече.
-    </string>
+    <string name="attachproject_hint_platforms_header">BOINC е достъпен и за компютър или лаптоп, посетете boinc.berkeley.edu за да научите повече.</string>
     <!--project login-->
     <string name="attachproject_login_loading">Свързване със сървъра на проекта…</string>
     <string name="attachproject_login_header_general_area">Основна област:</string>
@@ -58,12 +54,10 @@
     <string name="attachproject_login_button_login">Вход</string>
     <string name="attachproject_login_button_forgotpw">Забравена парола</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">Управлявай това устройство с акаунт мениджър
-    </string>
+    <string name="attachproject_acctmgr_list_desc">Управлявай това устройство с акаунт мениджър</string>
     <string name="attachproject_acctmgr_header">Използвай акаунт мениджър</string>
     <string name="attachproject_attach_projects_header">Добави проекти</string>
-    <string name="attachproject_attach_projects_desc">Добави проекти от списъка с проекти
-    </string>
+    <string name="attachproject_attach_projects_desc">Добави проекти от списъка с проекти</string>
     <string name="attachproject_acctmgr_header_url">URL адрес</string>
     <string name="attachproject_acctmgr_header_name">Потребител:</string>
     <string name="attachproject_acctmgr_header_pwd">Парола:</string>
@@ -118,9 +112,7 @@
     <string name="prefs_general_device_name_header">Име на устройството</string>
     <string name="prefs_theme_header">Тема</string>
     <string name="prefs_stationary_device_mode_header">Режим на стационарно устройство</string>
-    <string name="prefs_stationary_device_mode_description">Позволява работа независимо от предпочитанията за захранване. 
-        Изберете това, само ако устройството няма батерия.
-    </string>
+    <string name="prefs_stationary_device_mode_description">Позволява работа независимо от предпочитанията за захранване. Изберете това, само ако устройството няма батерия.</string>
     <string name="prefs_power_source_header">Захранващи източници</string>
     <string name="prefs_power_source_description">Изберете захранващи източници, които BOINC да използва за работа.</string>
     <string name="prefs_power_source_ac">Ел. контакт</string>
@@ -128,12 +120,9 @@
     <string name="prefs_power_source_wireless">Безжично зарядно</string>
     <string name="prefs_power_source_battery">Батерия</string>
     <string name="battery_charge_min_pct_header">Мин. ниво на батерията (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC спира работа под зададеното ниво на заряд на батерията.
-    </string>
+    <string name="battery_charge_min_pct_description">BOINC спира работа под зададеното ниво на заряд на батерията.</string>
     <string name="battery_temperature_max_header">Макс. температура на батерията (°C)</string>
-    <string name="battery_temperature_max_description">BOINC спира работа над зададената температура на батерията. Не
-        е препоръчително да променяте тази стойност.
-    </string>
+    <string name="battery_temperature_max_description">BOINC спира работа над зададената температура на батерията. Не е препоръчително да променяте тази стойност.</string>
     <string name="prefs_disk_max_pct_header">Макс. използвано място (%)</string>
     <string name="prefs_disk_min_free_gb_header">Мин. свободно място (GB)</string>
     <string name="prefs_disk_access_interval_header">Интервал на запис (секунди)</string>
@@ -147,9 +136,7 @@
     <string name="prefs_cpu_number_cpus_header">Използвани CPU ядра</string>
     <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.</string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при CPU употреба над</string>
-    <string name="prefs_cpu_other_load_suspension_description">Определя кога BOINC спира изчисленията поради заетост на
-        процесора от други приложения
-    </string>
+    <string name="prefs_cpu_other_load_suspension_description">Определя кога BOINC спира изчисленията поради заетост на процесора от други приложения</string>
     <string name="prefs_cpu_time_max_header">CPU лимит</string>
     <string name="prefs_cpu_time_max_description">Ограничава CPU време, което BOINC използва за изчисления.</string>
     <string name="prefs_memory_max_idle_header">RAM лимит</string>
@@ -279,9 +266,7 @@
     <string name="about_version">Версия %1$s</string>
     <string name="about_name_long">Бъркли Отворена Инфраструктура за Споделени Изчисления</string>
     <string name="about_copyright_reserved">Всички Права Запазени.</string>
-    <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC
-        Corporation за подкрепата.
-    </string>
+    <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC Corporation за подкрепата.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Ново известие от %1$ s</item>
@@ -289,22 +274,16 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Засечено е приложение за доброволно участие в изчисления</string>
-    <string name="nonexcl_dialog_text">Друго приложение за доброволно участие в изчисления работи в момента на това
-        устройство. Само една версия може да работи в даден момент.
-    </string>
+    <string name="nonexcl_dialog_text">Друго приложение за доброволно участие в изчисления работи в момента на това устройство. Само една версия може да работи в даден момент.</string>
     <string name="nonexcl_dialog_exit">Изход</string>
     <!--social integration-->
     <string name="social_invite_button">Поканете приятели</string>
     <string name="social_invite_intent_title">Как искате да споделите?</string>
     <string name="social_invite_content_title">Аз правя наука на моя смартфон!</string>
-    <string name="social_invite_content_body">Аз използвам моя %1$s за да извършвам изчисления за науката. Ти можеш
-        също! Изтегли приложението от: %2$s
-    </string>
+    <string name="social_invite_content_body">Аз използвам моя %1$s за да извършвам изчисления за науката. Ти можеш също! Изтегли приложението от: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="notice_notification_channel_name">Известия</string>

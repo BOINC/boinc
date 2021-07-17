@@ -23,9 +23,7 @@
     <string name="attachproject_conflict_not_unique">Contul există cu o altă parolă</string>
     <string name="attachproject_conflict_bad_password">Parolă incorectă</string>
     <string name="attachproject_conflict_unknown_user">Contul nu există</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului
-        pentru înregistrare
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Contul nu există, vizitați site-ul proiectului pentru înregistrare</string>
     <!--working-->
     <string name="attachproject_working_attaching">Se atașează %1$s</string>
     <!--e.g. Attaching Einstein@Home-->

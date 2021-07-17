@@ -23,9 +23,7 @@
   <string name="attachproject_conflict_not_unique">Невірний пароль існуючого облікового запису</string>
   <string name="attachproject_conflict_bad_password">Невірний пароль</string>
   <string name="attachproject_conflict_unknown_user">Такий обліковий запис не існує</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Такий обліковий запис не існує, перейдіть на сторінку проекта
-       для реєстрації
-</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Такий обліковий запис не існує, перейдіть на сторінку проекта для реєстрації</string>
   <!--working-->
   <string name="attachproject_working_attaching">Додавання %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -41,9 +39,7 @@
   <string name="attachproject_hint_projectwebsite_science">Дізнатися більше про науковий аспект</string>
   <string name="attachproject_hint_projectwebsite_stats">Переглянути статистику участі</string>
   <string name="attachproject_hint_projectwebsite_community">Контактувати з іншими волонтерами</string>
-  <string name="attachproject_hint_platforms_header">BOINC також доступний для вашого комп’ютера або ноутбука, відвідайте
-      boinc.berkeley.edu, щоб дізнатися більше.
-</string>
+  <string name="attachproject_hint_platforms_header">BOINC також доступний для вашого комп’ютера або ноутбука, відвідайте boinc.berkeley.edu, щоб дізнатися більше.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Встановлення з’єднання із сервером проекту</string>
   <string name="attachproject_login_header_general_area">Загальна область:</string>
@@ -116,24 +112,17 @@
   <string name="prefs_general_device_name_header">Ім\'я пристрою</string>
   <string name="prefs_theme_header">Тема</string>
   <string name="prefs_stationary_device_mode_header">Стаціонарний режим роботи пристрою</string>
-  <string name="prefs_stationary_device_mode_description">Дозволяє робити обчислення не дивлячись на налаштування Живлення. Вмикати, тільки
-         якщо пристрой не має акумулятора.
-</string>
+  <string name="prefs_stationary_device_mode_description">Дозволяє робити обчислення не дивлячись на налаштування Живлення. Вмикати, тільки якщо пристрой не має акумулятора.</string>
   <string name="prefs_power_source_header">Джерела живлення для обчислювання</string>
-  <string name="prefs_power_source_description">Оберіть джерела живлення, які BOINC може використовувати для обчислення.
-</string>
+  <string name="prefs_power_source_description">Оберіть джерела живлення, які BOINC може використовувати для обчислення.</string>
   <string name="prefs_power_source_ac">Розетка</string>
   <string name="prefs_power_source_usb">Підключення по USB</string>
   <string name="prefs_power_source_wireless">Бездротовий зарядний пристрій</string>
   <string name="prefs_power_source_battery">Акумулятор</string>
   <string name="battery_charge_min_pct_header">Мін. заряд батареї (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора.
-
-</string>
+  <string name="battery_charge_min_pct_description">BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора.</string>
   <string name="battery_temperature_max_header">Макс. температура батареї (°C)</string>
-  <string name="battery_temperature_max_description">BOINC призупинить розрахунки, коли температура батареї перевищить вказаний рівень.
-         Не рекомендовано змінювати це значення.
-</string>
+  <string name="battery_temperature_max_description">BOINC призупинить розрахунки, коли температура батареї перевищить вказаний рівень. Не рекомендовано змінювати це значення.</string>
   <string name="prefs_disk_max_pct_header">Макс. об’єм диска для використання (%)</string>
   <string name="prefs_disk_min_free_gb_header">Мін. запас дискового простору (ГБ)</string>
   <string name="prefs_disk_access_interval_header">Період доступу (секунд)</string>
@@ -149,9 +138,7 @@
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
   <string name="prefs_cpu_other_load_suspension_header">Призупиняти, коли використання ЦП вище, ніж (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання
-       процессора іншими додатками.
-</string>
+  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками.</string>
   <string name="prefs_cpu_time_max_header">Обмеження ЦП (%)</string>
   <string name="prefs_cpu_time_max_description">Обмежує процесорний час роботи, який BOINC використовує для обчислень.</string>
   <string name="prefs_memory_max_idle_header">Обмеження RAM (%)</string>
@@ -292,9 +279,7 @@
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
   <string name="about_copyright">\u00A9 2003–2021 Каліфорнійський університет, Берклі.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
-  <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC
-        Corporation за їх підтримку.
-</string>
+  <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Нова примітка від %1$s</item>
@@ -304,22 +289,16 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
-  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої.
-        Тільки один додаток може працювати одночасно.
-</string>
+  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
   <!--social integration-->
   <string name="social_invite_button">Запросити друзів</string>
   <string name="social_invite_intent_title">Як ви бажаєто поділитися?</string>
   <string name="social_invite_content_title">Я приймаю участь у наукових обчисленнях на моєму смартфоні!</string>
-  <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь!
-         Завантажуй додаток звідси: %2$s
-</string>
+  <string name="social_invite_content_body">Я вікористовую %1$s для наукових обчислень. Ти також можешь прийняти участь! Завантажуй додаток звідси: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">Відображати важливі сповіщення</string>
