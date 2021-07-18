@@ -112,25 +112,20 @@
   <string name="prefs_stationary_device_mode_header">Modo de dispositivo estacionário</string>
   <string name="prefs_stationary_device_mode_description">Permite o processamento independentemente das Preferências de energia. Ative apenas se o dispositivo não tem uma bateria.</string>
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
-  <string name="prefs_power_source_description">Seleciona as fontes de energia autorizadas para o processamento do BOINC. </string>
   <string name="prefs_power_source_ac">Tomada de parede</string>
   <string name="prefs_power_source_usb">Conexão USB</string>
   <string name="prefs_power_source_wireless">Carregador sem fio</string>
   <string name="prefs_power_source_battery">Bateria</string>
   <string name="battery_charge_min_pct_header">Nível min. de bateria (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC suspende o processamento quando a carga da bateria atingir o nível definido.</string>
   <string name="battery_temperature_max_header">Temperatura max. da bateria (°C)</string>
-  <string name="battery_temperature_max_description">BOINC suspende o processamento quando a bateria atingir a temperatura definida. Não é recomendado alterar este valor.</string>
   <string name="prefs_disk_max_pct_header">Armazenamento max. utilizado (%)</string>
   <string name="prefs_disk_min_free_gb_header">Armazenamento min. restante (GB)</string>
   <string name="prefs_disk_access_interval_header">Intervalo de acesso (segundos)</string>
-  <string name="prefs_disk_access_interval_description">Sugere um intervalo entre os acessos ao disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transferência diária (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite de transferência diária (dias)</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas por WiFi</string>
   <string name="prefs_autostart_header">Autoiniciar</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificação para novos avisos</string>
-  <string name="prefs_show_notification_suspended_header">Mostrar notificações enquanto suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC usa para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar em utilização da CPU acima de (%)</string>
@@ -138,7 +133,6 @@
   <string name="prefs_cpu_time_max_header">Limite de CPU (%)</string>
   <string name="prefs_cpu_time_max_description">Limita o tempo da CPU que o BOINC usa em computação.</string>
   <string name="prefs_memory_max_idle_header">Limite de RAM (%)</string>
-  <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM que as tarefas podem ocupar.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Buffer de unidade de trabalho (dias)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Buffer de unidade de trabalho adicional (dias)</string>
   <string name="prefs_client_log_flags_header">Flags do log do cliente BOINC</string>
@@ -218,7 +212,6 @@
   <string name="trans_suspended">suspenso</string>
   <string name="trans_active">ativo</string>
   <string name="trans_pending">pendente</string>
-  <string name="trans_header_name">Arquivo:</string>
   <string name="trans_control_retry">Tentar transferências</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Mensagens de Cliente</string>
@@ -258,7 +251,6 @@
   <string name="menu_emailto">Enviar como Email</string>
   <string name="menu_copy">Copiar para Área de transferência</string>
   <string name="menu_eventlog">Registro de Eventos</string>
-  <string name="menu_exit">Sair do BOINC</string>
   <string name="menu_run_mode_disable">Suspender</string>
   <string name="menu_run_mode_enable">Continuar</string>
   <string name="menu_about">Sobre</string>
@@ -269,7 +261,6 @@
   <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
-  <string name="about_name_long">Infraestrutura Aberta para Computação em Rede de Berkeley</string>
   <string name="about_copyright">\u00A9 2003-2021 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecemos ao Instituto Max Planck de Física Gravitacional, à IBM Corporation e à HTC Corporation pelo apoio.</string>

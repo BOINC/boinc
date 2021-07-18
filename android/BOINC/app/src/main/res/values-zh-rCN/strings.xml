@@ -116,26 +116,20 @@
         当设备没有电池时选择该选项。
     </string>
   <string name="prefs_power_source_header">计算时的电力来源</string>
-  <string name="prefs_power_source_description">选择允许BOINC使用的电力来源。</string>
   <string name="prefs_power_source_ac">插座电源</string>
   <string name="prefs_power_source_usb">USB 连接</string>
   <string name="prefs_power_source_wireless">无线充电</string>
   <string name="prefs_power_source_battery">电池</string>
   <string name="battery_charge_min_pct_header">最低电池电量（%）</string>
-  <string name="battery_charge_min_pct_description">当电量低于设定值时BOINC将暂停计算。</string>
   <string name="battery_temperature_max_header">最高电池温度（摄氏）</string>
-  <string name="battery_temperature_max_description">当电池温度高于设定值时BOINC将暂停运算。
-不建议更改此选项。</string>
   <string name="prefs_disk_max_pct_header">最多使用的储存空间（%）</string>
   <string name="prefs_disk_min_free_gb_header">最少空闲的储存空间（GB）</string>
   <string name="prefs_disk_access_interval_header">访问间隔（秒）</string>
-  <string name="prefs_disk_access_interval_description">建议磁盘访问间隔</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">每日传输限制（MB）</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">每日传输限制（天）</string>
   <string name="prefs_network_wifi_only_header">只使用WiFi传输任务</string>
   <string name="prefs_autostart_header">自启动</string>
   <string name="prefs_show_notification_notices_header">当有新消息时显示通知</string>
-  <string name="prefs_show_notification_suspended_header">暂停时显示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用的CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC使用的CPU核心数目。</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU占用率高于此值时暂停运算（%）</string>
@@ -144,7 +138,6 @@ BOINC应当暂停运算？</string>
   <string name="prefs_cpu_time_max_header">CPU限制（％）</string>
   <string name="prefs_cpu_time_max_description">限制BOINC为计算所使用的CPU时间。</string>
   <string name="prefs_memory_max_idle_header">内存限制（％）</string>
-  <string name="prefs_memory_max_idle_description">限制任务占用的内存（RAM）用量。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">任务单元缓存（天）</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">额外任务单元缓存（天）</string>
   <string name="prefs_client_log_flags_header">BOINC客户端日志标志</string>
@@ -224,7 +217,6 @@ BOINC应当暂停运算？</string>
   <string name="trans_suspended">已暂停</string>
   <string name="trans_active">活动</string>
   <string name="trans_pending">等待中</string>
-  <string name="trans_header_name">文件：</string>
   <string name="trans_control_retry">重试传输</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">客户端日志</string>
@@ -264,7 +256,6 @@ BOINC应当暂停运算？</string>
   <string name="menu_emailto">作为电子邮件发送</string>
   <string name="menu_copy">复制到剪贴板</string>
   <string name="menu_eventlog">事件日志</string>
-  <string name="menu_exit">退出 BOINC</string>
   <string name="menu_run_mode_disable">暂停</string>
   <string name="menu_run_mode_enable">继续</string>
   <string name="menu_about">关于</string>
@@ -275,7 +266,6 @@ BOINC应当暂停运算？</string>
   <string name="about_title">关于</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本%1$s</string>
-  <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
   <string name="about_copyright">\u00A9 2003–2021 加州大学伯克利分校。</string>
   <string name="about_copyright_reserved">保留所有权利。</string>
   <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 

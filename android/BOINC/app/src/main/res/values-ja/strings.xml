@@ -117,20 +117,15 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_stationary_device_mode_description">電源設定に関係なく計算を許可します。
 デバイスにバッテリーが無い場合のみ有効にします。</string>
   <string name="prefs_power_source_header">計算のための電源供給源</string>
-  <string name="prefs_power_source_description">BOINCが計算に使用できる電源を選択します。</string>
   <string name="prefs_power_source_ac">コンセント</string>
   <string name="prefs_power_source_usb">USB接続</string>
   <string name="prefs_power_source_wireless">ワイヤレス充電器</string>
   <string name="prefs_power_source_battery">バッテリー</string>
   <string name="battery_charge_min_pct_header">最小バッテリーレベル (%)</string>
-  <string name="battery_charge_min_pct_description">BOINCは、指定したバッテリー残量を下回ると計算を中断します。</string>
   <string name="battery_temperature_max_header">バッテリーの最高温度 (°C)</string>
-  <string name="battery_temperature_max_description">BOINCは、指定したバッテリー温度を超えると計算を中断します。
-この値を変更することは推奨されません。</string>
   <string name="prefs_disk_max_pct_header">最大使用ストレージ容量(%)</string>
   <string name="prefs_disk_min_free_gb_header">最小予備ストレージ(GB)</string>
   <string name="prefs_disk_access_interval_header">アクセス間隔(秒)</string>
-  <string name="prefs_disk_access_interval_description">記憶領域への読み書き間隔</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">一日あたりの転送容量制限(MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">一日あたりの転送容量制限(日間)</string>
   <string name="prefs_network_wifi_only_header">WiFiでのみタスクを転送する</string>
@@ -138,7 +133,6 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_remote_header">リモート操作の有効化</string>
   <string name="prefs_remote_summary">変更すると、BOINCクライアントが再起動します。</string>
   <string name="prefs_show_notification_notices_header">新しいお知らせがあった場合通知を表示</string>
-  <string name="prefs_show_notification_suspended_header">一時停止中に通知を表示</string>
   <string name="prefs_cpu_number_cpus_header">使用されるCPUコア数</string>
   <string name="prefs_cpu_number_cpus_description">BOINCが計算のために使用するCPUコア数を制限します。</string>
   <string name="prefs_cpu_other_load_suspension_header">超過により休止するCPU使用率(%)</string>
@@ -146,7 +140,6 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="prefs_cpu_time_max_header">CPUの制限(%)</string>
   <string name="prefs_cpu_time_max_description">BOINCが計算のために使用するCPU時間を制限します。</string>
   <string name="prefs_memory_max_idle_header">RAMの制限(%)</string>
-  <string name="prefs_memory_max_idle_description">タスクが専有できるRAMの総計のを制限します。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">ワークユニットの量(日間)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">追加のワークユニット量(日間)</string>
   <string name="prefs_remote_authentication_key">GUI認証キー</string>
@@ -229,7 +222,6 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="trans_suspended">一時停止中</string>
   <string name="trans_active">アクティブ</string>
   <string name="trans_pending">保留中</string>
-  <string name="trans_header_name">ファイル名: </string>
   <string name="trans_control_retry">転送を再試行</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">クライアントのメッセージ</string>
@@ -269,7 +261,6 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="menu_emailto">Eメールとして送信</string>
   <string name="menu_copy">クリップボードにコピー</string>
   <string name="menu_eventlog">イベント・ログ</string>
-  <string name="menu_exit">BOINCを終了</string>
   <string name="menu_run_mode_disable">一時停止</string>
   <string name="menu_run_mode_enable">再開</string>
   <string name="menu_about">バージョン情報</string>
@@ -280,7 +271,6 @@ boinc.berkeley.eduで詳細を確認してください。</string>
   <string name="about_title">バージョン情報</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン %1$s</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">Max Planck Institute for Gravitational Physics、IBM CorporationおよびHTC Corporationのサポートに感謝します。</string>

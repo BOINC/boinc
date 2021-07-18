@@ -122,28 +122,20 @@
         Изберете това, само ако устройството няма батерия.
     </string>
     <string name="prefs_power_source_header">Захранващи източници</string>
-    <string name="prefs_power_source_description">Изберете захранващи източници, които BOINC да използва за работа.</string>
     <string name="prefs_power_source_ac">Ел. контакт</string>
     <string name="prefs_power_source_usb">USB връзка</string>
     <string name="prefs_power_source_wireless">Безжично зарядно</string>
     <string name="prefs_power_source_battery">Батерия</string>
     <string name="battery_charge_min_pct_header">Мин. ниво на батерията (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC спира работа под зададеното ниво на заряд на батерията.
-    </string>
     <string name="battery_temperature_max_header">Макс. температура на батерията (°C)</string>
-    <string name="battery_temperature_max_description">BOINC спира работа над зададената температура на батерията. Не
-        е препоръчително да променяте тази стойност.
-    </string>
     <string name="prefs_disk_max_pct_header">Макс. използвано място (%)</string>
     <string name="prefs_disk_min_free_gb_header">Мин. свободно място (GB)</string>
     <string name="prefs_disk_access_interval_header">Интервал на запис (секунди)</string>
-    <string name="prefs_disk_access_interval_description">Предлага интервал между записите по диска</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Дневен лимит на трансфер</string>
     <string name="prefs_network_wifi_only_header">Прехвърляй задачи само през WiFi</string>
     <string name="prefs_autostart_header">Автоматично стартиране</string>
     <string name="prefs_remote_header">Разреши дистанционно управление</string>
     <string name="prefs_show_notification_notices_header">Показвай известия за новини</string>
-    <string name="prefs_show_notification_suspended_header">Показвай известия докато изчисленията са временно прекратени</string>
     <string name="prefs_cpu_number_cpus_header">Използвани CPU ядра</string>
     <string name="prefs_cpu_number_cpus_description">Ограничава броя CPU ядра които BOINC използва за изчисления.</string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при CPU употреба над</string>
@@ -153,7 +145,6 @@
     <string name="prefs_cpu_time_max_header">CPU лимит</string>
     <string name="prefs_cpu_time_max_description">Ограничава CPU време, което BOINC използва за изчисления.</string>
     <string name="prefs_memory_max_idle_header">RAM лимит</string>
-    <string name="prefs_memory_max_idle_description">Ограничава количеството RAM, което е позволено на задачите да заемат.</string>
     <string name="prefs_client_log_flags_header">Флагове за записите на BOINC Клиента</string>
     <string name="prefs_gui_log_level_header">Степен на вербалност на записите на GUI</string>
     <string name="prefs_gui_log_level_description">Дефинира нивото на подробност на съобщенията от GUI.</string>
@@ -226,7 +217,6 @@
     <string name="trans_suspended">временно прекратен</string>
     <string name="trans_active">активен</string>
     <string name="trans_pending">в режим на изчакване</string>
-    <string name="trans_header_name">Файл:</string>
     <string name="trans_control_retry">Опитай трансфери отново</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Съобщения от Клиента</string>
@@ -267,7 +257,6 @@
     <string name="menu_emailto">Изпрати като Имейл</string>
     <string name="menu_copy">Копирай в Клип-борда</string>
     <string name="menu_eventlog">Регистър на Събития</string>
-    <string name="menu_exit">Изход от BOINC</string>
     <string name="menu_run_mode_disable">Временно прекрати</string>
     <string name="menu_run_mode_enable">Поднови</string>
     <string name="menu_about">Относно</string>
@@ -277,7 +266,6 @@
     <string name="about_title">Относно</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Версия %1$s</string>
-    <string name="about_name_long">Бъркли Отворена Инфраструктура за Споделени Изчисления</string>
     <string name="about_copyright_reserved">Всички Права Запазени.</string>
     <string name="about_credits">Благодарности към Института Макс Планк за Гравитационна Физика, IBM Corporation и HTC
         Corporation за подкрепата.

@@ -116,26 +116,19 @@ boinc.berkeley.edu pro více informací.
 pokud zařízení nemá baterii.
 </string>
   <string name="prefs_power_source_header">Zdroje energie pro počítání</string>
-  <string name="prefs_power_source_description">Zvolí zdroje energie, které může BOINC využít pro počítání.</string>
   <string name="prefs_power_source_ac">Nabíječka</string>
   <string name="prefs_power_source_usb">USB připojení</string>
   <string name="prefs_power_source_wireless">Bezdrátová nabíječka</string>
   <string name="prefs_power_source_battery">Baterie</string>
   <string name="battery_charge_min_pct_header">Min. úroveň baterie</string>
-  <string name="battery_charge_min_pct_description">BOINC pozastaví výpočty, pokud je stav nabití baterie pod stanovenou úroveň.</string>
   <string name="battery_temperature_max_header">Max. teplota baterie</string>
-  <string name="battery_temperature_max_description">BOINC pozastaví výpočty, pokud je teplota baterie nad stanovenou hranicí. 
-Tuto hodnotu nedoporučujeme měnit.
-</string>
   <string name="prefs_disk_max_pct_header">Max. použitelné úložiště</string>
     <string name="prefs_disk_min_free_gb_header">Min. rezerva úložiště</string>
   <string name="prefs_disk_access_interval_header">Interval přístupu</string>
-  <string name="prefs_disk_access_interval_description">Navrhnětě interval mezi přístupy na úložiště</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Denní limit přenosu</string>
   <string name="prefs_network_wifi_only_header">Přenášej úkoly pouze na WiFi</string>
   <string name="prefs_autostart_header">Automatické spuštění</string>
   <string name="prefs_show_notification_notices_header">Zobrazit upozornění pro nové oznámení</string>
-  <string name="prefs_show_notification_suspended_header">Zobrazit oznámení pokud je pozastaveno</string>
   <string name="prefs_cpu_number_cpus_header">Použitá jádra procesoru</string>
   <string name="prefs_cpu_number_cpus_description">Omezuje počet jader procesoru, které může BOINC použít pro výpočet.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pozastav při využití procesoru nad</string>
@@ -143,7 +136,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="prefs_cpu_time_max_header">Omezení procesoru</string>
   <string name="prefs_cpu_time_max_description">Omezuje procesorový čas, který BOINC využívá pro počítání.</string>
   <string name="prefs_memory_max_idle_header">Limit paměti</string>
-  <string name="prefs_memory_max_idle_description">Limituje množství paměti použitelné pro výpočet.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Zásobník pracovních jednotek</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Zásobník dodatečných pracovních jednotek</string>
   <string name="prefs_client_log_flags_header">Praporky zápisu BOINC klienta</string>
@@ -218,7 +210,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="trans_suspended">pozastaveno</string>
   <string name="trans_active">probíhá</string>
   <string name="trans_pending">vyčkává</string>
-  <string name="trans_header_name">Soubor:</string>
   <string name="trans_control_retry">Opakování přenosů</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Zprávy klienta</string>
@@ -258,7 +249,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="menu_emailto">Odeslat jako E-mail</string>
   <string name="menu_copy">Kopírovat do schránky</string>
   <string name="menu_eventlog">Protokol událostí</string>
-  <string name="menu_exit">Ukončit BOINC</string>
   <string name="menu_run_mode_disable">Pozastavit</string>
   <string name="menu_run_mode_enable">Obnovit</string>
   <string name="menu_about">O BOINC</string>
@@ -269,8 +259,6 @@ Tuto hodnotu nedoporučujeme měnit.
   <string name="about_title">O programu</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verze %1$s</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
-(Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
   <string name="about_copyright">/u00A9 2003-2021 Univerzita v Kalifornii, Berkeley.</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>

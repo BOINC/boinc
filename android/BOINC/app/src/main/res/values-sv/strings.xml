@@ -118,20 +118,15 @@ boinc.berkeley.edu för att veta mer.</string>
   <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Använd
 bara om enheten inte har ett batteri.</string>
   <string name="prefs_power_source_header">Energikällor för beräkning</string>
-  <string name="prefs_power_source_description">Välj energikällor som BOINC tillåts använda för beräkning.</string>
   <string name="prefs_power_source_ac">Eluttag</string>
   <string name="prefs_power_source_usb">USB-anslutning</string>
   <string name="prefs_power_source_wireless">Trådlös laddare</string>
   <string name="prefs_power_source_battery">Batteri</string>
   <string name="battery_charge_min_pct_header">Min. batterinivå (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC pausar beräkning under vald batterinivå.</string>
   <string name="battery_temperature_max_header">Max. batteritemperatur (°C)</string>
-  <string name="battery_temperature_max_description">BOINC pausar beräkningen när den inställda batteritemperaturen överstigs.
-Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_disk_max_pct_header">Max. användning av lagringsutrymme (%)</string>
   <string name="prefs_disk_min_free_gb_header">Min. lagringsutrymme (GB)</string>
   <string name="prefs_disk_access_interval_header">Åtkomstintervall (sekunder)</string>
-  <string name="prefs_disk_access_interval_description">Föreslår en intervall mellan varje tillgång till disken</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Daglig överföringsgräns (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Daglig överföringsgräns (Dagar)</string>
   <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
@@ -139,7 +134,6 @@ Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_remote_header">Aktivera fjärrstyrning</string>
   <string name="prefs_remote_summary">BOINC startas om när detta ändras.</string>
   <string name="prefs_show_notification_notices_header">Visa avisering för nya BOINC-meddelanden</string>
-  <string name="prefs_show_notification_suspended_header">Visa avisering även i pausat läge</string>
   <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
   <string name="prefs_cpu_number_cpus_description">Begränsar antalet CPU-kärnor BOINC använder för beräkning.</string>
   <string name="prefs_cpu_other_load_suspension_header">Stoppa vid CPU-användning över (%)</string>
@@ -148,7 +142,6 @@ appars CPU-användning.</string>
   <string name="prefs_cpu_time_max_header">CPU-tid (%)</string>
   <string name="prefs_cpu_time_max_description">Begränsar tiden på CPU:n som BOINC använder för beräkning.</string>
   <string name="prefs_memory_max_idle_header">RAM-gräns (%)</string>
-  <string name="prefs_memory_max_idle_description">Begränsar det mängden RAM som uppgifter är tillåtna att allokera.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Antal arbetsuppgifter (dagar)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Ytterligare arbetsuppgifter (dagar)</string>
   <string name="prefs_remote_authentication_key">GUI autentiseringsnyckel</string>
@@ -231,7 +224,6 @@ appars CPU-användning.</string>
   <string name="trans_suspended">i vänteläge</string>
   <string name="trans_active">aktiv</string>
   <string name="trans_pending">väntar</string>
-  <string name="trans_header_name">Fil:</string>
   <string name="trans_control_retry">Skicka överföringar igen</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Klientmeddelanden</string>
@@ -271,7 +263,6 @@ appars CPU-användning.</string>
   <string name="menu_emailto">Skicka som e-postmeddelande</string>
   <string name="menu_copy">Kopiera till urklipp</string>
   <string name="menu_eventlog">Händelselogg</string>
-  <string name="menu_exit">Avsluta BOINC</string>
   <string name="menu_run_mode_disable">Vänteläge</string>
   <string name="menu_run_mode_enable">Återuppta</string>
   <string name="menu_about">Om</string>
@@ -282,7 +273,6 @@ appars CPU-användning.</string>
   <string name="about_title">Om</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version %1$s</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 Kaliforniens Universitet, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
   <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, företaget IBM och till företaget HTC

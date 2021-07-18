@@ -61,7 +61,7 @@ def buildVersionName() {
     return versionName
 }
 
-preBuild.doFirst {
+def checkAssetsFiles() {
     def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
     def clientName      = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
     def clientCabundle  = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
@@ -77,6 +77,114 @@ preBuild.doFirst {
     assert file("src/main/assets/" + allProjectsList).exists()
     assert file("src/main/assets/" + nomedia).exists()
     assert file("src/main/assets/" + client_config).exists()
+}
+
+static def isStringXmlInValuesFolder(fileName) {
+    return fileName.absolutePath.endsWith('/values/strings.xml') ||
+            fileName.absolutePath.endsWith('\\values\\strings.xml')
+}
+
+static def isStringXml(fileName) {
+    return fileName.absolutePath.endsWith('strings.xml') && !isStringXmlInValuesFolder(fileName)
+}
+
+static def buildStringsMapFromXml(fileName) {
+    def stringsMap = new HashMap<String, Boolean>()
+    def xmlParser = new XmlParser()
+    def xml = xmlParser.parse(fileName)
+    xml.string.each {
+        stringsMap.put(it.@name, false)
+    }
+    return stringsMap
+}
+
+static def findKeysFromTheSecondHashMapThatAreNotPresentInTheFirstHashMap(map1, map2) {
+    def keys = new HashSet<String>()
+    map2.keySet().each {    // iterate over the keys of map2
+        if(!map1.containsKey(it)) {
+            keys.add(it)
+        }
+    }
+    return keys
+}
+
+def validateTranslations() {
+    def mainStringsFile = android.sourceSets.main.res.sourceFiles.find {
+            isStringXmlInValuesFolder(it)
+    }
+    assert mainStringsFile != null, "No strings.xml file found in values folder"
+
+    def translationStringsFiles = android.sourceSets.main.res.sourceFiles.filter {
+            isStringXml(it)
+    }.files.toList()
+    assert translationStringsFiles.size() > 0, "No translation strings files found"
+
+    def mainStringsMap = buildStringsMapFromXml(mainStringsFile)
+
+    android.sourceSets.main.res.sourceFiles.filter {
+        !isStringXml(it) && !isStringXmlInValuesFolder(it)
+    }.files.toList().each {
+        new File(it.absolutePath).each {
+            def source = it
+            mainStringsMap.each {
+                if (!it.value) {
+                    def string = it
+                    source.eachLine {
+                        if (it.contains(string.key)) {
+                            string.setValue(true)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    android.sourceSets.main.java.srcDirs.toList().each {
+        new File(it.absolutePath).eachFileRecurse() {
+            if (it.name.endsWith('.java') || it.name.endsWith('.kt')) {
+                def source = it
+                mainStringsMap.each {
+                    if (!it.value) {
+                        def string = it
+                        source.eachLine {
+                            if (it.contains('R.string.' + string.key)) {   // if the key is present in the file
+                                string.setValue(true)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def mainStringsContainsRedundantKeys = false
+    mainStringsMap.each {
+        if (!it.value) {
+            mainStringsContainsRedundantKeys = true
+            println it.key + " is not used in main strings file"
+        }
+    }
+
+    assert !mainStringsContainsRedundantKeys, "Redundant keys found in main strings file"
+
+    def translationFilesContainRedundantKeys = false
+    translationStringsFiles.each { file ->
+        println "Validating " + file.absolutePath
+        def stringsMap = buildStringsMapFromXml(file)
+        def diff = findKeysFromTheSecondHashMapThatAreNotPresentInTheFirstHashMap(mainStringsMap, stringsMap)
+        if (diff.size() > 0) {   // if there are keys that are not present in the main strings file
+            println "The following keys are not present in the main strings file: " + diff.toString()
+            translationFilesContainRedundantKeys = true
+        }
+    }
+    assert !translationFilesContainRedundantKeys, "The translation files contain redundant keys"
+}
+
+preBuild.doFirst {
+    checkAssetsFiles()
+    validateTranslations()
 }
 
 android {

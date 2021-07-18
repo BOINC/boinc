@@ -110,24 +110,19 @@ proje web sitesini ziyaret edin.</string>
     <string name="prefs_stationary_device_mode_header">Sabit cihaz modu</string>
     <string name="prefs_stationary_device_mode_description">Güç seçeneklerinden bağımsız olarak işlemeye izin verir. Sadece cihazın bataryası bulunmuyorsa aktif edin.</string>
     <string name="prefs_power_source_header">Hesaplama için güç kaynakları</string>
-    <string name="prefs_power_source_description">Hesaplama yapmak için izin verilen BOINC güç kaynağını seçer.</string>
     <string name="prefs_power_source_ac">Duvar soketi</string>
     <string name="prefs_power_source_usb">USB bağlantı</string>
     <string name="prefs_power_source_wireless">Kablosuz Şarj Edici</string>
     <string name="prefs_power_source_battery">Pil</string>
     <string name="battery_charge_min_pct_header">En az pil seviyesi</string>
-    <string name="battery_charge_min_pct_description">Batarya şarj durumu, belirlenmiş düzeyin altına indiğinde, BOINC hesaplamayı durdurur.</string>
     <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
-    <string name="battery_temperature_max_description">Batarya sıcaklığı, belirlenmiş düzeyin üstüne çıktığında, BOINC hesaplamayı durdurur. Bu değerin değiştirilmemesi önerilir.</string>
     <string name="prefs_disk_max_pct_header">En çok depolama alanı kullanımı</string>
     <string name="prefs_disk_min_free_gb_header">En az boş depolama alanı</string>
     <string name="prefs_disk_access_interval_header">Erişim zaman aralığı</string>
-    <string name="prefs_disk_access_interval_description">Disk erişimleri arasında bir aralık önerir</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Günlük aktarım kotası</string>
     <string name="prefs_network_wifi_only_header">İşleri yalnızca WiFi\'dayken aktar</string>
     <string name="prefs_autostart_header">Cihaz açılınca otomatik başla</string>
     <string name="prefs_show_notification_notices_header">Yeni bildirimler için uyarı göster</string>
-    <string name="prefs_show_notification_suspended_header">Askıya alındığında bildirim göster</string>
     <string name="prefs_cpu_number_cpus_header">Kullanılacak CPU çekirdekleri</string>
     <string name="prefs_cpu_number_cpus_description">BOINC\'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı.</string>
     <string name="prefs_cpu_other_load_suspension_header">CPU kullanımı fazlaysa duraklat</string>
@@ -135,7 +130,6 @@ proje web sitesini ziyaret edin.</string>
     <string name="prefs_cpu_time_max_header">CPU sınırı</string>
     <string name="prefs_cpu_time_max_description">BOINC\'in hesaplama için kullanabileceği CPU gücü.</string>
     <string name="prefs_memory_max_idle_header">Bellek limiti</string>
-    <string name="prefs_memory_max_idle_description">İşlerin kullanabileceği en fazla bellek (RAM) miktarı.</string>
     <string name="prefs_client_log_flags_header">BOINC istemci günlüğü bayrakları</string>
     <string name="prefs_gui_log_level_header">GUI günlük seviyesi</string>
     <string name="prefs_gui_log_level_description">Grafik arabirimi (GUI) günlüğü mesaj ayrıntı düzeyi.</string>
@@ -208,7 +202,6 @@ proje web sitesini ziyaret edin.</string>
     <string name="trans_suspended">durakladı</string>
     <string name="trans_active">sürüyor</string>
     <string name="trans_pending">kuyrukta</string>
-    <string name="trans_header_name">Dosya:</string>
     <string name="trans_control_retry">Aktarımları yeniden dene</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">İstemci Mesajları</string>
@@ -248,7 +241,6 @@ proje web sitesini ziyaret edin.</string>
     <string name="menu_emailto">ePostayla gönder</string>
     <string name="menu_copy">Panoya kopyala</string>
     <string name="menu_eventlog">Olay Günlüğü</string>
-    <string name="menu_exit">BOINC\'ten Çık</string>
     <string name="menu_run_mode_disable">Duraklat</string>
     <string name="menu_run_mode_enable">Sürdür</string>
     <string name="menu_about">Hakkında</string>
@@ -259,7 +251,6 @@ proje web sitesini ziyaret edin.</string>
     <string name="about_title">Hakkında</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Sürüm %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
     <string name="about_credits">Yerçekimsel Fizik için Max Planck Enstitüsü\'ne, destekleri için IBM ve HTC şirketlerine teşekkür ederiz.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

@@ -120,23 +120,15 @@
         רק אם למכשיר הזה אין סוללה.
     </string>
     <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
-    <string name="prefs_power_source_description">בוחר מקורות חשמל בהם מותר ל־BOINC להשתמש לטובת חישוב.
-</string>
     <string name="prefs_power_source_ac">שקע קיר</string>
     <string name="prefs_power_source_usb">חיבור USB</string>
     <string name="prefs_power_source_wireless">מטען אלחוטי</string>
     <string name="prefs_power_source_battery">סוללה</string>
     <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב אם עצמת הסוללה נמוכה מתחת לסף המוגדר.
-    </string>
     <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה (°C)</string>
-    <string name="battery_temperature_max_description">BOINC משהה את החישוב מעבר לסף טמפרטורה מוגדר.
-        לא מומלץ לשנות את הערך הזה.
-    </string>
     <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש (%)</string>
     <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי (GB)</string>
     <string name="prefs_disk_access_interval_header">מרווח זמן גישה (שניות)</string>
-    <string name="prefs_disk_access_interval_description">הצע מרווח זמן בין גישות דיסק</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">הגבלת תעבורה יומית (MB)</string>
     <string name="prefs_network_daily_xfer_limit_period_days_header">הגבלת תעבורה יומית (ימים)</string>
     <string name="prefs_network_wifi_only_header">שלח משימות ב-WiFi בלבד</string>
@@ -144,7 +136,6 @@
     <string name="prefs_remote_header">הפעל שליטה מרחוק</string>
     <string name="prefs_remote_summary">כאשר תשתנה, BOINC יופעל מחדש</string>
     <string name="prefs_show_notification_notices_header">הצג הודעה עבור הודעות חדשות</string>
-    <string name="prefs_show_notification_suspended_header">הצג הודעה כאשר מושעה</string>
     <string name="prefs_cpu_number_cpus_header">ליבות מעבד בשימוש</string>
     <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל (%)</string>
@@ -154,7 +145,6 @@
     <string name="prefs_cpu_time_max_header">הגבלת מעבד (%)</string>
     <string name="prefs_cpu_time_max_description">הגבל את זמן המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_memory_max_idle_header">הגבלת זיכרון (%)</string>
-    <string name="prefs_memory_max_idle_description">מגביל את כמות הזיכרון לגישה אקראית שמותר למשימות לתפוס.</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">מאגר יחידות עבודה (ימים)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">מאגר יחידות עבודה נוסף (ימים)</string>
     <string name="prefs_remote_authentication_key">מפתח אימות של GUI</string>
@@ -237,7 +227,6 @@
     <string name="trans_suspended">הושעה</string>
     <string name="trans_active">פעיל</string>
     <string name="trans_pending">ממתין</string>
-    <string name="trans_header_name">קובץ:</string>
     <string name="trans_control_retry">נסה העברות שוב</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">הודעות לקוח</string>
@@ -277,7 +266,6 @@
     <string name="menu_emailto">שלח כדוא\"ל</string>
     <string name="menu_copy">העתק ללוח</string>
     <string name="menu_eventlog">יומן אירועים</string>
-    <string name="menu_exit">צא מ-BOINC</string>
     <string name="menu_run_mode_disable">השעה</string>
     <string name="menu_run_mode_enable">חדש פעולה</string>
     <string name="menu_about">על אודות</string>
@@ -288,7 +276,6 @@
     <string name="about_title">על אודות</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">גרסה %1$s</string>
-    <string name="about_name_long">התשתית הפתוחה של ברקלי עבור מחשוב רשת</string>
     <string name="about_copyright">\u00A9‏ 2003–2021 אוניברסיטת קליפורניה, ברקלי.</string>
     <string name="about_copyright_reserved">כל הזכויות שמורות.</string>
     <string name="about_credits">תודתנו נתונה למכון מקס פלנק לפיזיקה כבידתית, לתאגיד IBM ולתאגיד HTC

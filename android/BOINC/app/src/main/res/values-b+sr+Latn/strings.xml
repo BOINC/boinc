@@ -110,24 +110,19 @@
     <string name="prefs_stationary_device_mode_header">Režim nepokretnog uređaja</string>
     <string name="prefs_stationary_device_mode_description">Dozvoli rad bez obzira na podešavanja struje. Dozvoli samo ako uređaj nema bateriju.</string>
     <string name="prefs_power_source_header">Izvori struje za rad</string>
-    <string name="prefs_power_source_description">Bira izvore struje koje BOINC sme da koristi za rad.</string>
     <string name="prefs_power_source_ac">Utičnica</string>
     <string name="prefs_power_source_usb">USB konekcija</string>
     <string name="prefs_power_source_wireless">Bežični punjač</string>
     <string name="prefs_power_source_battery">Baterija</string>
     <string name="battery_charge_min_pct_header">Min. količina baterije</string>
-    <string name="battery_charge_min_pct_description">BOINC obustavlja rad ispod označenog nivoa baterije.</string>
     <string name="battery_temperature_max_header">Maks. temperatura baterije</string>
-    <string name="battery_temperature_max_description">BOINC zaustavlja rad iznad označene temperature baterije. Nije preporučljivo menjati ovaj iznos.</string>
     <string name="prefs_disk_max_pct_header">Maks. upotrebljeno mesto za skladištenje</string>
     <string name="prefs_disk_min_free_gb_header">Min. skladišni prostor</string>
     <string name="prefs_disk_access_interval_header">Učestalost pristupa</string>
-    <string name="prefs_disk_access_interval_description">Predloži učestalost među pristupanjima disku</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevno ograničenje prenosa</string>
     <string name="prefs_network_wifi_only_header">Prenos podataka samo preko WiFi</string>
     <string name="prefs_autostart_header">Automatsko pokretanje</string>
     <string name="prefs_show_notification_notices_header">Prikaži obaveštenja za nove izveštaje</string>
-    <string name="prefs_show_notification_suspended_header">Prikaži obaveštenja tokom obustave</string>
     <string name="prefs_cpu_number_cpus_header">Iskorištena jezgra procesora</string>
     <string name="prefs_cpu_number_cpus_description">Ograničava broj jezgara procesora koje BOINC koristi za rad.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pauziraj kad je ovolika iskorištenost procesora</string>
@@ -135,7 +130,6 @@
     <string name="prefs_cpu_time_max_header">Granica procesora</string>
     <string name="prefs_cpu_time_max_description">Ograničava vreme procesora koje BOINC koristi za rad.</string>
     <string name="prefs_memory_max_idle_header">RAM ograničenje</string>
-    <string name="prefs_memory_max_idle_description">Ograničava količinu RAM memorije koja je zadacima dozvoljena da koriste.</string>
     <string name="prefs_client_log_flags_header">BOINC Klijent log zastavice</string>
     <string name="prefs_gui_log_level_header">Nivo logovanja grafičkog interfejsa</string>
     <string name="prefs_gui_log_level_description">Određuje opširnost log poruka na grafičkom interfejsu</string>
@@ -208,7 +202,6 @@
     <string name="trans_suspended">zaustavljeno</string>
     <string name="trans_active">aktivno</string>
     <string name="trans_pending">nerešen</string>
-    <string name="trans_header_name">Datoteka:</string>
     <string name="trans_control_retry">Ponovo pokušaj prenose</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Poruke korisnika</string>
@@ -248,7 +241,6 @@
     <string name="menu_emailto">Pošaljite nam imejl</string>
     <string name="menu_copy">Kopiraj na Clipboard</string>
     <string name="menu_eventlog">Dnevnik dogadjaja</string>
-    <string name="menu_exit">Izlaz BOINC</string>
     <string name="menu_run_mode_disable">Zaustavi</string>
     <string name="menu_run_mode_enable">Nastavi</string>
     <string name="menu_about">O</string>
@@ -258,7 +250,6 @@
     <string name="about_title">O</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Verzija %1$s</string>
-    <string name="about_name_long">Otvorena Infrastrukutra za mrežna računanja Berkelija</string>
     <string name="about_copyright_reserved">Sva prava zadržana.</string>
     <string name="about_credits">Hvala Maks Plankovom Institutu za gravitacionu fiziku, IBM Korporaciji i HTC Korporaciji na njihovoj podršci.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

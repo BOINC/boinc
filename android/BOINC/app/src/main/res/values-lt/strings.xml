@@ -112,25 +112,19 @@ kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
   <string name="prefs_stationary_device_mode_description">Leisti skaičiavimą nepriklausomai nuo Energijos nustatymų.
 Įjunkite tik jei įrenginys neturi baterijos.</string>
   <string name="prefs_power_source_header">Energijos šaltiniai skaičiavimui</string>
-  <string name="prefs_power_source_description">Pasirinkti energijos šaltinius, kurie leidžia BOINC skaičiavimus</string>
   <string name="prefs_power_source_ac">Elektros lizdas</string>
   <string name="prefs_power_source_usb">USB jungtis</string>
   <string name="prefs_power_source_wireless">Belaidis krovimas</string>
   <string name="prefs_power_source_battery">Baterija</string>
   <string name="battery_charge_min_pct_header">Min. baterijos lygis</string>
-  <string name="battery_charge_min_pct_description">BOINC pristabdo skaičiavimus žemiau nurodyto baterijos įkrovos lygio.</string>
   <string name="battery_temperature_max_header">Didžiausia baterijos temperatūra</string>
-  <string name="battery_temperature_max_description">BOINC sustabdo skaičiavimus baterijai viršijus nurodytą temperatūrą.
-Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_disk_max_pct_header">Naudoti daugiausia disko vietos</string>
     <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
   <string name="prefs_disk_access_interval_header">Rašymo į diską intervalas</string>
-  <string name="prefs_disk_access_interval_description">Siūlomas laiko tarpas tarp įrašymo į diską</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Dienos siuntimo limitas</string>
   <string name="prefs_network_wifi_only_header">Siųsti ir gauti užduotis tik per WiFi</string>
   <string name="prefs_autostart_header">Automatinis paleidimas</string>
   <string name="prefs_show_notification_notices_header">Rodyti pranešimus su naujais skelbimais</string>
-  <string name="prefs_show_notification_suspended_header">Rodyti pranešimą kai pristabdyta</string>
   <string name="prefs_cpu_number_cpus_header">Naudoti CPU branduolius</string>
   <string name="prefs_cpu_number_cpus_description">Apriboja BOINC naudojamų CPU branduolių skaičių naudojamą skaičiavimams.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pristabdyti kai CPU naudojimas viršija</string>
@@ -138,7 +132,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_cpu_time_max_header">CPU limitas</string>
   <string name="prefs_cpu_time_max_description">Apriboja BOINC skaičiavimams naudojamą CPU laiką.</string>
   <string name="prefs_memory_max_idle_header">RAM limitas</string>
-  <string name="prefs_memory_max_idle_description">Apriboja RAM kiekį, naudojamą užduočių skaičiavimui.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Užduočių buferis</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Papildomas užduočių buferis</string>
   <string name="prefs_client_log_flags_header">BOINC kliento žurnalo žymės</string>
@@ -213,7 +206,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="trans_suspended">pristabdyta</string>
   <string name="trans_active">aktyvus</string>
   <string name="trans_pending">laukiamas</string>
-  <string name="trans_header_name">Failas:</string>
   <string name="trans_control_retry">Bandyti siuntimus dar kartą</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Kliento žinutės</string>
@@ -253,7 +245,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="menu_emailto">Išsiųsti kaip el. laišką</string>
   <string name="menu_copy">Nukopijuoti į iškarpinę</string>
   <string name="menu_eventlog">Įvykių žurnalas</string>
-  <string name="menu_exit">Išeiti iš BOINC</string>
   <string name="menu_run_mode_disable">Pristabdyti</string>
   <string name="menu_run_mode_enable">Tęsti</string>
   <string name="menu_about">Apie</string>
@@ -264,7 +255,6 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_title">Apie</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versija %1$s</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>
   <string name="about_credits">Dėkojame Max Planck Institute for Gravitational Physics, IBM Corporation ir HTC

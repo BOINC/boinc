@@ -122,23 +122,15 @@
         enable if device does not have a battery.
     </string>
     <string name="prefs_power_source_header">Power sources for computation</string>
-    <string name="prefs_power_source_description">Selects power sources BOINC is allowed to use for computation.
-    </string>
     <string name="prefs_power_source_ac">Wall socket</string>
     <string name="prefs_power_source_usb">USB connection</string>
     <string name="prefs_power_source_wireless">Wireless charger</string>
     <string name="prefs_power_source_battery">Battery</string>
     <string name="battery_charge_min_pct_header">Min. battery level (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC suspends computation below defined battery charge level.
-    </string>
     <string name="battery_temperature_max_header">Max. battery temperature (°C)</string>
-    <string name="battery_temperature_max_description">BOINC suspends computation above defined battery temperature. It
-        is not recommended to change this value.
-    </string>
     <string name="prefs_disk_max_pct_header">Max. used storage space (%)</string>
     <string name="prefs_disk_min_free_gb_header">Min. spare storage (GB)</string>
     <string name="prefs_disk_access_interval_header">Access interval (seconds)</string>
-    <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit (MB)</string>
     <string name="prefs_network_daily_xfer_limit_period_days_header">Daily transfer limit (Days)</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
@@ -146,7 +138,6 @@
     <string name="prefs_remote_header">Enable Remote Control</string>
     <string name="prefs_remote_summary">When changed, BOINC client will be relaunched.</string>
     <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
-    <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above (%)</string>
@@ -156,7 +147,6 @@
     <string name="prefs_cpu_time_max_header">CPU limit (%)</string>
     <string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
     <string name="prefs_memory_max_idle_header">RAM limit (%)</string>
-    <string name="prefs_memory_max_idle_description">Limits the amount of RAM tasks are allowed to occupy.</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">Work unit buffer (days)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Additional work unit buffer (days)</string>
     <string name="prefs_remote_authentication_key">GUI authentication key</string>
@@ -239,7 +229,6 @@
     <string name="trans_suspended">suspended</string>
     <string name="trans_active">active</string>
     <string name="trans_pending">pending</string>
-    <string name="trans_header_name">File:</string>
     <string name="trans_control_retry">Retry transfers</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Client Messages</string>
@@ -279,7 +268,6 @@
     <string name="menu_emailto">Send as Email</string>
     <string name="menu_copy">Copy to Clipboard</string>
     <string name="menu_eventlog">Event Log</string>
-    <string name="menu_exit">Exit BOINC</string>
     <string name="menu_run_mode_disable">Suspend</string>
     <string name="menu_run_mode_enable">Resume</string>
     <string name="menu_about">About</string>
@@ -290,7 +278,6 @@
     <string name="about_title">About</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC

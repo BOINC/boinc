@@ -117,20 +117,15 @@
   <string name="prefs_stationary_device_mode_description">忽略電源設定來執行運算。
 只用於非電池的裝置使用。</string>
   <string name="prefs_power_source_header">運算電源選項</string>
-  <string name="prefs_power_source_description">選擇˙可讓 BOINC 使用的電力來源</string>
   <string name="prefs_power_source_ac">充電器</string>
   <string name="prefs_power_source_usb">USB連線</string>
   <string name="prefs_power_source_wireless">無線充電</string>
   <string name="prefs_power_source_battery">電池</string>
   <string name="battery_charge_min_pct_header">最低電量 (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC 在低於設定的電量時將暫停運算。</string>
   <string name="battery_temperature_max_header">最高電池溫度 (°C)</string>
-  <string name="battery_temperature_max_description">BOINC 將在電池溫度高於預設值的時候暫停運算。
-不建議您變更此設定值。</string>
   <string name="prefs_disk_max_pct_header">最多使用儲存空間 (%)</string>
     <string name="prefs_disk_min_free_gb_header">最低保留儲存空間 (GB)</string>
   <string name="prefs_disk_access_interval_header">存取間隔 (秒)</string>
-  <string name="prefs_disk_access_interval_description">建議存取資料間隔˙時間</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">每日傳輸限制 (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">每日傳輸限制 (天)</string>
   <string name="prefs_network_wifi_only_header">只用WiFi傳輸</string>
@@ -138,7 +133,6 @@
   <string name="prefs_remote_header">啟用遠端控制</string>
   <string name="prefs_remote_summary">當您變更這項設定時，將會重新啟動 BOINC 客戶端。</string>
   <string name="prefs_show_notification_notices_header">當有新訊息時顯示通知</string>
-  <string name="prefs_show_notification_suspended_header">暫停時顯示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC運算時使用的核心數。</string>
   <string name="prefs_cpu_other_load_suspension_header">暫停運算，若 CPU 使用率超過 (%)</string>
@@ -146,7 +140,6 @@
   <string name="prefs_cpu_time_max_header">CPU 上限 (%)</string>
   <string name="prefs_cpu_time_max_description">限制BOINC運算時的CPU時間。</string>
   <string name="prefs_memory_max_idle_header">RAM 上限 (%)</string>
-  <string name="prefs_memory_max_idle_description">限制任務佔用 RAM 容量。</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">工作單元緩衝區（天）</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">附加工作單元緩衝區（天）</string>
   <string name="prefs_remote_authentication_key">GUI 驗證金鑰</string>
@@ -229,7 +222,6 @@
   <string name="trans_suspended">暫停</string>
   <string name="trans_active">進行中</string>
   <string name="trans_pending">等待中</string>
-  <string name="trans_header_name">檔案:</string>
   <string name="trans_control_retry">重試傳輸</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">用戶端訊息</string>
@@ -269,7 +261,6 @@
   <string name="menu_emailto">用電子郵件傳送</string>
   <string name="menu_copy">複製到剪貼簿</string>
   <string name="menu_eventlog">事件記錄檔</string>
-  <string name="menu_exit">退出 BOINC</string>
   <string name="menu_run_mode_disable">暫停</string>
   <string name="menu_run_mode_enable">繼續</string>
   <string name="menu_about">關於</string>
@@ -280,7 +271,6 @@
   <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本%1$s</string>
-  <string name="about_name_long">柏克萊開放式網路運算平台</string>
   <string name="about_copyright">\u00A9 2003–2021加州大學伯克利分校</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">感謝 Max Planck 引力物理研究所，IBM 公司和 HTC 公司的幫助</string>

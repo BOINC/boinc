@@ -110,7 +110,6 @@
   <string name="prefs_show_notification_notices_header">Εμφάνιση ειδοποιήσεων για νέες ανακοινώσεις</string>
   <string name="prefs_cpu_number_cpus_header">Χρησιμοποιούμενοι πυρήνες επεξεργαστή</string>
   <string name="prefs_cpu_number_cpus_description">Περιορίζει τον αριθμό των πυρήνων του επεξεργαστή που χρησιμοποιεί το BIONC για υπολογισμούς.</string>
-  <string name="prefs_memory_max_idle_description">Περιορίζει τον χώρο της RAM που οι διεργασίες επιτρέπεται να καταλαμβάνουν.</string>
   <string name="prefs_gui_log_level_header">Επίπεδο αρχείου καταγραφής γραφικού περιβάλλοντος διεπαφής χρήστη</string>
   <!--projects tab strings-->
   <string name="projects_add">Προσθήκη έργου</string>
@@ -157,7 +156,6 @@
   <string name="menu_help">Βοήθεια</string>
   <!--about dialog-->
   <string name="about_name">BOINC</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_exit">Έξοδος</string>

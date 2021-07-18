@@ -116,29 +116,19 @@
         enerjidə olmadığı halda aktivləşdirin.
     </string>
     <string name="prefs_power_source_header">Hesablama üçün enerji mənbələri</string>
-    <string name="prefs_power_source_description">BOINC hesablama üçün istifadə olunan enerji qaynaqlarını seçir.
-    </string>
     <string name="prefs_power_source_ac">Divar soketi</string>
     <string name="prefs_power_source_usb">USB bağlantısı</string>
     <string name="prefs_power_source_wireless">Simsiz şarj cihazı</string>
     <string name="prefs_power_source_battery">Batareya</string>
     <string name="battery_charge_min_pct_header">Min. Batareya səviyyəsi</string>
-    <string name="battery_charge_min_pct_description">BOINC, müəyyən edilmiş batareya şarj səviyyəsindən aşağıda olarsa
-        hesablamanı dayandırır.
-    </string>
     <string name="battery_temperature_max_header">Max. Batareyanın temperaturu</string>
-    <string name="battery_temperature_max_description">BOINC müəyyən batareyanın temperaturundan yuxarı olarsa
-        hesablamanı dayandırır. Bu dəyəri dəyişdirmək tövsiyə edilmir.
-    </string>
     <string name="prefs_disk_max_pct_header">Max. Istifadə edilən saxlama sahəsi</string>
     <string name="prefs_disk_min_free_gb_header">Min. Ehtiyat saxlama</string>
     <string name="prefs_disk_access_interval_header">Əlaqə zaman aralığı</string>
-    <string name="prefs_disk_access_interval_description">Disk girişləri arasında aralıq təklif edir</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Gündəlik köçürmə limiti</string>
     <string name="prefs_network_wifi_only_header">Yalnız WiFi üzərindəki vəzifələri ötür</string>
     <string name="prefs_autostart_header">Avtomatik başlama</string>
     <string name="prefs_show_notification_notices_header">Yeni bildirişlər üçün bildirişi göstərin</string>
-    <string name="prefs_show_notification_suspended_header">Yuxu rejiminə keçdikdə bildirişi göstərin</string>
     <string name="prefs_cpu_number_cpus_header">İstifadə olunacaq CPU nüvələri</string>
     <string name="prefs_cpu_number_cpus_description">BOINC hesablama üçün CPU nüvələrinin sayını məhdudlaşdırır.</string>
     <string name="prefs_cpu_other_load_suspension_header">CPU istifadəsini dayandırın</string>
@@ -148,7 +138,6 @@
     <string name="prefs_cpu_time_max_header">CPU limiti</string>
     <string name="prefs_cpu_time_max_description">BOINC hesablama üçün istifadə oluna biləcək CPU gücü.</string>
     <string name="prefs_memory_max_idle_header">RAM limiti</string>
-    <string name="prefs_memory_max_idle_description">Limitsiz istifadə oluna biləcək RAM miqdarı.</string>
     <string name="prefs_client_log_flags_header">BOINC Müştəri günlük bayraqları</string>
     <string name="prefs_gui_log_level_header">GUI giriş səviyyəsi</string>
     <string name="prefs_gui_log_level_description">GUI günlük mesajlarının verdiklərini bildirir.</string>
@@ -221,7 +210,6 @@
     <string name="trans_suspended">dayandırıldı</string>
     <string name="trans_active">aktivdir</string>
     <string name="trans_pending">gözləyən</string>
-    <string name="trans_header_name">Fayl:</string>
     <string name="trans_control_retry">Transferləri yenidən yoxla</string>
     <!--notices tab strings-->
     <!--eventlog tab strings-->
@@ -262,7 +250,6 @@
     <string name="menu_emailto">Email-ə göndər</string>
     <string name="menu_copy">Buferə kopyala</string>
     <string name="menu_eventlog">Hadisə qeydləri</string>
-    <string name="menu_exit">BOINC-dən çıxın</string>
     <string name="menu_run_mode_disable">Təxirə sal</string>
     <string name="menu_run_mode_enable">xülasə</string>
     <string name="menu_about">Haqqında</string>
@@ -272,7 +259,6 @@
     <string name="about_title">Haqqında</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versiya %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Bütün hüquqlar qorunur.</string>
     <string name="about_credits">Dəstək üçün Max Planck Qravitasiya Fizika İnstitutu, IBM və HTC şirkətlərinəsayəsində
         təşəkkürlər.

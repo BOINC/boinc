@@ -117,19 +117,15 @@
   <string name="prefs_stationary_device_mode_description">Permite computação independentemente das preferências de Energia.
 Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
-  <string name="prefs_power_source_description">Seleciona as fontes de energia permitidas para que o BOINC realize computação.</string>
   <string name="prefs_power_source_ac">Wall socket</string>
   <string name="prefs_power_source_usb">Ligação USB</string>
   <string name="prefs_power_source_wireless">Carregador sem fios</string>
   <string name="prefs_power_source_battery">Bateria</string>
   <string name="battery_charge_min_pct_header">Nível mín. de bateria (%)</string>
-  <string name="battery_charge_min_pct_description">O BOINC suspende a computação quando abaixo do nível de bateria definido.</string>
   <string name="battery_temperature_max_header">Temperatura máx. de bateria (ºC)</string>
-  <string name="battery_temperature_max_description">O BOINC suspende a computação se temperatura da bateria estiver acima do definido. Não é recomendada a alteração deste valor.</string>
   <string name="prefs_disk_max_pct_header">Armazenamento máx. utilizado (%)</string>
   <string name="prefs_disk_min_free_gb_header">Armazenamento livre mín. (GB)</string>
   <string name="prefs_disk_access_interval_header">Intervalo de acesso (segundos)</string>
-  <string name="prefs_disk_access_interval_description">Sugere um intervalo entre acessos ao disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite diário de transferência (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite diário de transferência (Dias)</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas em WiFi</string>
@@ -137,7 +133,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_remote_header">Habilitar Controlo Remoto</string>
   <string name="prefs_remote_summary">Quando modificado, o cliente BOINC será novamente lançado.</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificações para novas notícias</string>
-  <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar CPU quando utilização acima de (%)</string>
@@ -145,7 +140,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_cpu_time_max_header">Limite de CPU (%)</string>
   <string name="prefs_cpu_time_max_description">Limita o tempo da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_memory_max_idle_header">Limite de RAM (%)</string>
-  <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM utilizada permitida às tarefas.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Reserva de unidades de trabalho (dias)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Reserva adicional de unidades de trabalho (dias)</string>
   <string name="prefs_remote_authentication_key">Chave de autenticação GUI</string>
@@ -228,7 +222,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="trans_suspended">suspenso</string>
   <string name="trans_active">ativo</string>
   <string name="trans_pending">pendente</string>
-  <string name="trans_header_name">Ficheiro:</string>
   <string name="trans_control_retry">Repetir transferências</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Mensagens do Cliente</string>
@@ -268,7 +261,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="menu_emailto">Enviar como E-mail</string>
   <string name="menu_copy">Copiar para a Área de Transferência</string>
   <string name="menu_eventlog">Registo de Eventos</string>
-  <string name="menu_exit">Sair do BOINC</string>
   <string name="menu_run_mode_disable">Suspender</string>
   <string name="menu_run_mode_enable">Retomar</string>
   <string name="menu_about">Sobre</string>
@@ -279,7 +271,6 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão %1$s</string>
-  <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
   <string name="about_copyright">\u00A9 2003–2021 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC 

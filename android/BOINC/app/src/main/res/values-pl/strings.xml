@@ -114,28 +114,19 @@
     <string name="prefs_stationary_device_mode_description">Zezwala na wykonywanie obliczeń niezależnie od preferencji zasilania. Włączony tylko
 jeśli urządzenie nie ma baterii.</string>
     <string name="prefs_power_source_header">Źródła zasilania podczas obliczeń</string>
-    <string name="prefs_power_source_description">Wybiera źródła zasilania, których BOINC może używać do obliczeń.
-    </string>
     <string name="prefs_power_source_ac">Gniazdo elektryczne</string>
     <string name="prefs_power_source_usb">Przypięcie USB</string>
     <string name="prefs_power_source_wireless">Ładowarka bezprzewodowa</string>
     <string name="prefs_power_source_battery">Akumulator</string>
     <string name="battery_charge_min_pct_header">Minimalny poziom naładowania akumulatora (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC wstrzymuje przetwarzanie, gdy stopień naładowania baterii znajdzie się poniżej określonego poziomu.
-    </string>
     <string name="battery_temperature_max_header">Maksymalna temperatura akumulatora (°C)</string>
-    <string name="battery_temperature_max_description">BOINC wstrzymuje przetwarzanie, gdy temperatura baterii znajdzie się powyżej określonego poziomu.
-        Zalecane jest pozostawienie tej wartości bez zmian.
-    </string>
     <string name="prefs_disk_max_pct_header">Maksymalny rozmiar pamięci stałej</string>
     <string name="prefs_disk_min_free_gb_header">Minimalny wolny rozmiar pamięci stałej</string>
     <string name="prefs_disk_access_interval_header">Częstotliwość sięgania</string>
-    <string name="prefs_disk_access_interval_description">Określa jak często BOINC sięga do pamięci stałej.</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Ograniczenie dziennego przekazu</string>
     <string name="prefs_network_wifi_only_header">Przekazuj zadania wyłącznie siecią Wi-Fi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Pokazuj powiadomienia o nowych wiadomościach</string>
-    <string name="prefs_show_notification_suspended_header">Pokazuj powiadomienia gdy urządzenie jest uśpione</string>
     <string name="prefs_cpu_number_cpus_header">Wykorzystanie rdzeni procesora głównego</string>
     <string name="prefs_cpu_number_cpus_description">Ogranicza ilość rdzeni procesora głównego, które BOINC może używać do obliczeń.</string>
     <string name="prefs_cpu_other_load_suspension_header">Wstrzymanie obliczeń gdy użytkowanie procesora głównego przewyższa</string>
@@ -145,7 +136,6 @@ użycie CPU przez inne aplikacje.
     <string name="prefs_cpu_time_max_header">Maksymalny czas procesora głównego</string>
     <string name="prefs_cpu_time_max_description">Ogranicza czas procesora głównego, który BOINC może używać do obliczeń.</string>
     <string name="prefs_memory_max_idle_header">Maksymalny rozmiar pamięci roboczej</string>
-    <string name="prefs_memory_max_idle_description">Ogranicza rozmiar pamięci roboczej, który zadania mogą zajmować.</string>
     <string name="prefs_client_log_flags_header">Ustawiania dziennika klienta BOINC</string>
     <string name="prefs_gui_log_level_header">Poziom dziennikowania w powłoce graficznej</string>
     <string name="prefs_gui_log_level_description">Określa szczegółowość komunikatów diennikowania w powłoce graficznej.</string>
@@ -218,7 +208,6 @@ użycie CPU przez inne aplikacje.
     <string name="trans_suspended">zawieszony</string>
     <string name="trans_active">aktywny</string>
     <string name="trans_pending">czeka</string>
-    <string name="trans_header_name">Plik:</string>
     <string name="trans_control_retry">Wznów przekazy</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Komunikaty klienta</string>
@@ -258,7 +247,6 @@ użycie CPU przez inne aplikacje.
     <string name="menu_emailto">Wyślij e-mail</string>
     <string name="menu_copy">Kopiuj do schowka</string>
     <string name="menu_eventlog">Dziennik zdarzeń</string>
-    <string name="menu_exit">Wyjdź z BOINC</string>
     <string name="menu_run_mode_disable">Zawieś</string>
     <string name="menu_run_mode_enable">Wznów</string>
     <string name="menu_about">O BOINC…</string>
@@ -269,7 +257,6 @@ użycie CPU przez inne aplikacje.
     <string name="about_title">O BOINC</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Wersja %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Wszelkie prawa zastrzeżone.</string>
     <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Maxa Plancka, spółce IBM i spółce HTC za wsparcie.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
