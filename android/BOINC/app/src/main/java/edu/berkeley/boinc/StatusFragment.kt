@@ -46,7 +46,7 @@ class StatusFragment : Fragment() {
     private var setupStatus = -1
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()")
+            Log.v(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()")
 
             loadLayout()
         }

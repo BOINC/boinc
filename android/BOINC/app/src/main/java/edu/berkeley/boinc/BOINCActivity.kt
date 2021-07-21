@@ -83,7 +83,7 @@ class BOINCActivity : AppCompatActivity() {
     }
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.d(Logging.TAG, "BOINCActivity ClientStatusChange - onReceive()")
+            Log.v(Logging.TAG, "BOINCActivity ClientStatusChange - onReceive()")
 
             determineStatus()
         }

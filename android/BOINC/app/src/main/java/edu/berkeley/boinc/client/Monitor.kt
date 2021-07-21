@@ -360,7 +360,7 @@ class Monitor : LifecycleService() {
             // forceCompleteUpdate: read complete status, independently of screen setting
             if (screenOn || forceCompleteUpdate) {
                 // complete status read, with broadcast
-                Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status")
+                Log.v(Logging.TAG, "readClientStatus(): screen on, get complete status")
                 
                 status = clientInterface.ccStatus
                 val state = clientInterface.state
@@ -401,7 +401,7 @@ class Monitor : LifecycleService() {
             val computing = (status.taskSuspendReason == SUSPEND_NOT_SUSPENDED
                     || status.taskSuspendReason == SUSPEND_REASON_CPU_THROTTLE)
             
-            Log.d(Logging.TAG, "readClientStatus(): computation enabled: $computing")
+            Log.v(Logging.TAG, "readClientStatus(): computation enabled: $computing")
             
             clientStatus.setWifiLock(computing)
             clientStatus.setWakeLock(computing)
@@ -416,7 +416,7 @@ class Monitor : LifecycleService() {
      * BOINC client uses this data to enforce preferences, e.g. suspend battery but requires information only/best available through Java API calls.
      */
     private fun reportDeviceStatus() {
-        Log.d(Logging.TAG, "reportDeviceStatus()")
+        Log.v(Logging.TAG, "reportDeviceStatus()")
         
         try {
             // set devices status

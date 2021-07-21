@@ -231,7 +231,7 @@ public class ClientStatus {
         parseClientStatus();
         appendNewNotices(newNotices);
 
-        Log.d(Logging.TAG,
+        Log.v(Logging.TAG,
                 "setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" +
                 transfers.size() + " // computing: " + computingParseError + computingStatus +
                 computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);

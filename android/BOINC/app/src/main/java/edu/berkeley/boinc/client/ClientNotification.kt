@@ -106,7 +106,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
         }
 
         // update notification, only if it hasn't been shown before, or after change in status
-        Log.d(
+        Log.v(
             Logging.TAG,
             "ClientNotification: notification needs update? "
                     + (mOldComputingStatus == -1)

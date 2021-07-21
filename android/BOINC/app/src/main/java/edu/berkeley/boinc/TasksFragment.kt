@@ -52,7 +52,7 @@ class TasksFragment : Fragment() {
     private var lastFullUpdateTimeStamp: Long = 0
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.d(Logging.TAG, "TasksActivity onReceive")
+            Log.v(Logging.TAG, "TasksActivity onReceive")
 
             loadData()
         }
