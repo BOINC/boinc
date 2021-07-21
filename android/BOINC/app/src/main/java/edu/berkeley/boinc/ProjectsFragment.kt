@@ -137,7 +137,7 @@ class ProjectsFragment : Fragment() {
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
         val mgrIndex = data.indexOfFirst { it.isMgr }
         if (mgrIndex < 0) { // no manager present until now
-            Log.d(Logging.TAG, "No manager found in layout list. New entry available: " +
+            Log.v(Logging.TAG, "No manager found in layout list. New entry available: " +
                     acctMgrInfo.isPresent)
 
             if (acctMgrInfo.isPresent) {
