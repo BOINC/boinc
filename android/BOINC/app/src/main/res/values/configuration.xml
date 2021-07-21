@@ -18,7 +18,7 @@
 -->
 <resources>
     <!-- path and file configuration -->
-    <string name="client_path" translatable="false">/data/data/edu.berkeley.boinc/client/</string>
+    <string name="client_path" translatable="false">client/</string>
     <string name="client_name" translatable="false">boinc</string>
     <string name="client_cabundle" translatable="false">ca-bundle.crt</string>
     <string name="client_config" translatable="false">cc_config.xml</string>

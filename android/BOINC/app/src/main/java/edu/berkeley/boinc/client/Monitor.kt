@@ -184,7 +184,7 @@ class Monitor : LifecycleService() {
         Log.d(Logging.TAG, "Monitor onCreate()")
 
         // populate attributes with XML resource values
-        boincWorkingDir = getString(R.string.client_path)
+        boincWorkingDir = applicationInfo.dataDir + "/" + getString(R.string.client_path)
         fileNameClient = getString(R.string.client_name)
         fileNameCABundle = getString(R.string.client_cabundle)
         fileNameClientConfig = getString(R.string.client_config)
