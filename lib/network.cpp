@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
@@ -218,6 +219,17 @@ int resolve_hostname_or_ip_addr(
 }
 
 int boinc_socket(int& fd, int protocol) {
+    unsigned long nonblocking_long =  0;
+#ifndef _WIN32
+    if (ioctl(fd, FIONBIO, &nonblocking_long) == SO_ERROR) {
+        return ERR_SOCKET;
+    }
+#endif    
+#ifdef _WIN32
+    if (ioctlsocket(fd, FIONBIO, &nonblocking_long) == SO_ERROR) {
+        return ERR_SOCKET;
+    }
+#endif
     fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
         char buf[256];
