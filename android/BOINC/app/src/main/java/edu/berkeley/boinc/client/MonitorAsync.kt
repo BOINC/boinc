@@ -48,6 +48,9 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
     fun setNetworkModeAsync(mode: Int, callback: ((Boolean) -> Unit)? = null) =
             TaskRunner(callback, {setNetworkMode(mode)})
 
+    fun getAccountManagersAsync(callback: ((List<AccountManager>) -> Unit)? = null) =
+            TaskRunner(callback, {accountManagers})
+
     override fun asBinder(): IBinder {
         return monitor.asBinder()
     }
