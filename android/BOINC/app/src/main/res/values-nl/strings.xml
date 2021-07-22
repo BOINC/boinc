@@ -286,10 +286,8 @@
   <string name="social_invite_content_title">Ik doe wetenschap op mijn smartphone!</string>
   <string name="social_invite_content_body">Ik gebruik mijn %1$s om berekeningen te doen voor de wetenschap. Jij kan dat ook! Download de app van: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Berichten</string>

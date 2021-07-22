@@ -23,8 +23,7 @@
   <string name="attachproject_conflict_not_unique">A conta existe com uma palavra-passe diferente</string>
   <string name="attachproject_conflict_bad_password">Palavra-passe incorreta</string>
   <string name="attachproject_conflict_unknown_user">A conta não existe</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website do projeto
-      para se registar</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website do projeto para se registar</string>
   <!--working-->
   <string name="attachproject_working_attaching">Anexando %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -40,8 +39,7 @@
   <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>
   <string name="attachproject_hint_projectwebsite_community">Entre em contacto com outros voluntários</string>
-  <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite
-        boinc.berkeley.edu para aprender mais.</string>
+  <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para aprender mais.</string>
   <!--project login-->
   <string name="attachproject_login_loading">A contactar o servidor do projeto...</string>
   <string name="attachproject_login_header_general_area">Área geral:</string>
@@ -114,8 +112,7 @@
   <string name="prefs_general_device_name_header">Nome do dispositivo</string>
   <string name="prefs_theme_header">Tema</string>
   <string name="prefs_stationary_device_mode_header">Dispositivo em modo estacionário</string>
-  <string name="prefs_stationary_device_mode_description">Permite computação independentemente das preferências de Energia.
-Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
+  <string name="prefs_stationary_device_mode_description">Permite computação independentemente das preferências de Energia. Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
   <string name="prefs_power_source_description">Seleciona as fontes de energia permitidas para que o BOINC realize computação.</string>
   <string name="prefs_power_source_ac">Wall socket</string>
@@ -282,8 +279,7 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
   <string name="about_copyright">\u00A9 2003–2021 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
-  <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC 
-         pelo seu suporte.</string>
+  <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC pelo seu suporte.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nova notícia de %1$s</item>
@@ -291,15 +287,13 @@ Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Aplicação de computação voluntária detectada</string>
-  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste dispositivo. Apenas uma versão pode
-        ser executada de cada vez.</string>
+  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste dispositivo. Apenas uma versão pode ser executada de cada vez.</string>
   <string name="nonexcl_dialog_exit">Sair</string>
   <!--social integration-->
   <string name="social_invite_button">Convidar amigos</string>
   <string name="social_invite_intent_title">Como quer partilhar?</string>
   <string name="social_invite_content_title">Estou a fazer ciência no meu telemóvel!</string>
-  <string name="social_invite_content_body">Eu estou a utilizar o meu %1$s para realizar computação para a ciência. Tu também podes! Transfere a 
-        aplicação de: %2$s</string>
+  <string name="social_invite_content_body">Eu estou a utilizar o meu %1$s para realizar computação para a ciência. Tu também podes! Transfere a aplicação de: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

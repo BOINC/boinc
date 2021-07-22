@@ -112,8 +112,7 @@
     <string name="prefs_general_device_name_header">Nombre del dispositivo</string>
     <string name="prefs_theme_header">Tema</string>
     <string name="prefs_stationary_device_mode_header">Modo de dispositivo estacionario</string>
-    <string name="prefs_stationary_device_mode_description">Permitir computación sin tener en cuenta las preferencias de consumo.
-        Activar únicamente si el dispositivo no funciona con batería.</string>
+    <string name="prefs_stationary_device_mode_description">Permitir computación sin tener en cuenta las preferencias de consumo. Activar únicamente si el dispositivo no funciona con batería.</string>
     <string name="prefs_power_source_header">Fuentes para la computación</string>
     <string name="prefs_power_source_description">Escoger las fuentes de energía que BOINC está permitido a usar para computación.</string>
     <string name="prefs_power_source_ac">Enchufe</string>
@@ -123,8 +122,7 @@
     <string name="battery_charge_min_pct_header">Nivel de bateria minimo (%)</string>
     <string name="battery_charge_min_pct_description">BOINC suspende la computación cuando el nivel de batería está por debajo del nivel establecido.</string>
     <string name="battery_temperature_max_header">Temperatura de la batería maxima (˚C)</string>
-    <string name="battery_temperature_max_description">BOINC suspende la computación cuando la temperatura de la batería supera este límite.
-        No se recomienda cambiar este parámetro.</string>
+    <string name="battery_temperature_max_description">BOINC suspende la computación cuando la temperatura de la batería supera este límite. No se recomienda cambiar este parámetro.</string>
     <string name="prefs_disk_max_pct_header">Espacio utilizado maxima (%)</string>
     <string name="prefs_disk_min_free_gb_header">espacio extra minima (GB)</string>
     <string name="prefs_disk_access_interval_header">Intervalo de acceso (segundos)</string>
@@ -278,9 +276,7 @@
     <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
     <string name="about_copyright">\u00A9 2003–2021 Universidad de California, Berkeley.</string>
     <string name="about_copyright_reserved">Todos los derechos reservados.</string>
-    <string name="about_credits">Gracias al Instituto Max Planck de Física Gravitacional, a IBM Corporation y a HTC
-        Corporation por su apoyo.
-    </string>
+    <string name="about_credits">Gracias al Instituto Max Planck de Física Gravitacional, a IBM Corporation y a HTC Corporation por su apoyo.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">Nuevo aviso de %1$s</item>
@@ -288,20 +284,15 @@
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Aplicación de computación voluntaria detectada</string>
-    <string name="nonexcl_dialog_text">Otra aplicación informática de voluntariado se está ejecutando en este dispositivo. Solo una versión puede
-        ejecutarse al mismo tiempo.
-    </string>
+    <string name="nonexcl_dialog_text">Otra aplicación informática de voluntariado se está ejecutando en este dispositivo. Solo una versión puede ejecutarse al mismo tiempo.</string>
     <string name="nonexcl_dialog_exit">Salir</string>
     <!--social integration-->
     <string name="social_invite_button">Invitar amigos</string>
     <string name="social_invite_intent_title">¿Cómo quieres compartirlo?</string>
     <string name="social_invite_content_title">¡Estoy haciendo ciencia con mi smartphone!</string>
-    <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación para la ciencia. ¡Usted también puede! Descargue la
-        app desde: %2$s
-    </string>
+    <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación para la ciencia. ¡Usted también puede! Descargue la app desde: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">https://www.amazon.es/gp/product/B00DCCGLAG</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>

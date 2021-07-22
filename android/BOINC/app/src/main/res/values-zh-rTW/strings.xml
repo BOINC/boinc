@@ -23,9 +23,7 @@
   <string name="attachproject_conflict_not_unique">帳號存在但密碼不正確</string>
   <string name="attachproject_conflict_bad_password">密碼不正確</string>
   <string name="attachproject_conflict_unknown_user">帳號不存在</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請前往網站註冊
-        註冊
-    </string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">帳號不存在，請前往網站註冊註冊</string>
   <!--working-->
   <string name="attachproject_working_attaching">附加%1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -114,8 +112,7 @@
   <string name="prefs_general_device_name_header">裝置名稱</string>
   <string name="prefs_theme_header">佈景主題</string>
   <string name="prefs_stationary_device_mode_header">固定裝置模式</string>
-  <string name="prefs_stationary_device_mode_description">忽略電源設定來執行運算。
-只用於非電池的裝置使用。</string>
+  <string name="prefs_stationary_device_mode_description">忽略電源設定來執行運算。只用於非電池的裝置使用。</string>
   <string name="prefs_power_source_header">運算電源選項</string>
   <string name="prefs_power_source_description">選擇˙可讓 BOINC 使用的電力來源</string>
   <string name="prefs_power_source_ac">充電器</string>
@@ -125,10 +122,9 @@
   <string name="battery_charge_min_pct_header">最低電量 (%)</string>
   <string name="battery_charge_min_pct_description">BOINC 在低於設定的電量時將暫停運算。</string>
   <string name="battery_temperature_max_header">最高電池溫度 (°C)</string>
-  <string name="battery_temperature_max_description">BOINC 將在電池溫度高於預設值的時候暫停運算。
-不建議您變更此設定值。</string>
+  <string name="battery_temperature_max_description">BOINC 將在電池溫度高於預設值的時候暫停運算。不建議您變更此設定值。</string>
   <string name="prefs_disk_max_pct_header">最多使用儲存空間 (%)</string>
-    <string name="prefs_disk_min_free_gb_header">最低保留儲存空間 (GB)</string>
+  <string name="prefs_disk_min_free_gb_header">最低保留儲存空間 (GB)</string>
   <string name="prefs_disk_access_interval_header">存取間隔 (秒)</string>
   <string name="prefs_disk_access_interval_description">建議存取資料間隔˙時間</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">每日傳輸限制 (MB)</string>
