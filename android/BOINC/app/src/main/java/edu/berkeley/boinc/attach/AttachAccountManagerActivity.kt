@@ -37,6 +37,7 @@ import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.client.IMonitor
 import edu.berkeley.boinc.client.Monitor
+import edu.berkeley.boinc.client.MonitorAsync
 import edu.berkeley.boinc.databinding.ActivityAttachProjectAcctMgrBinding
 import edu.berkeley.boinc.rpc.AccountManager
 import edu.berkeley.boinc.utils.*
@@ -47,7 +48,7 @@ import kotlinx.coroutines.withContext
 
 class AttachAccountManagerActivity  : AppCompatActivity() {
     // services
-    private var monitor: IMonitor? = null
+    private var monitor: MonitorAsync? = null
     private var mIsBound = false
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
@@ -209,7 +210,7 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
         private fun fillAdapterData() {
             if (mIsBound) {
                 val accountManagers = try {
-                    monitor!!.accountManagers
+                    monitor!!.getAccountManagersAsync().await()
                 } catch (e: Exception) {
                     Log.e(Logging.TAG, "AttachAccountManagerActivity onCreate() mMonitorConnection error: $e")
 
@@ -225,7 +226,7 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // This is called when the connection with the service has been established, getService returns
             // the Monitor object that is needed to call functions.
-            monitor = IMonitor.Stub.asInterface(service)
+            monitor = MonitorAsync(IMonitor.Stub.asInterface(service))
             mIsBound = true
             fillAdapterData()
         }
