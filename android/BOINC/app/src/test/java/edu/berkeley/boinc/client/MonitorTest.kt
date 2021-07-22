@@ -53,7 +53,7 @@ class MonitorTest {
 
     @Test
     fun `Expect default config location when getAuthFilePath() is called`() {
-        Assert.assertEquals("/data/data/edu.berkeley.boinc/client/gui_rpc_auth.cfg", monitor.authFilePath)
+        Assert.assertTrue(monitor.authFilePath.endsWith("/client/gui_rpc_auth.cfg"))
     }
 
     @Test
