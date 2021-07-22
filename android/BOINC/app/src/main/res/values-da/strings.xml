@@ -23,9 +23,7 @@
     <string name="attachproject_conflict_not_unique">Konto eksisterer med en anden adgangskode</string>
     <string name="attachproject_conflict_bad_password">Forkert adgangskode</string>
     <string name="attachproject_conflict_unknown_user">Konto eksisterer ikke</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto findes ikke, besøg projektets hjemmeside
-        for at registrere en konto
-    </string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Konto findes ikke, besøg projektets hjemmeside for at registrere en konto</string>
     <!--working-->
     <string name="attachproject_working_attaching">Tilføjer %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -40,9 +38,7 @@
     <string name="attachproject_hint_projectwebsite_science">Lær mere om videnskaben</string>
     <string name="attachproject_hint_projectwebsite_stats">Se bidragsstatistik</string>
     <string name="attachproject_hint_projectwebsite_community">Kom i kontakt med andre frivillige</string>
-    <string name="attachproject_hint_platforms_header">BOINC findes også til din computer og bærbar, besøg
-        boinc.barkeley.edu for at lære mere
-    </string>
+    <string name="attachproject_hint_platforms_header">BOINC findes også til din computer og bærbar, besøg boinc.barkeley.edu for at lære mere</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontakter projekt-server …</string>
     <string name="attachproject_login_header_general_area">Generelt område:</string>
@@ -290,10 +286,8 @@
     <string name="social_invite_content_title">Jeg bruger min smartphone til videnskab!</string>
     <string name="social_invite_content_body">Jeg bruger min %1$s til at udføre beregninger for videnskaben. Du kan også være med! Download applikationen her: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="notice_notification_channel_name">Meddelelser</string>

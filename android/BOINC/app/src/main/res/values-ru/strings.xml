@@ -54,12 +54,10 @@
   <string name="attachproject_login_button_login">Войти</string>
   <string name="attachproject_login_button_forgotpw">Восстановить пароль</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Использовать менеджер проектов для управления этим устройством
-</string>
+  <string name="attachproject_acctmgr_list_desc">Использовать менеджер проектов для управления этим устройством</string>
   <string name="attachproject_acctmgr_header">Использовать менеджер проектов</string>
   <string name="attachproject_attach_projects_header">Добавить проекты</string>
-  <string name="attachproject_attach_projects_desc">Добавить проекты из списка проектов
-</string>
+  <string name="attachproject_attach_projects_desc">Добавить проекты из списка проектов</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Пользователь:</string>
   <string name="attachproject_acctmgr_header_pwd">Пароль:</string>

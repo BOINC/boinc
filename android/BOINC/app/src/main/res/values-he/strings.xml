@@ -24,8 +24,7 @@
     <string name="attachproject_conflict_bad_password">סיסמה שגויה</string>
     <string name="attachproject_conflict_unknown_user">החשבון לא קיים</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">החשבון לא קיים, יש לבקר בדף המיזם
-        כדי להירשם
-    </string>
+        כדי להירשם</string>
     <!--working-->
     <string name="attachproject_working_attaching">מצרף %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -41,8 +40,7 @@
     <string name="attachproject_hint_projectwebsite_stats">צפה בסטיסטיקות התרומה</string>
     <string name="attachproject_hint_projectwebsite_community">צור קשר עם מתנדבים אחרים</string>
     <string name="attachproject_hint_platforms_header">BOINC זמין גם עבור המחשב הנייח או הנייד שלך, יש לבקר בכתובת
-        boinc.berkeley.edu כדי לדעת עוד.
-    </string>
+        boinc.berkeley.edu כדי לדעת עוד.</string>
     <!--project login-->
     <string name="attachproject_login_loading">יוצר קשר עם שרת המיזם...</string>
     <string name="attachproject_login_header_general_area">אזור כללי:</string>
@@ -57,8 +55,7 @@
     <string name="attachproject_login_button_login">היכנס</string>
     <string name="attachproject_login_button_forgotpw">שכחתי סיסמה</string>
     <!--account manager-->
-    <string name="attachproject_acctmgr_list_desc">השתמש במנהל חשבונות כדי לנהל מכשיר זה
-</string>
+    <string name="attachproject_acctmgr_list_desc">השתמש במנהל חשבונות כדי לנהל מכשיר זה</string>
     <string name="attachproject_acctmgr_header">השתמש במנהל חשבונות</string>
     <string name="attachproject_attach_projects_header">הוסף מיזמים</string>
     <string name="attachproject_attach_projects_desc">הוסף מיזמים מרשימת מיזמים</string>
@@ -117,22 +114,18 @@
     <string name="prefs_theme_header">תצוגת נושא</string>
     <string name="prefs_stationary_device_mode_header">מצב ההתקן נייח</string>
     <string name="prefs_stationary_device_mode_description">לאפשר חישוב ללא תלות בהגדרות צריכת החשמל. ניתן להפעיל
-        רק אם למכשיר הזה אין סוללה.
-    </string>
+        רק אם למכשיר הזה אין סוללה.</string>
     <string name="prefs_power_source_header">מקורות כוח עבור חישוב</string>
-    <string name="prefs_power_source_description">בוחר מקורות חשמל בהם מותר ל־BOINC להשתמש לטובת חישוב.
-</string>
+    <string name="prefs_power_source_description">בוחר מקורות חשמל בהם מותר ל־BOINC להשתמש לטובת חישוב.</string>
     <string name="prefs_power_source_ac">שקע קיר</string>
     <string name="prefs_power_source_usb">חיבור USB</string>
     <string name="prefs_power_source_wireless">מטען אלחוטי</string>
     <string name="prefs_power_source_battery">סוללה</string>
     <string name="battery_charge_min_pct_header">רמת הסוללה מינימלית (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב אם עצמת הסוללה נמוכה מתחת לסף המוגדר.
-    </string>
+    <string name="battery_charge_min_pct_description">BOINC משהה את החישוב אם עצמת הסוללה נמוכה מתחת לסף המוגדר.</string>
     <string name="battery_temperature_max_header">טמפרטורת מקסימום של הסוללה (°C)</string>
     <string name="battery_temperature_max_description">BOINC משהה את החישוב מעבר לסף טמפרטורה מוגדר.
-        לא מומלץ לשנות את הערך הזה.
-    </string>
+        לא מומלץ לשנות את הערך הזה.</string>
     <string name="prefs_disk_max_pct_header">שטח אחסון מירבי בשימוש (%)</string>
     <string name="prefs_disk_min_free_gb_header">מינימום שטח אחסון פנוי (GB)</string>
     <string name="prefs_disk_access_interval_header">מרווח זמן גישה (שניות)</string>
@@ -149,8 +142,7 @@
     <string name="prefs_cpu_number_cpus_description">הגבל את מספר ליבות המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_cpu_other_load_suspension_header">השהה בעת שימוש במעבד מעל (%)</string>
     <string name="prefs_cpu_other_load_suspension_description">החלטה מתי BOINC יעצור את החישוב עקב ניצול המעבד על ידי יישומונים
-        אחרים.
-    </string>
+        אחרים.</string>
     <string name="prefs_cpu_time_max_header">הגבלת מעבד (%)</string>
     <string name="prefs_cpu_time_max_description">הגבל את זמן המעבד ש-BOINC משתמש לחישוב.</string>
     <string name="prefs_memory_max_idle_header">הגבלת זיכרון (%)</string>
@@ -303,21 +295,17 @@
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">זוהה יישוון מחשוב בהתנדבות</string>
     <string name="nonexcl_dialog_text">יישומון חישוביות התנדבותית נוסף פועל על מכשיר זה. רק גרסה אחת יכול לפעול
-        בו־זמנית.
-    </string>
+        בו־זמנית.</string>
     <string name="nonexcl_dialog_exit">צא</string>
     <!--social integration-->
     <string name="social_invite_button">הזמן חברים</string>
     <string name="social_invite_intent_title">כיצד ברצונך לשתף?</string>
     <string name="social_invite_content_title">אני עושה מדע עם הטלפון החכם שלי!</string>
     <string name="social_invite_content_body">ה־%1$s שלי משמש אותי לערוך חישובים לטובת המדע. כל אחד יכול! ניתן להוריד את
-        היישומון דרך: %2$s
-    </string>
+        היישומון דרך: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
-    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+    <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+    <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
     <!--Notification channels-->
     <string name="main_notification_channel_name">BOINC</string>
     <string name="main_notification_channel_description">הצג התראות מערכת</string>

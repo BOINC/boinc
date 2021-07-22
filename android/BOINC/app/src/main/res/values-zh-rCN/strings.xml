@@ -23,9 +23,7 @@
   <string name="attachproject_conflict_not_unique">账户已存在，但密码错误</string>
   <string name="attachproject_conflict_bad_password">密码错误</string>
   <string name="attachproject_conflict_unknown_user">账户不存在</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">帐户不存在，访问项目网站
-        注册
-    </string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">帐户不存在，访问项目网站注册</string>
   <!--working-->
   <string name="attachproject_working_attaching">添加 %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -40,9 +38,7 @@
   <string name="attachproject_hint_projectwebsite_science">了解更多科学方面的内容</string>
   <string name="attachproject_hint_projectwebsite_stats">查看所做贡献的统计数据</string>
   <string name="attachproject_hint_projectwebsite_community">与其他志愿者交流</string>
-  <string name="attachproject_hint_platforms_header">BOINC也有电脑版本，请访问
-        boinc.berkeley.edu 了解更多信息。
-    </string>
+  <string name="attachproject_hint_platforms_header">BOINC也有电脑版本，请访问 boinc.berkeley.edu 了解更多信息。</string>
   <!--project login-->
   <string name="attachproject_login_loading">与项目服务器通信中...</string>
   <string name="attachproject_login_header_general_area">大致研究内容：</string>
@@ -112,9 +108,7 @@
   <string name="prefs_general_device_name_header">设备名称</string>
   <string name="prefs_theme_header">皮肤</string>
   <string name="prefs_stationary_device_mode_header">台式机模式</string>
-  <string name="prefs_stationary_device_mode_description">无视电源设置始终进行运算。仅
-        当设备没有电池时选择该选项。
-    </string>
+  <string name="prefs_stationary_device_mode_description">无视电源设置始终进行运算。仅当设备没有电池时选择该选项。</string>
   <string name="prefs_power_source_header">计算时的电力来源</string>
   <string name="prefs_power_source_description">选择允许BOINC使用的电力来源。</string>
   <string name="prefs_power_source_ac">插座电源</string>
@@ -124,8 +118,7 @@
   <string name="battery_charge_min_pct_header">最低电池电量（%）</string>
   <string name="battery_charge_min_pct_description">当电量低于设定值时BOINC将暂停计算。</string>
   <string name="battery_temperature_max_header">最高电池温度（摄氏）</string>
-  <string name="battery_temperature_max_description">当电池温度高于设定值时BOINC将暂停运算。
-不建议更改此选项。</string>
+  <string name="battery_temperature_max_description">当电池温度高于设定值时BOINC将暂停运算。不建议更改此选项。</string>
   <string name="prefs_disk_max_pct_header">最多使用的储存空间（%）</string>
   <string name="prefs_disk_min_free_gb_header">最少空闲的储存空间（GB）</string>
   <string name="prefs_disk_access_interval_header">访问间隔（秒）</string>
@@ -139,8 +132,7 @@
   <string name="prefs_cpu_number_cpus_header">使用的CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC使用的CPU核心数目。</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU占用率高于此值时暂停运算（%）</string>
-  <string name="prefs_cpu_other_load_suspension_description">当其他App的CPU使用率高于多少时
-BOINC应当暂停运算？</string>
+  <string name="prefs_cpu_other_load_suspension_description">当其他App的CPU使用率高于多少时BOINC应当暂停运算？</string>
   <string name="prefs_cpu_time_max_header">CPU限制（％）</string>
   <string name="prefs_cpu_time_max_description">限制BOINC为计算所使用的CPU时间。</string>
   <string name="prefs_memory_max_idle_header">内存限制（％）</string>
@@ -278,28 +270,23 @@ BOINC应当暂停运算？</string>
   <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
   <string name="about_copyright">\u00A9 2003–2021 加州大学伯克利分校。</string>
   <string name="about_copyright_reserved">保留所有权利。</string>
-  <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 
-公司的大力协助。</string>
+  <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 公司的大力协助。</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="other">%2$,d 新通知</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">检测到有志愿计算APP正在运行</string>
-  <string name="nonexcl_dialog_text">有其他志愿计算APP正在运行。一次只能
-执行一个版本。</string>
+  <string name="nonexcl_dialog_text">有其他志愿计算APP正在运行。一次只能执行一个版本。</string>
   <string name="nonexcl_dialog_exit">退出</string>
   <!--social integration-->
   <string name="social_invite_button">邀请好友</string>
   <string name="social_invite_intent_title">您准备如何分享？</string>
   <string name="social_invite_content_title">我在智能手机上探索科学的奥秘！</string>
-  <string name="social_invite_content_body">我的%1$s正在为科学而贡献计算力。你也试试吧！
-APP下载：%2$s</string>
+  <string name="social_invite_content_body">我的%1$s正在为科学而贡献计算力。你也试试吧！APP下载：%2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">通知</string>
