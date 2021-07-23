@@ -2,8 +2,6 @@ package edu.berkeley.boinc.client;
 
 import android.util.Log;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -113,8 +111,8 @@ public class ClientInterfaceImplementation extends RpcClient {
         } catch (IOException ioe) {
             Log.e(Logging.TAG, "IOException: ", ioe);
         }
-
-        Log.d(Logging.TAG, "Authentication key acquired. length: " + StringUtils.length(authKey));
+        int authKeyLength = authKey == null ? 0 : authKey.length();
+        Log.d(Logging.TAG, "Authentication key acquired. length: " + authKeyLength);
 
         return authKey;
     }
