@@ -38,11 +38,22 @@ class LoggingTest {
     @Order(3)
     fun `Test Logging Default Log Levels`() {
         Assertions.assertEquals(-1, Logging.LOGLEVEL)
-        Assertions.assertFalse(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertFalse(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
+
+        Logging.setLogCategory("DEVICE", true)
+
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
+
     }
 
     @Test
@@ -50,11 +61,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(-1)`() {
         Logging.setLogLevel(-1)
         Assertions.assertEquals(-1, Logging.LOGLEVEL)
-        Assertions.assertFalse(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -62,11 +74,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(-10)`() {
         Logging.setLogLevel(-10)
         Assertions.assertEquals(-10, Logging.LOGLEVEL)
-        Assertions.assertFalse(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -74,11 +87,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(-42)`() {
         Logging.setLogLevel(-42)
         Assertions.assertEquals(-42, Logging.LOGLEVEL)
-        Assertions.assertFalse(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -86,11 +100,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(0)`() {
         Logging.setLogLevel(0)
         Assertions.assertEquals(0, Logging.LOGLEVEL)
-        Assertions.assertFalse(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -98,11 +113,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(1)`() {
         Logging.setLogLevel(1)
         Assertions.assertEquals(1, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertFalse(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -110,11 +126,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(2)`() {
         Logging.setLogLevel(2)
         Assertions.assertEquals(2, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertFalse(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -122,11 +139,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(3)`() {
         Logging.setLogLevel(3)
         Assertions.assertEquals(3, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertFalse(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -134,11 +152,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(4)`() {
         Logging.setLogLevel(4)
         Assertions.assertEquals(4, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertTrue(Logging.DEBUG)
-        Assertions.assertFalse(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -146,11 +165,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(5)`() {
         Logging.setLogLevel(5)
         Assertions.assertEquals(5, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertTrue(Logging.DEBUG)
-        Assertions.assertTrue(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -158,11 +178,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(6)`() {
         Logging.setLogLevel(6)
         Assertions.assertEquals(6, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertTrue(Logging.DEBUG)
-        Assertions.assertTrue(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -170,11 +191,12 @@ class LoggingTest {
     fun `Test Logging setLogLevel(10)`() {
         Logging.setLogLevel(10)
         Assertions.assertEquals(10, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertTrue(Logging.DEBUG)
-        Assertions.assertTrue(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 
     @Test
@@ -182,10 +204,24 @@ class LoggingTest {
     fun `Test Logging setLogLevel(42)`() {
         Logging.setLogLevel(42)
         Assertions.assertEquals(42, Logging.LOGLEVEL)
-        Assertions.assertTrue(Logging.ERROR)
-        Assertions.assertTrue(Logging.WARNING)
-        Assertions.assertTrue(Logging.INFO)
-        Assertions.assertTrue(Logging.DEBUG)
-        Assertions.assertTrue(Logging.VERBOSE)
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertTrue(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
+    }
+
+    @Test
+    @Order(16)
+    fun `Test Logging after category remove`() {
+        Logging.setLogCategory("DEVICE", false)
+
+        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
 }

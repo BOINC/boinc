@@ -26,26 +26,11 @@ object Logging {
     @JvmField
     var LOGLEVEL = -1
     @JvmField
-    var ERROR = false
-    @JvmField
-    var WARNING = false
-    @JvmField
-    var INFO = false
-    @JvmField
-    var DEBUG = false
-    @JvmField
-    var VERBOSE = false
-    @JvmField
     var categories = HashSet<CATEGORY>()
 
     @JvmStatic
     fun setLogLevel(logLevel: Int) {
         LOGLEVEL = logLevel
-        ERROR = LOGLEVEL > 0
-        WARNING = LOGLEVEL > 1
-        INFO = LOGLEVEL > 2
-        DEBUG = LOGLEVEL > 3
-        VERBOSE = LOGLEVEL > 4
     }
 
     @JvmStatic
