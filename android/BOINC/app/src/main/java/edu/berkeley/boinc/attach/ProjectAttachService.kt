@@ -25,7 +25,6 @@ import android.content.ServiceConnection
 import android.os.Binder
 import android.os.IBinder
 import android.os.RemoteException
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
@@ -93,7 +92,7 @@ class ProjectAttachService : LifecycleService() {
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
 
-        Log.d(Logging.TAG, "ProjectAttachService.onBind")
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.onBind")
 
         return mBinder
     }
@@ -102,7 +101,7 @@ class ProjectAttachService : LifecycleService() {
         (application as BOINCApplication).appComponent.inject(this)
         super.onCreate()
 
-        Log.d(Logging.TAG, "ProjectAttachService.onCreate")
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.onCreate")
 
         doBindService()
     }
@@ -110,7 +109,7 @@ class ProjectAttachService : LifecycleService() {
     override fun onDestroy() {
         super.onDestroy()
 
-        Log.d(Logging.TAG, "ProjectAttachService.onDestroy")
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.onDestroy")
 
         doUnbindService()
     }
@@ -155,7 +154,7 @@ class ProjectAttachService : LifecycleService() {
      */
     fun setSelectedProjects(selected: List<ProjectInfo?>) {
         if (!projectConfigRetrievalFinished) {
-            Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: stop, async task already running.")
+            Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.setSelectedProjects: stop, async task already running.")
 
             return
         }
@@ -164,11 +163,11 @@ class ProjectAttachService : LifecycleService() {
         if (mIsBound) {
             lifecycleScope.launch { getProjectConfigs() }
         } else {
-            Log.e(Logging.TAG, "ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound.")
+            Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound.")
 
             return
         }
-        Log.d(Logging.TAG,
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                 "ProjectAttachService.setSelectedProjects: number of selected projects: " + selectedProjects.size)
     }
 
@@ -181,7 +180,7 @@ class ProjectAttachService : LifecycleService() {
      */
     fun setManuallySelectedProject(url: String) {
         if (!projectConfigRetrievalFinished) {
-            Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: stop, async task already running.")
+            Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.setManuallySelectedProject: stop, async task already running.")
 
             return
         }
@@ -192,12 +191,12 @@ class ProjectAttachService : LifecycleService() {
         if (mIsBound) {
             lifecycleScope.launch { getProjectConfigs() }
         } else {
-            Log.e(Logging.TAG, "ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound.")
+            Logging.logError(Logging.CATEGORY.MONITOR, "ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound.")
 
             return
         }
 
-        Log.d(Logging.TAG,
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                 "ProjectAttachService.setManuallySelectedProject: url of selected project: " + url + ", list size: " +
                 selectedProjects.size)
     }
@@ -250,7 +249,7 @@ class ProjectAttachService : LifecycleService() {
         var attemptCounter = 0
         var retry = true
 
-        Log.d(Logging.TAG, "account manager with: $url, $name, $maxAttempts")
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "account manager with: $url, $name, $maxAttempts")
 
         // retry a defined number of times, if non deterministic failure occurs.
         // makes login more robust on bad network connections
@@ -258,10 +257,10 @@ class ProjectAttachService : LifecycleService() {
             try {
                 reply = monitor!!.addAcctMgrErrorNum(url, name, pwd)
             } catch (e: RemoteException) {
-                Log.e(Logging.TAG, "ProjectAttachService.attachAcctMgr error: ", e)
+                Logging.logException(Logging.CATEGORY.MONITOR, "ProjectAttachService.attachAcctMgr error: ", e)
             }
 
-            Log.d(Logging.TAG, "ProjectAttachService.attachAcctMgr returned: $reply")
+            Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.attachAcctMgr returned: $reply")
 
             when (reply.code) {
                 ERR_GETHOSTBYNAME, ERR_CONNECT, ERR_HTTP_TRANSIENT -> attemptCounter++ // limit number of retries
@@ -280,13 +279,13 @@ class ProjectAttachService : LifecycleService() {
         try {
             info = monitor!!.acctMgrInfo
         } catch (e: RemoteException) {
-            Log.e(Logging.TAG, "ProjectAttachService.attachAcctMgr error: ", e)
+            Logging.logException(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.attachAcctMgr error: ", e)
         }
         if (info == null) {
             return ErrorCodeDescription(-1)
         }
 
-        Log.d(Logging.TAG,
+        Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                 "ProjectAttachService.attachAcctMgr successful: " + info.acctMgrUrl +
                 info.acctMgrName + info.isHavingCredentials)
 
@@ -350,12 +349,12 @@ class ProjectAttachService : LifecycleService() {
         fun lookupAndAttach(forceLookup: Boolean): Int {
             var isForceLookup = forceLookup
 
-            Log.d(Logging.TAG, "ProjectAttachWrapper.attach: attempting: $name")
+            Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachWrapper.attach: attempting: $name")
 
             // check if project config is loaded, return if not.
             // activity needs to check, wait and re-try
             if (result == Companion.RESULT_UNINITIALIZED || !projectConfigRetrievalFinished || config == null) {
-                Log.e(Logging.TAG, "ProjectAttachWrapper.attach: no projectConfig for: $name")
+                Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachWrapper.attach: no projectConfig for: $name")
 
                 result = Companion.RESULT_UNDEFINED
                 return Companion.RESULT_UNDEFINED
@@ -371,7 +370,7 @@ class ProjectAttachService : LifecycleService() {
                 // check if project allows registration
                 statusCredentials = if (isForceLookup || config!!.clientAccountCreationDisabled) {
                     // registration disabled, e.g. WCG
-                    Log.d(Logging.TAG,
+                    Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                             "AttachProjectAsyncTask: account creation disabled, try login. for: " + config!!.name)
 
                     login()
@@ -380,7 +379,7 @@ class ProjectAttachService : LifecycleService() {
                     register()
                 }
 
-                Log.d(Logging.TAG,
+                Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                         "AttachProjectAsyncTask: retrieving credentials returned: " +
                         statusCredentials!!.errorNum + ":" + statusCredentials.errorMsg +
                         ". for: " + config!!.name)
@@ -388,12 +387,13 @@ class ProjectAttachService : LifecycleService() {
                 // check success
                 @Suppress("SENSELESS_COMPARISON")
                 if (statusCredentials == null) {
-                    Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
+                    Logging.logError(Logging.CATEGORY.GUI_ACTIVITY,
+                        "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
 
                     result = Companion.RESULT_UNDEFINED
                     return Companion.RESULT_UNDEFINED
                 } else if (statusCredentials.errorNum != ERR_OK) {
-                    Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
+                    Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "AttachProjectAsyncTask: credential retrieval failed, returned error: " +
                             statusCredentials.errorNum)
 
                     return when (statusCredentials.errorNum) {
@@ -416,7 +416,8 @@ class ProjectAttachService : LifecycleService() {
                                 continue
                             }
 
-                            Log.w(Logging.TAG, "AttachProjectAsyncTask: unable to map error number, returned error: " +
+                            Logging.logWarning(Logging.CATEGORY.MONITOR,
+                                "AttachProjectAsyncTask: unable to map error number, returned error: " +
                                     statusCredentials.errorNum)
 
                             result = Companion.RESULT_UNDEFINED
@@ -427,7 +428,7 @@ class ProjectAttachService : LifecycleService() {
             }
 
             if (statusCredentials == null) {
-                Log.e(Logging.TAG, "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
+                Logging.logError(Logging.CATEGORY.PROJECT_SERVICE, "AttachProjectAsyncTask: credential retrieval failed, is null, for: $name")
 
                 result = Companion.RESULT_UNDEFINED
                 return Companion.RESULT_UNDEFINED
@@ -436,7 +437,7 @@ class ProjectAttachService : LifecycleService() {
             // attach project
             val statusAttach = attach(statusCredentials.authenticator)
 
-            Log.d(Logging.TAG,
+            Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                     "AttachProjectAsyncTask: attach returned: " + statusAttach + ". for: " + config!!.name)
 
             if (!statusAttach) {
@@ -468,16 +469,16 @@ class ProjectAttachService : LifecycleService() {
                     try {
                         credentials = monitor!!.createAccountPolling(getAccountIn(email, user, pwd))
                     } catch (e: RemoteException) {
-                        Log.e(Logging.TAG, "ProjectAttachService.register error: ", e)
+                        Logging.logException(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.register error: ", e)
                     }
                 }
                 if (credentials == null) {
                     // call failed
-                    Log.w(Logging.TAG, "ProjectAttachWrapper.register register: auth null, retry...")
+                    Logging.logWarning(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachWrapper.register register: auth null, retry...")
 
                     attemptCounter++ // limit number of retries
                 } else {
-                    Log.d(Logging.TAG,
+                    Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                             "ProjectAttachWrapper.register returned: " + config!!.errorNum + " for " + name)
 
                     when (config!!.errorNum) {
@@ -511,16 +512,16 @@ class ProjectAttachService : LifecycleService() {
                     try {
                         credentials = monitor!!.lookupCredentials(getAccountIn(email, user, pwd))
                     } catch (e: RemoteException) {
-                        Log.e(Logging.TAG, "ProjectAttachService.login error: ", e)
+                        Logging.logException(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.login error: ", e)
                     }
                 }
                 if (credentials == null) {
                     // call failed
-                    Log.w(Logging.TAG, "ProjectAttachWrapper.login failed: auth null, retry...")
+                    Logging.logWarning(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachWrapper.login failed: auth null, retry...")
 
                     attemptCounter++ // limit number of retries
                 } else {
-                    Log.d(Logging.TAG, "ProjectAttachWrapper.login returned: " + config!!.errorNum + " for " + name)
+                    Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachWrapper.login returned: " + config!!.errorNum + " for " + name)
 
                     when (config!!.errorNum) {
                         ERR_GETHOSTBYNAME, ERR_HTTP_TRANSIENT, ERR_CONNECT -> attemptCounter++ // limit number of retries
@@ -541,7 +542,7 @@ class ProjectAttachService : LifecycleService() {
                 try {
                     return monitor!!.attachProject(config!!.masterUrl, config!!.name, authenticator)
                 } catch (e: RemoteException) {
-                    Log.e(Logging.TAG, "ProjectAttachService.attach error: ", e)
+                    Logging.logException(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.attach error: ", e)
                 }
             }
             return false
@@ -557,17 +558,17 @@ class ProjectAttachService : LifecycleService() {
         projectConfigRetrievalFinished = false
 
         withContext(Dispatchers.Default) {
-            Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: number of selected projects: " +
+            Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.GetProjectConfigAsync: number of selected projects: " +
                     selectedProjects.size)
 
             for (tmp in selectedProjects) {
-                Log.d(Logging.TAG,
+                Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                         "ProjectAttachService.GetProjectConfigAsync: configuration download started for: " +
                         tmp.name + " with URL: " + tmp.url)
 
                 val config = getProjectConfig(tmp.url)
                 if (config?.errorNum == ERR_OK) {
-                    Log.d(Logging.TAG,
+                    Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                             "ProjectAttachService.GetProjectConfigAsync: configuration download succeeded for: " +
                             tmp.name)
 
@@ -576,7 +577,7 @@ class ProjectAttachService : LifecycleService() {
                     tmp.result = RESULT_READY
                 } else {
                     // error occurred
-                    Log.w(Logging.TAG,
+                    Logging.logError(Logging.CATEGORY.PROJECT_SERVICE,
                             "ProjectAttachService.GetProjectConfigAsync: could not load configuration for: " +
                             tmp.name)
 
@@ -584,7 +585,7 @@ class ProjectAttachService : LifecycleService() {
                 }
             }
 
-            Log.d(Logging.TAG, "ProjectAttachService.GetProjectConfigAsync: end.")
+            Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.GetProjectConfigAsync: end.")
         }
 
         projectConfigRetrievalFinished = true
@@ -602,18 +603,18 @@ class ProjectAttachService : LifecycleService() {
                 try {
                     config = monitor!!.getProjectConfigPolling(url)
                 } catch (e: RemoteException) {
-                    Log.e(Logging.TAG, "ProjectAttachService.getProjectConfig error: ", e)
+                    Logging.logException(Logging.CATEGORY.PROJECT_SERVICE, "ProjectAttachService.getProjectConfig error: ", e)
                 }
             }
             if (config == null) {
                 // call failed
-                Log.w(Logging.TAG,
+                Logging.logWarning(Logging.CATEGORY.PROJECT_SERVICE,
                         "ProjectAttachWrapper.getProjectConfig failed: config null, mIsBound: " + mIsBound +
                         " for " + url + ". Retry...")
 
                 attemptCounter++ // limit number of retries
             } else {
-                Log.d(Logging.TAG,
+                Logging.logDebug(Logging.CATEGORY.PROJECT_SERVICE,
                         "GetProjectConfigsAsync.getProjectConfig returned: " + config.errorNum + " for " + url)
 
                 when (config.errorNum) {

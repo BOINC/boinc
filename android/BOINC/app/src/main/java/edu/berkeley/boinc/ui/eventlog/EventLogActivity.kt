@@ -21,7 +21,6 @@ package edu.berkeley.boinc.ui.eventlog
 import android.content.*
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -52,7 +51,7 @@ class EventLogActivity : AppCompatActivity() {
 
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            Log.d(Logging.TAG, "EventLogActivity onServiceConnected")
+            Logging.logDebug(Logging.CATEGORY.GUI_ACTIVITY, "EventLogActivity onServiceConnected")
 
             monitor = IMonitor.Stub.asInterface(service)
             mIsBound = true
@@ -70,7 +69,7 @@ class EventLogActivity : AppCompatActivity() {
     val monitorService: IMonitor
         get() {
             if (!mIsBound) {
-                Log.w(Logging.TAG, "Fragment trying to obtain service reference, but Monitor" +
+                Logging.logWarning(Logging.CATEGORY.MONITOR, "Fragment trying to obtain service reference, but Monitor" +
                         " not bound in EventLogActivity")
             }
             return monitor!!
@@ -150,7 +149,7 @@ class EventLogActivity : AppCompatActivity() {
             clipboard.setPrimaryClip(clipData)
             Toast.makeText(applicationContext, R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "onCopy failed")
+            Logging.logError(Logging.CATEGORY.USER_ACTION, "onCopy failed")
         }
     }
 
@@ -167,7 +166,7 @@ class EventLogActivity : AppCompatActivity() {
             // Send it off to the Activity-Chooser
             startActivity(Intent.createChooser(emailIntent, "Send mail..."))
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "onEmailTo failed")
+            Logging.logError(Logging.CATEGORY.USER_ACTION, "onEmailTo failed")
         }
     }
 
@@ -197,7 +196,7 @@ class EventLogActivity : AppCompatActivity() {
                 }
             }
             else -> {
-                Log.e(Logging.TAG, "EventLogActivity could not determine which log active.")
+                Logging.logError(Logging.CATEGORY.GUI_ACTIVITY, "EventLogActivity could not determine which log active.")
             }
         }
         return text.toString()

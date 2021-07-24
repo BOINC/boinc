@@ -22,7 +22,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +98,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
             return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
         }
         catch(Exception e) {
-            Log.w(Logging.TAG, "ProjectsListAdapter: Could not load data, clientStatus not initialized.");
+            Logging.logException(Logging.CATEGORY.MONITOR, "ProjectsListAdapter: Could not load data, clientStatus not initialized.", e);
 
             return null;
         }
@@ -173,7 +172,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
                 statusText = BOINCActivity.monitor.getProjectStatus(data.getProject().getMasterURL());
             }
             catch(Exception e) {
-                Log.e(Logging.TAG, "ProjectsListAdapter.getView error: ", e);
+                Logging.logException(Logging.CATEGORY.GUI_VIEW, "ProjectsListAdapter.getView error: ", e);
             }
             TextView tvStatus = vi.findViewById(R.id.project_status);
             if(statusText.isEmpty()) {

@@ -24,7 +24,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.RemoteException
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class StatusFragment : Fragment() {
     private var setupStatus = -1
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.v(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()")
+            Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "StatusFragment ClientStatusChange - onReceive()")
 
             loadLayout()
         }
@@ -54,7 +53,7 @@ class StatusFragment : Fragment() {
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
     override fun onResume() {
         //register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-        Log.d(Logging.TAG, "StatusFragment register receiver")
+        Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "StatusFragment register receiver")
 
         requireActivity().registerReceiver(mClientStatusChangeRec, ifcsc)
         super.onResume()
@@ -62,14 +61,14 @@ class StatusFragment : Fragment() {
 
     override fun onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        Log.d(Logging.TAG, "StatusFragment remove receiver")
+        Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "StatusFragment remove receiver")
 
         requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(Logging.TAG, "StatusFragment onCreateView")
+        Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "StatusFragment onCreateView")
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.status_layout, container, false)
@@ -127,7 +126,7 @@ class StatusFragment : Fragment() {
                                     try {
                                         suspendDueToScreenOn = BOINCActivity.monitor!!.suspendWhenScreenOn
                                     } catch (e: RemoteException) {
-                                        Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e)
+                                        Logging.logException(Logging.CATEGORY.GUI_VIEW, "StatusFragment.loadLayout error: ", e)
                                     }
                                     if (suspendDueToScreenOn) {
                                         statusImage.setImageResource(R.drawable.ic_baseline_stay_current_portrait)
@@ -201,7 +200,7 @@ class StatusFragment : Fragment() {
                 computingStatus = -1
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "StatusFragment.loadLayout error: ", e)
+            Logging.logException(Logging.CATEGORY.GUI_VIEW, "StatusFragment.loadLayout error: ", e)
         }
     }
 
@@ -221,10 +220,10 @@ class StatusFragment : Fragment() {
             try {
                 BOINCActivity.monitor!!.forceRefresh()
             } catch (e: RemoteException) {
-                Log.e(Logging.TAG, "StatusFragment.writeClientMode() error: ", e)
+                Logging.logException(Logging.CATEGORY.GUI_VIEW, "StatusFragment.writeClientMode() error: ", e)
             }
         } else{
-            Log.e(Logging.TAG, "StatusFragment: setting run and network mode failed")
+            Logging.logError(Logging.CATEGORY.GUI_VIEW, "StatusFragment: setting run and network mode failed")
         }
     }
 }

@@ -74,7 +74,7 @@ class AppVersionsParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "AppVersionsParser.endElement error: ", e)
+            Logging.logException(Logging.CATEGORY.XML, "AppVersionsParser.endElement error: ", e)
         }
         mCurrentElement.setLength(0) // to be clean for next one
     }
@@ -94,8 +94,8 @@ class AppVersionsParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.appVersions
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "AppVersionsParser: malformed XML ", e)
-                Log.d(Logging.TAG, "AppVersionsParser: $rpcResult")
+                Logging.logException(Logging.CATEGORY.RPC, "AppVersionsParser: malformed XML ", e)
+                Logging.logDebug(Logging.CATEGORY.XML, "AppVersionsParser: $rpcResult")
 
                 emptyList()
             }

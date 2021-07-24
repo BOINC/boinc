@@ -20,7 +20,6 @@ package edu.berkeley.boinc.adapter
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,10 +56,11 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d(
-            Logging.TAG, "NavDrawerListAdapter.getView() for : " + navDrawerItems[position].title +
-                    navDrawerItems[position].counterVisibility + navDrawerItems[position].isSubItem +
-                    navDrawerItems[position].isProjectItem
+        Logging.logDebug(Logging.CATEGORY.USER_ACTION,
+                "NavDrawerListAdapter.getView() for ${navDrawerItems[position].title}:" +
+                " counterVisibility: ${navDrawerItems[position].counterVisibility}" +
+                " isSubItem: ${navDrawerItems[position].isSubItem}" +
+                " isProjectItem: ${navDrawerItems[position].isProjectItem}"
         )
         val view : View
         if (convertView == null || convertView.tag == null || convertView.tag != navDrawerItems[position].title) {
@@ -102,13 +102,13 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
                     val monitor: IMonitor? = BOINCActivity.monitor
                     if (monitor != null) counter = monitor.tasksCount
                 } catch (e: Exception) {
-                    Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e)
+                    Logging.logException(Logging.CATEGORY.GUI_VIEW, "NavDrawerListAdapter.getView error: ", e)
                 }
                 R.string.tab_notices -> try {
                     val monitor: IMonitor? = BOINCActivity.monitor
                     if (monitor != null) counter = monitor.rssNotices.size
                 } catch (e: Exception) {
-                    Log.e(Logging.TAG, "NavDrawerListAdapter.getView error: ", e)
+                    Logging.logException(Logging.CATEGORY.GUI_VIEW, "NavDrawerListAdapter.getView error: ", e)
                 }
             }
             txtCount.text = NumberFormat.getIntegerInstance().format(counter.toLong())
@@ -125,7 +125,7 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
             val monitor: IMonitor? = BOINCActivity.monitor
             if (monitor != null && masterUrl != null) return monitor.getProjectIcon(masterUrl)
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectIconForMasterUrl error: ", e)
+            Logging.logException(Logging.CATEGORY.GUI_VIEW, "NavDrawerListAdapter.getProjectIconForMasterUrl error: ", e)
         }
         return null
     }
@@ -140,7 +140,7 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e)
+            Logging.logException(Logging.CATEGORY.GUI_VIEW, "NavDrawerListAdapter.getProjectNameForMasterUrl error: ", e)
         }
         return ""
     }
@@ -167,7 +167,7 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
             navDrawerItems.add(3, newProjectItem)
             numberAdded++
         }
-        Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: $numberAdded")
+        Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "NavDrawerListAdapter.compareAndAddProjects() added: $numberAdded")
         notifyDataSetChanged()
         return numberAdded
     }
@@ -207,7 +207,7 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
                 }
             } catch (e: Exception) {
                 // data retrieval failed, continue...
-                Log.e(Logging.TAG, "AcctMgrInfo data retrieval failed.")
+                Logging.logError(Logging.CATEGORY.MONITOR, "AcctMgrInfo data retrieval failed.")
             }
             return false
         }
@@ -260,7 +260,7 @@ class NavDrawerListAdapter(val context: Context) : BaseAdapter() {
             projectMasterUrl = masterUrl
             isProjectItem = true
             isSubItem = true
-            Log.d(Logging.TAG, "NavDrawerItem: created hash code $id for project $name")
+            Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "NavDrawerItem: created hash code $id for project $name")
         }
 
         /**

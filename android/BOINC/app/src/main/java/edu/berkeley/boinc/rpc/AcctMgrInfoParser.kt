@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -63,7 +62,7 @@ class AcctMgrInfoParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "AcctMgrInfoParser.endElement error: ", e)
+            Logging.logException(Logging.CATEGORY.XML, "AcctMgrInfoParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -77,8 +76,8 @@ class AcctMgrInfoParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.accountMgrInfo
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "AcctMgrInfoParser: malformed XML ", e)
-                Log.d(Logging.TAG, "AcctMgrInfoParser: $rpcResult")
+                Logging.logException(Logging.CATEGORY.RPC, "AcctMgrInfoParser: malformed XML ", e)
+                Logging.logDebug(Logging.CATEGORY.XML, "AcctMgrInfoParser: $rpcResult")
 
                 null
             }

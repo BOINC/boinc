@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -206,7 +205,7 @@ public class NoticeNotification {
                    BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }
         catch(Exception e) {
-            Log.d(Logging.TAG, e.getLocalizedMessage(), e);
+            Logging.logException(Logging.CATEGORY.CLIENT, e.getLocalizedMessage(), e);
             
             return BOINCUtils.getBitmapFromVectorDrawable(context, icon);
         }

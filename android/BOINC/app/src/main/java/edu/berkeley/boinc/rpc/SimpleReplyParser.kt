@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -67,7 +66,7 @@ class SimpleReplyParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "SimpleReplyParser.endElement error: ", e)
+            Logging.logException(Logging.CATEGORY.XML, "SimpleReplyParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -80,8 +79,8 @@ class SimpleReplyParser : BaseParser() {
                 Xml.parse(reply, parser)
                 parser
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "SimpleReplyParser: malformed XML ", e)
-                Log.d(Logging.TAG, "SimpleReplyParser: $reply")
+                Logging.logException(Logging.CATEGORY.RPC, "SimpleReplyParser: malformed XML ", e)
+                Logging.logDebug(Logging.CATEGORY.XML, "SimpleReplyParser: $reply")
                 
                 null
             }

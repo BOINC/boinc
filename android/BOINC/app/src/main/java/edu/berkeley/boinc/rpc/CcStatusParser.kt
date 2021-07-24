@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -99,7 +98,7 @@ class CcStatusParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "CcStatusParser.endElement error: ", e)
+            Logging.logException(Logging.CATEGORY.XML, "CcStatusParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -113,8 +112,8 @@ class CcStatusParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.ccStatus
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "CcStatusParser: malformed XML ", e)
-                Log.d(Logging.TAG, "CcStatusParser: $rpcResult")
+                Logging.logException(Logging.CATEGORY.RPC, "CcStatusParser: malformed XML ", e)
+                Logging.logDebug(Logging.CATEGORY.XML, "CcStatusParser: $rpcResult")
 
                 null
             }

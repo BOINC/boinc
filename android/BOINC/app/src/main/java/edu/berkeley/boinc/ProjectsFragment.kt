@@ -25,7 +25,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.RemoteException
-import android.util.Log
 import android.view.*
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -68,7 +67,7 @@ class ProjectsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(Logging.TAG, "ProjectsFragment onCreateView")
+        Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "ProjectsFragment onCreateView")
 
         // Inflate the layout for this fragment
         val binding = ProjectsLayoutBinding.inflate(inflater, container, false)
@@ -77,14 +76,14 @@ class ProjectsFragment : Fragment() {
     }
 
     override fun onPause() {
-        Log.d(Logging.TAG, "ProjectsFragment onPause()")
+        Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "ProjectsFragment onPause()")
 
         requireActivity().unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
     }
 
     override fun onResume() {
-        Log.d(Logging.TAG, "ProjectsFragment onResume()")
+        Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "ProjectsFragment onResume()")
 
         super.onResume()
         populateLayout()
@@ -98,7 +97,7 @@ class ProjectsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()")
+        Logging.logDebug(Logging.CATEGORY.USER_ACTION, "AttachProjectListActivity onOptionsItemSelected()")
 
         return when (item.itemId) {
             R.id.projects_add_url -> {
@@ -127,7 +126,7 @@ class ProjectsFragment : Fragment() {
             listAdapter.notifyDataSetChanged()
         } catch (e: Exception) {
             // data retrieval failed, set layout to loading...
-            Log.e(Logging.TAG, "ProjectsActiviy data retrieval failed.")
+            Logging.logError(Logging.CATEGORY.GUI_VIEW, "ProjectsActivity data retrieval failed.")
         }
     }
 
@@ -137,23 +136,23 @@ class ProjectsFragment : Fragment() {
         //loop through list adapter array to find index of account manager entry (0 || 1 manager possible)
         val mgrIndex = data.indexOfFirst { it.isMgr }
         if (mgrIndex < 0) { // no manager present until now
-            Log.v(Logging.TAG, "No manager found in layout list. New entry available: " +
+            Logging.logVerbose(Logging.CATEGORY.GUI_VIEW, "No manager found in layout list. New entry available: " +
                     acctMgrInfo.isPresent)
 
             if (acctMgrInfo.isPresent) {
                 // add new manager entry, at top of the list
                 data.add(ProjectsListData(null, acctMgrInfo, null))
 
-                Log.d(Logging.TAG, "New acct mgr found: " + acctMgrInfo.acctMgrName)
+                Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "New acct mgr found: " + acctMgrInfo.acctMgrName)
             }
         } else { // manager found in existing list
-            Log.d(Logging.TAG, "Manager found in layout list at index: $mgrIndex")
+            Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "Manager found in layout list at index: $mgrIndex")
 
             if (!acctMgrInfo.isPresent) {
                 // manager got detached, remove from list
                 data.removeAt(mgrIndex)
 
-                Log.d(Logging.TAG, "Acct mgr removed from list.")
+                Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "Acct mgr removed from list.")
             }
         }
 
@@ -163,7 +162,7 @@ class ProjectsFragment : Fragment() {
             //check whether this project is new
             val index = data.indexOfFirst { it.id == rpcResult.masterURL }
             if (index < 0) { // Project is new, add
-                Log.d(Logging.TAG, "New project found, id: " + rpcResult.masterURL +
+                Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "New project found, id: " + rpcResult.masterURL +
                         ", managed: " + rpcResult.attachedViaAcctMgr)
 
                 if (rpcResult.attachedViaAcctMgr) {
@@ -206,7 +205,7 @@ class ProjectsFragment : Fragment() {
                 }
             }
             if (mappedServerNotices != serverNotices.size) {
-                Log.e(Logging.TAG, "could not match notice: " + mappedServerNotices + "/" + serverNotices.size)
+                Logging.logError(Logging.CATEGORY.GUI_VIEW, "could not match notice: " + mappedServerNotices + "/" + serverNotices.size)
             }
         }
     }
@@ -215,7 +214,7 @@ class ProjectsFragment : Fragment() {
     private fun mapTransfersToProject(id: String, allTransfers: List<Transfer>): List<Transfer> {
         // project id matches url in transfer, add to list
         val projectTransfers = allTransfers.filter { it.projectUrl == id }
-        Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size +
+        Logging.logDebug(Logging.CATEGORY.GUI_VIEW, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size +
                 " transfers to project " + id)
 
         return projectTransfers
@@ -304,7 +303,7 @@ class ProjectsFragment : Fragment() {
             // list adapter
             dialogBinding.options.adapter = ProjectControlsListAdapter(activity, controls)
 
-            Log.d(Logging.TAG, "dialog list adapter entries: " + controls.size)
+            Logging.logDebug(Logging.CATEGORY.USER_ACTION, "dialog list adapter entries: " + controls.size)
 
             // buttons
             dialogBinding.cancel.setOnClickListener { dialogControls!!.dismiss() }
@@ -399,13 +398,13 @@ class ProjectsFragment : Fragment() {
                 e.printStackTrace()
             }
         } else {
-            Log.e(Logging.TAG, "ProjectOperationAsync failed.")
+            Logging.logError(Logging.CATEGORY.USER_ACTION, "ProjectOperationAsync failed.")
         }
     }
 
     private fun performProjectOperation(data: ProjectsListData, operation: Int): Boolean {
         try {
-            Log.d(Logging.TAG,
+            Logging.logVerbose(Logging.CATEGORY.USER_ACTION,
                     "ProjectOperationAsync isMgr: ${data.isMgr}, url: ${data.id}," +
                     " operation: $operation")
 
@@ -422,11 +421,11 @@ class ProjectsFragment : Fragment() {
                     return data.projectTransfers.isNullOrEmpty() ||
                          BOINCActivity.monitor!!.transferOperation(data.projectTransfers!!, operation)
                 else -> if (operation != RpcClient.TRANSFER_ABORT) {
-                    Log.e(Logging.TAG, "ProjectOperationAsync could not match operation: $operation")
+                    Logging.logError(Logging.CATEGORY.USER_ACTION, "ProjectOperationAsync could not match operation: $operation")
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "ProjectOperationAsync error in do in background", e)
+            Logging.logException(Logging.CATEGORY.USER_ACTION, "ProjectOperationAsync error in do in background", e)
         }
         return false
     }

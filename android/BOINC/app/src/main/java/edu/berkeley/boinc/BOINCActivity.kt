@@ -26,7 +26,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
@@ -78,12 +77,12 @@ class BOINCActivity : AppCompatActivity() {
             monitor = null
             mIsBound = false
 
-            Log.e(Logging.TAG, "BOINCActivity onServiceDisconnected")
+            Logging.logError(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onServiceDisconnected")
         }
     }
     private val mClientStatusChangeRec: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.v(Logging.TAG, "BOINCActivity ClientStatusChange - onReceive()")
+            Logging.logVerbose(Logging.CATEGORY.CLIENT, "BOINCActivity ClientStatusChange - onReceive()")
 
             determineStatus()
         }
@@ -91,7 +90,7 @@ class BOINCActivity : AppCompatActivity() {
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(Logging.TAG, "BOINCActivity onCreate()")
+        Logging.logVerbose(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onCreate()")
 
         super.onCreate(savedInstanceState)
         binding = MainBinding.inflate(layoutInflater)
@@ -150,7 +149,7 @@ class BOINCActivity : AppCompatActivity() {
         if (item != null) {
             dispatchNavBarOnClick(item, true)
         } else {
-            Log.w(Logging.TAG, "onCreate: fragment selection returned null")
+            Logging.logWarning(Logging.CATEGORY.GUI_ACTIVITY, "onCreate: fragment selection returned null")
         }
 
         //bind monitor service
@@ -163,14 +162,14 @@ class BOINCActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.d(Logging.TAG, "BOINCActivity onDestroy()")
+        Logging.logVerbose(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onDestroy()")
 
         doUnbindService()
         super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent) {
-        Log.d(Logging.TAG, "BOINCActivity onNewIntent()")
+        Logging.logVerbose(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onNewIntent()")
 
         // onNewIntent gets called if activity is brought to front via intent, but was still alive, so onCreate is not called again
         // getIntent always returns the intent activity was created of, so this method is the only hook to receive an updated intent
@@ -178,7 +177,7 @@ class BOINCActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         // navigate to explicitly requested fragment (e.g. after project attach)
         val id = intent.getIntExtra("targetFragment", -1)
-        Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: $id")
+        Logging.logDebug(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onNewIntent() for target fragment: $id")
 
         val item: NavDrawerItem? = if (id < 0) {
             // if ID is -1, go to default
@@ -196,7 +195,7 @@ class BOINCActivity : AppCompatActivity() {
     }
 
     override fun onPause() { // gets called by system every time activity loses focus.
-        Log.d(Logging.TAG, "BOINCActivity onPause()")
+        Logging.logDebug(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onPause()")
 
         super.onPause()
         unregisterReceiver(mClientStatusChangeRec)
@@ -226,11 +225,11 @@ class BOINCActivity : AppCompatActivity() {
     private fun dispatchNavBarOnClick(item: NavDrawerItem?, init: Boolean) {
         // update the main content by replacing fragments
         if (item == null) {
-            Log.w(Logging.TAG, "dispatchNavBarOnClick returns, item null.")
+            Logging.logWarning(Logging.CATEGORY.USER_ACTION, "dispatchNavBarOnClick returns, item null.")
 
             return
         }
-            Log.d(Logging.TAG,
+            Logging.logVerbose(Logging.CATEGORY.USER_ACTION,
                     "dispatchNavBarOnClick for item with id: ${item.id} title: ${item.title}" +
                             " is project? ${item.isProjectItem}")
 
@@ -267,7 +266,7 @@ class BOINCActivity : AppCompatActivity() {
                         tvVersion.text = getString(R.string.about_version,
                                 packageManager.getPackageInfo(packageName, 0).versionName)
                     } catch (e: PackageManager.NameNotFoundException) {
-                            Log.w(Logging.TAG, "version name not found.")
+                            Logging.logWarning(Logging.CATEGORY.USER_ACTION, "version name not found.")
                     }
                     returnB.setOnClickListener { dialog.dismiss() }
                     dialog.show()
@@ -279,7 +278,7 @@ class BOINCActivity : AppCompatActivity() {
                     ft.replace<SettingsFragment>(R.id.frame_container)
                     fragmentChanges = true
                 }
-                else -> Log.e(Logging.TAG,
+                else -> Logging.logError(Logging.CATEGORY.USER_ACTION,
                             "dispatchNavBarOnClick() could not find corresponding fragment for" +
                             " ${item.title}")
             }
@@ -296,7 +295,7 @@ class BOINCActivity : AppCompatActivity() {
             mDrawerListAdapter.selectedMenuId = item.id //highlight item persistently
             mDrawerListAdapter.notifyDataSetChanged() // force redraw
         }
-        Log.d(Logging.TAG, "displayFragmentForNavDrawer() " + item.title)
+        Logging.logDebug(Logging.CATEGORY.USER_ACTION, "displayFragmentForNavDrawer() " + item.title)
     }
 
     // tests whether status is available and whether it changed since the last event.
@@ -315,7 +314,7 @@ class BOINCActivity : AppCompatActivity() {
                 mDrawerListAdapter.updateUseAccountManagerItem()
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "BOINCActivity.determineStatus error: ", e)
+            Logging.logException(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity.determineStatus error: ", e)
         }
     }
 
@@ -332,7 +331,7 @@ class BOINCActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()")
+        Logging.logVerbose(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onCreateOptionsMenu()")
 
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
@@ -340,7 +339,7 @@ class BOINCActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        Log.d(Logging.TAG, "BOINCActivity onPrepareOptionsMenu()")
+        Logging.logVerbose(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity onPrepareOptionsMenu()")
 
         // run mode, set title and icon based on status
         val runMode = menu.findItem(R.id.run_mode)
@@ -357,7 +356,7 @@ class BOINCActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(Logging.TAG, "BOINCActivity onOptionsItemSelected()")
+        Logging.logVerbose(Logging.CATEGORY.USER_ACTION, "BOINCActivity onOptionsItemSelected()")
 
         // toggle drawer
         return if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -366,21 +365,21 @@ class BOINCActivity : AppCompatActivity() {
             R.id.run_mode -> {
                 when {
                     item.title == application.getString(R.string.menu_run_mode_disable) -> {
-                        Log.d(Logging.TAG, "run mode: disable")
+                        Logging.logDebug(Logging.CATEGORY.USER_ACTION, "run mode: disable")
 
                         lifecycleScope.launch {
                             writeClientMode(RUN_MODE_NEVER)
                         }
                     }
                     item.title == application.getString(R.string.menu_run_mode_enable) -> {
-                        Log.d(Logging.TAG, "run mode: enable")
+                        Logging.logDebug(Logging.CATEGORY.USER_ACTION, "run mode: enable")
 
                         lifecycleScope.launch {
                             writeClientMode(RUN_MODE_AUTO)
                         }
                     }
                     else -> {
-                        Log.d(Logging.TAG, "run mode: unrecognized command")
+                        Logging.logDebug(Logging.CATEGORY.USER_ACTION, "run mode: unrecognized command")
                     }
                 }
                 true
@@ -417,10 +416,10 @@ class BOINCActivity : AppCompatActivity() {
             try {
                 monitor!!.forceRefresh()
             } catch (e: RemoteException) {
-                    Log.e(Logging.TAG, "BOINCActivity.writeClientMode() error: ", e)
+                    Logging.logException(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity.writeClientMode() error: ", e)
             }
         } else {
-            Log.w(Logging.TAG, "BOINCActivity setting run and network mode failed")
+            Logging.logWarning(Logging.CATEGORY.GUI_ACTIVITY, "BOINCActivity setting run and network mode failed")
         }
     }
 

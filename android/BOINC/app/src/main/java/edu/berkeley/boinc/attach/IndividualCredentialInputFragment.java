@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +78,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         binding.nameInput.setText(defaultValues.get(1));
 
         binding.loginButton.setOnClickListener(view -> {
-            Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
+            Logging.logVerbose(Logging.CATEGORY.USER_ACTION, "IndividualCredentialInputFragment: login clicked");
 
             final String email = binding.emailInput.getText().toString();
             final String name = binding.nameInput.getText().toString();
@@ -89,7 +88,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         });
 
         binding.registerButton.setOnClickListener(view -> {
-            Log.d(Logging.TAG,
+            Logging.logVerbose(Logging.CATEGORY.USER_ACTION,
                     "IndividualCredentialInputFragment: register clicked, client account creation disabled: " +
                     project.getConfig().getClientAccountCreationDisabled());
 
@@ -109,7 +108,7 @@ public class IndividualCredentialInputFragment extends DialogFragment {
         });
 
         binding.forgotPwdButton.setOnClickListener(view -> {
-            Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
+            Logging.logVerbose(Logging.CATEGORY.USER_ACTION, "IndividualCredentialInputFragment: forgot pwd clicked");
 
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(forgotPwdLink));
@@ -142,7 +141,8 @@ public class IndividualCredentialInputFragment extends DialogFragment {
             mListener = (IndividualCredentialInputFragmentListener) context;
         }
         catch (ClassCastException e) {
-            Log.e(Logging.TAG, "IndividualCredentialInputFragment.onAttach The activity doesn't implement the interface. Error: ", e);
+            Logging.logException(Logging.CATEGORY.GUI_ACTIVITY,
+                             "IndividualCredentialInputFragment.onAttach The activity doesn't implement the interface. Error: ", e);
         }
     }
 
