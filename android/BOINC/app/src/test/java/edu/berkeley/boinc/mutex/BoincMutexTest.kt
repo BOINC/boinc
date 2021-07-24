@@ -59,32 +59,9 @@ class BoincMutexTest {
     }
 
     @Test
-    @Throws(IOException::class)
-    fun `Acquire() Expect IOException thrown by bind to be logged when LoggingLevel is Error`() {
-        PowerMockito.mockStatic(Log::class.java)
-        Mockito.doThrow(IOException()).`when`(localSocket)?.bind(ArgumentMatchers.any())
-        setLogLevel(1)
-        boincMutex!!.acquire()
-        PowerMockito.verifyStatic(Log::class.java)
-        Log.e(ArgumentMatchers.anyString(), ArgumentMatchers.eq("BoincMutex.acquire error: "), ArgumentMatchers.any())
-    }
-
-    @Test
     fun `Release() Expect isAcquired to be False`() {
         Mockito.`when`(localSocket!!.isBound).thenReturn(true)
         boincMutex!!.release()
         Assert.assertFalse(boincMutex!!.isAcquired)
-    }
-
-    @Test
-    @Throws(IOException::class)
-    fun `Release() Expect IOException thrown by Close to be logged when bound and LoggingLevel is Error`() {
-        PowerMockito.mockStatic(Log::class.java)
-        Mockito.`when`(localSocket!!.isBound).thenReturn(true)
-        Mockito.doThrow(IOException()).`when`(localSocket).close()
-        setLogLevel(1)
-        boincMutex!!.release()
-        PowerMockito.verifyStatic(Log::class.java)
-        Log.e(ArgumentMatchers.anyString(), ArgumentMatchers.eq("BoincMutex.release error: "), ArgumentMatchers.any())
     }
 }

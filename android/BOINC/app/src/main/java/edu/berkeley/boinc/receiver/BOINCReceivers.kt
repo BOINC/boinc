@@ -73,7 +73,7 @@ class PackageReplacedReceiver : BroadcastReceiver() {
 class PowerConnectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_POWER_CONNECTED) {
-            Log.d(Logging.TAG, "power connected, start service...")
+            Logging.logDebug(Logging.CATEGORY.DEVICE, "power connected, start service...")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(Intent(context, Monitor::class.java))
             } else {
