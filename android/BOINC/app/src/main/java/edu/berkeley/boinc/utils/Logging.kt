@@ -22,7 +22,7 @@ import android.util.Log
 
 object Logging {
     const val TAG = "BOINC_GUI"
-    const val WAKELOCK = TAG + ":MyPowerLock"
+    const val WAKELOCK = "$TAG:MyPowerLock"
     @JvmField
     var LOGLEVEL = -1
     @JvmField
@@ -35,10 +35,6 @@ object Logging {
     var DEBUG = false
     @JvmField
     var VERBOSE = false
-    @JvmField
-    var RPC_PERFORMANCE = false
-    @JvmField
-    var RPC_DATA = false
     @JvmField
     var categories = HashSet<CATEGORY>()
 

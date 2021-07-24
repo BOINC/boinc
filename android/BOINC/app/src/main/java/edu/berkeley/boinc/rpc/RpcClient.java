@@ -372,7 +372,7 @@ public class RpcClient {
             }
         } while (true);
 
-        if (Logging.RPC_PERFORMANCE) {
+        if (Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.RPC)) {
             float duration = Duration.between(Instant.now(), start).getSeconds();
             long bytesCount = mResult.length();
             if (duration == 0) duration = 0.001F;

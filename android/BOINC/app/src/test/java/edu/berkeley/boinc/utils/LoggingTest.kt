@@ -43,8 +43,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -57,8 +55,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -71,8 +67,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -85,8 +79,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -99,8 +91,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -113,8 +103,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -127,8 +115,6 @@ class LoggingTest {
         Assertions.assertFalse(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -141,8 +127,6 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertFalse(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -155,8 +139,6 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertTrue(Logging.DEBUG)
         Assertions.assertFalse(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -169,8 +151,6 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertTrue(Logging.DEBUG)
         Assertions.assertTrue(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -183,8 +163,6 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertTrue(Logging.DEBUG)
         Assertions.assertTrue(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -197,8 +175,6 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertTrue(Logging.DEBUG)
         Assertions.assertTrue(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 
     @Test
@@ -211,7 +187,5 @@ class LoggingTest {
         Assertions.assertTrue(Logging.INFO)
         Assertions.assertTrue(Logging.DEBUG)
         Assertions.assertTrue(Logging.VERBOSE)
-        Assertions.assertFalse(Logging.RPC_PERFORMANCE)
-        Assertions.assertFalse(Logging.RPC_DATA)
     }
 }
