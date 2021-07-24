@@ -224,4 +224,20 @@ class LoggingTest {
         Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.DEVICE))
         Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.VERBOSE, Logging.CATEGORY.DEVICE))
     }
+
+    @Test
+    @Order(17)
+    fun `Test Logging not fail on double add or double remove`() {
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("RPC", true) }
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("RPC", true) }
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("RPC", false) }
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("RPC", false) }
+    }
+
+    @Test
+    @Order(18)
+    fun `Test Logging not fail when non existing category is provided`() {
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("TEST_CATEGORY", true) }
+        Assertions.assertDoesNotThrow { Logging.setLogCategory("TEST_CATEGORY", false) }
+    }
 }
