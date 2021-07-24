@@ -217,7 +217,7 @@ class LoggingTest {
     fun `Test Logging after category remove`() {
         Logging.setLogCategory("DEVICE", false)
 
-        Assertions.assertTrue(Logging.categories.contains(Logging.CATEGORY.DEVICE))
+        Assertions.assertFalse(Logging.categories.contains(Logging.CATEGORY.DEVICE))
         Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.ERROR, Logging.CATEGORY.DEVICE))
         Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.WARNING, Logging.CATEGORY.DEVICE))
         Assertions.assertFalse(Logging.isLoggable(Logging.LEVEL.INFO, Logging.CATEGORY.DEVICE))
