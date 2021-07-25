@@ -45,6 +45,11 @@ class RpcClientTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, overrideRecordPrivateCalls = true)
+
+        mockkStatic(Log::class)
+        every { Log.e(any(), any()) } returns 0
+        every { Log.e(any(), any(), any()) } returns 0
+
         auth1Parser = Auth1Parser(StringBuilder())
         auth2Parser = Auth2Parser(StringBuilder())
     }
@@ -142,7 +147,6 @@ class RpcClientTest {
         every { SimpleReplyParser.parse(any()) } returns simpleReplyParser
         every { simpleReplyParser.result } answers { false }
         every { simpleReplyParser.errorMessage } answers { fieldValue }
-        mockkStatic(Log::class)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertFalse(rpcClient.createAccount(AccountIn()))
     }
@@ -168,7 +172,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `CreateAccountPoll() When IOException is thrown then expect null`() {
-        mockkStatic(Log::class)
         mockkObject(AccountOutParser)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertNull(rpcClient.createAccountPoll())
@@ -233,7 +236,6 @@ class RpcClientTest {
     fun `LookupAccount() When IOException is thrown then expect success to be false`() {
         mockkStatic(Xml::class)
         justRun { Xml.parse(any<String>(), any()) }
-        mockkStatic(Log::class)
         mockkObject(SimpleReplyParser)
         every { SimpleReplyParser.parse(any()) } returns simpleReplyParser
         every { simpleReplyParser.result } answers { false }
@@ -259,7 +261,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `LookupAccountPoll() When IOException is thrown then expect null`() {
-        mockkStatic(Log::class)
         mockkObject(AccountOutParser)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertNull(rpcClient.lookupAccountPoll())
@@ -277,7 +278,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `AcctMgrRPCPoll() when IOException is thrown then expect null`() {
-        mockkStatic(Log::class)
         mockkObject(AccountOutParser)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertNull(rpcClient.acctMgrRPCPoll())
@@ -295,7 +295,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `GetGlobalPreferencesWorkingStruct() When IOException is thrown then expect null`() {
-        mockkStatic(Log::class)
         mockkObject(AccountOutParser)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertNull(rpcClient.globalPrefsWorkingStruct)
@@ -358,7 +357,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `SetGlobalPrefsOverrideStruct() When IOException is thrown then expect success to be false`() {
-        mockkStatic(Log::class)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertFalse(rpcClient.setGlobalPrefsOverrideStruct(GlobalPreferences()))
     }
@@ -371,7 +369,6 @@ class RpcClientTest {
     @Test
     @Throws(IOException::class)
     fun `ReadGlobalPrefsOverride() When IOException is thrown then expect success to be false`() {
-        mockkStatic(Log::class)
         every { rpcClient.sendRequest(any()) } throws IOException()
         Assert.assertFalse(rpcClient.readGlobalPrefsOverride())
     }
@@ -401,7 +398,6 @@ class RpcClientTest {
     fun `RunBenchmarks() When IOException is thrown then expect success to be false`() {
         mockkStatic(Xml::class)
         justRun { Xml.parse(any<String>(), any()) }
-        mockkStatic(Log::class)
         mockkObject(SimpleReplyParser)
         every { SimpleReplyParser.parse(any()) } returns simpleReplyParser
         every { simpleReplyParser.result } answers { true }
