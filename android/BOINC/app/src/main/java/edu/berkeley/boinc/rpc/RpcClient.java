@@ -24,8 +24,8 @@ import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 
-import org.apache.commons.io.input.CharSequenceReader;
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.io.CharSource;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -138,7 +138,7 @@ public class RpcClient {
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            if (StringUtils.equalsAnyIgnoreCase(localName, AUTHORIZED, UNAUTHORIZED) && !mParsed) {
+            if (localName != null && (localName.equalsIgnoreCase(AUTHORIZED) || localName.equalsIgnoreCase(UNAUTHORIZED)) && !mParsed) {
                 mResult.append(localName.toLowerCase());
                 mParsed = true;
             }
@@ -394,7 +394,7 @@ public class RpcClient {
         }
 
         if (Logging.RPC_DATA) {
-            BufferedReader dbr = new BufferedReader(new CharSequenceReader(mResult));
+            BufferedReader dbr = new BufferedReader(CharSource.wrap(mResult).openStream());
             String dl;
             int ln = 0;
             try {

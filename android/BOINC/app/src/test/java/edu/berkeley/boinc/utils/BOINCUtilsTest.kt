@@ -18,7 +18,7 @@
  */
 package edu.berkeley.boinc.utils
 
-import org.apache.commons.io.input.CharSequenceReader
+import com.google.common.io.CharSource
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.Reader
@@ -28,7 +28,7 @@ const val STRING = "This is a string."
 
 class BOINCUtilsTest {
     private var stringBuilder = StringBuilder(STRING)
-    private var reader: Reader = CharSequenceReader(stringBuilder)
+    private var reader: Reader = CharSource.wrap(stringBuilder).openStream()
 
     @Test
     fun `ReadLineLimit() When Reader has empty string and limit is 1 then expect null`() {

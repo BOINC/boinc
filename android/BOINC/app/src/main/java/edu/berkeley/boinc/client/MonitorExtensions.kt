@@ -20,7 +20,8 @@ package edu.berkeley.boinc.client
 
 import android.os.Build
 import android.os.PowerManager
-import org.apache.commons.io.FileUtils
+import com.google.common.io.ByteStreams
+import com.google.common.io.Files
 import java.io.File
 import java.io.InputStream
 
@@ -31,7 +32,10 @@ internal fun allNotNull(vararg values: Any?) = values.none { it == null }
 
 internal fun CharSequence.containsAny(vararg sequences: CharSequence) = sequences.any { it in this }
 
-internal fun InputStream.copyToFile(destFile: File) = FileUtils.copyInputStreamToFile(this, destFile)
+internal fun InputStream.copyToFile(destFile: File) {
+    destFile.parentFile?.mkdirs()
+    Files.write(ByteStreams.toByteArray(this), destFile)
+}
 
 internal val PowerManager.isScreenOnCompat: Boolean
     get() {
