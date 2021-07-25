@@ -23,8 +23,7 @@
   <string name="attachproject_conflict_not_unique">Paskyra jau egzistuoja su kitu slaptažodžiu</string>
   <string name="attachproject_conflict_bad_password">Neteisingas slaptažodis</string>
   <string name="attachproject_conflict_unknown_user">Paskyra neegzistuoja</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Paskyra neegzistuoja, registracijai aplankykite
-projekto interneto svetainę</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Paskyra neegzistuoja, registracijai aplankykite projekto interneto svetainę</string>
   <!--working-->
   <string name="attachproject_working_attaching">Prisijungiama %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -39,8 +38,7 @@ projekto interneto svetainę</string>
   <string name="attachproject_hint_projectwebsite_science">Sužinokite daugiau apie mokslą</string>
   <string name="attachproject_hint_projectwebsite_stats">Peržiūrėti indėlio statistiką</string>
   <string name="attachproject_hint_projectwebsite_community">Susisiekti su kitais savanoriais</string>
-  <string name="attachproject_hint_platforms_header">BOINC taip pat turi versijas kompiuteriui ar nešiojamam
-kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
+  <string name="attachproject_hint_platforms_header">BOINC taip pat turi versijas kompiuteriui ar nešiojamam kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
   <!--project login-->
   <string name="attachproject_login_loading">Jungiamasi su projekto serveriu...</string>
   <string name="attachproject_login_header_general_area">Bendra sritis:</string>
@@ -109,8 +107,7 @@ kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
   <string name="prefs_suspend_when_screen_on">Sustabdyti skaičiavimą kai ekranas įjungtas</string>
   <string name="prefs_general_device_name_header">Įrenginio pavadinimas</string>
   <string name="prefs_stationary_device_mode_header">Stacionaraus įrenginio režimas</string>
-  <string name="prefs_stationary_device_mode_description">Leisti skaičiavimą nepriklausomai nuo Energijos nustatymų.
-Įjunkite tik jei įrenginys neturi baterijos.</string>
+  <string name="prefs_stationary_device_mode_description">Leisti skaičiavimą nepriklausomai nuo Energijos nustatymų. Įjunkite tik jei įrenginys neturi baterijos.</string>
   <string name="prefs_power_source_header">Energijos šaltiniai skaičiavimui</string>
   <string name="prefs_power_source_description">Pasirinkti energijos šaltinius, kurie leidžia BOINC skaičiavimus</string>
   <string name="prefs_power_source_ac">Elektros lizdas</string>
@@ -120,10 +117,9 @@ kompiuteriui, sužinoti daugiau aplankykite boinc.berkeley.edu</string>
   <string name="battery_charge_min_pct_header">Min. baterijos lygis</string>
   <string name="battery_charge_min_pct_description">BOINC pristabdo skaičiavimus žemiau nurodyto baterijos įkrovos lygio.</string>
   <string name="battery_temperature_max_header">Didžiausia baterijos temperatūra</string>
-  <string name="battery_temperature_max_description">BOINC sustabdo skaičiavimus baterijai viršijus nurodytą temperatūrą.
-Nerekomenduojama keisti šios reikšmės.</string>
+  <string name="battery_temperature_max_description">BOINC sustabdo skaičiavimus baterijai viršijus nurodytą temperatūrą. Nerekomenduojama keisti šios reikšmės.</string>
   <string name="prefs_disk_max_pct_header">Naudoti daugiausia disko vietos</string>
-    <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
+  <string name="prefs_disk_min_free_gb_header">Mažiausia laisva disko vieta</string>
   <string name="prefs_disk_access_interval_header">Rašymo į diską intervalas</string>
   <string name="prefs_disk_access_interval_description">Siūlomas laiko tarpas tarp įrašymo į diską</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Dienos siuntimo limitas</string>
@@ -267,9 +263,7 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Visos teisės saugomos</string>
-  <string name="about_credits">Dėkojame Max Planck Institute for Gravitational Physics, IBM Corporation ir HTC
-        Corporation už jų pagalbą.
-    </string>
+  <string name="about_credits">Dėkojame Max Planck Institute for Gravitational Physics, IBM Corporation ir HTC Corporation už jų pagalbą.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Naujas pranešimas nuo %1$s</item>
@@ -285,14 +279,10 @@ Nerekomenduojama keisti šios reikšmės.</string>
   <string name="social_invite_button">Pakviesti draugų</string>
   <string name="social_invite_intent_title">Kaip norėtumėte pasidalinti?</string>
   <string name="social_invite_content_title">Atlieku mokslinius tyrimus savo išmaniajame telefone!</string>
-  <string name="social_invite_content_body">Naudoju savo %1$s moksliniams skaičiavimams. Tu irgi gali! Parsisiųsk
-        programėlę iš: %2$s
-    </string>
+  <string name="social_invite_content_body">Naudoju savo %1$s moksliniams skaičiavimams. Tu irgi gali! Parsisiųsk programėlę iš: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Pranešimai</string>

@@ -23,8 +23,7 @@
     <string name="attachproject_conflict_not_unique">Hesap farklı bir şifreyle mevcut</string>
     <string name="attachproject_conflict_bad_password">Şifre hatalı</string>
     <string name="attachproject_conflict_unknown_user">Hesap yok</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap bulunamadı, kayıt olmak için 
-proje web sitesini ziyaret edin.</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Hesap bulunamadı, kayıt olmak için proje web sitesini ziyaret edin.</string>
     <!--working-->
     <string name="attachproject_working_attaching">Ekleniyor %1$s</string>
     <!--e.g. Attaching Einstein@Home-->

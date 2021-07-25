@@ -23,8 +23,7 @@
     <string name="attachproject_conflict_not_unique">Kontoen finnes allerede med et annet passord</string>
     <string name="attachproject_conflict_bad_password">Passordet er ugyldig</string>
     <string name="attachproject_conflict_unknown_user">Kontoen eksisterer ikke</string>
-    <string name="attachproject_conflict_unknown_user_creation_disabled">Kontoen eksisterer ikke, besøk prosjektnettstedet
-å registrere</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Kontoen eksisterer ikke, besøk prosjektnettstedet å registrere</string>
     <!--working-->
     <string name="attachproject_working_attaching">Legger til %1$s</string>
     <!--e.g. Attaching Einstein@Home-->
@@ -40,8 +39,7 @@
     <string name="attachproject_hint_projectwebsite_science">Lær mer om vitenskapen</string>
     <string name="attachproject_hint_projectwebsite_stats">Vis bidragsstatistikk</string>
     <string name="attachproject_hint_projectwebsite_community">Kom i kontakt med andre frivillige</string>
-    <string name="attachproject_hint_platforms_header">BOINC er også tilgjengelig for din datamaskin eller laptop, besøk
-boinc.berkeley.edu for å lærer mer</string>
+    <string name="attachproject_hint_platforms_header">BOINC er også tilgjengelig for din datamaskin eller laptop, besøk boinc.berkeley.edu for å lærer mer</string>
     <!--project login-->
     <string name="attachproject_login_loading">Kontakter prosjektserveren ...</string>
     <string name="attachproject_login_header_general_area">Generelle områder:</string>
@@ -114,21 +112,17 @@ boinc.berkeley.edu for å lærer mer</string>
     <string name="prefs_general_device_name_header">Enhetsnavn</string>
     <string name="prefs_theme_header">Tema</string>
     <string name="prefs_stationary_device_mode_header">Stasjonær enhets modus</string>
-    <string name="prefs_stationary_device_mode_description">Tillater beregning uavhengig av strøminnstillinger. Kun
-aktiver hvis enheten ikke har batteri.</string>
+    <string name="prefs_stationary_device_mode_description">Tillater beregning uavhengig av strøminnstillinger. Kun aktiver hvis enheten ikke har batteri.</string>
     <string name="prefs_power_source_header">Strømkilder for beregning</string>
-    <string name="prefs_power_source_description">Velger strømkilder BOINC har lov til å bruke til beregning.
-</string>
+    <string name="prefs_power_source_description">Velger strømkilder BOINC har lov til å bruke til beregning.</string>
     <string name="prefs_power_source_ac">Stikkontakt</string>
     <string name="prefs_power_source_usb">USB tilkobling</string>
     <string name="prefs_power_source_wireless">Trådløs lader</string>
     <string name="prefs_power_source_battery">Batteri</string>
     <string name="battery_charge_min_pct_header">Minimal batterinivå (%)</string>
-    <string name="battery_charge_min_pct_description">BOINC suspenderer beregning under definert batteriladningsnivå.
-</string>
+    <string name="battery_charge_min_pct_description">BOINC suspenderer beregning under definert batteriladningsnivå.</string>
     <string name="battery_temperature_max_header">Maksimal batteritemperatur (°C)</string>
-    <string name="battery_temperature_max_description">BOINC suspenderer beregning over definert batteritemperatur. Det
-anbefales ikke å endre denne verdien.</string>
+    <string name="battery_temperature_max_description">BOINC suspenderer beregning over definert batteritemperatur. Det anbefales ikke å endre denne verdien.</string>
     <string name="prefs_disk_max_pct_header">Maksimal brukt lagringsplass (%)</string>
     <string name="prefs_disk_min_free_gb_header">Minimum ledig plass (GB)</string>
     <string name="prefs_disk_access_interval_header">Tilkoblingsintervall (sekunder)</string>
@@ -144,8 +138,7 @@ anbefales ikke å endre denne verdien.</string>
     <string name="prefs_cpu_number_cpus_header">Benyttede CPU kjerner</string>
     <string name="prefs_cpu_number_cpus_description">Begrenser antallet CPU kjerner BOINC bruker til beregning</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause når CPU bruk er over (%)</string>
-    <string name="prefs_cpu_other_load_suspension_description">Bestemmer når BOINC pauser beregning på grunn av andre
-apper\'s CPU-bruk.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Bestemmer når BOINC pauser beregning på grunn av andre apper\'s CPU-bruk.</string>
     <string name="prefs_cpu_time_max_header">CPU-grense (%)</string>
     <string name="prefs_cpu_time_max_description">Begrenser prosessorbruken til BOINC</string>
     <string name="prefs_memory_max_idle_header">RAM-grense (%)</string>
@@ -286,8 +279,7 @@ apper\'s CPU-bruk.</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
-    <string name="about_credits">Takk til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC
-Corporation for deres støtte.</string>
+    <string name="about_credits">Takk til Max Planck Institute for Gravitational Physics, IBM Corporation og HTC Corporation for deres støtte.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <plurals name="notice_notification">
         <item quantity="one">New notice from %1$s</item>
@@ -295,15 +287,13 @@ Corporation for deres støtte.</string>
     </plurals>
     <!--multi BOINC compatibility-->
     <string name="nonexcl_dialog_header">Frivillig beregningsapp funnet</string>
-    <string name="nonexcl_dialog_text">En annen frivillig databehandlingsapp kjører på denne enheten. Bare en versjon kan
-kjøre om gangen.</string>
+    <string name="nonexcl_dialog_text">En annen frivillig databehandlingsapp kjører på denne enheten. Bare en versjon kan kjøre om gangen.</string>
     <string name="nonexcl_dialog_exit">Avslutt</string>
     <!--social integration-->
     <string name="social_invite_button">Inviter venner</string>
     <string name="social_invite_intent_title">Hvordan vil du dele?</string>
     <string name="social_invite_content_title">Jeg utfører vitenskap med min smarttelefon!</string>
-    <string name="social_invite_content_body">Jeg bruker min %1$s til å utføre databehandling for vitenskap. Du kan også! Last ned
-app fra: %2$s</string>
+    <string name="social_invite_content_body">Jeg bruker min %1$s til å utføre databehandling for vitenskap. Du kan også! Last ned app fra: %2$s</string>
     <!--first parameter: device manufacturer, second: URL-->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

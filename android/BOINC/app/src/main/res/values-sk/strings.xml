@@ -23,9 +23,7 @@
   <string name="attachproject_conflict_not_unique">Účet existuje s iným heslom</string>
   <string name="attachproject_conflict_bad_password">Nesprávne heslo</string>
   <string name="attachproject_conflict_unknown_user">Účet neexistuje</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštívte stránku projektu
-        na registráciu
-    </string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštívte stránku projektu na registráciu</string>
   <!--working-->
   <string name="attachproject_working_attaching">Pripája sa %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -40,9 +38,7 @@
   <string name="attachproject_hint_projectwebsite_science">Zistiť viac o vede</string>
   <string name="attachproject_hint_projectwebsite_stats">Skontrolovať štatistiky</string>
   <string name="attachproject_hint_projectwebsite_community">Buďte v kontakte s ďalšími dobrovoľníkmi</string>
-  <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre Váš počítač alebo laptop, navštívte
-        boinc.berkeley.edu pre viac informácií.
-    </string>
+  <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre Váš počítač alebo laptop, navštívte boinc.berkeley.edu pre viac informácií.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Pripájanie na server projektu…</string>
   <string name="attachproject_login_header_general_area">Všeobecná oblasť:</string>
@@ -112,9 +108,7 @@
   <string name="prefs_general_device_name_header">Názov zariadenia</string>
   <string name="prefs_theme_header">Téma vzhľadu</string>
   <string name="prefs_stationary_device_mode_header">Mód neprenosného zariadenia</string>
-  <string name="prefs_stationary_device_mode_description">Umožní počítanie bez ohľadu na nastavenie napájania. Zapnite len
-        ak zariadenie nemá batériu.
-    </string>
+  <string name="prefs_stationary_device_mode_description">Umožní počítanie bez ohľadu na nastavenie napájania. Zapnite len ak zariadenie nemá batériu.</string>
   <string name="prefs_power_source_header">Zdroje energie na výpočty</string>
   <string name="prefs_power_source_description">Zvolí zdroje napájania, ktoré BOINC môže využívať na výpočty.</string>
   <string name="prefs_power_source_ac">Zásuvka</string>
@@ -273,12 +267,10 @@
   <string name="about_title">O</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzia %1$s</string>
-  <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
-(Berkeley Open Infrastructure for Network Computing)</string>
+  <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley) (Berkeley Open Infrastructure for Network Computing)</string>
   <string name="about_copyright">\u00A9 2003–2021 Kalifornská univerzita, Berkeley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
-  <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC
-Corporation za ich podporu.</string>
+  <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">%2$,d nový oznam</item>
@@ -294,14 +286,10 @@ Corporation za ich podporu.</string>
   <string name="social_invite_button">Pozvať priateľov</string>
   <string name="social_invite_intent_title">Akým spôsobom chcete zdieľať?</string>
   <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
-  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty!
- Stiahni si aplikáciu z: %2$s
-    </string>
+  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty! Stiahni si aplikáciu z: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Oznamy</string>

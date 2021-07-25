@@ -25,8 +25,7 @@
   <string name="attachproject_conflict_unknown_user">Tài khoản không tồn tại</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Tài khoản không tồn tại, vui lòng truy cập website để đăng kí</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Đang Đính Kèm %1$s
-</string>
+  <string name="attachproject_working_attaching">Đang Đính Kèm %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Bí quyết</string>
@@ -40,8 +39,7 @@
   <string name="attachproject_hint_projectwebsite_science">Tìm hiểu thêm về khoa học</string>
   <string name="attachproject_hint_projectwebsite_stats">Thống kê các Đóng góp của bạn</string>
   <string name="attachproject_hint_projectwebsite_community">Kết nối với các tình nguyện viên khác</string>
-  <string name="attachproject_hint_platforms_header">BOINC có thể cài đặt trên máy tính và laptop, truy cập
-        boinc.berkeley.edu để tìm hiểu thêm.</string>
+  <string name="attachproject_hint_platforms_header">BOINC có thể cài đặt trên máy tính và laptop, truy cập boinc.berkeley.edu để tìm hiểu thêm.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Đang kết nối server dự án</string>
   <string name="attachproject_login_header_general_area">Khu vực chung:</string>
@@ -114,9 +112,7 @@
   <string name="prefs_general_device_name_header">Tên thiệt bị</string>
   <string name="prefs_theme_header">Chủ để</string>
   <string name="prefs_stationary_device_mode_header">Chế độ tĩnh</string>
-  <string name="prefs_stationary_device_mode_description">Cho phép tính toán bất kể tùy chọn năng lượng
-Chỉ
-     kích hoạt nếu thiết bị không có pin</string>
+  <string name="prefs_stationary_device_mode_description">Cho phép tính toán bất kể tùy chọn năng lượng Chỉ kích hoạt nếu thiết bị không có pin</string>
   <string name="prefs_power_source_header">Nguồn năng lượng để tính toán</string>
   <string name="prefs_power_source_description">Chọn nguồn điện để BOINC tính toán</string>
   <string name="prefs_power_source_ac">ổ cắm điện</string>
@@ -126,8 +122,7 @@ Chỉ
   <string name="battery_charge_min_pct_header">Mức pin thấp nhất (%)</string>
   <string name="battery_charge_min_pct_description">BOINC ngừng khi pin dưới mức cho phép</string>
   <string name="battery_temperature_max_header">Nhiệt độ pin tối đa (°C)</string>
-  <string name="battery_temperature_max_description">BOINC ngừng khi pin nóng quá mức cho phép
-    Không nên tùy chỉnh tính năng này</string>
+  <string name="battery_temperature_max_description">BOINC ngừng khi pin nóng quá mức cho phép Không nên tùy chỉnh tính năng này</string>
   <string name="prefs_disk_max_pct_header">Dung lượng lưu trữ tối đa (%)</string>
   <string name="prefs_disk_min_free_gb_header">Dung lượng lưu trữ tối thiểu (GB)</string>
   <string name="prefs_disk_access_interval_header">Chu kì truy cập (giây)</string>
@@ -297,8 +292,7 @@ Chỉ
   <string name="social_invite_button">Mời bạn</string>
   <string name="social_invite_intent_title">Bạn muốn chia sẻ bằng cách nào?</string>
   <string name="social_invite_content_title">Mình giúp sức cho khoa học trên điện thoại!</string>
-  <string name="social_invite_content_body">Tôi Đang sử dụng %1$sđể tính toán cho khoa học. Bạn cũng có thể. Tải 
-         ứng dụng từ %2$s</string>
+  <string name="social_invite_content_body">Tôi Đang sử dụng %1$sđể tính toán cho khoa học. Bạn cũng có thể. Tải ứng dụng từ %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

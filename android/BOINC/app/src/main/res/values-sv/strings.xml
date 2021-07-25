@@ -23,8 +23,7 @@
   <string name="attachproject_conflict_not_unique">Konto existerar med annat lösenord</string>
   <string name="attachproject_conflict_bad_password">Felaktigt lösenord</string>
   <string name="attachproject_conflict_unknown_user">Kontot existerar ej</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida
-för att registrera ett konto</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida för att registrera ett konto</string>
   <!--working-->
   <string name="attachproject_working_attaching">Ansluter %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -40,8 +39,7 @@ för att registrera ett konto</string>
   <string name="attachproject_hint_projectwebsite_science">Lära dig mer om vetenskapen</string>
   <string name="attachproject_hint_projectwebsite_stats">Visa statistik över bidragande</string>
   <string name="attachproject_hint_projectwebsite_community">Komma i kontakt med andra voluntärer</string>
-  <string name="attachproject_hint_platforms_header">BOINC finns också tillgängligt till din dator eller bärbara dator, besök
-boinc.berkeley.edu för att veta mer.</string>
+  <string name="attachproject_hint_platforms_header">BOINC finns också tillgängligt till din dator eller bärbara dator, besök boinc.berkeley.edu för att veta mer.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Kontaktar projektets server...</string>
   <string name="attachproject_login_header_general_area">Allmänt område:</string>
@@ -59,8 +57,7 @@ boinc.berkeley.edu för att veta mer.</string>
   <string name="attachproject_acctmgr_list_desc">Använd en kontohanterare för kontrollera denna enhet.</string>
   <string name="attachproject_acctmgr_header">Använd kontohanteraren</string>
   <string name="attachproject_attach_projects_header">Lägg till projekt</string>
-  <string name="attachproject_attach_projects_desc">Add projects from the list of projects
-    </string>
+  <string name="attachproject_attach_projects_desc">Add projects from the list of projects</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Användare:</string>
   <string name="attachproject_acctmgr_header_pwd">Lösenord:</string>
@@ -115,8 +112,7 @@ boinc.berkeley.edu för att veta mer.</string>
   <string name="prefs_general_device_name_header">Enhetsnamn</string>
   <string name="prefs_theme_header">Tema</string>
   <string name="prefs_stationary_device_mode_header">Stationär enhets-läge</string>
-  <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Använd
-bara om enheten inte har ett batteri.</string>
+  <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett energiinställningar. Använd bara om enheten inte har ett batteri.</string>
   <string name="prefs_power_source_header">Energikällor för beräkning</string>
   <string name="prefs_power_source_description">Välj energikällor som BOINC tillåts använda för beräkning.</string>
   <string name="prefs_power_source_ac">Eluttag</string>
@@ -126,8 +122,7 @@ bara om enheten inte har ett batteri.</string>
   <string name="battery_charge_min_pct_header">Min. batterinivå (%)</string>
   <string name="battery_charge_min_pct_description">BOINC pausar beräkning under vald batterinivå.</string>
   <string name="battery_temperature_max_header">Max. batteritemperatur (°C)</string>
-  <string name="battery_temperature_max_description">BOINC pausar beräkningen när den inställda batteritemperaturen överstigs.
-Det är inte rekommenderat att ändra det här värdet.</string>
+  <string name="battery_temperature_max_description">BOINC pausar beräkningen när den inställda batteritemperaturen överstigs. Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_disk_max_pct_header">Max. användning av lagringsutrymme (%)</string>
   <string name="prefs_disk_min_free_gb_header">Min. lagringsutrymme (GB)</string>
   <string name="prefs_disk_access_interval_header">Åtkomstintervall (sekunder)</string>
@@ -143,8 +138,7 @@ Det är inte rekommenderat att ändra det här värdet.</string>
   <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
   <string name="prefs_cpu_number_cpus_description">Begränsar antalet CPU-kärnor BOINC använder för beräkning.</string>
   <string name="prefs_cpu_other_load_suspension_header">Stoppa vid CPU-användning över (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Bestämmer när BOINC pausar beräkningen för andra
-appars CPU-användning.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Bestämmer när BOINC pausar beräkningen för andra appars CPU-användning.</string>
   <string name="prefs_cpu_time_max_header">CPU-tid (%)</string>
   <string name="prefs_cpu_time_max_description">Begränsar tiden på CPU:n som BOINC använder för beräkning.</string>
   <string name="prefs_memory_max_idle_header">RAM-gräns (%)</string>
@@ -285,8 +279,7 @@ appars CPU-användning.</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 Kaliforniens Universitet, Berkeley.</string>
   <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
-  <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, företaget IBM och till företaget HTC
-för deras stöd till oss.</string>
+  <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, företaget IBM och till företaget HTC för deras stöd till oss.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nytt meddelande från %1$s</item>
@@ -294,20 +287,16 @@ för deras stöd till oss.</string>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Volontär beräkningsapp detekterad</string>
-  <string name="nonexcl_dialog_text">En annan frivillig beräkningsapp körs på denna enhet. Endast en version kan
-köras samtidigt.</string>
+  <string name="nonexcl_dialog_text">En annan frivillig beräkningsapp körs på denna enhet. Endast en version kan köras samtidigt.</string>
   <string name="nonexcl_dialog_exit">Avsluta</string>
   <!--social integration-->
   <string name="social_invite_button">Bjud in vänner</string>
   <string name="social_invite_intent_title">Hur vill du dela?</string>
   <string name="social_invite_content_title">Jag hjälper till och forskar med min mobil!</string>
-  <string name="social_invite_content_body">Jag använder min %1$s till att bidra med beräkningskraft för vetenskapen. Det kan du med! Ladda ned
-appen från: %2$s</string>
+  <string name="social_invite_content_body">Jag använder min %1$s till att bidra med beräkningskraft för vetenskapen. Det kan du med! Ladda ned appen från: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc
-    </string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc
-    </string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
   <string name="main_notification_channel_description">Visar icke märkta notiser</string>
