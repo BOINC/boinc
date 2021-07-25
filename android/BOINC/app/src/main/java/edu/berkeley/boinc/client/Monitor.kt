@@ -32,7 +32,6 @@ import edu.berkeley.boinc.BOINCApplication
 import edu.berkeley.boinc.BuildConfig
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.mutex.BoincMutex
-import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.coroutineScope
@@ -46,6 +45,8 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 import java.util.*
 import android.os.*
+
+typealias Message = edu.berkeley.boinc.rpc.Message
 
 /**
  * Main Service of BOINC on Android
