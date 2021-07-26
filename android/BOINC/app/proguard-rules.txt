@@ -14,3 +14,5 @@
 #-printmapping build/mapping.txt # Prints mappings of class names to their obfuscated names
 
 #-dontobfuscate
+
+-dontwarn java.lang.ClassValue # Ignore it from Guava

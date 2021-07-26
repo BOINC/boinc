@@ -28,7 +28,10 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo
 import edu.berkeley.boinc.rpc.Project
 import edu.berkeley.boinc.rpc.ProjectInfo
 import edu.berkeley.boinc.utils.TaskRunner
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockkClass
+import io.mockk.mockkStatic
+import io.mockk.spyk
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
