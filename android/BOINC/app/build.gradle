@@ -108,8 +108,7 @@ android {
         }
 
         debug {
-            // Without this, a build error occurs for debug.
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
@@ -123,6 +122,7 @@ android {
             initWith debug
         }
     }
+
     compileOptions {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'

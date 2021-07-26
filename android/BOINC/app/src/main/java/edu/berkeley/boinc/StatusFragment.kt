@@ -35,7 +35,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.attach.SelectionListActivity
 import edu.berkeley.boinc.client.ClientStatus
-import edu.berkeley.boinc.utils.*
+import edu.berkeley.boinc.utils.Logging
+import edu.berkeley.boinc.utils.RUN_MODE_AUTO
+import edu.berkeley.boinc.utils.SUSPEND_REASON_BATTERIES
+import edu.berkeley.boinc.utils.SUSPEND_REASON_BATTERY_CHARGING
+import edu.berkeley.boinc.utils.SUSPEND_REASON_BATTERY_OVERHEATED
+import edu.berkeley.boinc.utils.SUSPEND_REASON_BENCHMARKS
+import edu.berkeley.boinc.utils.SUSPEND_REASON_USER_ACTIVE
+import edu.berkeley.boinc.utils.SUSPEND_REASON_USER_REQ
+import edu.berkeley.boinc.utils.writeClientModeAsync
 import kotlinx.coroutines.launch
 
 class StatusFragment : Fragment() {

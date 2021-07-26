@@ -28,13 +28,22 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.format.DateUtils;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.core.content.ContextCompat;
-
-import org.apache.commons.lang3.StringUtils;
-
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.AcctMgrInfo;
+import edu.berkeley.boinc.rpc.CcStatus;
+import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
+import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.Result;
+import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,23 +58,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.AcctMgrInfo;
-import edu.berkeley.boinc.rpc.CcStatus;
-import edu.berkeley.boinc.rpc.GlobalPreferences;
-import edu.berkeley.boinc.rpc.HostInfo;
-import edu.berkeley.boinc.rpc.ImageWrapper;
-import edu.berkeley.boinc.rpc.Notice;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.rpc.Result;
-import edu.berkeley.boinc.rpc.Transfer;
-import edu.berkeley.boinc.utils.BOINCDefs;
-import edu.berkeley.boinc.utils.BOINCUtils;
-import edu.berkeley.boinc.utils.Logging;
+import org.apache.commons.lang3.StringUtils;
 
 /*
  * Singleton that holds the client status data, as determined by the Monitor.

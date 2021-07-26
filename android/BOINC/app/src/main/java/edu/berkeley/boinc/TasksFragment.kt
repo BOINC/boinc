@@ -39,12 +39,12 @@ import edu.berkeley.boinc.databinding.TasksLayoutBinding
 import edu.berkeley.boinc.rpc.Result
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.*
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.collections.ArrayList
-import java.util.*
 
 class TasksFragment : Fragment() {
     private lateinit var recyclerViewAdapter: TaskRecyclerViewAdapter

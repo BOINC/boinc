@@ -45,8 +45,8 @@ import edu.berkeley.boinc.rpc.Project
 import edu.berkeley.boinc.rpc.ProjectInfo
 import edu.berkeley.boinc.rpc.RpcClient
 import edu.berkeley.boinc.utils.Logging
-import kotlinx.coroutines.*
 import java.util.*
+import kotlinx.coroutines.*
 
 class ProjectDetailsFragment : Fragment() {
     private var url: String = ""

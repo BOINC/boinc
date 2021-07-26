@@ -22,7 +22,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.test.core.app.ApplicationProvider
 import edu.berkeley.boinc.R
-import io.mockk.*
+import io.mockk.every
+import io.mockk.spyk
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
