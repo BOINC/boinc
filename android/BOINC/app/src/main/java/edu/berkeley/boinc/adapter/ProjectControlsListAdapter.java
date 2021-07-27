@@ -24,16 +24,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
-
-import java.util.List;
-
 import edu.berkeley.boinc.ProjectsFragment;
 import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
+import java.util.List;
 
 public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
     private final List<ProjectControl> entries; // ID of control texts in strings.xml

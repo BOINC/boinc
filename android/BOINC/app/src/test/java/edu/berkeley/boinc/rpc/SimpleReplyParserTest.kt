@@ -19,20 +19,18 @@
 package edu.berkeley.boinc.rpc
 
 import android.util.Log
-import edu.berkeley.boinc.rpc.SimpleReplyParser.Companion.parse
-import org.junit.runner.RunWith
-import org.powermock.modules.junit4.PowerMockRunner
-import org.powermock.core.classloader.annotations.PrepareForTest
 import android.util.Xml
-import org.junit.Before
-import org.powermock.api.mockito.PowerMockito
-import kotlin.Throws
-import org.mockito.ArgumentMatchers
+import edu.berkeley.boinc.rpc.SimpleReplyParser.Companion.parse
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
+import org.powermock.api.mockito.PowerMockito
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
 import org.xml.sax.ContentHandler
 import org.xml.sax.SAXException
-import java.lang.Exception
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(Log::class, Xml::class)

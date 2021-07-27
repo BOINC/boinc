@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.os.*
 import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
@@ -34,17 +35,16 @@ import edu.berkeley.boinc.R
 import edu.berkeley.boinc.mutex.BoincMutex
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.*
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
+import java.util.*
+import javax.inject.Inject
+import kotlin.properties.Delegates
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import okio.buffer
 import okio.source
-import java.io.File
-import java.io.IOException
-import java.io.InputStreamReader
-import javax.inject.Inject
-import kotlin.properties.Delegates
-import java.util.*
-import android.os.*
 
 typealias Message = edu.berkeley.boinc.rpc.Message
 

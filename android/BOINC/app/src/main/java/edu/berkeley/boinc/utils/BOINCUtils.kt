@@ -33,17 +33,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.io.Reader
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.Callable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 
 val ConnectivityManager.isOnline: Boolean
     get() {

@@ -20,14 +20,23 @@ package edu.berkeley.boinc
 
 import android.app.Dialog
 import android.app.Service
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.Window
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
@@ -48,7 +57,11 @@ import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.client.MonitorAsync
 import edu.berkeley.boinc.databinding.MainBinding
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
-import edu.berkeley.boinc.utils.*
+import edu.berkeley.boinc.utils.Logging
+import edu.berkeley.boinc.utils.RUN_MODE_AUTO
+import edu.berkeley.boinc.utils.RUN_MODE_NEVER
+import edu.berkeley.boinc.utils.getColorCompat
+import edu.berkeley.boinc.utils.writeClientModeAsync
 import kotlinx.coroutines.launch
 
 class BOINCActivity : AppCompatActivity() {

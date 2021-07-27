@@ -20,7 +20,19 @@ package edu.berkeley.boinc.client
 
 import android.graphics.Bitmap
 import android.os.IBinder
-import edu.berkeley.boinc.rpc.*
+import edu.berkeley.boinc.rpc.AccountIn
+import edu.berkeley.boinc.rpc.AccountManager
+import edu.berkeley.boinc.rpc.AccountOut
+import edu.berkeley.boinc.rpc.AcctMgrInfo
+import edu.berkeley.boinc.rpc.GlobalPreferences
+import edu.berkeley.boinc.rpc.HostInfo
+import edu.berkeley.boinc.rpc.ImageWrapper
+import edu.berkeley.boinc.rpc.Notice
+import edu.berkeley.boinc.rpc.Project
+import edu.berkeley.boinc.rpc.ProjectConfig
+import edu.berkeley.boinc.rpc.ProjectInfo
+import edu.berkeley.boinc.rpc.Result
+import edu.berkeley.boinc.rpc.Transfer
 import edu.berkeley.boinc.utils.ErrorCodeDescription
 import edu.berkeley.boinc.utils.TaskRunner
 

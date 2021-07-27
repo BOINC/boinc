@@ -18,7 +18,11 @@
  */
 package edu.berkeley.boinc.ui.eventlog
 
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
