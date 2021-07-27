@@ -1,5 +1,6 @@
 plugins {
     id 'org.ajoberstar.grgit' version '4.1.0'
+    id 'jacoco'
 }
 
 apply plugin: 'com.android.application'
@@ -225,3 +226,31 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+//from https://about.codecov.io/blog/code-coverage-for-android-development-using-kotlin-jacoco-github-actions-and-codecov/
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+
+    reports {
+        csv.getRequired().set(true)
+        xml.getRequired().set(true)
+        html.getRequired().set(true)
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/META-INF*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/classes", excludes: fileFilter) +
+            fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/debugAndroidTest/connected/coverage.ec"
+    ]))
+}
+
+jacoco {
+    toolVersion "$jacoco_version"
+}
+
+android.jacoco.version = "$jacoco_version"
