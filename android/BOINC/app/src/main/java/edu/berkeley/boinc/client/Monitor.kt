@@ -33,18 +33,19 @@ import edu.berkeley.boinc.BuildConfig
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.mutex.BoincMutex
 import edu.berkeley.boinc.rpc.*
-import edu.berkeley.boinc.rpc.Message
 import edu.berkeley.boinc.utils.*
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import okio.buffer
-import okio.source
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import okio.buffer
+import okio.source
+
+typealias Message = edu.berkeley.boinc.rpc.Message
 
 /**
  * Main Service of BOINC on Android

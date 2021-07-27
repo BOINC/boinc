@@ -19,14 +19,13 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
 
 public class HintFragment extends Fragment {
 

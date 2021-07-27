@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = '1.5.21'
+    ext.jacoco_version = '0.8.7'
     repositories {
         maven {
             url 'https://maven.google.com/'
@@ -13,9 +14,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath "com.android.tools.build:gradle:4.2.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0'
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
     }
 }
 
@@ -28,4 +29,4 @@ allprojects {
     }
 }
 
-apply plugin: "com.vanniktech.android.junit.jacoco"
+task jacocoTestReportDebug(dependsOn: ["app:jacocoTestReport"]) {}

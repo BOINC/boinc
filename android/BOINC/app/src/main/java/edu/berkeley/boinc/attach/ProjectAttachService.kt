@@ -35,12 +35,12 @@ import edu.berkeley.boinc.client.Monitor
 import edu.berkeley.boinc.client.PersistentStorage
 import edu.berkeley.boinc.rpc.*
 import edu.berkeley.boinc.utils.*
+import java.util.*
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
-import javax.inject.Inject
 
 class ProjectAttachService : LifecycleService() {
     @Inject

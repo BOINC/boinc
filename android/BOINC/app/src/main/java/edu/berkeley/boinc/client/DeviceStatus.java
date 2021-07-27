@@ -27,14 +27,11 @@ import android.net.NetworkCapabilities;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-
 import androidx.core.content.ContextCompat;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.Logging;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class DeviceStatus {

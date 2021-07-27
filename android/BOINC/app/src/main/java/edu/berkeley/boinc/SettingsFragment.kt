@@ -22,7 +22,12 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.edit
-import androidx.preference.*
+import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
+import androidx.preference.SeekBarPreference
 import edu.berkeley.boinc.rpc.GlobalPreferences
 import edu.berkeley.boinc.rpc.HostInfo
 import edu.berkeley.boinc.utils.Logging

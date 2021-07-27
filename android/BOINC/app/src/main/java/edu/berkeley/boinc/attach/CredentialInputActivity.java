@@ -29,13 +29,10 @@ import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.CheckBox;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
-
 import edu.berkeley.boinc.databinding.AttachProjectCredentialInputLayoutBinding;
 import edu.berkeley.boinc.utils.Logging;
+import java.util.List;
 
 public class CredentialInputActivity extends AppCompatActivity {
     private AttachProjectCredentialInputLayoutBinding binding;

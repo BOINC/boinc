@@ -30,18 +30,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
@@ -49,6 +40,11 @@ import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.TransferStatus;
 import edu.berkeley.boinc.utils.Logging;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     private List<ProjectsListData> entries;

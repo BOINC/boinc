@@ -22,12 +22,10 @@ package edu.berkeley.boinc.rpc;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.util.Xml;
-
-import org.apache.commons.io.input.CharSequenceReader;
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
+import com.google.common.io.CharSource;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.utils.Logging;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,16 +36,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import edu.berkeley.boinc.utils.BOINCDefs;
-import edu.berkeley.boinc.utils.BOINCUtils;
-import edu.berkeley.boinc.utils.Logging;
 import kotlin.text.Charsets;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.ByteString;
 import okio.Okio;
-
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 import static org.apache.commons.lang3.BooleanUtils.toInteger;
 
 
@@ -137,7 +132,7 @@ public class RpcClient {
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            if (StringUtils.equalsAnyIgnoreCase(localName, AUTHORIZED, UNAUTHORIZED) && !mParsed) {
+            if (localName != null && (localName.equalsIgnoreCase(AUTHORIZED) || localName.equalsIgnoreCase(UNAUTHORIZED)) && !mParsed) {
                 mResult.append(localName.toLowerCase());
                 mParsed = true;
             }
@@ -385,7 +380,7 @@ public class RpcClient {
         Logging.logVerbose(Logging.CATEGORY.RPC, "mResult.capacity() = " + mResult.capacity());
 
         if (Logging.isLoggable(Logging.LEVEL.DEBUG, Logging.CATEGORY.RPC)) {
-            BufferedReader dbr = new BufferedReader(new CharSequenceReader(mResult));
+            BufferedReader dbr = new BufferedReader(CharSource.wrap(mResult).openStream());
             String dl;
             int ln = 0;
             try {

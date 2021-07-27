@@ -31,15 +31,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-
-import java.util.List;
-
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
 import edu.berkeley.boinc.databinding.AttachProjectCredentialInputDialogBinding;
 import edu.berkeley.boinc.utils.Logging;
+import java.util.List;
 
 public class IndividualCredentialInputFragment extends DialogFragment {
     private String projectName;

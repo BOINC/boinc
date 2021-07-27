@@ -19,14 +19,14 @@
 package edu.berkeley.boinc.adapter
 
 import edu.berkeley.boinc.rpc.Message
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 

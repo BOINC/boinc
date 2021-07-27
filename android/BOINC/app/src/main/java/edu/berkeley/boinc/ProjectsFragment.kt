@@ -25,7 +25,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.RemoteException
-import android.view.*
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -35,14 +42,18 @@ import edu.berkeley.boinc.attach.ManualUrlInputFragment
 import edu.berkeley.boinc.databinding.DialogConfirmBinding
 import edu.berkeley.boinc.databinding.DialogListBinding
 import edu.berkeley.boinc.databinding.ProjectsLayoutBinding
-import edu.berkeley.boinc.rpc.*
+import edu.berkeley.boinc.rpc.AcctMgrInfo
+import edu.berkeley.boinc.rpc.Notice
+import edu.berkeley.boinc.rpc.Project
+import edu.berkeley.boinc.rpc.RpcClient
+import edu.berkeley.boinc.rpc.Transfer
 import edu.berkeley.boinc.utils.ERR_OK
 import edu.berkeley.boinc.utils.Logging
+import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class ProjectsFragment : Fragment() {
     private lateinit var listAdapter: ProjectsListAdapter
