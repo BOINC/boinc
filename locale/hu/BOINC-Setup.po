@@ -1,9 +1,10 @@
 # BOINC setup localization template
-# Copyright (C) 2019 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Andrew Szior, 2021
 # Attila Fenyvesi <fenya25@gmail.com>, 2015,2017
 # fischer braun <fischer.braun@gmx.net>, 2015
 # Gabor Cseh <csega@mailbox.hu>, 2015-2019
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
-"PO-Revision-Date: 2019-03-13 10:12+0000\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 13:31+0000\n"
+"Last-Translator: Andrew Szior\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,37 +24,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:92 mac_installer/PostInstall.cpp:210
-#: mac_installer/uninstall.cpp:113
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:216
+#: mac_installer/uninstall.cpp:115
 #, c-format
 msgid "Branding array has too few entries: %s"
 msgstr "A branding array-nek túl kevés bejegyzése van: 1%s"
 
-#: mac_installer/Installer.cpp:102 mac_installer/PostInstall.cpp:217
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:223
 msgid "Could not get user login name"
 msgstr "Nem tudom lekérni a felhasználó bejelentkezési nevét"
 
-#: mac_installer/Installer.cpp:219
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:285
 #, c-format
-msgid "Sorry, this version of %s requires system 10.7 or higher."
-msgstr "Sajnáljuk, de a(z) %s ezen verziója 10.7-es, vagy nagyobb rendszerverziót igényel."
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "Sajnáljuk, de a(z) %s ezen verziója %s, vagy nagyobb rendszerverziót igényel."
 
-#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1446
-#: mac_installer/uninstall.cpp:1472
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1493
+#: mac_installer/uninstall.cpp:1522
 msgid "Yes"
 msgstr "Igen"
 
-#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1447
-#: mac_installer/uninstall.cpp:1473
+#: mac_installer/PostInstall.cpp:155 mac_installer/PostInstall.cpp:1494
+#: mac_installer/uninstall.cpp:1523
 msgid "No"
 msgstr "Nem"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:153
+#: mac_installer/PostInstall.cpp:157
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Akkor is fusson a BOINC, ha mindenki kijelentkezett?"
 
-#: mac_installer/PostInstall.cpp:1646
+#: mac_installer/PostInstall.cpp:1694
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -61,31 +64,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "A felhasználók, akik ezen számítógépen adminisztrátori jogosultsággal rendelkeznek, automatikusan engedélyt kapnak a %s futtatására és vezérlésére.\n\nSzeretnéd, hogy a nem adminisztrátori jogú felhasználók is futtathassák és vezéreljék %s-t ezen a Mac-en?"
 
-#: mac_installer/PostInstall.cpp:1674
+#: mac_installer/PostInstall.cpp:1722
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "Be akarod állítani %s-t képernyővédőnek minden %s felhasználó számára ezen a Mac-en?"
 
-#: mac_installer/uninstall.cpp:87
+#: mac_installer/PostInstall.cpp:2260
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "A BOINC csak a Rosetta 2 installálását követően tud Intel Mac-re készült projekteket futtatni. Szeretné installálni a Rosetta 2-t most?"
+
+#: mac_installer/uninstall.cpp:89
 msgid "OK"
 msgstr "OK"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:152
+#: mac_installer/uninstall.cpp:154
 msgid "Permission error after relaunch"
 msgstr "Hozzáférési hiba újraindítás után"
 
-#: mac_installer/uninstall.cpp:157
+#: mac_installer/uninstall.cpp:159
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Az eltávolítás több percet is igénybe vehet.\nKérjük, légy türelmes."
 
-#: mac_installer/uninstall.cpp:173
+#: mac_installer/uninstall.cpp:175
 msgid "Error saving user name"
 msgstr "Hiba a felhasználói név mentése közben"
 
-#: mac_installer/uninstall.cpp:184
+#: mac_installer/uninstall.cpp:186
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -93,22 +103,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "Biztosan eltávolítod:  %s -t erről a számítógépről?\n\nEz letörli a végrehajtható állományokat, de meghagyja %s adatfájljait."
 
-#: mac_installer/uninstall.cpp:199
+#: mac_installer/uninstall.cpp:201
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Visszavonva: %s nem változott."
 
-#: mac_installer/uninstall.cpp:262
+#: mac_installer/uninstall.cpp:264
 msgid "name  of user"
 msgstr "a felhasználó neve"
 
-#: mac_installer/uninstall.cpp:315
+#: mac_installer/uninstall.cpp:317
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "El akarod távolítani a VirtualBox-ot is a számítógépről?\n(a VirtualBox a BOINC-cal együtt lett felrakva)"
 
-#: mac_installer/uninstall.cpp:353
+#: mac_installer/uninstall.cpp:355
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -120,10 +130,10 @@ msgid ""
 "\"%s\"."
 msgstr "Eltávolítás befejezve.\n\nEltávolíthatod a következő fennmaradó elemeket a Kereső használatával:\n a \"%s\" könyvár \n\nminden felhasználóhoz, a \"%s\" fájl."
 
-#: mac_installer/uninstall.cpp:1470
+#: mac_installer/uninstall.cpp:1520
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: mac_installer/uninstall.cpp:1471
+#: mac_installer/uninstall.cpp:1521
 msgid "Continue..."
 msgstr "Folytatás..."
