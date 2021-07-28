@@ -3,7 +3,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, vko_android_improve_logging_system_combined ]
   schedule:
     - cron:  '20 12 * * 0'
 
