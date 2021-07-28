@@ -34,6 +34,14 @@ object Logging {
     }
 
     @JvmStatic
+    fun setAllCategories()
+    {
+        enumValues<CATEGORY>().forEach{
+            setLogCategory(it.name, true)
+        }
+    }
+
+    @JvmStatic
     fun setLogCategory(logCategory: String, value: Boolean) {
         try {
             val key = CATEGORY.valueOf(logCategory)
