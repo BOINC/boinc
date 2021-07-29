@@ -1119,6 +1119,16 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
+        override fun getLogCategories(): List<String> {
+            return appPreferences.logCategories
+        }
+
+        @Throws(RemoteException::class)
+        override fun setLogCategories(categories: List<String>) {
+            appPreferences.logCategories = categories
+        }
+
+        @Throws(RemoteException::class)
         override fun setPowerSourceAc(src: Boolean) {
             appPreferences.powerSourceAc = src
         }
