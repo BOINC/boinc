@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.client
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
@@ -40,7 +39,7 @@ class AppPreferences @Inject constructor(val context: Context) {
             field = value
             Logging.setLogLevel(value)
         }
-    var logCategories = prefs.getStringSet("clientLogCategories", context.resources.getStringArray(R.array.prefs_client_log_categories).toSet())!!.toList()
+    var logCategories = prefs.getStringSet("guiLogCategories", context.resources.getStringArray(R.array.prefs_gui_log_categories).toSet())!!.toList()
         set(value) {
             field = value
             Logging.setLogCategories(value)

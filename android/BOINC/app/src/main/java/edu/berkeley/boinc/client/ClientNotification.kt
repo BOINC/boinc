@@ -108,10 +108,10 @@ class ClientNotification @Inject constructor(private val context: Context) {
         Logging.logVerbose(
             Logging.CATEGORY.CLIENT,
             "ClientNotification: notification needs update? "
-                    + (mOldComputingStatus == -1)
-                    + activeTasksChanged
-                    + !notificationShown
-                    + (updatedStatus.computingStatus != mOldComputingStatus)
+                    + (mOldComputingStatus == -1) + " "
+                    + activeTasksChanged + " "
+                    + !notificationShown + " "
+                    + (updatedStatus.computingStatus != mOldComputingStatus) + " "
                     + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
                     && updatedStatus.computingSuspendReason != mOldSuspendReason)
         )

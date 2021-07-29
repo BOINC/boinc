@@ -149,6 +149,7 @@
     <string name="prefs_remote_empty_password">Password update failed: value cannot be empty</string>
     <string name="prefs_remote_boinc_relaunched">The BOINC client will be relaunched after password change.</string>
     <string name="prefs_client_log_flags_header">BOINC client log flags</string>
+    <string name="prefs_gui_log_categories">BOINC GUI log categories</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
     <string name="prefs_theme_light">Light</string>
