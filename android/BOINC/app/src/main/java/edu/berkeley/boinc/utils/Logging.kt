@@ -34,10 +34,10 @@ object Logging {
     }
 
     @JvmStatic
-    fun setAllCategories()
+    fun setLogCategories(categories: List<String>)
     {
         enumValues<CATEGORY>().forEach{
-            setLogCategory(it.name, true)
+            setLogCategory(it.name, categories.contains(it.name))
         }
     }
 
@@ -80,22 +80,27 @@ object Logging {
     fun logException(logCategory: CATEGORY, logMessage: String, e: Throwable) {
         logMessage(LEVEL.ERROR, logCategory, logMessage, e)
     }
+
     @JvmStatic
     fun logError(logCategory: CATEGORY, logMessage: String) {
         logMessage(LEVEL.ERROR, logCategory, logMessage)
     }
+
     @JvmStatic
     fun logWarning(logCategory: CATEGORY, logMessage: String) {
         logMessage(LEVEL.WARNING, logCategory, logMessage)
     }
+
     @JvmStatic
     fun logInfo(logCategory: CATEGORY, logMessage: String) {
         logMessage(LEVEL.INFO, logCategory, logMessage)
     }
+
     @JvmStatic
     fun logDebug(logCategory: CATEGORY, logMessage: String) {
         logMessage(LEVEL.DEBUG, logCategory, logMessage)
     }
+
     @JvmStatic
     fun logVerbose(logCategory: CATEGORY, logMessage: String) {
         logMessage(LEVEL.VERBOSE, logCategory, logMessage)

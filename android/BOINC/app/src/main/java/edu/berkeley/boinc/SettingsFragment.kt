@@ -225,11 +225,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 val flags = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
                 BOINCActivity.monitor!!.setCcConfigAsync(formatOptionsToCcConfig(flags))
             }
+            "clientLogCategories" -> {
+                val categories = sharedPreferences.getStringSet(key, emptySet()) ?: emptySet()
+                BOINCActivity.monitor!!.logCategories = categories.toList()
+            }
             "logLevel" -> {
                 val logLevel = sharedPreferences.getInt(key,
                     resources.getInteger(R.integer.prefs_default_loglevel))
                 BOINCActivity.monitor!!.logLevel = logLevel
-                Logging.setLogLevel(logLevel)
             }
         }
     }

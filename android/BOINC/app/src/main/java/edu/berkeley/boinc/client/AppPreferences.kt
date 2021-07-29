@@ -40,6 +40,11 @@ class AppPreferences @Inject constructor(val context: Context) {
             field = value
             Logging.setLogLevel(value)
         }
+    var logCategories = prefs.getStringSet("clientLogCategories", context.resources.getStringArray(R.array.prefs_client_log_categories).toSet())!!.toList()
+        set(value) {
+            field = value
+            Logging.setLogCategories(value)
+        }
     var powerSourceAc = prefs.getBoolean("powerSourceAc", context.resources.getBoolean(R.bool.prefs_power_source_ac))
     var powerSourceUsb = prefs.getBoolean("powerSourceUsb", context.resources.getBoolean(R.bool.prefs_power_source_usb))
     var powerSourceWireless = prefs.getBoolean("powerSourceWireless",

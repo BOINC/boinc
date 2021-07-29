@@ -315,6 +315,14 @@ class MonitorAsync(monitor: IMonitor?) : IMonitor {
         monitor.logLevel = level
     }
 
+    override fun getLogCategories(): List<String> {
+        return monitor.logCategories
+    }
+
+    override fun setLogCategories(categories: List<String>) {
+        monitor.logCategories = categories
+    }
+
     override fun setPowerSourceAc(src: Boolean) {
         monitor.powerSourceAc = src
     }

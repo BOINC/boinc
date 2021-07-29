@@ -106,6 +106,8 @@ boolean getAutostart();              // Monitor.getAppPrefs().getAutostart();
 boolean getShowNotificationForNotices();       // Monitor.getAppPrefs().getShowNotificationForNotices();
 int getLogLevel();                   // Monitor.getAppPrefs().getLogLevel();
 void setLogLevel(in int level);               // Monitor.getAppPrefs().setLogLevel(int);
+List<String> getLogCategories();
+void setLogCategories(in List<String> categories);
 void setPowerSourceAc(in boolean src);      // Monitor.getAppPrefs().setPowerSourceAc(boolean);
 void setPowerSourceUsb(in boolean src);     // Monitor.getAppPrefs().setPowerSourceUsb(boolean);
 void setPowerSourceWireless(in boolean src); // Monitor.getAppPrefs().setPowerSourceWireless(boolean);

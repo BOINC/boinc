@@ -32,7 +32,7 @@ import edu.berkeley.boinc.client.MonitorAsync
 import edu.berkeley.boinc.databinding.ActivitySplashBinding
 import edu.berkeley.boinc.ui.eventlog.EventLogActivity
 import edu.berkeley.boinc.utils.Logging
-import edu.berkeley.boinc.utils.Logging.setAllCategories
+import edu.berkeley.boinc.utils.Logging.setLogCategories
 import edu.berkeley.boinc.utils.Logging.setLogLevel
 import edu.berkeley.boinc.utils.TaskRunner
 import edu.berkeley.boinc.utils.getBitmapFromVectorDrawable
@@ -63,7 +63,7 @@ class SplashActivity : AppCompatActivity() {
                     BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor!!.welcomeStateFile
                 // read log level from monitor preferences and adjust accordingly
                 setLogLevel(monitor!!.logLevel)
-                setAllCategories()
+                setLogCategories(monitor!!.logCategories)
             } catch (e: Exception) {
                 Logging.logException(Logging.CATEGORY.GUI_ACTIVITY, "initializing log level failed.", e)
             }
