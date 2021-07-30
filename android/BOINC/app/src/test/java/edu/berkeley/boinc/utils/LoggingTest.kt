@@ -20,17 +20,23 @@ package edu.berkeley.boinc.utils
 
 import android.util.Log
 import io.mockk.Called
+import io.mockk.MockKAnnotations
 import io.mockk.confirmVerified
 import io.mockk.every
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.Before
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.extension.ExtendWith
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
+@ExtendWith(MockKExtension::class)
 class LoggingTest {
     @Before
     fun setUp() {
+        MockKAnnotations.init(this, overrideRecordPrivateCalls = true)
+
         mockkStatic(Log::class)
         every { Log.e(any(), any()) } returns 0
         every { Log.e(any(), any(), any()) } returns 0
