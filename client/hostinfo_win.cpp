@@ -359,11 +359,21 @@ int get_os_information(
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
 
-            if ( osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0 ) {
+            if ( osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strlcat(os_name, "Windows 10", os_name_size);
+                    if ( osvi.dwBuildNumber >= 22000 ) {
+                        strlcat(os_name, "Windows 11", os_name_size);
+                    } else {
+                        strlcat(os_name, "Windows 10", os_name_size);
+                    }
                 } else {
-                    strlcat(os_name, "Windows Server 2016", os_name_size);
+                    if ( osvi.dwBuildNumber >= 20348 ) {
+                        strlcat(os_name, "Windows Server 2022", os_name_size);
+                    } else if ( osvi.dwBuildNumber >= 17623) {
+                        strlcat(os_name, "Windows Server 2019", os_name_size);
+                    } else {
+                        strlcat(os_name, "Windows Server 2016", os_name_size);
+                    }
                 }
                 pGPI( 10, 0, 0, 0, &dwType);
             }
