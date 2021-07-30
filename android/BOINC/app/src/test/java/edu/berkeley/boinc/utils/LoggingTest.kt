@@ -266,7 +266,7 @@ class LoggingTest {
         Logging.logVerbose(Logging.CATEGORY.DEVICE, "TestVerbose")
 
         verify(exactly = 2) { Log.e(any(), any(), any()) }
-        verify { Log.w(any(), any<String>()) wasNot Called }
+        verify(exactly = 0) { Log.w(any(), any<String>()) }
         verify { Log.i(any(), any()) wasNot Called }
         verify { Log.d(any(), any()) wasNot Called }
         verify { Log.v(any(), any()) wasNot Called }
