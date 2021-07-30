@@ -66,6 +66,7 @@ class SplashActivity : AppCompatActivity() {
                 val logCategories = monitor!!.logCategories
                 setLogLevel(logLevel)
                 setLogCategories(logCategories)
+                // here we initialize log settings on remote that we read before from the settings
                 monitor!!.logLevel = logLevel
                 monitor!!.logCategories = logCategories
             } catch (e: Exception) {
