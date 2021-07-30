@@ -62,8 +62,12 @@ class SplashActivity : AppCompatActivity() {
                 mIsWelcomeSpecificFirstRun =
                     BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor!!.welcomeStateFile
                 // read log level from monitor preferences and adjust accordingly
-                setLogLevel(monitor!!.logLevel)
-                setLogCategories(monitor!!.logCategories)
+                val logLevel = monitor!!.logLevel
+                val logCategories = monitor!!.logCategories
+                setLogLevel(logLevel)
+                setLogCategories(logCategories)
+                monitor!!.logLevel = logLevel
+                monitor!!.logCategories = logCategories
             } catch (e: Exception) {
                 Logging.logException(Logging.CATEGORY.GUI_ACTIVITY, "initializing log level failed.", e)
             }
