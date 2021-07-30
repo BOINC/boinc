@@ -267,9 +267,9 @@ class LoggingTest {
 
         verify(exactly = 2) { Log.e(any(), any(), any()) }
         verify(exactly = 0) { Log.w(any(), any<String>()) }
-        verify { Log.i(any(), any()) wasNot Called }
-        verify { Log.d(any(), any()) wasNot Called }
-        verify { Log.v(any(), any()) wasNot Called }
+        verify(exactly = 0)  { Log.i(any(), any()) }
+        verify(exactly = 0)  { Log.d(any(), any()) }
+        verify(exactly = 0)  { Log.v(any(), any()) }
 
         confirmVerified(Log::class)
 
