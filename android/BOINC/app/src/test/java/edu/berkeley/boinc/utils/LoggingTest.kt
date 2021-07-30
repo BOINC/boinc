@@ -254,7 +254,7 @@ class LoggingTest {
     }
 
     @Test
-    fun `Test_20 only exception and error are logged when logLevel equals ERROR`() {
+    fun `Test_20 only error and exception are logged when logLevel equals ERROR`() {
         Logging.setLogLevel(Logging.LEVEL.ERROR.logLevel)
         Logging.setLogCategory("DEVICE", true)
 
@@ -275,7 +275,7 @@ class LoggingTest {
     }
 
     @Test
-    fun `Test_21 only warning, exception and error are logged when logLevel equals WARNING`() {
+    fun `Test_21 only warning, error and exception are logged when logLevel equals WARNING`() {
         Logging.setLogLevel(Logging.LEVEL.WARNING.logLevel)
         Logging.setLogCategory("DEVICE", true)
 
@@ -291,6 +291,69 @@ class LoggingTest {
         verify(exactly = 0)  { Log.i(any(), any()) }
         verify(exactly = 0)  { Log.d(any(), any()) }
         verify(exactly = 0)  { Log.v(any(), any()) }
+
+        Logging.setLogCategory("DEVICE", false)
+    }
+
+    @Test
+    fun `Test_22 only info, warning, error and exception are logged when logLevel equals INFO`() {
+        Logging.setLogLevel(Logging.LEVEL.INFO.logLevel)
+        Logging.setLogCategory("DEVICE", true)
+
+        Logging.logException(Logging.CATEGORY.DEVICE, "TestException", Exception("TestException"))
+        Logging.logError(Logging.CATEGORY.DEVICE, "TestError")
+        Logging.logWarning(Logging.CATEGORY.DEVICE, "TestWarning")
+        Logging.logInfo(Logging.CATEGORY.DEVICE, "TestInfo")
+        Logging.logDebug(Logging.CATEGORY.DEVICE, "TestDebug")
+        Logging.logVerbose(Logging.CATEGORY.DEVICE, "TestVerbose")
+
+        verify(exactly = 2) { Log.e(any(), any(), any()) }
+        verify(exactly = 1) { Log.w(any(), any<String>()) }
+        verify(exactly = 1)  { Log.i(any(), any()) }
+        verify(exactly = 0)  { Log.d(any(), any()) }
+        verify(exactly = 0)  { Log.v(any(), any()) }
+
+        Logging.setLogCategory("DEVICE", false)
+    }
+
+    @Test
+    fun `Test_23 only debug, info, warning, error and exception are logged when logLevel equals DEBUG`() {
+        Logging.setLogLevel(Logging.LEVEL.DEBUG.logLevel)
+        Logging.setLogCategory("DEVICE", true)
+
+        Logging.logException(Logging.CATEGORY.DEVICE, "TestException", Exception("TestException"))
+        Logging.logError(Logging.CATEGORY.DEVICE, "TestError")
+        Logging.logWarning(Logging.CATEGORY.DEVICE, "TestWarning")
+        Logging.logInfo(Logging.CATEGORY.DEVICE, "TestInfo")
+        Logging.logDebug(Logging.CATEGORY.DEVICE, "TestDebug")
+        Logging.logVerbose(Logging.CATEGORY.DEVICE, "TestVerbose")
+
+        verify(exactly = 2) { Log.e(any(), any(), any()) }
+        verify(exactly = 1) { Log.w(any(), any<String>()) }
+        verify(exactly = 1)  { Log.i(any(), any()) }
+        verify(exactly = 1)  { Log.d(any(), any()) }
+        verify(exactly = 0)  { Log.v(any(), any()) }
+
+        Logging.setLogCategory("DEVICE", false)
+    }
+
+    @Test
+    fun `Test_24 verbose, debug, info, warning, error and exception are logged when logLevel equals VERBOSE`() {
+        Logging.setLogLevel(Logging.LEVEL.VERBOSE.logLevel)
+        Logging.setLogCategory("DEVICE", true)
+
+        Logging.logException(Logging.CATEGORY.DEVICE, "TestException", Exception("TestException"))
+        Logging.logError(Logging.CATEGORY.DEVICE, "TestError")
+        Logging.logWarning(Logging.CATEGORY.DEVICE, "TestWarning")
+        Logging.logInfo(Logging.CATEGORY.DEVICE, "TestInfo")
+        Logging.logDebug(Logging.CATEGORY.DEVICE, "TestDebug")
+        Logging.logVerbose(Logging.CATEGORY.DEVICE, "TestVerbose")
+
+        verify(exactly = 2) { Log.e(any(), any(), any()) }
+        verify(exactly = 1) { Log.w(any(), any<String>()) }
+        verify(exactly = 1)  { Log.i(any(), any()) }
+        verify(exactly = 1)  { Log.d(any(), any()) }
+        verify(exactly = 1)  { Log.v(any(), any()) }
 
         Logging.setLogCategory("DEVICE", false)
     }
