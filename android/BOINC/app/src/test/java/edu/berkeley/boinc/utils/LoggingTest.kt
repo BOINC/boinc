@@ -271,8 +271,6 @@ class LoggingTest {
         verify(exactly = 0)  { Log.d(any(), any()) }
         verify(exactly = 0)  { Log.v(any(), any()) }
 
-        confirmVerified(Log::class)
-
         Logging.setLogCategory("DEVICE", false)
     }
 }
