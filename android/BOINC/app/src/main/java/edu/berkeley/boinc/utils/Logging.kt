@@ -23,14 +23,23 @@ import android.util.Log
 object Logging {
     const val TAG = "BOINC_GUI"
     const val WAKELOCK = "$TAG:MyPowerLock"
-    @JvmField
-    var LOGLEVEL = -1
-    @JvmField
-    var categories = HashSet<CATEGORY>()
+
+    private var LOGLEVEL = -1
+    private var categories = HashSet<CATEGORY>()
+
+    @JvmStatic
+    fun getLogLevel(): Int {
+        return LOGLEVEL
+    }
 
     @JvmStatic
     fun setLogLevel(logLevel: Int) {
         LOGLEVEL = logLevel
+    }
+
+    @JvmStatic
+    fun getLogCategories(): HashSet<CATEGORY> {
+        return categories
     }
 
     @JvmStatic
