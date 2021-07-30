@@ -24,14 +24,14 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.verify
-import org.junit.Before
 import org.junit.jupiter.api.*
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class LoggingTest {
-    @Before
+    @BeforeAll
     fun setUp() {
         mockkStatic(Log::class)
+        every { Log.e(any(), any()) } returns 0
         every { Log.e(any(), any(), any()) } returns 0
         every { Log.w(any(), any<String>()) } returns 0
         every { Log.i(any(), any()) } returns 0
