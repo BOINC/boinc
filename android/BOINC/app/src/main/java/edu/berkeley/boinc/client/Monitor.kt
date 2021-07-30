@@ -181,7 +181,10 @@ class Monitor : LifecycleService() {
     override fun onCreate() {
         (application as BOINCApplication).appComponent.inject(this)
         super.onCreate()
-        
+
+        // Read User log level and set logLevel of Logging Class
+        Logging.setLogLevel(appPreferences.logLevel)
+
         Log.d(Logging.TAG, "Monitor onCreate()")
 
         // populate attributes with XML resource values
