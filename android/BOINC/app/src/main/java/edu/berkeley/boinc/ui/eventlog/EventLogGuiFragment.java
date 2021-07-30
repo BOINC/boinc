@@ -71,7 +71,7 @@ public class EventLogGuiFragment extends Fragment {
         a.getGuiLogData().clear();
         try {
             String logLevelFilter = Logging.TAG;
-            switch(Logging.LOGLEVEL) {
+            switch(Logging.getLogLevel()) {
                 case 0:
                     return;
                 case 1:
