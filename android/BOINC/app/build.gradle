@@ -164,7 +164,7 @@ android {
 
 ext {
     coroutines_version = "1.5.1"
-    dagger_version = "2.38"
+    dagger_version = "2.38.1"
     lifecycle_version = "2.3.1"
     powermock_version = "2.0.9"
     junit5_version = "5.7.2"
@@ -244,7 +244,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     sourceDirectories.setFrom(files([mainSrc]))
     classDirectories.setFrom(files([debugTree]))
     executionData.setFrom(fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
+            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
             "outputs/code-coverage/debugAndroidTest/connected/coverage.ec"
     ]))
 }
