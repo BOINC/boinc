@@ -86,6 +86,7 @@ def download(os_name, dir, bucket):
 
 def download_all(dir, bucket):
     cleanup(dir)
+    os.makedirs(dir, exist_ok=True)
     objects = s3_list(bucket)
     if objects:
         for object in objects:
