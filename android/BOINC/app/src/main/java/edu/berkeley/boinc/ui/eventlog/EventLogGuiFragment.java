@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.ui.eventlog;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +71,7 @@ public class EventLogGuiFragment extends Fragment {
         a.getGuiLogData().clear();
         try {
             String logLevelFilter = Logging.TAG;
-            switch(Logging.LOGLEVEL) {
+            switch(Logging.getLogLevel()) {
                 case 0:
                     return;
                 case 1:
@@ -106,13 +105,13 @@ public class EventLogGuiFragment extends Fragment {
                 x++;
             }
 
-            Log.v(Logging.TAG, "readLogcat read " + a.getGuiLogData().size() + " lines.");
+            Logging.logVerbose(Logging.Category.DEVICE, "readLogcat read " + a.getGuiLogData().size() + " lines.");
 
             adapter.notifyDataSetChanged();
             binding.getRoot().setRefreshing(false);
         }
         catch(IOException e) {
-            Log.e(Logging.TAG, "readLogcat failed", e);
+            Logging.logException(Logging.Category.DEVICE, "readLogcat failed", e);
         }
     }
 }

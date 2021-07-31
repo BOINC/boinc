@@ -69,7 +69,7 @@ class AccountManagerParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "AccountManagerParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "AccountManagerParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -83,8 +83,8 @@ class AccountManagerParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.accountManagerInfos
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "AccountManagerParser: malformed XML ", e)
-                Log.d(Logging.TAG, "AccountManagerParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "AccountManagerParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "AccountManagerParser: $rpcResult")
 
                 emptyList()
             }

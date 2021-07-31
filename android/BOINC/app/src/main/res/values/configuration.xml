@@ -84,4 +84,26 @@
         <item>cpu_sched_debug</item>
         <item>work_fetch_debug</item>
     </string-array>
+    <string-array name="prefs_gui_log_categories" translatable="false">
+        <item>CLIENT</item>
+        <item>DEVICE</item>
+        <item>GUI_ACTIVITY</item>
+        <item>GUI_VIEW</item>
+        <item>MONITOR</item>
+        <item>PROJECTS</item>
+        <item>PROJECT_SERVICE</item>
+        <item>RPC</item>
+        <item>SETTINGS</item>
+        <item>TASKS</item>
+        <item>USER_ACTION</item>
+        <item>XML</item>
+    </string-array>
+    <string-array name="prefs_gui_log_categories_default" translatable="false">
+        <item>CLIENT</item>
+        <item>DEVICE</item>
+        <item>MONITOR</item>
+        <item>PROJECTS</item>
+        <item>PROJECT_SERVICE</item>
+        <item>TASKS</item>
+    </string-array>
 </resources>

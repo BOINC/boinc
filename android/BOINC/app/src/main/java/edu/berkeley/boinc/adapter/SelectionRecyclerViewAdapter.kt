@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +47,7 @@ class SelectionRecyclerViewAdapter(
         holder.checkBox.isChecked = listItem.isChecked
         holder.checkBox.setOnClickListener { listItem.isChecked = !listItem.isChecked }
         holder.textWrapper.setOnClickListener {
-            Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " +
+            Logging.logDebug(Logging.Category.USER_ACTION, "SelectionListAdapter: onProjectClick open info for: " +
                     listItem.info?.name)
 
             val dialog = newInstance(listItem.info)

@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -194,7 +193,7 @@ class GlobalPreferencesParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "GlobalPreferencesParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "GlobalPreferencesParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -212,8 +211,8 @@ class GlobalPreferencesParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.globalPreferences
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "GlobalPreferencesParser: malformed XML ", e)
-                Log.d(Logging.TAG, "GlobalPreferencesParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "GlobalPreferencesParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "GlobalPreferencesParser: $rpcResult")
 
                 null
             }

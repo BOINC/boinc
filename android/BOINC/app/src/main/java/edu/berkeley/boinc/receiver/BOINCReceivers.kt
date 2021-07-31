@@ -32,7 +32,7 @@ class BootReceiver : BroadcastReceiver() {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             val prefs = AppPreferences(context)
             if (prefs.autostart) {
-                Log.d(Logging.TAG, "BootReceiver autostart enabled, start Monitor...")
+                Logging.logDebug(Logging.Category.DEVICE, "BootReceiver autostart enabled, start Monitor...")
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(Intent(context, Monitor::class.java))
@@ -41,7 +41,7 @@ class BootReceiver : BroadcastReceiver() {
                 }
             } else {
                 // do nothing
-                Log.d(Logging.TAG, "BootReceiver autostart disabled - do nothing")
+                Logging.logDebug(Logging.Category.DEVICE, "BootReceiver autostart disabled - do nothing")
             }
         }
     }
@@ -57,14 +57,14 @@ class PackageReplacedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_PACKAGE_REPLACED) {
             if (intent.dataString.toString().contains("edu.berkeley.boinc")) {
-                Log.d(Logging.TAG, "PackageReplacedReceiver: starting service...")
+                Logging.logDebug(Logging.Category.DEVICE, "PackageReplacedReceiver: starting service...")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(Intent(context, Monitor::class.java))
                 } else {
                     context.startService(Intent(context, Monitor::class.java))
                 }
             } else {
-                Log.d(Logging.TAG, "PackageReplacedReceiver: other package: " + intent.dataString)
+                Logging.logDebug(Logging.Category.DEVICE, "PackageReplacedReceiver: other package: " + intent.dataString)
             }
         }
     }
@@ -73,7 +73,7 @@ class PackageReplacedReceiver : BroadcastReceiver() {
 class PowerConnectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_POWER_CONNECTED) {
-            Log.d(Logging.TAG, "power connected, start service...")
+            Logging.logDebug(Logging.Category.DEVICE, "power connected, start service...")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(Intent(context, Monitor::class.java))
             } else {

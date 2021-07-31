@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,12 +48,12 @@ class AttachActivityItemAdapter(
         val listener = View.OnClickListener {
             when (attachActivityItem.type) {
                 AttachActivityItemType.ACCOUNT_MANAGER -> {
-                    Log.d(Logging.TAG, "AttachActivityItemAdapter: account manager clicked.")
+                    Logging.logVerbose(Logging.Category.USER_ACTION, "AttachActivityItemAdapter: account manager clicked.")
 
                     activity.startAccountManagerActivity()
                 }
                 AttachActivityItemType.ALL_PROJECTS -> {
-                    Log.d(Logging.TAG, "AttachActivityItemAdapter: projects clicked.")
+                    Logging.logVerbose(Logging.Category.USER_ACTION, "AttachActivityItemAdapter: projects clicked.")
 
                     activity.startSelectionProjectActivity()
                 }

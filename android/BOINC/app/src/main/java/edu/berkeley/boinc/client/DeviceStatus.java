@@ -27,7 +27,6 @@ import android.net.NetworkCapabilities;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import androidx.core.content.ContextCompat;
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.Logging;
@@ -92,7 +91,7 @@ public class DeviceStatus {
         change |= determineUserActive();
 
         if(change) {
-            Log.d(Logging.TAG,
+            Logging.logDebug(Logging.Category.DEVICE,
                   "change: " + " - stationary device: " + stationaryDeviceMode + " ; ac: " +
                   status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
                   " ; temperature: " + status.getBatteryTemperatureCelsius() + " ; wifi: " +
@@ -164,7 +163,7 @@ public class DeviceStatus {
             if(!status.isWiFiOnline()) {
                 change = true; // if different from before, set flag
 
-                Log.d(Logging.TAG, "Unlimited Internet connection - WiFi or ethernet - found");
+                Logging.logDebug(Logging.Category.DEVICE, "Unlimited Internet connection - WiFi or ethernet - found");
             }
             status.setWiFiOnline(true);
         }
@@ -226,7 +225,7 @@ public class DeviceStatus {
                 if(!stationaryDeviceMode) { // should not change during run-time. just triggered on initial read
                     change = true;
 
-                    Log.w(Logging.TAG, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing");
+                    Logging.logInfo(Logging.Category.DEVICE, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing");
                 }
                 stationaryDeviceMode = true;
                 setAttributesForStationaryDevice();

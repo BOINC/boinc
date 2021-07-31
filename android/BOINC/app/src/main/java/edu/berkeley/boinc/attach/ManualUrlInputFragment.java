@@ -24,7 +24,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class ManualUrlInputFragment extends DialogFragment {
 
         Button continueButton = v.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(view -> {
-            Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
+            Logging.logVerbose(Logging.Category.USER_ACTION, "ManualUrlInputFragment: continue clicked");
 
             if(!checkDeviceOnline()) {
                 return;
@@ -97,7 +96,7 @@ public class ManualUrlInputFragment extends DialogFragment {
             Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
             toast.show();
             
-            Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!");
+            Logging.logDebug(Logging.Category.GUI_ACTIVITY, "ManualUrlInputFragment not online, stop!");
         }
         return online;
     }

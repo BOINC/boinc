@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -92,7 +91,7 @@ class TransfersParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "TransfersParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "TransfersParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -114,8 +113,8 @@ class TransfersParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.transfers
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "TransfersParser: malformed XML ", e)
-                Log.d(Logging.TAG, "TransfersParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "TransfersParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "TransfersParser: $rpcResult")
 
                 emptyList()
             }

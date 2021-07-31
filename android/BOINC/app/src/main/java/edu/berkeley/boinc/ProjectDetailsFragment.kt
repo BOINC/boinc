@@ -30,7 +30,6 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -71,15 +70,15 @@ class ProjectDetailsFragment : Fragment() {
                 project = BOINCActivity.monitor!!.projects.firstOrNull { it.masterURL == url }
                 projectInfo = BOINCActivity.monitor!!.getProjectInfoAsync(url).await()
             } catch (e: Exception) {
-                Log.e(Logging.TAG, "ProjectDetailsFragment getCurrentProjectData could not" +
+                Logging.logError(Logging.Category.GUI_VIEW, "ProjectDetailsFragment getCurrentProjectData could not" +
                         " retrieve project list")
             }
             if (project == null) {
-                Log.w(Logging.TAG,
+                Logging.logWarning(Logging.Category.GUI_VIEW,
                         "ProjectDetailsFragment getCurrentProjectData could not find project for URL: $url")
             }
             if (projectInfo == null) {
-                Log.d(Logging.TAG,
+                Logging.logDebug(Logging.Category.GUI_VIEW,
                         "ProjectDetailsFragment getCurrentProjectData could not find project" +
                         " attach list for URL: $url")
             }
@@ -109,7 +108,7 @@ class ProjectDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(Logging.TAG, "ProjectDetailsFragment onCreateView")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "ProjectDetailsFragment onCreateView")
 
         // Inflate the layout for this fragment
         _binding = ProjectDetailsLayoutBinding.inflate(inflater, container, false)
@@ -198,7 +197,7 @@ class ProjectDetailsFragment : Fragment() {
                 R.id.projects_control_reset -> showConfirmationDialog(RpcClient.PROJECT_RESET)
                 R.id.projects_control_remove -> showConfirmationDialog(RpcClient.PROJECT_DETACH)
                 else -> {
-                    Log.e(Logging.TAG, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
+                    Logging.logError(Logging.Category.USER_ACTION, "ProjectDetailsFragment onOptionsItemSelected: could not match ID")
                 }
             }
         }
@@ -303,19 +302,19 @@ class ProjectDetailsFragment : Fragment() {
                 binding.statusWrapper.visibility = View.GONE
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "ProjectDetailsFragment.updateChangingItems error: ", e)
+            Logging.logException(Logging.Category.GUI_VIEW, "ProjectDetailsFragment.updateChangingItems error: ", e)
         }
     }
 
     // executes project operations in new thread
     private suspend fun performProjectOperation(operation: Int) = coroutineScope {
-        Log.d(Logging.TAG, "performProjectOperation()")
+        Logging.logVerbose(Logging.Category.USER_ACTION, "performProjectOperation()")
 
         val success = async {
             return@async try {
                 BOINCActivity.monitor!!.projectOp(operation, project!!.masterURL)
             } catch (e: Exception) {
-                Log.e(Logging.TAG, "performProjectOperation() error: ", e)
+                Logging.logException(Logging.Category.USER_ACTION, "performProjectOperation() error: ", e)
 
                 false
             }
@@ -325,15 +324,15 @@ class ProjectDetailsFragment : Fragment() {
             try {
                 BOINCActivity.monitor!!.forceRefresh()
             } catch (e: RemoteException) {
-                Log.e(Logging.TAG, "performProjectOperation() error: ", e)
+                Logging.logException(Logging.Category.USER_ACTION, "performProjectOperation() error: ", e)
             }
         } else {
-            Log.e(Logging.TAG, "performProjectOperation() failed.")
+            Logging.logError(Logging.Category.USER_ACTION, "performProjectOperation() failed.")
         }
     }
 
     private suspend fun updateSlideshowImages() = coroutineScope {
-        Log.d(Logging.TAG,
+        Logging.logDebug(Logging.Category.GUI_VIEW,
                 "UpdateSlideshowImagesAsync updating images in new thread. project:" +
                 " $project!!.masterURL")
 
@@ -341,7 +340,7 @@ class ProjectDetailsFragment : Fragment() {
             slideshowImages = try {
                 BOINCActivity.monitor!!.getSlideshowForProject(project!!.masterURL)
             } catch (e: Exception) {
-                Log.e(Logging.TAG, "updateSlideshowImages: Could not load data, " +
+                Logging.logError(Logging.Category.GUI_VIEW, "updateSlideshowImages: Could not load data, " +
                         "clientStatus not initialized.")
 
                 return@withContext false
@@ -349,7 +348,7 @@ class ProjectDetailsFragment : Fragment() {
             return@withContext slideshowImages.isNotEmpty()
         }
 
-        Log.d(Logging.TAG,
+        Logging.logDebug(Logging.Category.GUI_VIEW,
                 "UpdateSlideshowImagesAsync success: $success, images: ${slideshowImages.size}")
         if (success && slideshowImages.isNotEmpty()) {
             binding.slideshowLoading.visibility = View.GONE

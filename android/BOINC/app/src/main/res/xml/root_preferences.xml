@@ -280,6 +280,14 @@
                 app:key="clientLogFlags"
                 app:title="@string/prefs_client_log_flags_header" />
 
+        <MultiSelectListPreference
+                app:defaultValue="@array/prefs_gui_log_categories_default"
+                app:entries="@array/prefs_gui_log_categories"
+                app:entryValues="@array/prefs_gui_log_categories"
+                app:iconSpaceReserved="false"
+                app:key="guiLogCategories"
+                app:title="@string/prefs_gui_log_categories" />
+
         <SeekBarPreference
                 android:max="5"
                 app:defaultValue="2"

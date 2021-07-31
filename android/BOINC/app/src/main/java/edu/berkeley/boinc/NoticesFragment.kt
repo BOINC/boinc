@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class NoticesFragment : Fragment() {
     private val ifcsc = IntentFilter("edu.berkeley.boinc.clientstatuschange")
     private val mClientStatusChangeRec = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()")
+            Logging.logVerbose(Logging.Category.GUI_VIEW, "NoticesFragment ClientStatusChange - onReceive()")
 
             // data retrieval
             val notices = updateNotices()
@@ -52,7 +51,7 @@ class NoticesFragment : Fragment() {
     private var data: MutableList<Notice> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(Logging.TAG, "NoticesFragment onCreateView")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "NoticesFragment onCreateView")
 
         val binding = NoticesLayoutBinding.inflate(inflater, container, false)
 
@@ -63,7 +62,7 @@ class NoticesFragment : Fragment() {
     }
 
     override fun onResume() {
-        Log.d(Logging.TAG, "NoticesFragment onResume()")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "NoticesFragment onResume()")
 
         activity?.registerReceiver(mClientStatusChangeRec, ifcsc)
 
@@ -71,14 +70,14 @@ class NoticesFragment : Fragment() {
         try {
             BOINCActivity.monitor!!.cancelNoticeNotification()
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "NoticesFragment.onResume error: ", e)
+            Logging.logException(Logging.Category.GUI_VIEW, "NoticesFragment.onResume error: ", e)
         }
         super.onResume()
     }
 
     override fun onPause() {
         //unregister receiver, so there are not multiple intents flying in
-        Log.d(Logging.TAG, "NoticesFragment remove receiver")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "NoticesFragment remove receiver")
 
         activity?.unregisterReceiver(mClientStatusChangeRec)
         super.onPause()
@@ -89,7 +88,7 @@ class NoticesFragment : Fragment() {
             BOINCActivity.monitor!!.rssNotices.sortedWith(compareBy<Notice> { it.createTime }
                     .reversed())
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "NoticesFragment.updateNotices error: ", e)
+            Logging.logException(Logging.Category.GUI_VIEW, "NoticesFragment.updateNotices error: ", e)
 
             emptyList()
         }

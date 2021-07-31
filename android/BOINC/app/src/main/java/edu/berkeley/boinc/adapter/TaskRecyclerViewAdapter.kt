@@ -20,7 +20,6 @@ package edu.berkeley.boinc.adapter
 
 import android.graphics.Bitmap
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -206,7 +205,7 @@ class TaskRecyclerViewAdapter(
         return try {
             BOINCActivity.monitor!!.getProjectIcon(taskList[position].result.projectURL)
         } catch (e: Exception) {
-            Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
+            Logging.logException(Logging.Category.MONITOR, "TasksListAdapter: Could not load data, clientStatus not initialized.", e)
 
             null
         }
@@ -236,7 +235,8 @@ class TaskRecyclerViewAdapter(
                 PROCESS_QUIT_PENDING -> fragment.getString(R.string.tasks_active_quit_pending)
                 PROCESS_SUSPENDED -> fragment.getString(R.string.tasks_active_suspended)
                 else -> {
-                    Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
+                    Logging.logError(Logging.Category.TASKS,"determineStatusText could not map: $status"
+                    )
 
                     ""
                 }
@@ -253,7 +253,8 @@ class TaskRecyclerViewAdapter(
                 RESULT_ABORTED -> fragment.getString(R.string.tasks_result_aborted)
                 RESULT_UPLOAD_FAILED -> fragment.getString(R.string.tasks_result_upload_failed)
                 else -> {
-                    Log.w(Logging.TAG, "determineStatusText could not map: " + tmp.determineState())
+                    Logging.logError(Logging.Category.TASKS,"determineStatusText could not map: $status"
+                    )
 
                     ""
                 }

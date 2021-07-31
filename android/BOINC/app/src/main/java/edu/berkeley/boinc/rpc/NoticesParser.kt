@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -59,7 +58,7 @@ class NoticesParser : BaseParser() {
                     mNotice.createTime = mCurrentElement.toDouble()
                 } else if (localName.equals(Notice.Fields.ARRIVAL_TIME, ignoreCase = true)) {
                     mNotice.arrivalTime = mCurrentElement.toDouble()
-                } else if (localName.equals(Notice.Fields.CATEGORY, ignoreCase = true)) {
+                } else if (localName.equals(Notice.Fields.Category, ignoreCase = true)) {
                     mNotice.category = mCurrentElement.toString()
                     if (mNotice.category.equalsAny("server", "scheduler",
                                     ignoreCase = false)) {
@@ -76,7 +75,7 @@ class NoticesParser : BaseParser() {
             }
             mElementStarted = false
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "NoticesParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "NoticesParser.endElement error: ", e)
         }
     }
 
@@ -89,8 +88,8 @@ class NoticesParser : BaseParser() {
                 Xml.parse(rpcResult.replace("&", "&amp;"), parser)
                 parser.notices
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "NoticesParser: malformed XML ", e)
-                Log.d(Logging.TAG, "NoticesParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "NoticesParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "NoticesParser: $rpcResult")
 
                 emptyList()
             }
