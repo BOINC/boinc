@@ -187,9 +187,9 @@ class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.SEQNO, null, null)
         noticesParser.characters("1".toCharArray(), 0, 1)
         noticesParser.endElement(null, Notice.Fields.SEQNO, null)
-        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null)
+        noticesParser.startElement(null, Notice.Fields.Category, null, null)
         noticesParser.characters("unknown".toCharArray(), 0, 7)
-        noticesParser.endElement(null, Notice.Fields.CATEGORY, null)
+        noticesParser.endElement(null, Notice.Fields.Category, null)
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null)
         expected.seqno = 1
         expected.category = "unknown"
@@ -203,9 +203,9 @@ class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.SEQNO, null, null)
         noticesParser.characters("1".toCharArray(), 0, 1)
         noticesParser.endElement(null, Notice.Fields.SEQNO, null)
-        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null)
+        noticesParser.startElement(null, Notice.Fields.Category, null, null)
         noticesParser.characters("server".toCharArray(), 0, 6)
-        noticesParser.endElement(null, Notice.Fields.CATEGORY, null)
+        noticesParser.endElement(null, Notice.Fields.Category, null)
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null)
         expected.seqno = 1
         expected.category = "server"
@@ -220,9 +220,9 @@ class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.SEQNO, null, null)
         noticesParser.characters("1".toCharArray(), 0, 1)
         noticesParser.endElement(null, Notice.Fields.SEQNO, null)
-        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null)
+        noticesParser.startElement(null, Notice.Fields.Category, null, null)
         noticesParser.characters("scheduler".toCharArray(), 0, 9)
-        noticesParser.endElement(null, Notice.Fields.CATEGORY, null)
+        noticesParser.endElement(null, Notice.Fields.Category, null)
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null)
         expected.seqno = 1
         expected.category = "scheduler"
@@ -237,9 +237,9 @@ class NoticesParserTest {
         noticesParser.startElement(null, Notice.Fields.SEQNO, null, null)
         noticesParser.characters("1".toCharArray(), 0, 1)
         noticesParser.endElement(null, Notice.Fields.SEQNO, null)
-        noticesParser.startElement(null, Notice.Fields.CATEGORY, null, null)
+        noticesParser.startElement(null, Notice.Fields.Category, null, null)
         noticesParser.characters("client".toCharArray(), 0, 6)
-        noticesParser.endElement(null, Notice.Fields.CATEGORY, null)
+        noticesParser.endElement(null, Notice.Fields.Category, null)
         noticesParser.endElement(null, NoticesParser.NOTICE_TAG, null)
         expected.seqno = 1
         expected.category = "client"

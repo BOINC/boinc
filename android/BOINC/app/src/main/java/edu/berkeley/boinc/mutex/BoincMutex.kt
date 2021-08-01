@@ -20,7 +20,6 @@ package edu.berkeley.boinc.mutex
 
 import android.net.LocalSocket
 import android.net.LocalSocketAddress
-import android.util.Log
 import edu.berkeley.boinc.utils.Logging
 import java.io.IOException
 import javax.inject.Inject
@@ -51,7 +50,7 @@ class BoincMutex @Inject constructor(private val socket: LocalSocket) {
             socket.bind(LocalSocketAddress("boinc_mutex"))
             isAcquired = true
         } catch (e: IOException) {
-            Log.e(Logging.TAG, "BoincMutex.acquire error: ", e)
+            Logging.logException(Logging.Category.CLIENT, "BoincMutex.acquire error: ", e)
         }
         return socket.isBound
     }
@@ -65,7 +64,7 @@ class BoincMutex @Inject constructor(private val socket: LocalSocket) {
                 socket.close()
                 isAcquired = false
             } catch (e: IOException) {
-                Log.e(Logging.TAG, "BoincMutex.release error: ", e)
+                Logging.logException(Logging.Category.CLIENT, "BoincMutex.release error: ", e)
             }
         }
     }

@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.client
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
 import edu.berkeley.boinc.R
 import edu.berkeley.boinc.utils.Logging
@@ -40,6 +39,11 @@ class AppPreferences @Inject constructor(val context: Context) {
             field = value
             Logging.setLogLevel(value)
         }
+    var logCategories = prefs.getStringSet("guiLogCategories", context.resources.getStringArray(R.array.prefs_gui_log_categories).toSet())!!.toList()
+        set(value) {
+            field = value
+            Logging.setLogCategories(value)
+        }
     var powerSourceAc = prefs.getBoolean("powerSourceAc", context.resources.getBoolean(R.bool.prefs_power_source_ac))
     var powerSourceUsb = prefs.getBoolean("powerSourceUsb", context.resources.getBoolean(R.bool.prefs_power_source_usb))
     var powerSourceWireless = prefs.getBoolean("powerSourceWireless",
@@ -52,8 +56,9 @@ class AppPreferences @Inject constructor(val context: Context) {
     init {
         Logging.setLogLevel(logLevel)
 
-        Log.d(Logging.TAG,
-                "appPrefs read successful." + autostart + showNotificationForNotices +
-                showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless)
+        Logging.logDebug(Logging.Category.SETTINGS,
+            "appPrefs read successful: autostart: [$autostart] showNotificationForNotices: [$showNotificationForNotices] " +
+            "showAdvanced: [$showAdvanced] logLevel: [$logLevel] powerSourceAc: [$powerSourceAc] powerSourceUsb: [$powerSourceUsb] " +
+            "powerSourceWireless: [$powerSourceWireless] stationaryDeviceMode: [$stationaryDeviceMode] suspendWhenScreenOn: [$suspendWhenScreenOn]")
     }
 }

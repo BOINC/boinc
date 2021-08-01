@@ -76,7 +76,7 @@ data class Notice(
         const val TITLE = "title"
         const val CREATE_TIME = "create_time"
         const val ARRIVAL_TIME = "arrival_time"
-        const val CATEGORY = "category"
+        const val Category = "category"
         const val LINK = "link"
     }
 

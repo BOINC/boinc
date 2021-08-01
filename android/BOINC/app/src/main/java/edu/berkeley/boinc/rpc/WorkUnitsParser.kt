@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -78,7 +77,7 @@ class WorkUnitsParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "WorkUnitsParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "WorkUnitsParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -98,8 +97,8 @@ class WorkUnitsParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.workUnits
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "WorkUnitsParser: malformed XML ", e)
-                Log.d(Logging.TAG, "WorkUnitsParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "WorkUnitsParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "WorkUnitsParser: $rpcResult")
 
                 emptyList()
             }

@@ -20,7 +20,6 @@ package edu.berkeley.boinc.attach
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.berkeley.boinc.BOINCActivity
@@ -46,10 +45,10 @@ class AttachActivity : AppCompatActivity() {
             statusAcctMgrPresent = statusAcctMgr.isPresent
         } catch (e: Exception) {
             // data retrieval failed, continue...
-            Log.e(Logging.TAG, "AcctMgrInfo data retrieval failed.")
+            Logging.logException(Logging.Category.MONITOR, "AcctMgrInfo data retrieval failed.", e)
         }
 
-        var attachActivityItemList = listOf(
+        val attachActivityItemList = listOf(
                 AttachActivityItem(
                         AttachActivityItemType.ALL_PROJECTS,
                         getString(R.string.attachproject_attach_projects_header),

@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -60,7 +59,7 @@ class VersionInfoParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "VersionInfoParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "VersionInfoParser.endElement error: ", e)
         }
         mElementStarted = false // to be clean for next one
     }
@@ -80,8 +79,8 @@ class VersionInfoParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.versionInfo
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "VersionInfoParser: malformed XML ", e)
-                Log.d(Logging.TAG, "VersionInfoParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "VersionInfoParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "VersionInfoParser: $rpcResult")
 
                 null
             }

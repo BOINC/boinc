@@ -26,7 +26,6 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,7 +59,7 @@ class SelectionListActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(Logging.TAG, "AttachProjectListActivity onCreate")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "AttachProjectListActivity onCreate")
 
         doBindService()
 
@@ -70,7 +69,7 @@ class SelectionListActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.d(Logging.TAG, "AttachProjectListActivity onDestroy")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "AttachProjectListActivity onDestroy")
 
         doUnbindService()
         super.onDestroy()
@@ -84,7 +83,7 @@ class SelectionListActivity : AppCompatActivity() {
             val toast = Toast.makeText(applicationContext, R.string.attachproject_list_header, Toast.LENGTH_SHORT)
             toast.show()
 
-            Log.d(Logging.TAG, "AttachProjectListActivity no project selected, stop!")
+            Logging.logDebug(Logging.Category.GUI_VIEW, "AttachProjectListActivity no project selected, stop!")
         }
         return checked
     }
@@ -100,7 +99,7 @@ class SelectionListActivity : AppCompatActivity() {
             val toast = Toast.makeText(applicationContext, R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT)
             toast.show()
 
-            Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!")
+            Logging.logDebug(Logging.Category.GUI_VIEW, "AttachProjectListActivity not online, stop!")
         }
         return online
     }
@@ -120,7 +119,7 @@ class SelectionListActivity : AppCompatActivity() {
             }
         }
 
-        Log.d(Logging.TAG, "SelectionListActivity: selected projects: $selectedProjectsDebug")
+        Logging.logDebug(Logging.Category.GUI_VIEW, "SelectionListActivity: selected projects: $selectedProjectsDebug")
 
         attachService!!.setSelectedProjects(selected) // returns immediately
 
@@ -213,7 +212,7 @@ class SelectionListActivity : AppCompatActivity() {
             try {
                 data = monitor!!.attachableProjects
             } catch (e: RemoteException) {
-                Log.w(Logging.TAG,
+                Logging.logWarning(Logging.Category.MONITOR,
                         "retrieveProjectList(): failed to get attachable projects: $e"
                     )
             }
@@ -221,7 +220,7 @@ class SelectionListActivity : AppCompatActivity() {
                 return@withContext data // Does not matter if data == null or not
             }
             if (data == null) {
-                Log.w(Logging.TAG, "retrieveProjectList(): failed to retrieve data, retry....")
+                Logging.logWarning(Logging.Category.MONITOR, "retrieveProjectList(): failed to retrieve data, retry....")
 
                 delay(500)
             } else {
@@ -229,7 +228,7 @@ class SelectionListActivity : AppCompatActivity() {
             }
         }
 
-        Log.d(Logging.TAG, "monitor.getAttachableProjects returned with " + data!!.size + " elements")
+        Logging.logDebug(Logging.Category.MONITOR, "monitor.getAttachableProjects returned with ${data!!.size} elements")
 
         @Suppress("SENSELESS_COMPARISON")
         if (data != null) {

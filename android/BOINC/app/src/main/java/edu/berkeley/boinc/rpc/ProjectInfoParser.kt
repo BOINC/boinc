@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -92,7 +91,7 @@ class ProjectInfoParser : BaseParser() {
             }
             mElementStarted = false
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "ProjectInfoParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "ProjectInfoParser.endElement error: ", e)
         }
     }
 
@@ -106,8 +105,8 @@ class ProjectInfoParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.projectInfos
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "ProjectInfoParser: malformed XML ", e)
-                Log.d(Logging.TAG, "ProjectInfoParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "ProjectInfoParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "ProjectInfoParser: $rpcResult")
 
                 emptyList()
             }

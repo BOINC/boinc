@@ -20,7 +20,6 @@
 package edu.berkeley.boinc.attach;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,7 @@ public class HintFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(Logging.TAG, "HintFragment onCreateView for hint type: " + type);
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "HintFragment onCreateView for hint type: " + type);
 
         View v = null;
         switch(type) {

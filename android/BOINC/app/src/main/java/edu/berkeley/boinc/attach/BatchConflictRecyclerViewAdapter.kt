@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.attach
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,7 @@ class BatchConflictRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val listItem = entries[position]
 
-        Log.d(Logging.TAG, "BatchConflictListAdapter.getView for: ${listItem.name} at" +
+        Logging.logDebug(Logging.Category.GUI_VIEW, "BatchConflictListAdapter.getView for: ${listItem.name} at" +
                 " position: $position with result: ${listItem.result}")
 
         holder.name.text = listItem.name
@@ -66,7 +65,7 @@ class BatchConflictRecyclerViewAdapter(
             holder.status.text = listItem.resultDescription
             holder.resolveButtonImage.visibility = View.VISIBLE
             holder.resolveItemWrapper.setOnClickListener {
-                Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
+                Logging.logVerbose(Logging.Category.USER_ACTION, "BatchConflictListAdapter: start resolution dialog for: ${listItem.name}")
 
                 val dialog = IndividualCredentialInputFragment.newInstance(listItem)
                 dialog.show(activity.supportFragmentManager, listItem.name)
@@ -86,7 +85,7 @@ class BatchConflictRecyclerViewAdapter(
             holder.status.text = listItem.resultDescription
             holder.resolveButtonImage.visibility = View.VISIBLE
             holder.resolveItemWrapper.setOnClickListener {
-                Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name)
+                Logging.logVerbose(Logging.Category.USER_ACTION, "BatchConflictListAdapter: start resolution dialog for: ${listItem.name}")
 
                 val dialog = IndividualCredentialInputFragment.newInstance(listItem)
                 dialog.show(activity.supportFragmentManager, listItem.name)

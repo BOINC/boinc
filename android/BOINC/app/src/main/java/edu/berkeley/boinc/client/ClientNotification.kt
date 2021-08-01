@@ -25,7 +25,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
@@ -88,8 +87,8 @@ class ClientNotification @Inject constructor(private val context: Context) {
                 for (x in activeTasks.indices) {
                     if (activeTasks[x].name != mOldActiveTasks[x].name) {
                         activeTasksChanged = true
-                        Log.d(
-                            Logging.TAG, "Active task: " + activeTasks[x].name +
+                        Logging.logVerbose(
+                            Logging.Category.TASKS, "Active task: " + activeTasks[x].name +
                                     ", old active task: " +
                                     mOldActiveTasks[x].name
                         )
@@ -106,13 +105,13 @@ class ClientNotification @Inject constructor(private val context: Context) {
         }
 
         // update notification, only if it hasn't been shown before, or after change in status
-        Log.v(
-            Logging.TAG,
+        Logging.logVerbose(
+            Logging.Category.CLIENT,
             "ClientNotification: notification needs update? "
-                    + (mOldComputingStatus == -1)
-                    + activeTasksChanged
-                    + !notificationShown
-                    + (updatedStatus.computingStatus != mOldComputingStatus)
+                    + (mOldComputingStatus == -1) + " "
+                    + activeTasksChanged + " "
+                    + !notificationShown + " "
+                    + (updatedStatus.computingStatus != mOldComputingStatus) + " "
                     + (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
                     && updatedStatus.computingSuspendReason != mOldSuspendReason)
         )
@@ -124,7 +123,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
             // update, build and notify
             nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks))
-            Log.d(Logging.TAG, "ClientNotification: update")
+            Logging.logVerbose(Logging.Category.CLIENT, "ClientNotification: update")
             notificationShown = true
 
             // save status for comparison next time
@@ -143,7 +142,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
     @VisibleForTesting
     internal fun setForegroundState(service: Monitor) {
         service.startForeground(notificationId, n)
-        Log.d(Logging.TAG, "ClientNotification.setForeground() start service as foreground.")
+        Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() start service as foreground.")
         foreground = true
     }
 

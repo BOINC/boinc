@@ -25,7 +25,6 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -56,7 +55,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d(Logging.TAG, "BatchProcessingActivity onCreate")
+        Logging.logVerbose(Logging.Category.GUI_ACTIVITY, "BatchProcessingActivity onCreate")
 
         // setup layout
         binding = AttachProjectBatchProcessingLayoutBinding.inflate(layoutInflater)
@@ -76,7 +75,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.d(Logging.TAG, "BatchProcessingActivity onDestroy")
+        Logging.logVerbose(Logging.Category.GUI_ACTIVITY, "BatchProcessingActivity onDestroy")
 
         super.onDestroy()
         doUnbindService()
@@ -97,11 +96,11 @@ class BatchProcessingActivity : AppCompatActivity() {
     fun continueClicked(@Suppress("UNUSED_PARAMETER") v: View) {
         val conflicts = attachService!!.anyUnresolvedConflicts()
 
-        Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
+        Logging.logDebug(Logging.Category.USER_ACTION, "BatchProcessingActivity.continueClicked: conflicts? $conflicts")
 
         if (conflicts) {
             // conflicts occurred, bring up resolution screen
-            Log.d(Logging.TAG, "attachProject(): conflicts exists, open resolution activity...")
+            Logging.logDebug(Logging.Category.GUI_ACTIVITY, "attachProject(): conflicts exists, open resolution activity...")
 
             startActivity(Intent(this@BatchProcessingActivity,
                     BatchConflictListActivity::class.java).apply {
@@ -120,7 +119,7 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // triggered by share button
     fun shareClicked(@Suppress("UNUSED_PARAMETER") v: View) {
-        Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.")
+        Logging.logVerbose(Logging.Category.USER_ACTION, "BatchProcessingActivity.shareClicked.")
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
@@ -150,7 +149,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     private fun adaptHintHeader() {
         val position = binding.hintContainer.currentItem
 
-        Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: $position")
+        Logging.logVerbose(Logging.Category.GUI_VIEW, "BatchProcessingActivity.adaptHintHeader position: $position")
 
         val hintText = getString(R.string.attachproject_hints_header) + " ${position + 1}/$NUM_HINTS"
         binding.hintHeaderText.text = hintText
@@ -169,14 +168,14 @@ class BatchProcessingActivity : AppCompatActivity() {
 
     // previous image in hint header clicked
     fun previousHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        Log.d(Logging.TAG, "BatchProcessingActivity.previousHintClicked.")
+        Logging.logVerbose(Logging.Category.USER_ACTION, "BatchProcessingActivity.previousHintClicked.")
 
         binding.hintContainer.currentItem--
     }
 
     // previous image in hint header clicked
     fun nextHintClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        Log.d(Logging.TAG, "BatchProcessingActivity.nextHintClicked.")
+        Logging.logVerbose(Logging.Category.USER_ACTION, "BatchProcessingActivity.nextHintClicked.")
 
         binding.hintContainer.currentItem++
     }
@@ -216,7 +215,7 @@ class BatchProcessingActivity : AppCompatActivity() {
     }
 
     private suspend fun attachProject() {
-        Log.d(Logging.TAG, "attachProject(): ${attachService!!.numberOfSelectedProjects}" +
+        Logging.logDebug(Logging.Category.PROJECTS, "attachProject(): ${attachService!!.numberOfSelectedProjects}" +
                 " projects to attach....")
 
         // shown while project configs are loaded
@@ -225,13 +224,13 @@ class BatchProcessingActivity : AppCompatActivity() {
         withContext(Dispatchers.Default) {
             // wait until service is ready
             while (!attachService!!.projectConfigRetrievalFinished) {
-                Log.d(Logging.TAG, "attachProject(): project config retrieval has" +
+                Logging.logDebug(Logging.Category.PROJECTS, "attachProject(): project config retrieval has" +
                         " not finished yet, wait...")
 
                 delay(1000)
             }
 
-            Log.d(Logging.TAG, "attachProject(): project config retrieval finished," +
+            Logging.logDebug(Logging.Category.PROJECTS, "attachProject(): project config retrieval finished," +
                     " continue with attach.")
 
             // attach projects, one at a time
@@ -239,16 +238,16 @@ class BatchProcessingActivity : AppCompatActivity() {
                     // skip already tried projects in batch processing
                     .filter { it.result == RESULT_READY }
                     .onEach {
-                        Log.d(Logging.TAG, "attachProject(): trying: ${it.info?.name}")
+                        Logging.logDebug(Logging.Category.PROJECTS, "attachProject(): trying: ${it.info?.name}")
 
                         binding.attachStatusText.text = getString(R.string.attachproject_working_attaching,
                                 it.info?.name)
                     }
                     .map { it.lookupAndAttach(false) }
                     .filter { it != RESULT_SUCCESS }
-                    .forEach { Log.e(Logging.TAG, "attachProject() attach returned conflict: $it") }
+                    .forEach { Logging.logError(Logging.Category.PROJECTS, "attachProject() attach returned conflict: $it") }
 
-            Log.d(Logging.TAG, "attachProject(): finished.")
+            Logging.logDebug(Logging.Category.PROJECTS, "attachProject(): finished.")
         }
 
         binding.attachStatusOngoingWrapper.visibility = View.GONE

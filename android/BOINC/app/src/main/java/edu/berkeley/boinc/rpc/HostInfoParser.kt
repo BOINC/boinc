@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -114,7 +113,7 @@ class HostInfoParser : BaseParser() {
                 }
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "HostInfoParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "HostInfoParser.endElement error: ", e)
         }
         mElementStarted = false
     }
@@ -134,8 +133,8 @@ class HostInfoParser : BaseParser() {
                 Xml.parse(rpcResult, parser)
                 parser.hostInfo
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "HostInfoParser: malformed XML ", e)
-                Log.d(Logging.TAG, "HostInfoParser: $rpcResult")
+                Logging.logException(Logging.Category.RPC, "HostInfoParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "HostInfoParser: $rpcResult")
 
                 null
             }

@@ -20,7 +20,6 @@ package edu.berkeley.boinc.adapter
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
@@ -56,7 +55,7 @@ class NoticesRecyclerViewAdapter(
         holder.root.setOnClickListener {
             val link = listItem.link
 
-            Log.d(Logging.TAG, "noticeClick: $link")
+            Logging.logDebug(Logging.Category.USER_ACTION, "noticeClick: $link")
 
             if (link.isNotEmpty()) {
                 fragment.requireActivity().startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
@@ -64,7 +63,6 @@ class NoticesRecyclerViewAdapter(
         }
 
         val icon = getIcon(position)
-        // if available set icon, if not boinc logo
         // if available set icon, if not boinc logo
         if (icon == null) {
             holder.projectIcon.setImageResource(R.drawable.ic_boinc)
@@ -83,7 +81,7 @@ class NoticesRecyclerViewAdapter(
         return try {
             BOINCActivity.monitor!!.getProjectIconByName(notices[position].projectName)
         } catch (e: Exception) {
-            Log.w(Logging.TAG, "TasksListAdapter: Could not load data, clientStatus not initialized.")
+            Logging.logException(Logging.Category.MONITOR, "TasksListAdapter: Could not load data, clientStatus not initialized.", e)
 
             null
         }

@@ -18,7 +18,6 @@
  */
 package edu.berkeley.boinc.rpc
 
-import android.util.Log
 import android.util.Xml
 import edu.berkeley.boinc.utils.Logging
 import org.xml.sax.Attributes
@@ -57,7 +56,7 @@ class MessageCountParser : BaseParser() {
                 mParsed = true
             }
         } catch (e: Exception) {
-            Log.e(Logging.TAG, "MessageCountParser.endElement error: ", e)
+            Logging.logException(Logging.Category.XML, "MessageCountParser.endElement error: ", e)
         }
         mCurrentElement.setLength(0)
     }
@@ -71,8 +70,8 @@ class MessageCountParser : BaseParser() {
                 Xml.parse(reply, parser)
                 parser.seqno
             } catch (e: SAXException) {
-                Log.e(Logging.TAG, "MessageCountParser: malformed XML ", e)
-                Log.d(Logging.TAG, "MessageCountParser: $reply")
+                Logging.logException(Logging.Category.RPC, "MessageCountParser: malformed XML ", e)
+                Logging.logDebug(Logging.Category.XML, "MessageCountParser: $reply")
 
                 -1
             }
