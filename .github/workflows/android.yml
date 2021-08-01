@@ -98,6 +98,13 @@ jobs:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/android_${{ matrix.type }}/*.7z
 
+      - name: Upload JUnit Tests Results
+        uses: actions/upload-artifact@v2
+        if: matrix.type == 'manager'      # run this step even if previous step failed
+        with:
+          name: Android_tests_results
+          path: android/BOINC/app/build/test-results/testDebugUnitTest/TEST-*.xml
+
       - name: Upload coverage report
         uses: codecov/codecov-action@v1
         if: ${{ success() && matrix.type == 'manager' }}

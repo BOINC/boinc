@@ -1,7 +1,7 @@
 name: 'Test Report'
 on:
   workflow_run:
-    workflows: [Linux, Android]        # runs after These workflow
+    workflows: [Linux, Android]        # runs after these workflow
     types:
       - completed
 
