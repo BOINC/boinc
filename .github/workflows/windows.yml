@@ -103,7 +103,13 @@ jobs:
         with:
           name: win_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/win_manager/*.7z
-      
+
+      - name: Upload Google Tests Results
+        uses: actions/upload-artifact@v2        
+        with:
+          name: Windows_tests_results
+          path: "win_build/Build/${{ matrix.platform }}/${{ matrix.configuration }}/**/gtest.xml"
+
       - name: Upload coverage report
         uses: codecov/codecov-action@v1
         if: success()
