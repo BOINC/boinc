@@ -102,7 +102,7 @@ jobs:
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
-        run: ./tests/executeUnitTests.sh --report-coverage
+        run: ./tests/executeUnitTests.sh --report-coverage --report-xml
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
@@ -134,6 +134,13 @@ jobs:
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}/*.7z
+
+      - name: Upload Google Tests Results
+        uses: actions/upload-artifact@v2        
+        if: matrix.type == 'unit-test'    # run this step even if previous step failed
+        with:
+          name: Linux_tests_results
+          path: "tests/gtest/**/*_xml_report.xml"
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v1
