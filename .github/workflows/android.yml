@@ -1,11 +1,7 @@
 name: Android
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron:  '5 12 * * 0'
+    branches: [ master, client_release/7/7.18 ]
 
 jobs:
   build:
