@@ -1,12 +1,62 @@
 # Status
 
-| Build Status | Code Quality |
-| --- | --- |
-| [![Build Status](https://github.com/BOINC/boinc/workflows/Android/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Android+branch:master) | [![codecov](https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg)](https://codecov.io/gh/BOINC/boinc) |
-| [![Build Status](https://github.com/BOINC/boinc/workflows/Linux/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Linux+branch:master) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) |
-| [![Build Status](https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Linux-MinGW+branch:master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master) |
-| [![Build Status](https://github.com/BOINC/boinc/workflows/OSX/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:OSX+branch:master) | |
-| [![Build Status](https://github.com/BOINC/boinc/workflows/Windows/badge.svg)](https://github.com/BOINC/boinc/actions?query=workflow:Windows+branch:master) | |
+<table>
+   <thead>
+      <tr>
+         <th align="center" colspan="2">Build Status</th>
+         <th>Code Quality</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr> <!--- Android --->
+         <td>
+            <a href="https://github.com/BOINC/boinc/actions?query=workflow:Android+branch:master"><img src="https://github.com/BOINC/boinc/workflows/Android/badge.svg"/></a>
+         </td>           
+         <td>
+            <a href="https://github.com/BOINC/boinc/runs/3225198197"><img src="https://camo.githubusercontent.com/5a186ef50a2217807968e4372e9ef7f80d3f8d9e6d05159aa8c5cda5ac67c5ef/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f74657374732d3739392532307061737365642d73756363657373"/></a>
+         </td>
+         <td>
+            <a href="https://codecov.io/gh/BOINC/boinc"><img src="https://codecov.io/gh/BOINC/boinc/branch/master/graph/badge.svg"/></a>
+         </td>
+      </tr>
+      <tr> <!--- Linux --->
+         <td>
+            <a href="https://github.com/BOINC/boinc/actions?query=workflow:Linux+branch:master"><img src="https://github.com/BOINC/boinc/workflows/Linux/badge.svg"/></a>
+         </td>
+         <td>
+            <a href="https://github.com/BOINC/boinc/runs/3225037007"><img src="https://camo.githubusercontent.com/0bc8318cbd6bf2a96039b53f47542d522b5b298a0686a282df0ef10e63e6af7c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f74657374732d34342532307061737365642d73756363657373"/></a>
+         </td>
+         <td>
+            <a href="https://scan.coverity.com/projects/boinc-boinc"><img src="https://scan.coverity.com/projects/4226/badge.svg"/></a>
+         </td>
+      </tr>
+      <tr> <!--- Linux MinGW --->
+         <td>
+            <a href="https://github.com/BOINC/boinc/actions?query=workflow:Linux-MinGW+branch:master"><img src="https://github.com/BOINC/boinc/workflows/Linux-MinGW/badge.svg"/></a>
+         </td>
+         <td></td>
+         <td>
+            <a href="https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master"><img src="https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master"/></a>
+         </td>
+      </tr>     
+      <tr> <!--- OSX --->
+         <td>
+            <a href="https://github.com/BOINC/boinc/actions?query=workflow:OSX+branch:master"><img src="https://github.com/BOINC/boinc/workflows/OSX/badge.svg"/></a>
+         </td>
+         <td></td>
+         <td></td>
+      </tr>
+      <tr> <!--- Windows --->
+         <td>
+            <a href="https://github.com/BOINC/boinc/actions?query=workflow:Windows+branch:master"><img src="https://github.com/BOINC/boinc/workflows/Windows/badge.svg"/></a>
+         </td>
+         <td>
+            <a href="https://github.com/BOINC/boinc/runs/3225053118"><img src="https://camo.githubusercontent.com/32c94f225cbe8ecd95b44d3142413520d5cbbc407618bed511681f92ef6f43cb/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f74657374732d34302532307061737365642d73756363657373"/></a>
+         </td>         
+         <td></td>
+      </tr>
+   </tbody>
+</table>
 
 # Social
 
