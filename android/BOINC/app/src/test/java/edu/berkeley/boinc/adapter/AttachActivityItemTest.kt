@@ -31,7 +31,7 @@ class AttachActivityItemTest {
         val item = AttachActivityItem(type, text, description)
 
         Assertions.assertEquals(type, item.type)
-        Assertions.assertEquals(text, item.text)
+        Assertions.assertEquals(text, item.type)
         Assertions.assertEquals(description, item.description)
     }
 
