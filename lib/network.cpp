@@ -218,18 +218,19 @@ int resolve_hostname_or_ip_addr(
 }
 
 int boinc_socket(int& fd, int protocol) {
-    fd = (int)socket(protocol, SOCK_STREAM, 0);
-    if (fd < 0) {
+    int tfd = (int)socket(protocol, SOCK_STREAM, 0);
+    if (tfd < 0) {
         char buf[256];
         snprintf(buf, sizeof(buf), "%s socket()", time_to_string(dtime()));
         perror(buf);
         return ERR_SOCKET;
     }
 #ifndef _WIN32
-    if (-1 == fcntl(fd, F_SETFD, FD_CLOEXEC)) {
+    if (-1 == fcntl(tfd, F_SETFD, FD_CLOEXEC)) {
         return ERR_FCNTL;
     }
 #endif
+    fd = tfd;
     return 0;
 }
 
