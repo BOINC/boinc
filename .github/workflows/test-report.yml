@@ -16,4 +16,3 @@ jobs:
         path: '*.xml'                  # Path to test results (inside artifact .zip)
         reporter: java-junit
         fail-on-error: false
-        token: $1
