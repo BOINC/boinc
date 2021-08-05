@@ -82,18 +82,26 @@ def read_vcpkg_abi_info(archive, package, packages):
         print('Failed to read the file', file_name, 'from', archive, ':', ex)
         return ''
 
-def mark_outdated_packages(packages):
+def mark_outdated_packages(packages, modification_dates):
     outdated = []
     for architecture in packages:
         for package in packages[architecture]:
-            if (len(packages[architecture][package]) == 1):
-                continue
+            archives_with_same_version = {}
             max_version = sorted(packages[architecture][package].keys(), reverse=True)[0]
             for version in packages[architecture][package]:
                 if (version != max_version):
                     for archive in packages[architecture][package][version]:
                         outdated.append(archive)
-
+                else:
+                    if (len(packages[architecture][package][version]) == 1):
+                        continue
+                    for archive in packages[architecture][package][version]:
+                        if (modification_dates[archive] not in archives_with_same_version and archive in modification_dates):
+                            archives_with_same_version[modification_dates[archive]] = archive
+                    max_date = sorted(archives_with_same_version.keys(), reverse=True)[0]
+                    for archive in packages[architecture][package][version]:
+                        if (archive != archives_with_same_version[max_date]):
+                            outdated.append(archive)
     return outdated
 
 def get_hash_list(packages):
@@ -175,10 +183,10 @@ bucket_name = sys.argv[2]
 access_key = sys.argv[3]
 secret_key = sys.argv[4]
 
-s3.download_all(dir_name, bucket_name)
+modification_dates = s3.download_all(dir_name, bucket_name)
 packages = get_packages(get_files(dir_name))
 print_packages(packages)
-outdated = mark_outdated_packages(packages)
+outdated = mark_outdated_packages(packages, modification_dates)
 
 mark_duplicate_packages(packages, outdated)
 print('Outdated packages:')
