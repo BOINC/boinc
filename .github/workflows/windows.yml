@@ -105,7 +105,8 @@ jobs:
           path: deploy/win_manager/*.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@v2        
+        uses: actions/upload-artifact@v2
+        if: always()        
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{ matrix.platform }}/${{ matrix.configuration }}/**/gtest.xml"
