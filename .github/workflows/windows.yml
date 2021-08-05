@@ -105,6 +105,7 @@ jobs:
           path: deploy/win_manager/*.7z
 
       - name: Upload Google Tests Results
+        if: always()
         uses: actions/upload-artifact@v2        
         with:
           name: Windows_tests_results

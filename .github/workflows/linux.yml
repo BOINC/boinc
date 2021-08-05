@@ -137,7 +137,7 @@ jobs:
 
       - name: Upload Google Tests Results
         uses: actions/upload-artifact@v2        
-        if: matrix.type == 'unit-test'    # run this step even if previous step failed
+        if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
           path: "tests/gtest/**/*_xml_report.xml"
