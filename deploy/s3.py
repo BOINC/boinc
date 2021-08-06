@@ -66,6 +66,8 @@ def cleanup(dir):
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                cleanup(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
@@ -85,6 +87,7 @@ def download(os_name, dir, bucket):
                 s3_download(local_file, key, bucket)
 
 def download_all(dir, bucket):
+    files = {}
     cleanup(dir)
     os.makedirs(dir, exist_ok=True)
     objects = s3_list(bucket)
@@ -92,7 +95,9 @@ def download_all(dir, bucket):
         for object in objects:
             key = object['Key']
             local_file = os.path.join(dir, key)
+            files[local_file] = object['LastModified']
             s3_download(local_file, key, bucket)
+    return files
 
 def s3_remove(s3_file, bucket, access_key, secret_key):
     print('Removing', s3_file)
