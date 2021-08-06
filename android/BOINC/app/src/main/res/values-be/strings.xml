@@ -61,7 +61,6 @@
   <string name="menu_help">Дапамога</string>
   <!--about dialog-->
   <string name="about_name">BOINC</string>
-  <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing Адчыненая Інфраструктура для Размеркаваных Вылічэнняў універсітэта Берклі</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <!--multi BOINC compatibility-->
   <!--social integration-->

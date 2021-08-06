@@ -114,19 +114,15 @@
   <string name="prefs_stationary_device_mode_header">Стационарный режим работы устройства</string>
   <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включать только в том случае, если устройство не оснащено аккумулятором.</string>
   <string name="prefs_power_source_header">Источники питания для вычислений</string>
-  <string name="prefs_power_source_description">Выбор источников питания, которые BOINC может использовать для вычислений.</string>
   <string name="prefs_power_source_ac">Розетки</string>
   <string name="prefs_power_source_usb">USB-подключение</string>
   <string name="prefs_power_source_wireless">Беспроводное зарядное устройство</string>
   <string name="prefs_power_source_battery">Аккумулятор</string>
   <string name="battery_charge_min_pct_header">Мин. уровень заряда батареи (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
   <string name="battery_temperature_max_header">Макс. температура батареи (°C)</string>
-  <string name="battery_temperature_max_description">BOINC приостановит расчёты, когда температура батареи превысит указанный уровень. Не рекомендуется менять это значение.</string>
   <string name="prefs_disk_max_pct_header">Макс. используемое пространство памяти (%)</string>
   <string name="prefs_disk_min_free_gb_header">Мин. свободное пространство (ГБ)</string>
   <string name="prefs_disk_access_interval_header">Период доступа (секунды)</string>
-  <string name="prefs_disk_access_interval_description">Предлагает интервал между обращениями к диску</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Ежедневный предел передачи (МБ)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Ежедневный предел передачи (Дни)</string>
   <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
@@ -134,7 +130,6 @@
   <string name="prefs_remote_header">Включить дистанционное управление</string>
   <string name="prefs_remote_summary">При изменении клиент BOINC будет перезапущен.</string>
   <string name="prefs_show_notification_notices_header">Показывать уведомления о поступлении новых сообщений</string>
-  <string name="prefs_show_notification_suspended_header">Показывать уведомление когда приостановлено</string>
   <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
   <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
   <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше (%)</string>
@@ -142,7 +137,6 @@
   <string name="prefs_cpu_time_max_header">Предельное время процессора (%)</string>
   <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
   <string name="prefs_memory_max_idle_header">Ограничение ОЗУ (%)</string>
-  <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Буфер для задач (дней)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач (дней)</string>
   <string name="prefs_remote_authentication_key">Ключ аутентификации GUI</string>
@@ -225,7 +219,6 @@
   <string name="trans_suspended">приостановлено</string>
   <string name="trans_active">активна</string>
   <string name="trans_pending">ожидает</string>
-  <string name="trans_header_name">Файл:</string>
   <string name="trans_control_retry">Повторить передачи</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Сообщения клиента</string>
@@ -265,7 +258,6 @@
   <string name="menu_emailto">Отправить письмом</string>
   <string name="menu_copy">Копировать в буфер обмена</string>
   <string name="menu_eventlog">Журнал событий</string>
-  <string name="menu_exit">Выйти из BOINC</string>
   <string name="menu_run_mode_disable">Приостановить</string>
   <string name="menu_run_mode_enable">Возобновить</string>
   <string name="menu_about">О</string>
@@ -276,7 +268,6 @@
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия %1$s</string>
-  <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
   <string name="about_copyright">\u00A9 2003–2021 Калифорнийский университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
   <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>

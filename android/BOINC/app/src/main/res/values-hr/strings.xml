@@ -78,7 +78,6 @@
   <string name="menu_help">Pomoć</string>
   <!--about dialog-->
   <string name="about_name">BOINC</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright_reserved">Sva prava pridržana.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <!--multi BOINC compatibility-->

@@ -109,24 +109,19 @@
   <string name="prefs_stationary_device_mode_header">Gailu-egonkor modua</string>
   <string name="prefs_stationary_device_mode_description">Konputazioa baimentzen du energia hobespenei jaramonik egin gabe. Gaitu soilik gailuak bateriarik ez badu.</string>
   <string name="prefs_power_source_header">Konputaziorako energia iturriak</string>
-  <string name="prefs_power_source_description">BOINCek konputaziorako erabil ditzakeen energia iturriak aukeratzen ditu.</string>
   <string name="prefs_power_source_ac">Lokia</string>
   <string name="prefs_power_source_usb">USB konexioa</string>
   <string name="prefs_power_source_wireless">Haririk gabeko kargagailua</string>
   <string name="prefs_power_source_battery">Bateria</string>
   <string name="battery_charge_min_pct_header">Bateriaren gutxieneko karga-maila</string>
-  <string name="battery_charge_min_pct_description">BOINCek konputazioa eteten du bateriaren karga-maila zehaztutakoa baino baxuagoa denean.</string>
   <string name="battery_temperature_max_header">Bateriaren gehieneko tenperatura</string>
-  <string name="battery_temperature_max_description">BOINCek konputazioa eteten du bateriaren tenperatura zehaztutakoa baino altuagoa denean. Ez da gomendatzen balio hau aldatzea.</string>
   <string name="prefs_disk_max_pct_header">Erabilitako gehieneko biltegiratze tamaina</string>
   <string name="prefs_disk_min_free_gb_header">Gutxieneko biltegiratze tamaina libre</string>
   <string name="prefs_disk_access_interval_header">Sartzeko denbora-tartea</string>
-  <string name="prefs_disk_access_interval_description">Diskoko atzipenen arteko denbora-tartea iradokitzen du</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Eguneko transferentzia muga</string>
   <string name="prefs_network_wifi_only_header">Transferitu atazak soilik WiFia dagoenean</string>
   <string name="prefs_autostart_header">Abiarazte automatikoa</string>
   <string name="prefs_show_notification_notices_header">Erakutsi ohar berrien jakinarazpenak</string>
-  <string name="prefs_show_notification_suspended_header">Erakutsi jakinarazpena etenda dagoenean</string>
   <string name="prefs_cpu_number_cpus_header">Erabilitako prozesadore-nukleoak</string>
   <string name="prefs_cpu_number_cpus_description">BOINCek konputaziorako erabiltzen dituen prozesadore-nukleo kopurua mugatzen du.</string>
   <string name="prefs_cpu_other_load_suspension_header">Eten PUZaren erabilerak maila hau gainditzen badu:</string>
@@ -134,7 +129,6 @@
   <string name="prefs_cpu_time_max_header">PUZ muga</string>
   <string name="prefs_cpu_time_max_description">Mugatu BOINCek konputaziorako erabiltzen duen PUZ denbora.</string>
   <string name="prefs_memory_max_idle_header">RAM memoriaren muga</string>
-  <string name="prefs_memory_max_idle_description">Atazek erabil dezaketen RAM kopurua mugatzen du.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Lan-unitateen bufferra</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Lan-unitateen buffer gehigarria</string>
   <string name="prefs_client_log_flags_header">BOINC bezeroaren erregistro banderak</string>
@@ -209,7 +203,6 @@
   <string name="trans_suspended">etenda</string>
   <string name="trans_active">aktibo</string>
   <string name="trans_pending">egiteke</string>
-  <string name="trans_header_name">Fitxategia:</string>
   <string name="trans_control_retry">Saiatu transferentziak gauzatzen</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Bezeroaren mezuak</string>
@@ -249,7 +242,6 @@
   <string name="menu_emailto">Bidali posta elektroniko moduan</string>
   <string name="menu_copy">Kopiatu arbelean</string>
   <string name="menu_eventlog">Gertaeren erregistroa</string>
-  <string name="menu_exit">Irten BOINCetik</string>
   <string name="menu_run_mode_disable">Eten</string>
   <string name="menu_run_mode_enable">Berrekin</string>
   <string name="menu_about">Honi buruz</string>
@@ -260,7 +252,6 @@
   <string name="about_title">Honi buruz</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Bertsioa %1$s</string>
-  <string name="about_name_long">Sare bidezko Konputaziorako Berkeleyko Azpiegitura Irekia</string>
   <string name="about_copyright">\u00A9 2003–2021 Kaliforniako Unibertsitatea Berkeleyn.</string>
   <string name="about_copyright_reserved">Eskubide guztiak erreserbatuta.</string>
   <string name="about_credits">Eskerrik asko Max Planck-en Grabitazioaren Fisikako Institutuari, IBM Korporazioari eta HTC Korporazioari beraien laguntzagatik.</string>

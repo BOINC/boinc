@@ -95,11 +95,9 @@
   <string name="prefs_power_source_usb">USB连接</string>
   <string name="prefs_power_source_wireless">无线充电</string>
   <string name="prefs_power_source_battery">电池</string>
-  <string name="prefs_disk_access_interval_description">设置独写存储设备的时间间隔</string>
   <string name="prefs_network_wifi_only_header">只通过WiFi传输</string>
   <string name="prefs_autostart_header">自动开始</string>
   <string name="prefs_show_notification_notices_header">显示通知消息</string>
-  <string name="prefs_show_notification_suspended_header">暂停时显示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用的CPU核心数</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC计算时使用的CPU核心数</string>
   <!--projects tab strings-->

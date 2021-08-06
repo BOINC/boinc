@@ -52,7 +52,6 @@
   <string name="menu_run_mode_enable">Retomar</string>
   <string name="menu_help">Axuda</string>
   <!--about dialog-->
-  <string name="about_name_long">Infraestrutura Aberta para Computación en Rede de Berkeley (BOINC)</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <!--multi BOINC compatibility-->
   <!--social integration-->

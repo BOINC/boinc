@@ -111,7 +111,6 @@
   <string name="prefs_power_source_battery">แบตเตอรี่</string>
   <string name="prefs_network_wifi_only_header">ส่งงานบน WiFi เท่านั้น</string>
   <string name="prefs_autostart_header">เริ่มต้นอัตโนมัติ</string>
-  <string name="prefs_show_notification_suspended_header">แสดงการแจ้งเตือนเมื่อถูกระงับ</string>
   <!--projects tab strings-->
   <string name="projects_add">เพิ่มโครงการ</string>
   <string name="projects_credits">เครดิต:</string>
@@ -158,7 +157,6 @@
   <string name="trans_download">ดาวน์โหลด</string>
   <string name="trans_failed">ล้มเหลว</string>
   <string name="trans_suspended">ระงับแล้ว</string>
-  <string name="trans_header_name">ไฟล์:</string>
   <!--eventlog tab strings-->
   <string name="eventlog_copy_toast">คัดลอก log ไปที่คลิปบอร์ดแล้ว</string>
   <!--suspend reasons-->
@@ -174,7 +172,6 @@
   <string name="menu_refresh">รีเฟรช</string>
   <string name="menu_emailto">ส่งเป็นอีเมล์</string>
   <string name="menu_copy">คัดลอกไปยังคลิปบอร์ด</string>
-  <string name="menu_exit">ออกจาก BOINC</string>
   <string name="menu_run_mode_disable">ระงับ</string>
   <string name="menu_run_mode_enable">ทำต่อ</string>
   <string name="menu_about">เกี่ยวกับ</string>
@@ -183,7 +180,6 @@
   <string name="about_button">กลับ</string>
   <string name="about_title">เกี่ยวกับ</string>
   <string name="about_name">BOINC</string>
-  <string name="about_name_long">เบิร์กลีย์เปิดโครงสร้างพื้นฐานสำหรับเครือข่ายคอมพิวเตอร์</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="other">มี %2$,d ประกาศใหม่</item>

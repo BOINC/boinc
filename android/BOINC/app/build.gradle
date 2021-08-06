@@ -62,7 +62,7 @@ def buildVersionName() {
     return versionName
 }
 
-preBuild.doFirst {
+def checkAssetsFiles() {
     def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
     def clientName      = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
     def clientCabundle  = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
@@ -79,6 +79,230 @@ preBuild.doFirst {
     assert file(assets + allProjectsList).exists()
     assert file(assets + nomedia).exists()
     assert file(assets + client_config).exists()
+}
+
+static def isStringXmlInValuesFolder(fileName) {
+    return fileName.absolutePath.endsWith('/values/strings.xml') ||
+            fileName.absolutePath.endsWith('\\values\\strings.xml')
+}
+
+static def isStringXmlInValuesFolder(fileName, language) {
+    return fileName.absolutePath.endsWith('/values-' + language + '/strings.xml') ||
+            fileName.absolutePath.endsWith('\\values-' + language + '\\strings.xml')
+}
+
+static def isStringXml(fileName) {
+    return fileName.absolutePath.endsWith('strings.xml') && !isStringXmlInValuesFolder(fileName)
+}
+
+static def buildStringsMapFromXml(fileName) {
+    def stringsMap = new HashMap<String, Boolean>()
+    def xmlParser = new XmlParser()
+    def xml = xmlParser.parse(fileName)
+    xml.string.each {
+        stringsMap.put(it.@name, false)
+    }
+    return stringsMap
+}
+
+static def buildStringsTranslationsMapFromXml(fileName) {
+    def stringsTranslationsMap = new HashMap<String, String>()
+    def xmlParser = new XmlParser()
+    def xml = xmlParser.parse(fileName)
+    xml.string.each {
+        stringsTranslationsMap.put(it.@name, it.text())
+    }
+    return stringsTranslationsMap
+}
+
+static def compareTwoStringsTranslationsMaps(map1, map2) {
+    def mapKeys = new HashSet<String>()
+    def mapValues = new HashSet<String>()
+    map1.keySet().each {
+        if (!map2.containsKey(it)) {
+            mapKeys.add(it)
+        } else {
+            if (map1.get(it) != map2.get(it)) {
+                mapValues.add(it)
+            }
+        }
+    }
+
+    if (mapKeys.size() > 0) {
+        println "The following keys are missed:"
+        mapKeys.each {
+            println it
+        }
+    }
+    if (mapValues.size() > 0) {
+        println "The following values are different:"
+        mapValues.each {
+            println it
+        }
+    }
+
+    return mapKeys.isEmpty() && mapValues.isEmpty()
+}
+
+static def findKeysFromTheSecondHashMapThatAreNotPresentInTheFirstHashMap(map1, map2) {
+    def keys = new HashSet<String>()
+    map2.keySet().each {    // iterate over the keys of map2
+        if(!map1.containsKey(it)) {
+            keys.add(it)
+        }
+    }
+    return keys
+}
+
+static def doBinaryValidation(mainFile, dependentFile) {
+    def mainFileContent = mainFile.getText('UTF-8')
+    def dependentFileContent = dependentFile.getText('UTF-8')
+    if (mainFileContent != dependentFileContent) {
+        def dependentFilePath = dependentFile.getParentFile()
+        println "Binary validation for " + dependentFile + " failed!"
+        println "Consider copying " + mainFile + " to " + dependentFilePath
+        println "or running next command:"
+        println "cp " + mainFile + " " + dependentFilePath
+        return false
+    }
+    return true
+}
+
+def validateTranslations() {
+    def mainStringsFile = android.sourceSets.main.res.sourceFiles.find {
+            isStringXmlInValuesFolder(it)
+    }
+    assert mainStringsFile != null, "No strings.xml file found in values folder"
+
+    def translationStringsFiles = android.sourceSets.main.res.sourceFiles.filter {
+            isStringXml(it)
+    }.files.toList()
+    assert translationStringsFiles.size() > 0, "No translation strings files found"
+
+    def mainStringsMap = buildStringsMapFromXml(mainStringsFile)
+
+    android.sourceSets.main.res.sourceFiles.filter {
+        !isStringXml(it) && !isStringXmlInValuesFolder(it)
+    }.files.toList().each {
+        new File(it.absolutePath).each {
+            def source = it
+            mainStringsMap.each {
+                if (!it.value) {
+                    def string = it
+                    source.eachLine {
+                        if (it.contains(string.key)) {
+                            string.setValue(true)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    android.sourceSets.main.java.srcDirs.toList().each {
+        new File(it.absolutePath).eachFileRecurse() {
+            if (it.name.endsWith('.java') || it.name.endsWith('.kt')) {
+                def source = it
+                mainStringsMap.each {
+                    if (!it.value) {
+                        def string = it
+                        source.eachLine {
+                            if (it.contains('R.string.' + string.key)) {   // if the key is present in the file
+                                string.setValue(true)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def mainStringsContainsRedundantKeys = false
+    mainStringsMap.each {
+        if (!it.value) {
+            mainStringsContainsRedundantKeys = true
+            println it.key + " is not used in main strings file"
+        }
+    }
+
+    assert !mainStringsContainsRedundantKeys, "Redundant keys found in main strings file"
+
+    def translationFilesContainRedundantKeys = false
+    translationStringsFiles.each { file ->
+        def stringsMap = buildStringsMapFromXml(file)
+        def diff = findKeysFromTheSecondHashMapThatAreNotPresentInTheFirstHashMap(mainStringsMap, stringsMap)
+        if (diff.size() > 0) {   // if there are keys that are not present in the main strings file
+            println file.absolutePath + ": the following keys are not present in the main strings file: " + diff.toString()
+            translationFilesContainRedundantKeys = true
+        }
+    }
+    assert !translationFilesContainRedundantKeys, "The translation files contain redundant keys"
+
+    def mainStringsTranslationsMap = buildStringsTranslationsMapFromXml(mainStringsFile)
+    def enStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'en')
+    }
+    assert enStringsTranslationFile != null, "No strings.xml file found in values-en folder"
+
+    def enStringsTranslationsMap = buildStringsTranslationsMapFromXml(enStringsTranslationFile)
+    assert compareTwoStringsTranslationsMaps(mainStringsTranslationsMap, enStringsTranslationsMap), "The main strings and en translations are not equal"
+
+    def heStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'he')
+    }
+    assert heStringsTranslationFile != null, "No strings.xml file found in values-he folder"
+
+    def heStringsTranslationsMap = buildStringsTranslationsMapFromXml(heStringsTranslationFile)
+    def iwStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'iw')
+    }
+    assert iwStringsTranslationFile != null, "No strings.xml file found in values-iw folder"
+
+    def iwStringsTranslationsMap = buildStringsTranslationsMapFromXml(iwStringsTranslationFile)
+    assert compareTwoStringsTranslationsMaps(heStringsTranslationsMap, iwStringsTranslationsMap), "The Hebrew strings (he nad iw) are not equal"
+
+    assert doBinaryValidation(heStringsTranslationFile, iwStringsTranslationFile), "The Hebrew strings (he and iw) contain equal data but files are different"
+
+    def inStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'in')
+    }
+    assert inStringsTranslationFile != null, "No strings.xml file found in values-in folder"
+
+    def idStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'id')
+    }
+    assert idStringsTranslationFile != null, "No strings.xml file found in values-id folder"
+
+    def inStringsTranslationsMap = buildStringsTranslationsMapFromXml(inStringsTranslationFile)
+    def idStringsTranslationsMap = buildStringsTranslationsMapFromXml(idStringsTranslationFile)
+    assert compareTwoStringsTranslationsMaps(inStringsTranslationsMap, idStringsTranslationsMap), "The Indonesian strings (in and id) are not equal"
+
+    assert doBinaryValidation(inStringsTranslationFile, idStringsTranslationFile), "The Indonesian strings (in and id) contain equal data but files are different"
+
+    def yiStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'yi')
+    }
+    def jiStringsTranslationFile = translationStringsFiles.find {
+        isStringXmlInValuesFolder(it, 'ji')
+    }
+
+    if (yiStringsTranslationFile != null || jiStringsTranslationFile != null) {
+        assert yiStringsTranslationFile != null, "No strings.xml file found in values-yi folder"
+        assert jiStringsTranslationFile != null, "No strings.xml file found in values-ji folder"
+
+        def yiStringsTranslationsMap = buildStringsTranslationsMapFromXml(yiStringsTranslationFile)
+        def jiStringsTranslationsMap = buildStringsTranslationsMapFromXml(jiStringsTranslationFile)
+        assert compareTwoStringsTranslationsMaps(yiStringsTranslationsMap, jiStringsTranslationsMap), "The Yiddish strings (yi and ji) are not equal"
+
+        assert doBinaryValidation(yiStringsTranslationFile, jiStringsTranslationFile), "The Yiddish strings (yi and ji) contain equal data but files are different"
+    }
+}
+
+preBuild.doFirst {
+    checkAssetsFiles()
+    validateTranslations()
 }
 
 android {

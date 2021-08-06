@@ -114,19 +114,15 @@
   <string name="prefs_stationary_device_mode_header">Paikallaan oleva laite -tila</string>
   <string name="prefs_stationary_device_mode_description">Sallii laskennan virta-asetuksista huolimatta. Käytä vain, jos laitteessa ei ole akkua.</string>
   <string name="prefs_power_source_header">Virtalähteet laskennalle</string>
-  <string name="prefs_power_source_description">Valitsee virtalähteet, joita BOINC saa käyttää laskentaan.</string>
   <string name="prefs_power_source_ac">Pistorasia</string>
   <string name="prefs_power_source_usb">USB-liitäntä</string>
   <string name="prefs_power_source_wireless">Langaton laturi</string>
   <string name="prefs_power_source_battery">Akku</string>
   <string name="battery_charge_min_pct_header">Pienin varaustaso (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan.</string>
   <string name="battery_temperature_max_header">Suurin akun lämpötila (°C)</string>
-  <string name="battery_temperature_max_description">BOINC hyllyttää laskennan kun asetettu akun lämpötilaraja saavutetaan. Tätä arvoa ei suositella muutettavaksi.</string>
   <string name="prefs_disk_max_pct_header">Suurin käytetty tallennustila (%)</string>
   <string name="prefs_disk_min_free_gb_header">Pienin tallennustila (Gt)</string>
   <string name="prefs_disk_access_interval_header">Levyn käytön aikaväli (sekuntia)</string>
-  <string name="prefs_disk_access_interval_description">Määrittää ajan, kuinka usein levyä käytetään</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Päivittäinen siirtoraja (Mt)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Päivittäinen siirtoraja (päivää)</string>
   <string name="prefs_network_wifi_only_header">Siirrä tehtävät vain WiFin kautta</string>
@@ -134,7 +130,6 @@
   <string name="prefs_remote_header">Salli etähallinta</string>
   <string name="prefs_remote_summary">Muutettaessa BOINC käynnistyy uudelleen.</string>
   <string name="prefs_show_notification_notices_header">Näytä ilmoitus uusista ilmoituksista</string>
-  <string name="prefs_show_notification_suspended_header">Näytä ilmoitus hyllytettäessä</string>
   <string name="prefs_cpu_number_cpus_header">Käytetyt CPU-ytimet</string>
   <string name="prefs_cpu_number_cpus_description">Rajoittaa CPU-ytimien määrää, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_cpu_other_load_suspension_header">Tauota prosessorikäytön ylittäessä (%)</string>
@@ -142,7 +137,6 @@
   <string name="prefs_cpu_time_max_header">CPU-raja (%)</string>
   <string name="prefs_cpu_time_max_description">Rajoittaa prosessoriaikaa, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_memory_max_idle_header">RAM-raja (%)</string>
-  <string name="prefs_memory_max_idle_description">Rajoittaa RAM-muistin määrää, joka tehtäville annetaan.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Työpakettimäärä (päivää)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Työpakettien lisämäärä (päivää)</string>
   <string name="prefs_remote_authentication_key">GUI varmenneavain</string>
@@ -223,7 +217,6 @@
   <string name="trans_suspended">hyllytetty</string>
   <string name="trans_active">aktiivinen</string>
   <string name="trans_pending">odottaa</string>
-  <string name="trans_header_name">Tiedosto:</string>
   <string name="trans_control_retry">Yritä siirtoja</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Ohjelman viestit</string>
@@ -262,7 +255,6 @@
   <string name="menu_emailto">Lähetä sähköpostina</string>
   <string name="menu_copy">Kopioi leikepöydälle</string>
   <string name="menu_eventlog">Tapahtumaloki</string>
-  <string name="menu_exit">Lopeta BOINC</string>
   <string name="menu_run_mode_disable">Hyllytä</string>
   <string name="menu_run_mode_enable">Jatka</string>
   <string name="menu_about">Tietoja</string>
@@ -273,7 +265,6 @@
   <string name="about_title">Tietoja</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versio %1$s</string>
-  <string name="about_name_long">Berkeleyn avoin infrastruktuuri verkkolaskentaan</string>
   <string name="about_copyright">\u00A9 2003–2021 Kalifornian yliopisto, Berkeley.</string>
   <string name="about_copyright_reserved">Kaikki oikeudet pidätetään.</string>
   <string name="about_credits">Kiitokset Max Planck Instituutin painovoimafysiikan osastolle sekä IBM- ja HTC-yrityksille heidän tuestaan.</string>
