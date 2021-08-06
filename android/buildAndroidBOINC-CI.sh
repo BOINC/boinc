@@ -226,39 +226,30 @@ if [ $build_with_vcpkg = "no" ]; then
     fi
 fi
 
-packegesToInstall()
-{
-    pkgs="rappture curl[core,openssl]"
-    echo $(packegesList $1 $pkgs)
-}
-
-packegesList()
+getTripletName()
 {
     arch=$1
-    shift
-    list_pkgs=""
-    while [ $# -gt 0 ]; do
-        if [ $arch = "armv6" ]; then
-            list_pkgs="$list_pkgs $1:armv6-android"
-        fi
-        if [ $arch = "arm" ]; then
-            list_pkgs="$list_pkgs $1:arm-android"
-        fi
-        if [ $arch = "neon" ]; then
-            list_pkgs="$list_pkgs $1:arm-neon-android"
-        fi
-        if [ $arch = "arm64" ]; then
-            list_pkgs="$list_pkgs $1:arm64-android"
-        fi
-        if [ $arch = "x86" ]; then
-            list_pkgs="$list_pkgs $1:x86-android"
-        fi
-        if [ $arch = "x86_64" ]; then
-            list_pkgs="$list_pkgs $1:x64-android"
-        fi
-        shift
-    done
-    echo $list_pkgs
+    triplet_name=""
+    if [ $arch = "armv6" ]; then
+        triplet_name="armv6-android"
+    fi
+    if [ $arch = "arm" ]; then
+        triplet_name="arm-android"
+    fi
+    if [ $arch = "neon" ]; then
+        triplet_name="arm-neon-android"
+    fi
+    if [ $arch = "arm64" ]; then
+        triplet_name="arm64-android"
+    fi
+    if [ $arch = "x86" ]; then
+        triplet_name="x86-android"
+    fi
+    if [ $arch = "x86_64" ]; then
+        triplet_name="x64-android"
+    fi
+
+    echo $triplet_name
 }
 
 if [ $build_with_vcpkg = "yes" ]; then
@@ -268,6 +259,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     else
         triplets_setup="default"
     fi
+    packages="rappture curl[core,openssl]"
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
@@ -282,32 +274,28 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ $arch = "armv6" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
 
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "arm" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
-    fi
-    if [ $arch = "arm" ]; then
-        export ANDROID_NDK_HOME=$NDK_ROOT
-
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall neon) $vcpkg_flags
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName neon)
     fi
     if [ $arch = "arm64" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "x86" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "x86_64" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
 
-        $VCPKG_ROOT/vcpkg install $(packegesToInstall $arch) $vcpkg_flags
+        $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
 
     $VCPKG_ROOT/vcpkg upgrade --no-dry-run
