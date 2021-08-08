@@ -100,8 +100,11 @@ prepare_android_manager() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
     cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
-    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-xiaomi_debug.apk "${TARGET_DIR}"
-    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-xiaomi_release-unsigned.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/xiaomi_debug/app-xiaomi_debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/xiaomi_release/app-xiaomi_release-unsigned.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/armv6_debug/app-armv6_debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk "${TARGET_DIR}"
+
     prepare_7z_archive
 }
 
