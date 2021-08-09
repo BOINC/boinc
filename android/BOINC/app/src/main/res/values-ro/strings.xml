@@ -108,24 +108,19 @@
     <string name="prefs_stationary_device_mode_header">Mod echipament staționar</string>
     <string name="prefs_stationary_device_mode_description">Permite calculele indiferent de preferințele de sursă de alimentare. Activați doar dacă echipamentul nu are baterie.</string>
     <string name="prefs_power_source_header">Surse de alimentare pentru calcule</string>
-    <string name="prefs_power_source_description">Selectează sursele de alimentare pe care BOINC le poate utiliza pentru calcule.</string>
     <string name="prefs_power_source_ac">Priză</string>
     <string name="prefs_power_source_usb">Conexiune USB</string>
     <string name="prefs_power_source_wireless">Încărcător fără fir</string>
     <string name="prefs_power_source_battery">Baterie</string>
     <string name="battery_charge_min_pct_header">Nivel minim baterie</string>
-    <string name="battery_charge_min_pct_description">BOINC suspendă calculele când nivelul bateriei este sub cel definit.</string>
     <string name="battery_temperature_max_header">Temperatură maximă baterie</string>
-    <string name="battery_temperature_max_description">BOINC suspendă calculele când temperatura bateriei depăşeşte nivelul definit. Nu este recomandat să modificaţi această valoare.</string>
     <string name="prefs_disk_max_pct_header">Spaţiu de stocare maxim utilizat</string>
     <string name="prefs_disk_min_free_gb_header">Spaţiu stocare minim liber</string>
     <string name="prefs_disk_access_interval_header">Interval acces</string>
-    <string name="prefs_disk_access_interval_description">Sugerează un interval între accesurile la disc</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Limită zilnică transfer</string>
     <string name="prefs_network_wifi_only_header">Transferă task-uri doar pe WiFi</string>
     <string name="prefs_autostart_header">Pornire automată</string>
     <string name="prefs_show_notification_notices_header">Arată notificare pentru noi atenționări</string>
-    <string name="prefs_show_notification_suspended_header">Arată notificare când e suspendat</string>
     <string name="prefs_cpu_number_cpus_header">Nuclee CPU folosite</string>
     <string name="prefs_cpu_number_cpus_description">Limitează numărul de nuclee CPU folosite de BOINC pentru calcule.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pauză la utilizare CPU peste</string>
@@ -133,7 +128,6 @@
     <string name="prefs_cpu_time_max_header">limită CPU</string>
     <string name="prefs_cpu_time_max_description">Limitează timpul CPU pe care îl foloseşte BOINC pentru calcule.</string>
     <string name="prefs_memory_max_idle_header">Limită RAM</string>
-    <string name="prefs_memory_max_idle_description">Limitează cantitatea de RAM pe care task-urile au voie să o ocupe.</string>
     <string name="prefs_client_log_flags_header">Flag-uri jurnal client BOINC</string>
     <string name="prefs_gui_log_level_header">Nivel jurnal GUI</string>
     <string name="prefs_gui_log_level_description">Specificaţi nivelul mesajelor jurnal GUI.</string>
@@ -206,7 +200,6 @@
     <string name="trans_suspended">suspendat</string>
     <string name="trans_active">activ</string>
     <string name="trans_pending">în așteptare</string>
-    <string name="trans_header_name">Fişier:</string>
     <string name="trans_control_retry">Reîncearcă transferuri</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Mesaje Client</string>
@@ -246,7 +239,6 @@
     <string name="menu_emailto">Trimite ca Email</string>
     <string name="menu_copy">Copiază în Clipboard</string>
     <string name="menu_eventlog">Jurnal Evenimente</string>
-    <string name="menu_exit">Închide BOINC</string>
     <string name="menu_run_mode_disable">Suspendă</string>
     <string name="menu_run_mode_enable">Reia</string>
     <string name="menu_about">Despre</string>
@@ -257,7 +249,6 @@
     <string name="about_title">Despre</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versiune %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
     <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

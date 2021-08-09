@@ -108,24 +108,19 @@
     <string name="prefs_stationary_device_mode_header">მოწყობილობის სტაციონარული რეჟიმი</string>
     <string name="prefs_stationary_device_mode_description">გამოთვლის ნებართვა ძაბვის პარამეტრების მიუხედავად. ჩართეთ მხოლოდ მაშინ, თუ მოწყობილობას არ აქვს ბატარეა.</string>
     <string name="prefs_power_source_header">ძაბვის წყაროები გამოთვლისთვის</string>
-    <string name="prefs_power_source_description">აირჩიეთ ძაბვის წყაროები, რომლების გამოყენების უფლება აქვს BOINC-ს გამოთვლებისთვის.</string>
     <string name="prefs_power_source_ac">შტეფსელი</string>
     <string name="prefs_power_source_usb">USB კავშირი</string>
     <string name="prefs_power_source_wireless">უსადენო დამტენი</string>
     <string name="prefs_power_source_battery">ბატარეა</string>
     <string name="battery_charge_min_pct_header">მინ. ბატარეის დონე</string>
-    <string name="battery_charge_min_pct_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის მუხტის დონის ქვემოთ.</string>
     <string name="battery_temperature_max_header">მაქს. ბატარეის ტემპერატურა</string>
-    <string name="battery_temperature_max_description">BOINC-ი აჩერებს გამოთვლა მითითებული ბატარეის ტემპერატურის ზემოთ. არ არის რეკომენდებული ამ მნიშვნელობის შეცვლა..</string>
     <string name="prefs_disk_max_pct_header">მაქს. გამოყენებული მეხსიერების ადგილი</string>
     <string name="prefs_disk_min_free_gb_header">მინ. თავისუფალი მეხსიერება</string>
     <string name="prefs_disk_access_interval_header">წვდომის ინტერვალი</string>
-    <string name="prefs_disk_access_interval_description">აყენებს დისკზე წვდომის ინტერვალს</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">დღიური გზავნის შეზღუდვა</string>
     <string name="prefs_network_wifi_only_header">დავალებების გაგზავნა მხოლოდ WiFi-თ</string>
     <string name="prefs_autostart_header">ავტოგაშვება</string>
     <string name="prefs_show_notification_notices_header">შეტყობინების ჩვენება ახალ შეტყობინებებზე</string>
-    <string name="prefs_show_notification_suspended_header">შეტყობინებების ჩვენება, როდესაც შეჩერებულია</string>
     <string name="prefs_cpu_number_cpus_header">გამოყენებული ცპ-ს ბირთვები</string>
     <string name="prefs_cpu_number_cpus_description">ზღუდავს გამოთვლებისთვის BOINC-ის მიერ გამოყენებული ცპ-ს ბირთვების რაოდენობას</string>
     <string name="prefs_cpu_other_load_suspension_header">შეჩერება, როდესაც ცპ-ს გამოყენება აღემატება</string>
@@ -133,7 +128,6 @@
     <string name="prefs_cpu_time_max_header">ცპ-ს შეზღუდვა</string>
     <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
     <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
-    <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
     <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
     <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
     <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
@@ -206,7 +200,6 @@
     <string name="trans_suspended">შეჩერებულია</string>
     <string name="trans_active">აქტიურია</string>
     <string name="trans_pending">მოლოდინშია</string>
-    <string name="trans_header_name">ფაილი:</string>
     <string name="trans_control_retry">გზავნილების თავიდან სცდა</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">კლიენტის შეტყობინებები</string>
@@ -246,7 +239,6 @@
     <string name="menu_emailto">ელ.ფოსტის გაზავნა</string>
     <string name="menu_copy">კოპირების ბუფერში დაკოპირება</string>
     <string name="menu_eventlog">მოვლენების ჟურნალი</string>
-    <string name="menu_exit">BOINC-იდან გასვლა</string>
     <string name="menu_run_mode_disable">შეჩერება</string>
     <string name="menu_run_mode_enable">გაგრძელება</string>
     <string name="menu_about">პროგრამის შესახებ</string>
@@ -256,7 +248,6 @@
     <string name="about_title">პროგრამის შესახებ</string>
     <string name="about_name">BOINC-ი</string>
     <string name="about_version">ვერსია %1$s</string>
-    <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
     <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
     <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

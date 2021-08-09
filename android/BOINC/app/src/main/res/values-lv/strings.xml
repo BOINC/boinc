@@ -109,24 +109,19 @@
     <string name="prefs_stationary_device_mode_header">Stacionāras ierīces režīms</string>
     <string name="prefs_stationary_device_mode_description">Atļauj skaitļot neskatoties uz enerģijas preferencēm. Iespējojiet tikai, ja ierīcei nav akumulatora.</string>
     <string name="prefs_power_source_header">Enerģijas avoti skaitļošanai</string>
-    <string name="prefs_power_source_description">Izvēlas enerģijas avotus, ko BOINC drīkst lietot skaitļošanai.</string>
     <string name="prefs_power_source_ac">Sienas kontaktrozete</string>
     <string name="prefs_power_source_usb">USB pieslēgums</string>
     <string name="prefs_power_source_wireless">Bezvadu lādētājs</string>
     <string name="prefs_power_source_battery">Akumulators</string>
     <string name="battery_charge_min_pct_header">Min. akumulatora līmenis</string>
-    <string name="battery_charge_min_pct_description">BOINC atliek skaitļošanu zem norādītā akumulatora uzlādes līmeņa.</string>
     <string name="battery_temperature_max_header">Maks. akumulatora temperatūra</string>
-    <string name="battery_temperature_max_description">BOINC atliek skaitļošanu virs norādītās akumulatora temperatūras. Šo vērtību nav ieteicams mainīt.</string>
     <string name="prefs_disk_max_pct_header">Maks. izmantojamā vieta krātuvē</string>
     <string name="prefs_disk_min_free_gb_header">Cik min. jāatstāj brīvs</string>
     <string name="prefs_disk_access_interval_header">Piekļūšanas intervāls</string>
-    <string name="prefs_disk_access_interval_description">Iesaka piekļūšanas intervālu diskam</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Pārsūtīšanas limits dienā</string>
     <string name="prefs_network_wifi_only_header">Uzdevumu pārsūtīšanai izmantot tikai WiFi</string>
     <string name="prefs_autostart_header">Autostartēšanās</string>
     <string name="prefs_show_notification_notices_header">Rādīt paziņojumus jauniem paziņojumiem</string>
-    <string name="prefs_show_notification_suspended_header">Rādīt paziņojumus, kad ir atlikts</string>
     <string name="prefs_cpu_number_cpus_header">Lietotie CPU kodoli</string>
     <string name="prefs_cpu_number_cpus_description">Ierobežo CPU kodolu skaitu, ko BOINC lieto skaitļošanai.</string>
     <string name="prefs_cpu_other_load_suspension_header">Atlikt, kad CPU lietojums pārsniedz</string>
@@ -134,7 +129,6 @@
     <string name="prefs_cpu_time_max_header">CPU limits</string>
     <string name="prefs_cpu_time_max_description">Ierobežo CPU laiku, ko BOINC lieto skaitļošanai.</string>
     <string name="prefs_memory_max_idle_header">RAM limits</string>
-    <string name="prefs_memory_max_idle_description">Ierobežo RAM apjomu, ko uzdevumi drīkst aizņemt.</string>
     <string name="prefs_client_log_flags_header">BOINC klienta žurnāla karodziņi</string>
     <string name="prefs_gui_log_level_header">GUI žurnalēšanas līmenis</string>
     <string name="prefs_gui_log_level_description">Nosaka, cik detalizēti tiks rakstīti GUI notikumi žurnālā.</string>
@@ -207,7 +201,6 @@
     <string name="trans_suspended">atlikts</string>
     <string name="trans_active">aktīvs</string>
     <string name="trans_pending">gaida</string>
-    <string name="trans_header_name">Fails:</string>
     <string name="trans_control_retry">Atkārtot pārsūtīšanu</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Klienta ziņojumi</string>
@@ -247,7 +240,6 @@
     <string name="menu_emailto">Sūtīt kā e-vēstuli</string>
     <string name="menu_copy">Kopēt starpliktuvē</string>
     <string name="menu_eventlog">Notikumu žurnāls</string>
-    <string name="menu_exit">Iziet no BOINC</string>
     <string name="menu_run_mode_disable">Atlikt</string>
     <string name="menu_run_mode_enable">Atsākt</string>
     <string name="menu_about">Par</string>
@@ -258,7 +250,6 @@
     <string name="about_title">Par</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versija %1$s</string>
-    <string name="about_name_long">Bērkli atvērtā infrastruktūra tīklskaitļošanai</string>
     <string name="about_copyright">\u00A9 2003–2021 Kalifornijas universitāte, Bērkli.</string>
     <string name="about_copyright_reserved">Visas tiesības aizsargātas.</string>
     <string name="about_credits">Paldies Maksa Planka institūtam gravitācijas fizikā, IBM korporācijai un HTC korporācijai par sniegto atbalstu.</string>

@@ -112,25 +112,20 @@
     <string name="prefs_power_source_wireless">Brezžični napajalnik</string>
     <string name="prefs_power_source_battery">Baterija</string>
     <string name="battery_charge_min_pct_header">Min. stopnja baterije</string>
-    <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
     <string name="battery_temperature_max_header">Max. temperatura baterije</string>
-    <string name="battery_temperature_max_description">BOINC izključi izračunavanje, če je temperatura baterije nad določeno vsoto. Spreminjanje vsote ni priporočeno!</string>
     <string name="prefs_disk_max_pct_header">Max. poraba hrambnega prostora</string>
     <string name="prefs_disk_min_free_gb_header">Min. prihranjena hramba</string>
     <string name="prefs_disk_access_interval_header">Dostopnostni razmik</string>
-    <string name="prefs_disk_access_interval_description">Predlagaj razmik med dostopnostjo diskov</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Dnevni prenašalski limit.</string>
     <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Prikaži obvestila za nove objave</string>
-    <string name="prefs_show_notification_suspended_header">Prikaži obvestilo, ko je prekinjeno</string>
     <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
     <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
     <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше</string>
     <string name="prefs_cpu_time_max_header">Предельное время процессора</string>
     <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
     <string name="prefs_memory_max_idle_header">Ограничение ОЗУ</string>
-    <string name="prefs_memory_max_idle_description">Ограничивает объём ОЗУ, который задания могут занимать.</string>
     <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
     <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
     <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
@@ -185,7 +180,6 @@
     <string name="trans_retry_in">повтор через %1$s</string>
     <string name="trans_active">активна</string>
     <string name="trans_pending">ожидает</string>
-    <string name="trans_header_name">Файл:</string>
     <string name="trans_control_retry">Reîncearcă transferuri</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Сообщения клиента</string>
@@ -221,7 +215,6 @@
     <string name="menu_emailto">Отправить письмом</string>
     <string name="menu_copy">Копировать в буфер обмена</string>
     <string name="menu_eventlog">Журнал событий</string>
-    <string name="menu_exit">Выйти из BOINC</string>
     <string name="menu_run_mode_disable">Daj na čakanje</string>
     <string name="menu_run_mode_enable">Nadaljuj</string>
     <string name="menu_about">О</string>
@@ -230,7 +223,6 @@
     <string name="about_title">О</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Različica %1$s</string>
-    <string name="about_name_long">Berkeleyeva odprta infrastruktura za mrežno računanje</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
     <!--multi BOINC compatibility-->
     <!--social integration-->

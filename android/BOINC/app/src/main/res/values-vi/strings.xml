@@ -114,19 +114,15 @@
   <string name="prefs_stationary_device_mode_header">Chế độ tĩnh</string>
   <string name="prefs_stationary_device_mode_description">Cho phép tính toán bất kể tùy chọn năng lượng Chỉ kích hoạt nếu thiết bị không có pin</string>
   <string name="prefs_power_source_header">Nguồn năng lượng để tính toán</string>
-  <string name="prefs_power_source_description">Chọn nguồn điện để BOINC tính toán</string>
   <string name="prefs_power_source_ac">ổ cắm điện</string>
   <string name="prefs_power_source_usb">Kết nối USB</string>
   <string name="prefs_power_source_wireless">Sạc không dây</string>
   <string name="prefs_power_source_battery">Pin</string>
   <string name="battery_charge_min_pct_header">Mức pin thấp nhất (%)</string>
-  <string name="battery_charge_min_pct_description">BOINC ngừng khi pin dưới mức cho phép</string>
   <string name="battery_temperature_max_header">Nhiệt độ pin tối đa (°C)</string>
-  <string name="battery_temperature_max_description">BOINC ngừng khi pin nóng quá mức cho phép Không nên tùy chỉnh tính năng này</string>
   <string name="prefs_disk_max_pct_header">Dung lượng lưu trữ tối đa (%)</string>
   <string name="prefs_disk_min_free_gb_header">Dung lượng lưu trữ tối thiểu (GB)</string>
   <string name="prefs_disk_access_interval_header">Chu kì truy cập (giây)</string>
-  <string name="prefs_disk_access_interval_description">Đề nghị khoảng thời gian giữa 2 lần truy cập ổ đĩa</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Giới hạn chuyển dữ liệu hàng ngày (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Giới hạn chuyển dữ liệu hàng ngày (ngày)</string>
   <string name="prefs_network_wifi_only_header">Chỉ nhận công việc qua Wifi</string>
@@ -134,7 +130,6 @@
   <string name="prefs_remote_header">Bật kết nối từ xa</string>
   <string name="prefs_remote_summary">Khi cắm điện, app BOINC sẽ tự khởi động lại</string>
   <string name="prefs_show_notification_notices_header">Hiển thị thông báo</string>
-  <string name="prefs_show_notification_suspended_header">Hiện thông báo khi dừng</string>
   <string name="prefs_cpu_number_cpus_header">Các nhân CPU sử dụng</string>
   <string name="prefs_cpu_number_cpus_description">Giới hạn số lượng nhân CPU mà BOINC sử dụng cho tính toán</string>
   <string name="prefs_cpu_other_load_suspension_header">Dừng khi sử dụng CPU trên mức (%)</string>
@@ -142,7 +137,6 @@
   <string name="prefs_cpu_time_max_header">Giới hạn sử dụng CPU (%)</string>
   <string name="prefs_cpu_time_max_description">Giới hạn thời gian CPU mà BOINC sử dụng để tính toán.</string>
   <string name="prefs_memory_max_idle_header">Giới hạn sử dụng RAM (%)</string>
-  <string name="prefs_memory_max_idle_description">Giới hạn bộ nhớ RAM được phép dùng.</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">Bộ đệm đơn vị làm việc (ngày)</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Bộ đệm đơn vị công việc bổ sung (ngày)</string>
   <string name="prefs_remote_authentication_key">Khóa bảo mật giao diện người dùng</string>
@@ -225,7 +219,6 @@
   <string name="trans_suspended">ngừng</string>
   <string name="trans_active">Hoạt Động</string>
   <string name="trans_pending">Chờ</string>
-  <string name="trans_header_name">File:</string>
   <string name="trans_control_retry">Chuyển lại</string>
   <!--eventlog tab strings-->
   <string name="eventlog_client_header">Tin nhắn người dùng</string>
@@ -265,7 +258,6 @@
   <string name="menu_emailto">Gửi bằng email</string>
   <string name="menu_copy">Chép vào bộ nhớ tạm</string>
   <string name="menu_eventlog">Event Log</string>
-  <string name="menu_exit">Thoát BOINC</string>
   <string name="menu_run_mode_disable">Hoãn</string>
   <string name="menu_run_mode_enable">Bắt đầu lại</string>
   <string name="menu_about">Về BOINC</string>
@@ -276,7 +268,6 @@
   <string name="about_title">Về BOINC</string>
   <string name="about_name">BONIC</string>
   <string name="about_version">Phiên bản %1$s</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">\u00A9 2003–2021 Đại bọc California, Berkeley</string>
   <string name="about_copyright_reserved">Mọi Quyền Được Bảo Lưu.</string>
   <string name="about_credits">Lời cám ơn dành cho Viện Vật lí Hấp dẫn, Tập đoàn IBM và HTC cho sự giúp sức của họ.</string>

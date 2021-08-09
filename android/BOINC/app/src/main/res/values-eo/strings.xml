@@ -79,7 +79,6 @@
   <string name="trans_suspended">prokrastita</string>
   <string name="trans_active">aktiva</string>
   <string name="trans_pending">atendas</string>
-  <string name="trans_header_name">Dosiero:</string>
   <!--eventlog tab strings-->
   <!--suspend reasons-->
   <!--rpc reasons-->

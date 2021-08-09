@@ -110,25 +110,20 @@
     <string name="prefs_stationary_device_mode_header">Tilstand for stationære enheder</string>
     <string name="prefs_stationary_device_mode_description">Tillader beregning uden hensyn til strømforbrugsprofil. Anvend kun dette hvis enheden ikke har et batteri.</string>
     <string name="prefs_power_source_header">Strømkilder for beregning</string>
-    <string name="prefs_power_source_description">Vælg strøm-kilder som BOINC har lov til at anvende til beregning.</string>
     <string name="prefs_power_source_ac">Oplader til stikkontakt</string>
     <string name="prefs_power_source_usb">USB-forbindelse</string>
     <string name="prefs_power_source_wireless">Trådløs oplader</string>
     <string name="prefs_power_source_battery">Batteri</string>
     <string name="battery_charge_min_pct_header">Min. batteriniveau (%)</string>
-    <string name="battery_charge_min_pct_description">Ved et lavere batteriniveau end det definerede, stopper beregning i BOINC.</string>
     <string name="battery_temperature_max_header">Max. batteritemperatur (°C)</string>
-    <string name="battery_temperature_max_description">BOINC stopper beregning når batteritemperatur overstiger det definerede. Det anbefales ikke at ændre denne værdi.</string>
     <string name="prefs_disk_max_pct_header">Max. anvendt harddiskplads (%)</string>
     <string name="prefs_disk_min_free_gb_header">Min. reserveret harddiskplads (GB)</string>
     <string name="prefs_disk_access_interval_header">Tilgangsinterval (sekunder)</string>
-    <string name="prefs_disk_access_interval_description">Foreslår et interval mellem disktilgang</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daglig overførselsgrænse (MB)</string>
     <string name="prefs_network_daily_xfer_limit_period_days_header">Daglig overførselsgrænse (Dage)</string>
     <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
     <string name="prefs_autostart_header">Autostart</string>
     <string name="prefs_show_notification_notices_header">Vis notifikation for nye meddelelser</string>
-    <string name="prefs_show_notification_suspended_header">Vis notifikation under suspendering</string>
     <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
     <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger.</string>
     <string name="prefs_cpu_other_load_suspension_header">Stands når CPU-forbrug over (%)</string>
@@ -136,7 +131,6 @@
     <string name="prefs_cpu_time_max_header">CPU-grænse (%)</string>
     <string name="prefs_cpu_time_max_description">Begrænser CPU-tiden, som BOINC bruger til beregninger.</string>
     <string name="prefs_memory_max_idle_header">RAM-grænse (%)</string>
-    <string name="prefs_memory_max_idle_description">Begrænser mængden af RAM, som opgaver tillades at optage.</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">Arbejdsenhedsbuffer (dage)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Yderligere arbejdsenhedsbuffer (dage)</string>
     <string name="prefs_client_log_flags_header">BOINC klient-log flags</string>
@@ -216,7 +210,6 @@
     <string name="trans_suspended">suspenderet</string>
     <string name="trans_active">aktiv</string>
     <string name="trans_pending">afventer</string>
-    <string name="trans_header_name">Fil:</string>
     <string name="trans_control_retry">Prøv filoverførsler igen</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Klientbeskeder</string>
@@ -256,7 +249,6 @@
     <string name="menu_emailto">Send som email</string>
     <string name="menu_copy">Kopiér til udklipsholder</string>
     <string name="menu_eventlog">Hændelseslog</string>
-    <string name="menu_exit">Afslut BOINC</string>
     <string name="menu_run_mode_disable">Suspendér</string>
     <string name="menu_run_mode_enable">Genoptag</string>
     <string name="menu_about">Om</string>
@@ -267,7 +259,6 @@
     <string name="about_title">Om</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">Alle rettigheder forbeholdes.</string>
     <string name="about_credits">Tak til Max Planck Institut for Gravitationel Fysik, samt virksomhederne IBM og HTC for deres støtte.</string>

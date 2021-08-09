@@ -108,24 +108,19 @@
     <string name="prefs_stationary_device_mode_header">Mode de dispositiu fix</string>
     <string name="prefs_stationary_device_mode_description">Permet el càlcul independentment de les preferències d\'alimentació. Només activar-ho si el dispositiu no té una bateria.</string>
     <string name="prefs_power_source_header">Fonts d\'alimentació per al càlcul</string>
-    <string name="prefs_power_source_description">Selecciona les fonts d\'energia que BOINC pot utilitzar per al càlcul.</string>
     <string name="prefs_power_source_ac">Endoll</string>
     <string name="prefs_power_source_usb">Connexió USB</string>
     <string name="prefs_power_source_wireless">Carregador sense fils</string>
     <string name="prefs_power_source_battery">Bateria</string>
     <string name="battery_charge_min_pct_header">Nivell mínim de la bateria</string>
-    <string name="battery_charge_min_pct_description">BOINC atura la computació si el nivell de càrrega de la bateria per sota del definit.</string>
     <string name="battery_temperature_max_header">Temperatura màxima de la bateria</string>
-    <string name="battery_temperature_max_description">BOINC atura la computació si la temperatura de la bateria està per sobre del valor definit. No es recomanable canviar aquest valor.</string>
     <string name="prefs_disk_max_pct_header">Màxim espai d\'emmagatzematge utilitzat</string>
     <string name="prefs_disk_min_free_gb_header">Espai mínim d\'emmagatzematge</string>
     <string name="prefs_disk_access_interval_header">Període d\'accés</string>
-    <string name="prefs_disk_access_interval_description">Suggereix un interval entre accessos al disc</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Límit de transferència diària</string>
     <string name="prefs_network_wifi_only_header">Transferir tasques només amb WiFi</string>
     <string name="prefs_autostart_header">Inici automàtic</string>
     <string name="prefs_show_notification_notices_header">Mostra una notificació per a nous avisos</string>
-    <string name="prefs_show_notification_suspended_header">Mostra una notificació quan es suspengui</string>
     <string name="prefs_cpu_number_cpus_header">Nuclis de CPU usats</string>
     <string name="prefs_cpu_number_cpus_description">Limita el nombre de nuclis de CPU que BOINC utilitza per la computació.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pausa en l\'ús de la CPU per sobre de</string>
@@ -133,7 +128,6 @@
     <string name="prefs_cpu_time_max_header">Límit de CPU</string>
     <string name="prefs_cpu_time_max_description">Limita el temps de CPU que BOINC utilitza per la computació.</string>
     <string name="prefs_memory_max_idle_header">RAM límit</string>
-    <string name="prefs_memory_max_idle_description">Limita la quantitat de RAM que les tasques poden utilitzar.</string>
     <string name="prefs_client_log_flags_header">Marques de registre del client de BOINC</string>
     <string name="prefs_gui_log_level_header">Nivell de registre GUI</string>
     <string name="prefs_gui_log_level_description">Especifica el nivell de detall dels missatges de registre GUI.</string>
@@ -206,7 +200,6 @@
     <string name="trans_suspended">suspès</string>
     <string name="trans_active">activa</string>
     <string name="trans_pending">pendent</string>
-    <string name="trans_header_name">Fitxer:</string>
     <string name="trans_control_retry">Re-intenta transferències</string>
     <!--notices tab strings-->
     <!--eventlog tab strings-->
@@ -247,7 +240,6 @@
     <string name="menu_emailto">Envia per correu electrònic</string>
     <string name="menu_copy">Copia al porta-retalls</string>
     <string name="menu_eventlog">Registre d\'esdeveniments</string>
-    <string name="menu_exit">Surt de BOINC</string>
     <string name="menu_run_mode_disable">Suspèn</string>
     <string name="menu_run_mode_enable">Reprèn</string>
     <string name="menu_about">Sobre</string>
@@ -258,7 +250,6 @@
     <string name="about_title">Sobre</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Versió %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright_reserved">Reservats tots els drets.</string>
     <string name="about_credits">Gràcies a l\'Institut Max Planck de Física Gravitacional, IBM Corporation i HTC Corporation pel seu suport.</string>
     <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->

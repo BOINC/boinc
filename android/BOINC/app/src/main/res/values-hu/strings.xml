@@ -114,19 +114,15 @@
     <string name="prefs_stationary_device_mode_header">Mozdulatlan készülék mód</string>
     <string name="prefs_stationary_device_mode_description">Az energiabeállításokra tekintet nélkül engedélyezi a számítást. Csak akkor engedélyezze, ha az eszköznek nincs akkumulátora.</string>
     <string name="prefs_power_source_header">Energiaforrások a számításhoz</string>
-    <string name="prefs_power_source_description">Kiválasztja a BOINC által használható energiaforrásokat a számításhoz.</string>
     <string name="prefs_power_source_ac">Fali csatlakozó</string>
     <string name="prefs_power_source_usb">USB kapcsolat</string>
     <string name="prefs_power_source_wireless">Vezeték nélküli töltő</string>
     <string name="prefs_power_source_battery">Akkumulátor</string>
     <string name="battery_charge_min_pct_header">Legkisebb akkumulátorszint (%)</string>
-    <string name="battery_charge_min_pct_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátortöltöttségi szint alatt.</string>
     <string name="battery_temperature_max_header">Legnagyobb akkumulátor-hőmérséklet (°C)</string>
-    <string name="battery_temperature_max_description">A BOINC felfüggeszti a számítást a meghatározott akkumulátor-hőmérséklet fölött. Nem ajánlott ezen érték megváltoztatása.</string>
     <string name="prefs_disk_max_pct_header">Legnagyobb használt tárhely (%)</string>
     <string name="prefs_disk_min_free_gb_header">Legkisebb tartaléktárhely (GB)</string>
     <string name="prefs_disk_access_interval_header">Hozzáférési időköz (másodperc)</string>
-    <string name="prefs_disk_access_interval_description">Egy időközt javasol a lemezhozzáférések között</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Napi adatforgalmi korlát (MB)</string>
     <string name="prefs_network_daily_xfer_limit_period_days_header">Napi adatforgalmi korlát (nap)</string>
     <string name="prefs_network_wifi_only_header">Feladatok továbbítása csak WiFi-n keresztül</string>
@@ -134,7 +130,6 @@
     <string name="prefs_remote_header">Távoli vezérlés engedélyezése</string>
     <string name="prefs_remote_summary">Ha megváltoztatja, a BOINC-kliens újra lesz indítva.</string>
     <string name="prefs_show_notification_notices_header">Új üzenetek értesítéseinek megjelenítése</string>
-    <string name="prefs_show_notification_suspended_header">Értesítés megjelenítése, ha fel van függesztve</string>
     <string name="prefs_cpu_number_cpus_header">Használt processzormagok</string>
     <string name="prefs_cpu_number_cpus_description">Korlátozza a BOINC általi számításhoz használt processzormagok számát.</string>
     <string name="prefs_cpu_other_load_suspension_header">Szüneteltetés processzorhasználat felett (%)</string>
@@ -142,7 +137,6 @@
     <string name="prefs_cpu_time_max_header">Processzorkorlát (%)</string>
     <string name="prefs_cpu_time_max_description">Korlátozza a BOINC általi számításhoz használt processzoridőt.</string>
     <string name="prefs_memory_max_idle_header">Memóriakorlát (%)</string>
-    <string name="prefs_memory_max_idle_description">Korlátozza a feladatoknak megengedett memóriamennyiség lefoglalását.</string>
     <string name="prefs_other_store_at_least_x_days_of_work_header">Munkaegységpuffer (nap)</string>
     <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">További munkaegységek puffere (nap)</string>
     <string name="prefs_remote_authentication_key">Grafikus felhasználói felület hitelesítési kulcsa</string>
@@ -225,7 +219,6 @@
     <string name="trans_suspended">felfüggesztve</string>
     <string name="trans_active">aktív</string>
     <string name="trans_pending">függőben</string>
-    <string name="trans_header_name">Fájl:</string>
     <string name="trans_control_retry">Átvitelek újrapróbálása</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">Kliensüzenetek</string>
@@ -265,7 +258,6 @@
     <string name="menu_emailto">Küldés e-mailben</string>
     <string name="menu_copy">Másolás a vágólapra</string>
     <string name="menu_eventlog">Eseménynapló</string>
-    <string name="menu_exit">Kilépés a BOINC-ból</string>
     <string name="menu_run_mode_disable">Felfüggesztés</string>
     <string name="menu_run_mode_enable">Folytatás</string>
     <string name="menu_about">Névjegy</string>
@@ -276,7 +268,6 @@
     <string name="about_title">Névjegy</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">Verzió: %1$s</string>
-    <string name="about_name_long">Berkeley Open Infrastructure for Network Computing (Berkeley nyílt hálózati számítási infrastruktúra)</string>
     <string name="about_copyright">\u00A9 2003–2021 Kaliforniai Egyetem, Berkeley.</string>
     <string name="about_copyright_reserved">Minden jog fenntartva.</string>
     <string name="about_credits">Köszönet a Max Planck Institute for Gravitational Physic, az IBM Corporation és a HTC Corporation támogatásához.</string>

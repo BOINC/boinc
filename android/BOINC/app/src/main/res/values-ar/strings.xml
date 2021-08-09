@@ -109,26 +109,19 @@
     <string name="prefs_stationary_device_mode_description">السماح بالحوسبة بغض النظر عن تفضيلات الطاقة، مكن فقط في حالة
         عدم وجود بطارية بالجهاز.</string>
     <string name="prefs_power_source_header">مصادر الطاقة للحوسبة.</string>
-    <string name="prefs_power_source_description">حدد مصادر الطاقة المسموح لBOINC إستخدامها للقيام بالعمليات الحسابية.</string>
     <string name="prefs_power_source_ac">مقبس الحائط</string>
     <string name="prefs_power_source_usb">اتصال USB</string>
     <string name="prefs_power_source_wireless">شاحن لاسلكي</string>
     <string name="prefs_power_source_battery">البطارية</string>
     <string name="battery_charge_min_pct_header">الحد الادنى لمستوي البطارية</string>
-    <string name="battery_charge_min_pct_description">يقوم BOINC بتعليق العمليات الحسابية حين انخفاض نسبة البطارية عن
-        المستوى المقرر.</string>
     <string name="battery_temperature_max_header">اقصى درجة حرارة للبطارية</string>
-    <string name="battery_temperature_max_description">يقوم BOINC بوقف العمليات الحسابية عند تخطي البطارية درجة الحرارة
-        المقررة. لا ينصح بتغيير هذه القيمة.</string>
     <string name="prefs_disk_max_pct_header">الحد الاقصى للسعة التخزينية المستخدمة</string>
     <string name="prefs_disk_min_free_gb_header">الحد الأدنى للسعة التخزينية</string>
     <string name="prefs_disk_access_interval_header">فاصل الوصول</string>
-    <string name="prefs_disk_access_interval_description">يقترح فاصلا بين الوصول إلى القرص</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">حد النقل اليومي</string>
     <string name="prefs_network_wifi_only_header">نقل المهام عن طريق الشبكة اللاسلكية فقط</string>
     <string name="prefs_autostart_header">بدء تلقائي</string>
     <string name="prefs_show_notification_notices_header">إظهار الإشعارات الجديدة</string>
-    <string name="prefs_show_notification_suspended_header">إظهار الإشعارات عند التعليق</string>
     <string name="prefs_cpu_number_cpus_header">أنوية المعالج المستخدمة</string>
     <string name="prefs_cpu_number_cpus_description">يحدد عدد أنوية المعالج المستخدمة من قبل BOINC للحوسبة.</string>
     <string name="prefs_cpu_other_load_suspension_header">إيقاف استخدام المعالج عند حد أقصاه</string>
@@ -137,7 +130,6 @@
     <string name="prefs_cpu_time_max_header">الحد الأقصى للمعالج</string>
     <string name="prefs_cpu_time_max_description">يحدد وقت المعالج المستغرق للقيام بعمليات BOINC الحسابية</string>
     <string name="prefs_memory_max_idle_header">الحد الأقصى للذاكرة</string>
-    <string name="prefs_memory_max_idle_description">يقرر مساحة الذاكرة المسموح للهام احتلالها.</string>
     <string name="prefs_client_log_flags_header">أعلام سجل عميل BOINC</string>
     <string name="prefs_gui_log_level_header">مستوى سجل واجهة المستخدم الرسومية</string>
     <string name="prefs_gui_log_level_description">تحديد إسهاب رسائل سجل واجهة المستخدم الرسومية</string>
@@ -209,7 +201,6 @@
     <string name="trans_suspended">معلق</string>
     <string name="trans_active">نشط</string>
     <string name="trans_pending">قيد الانتظار</string>
-    <string name="trans_header_name">الملف:</string>
     <string name="trans_control_retry">إعادة محاولة نقل البيانات</string>
     <!--eventlog tab strings-->
     <string name="eventlog_client_header">رسائل العميل</string>
@@ -249,7 +240,6 @@
     <string name="menu_emailto">ارسال كبريد إلكتروني</string>
     <string name="menu_copy">نسخ إلى الحافظة</string>
     <string name="menu_eventlog">سجل الأحداث</string>
-    <string name="menu_exit">الخروج من BOINC</string>
     <string name="menu_run_mode_disable">علِّق</string>
     <string name="menu_run_mode_enable">عاود</string>
     <string name="menu_about">عن</string>
@@ -259,7 +249,6 @@
     <string name="about_title">عن</string>
     <string name="about_name">BOINC</string>
     <string name="about_version">اصدار %1$s</string>
-    <string name="about_name_long">بنية بركلي التحتية المفتوحة للحوسبة الشبكية Berkeley Open Infrastructure for Network Computing</string>
     <string name="about_copyright">جامعة بيركلي بكاليفورنيا
         \u00A9 2003–2021</string>
     <string name="about_copyright_reserved">جميع الحقوق محفوظة</string>
