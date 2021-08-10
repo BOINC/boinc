@@ -346,6 +346,25 @@ android {
         xiaomi_debug {
             initWith debug
         }
+
+        armv6_release {
+            initWith release
+        }
+
+        armv6_debug {
+            initWith debug
+            minifyEnabled true
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.startsWith('armv6')) {
+            variant.mergeAssetsProvider.configure {
+                doLast {
+                    delete(fileTree(dir: outputDir, includes: ['**/arm64-v8a/*', '**/armeabi-v7a/*', '**/x86/*', '**/x86_64/*']))
+                }
+            }
+        }
     }
 
     compileOptions {
