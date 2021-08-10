@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-08-07 08:34+0000\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-13 10:41+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -28,47 +28,51 @@ msgstr "한국어"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Korean"
 
-#: html/inc/account.inc:72 html/user/signup.php:35
+#: html/inc/account.inc:56
+msgid "Show password"
+msgstr "비밀번호 보여주기"
+
+#: html/inc/account.inc:73 html/user/signup.php:35
 msgid "An invitation code is required to create an account."
 msgstr "계정 생성을 위해서 초대 코드가 필요합니다."
 
-#: html/inc/account.inc:73 html/user/signup.php:36
+#: html/inc/account.inc:74 html/user/signup.php:36
 msgid "Invitation code"
 msgstr "초대 코드"
 
-#: html/inc/account.inc:81 html/user/account_finish.php:41
+#: html/inc/account.inc:82 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "이 웹 사이트에서 여러분을 식별합니다. 여러분의 본명이나 별명을 써주세요."
 
-#: html/inc/account.inc:82
+#: html/inc/account.inc:83
 msgid "Screen name"
 msgstr "표시된 이름"
 
-#: html/inc/account.inc:88
+#: html/inc/account.inc:89
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "반드시 올바른 형식(name@domain)으로 입력해 주세요."
 
-#: html/inc/account.inc:89 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Email 주소"
 
-#: html/inc/account.inc:100 html/user/signup.php:63
+#: html/inc/account.inc:101 html/user/signup.php:63
 msgid "Must be at least %1 characters"
 msgstr "최소 %1 글자이상으로 입력해 주세요"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
 #. which is about to change.
-#: html/inc/account.inc:101 html/user/delete_account_confirm.php:54
+#: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
 #: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
 msgid "Password"
 msgstr "비밀번호"
 
-#: html/inc/account.inc:108 html/user/account_finish.php:45
+#: html/inc/account.inc:109 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "표시되기를 원하는 국가를 선택해주세요."
 
-#: html/inc/account.inc:109 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
 #: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
@@ -78,39 +82,44 @@ msgstr "표시되기를 원하는 국가를 선택해주세요."
 msgid "Country"
 msgstr "국가"
 
-#: html/inc/account.inc:117 html/user/account_finish.php:52
+#: html/inc/account.inc:118 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "우편 번호 혹은 ZIP 코드"
 
-#: html/inc/account.inc:117
+#: html/inc/account.inc:118
 msgid "Optional"
 msgstr "부가 사항"
 
-#: html/inc/account.inc:127 html/inc/account.inc:171
+#: html/inc/account.inc:128 html/inc/account.inc:172
 msgid "Terms of Use"
 msgstr "이용 약관"
 
-#: html/inc/account.inc:134 html/inc/account.inc:178
+#: html/inc/account.inc:135 html/inc/account.inc:179
 msgid "Do you agree to the terms of use above?"
 msgstr "상단의 이용 약관에 동의합니까?"
 
-#: html/inc/account.inc:146
+#: html/inc/account.inc:147
 msgid "Email address:"
 msgstr "Email 주소:"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "Password:"
 msgstr "비밀번호:"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "forgot password?"
 msgstr "비밀번호를 잊어버렸습니까?"
 
-#: html/inc/account.inc:157
+#: html/inc/account.inc:158
 msgid "Stay logged in"
 msgstr "로그인 상태 유지"
 
-#: html/inc/account.inc:184
+#. kludge
+#: html/inc/account.inc:162 html/inc/util.inc:346 html/user/login_form.php:43
+msgid "Log in"
+msgstr "로그인"
+
+#: html/inc/account.inc:185
 msgid "I agree"
 msgstr "동의합니다"
 
@@ -245,113 +254,117 @@ msgstr "열려진 bbCode 태그 모두 닫기"
 msgid "Close Tags"
 msgstr "태그 닫기"
 
-#: html/inc/bootstrap.inc:156 html/inc/user.inc:187
-msgid "Account"
-msgstr "계정"
-
-#: html/inc/bootstrap.inc:157 html/user/signup.php:89
+#: html/inc/bootstrap.inc:95 html/inc/bootstrap.inc:160
+#: html/user/signup.php:89 html/user/signup.php:99
 msgid "Join"
 msgstr "함께 하기"
 
-#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:97
+msgid "Login"
+msgstr "로그이"
+
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+msgid "Account"
+msgstr "계정"
+
+#: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
 msgid "Preferences"
 msgstr "환경 설정"
 
-#: html/inc/bootstrap.inc:160
+#: html/inc/bootstrap.inc:163
 msgid "About %1"
 msgstr "%1 알아보기"
 
-#: html/inc/bootstrap.inc:161
+#: html/inc/bootstrap.inc:164
 msgid "Help"
 msgstr "도움말"
 
-#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
 msgid "Project"
 msgstr "프로젝트"
 
-#: html/inc/bootstrap.inc:168
+#: html/inc/bootstrap.inc:171
 msgid "Participate"
 msgstr "참여하기"
 
-#: html/inc/bootstrap.inc:169
+#: html/inc/bootstrap.inc:172
 msgid "Do work"
 msgstr "작업 수행"
 
-#: html/inc/bootstrap.inc:175 html/user/server_status.php:117
-#: html/user/temp.php:62
+#: html/inc/bootstrap.inc:178 html/user/server_status.php:117
 msgid "Server status"
 msgstr "서버 상태"
 
-#: html/inc/bootstrap.inc:176
+#: html/inc/bootstrap.inc:179
 msgid "Credit statistics"
 msgstr "크레딧 통계"
 
-#: html/inc/bootstrap.inc:177 html/user/apps.php:32
+#: html/inc/bootstrap.inc:180 html/user/apps.php:32
 msgid "Applications"
 msgstr "응용 프로그램"
 
-#: html/inc/bootstrap.inc:178
+#: html/inc/bootstrap.inc:181
 msgid "GPU models"
 msgstr "GPU 종류"
 
-#: html/inc/bootstrap.inc:179
+#: html/inc/bootstrap.inc:182
 msgid "CPU models"
 msgstr "CPU 종ㄹ"
 
-#: html/inc/bootstrap.inc:180
+#: html/inc/bootstrap.inc:183
 msgid "Computer types"
 msgstr "컴퓨터 종류"
 
-#: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
 msgid "Computing"
 msgstr "컴퓨팅"
 
-#: html/inc/bootstrap.inc:190 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
 msgid "Community"
 msgstr "커뮤니티"
 
-#: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
+#: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
 #: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "게시판"
 
 #. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:193 html/user/stats.php:40 html/user/team.php:27
+#: html/inc/bootstrap.inc:196 html/user/stats.php:40 html/user/team.php:27
 msgid "Teams"
 msgstr "팀"
 
-#: html/inc/bootstrap.inc:193
+#: html/inc/bootstrap.inc:196
 msgid "create or join a team"
 msgstr "팀 생성 혹은 가입"
 
-#: html/inc/bootstrap.inc:194 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:197 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "프로필"
 
-#: html/inc/bootstrap.inc:196 html/user/user_search.php:46
+#: html/inc/bootstrap.inc:199 html/user/user_search.php:46
 msgid "User search"
 msgstr "사용자 검색"
 
-#: html/inc/bootstrap.inc:197
+#: html/inc/bootstrap.inc:200
 msgid "User of the day"
 msgstr "오늘의 사용자"
 
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
 msgid "Certificate"
 msgstr "증명서"
 
-#: html/inc/bootstrap.inc:200
+#: html/inc/bootstrap.inc:203
 msgid "Site"
 msgstr "웹 사이트"
 
-#: html/inc/bootstrap.inc:201
+#: html/inc/bootstrap.inc:204 html/user/site_search.php:22
 msgid "Site search"
 msgstr "사이트 내 검색"
 
-#: html/inc/bootstrap.inc:202
+#: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "언어 설정"
 
@@ -437,8 +450,8 @@ msgstr "포럼 검색"
 msgid "Advanced search"
 msgstr "고급 검색"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/forum_pm.php:50
-#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
+#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
+#: html/user/pm.php:127
 msgid "Private messages"
 msgstr "쪽지"
 
@@ -450,11 +463,11 @@ msgstr "질문과 답변"
 msgid "%1 message board"
 msgstr "%1 게시판"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:784
+#: html/inc/forum.inc:257 html/inc/result.inc:787
 msgid "Previous"
 msgstr "이전"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:793
+#: html/inc/forum.inc:295 html/inc/result.inc:796
 msgid "Next"
 msgstr "다음"
 
@@ -466,8 +479,7 @@ msgstr "작성자"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_pm.php:65
-#: html/user/forum_pm.php:114 html/user/forum_post.php:127
+#: html/user/forum_edit.php:141 html/user/forum_post.php:127
 #: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
@@ -573,8 +585,7 @@ msgid "Rate -"
 msgstr "점수 -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:735 html/user/forum_pm.php:79 html/user/forum_pm.php:117
-#: html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "답변"
 
@@ -691,10 +702,8 @@ msgstr "작성자를 차단시키지 않음"
 msgid "Start vote to banish author"
 msgstr "작성자 차단 투표 시작"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_pm.php:78
-#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
-#: html/user/forum_pm.php:282 html/user/forum_thread.php:248
-#: html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1211 html/inc/user.inc:373
+#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "삭제"
 
@@ -1171,8 +1180,8 @@ msgstr "토론하기"
 msgid "News is available as an %sRSS feed%s"
 msgstr "뉴스는 %sRSS 피드%s로도 제공됩니다"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/forum_pm.php:50
-#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
+#: html/user/pm.php:142
 msgid "Inbox"
 msgstr "목록"
 
@@ -1206,18 +1215,16 @@ msgstr "팀에게 메세지 전송"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_pm.php:148
-#: html/user/forum_post.php:65 html/user/forum_post.php:97
-#: html/user/forum_post.php:98 html/user/forum_post.php:144
-#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
-#: html/user/forum_reply.php:115 html/user/forum_reply.php:170
-#: html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_post.php:65
+#: html/user/forum_post.php:97 html/user/forum_post.php:98
+#: html/user/forum_post.php:144 html/user/forum_reply.php:77
+#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
+#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "미리 보기"
 
 #: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
-#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
-#: html/user/pm.php:133
+#: html/user/pm.php:79 html/user/pm.php:133
 msgid "Subject"
 msgstr "제목"
 
@@ -1365,7 +1372,7 @@ msgstr "이 시간 사이에만 작업"
 
 #: html/inc/prefs.inc:108
 msgid "Compute only during a particular period each day."
-msgstr "각 날짜별로 특정 시간대에만 연산"
+msgstr "각 날짜별로 특정 시간대에만 연산합니다."
 
 #: html/inc/prefs.inc:111 html/inc/prefs.inc:220 html/inc/team_types.inc:23
 #: html/user/forum_banishment_vote.php:70
@@ -2093,7 +2100,7 @@ msgstr "CPU 시간<br />(초)"
 msgid "Credit"
 msgstr "크레딧"
 
-#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/inc/result.inc:407 html/inc/result.inc:816
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "응용 프로그램"
@@ -2150,15 +2157,15 @@ msgstr "응용 프로그램 버전"
 msgid "Output files"
 msgstr "출력 파일"
 
-#: html/inc/result.inc:735
+#: html/inc/result.inc:738
 msgid "Stderr output"
 msgstr "Stderr 출력 값"
 
-#: html/inc/result.inc:795
+#: html/inc/result.inc:798
 msgid "State"
 msgstr "상태"
 
-#: html/inc/result.inc:836
+#: html/inc/result.inc:839
 msgid "Task name:"
 msgstr "태스크 이름:"
 
@@ -2660,7 +2667,7 @@ msgstr "ReCaptcha 응답이 틀렸습니다. 다시 시도해 주세요."
 msgid ""
 "You have not agreed to our terms of use. Please agree to the terms of use by"
 " navigating back to the previous page, in order to create your account"
-msgstr "아직 이용 약관에 동의하지 않았습니다. 계정을 생성하려면, 이전 페이지로 돌아가서 이용 약관에 동의해 주세요."
+msgstr "아직 이용 약관에 동의하지 않았습니다. 계정을 생성하려면, 이전 페이지로 돌아가서 이용 약관에 동의해 주세요"
 
 #: html/inc/user_util.inc:220
 msgid "You must supply an invitation code to create an account."
@@ -2701,11 +2708,6 @@ msgstr "로그 아웃"
 
 #: html/inc/util.inc:209
 msgid "log in"
-msgstr "로그인"
-
-#. kludge
-#: html/inc/util.inc:346 html/user/login_form.php:40
-msgid "Log in"
 msgstr "로그인"
 
 #: html/inc/util.inc:347
@@ -3344,123 +3346,123 @@ msgstr "BOINC를 설치하고 실행하기 위한 설명서는 %1 이곳 %2에 �
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "이 목록은 %1 BOINC 웹사이트 %2를 중심으로 관리됩니다."
 
-#: html/user/download_software.php:174
+#: html/user/download_software.php:182
 msgid "This project requires VirtualBox."
 msgstr "이 프로젝트는 VirtualBox를 요구합니다."
 
-#: html/user/download_software.php:177
+#: html/user/download_software.php:185
 msgid "This project recommends VirtualBox."
 msgstr "이 프로젝트는 VirtualBox 사용을 권장합니다."
 
-#: html/user/download_software.php:183
+#: html/user/download_software.php:191
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하고 BOINC를 다시 시작하세요."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:199
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "BOINC+VirtualBox 인스톨러를 사용해 보세요."
 
-#: html/user/download_software.php:194
+#: html/user/download_software.php:202
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "만약 이 컴퓨터에 설치되어 있지 않다면, %1여기%2서 다운로드하세요."
 
-#: html/user/download_software.php:208
+#: html/user/download_software.php:216
 msgid "Download BOINC"
 msgstr "BOINC 다운로드"
 
-#: html/user/download_software.php:217
+#: html/user/download_software.php:225
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "        "
 msgstr "BOINC를 다운로드하고 설치하려면\n            하단 링크를 클릭하고 안내 사항을 따르세요.\n        "
 
-#: html/user/download_software.php:220
+#: html/user/download_software.php:228
 msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
 msgstr "BOINC를 처음 실행하면 어떤 프로젝트를 선택할지 물어볼 것입니다.\n            목록에서 %1을 선택하거나\n            이 프로젝트의 URL을 입력하세요: %2"
 
-#: html/user/download_software.php:229
+#: html/user/download_software.php:237
 msgid "Go to the BOINC download page."
 msgstr "BOINC 다운로드 페이지로 이동하세요."
 
-#: html/user/download_software.php:258
+#: html/user/download_software.php:266
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "BOINC 및 VirtualBox 최신 버전"
 
-#: html/user/download_software.php:259
+#: html/user/download_software.php:267
 msgid "these versions are"
 msgstr "이쪽 버전은"
 
-#: html/user/download_software.php:260
+#: html/user/download_software.php:268
 msgid "BOINC and VirtualBox"
 msgstr "BOINC 및 VirtualBox"
 
-#: html/user/download_software.php:262
+#: html/user/download_software.php:270
 msgid "the current version of BOINC"
 msgstr "현재 BOINC 버전"
 
-#: html/user/download_software.php:263
+#: html/user/download_software.php:271
 msgid "this version is"
 msgstr "이 버전ㅇ"
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:274
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "%1에 참여하려면, %2가 반드시 여러분 컴퓨터에 설치되어 있어야 합니다."
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:278
 msgid "If %1 already installed, %2click here%3."
 msgstr "만약 %1이 이미 설치되었다면, %2여기를 클릭하세요%3."
 
-#: html/user/download_software.php:296
+#: html/user/download_software.php:304
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "다운로드가 완료되면 다운로드된 파일을 열고 %1을 설치하세요."
 
-#: html/user/download_software.php:298
+#: html/user/download_software.php:306
 msgid "All done? %1Click here to finish%2."
 msgstr "다 되셨나요? %1완료하려면 여기를 클릭하세요%2."
 
-#: html/user/download_software.php:308
+#: html/user/download_software.php:316
 msgid "Use %1"
 msgstr "%1 사용"
 
-#: html/user/download_software.php:317
+#: html/user/download_software.php:325
 msgid "To use %1 on this computer:"
 msgstr "이 컴퓨터에 %1 사용하기:"
 
-#: html/user/download_software.php:318 html/user/download_software.php:335
+#: html/user/download_software.php:326 html/user/download_software.php:343
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "BOINC 관리자에서 도구 메뉴에 가서"
 
-#: html/user/download_software.php:319
+#: html/user/download_software.php:327
 msgid "Select Use Account Manager"
 msgstr "계정 관리자 사용을 선택하세요"
 
-#: html/user/download_software.php:320 html/user/download_software.php:337
+#: html/user/download_software.php:328 html/user/download_software.php:345
 msgid "Select %1 from the list"
 msgstr "목록에서 %1를 선택하세요"
 
-#: html/user/download_software.php:321 html/user/download_software.php:338
+#: html/user/download_software.php:329 html/user/download_software.php:346
 msgid "Enter your %1 email address and password."
 msgstr "%1 이메일 주소와 비밀번호를 입력하세요."
 
-#: html/user/download_software.php:324
+#: html/user/download_software.php:332
 msgid "Add %1"
 msgstr "%1 추가"
 
-#: html/user/download_software.php:334
+#: html/user/download_software.php:342
 msgid "To add %1 on this computer:"
 msgstr "이 컴퓨터에 %1 추가하기:"
 
-#: html/user/download_software.php:336
+#: html/user/download_software.php:344
 msgid "Select Add Project"
 msgstr "추가할 프로젝트를 선택하세요"
 
-#: html/user/download_software.php:344 html/user/sample_index.php:90
+#: html/user/download_software.php:352 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "홈 페이지에서 계속하기"
@@ -3686,8 +3688,7 @@ msgstr "해당 사용자가 쓴 게시판 포스트와 쪽지를 무시합니다
 msgid "User ID (For instance: 123456789)"
 msgstr "사용자 ID (예시: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
-#: html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "필터에 사용자 추가"
 
@@ -4298,100 +4299,6 @@ msgstr "목표 포럼"
 msgid "New title:"
 msgstr "새 제목:"
 
-#: html/user/forum_pm.php:54 html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "메세지가 전송되었습니다."
-
-#: html/user/forum_pm.php:60 html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "쪽지가 없습니다."
-
-#: html/user/forum_pm.php:65 html/user/pm.php:79
-msgid "Sender and date"
-msgstr "전송자와 날짜"
-
-#: html/user/forum_pm.php:102
-msgid "No such message"
-msgstr "해당 메세지가 없습니다"
-
-#: html/user/forum_pm.php:110 html/user/pm.php:134
-msgid "Sender"
-msgstr "송신자"
-
-#: html/user/forum_pm.php:113 html/user/pm.php:137
-msgid "Date"
-msgstr "날짜"
-
-#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "쪽지를 보낼려면 모든 칸을 채워야 합니다"
-
-#: html/user/forum_pm.php:167 html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "ID %1을(를) 가진 사용자를 찾을 수 없습니다"
-
-#: html/user/forum_pm.php:172 html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "사용자 이름 %1을(를) 가진 사용자를 찾을 수 없습니다"
-
-#. Non-unique username
-#: html/user/forum_pm.php:174 html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1은(는) 고유한 사용자 이름이 아닙니다; 사용자 ID를 이용하세요"
-
-#: html/user/forum_pm.php:182 html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "사용자 %1 (ID: %2)는 여러분의 쪽지 수신을 허용하고 있지 않습니다."
-
-#: html/user/forum_pm.php:204 html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "정말로 %1을 차단하시겠습니까?"
-
-#: html/user/forum_pm.php:205 html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "정말로 사용자 %1에게서 오는 쪽지를 차단하시겠습니까?"
-
-#: html/user/forum_pm.php:206 html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "제한된 숫자의 사용자를 차단할 수 있다는 걸 알아두세요."
-
-#: html/user/forum_pm.php:207 html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "사용자가 차단되었습니다. 포럼 환경 설정 페이지에서 차단을 해제할 수 있습니다."
-
-#: html/user/forum_pm.php:214 html/user/pm.php:288
-msgid "No, cancel"
-msgstr "아니오, 취소합니다"
-
-#: html/user/forum_pm.php:217 html/user/pm.php:276
-#: html/user/view_profile.php:28
-msgid "No such user"
-msgstr "해당 사용자가 없습니다"
-
-#: html/user/forum_pm.php:228 html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "사용자 %1이 차단되었습니다"
-
-#: html/user/forum_pm.php:230 html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "사용자 %1에게서 오는 쪽지가 차단되었습니다."
-
-#: html/user/forum_pm.php:231
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "차단을 해제할려면, %1게시판 환경설정%2을 방문하세요"
-
-#: html/user/forum_pm.php:284
-msgid "Mark as read"
-msgstr "읽은 것으로 표시"
-
-#: html/user/forum_pm.php:286
-msgid "Mark as unread"
-msgstr "안 읽은 것으로 표시"
-
 #: html/user/forum_post.php:44
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
@@ -4965,15 +4872,15 @@ msgstr "하단에 계정 이메일 주소를 입력하고 확인을 누르세요
 msgid "Reset password"
 msgstr "비밀번호 재설ㅈ"
 
-#: html/user/gpu_list.php:150 html/user/gpu_list.php:176
+#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
 msgid "No GPU tasks reported"
 msgstr "보고된 GPU 태스크가 없습니다"
 
-#: html/user/gpu_list.php:209
+#: html/user/gpu_list.php:222
 msgid "Top GPU models"
 msgstr "최고 GPU 칩셋"
 
-#: html/user/gpu_list.php:210
+#: html/user/gpu_list.php:223
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -5354,8 +5261,7 @@ msgstr "목록에서 %1를 선택하거나 %2를 입력합니다"
 msgid "In the BOINC Manager, select Tools / Add Project."
 msgstr "BOINC 관리자에서 도구 -> 프로젝트 추가를 선택하세요."
 
-#. use auto-attach if possible
-#: html/user/join.php:102 html/user/sample_index.php:128
+#: html/user/join.php:102 html/user/sample_index.php:131
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "%1 가입"
@@ -5374,7 +5280,7 @@ msgstr "이 웹 사이트는 다양한 언어로 이용할 수 있습니다. 현
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr "보통 언어 설정은 여러분의 브라우저 언어 설정을 따릅니다. 현재 언어: %1  이 언어로 바꾸기: "
+msgstr "언어 설정은 일반적으로 여러분의 브라우저 언어 설정을 따릅니다. 현재 언어: %1  이 언어로 바꾸기:"
 
 #: html/user/language_select.php:67
 msgid "Firefox: Tools/Options/General"
@@ -5394,7 +5300,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "번역은 자원봉사로 이루어 집니다.  만약 여러분의 언어가 여기에 없거나 부정확하면, %1 번역을 도와줄 수도 있습니다 %2."
 
-#: html/user/login_form.php:56
+#: html/user/login_form.php:32
+msgid "Already logged in"
+msgstr "이미 로그인했습니다"
+
+#: html/user/login_form.php:33
+msgid "You are logged in as %1."
+msgstr "%1로 로그인했습니다."
+
+#: html/user/login_form.php:36
+msgid "Log out"
+msgstr "로그 아웃"
+
+#: html/user/login_form.php:59
 msgid "or %1 create an account %2."
 msgstr "또는 %1 계정을 만드세요 %2."
 
@@ -5498,6 +5416,18 @@ msgstr "해당 사용자로부터 온 메세지 차단"
 msgid "Block user"
 msgstr "사용자 차단"
 
+#: html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "메세지가 전송되었습니다."
+
+#: html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "쪽지가 없습니다."
+
+#: html/user/pm.php:79
+msgid "Sender and date"
+msgstr "전송자와 날짜"
+
 #: html/user/pm.php:99
 msgid "Reply to this message"
 msgstr "이 메세지에 답하기"
@@ -5518,6 +5448,18 @@ msgstr "전체 선택 해제"
 msgid "Delete selected messages"
 msgstr "선택된 메세지 지우기"
 
+#: html/user/pm.php:134
+msgid "Sender"
+msgstr "송신자"
+
+#: html/user/pm.php:137
+msgid "Date"
+msgstr "날짜"
+
+#: html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "쪽지를 보낼려면 모든 칸을 채워야 합니다"
+
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "전송 시각"
@@ -5533,9 +5475,62 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "사용자의 메세지는 Akismet 스팸방어 시스템이\n            스팸으로 분류하였습니다.\n            텍스트를 수정하고 다시 시도해주세요."
 
+#: html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "ID %1을(를) 가진 사용자를 찾을 수 없습니다"
+
+#: html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "사용자 이름 %1을(를) 가진 사용자를 찾을 수 없습니다"
+
+#. Non-unique username
+#: html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1은(는) 고유한 사용자 이름이 아닙니다; 사용자 ID를 이용하세요"
+
+#: html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "사용자 %1 (ID: %2)는 여러분의 쪽지 수신을 허용하고 있지 않습니다."
+
+#: html/user/pm.php:276 html/user/view_profile.php:28
+msgid "No such user"
+msgstr "해당 사용자가 없습니다"
+
+#: html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "정말로 %1을 차단하시겠습니까?"
+
+#: html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "정말로 사용자 %1에게서 오는 쪽지를 차단하시겠습니까?"
+
+#: html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "제한된 숫자의 사용자를 차단할 수 있다는 걸 알아두세요."
+
+#: html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "사용자가 차단되었습니다. 포럼 환경 설정 페이지에서 차단을 해제할 수 있습니다."
+
+#: html/user/pm.php:288
+msgid "No, cancel"
+msgstr "아니오, 취소합니다"
+
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "해당 사용자가 없습니다"
+
+#: html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "사용자 %1이 차단되었습니다"
+
+#: html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "사용자 %1에게서 오는 쪽지가 차단되었습니다."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
@@ -5601,7 +5596,7 @@ msgid ""
 "others to see!"
 msgstr "만약 아직 만들지 않았다면, 다른 사람에게 보여주기위해 %1 사용자 프로필을 생성 %2할 수 있습니다!"
 
-#: html/user/profile_menu.php:44 html/user/sample_index.php:141
+#: html/user/profile_menu.php:44 html/user/sample_index.php:144
 msgid "User of the Day"
 msgstr "오늘의 사용자"
 
@@ -5783,35 +5778,35 @@ msgstr "다른 컴퓨터, 태블릿, 스마트폰에도 BOINC를 설치해 보�
 msgid "Tell your friends about BOINC, and show them how to join %1."
 msgstr "BOINC를 친구에게 말해주고 %1에 어떻게 참여하는지 보여주세요."
 
-#: html/user/sample_index.php:130
+#: html/user/sample_index.php:133
 msgid "Already joined? %1Log in%2."
 msgstr "이미 가입하셨나요? %1로그인하세요%2."
 
-#: html/user/sample_index.php:151
+#: html/user/sample_index.php:154
 msgid "News"
 msgstr "뉴스"
 
-#: html/user/server_status.php:63 html/user/temp.php:24
+#: html/user/server_status.php:63
 msgid "Not Running"
 msgstr "미실행중"
 
-#: html/user/server_status.php:67 html/user/temp.php:27
+#: html/user/server_status.php:67
 msgid "Running"
 msgstr "가동 중"
 
-#: html/user/server_status.php:71 html/user/temp.php:30
+#: html/user/server_status.php:71
 msgid "Disabled"
 msgstr "비활성화"
 
-#: html/user/server_status.php:111 html/user/temp.php:56
+#: html/user/server_status.php:111
 msgid "Project status"
 msgstr "프로젝트 상태"
 
-#: html/user/server_status.php:120 html/user/temp.php:65
+#: html/user/server_status.php:120
 msgid "Program"
 msgstr "프로그램"
 
-#: html/user/server_status.php:120 html/user/temp.php:65
+#: html/user/server_status.php:120
 msgid "Host"
 msgstr "호스트"
 
@@ -6662,10 +6657,6 @@ msgstr "여러분에게 맞는 팀을 찾기 위해서 이 양식을 사용하�
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "저는 지금 당장은 %1 팀 가입에 관심없습니다 %2."
 
-#: html/user/temp.php:58
-msgid "Server software version: %1"
-msgstr "서버 소프트웨어 버전: %1"
-
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
 msgid "Top computers"
@@ -7105,7 +7096,7 @@ msgstr "최대 CPU 수"
 
 #: db/content.sql:8
 msgid "General terms-of-use for this BOINC project."
-msgstr "해당 BOINC 프로젝트용 일반 이용 약관"
+msgstr "해당 BOINC 프로젝트용 일반 이용 약관입니다."
 
 #: db/content.sql:9
 msgid ""

@@ -1,10 +1,12 @@
 # BOINC manager localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
+# Andrew Szior, 2021
 # Attila Fenyvesi <fenya25@gmail.com>, 2015,2017
+# Balázs Úr, 2020
 # Christian Beer <christian.beer@posteo.de>, 2017
 # Gabor Cseh <csega@mailbox.hu>, 2015-2019
 # misibacsi, 2015,2017,2019
@@ -13,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:18+0000\n"
-"Last-Translator: David Anderson <davea@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 13:27+0000\n"
+"Last-Translator: Andrew Szior\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,145 +26,131 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: clientgui/AccountInfoPage.cpp:353
+#: clientgui/AccountInfoPage.cpp:326
 #, c-format
 msgid "Identify your account at %s"
-msgstr "Fiókod azonosítása itt: %s"
+msgstr "Fiók azonosítása itt: %s"
 
-#: clientgui/AccountInfoPage.cpp:359
+#: clientgui/AccountInfoPage.cpp:335
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "Kérjük, add meg fiókinformációid\n(fiók létrehozásához keresd fel a projekt weblapját)"
+msgstr "Adja meg a fiókja információit\n(fiók létrehozásához látogassa meg a projekt weblapját)"
 
-#: clientgui/AccountInfoPage.cpp:363
+#: clientgui/AccountInfoPage.cpp:339
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr "Ebben a projektben jelenleg nem készíthetők új fiókok.\nCsak akkor csatlakozhatsz, ha már van fiókod."
+msgstr "Ebben a projektben jelenleg nem készíthetők új fiókok.\nCsak akkor adhatja hozzá, ha már van fiókja."
 
-#: clientgui/AccountInfoPage.cpp:367
+#: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
-msgstr "Már futtatod ezt a projektet?"
+msgstr "Már futtatja ezt a projektet?"
 
-#: clientgui/AccountInfoPage.cpp:371
+#: clientgui/AccountInfoPage.cpp:347
 msgid "&No, new user"
 msgstr "&Nem, új felhasználó"
 
-#: clientgui/AccountInfoPage.cpp:374
+#: clientgui/AccountInfoPage.cpp:350
 msgid "&Yes, existing user"
 msgstr "&Igen, létező felhasználó"
 
-#: clientgui/AccountInfoPage.cpp:379
-msgid ""
-"We were not able to set up your account information\n"
-"automatically.\n"
-"\n"
-"Please click on the 'Find login information' link\n"
-"below to find out what to put in the email address and\n"
-"password fields."
-msgstr "Az automatikus fiókinformáció-beállítás\nnem sikerült.\n\nKérjük, kattints az alábbi 'Bejelentkezési infók keresése' linkre\na megfelelő email cím és jelszó\ninformációkért."
-
-#: clientgui/AccountInfoPage.cpp:382
-msgid "Find login information"
-msgstr "Bejelentkezési infók keresése"
-
-#: clientgui/AccountInfoPage.cpp:402 clientgui/AccountInfoPage.cpp:624
+#: clientgui/AccountInfoPage.cpp:366 clientgui/AccountInfoPage.cpp:588
 msgid "&Password:"
 msgstr "&Jelszó:"
 
-#: clientgui/AccountInfoPage.cpp:409 clientgui/AccountInfoPage.cpp:648
+#: clientgui/AccountInfoPage.cpp:373 clientgui/AccountInfoPage.cpp:612
 msgid "Choose a &password:"
-msgstr "Válassz &jelszót:"
+msgstr "Válasszon &jelszót:"
 
-#: clientgui/AccountInfoPage.cpp:412
+#: clientgui/AccountInfoPage.cpp:376
 msgid "C&onfirm password:"
 msgstr "Jelszó &megerősítése:"
 
-#: clientgui/AccountInfoPage.cpp:419
+#: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr "Már futtatod a(z) %s-t?"
+msgstr "Már futtatja a(z) %s projektet?"
 
-#: clientgui/AccountInfoPage.cpp:448
+#: clientgui/AccountInfoPage.cpp:412
 msgid "&Username:"
-msgstr "&Felhasználói név:"
+msgstr "&Felhasználónév:"
 
-#: clientgui/AccountInfoPage.cpp:477
+#: clientgui/AccountInfoPage.cpp:441
 msgid "&Email address or LDAP ID:"
-msgstr "&Email cím vagy LDAP azonosító:"
+msgstr "&E-mail-cím vagy LDAP-azonosító:"
 
-#: clientgui/AccountInfoPage.cpp:481
+#: clientgui/AccountInfoPage.cpp:445
 msgid "&Email address:"
-msgstr "&Email cím:"
+msgstr "&E-mail-cím:"
 
-#: clientgui/AccountInfoPage.cpp:489
+#: clientgui/AccountInfoPage.cpp:453
 #, c-format
 msgid "minimum length %d"
-msgstr "minimum hossz %d"
+msgstr "legkisebb hossz %d"
 
-#: clientgui/AccountInfoPage.cpp:496
+#: clientgui/AccountInfoPage.cpp:460
 msgid "Forgot your password?"
-msgstr "Elfelejtetted a jelszavad?"
+msgstr "Elfelejtette a jelszavát?"
 
-#: clientgui/AccountInfoPage.cpp:503
+#: clientgui/AccountInfoPage.cpp:467
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr "Ha még nem regisztráltál erre a fiókkezelőre,\nkérjük, tedd meg, mielőtt továbblépnél. Kattints az alábbi\nlinkre a regisztrációhoz, vagy az elfelejtett jelszó visszaszerzéséhez."
+msgstr "Ha még nem regisztrált ezzel a fiókkezelővel, akkor\ntegye meg a folytatás előtt. Kattintson a lenti hivatkozásra\na regisztrációhoz vagy az elfelejtett jelszó beszerzéséhez."
 
-#: clientgui/AccountInfoPage.cpp:506
+#: clientgui/AccountInfoPage.cpp:470
 msgid "Account manager web site"
-msgstr "A fiókkezelő honlapja"
+msgstr "Fiókkezelő weboldala"
 
-#: clientgui/AccountInfoPage.cpp:548
+#: clientgui/AccountInfoPage.cpp:512
 msgid "Add project"
 msgstr "Projekt hozzáadása"
 
-#: clientgui/AccountInfoPage.cpp:550
+#: clientgui/AccountInfoPage.cpp:514
 msgid "Update account manager"
-msgstr "A fiókkezelő frissítése"
+msgstr "Fiókkezelő frissítése"
 
-#: clientgui/AccountInfoPage.cpp:552
+#: clientgui/AccountInfoPage.cpp:516
 msgid "Use account manager"
-msgstr "A fiókkezelő használata"
+msgstr "Fiókkezelő használata"
 
-#: clientgui/AccountInfoPage.cpp:559
+#: clientgui/AccountInfoPage.cpp:523
 msgid "Please enter a user name."
-msgstr "Kérjük, adj meg egy felhasználónevet."
+msgstr "Adjon meg egy felhasználónevet."
 
-#: clientgui/AccountInfoPage.cpp:561
+#: clientgui/AccountInfoPage.cpp:525
 msgid "Please enter an email address."
-msgstr "Kérjük, adj meg egy email címet."
+msgstr "Adjon meg egy e-mail-címet."
 
-#: clientgui/AccountInfoPage.cpp:571
+#: clientgui/AccountInfoPage.cpp:535
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr "Kérjük, adj meg egy legalább %d karakter hosszú jelszót."
+msgstr "Adjon meg egy legalább %d karakter hosszú jelszót."
 
-#: clientgui/AccountInfoPage.cpp:581
+#: clientgui/AccountInfoPage.cpp:545
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "A jelszó és megerősítése nem egyezik. Kérlek, próbáld újra."
+msgstr "A jelszó és a jelszó megerősítése nem egyezik. Írja be azokat újra."
 
 #: clientgui/AccountManagerInfoPage.cpp:269
 msgid "Choose an account manager"
-msgstr "Válassz fiókkezelőt"
+msgstr "Fiókkezelő kiválasztása"
 
 #: clientgui/AccountManagerInfoPage.cpp:272
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Fiókkezelő kiválasztásához kattints a fiókkezelő nevére\nvagy gépeld be alább az URL-jét."
+msgstr "Egy fiókkezelő kiválasztásához kattintson a nevére,\nvagy írja be lent az URL-jét."
 
 #: clientgui/AccountManagerInfoPage.cpp:276
 msgid "Account manager details:"
-msgstr "Fiókkezelő részletek:"
+msgstr "Fiókkezelő részletei:"
 
 #: clientgui/AccountManagerInfoPage.cpp:280
 msgid "Account manager &URL:"
-msgstr "A fiókkezelő &URL-je:"
+msgstr "Fiókkezelő &URL-je:"
 
 #: clientgui/AccountManagerInfoPage.cpp:284
 msgid "Open web page"
@@ -170,7 +158,7 @@ msgstr "Weboldal megnyitása"
 
 #: clientgui/AccountManagerInfoPage.cpp:287
 msgid "Visit this account manager's web site"
-msgstr "Fiókkezelő honlapjának megtekintése"
+msgstr "A fiókkezelő weboldalának megtekintése"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -183,436 +171,436 @@ msgstr "Kommunikáció ezzel: %s."
 #: clientgui/AccountManagerProcessingPage.cpp:193
 #: clientgui/AccountManagerPropertiesPage.cpp:199
 msgid "Communicating with server."
-msgstr "Kommunikáció a szerverrel."
+msgstr "Kommunikáció a kiszolgálóval."
 
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
 msgid "Please wait..."
-msgstr "Kérjük, várj..."
+msgstr "Kérjük várjon…"
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Belső szerverhiba történt.\n"
+msgstr "Belső kiszolgálóhiba történt.\n"
 
-#: clientgui/AdvancedFrame.cpp:102
+#: clientgui/AdvancedFrame.cpp:101
 msgid "Connected"
 msgstr "Kapcsolódva"
 
-#: clientgui/AdvancedFrame.cpp:110
+#: clientgui/AdvancedFrame.cpp:109
 msgid "Disconnected"
 msgstr "Kapcsolat megszakítva"
 
-#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:327
 #, c-format
 msgid "New %s window..."
-msgstr "Új %s ablak..."
+msgstr "Új %s ablak…"
 
-#: clientgui/AdvancedFrame.cpp:333
+#: clientgui/AdvancedFrame.cpp:331
 #, c-format
 msgid "Open another %s window"
 msgstr "Másik %s ablak megnyitása"
 
-#: clientgui/AdvancedFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:342
 msgid "Select computer...\tCtrl+Shift+I"
-msgstr "Számítógép kiválasztása...\tCtrl+Shift+I"
+msgstr "Számítógép kiválasztása…\tCtrl+Shift+I"
 
-#: clientgui/AdvancedFrame.cpp:345
+#: clientgui/AdvancedFrame.cpp:343
 msgid "Connect to a BOINC client on another computer"
-msgstr "Kapcsolódás egy BOINC klienshez másik számítógépen"
+msgstr "Kapcsolódás egy másik számítógépen lévő BOINC-klienshez"
 
-#: clientgui/AdvancedFrame.cpp:349
+#: clientgui/AdvancedFrame.cpp:347
 msgid "Shut down connected client..."
-msgstr "Kapcsolódott kliens leállítása..."
+msgstr "Kapcsolódott kliens leállítása…"
 
-#: clientgui/AdvancedFrame.cpp:350
+#: clientgui/AdvancedFrame.cpp:348
 msgid "Shut down the currently connected BOINC client"
-msgstr "A jelenleg kapcsolódott BOINC kliens leállítása"
+msgstr "A jelenleg kapcsolódott BOINC-kliens leállítása"
 
-#: clientgui/AdvancedFrame.cpp:355 clientgui/sg_BoincSimpleFrame.cpp:146
+#: clientgui/AdvancedFrame.cpp:353 clientgui/sg_BoincSimpleFrame.cpp:145
 #, c-format
 msgid "Close the %s window"
-msgstr "%s ablak bezárása"
+msgstr "A(z) %s ablak bezárása"
 
-#: clientgui/AdvancedFrame.cpp:358 clientgui/sg_BoincSimpleFrame.cpp:149
+#: clientgui/AdvancedFrame.cpp:356 clientgui/sg_BoincSimpleFrame.cpp:148
 msgid "&Close window"
 msgstr "&Ablak bezárása"
 
-#: clientgui/AdvancedFrame.cpp:367 clientgui/AdvancedFrame.cpp:372
-#: clientgui/AdvancedFrame.cpp:377 clientgui/sg_BoincSimpleFrame.cpp:158
-#: clientgui/sg_BoincSimpleFrame.cpp:163
+#: clientgui/AdvancedFrame.cpp:365 clientgui/AdvancedFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:375 clientgui/sg_BoincSimpleFrame.cpp:157
+#: clientgui/sg_BoincSimpleFrame.cpp:162
 #, c-format
 msgid "Exit %s"
 msgstr "%s bezárása"
 
-#: clientgui/AdvancedFrame.cpp:391 clientgui/sg_BoincSimpleFrame.cpp:177
+#: clientgui/AdvancedFrame.cpp:389 clientgui/sg_BoincSimpleFrame.cpp:176
 msgid "Preferences..."
-msgstr "Beállítások..."
+msgstr "Beállítások…"
 
-#: clientgui/AdvancedFrame.cpp:400
+#: clientgui/AdvancedFrame.cpp:398
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Értesítések\tCtrl+Shift+N"
+msgstr "Ért&esítések\tCtrl+Shift+N"
 
-#: clientgui/AdvancedFrame.cpp:401
+#: clientgui/AdvancedFrame.cpp:399
 msgid "Show notices"
 msgstr "Értesítések megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:406
+#: clientgui/AdvancedFrame.cpp:404
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projektek\tCtrl+Shift+P"
 
-#: clientgui/AdvancedFrame.cpp:407
+#: clientgui/AdvancedFrame.cpp:405
 msgid "Show projects"
 msgstr "Projektek megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:412
+#: clientgui/AdvancedFrame.cpp:410
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Feladatok\tCtrl+Shift+T"
 
-#: clientgui/AdvancedFrame.cpp:413
+#: clientgui/AdvancedFrame.cpp:411
 msgid "Show tasks"
 msgstr "Feladatok megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:416
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "A&datforgalom\tCtrl+Shift+X"
 
-#: clientgui/AdvancedFrame.cpp:419
+#: clientgui/AdvancedFrame.cpp:417
 msgid "Show file transfers"
-msgstr "Adatforgalom megjelenítése"
+msgstr "Az adatforgalmak megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:424
+#: clientgui/AdvancedFrame.cpp:422
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "&Statisztika\tCtrl+Shift+S"
+msgstr "&Statisztikák\tCtrl+Shift+S"
 
-#: clientgui/AdvancedFrame.cpp:425
+#: clientgui/AdvancedFrame.cpp:423
 msgid "Show statistics"
 msgstr "Statisztikák megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:430
+#: clientgui/AdvancedFrame.cpp:428
 msgid "&Disk\tCtrl+Shift+D"
 msgstr "&Lemez\tCtrl+Shift+D"
 
-#: clientgui/AdvancedFrame.cpp:431
+#: clientgui/AdvancedFrame.cpp:429
 msgid "Show disk usage"
 msgstr "Lemezhasználat megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:438
+#: clientgui/AdvancedFrame.cpp:436
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Egyszerű &nézet\tCtrl+Shift+V"
 
-#: clientgui/AdvancedFrame.cpp:439
+#: clientgui/AdvancedFrame.cpp:437
 msgid "Switch to the Simple View"
 msgstr "Átváltás egyszerű nézetre"
 
-#: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
-#: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
+#: clientgui/AdvancedFrame.cpp:451 clientgui/AdvancedFrame.cpp:475
+#: clientgui/sg_BoincSimpleFrame.cpp:231 clientgui/sg_BoincSimpleFrame.cpp:255
 msgid "&Add project..."
-msgstr "&Projekt hozzáadása..."
+msgstr "&Projekt hozzáadása…"
 
-#: clientgui/AdvancedFrame.cpp:454 clientgui/AdvancedFrame.cpp:478
-#: clientgui/sg_BoincSimpleFrame.cpp:233 clientgui/sg_BoincSimpleFrame.cpp:257
+#: clientgui/AdvancedFrame.cpp:452 clientgui/AdvancedFrame.cpp:476
+#: clientgui/sg_BoincSimpleFrame.cpp:232 clientgui/sg_BoincSimpleFrame.cpp:256
 msgid "Add a project"
 msgstr "Projekt hozzáadása"
 
-#: clientgui/AdvancedFrame.cpp:458 clientgui/sg_BoincSimpleFrame.cpp:237
+#: clientgui/AdvancedFrame.cpp:456 clientgui/sg_BoincSimpleFrame.cpp:236
 msgid "&Use account manager..."
-msgstr "Fiókkezelő használata..."
+msgstr "Fiókkezelő &használata…"
 
-#: clientgui/AdvancedFrame.cpp:459 clientgui/sg_BoincSimpleFrame.cpp:238
+#: clientgui/AdvancedFrame.cpp:457 clientgui/sg_BoincSimpleFrame.cpp:237
 msgid "Use an account manager to control this computer."
 msgstr "Fiókkezelő használata a számítógép vezérléséhez."
 
-#: clientgui/AdvancedFrame.cpp:463 clientgui/sg_BoincSimpleFrame.cpp:242
+#: clientgui/AdvancedFrame.cpp:461 clientgui/sg_BoincSimpleFrame.cpp:241
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&Szinkronizáció ezzel: %s"
+msgstr "&Szinkronizálás ezzel: %s"
 
-#: clientgui/AdvancedFrame.cpp:467 clientgui/sg_BoincSimpleFrame.cpp:246
+#: clientgui/AdvancedFrame.cpp:465 clientgui/sg_BoincSimpleFrame.cpp:245
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Aktuális beállítások betöltése innen: %s"
+msgstr "Jelenlegi beállítások lekérése innen: %s"
 
-#: clientgui/AdvancedFrame.cpp:481 clientgui/sg_BoincSimpleFrame.cpp:260
+#: clientgui/AdvancedFrame.cpp:479 clientgui/sg_BoincSimpleFrame.cpp:259
 #, c-format
 msgid "S&top using %s..."
-msgstr "%s használatának &befejezése..."
+msgstr "%s használatának &befejezése…"
 
-#: clientgui/AdvancedFrame.cpp:487 clientgui/sg_BoincSimpleFrame.cpp:266
+#: clientgui/AdvancedFrame.cpp:485 clientgui/sg_BoincSimpleFrame.cpp:265
 msgid "Remove this computer from account manager control."
-msgstr "Számítógép eltávolítása a fiókkezelő felügyelete alól."
+msgstr "A számítógép eltávolítása a fiókkezelő felügyelete alól."
 
-#: clientgui/AdvancedFrame.cpp:493
+#: clientgui/AdvancedFrame.cpp:491
 msgid "Run CPU &benchmarks"
-msgstr "&Sebességmérés futtatása"
+msgstr "&Processzor-teljesítménymérés futtatása"
 
-#: clientgui/AdvancedFrame.cpp:494
+#: clientgui/AdvancedFrame.cpp:492
 msgid "Run tests that measure CPU speed"
-msgstr "CPU sebességmérés futtatása"
+msgstr "A processzor sebességét lemérő tesztek futtatása"
 
-#: clientgui/AdvancedFrame.cpp:498
+#: clientgui/AdvancedFrame.cpp:496
 msgid "Retry pending transfers"
 msgstr "Függőben lévő átvitelek újrapróbálása"
 
-#: clientgui/AdvancedFrame.cpp:499
+#: clientgui/AdvancedFrame.cpp:497
 msgid "Retry deferred file transfers and task requests"
 msgstr "Elhalasztott fájlátvitelek és feladatkérések újrapróbálása"
 
-#: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:272
+#: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:271
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "Eseménynapló...\t Ctrl+Shift+E"
+msgstr "Eseménynapló…\t Ctrl+Shift+E"
 
-#: clientgui/AdvancedFrame.cpp:505
+#: clientgui/AdvancedFrame.cpp:503
 msgid "Show diagnostic messages"
 msgstr "Diagnosztikai üzenetek megjelenítése"
 
-#: clientgui/AdvancedFrame.cpp:513
+#: clientgui/AdvancedFrame.cpp:511
 msgid "&Run always"
-msgstr "&Mindig fut"
+msgstr "&Mindig fusson"
 
-#: clientgui/AdvancedFrame.cpp:514
+#: clientgui/AdvancedFrame.cpp:512
 msgid "Allow work regardless of preferences"
-msgstr "Munka engedélyezése a beállítások figyelmen kívül hagyásával"
+msgstr "Munka engedélyezése a beállításoktól függetlenül"
 
-#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/AdvancedFrame.cpp:516
 msgid "Run based on &preferences"
-msgstr "&Beállítások szerint fut"
+msgstr "Futtatás a &beállítások alapján"
 
-#: clientgui/AdvancedFrame.cpp:519
+#: clientgui/AdvancedFrame.cpp:517
 msgid "Allow work according to preferences"
-msgstr "Munka engedélyezése a beállítások figyelembevételével"
+msgstr "Munka engedélyezése a beállítások szerint"
 
-#: clientgui/AdvancedFrame.cpp:523
+#: clientgui/AdvancedFrame.cpp:521
 msgid "&Suspend"
-msgstr "&Felfüggeszt"
+msgstr "&Felfüggesztés"
 
-#: clientgui/AdvancedFrame.cpp:524
+#: clientgui/AdvancedFrame.cpp:522
 msgid "Stop work regardless of preferences"
-msgstr "Leállítás a beállítások figyelembe vétele nélkül"
+msgstr "Munka leállítása a beállításoktól függetlenül"
 
-#: clientgui/AdvancedFrame.cpp:549
+#: clientgui/AdvancedFrame.cpp:547
 msgid "Use GPU always"
-msgstr "Mindig használd a GPU-t"
+msgstr "GPU állandó használata"
 
-#: clientgui/AdvancedFrame.cpp:550
+#: clientgui/AdvancedFrame.cpp:548
 msgid "Allow GPU work regardless of preferences"
-msgstr "GPU munka engedélyezése a beállításoktól függetlenül"
+msgstr "Videokártyán végzett munka engedélyezése a beállításoktól függetlenül"
 
-#: clientgui/AdvancedFrame.cpp:554
+#: clientgui/AdvancedFrame.cpp:552
 msgid "Use GPU based on preferences"
-msgstr "A GPU beállítások szerinti használata"
+msgstr "GPU használata a beállítások alapján"
 
-#: clientgui/AdvancedFrame.cpp:555
+#: clientgui/AdvancedFrame.cpp:553
 msgid "Allow GPU work according to preferences"
-msgstr "GPU munka engedélyezése a beállítások figyelembevételével"
+msgstr "A videokártyán végzett munka engedélyezése a beállítások szerint"
 
-#: clientgui/AdvancedFrame.cpp:559
+#: clientgui/AdvancedFrame.cpp:557
 msgid "Suspend GPU"
 msgstr "GPU felfüggesztése"
 
-#: clientgui/AdvancedFrame.cpp:560
+#: clientgui/AdvancedFrame.cpp:558
 msgid "Stop GPU work regardless of preferences"
-msgstr "A GPU munka leállítása a beállításoktól függetlenül"
+msgstr "A videokártyán végzett munka leállítása a beállításoktól függetlenül"
 
-#: clientgui/AdvancedFrame.cpp:584
+#: clientgui/AdvancedFrame.cpp:582
 msgid "Network activity always"
-msgstr "A hálózati forgalom mindig elérhető"
+msgstr "Hálózati tevékenység állandóan"
 
-#: clientgui/AdvancedFrame.cpp:585
+#: clientgui/AdvancedFrame.cpp:583
 msgid "Allow network activity regardless of preferences"
-msgstr "Beállítások mellőzésével a hálózatra kapcsolódhat"
+msgstr "Hálózati tevékenység engedélyezése a beállításoktól függetlenül"
 
-#: clientgui/AdvancedFrame.cpp:589
+#: clientgui/AdvancedFrame.cpp:587
 msgid "Network activity based on preferences"
-msgstr "Hálózati forgalom a beállítások alapján"
+msgstr "Hálózati tevékenység a beállítások alapján"
 
-#: clientgui/AdvancedFrame.cpp:590
+#: clientgui/AdvancedFrame.cpp:588
 msgid "Allow network activity according to preferences"
-msgstr "Hálózati forgalom engedélyezése a beállítások figyelembevételével"
+msgstr "Hálózati tevékenység engedélyezése a beállítások szerint"
 
-#: clientgui/AdvancedFrame.cpp:594
+#: clientgui/AdvancedFrame.cpp:592
 msgid "Suspend network activity"
-msgstr "Hálózati forgalom felfüggesztése"
+msgstr "Hálózati tevékenység felfüggesztése"
 
-#: clientgui/AdvancedFrame.cpp:595
+#: clientgui/AdvancedFrame.cpp:593
 msgid "Stop network activity"
-msgstr "Hálózati forgalom leállítása"
+msgstr "Hálózati tevékenység leállítása"
 
-#: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:217
+#: clientgui/AdvancedFrame.cpp:602 clientgui/sg_BoincSimpleFrame.cpp:216
 msgid "Computing &preferences..."
-msgstr "Számítási &beállítások..."
+msgstr "Számítási &beállítások…"
 
-#: clientgui/AdvancedFrame.cpp:605 clientgui/sg_BoincSimpleFrame.cpp:218
+#: clientgui/AdvancedFrame.cpp:603 clientgui/sg_BoincSimpleFrame.cpp:217
 msgid "Configure computing preferences"
-msgstr "Számítási beállítások konfigurálása"
+msgstr "Számítási beállítások megadása"
 
-#: clientgui/AdvancedFrame.cpp:610
+#: clientgui/AdvancedFrame.cpp:608
 msgid "Exclusive applications..."
-msgstr "Exkluzív alkalmazások"
+msgstr "Kizárólagos alkalmazások…"
 
-#: clientgui/AdvancedFrame.cpp:611
+#: clientgui/AdvancedFrame.cpp:609
 msgid "Configure exclusive applications"
-msgstr "Exkluzív alkalmazások beállítása"
+msgstr "Kizárólagos alkalmazások beállítása"
 
-#: clientgui/AdvancedFrame.cpp:616
+#: clientgui/AdvancedFrame.cpp:614
 msgid "Select columns..."
-msgstr "Oszlopok kiválasztása..."
+msgstr "Oszlopok kiválasztása…"
 
-#: clientgui/AdvancedFrame.cpp:617
+#: clientgui/AdvancedFrame.cpp:615
 msgid "Select which columns to display"
-msgstr "Válaszd ki, mely oszlopok legyenek megjelenítve"
+msgstr "A megjelenítendő oszlopok kiválasztása"
 
-#: clientgui/AdvancedFrame.cpp:621
+#: clientgui/AdvancedFrame.cpp:619
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Eseménynapló beállítások...\t Ctrl+Shift+F"
+msgstr "Eseménynapló beállításai…\t Ctrl+Shift+F"
 
-#: clientgui/AdvancedFrame.cpp:622
+#: clientgui/AdvancedFrame.cpp:620
 msgid "Enable or disable various diagnostic messages"
-msgstr "Különböző diagnosztikai üzenetek engedélyezése vagy tiltása"
+msgstr "Különféle diagnosztikai üzenetek engedélyezése vagy letiltása"
 
-#: clientgui/AdvancedFrame.cpp:626 clientgui/sg_BoincSimpleFrame.cpp:223
+#: clientgui/AdvancedFrame.cpp:624 clientgui/sg_BoincSimpleFrame.cpp:222
 msgid "&Other options..."
-msgstr "&Egyéb beállítások..."
+msgstr "&Egyéb beállítások…"
 
-#: clientgui/AdvancedFrame.cpp:627
+#: clientgui/AdvancedFrame.cpp:625
 msgid "Configure display options and network settings"
 msgstr "Megjelenítési és hálózati beállítások"
 
-#: clientgui/AdvancedFrame.cpp:632
+#: clientgui/AdvancedFrame.cpp:630
 msgid "Read config files"
-msgstr "Konfigurációs fájlok beolvasása"
+msgstr "Beállítófájlok beolvasása"
 
-#: clientgui/AdvancedFrame.cpp:633
+#: clientgui/AdvancedFrame.cpp:631
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Konfiguráció olvasása a cc_config.xml, és az app_config.xml fájlokból"
+msgstr "Beállítási információk beolvasása a cc_config.xml és bármely app_config.xml fájlokból."
 
-#: clientgui/AdvancedFrame.cpp:637
+#: clientgui/AdvancedFrame.cpp:635
 msgid "Read local prefs file"
-msgstr "Helyi beállításfájl olvasása"
+msgstr "Helyi beállítófájl beolvasása"
 
-#: clientgui/AdvancedFrame.cpp:638
+#: clientgui/AdvancedFrame.cpp:636
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Beállítások beolvasása a global_prefs_override.xml fájlból."
 
-#: clientgui/AdvancedFrame.cpp:646 clientgui/sg_BoincSimpleFrame.cpp:280
+#: clientgui/AdvancedFrame.cpp:644 clientgui/sg_BoincSimpleFrame.cpp:279
 #, c-format
 msgid "%s &help"
-msgstr "%s &segítség"
+msgstr "%s &súgó"
 
-#: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:284
+#: clientgui/AdvancedFrame.cpp:648 clientgui/sg_BoincSimpleFrame.cpp:283
 #, c-format
 msgid "Show information about %s"
-msgstr "Információk erről: %s"
+msgstr "Információk megjelenítése erről: %s"
 
-#: clientgui/AdvancedFrame.cpp:660 clientgui/sg_BoincSimpleFrame.cpp:294
+#: clientgui/AdvancedFrame.cpp:658 clientgui/sg_BoincSimpleFrame.cpp:293
 #, c-format
 msgid "&%s help"
-msgstr "&%s segítség"
+msgstr "&%s súgó"
 
-#: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:298
+#: clientgui/AdvancedFrame.cpp:662 clientgui/sg_BoincSimpleFrame.cpp:297
 #, c-format
 msgid "Show information about the %s"
-msgstr "Információk erről: %s"
+msgstr "Információk megjelenítése erről: %s"
 
-#: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:308
+#: clientgui/AdvancedFrame.cpp:673 clientgui/sg_BoincSimpleFrame.cpp:307
 #, c-format
 msgid "%s &web site"
-msgstr "%s &weboldal"
+msgstr "%s &weboldala"
 
-#: clientgui/AdvancedFrame.cpp:679
+#: clientgui/AdvancedFrame.cpp:677
 #, c-format
 msgid "See more information about %s on the web"
-msgstr "További információkért keresd fel: %s"
+msgstr "További információk megtekintése a világhálón erről: %s"
 
-#: clientgui/AdvancedFrame.cpp:690 clientgui/AdvancedFrame.cpp:694
-#: clientgui/sg_BoincSimpleFrame.cpp:323 clientgui/sg_BoincSimpleFrame.cpp:327
+#: clientgui/AdvancedFrame.cpp:688 clientgui/AdvancedFrame.cpp:692
+#: clientgui/sg_BoincSimpleFrame.cpp:322 clientgui/sg_BoincSimpleFrame.cpp:326
 #, c-format
 msgid "Check for new %s version"
 msgstr "Új %s verzió keresése"
 
-#: clientgui/AdvancedFrame.cpp:706 clientgui/sg_BoincSimpleFrame.cpp:339
+#: clientgui/AdvancedFrame.cpp:704 clientgui/sg_BoincSimpleFrame.cpp:338
 msgid "Report Issue"
-msgstr "Probléma bejelentése"
+msgstr "Probléma jelentése"
 
-#: clientgui/AdvancedFrame.cpp:707 clientgui/sg_BoincSimpleFrame.cpp:340
+#: clientgui/AdvancedFrame.cpp:705 clientgui/sg_BoincSimpleFrame.cpp:339
 msgid "Report bug or enhancement request"
-msgstr "Hiba, vagy fejlesztési kérés beküldése"
+msgstr "Hiba jelentése vagy fejlesztési kérés"
 
-#: clientgui/AdvancedFrame.cpp:712 clientgui/BOINCTaskBar.cpp:530
-#: clientgui/sg_BoincSimpleFrame.cpp:345
+#: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:530
+#: clientgui/sg_BoincSimpleFrame.cpp:344
 #, c-format
 msgid "&About %s..."
-msgstr "%s &névjegye..."
+msgstr "A(z) %s &névjegye…"
 
-#: clientgui/AdvancedFrame.cpp:718 clientgui/sg_BoincSimpleFrame.cpp:351
+#: clientgui/AdvancedFrame.cpp:716 clientgui/sg_BoincSimpleFrame.cpp:350
 msgid "Licensing and copyright information."
-msgstr "Licensz és szerzői jogi információ."
+msgstr "Licencelés és szerzői jogi információk."
 
-#: clientgui/AdvancedFrame.cpp:725 clientgui/sg_BoincSimpleFrame.cpp:358
+#: clientgui/AdvancedFrame.cpp:723 clientgui/sg_BoincSimpleFrame.cpp:357
 msgid "&File"
 msgstr "&Fájl"
 
-#: clientgui/AdvancedFrame.cpp:729 clientgui/sg_BoincSimpleFrame.cpp:362
+#: clientgui/AdvancedFrame.cpp:727 clientgui/sg_BoincSimpleFrame.cpp:361
 msgid "&View"
 msgstr "&Nézet"
 
-#: clientgui/AdvancedFrame.cpp:733
+#: clientgui/AdvancedFrame.cpp:731
 msgid "&Activity"
-msgstr "&Aktivitás"
+msgstr "&Tevékenység"
 
-#: clientgui/AdvancedFrame.cpp:737 clientgui/sg_BoincSimpleFrame.cpp:366
+#: clientgui/AdvancedFrame.cpp:735 clientgui/sg_BoincSimpleFrame.cpp:365
 msgid "&Options"
 msgstr "&Beállítások"
 
-#: clientgui/AdvancedFrame.cpp:741 clientgui/sg_BoincSimpleFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:739 clientgui/sg_BoincSimpleFrame.cpp:369
 msgid "&Tools"
 msgstr "&Eszközök"
 
-#: clientgui/AdvancedFrame.cpp:745 clientgui/sg_BoincSimpleFrame.cpp:374
+#: clientgui/AdvancedFrame.cpp:743 clientgui/sg_BoincSimpleFrame.cpp:373
 #: clientgui/wizardex.cpp:383 clientgui/wizardex.cpp:390
 msgid "&Help"
-msgstr "&Segítség"
+msgstr "&Súgó"
 
-#: clientgui/AdvancedFrame.cpp:1325
+#: clientgui/AdvancedFrame.cpp:1348
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - A jelenlegi kliens leállítása..."
+msgstr "%s – A jelenlegi kliens leállítása…"
 
-#: clientgui/AdvancedFrame.cpp:1334
+#: clientgui/AdvancedFrame.cpp:1357
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr "%s le fogja állítani az aktuális klienst\nés bekéri tőled egy másik gazdagép adatait."
+msgstr "A(z) %s le fogja állítani a jelenlegi klienst,\nés bekér egy másik kiszolgálót a kapcsolódáshoz."
 
-#: clientgui/AdvancedFrame.cpp:1721 clientgui/DlgAbout.cpp:119
+#: clientgui/AdvancedFrame.cpp:1747 clientgui/DlgAbout.cpp:121
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1731
+#: clientgui/AdvancedFrame.cpp:1757
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s sikeresen hozzáadva ehhez: %s"
 
-#: clientgui/AdvancedFrame.cpp:1897
+#: clientgui/AdvancedFrame.cpp:1904
 #, c-format
 msgid "%s - (%s)"
-msgstr "%s - (%s)"
+msgstr "%s – (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1901
+#: clientgui/AdvancedFrame.cpp:1908
 #, c-format
 msgid "Connecting to %s"
 msgstr "Kapcsolódás ehhez: %s"
 
-#: clientgui/AdvancedFrame.cpp:1904
+#: clientgui/AdvancedFrame.cpp:1911
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Kapcsolódva ehhez: %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr "Már létezik ilyen felhasználói név"
+msgstr "A felhasználónév már használatban van"
 
 #: clientgui/AlreadyExistsPage.cpp:187
 msgid ""
@@ -620,11 +608,11 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Már létezik fiók ezzel a felhasználónévvel, de a hozzá\ntartozó jelszó nem egyezik az általad megadottal.\n\nKérlek, látogass el a projekt weboldalára, és kövesd az ott leírt teendőket."
+msgstr "Már létezik egy fiók ezzel a felhasználónévvel, és a\nmegadottól eltérő jelszóval rendelkezik.\n\nLátogassa meg a projekt weboldalát, és kövesse az ottani utasításokat."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "Az email cím már foglalt."
+msgstr "Az e-mail-cím már használatban van"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""
@@ -632,11 +620,11 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Egy fiók már létezik ezzel az email címmel, de a hozzá\ntartozó jelszó nem egyezik az általad megadottal.\n\nKérlek, látogass el a projekt weboldalára, és kövesd az ott leírt teendőket."
+msgstr "Már létezik egy fiók ezzel az e-mail-címmel, és a megadottól\neltérő jelszóval rendelkezik.\n\nLátogassa meg a projekt weboldalát, és kövesse az ottani utasításokat."
 
 #: clientgui/AsyncRPC.cpp:1037
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Kommunikáció a BOINC klienssel. Kérlek, várj..."
+msgstr "Kommunikáció a BOINC-klienssel. Kérem várjon…"
 
 #: clientgui/AsyncRPC.cpp:1040
 #, c-format
@@ -646,59 +634,59 @@ msgstr "%s &bezárása"
 #: clientgui/AsyncRPC.cpp:1042
 #, c-format
 msgid "E&xit %s"
-msgstr "%s &bezárása"
+msgstr "%s be&zárása"
 
 #: clientgui/AsyncRPC.cpp:1046
 #, c-format
 msgid "%s - Communication"
-msgstr "%s - Kommunikáció"
+msgstr "%s – Kommunikáció"
 
 #: clientgui/AsyncRPC.cpp:1062 clientgui/DlgAdvPreferencesBase.cpp:183
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "Mégse"
 
 #: clientgui/BOINCBaseFrame.cpp:495
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - Kapcsolódási hiba"
+msgstr "%s – Kapcsolódási hiba"
 
 #: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - A kapcsolódás sikertelen"
+msgstr "%s – Kapcsolódás sikertelen"
 
 #: clientgui/BOINCBaseFrame.cpp:559
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr "%s nem tud kapcsolódni egy %s klienshez.\nMegpróbálsz újra kapcsolódni?"
+msgstr "A(z) %s nem tud kapcsolódni egy %s klienshez.\nSzeretne megpróbálni újrakapcsolódni?"
 
 #: clientgui/BOINCBaseFrame.cpp:595
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr "%s - A kiszolgáló indítása sikertelen"
+msgstr "%s – Démonindítás sikertelen"
 
 #: clientgui/BOINCBaseFrame.cpp:605
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr "%s nem tud egy %s klienst elindítani.\nKérjük, menj a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások helyre és indítsd el a  BOINC szolgáltatást."
+msgstr "A(z) %s nem tud elindítani egy %s klienst.\nFuttassa a Vezérlőpult→Felügyeleti eszközök→Szolgáltatások kisalkalmazást, és indítsa el a BOINC szolgáltatást."
 
 #: clientgui/BOINCBaseFrame.cpp:611
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please run the client and try again."
-msgstr "%s nem tudja elindítani a(z) %s klienst.\nKérjük, indítsd el a klienst és próbáld újra."
+msgstr "A(z) %s nem tud elindítani egy %s klienst.\nFuttassa a klienst, és próbálja meg újra."
 
 #: clientgui/BOINCBaseFrame.cpp:657
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - A kapcsolat állapota"
+msgstr "%s – Kapcsolódási állapot"
 
 #: clientgui/BOINCBaseFrame.cpp:668
 #, c-format
@@ -706,14 +694,14 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "%s jelenleg nem kapcsolódsz egy %s klienshez sem.\nKérjük, használd a 'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való csatlakozáshoz.\nA helyi számítógép csatlakoztatásához a számítógépnév megadásánál használd a 'localhost' kifejezést."
+msgstr "A(z) %s jelenleg nem kapcsolódik egy %s klienshez.\nHasználja a „Speciális→Számítógép kiválasztása…” menüpontot egy %s klienshez való kapcsolódáshoz.\nA helyi számítógéphez való kapcsolódáshoz használja a „localhost” gépnevet."
 
-#: clientgui/BOINCBaseFrame.cpp:984
+#: clientgui/BOINCBaseFrame.cpp:983
 #, c-format
 msgid "%s - Stop using %s"
-msgstr "%s - %s használatának befejezése"
+msgstr "%s – %s használatának leállítása"
 
-#: clientgui/BOINCBaseFrame.cpp:989
+#: clientgui/BOINCBaseFrame.cpp:988
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -721,58 +709,58 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Ha befejezed %s használatát,\nazzal bár megtartod jelenlegi projektjeid,\nde csak manuálisan tudod kezelni azokat.\n\nBiztosan befejezed %s használatát?"
+msgstr "Ha leállítja a(z) %s használatát,\nazzal megtartja a jelenlegi projektjeit,\nde csak kézzel tudja kezelni azokat.\n\nLe szeretné állítani a(z) %s használatát?"
 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:781
 msgid "Project web pages"
-msgstr "A projekt weboldalai"
+msgstr "Projekt weboldalai"
 
 #: clientgui/BOINCClientManager.cpp:532
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - Váratlan kilépés"
+msgstr "%s – Váratlan kilépés"
 
 #: clientgui/BOINCClientManager.cpp:542
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "A(z) %s kliens 3 alkalommal is váratlanul kilépett az utóbbi %d percben.\nSzeretnéd megint újraindítani?"
+msgstr "A(z) %s kliens 3 alkalommal is váratlanul kilépett az utóbbi %d percben.\nSzeretné megint újraindítani?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - Hálózati állapot"
+msgstr "%s – Hálózati állapot"
 
 #: clientgui/BOINCDialupManager.cpp:240
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "A következőnek internetkapcsolatra van szüksége: %s.\nCsatlakoztassuk most?"
+msgstr "A(z) %s számára internetkapcsolat szükséges.\nMegteheti most?"
 
 #: clientgui/BOINCDialupManager.cpp:253
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s kapcsolódik az internetre."
+msgstr "A(z) %s kapcsolódik az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:302
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s sikeresen kapcsolódott az internetre."
+msgstr "A(z) %s sikeresen kapcsolódott az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:330
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "A(z) %s nem tudott az internetre kapcsolódni."
+msgstr "A(z) %s nem tudott kapcsolódni az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:371
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr "A(z) %s érzékelte, hogy kapcsolódott az internetre.\nMinden projekt frissítése, és az átvitelek újrapróbálása."
+msgstr "A(z) %s érzékelte, hogy most kapcsolódott az internetre.\nAz összes projekt frissítése minden átvitel újrapróbálása."
 
 #: clientgui/BOINCDialupManager.cpp:416
 #, c-format
@@ -793,21 +781,21 @@ msgid ""
 "- reinstall %s answering \"Yes\" to the question about non-administrative users\n"
 " or\n"
 "- contact your administrator to add you to the 'boinc_master' user group."
-msgstr "Jelenleg nincs jogosultságod a(z) %s kezeléséhez.\n\nA(z) %s futtatásához ezzel a felhasználóval kérjük:\n- telepítsd újra a(z) %s-t, és válaszolj \"Igen\"-nel a nem-adminisztratív felhasználókra vonatkozó kérdésre\nvagy\n- lépj kapcsolatba az adminisztrátorral és kérd meg, hogy adjon hozzá a 'boinc_master' felhasználói csoporthoz."
+msgstr "Jelenleg nincs felhatalmazva a(z) %s kezeléséhez.\n\nA(z) %s ezzel a felhasználóval való futtatásához:\n- telepítse újra a(z) %s klienst a nem-adminisztratív felhasználókra adott „Igen” válasszal\nvagy\n- vegye fel a kapcsolatot a rendszergazdával, hogy a „boinc_master” felhasználói csoporthoz adja Önt."
 
 #: clientgui/BOINCGUIApp.cpp:348
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr "A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; kérjük, telepítsd újra a(z) %s-t.\n(Hibakód %d"
+msgstr "A(z) %s tulajdonosi beállítása vagy a jogosultságok nincsenek megfelelően beállítva. Telepítse újra a(z) %s klienst.\n(Hibakód: %d"
 
 #: clientgui/BOINCGUIApp.cpp:354
 msgid " at "
 msgstr "itt:"
 
-#: clientgui/BOINCGUIApp.cpp:357 clientgui/MainDocument.cpp:2518
-#: clientgui/MainDocument.cpp:2577 clientgui/ViewTransfers.cpp:871
+#: clientgui/BOINCGUIApp.cpp:357 clientgui/MainDocument.cpp:2521
+#: clientgui/MainDocument.cpp:2580 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
@@ -815,23 +803,23 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "A BOINC megfelelő futásához újraindítás szükséges.\nKérjük, indítsd újra a számítógépet, majd próbáld újra."
+msgstr "Újraindítás szükséges a BOINC megfelelő futásához.\nIndítssa újra a számítógépét, és próbálja meg újra."
 
-#: clientgui/BOINCGUIApp.cpp:388 clientgui/DlgAbout.cpp:156
+#: clientgui/BOINCGUIApp.cpp:388 clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
-msgstr "BOINC Kezelő"
+msgstr "BOINC-kezelő"
 
 #: clientgui/BOINCGUIApp.cpp:604
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "A BOINC Kezelőt az operációs rendszer automatikusan indította"
+msgstr "A BOINC-kezelőt az operációs rendszer automatikusan indította"
 
 #: clientgui/BOINCGUIApp.cpp:606
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "A BOINC indítása csak tálcaikonként "
+msgstr "A BOINC indítása, hogy csak a rendszertálcaikon legyen látható"
 
 #: clientgui/BOINCGUIApp.cpp:608
 msgid "Directory containing the BOINC Client executable"
-msgstr "A futtatható BOINC Klienst tartalmazó könyvtár"
+msgstr "A futtatható BOINC-klienst tartalmazó könyvtár"
 
 #: clientgui/BOINCGUIApp.cpp:609
 msgid "BOINC data directory"
@@ -839,7 +827,7 @@ msgstr "BOINC adatkönyvtár"
 
 #: clientgui/BOINCGUIApp.cpp:611
 msgid "Host name or IP address"
-msgstr "Gazdanév vagy IP cím"
+msgstr "Gépnév vagy IP-cím"
 
 #: clientgui/BOINCGUIApp.cpp:612
 msgid "GUI RPC port number"
@@ -851,27 +839,27 @@ msgstr "Jelszó"
 
 #: clientgui/BOINCGUIApp.cpp:614
 msgid "Startup BOINC with these optional arguments"
-msgstr "A BOINC indítása a következő opcionális paraméterekkel"
+msgstr "A BOINC indítása a következő elhagyható paraméterekkel"
 
 #: clientgui/BOINCGUIApp.cpp:615
 msgid "disable BOINC security users and permissions"
-msgstr "BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
+msgstr "BOINC biztonsági felhasználók és hozzáférések letiltása"
 
 #: clientgui/BOINCGUIApp.cpp:616
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr "kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek engedélyezése"
+msgstr "a felszín hibakeresési módjának beállítása a felszínkezelő hibaüzeneteinek engedélyezéséhez"
 
 #: clientgui/BOINCGUIApp.cpp:617
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "a BOINC Kezelő több példányának futása engedélyezve"
+msgstr "a BOINC-kezelő több példányának futása engedélyezve"
 
 #: clientgui/BOINCGUIApp.cpp:619
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Nincs használatban az XCode 4.2-ben található hibához készített megoldás "
+msgstr "Nem használt: kerülőmegoldás az XCode 4.2-ben található hibához"
 
 #: clientgui/BOINCGUIApp.cpp:621
 msgid "Don't run the client"
-msgstr "Ne futtasd a klienst"
+msgstr "Ne futtasa a klienst"
 
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:890
@@ -884,34 +872,34 @@ msgstr "(Ismeretlen)"
 
 #: clientgui/BOINCGUIApp.cpp:892
 msgid "(User Defined)"
-msgstr "(Felhasználó által megadva)"
+msgstr "(Felhasználó által meghatározva)"
 
 #: clientgui/BOINCTaskBar.cpp:508
 #, c-format
 msgid "Open %s Web..."
-msgstr "%s megnyitása a Weben..."
+msgstr "A(z) %s weblapjának megnyitása…"
 
 #: clientgui/BOINCTaskBar.cpp:515
 #, c-format
 msgid "Open %s..."
-msgstr "%s megnyitása..."
+msgstr "A(z) %s megnyitása…"
 
 #: clientgui/BOINCTaskBar.cpp:522 clientgui/BOINCTaskBar.cpp:620
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze"
-msgstr "Alvó állapot"
+msgstr "Altatás"
 
 #: clientgui/BOINCTaskBar.cpp:524 clientgui/BOINCTaskBar.cpp:639
 #: clientgui/BOINCTaskBar.cpp:644
 msgid "Snooze GPU"
-msgstr "GPU szundi"
+msgstr "GPU altatása"
 
 #: clientgui/BOINCTaskBar.cpp:542
 msgid "E&xit"
-msgstr "K&ilépés"
+msgstr "&Kilépés"
 
 #: clientgui/BOINCTaskBar.cpp:615 clientgui/ViewProjects.cpp:788
-#: clientgui/ViewWork.cpp:872 clientgui/sg_BoincSimpleFrame.cpp:972
+#: clientgui/ViewWork.cpp:874 clientgui/sg_BoincSimpleFrame.cpp:957
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
@@ -927,27 +915,27 @@ msgstr "Számítás engedélyezve"
 
 #: clientgui/BOINCTaskBar.cpp:710
 msgid "Computing is suspended - "
-msgstr "Számítás felfüggesztve -"
+msgstr "Számítás felfüggesztve –"
 
 #: clientgui/BOINCTaskBar.cpp:720
 msgid "GPU computing is enabled"
-msgstr "GPU számítás engedélyezve"
+msgstr "GPU-számítás engedélyezve"
 
 #: clientgui/BOINCTaskBar.cpp:723
 msgid "GPU computing is suspended - "
-msgstr "GPU számítás felfüggesztve -"
+msgstr "GPU-számítás felfüggesztve –"
 
 #: clientgui/BOINCTaskBar.cpp:732
 msgid "Network is enabled"
-msgstr "Hálózati forgalom engedélyezve"
+msgstr "Hálózat engedélyezve"
 
 #: clientgui/BOINCTaskBar.cpp:735
 msgid "Network is suspended - "
-msgstr "Hálózati forgalom felfüggesztve -"
+msgstr "Hálózat felfüggesztve –"
 
 #: clientgui/BOINCTaskBar.cpp:743
 msgid "Reconnecting to client."
-msgstr "Újracsatlakozás a klienshez."
+msgstr "Újrakapcsolódás a klienshez."
 
 #: clientgui/BOINCTaskBar.cpp:745
 msgid "Not connected to a client."
@@ -956,15 +944,15 @@ msgstr "Nincs kapcsolódva a klienshez."
 #: clientgui/BOINCTaskBar.cpp:798
 #, c-format
 msgid "%s Notices"
-msgstr "%s Megjegyzések"
+msgstr "%s értesítés"
 
 #: clientgui/BOINCTaskBar.cpp:804
 msgid "There are new notices - click to view."
-msgstr "Új üzenetek érkeztek - kattints a megtekintésükhöz."
+msgstr "Új értesítések vannak – kattintson a megtekintésükhöz."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr "Projekt hozzáadása sikertelen"
+msgstr "A projekt hozzáadása sikertelen"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
@@ -983,16 +971,16 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr "Kérjük, próbáld újra később.\n\nKattints a Befejezésre a bezáráshoz."
+msgstr "Próbálja újra később.\n\nKattintson a Befejezésre a bezáráshoz."
 
 #: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:215
 #: clientgui/CompletionPage.cpp:235 clientgui/CompletionPage.cpp:266
 msgid "Click Finish to close."
-msgstr "A bezáráshoz kattints a Befejez gombra."
+msgstr "Kattintson a Befejezésre a bezáráshoz."
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
-msgstr "Üzenetek a szervertől:"
+msgstr "Üzenetek a kiszolgálótól:"
 
 #: clientgui/CompletionPage.cpp:200
 msgid "Project added"
@@ -1000,78 +988,78 @@ msgstr "Projekt hozzáadva"
 
 #: clientgui/CompletionPage.cpp:206
 msgid "This project has been successfully added."
-msgstr "A projektet sikeresen hozzáadtuk."
+msgstr "A projekt sikeresen hozzáadva."
 
 #: clientgui/CompletionPage.cpp:211
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "Ha a Befejez gombra kattintasz, akkor a böngésződben megnyílik az az oldal,\nahol megadhatod a fiókod nevét és beállításait."
+msgstr "Ha a Befejezésre kattint, akkor a webböngészőjében megnyílik egy\nolyan oldal, ahol beállíthatja a fiókja nevét és beállításait."
 
 #: clientgui/CompletionPage.cpp:225
 #, c-format
 msgid "Update from %s completed."
-msgstr "A frissítés a(z) %s helyről elkészült."
+msgstr "Frissítés befejezve innen: %s ."
 
 #: clientgui/CompletionPage.cpp:229
 msgid "Update completed."
-msgstr "Frissítés kész."
+msgstr "Frissítés befejezve."
 
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:240
 msgid "Now using account manager"
-msgstr "Most már fiókkezelőt használsz"
+msgstr "Most már fiókkezelőt használ"
 
 #: clientgui/CompletionPage.cpp:245
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Üdvözlünk a(z) %s projektben!"
+msgstr "Üdvözli a(z) %s !"
 
 #: clientgui/CompletionPage.cpp:256
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr "Jelenleg a(z) %s-t használod fiókjaid kezelésére."
+msgstr "Most már a(z) %s használatával kezeli a fiókokat."
 
 #: clientgui/CompletionPage.cpp:260
 msgid "You are now using this account manager."
-msgstr "Jelenleg ezt a fiókkezelőt használod."
+msgstr "Jelenleg ezt a fiókkezelőt használja."
 
-#: clientgui/DlgAbout.cpp:113
+#: clientgui/DlgAbout.cpp:115
 #, c-format
 msgid "About %s"
-msgstr "%s névjegye"
+msgstr "A(z) %s névjegye"
 
-#: clientgui/DlgAbout.cpp:175
+#: clientgui/DlgAbout.cpp:177
 msgid "Version:"
 msgstr "Verzió:"
 
-#: clientgui/DlgAbout.cpp:183
+#: clientgui/DlgAbout.cpp:185
 msgid "wxWidgets Version:"
-msgstr "wxWidgets verzió:"
+msgstr "wxWidgets verziója:"
 
-#: clientgui/DlgAbout.cpp:191
+#: clientgui/DlgAbout.cpp:193
 msgid "Copyright:"
-msgstr "Készítő:"
+msgstr "Szerzői jog:"
 
-#: clientgui/DlgAbout.cpp:195
+#: clientgui/DlgAbout.cpp:197
 msgid ""
 "(C) 2003-2020 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
+msgstr "© 2003-2020 Kaliforniai Berkeley Egyetem.\nMinden jog fenntartva."
 
-#: clientgui/DlgAbout.cpp:200
+#: clientgui/DlgAbout.cpp:202
 #, c-format
 msgid "%s is distributed under the GNU Lesser General Public License v3.0."
-msgstr "A(z) %s terjesztése a GNU Lesser General Public License (Kevésbé általános közreadási szerződés) v3.0-s változata szerint történik"
+msgstr "A(z) %s a GNU Lesser General Public License 3.0-s változata szerint van terjesztve."
 
-#: clientgui/DlgAbout.cpp:212
+#: clientgui/DlgAbout.cpp:214
 msgid "For more information, visit "
-msgstr "További információkért keresd fel"
+msgstr "További információkért nézze meg"
 
-#: clientgui/DlgAbout.cpp:224 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgSelectComputer.cpp:163
 msgid "&OK"
-msgstr "&OK"
+msgstr "&Rendben"
 
 #: clientgui/DlgAdvPreferences.cpp:659 clientgui/sg_DlgPreferences.cpp:787
 msgid "Invalid number"
@@ -1079,19 +1067,19 @@ msgstr "Érvénytelen szám"
 
 #: clientgui/DlgAdvPreferences.cpp:660 clientgui/sg_DlgPreferences.cpp:788
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Érvénytelen idő, az értéknek 0:00 és 24:00 közt kell lennie, a formátum: ÓÓ:PP"
+msgstr "Érvénytelen idő, az értéknek 0:00 és 24:00 között kell lennie ÓÓ:PP formátumban"
 
 #: clientgui/DlgAdvPreferences.cpp:661 clientgui/sg_DlgPreferences.cpp:789
 msgid "Start time must be different from end time"
-msgstr "A kezdő időpontnak különböznie kell a záró időponttól"
+msgstr "A kezdési időnek eltérőnek kell lennie a befejezési időtől"
 
 #: clientgui/DlgAdvPreferences.cpp:662
 msgid "Number must be between 0 and 10"
-msgstr "A számnak 0 és 10 közt kell lennie"
+msgstr "A számnak 0 és 10 között kell lennie"
 
 #: clientgui/DlgAdvPreferences.cpp:663 clientgui/sg_DlgPreferences.cpp:790
 msgid "Number must be between 0 and 100"
-msgstr "A számnak 0 és 100 közt kell lennie"
+msgstr "A számnak 0 és 100 között kell lennie"
 
 #: clientgui/DlgAdvPreferences.cpp:664
 msgid "Number must be between 1 and 100"
@@ -1099,18 +1087,18 @@ msgstr "A számnak 1 és 100 között kell lennie"
 
 #: clientgui/DlgAdvPreferences.cpp:922 clientgui/sg_DlgPreferences.cpp:861
 msgid "invalid input value detected"
-msgstr "érvénytelen bemeneti érték"
+msgstr "érvénytelen bemeneti érték észlelve"
 
 #: clientgui/DlgAdvPreferences.cpp:934 clientgui/sg_DlgPreferences.cpp:873
 msgid "Validation Error"
-msgstr "Érvényesítési hiba"
+msgstr "Ellenőrzési hiba"
 
 #: clientgui/DlgAdvPreferences.cpp:1118 clientgui/sg_DlgPreferences.cpp:1207
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
-msgstr "Ezen a lapon keresztül válthatsz a helyi beállítások használatára. Ez felül fogja írni a webes beállításaidat, még akkor is, ha az ottani módosítások a frissebbek. Biztosan folytatni akarod?"
+msgstr "Ezen a lapon meghatározott helyi beállítások használatára való váltás. Ez felül fogja írni a webalapú beállításait, még akkor is, ha ezt követően végez változtatásokat ott. Szeretné folytatni?"
 
 #: clientgui/DlgAdvPreferences.cpp:1122 clientgui/DlgAdvPreferences.cpp:1163
 #: clientgui/sg_DlgPreferences.cpp:1199 clientgui/sg_DlgPreferences.cpp:1211
@@ -1119,26 +1107,26 @@ msgstr "Megerősítés"
 
 #: clientgui/DlgAdvPreferences.cpp:1162
 msgid "Discard local preferences and use web-based preferences?"
-msgstr "Eldobod a helyi beállításokat és a webalapú beállításokat használod?"
+msgstr "A helyi beállítások eldobása és a webalapú beállításokat használata?"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:61
 #, c-format
 msgid "%s - Computing preferences"
-msgstr "%s - Számítási beállítások"
+msgstr "%s – Számítási beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:88 clientgui/sg_DlgPreferences.cpp:163
 msgid ""
 "Using local preferences.\n"
 "Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Helyi beállítások használata.\nKattints a \"Web beállítások használata\" gombra a webalapú beállítások használatához"
+msgstr "Helyi beállítások használata.\nKattintson a „Webes beállítások használata” gombra a webalapú beállítások használatához innen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:96 clientgui/sg_DlgPreferences.cpp:171
 msgid "Using web-based preferences from"
-msgstr "Webalapú beállítások használata"
+msgstr "Webalapú beállítások használata innen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click Save to use local preferences instead."
-msgstr "Állítsd be a megfelelő értékeket és kattints a Mentés gombra a helyi beállítások használatához."
+msgstr "Állítssa be az értékeket, és kattintson a Mentés gombra a helyi beállítások használatához."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:121 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
@@ -1165,7 +1153,7 @@ msgstr "Lemez és memória"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:163
 msgid "Daily schedules"
-msgstr "Napi menetrend"
+msgstr "Napi ütemezések"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:176
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgExclusiveApps.cpp:146
@@ -1175,7 +1163,7 @@ msgstr "Mentés"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177 clientgui/sg_DlgPreferences.cpp:354
 msgid "Save all values and close the dialog."
-msgstr "Minden érték mentése és a párbeszédablak bezárása."
+msgstr "Az összes érték mentése és a párbeszédablak bezárása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:184 clientgui/sg_DlgPreferences.cpp:361
 msgid "Close the dialog without saving."
@@ -1183,26 +1171,26 @@ msgstr "Párbeszédablak bezárása mentés nélkül."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:1008
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:993
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Súgó"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:191
 msgid "Shows the preferences web page."
-msgstr "A beállítások weboldalát mutatja meg."
+msgstr "Megjeleníti a beállítások weboldalát."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:253
 #: clientgui/DlgAdvPreferencesBase.cpp:480
 msgid "Usage limits"
-msgstr "A használat korlátozásai"
+msgstr "Használati korlátok"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:258
 #, no-c-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Tartson némi CPU-t szabadon más alkalmazások számára. Például a 75% azt jelenti, hogy 6 magot használ egy 8 magos processzoron."
+msgstr "Tartson néhány processzort szabadon más alkalmazások számára. Például a 75% azt jelenti, hogy 6 magot használ egy 8 magos processzoron."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260
 #: clientgui/DlgAdvPreferencesBase.cpp:272 clientgui/sg_DlgPreferences.cpp:286
@@ -1212,7 +1200,7 @@ msgstr "Legfeljebb"
 #: clientgui/DlgAdvPreferencesBase.cpp:265
 #, no-c-format
 msgid "% of the CPUs"
-msgstr "%-át használja a CPU-knak"
+msgstr "%-át használja a processzoroknak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:270 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
@@ -1220,12 +1208,12 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "A számítás felfüggesztése/folytatása néhány másodpercenként a CPU hőterhelésének és energiafogyasztásának csökkentése érdekében. Például a 75% azt jelenti, hogy a CPU 3 másodpercig dolgozik, majd 1 másodpercig pihen."
+msgstr "A számítás felfüggesztése és folytatása néhány másodpercenként a processzor hőmérsékletének és energiafogyasztásának csökkentéséhez. Például a 75% azt jelenti, hogy 3 másodpercig számol, majd 1 másodpercig várakozik, és ezt ismételgeti."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
 msgid "% of CPU time"
-msgstr "%-át használja a CPU időnek"
+msgstr "%-át használja a processzoridőnek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:284
 msgid "When to suspend"
@@ -1233,59 +1221,59 @@ msgstr "Felfüggesztés ekkor"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:290 clientgui/sg_DlgPreferences.cpp:239
 msgid "Suspend when computer is on battery"
-msgstr "Felfüggesztés, ha a számítógép akkuról működik"
+msgstr "Felfüggesztés, ha a számítógép akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:293 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Számítás felfüggesztése hordozható gépen, ha az akkuról működik."
+msgstr "Jelölje be ezt a hordozható eszközökön történő számítás felfüggesztéséhez, ha az akkumulátorról működik."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
-msgstr "Felfüggeszti a munkát, ha a számítógép használatban van"
+msgstr "Felfüggesztés, ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:302 clientgui/sg_DlgPreferences.cpp:249
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
-msgstr "Számítás és fájltovábbítás felfüggesztése, ha a gép használatban van."
+msgstr "Jelölje be ezt a számítás és fájlátvitel felfüggesztéséhez, ha a számítógép használatban van."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:308
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Felfüggeszti a GPU használatát, ha a számítógép használatban van"
+msgstr "GPU-számítás felfüggesztése, ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:311
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Jelöld be, ha azt szeretnéd, hogy a GPU ne dolgozzon, amikor a számítógépet használod."
+msgstr "Jelölje be ezt a videokártyán végzett számítás felfüggesztéséhez, ha a számítógép használatban van."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:316 clientgui/sg_DlgPreferences.cpp:264
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Meghatározza, hogy a számítógép mikor tekinthető \"használatban lévő\"-nek."
+msgstr "Ez határozza meg, hogy a számítógép mikor tekintendő „használatban lévőnek”."
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:321 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'A használatban' azt jelenti, hogy egér/billentyűzet aktivitás volt észlelhető az utóbbi"
+msgstr "A „használatban” azt jelenti, hogy volt egér- vagy a billentyűzetbevitel az utolsó"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:332
 #: clientgui/DlgAdvPreferencesBase.cpp:430 clientgui/sg_DlgPreferences.cpp:276
 msgid "minutes"
-msgstr "perc"
+msgstr "percben"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:340
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Felfüggesztés, ha  a nem-BOINC CPU használat e fölötti"
+msgstr "Felfüggesztés, ha a nem BOINC CPU-használat e fölötti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:342
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Számítás felfüggesztése, ha a gépet más programok használják."
+msgstr "Számítás felfüggesztése, ha a számítógépet más programok használják."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:356
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Az időben korlátozott engedélyezés beállításához nézd meg a \"Napi menetrend\"-et."
+msgstr "A nap egy időpontjában való felfüggesztéshez nézze meg a „Napi ütemezések” szakaszt."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:366
@@ -1296,12 +1284,12 @@ msgstr "Egyéb"
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:372
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Tárolj annyi feladatot, ami a számítógépet legalább ennyi időre lefoglalja."
+msgstr "Legalább annyi feladat tárolása, hogy a számítógép elfoglalt maradjon ennyi időre."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid "Store at least"
-msgstr "Tárolj legalább"
+msgstr "Tároljon legalább"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
@@ -1314,22 +1302,22 @@ msgstr "napra elegendő munkát"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "További feladatok tárolása a minimum szint felett. Meghatározza, hogy mennyi munkát kérjen, amikor kapcsolatba lép a projekttel."
+msgstr "További feladatok tárolása a legkisebb szint felett. Meghatározza, hogy mennyi munkát kérjen, ha kapcsolatba lép a projekttel."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:397
 msgid "Store up to an additional"
-msgstr "Tároljon további"
+msgstr "Tároljon legfeljebb további"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:416
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "Ha több projektet futtatsz, a(z) %s ilyen gyakorisággal válthat köztük."
+msgstr "Ha több projektet futtat, a(z) %s ilyen gyakorisággal válthat köztük."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:421
 msgid "Switch between tasks every"
-msgstr "Váltás a feladatok között ilyen gyakorisággal"
+msgstr "Váltás a feladatok között minden"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:436
 msgid ""
@@ -1340,7 +1328,7 @@ msgstr "Ez szabályozza, hogy a feladatok milyen gyakorisággal mentsék az áll
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:440
 msgid "Request tasks to checkpoint at most every"
-msgstr "Kérd a feladat állapotának lemezre írását legalább minden"
+msgstr "Kérje a feladatok állapotának lemezre írását legalább minden"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:449
@@ -1354,12 +1342,12 @@ msgstr "A fájlátvitelek letöltési sebességének korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:487
 msgid "Limit download rate to"
-msgstr "Max letöltési sebesség korlátozása"
+msgstr "Letöltési sebesség korlátozása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:491
 #: clientgui/DlgAdvPreferencesBase.cpp:500
 msgid "KB/second"
-msgstr "KB/s"
+msgstr "KB/másodpercre"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:495
 msgid "Limit the upload rate of file transfers."
@@ -1367,35 +1355,35 @@ msgstr "A fájlátvitelek feltöltési sebességének korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:496
 msgid "Limit upload rate to"
-msgstr "Max feltöltési sebesség korlátozása"
+msgstr "Feltöltési sebesség korlátozása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:507
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Példa: %s legfeljebb 2000 MB adatot továbbíthat 30 nap alatt."
+msgstr "Példa: %s legfeljebb 2000 MB adatot továbbíthat 30 naponként."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:509
 msgid "Limit usage to"
-msgstr "Korlátozás"
+msgstr "Használat korlátozása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:513
 msgid "MB every"
-msgstr "MB minden"
+msgstr "MB-ra"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:517
 msgid "days"
-msgstr "nap"
+msgstr "naponként"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:522
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Az adatátvitel korlátozás beállításához nézd meg a \"Napi menetrend\"-et."
+msgstr "A nap egy időpontjában történő forgalom korlátozásához nézze meg a „Napi ütemezések” szakaszt."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:539
 #, c-format
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
-msgstr "Jelöld be, ha az internetszolgáltatód módosítja a képfájlokat. Az ellenőrzés kihagyása csökkenti a(z) %s biztonságát."
+msgstr "Jelölje be ezt, ha az internetszolgáltatója módosítja a képfájlokat. Az ellenőrzés kihagyása csökkenti a(z) %s biztonságát."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 msgid "Skip data verification for image files"
@@ -1403,35 +1391,35 @@ msgstr "Képfájlok adatellenőrzésének kihagyása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:545
 msgid "Confirm before connecting to Internet"
-msgstr "Megerősítés internetre csatlakozás előtt"
+msgstr "Megerősítés az internethez kapcsolódás előtt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:546
 #: clientgui/DlgAdvPreferencesBase.cpp:550
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Modem, ISDN vagy VPN kapcsolat esetén érdemes használni."
+msgstr "Csak akkor hasznos, ha modem, ISDN vagy VPN kapcsolatot használ."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:549
 msgid "Disconnect when done"
-msgstr "Lecsatlakozás, ha kész"
+msgstr "Kapcsolat bontása, ha kész"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:576 clientgui/ViewResources.cpp:116
+#: clientgui/DlgAdvPreferencesBase.cpp:576 clientgui/ViewResources.cpp:118
 msgid "Disk"
 msgstr "Lemez"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 #, c-format
 msgid "%s will use the most restrictive of these settings:"
-msgstr "%s e beállítások közül a leginkább korlátozót fogja használni:"
+msgstr "A(z) %s ezen beállítások közül a leginkább korlátozót fogja használni:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:587 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
-msgstr "Korlátozza a háttértár használatát %s számára. "
+msgstr "A(z) %s által használt teljes lemezterület mennyiségének korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:590
 #: clientgui/DlgAdvPreferencesBase.cpp:614 clientgui/sg_DlgPreferences.cpp:338
 msgid "Use no more than"
-msgstr "Legfeljebb"
+msgstr "Ne használjon többet mint"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:594
 msgid "GB"
@@ -1442,7 +1430,7 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Korlátozza a háttértár használatát %s számára úgy, hogy ennyi szabad hely maradjon."
+msgstr "Lemezhasználat korlátozása, hogy ennyi szabad helyet hagyjon a köteten, ahol a(z) %s adatokat tárol."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 msgid "Leave at least"
@@ -1450,19 +1438,19 @@ msgstr "Hagyjon legalább"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:606
 msgid "GB free"
-msgstr "GB szabad"
+msgstr "GB-ot szabadon"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:611
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "%s lemezfoglalását korlátozza százalékban azon a meghajtón, ahol az adatait tárolja."
+msgstr "A(z) %s által használt lemezterület százalékos korlátozása azon a köteten, ahol adatokat tárol."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 #, no-c-format
 msgid "% of total"
-msgstr "% a teljesnek"
+msgstr "% az teljesből"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Memory"
@@ -1471,7 +1459,7 @@ msgstr "Memória"
 #: clientgui/DlgAdvPreferencesBase.cpp:631
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
-msgstr "%s memóriahasználatának korlátozása, ha használod a számítógépet."
+msgstr "A(z) %s által használt memória korlátozása, ha Ön használja a számítógépet."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:633
 msgid "When computer is in use, use at most"
@@ -1487,7 +1475,7 @@ msgstr "%"
 #: clientgui/DlgAdvPreferencesBase.cpp:644
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "%s memóriahasználatának korlátozása, ha nem használod a számítógépet."
+msgstr "A(z) %s által használt memória korlátozása, ha Ön nem használja a számítógépet."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:646
 msgid "When computer is not in use, use at most"
@@ -1495,23 +1483,23 @@ msgstr "Ha a számítógép nincs használatban, legfeljebb ennyit használjon:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:655
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Hagyd a nem-GPU alkalmazásokat a memóriában a felfüggesztés alatt"
+msgstr "A nem GPU feladatok memóriában hagyása a felfüggesztés alatt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:656
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Ha be van jelölve, akkor a felfüggesztett feladatok a memóriában maradnak és a munka veszteség nélkül folytatható. Ha nincs bejelölve, akkor a felfüggesztett feladatok törlődnek a memóriából és a feladat az utolsó ellenőrzési ponttól folytatódik."
+msgstr "Ha be van jelölve, akkor a felfüggesztett feladatok a memóriában maradnak és a munka veszteség nélkül folytatható. Ha nincs bejelölve, akkor a felfüggesztett feladatok eltávolításra kerülnek a memóriából, és a feladat az utolsó ellenőrzési ponttól folytatódik."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:660
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Korlátozza a mentési terület (lapozó fájl) használatát %s számára. "
+msgstr "A(z) %s által használt cserehely (lapozófájl) korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:662
 msgid "Page/swap file: use at most"
-msgstr "Lapozó/mentési fájl használata legfeljebb"
+msgstr "Lapozófájl vagy cserehely: legfeljebb ennyi használata:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:687 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
@@ -1519,25 +1507,25 @@ msgstr "és"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:688
 msgid "to"
-msgstr "-"
+msgstr "–"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:708 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
-msgstr "Használat csak a nap bizonyos szakában."
+msgstr "Számítás minden nap csak egy bizonyos időszakban."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:711 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
-msgstr "Csak ettől eddig dolgozzon:"
+msgstr "Csak ezek között számítson:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:735
 #: clientgui/DlgAdvPreferencesBase.cpp:919
 msgid "Day-of-week override"
-msgstr "Felülírás a hét napjaira:"
+msgstr "Felülírás a hét napjaira"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:744
 #: clientgui/DlgAdvPreferencesBase.cpp:923
 msgid "Override the times above on the selected days:"
-msgstr "A kiválasztott napokon az időszak felülbírálása:"
+msgstr "A fenti idők felülbírálása a kiválasztott napokon:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:767
 #: clientgui/DlgAdvPreferencesBase.cpp:940
@@ -1628,7 +1616,7 @@ msgstr "%s - Eseménynapló"
 #. Create List Pane Items
 #: clientgui/DlgEventLog.cpp:237 clientgui/ViewMessages.cpp:117
 #: clientgui/ViewProjects.cpp:251 clientgui/ViewStatistics.cpp:411
-#: clientgui/ViewStatistics.cpp:1986 clientgui/ViewTransfers.cpp:209
+#: clientgui/ViewStatistics.cpp:1988 clientgui/ViewTransfers.cpp:209
 #: clientgui/ViewWork.cpp:260
 msgid "Project"
 msgstr "Projekt"
@@ -1735,14 +1723,14 @@ msgstr "zárd be a párbeszédablakot mentés nélkül"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
-msgstr "megmutatja a webes beállításokat"
+msgstr "megjeleníti a beállítások weboldalát"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
 #: clientgui/DlgExclusiveApps.cpp:306 clientgui/DlgExclusiveApps.cpp:312
 #: clientgui/DlgExclusiveApps.cpp:318
 msgid "Choose application or enter file name"
-msgstr "Válasszon applikációt vagy írjon be fájlnevet"
+msgstr "Alkalmazás kiválasztása vagy fájlnév megadása"
 
 #: clientgui/DlgExclusiveApps.cpp:338
 msgid "Name of application to add?"
@@ -1798,7 +1786,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Emlékezz a döntésemre és ne mutasd többé ezt az ablakot."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:414 clientgui/DlgSelectComputer.cpp:168
+#: clientgui/DlgOptions.cpp:425 clientgui/DlgSelectComputer.cpp:168
 #: clientgui/wizardex.cpp:387
 msgid "&Cancel"
 msgstr "&Mégsem"
@@ -1864,7 +1852,7 @@ msgid "Properties of project "
 msgstr "Projekt tulajdonságok"
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:232
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:243
 msgid "General"
 msgstr "Általános"
 
@@ -2093,161 +2081,169 @@ msgstr "másodpercenként"
 msgid "Executable"
 msgstr "Program"
 
-#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1115
+#: clientgui/DlgItemProperties.cpp:513 clientgui/ViewWork.cpp:1143
 #: clientgui/sg_TaskPanel.cpp:821
 msgid "Local: "
 msgstr "Helyi:"
 
-#: clientgui/DlgOptions.cpp:130 clientgui/DlgOptions.cpp:136
+#: clientgui/DlgOptions.cpp:131 clientgui/DlgOptions.cpp:137
 msgid "Options"
 msgstr "Beállítások"
 
-#: clientgui/DlgOptions.cpp:179
+#: clientgui/DlgOptions.cpp:180
 msgid "Language:"
 msgstr "Nyelv:"
 
-#: clientgui/DlgOptions.cpp:186
+#: clientgui/DlgOptions.cpp:187
 msgid "What language should BOINC use?"
 msgstr "Milyen nyelvet használjon a BOINC?"
 
-#: clientgui/DlgOptions.cpp:190
+#: clientgui/DlgOptions.cpp:191
 msgid "Notice reminder interval:"
 msgstr "Értesítések emlékeztetési intervelluma:"
 
-#: clientgui/DlgOptions.cpp:197
+#: clientgui/DlgOptions.cpp:198
 msgid "How often should BOINC remind you of new notices?"
 msgstr "Milyen gyakran emlékeztessen a BOINC az új értesítésekre?"
 
-#: clientgui/DlgOptions.cpp:202
+#: clientgui/DlgOptions.cpp:203
 msgid "Run Manager at login?"
 msgstr "Bejelentkezéskor elinduljon a Kezelő?"
 
-#: clientgui/DlgOptions.cpp:208
+#: clientgui/DlgOptions.cpp:209
 msgid "Run the BOINC Manager when you log on."
 msgstr "A BOINC Kezelő elindítása, amikor bejelentkezel."
 
-#: clientgui/DlgOptions.cpp:213
+#: clientgui/DlgOptions.cpp:214
 msgid "Run the client?"
 msgstr "Futtatod a klienst?"
 
-#: clientgui/DlgOptions.cpp:219
+#: clientgui/DlgOptions.cpp:220
 msgid "Run the client when launching the Manager."
 msgstr "Futtasd a klienst a Kezelő indításakor."
 
-#: clientgui/DlgOptions.cpp:223
+#: clientgui/DlgOptions.cpp:224
 msgid "Enable Manager exit dialog?"
 msgstr "Engedélyezed a Kezelő kilépési párbeszédpanelét?"
 
-#: clientgui/DlgOptions.cpp:229
+#: clientgui/DlgOptions.cpp:230
 msgid "Display the exit dialog when shutting down the Manager."
 msgstr "A kilépési bárbeszédpanel megjelenítése a Kezelő bezárásakor."
 
+#: clientgui/DlgOptions.cpp:234
+msgid "Enable Client shutdown dialog?"
+msgstr "Engedélyezed a Kliens kilépési párbeszédpanelét?"
+
 #: clientgui/DlgOptions.cpp:240
+msgid "Display confirmation dialog when shutting down the connected client."
+msgstr "A kilépési párbeszédpanel megjelenítése a kapcsolódó kliens leállításakor."
+
+#: clientgui/DlgOptions.cpp:251
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Betárcsázós és Virtuális Magánhálózat beállítások"
 
-#: clientgui/DlgOptions.cpp:254
+#: clientgui/DlgOptions.cpp:265
 msgid "&Set Default"
 msgstr "Alapértelmezettnek &beállít"
 
-#: clientgui/DlgOptions.cpp:259
+#: clientgui/DlgOptions.cpp:270
 msgid "&Clear Default"
 msgstr "Alapértelmezett &törlése"
 
-#: clientgui/DlgOptions.cpp:266
+#: clientgui/DlgOptions.cpp:277
 msgid "Default Connection:"
 msgstr "Alapértelmezett kapcsolat:"
 
-#: clientgui/DlgOptions.cpp:273
+#: clientgui/DlgOptions.cpp:284
 msgid "Connections"
 msgstr "Kapcsolatok"
 
-#: clientgui/DlgOptions.cpp:282
+#: clientgui/DlgOptions.cpp:293
 msgid "Connect via HTTP proxy server"
 msgstr "Csatlakozás HTTP proxy szerveren keresztül"
 
-#: clientgui/DlgOptions.cpp:286
+#: clientgui/DlgOptions.cpp:297
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP proxy szerver beállítás"
 
-#: clientgui/DlgOptions.cpp:294 clientgui/DlgOptions.cpp:358
+#: clientgui/DlgOptions.cpp:305 clientgui/DlgOptions.cpp:369
 msgid "Address:"
 msgstr "Cím:"
 
-#: clientgui/DlgOptions.cpp:302 clientgui/DlgOptions.cpp:366
+#: clientgui/DlgOptions.cpp:313 clientgui/DlgOptions.cpp:377
 #: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "Port:"
 
-#: clientgui/DlgOptions.cpp:310 clientgui/DlgOptions.cpp:374
+#: clientgui/DlgOptions.cpp:321 clientgui/DlgOptions.cpp:385
 msgid "Don't use proxy for:"
 msgstr "Ne használj proxyt az alábbi(ak)hoz:"
 
-#: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
+#: clientgui/DlgOptions.cpp:328 clientgui/DlgOptions.cpp:392
 msgid "Leave these blank if not needed"
 msgstr "Csak szükség esetén töltsd ki"
 
-#: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
+#: clientgui/DlgOptions.cpp:334 clientgui/DlgOptions.cpp:398
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "Felhasználói név:"
 
-#: clientgui/DlgOptions.cpp:331 clientgui/DlgOptions.cpp:395
+#: clientgui/DlgOptions.cpp:342 clientgui/DlgOptions.cpp:406
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: clientgui/DlgOptions.cpp:338
+#: clientgui/DlgOptions.cpp:349
 msgid "HTTP Proxy"
 msgstr "HTTP proxy"
 
-#: clientgui/DlgOptions.cpp:346
+#: clientgui/DlgOptions.cpp:357
 msgid "Connect via SOCKS proxy server"
 msgstr "Csatlakozás SOCKS proxy szerveren keresztül"
 
-#: clientgui/DlgOptions.cpp:350
+#: clientgui/DlgOptions.cpp:361
 msgid "SOCKS Proxy Server Configuration"
 msgstr "SOCKS proxy szerver beállítása"
 
-#: clientgui/DlgOptions.cpp:402
+#: clientgui/DlgOptions.cpp:413
 msgid "SOCKS Proxy"
 msgstr "SOCKS proxy"
 
-#: clientgui/DlgOptions.cpp:410
+#: clientgui/DlgOptions.cpp:421
 msgid "&Save"
 msgstr "Menté&s"
 
-#: clientgui/DlgOptions.cpp:600
+#: clientgui/DlgOptions.cpp:611
 msgid "always"
 msgstr "mindig"
 
-#: clientgui/DlgOptions.cpp:601
+#: clientgui/DlgOptions.cpp:612
 msgid "1 hour"
 msgstr "1 óra"
 
-#: clientgui/DlgOptions.cpp:602
+#: clientgui/DlgOptions.cpp:613
 msgid "6 hours"
 msgstr "6 óra"
 
-#: clientgui/DlgOptions.cpp:603
+#: clientgui/DlgOptions.cpp:614
 msgid "1 day"
 msgstr "1 nap"
 
-#: clientgui/DlgOptions.cpp:604
+#: clientgui/DlgOptions.cpp:615
 msgid "1 week"
 msgstr "1 hét"
 
-#: clientgui/DlgOptions.cpp:605
+#: clientgui/DlgOptions.cpp:616
 msgid "never"
 msgstr "soha"
 
-#: clientgui/DlgOptions.cpp:703
+#: clientgui/DlgOptions.cpp:715
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - Nyelv kiválasztása"
 
-#: clientgui/DlgOptions.cpp:710
+#: clientgui/DlgOptions.cpp:722
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2476,191 +2472,191 @@ msgstr "Nincs új letölthető %s verzió."
 msgid "%s is not connected to the client"
 msgstr "%s nem kapcsolódik a klienshez"
 
-#: clientgui/MainDocument.cpp:1857
+#: clientgui/MainDocument.cpp:1860
 msgid "Missing application"
 msgstr "Hiányzó alkalmazás"
 
-#: clientgui/MainDocument.cpp:1858
+#: clientgui/MainDocument.cpp:1861
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
 msgstr "Kérjük, töltsd le és telepítsd a CoRD alkalmazást a http://cord.sourceforge.net oldalról"
 
-#: clientgui/MainDocument.cpp:2466
+#: clientgui/MainDocument.cpp:2469
 msgid "on batteries"
 msgstr "akkumulátorról működik"
 
-#: clientgui/MainDocument.cpp:2467
+#: clientgui/MainDocument.cpp:2470
 msgid "computer is in use"
 msgstr "a számítógép használatban van"
 
-#: clientgui/MainDocument.cpp:2468
+#: clientgui/MainDocument.cpp:2471
 msgid "user request"
 msgstr "felhasználói kérés"
 
-#: clientgui/MainDocument.cpp:2469
+#: clientgui/MainDocument.cpp:2472
 msgid "time of day"
 msgstr "napszak"
 
-#: clientgui/MainDocument.cpp:2470
+#: clientgui/MainDocument.cpp:2473
 msgid "CPU benchmarks in progress"
 msgstr "CPU sebességmérés fut"
 
-#: clientgui/MainDocument.cpp:2471
+#: clientgui/MainDocument.cpp:2474
 msgid "need disk space - check preferences"
 msgstr "több lemezterület szükséges - ellenőrizd a beállításokat"
 
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2475
 msgid "computer is not in use"
 msgstr "a számítógép nincs használatban"
 
-#: clientgui/MainDocument.cpp:2473
+#: clientgui/MainDocument.cpp:2476
 msgid "starting up"
 msgstr "elindulás"
 
-#: clientgui/MainDocument.cpp:2474
+#: clientgui/MainDocument.cpp:2477
 msgid "an exclusive app is running"
 msgstr "egy exkluzív alkalmazás fut"
 
-#: clientgui/MainDocument.cpp:2475
+#: clientgui/MainDocument.cpp:2478
 msgid "CPU is busy"
 msgstr "a CPU foglalt"
 
-#: clientgui/MainDocument.cpp:2476
+#: clientgui/MainDocument.cpp:2479
 msgid "network bandwidth limit exceeded"
 msgstr "hálózati sávszélességi korlát túllépve"
 
-#: clientgui/MainDocument.cpp:2477
+#: clientgui/MainDocument.cpp:2480
 msgid "requested by operating system"
 msgstr "az operációs rendszer kérésére"
 
-#: clientgui/MainDocument.cpp:2479
+#: clientgui/MainDocument.cpp:2482
 msgid "unknown reason"
 msgstr "ismerelten ok"
 
-#: clientgui/MainDocument.cpp:2501
+#: clientgui/MainDocument.cpp:2504
 msgid "GPU missing, "
 msgstr "GPU hiányzik,"
 
-#: clientgui/MainDocument.cpp:2508
+#: clientgui/MainDocument.cpp:2511
 msgid "New"
 msgstr "Új"
 
-#: clientgui/MainDocument.cpp:2512
+#: clientgui/MainDocument.cpp:2515
 msgid "Download failed"
 msgstr "Sikertelen letöltés"
 
-#: clientgui/MainDocument.cpp:2514
+#: clientgui/MainDocument.cpp:2517
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: clientgui/MainDocument.cpp:2516 clientgui/MainDocument.cpp:2575
+#: clientgui/MainDocument.cpp:2519 clientgui/MainDocument.cpp:2578
 msgid " (suspended - "
 msgstr " (felfüggesztve - "
 
-#: clientgui/MainDocument.cpp:2524
+#: clientgui/MainDocument.cpp:2527
 msgid "Project suspended by user"
 msgstr "A projektet a felhasználó felfüggesztette"
 
-#: clientgui/MainDocument.cpp:2526
+#: clientgui/MainDocument.cpp:2529
 msgid "Task suspended by user"
 msgstr "A feladatot a felhasználó felfüggesztette"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
-#: clientgui/MainDocument.cpp:2531
+#: clientgui/MainDocument.cpp:2534
 msgid "Suspended - "
 msgstr "Felfüggesztve - "
 
-#: clientgui/MainDocument.cpp:2534
+#: clientgui/MainDocument.cpp:2537
 msgid "GPU suspended - "
 msgstr "GPU felfüggesztve - "
 
-#: clientgui/MainDocument.cpp:2538
+#: clientgui/MainDocument.cpp:2541
 msgid "Waiting for memory"
 msgstr "Várakozás a memóriára"
 
-#: clientgui/MainDocument.cpp:2540
+#: clientgui/MainDocument.cpp:2543
 msgid "Waiting for shared memory"
 msgstr "Várakozás a megosztott memóriára"
 
-#: clientgui/MainDocument.cpp:2542
+#: clientgui/MainDocument.cpp:2545
 msgid "Running"
 msgstr "Fut"
 
-#: clientgui/MainDocument.cpp:2544
+#: clientgui/MainDocument.cpp:2547
 msgid " (non-CPU-intensive)"
 msgstr " (nem CPU igényes)"
 
-#: clientgui/MainDocument.cpp:2547
+#: clientgui/MainDocument.cpp:2550
 msgid "Waiting to run"
 msgstr "Futásra vár"
 
-#: clientgui/MainDocument.cpp:2549 clientgui/MainDocument.cpp:2552
+#: clientgui/MainDocument.cpp:2552 clientgui/MainDocument.cpp:2555
 msgid "Ready to start"
 msgstr "Indításra kész"
 
-#: clientgui/MainDocument.cpp:2556
+#: clientgui/MainDocument.cpp:2559
 msgid "Postponed: "
 msgstr "Elhalasztva:"
 
-#: clientgui/MainDocument.cpp:2559
+#: clientgui/MainDocument.cpp:2562
 msgid "Postponed"
 msgstr "Elhalasztva"
 
-#: clientgui/MainDocument.cpp:2563
+#: clientgui/MainDocument.cpp:2566
 msgid "Waiting for network access"
 msgstr "Várakozás a hálózati hozzáférésre"
 
-#: clientgui/MainDocument.cpp:2567
+#: clientgui/MainDocument.cpp:2570
 msgid "Computation error"
 msgstr "Számolási hiba"
 
-#: clientgui/MainDocument.cpp:2571
+#: clientgui/MainDocument.cpp:2574
 msgid "Upload failed"
 msgstr "Sikertelen feltöltés"
 
-#: clientgui/MainDocument.cpp:2573
+#: clientgui/MainDocument.cpp:2576
 msgid "Uploading"
 msgstr "Feltöltés"
 
-#: clientgui/MainDocument.cpp:2584
+#: clientgui/MainDocument.cpp:2587
 msgid "Aborted by user"
 msgstr "Felhasználó által eldobva"
 
-#: clientgui/MainDocument.cpp:2587
+#: clientgui/MainDocument.cpp:2590
 msgid "Aborted by project"
 msgstr "A projekt által eldobva"
 
-#: clientgui/MainDocument.cpp:2590
+#: clientgui/MainDocument.cpp:2593
 msgid "Aborted: not started by deadline"
 msgstr "Eldobva: a jelentési határidőig nem indult el"
 
-#: clientgui/MainDocument.cpp:2593
+#: clientgui/MainDocument.cpp:2596
 msgid "Aborted: task disk limit exceeded"
 msgstr "Megszakítva: a feladat meghaladta a  tárhelykorlátot"
 
-#: clientgui/MainDocument.cpp:2596
+#: clientgui/MainDocument.cpp:2599
 msgid "Aborted: run time limit exceeded"
 msgstr "Megszakítva: futási időkorlát túllépve"
 
-#: clientgui/MainDocument.cpp:2599
+#: clientgui/MainDocument.cpp:2602
 msgid "Aborted: memory limit exceeded"
 msgstr "Megszakítva: memóriakorlát túllépve"
 
-#: clientgui/MainDocument.cpp:2602
+#: clientgui/MainDocument.cpp:2605
 msgid "Aborted"
 msgstr "Eldobva"
 
-#: clientgui/MainDocument.cpp:2607
+#: clientgui/MainDocument.cpp:2610
 msgid "Acknowledged"
 msgstr "Nyugtázva"
 
-#: clientgui/MainDocument.cpp:2609
+#: clientgui/MainDocument.cpp:2612
 msgid "Ready to report"
 msgstr "Jelentésre kész"
 
-#: clientgui/MainDocument.cpp:2611
+#: clientgui/MainDocument.cpp:2614
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Hiba: érvénytelen állapot '%d'"
@@ -2708,7 +2704,7 @@ msgstr "Ellenőrizd a felhasználónevet és a jelszót, majd próbáld újra."
 msgid "Check the email address and password, and try again."
 msgstr "Ellenőrizd az e-mail címet és a jelszót, majd próbáld újra."
 
-#: clientgui/NoticeListCtrl.cpp:236
+#: clientgui/NoticeListCtrl.cpp:235
 msgid "more..."
 msgstr "tovább..."
 
@@ -2814,51 +2810,33 @@ msgid ""
 "Please wait..."
 msgstr "Kommunikáció a projekttel.\nKérlek, várj..."
 
-#: clientgui/ProjectProcessingPage.cpp:522
+#: clientgui/ProjectProcessingPage.cpp:517
 msgid "Required files not found on the server."
 msgstr "A szükséges fájlok nem találhatók a szerveren."
 
-#: clientgui/ProjectProcessingPage.cpp:525
-#: clientgui/ProjectProcessingPage.cpp:598
+#: clientgui/ProjectProcessingPage.cpp:520
+#: clientgui/ProjectProcessingPage.cpp:593
 msgid "An internal server error has occurred."
 msgstr "Belső szerverhiba történt."
 
-#: clientgui/ProjectWelcomePage.cpp:250
+#: clientgui/ProjectWelcomePage.cpp:228
 #, c-format
 msgid "Welcome to %s."
 msgstr "Üdvözlünk a(z) %s projektben!"
 
-#: clientgui/ProjectWelcomePage.cpp:253
+#: clientgui/ProjectWelcomePage.cpp:231
 msgid "You have volunteered to compute for this project:"
 msgstr "Önkéntesnek jelentkeztél erre a projektre:"
 
-#: clientgui/ProjectWelcomePage.cpp:254
+#: clientgui/ProjectWelcomePage.cpp:232
 msgid "Name:"
 msgstr "Név:"
 
-#: clientgui/ProjectWelcomePage.cpp:257
-msgid "Home:"
-msgstr "Honlap:"
-
-#: clientgui/ProjectWelcomePage.cpp:261
-msgid "Description:"
-msgstr "Leírás:"
-
-#: clientgui/ProjectWelcomePage.cpp:264
+#: clientgui/ProjectWelcomePage.cpp:234
 msgid "URL:"
 msgstr "Webcím:"
 
-#: clientgui/ProjectWelcomePage.cpp:267
-msgid "User:"
-msgstr "Felhasználó:"
-
-#: clientgui/ProjectWelcomePage.cpp:272
-msgid ""
-"WARNING: This project is not registered with BOINC.  Make sure you trust it "
-"before continuing."
-msgstr "FIGYELEM: ez a projekt nincs regisztrálva a BOINC-nál. Csak akkor folytasd, ha megbízol benne."
-
-#: clientgui/ProjectWelcomePage.cpp:276
+#: clientgui/ProjectWelcomePage.cpp:238
 msgid "To continue, click Next."
 msgstr "A folytatáshoz kattints a Tovább gomba"
 
@@ -3015,7 +2993,7 @@ msgstr "'%s' nem tartalmaz érvényes útvonalat."
 
 #. Setup View
 #: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:198
-#: clientgui/ViewStatistics.cpp:1955 clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewStatistics.cpp:1957 clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewWork.cpp:207
 msgid "Commands"
 msgstr "Parancsok"
@@ -3068,7 +3046,7 @@ msgstr "Értesítések betöltése; kérjük, várj..."
 msgid "There are no notices at this time."
 msgstr "Jelenleg nincsenek értesítések."
 
-#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:990
+#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:975
 msgid "Notices"
 msgstr "Értesítések"
 
@@ -3083,8 +3061,8 @@ msgid ""
 msgstr "Befejezett feladatok jelentése, legutóbbi kreditek és beállítások letöltése, esetlegesen új munka letöltése."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:792
-#: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:878
-#: clientgui/sg_BoincSimpleFrame.cpp:971
+#: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:880
+#: clientgui/sg_BoincSimpleFrame.cpp:956
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -3260,27 +3238,27 @@ msgstr "Teljes lemezhasználat"
 msgid "Disk usage by BOINC projects"
 msgstr "A BOINC projektek lemezhasználata"
 
-#: clientgui/ViewResources.cpp:225
+#: clientgui/ViewResources.cpp:227
 msgid "no projects: 0 bytes used"
 msgstr "nincs projekt, felhasználva: 0 bájt"
 
-#: clientgui/ViewResources.cpp:259
+#: clientgui/ViewResources.cpp:261
 msgid "used by BOINC: "
 msgstr "BOINC által használt:"
 
-#: clientgui/ViewResources.cpp:269
+#: clientgui/ViewResources.cpp:271
 msgid "free, available to BOINC: "
 msgstr "szabad, a BOINC rendelkezésére áll:"
 
-#: clientgui/ViewResources.cpp:277
+#: clientgui/ViewResources.cpp:279
 msgid "free, not available to BOINC: "
 msgstr "szabad, de nem áll a BOINC rendelkezésére:"
 
-#: clientgui/ViewResources.cpp:287
+#: clientgui/ViewResources.cpp:289
 msgid "free: "
 msgstr "szabad:"
 
-#: clientgui/ViewResources.cpp:296
+#: clientgui/ViewResources.cpp:298
 msgid "used by other programs: "
 msgstr "más programok által használt: "
 
@@ -3305,107 +3283,107 @@ msgstr "Számítógép - Átlag kredit"
 msgid "Last update: %.0f days ago"
 msgstr "Utolsó frissítés: %.0f napja"
 
-#: clientgui/ViewStatistics.cpp:1959
+#: clientgui/ViewStatistics.cpp:1961
 msgid "Show user total"
 msgstr "Felhasználó - Összes kredit"
 
-#: clientgui/ViewStatistics.cpp:1960
+#: clientgui/ViewStatistics.cpp:1962
 msgid "Show total credit for user"
 msgstr "A felhasználó összes kreditjének mutatása"
 
-#: clientgui/ViewStatistics.cpp:1966
+#: clientgui/ViewStatistics.cpp:1968
 msgid "Show user average"
 msgstr "Felhasználó - Átlag kredit"
 
-#: clientgui/ViewStatistics.cpp:1967
+#: clientgui/ViewStatistics.cpp:1969
 msgid "Show average credit for user"
 msgstr "A felhasználó kreditátlagának mutatása"
 
-#: clientgui/ViewStatistics.cpp:1973
+#: clientgui/ViewStatistics.cpp:1975
 msgid "Show host total"
 msgstr "Számítógép - Összes kredit"
 
-#: clientgui/ViewStatistics.cpp:1974
+#: clientgui/ViewStatistics.cpp:1976
 msgid "Show total credit for host"
 msgstr "A számítógép összes kreditjének mutatása"
 
-#: clientgui/ViewStatistics.cpp:1980
+#: clientgui/ViewStatistics.cpp:1982
 msgid "Show host average"
 msgstr "Számítógép - Átlag kredit"
 
-#: clientgui/ViewStatistics.cpp:1981
+#: clientgui/ViewStatistics.cpp:1983
 msgid "Show average credit for host"
 msgstr "A számítógép kreditátlagának mutatása"
 
-#: clientgui/ViewStatistics.cpp:1990
+#: clientgui/ViewStatistics.cpp:1992
 msgid "< &Previous project"
 msgstr "< E&lőző projekt"
 
-#: clientgui/ViewStatistics.cpp:1991
+#: clientgui/ViewStatistics.cpp:1993
 msgid "Show chart for previous project"
 msgstr "Az előző projekt grafikonjának megjelenítése"
 
-#: clientgui/ViewStatistics.cpp:1996
+#: clientgui/ViewStatistics.cpp:1998
 msgid "&Next project >"
 msgstr "&Következő projekt >"
 
-#: clientgui/ViewStatistics.cpp:1997
+#: clientgui/ViewStatistics.cpp:1999
 msgid "Show chart for next project"
 msgstr "A következő projekt grafikonjának megjelenítése"
 
-#: clientgui/ViewStatistics.cpp:2003 clientgui/ViewStatistics.cpp:2373
+#: clientgui/ViewStatistics.cpp:2005 clientgui/ViewStatistics.cpp:2375
 msgid "Hide project list"
 msgstr "Projektlista elrejtése"
 
-#: clientgui/ViewStatistics.cpp:2004 clientgui/ViewStatistics.cpp:2373
+#: clientgui/ViewStatistics.cpp:2006 clientgui/ViewStatistics.cpp:2375
 msgid "Use entire area for graphs"
 msgstr "Használja a teljes területet a grafikonhoz"
 
-#: clientgui/ViewStatistics.cpp:2009
+#: clientgui/ViewStatistics.cpp:2011
 msgid "Mode view"
 msgstr "Mód nézet"
 
-#: clientgui/ViewStatistics.cpp:2013
+#: clientgui/ViewStatistics.cpp:2015
 msgid "One project"
 msgstr "Egy projekt"
 
-#: clientgui/ViewStatistics.cpp:2014
+#: clientgui/ViewStatistics.cpp:2016
 msgid "Show one chart with selected project"
 msgstr "Egy grafikon mutatása a kiválasztott projekttel"
 
-#: clientgui/ViewStatistics.cpp:2020
+#: clientgui/ViewStatistics.cpp:2022
 msgid "All projects (separate)"
 msgstr "Minden projekt (külön)"
 
-#: clientgui/ViewStatistics.cpp:2021
+#: clientgui/ViewStatistics.cpp:2023
 msgid "Show all projects, one chart per project"
 msgstr "Megmutatja az összes projektet, projektenként külön grafikonon"
 
-#: clientgui/ViewStatistics.cpp:2027
+#: clientgui/ViewStatistics.cpp:2029
 msgid "All projects (together)"
 msgstr "Minden projekt (együtt)"
 
-#: clientgui/ViewStatistics.cpp:2028
+#: clientgui/ViewStatistics.cpp:2030
 msgid "Show one chart with all projects"
 msgstr "Az összes projekt ábrázolása egy grafikonon"
 
-#: clientgui/ViewStatistics.cpp:2034
+#: clientgui/ViewStatistics.cpp:2036
 msgid "All projects (sum)"
 msgstr "Minden projekt (összeg)"
 
-#: clientgui/ViewStatistics.cpp:2035
+#: clientgui/ViewStatistics.cpp:2037
 msgid "Show one chart with sum of projects"
 msgstr "Egy grafikonon ábrázolja a projektek összegeit"
 
-#: clientgui/ViewStatistics.cpp:2056
+#: clientgui/ViewStatistics.cpp:2058
 msgid "Statistics"
 msgstr "Statisztika"
 
-#: clientgui/ViewStatistics.cpp:2377
+#: clientgui/ViewStatistics.cpp:2379
 msgid "Show project list"
 msgstr "Projektlista megjelenítése"
 
-#: clientgui/ViewStatistics.cpp:2377
+#: clientgui/ViewStatistics.cpp:2379
 msgid "Uses smaller area for graphs"
 msgstr "A grafikonokhoz kisebb területet használ"
 
@@ -3507,19 +3485,21 @@ msgstr "függőben"
 msgid " (project backoff: "
 msgstr "(a projekt visszatartja:"
 
-#: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:854
+#: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:856
 msgid "Show active tasks"
 msgstr "Aktív feladatok mutatása"
 
-#: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:855
+#: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:857
 msgid "Show only active tasks."
 msgstr "Csak az aktív feladatok mutatása."
 
-#: clientgui/ViewWork.cpp:218 clientgui/sg_TaskCommandPopup.cpp:66
+#: clientgui/ViewWork.cpp:218 clientgui/ViewWork.cpp:897
+#: clientgui/sg_TaskCommandPopup.cpp:66 clientgui/sg_TaskCommandPopup.cpp:155
 msgid "Show graphics"
 msgstr "Grafikus ablak mutatása"
 
-#: clientgui/ViewWork.cpp:219 clientgui/sg_TaskCommandPopup.cpp:67
+#: clientgui/ViewWork.cpp:219 clientgui/ViewWork.cpp:898
+#: clientgui/sg_TaskCommandPopup.cpp:67 clientgui/sg_TaskCommandPopup.cpp:156
 msgid "Show application graphics in a window."
 msgstr "Az alkalmazás grafikájának megjelenítése egy új ablakban."
 
@@ -3571,80 +3551,88 @@ msgstr "Biztosan eldobod ezt a csomagot: '%s'?\n(Elkészült: %s, állapot: %s)"
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Biztosan eldobod ezeket a(z) %d feladatokat?"
 
-#: clientgui/ViewWork.cpp:575 clientgui/sg_TaskCommandPopup.cpp:272
+#: clientgui/ViewWork.cpp:575 clientgui/sg_TaskCommandPopup.cpp:283
 msgid "Abort task"
 msgstr "Feladat eldobása"
 
-#: clientgui/ViewWork.cpp:848
+#: clientgui/ViewWork.cpp:850
 msgid "Show all tasks"
 msgstr "Minden feladat mutatása"
 
-#: clientgui/ViewWork.cpp:849
+#: clientgui/ViewWork.cpp:851
 msgid "Show all tasks."
 msgstr "Minden feladat mutatása."
 
-#: clientgui/ViewWork.cpp:873 clientgui/sg_TaskCommandPopup.cpp:119
+#: clientgui/ViewWork.cpp:875 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
 msgstr "Munka folytatása e feladaton."
 
-#: clientgui/ViewWork.cpp:879 clientgui/sg_TaskCommandPopup.cpp:123
+#: clientgui/ViewWork.cpp:881 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
 msgstr "Munka felfüggesztése e feladaton."
 
-#: clientgui/WizardAttach.cpp:607
+#: clientgui/ViewWork.cpp:889 clientgui/sg_TaskCommandPopup.cpp:149
+msgid "Stop graphics"
+msgstr "Grafika leállítása"
+
+#: clientgui/ViewWork.cpp:890 clientgui/sg_TaskCommandPopup.cpp:150
+msgid "Close application graphics window."
+msgstr "Az alkalmazás grafikus ablakának bezárása."
+
+#: clientgui/WizardAttach.cpp:573
 msgid "Do you really want to cancel?"
 msgstr "Tényleg meg akarod szakítani?"
 
-#: clientgui/WizardAttach.cpp:608
+#: clientgui/WizardAttach.cpp:574
 msgid "Question"
 msgstr "Kérdés"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:195
+#: clientgui/sg_BoincSimpleFrame.cpp:194
 msgid "Skin"
 msgstr "Kinézet"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:197
+#: clientgui/sg_BoincSimpleFrame.cpp:196
 msgid "Select the appearance of the user interface."
 msgstr "Válaszd ki a felhasználói felület kinézetét."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:207
+#: clientgui/sg_BoincSimpleFrame.cpp:206
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Haladó nézet...\tCtrl+Shift+A"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:208
+#: clientgui/sg_BoincSimpleFrame.cpp:207
 msgid "Display the advanced graphical interface."
 msgstr "A haladó grafikus felület megjelenítése."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:224
+#: clientgui/sg_BoincSimpleFrame.cpp:223
 msgid "Configure display options and proxy settings"
 msgstr "A grafikus megjelentés és a proxy beállítása"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:273
+#: clientgui/sg_BoincSimpleFrame.cpp:272
 msgid "Display diagnostic messages."
 msgstr "Diagnosztikai üzenetek mutatása."
 
-#: clientgui/sg_BoincSimpleFrame.cpp:312
+#: clientgui/sg_BoincSimpleFrame.cpp:311
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Információk a BOINC kezelőről és erről: %s"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:533
+#: clientgui/sg_BoincSimpleFrame.cpp:535
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:973
+#: clientgui/sg_BoincSimpleFrame.cpp:958
 msgid "Suspend Computing"
 msgstr "Számítás felfüggesztése"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:974
+#: clientgui/sg_BoincSimpleFrame.cpp:959
 msgid "Resume Computing"
 msgstr "Számítás folytatása"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:991
+#: clientgui/sg_BoincSimpleFrame.cpp:976
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Ablak nyitása a BOINC-tól, vagy a projektektől érkező üzenetek megtekintéséhez"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:1012 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:997 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Segítség ehhez: %s"
@@ -3727,7 +3715,7 @@ msgstr "Ezen feladat felfüggesztése."
 msgid "Abandon this task. You will get no credit for it."
 msgstr "Ezen feladat eldobása. Nem fogsz kreditet kapni érte."
 
-#: clientgui/sg_TaskCommandPopup.cpp:267
+#: clientgui/sg_TaskCommandPopup.cpp:278
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"

@@ -1,5 +1,5 @@
 # BOINC project generic website localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -8,15 +8,16 @@
 # informator <netinua@gmail.com>, 2015
 # Olga Liienko <o.k.lienko@gmail.com>, 2015
 # Roman Illin <roman_illin@yahoo.de>, 2017
+# Taras Dysiuk <tdisiuk@gmail.com>, 2021
 # Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
 # Олександр Жиденко <alexander.zhidenko@gmail.com>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-08-15 08:09+0000\n"
-"Last-Translator: makalu makalu <awakenings@outlook.com>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 12:55+0000\n"
+"Last-Translator: Taras Dysiuk <tdisiuk@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,47 +32,51 @@ msgstr "Українська"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Ukrainian"
 
-#: html/inc/account.inc:72 html/user/signup.php:35
+#: html/inc/account.inc:56
+msgid "Show password"
+msgstr "Показати пароль"
+
+#: html/inc/account.inc:73 html/user/signup.php:35
 msgid "An invitation code is required to create an account."
 msgstr "Для створення облікового запису потрібно ввести код запрошення."
 
-#: html/inc/account.inc:73 html/user/signup.php:36
+#: html/inc/account.inc:74 html/user/signup.php:36
 msgid "Invitation code"
 msgstr "код запрошення"
 
-#: html/inc/account.inc:81 html/user/account_finish.php:41
+#: html/inc/account.inc:82 html/user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "Ідентифікує Вас на нашому веб-сайті. Введіть Ваше справжнє ім’я або псевдонім."
 
-#: html/inc/account.inc:82
+#: html/inc/account.inc:83
 msgid "Screen name"
 msgstr "Назва екрана"
 
-#: html/inc/account.inc:88
+#: html/inc/account.inc:89
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Повинна бути дійсною адресою у формі 'name@domain'."
 
-#: html/inc/account.inc:89 html/inc/user.inc:244 html/user/get_passwd.php:30
+#: html/inc/account.inc:90 html/inc/user.inc:244 html/user/get_passwd.php:30
 msgid "Email address"
 msgstr "Адреса електронної пошти"
 
-#: html/inc/account.inc:100 html/user/signup.php:63
+#: html/inc/account.inc:101 html/user/signup.php:63
 msgid "Must be at least %1 characters"
 msgstr "Повинно бути щонайменше %1 символів"
 
 #. we need the password here not for verification,
 #. but because we store it salted with email address,
 #. which is about to change.
-#: html/inc/account.inc:101 html/user/delete_account_confirm.php:54
+#: html/inc/account.inc:102 html/user/delete_account_confirm.php:54
 #: html/user/delete_account_request.php:51 html/user/edit_email_form.php:47
 msgid "Password"
 msgstr "Пароль"
 
-#: html/inc/account.inc:108 html/user/account_finish.php:45
+#: html/inc/account.inc:109 html/user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
 msgstr "Якщо хочете, виберіть країну, яку представляєте."
 
-#: html/inc/account.inc:109 html/inc/team.inc:44 html/inc/team.inc:136
+#: html/inc/account.inc:110 html/inc/team.inc:44 html/inc/team.inc:136
 #: html/inc/team.inc:251 html/inc/team.inc:390 html/inc/team.inc:499
 #: html/inc/user.inc:253 html/inc/user.inc:456 html/user/account_finish.php:45
 #: html/user/edit_user_info_form.php:48 html/user/profile_search_action.php:44
@@ -81,39 +86,44 @@ msgstr "Якщо хочете, виберіть країну, яку предс�
 msgid "Country"
 msgstr "Країна"
 
-#: html/inc/account.inc:117 html/user/account_finish.php:52
+#: html/inc/account.inc:118 html/user/account_finish.php:52
 msgid "Postal or ZIP Code"
 msgstr "Поштовий індекс або ZIP-код"
 
-#: html/inc/account.inc:117
+#: html/inc/account.inc:118
 msgid "Optional"
 msgstr "Необов’язково"
 
-#: html/inc/account.inc:127 html/inc/account.inc:171
+#: html/inc/account.inc:128 html/inc/account.inc:172
 msgid "Terms of Use"
 msgstr "Умови використання"
 
-#: html/inc/account.inc:134 html/inc/account.inc:178
+#: html/inc/account.inc:135 html/inc/account.inc:179
 msgid "Do you agree to the terms of use above?"
 msgstr "Чи згодні Ви з умовами використання вище?"
 
-#: html/inc/account.inc:146
+#: html/inc/account.inc:147
 msgid "Email address:"
 msgstr "Адреса електронної пошти"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "Password:"
 msgstr "Пароль:"
 
-#: html/inc/account.inc:150
+#: html/inc/account.inc:151
 msgid "forgot password?"
 msgstr "забули пароль?"
 
-#: html/inc/account.inc:157
+#: html/inc/account.inc:158
 msgid "Stay logged in"
 msgstr "Залишатися авторизованим"
 
-#: html/inc/account.inc:184
+#. kludge
+#: html/inc/account.inc:162 html/inc/util.inc:346 html/user/login_form.php:43
+msgid "Log in"
+msgstr "Увійти"
+
+#: html/inc/account.inc:185
 msgid "I agree"
 msgstr "Я згоден"
 
@@ -248,113 +258,117 @@ msgstr "Закрити всі відкриті теги bbCode"
 msgid "Close Tags"
 msgstr "Закрити теги"
 
-#: html/inc/bootstrap.inc:156 html/inc/user.inc:187
-msgid "Account"
-msgstr "Обліковий запис"
-
-#: html/inc/bootstrap.inc:157 html/user/signup.php:89
+#: html/inc/bootstrap.inc:95 html/inc/bootstrap.inc:160
+#: html/user/signup.php:89 html/user/signup.php:99
 msgid "Join"
 msgstr "Приєднатися"
 
-#: html/inc/bootstrap.inc:158 html/inc/bootstrap.inc:174
-#: html/inc/bootstrap.inc:195 html/inc/user.inc:300
+#: html/inc/bootstrap.inc:97
+msgid "Login"
+msgstr "Увійти"
+
+#: html/inc/bootstrap.inc:159 html/inc/user.inc:187
+msgid "Account"
+msgstr "Обліковий запис"
+
+#: html/inc/bootstrap.inc:161 html/inc/bootstrap.inc:177
+#: html/inc/bootstrap.inc:198 html/inc/user.inc:300
 msgid "Preferences"
 msgstr "Налаштування"
 
-#: html/inc/bootstrap.inc:160
+#: html/inc/bootstrap.inc:163
 msgid "About %1"
 msgstr "Про %1"
 
-#: html/inc/bootstrap.inc:161
+#: html/inc/bootstrap.inc:164
 msgid "Help"
 msgstr "Допомога"
 
-#: html/inc/bootstrap.inc:162 html/inc/user.inc:129
+#: html/inc/bootstrap.inc:165 html/inc/user.inc:129
 msgid "Project"
 msgstr "Проект"
 
-#: html/inc/bootstrap.inc:168
+#: html/inc/bootstrap.inc:171
 msgid "Participate"
 msgstr "Взяти участь"
 
-#: html/inc/bootstrap.inc:169
+#: html/inc/bootstrap.inc:172
 msgid "Do work"
 msgstr "Працювати"
 
-#: html/inc/bootstrap.inc:175 html/user/server_status.php:117
-#: html/user/temp.php:62
+#: html/inc/bootstrap.inc:178 html/user/server_status.php:117
 msgid "Server status"
 msgstr "Статус сервера"
 
-#: html/inc/bootstrap.inc:176
+#: html/inc/bootstrap.inc:179
 msgid "Credit statistics"
 msgstr "Статистика по балам"
 
-#: html/inc/bootstrap.inc:177 html/user/apps.php:32
+#: html/inc/bootstrap.inc:180 html/user/apps.php:32
 msgid "Applications"
 msgstr "Додатки"
 
-#: html/inc/bootstrap.inc:178
+#: html/inc/bootstrap.inc:181
 msgid "GPU models"
 msgstr "Моделі графічних прискорювачів"
 
-#: html/inc/bootstrap.inc:179
+#: html/inc/bootstrap.inc:182
 msgid "CPU models"
 msgstr "Моделі центральних процесорів"
 
-#: html/inc/bootstrap.inc:180
+#: html/inc/bootstrap.inc:183
 msgid "Computer types"
 msgstr "Типи компʼютера"
 
-#: html/inc/bootstrap.inc:187 html/inc/prefs.inc:241 html/inc/prefs.inc:482
+#: html/inc/bootstrap.inc:190 html/inc/prefs.inc:241 html/inc/prefs.inc:482
 #: html/inc/user.inc:163 html/user/explain_state.php:94
 msgid "Computing"
 msgstr "Обчислення"
 
-#: html/inc/bootstrap.inc:190 html/inc/user.inc:571 html/user/welcome.php:79
+#: html/inc/bootstrap.inc:193 html/inc/user.inc:571 html/user/welcome.php:79
 msgid "Community"
 msgstr "Спільнота"
 
-#: html/inc/bootstrap.inc:191 html/inc/forum.inc:174 html/inc/forum.inc:206
+#: html/inc/bootstrap.inc:194 html/inc/forum.inc:174 html/inc/forum.inc:206
 #: html/inc/user.inc:382 html/inc/user.inc:516 html/user/forum_forum.php:76
 #: html/user/forum_index.php:72
 msgid "Message boards"
 msgstr "Дошки повідомлень"
 
 #. array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
-#: html/inc/bootstrap.inc:193 html/user/stats.php:40 html/user/team.php:27
+#: html/inc/bootstrap.inc:196 html/user/stats.php:40 html/user/team.php:27
 msgid "Teams"
 msgstr "Команди"
 
-#: html/inc/bootstrap.inc:193
+#: html/inc/bootstrap.inc:196
 msgid "create or join a team"
 msgstr "створити або приєднатися до команди"
 
-#: html/inc/bootstrap.inc:194 html/user/profile_menu.php:34
+#: html/inc/bootstrap.inc:197 html/user/profile_menu.php:34
 msgid "Profiles"
 msgstr "Профілі"
 
-#: html/inc/bootstrap.inc:196 html/user/user_search.php:46
+#: html/inc/bootstrap.inc:199 html/user/user_search.php:46
 msgid "User search"
 msgstr "Пошук учасників"
 
-#: html/inc/bootstrap.inc:197
+#: html/inc/bootstrap.inc:200
 msgid "User of the day"
 msgstr "Користувач дня"
 
-#: html/inc/bootstrap.inc:198 html/inc/user.inc:192
+#: html/inc/bootstrap.inc:201 html/inc/user.inc:192
 msgid "Certificate"
 msgstr "Сертифікат"
 
-#: html/inc/bootstrap.inc:200
+#: html/inc/bootstrap.inc:203
 msgid "Site"
 msgstr "Сторінка"
 
-#: html/inc/bootstrap.inc:201
+#: html/inc/bootstrap.inc:204 html/user/site_search.php:22
 msgid "Site search"
 msgstr "Пошук на сторінці"
 
-#: html/inc/bootstrap.inc:202
+#: html/inc/bootstrap.inc:205
 msgid "Languages"
 msgstr "Мови"
 
@@ -440,8 +454,8 @@ msgstr "Знайти у форумах"
 msgid "Advanced search"
 msgstr "Розширений пошук"
 
-#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/forum_pm.php:50
-#: html/user/forum_pm.php:105 html/user/pm.php:57 html/user/pm.php:127
+#: html/inc/forum.inc:155 html/inc/user.inc:386 html/user/pm.php:57
+#: html/user/pm.php:127
 msgid "Private messages"
 msgstr "Приватні повідомлення"
 
@@ -453,11 +467,11 @@ msgstr "Питання та відповіді"
 msgid "%1 message board"
 msgstr "Форум %1"
 
-#: html/inc/forum.inc:257 html/inc/result.inc:784
+#: html/inc/forum.inc:257 html/inc/result.inc:787
 msgid "Previous"
 msgstr "Попередні"
 
-#: html/inc/forum.inc:295 html/inc/result.inc:793
+#: html/inc/forum.inc:295 html/inc/result.inc:796
 msgid "Next"
 msgstr "Наступні"
 
@@ -469,8 +483,7 @@ msgstr "Автор"
 
 #: html/inc/forum.inc:424 html/inc/pm.inc:86 html/inc/pm.inc:167
 #: html/user/ffmail_form.php:58 html/user/forum_edit.php:136
-#: html/user/forum_edit.php:141 html/user/forum_pm.php:65
-#: html/user/forum_pm.php:114 html/user/forum_post.php:127
+#: html/user/forum_edit.php:141 html/user/forum_post.php:127
 #: html/user/forum_reply.php:127 html/user/forum_report_post.php:90
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
@@ -576,8 +589,7 @@ msgid "Rate -"
 msgstr "Оцінка -"
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:735 html/user/forum_pm.php:79 html/user/forum_pm.php:117
-#: html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:735 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr "Відповісти"
 
@@ -694,10 +706,8 @@ msgstr "Голосувати проти блокування автора"
 msgid "Start vote to banish author"
 msgstr "Почати голосування за блокування автора"
 
-#: html/inc/forum.inc:1211 html/inc/user.inc:373 html/user/forum_pm.php:78
-#: html/user/forum_pm.php:89 html/user/forum_pm.php:116
-#: html/user/forum_pm.php:282 html/user/forum_thread.php:248
-#: html/user/pm.php:100 html/user/pm.php:141
+#: html/inc/forum.inc:1211 html/inc/user.inc:373
+#: html/user/forum_thread.php:248 html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr "Видалити"
 
@@ -1174,8 +1184,8 @@ msgstr "Обговорення"
 msgid "News is available as an %sRSS feed%s"
 msgstr "Новини доступні у форматі %sстрічки RSS%s"
 
-#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/forum_pm.php:50
-#: html/user/forum_pm.php:118 html/user/pm.php:57 html/user/pm.php:142
+#: html/inc/pm.inc:25 html/inc/pm.inc:271 html/user/pm.php:57
+#: html/user/pm.php:142
 msgid "Inbox"
 msgstr "Вхідні"
 
@@ -1209,18 +1219,16 @@ msgstr "Відправити повідомлення команді"
 #: html/inc/pm.inc:65 html/inc/pm.inc:66 html/inc/pm.inc:94
 #: html/inc/pm.inc:107 html/inc/pm.inc:109 html/inc/pm.inc:177
 #: html/user/forum_edit.php:107 html/user/forum_edit.php:108
-#: html/user/forum_edit.php:153 html/user/forum_pm.php:148
-#: html/user/forum_post.php:65 html/user/forum_post.php:97
-#: html/user/forum_post.php:98 html/user/forum_post.php:144
-#: html/user/forum_reply.php:77 html/user/forum_reply.php:110
-#: html/user/forum_reply.php:115 html/user/forum_reply.php:170
-#: html/user/pm.php:172 html/user/pm.php:216
+#: html/user/forum_edit.php:153 html/user/forum_post.php:65
+#: html/user/forum_post.php:97 html/user/forum_post.php:98
+#: html/user/forum_post.php:144 html/user/forum_reply.php:77
+#: html/user/forum_reply.php:110 html/user/forum_reply.php:115
+#: html/user/forum_reply.php:170 html/user/pm.php:172 html/user/pm.php:216
 msgid "Preview"
 msgstr "Попередній перегляд"
 
 #: html/inc/pm.inc:82 html/inc/pm.inc:162 html/user/ffmail_form.php:57
-#: html/user/forum_pm.php:65 html/user/forum_pm.php:109 html/user/pm.php:79
-#: html/user/pm.php:133
+#: html/user/pm.php:79 html/user/pm.php:133
 msgid "Subject"
 msgstr "Тема"
 
@@ -2096,7 +2104,7 @@ msgstr "Процесорний час<br />(сек)"
 msgid "Credit"
 msgstr "Бали"
 
-#: html/inc/result.inc:407 html/inc/result.inc:813
+#: html/inc/result.inc:407 html/inc/result.inc:816
 #: html/user/server_status.php:172
 msgid "Application"
 msgstr "Додаток"
@@ -2153,15 +2161,15 @@ msgstr "Версія додатку"
 msgid "Output files"
 msgstr "Вихідні файли"
 
-#: html/inc/result.inc:735
+#: html/inc/result.inc:738
 msgid "Stderr output"
 msgstr "Текст протоколу"
 
-#: html/inc/result.inc:795
+#: html/inc/result.inc:798
 msgid "State"
 msgstr "Стан"
 
-#: html/inc/result.inc:836
+#: html/inc/result.inc:839
 msgid "Task name:"
 msgstr "Назва завдання:"
 
@@ -2705,11 +2713,6 @@ msgstr "вийти"
 #: html/inc/util.inc:209
 msgid "log in"
 msgstr "увійти"
-
-#. kludge
-#: html/inc/util.inc:346 html/user/login_form.php:40
-msgid "Log in"
-msgstr "Увійти"
 
 #: html/inc/util.inc:347
 msgid "Create an account"
@@ -3347,123 +3350,123 @@ msgstr "Інструкції зі встановлення та запуску B
 msgid "This list is managed centrally at %1 the BOINC website %2."
 msgstr "Цей список ведеться централізовано на %1 веб-сайті BOINC %2."
 
-#: html/user/download_software.php:174
+#: html/user/download_software.php:182
 msgid "This project requires VirtualBox."
 msgstr "Цей проект вимагає VirtualBox."
 
-#: html/user/download_software.php:177
+#: html/user/download_software.php:185
 msgid "This project recommends VirtualBox."
 msgstr "Цей проект рекомендує VirtualBox."
 
-#: html/user/download_software.php:183
+#: html/user/download_software.php:191
 msgid ""
 "If it is not installed on this computer, get it %1here%2, then restart "
 "BOINC."
 msgstr "Якщо вона не встановлена на цьому комп'ютері, отримайте її %1тут%2, а потім перезапустіть BOINC."
 
-#: html/user/download_software.php:191
+#: html/user/download_software.php:199
 msgid "Use the BOINC+VirtualBox installer."
 msgstr "Використовуйте програму установки BOINC+VirtualBox."
 
-#: html/user/download_software.php:194
+#: html/user/download_software.php:202
 msgid "If it is not installed on this computer, get it %1here%2."
 msgstr "Якщо вона не встановлена на цьому комп'ютері, отримайте її %1тут%2."
 
-#: html/user/download_software.php:208
+#: html/user/download_software.php:216
 msgid "Download BOINC"
 msgstr "Завантажити BOINC"
 
-#: html/user/download_software.php:217
+#: html/user/download_software.php:225
 msgid ""
 "To download and install BOINC,\n"
 "            click on the link below and follow the instructions.\n"
 "        "
 msgstr "Щоб завантажити та встановити BOINC,\n            натисніть на посилання нижче та дотримуйтесь інструкцій.\n        "
 
-#: html/user/download_software.php:220
+#: html/user/download_software.php:228
 msgid ""
 "When BOINC first runs it will ask you to select a project.\n"
 "            Select %1 from the list,\n"
 "            or enter this project's URL: %2"
 msgstr "Коли ви запустите BOINC вперше, він попросить вас обрати проект.\n            Оберіть %1 зі списку,\n            або введіть URL цього проекту: %2"
 
-#: html/user/download_software.php:229
+#: html/user/download_software.php:237
 msgid "Go to the BOINC download page."
 msgstr "Перейдіть на сторінку завантаження BOINC."
 
-#: html/user/download_software.php:258
+#: html/user/download_software.php:266
 msgid "the current versions of BOINC and VirtualBox"
 msgstr "поточні версії BOINC і VirtualBox"
 
-#: html/user/download_software.php:259
+#: html/user/download_software.php:267
 msgid "these versions are"
 msgstr "ці версії"
 
-#: html/user/download_software.php:260
+#: html/user/download_software.php:268
 msgid "BOINC and VirtualBox"
 msgstr "BOINC та VirtualBox"
 
-#: html/user/download_software.php:262
+#: html/user/download_software.php:270
 msgid "the current version of BOINC"
 msgstr "поточна версія BOINC"
 
-#: html/user/download_software.php:263
+#: html/user/download_software.php:271
 msgid "this version is"
 msgstr "ця версія"
 
-#: html/user/download_software.php:266
+#: html/user/download_software.php:274
 msgid "To participate in %1, %2 must be installed on your computer."
 msgstr "Для участі в %1, %2 має бути встановлено на вашому комп'ютері."
 
-#: html/user/download_software.php:270
+#: html/user/download_software.php:278
 msgid "If %1 already installed, %2click here%3."
 msgstr "Якщо %1 вже встановлена, %2cнажміть тут%3."
 
-#: html/user/download_software.php:296
+#: html/user/download_software.php:304
 msgid "When the download is finished, open the downloaded file to install %1."
 msgstr "Коли завантаження закінчиться, відкрийте завантажений файл, щоб встановити %1."
 
-#: html/user/download_software.php:298
+#: html/user/download_software.php:306
 msgid "All done? %1Click here to finish%2."
 msgstr "Все зроблено? %1Натисніть тут, щоб завершити%2."
 
-#: html/user/download_software.php:308
+#: html/user/download_software.php:316
 msgid "Use %1"
 msgstr "Використання %1"
 
-#: html/user/download_software.php:317
+#: html/user/download_software.php:325
 msgid "To use %1 on this computer:"
 msgstr "Щоб використовувати %1 на цьому комп'ютері:"
 
-#: html/user/download_software.php:318 html/user/download_software.php:335
+#: html/user/download_software.php:326 html/user/download_software.php:343
 msgid "In the BOINC manager, go to the Tools menu"
 msgstr "У менеджері BOINC перейдіть до меню Інструменти"
 
-#: html/user/download_software.php:319
+#: html/user/download_software.php:327
 msgid "Select Use Account Manager"
 msgstr "Виберіть Використовувати Mенеджер Проектів"
 
-#: html/user/download_software.php:320 html/user/download_software.php:337
+#: html/user/download_software.php:328 html/user/download_software.php:345
 msgid "Select %1 from the list"
 msgstr "Виберіть %1 зі списку"
 
-#: html/user/download_software.php:321 html/user/download_software.php:338
+#: html/user/download_software.php:329 html/user/download_software.php:346
 msgid "Enter your %1 email address and password."
 msgstr "Введіть вашу %1 адресу електронної пошти та пароль."
 
-#: html/user/download_software.php:324
+#: html/user/download_software.php:332
 msgid "Add %1"
 msgstr "Додати %1"
 
-#: html/user/download_software.php:334
+#: html/user/download_software.php:342
 msgid "To add %1 on this computer:"
 msgstr "Щоб додати %1 на цей комп'ютер:"
 
-#: html/user/download_software.php:336
+#: html/user/download_software.php:344
 msgid "Select Add Project"
 msgstr "Виберіть Додати Проект"
 
-#: html/user/download_software.php:344 html/user/sample_index.php:90
+#: html/user/download_software.php:352 html/user/sample_index.php:90
 #: html/user/welcome.php:105
 msgid "Continue to your home page"
 msgstr "Продовжити на вашій домашній сторінці"
@@ -3689,8 +3692,7 @@ msgstr "Ігнорування повідомлень від цих корист
 msgid "User ID (For instance: 123456789)"
 msgstr "ID користувача (Наприклад: 123456789)"
 
-#: html/user/edit_forum_preferences_form.php:157 html/user/forum_pm.php:213
-#: html/user/pm.php:287
+#: html/user/edit_forum_preferences_form.php:157 html/user/pm.php:287
 msgid "Add user to filter"
 msgstr "Додати користувача у фільтр"
 
@@ -4301,100 +4303,6 @@ msgstr "Цільовий форум"
 msgid "New title:"
 msgstr "Нова назва:"
 
-#: html/user/forum_pm.php:54 html/user/pm.php:61
-msgid "Your message has been sent."
-msgstr "Ваше повідомлення було відправлене."
-
-#: html/user/forum_pm.php:60 html/user/pm.php:71
-msgid "You have no private messages."
-msgstr "У Вас немає приватних повідомлень."
-
-#: html/user/forum_pm.php:65 html/user/pm.php:79
-msgid "Sender and date"
-msgstr "Відправник і дата"
-
-#: html/user/forum_pm.php:102
-msgid "No such message"
-msgstr "Немає такого повідомлення"
-
-#: html/user/forum_pm.php:110 html/user/pm.php:134
-msgid "Sender"
-msgstr "Відправник"
-
-#: html/user/forum_pm.php:113 html/user/pm.php:137
-msgid "Date"
-msgstr "Дата"
-
-#: html/user/forum_pm.php:152 html/user/pm.php:190 html/user/pm.php:220
-msgid "You need to fill all fields to send a private message"
-msgstr "Для того, щоб відправити приватне повідомлення, Ви повинні заповнити всі поля"
-
-#: html/user/forum_pm.php:167 html/user/pm.php:241
-msgid "Could not find user with id %1"
-msgstr "Не вдається знайти користувача з id %1"
-
-#: html/user/forum_pm.php:172 html/user/pm.php:246
-msgid "Could not find user with username %1"
-msgstr "Не вдається знайти користувача з іменем %1"
-
-#. Non-unique username
-#: html/user/forum_pm.php:174 html/user/pm.php:248
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 - не унікальне ім’я користувача; Ви змушені будете використовувати ID користувача"
-
-#: html/user/forum_pm.php:182 html/user/pm.php:254
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Користувач %1 (ID: %2) не приймає Ваші приватні повідомлення."
-
-#: html/user/forum_pm.php:204 html/user/pm.php:278
-msgid "Really block %1?"
-msgstr "Точно заблокувати %1?"
-
-#: html/user/forum_pm.php:205 html/user/pm.php:279
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
-msgstr "Ви насправді впевнені, що хочете заблокувати можливість користувача %1 відправляти Вам приватні повідомлення?"
-
-#: html/user/forum_pm.php:206 html/user/pm.php:280
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Будь-ласка, зверніть увагу, що Ви можете заблокувати тільки обмежену кількість користувачів."
-
-#: html/user/forum_pm.php:207 html/user/pm.php:281
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
-msgstr "Як тільки користувач був заблокований, Ви можете розблокувати його, використовуючи сторінку налаштувань форуму."
-
-#: html/user/forum_pm.php:214 html/user/pm.php:288
-msgid "No, cancel"
-msgstr "Ні, скасувати"
-
-#: html/user/forum_pm.php:217 html/user/pm.php:276
-#: html/user/view_profile.php:28
-msgid "No such user"
-msgstr "Немає такого користувача"
-
-#: html/user/forum_pm.php:228 html/user/pm.php:300
-msgid "User %1 blocked"
-msgstr "Користувач %1 заблокований"
-
-#: html/user/forum_pm.php:230 html/user/pm.php:302
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Відправлення приватних повідомлень для Вас від користувача %1 було заблоковане."
-
-#: html/user/forum_pm.php:231
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Для того щоб розблокувати, відвідайте %1налаштування дошки повідомлень%2"
-
-#: html/user/forum_pm.php:284
-msgid "Mark as read"
-msgstr "Помітити як прочитане"
-
-#: html/user/forum_pm.php:286
-msgid "Mark as unread"
-msgstr "Помітити як непрочитане"
-
 #: html/user/forum_post.php:44
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
@@ -4968,15 +4876,15 @@ msgstr "Уведіть вашу адресу електронної пошти �
 msgid "Reset password"
 msgstr "Скинути пароль"
 
-#: html/user/gpu_list.php:150 html/user/gpu_list.php:176
+#: html/user/gpu_list.php:163 html/user/gpu_list.php:189
 msgid "No GPU tasks reported"
 msgstr "Немає повідомлених ГП-задач"
 
-#: html/user/gpu_list.php:209
+#: html/user/gpu_list.php:222
 msgid "Top GPU models"
 msgstr "Кращі моделі графічних прискорювачів"
 
-#: html/user/gpu_list.php:210
+#: html/user/gpu_list.php:223
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds, measured by average elapsed time of tasks, are "
@@ -5357,8 +5265,7 @@ msgstr "Виберіть %1 зі списку або введіть %2"
 msgid "In the BOINC Manager, select Tools / Add Project."
 msgstr "У Менеджері BOINC виберіть Інструменти / Додати Проект."
 
-#. use auto-attach if possible
-#: html/user/join.php:102 html/user/sample_index.php:128
+#: html/user/join.php:102 html/user/sample_index.php:131
 #: html/user/team_join_form.php:34
 msgid "Join %1"
 msgstr "Приєднання до команди %1."
@@ -5397,7 +5304,19 @@ msgid ""
 "incomplete, %1 you can help translate %2."
 msgstr "Переклади роблять волонтери.  Якщо вашої рідної мови нема, або переклад не завершено, %1 допоможіть нам з перекладом %2."
 
-#: html/user/login_form.php:56
+#: html/user/login_form.php:32
+msgid "Already logged in"
+msgstr "Залишатись залогіненим"
+
+#: html/user/login_form.php:33
+msgid "You are logged in as %1."
+msgstr "Ви вже залогінені як %1."
+
+#: html/user/login_form.php:36
+msgid "Log out"
+msgstr "Вийти"
+
+#: html/user/login_form.php:59
 msgid "or %1 create an account %2."
 msgstr "або %1 створити обліковий запис %2."
 
@@ -5501,6 +5420,18 @@ msgstr "Заблокувати повідомлення від цього кор
 msgid "Block user"
 msgstr "Заблокувати користувача"
 
+#: html/user/pm.php:61
+msgid "Your message has been sent."
+msgstr "Ваше повідомлення було відправлене."
+
+#: html/user/pm.php:71
+msgid "You have no private messages."
+msgstr "У Вас немає приватних повідомлень."
+
+#: html/user/pm.php:79
+msgid "Sender and date"
+msgstr "Відправник і дата"
+
 #: html/user/pm.php:99
 msgid "Reply to this message"
 msgstr "Відповісти на це повідомлення"
@@ -5521,6 +5452,18 @@ msgstr "Відмінити вибір всіх"
 msgid "Delete selected messages"
 msgstr "Видалити вибрані повідомлення"
 
+#: html/user/pm.php:134
+msgid "Sender"
+msgstr "Відправник"
+
+#: html/user/pm.php:137
+msgid "Date"
+msgstr "Дата"
+
+#: html/user/pm.php:190 html/user/pm.php:220
+msgid "You need to fill all fields to send a private message"
+msgstr "Для того, щоб відправити приватне повідомлення, Ви повинні заповнити всі поля"
+
 #: html/user/pm.php:202
 msgid "Message sent"
 msgstr "Повідомлення надіслано"
@@ -5536,9 +5479,62 @@ msgid ""
 "            Please modify your text and try again."
 msgstr "Ваше повідомлення було помічене як спам\n                антиспам-системою Akismet.\n                Будь-ласка, змініть свій текст і спробуйте ще раз."
 
+#: html/user/pm.php:241
+msgid "Could not find user with id %1"
+msgstr "Не вдається знайти користувача з id %1"
+
+#: html/user/pm.php:246
+msgid "Could not find user with username %1"
+msgstr "Не вдається знайти користувача з іменем %1"
+
+#. Non-unique username
+#: html/user/pm.php:248
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 - не унікальне ім’я користувача; Ви змушені будете використовувати ID користувача"
+
+#: html/user/pm.php:254
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "Користувач %1 (ID: %2) не приймає Ваші приватні повідомлення."
+
+#: html/user/pm.php:276 html/user/view_profile.php:28
+msgid "No such user"
+msgstr "Немає такого користувача"
+
+#: html/user/pm.php:278
+msgid "Really block %1?"
+msgstr "Точно заблокувати %1?"
+
+#: html/user/pm.php:279
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr "Ви насправді впевнені, що хочете заблокувати можливість користувача %1 відправляти Вам приватні повідомлення?"
+
+#: html/user/pm.php:280
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Будь-ласка, зверніть увагу, що Ви можете заблокувати тільки обмежену кількість користувачів."
+
+#: html/user/pm.php:281
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr "Як тільки користувач був заблокований, Ви можете розблокувати його, використовуючи сторінку налаштувань форуму."
+
+#: html/user/pm.php:288
+msgid "No, cancel"
+msgstr "Ні, скасувати"
+
 #: html/user/pm.php:297 html/user/team_admins.php:101
 msgid "no such user"
 msgstr "немає такого користувача"
+
+#: html/user/pm.php:300
+msgid "User %1 blocked"
+msgstr "Користувач %1 заблокований"
+
+#: html/user/pm.php:302
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Відправлення приватних повідомлень для Вас від користувача %1 було заблоковане."
 
 #: html/user/pm.php:303
 msgid "To unblock, visit %1 message board preferences %2"
@@ -5604,7 +5600,7 @@ msgid ""
 "others to see!"
 msgstr "Якщо Ви цього ще не зробили, то можете %1 створити свій власний профіль користувача %2 для того, щоб інші могли його побачити!"
 
-#: html/user/profile_menu.php:44 html/user/sample_index.php:141
+#: html/user/profile_menu.php:44 html/user/sample_index.php:144
 msgid "User of the Day"
 msgstr "Користувач дня"
 
@@ -5786,35 +5782,35 @@ msgstr "Встановіть BOINC на інші комп'ютери, планш
 msgid "Tell your friends about BOINC, and show them how to join %1."
 msgstr "Розкажіть своїм друзям про BOINC і покажіть їм, як приєднатися до %1."
 
-#: html/user/sample_index.php:130
+#: html/user/sample_index.php:133
 msgid "Already joined? %1Log in%2."
 msgstr "Вже приєдналися? %1Вхід%2."
 
-#: html/user/sample_index.php:151
+#: html/user/sample_index.php:154
 msgid "News"
 msgstr "Новини"
 
-#: html/user/server_status.php:63 html/user/temp.php:24
+#: html/user/server_status.php:63
 msgid "Not Running"
 msgstr "Не працює"
 
-#: html/user/server_status.php:67 html/user/temp.php:27
+#: html/user/server_status.php:67
 msgid "Running"
 msgstr "Працює"
 
-#: html/user/server_status.php:71 html/user/temp.php:30
+#: html/user/server_status.php:71
 msgid "Disabled"
 msgstr "Відключений"
 
-#: html/user/server_status.php:111 html/user/temp.php:56
+#: html/user/server_status.php:111
 msgid "Project status"
 msgstr "Статус проекту"
 
-#: html/user/server_status.php:120 html/user/temp.php:65
+#: html/user/server_status.php:120
 msgid "Program"
 msgstr "Програма"
 
-#: html/user/server_status.php:120 html/user/temp.php:65
+#: html/user/server_status.php:120
 msgid "Host"
 msgstr "Назва сервера"
 
@@ -6664,10 +6660,6 @@ msgstr "Використовуйте цю форму для пошуку ком�
 #: html/user/team_search.php:211
 msgid "%1 I'm not interested %2 in joining a team right now."
 msgstr "Я зараз %1 не зацікавлений %2 приєднатися до команди."
-
-#: html/user/temp.php:58
-msgid "Server software version: %1"
-msgstr "Версія серверного ПЗ: %1"
 
 #. Now display what we've got (either gotten from cache or from DB)
 #: html/user/top_hosts.php:74
