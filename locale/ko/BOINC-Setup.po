@@ -1,5 +1,5 @@
 # BOINC setup localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-08-07 08:38+0000\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-13 10:42+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/boinc/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -21,37 +21,39 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:91 mac_installer/PostInstall.cpp:210
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:216
 #: mac_installer/uninstall.cpp:115
 #, c-format
 msgid "Branding array has too few entries: %s"
 msgstr "브랜딩 배열에 항목이 너무 적음: %s"
 
-#: mac_installer/Installer.cpp:101 mac_installer/PostInstall.cpp:217
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:223
 msgid "Could not get user login name"
 msgstr "사용자 로그인 이름을 받아 올 수 없습니다"
 
-#: mac_installer/Installer.cpp:218
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:285
 #, c-format
-msgid "Sorry, this version of %s requires system 10.7 or higher."
-msgstr "죄송합니다. 해당 %s 버전은 시스템 10.7 이상을 요구합니다."
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "죄송합니다. 해당 %s 버전은 시스템 %s 이상을 요구합니다."
 
-#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1467
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1493
 #: mac_installer/uninstall.cpp:1522
 msgid "Yes"
 msgstr "네"
 
-#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1468
+#: mac_installer/PostInstall.cpp:155 mac_installer/PostInstall.cpp:1494
 #: mac_installer/uninstall.cpp:1523
 msgid "No"
 msgstr "아니오"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:153
+#: mac_installer/PostInstall.cpp:157
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "로그인한 사용자가 없을 때에도 BOINC를 실행하시겠습니까?"
 
-#: mac_installer/PostInstall.cpp:1667
+#: mac_installer/PostInstall.cpp:1694
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -59,10 +61,17 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제어할 수 있도록 허용될 것입니다.\n\n이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니까?"
 
-#: mac_installer/PostInstall.cpp:1695
+#: mac_installer/PostInstall.cpp:1722
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "%s를(을) Mac상의 모든 %s 사용자용 화면 보호기로 지정하시겠습니까?"
+
+#: mac_installer/PostInstall.cpp:2260
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "BOINC는 로제타2가 설치된 경우 인텔 맥용으로 작성된 프로젝트 애플리케이션을 실행할 수 있습니다.\n\n지금 로제타2를 설치하시겠습니까?"
 
 #: mac_installer/uninstall.cpp:89
 msgid "OK"

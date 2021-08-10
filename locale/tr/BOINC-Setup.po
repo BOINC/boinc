@@ -1,18 +1,18 @@
 # BOINC setup localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2021 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Can Demirel <aycandemirel@hotmail.com>, 2017
-# ilkeryus <ilkeryus@gmail.com>, 2017
+# ilkeryus <ilkeryus@gmail.com>, 2017,2021
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-09-23 20:48+0000\n"
-"Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
+"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
+"PO-Revision-Date: 2021-07-05 18:57+0000\n"
+"Last-Translator: ilkeryus <ilkeryus@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,31 +21,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:230
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:216
+#: mac_installer/uninstall.cpp:115
+#, c-format
+msgid "Branding array has too few entries: %s"
+msgstr "Markalama dizisinde çok az giriş var: %s"
+
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:223
 msgid "Could not get user login name"
 msgstr "Kullanıcı oturum açma adı alınamadı"
 
-#: mac_installer/Installer.cpp:199
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:285
 #, c-format
-msgid "Sorry, this version of %s requires system 10.6 or higher."
-msgstr "Üzgünüz, %s sürümü 10.6 veya daha yeni bir sistem gerektiriyor."
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "Üzgünüz, %s'in bu sürümü %s veya daha yüksek bir sistem gerektiriyor."
 
-#: mac_installer/PostInstall.cpp:139 mac_installer/PostInstall.cpp:1215
-#: mac_installer/uninstall.cpp:1512
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1493
+#: mac_installer/uninstall.cpp:1522
 msgid "Yes"
 msgstr "Evet"
 
-#: mac_installer/PostInstall.cpp:140 mac_installer/PostInstall.cpp:1216
-#: mac_installer/uninstall.cpp:1513
+#: mac_installer/PostInstall.cpp:155 mac_installer/PostInstall.cpp:1494
+#: mac_installer/uninstall.cpp:1523
 msgid "No"
 msgstr "Hayır"
 
 #. Future feature
-#: mac_installer/PostInstall.cpp:142
+#: mac_installer/PostInstall.cpp:157
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "BOINC hiçbir kullanıcı oturum açmamışken de çalışsın mı?"
 
-#: mac_installer/PostInstall.cpp:1501
+#: mac_installer/PostInstall.cpp:1694
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
@@ -53,27 +61,38 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr "Bu bilgisayarı yönetmesine izin verilen kullanıcılar, otomatik olarak %s'i de çalıştırıp kontrol etme yetkisine sahip olur. \n\nBu Mac'de yönetici olmayan kullanıcıların da %s 'i çalıştırıp kontrol edebilmesine izin verilsin mi?"
 
-#: mac_installer/PostInstall.cpp:1529
+#: mac_installer/PostInstall.cpp:1722
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "%s'i bu Mac üzerindeki tüm %s kullanıcıları için ekran koruyucu olarak ayarlamak istiyor musunuz?"
 
-#: mac_installer/uninstall.cpp:84
+#: mac_installer/PostInstall.cpp:2260
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "Rosetta 2 kuruluysa, BOINC  Intel Mac'ler için yazılmış proje uygulamalarını çalıştırabilir.\n\nRosetta 2'yi şimdi yüklemek istiyor musunuz?"
+
+#: mac_installer/uninstall.cpp:89
 msgid "OK"
 msgstr "Tamam"
 
 #. Confirm that we are running as root
-#: mac_installer/uninstall.cpp:144
+#: mac_installer/uninstall.cpp:154
 msgid "Permission error after relaunch"
 msgstr "Yeniden çalıştırma sonrası izin hatası"
 
-#: mac_installer/uninstall.cpp:149
+#: mac_installer/uninstall.cpp:159
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr "Kaldırma işlemi birkaç dakika sürebilir.\nLütfen sabırlı olun."
 
-#: mac_installer/uninstall.cpp:164
+#: mac_installer/uninstall.cpp:175
+msgid "Error saving user name"
+msgstr "Kullanıcı adı kaydedilirken hata oluştu"
+
+#: mac_installer/uninstall.cpp:186
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -81,22 +100,22 @@ msgid ""
 "This will remove the executables but will not touch %s data files."
 msgstr "%s'i bilgisayarınızdan tamamen kaldırmak istiyor musunuz?\n\nBu işlem çalıştırılabilir dosyaları kaldırır, fakat %s veri dosyalarına dokunmaz."
 
-#: mac_installer/uninstall.cpp:179
+#: mac_installer/uninstall.cpp:201
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "İptal edildi: %s'e dokunulmadı."
 
-#: mac_installer/uninstall.cpp:243
+#: mac_installer/uninstall.cpp:264
 msgid "name  of user"
 msgstr "kullanıcı ismi "
 
-#: mac_installer/uninstall.cpp:296
+#: mac_installer/uninstall.cpp:317
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr "Ayrıca VirtualBox'ı da bilgisayarınızdan kaldırmak istiyor musunuz?\n(VirtualBox, BOINC'le birlikte kurulmuştu.)"
 
-#: mac_installer/uninstall.cpp:334
+#: mac_installer/uninstall.cpp:355
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -108,10 +127,10 @@ msgid ""
 "\"%s\"."
 msgstr "Kaldırma tamamlandı.\n\nAşağıdaki kalan öğeleri Finder kullanarak kaldırmak isteyebilirsiniz: \n\"%s\" klasörü\n\nher kullanıcı için, şu dosya\n\"%s\"."
 
-#: mac_installer/uninstall.cpp:1510
+#: mac_installer/uninstall.cpp:1520
 msgid "Cancel"
 msgstr "İptal"
 
-#: mac_installer/uninstall.cpp:1511
+#: mac_installer/uninstall.cpp:1521
 msgid "Continue..."
 msgstr "Devam et..."
