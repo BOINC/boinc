@@ -33,14 +33,11 @@ jobs:
 
       - name: Prepare artifacts for deploy
         if: ${{ success() && ! contains(matrix.type, 'libs-mingw') }}
-        env:
-          PULL_REQUEST: ${{ github.event.number }}
-          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: ./deploy/prepare_deployment.sh win_${{ matrix.type }}
+        run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         if: ${{ ! contains(matrix.type, 'libs') }}
         with:
           name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/win_${{ matrix.type }}/*.7z
+          path: deploy/win_${{ matrix.type }}.7z

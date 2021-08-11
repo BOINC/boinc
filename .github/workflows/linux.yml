@@ -113,7 +113,7 @@ jobs:
         uses: edgarrc/action-7z@v1.0.4
         with:
           args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -123,20 +123,17 @@ jobs:
 
       - name: Prepare artifacts for deploy
         if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
-        env:
-          PULL_REQUEST: ${{ github.event.number }}
-          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: ./deploy/prepare_deployment.sh linux_${{ matrix.type }}
+        run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/linux_${{ matrix.type }}/*.7z
+          path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@v2        
+        uses: actions/upload-artifact@v2
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
