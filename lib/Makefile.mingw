@@ -38,6 +38,7 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/cal_boinc.h \
 	$(BOINC_SRC)/lib/cl_boinc.h \
 	$(BOINC_SRC)/lib/opencl_boinc.h \
+	$(BOINC_SRC)/lib/remote_submit.h \
 	$(BOINC_SRC)/svn_version.h \
 	$(BOINC_SRC)/win_build/config.h \
 	$(BOINC_SRC)/lib/str_util.h \
@@ -74,6 +75,7 @@ LIB_OBJ = app_ipc.o \
 	parse.o \
 	prefs.o \
 	proxy_info.o \
+	remote_submit.o \
 	str_util.o \
 	shmem.o \
 	stackwalker_win.o \

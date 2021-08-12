@@ -66,6 +66,7 @@ generic_sources = \
     proc_control.cpp \
     project_init.cpp \
     proxy_info.cpp \
+    remote_submit.cpp \
     sched_msgs.cpp \
     shmem.cpp \
     str_util.cpp \
@@ -163,6 +164,7 @@ pkginclude_HEADERS = \
     prefs.h \
     procinfo.h \
     proxy_info.h \
+    remote_submit.h \
     sched_msgs.h \
     stackwalker_imports.h \
     str_util.h \
