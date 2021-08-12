@@ -57,7 +57,7 @@ if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
         fi
     fi
     if [ -n "$CONFIGURE" ]; then
-        ./configure --host=aarch64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET
+        ./configure --host=aarch64-linux --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom 1>$STDOUT_TARGET --with-openssl
     fi
     if [ $VERBOSE = "no" ]; then
         echo MAKE_FLAGS=$MAKE_FLAGS "1>$STDOUT_TARGET"
