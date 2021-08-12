@@ -13,6 +13,5 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 
 linux/update_vcpkg.sh
 
-chmod +x "$VCPKG_DIR/share/curl/curl-config"
-export _libcurl_config="$VCPKG_DIR/share/curl/curl-config"
+export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 ./configure --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --disable-client --disable-manager
