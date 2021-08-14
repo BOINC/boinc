@@ -63,7 +63,7 @@ jobs:
           python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
 
       - name: Build
-        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
+        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -p:BuildConfig=ci -m
 
       - name: Run tests
         working-directory: win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}
@@ -73,7 +73,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           7z.exe a -t7z -mx=9 deploy/logs.7z -r0 3rdParty/Windows/vcpkg/buildtrees/*.log
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -106,7 +106,7 @@ jobs:
 
       - name: Upload Google Tests Results
         uses: actions/upload-artifact@v2
-        if: always()        
+        if: always()
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{ matrix.platform }}/${{ matrix.configuration }}/**/gtest.xml"
@@ -125,4 +125,4 @@ jobs:
           ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
         run: |
-          python deploy\manage_vcpkg_archive_cache.py upload ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "%ACCESS_KEY%" "%SECRET_KEY%"          
+          python deploy\manage_vcpkg_archive_cache.py upload ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "%ACCESS_KEY%" "%SECRET_KEY%"
