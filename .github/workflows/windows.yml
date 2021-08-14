@@ -73,7 +73,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           7z.exe a -t7z -mx=9 deploy/logs.7z -r0 3rdParty/Windows/vcpkg/buildtrees/*.log
-      
+
       - name: Upload logs on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -83,30 +83,30 @@ jobs:
 
       - name: Prepare artifacts for deploy
         if: ${{ success() }}
-        env:
-          PULL_REQUEST: ${{ github.event.number }}
-          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-          platform: ${{ matrix.platform }}
-          configuration: ${{ matrix.configuration }}
         shell: cmd
-        run: call deploy\prepare_deployment.bat
-
-      - uses: actions/upload-artifact@v2
+        run: |
+          python deploy\prepare_deployment.py win_apps
+          python deploy\prepare_deployment.py win_client
+          python deploy\prepare_deployment.py win_manager
+      - name: Upload apps
+        uses: actions/upload-artifact@v2
         with:
           name: win_apps_${{ github.event.pull_request.head.sha }}
-          path: deploy/win_apps/*.7z
-      - uses: actions/upload-artifact@v2
+          path: deploy/win_apps.7z
+      - name: Upload client
+        uses: actions/upload-artifact@v2
         with:
           name: win_client_${{ github.event.pull_request.head.sha }}
-          path: deploy/win_client/*.7z
-      - uses: actions/upload-artifact@v2
+          path: deploy/win_client.7z
+      - name: Upload manager
+        uses: actions/upload-artifact@v2
         with:
           name: win_manager_${{ github.event.pull_request.head.sha }}
-          path: deploy/win_manager/*.7z
+          path: deploy/win_manager.7z
 
       - name: Upload Google Tests Results
         uses: actions/upload-artifact@v2
-        if: always()        
+        if: always()
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{ matrix.platform }}/${{ matrix.configuration }}/**/gtest.xml"
