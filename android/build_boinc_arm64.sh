@@ -30,10 +30,12 @@ CONFIG_LDFLAGS=""
 
 if [ $BUILD_WITH_VCPKG = "yes" ]; then
     CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
-    CONFIG_FLAGS="--with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-vcpkg"
+    CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR"
+    export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 else
-    CONFIG_FLAGS="--with-ssl=$TCINCLUDES"
+    CONFIG_FLAGS="--with-ssl=$TCINCLUDES --with-libcurl=$TCINCLUDES"
     CONFIG_LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib"
+    export _libcurl_pc="$TCINCLUDES/lib/pkgconfig/libcurl.pc"
 fi
 
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
@@ -71,9 +73,6 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        if [ $BUILD_WITH_VCPKG = "yes" ]; then
-            export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-        fi
         ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --with-boinc-alt-platform="arm-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-shared --enable-static
     fi
     echo MAKE_FLAGS=$MAKE_FLAGS
