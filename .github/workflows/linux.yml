@@ -110,9 +110,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        uses: edgarrc/action-7z@v1.0.4
-        with:
-          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
+        run: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
 
       - name: Upload logs on failure
         if: ${{ failure() }}
