@@ -48,6 +48,13 @@ PROGS = uc2 ucn
 # make this optional so compile doesn't break on systems without OpenGL
 GUI_PROGS = uc2_graphics slide_show
 
+ifdef BUILD_WITH_GUI
+  $(info building gui apps)
+  PROGS += $(GUI_PROGS)
+endif
+
+$(info All PROGS=$(PROGS))
+
 all: $(PROGS)
 
 gui: $(GUI_PROGS)

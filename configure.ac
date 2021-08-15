@@ -140,6 +140,12 @@ AC_ARG_ENABLE(apps-vbox,
     [enable_apps_vbox=${enableval}],
     [enable_apps_vbox=no])
 
+AC_ARG_ENABLE(apps-gui,
+    AS_HELP_STRING([--enable-apps-gui],
+                   [enable building the boinc apps that depend on gui]),
+    [enable_apps_gui=${enableval}],
+    [enable_apps_gui=no])
+
 AC_ARG_ENABLE(unit-tests,
     AS_HELP_STRING([--enable-unit-tests],
                    [enable building the boinc unit tests]),
@@ -1089,6 +1095,7 @@ AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
+AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1379,6 +1386,26 @@ dnl AC_CONFIG_HEADER([config.h])
 AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
+
+if test "$enable_libraries" = "yes" -a "$have_glut" = yes -a "$have_jpeg" = 1; then
+  configured_to_build="${configured_to_build} libraries_graphics"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_gui" = yes; then
+  configured_to_build="${configured_to_build} apps_gui"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_vcpkg" = yes; then
+  configured_to_build="${configured_to_build} apps_vcpkg"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_vbox" = yes; then
+  configured_to_build="${configured_to_build} apps_vbox"
+fi
+
+if test "$enable_apps" = yes -a "$enable_apps_mingw" = yes; then
+  configured_to_build="${configured_to_build} apps_mingw"
+fi
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"
