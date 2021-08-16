@@ -2,6 +2,10 @@
 
 include $(top_srcdir)/Makefile.incl
 
+if BUILD_WITH_MINGW
+    export BUILD_WITH_MINGW="yes"
+endif
+
 if BUILD_WITH_GUI
     export BUILD_WITH_GUI="yes"
 endif

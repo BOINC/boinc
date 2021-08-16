@@ -20,4 +20,4 @@ export CXXFLAGS="$ZIP_VCPROJ_FLAGS $ZIP_BOINC_RENAMES $ZIP_MINGW -I$VCPKG_DIR/in
 export CFLAGS="$CXXFLAGS"
 
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-./configure --host=x86_64-w64-mingw32 --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-apps --enable-apps-mingw --enable-apps-vcpkg --disable-server --disable-client --disable-manager
+./configure --host=x86_64-w64-mingw32 --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-apps --enable-apps-mingw --enable-apps-vcpkg --enable-apps-gui --disable-server --disable-client --disable-manager

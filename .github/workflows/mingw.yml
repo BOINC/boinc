@@ -31,6 +31,22 @@ jobs:
         if: success() && matrix.type == 'apps-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
 
+      - name: Install Powershell for vcpkg
+        if: success() && matrix.type == 'apps-mingw-vcpkg'
+        run: |
+          POWERSHELL_DEPS="wget apt-transport-https software-properties-common"
+          # Install pre-requisite packages of PowerShell
+          sudo apt install -y $POWERSHELL_DEPS doxygen
+          # Download the Microsoft repository GPG keys
+          VERSION=$(lsb_release -r -s)
+          wget -q https://packages.microsoft.com/config/ubuntu/$VERSION/packages-microsoft-prod.deb
+          # Register the Microsoft repository GPG keys
+          sudo dpkg -i packages-microsoft-prod.deb
+          # Update the list of packages after we added packages.microsoft.com
+          sudo apt update
+          # Install PowerShell
+          sudo apt install -y powershell
+
       - name: Automake vcpkg apps
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: ./_autosetup

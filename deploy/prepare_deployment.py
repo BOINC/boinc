@@ -54,6 +54,8 @@ mingw_apps_vcpkg_list = [
     './samples/condor/boinc_gahp.exe',
     './samples/example_app/uc2.exe',
     './samples/example_app/ucn.exe',
+    './samples/example_app/uc2_graphics.exe',
+    './samples/example_app/slide_show.exe',
     './samples/multi_thread/multi_thread.exe',
     './samples/sleeper/sleeper.exe',
     './samples/worker/worker.exe',
