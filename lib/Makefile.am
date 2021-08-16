@@ -249,7 +249,7 @@ $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
 clean: clean-am
-	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC) *.gcno *.gcda *.gcov
+	rm -f $(LIBBOINC_STATIC) $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC_FCGI_STATIC) *.gcno *.gcda *.gcov *.a *.o *.lo *.la
 
 endif
 # end of "if ENABLE_LIBRARIES"

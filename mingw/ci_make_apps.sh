@@ -24,4 +24,7 @@ if [ ! -f $VCPKG_DIR/lib/libz.a ]; then
     ln -s $VCPKG_DIR/lib/libzlib.a $VCPKG_DIR/lib/libz.a
 fi
 
+export CXXFLAGS="-I$VCPKG_DIR/include -L$VCPKG_DIR/lib"
+export CFLAGS="$CXXFLAGS"
+
 make

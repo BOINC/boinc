@@ -42,7 +42,18 @@ CXXFLAGS += -g \
 
 LIBGLUT = -lglut
 LIBGLU = -lGLU
+LIBGL= -lGL
+LIBUI = -lX11 -lXmu
+LIBFTGL = -lftgl
 LIBJPEG = -ljpeg
+
+ifdef BUILD_WITH_MINGW
+  LIBGLUT = -lfreeglut_static
+  LIBGLU = -lglu32
+  LIBGL= -lopengl32
+  LIBUI = -lgdi32 -lwinmm
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec-static -lbrotlienc-static -lbrotlicommon-static -lz
+endif
 
 PROGS = uc2 ucn
 # make this optional so compile doesn't break on systems without OpenGL
@@ -91,13 +102,14 @@ uc2_graphics: uc2_graphics.o ttfont.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    -lftgl -lGL -lX11 -lXmu -lm
+    $(LIBFTGL) $(LIBGL) $(LIBUI) -lm
 
 slide_show: slide_show.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o slide_show slide_show.o libstdc++.a -pthread \
+	$(MINGW_ZIP_FIX) \
 	$(BOINC_API_DIR)/libboinc_graphics2.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \
 	$(BOINC_ZIP_DIR)/libboinc_zip.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    -lGL -lX11 -lXmu -lm
+    $(LIBGL) $(LIBUI) -lm

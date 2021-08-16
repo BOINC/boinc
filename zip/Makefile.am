@@ -82,4 +82,4 @@ $(LIBBOINC_ZIP_STATIC): libboinc_zip.la
 	$(LN) .libs/$(LIBBOINC_ZIP_STATIC) .
 
 clean:
-	rm -f $(LIBBOINC_ZIP_STATIC)
+	rm -f $(LIBBOINC_ZIP_STATIC) *.a *.o *.lo *.la
