@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu bionic main universe'
           sudo apt-get -qq update
-          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
+          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
 
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
@@ -66,7 +66,7 @@ jobs:
 
       - name: Configure apps
         if: success() && matrix.type == 'apps'
-        run: ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager
+        run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
 
       - name: Configure libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
