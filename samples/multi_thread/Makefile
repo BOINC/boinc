@@ -36,11 +36,10 @@ all: $(PROGS)
 libstdc++.a:
 	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
-clean:
-	/bin/rm -f $(PROGS)
+clean: distclean
 
 distclean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+	/bin/rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
 
 multi_thread: multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o multi_thread multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)

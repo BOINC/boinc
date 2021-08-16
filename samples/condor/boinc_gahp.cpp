@@ -30,7 +30,9 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <time.h>
 
+#include "str_util.h"
 #include "md5_file.h"
 #include "parse.h"
 #include "remote_submit.h"

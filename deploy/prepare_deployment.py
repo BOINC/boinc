@@ -50,6 +50,18 @@ mingw_apps_list = [
     './lib/wrapper.exe'
 ]
 
+mingw_apps_vcpkg_list = [
+    './samples/condor/boinc_gahp.exe',
+    './samples/example_app/uc2.exe',
+    './samples/example_app/ucn.exe',
+    './samples/multi_thread/multi_thread.exe',
+    './samples/sleeper/sleeper.exe',
+    './samples/worker/worker.exe',
+    './samples/wrapper/wrapper.exe',
+    './samples/wrappture/wrappture_example.exe',
+    './samples/wrappture/fermi.exe'
+]
+
 android_manager_generic_list = [
     './android/BOINC/app/build/outputs/apk/debug/app-debug.apk',
     './android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk'
@@ -161,7 +173,7 @@ def prepare_7z_archive(archive_name, target_directory, files_list):
 
 def help():
     print('Usage: python preprare_deployment.py BOINC_TYPE')
-    print('BOINC_TYPE : [linux_client | linux_client-vcpkg | linux_apps | linux_apps-vcpkg | linux_manager-with-webview | linux_manager-without-webview | win_apps-mingw | android_manager | android_manager-vcpkg | android_apps | android_apps-vcpkg | win_apps | win_client | win_manager]')
+    print('BOINC_TYPE : [linux_client | linux_client-vcpkg | linux_apps | linux_apps-vcpkg | linux_manager-with-webview | linux_manager-without-webview | win_apps-mingw | win_apps-mingw-vcpkg | android_manager | android_manager-vcpkg | android_apps | android_apps-vcpkg | win_apps | win_client | win_manager]')
 
 def prepare_linux_client(target_directory):
     prepare_7z_archive('linux_client', target_directory, linux_client_list)
@@ -183,6 +195,9 @@ def prepare_linux_manager_without_webview(target_directory):
 
 def prepare_win_apps_mingw(target_directory):
     prepare_7z_archive('win_apps-mingw', target_directory, mingw_apps_list)
+
+def prepare_win_apps_mingw_vcpkg(target_directory):
+    prepare_7z_archive('win_apps-mingw-vcpkg', target_directory, mingw_apps_vcpkg_list)
 
 def prepare_android_manager(target_directory):
     prepare_7z_archive('android_manager', target_directory, android_manager_generic_list)
@@ -217,6 +232,7 @@ boinc_types = {
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
+    'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
     'android_manager': prepare_android_manager,
     'android_manager-vcpkg': prepare_android_manager_vcpkg,
     'android_apps': prepare_android_apps,
@@ -235,7 +251,7 @@ boinc_type = sys.argv[1]
 target_dir = 'deploy'
 
 if (boinc_type not in boinc_types):
-    print('Unknown BOINC_TYPE: ' + boinc_type)
+    print(f'Unknown BOINC_TYPE: {boinc_type}')
     help()
     sys.exit(1)
 

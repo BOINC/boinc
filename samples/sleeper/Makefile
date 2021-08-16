@@ -42,7 +42,7 @@ libstdc++.a:
 clean: distclean
 
 distclean:
-	rm -f $(PROGS) *.o libstdc++.a
+	rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
 
 sleeper: sleeper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sleeper sleeper.o -lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
