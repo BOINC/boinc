@@ -40,27 +40,17 @@ CXXFLAGS += -g \
 #
 # You may have to change the paths for your system.
 
-ifeq ($(wildcard /usr/local/lib/libglut.a),)
-	LIBGLUT = /usr/local/lib/libglut.a
-	LIBGLU = /usr/local/lib/libGLU.a
-	LIBJPEG = /usr/local/lib/libjpeg.a
-else
-# NOTE: to make your app portable you'll need the static (.a) versions
-# of libglut, libGLU, and libjpeg.
-# You may have to build these from source.
-	#LIBGLUT = /usr/lib64/libglut.a
-	#LIBGLU = /usr/lib64/libGLU.a
-	#LIBJPEG = /usr/lib64/libjpeg.a
-	LIBGLUT = -lglut
-	LIBGLU = -lGLU
-	LIBJPEG = -ljpeg
-endif
+LIBGLUT = -lglut
+LIBGLU = -lGLU
+LIBJPEG = -ljpeg
 
 PROGS = uc2 ucn
-# uc2_graphics
 # make this optional so compile doesn't break on systems without OpenGL
+GUI_PROGS = uc2_graphics slide_show
 
 all: $(PROGS)
+
+gui: $(GUI_PROGS)
 
 libstdc++.a:
 	ln -s `$(CXX) -print-file-name=libstdc++.a`
@@ -71,7 +61,7 @@ ttfont.cpp:
 clean: distclean
 
 distclean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+	/bin/rm -f $(PROGS) $(GUI_PROGS) $(addsuffix .exe, $(PROGS)) $(addsuffix .exe, $(GUI_PROGS)) *.o libstdc++.a ttfont.cpp
 
 install: uc2
 

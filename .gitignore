@@ -165,6 +165,9 @@ py/build/
 samples/condor/*boinc_gahp
 samples/example_app/*uc2
 samples/example_app/*ucn
+samples/example_app/uc2_graphics
+samples/example_app/slide_show
+samples/example_app/ttfont.cpp
 samples/multi_thread/*multi_thread
 samples/sleeper/*sleeper
 samples/vboxmonitor/*vboxmonitor
@@ -174,6 +177,7 @@ samples/wrapper/*wrapper
 samples/openclapp/*openclapp
 samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
+samples/**/*.exe
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census

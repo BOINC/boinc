@@ -128,6 +128,18 @@ AC_ARG_ENABLE(apps-vcpkg,
     [enable_apps_vcpkg=${enableval}],
     [enable_apps_vcpkg=no])
 
+AC_ARG_ENABLE(apps-mingw,
+    AS_HELP_STRING([--enable-apps-mingw],
+                   [enable building the boinc apps with mingw]),
+    [enable_apps_mingw=${enableval}],
+    [enable_apps_mingw=no])
+
+AC_ARG_ENABLE(apps-vbox,
+    AS_HELP_STRING([--enable-apps-vbox],
+                   [enable building the boinc apps that depend on vbox]),
+    [enable_apps_vbox=${enableval}],
+    [enable_apps_vbox=no])
+
 AC_ARG_ENABLE(unit-tests,
     AS_HELP_STRING([--enable-unit-tests],
                    [enable building the boinc unit tests]),
@@ -1075,6 +1087,8 @@ AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
 AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
 AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
+AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
+AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1091,7 +1105,7 @@ AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
-AM_CONDITIONAL(BUILD_OPENCL, [test "x$with_opencl" = "xyes"])
+AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
 
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)

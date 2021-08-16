@@ -36,7 +36,7 @@ PROGS = vboxwrapper
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `g++ -print-file-name=libstdc++.a`
+	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
 clean: distclean
 
