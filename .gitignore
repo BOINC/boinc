@@ -177,6 +177,7 @@ samples/wrapper/*wrapper
 samples/openclapp/*openclapp
 samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
+samples/collect_data/*collect_data
 samples/**/*.exe
 sched/adjust_user_priority
 sched/antique_file_deleter
