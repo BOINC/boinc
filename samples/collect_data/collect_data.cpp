@@ -21,10 +21,9 @@
 //#include "str_util.h"
 //#include "util.h"
 //#include "boinc_api.h"
-#if _WIN32
 #include <sockpp/socket.h>
 #include <sockpp/tcp_connector.h>
-#else
+#if !_WIN32
 #include <sockpp/unix_connector.h>
 #endif
 
@@ -63,7 +62,7 @@ int main(int, char**) {
     //boinc_init();
 
     sockpp::tcp_connector tcp_conn;
-#if! _WIN32
+#if !_WIN32
     sockpp::unix_connector unix_conn;
 #endif
     sockpp::connector* conn = NULL;
@@ -116,7 +115,7 @@ int main(int, char**) {
         std::string request = "<boinc_gui_rpc_request><get_state/></boinc_gui_rpc_request>";
         
         if(NULL == conn) {
-#if! _WIN32
+#if !_WIN32
             unix_conn.close();
 #endif
             tcp_conn.close();
@@ -127,7 +126,7 @@ int main(int, char**) {
 
         if (res == -1) {
             conn->close();
-#if! _WIN32
+#if !_WIN32
             unix_conn.close();
 #endif
             tcp_conn.close();
