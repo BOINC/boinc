@@ -123,6 +123,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittests", "unittests_vs20
 		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "collect_data", "collect_data_vs2019.vcxproj", "{C9934FF8-2F2A-4D4F-AE98-B3900F5C15C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -273,6 +275,10 @@ Global
 		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Debug|x64.Build.0 = Debug|x64
 		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.ActiveCfg = Release|x64
 		{E3CFBBA5-0BBC-4237-B3F8-7E7729DF7E42}.Release|x64.Build.0 = Release|x64
+		{C9934FF8-2F2A-4D4F-AE98-B3900F5C15C7}.Debug|x64.ActiveCfg = Debug|x64
+		{C9934FF8-2F2A-4D4F-AE98-B3900F5C15C7}.Debug|x64.Build.0 = Debug|x64
+		{C9934FF8-2F2A-4D4F-AE98-B3900F5C15C7}.Release|x64.ActiveCfg = Release|x64
+		{C9934FF8-2F2A-4D4F-AE98-B3900F5C15C7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

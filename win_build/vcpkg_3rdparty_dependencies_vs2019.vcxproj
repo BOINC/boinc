@@ -104,12 +104,12 @@
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
-    <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgExe))" />
+    <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
-    <Exec Command="vcpkg.exe install openssl curl[core,openssl] freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe install openssl curl[core,openssl] sockpp freetype[core,bzip2,png] ftgl wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
 </Project>
