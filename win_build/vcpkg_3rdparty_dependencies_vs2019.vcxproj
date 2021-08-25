@@ -90,8 +90,8 @@
   <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
     <RemoveDir Directories="$(CudaRootDir)"/>
   </Target>
-  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" DependsOnTargets="CleanUpCudaFolder" Condition="!Exists($(VcpkgRootDir)) Or !Exists($(CudaRootDir))">
-    <MakeDir Directories="$(VcpkgRootDir)" />
+  <Target Name="CreateFolders" BeforeTargets="InstallVcpkg" DependsOnTargets="CleanUpCudaFolder" Condition="!Exists($(Windows3rdPartyBuildDir)) Or !Exists($(CudaRootDir))">
+    <MakeDir Directories="$(Windows3rdPartyBuildDir)" />
     <MakeDir Directories="$(CudaRootDir)" />
   </Target>
   <Target Name="DownloadCUDA" BeforeTargets="InstallVcpkg" DependsOnTargets="CreateFolders" AfterTargets="CreateFolders" Condition="!Exists($(CudaNvccPath)) And !Exists($(CudaGuardFile))">
@@ -104,7 +104,7 @@
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
   <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
-    <Exec Command="git clone https://github.com/microsoft/vcpkg ." WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgExe))" />
+    <Exec Command="git clone https://github.com/microsoft/vcpkg" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>

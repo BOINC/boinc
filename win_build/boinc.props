@@ -1,6 +1,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <VcpkgRootDir Condition="'$(VcpkgRootDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\Windows\vcpkg</VcpkgRootDir>
+        <Windows3rdPartyBuildDir Condition="'$(Windows3rdPartyBuildDir)' == ''">$(MSBuildThisFileDirectory)..\3rdParty\Windows</Windows3rdPartyBuildDir>
+        <VcpkgRootDir Condition="'$(VcpkgRootDir)' == ''">$(Windows3rdPartyBuildDir)\vcpkg</VcpkgRootDir>
         <VcpkgExe>$(VcpkgRootDir)\vcpkg.exe</VcpkgExe>
         <VcpkgTripletConfig Condition="'$(VcpkgTripletConfig)' == ''">default</VcpkgTripletConfig>
         <VcpkgCacheDir Condition="'$(VcpkgCacheDir)' == ''">..\..\boinc_depends_win_vs2019</VcpkgCacheDir>
