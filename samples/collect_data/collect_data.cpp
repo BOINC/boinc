@@ -61,6 +61,7 @@ bool isConnected(sockpp::tcp_connector& conn, sockpp::unix_connector& unix_conn)
 int main(int, char**) {
     //boinc_init();
 
+    sockpp::socket_initializer sockInit;
     sockpp::tcp_connector tcp_conn;
 #if !_WIN32
     sockpp::unix_connector unix_conn;
@@ -70,6 +71,7 @@ int main(int, char**) {
     std::string android_address = "edu_berkeley_boinc_client_socket";
     std::string unix_address = "boinc_socket";
     std::string tcp_address = "localhost";
+
     while (true)
     {
         int attemped_connections = 0;
