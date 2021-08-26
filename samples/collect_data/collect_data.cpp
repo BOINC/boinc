@@ -18,14 +18,23 @@
 // Application for testing non-CPU-intensive features of BOINC.
 // TODO: make it exit after a certain amount of time
 
-//#include "str_util.h"
-//#include "util.h"
-//#include "boinc_api.h"
+#include <sstream>
 #include <sockpp/socket.h>
 #include <sockpp/tcp_connector.h>
-#if !_WIN32
-#include <sockpp/unix_connector.h>
+#ifdef _WIN32
+    #include <Windows.h>
+#else
+    #include <sockpp/unix_connector.h>
 #endif
+
+
+void mySleep(int seconds) {
+#ifdef _WIN32
+    Sleep(seconds * 1000);
+#else
+    sleep(seconds);
+#endif // _WIN32
+}
 
 #if _WIN32
 sockpp::connector* getConnected(sockpp::tcp_connector& tcp_conn) {
@@ -61,6 +70,7 @@ bool isConnected(sockpp::tcp_connector& conn, sockpp::unix_connector& unix_conn)
 int main(int, char**) {
     //boinc_init();
 
+    bool isDebug = false;
     sockpp::socket_initializer sockInit;
     sockpp::tcp_connector tcp_conn;
 #if !_WIN32
@@ -71,15 +81,20 @@ int main(int, char**) {
     std::string android_address = "edu_berkeley_boinc_client_socket";
     std::string unix_address = "boinc_socket";
     std::string tcp_address = "localhost";
-
+    bool isConn = false;
+    std::stringstream stream;
+    const int sizeBuffer = 1024;
+    char buf[sizeBuffer];
+    int suffix_file = 0;
     while (true)
     {
         int attemped_connections = 0;
 #if _WIN32
-        while (!isConnected(tcp_conn)) {
+        isConn = isConnected(tcp_conn);
 #else
-        while(!isConnected(tcp_conn, unix_conn)) {
+        isConn = isConnected(tcp_conn, unix_conn);
 #endif
+        while (!isConn) {
             if (!tcp_conn.connect(sockpp::inet_address(tcp_address, port))) {
                 printf("tcp connection fail:\n");
                 printf("%s\n",tcp_conn.last_error_str().c_str());
@@ -97,25 +112,26 @@ int main(int, char**) {
                 printf("%s\n",unix_conn.last_error_str().c_str());
                 unix_conn.clear();                
             }
-
-            if (isConnected(tcp_conn, unix_conn)) {
+            isConn = isConnected(tcp_conn, unix_conn);
+            if (isConn) {
                 conn = getConnected(tcp_conn, unix_conn);
             }
 #else
-            if (isConnected(tcp_conn)) {
+            isConn = isConnected(tcp_conn);
+            if (isConn) {
                 conn = getConnected(tcp_conn);
             }
 #endif
 
-
             attemped_connections++;
             printf("attemped connections: %d\n\n", attemped_connections);
-            //boinc_sleep(2);
+            mySleep(1);
         }
-        printf("before write: \n");
-        char buf[1024];
-        std::string request = "<boinc_gui_rpc_request><get_state/></boinc_gui_rpc_request>";
-        
+
+        std::string request = "<boinc_gui_rpc_request><get_state/></boinc_gui_rpc_request>\3";
+        if (isDebug) {
+            printf("before NULL == conn: %ld\n", conn);
+        }
         if(NULL == conn) {
 #if !_WIN32
             unix_conn.close();
@@ -123,9 +139,14 @@ int main(int, char**) {
             tcp_conn.close();
             continue;
         }
-
+        if (isDebug) {
+            printf("before write: \n");
+        }
         int res = conn->write(request);
 
+        if (isDebug) {
+            printf("After write: %d\n", res);
+        }
         if (res == -1) {
             conn->close();
 #if !_WIN32
@@ -135,12 +156,29 @@ int main(int, char**) {
             continue;
         }
         
-        printf("request size: %ld\n", request.size());
-        printf("res: %d\n", res);
-        printf("After write, before read: \n");
-        ssize_t n = conn->read(buf, sizeof(buf));
-        printf("result:\n");
-        printf("%s\n", buf);
-        //boinc_sleep(2);
+        printf("request bytes: %ld\n", request.size());
+        printf("write bytes: %d\n", res);
+
+        if (isDebug) {
+            printf("After write, before read: \n");
+        }
+
+        ssize_t n = sizeBuffer;
+        stream.str("");
+        while (n == sizeBuffer) {
+            n = conn->read(buf, sizeof(buf));
+            if (isDebug) {
+                printf("result:\n");
+                printf("%s\n", buf);
+            }
+            stream << buf;
+;
+            if (n < sizeBuffer) {
+                printf("buf: %s\n", buf);
+            }
+        }
+
+        printf("read bytes: %d\n", stream.str().size());
+        mySleep(1);
     }
 }
