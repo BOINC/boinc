@@ -91,13 +91,13 @@ int main(int, char**) {
                 tcp_conn.clear();
             }
 #if! _WIN32
-            if (!isConnected(array_connection) && !unix_conn.connect(sockpp::unix_address(unix_address))) {
+            if (!is_connected(array_connection) && !unix_conn.connect(sockpp::unix_address(unix_address))) {
                 std::cout << "unix connection fail:\n";
                 std::cout << unix_conn.last_error_str() << "\n";
                 unix_conn.clear();                
             }
 
-            if (!isConnected(array_connection) && !unix_conn.connect(sockpp::unix_address(android_address))) {
+            if (!is_connected(array_connection) && !unix_conn.connect(sockpp::unix_address(android_address))) {
                 std::cout << "android unix connection fail:\n";
                 std::cout << unix_conn.last_error_str() << "\n";
                 unix_conn.clear();                
