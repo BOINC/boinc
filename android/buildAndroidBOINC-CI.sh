@@ -259,7 +259,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     else
         triplets_setup="default"
     fi
-    packages="rappture curl[core,openssl]"
+    packages="curl[core,openssl] rappture sockpp"
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
