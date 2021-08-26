@@ -21,6 +21,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <sockpp/socket.h>
 #include <sockpp/tcp_connector.h>
 #ifdef _WIN32
@@ -153,14 +154,16 @@ int main(int, char**) {
             }
             stream << buf;
         }
-
-        std::cout << "read bytes: " << stream.str().size() << "\n";
+        std::string str = stream.str();
+        std::size_t pos = str.find("\3");
+        str = str.substr(0, pos);
+        std::cout << "read bytes: " << str.size() << "\n";
         std::ofstream outFile;
         std::stringstream file_name;
         file_name.str("");
         file_name << "tal" << suffix_file << ".txt";
         outFile.open(file_name.str());
-        outFile << stream.rdbuf();
+        outFile << str;
         std::cout << "write to file: tal" << suffix_file << ".txt\n\n";
         suffix_file++;
         mySleep(1);
