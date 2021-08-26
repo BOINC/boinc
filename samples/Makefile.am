@@ -12,14 +12,14 @@ endif
 
 ## list the apps that should be build
 ## NOTE: nvcuda and wrappture need external libraries
-SUBDIRS = condor example_app multi_thread sleeper worker wrapper collect_data
+SUBDIRS = condor example_app multi_thread sleeper worker wrapper
 
 if BUILD_WITH_VBOX
     SUBDIRS += vboxmonitor vboxwrapper
 endif
 
 if BUILD_WITH_VCPKG
-    SUBDIRS += wrappture
+    SUBDIRS += wrappture collect_data
 endif
 
 ## build openclapp if you have opencl on your device
