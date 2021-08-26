@@ -30,7 +30,7 @@
     #include <sockpp/unix_connector.h>
 #endif
 
-void mySleep(int seconds) {
+void my_sleep(int seconds) {
 #ifdef _WIN32
     Sleep(seconds * 1000);
 #else
@@ -38,7 +38,7 @@ void mySleep(int seconds) {
 #endif // _WIN32
 }
 
-sockpp::connector* getConnected(sockpp::connector* array_connection[]) {
+sockpp::connector* get_connected(sockpp::connector* array_connection[]) {
     for (int i = 0; i < 2; ++i) {
         sockpp::connector* conn = array_connection[i];
         if (conn != NULL && conn->is_connected()) {
@@ -48,7 +48,7 @@ sockpp::connector* getConnected(sockpp::connector* array_connection[]) {
     return NULL;
 }
 
-bool isConnected(sockpp::connector* array_connection[]) {
+bool is_connected(sockpp::connector* array_connection[]) {
     for (int i = 0; i < 2; ++i) {
         sockpp::connector* conn = array_connection[i];
         if (conn != NULL && conn->is_connected()) {
@@ -70,18 +70,19 @@ int main(int, char**) {
     array_connection[1] = &unix_conn;
 #endif
     sockpp::connector* conn = NULL;
-    int16_t port = 31416;
-    std::string android_address = "edu_berkeley_boinc_client_socket";
-    std::string unix_address = "boinc_socket";
-    std::string tcp_address = "localhost";
+    const int16_t port = 31416;
+    const std::string android_address = "edu_berkeley_boinc_client_socket";
+    const std::string unix_address = "boinc_socket";
+    const std::string tcp_address = "localhost";
+    const std::string prefix_file_name = "boinc";
+    const int buffer_size = 1024;
     std::stringstream stream;
-    const int sizeBuffer = 1024;
-    char buf[sizeBuffer];
-    int suffix_file = 0;
+    char buf[buffer_size];
+    int suffix_file_idx = 0;
     while (true)
     {
         int attemped_connections = 0;
-        while (!isConnected(array_connection)) {
+        while (!is_connected(array_connection)) {
             attemped_connections++;
             std::cout << "attemped connections: " << attemped_connections << "\n";
             if (!tcp_conn.connect(sockpp::inet_address(tcp_address, port))) {
@@ -102,11 +103,11 @@ int main(int, char**) {
                 unix_conn.clear();                
             }
 #endif
-            if (isConnected(array_connection)) {
-                conn = getConnected(array_connection);
+            if (is_connected(array_connection)) {
+                conn = get_connected(array_connection);
             }
             std::cout << "\n";
-            mySleep(1);
+            my_sleep(1);
         }
 
         std::string request = "<boinc_gui_rpc_request><get_state/></boinc_gui_rpc_request>\3";
@@ -144,28 +145,32 @@ int main(int, char**) {
             std::cout << "after write, before read: \n";
         }
 
-        ssize_t n = sizeBuffer;
+        ssize_t n = buffer_size;
         stream.str("");
-        while (n == sizeBuffer) {
+        while (n == buffer_size) {
             n = conn->read(buf, sizeof(buf));
             if (isDebug) {
-                std::cout << "result size: "<< n << "\n";
+                std::cout << "result size: " << n << "\n";
                 std::cout << "buf: " << buf << "\n";
             }
-            stream << buf;
+            if (n > 0) {
+                std::string str(buf, buf + n);
+                stream << str;
+            }
         }
         std::string str = stream.str();
-        std::size_t pos = str.find("\3");
-        str = str.substr(0, pos);
+        str = str.substr(0, str.size() - 1);
         std::cout << "read bytes: " << str.size() << "\n";
         std::ofstream outFile;
         std::stringstream file_name;
         file_name.str("");
-        file_name << "tal" << suffix_file << ".txt";
+        file_name << "tal" << suffix_file_idx << ".txt";
         outFile.open(file_name.str());
         outFile << str;
-        std::cout << "write to file: tal" << suffix_file << ".txt\n\n";
-        suffix_file++;
-        mySleep(1);
+        std::cout << "write to file: tal" << suffix_file_idx << ".txt\n\n";
+        suffix_file_idx++;
+        outFile.flush();
+        outFile.close();
+        my_sleep(1);
     }
 }
