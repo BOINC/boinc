@@ -164,10 +164,10 @@ int main(int, char**) {
         std::ofstream outFile;
         std::stringstream file_name;
         file_name.str("");
-        file_name << "tal" << suffix_file_idx << ".txt";
+        file_name << prefix_file_name << suffix_file_idx << ".txt";
         outFile.open(file_name.str());
         outFile << str;
-        std::cout << "write to file: tal" << suffix_file_idx << ".txt\n\n";
+        std::cout << "write to file: " << prefix_file_name << suffix_file_idx << ".txt\n\n";
         suffix_file_idx++;
         outFile.flush();
         outFile.close();
