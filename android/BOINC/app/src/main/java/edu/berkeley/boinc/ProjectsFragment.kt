@@ -25,7 +25,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.RemoteException
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -77,7 +76,7 @@ class ProjectsFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         Logging.logVerbose(Logging.Category.GUI_VIEW, "ProjectsFragment onCreateView")
 
         // Inflate the layout for this fragment
@@ -312,7 +311,7 @@ class ProjectsFragment : Fragment() {
             }
 
             // list adapter
-            dialogBinding.options.adapter = ProjectControlsListAdapter(activity, controls)
+            dialogBinding.options.adapter = ProjectControlsListAdapter(activity!!, controls)
 
             Logging.logDebug(Logging.Category.USER_ACTION, "dialog list adapter entries: " + controls.size)
 
