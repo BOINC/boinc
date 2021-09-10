@@ -79,9 +79,12 @@ public class CredentialInputActivity extends AppCompatActivity {
             final String password = binding.pwdInput.getText().toString();
             if(attachService.verifyInput(email, name, password)) {
                 attachService.setCredentials(email, name, password);
+            } else {
+                Logging.logWarning(Logging.Category.USER_ACTION, "CredentialInputActivity.continueClicked: empty credentials found");
+
+                return;
             }
-        }
-        else {
+        } else {
             Logging.logError(Logging.Category.GUI_ACTIVITY, "CredentialInputActivity.continueClicked: service not bound.");
 
             return;
