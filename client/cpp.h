@@ -25,6 +25,11 @@
 #if defined(_WIN64) && (defined(_M_X64) || defined(__x86_64__))
 #define HOSTTYPE    "windows_x86_64"
 #define HOSTTYPEALT "windows_intelx86"
+#elif defined(_M_ARM)
+#define HOSTTYPE    "windows_arm"
+#elif defined(_M_ARM64)
+#define HOSTTYPE    "windows_arm64"
+#define HOSTTYPEALT "windows_arm"
 #else
 #define HOSTTYPE "windows_intelx86"
 #endif

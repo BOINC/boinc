@@ -1601,7 +1601,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Dump some basic stuff about runtime debugger version and date
                 diagnostics_unhandled_exception_dump_banner();
 
-#ifndef __CYGWIN__
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
                 // Kickstart the debugger extensions, look for the debugger files
                 //   in the install directory if it is defined, otherwise look
                 //   in the data directory.
@@ -1642,7 +1642,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                         }
 
                         if (diagnostics_is_flag_set(BOINC_DIAG_DUMPCALLSTACKENABLED)) {
-#ifndef __CYGWIN__
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
                             if (bDebuggerInitialized) {
                                 if (pThreadEntry->crash_exception_record ) {
                                     StackwalkFilter(
