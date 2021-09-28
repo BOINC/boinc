@@ -13,8 +13,9 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        platform: [x64]
+        platform: [x64, ARM64]
         configuration: [Release]
+      fail-fast: false
     env:
       VCPKG_BINARY_SOURCES: 'clear;files,${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\,readwrite'
     steps:
@@ -25,12 +26,14 @@ jobs:
 
       - name: Download OpenCppCoverage
         uses: suisei-cn/actions-download-file@v1
+        if: success() && matrix.platform == 'x64'
         id: DownloadOpenCppCoverage
         with:
           url: "https://opencppcoverage.gallerycdn.vsassets.io/extensions/opencppcoverage/opencppcoverageplugin/0.9.7.1/1581265346391/OpenCppCoverage-0.9.7.1.vsix"
           target: ${{ github.workspace }}\temp\
 
       - name: Unzip OpenCppCoverage
+        if: success() && matrix.platform == 'x64'
         uses: DuckSoft/extract-7z-action@v1.0
         with:
           pathSource: ${{ github.workspace }}\temp\OpenCppCoverage-0.9.7.1.vsix
@@ -60,12 +63,13 @@ jobs:
         if: ${{ success() }}
         shell: cmd
         run: |
-          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_${{ matrix.platform }} "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
 
       - name: Build
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -p:BuildConfig=ci -m
 
       - name: Run tests
+        if: success() && matrix.platform == 'x64'
         working-directory: win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}
         run: ${{ github.workspace }}\temp\OpenCppCoverage\OpenCppCoverage-x64\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{ github.workspace }} --export_type=cobertura:cobertura.xml -- unittests.exe --gtest_output=xml:gtest.xml
 
@@ -91,29 +95,29 @@ jobs:
       - name: Upload apps
         uses: actions/upload-artifact@v2
         with:
-          name: win_apps_${{ github.event.pull_request.head.sha }}
+          name: win_apps_${{ matrix.platform }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_apps.7z
       - name: Upload client
         uses: actions/upload-artifact@v2
         with:
-          name: win_client_${{ github.event.pull_request.head.sha }}
+          name: win_client_${{ matrix.platform }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_client.7z
       - name: Upload manager
         uses: actions/upload-artifact@v2
         with:
-          name: win_manager_${{ github.event.pull_request.head.sha }}
+          name: win_manager_${{ matrix.platform }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_manager.7z
 
       - name: Upload Google Tests Results
+        if: always() && matrix.platform == 'x64'
         uses: actions/upload-artifact@v2
-        if: always()
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{ matrix.platform }}/${{ matrix.configuration }}/**/gtest.xml"
 
       - name: Upload coverage report
+        if: success() && matrix.platform == 'x64'
         uses: codecov/codecov-action@v1
-        if: success()
         with:
           fail_ci_if_error: true
           verbose: false
@@ -125,4 +129,4 @@ jobs:
           ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
         run: |
-          python deploy\manage_vcpkg_archive_cache.py upload ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "%ACCESS_KEY%" "%SECRET_KEY%"
+          python deploy\manage_vcpkg_archive_cache.py upload ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_${{ matrix.platform }} "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "%ACCESS_KEY%" "%SECRET_KEY%"

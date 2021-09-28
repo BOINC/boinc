@@ -150,7 +150,21 @@ windows_apps_list = [
     './win_build/Build/x64/Release/multi_thread*.exe',
     './win_build/Build/x64/Release/slide_show.exe',
     './win_build/Build/x64/Release/test*.exe',
-    './win_build/Build/x64/Release/wrappture*.exe'
+    './win_build/Build/x64/Release/wrappture*.exe',
+    './win_build/Build/ARM64/Release/htmlgfx*.exe',
+    './win_build/Build/ARM64/Release/wrapper*.exe',
+    './win_build/Build/ARM64/Release/vboxwrapper*.exe',
+    './win_build/Build/ARM64/Release/boincsim.exe',
+    './win_build/Build/ARM64/Release/slide_show.exe',
+    './win_build/Build/ARM64/Release/example*.exe',
+    './win_build/Build/ARM64/Release/worker*.exe',
+    './win_build/Build/ARM64/Release/sleeper*.exe',
+    './win_build/Build/ARM64/Release/boinclog.exe',
+    './win_build/Build/ARM64/Release/boincsim.exe',
+    './win_build/Build/ARM64/Release/multi_thread*.exe',
+    './win_build/Build/ARM64/Release/slide_show.exe',
+    './win_build/Build/ARM64/Release/test*.exe',
+    './win_build/Build/ARM64/Release/wrappture*.exe'
 ]
 
 windows_client_list = [
@@ -159,12 +173,19 @@ windows_client_list = [
     './win_build/Build/x64/Release/boinccmd.exe',
     './win_build/Build/x64/Release/boincscr.exe',
     './win_build/Build/x64/Release/boinc.scr',
+    './win_build/Build/ARM64/Release/boinc.exe',
+    './win_build/Build/ARM64/Release/boincsvcctrl.exe',
+    './win_build/Build/ARM64/Release/boinccmd.exe',
+    './win_build/Build/ARM64/Release/boincscr.exe',
+    './win_build/Build/ARM64/Release/boinc.scr',
     './curl/ca-bundle.crt'
 ]
 
 windows_manager_list = [
     './win_build/Build/x64/Release/boinctray.exe',
     './win_build/Build/x64/Release/boincmgr.exe',
+    './win_build/Build/ARM64/Release/boinctray.exe',
+    './win_build/Build/ARM64/Release/boincmgr.exe'
 ]
 
 def prepare_7z_archive(archive_name, target_directory, files_list):

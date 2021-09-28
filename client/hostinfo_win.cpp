@@ -956,6 +956,7 @@ int get_os_information(
 // Handle the cpuid instruction on supported compilers
 // NOTE: This only handles structured exceptions with Microsoft compilers.
 //
+#if !defined(_M_ARM) && !defined(_M_ARM64)
 int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned int& c, unsigned int& d) {
 
 
@@ -978,19 +979,35 @@ int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned
 #endif
     return retval;
 }
+#endif
 
+void get_processor_info_from_registry(const char* name, char* info, int info_size) {
+    char inBuffer[BUFSIZ] = "";
+    HKEY hKey;
+    DWORD gotType, gotSize = BUFSIZ;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        if (!RegQueryValueExA(hKey, name, 0, &gotType, (PBYTE)(inBuffer), &gotSize)) {
+            if ((gotType == REG_SZ) && strlen(inBuffer)) {
+                strlcpy(info, inBuffer, info_size);
+            }
+        }
+        RegCloseKey(hKey);
+    }
+}
 
 // Returns the processor vendor.
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_vendor(char* name, int name_size) {
-    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-
     if (!name) return ERR_INVALID_PARAM;
     if (name_size < 13) return ERR_WRONG_SIZE;
 
     memset(name, 0, sizeof(name_size));
+#if defined(_M_ARM) || defined(_M_ARM64)
+    get_processor_info_from_registry("VendorIdentifier", name, name_size);
+#else
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 
     if (!get_cpuid(0x00000000, eax, ebx, ecx, edx)) {
         *((int*)(name + 0)) = ebx;
@@ -998,10 +1015,23 @@ int get_processor_vendor(char* name, int name_size) {
         *((int*)(name + 8)) = ecx;
         *((int*)(name + 12)) = '\0';
     }
+#endif
     return 0;
 }
 
+#if defined(_M_ARM) || defined(_M_ARM64)
+int get_processor_version(char* version, int version_size)
+{
+    if (!version) return ERR_INVALID_PARAM;
+    if (version_size < 128) return ERR_WRONG_SIZE;
 
+    memset(version, 0, sizeof(version_size));
+
+    get_processor_info_from_registry("Identifier", version, version_size);
+
+    return 0;
+}
+#else
 // Returns the processor family, model, stepping.
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
@@ -1019,6 +1049,7 @@ int get_processor_version(int& family, int& model, int& stepping) {
     }
     return 0;
 }
+#endif
 
 
 // Returns the processor name.
@@ -1026,13 +1057,16 @@ int get_processor_version(int& family, int& model, int& stepping) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_name(char* name, int name_size) {
-    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-    size_t i = 0;
-
     if (!name) return ERR_INVALID_PARAM;
     if (name_size < 48) return ERR_WRONG_SIZE;
 
     memset(name, 0, sizeof(name_size));
+
+#if defined(_M_ARM) || defined(_M_ARM64)
+    get_processor_info_from_registry("ProcessorNameString", name, name_size);
+#else
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+    size_t i = 0;
 
     get_cpuid(0x80000000, eax, ebx, ecx, edx);
     if (!(eax >= 0x80000004)) return ERR_NOT_IMPLEMENTED;
@@ -1064,7 +1098,7 @@ int get_processor_name(char* name, int name_size) {
             *(name + i) = ' ';
         }
     }
-
+#endif
     return 0;
 }
 
@@ -1075,6 +1109,21 @@ int get_processor_name(char* name, int name_size) {
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 //
 int get_processor_cache(int& cache) {
+#if defined(_M_ARM) || defined(_M_ARM64)
+    DWORD buffer_size = 0;
+    GetLogicalProcessorInformation(0, &buffer_size);
+    SYSTEM_LOGICAL_PROCESSOR_INFORMATION* buffer = (SYSTEM_LOGICAL_PROCESSOR_INFORMATION*)malloc(buffer_size);
+    GetLogicalProcessorInformation(&buffer[0], &buffer_size);
+
+    for (DWORD i = 0; i != buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION); ++i) {
+        if (buffer[i].Relationship == RelationCache && buffer[i].Cache.Level == 1) {
+            cache = buffer[i].Cache.LineSize;
+            break;
+        }
+    }
+
+    free(buffer);
+#else
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 
     get_cpuid(0x80000000, eax, ebx, ecx, edx);
@@ -1083,6 +1132,7 @@ int get_processor_cache(int& cache) {
     if (!get_cpuid(0x80000006, eax, ebx, ecx, edx)) {
         cache = ((ecx >> 16) & 0xffff) * 1024;
     }
+#endif
     return 0;
 }
 
@@ -1096,7 +1146,8 @@ int get_processor_cache(int& cache) {
 bool is_avx_supported() {
 
     bool supported = false;
- 
+
+#if !defined(_M_ARM) && !defined(_M_ARM64)
     // Checking for AVX on Windows requires 3 things:
     // 1) CPUID indicates that the OS uses XSAVE and XRSTORE
     //     instructions (allowing saving YMM registers on context
@@ -1119,7 +1170,8 @@ bool is_avx_supported() {
         unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
         supported = (xcrFeatureMask & 0x6) || false;
     }
- 
+#endif
+
     return supported;
 }
 
@@ -1132,16 +1184,28 @@ bool is_avx_supported() {
     if (feature_set_supported && test) strlcat(features, feature_name, features_size)
 
 int get_processor_features(char* vendor, char* features, int features_size) {
-    unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
-    unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
-	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
-    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0, hygon_supported = 0;
-
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
     if (features_size < 250) return ERR_WRONG_SIZE;
 
     memset(features, 0, sizeof(features_size));
+
+#if defined(_M_ARM) || defined(_M_ARM64)
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_VFP_32_REGISTERS_AVAILABLE), "vfp32 ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_NEON_INSTRUCTIONS_AVAILABLE), "neon ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_DIVIDE_INSTRUCTION_AVAILABLE), "divide ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_64BIT_LOADSTORE_ATOMIC), "64lsatomic ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_EXTERNAL_CACHE_AVAILABLE), "excache ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_FMAC_INSTRUCTIONS_AVAILABLE), "fmac ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_V8_INSTRUCTIONS_AVAILABLE), "v8 ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE), "crypto ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_V8_CRC32_INSTRUCTIONS_AVAILABLE), "crc32 ");
+    FEATURE_TEST(1, IsProcessorFeaturePresent(PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE), "atomic ");
+#else
+    unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
+    unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
+	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
+    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0, hygon_supported = 0;
 
     if (strcmp(vendor, "GenuineIntel") == 0) {
         intel_supported = 1;
@@ -1265,6 +1329,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
 	}
+#endif
 
     strip_whitespace(features);
     return 0;
@@ -1303,26 +1368,37 @@ int get_processor_info(
     char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
     char* p_features, int p_features_size, double& p_cache, int& p_ncpus
 ) {
-    int family = 0, model = 0, stepping = 0, cache = 0;
-    char vendor_name[256], processor_name[256], features[P_FEATURES_SIZE];
-
+    char vendor_name[256];
     get_processor_vendor(vendor_name, sizeof(vendor_name));
-    get_processor_version(family, model, stepping);
-    get_processor_name(processor_name, sizeof(processor_name));
-    get_processor_cache(cache);
-    get_processor_features(vendor_name, features, sizeof(features));
-    get_processor_count(p_ncpus);
-
     snprintf(p_vendor, p_vendor_size, "%s", vendor_name);
 
+    char processor_name[256];
+    get_processor_name(processor_name, sizeof(processor_name));
+#if defined(_M_ARM) || defined(_M_ARM64)
+    char processor_version[256];
+    get_processor_version(processor_version, sizeof(processor_version));
+    snprintf(p_model, p_model_size,
+        "%s [%s]",
+        processor_name, processor_version
+    );
+#else
+    int family = 0, model = 0, stepping = 0;
+    get_processor_version(family, model, stepping);    
     snprintf(p_model, p_model_size,
         "%s [Family %d Model %d Stepping %d]",
         processor_name, family, model, stepping
     );
+#endif
 
+    int cache = 0;
+    get_processor_cache(cache);
+    p_cache = (double)cache;
+
+    char features[P_FEATURES_SIZE];
+    get_processor_features(vendor_name, features, sizeof(features));
     snprintf(p_features, p_features_size, "%s", features);
 
-    p_cache = (double)cache;
+    get_processor_count(p_ncpus);
 
     return 0;
 }

@@ -144,12 +144,14 @@ void COPROCS::get(
 //
 void COPROCS::detect_gpus(vector<string> &warnings) {
 #ifdef _WIN32
+#if !defined(_M_ARM) && !defined(_M_ARM64)
     try {
         nvidia.get(warnings);
     }
     catch (...) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     }
+#endif
     try {
         ati.get(warnings);
     } 
@@ -214,7 +216,9 @@ void COPROCS::correlate_gpus(
     unsigned int i;
     char buf[256], buf2[1024];
 
+#if !defined(_M_ARM) && !defined(_M_ARM64)
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
+#endif
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
     intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     correlate_opencl(use_all, ignore_gpu_instance);
