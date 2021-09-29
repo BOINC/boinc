@@ -33,12 +33,16 @@ int REGEX_CLAUSE::init(const char* p) {
     present = true;
     negate = false;
     expr = p;
-    if (*p == '!') {
-        p++;
+    if (!strncmp(p,"(?!",3) && p[strlen(p)-1] == ')') {
+        p += 3;
+        p[strlen(p)-1] = '\0'; // don't parse trailing ')'
         negate = true;
     }
     if (regcomp(&regex, p, REG_EXTENDED|REG_NOSUB) ) {
         return ERR_XML_PARSE;
+    }
+    if (negate) {
+        p[strlen(p)] = ')'; // restore trailing ')'
     }
     return 0;
 }
