@@ -125,7 +125,7 @@ def _check_vars(dict, **names):
     for key in names:
         value = names[key]
         if not key in dict:
-            if value == None:
+            if value is None:
                 raise SystemExit('error in test script: required parameter "%s" not specified'%key)
             dict[key] = value
     for key in dict:

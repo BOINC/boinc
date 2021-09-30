@@ -28,7 +28,7 @@ def get_element(node, name, optional=True):
         raise SystemExit("ERROR: Couldn't find xml node <%s>"% name)
 
 def _None2Str(object):
-    if object == None:
+    if object is None:
         return ''
     else:
         return object
