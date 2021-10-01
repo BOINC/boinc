@@ -247,7 +247,7 @@ typedef struct QCrashReport *QCrashReportRef;
                     can also set the crashed thread later by calling 
                     QCRSetCrashedThreadIndex.
                     
-                    It is accepatble to pass mach_thread_self to this parameter, 
+                    It is acceptable to pass mach_thread_self to this parameter, 
                     but it may not do what you expect.  See the discussion 
                     above for details.  
                     

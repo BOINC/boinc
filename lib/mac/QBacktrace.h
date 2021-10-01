@@ -208,7 +208,7 @@ extern "C" {
                     
                     o You can also use a hybrid of these approaches.  Start by 
                       allocating an array with N entries, where N is likely to be 
-                      enough to accomodate a typical backtrace.  Then call the 
+                      enough to accommodate a typical backtrace.  Then call the 
                       backtrace function.  If it indicates that you missed some 
                       elements, grow the array and call the backtrace function 
                       again.

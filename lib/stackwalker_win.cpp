@@ -10,7 +10,7 @@
  *		Stackwalker.cpp
  *
  *	Remarks:
- *    Dumps the stack of an thread if an exepction occurs
+ *    Dumps the stack of an thread if an exception occurs
  *
  *	Author:
  *		Jochen Kalmbach, Germany

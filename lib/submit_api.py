@@ -286,7 +286,7 @@ def upload_files(upload_files_req):
     upload_files_req.boinc_names = boinc_names
     upload_files_req.local_names = local_names
 
-    # make a description of upoad files for "requests"
+    # make a description of upload files for "requests"
     #
     files = []
     for i in range(len(boinc_names)):

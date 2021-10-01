@@ -35,7 +35,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -390,7 +390,7 @@ extern int QMOImageCreateFromTask(
                     to guarantee that you'll get the same CPU type as the current 
                     process, use the result of QMOGetLocalCPUType.
                     
-                    This parameter is necessary beacuse it is possible for 
+                    This parameter is necessary because it is possible for 
                     a process to be running more than one dynamic linker.  
                     The most common example is a process being run using 
                     Rosetta.  In this case, there's a native dynamic linker that's 
@@ -869,7 +869,7 @@ extern cpu_type_t QMOGetLocalCPUType(void);
     @abstract       Converts an 8-bit quantity from image format to native format.
 
     @discussion     Yes, I know that this routine is a NOP, but it makes the code 
-                    more symmentric.
+                    more symmetric.
     
     @param qmoImage Must be a valid image object.
 

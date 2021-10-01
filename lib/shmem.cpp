@@ -214,7 +214,7 @@ HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
 
     // The 'Global' prefix must be included in the shared memory
     // name if the shared memory segment is going to cross
-    // terminal server session boundries.
+    // terminal server session boundaries.
     //
     snprintf(global_seg_name, sizeof(global_seg_name), "Global\\%s", seg_name);
 
@@ -449,7 +449,7 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
 // On Mac OS X and some other systems, this command also 
 // prevents any more processes from attaching (by clearing 
 // the key in the shared memory structure), so BOINC does it 
-// only after we are completey done with the segment.
+// only after we are completely done with the segment.
 //
 int destroy_shmem(key_t key){
     struct shmid_ds buf;
