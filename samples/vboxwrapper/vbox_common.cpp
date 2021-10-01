@@ -1174,13 +1174,13 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
             // it is running without a session lock.
             //
             // If a volunteer opens another VirtualBox management application and goes poking around
-            // that application can aquire the session lock and not give it up for some time.
+            // that application can acquire the session lock and not give it up for some time.
             //
             // If we detect that condition retry the desired command.
             //
             // Experiments performed by jujube suggest changing the sleep interval to an exponential
             // style backoff would increase our chances of success in situations where the previous
-            // lock is held by a previous instance of vboxmanage whos instance data hasn't been
+            // lock is held by a previous instance of vboxmanage whose instance data hasn't been
             // cleaned up within vboxsvc yet.
             //
             // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007)
@@ -1234,7 +1234,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
     }
     while (retval);
 
-    // Add all relivent notes to the output string and log errors
+    // Add all relevent notes to the output string and log errors
     //
     if (retval && log_error) {
         if (!retry_notes.empty()) {

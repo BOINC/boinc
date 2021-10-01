@@ -126,7 +126,7 @@ void __stdcall virtualbox_com_raise_error(HRESULT rc, IErrorInfo* perrinfo) {
 }
 
 
-// We want to recurisively walk the snapshot tree so that we can get the most recent children first.
+// We want to recursively walk the snapshot tree so that we can get the most recent children first.
 // We also want to skip whatever the most current snapshot is.
 //
 void TraverseSnapshots(std::string& current_snapshot_id, std::vector<std::string>& snapshots, ISnapshot* pSnapshot) {
@@ -171,7 +171,7 @@ void TraverseSnapshots(std::string& current_snapshot_id, std::vector<std::string
 }
 
 
-// We want to recurisively walk the medium tree so that we can get the most recent children first.
+// We want to recursively walk the medium tree so that we can get the most recent children first.
 //
 void TraverseMediums(std::vector<CComPtr<IMedium>>& mediums, IMedium* pMedium) {
     HRESULT rc;
@@ -2297,7 +2297,7 @@ int VBOX_VM::get_default_network_interface(string& iface) {
             // Automatically clean up array after use
             aNICS.Attach(pNICS);
 
-            // We only need the 'default' nic, which is usally the first one.
+            // We only need the 'default' nic, which is usually the first one.
             pNIC = (IHostNetworkInterface*)((LPDISPATCH)aNICS[0]);
 
             // Get the name for future use
