@@ -551,30 +551,28 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
         wxBitmap* projectBM;
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);
         if (wxFile::Exists(strIconPath)) {
+            // wxBitmapComboBox requires all its bitmaps to be the same size
+            // Our "project icon" bitmaps should all be 40 X 40
+            wxImage img = wxImage(strIconPath, wxBITMAP_TYPE_ANY);
+            if (img.IsOk()) {
 #ifdef __WXMSW__
             if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-                wxImage img = wxImage(strIconPath, wxBITMAP_TYPE_ANY);
-                if (img.IsOk()) {
-                    img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
-                                (int) (img.GetHeight()*GetYDPIScaling()), 
-                                wxIMAGE_QUALITY_BILINEAR
-                            );
-                    projectBM = new wxBitmap(img);
-                    if (projectBM->IsOk()) {
-                        return projectBM;
-                    }
+                img.Rescale((int) (40*GetXDPIScaling()), 
+                            (int) (40*GetYDPIScaling()), 
+                            wxIMAGE_QUALITY_BILINEAR
+                        );
                 }
-            } else 
+#else
+                if ((img.GetHeight() != 40) || (img.GetWidth() == 40)) {
+                        img.Rescale(40, 40, wxIMAGE_QUALITY_BILINEAR);
+                }
 #endif
-            {
-                projectBM = new wxBitmap();
-                if ( projectBM->LoadFile(strIconPath, wxBITMAP_TYPE_ANY) ) {
+                projectBM = new wxBitmap(img);
+                if (projectBM->IsOk()) {
                     return projectBM;
                 }
-            }
+            } 
         }
     }
     return pSkinSimple->GetProjectImage()->GetBitmap();
 }
-
-
