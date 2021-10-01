@@ -132,7 +132,7 @@ public class BoincInteractionService extends Service {
     	//busy waiting until interface returns true
     	Boolean ready = false;
 		Integer counter = 0;
-		Integer sleepDuration = 500; //in mili seconds
+		Integer sleepDuration = 500; //in milliseconds
 		Integer maxLoops = getResources().getInteger(R.integer.busy_waiting_timeout_ms) / sleepDuration;
 		while(!ready && (counter < maxLoops)) {
 			try {

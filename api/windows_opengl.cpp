@@ -243,14 +243,14 @@ static void set_mode(int mode) {
         if (NULL == hOriginalWindowStation) {
             hOriginalWindowStation = GetProcessWindowStation();
             if (NULL == hOriginalWindowStation) {
-                BOINCINFO("Failed to retrieve the orginal window station\n");
+                BOINCINFO("Failed to retrieve the original window station\n");
             }
         }
 
         if (NULL == hOriginalDesktop) {
             hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
             if (NULL == hOriginalDesktop) {
-                BOINCINFO("Failed to retrieve the orginal desktop\n");
+                BOINCINFO("Failed to retrieve the original desktop\n");
             }
         }
 
