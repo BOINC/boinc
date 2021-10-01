@@ -309,7 +309,7 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
             location = os.path.join(location, d )
         return location
 
-    create_project_dirs(dest_dir);
+    create_project_dirs(dest_dir)
 
     # copy html/ops files in all cases.
     # The critical one is db_update.php,
@@ -555,13 +555,13 @@ class Project:
         if os.path.exists(self.dest()):
             raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dest())
 
-        verbose_echo(1, "Creating directories");
+        verbose_echo(1, "Creating directories")
 
-        create_project_dirs(self.project_dir);
+        create_project_dirs(self.project_dir)
 
         if not self.web_only:
             if not self.keys_exist():
-                verbose_echo(1, "Generating encryption keys");
+                verbose_echo(1, "Generating encryption keys")
                 self.create_keys()
 
         # copy the user and administrative PHP files to the project dir,

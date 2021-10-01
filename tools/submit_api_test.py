@@ -46,7 +46,7 @@ def make_batch_desc(batch_name):
     [batch.project, batch.authenticator] = get_auth()
     batch.app_name = "uppercase"
     batch.batch_name = batch_name
-    batch.app_version_num = 710;
+    batch.app_version_num = 710
     batch.jobs = []
 
     for i in range(2):

@@ -135,7 +135,7 @@ class XMLConfig:
             self._get_elements()
         except:
             if not failopen_ok:
-                raise Exception("%s: Couldn't get elements from XML file");
+                raise Exception("%s: Couldn't get elements from XML file")
         return self
     def _get_elements(self):
         pass
