@@ -602,7 +602,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     //    i.e. 'BOINC', 'GridRepublic'
 #ifdef __WXMSW__
     strDialogMessage.Printf(
-        _("%s is not able to start a %s client.\nPlease launch the Control Panel->Administative Tools->Services applet and start the BOINC service."),
+        _("%s is not able to start a %s client.\nPlease launch the Control Panel->Administrative Tools->Services applet and start the BOINC service."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );

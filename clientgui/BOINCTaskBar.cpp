@@ -583,7 +583,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     }
 
 #ifdef __WXMSW__
-    // Wierd things happen with menus and wxWidgets on Windows when you try
+    // Weird things happen with menus and wxWidgets on Windows when you try
     //   to change the font and use the system default as the baseline, so 
     //   instead of fighting the system get the original font and tweak it 
     //   a bit. It shouldn't hurt other platforms.

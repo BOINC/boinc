@@ -267,7 +267,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
     
     // m_iStdColWidthOrder is an array of the width for each column.
-    // Entries must be in order of ascending Column ID.  We initalize
+    // Entries must be in order of ascending Column ID.  We initialize
     // it here to the default column widths.  It is updated by
     // CBOINCListCtrl::OnRestoreState() and also when a user resizes
     // a column by dragging the divider between two columns.

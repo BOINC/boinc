@@ -187,7 +187,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
             // Since the html comes from a web server via http, the scheme is
             // assumed to also be http.  But we have cached the html in a local
             // file, so it is no longer associated with the http protocol / scheme.
-            // Therefore all our URLs must explicity specify the http protocol.
+            // Therefore all our URLs must explicitly specify the http protocol.
             //
             // The second argument to wxWebView::SetPage is supposed to take care
             // of this automatically, but fails to do so under Windows, so we do

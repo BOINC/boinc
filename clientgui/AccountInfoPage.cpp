@@ -282,7 +282,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& /* event */ ) {
 
     pWA->EnableNextButton();
 
-    // We are entering this page, so reterieve the previously used email
+    // We are entering this page, so retrieve the previously used email
     // address and/or username.
     pConfig->SetPath(strBaseConfigLocation);
     m_strAccountEmailAddress = pConfig->Read(wxT("DefaultEmailAddress"));
@@ -507,7 +507,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
         pConfig->Flush();
         
-        // Construct potiental dialog title
+        // Construct potential dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Add project");
         } else if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {

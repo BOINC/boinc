@@ -827,7 +827,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the account manager will
-        // take care of ataching to projects when it completes the RPCs
+        // take care of attaching to projects when it completes the RPCs
         //
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
         wasShown = IsShown();

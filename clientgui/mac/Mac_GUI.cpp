@@ -41,13 +41,13 @@ void ThisDummyRoutineIsNeverCalled() {
 /* End items to include "BOINC Manager" Mac menu items in localization templates */
 
 
-// Determine if the currently logged-in user is auhorized to 
+// Determine if the currently logged-in user is authorized to 
 // perform operations which have potential security risks.  
 // An example is "Attach to Project", where a dishonest user might
 // attach to a rogue project which could then read private files 
 // belonging to the user who owns the BOINC application.  This 
 // would be possible because the BOINC Manager runs with the 
-// effectve user ID of its owner on the Mac.
+// effective user ID of its owner on the Mac.
 
 Boolean Mac_Authorize()
 {

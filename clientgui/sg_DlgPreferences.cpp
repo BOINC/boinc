@@ -694,7 +694,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     //cpu limit
-    // 0 means "no retriction" but we don't use a checkbox here
+    // 0 means "no restriction" but we don't use a checkbox here
     if (global_preferences_working.cpu_usage_limit == 0.0) global_preferences_working.cpu_usage_limit = 100.0;
     DisplayValue(global_preferences_working.cpu_usage_limit, m_txtProcUseCPUTime);
     

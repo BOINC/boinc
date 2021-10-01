@@ -337,7 +337,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             SetNextState(ATTACHACCTMGR_END);
             break;
         default:
-            // Allow a glimps of what the result was before advancing to the next page.
+            // Allow a glimpse of what the result was before advancing to the next page.
             wxSleep(1);
             pWA->EnableNextButton();
             pWA->EnableBackButton();

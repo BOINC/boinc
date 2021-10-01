@@ -32,7 +32,7 @@
 // This assumes wxWidgets-3.0 was built using the buildWxMac.sh script.
 //
 // NOTE: normally, wxWidgets internal asserts are always enabled when running the
-// Development build, and USE_DEBUG_WXMAC afects only wxAssert() calls in the
+// Development build, and USE_DEBUG_WXMAC affects only wxAssert() calls in the
 // BOINC Manager code.  However, you can disable ALL wxAssert() calls by BOTH:
 // [1] calling wxSetAssertHandler(NULL) in the code AND 
 // [2] setting USE_DEBUG_WXMAC to 1.

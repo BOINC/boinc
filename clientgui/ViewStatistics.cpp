@@ -1220,7 +1220,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		dc.SetFont(m_font_bold);
 		DrawMainHead(dc, heading);
 		dc.SetFont(m_font_standart);
-	//How many rows/colums?
+	//How many rows/columns?
 		int nb_proj_show = 0;
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url, wxConvUTF8) ))){
