@@ -436,7 +436,7 @@ void COPROCS::get_opencl(
                     // Mac OpenCL does not recognize all NVIDIA GPUs returned by
                     // CUDA but we assume that OpenCL and CUDA return devices 
                     // with identical model name strings and that OpenCL returns
-                    // devices in order of acending PCI slot.
+                    // devices in order of ascending PCI slot.
                     //
                     // On other systems, assume OpenCL and CUDA return devices 
                     // in the same order.

@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // This helper program is used to detect an emulated x86_64 CPU on Apples
-// ARM64 CPUs (M1). It should be compiiled _only_ for x86_64 architecture.
-// It writes the feature string of the meulated CPU to a file
+// ARM64 CPUs (M1). It should be compiled _only_ for x86_64 architecture.
+// It writes the feature string of the emulated CPU to a file
 // EMULATED_CPU_INFO_FILENAME in the current working directory.
 
 #include <stdio.h>

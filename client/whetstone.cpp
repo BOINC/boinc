@@ -239,7 +239,7 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
      }
     extern_array[8] = x;
 
-    /* Section 7, Array refrences */
+    /* Section 7, Array references */
     j = 0;
     k = 1;
     l = 2;

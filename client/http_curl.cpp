@@ -859,7 +859,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
         // libcurl uses blocking sockets with socks proxy, so limit timeout.
-        // - imlemented with local patch to libcurl
+        // - implemented with local patch to libcurl
         curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
         if (

@@ -104,8 +104,8 @@ int use_sandbox, int isManager, char* path_to_error, int len
 #endif
 #endif      // _DEBUG
 
-// GDB can't attach to applications which are running as a diferent user or group so
-//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
+// GDB can't attach to applications which are running as a different user or group so
+//  it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, and to allow testing the uninstalled Deployment version, we
 //  assume that the BOINC Client has the correct user and group. 
 // We must get the BOINC Client's user and group differently depending on whether we

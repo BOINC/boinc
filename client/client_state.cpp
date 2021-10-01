@@ -1934,7 +1934,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
         // called from:
         // ACTIVE_TASK::start (if couldn't start app)
         // ACTIVE_TASK::restart (if files missing)
-        // ACITVE_TASK_SET::restart_tasks (catch other error returns)
+        // ACTIVE_TASK_SET::restart_tasks (catch other error returns)
         // ACTIVE_TASK::handle_exited_app (on nonzero exit or signal)
         // ACTIVE_TASK::abort_task (if exceeded resource limit)
         // CLIENT_STATE::schedule_cpus (catch-all for resume/start errors)
