@@ -1,6 +1,6 @@
  /************************************************************************************************************************************\
 |*                                                                                                                                    *|
-|*     Copyright © 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
+|*     Copyright Â© 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
 |*                                                                                                                                    *|
 |*  NOTICE TO USER:                                                                                                                   *|
 |*                                                                                                                                    *|
@@ -2456,7 +2456,7 @@ typedef  NV_GPU_PERF_PSTATES_INFO_V2 NV_GPU_PERF_PSTATES_INFO;
 //!                      - pstates[i].voltages[j].mvolt is the voltage in mV
 //!                  inputFlags(IN)   - This can be used to select various options:
 //!                    - if bit 0 is set, pPerfPstatesInfo would contain the default settings
-//!                        instead of the current, possibily overclocked settings.
+//!                        instead of the current, possibly overclocked settings.
 //!                    - if bit 1 is set, pPerfPstatesInfo would contain the maximum clock 
 //!                        frequencies instead of the nominal frequencies.
 //!                    - if bit 2 is set, pPerfPstatesInfo would contain the minimum clock 
@@ -3211,7 +3211,7 @@ typedef enum _NV_GPU_HDCP_KEY_SOURCE_STATE
 //! HDPC support status - used in NvAPI_GPU_GetHDCPSupportStatus()
 typedef struct 
 {
-    NvU32                        version;               //! Structure version constucted by macro #NV_GPU_GET_HDCP_SUPPORT_STATUS
+    NvU32                        version;               //! Structure version constructed by macro #NV_GPU_GET_HDCP_SUPPORT_STATUS
     NV_GPU_HDCP_FUSE_STATE       hdcpFuseState;         //! GPU's HDCP fuse state
     NV_GPU_HDCP_KEY_SOURCE       hdcpKeySource;         //! GPU's HDCP key source
     NV_GPU_HDCP_KEY_SOURCE_STATE hdcpKeySourceState;    //! GPU's HDCP key source state    
@@ -3679,7 +3679,7 @@ typedef struct _NV_SCANOUT_INFORMATION
     NvSBox     targetViewportRect;      //!< Area inside the rect described by targetDisplayWidth/Height sourceViewportRect is scanned out to.
     NvU32      targetDisplayWidth;      //!< Horizontal size of the active resolution scanned out to the display.
     NvU32      targetDisplayHeight;     //!< Vertical size of the active resolution scanned out to the display.
-    NvU32      cloneImportance;         //!< If targets are cloned views of the sourceDesktopRect the cloned targets have an imporantce assigned (0:primary,1 secondary,...).
+    NvU32      cloneImportance;         //!< If targets are cloned views of the sourceDesktopRect the cloned targets have an importance assigned (0:primary,1 secondary,...).
     NV_ROTATE  sourceToTargetRotation;  //!< Rotation performed between the sourceViewportRect and the targetViewportRect.
 } NV_SCANOUT_INFORMATION;
 
@@ -3751,8 +3751,8 @@ typedef enum _NV_GPU_ILLUMINATION_ATTRIB
 //! DESCRIPTION:   This function reports if the specified illumination attribute is supported.
 //!
 //! \note Only a single GPU can manage an given attribute on a given HW element,
-//!       regardless of how many are attatched. I.E. only one GPU will be used to control
-//!       the brightness of the LED on an SLI bridge, regardless of how many are physicaly attached.
+//!       regardless of how many are attached. I.E. only one GPU will be used to control
+//!       the brightness of the LED on an SLI bridge, regardless of how many are physically attached.
 //!       You should enumerate thru the GPUs with this call to determine which GPU is managing the attribute.
 //!
 //! SUPPORTED OS:  Windows Vista and higher
@@ -3760,7 +3760,7 @@ typedef enum _NV_GPU_ILLUMINATION_ATTRIB
 //! \since Version: 300.05
 //!
 //! \param [in]  hPhysicalGpu        Physical GPU handle
-//! \param       Attribute           An enumeration value specifying the Illumination attribute to be querried
+//! \param       Attribute           An enumeration value specifying the Illumination attribute to be queried
 //! \param [out] pSupported          A boolean indicating if the attribute is supported.
 //! 
 //! \return See \ref nvapistatus for the list of possible return values.
@@ -3775,11 +3775,11 @@ typedef struct _NV_GPU_QUERY_ILLUMINATION_SUPPORT_PARM_V1 {
     NvPhysicalGpuHandle hPhysicalGpu;		//!< The handle of the GPU that you are checking for the specified attribute.
                                             //!< note that this is the GPU that is managing the attribute.
                                             //!< Only a single GPU can manage an given attribute on a given HW element,
-                                            //!< regardless of how many are attatched.
+                                            //!< regardless of how many are attached.
                                             //!< I.E. only one GPU will be used to control the brightness of the LED on an SLI bridge,
-                                            //!< regardless of how many are physicaly attached.
+                                            //!< regardless of how many are physically attached.
                                             //!< You enumerate thru the GPUs with this call to determine which GPU is managing the attribute.
-    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be querried.
+    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be queried.
                                             //!<     refer to enum \ref NV_GPU_ILLUMINATION_ATTRIB.
     
     // OUT
@@ -3808,8 +3808,8 @@ NVAPI_INTERFACE NvAPI_GPU_QueryIlluminationSupport(__inout NV_GPU_QUERY_ILLUMINA
 //! DESCRIPTION:   This function reports value of the specified illumination attribute.
 //!
 //! \note Only a single GPU can manage an given attribute on a given HW element,
-//!       regardless of how many are attatched. I.E. only one GPU will be used to control
-//!       the brightness of the LED on an SLI bridge, regardless of how many are physicaly attached.
+//!       regardless of how many are attached. I.E. only one GPU will be used to control
+//!       the brightness of the LED on an SLI bridge, regardless of how many are physically attached.
 //!       You should enumerate thru the GPUs with the \ref NvAPI_GPU_QueryIlluminationSupport call to
 //!       determine which GPU is managing the attribute.
 //!
@@ -3818,13 +3818,13 @@ NVAPI_INTERFACE NvAPI_GPU_QueryIlluminationSupport(__inout NV_GPU_QUERY_ILLUMINA
 //! \since Version: 300.05
 //!
 //! \param [in]  hPhysicalGpu        Physical GPU handle
-//! \param       Attribute           An enumeration value specifying the Illumination attribute to be querried
+//! \param       Attribute           An enumeration value specifying the Illumination attribute to be queried
 //! \param [out] Value               A DWORD containing the current value for the specified attribute.
 //!                                  This is specified as a percentage of the full range of the attribute
 //!                                  (0-100; 0 = off, 100 = full brightness)
 //! 
 //! \return See \ref nvapistatus for the list of possible return values. Return values of special interest are:
-//!             NVAPI_INVALID_ARGUMENT The specified attibute is not known to the driver.
+//!             NVAPI_INVALID_ARGUMENT The specified attribute is not known to the driver.
 //!             NVAPI_NOT_SUPPORTED:   The specified attribute is not supported on the specified GPU
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -3837,11 +3837,11 @@ typedef struct _NV_GPU_GET_ILLUMINATION_PARM_V1 {
     NvPhysicalGpuHandle hPhysicalGpu;		//!< The handle of the GPU that you are checking for the specified attribute.
                                             //!< Note that this is the GPU that is managing the attribute.
                                             //!< Only a single GPU can manage an given attribute on a given HW element,
-                                            //!< regardless of how many are attatched.
+                                            //!< regardless of how many are attached.
                                             //!< I.E. only one GPU will be used to control the brightness of the LED on an SLI bridge,
-                                            //!< regardless of how many are physicaly attached.
+                                            //!< regardless of how many are physically attached.
                                             //!< You enumerate thru the GPUs with this call to determine which GPU is managing the attribute.
-    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be querried.
+    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be queried.
                                             //!< refer to enum \ref NV_GPU_ILLUMINATION_ATTRIB.
     
     // OUT
@@ -3872,8 +3872,8 @@ NVAPI_INTERFACE NvAPI_GPU_GetIllumination(NV_GPU_GET_ILLUMINATION_PARM *pIllumin
 //! DESCRIPTION:   This function sets the value of the specified illumination attribute.
 //!
 //! \note Only a single GPU can manage an given attribute on a given HW element,
-//!       regardless of how many are attatched. I.E. only one GPU will be used to control
-//!       the brightness of the LED on an SLI bridge, regardless of how many are physicaly attached.
+//!       regardless of how many are attached. I.E. only one GPU will be used to control
+//!       the brightness of the LED on an SLI bridge, regardless of how many are physically attached.
 //!       You should enumerate thru the GPUs with the \ref NvAPI_GPU_QueryIlluminationSupport call to
 //!       determine which GPU is managing the attribute.
 //!
@@ -3889,7 +3889,7 @@ NVAPI_INTERFACE NvAPI_GPU_GetIllumination(NV_GPU_GET_ILLUMINATION_PARM *pIllumin
 //!                                  If a value is specified outside this range, NVAPI_INVALID_ARGUMENT will be returned.
 //! 
 //! \return See \ref nvapistatus for the list of possible return values. Return values of special interest are:
-//!             NVAPI_INVALID_ARGUMENT	The specified attibute is not known to the driver, or the specified value is out of range.
+//!             NVAPI_INVALID_ARGUMENT	The specified attribute is not known to the driver, or the specified value is out of range.
 //!             NVAPI_NOT_SUPPORTED     The specified attribute is not supported on the specified GPU.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -3902,11 +3902,11 @@ typedef struct _NV_GPU_SET_ILLUMINATION_PARM_V1 {
     NvPhysicalGpuHandle hPhysicalGpu;		//!< The handle of the GPU that you are checking for the specified attribute.
                                             //!< Note that this is the GPU that is managing the attribute.
                                             //!< Only a single GPU can manage an given attribute on a given HW element,
-                                            //!< regardless of how many are attatched.
+                                            //!< regardless of how many are attached.
                                             //!< I.E. only one GPU will be used to control the brightness of the LED on an SLI bridge,
-                                            //!< regardless of how many are physicaly attached.
+                                            //!< regardless of how many are physically attached.
                                             //!< You enumerate thru the GPUs with this call to determine which GPU is managing the attribute.
-    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be querried.
+    NV_GPU_ILLUMINATION_ATTRIB Attribute;   //!< An enumeration value specifying the Illumination attribute to be queried.
                                             //!< refer to enum \ref NV_GPU_ILLUMINATION_ATTRIB.
     NvU32    Value;                         //!< A DWORD containing the new value for the specified attribute.
                                             //!< This should be specified as a percentage of the full range of the attribute

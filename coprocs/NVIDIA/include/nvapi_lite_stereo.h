@@ -1,6 +1,6 @@
  /************************************************************************************************************************************\
 |*                                                                                                                                    *|
-|*     Copyright © 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
+|*     Copyright Â© 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
 |*                                                                                                                                    *|
 |*  NOTICE TO USER:                                                                                                                   *|
 |*                                                                                                                                    *|
@@ -96,7 +96,7 @@ NVAPI_INTERFACE NvAPI_Stereo_Disable(void);
 //!
 //! \param [out]     pIsStereoEnabled   Address where the result of the inquiry will be placed.
 //!
-//! \retval ::NVAPI_OK                       Check was sucessfully completed and result reflects current state of stereo availability.
+//! \retval ::NVAPI_OK                       Check was successfully completed and result reflects current state of stereo availability.
 //! \retval ::NVAPI_API_NOT_INTIALIZED 
 //! \retval ::NVAPI_STEREO_NOT_INITIALIZED   Stereo part of NVAPI not initialized.
 //! \retval ::NVAPI_ERROR 
@@ -232,7 +232,7 @@ NVAPI_INTERFACE NvAPI_Stereo_Deactivate(StereoHandle stereoHandle);
 //! \param [in]    stereoHandle  Stereo handle that corresponds to the device interface.
 //! \param [in]    pIsStereoOn   Address where result of the inquiry will be placed.
 //! 
-//! \retval ::NVAPI_OK - Check was sucessfully completed and result reflects current state of stereo (on/off).
+//! \retval ::NVAPI_OK - Check was successfully completed and result reflects current state of stereo (on/off).
 //! \retval ::NVAPI_STEREO_INVALID_DEVICE_INTERFACE - Device interface is not valid. Create again, then attach again.
 //! \retval ::NVAPI_API_NOT_INTIALIZED - NVAPI not initialized.
 //! \retval ::NVAPI_STEREO_NOT_INITIALIZED - Stereo part of NVAPI not initialized.

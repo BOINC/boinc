@@ -1,6 +1,6 @@
  /************************************************************************************************************************************\
 |*                                                                                                                                    *|
-|*     Copyright © 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
+|*     Copyright Â© 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
 |*                                                                                                                                    *|
 |*  NOTICE TO USER:                                                                                                                   *|
 |*                                                                                                                                    *|
@@ -166,7 +166,7 @@ NVAPI_INTERFACE NvAPI_D3D11_CreateDeviceAndSwapChain(IDXGIAdapter* pAdapter,
 //!                                 The valid values for fMinDepth and fMaxDepth
 //!                                 are such that 0 <= fMinDepth <= fMaxDepth <= 1
 //!
-//! \return  ::NVAPI_OK if the depth bounds test was correcly enabled or disabled
+//! \return  ::NVAPI_OK if the depth bounds test was correctly enabled or disabled
 //!
 //! \ingroup dx
 ///////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
  /************************************************************************************************************************************\
 |*                                                                                                                                    *|
-|*     Copyright © 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
+|*     Copyright Â© 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
 |*                                                                                                                                    *|
 |*  NOTICE TO USER:                                                                                                                   *|
 |*                                                                                                                                    *|
@@ -49,7 +49,7 @@ extern "C" {
 //!
 //! \param [out]     displayId   Display ID of the GDI Primary display.
 //!
-//! \retval ::NVAPI_OK:                          Capabilties have been returned.
+//! \retval ::NVAPI_OK:                          Capabilites have been returned.
 //! \retval ::NVAPI_NVIDIA_DEVICE_NOT_FOUND:     GDI Primary not on an NVIDIA GPU.
 //! \retval ::NVAPI_INVALID_ARGUMENT:            One or more args passed in are invalid.
 //! \retval ::NVAPI_API_NOT_INTIALIZED:          The NvAPI API needs to be initialized first
@@ -87,7 +87,7 @@ NVAPI_INTERFACE NvAPI_DISP_GetGDIPrimaryDisplayId(NvU32* displayId);
 //! \param [out]     bezelCorrected  Returns 1 if the requested resolution is
 //!                                  bezel corrected. May be NULL.
 //!
-//! \retval ::NVAPI_OK                          Capabilties have been returned.
+//! \retval ::NVAPI_OK                          Capabilites have been returned.
 //! \retval ::NVAPI_INVALID_ARGUMENT            One or more args passed in are invalid.
 //! \retval ::NVAPI_API_NOT_INTIALIZED          The NvAPI API needs to be initialized first
 //! \retval ::NVAPI_MOSAIC_NOT_ACTIVE           The display does not belong to an active Mosaic Topology

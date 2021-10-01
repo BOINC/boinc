@@ -1,6 +1,6 @@
  /************************************************************************************************************************************\
 |*                                                                                                                                    *|
-|*     Copyright © 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
+|*     Copyright Â© 2012 NVIDIA Corporation.  All rights reserved.                                                                     *|
 |*                                                                                                                                    *|
 |*  NOTICE TO USER:                                                                                                                   *|
 |*                                                                                                                                    *|
@@ -198,7 +198,7 @@ NVAPI_INTERFACE NvAPI_D3D_BeginResourceRendering(IUnknown *pDev, NVDX_ObjectHand
 //!
 //! \since Release: 185
 //!
-//! \param [in]  pDev         The ID3D10Device or IDirect3DDevice9 thatis a using the resource
+//! \param [in]  pDev         The ID3D10Device or IDirect3DDevice9 that is a using the resource
 //! \param [in]  obj          Previously obtained HV resource handle
 //! \param [in]  Flags        Reserved, must be zero
 //
