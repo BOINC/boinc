@@ -382,8 +382,8 @@ int CScreensaver::Create() {
 
     // Calculate the estimated blank time by adding the starting
     //  time and and the user-specified time which is in minutes
-    // On dual-GPU Macbok Pros, the CScreensaver class will be
-    // constructed and destructed each time we switch beteen
+    // On dual-GPU Macbook Pros, the CScreensaver class will be
+    // constructed and destructed each time we switch between
     // battery and AC power, so we need to get the starting time
     // only once.
     if (!ScreenSaverStartTime) {
@@ -799,7 +799,7 @@ void CScreensaver::HandleRPCError() {
         // There is a possible race condition where the Core Client was in the  
         // process of shutting down just as ScreenSaver started, so initBOINCApp() 
         // found it already running but now it has shut down.  This code takes 
-        // care of that and other situations where the Core Client quits unexpectedy.  
+        // care of that and other situations where the Core Client quits unexpectedly.  
         // Code in initBOINC_App() limits # launch retries to 3 to prevent thrashing.
         if (getClientPID() == 0) {
             saverState = SaverState_RelaunchCoreClient;

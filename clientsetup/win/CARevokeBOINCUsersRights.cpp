@@ -155,7 +155,7 @@ UINT CARevokeBOINCUsersRights::OnExecution()
 // 
 // Function:    RevokeBOINCUsersRights
 //
-// Description: This custom action revokess the 'boinc_users' group the
+// Description: This custom action revokes the 'boinc_users' group the
 //              required rights.
 //
 /////////////////////////////////////////////////////////////////////

@@ -33,7 +33,7 @@ typedef enum _MANDATORY_LEVEL {
 #endif //!SECURITY_MANDATORY_UNTRUSTED_RID
 
 /*!
-@brief Function enables/disables/removes a privelege associated with the given token
+@brief Function enables/disables/removes a privilege associated with the given token
 @detailed Calls LookupPrivilegeValue() and AdjustTokenPrivileges()
 @param[in] hToken - access token handle
 @param[in] lpszPrivilege - name of privilege to enable/disable
@@ -78,7 +78,7 @@ inline HRESULT SetPrivilege(
 }
 
 /*!
-Function removes the priveleges which are not associated by default with explorer.exe at Medium Integration Level in Vista
+Function removes the privileges which are not associated by default with explorer.exe at Medium Integration Level in Vista
 @returns HRESULT of the operation on SE_CREATE_GLOBAL_NAME (="SeCreateGlobalPrivilege")
 */
 inline HRESULT ReducePrivilegesForMediumIL(HANDLE hToken) 
@@ -181,8 +181,8 @@ If the integration levels are equal, CreateProcess is called.
 If Explorer has Medium IL, and the current process has High IL, new token is created, its rights are adjusted 
 and CreateProcessWithTokenW is called. 
 If Explorer has Medium IL, and the current process has High IL, error is returned.
-@param[in] szProcessName - the name of exe file (see CreatePorcess()) 
-@param[in] szCmdLine - the name of exe file (see CreatePorcess())
+@param[in] szProcessName - the name of exe file (see CreateProcess()) 
+@param[in] szCmdLine - the name of exe file (see CreateProcess())
 @return HRESULT code
 @note The function cannot be used in services, due to if uses USER32.FindWindow() to get the proper instance of Explorer. 
 The parent of new process in taskmgr.exe, but not the current process.

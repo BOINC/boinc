@@ -169,7 +169,7 @@ UINT CADeleteBOINCGroups::OnExecution()
 // Function:    DeleteBOINCGroups
 //
 // Description: This custom action deletes the three user groups that
-//              are used to enfore the account based sandboxing scheme
+//              are used to enforce the account based sandboxing scheme
 //              on Windows.
 //
 /////////////////////////////////////////////////////////////////////
