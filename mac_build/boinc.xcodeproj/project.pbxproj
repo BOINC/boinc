@@ -178,6 +178,7 @@
 		DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
+		DD43475826FB397A00B8880F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43474F26FB378100B8880F /* QuartzCore.framework */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
@@ -216,6 +217,7 @@
 		DD5F656523606AED009ED2A2 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DD5F656623607472009ED2A2 /* gfx_cleanup in Resources */ = {isa = PBXBuildFile; fileRef = DD5F654123605B41009ED2A2 /* gfx_cleanup */; };
 		DD5FE1B517828887003339DF /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
+		DD64A7782703379F005FE681 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD64A774270329AA005FE681 /* MacBitmapComboBox.cpp */; };
 		DD64D8011F6BE5BA00FEEAAA /* MultiGPUMig.defs in Sources */ = {isa = PBXBuildFile; fileRef = DD64D8001F6BE5BA00FEEAAA /* MultiGPUMig.defs */; settings = {ATTRIBUTES = (Client, Server, ); }; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
@@ -243,7 +245,6 @@
 		DD76BF9A17CB46830075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
-		DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */; };
 		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
 		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
 		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
@@ -1009,6 +1010,7 @@
 		DD40825907D3076400163EF5 /* reduce.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reduce.h; path = ../api/reduce.h; sourceTree = SOURCE_ROOT; };
 		DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxPieCtrl.cpp; path = ../clientgui/common/wxPieCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxPieCtrl.h; path = ../clientgui/common/wxPieCtrl.h; sourceTree = SOURCE_ROOT; };
+		DD43474F26FB378100B8880F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DD4688410C165F3C0089F500 /* Uninstall BOINC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Uninstall BOINC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uninstaller-Info.plist"; sourceTree = "<group>"; };
 		DD4688590C1661970089F500 /* uninstall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uninstall.cpp; path = ../mac_installer/uninstall.cpp; sourceTree = SOURCE_ROOT; };
@@ -1062,6 +1064,8 @@
 		DD5F654A23605C87009ED2A2 /* gfx_cleanup.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = gfx_cleanup.mm; path = ../clientscr/gfx_cleanup.mm; sourceTree = "<group>"; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
 		DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = make_app_icon_h.cpp; sourceTree = "<group>"; };
+		DD64A774270329AA005FE681 /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacBitmapComboBox.cpp; path = ../clientgui/mac/MacBitmapComboBox.cpp; sourceTree = "<group>"; };
+		DD64A775270329AA005FE681 /* MacBitmapComboBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacBitmapComboBox.h; path = ../clientgui/mac/MacBitmapComboBox.h; sourceTree = "<group>"; };
 		DD64D8001F6BE5BA00FEEAAA /* MultiGPUMig.defs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.mig; path = MultiGPUMig.defs; sourceTree = "<group>"; };
 		DD64DF0409DCC5E000668B3A /* gutil_text.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gutil_text.cpp; sourceTree = "<group>"; };
 		DD64E7D507D89DB800B176C8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
@@ -1085,8 +1089,6 @@
 		DD76BF9217CB45870075936D /* opencl_boinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opencl_boinc.h; sourceTree = "<group>"; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
-		DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacBitmapComboBox.cpp; path = ../clientgui/mac/MacBitmapComboBox.cpp; sourceTree = "<group>"; };
-		DD77A71712F2D1C9006B82E9 /* MacBitmapComboBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacBitmapComboBox.h; path = ../clientgui/mac/MacBitmapComboBox.h; sourceTree = "<group>"; };
 		DD7A5D8112EEBDF30006268E /* sg_TaskCommandPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_TaskCommandPopup.h; path = ../clientgui/sg_TaskCommandPopup.h; sourceTree = SOURCE_ROOT; };
 		DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskCommandPopup.cpp; path = ../clientgui/sg_TaskCommandPopup.cpp; sourceTree = SOURCE_ROOT; };
 		DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectWebSitesPopup.h; path = ../clientgui/sg_ProjectWebSitesPopup.h; sourceTree = SOURCE_ROOT; };
@@ -1434,6 +1436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */,
+				DD43475826FB397A00B8880F /* QuartzCore.framework in Frameworks */,
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
@@ -1675,6 +1678,7 @@
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 				DD0BB7A11F62B105000151B2 /* IOSurface.framework */,
 				DD000D7324D0244C0083DE77 /* SystemConfiguration.framework */,
+				DD43474F26FB378100B8880F /* QuartzCore.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -2203,9 +2207,9 @@
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */,
-				DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */,
-				DD77A71712F2D1C9006B82E9 /* MacBitmapComboBox.h */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
+				DD64A774270329AA005FE681 /* MacBitmapComboBox.cpp */,
+				DD64A775270329AA005FE681 /* MacBitmapComboBox.h */,
 				DDB295C8185B0DBD00B9F842 /* MacNotification.mm */,
 				DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */,
 				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
@@ -3179,7 +3183,7 @@
 				DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */,
 				DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */,
 				DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */,
-				DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */,
+				DD64A7782703379F005FE681 /* MacBitmapComboBox.cpp in Sources */,
 				DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */,
 				DD2B6C8013149177005D6F3E /* procinfo.cpp in Sources */,
 				DD80632D131FAA4100DC8971 /* sg_BoincSimpleFrame.cpp in Sources */,
@@ -3949,13 +3953,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/include",
-					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.1.5/include",
+					"../../wxWidgets-3.1.5/build/osx/setup/cocoa/include",
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Debug";
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.5/build/osx/build/Debug";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -4026,13 +4030,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.1.0/include",
-					"../../wxWidgets-3.1.0/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.1.5/include",
+					"../../wxWidgets-3.1.5/build/osx/setup/cocoa/include",
 					../clientgui,
 					"../lib/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.0/build/osx/build/Release";
+				LIBRARY_SEARCH_PATHS = "../../wxWidgets-3.1.5/build/osx/build/Release";
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
