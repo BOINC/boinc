@@ -247,25 +247,25 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
             }
             if (isCurrentSortCol) {
                 if (BOINCView->m_bReverseSort) {
-                    s.Printf(_("(current sort column %d of %d; descending order)"), col+1, numCols);
+                    s.Printf(_("(current sort column %d of %d; descending order)"), (int)col+1, (int)numCols);
                 } else {
-                    s.Printf(_("(current sort column %d of %d; ascending order)"), col+1, numCols);
+                    s.Printf(_("(current sort column %d of %d; ascending order)"), (int)col+1, (int)numCols);
                 }
             } else {
-                s.Printf(_("(column %d of %d)"), col+1, numCols);
+                s.Printf(_("(column %d of %d)"), (int)col+1, (int)numCols);
             }
         } else {
             if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
                 if (col == 0) {
-                    s.Printf(_("(selected row %d of %d)"), row+1, pList->GetItemCount());
+                    s.Printf(_("(selected row %d of %d)"), (int)row+1, (int)(pList->GetItemCount()));
                 } else {
-                    s.Printf(_("(selected row %d)"), row+1);
+                    s.Printf(_("(selected row %d)"), (int)row+1);
                 }
             } else {
                 if (col == 0) { // Row is not selected
-                    s.Printf(_("(row %d of %d)"), row+1, pList->GetItemCount());
+                    s.Printf(_("(row %d of %d)"), (int)row+1, (int)(pList->GetItemCount()));
                 } else {
-                    s.Printf(_("(row %d)"), row+1);
+                    s.Printf(_("(row %d)"), (int)row+1);
                 }
             }
         }
@@ -587,7 +587,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityDescriptionAttribute]) {
         wxString s;
-        s.Printf(_("(row %d)"), row+1);
+        s.Printf(_("(row %d)"), (int)row+1);
         NSString *desc = [NSString stringWithUTF8String:(char *)(s.utf8_str().data())];
         return desc;
 
@@ -618,7 +618,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         
     } else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
         wxString s;
-        s.Printf(_("row %d"), row+1);
+        s.Printf(_("row %d"), (int)row+1);
         NSString *title = [NSString stringWithUTF8String:(char *)(s.utf8_str().data())];
         return title;
 
