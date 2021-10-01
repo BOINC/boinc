@@ -221,7 +221,7 @@ function confirm_sig_gen($name) {
     NOTICE: You have not provided a signature file for $name,
     and your project's code-signing private key is on your server.
 
-    IF YOUR PROJECT IS PUBLICLY ACCESSABLE, THIS IS A SECURITY VULNERABILITY.
+    IF YOUR PROJECT IS PUBLICLY ACCESSIBLE, THIS IS A SECURITY VULNERABILITY.
     PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
     https://boinc.berkeley.edu/trac/wiki/CodeSigning
 

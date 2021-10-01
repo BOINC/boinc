@@ -595,7 +595,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
 
     fprintf(fout,
         "<scheduler_request>\n"
-        "  <authenticator>%s</authentiicator>\n"
+        "  <authenticator>%s</authenticator>\n"
         "  <platform_name>%s</platform_name>\n"
         "  <cross_project_id>%s</cross_project_id>\n"
         "  <hostid>%lu</hostid>\n"

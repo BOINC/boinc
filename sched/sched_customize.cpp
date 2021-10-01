@@ -93,7 +93,7 @@ using std::string;
 
 PLAN_CLASS_SPECS plan_class_specs;
 
-/* is there a plan class spec that restricts the worunit (or batch) */
+/* is there a plan class spec that restricts the workunit (or batch) */
 bool wu_restricted_plan_class;
 
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
@@ -712,7 +712,7 @@ static inline bool app_plan_opencl(
 ) {
     // opencl_*_<ver> plan classes check for a trailing integer which is
     // used as the opencl version number.  This is compatible with the old
-    // opencl_nvidia_101 and opencl_ati_101 plan classes, but doens't require
+    // opencl_nvidia_101 and opencl_ati_101 plan classes, but doesn't require
     // modifications if someone wants a opencl_nvidia_102 plan class.
     const char *p=plan_class+strlen(plan_class);
     while (isnum(p[-1])) {

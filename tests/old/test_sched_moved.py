@@ -2,7 +2,7 @@
 
 ## $Id$
 
-# DOESN"T WORK YET
+# DOESN'T WORK YET
 
 from test_uc import *
 
