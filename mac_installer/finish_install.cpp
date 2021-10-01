@@ -146,7 +146,7 @@ long GetBrandID(char *path)
 
 
 // If there are other copies of BOINC Manager with different branding
-// on the system, Noitifications may display the icon for the wrong
+// on the system, Notifications may display the icon for the wrong
 // branding, due to the Launch Services database having one of the
 // other copies of BOINC Manager as the first entry. Each user has
 // their own copy of the Launch Services database, so this must be
