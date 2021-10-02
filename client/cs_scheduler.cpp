@@ -592,35 +592,31 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
-    // check that master URL is correct
+    // compare our URL for this project with the one returned in the reply
+    // (which comes from the project's config.xml).
+    // - if http -> https transition, make the change
+    // - otherwise notify the user.
+    // This means that if a project changes its master URL,
+    // its users have to detach/reattach.
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
-        string url1 = sr.master_url;
-        string url2 = project->master_url;
-        downcase_string(url1);
-        downcase_string(url2);
-        if (url1 != url2) {
-            p2 = lookup_project(sr.master_url);
-            if (p2) {
-                msg_printf(project, MSG_USER_ALERT,
-                    "You are attached to this project twice.  Please remove projects named %s, then add %s",
-                    project->project_name,
-                    sr.master_url
+        string reply_url = sr.master_url;
+        string current_url = project->master_url;
+        downcase_string(reply_url);
+        downcase_string(current_url);
+        if (reply_url != current_url) {
+            if (is_https_transition(current_url.c_str(), reply_url.c_str())) {
+                strcpy(project->master_url, reply_url.c_str());
+                project->write_account_file();
+                msg_printf(project, MSG_INFO,
+                    "Project URL changed from http:// to https://"
                 );
             } else {
-                if (is_https_transition(url2.c_str(), url1.c_str())) {
-                    strcpy(project->master_url, url1.c_str());
-                    project->write_account_file();
-                    msg_printf(project, MSG_INFO,
-                        "Project URL changed from http:// to https://"
-                    );
-                } else {
-                    msg_printf(project, MSG_USER_ALERT,
-                        _("This project is using an old URL.  When convenient, remove the project, then add %s"),
-                        sr.master_url
-                    );
-                }
+                msg_printf(project, MSG_USER_ALERT,
+                    _("This project seems to have changed its URL.  When convenient, remove the project, then add %s"),
+                    sr.master_url
+                );
             }
         }
     }
