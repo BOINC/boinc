@@ -252,7 +252,6 @@ void HTTP_OP::reset() {
 
 HTTP_OP::HTTP_OP() {
     safe_strcpy(m_url, "");
-    safe_strcpy(m_curl_ca_bundle_location, "");
     safe_strcpy(m_curl_user_credentials, "");
     content_length = 0;
     file_offset = 0;
@@ -486,50 +485,7 @@ int HTTP_OP::libcurl_exec(
 
     // if the above is nonzero, you need the following:
     //
-#ifdef _WIN32
-    if (strlen(m_curl_ca_bundle_location) == 0) {
-        TCHAR szPath[MAX_PATH-1];
-        GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-
-        TCHAR *pszProg = strrchr(szPath, '\\');
-        if (pszProg) {
-            szPath[pszProg - szPath + 1] = 0;
-
-            strlcat(
-                m_curl_ca_bundle_location,
-                szPath,
-                sizeof(m_curl_ca_bundle_location)
-            );
-            strlcat(
-                m_curl_ca_bundle_location,
-                CA_BUNDLE_FILENAME,
-                sizeof(m_curl_ca_bundle_location)
-            );
-
-            if (log_flags.http_debug) {
-                msg_printf(
-                    project,
-                    MSG_INFO,
-                    "[http] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
-                    m_curl_ca_bundle_location
-                );
-            }
-        }
-    }
-    if (boinc_file_exists(m_curl_ca_bundle_location)) {
-        // call this only if a local copy of ca-bundle.crt exists;
-        // otherwise, let's hope that it exists in the default place
-        //
-        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
-        if (log_flags.http_debug) {
-            msg_printf(
-                project,
-                MSG_INFO,
-                "[http] HTTP_OP::libcurl_exec(): ca-bundle set"
-            );
-        }
-    }
-#else
+#ifndef _WIN32
     if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
