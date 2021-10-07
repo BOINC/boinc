@@ -141,7 +141,7 @@ fi
 if [ "${gtest_only}" = "yes" ]; then
     download_and_build "googletest-release-1.8.1" "release-1.8.1.tar.gz" "https://github.com/google/googletest/archive/release-1.8.1.tar.gz" "${ROOTDIR}/3rdParty/buildGoogletestLinux.sh"
 else
-    download_and_build "wxWidgets-3.0.2" "wxWidgets-3.0.2.tar.bz2" "https://sourceforge.net/projects/wxwindows/files/3.0.2/wxWidgets-3.0.2.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
+    download_and_build "wxWidgets-3.0.5" "wxWidgets-3.0.5.tar.bz2" "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.5/wxWidgets-3.0.5.tar.bz2" "${ROOTDIR}/3rdParty/buildWxLinux.sh ${wxoption}"
 fi
 
 # change back to root directory
