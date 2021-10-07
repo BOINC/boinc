@@ -777,8 +777,7 @@ bool CAdvancedFrame::CreateNotebook() {
     pPanel->SetAutoLayout(TRUE);
 
     // initialize notebook
-    m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize,
-                                wxNB_FIXEDWIDTH|wxCLIP_CHILDREN);
+    m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN);
 
     // layout frame panel
     wxBoxSizer *pPanelSizer = new wxBoxSizer(wxVERTICAL);
