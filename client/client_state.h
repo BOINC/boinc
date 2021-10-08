@@ -62,6 +62,8 @@ using std::vector;
 #include "../sched/edf_sim.h"
 #endif
 
+#define AUTO_UPDATE_MSW_CERTS 0
+
 #define WF_EST_FETCH_TIME 180
     // Figure that fetching work (possibly requesting from several projects)
     // could take as long as this.

@@ -261,6 +261,7 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 }
 
 void CLIENT_STATE::all_projects_list_check() {
+#if ((!defined(_WIN32)) || AUTO_UPDATE_MSW_CERTS)
     if (cc_config.dont_contact_ref_site) return;
     if (get_project_list_op.gui_http->gui_http_state == GUI_HTTP_STATE_BUSY) return;
     if (all_projects_list_check_time) {
@@ -269,6 +270,7 @@ void CLIENT_STATE::all_projects_list_check() {
         }
     }
     get_project_list_op.do_rpc();
+#endif
 }
 
 int GET_CERTIFICATE_BUNDLE_OP::do_rpc() {

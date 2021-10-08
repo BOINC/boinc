@@ -52,8 +52,6 @@
 
 #include "http_curl.h"
 
-#define AUTO_UPDATE_MSW_CERTS 0
-
 using std::min;
 using std::vector;
 
