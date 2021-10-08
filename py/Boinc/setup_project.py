@@ -57,7 +57,7 @@ def verbose_sleep(msg, wait):
 
 def get_env_var(name, default = None):
     value = os.environ.get(name, default)
-    if value == None:
+    if value is None:
         print("Environment variable %s not defined" % name)
         sys.exit(1)
     return value
@@ -209,7 +209,7 @@ def _check_vars(dict, **names):
     for key in names:
         value = names[key]
         if not key in dict:
-            if value == None:
+            if value is None:
                 raise SystemExit('error in test script: required parameter "%s" not specified'%key)
             dict[key] = value
     for key in dict:
