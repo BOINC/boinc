@@ -89,6 +89,18 @@ struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
     virtual void handle_reply(int http_op_retval);
 };
 
+struct GET_CERTIFICATE_BUNDLE_OP: public GUI_HTTP_OP {
+    int error_num;
+
+    GET_CERTIFICATE_BUNDLE_OP(GUI_HTTP* p){
+        error_num = BOINC_SUCCESS;
+        gui_http = p;
+    }
+    virtual ~GET_CERTIFICATE_BUNDLE_OP(){}
+    int do_rpc();
+    virtual void handle_reply(int http_op_retval);
+};
+
 struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
     int error_num;
     PROJECT_LIST_ITEM* pli;

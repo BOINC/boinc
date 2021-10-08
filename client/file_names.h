@@ -60,6 +60,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define APP_CONFIG_FILE_NAME        "app_config.xml"
 #define APP_INFO_FILE_NAME          "app_info.xml"
 #define CA_BUNDLE_FILENAME          "ca-bundle.crt"
+#define CA_BUNDLE_FILENAME_TEMP     "ca-bundle_temp.crt"
 #define CERTIFICATE_DIRECTORY       "certificates"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
 #define CLIENT_BRAND_FILENAME       "client_brand.txt"

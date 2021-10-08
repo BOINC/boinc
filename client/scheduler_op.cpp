@@ -136,6 +136,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         if (!cc_config.no_info_fetch) {
             gstate.new_version_check();
             gstate.all_projects_list_check();
+            gstate.certificate_bundle_check();
         }
     }
     return retval;

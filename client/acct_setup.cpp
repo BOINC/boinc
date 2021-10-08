@@ -271,6 +271,63 @@ void CLIENT_STATE::all_projects_list_check() {
     get_project_list_op.do_rpc();
 }
 
+int GET_CERTIFICATE_BUNDLE_OP::do_rpc() {
+    int retval;
+    char buf[256];
+
+    sprintf(buf, "https://boinc.berkeley.edu/ca-bundle.crt");
+    retval = gui_http->do_rpc(
+        this, buf, CA_BUNDLE_FILENAME_TEMP, true
+    );
+    if (retval) {
+        error_num = retval;
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+#define CERTIFICATE_BUNDLE_CHECK_PERIOD (14*86400)
+
+void GET_CERTIFICATE_BUNDLE_OP::handle_reply(int http_op_retval) {
+    bool error = false;
+    error_num = 0;
+    if (http_op_retval) {
+        error_num = http_op_retval;
+        error = true;
+    } else {
+        string s;
+        read_file_string(CA_BUNDLE_FILENAME_TEMP, s);
+        boinc_rename(
+            CA_BUNDLE_FILENAME_TEMP, CA_BUNDLE_FILENAME
+        );
+        gstate.certificate_bundle_check_time = gstate.now;
+    }
+    // if error, try again in a day
+    //
+    if (error) {
+        gstate.certificate_bundle_check_time =
+            gstate.now - CERTIFICATE_BUNDLE_CHECK_PERIOD + SECONDS_PER_DAY;
+    }
+
+    // were we initiated by autologin?
+    //
+    if (gstate.autologin_fetching_project_list) {
+        gstate.process_autologin(false);
+    }
+}
+
+void CLIENT_STATE::certificate_bundle_check() {
+    if (cc_config.dont_contact_ref_site) return;
+    if (get_certificate_bundle_op.gui_http->gui_http_state == GUI_HTTP_STATE_BUSY) return;
+    if (certificate_bundle_check_time) {
+        if (now - certificate_bundle_check_time < CERTIFICATE_BUNDLE_CHECK_PERIOD) {
+            return;
+        }
+    }
+    get_certificate_bundle_op.do_rpc();
+}
+
 // called at startup (first=true)
 // or on completion of get project list RPC (first=false).
 // check for installer filename file.
@@ -318,6 +375,14 @@ void CLIENT_STATE::process_autologin(bool first) {
             msg_printf(NULL, MSG_INFO,
                 "get project list RPC failed: %s",
                 boincerror(get_project_list_op.error_num)
+            );
+            boinc_delete_file(ACCOUNT_DATA_FILENAME);
+            return;
+        }
+        if (get_certificate_bundle_op.error_num) {
+            msg_printf(NULL, MSG_INFO,
+                "get certificate bundle RPC failed: %s",
+                boincerror(get_certificate_bundle_op.error_num)
             );
             boinc_delete_file(ACCOUNT_DATA_FILENAME);
             return;

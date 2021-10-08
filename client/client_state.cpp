@@ -82,6 +82,7 @@ CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
     get_project_list_op(&gui_http),
+    get_certificate_bundle_op(&gui_http),
     acct_mgr_op(&gui_http),
     lookup_login_token_op(&gui_http)
 {
@@ -174,6 +175,7 @@ CLIENT_STATE::CLIENT_STATE()
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
+    certificate_bundle_check_time = 0;
     client_version_check_url = DEFAULT_VERSION_CHECK_URL;
     detach_console = false;
 #ifdef SANDBOX
@@ -712,11 +714,13 @@ int CLIENT_STATE::init() {
     // if new version of client,
     // - run CPU benchmarks
     // - get new project list
+    // - update certificate bundle
     // - contact reference site (or some project) to trigger firewall alert
     //
     if (new_client) {
         run_cpu_benchmarks = true;
         all_projects_list_check_time = 0;
+        certificate_bundle_check_time = 0;
         if (cc_config.dont_contact_ref_site) {
             if (projects.size() > 0) {
                 projects[0]->master_url_fetch_pending = true;
@@ -804,6 +808,9 @@ int CLIENT_STATE::init() {
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
     }
+    if (!boinc_file_exists(CA_BUNDLE_FILENAME)) {
+        certificate_bundle_check_time = 0;
+    }
 
 #ifdef ENABLE_AUTO_UPDATE
     auto_update.init();
@@ -833,6 +840,7 @@ int CLIENT_STATE::init() {
     //
     if (!cc_config.no_info_fetch) {
         all_projects_list_check();
+        certificate_bundle_check();
         notices.init_rss();
     }
 
@@ -2258,6 +2266,7 @@ void CLIENT_STATE::clear_absolute_times() {
     exclusive_gpu_app_running = 0;
     new_version_check_time = now;
     all_projects_list_check_time = now;
+    certificate_bundle_check_time = now;
     retry_shmem_time = 0;
     cpu_run_mode.temp_timeout = 0;
     gpu_run_mode.temp_timeout = 0;

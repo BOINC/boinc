@@ -95,6 +95,7 @@ struct CLIENT_STATE {
     LOOKUP_WEBSITE_OP lookup_website_op;
     GET_CURRENT_VERSION_OP get_current_version_op;
     GET_PROJECT_LIST_OP get_project_list_op;
+    GET_CERTIFICATE_BUNDLE_OP get_certificate_bundle_op;
     ACCT_MGR_OP acct_mgr_op;
     LOOKUP_LOGIN_TOKEN_OP lookup_login_token_op;
 
@@ -239,9 +240,12 @@ struct CLIENT_STATE {
     PROJECT_ATTACH project_attach;
     void new_version_check(bool force = false);
     void all_projects_list_check();
+    void certificate_bundle_check();
     double new_version_check_time;
     double all_projects_list_check_time;
         // the time we last successfully fetched the project list
+    double certificate_bundle_check_time;
+        // the time we last successfully fetched the certificate bundle
     bool autologin_in_progress;
     bool autologin_fetching_project_list;
     PROJECT_LIST project_list;

@@ -505,6 +505,9 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_double("all_projects_list_check_time", all_projects_list_check_time)) {
             continue;
         }
+        if (xp.parse_double("certificate_bundle_check_time", certificate_bundle_check_time)) {
+            continue;
+        }
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
@@ -778,7 +781,8 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<user_gpu_prev_request>%d</user_gpu_prev_request>\n"
         "<user_network_request>%d</user_network_request>\n"
         "<new_version_check_time>%f</new_version_check_time>\n"
-        "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
+        "<all_projects_list_check_time>%f</all_projects_list_check_time>\n"
+        "<certificate_bundle_check_time>%f</certificate_bundle_check_time>\n",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
@@ -789,7 +793,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         gpu_run_mode.get_prev(),
         network_run_mode.get_perm(),
         new_version_check_time,
-        all_projects_list_check_time
+        all_projects_list_check_time,
+        certificate_bundle_check_time
+
     );
     if (strlen(language)) {
         f.printf("<language>%s</language>\n", language);
