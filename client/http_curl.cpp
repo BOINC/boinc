@@ -495,7 +495,7 @@ int HTTP_OP::libcurl_exec(
     if (! boinc_file_exists(CA_BUNDLE_FILENAME)) {
         // If ca-bundle.crt is not in the BOINC Data directory, 
         // look in the old location in the Program Files directory
-        if (strlen(m_curl_ca_bundle_location) == 0) {
+        if (strlen(curl_MSW_ca_bundle_location) == 0) {
             TCHAR szPath[MAX_PATH-1];
             GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
 
@@ -504,14 +504,14 @@ int HTTP_OP::libcurl_exec(
                 szPath[pszProg - szPath + 1] = 0;
 
                 strlcat(
-                    m_curl_ca_bundle_location,
+                    curl_MSW_ca_bundle_location,
                     szPath,
-                    sizeof(m_curl_ca_bundle_location)
+                    sizeof(curl_MSW_ca_bundle_location)
                 );
                 strlcat(
-                    m_curl_ca_bundle_location,
+                    curl_MSW_ca_bundle_location,
                     CA_BUNDLE_FILENAME,
-                    sizeof(m_curl_ca_bundle_location)
+                    sizeof(curl_MSW_ca_bundle_location)
                 );
 
                 if (log_flags.http_debug) {
@@ -519,16 +519,16 @@ int HTTP_OP::libcurl_exec(
                         project,
                         MSG_INFO,
                         "[http] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
-                        m_curl_ca_bundle_location
+                        curl_MSW_ca_bundle_location
                     );
                 }
             }
         }
-        if (boinc_file_exists(m_curl_ca_bundle_location)) {
+        if (boinc_file_exists(curl_MSW_ca_bundle_location)) {
             // call this only if a local copy of ca-bundle.crt exists;
             // otherwise, let's hope that it exists in the default place
             //
-            curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
+            curl_easy_setopt(curlEasy, CURLOPT_CAINFO, curl_MSW_ca_bundle_location);
             if (log_flags.http_debug) {
                 msg_printf(
                     project,
