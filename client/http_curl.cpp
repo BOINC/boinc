@@ -52,6 +52,8 @@
 
 #include "http_curl.h"
 
+#define AUTO_UPDATE_MSW_CERTS 0
+
 using std::min;
 using std::vector;
 
@@ -62,6 +64,10 @@ static bool got_expectation_failed = false;
     // Whether we've got a 417 HTTP error.
     // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
     // use 1.0 from now on.
+#if AUTO_UPDATE_MSW_CERTS
+static char curl_MSW_ca_bundle_location[256];
+        // string needed for ssl support
+#endif
 
 static void get_user_agent_string() {
     if (g_user_agent_string[0]) return;
@@ -485,7 +491,58 @@ int HTTP_OP::libcurl_exec(
 
     // if the above is nonzero, you need the following:
     //
-#ifndef _WIN32
+
+#ifdef _WIN32
+#if AUTO_UPDATE_MSW_CERTS
+    if (! boinc_file_exists(CA_BUNDLE_FILENAME)) {
+        // If ca-bundle.crt is not in the BOINC Data directory, 
+        // look in the old location in the Program Files directory
+        if (strlen(m_curl_ca_bundle_location) == 0) {
+            TCHAR szPath[MAX_PATH-1];
+            GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+
+            TCHAR *pszProg = strrchr(szPath, '\\');
+            if (pszProg) {
+                szPath[pszProg - szPath + 1] = 0;
+
+                strlcat(
+                    m_curl_ca_bundle_location,
+                    szPath,
+                    sizeof(m_curl_ca_bundle_location)
+                );
+                strlcat(
+                    m_curl_ca_bundle_location,
+                    CA_BUNDLE_FILENAME,
+                    sizeof(m_curl_ca_bundle_location)
+                );
+
+                if (log_flags.http_debug) {
+                    msg_printf(
+                        project,
+                        MSG_INFO,
+                        "[http] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
+                        m_curl_ca_bundle_location
+                    );
+                }
+            }
+        }
+        if (boinc_file_exists(m_curl_ca_bundle_location)) {
+            // call this only if a local copy of ca-bundle.crt exists;
+            // otherwise, let's hope that it exists in the default place
+            //
+            curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
+            if (log_flags.http_debug) {
+                msg_printf(
+                    project,
+                    MSG_INFO,
+                    "[http] HTTP_OP::libcurl_exec(): ca-bundle set"
+                );
+            }
+        }
+    } else
+#endif  // AUTO_UPDATE_MSW_CERTS
+#endif  //_WIN32
+#if ((!defined(_WIN32)) || AUTO_UPDATE_MSW_CERTS)
     if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
