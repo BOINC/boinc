@@ -284,7 +284,7 @@ echo ' <input class="btn btn-default btn-sm" type="submit" value="'.tra('Sort').
 
 // if it's news, show original post first
 //
-if (is_news_forum($forum)) {
+if (is_news_forum($forum) && !is_moderator($logged_in_user, null)) {
     $sort_style = CREATE_TIME_OLD;
 }
 
