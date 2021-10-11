@@ -169,13 +169,10 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
 
     ReadPreferenceSettings();
 
-// CAF  SetSizerAndFit(dialogSizer);
-     Layout();
-     dialogSizer->Fit( this );
-     SetSizer( dialogSizer );
+    Layout();
+    SetSizerAndFit(dialogSizer);
 
-// CAF    Fit();
-    Centre();
+    Centre();   // Center the dialog over the main window
 }
 
 /* destructor */

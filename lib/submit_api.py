@@ -313,4 +313,4 @@ def upload_files(upload_files_req):
 # see tools/submit_api_test.py
 #
 def get_job_counts(req):
-    return do_http_post('', req.project, 'server_status.php?counts=1');
+    return do_http_post('', req.project, 'server_status.php?counts=1')

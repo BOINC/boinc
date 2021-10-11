@@ -411,7 +411,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
-    wxIcon macIcon;
+    wxImage macIcon;
     bool result;
     int err = noErr;
     int w, h, x, y;
@@ -425,18 +425,19 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
         return true;
     
     m_iconCurrentIcon = icon;
-    
+
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
-        macIcon = macdisconnectbadge;
+        macIcon = wxImage(macdisconnectbadge);
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
-        macIcon = macsnoozebadge;
+        macIcon = wxImage(macsnoozebadge);
     else {
         err = SetDockBadge(NULL);
         return true;
     }
     
-    // Convert the wxIcon into a wxBitmap so we can perform some
+    // Convert the wxImage into a wxBitmap so we can perform some
     // wxBitmap operations with it
+    macIcon.InitAlpha();
     wxBitmap bmp( macIcon ) ;
     
     // wxMac's XMP image format always uses 32-bit pixels but allows only 

@@ -9,7 +9,7 @@
 from test_uc import *
 
 if __name__ == '__main__':
-    test_msg("multiple projects with resource share");
+    test_msg("multiple projects with resource share")
     # create two projects with the same host/user
     host = Host()
     user = UserUC()

@@ -125,7 +125,7 @@ def _check_vars(dict, **names):
     for key in names:
         value = names[key]
         if not key in dict:
-            if value == None:
+            if value is None:
                 raise SystemExit('error in test script: required parameter "%s" not specified'%key)
             dict[key] = value
     for key in dict:
@@ -508,7 +508,7 @@ class Host:
         rmtree(self.dir())
         os.mkdir(self.dir())
 
-        verbose_echo(1, "Setting up host '%s': creating account files" % self.name);
+        verbose_echo(1, "Setting up host '%s': creating account files" % self.name)
         for (user,project) in map(None,self.users,self.projects):
             filename = self.dir(account_file_name(project.config.config.master_url))
             verbose_echo(2, "Setting up host '%s': writing %s" % (self.name, filename))
@@ -611,7 +611,7 @@ class Work:
                 verbose_echo(2, "Linking "+newhandler)
                 os.symlink(handler, newhandler)
 
-        shutil.copy(self.result_template, project.dir());
+        shutil.copy(self.result_template, project.dir())
         cmd = build_command_line("create_work",
                                  config_dir          = project.dir(),
                                  appname             = self.app.name,

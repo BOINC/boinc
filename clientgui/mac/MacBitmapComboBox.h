@@ -15,6 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// On Macintosh we use only native controls in Simple View so the macOS
+// automatically provides accessibility support. Though wxBitmapComboBox
+// does not use MacOS native controls, wxChoice uses NSPopUpButton, so 
+// we create our own BitmapComboBox on Macintosh based on wxChoice, which
+// we have hacked to allow adding bitmaps.
+//
+
 #ifndef __MACBITMAPCOMBOBOX__
 #define __MACBITMAPCOMBOBOX__
 

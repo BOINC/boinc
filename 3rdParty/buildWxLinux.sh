@@ -20,7 +20,7 @@
 # Script to build a wxWidgets GTK version for BOINC
 
 # Usage:
-#  cd [path]/wxWidgets-3.0.2/
+#  cd [path]/wxWidgets-3.0.5/
 #  source path_to_this_script [--clean] [--debug] [--prefix PATH]
 #
 # the --clean argument will force a full rebuild.

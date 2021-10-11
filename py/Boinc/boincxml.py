@@ -28,7 +28,7 @@ def get_element(node, name, optional=True):
         raise SystemExit("ERROR: Couldn't find xml node <%s>"% name)
 
 def _None2Str(object):
-    if object == None:
+    if object is None:
         return ''
     else:
         return object
@@ -135,7 +135,7 @@ class XMLConfig:
             self._get_elements()
         except:
             if not failopen_ok:
-                raise Exception("%s: Couldn't get elements from XML file");
+                raise Exception("%s: Couldn't get elements from XML file")
         return self
     def _get_elements(self):
         pass

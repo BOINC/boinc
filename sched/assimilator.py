@@ -180,7 +180,7 @@ class Assimilator():
                 if result == wu.canonical_result:
                     canonical_result=result
     
-            if canonical_result == None and wu.error_mask == 0:
+            if canonical_result is None and wu.error_mask == 0:
                 # If no canonical result found and WU had no other errors,
                 # something is wrong, e.g. result records got deleted prematurely.
                 # This is probably unrecoverable, so mark the WU as having

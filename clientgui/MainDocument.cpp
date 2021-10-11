@@ -1325,7 +1325,7 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
     if (! IsConnected()) return -1;
 
 #if USE_CACHE_TIMEOUTS
-    wxTimeSpan ts(wxDateTime::Now() - m_dtProjecStatusTimestamp);
+    wxTimeSpan ts(wxDateTime::Now() - m_dtProjectsStatusTimestamp);
     if (ts.GetSeconds() >= (2 * PROJECTSTATUSRPC_INTERVAL)) bForce = true;
 #endif
     if (m_dtProjectsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;

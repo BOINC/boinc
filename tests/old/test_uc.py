@@ -74,6 +74,6 @@ class ProjectUC(TestProject):
                              )
 
 if __name__ == '__main__':
-    test_msg("standard upper_case application");
+    test_msg("standard upper_case application")
     ProjectUC()
     run_check_all()

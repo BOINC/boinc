@@ -67,9 +67,9 @@ class TASK:
    final_cpu_time = 0.0
    time_checkpointed = 0            
    # contribution of this task to overall fraction done
-   final_cpu_time = 0;
-   starting_cpu = 0;
-   ready = 0;
+   final_cpu_time = 0
+   starting_cpu = 0
+   ready = 0
    exitCode = None
 
    # how much CPU time was used by tasks before this in the job file
@@ -450,7 +450,7 @@ def read_checkpoint(filename):
    cpu = 0
 
    try:
-      f = open(filename, "r");
+      f = open(filename, "r")
    except:
       return [ntasks, cpu]
 
