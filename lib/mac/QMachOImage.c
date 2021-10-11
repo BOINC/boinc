@@ -196,7 +196,7 @@ typedef struct QMOImage QMOImage;
 // Image Type Callbacks
 // --------------------
 // There are various types of QMOImage (local, from a remote task, from disk) that have 
-// lots in common.  However, in some cases it's necessary to do things diffently for each 
+// lots in common.  However, in some cases it's necessary to do things differently for each 
 // type of image to do different things.  In that case, the common code calls the image 
 // type specific code to do the work.
 
@@ -808,7 +808,7 @@ static int QMOImageCreate(
         // It is vital that we call the create callback (if any) before any 
         // other failure (other than the calloc).  If there was a failure 
         // point before this, we could end up calling the destroy callback 
-        // before calling the create callback.  Thatd woul be bad for image 
+        // before calling the create callback.  That would be bad for image 
         // types where a NULL refcon isn't appropriate as a nil value.  
         //
         // An example of this is the file image type.  The in this case, the 

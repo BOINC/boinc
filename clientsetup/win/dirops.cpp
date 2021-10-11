@@ -78,7 +78,7 @@ BOOL RecursiveCopyFolder(tstring& csPath, tstring& csNewPath)
                 bRet = FALSE;
             }
         }
-        else // it is a directory -> Copying recursivly
+        else // it is a directory -> Copying recursively
         { 
             if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
                 (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
@@ -137,7 +137,7 @@ BOOL RecursiveDeleteFolder(tstring& csPath)
 				bRet = FALSE;
 			}
 		}
-		else // it is a directory -> Copying recursivly
+		else // it is a directory -> Copying recursively
 		{ 
 			if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
 				(_tcscmp(ffData.cFileName, _T("..")) != 0) ) 

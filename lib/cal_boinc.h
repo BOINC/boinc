@@ -708,7 +708,7 @@ CALAPI CALresult CALAPIENTRY calCtxDestroy(CALcontext ctx);
  * for use by the context <i>ctx</i>.
  *
  * @param mem (out) - created memory handle. On error, mem will be zero.
- * @param ctx (in) - context in which resouce is mapped
+ * @param ctx (in) - context in which resource is mapped
  * @param res (in) - resource to map to context
  *
  * @return Returns CAL_RESULT_OK on success, CAL_RESULT_ERROR if there was an error.
@@ -724,7 +724,7 @@ CALAPI CALresult CALAPIENTRY calCtxGetMem(CALmem* mem, CALcontext ctx, CALresour
  *
  * releases memory handle <i>mem</i> that is obtained by <i>calCtxGetMem</i>.
  *
- * @param ctx (in) - context in which resouce is mapped
+ * @param ctx (in) - context in which resource is mapped
  * @param mem (in) - memory handle to release
  *
  * @return Returns CAL_RESULT_OK on success, CAL_RESULT_ERROR if there was an error.

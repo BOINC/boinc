@@ -18,7 +18,7 @@ Abstract:
     Lan Manager API call can be used to get the primary domain controller
     computer name from a domain name.
 
-    For a list of privilges, consult winnt.h, and search for
+    For a list of privileges, consult winnt.h, and search for
     SE_ASSIGNPRIMARYTOKEN_NAME.
 
     For a list of logon rights, which can also be assigned using this

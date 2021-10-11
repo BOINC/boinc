@@ -9,7 +9,7 @@
 
      The project dir must be defined in the projects config.xml file.
 
-     Input parameter of the form 'batch=[id]' can be passed via url or commmand line.
+     Input parameter of the form 'batch=[id]' can be passed via url or command line.
 
      Example usage from command line:
      ./target_batch batch=1
@@ -42,7 +42,7 @@ Create a batch of low-priority tasks:
 Target batch to dedicated workers:
 /bin/target_batch batch=0
 
-Start dedicated work with USER_ID corresonding to DEDICATED_USER_ID.
+Start dedicated work with USER_ID corresponding to DEDICATED_USER_ID.
 
 Check that these tasks are only assigned to dedicated workers.
 

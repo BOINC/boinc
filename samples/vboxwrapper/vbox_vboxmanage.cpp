@@ -1524,7 +1524,7 @@ namespace vboxmanage {
     // 2. Vboxmanage not being able to communicate with vboxsvc for some reason
     // 3. VirtualBox driver not loaded for the current Linux kernel.
     //
-    // Luckly both of the above conditions can be detected by attempting to detect the host information
+    // Luckily both of the above conditions can be detected by attempting to detect the host information
     // via vboxmanage and it is cross platform.
     //
     bool VBOX_VM::is_system_ready(std::string& message) {

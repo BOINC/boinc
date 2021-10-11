@@ -285,7 +285,7 @@ void CPanelPreferences::CreateControls()
     CTransparentStaticText* staticText22 = new CTransparentStaticText(
         itemDialog1, wxID_ANY, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPOCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPROCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     CTransparentStaticText* staticText23 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -694,7 +694,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     //cpu limit
-    // 0 means "no retriction" but we don't use a checkbox here
+    // 0 means "no restriction" but we don't use a checkbox here
     if (global_preferences_working.cpu_usage_limit == 0.0) global_preferences_working.cpu_usage_limit = 100.0;
     DisplayValue(global_preferences_working.cpu_usage_limit, m_txtProcUseCPUTime);
     

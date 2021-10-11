@@ -518,7 +518,7 @@ bool CDlgMessages::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Reterieve and store the latest window dimensions.
+    // Retrieve and store the latest window dimensions.
     SaveWindowDimensions();
 
     // Save the list ctrl state

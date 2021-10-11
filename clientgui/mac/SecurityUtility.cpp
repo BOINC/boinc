@@ -17,7 +17,7 @@
 
 // Standalone utility to set up BOINC security owners, groups, permissions
 // usage:
-// first cd to the dir3ctory containing BOINCManager.app (usually /Applications)
+// first cd to the directory containing BOINCManager.app (usually /Applications)
 // then run this application from Terminal
 //
 

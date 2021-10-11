@@ -36,7 +36,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -240,7 +240,7 @@ extern int QCRCreateFromTask(
     // This does less than you might think.  A lot of the work, like getting the 
     // state and backtrace for each thread, is done lazily.  The goal is to make 
     // it relatively cheap to create a crash report object, only paying the 
-    // penality for things like getting the backtrace if you actually need them.
+    // penalty for things like getting the backtrace if you actually need them.
 {
     int                     err;
     kern_return_t           kr;
@@ -303,7 +303,7 @@ extern int QCRCreateFromTask(
             // back, or disposes of them.  We need this silliness because we 
             // can't get a thread count (to calloc the array) without also 
             // getting rights at the same time, and we have to make sure that 
-            // those rights get cleaned up if calloc fais.
+            // those rights get cleaned up if calloc fails.
 
             for (threadIndex = 0; threadIndex < crRef->threadCount; threadIndex++) {
                 if (crRef->threads == NULL) {
@@ -1261,7 +1261,7 @@ static int ForkExecWithBootstrap(const char *toolArgs[], mach_port_t newBootstra
       target's EUID matches its RUID, that is, it's not a setuid binary)
     
     Starting with the release of the Intel-based Macintosh computers, task_for_pid 
-    security has been tightened up.  The new policy is that task_for_pid suceeds:
+    security has been tightened up.  The new policy is that task_for_pid succeeds:
     
     o if the caller was running as root (EUID 0)
     
@@ -1290,7 +1290,7 @@ static int ForkExecWithBootstrap(const char *toolArgs[], mach_port_t newBootstra
        reason, and it's not your place to subvert that change.
     
     3. get into group "procmod" or "procview" -- This is the solution used by 
-       Apple's tools, but it is tricky for third party developers in practise.  
+       Apple's tools, but it is tricky for third party developers in practice.  
        You have to make your executable set-group-id to one of these groups, and 
        that requires you to have some sort of installer to 'bless' the executable.
        

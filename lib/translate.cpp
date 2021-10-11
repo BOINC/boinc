@@ -30,7 +30,7 @@
 // language, then for each desired catalog (*.mo) file for the
 // user's second preferred language and (optionally) then for each
 // desired catalog (*.mo) file for the user's third preferred
-// language.  This will make it more likley that a translation 
+// language.  This will make it more likely that a translation 
 // will be found in some language useful to the user.
 //
 
@@ -273,7 +273,7 @@ static bool LoadCatalog(const char * catalogsDir,
 
 // Searches through the catalogs in the order they were added
 // until it finds a translation for the src string, and
-// returns a ponter to the UTF-8 encoded localized string.
+// returns a pointer to the UTF-8 encoded localized string.
 // Returns a pointer to the original string if no translation
 // was found.
 //

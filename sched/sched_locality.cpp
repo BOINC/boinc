@@ -1391,4 +1391,4 @@ void send_file_deletes() {
 // (7) there are no feasible results for the host, we are finished:
 // (7) exit.
 
-// (8) If addtional results are needed, return to step 4 above.
+// (8) If additional results are needed, return to step 4 above.

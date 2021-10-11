@@ -112,7 +112,7 @@ int procinfo_setup(PROC_MAP& pm) {
         }
     } while (c != '\n');
 
-    // Ensure %lf works corectly if called from non-English Manager 
+    // Ensure %lf works correctly if called from non-English Manager 
     old_locale = setlocale(LC_ALL, NULL);
     setlocale(LC_ALL, "C");
     

@@ -1286,7 +1286,7 @@ Boolean CheckDeleteFile(char *name)
 
 
 // If there are other copies of BOINC Manager with different branding
-// on the system, Noitifications may display the icon for the wrong
+// on the system, Notifications may display the icon for the wrong
 // branding, due to the Launch Services database having one of the
 // other copies of BOINC Manager as the first entry. Each user has
 // their own copy of the Launch Services database, so this must be
@@ -2213,7 +2213,7 @@ int check_rosetta2_installed() {
     int retval = 0;
 
     // write the EMULATED_CPU_INFO into the BOINC data dir
-    // the execuable should be in BOINC data dir
+    // the executable should be in BOINC data dir
     strncpy(execpath, data_dir, sizeof(execpath));
     strncat(execpath, "/" EMULATED_CPU_INFO_EXECUTABLE, sizeof(execpath) - strlen(execpath) - 1);
 

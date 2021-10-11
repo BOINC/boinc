@@ -13,7 +13,7 @@ MAKECLEAN="yes"
 VERBOSE="${VERBOSE:-no}"
 NPROC_USER="${NPROC_USER:-1}"
 
-OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, requiered by BOINC
+OPENSSL="${OPENSSL_SRC:-$HOME/src/openssl-1.0.2p}" #openSSL sources, required by BOINC
 
 export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
 export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"

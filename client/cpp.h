@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Don't include config.h or C++ header files from here.
-// there are #defines that alter the behiour of the standard C and C++ headers.
+// there are #defines that alter the behaviour of the standard C and C++ headers.
 // In this case we need to use the "small files" environment on some unix
 // systems.  That can't be done if we include "cpp.h"
 

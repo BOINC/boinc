@@ -124,7 +124,7 @@ extern int generate_signature(
 );
 
 //   Check if sfileMsg (of length sfsize) has been created from sha1_md using the
-//   private key beloning to the public key file cFile
+//   private key belonging to the public key file cFile
 //   Return:
 //    1: YES
 //    0: NO or error

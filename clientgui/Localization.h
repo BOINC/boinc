@@ -35,8 +35,8 @@ public:
     wxString m_strSAHMessageBoardsDescription;
     wxString m_strSAHHelpName;
     wxString m_strSAHHelpDescription;
-    wxString m_strSAHYourAccuontName;
-    wxString m_strSAHYourAccuontDescription;
+    wxString m_strSAHYourAccountName;
+    wxString m_strSAHYourAccountDescription;
     wxString m_strSAHYourPreferencesName;
     wxString m_strSAHYourPreferencesDescription;
     wxString m_strSAHYourResultsName;
@@ -49,8 +49,8 @@ public:
     // Einstein@home
     wxString m_strEAHCommonQuestionsName;
     wxString m_strEAHCommonQuestionsDesc;
-    wxString m_strEAHSceensaverInfoName;
-    wxString m_strEAHSceensaverInfoDesc;
+    wxString m_strEAHScreensaverInfoName;
+    wxString m_strEAHScreensaverInfoDesc;
     wxString m_strEAHMessageBoardsName;
     wxString m_strEAHMessageBoardsDesc;
     wxString m_strEAHEinsteinStatusName;

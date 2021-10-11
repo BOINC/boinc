@@ -10,7 +10,7 @@ Allow Windows users to use built-in WSL for setting up for BOINC Android develop
 * WSL1: fork/exec error - [Microsoft/WSL#2469](https://github.com/microsoft/WSL/issues/2469)
 * WSL1: wget HSTS error - <https://superuser.com/questions/1539972/wget-error-bash-windows-subsystem-for-linux>
 * WSL2: High vmmem memory usage - [Microsoft/WSL#4166](https://github.com/microsoft/WSL/issues/4166) - Note: Users can check out [this workaround](https://github.com/microsoft/WSL/issues/4166#issuecomment-526725261). Based on our testing, setting `memory=3GB` should be sufficient if users don't have more than that.
-* WSL2: Unable to use hardware accleration in Android Emulator or VirtualBox - [WSL2 FAQ](https://docs.microsoft.com/en-us/windows/wsl/wsl2-faq#will-i-be-able-to-run-wsl-2-and-other-3rd-party-virtualization-tools-such-as-vmware-or-virtualbox)
+* WSL2: Unable to use hardware acceleration in Android Emulator or VirtualBox - [WSL2 FAQ](https://docs.microsoft.com/en-us/windows/wsl/wsl2-faq#will-i-be-able-to-run-wsl-2-and-other-3rd-party-virtualization-tools-such-as-vmware-or-virtualbox)
 
 ## Prerequisites
 

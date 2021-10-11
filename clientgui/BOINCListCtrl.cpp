@@ -235,7 +235,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         TokenizedStringToArray(strColumnOrder, ";", &orderArray);
         SetListColumnOrder(orderArray);
 
-        // If the user installed a new vesion of BOINC, new columns may have
+        // If the user installed a new version of BOINC, new columns may have
         // been added that didn't exist in the older version. Check for this.
         //
         // This will also be triggered if the locale is changed, which will cause 
@@ -659,7 +659,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 //
 // Post a special event.  This will allow this mouse event to
 // propogate through the chain to complete any selection or
-// deselection operatiion, then the special event will trigger
+// deselection operation, then the special event will trigger
 // CBOINCBaseView::OnCheckSelectionChanged() to respond to the
 // selection change, if any.
 //

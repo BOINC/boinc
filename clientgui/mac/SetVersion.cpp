@@ -295,7 +295,7 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
 }
 
 
-// Create a MetaPackage whcih runs only BOINC,pkg but specifies Restart Required
+// Create a MetaPackage which runs only BOINC,pkg but specifies Restart Required
 int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;

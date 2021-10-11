@@ -58,7 +58,7 @@ extern void print_to_log_file(const char *format, ...);
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
 
 #ifdef _DEBUG
-// GDB can't attach to applications which are running as a diferent user or group so
+// GDB can't attach to applications which are running as a different user or group so
 // it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, the _DEBUG version uses the current user and group.
 //
@@ -936,8 +936,8 @@ OSStatus ResynchDSSystem() {
 
 
 #ifdef _DEBUG
-// GDB can't attach to applications which are running as a diferent user or group so 
-//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
+// GDB can't attach to applications which are running as a different user or group so 
+//  it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, the _DEBUG version uses the current user and group.
 static OSStatus SetFakeMasterNames() {
     passwd              *pw;

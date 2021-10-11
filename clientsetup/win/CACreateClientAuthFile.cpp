@@ -123,7 +123,7 @@ UINT CACreateClientAuthFile::OnExecution()
                     NULL,
                     NULL,
                     NULL,
-                    _T("The client_auth.xml could not be deleted from the data direvtory. ")
+                    _T("The client_auth.xml could not be deleted from the data directory. ")
                     _T("Please delete the file and rerun setup.")
                 );
                 return ERROR_INSTALL_FAILURE;

@@ -591,7 +591,7 @@ try:
      
       VM_MANAGE = xmlrpclib.ServerProxy(SERVER_PROXY)
 
-      # wait until VMmanageTasks started succesfully
+      # wait until VMmanageTasks started successfully
       tic = time.time()
       time.sleep(5)
       VMmanageRunning = 0

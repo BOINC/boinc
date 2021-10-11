@@ -25,7 +25,7 @@ Provide a turn-key VM for Android development
 ## HOWTO
 
 1. On your host: open a terminal
-   1. Clone the [BOINC repo](https://github.com/BOINC/boinc) and `cd <BOINC_REPO>/android` or just dowload the [Vagrantfile from GitHub](https://github.com/BOINC/boinc/blob/master/android/Vagrantfile)
+   1. Clone the [BOINC repo](https://github.com/BOINC/boinc) and `cd <BOINC_REPO>/android` or just download the [Vagrantfile from GitHub](https://github.com/BOINC/boinc/blob/master/android/Vagrantfile)
    1. `vagrant up`
    1. Wait until the final reboot finished
    1. **From this point on you don't need Vagrant anymore**
@@ -37,7 +37,7 @@ Provide a turn-key VM for Android development
       1. `cd ~/BOINC/android`
       1. `./build_client.sh`
    1. Start Android Studio
-   1. No need to change anything in the setup assitant (just complete it)
+   1. No need to change anything in the setup assistant (just complete it)
       * OK / Next / Next / Finish / Finish
    1. Import the BOINC App as *Gradle* project from: `~/BOINC/android/BOINC`
    1. Ignore potential Gradle Plugin warning: *Don't remind me again*
@@ -65,7 +65,7 @@ If you want to do a `push` without username and password prompt, you have to do 
 1. Verify that the remote URL has changed: `git remote -v`
 1. Generate a new SSH key: `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
    1. When you're prompted to "Enter a file in which to save the key," press Enter. This accepts the default file location.
-   1. When you're promted to "Enter passphrase (empty for no passphrase)" type a secure passphrase.
+   1. When you're prompted to "Enter passphrase (empty for no passphrase)" type a secure passphrase.
 1. Add your SSH key to the ssh-agent.
    1. Start the ssh-agent in the background: `eval "$(ssh-agent -s)"`
    1. Add your SSH private key to the ssh-agent: `ssh-add ~/.ssh/id_rsa`

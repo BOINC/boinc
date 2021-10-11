@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// declare replacement string functions for platforms that lack themn
+// declare replacement string functions for platforms that lack them
 
 #ifndef BOINC_STR_REPLACE_H
 #define BOINC_STR_REPLACE_H

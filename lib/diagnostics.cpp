@@ -582,7 +582,7 @@ int diagnostics_finish() {
     }
 #endif
 
-    // Set initalization flag to false.
+    // Set initialization flag to false.
     diagnostics_initialized = false;
 
     return BOINC_SUCCESS;

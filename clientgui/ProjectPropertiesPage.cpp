@@ -520,7 +520,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             SetNextState(PROJPROP_END);
             break;
         default:
-            // Allow a glimps of what the result was before advancing to the next page.
+            // Allow a glimpse of what the result was before advancing to the next page.
             wxSleep(1);
             pWAP->EnableNextButton();
             pWAP->EnableBackButton();

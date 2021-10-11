@@ -969,11 +969,11 @@ void CDlgEventLog::ResetMessageFiltering() {
 
 void CDlgEventLog::UpdateButtons() {
     bool enableFilterButton = s_bIsFiltered; 
-    bool enableCopySelectedButon = false; 
+    bool enableCopySelectedButton = false; 
     if (m_iTotalDocCount > 0) {
         int n = m_pList->GetSelectedItemCount();
         if (n > 0) {
-            enableCopySelectedButon = true;
+            enableCopySelectedButton = true;
         }
         
         if ((n == 1) && (! s_bIsFiltered)) {
@@ -985,7 +985,7 @@ void CDlgEventLog::UpdateButtons() {
         }
     }
     m_pFilterButton->Enable(enableFilterButton);
-    m_pCopySelectedButton->Enable(enableCopySelectedButon);
+    m_pCopySelectedButton->Enable(enableCopySelectedButton);
 }
 
 

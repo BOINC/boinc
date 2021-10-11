@@ -1865,7 +1865,7 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
     if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
-        grc.mfout.printf("<error>missing boing_gui_rpc_request tag</error>\n");
+        grc.mfout.printf("<error>missing boinc_gui_rpc_request tag</error>\n");
         return 0;
     }
     if (grc.xp.get_tag()) {    // parse the request tag

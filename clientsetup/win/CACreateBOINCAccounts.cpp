@@ -458,7 +458,7 @@ UINT CACreateBOINCAccounts::OnExecution()
 // Function:    CreateBOINCAccounts
 //
 // Description: This custom action creates the two user accounts that'll
-//              be used to enfore the account based sandboxing scheme
+//              be used to enforce the account based sandboxing scheme
 //              on Windows.
 //
 /////////////////////////////////////////////////////////////////////

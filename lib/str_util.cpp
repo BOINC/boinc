@@ -518,7 +518,7 @@ const char* boincerror(int which_error) {
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to database";
-        case ERR_GETS: return "gets()/fgets() failedj";
+        case ERR_GETS: return "gets()/fgets() failed";
         case ERR_SCANF: return "scanf()/fscanf() failed";
         case ERR_READDIR: return "readdir() failed";
         case ERR_SHMGET: return "shmget() failed";
