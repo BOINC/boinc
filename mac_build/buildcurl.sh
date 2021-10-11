@@ -39,6 +39,8 @@
 # Updated 8/22/20 TO build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 12/24/20 for curl 7.73.0
 # Updated 5/18/21 for compatibility with zsh
+# Updated 10/11/21 to use Secure Transport instead of OpenSSL (uses MacOS certificate store 
+#   instead of ca-bundle.crt)
 #
 ## This script requires OS 10.8 or later
 #
@@ -60,10 +62,14 @@
 #
 
 function patch_curl_config {
-    # Patch curl_config.h to not use clock_gettime(), which is
-    # defined in OS 10.12 SDK but was not available before OS 10.12.
-    # If building with an older SDK or an older version of Xcode, these
-    # patches will fail because config has already set our desired values.
+    # If building with some SDKs or version of Xcode, either or
+    # both of these patches will fail because config has already 
+    # set our desired values.
+    #
+    # The __builtin_available() function may cause problems in 
+    # static libraries or older versions of MacOS. It's unclear
+    # to me whether this is still an issue, but I'm keeping this
+    # patch in here for now to be safe. - CF 10/11/21
     rm -f /tmp/curl_config_h_diff1
     cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
 --- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
@@ -81,6 +87,9 @@ ENDOFFILE
     rm -f /tmp/curl_config_h_diff1
     rm -f lib/curl_config.h.rej
 
+    # Patch curl_config.h to not use clock_gettime(), which is
+    # defined in OS 10.12 SDK but was not available before OS 10.12.
+    rm -f /tmp/curl_config_h_diff2
     cat >> /tmp/curl_config_h_diff2 << ENDOFFILE
 --- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
 +++ lib/curl_config2.h.in    2018-02-22 04:30:21.000000000 -0800
@@ -200,20 +209,20 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
-export MAC_OS_X_VERSION_MAX_ALLOWED=1070
-export MAC_OS_X_VERSION_MIN_REQUIRED=1070
+export MACOSX_DEPLOYMENT_TARGET=10.9
+export MAC_OS_X_VERSION_MAX_ALLOWED=1090
+export MAC_OS_X_VERSION_MIN_REQUIRED=1090
 
 if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
     export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
 else
-    # Get the names of the current versions of c-ares and openssl from
-    # the dependencyNames.sh file in the same directory as this script.
+    # Get the name of the current versions of c-ares from the
+    # dependencyNames.sh file in the same directory as this script.
     myScriptPath="${BASH_SOURCE[0]}"
     if [ -z ${myScriptPath} ]; then
         myScriptPath="$0"   # for zsh
@@ -232,11 +241,11 @@ else
         cd "${CURL_DIR}" || return 1
     fi
 
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
     export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=x86_64
+    ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
@@ -263,19 +272,19 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 # for a sanity check on size of long and socklen_t. But these are  identical for
 # x86_64 and arm64, so this is not currently an issue. 
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
-
     if [ "x${lprefix}" != "x" ]; then
         export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7"
-        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --enable-shared=NO --without-libidn --without-libidn2 --without-nghttp2 --host=arm
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -stdlib=libc++"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -stdlib=libc++"
+        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos"
+        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=arm-apple-darwin
     else
-        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64 -L${CURL_DIR}/../${opensslDirName} "
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7"
-        ./configure --enable-shared=NO --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --host=arm
+        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -stdlib=libc++"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -stdlib=libc++"
+        export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos"
+        ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=arm-apple-darwin
+    
         echo ""
     fi
 

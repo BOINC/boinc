@@ -483,17 +483,6 @@ int HTTP_OP::libcurl_exec(
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    // if the above is nonzero, you need the following:
-    //
-#ifndef _WIN32
-    if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
-        // call this only if a local copy of ca-bundle.crt exists;
-        // otherwise, let's hope that it exists in the default place
-        //
-        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
-    }
-#endif
-
     // set the user agent as this boinc client & version
     //
     curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
