@@ -285,7 +285,7 @@ void CPanelPreferences::CreateControls()
     CTransparentStaticText* staticText22 = new CTransparentStaticText(
         itemDialog1, wxID_ANY, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPOCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPROCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     CTransparentStaticText* staticText23 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
