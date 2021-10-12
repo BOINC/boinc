@@ -35,7 +35,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -190,7 +190,7 @@ typedef void (*dyld_image_notifier)(enum dyld_image_mode mode, uint32_t infoCoun
  *	(dyld_image_adding) or are about to be removed (dyld_image_removing). 
  *
  * The notification is called after infoArray is updated.  This means that if gdb attaches to a process
- * and infoArray is NULL, gdb can set a break point on notification and let the proccess continue to
+ * and infoArray is NULL, gdb can set a break point on notification and let the process continue to
  * run until the break point.  Then gdb can inspect the full infoArray.
  */
  struct dyld_all_image_infos {

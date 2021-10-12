@@ -36,7 +36,7 @@
 *  Note: if address 1a23 is hex, use 0x1a23.  
 *
 *  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  You may need to prefix C++ symbols with an additional underscore before 
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:

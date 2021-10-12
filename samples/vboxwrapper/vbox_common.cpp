@@ -1234,7 +1234,7 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
     }
     while (retval);
 
-    // Add all relevent notes to the output string and log errors
+    // Add all relevant notes to the output string and log errors
     //
     if (retval && log_error) {
         if (!retry_notes.empty()) {
