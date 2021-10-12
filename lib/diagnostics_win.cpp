@@ -288,7 +288,7 @@ int diagnostics_update_thread_list() {
     // Lets start walking the structures to find the good stuff.
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
-        // Okay, found the current proccess entry now we just need to
+        // Okay, found the current process entry now we just need to
         //   update the thread data.
         if (pProcesses->ProcessId == dwCurrentProcessId) {
 
