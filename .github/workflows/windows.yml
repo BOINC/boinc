@@ -46,7 +46,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@v2.1.3
+        uses: actions/cache@v2
         with:
           path: |
             ${{ github.workspace }}\3rdParty\Windows\cuda\
