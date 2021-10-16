@@ -4,11 +4,11 @@
 - name: "Clone boinc-server-docker to {{base_dir}}"
   command: git clone https://github.com/marius311/boinc-server-docker.git chdir="{{base_dir}}"
 
-- name: "Use release 4.0.1 of boinc-server-docker"
-  command: git checkout tags/4.0.1 chdir="{{base_dir}}/boinc-server-docker"
-  
+- name: "Use 28df02f75c07650c53a7c5f0a389118f48698fda commit of boinc-server-docker"
+  command: git checkout 28df02f75c07650c53a7c5f0a389118f48698fda chdir="{{base_dir}}/boinc-server-docker"
+
 - name: Init some submodules
   command: git submodule init images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
- 
+
 - name: "Fetch some submodules for boinc-server-docker in {{base_dir}}"
   command: git submodule update images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
