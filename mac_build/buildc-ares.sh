@@ -91,7 +91,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
-        libPath="${lprefix}/lib"
+        libPath="${lprefix}/src/lib"
         shift
         ;;
         -q|--quiet)
