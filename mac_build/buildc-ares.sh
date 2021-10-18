@@ -179,12 +179,12 @@ fi
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.9 -arch x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.9
-export MAC_OS_X_VERSION_MAX_ALLOWED=1090
-export MAC_OS_X_VERSION_MIN_REQUIRED=1090
+export MACOSX_DEPLOYMENT_TARGET=10.10
+export MAC_OS_X_VERSION_MAX_ALLOWED=101000
+export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
 ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
@@ -207,12 +207,12 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export CPPFLAGS=""
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -target arm64-apple-macos10.9 -mmacosx-version-min=10.9 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.9 -target arm64-apple-macos10.9"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.9
-    export MAC_OS_X_VERSION_MAX_ALLOWED=1090
-    export MAC_OS_X_VERSION_MIN_REQUIRED=1090
+    export MACOSX_DEPLOYMENT_TARGET=10.10
+    export MAC_OS_X_VERSION_MAX_ALLOWED=101000
+    export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
     ./configure --prefix=${lprefix} --enable-shared=NO --host=arm
     if [ $? -ne 0 ]; then

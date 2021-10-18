@@ -207,10 +207,10 @@ echo ""
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1090 -DMAC_OS_X_VERSION_MIN_REQUIRED=1090"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.9 -DMAC_OS_X_VERSION_MAX_ALLOWED=1090 -DMAC_OS_X_VERSION_MIN_REQUIRED=1090"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.9
+export MACOSX_DEPLOYMENT_TARGET=10.10
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 if [ "x${lprefix}" != "x" ]; then
@@ -234,11 +234,11 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1090 -DMAC_OS_X_VERSION_MIN_REQUIRED=1090"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1090 -DMAC_OS_X_VERSION_MIN_REQUIRED=1090"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.9 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=1090 -DMAC_OS_X_VERSION_MIN_REQUIRED=1090"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.9
+    export MACOSX_DEPLOYMENT_TARGET=10.10
     export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
     if [ "x${lprefix}" != "x" ]; then

@@ -3901,7 +3901,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Installer-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -3923,7 +3922,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Installer-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3969,7 +3967,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -3981,7 +3979,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3993,7 +3991,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4048,7 +4046,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4062,7 +4060,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4076,7 +4074,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1090",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101000",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4528,7 +4526,7 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4704,7 +4702,7 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",

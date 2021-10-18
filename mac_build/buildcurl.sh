@@ -215,15 +215,15 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.9
-export MAC_OS_X_VERSION_MAX_ALLOWED=1090
-export MAC_OS_X_VERSION_MIN_REQUIRED=1090
+export MACOSX_DEPLOYMENT_TARGET=10.10
+export MAC_OS_X_VERSION_MAX_ALLOWED=101000
+export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
 if [ "x${lprefix}" != "x" ]; then
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.9 -arch x86_64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -arch x86_64"
     PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
 else
@@ -248,9 +248,9 @@ else
     fi
 
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64, "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.9 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.9 -arch x86_64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -arch x86_64"
     ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
@@ -280,15 +280,15 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
     if [ "x${lprefix}" != "x" ]; then
         export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.9 -target arm64-apple-macos"
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-apple-macos"
         PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=arm-apple-darwin
     else
         export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.9 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.9 -target arm64-apple-macos"
+        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-apple-macos"
         ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=arm-apple-darwin
     
         echo ""
