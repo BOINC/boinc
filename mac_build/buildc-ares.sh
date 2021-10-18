@@ -91,7 +91,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
-        libPath="${lprefix}/lib"
+        libPath="src/lib/.libs"
         shift
         ;;
         -q|--quiet)
@@ -168,36 +168,26 @@ fi
 
 # Build for x86_64 architecture
 
+## The "-Werror=partial-availability" compiler flag generates an error if
+## there is an unguarded API not available in our Deployment Target. This
+## helps ensure c-ares won't try to use unavailable APIs on older Mac
+## systems supported by BOINC.
+## It also causes configure to reject any such APIs for which it tests;
+## this actually makes the call to the patch_ares_config function
+## redundant, but it does no harm to leave it in.
+##
+export CC="${GCCPATH}";export CXX="${GPPPATH}"
+export CPPFLAGS=""
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -arch x86_64"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.10
 export MAC_OS_X_VERSION_MAX_ALLOWED=101000
 export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
-if [ "x${lprefix}" != "x" ]; then
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
-    if [ $? -ne 0 ]; then return 1; fi
-else
-    ## The "-Werror=partial-availability" compiler flag generates an error if
-    ## there is an unguarded API not available in our Deployment Target. This
-    ## helps ensure c-ares won't try to use unavailable APIs on older Mac
-    ## systems supported by BOINC.
-    ## It also causes configure to reject any such APIs for which it tests;
-    ## this actually makes the call to the patch_ares_config function
-    ## redundant, but it does no harm to leave it in.
-    ##
-    export CC="${GCCPATH}";export CXX="${GPPPATH}"
-    export CPPFLAGS=""
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -arch x86_64"
-
-    ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
-    if [ $? -ne 0 ]; then return 1; fi
-fi
+./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
+if [ $? -ne 0 ]; then return 1; fi
 
 patch_ares_config
 
@@ -214,27 +204,17 @@ if [ $? -ne 0 ]; then return 1; fi
 # Note: Some versions of Xcode 12 don't support building for arm64
 if [ $GCC_can_build_arm64 = "yes" ]; then
 
+    export CC="${GCCPATH}";export CXX="${GPPPATH}"
+    export CPPFLAGS=""
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.10
     export MAC_OS_X_VERSION_MAX_ALLOWED=101000
     export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
-    if [ "x${lprefix}" != "x" ]; then
-        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-shared=NO --host=x86_64
-    else
-        export CC="${GCCPATH}";export CXX="${GPPPATH}"
-        export CPPFLAGS=""
-        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
-
-        ./configure --prefix=${lprefix} --enable-shared=NO --host=arm
-
-    fi
+    ./configure --prefix=${lprefix} --enable-shared=NO --host=arm
     if [ $? -ne 0 ]; then
         echo "              ******"
         echo "c-ares: x86_64 build succeeded but could not build for arm64."
