@@ -4330,14 +4330,14 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.9/include",
+					"../../freetype-2.11.0/include",
 					"../../ftgl-2.1.3~rc5/src",
 					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
-					"../../freetype-2.9/objs/.libs",
+					"../../freetype-2.11.0/objs/.libs",
 					"../../ftgl-2.1.3~rc5/src/.libs",
 				);
 				OTHER_LDFLAGS = (
@@ -4358,14 +4358,14 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.9/include",
+					"../../freetype-2.11.0/include",
 					"../../ftgl-2.1.3~rc5/src",
 					"../lib/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}/",
-					"../../freetype-2.9/objs/.libs",
+					"../../freetype-2.11.0/objs/.libs",
 					"../../ftgl-2.1.3~rc5/src/.libs",
 				);
 				OTHER_LDFLAGS = (
@@ -4431,18 +4431,19 @@
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_X86_VECTOR_INSTRUCTIONS = default;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../curl-7.73.0/include",
-					"../../openssl-1.1.0l/include",
+					"../../curl-7.79.1/include",
+					"../../openssl-3.0.0/include",
 					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
-					"../../curl-7.73.0/lib/.libs",
-					"../../c-ares-1.13.0/.libs",
-					"../../openssl-1.1.0l/",
+					"../../curl-7.79.1/lib/.libs",
+					"../../c-ares-1.17.2/src/lib/.libs",
+					"../../openssl-3.0.0/",
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
@@ -4455,7 +4456,7 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.73.0/include ../../openssl-1.1.0l/include ../lib/**";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
 			};
 			name = Deployment;
 		};
@@ -4599,18 +4600,19 @@
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_X86_VECTOR_INSTRUCTIONS = default;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../curl-7.73.0/include",
-					"../../openssl-1.1.0l/include",
+					"../../curl-7.79.1/include",
+					"../../openssl-3.0.0/include",
 					"../lib/**",
 				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = (
-					"../../curl-7.73.0/lib/.libs",
-					"../../c-ares-1.13.0/.libs",
-					"../../openssl-1.1.0l/",
+					"../../curl-7.79.1/lib/.libs",
+					"../../c-ares-1.17.2/src/lib/.libs",
+					"../../openssl-3.0.0/",
 				);
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4629,7 +4631,7 @@
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.73.0/include ../../openssl-1.1.0l/include ../lib/**";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
 			};
 			name = Development;
 		};
