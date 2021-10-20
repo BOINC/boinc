@@ -47,7 +47,7 @@ caresURL="https://c-ares.org/download/c-ares-1.17.2.tar.gz"
 
 curlDirName="curl-7.79.1"
 curlFileName="curl-7.79.1.tar.gz"
-curlURL="https://curl.haxx.se/download/curl-7.79.1.tar.gz"
+curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
 
 wxWidgetsDirName="wxWidgets-3.1.5"
 wxWidgetsFileName="wxWidgets-3.1.5.tar.bz2"
