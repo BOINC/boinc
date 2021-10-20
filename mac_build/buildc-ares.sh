@@ -91,7 +91,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
-        libPath="src/lib/.libs"
+        libPath="${lprefix}/lib"
         shift
         ;;
         -q|--quiet)
@@ -168,19 +168,19 @@ fi
 
 # Build for x86_64 architecture
 
-## The "-Werror=partial-availability" compiler flag generates an error if
+## The "-Werror=unguarded-availability" compiler flag generates an error if
 ## there is an unguarded API not available in our Deployment Target. This
 ## helps ensure c-ares won't try to use unavailable APIs on older Mac
 ## systems supported by BOINC.
 ## It also causes configure to reject any such APIs for which it tests;
 ## this actually makes the call to the patch_ares_config function
 ## redundant, but it does no harm to leave it in.
-##
+#
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -arch x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -arch x86_64"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.10
 export MAC_OS_X_VERSION_MAX_ALLOWED=101000
@@ -207,8 +207,8 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export CPPFLAGS=""
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=partial-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos10.10 -mmacosx-version-min=10.10 -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos10.10"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=10.10
     export MAC_OS_X_VERSION_MAX_ALLOWED=101000
@@ -228,7 +228,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
         # for a sanity check on size of long and socklen_t. But these are  identical
         # for x86_64 and arm64, so this is not currently an issue. 
         ##    cp -f ares_build.h ares_build_x86_64.h
-        mv -f "${libPath}/libcares.a" libcares_x86_64.a
+        mv -f "src/lib/.libs/libcares.a" libcares_x86_64.a
 
         # Build for arm64 architecture
         make clean 1>$stdout_target
@@ -244,10 +244,10 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
         # for a sanity check on size of long and socklen_t. But these are  identical
         # for x86_64 and arm64, so this is not currently an issue. 
         ##     cp -f ares_build.h ares_build_arm64.h
-        mv -f "${libPath}/libcares.a" libcares_arm64.a
+        mv -f "src/lib/.libs/libcares.a" libcares_arm64.a
 
         # combine x86_64 and arm libraries
-        lipo -create libcares_x86_64.a libcares_arm64.a -output "${libPath}/libcares.a"
+        lipo -create libcares_x86_64.a libcares_arm64.a -output "src/lib/.libs/libcares.a"
         if [ $? -ne 0 ]; then
             rm -f libcares_x86_64.a libcares_arm64.a
             return 1
