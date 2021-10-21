@@ -1,10 +1,12 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf610
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
 \f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 LucidaGrande;}
-{\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red14\green14\blue255;\red245\green245\blue245;
-\red0\green0\blue0;\red255\green255\blue255;\red246\green246\blue246;}
-{\*\expandedcolortbl;;\csgenericrgb\c72941\c0\c0;\csgenericrgb\c5490\c5490\c100000;\csgenericrgb\c96078\c96078\c96078;
-\cssrgb\c0\c0\c0;\csgray\c100000;\csgenericrgb\c96471\c96471\c96471;}
+{\colortbl;\red255\green255\blue255;\red186\green0\blue0;\red196\green26\blue22;\red255\green255\blue255;
+\red14\green14\blue255;\red245\green245\blue245;\red0\green0\blue0;\red255\green255\blue255;\red246\green246\blue246;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c72941\c0\c0;\csgenericrgb\c77000\c10200\c8600;\csgenericrgb\c100000\c100000\c100000;
+\csgenericrgb\c5490\c5490\c100000;\csgenericrgb\c96078\c96078\c96078;\cssrgb\c0\c0\c0;\csgray\c100000;\csgenericrgb\c96471\c96471\c96471;
+}
 \margl1440\margr1440\vieww14780\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
@@ -14,7 +16,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 9/30/2021\
+Last updated 10/20/2021\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 This document applies to BOINC version 7.19.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
@@ -106,51 +108,52 @@ You get these tools, including the GCC or Apple LLVM compiler and system library
 Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.1.5, c-ares-1.13.0, curl-7.73.0, openssl-1.1.0l, freetype-2.9 and ftgl-2.1.3~rc5.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
+\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.1.5, c-ares-1.17.2, curl-7.79.1, openssl-3.0.0, freetype-2.11.0 and ftgl-2.1.3~rc5.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
 \
 wxWidgets-3.1.5 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.5/wxWidgets-3.1.5.tar.bz2"}}{\fldrslt 
 \f1\fs26 https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.5/wxWidgets-3.1.5.tar.bz2}}
 \f1\fs26 \
 
-\f0\fs24 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
-\f1\fs26 http://www.wxwidgets.org}}
+\f0\fs24 	{\field{\*\fldinst{HYPERLINK "https://c-ares.org"}}{\fldrslt 
+\f3 \cf3 \cb4 https://c-ares.org}}
 \f1\fs26 \
 
 \f0\fs24 \
-curl-7.73.0:\
+curl-7.79.1:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://curl.haxx.se/download/curl-7.73.0.tar.gz"}}{\fldrslt https://curl.haxx.se/download/curl-7.73.0.tar.gz}}\
-	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://curl.se/download/curl-7.79.1.tar.gz"}}{\fldrslt https://curl.se/download/curl-7.79.1.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "https://curl.se"}}{\fldrslt https://curl.se}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 c-ares-1.13.0 (used by curl):\
+\f0\fs24 \cf0 c-ares-1.17.2 (used by curl):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz"}}{\fldrslt https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://c-ares.org/download/c-ares-1.17.2.tar.gz"}}{\fldrslt 
+\f3\fs24 \cf3 \cb4 https://c-ares.org/download/c-ares-1.17.2.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 openssl-1.1.0l\
+\f0\fs24 \cf0 openssl-3.0.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://www.openssl.org/source/openssl-1.1.0l.tar.gz"}}{\fldrslt https://www.openssl.org/source/openssl-1.1.0l.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "https://www.openssl.org/source/openssl-3.0.0.tar.gz"}}{\fldrslt https://www.openssl.org/source/openssl-3.0.0.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 freetype-2.9 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
+\f0\fs24 \cf0 freetype-2.11.0 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f3\fs22 \cf3 \CocoaLigature0 	{\field{\*\fldinst{HYPERLINK "https://sourceforge.net/projects/freetype/files/freetype2/2.9/freetype-2.9.tar.bz2"}}{\fldrslt https://sourceforge.net/projects/freetype/files/freetype2/2.9/freetype-2.9.tar.bz2}}\
+\f3\fs22 \cf5 \CocoaLigature0 	{\field{\*\fldinst{HYPERLINK "https://download.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz"}}{\fldrslt \cf3 \cb4 \CocoaLigature1 https://download.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f1\fs26 \cf0 \CocoaLigature1 	{\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
-\f3\fs22 \cf3 \CocoaLigature0 http://www.freetype.org/}}
-\f3\fs22 \cf3 \CocoaLigature0 \
+\f3\fs22 \cf5 \CocoaLigature0 http://www.freetype.org/}}
+\f3\fs22 \cf5 \CocoaLigature0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 \CocoaLigature1 \
@@ -159,21 +162,21 @@ ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver o
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/ftgl"}}{\fldrslt 
-\f3\fs22 \cf3 \CocoaLigature0 http://sourceforge.net/projects/ftgl}}\
+\f3\fs22 \cf5 \CocoaLigature0 http://sourceforge.net/projects/ftgl}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 XCode will automatically check compatibility back to OS 10.9 if the following are defined during compilation:\
+\cf0 XCode will automatically check compatibility back to OS 10.10 if the following are defined during compilation:\
 \pard\pardeftab720\partightenfactor0
 
-\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1090\
-MAC_OS_X_VERSION_MIN_REQUIRED=1090\
+\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=10100\
+MAC_OS_X_VERSION_MIN_REQUIRED=10100\
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.1.5, nor  the AutoMake scripts supplied with wxWidgets-3.1.5, c-ares-1.13.0, curl-7.73.0, openssl-1.1.0l, freetype-2.9 and ftgl-2.1.3~rc5.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.1.5, nor  the AutoMake scripts supplied with wxWidgets-3.1.5, c-ares-1.17.2, curl-7.79.1, openssl-3.0.0, freetype-2.11.0 and ftgl-2.1.3~rc5.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 [1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -181,14 +184,14 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1090\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f1\fs26 \cf0     c-ares-
-\fs24 1.13.0
+\fs24 1.17.2
 \fs26 \
-    curl-7.73.0\
+    curl-7.79.1\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0     openssl-1.1.0l\
+\cf0     openssl-3.0.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0     wxWidgets-3.1.5\
-    freetype-2.9\
+    freetype-2.11.0\
     ftgl-2.1.3~rc5\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
@@ -207,7 +210,7 @@ Important: do not change the names of any of these 7 directories.  Remember that
 
 \f1\fs26 \cf0 cd \{path\}/BOINC_dev/\
 \pard\pardeftab720\partightenfactor0
-\cf0 \cb4 git clone \cb1 https://github.com/BOINC/boinc.git \cb4 boinc
+\cf0 \cb6 git clone \cb1 https://github.com/BOINC/boinc.git \cb6 boinc
 \f0\fs24 \cb1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
@@ -242,7 +245,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  This script tries to build all seven third-party libraries: wxWidgets-3.1.5, c-ares-1.13.0, curl-7.73.0, openssl-1.1.0l,  freetype-2.9 and ftgl-2.1.3~rc5.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
+\b0  This script tries to build all seven third-party libraries: wxWidgets-3.1.5, c-ares-1.17.2, curl-7.79.1, openssl-3.0.0,  freetype-2.11.0 and ftgl-2.1.3~rc5.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
 \f1 -clean
 \f0 .\
 
@@ -439,7 +442,7 @@ Developer ID Application: John Smith\
 \
 \pard\tx543\pardeftab543\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf5 \cb6 If you wish to also code sign the installer package, add a second line to 
+\f0\fs24 \cf7 \cb8 If you wish to also code sign the installer package, add a second line to 
 \f1\fs26 ~/BOINCCodeSignIdentities.txt
 \f0\fs24  with the installer code signing identity.  This \cf0 \cb1 would be something like the following:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -483,7 +486,7 @@ Developer ID Application: John Smith\
 To restore the standard ownerships and permissions, run the installer or run the {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/mac_build/Mac_SA_Secure.sh"}}{\fldrslt Mac_SA_Secure.sh}} shell script in Terminal (the comments in this script have instructions for running it.)\
 \
 \pard\pardeftab720\sa260\partightenfactor0
-\cf0 \cb7 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/MacBacktrace"}}{\fldrslt \cf2 Mac Backtrace}}.\cb1 \
+\cf0 \cb9 \CocoaLigature1 For information on interpreting crash dumps and backtraces, see {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/MacBacktrace"}}{\fldrslt \cf2 Mac Backtrace}}.\cb1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 
 \b\fs28 \cf0 Debugging into wxWidgets
@@ -509,10 +512,10 @@ The general instructions in the mac_build folder in the file HowToBuildBOINC_XCo
 All of these external programs:\
 \
 wxWidgets-3.1.0\
-curl-7.73.0:\
-c-ares-1.13.0 (used by curl):\
-openssl-1.1.0l\
-freetype-2.9 \
+curl-7.79.1:\
+c-ares-1.17.2 (used by curl):\
+openssl-3/0/0\
+freetype-2.11.0 \
 ftgl-2.1.3~rc5 \
 \
 Need to go into the top GitHub directory on your system and be unpacked there. Otherwise XCode  as the project is currently set up, will not find the libraries. They need to be unzipped there of course.\
@@ -520,15 +523,15 @@ Need to go into the top GitHub directory on your system and be unpacked there. O
 /Users/<your name>/GitHub/\
 \
 So that when you build in XCode, they can be found in the existing setup, which looks for them in - for example - \
-USER_HEADER_SEARCH_PATHS = ../../curl-7.73.0/include ../../openssl-1.1.0l/include ../lib/**\
+USER_HEADER_SEARCH_PATHS = ../../curl-7.79.1/include ../../openssl-3/0/0/include ../lib/**\
 \
 I found the existing how-to-build pdf slightly misleading. It could be that to command line build would benefit from having the external libraries in this folder directly above the 'boinc' folder.\
 \
 In my case I have \
 /Users/Robert/Documents/GitHub\
     /boinc\
-    /c-ares-1.13.0\
-    /curl-7.73.0\
+    /c-ares-1.17.2\
+    /curl-7.79.1\
 ... and so on for the other required programs.\
 \
 Below the boinc folder there is of course the 'boinc/mac_build' folder.\

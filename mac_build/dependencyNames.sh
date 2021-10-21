@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,25 +37,25 @@
 ## build settings.
 ##
 
-opensslDirName="openssl-1.1.0l"
-opensslFileName="openssl-1.1.0l.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-1.1.0l.tar.gz"
+opensslDirName="openssl-3.0.0"
+opensslFileName="openssl-3.0.0.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-3.0.0.tar.gz"
 
-caresDirName="c-ares-1.13.0"
-caresFileName="c-ares-1.13.0.tar.gz"
-caresURL="https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz"
+caresDirName="c-ares-1.17.2"
+caresFileName="c-ares-1.17.2.tar.gz"
+caresURL="https://c-ares.org/download/c-ares-1.17.2.tar.gz"
 
-curlDirName="curl-7.73.0"
-curlFileName="curl-7.73.0.tar.gz"
-curlURL="https://curl.haxx.se/download/curl-7.73.0.tar.gz"
+curlDirName="curl-7.79.1"
+curlFileName="curl-7.79.1.tar.gz"
+curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
 
 wxWidgetsDirName="wxWidgets-3.1.5"
 wxWidgetsFileName="wxWidgets-3.1.5.tar.bz2"
 wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.5/wxWidgets-3.1.5.tar.bz2"
 
-freetypeDirName="freetype-2.9"
-freetypeFileName="freetype-2.9.tar.bz2"
-freetypeURL="https://sourceforge.net/projects/freetype/files/freetype2/2.9/freetype-2.9.tar.bz2"
+freetypeDirName="freetype-2.11.0"
+freetypeFileName="freetype-2.11.0.tar.gz"
+freetypeURL="https://download.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz"
 
 ftglDirName="ftgl-2.1.3~rc5"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"

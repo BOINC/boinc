@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,8 +37,9 @@
 # Updated 10/20/20 To build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 12/24/20 for openssl-1.1.0l
 # Updated 5/18/21 for compatibility with zsh
+# Updated 10/18/21 for building OpenSSL 3.0.0
 #
-## This script requires OS 10.8 or later
+## Building OpenSSL 3.0 requires Xcode 10.2 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -117,41 +118,6 @@ if [ "${doclean}" != "yes" ]; then
         fi
     fi
 fi
-
-## openssl 1.1.0g does not have a configure option for darwin arm64, 
-## so we patch Configurations/10-main.conf to add it. 
-## Derived from https://github.com/openssl/openssl/pull/12369/files
-## and https://cutecoder.org/programming/compile-open-ssl-apple-silicon/
-##
-## Note: setting perlasm_scheme to "ios64" tells configure to use 
-## the correct assembler instructions for Apple Silicon. Setting
-## it to "macosx" causes it to use x86_64 assembler instructions.
-##
-if [ ! -f Configurations/10-main.conf.orig ]; then
-    cat >> /tmp/0-main_conf_diff << ENDOFFILE
---- 10-main.conf    2017-11-02 07:29:01.000000000 -0700
-+++ 10-main_patched.con2020-10-19 01:34:06.000000000 -0700
-@@ -1599,6 +1599,14 @@
-         perlasm_scheme   => "macosx",
-         shared_ldflag    => "-arch x86_64 -dynamiclib",
-     },
-+ "darwin64-arm64-cc" => {
-+         inherit_from     => [ "darwin-common", asm("aarch64_asm") ],
-+         CFLAGS           => add("-Wall"),
-+         cflags           => add("-arch arm64"),
-+         lib_cppflags     => add("-DL_ENDIAN"),
-+         bn_ops           => "SIXTY_FOUR_BIT_LONG",
-+         perlasm_scheme   => "ios64",
-+     },
- 
- #### iPhoneOS/iOS
- #
-ENDOFFILE
-    patch -bfi  /tmp/0-main_conf_diff Configurations/10-main.conf
-    rm -f /tmp/0-main_conf_diff
-else
-    echo "Configurations/10-main.conf already patched"
-fi
 echo ""
 
 GPPPATH=`xcrun -find g++`
@@ -185,15 +151,66 @@ if [ -d "${libPath}" ]; then
     rm -f ${libPath}/libcrypto.a
 fi
 
+echo ""
+
 # Build for x86_64 architecture
 
+## avx-512 cpu extensions are first supported in Xcode 10.2, but there is a bug in 
+## crypto/bn/asm/rsaz-avx512.pl which causes OpenSSL to try to build with avx-512
+## instructions on earlier versions of Xcode, causing many build errors. In those
+## cases, we patch rsaz-avx512.pl to prevent that.
+##
+## This code works for versions of both forms major.minor and major.minor.revision
+## Get Xcode version and remove "Xcode " from resulting string
+fullversion=`xcodebuild -version | cut -d' ' -f2`
+## Remove all after the actual version number x.y or x.y.z under bash
+fullversion=`echo $fullversion | cut -d' ' -f1`
+## The next line is needed under zsh to finish removing all after x.y or x.y.z
+fullversion=`echo $fullversion | sed '/version/d'`
+major=`echo $fullversion | cut -d. -f1`
+minor=`echo $fullversion | cut -d. -f2`
+## $revision will be empty string if no revision number (only x.y not x.y.z)
+##revision=`echo $fullversion | cut -d. -f3` # We don't need the revision number
+if [[ $major -lt 10  || ($major -eq 10 && $minor -lt 2 ) ]]; then
+# Disable avx-512 support because not available in this Xcode verson
+    rm -f crypto/bn/asm/rsaz-avx512.pl.orig
+    rm -f /tmp/rsaz-avx512_pl_diff
+    # We must escape all the $ as \$ in the diff for the shell to treat them as literals 
+    cat >> /tmp/rsaz-avx512_pl_diff << ENDOFFILE
+--- /Volumes/Dev/BOINC_GIT/openssl-3.0.0-patched/crypto/bn/asm/rsaz-avx512-orig.pl    2021-09-07 04:46:32.000000000 -0700
++++ /Volumes/Dev/BOINC_GIT/openssl-3.0.0-patched/crypto/bn/asm/rsaz-avx512.pl    2021-10-14 01:16:23.000000000 -0700
+@@ -52,6 +52,9 @@
+     \$avx512ifma = (\$2>=7.0);
+ }
+ 
++# Disable avx-512 support because not available in this Xcode verson
++\$avx512ifma = 0;
++
+ open OUT,"| \"\$^X\" \"\$xlate\" \$flavour \"\$output\""
+     or die "can't call \$xlate: \$!";
+ *STDOUT=*OUT;
+ENDOFFILE
+
+    patch -bfi /tmp/rsaz-avx512_pl_diff crypto/bn/asm/rsaz-avx512.pl
+    rm -f /tmp/rsaz-avx512_pl_diff
+    rm -f crypto/bn/asm/rsaz-avx512.pl.rej
+else
+    echo "crypto/bn/asm/rsaz-avx512.pl is OK for this Xcode version\n"
+fi
+echo ""
+
+## The "-Werror=unguarded-availability" compiler flag generates an error if
+## there is an unguarded API not available in our Deployment Target. This
+## helps ensure openssl won't try to use unavailable APIs on older Mac
+## systems supported by BOINC.
+##
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
-export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
+export MACOSX_DEPLOYMENT_TARGET=10.10
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 if [ "x${lprefix}" != "x" ]; then
@@ -217,11 +234,12 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-    export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-    export CFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos10.7 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.7
+    export MACOSX_DEPLOYMENT_TARGET=10.10
+    export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
     if [ "x${lprefix}" != "x" ]; then
         ./configure --prefix=${lprefix} no-shared darwin64-arm64-cc
@@ -276,14 +294,6 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     fi
     myScriptDir="${myScriptPath%/*}"
     source "${myScriptDir}/dependencyNames.sh"
-
-    if [ "${opensslDirName}" != "openssl-1.1.0l" ]; then
-    echo "${opensslDirName}"
-        echo "************ NOTICE ****************"
-        echo "New version of openssl may have better arm64 darwin support"
-        echo "See comments in build script buildopenssl.sh for details."
-        echo "************************************"
-    fi
 fi
 
 if [ "x${lprefix}" != "x" ]; then
