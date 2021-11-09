@@ -64,6 +64,9 @@ SAH_LINKS
 AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
 
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
+
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
 
