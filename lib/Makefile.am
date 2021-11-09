@@ -183,6 +183,7 @@ noinst_HEADERS = \
     unix_util.h
 
 lib_LTLIBRARIES = libboinc.la
+pkgconfig_DATA = libboinc.pc
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)

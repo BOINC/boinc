@@ -1352,6 +1352,7 @@ AC_CONFIG_FILES([
                  doc/manpages/Makefile
                  html/Makefile
                  lib/Makefile
+                 lib/libboinc.pc
                  locale/Makefile
                  Makefile
                  py/Boinc/version.py
