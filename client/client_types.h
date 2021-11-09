@@ -188,18 +188,25 @@ struct FILE_REF {
     int write(MIOFILE&);
 };
 
-// file xfer backoff state for a project and direction (up/down)
-// if file_xfer_failures exceeds FILE_XFER_FAILURE_LIMIT,
+// File xfer backoff state for a project and direction (up/down).
+// If we get more than FILE_XFER_FAILURE_LIMIT (3) consecutive failures,
 // we switch from a per-file to a project-wide backoff policy
 // (separately for the up/down directions)
+// E.g. if we have 100 files to upload and the first 3 fail,
+// we don't try the other 97 immediately.
+//
 // NOTE: this refers to transient failures, not permanent.
 //
+
 #define FILE_XFER_FAILURE_LIMIT 3
+
 struct FILE_XFER_BACKOFF {
     int file_xfer_failures;
         // count of consecutive failures
     double next_xfer_time;
         // when to start trying again
+    bool is_upload;
+
     bool ok_to_transfer();
     void file_xfer_failed(PROJECT*);
     void file_xfer_succeeded();
