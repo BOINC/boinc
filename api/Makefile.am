@@ -42,6 +42,7 @@ AM_CXXFLAGS += @GLUT_CFLAGS@
 endif
 
 lib_LTLIBRARIES = libboinc_api.la
+pkgconfig_DATA = libboinc_api.pc
 libboinc_api_la_SOURCES = $(api_files)
 libboinc_api_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 

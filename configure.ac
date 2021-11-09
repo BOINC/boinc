@@ -1338,6 +1338,7 @@ AC_SUBST(FULLNAME)
 AC_CONFIG_FILES([
                  version.h
                  api/Makefile
+                 api/libboinc_api.pc
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
