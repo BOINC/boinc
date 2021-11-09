@@ -195,6 +195,7 @@ libboinc_la_LIBADD =
 
 if ENABLE_BOINCCRYPT
 lib_LTLIBRARIES += libboinc_crypt.la
+pkgconfig_DATA += libboinc_crypt.pc
 libboinc_crypt_la_SOURCES = crypt.cpp
 libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
 libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
