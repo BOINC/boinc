@@ -18,7 +18,7 @@ jobs:
 
       - name: Configure Python
         run: |
-          pip install boto3
+          pip install boto3==1.19.12
 
       - name: Cleanup outdated binary cache
         if: ${{ success() }}
