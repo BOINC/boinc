@@ -345,19 +345,19 @@ function require_admin($user, $team) {
     }
 }
 
+// return list of ID of user who joined team in last day
+//
 function new_member_list($teamid) {
     $new_members = array();
     $yesterday = time() - 86400;
-    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1 group by userid");
-    if (count($deltas)) {
-        foreach ($deltas as $delta) {
-            $u = BoincUser::lookup_id($delta->userid);
-            if ($u->teamid == $teamid) {
-                $new_members[] = $u;  // they might have later quit
-            }
+    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1");
+    foreach ($deltas as $delta) {
+        $u = BoincUser::lookup_id($delta->userid);
+        if ($u->teamid == $teamid) {
+            $new_members[] = $u;  // they might have later quit
         }
     }
-    return $new_members;
+    return array_unique($new_members);
 }
 
 function admin_list($teamid) {
