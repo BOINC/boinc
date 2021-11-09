@@ -1385,6 +1385,7 @@ AC_CONFIG_FILES([
                  tools/Makefile
                  vda/Makefile
                  zip/Makefile
+                 zip/libboinc_zip.pc
                  zip/zip/Makefile
                  zip/unzip/Makefile
                  m4/Makefile
