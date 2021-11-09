@@ -45,7 +45,7 @@ jobs:
       - name: Configure Python
         if: ${{ success() && contains(matrix.type, 'vcpkg') }}
         run: |
-          pip install boto3
+          pip install boto3==1.19.12
 
       - name: Download vcpkg binary cache
         if: ${{ success() && contains(matrix.type, 'vcpkg') }}
