@@ -1354,6 +1354,7 @@ AC_CONFIG_FILES([
                  lib/Makefile
                  lib/libboinc.pc
                  lib/libboinc_crypt.pc
+                 lib/libboinc_fcgi.pc
                  locale/Makefile
                  Makefile
                  py/Boinc/version.py
