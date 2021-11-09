@@ -1339,6 +1339,7 @@ AC_CONFIG_FILES([
                  version.h
                  api/Makefile
                  api/libboinc_api.pc
+                 api/libboinc_graphics2.pc
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
