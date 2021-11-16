@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2020 University of California
+# Copyright (C) 2021 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -41,7 +41,7 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/11/21 to use Secure Transport instead of OpenSSL (uses MacOS certificate store 
 #   instead of ca-bundle.crt)
-# Updated 10/18/21 for curl 7.79.1
+# Updated 11/16/21 for curl 7.79.1
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag, 
 ## which generates an error if there is an API not available in our Deployment
@@ -219,12 +219,13 @@ export MACOSX_DEPLOYMENT_TARGET=10.10
 export MAC_OS_X_VERSION_MAX_ALLOWED=101000
 export MAC_OS_X_VERSION_MIN_REQUIRED=101000
 
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -arch x86_64"
+
 if [ "x${lprefix}" != "x" ]; then
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -arch x86_64"
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=x86_64-apple-darwin
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Get the name of the current versions of c-ares from the
@@ -247,11 +248,7 @@ else
         cd "${CURL_DIR}" || return 1
     fi
 
-    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64, "
-    export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -arch x86_64"
-    ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=x86_64-apple-darwin
+    ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
@@ -274,23 +271,19 @@ fi
 # Note: Some versions of Xcode 12 don't support building for arm64
 if [ $GCC_can_build_arm64 = "yes" ]; then
 
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-apple-macos"
+
 # c-ares configure creates a different ares_build.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical for
 # x86_64 and arm64, so this is not currently an issue. 
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
     if [ "x${lprefix}" != "x" ]; then
-        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-apple-macos"
-        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --host=arm-apple-darwin
+        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
     else
-        export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-        export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
-        export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++"
-        export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.10 -target arm64-apple-macos"
-        ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --host=arm-apple-darwin
-    
+        ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
         echo ""
     fi
 
