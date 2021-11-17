@@ -264,10 +264,10 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
-        git -C $BUILD_DIR checkout -b vko_test master
-        git -C $BUILD_DIR pull https://github.com/christophe-calmejane/vcpkg master
-        git -C $BUILD_DIR checkout master
-        git -C $BUILD_DIR merge vko_test
+        git -C $BUILD_DIR/vcpkg checkout -b vko_test origin/master
+        git -C $BUILD_DIR/vcpkg pull https://github.com/christophe-calmejane/vcpkg master
+        git -C $BUILD_DIR/vcpkg checkout master
+        git -C $BUILD_DIR/vcpkg merge vko_test
 
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
