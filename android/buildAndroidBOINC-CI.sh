@@ -269,12 +269,12 @@ if [ $build_with_vcpkg = "yes" ]; then
         git -C $BUILD_DIR/vcpkg checkout -b vko_test origin/master
         git -C $BUILD_DIR/vcpkg pull https://github.com/christophe-calmejane/vcpkg master --rebase
         git -C $BUILD_DIR/vcpkg checkout master
-        git -C $BUILD_DIR/vcpkg merge vko_test --rebase
+        git -C $BUILD_DIR/vcpkg merge vko_test
 
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
-        git -C $VCPKG_ROOT reset --hard
-        git -C $VCPKG_ROOT pull
+        # git -C $VCPKG_ROOT reset --hard
+        # git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
