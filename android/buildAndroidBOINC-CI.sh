@@ -264,6 +264,11 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+        git -C $BUILD_DIR checkout -b vko_test master
+        git -C $BUILD_DIR pull https://github.com/christophe-calmejane/vcpkg master
+        git -C $BUILD_DIR checkout master
+        git -C $BUILD_DIR merge vko_test
+
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
@@ -306,7 +311,7 @@ vcpkgDir()
     arch=$1
     shift
     vcpkg_dir="$VCPKG_ROOT/installed"
-    
+
     if [ $arch = "armv6" ]; then
         vcpkg_dir="$vcpkg_dir/armv6-android"
     elif [ $arch = "arm" ]; then
