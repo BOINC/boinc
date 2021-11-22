@@ -263,18 +263,12 @@ if [ $build_with_vcpkg = "yes" ]; then
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
-        git config --global user.email "test@example.com"
-        git config --global user.name "Test Test"
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
-        git -C $BUILD_DIR/vcpkg checkout -b vko_test origin/master
-        git -C $BUILD_DIR/vcpkg pull https://github.com/christophe-calmejane/vcpkg master --rebase
-        git -C $BUILD_DIR/vcpkg checkout master
-        git -C $BUILD_DIR/vcpkg merge vko_test
 
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
-        # git -C $VCPKG_ROOT reset --hard
-        # git -C $VCPKG_ROOT pull
+        git -C $VCPKG_ROOT reset --hard
+        git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
