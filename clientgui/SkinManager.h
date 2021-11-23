@@ -111,6 +111,11 @@ public:
         wxString strComponentName,
         wxString strIcon
     );
+    
+    bool SetDefaults(
+        wxString strComponentName,
+        const char** m_ppIcon
+    );
 
     bool SetDefaults(
         wxString strComponentName,

@@ -1,0 +1,98 @@
+/* XPM */
+static const char *boincsnooze_gray_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 59 1",
+"1 c #ECEAEC",
+"z c #ECEAEC",
+"4 c #ECEAEC",
+"3 c #ECEAEC",
+"l c #ECEAEC",
+"7 c #ECEAEC",
+"u c #ECEAEC",
+"i c #ECEAEC",
+"d c #ECEAEC",
+"w c #ECEAEC",
+"m c #ECEAEC",
+"+ c #ECEAEC",
+"j c #ECEAEC",
+"X c #ECEAEC",
+"f c #ECEAEC",
+"9 c #ECEAEC",
+"; c #ECEAEC",
+"# c #ECEAEC",
+"= c #ECEAEC",
+"< c #ECEAEC",
+". c #ECEAEC",
+"  c None",
+"o c #ECEAEC",
+"s c #ECEAEC",
+"y c #ECEAEC",
+"V c #ECEAEC",
+"$ c #ECEAEC",
+"* c #ECEAEC",
+"- c #ECEAEC",
+"t c #ECEAEC",
+"M c #ECEAEC",
+"g c #ECEAEC",
+"q c #ECEAEC",
+"v c #ECEAEC",
+"0 c #ECEAEC",
+"p c #ECEAEC",
+"N c #ECEAEC",
+"b c #ECEAEC",
+"@ c #ECEAEC",
+"x c #ECEAEC",
+"C c #ECEAEC",
+"B c #ECEAEC",
+"% c #ECEAEC",
+"h c #ECEAEC",
+"5 c #ECEAEC",
+"n c #ECEAEC",
+"a c #ECEAEC",
+"2 c #ECEAEC",
+"6 c #ECEAEC",
+"r c #ECEAEC",
+"O c #ECEAEC",
+": c #ECEAEC",
+"k c #ECEAEC",
+"8 c #ECEAEC",
+"c c #ECEAEC",
+"& c #ECEAEC",
+", c #ECEAEC",
+"e c #ECEAEC",
+"> c #ECEAEC",
+/* pixels */
+"                ",
+".X           oXO",
+" +@#  $%&*  =@- ",
+"  ;:>,<123 4:5  ",
+"   6,4     ,<   ",
+"       78  9,   ",
+"  1   0qqw  er  ",
+"  ,t yqqqqu ip  ",
+"  ,a sqqqd>>>>> ",
+"  f1  0qqg,h,h,>",
+"  j,   kl>,q,q,>",
+"   ,<    >,q,q,>",
+"  z:  x%c>,q,q,>",
+" vb   nmM>,q,q,>",
+"NB       >,V,V,C",
+"          >>>>> "
+};
+
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.

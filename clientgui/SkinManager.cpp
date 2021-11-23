@@ -32,6 +32,7 @@
 #include "MainDocument.h"
 #include "version.h"
 
+#include <wx/settings.h>
 
 ////@begin XPM images
 #include "res/skins/default/graphic/background_image.xpm"
@@ -43,10 +44,16 @@
 #include "res/skins/default/graphic/workunit_waiting_image.xpm"
 #include "res/boinc.xpm"
 #include "res/boinc32.xpm"
+#include "res/boinc_macmenubar.xpm"
+#include "res/boinc_macmenubar_dark.xpm"
 #include "res/boincdisconnect.xpm"
 #include "res/boincdisconnect32.xpm"
+#include "res/boincdisconnect_macmenubar.xpm"
+#include "res/boincdisconnect_macmenubar_dark.xpm"
 #include "res/boincsnooze.xpm"
 #include "res/boincsnooze32.xpm"
+#include "res/boincsnooze_macmenubar.xpm"
+#include "res/boincsnooze_macmenubar_dark.xpm"
 #include "res/boinc_logo.xpm"
 ////@end XPM images
 
@@ -310,6 +317,13 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 96, 96));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 128, 128));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 256, 256));
+    return true;
+}
+
+
+bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon) {
+    m_strComponentName = strComponentName;
+    m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon));
     return true;
 }
 
@@ -668,6 +682,18 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
     m_iconApplicationIcon.SetDefaults(wxT("application"), wxT("boinc"));
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxT("boincdisconnect"));
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxT("boincsnooze"));
+#elif __APPLE__
+    wxSystemAppearance systemAppearance = wxSystemSettings::GetAppearance();
+    bool useDarkModeIcon = systemAppearance.IsDark();
+    if (useDarkModeIcon) {
+        m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_macmenubar_dark_xpm);
+        m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_macmenubar_dark_xpm);
+        m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), boincsnooze_macmenubar_dark_xpm);
+    } else {
+        m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_macmenubar_xpm);
+        m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_macmenubar_xpm);
+        m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), boincsnooze_macmenubar_xpm);
+    }
 #else
     m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm);
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_xpm, boincdisconnect32_xpm);
