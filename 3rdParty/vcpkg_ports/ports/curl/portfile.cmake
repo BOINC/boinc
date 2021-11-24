@@ -14,7 +14,7 @@ vcpkg_from_github(
         0020-fix-pc-file.patch
         0021-normaliz.patch # for mingw on case-sensitive file system
         0022-deduplicate-libs.patch
-        0023-fix-static-libs-export.patch
+        # 0023-fix-static-libs-export.patch
 )
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "static" CURL_STATICLIB)
@@ -82,7 +82,7 @@ endif()
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
-    OPTIONS 
+    OPTIONS
         ${FEATURE_OPTIONS}
         ${UWP_OPTIONS}
         ${SECTRANSP_OPTIONS}

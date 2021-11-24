@@ -29,7 +29,7 @@ index 8b2e428..ea430f4 100644
 +foreach(_lib ${CURL_LIBS_FLAT})
    if(TARGET "${_lib}")
      set(_libname "${_lib}")
-     get_target_property(_imported "${_libname}" IMPORTED)
+     get_target_property(_libtype "${_libname}" TYPE)
 @@ -1503,12 +1523,26 @@ foreach(_lib ${CMAKE_C_IMPLICIT_LINK_LIBRARIES} ${CURL_LIBS})
        # Assume the user won't need this information in the .pc file.
        continue()
