@@ -73,7 +73,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ success() || failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log android/BOINC/app/build/reports/ -r0 3rdParty/android/vcpkg/buildtrees/*.log
+        run: 7z a -t7z -mx=9 deploy/logs.7z config.log /home/runner/work/boinc/boinc/3rdParty/android/vcpkg/installed/armv6-android/lib/pkgconfig/libcurl.pc android/BOINC/app/build/reports/ -r0 3rdParty/android/vcpkg/buildtrees/*.log
 
       - name: Upload logs on failure
         if: ${{ success() || failure() }}
