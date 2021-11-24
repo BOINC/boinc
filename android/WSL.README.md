@@ -57,7 +57,7 @@ Set URL as `https://github.com/boinc/boinc` and clone it. When asked about creat
 
 Once the native client build is complete, copy the native client binaries to cloned repo at Android Studio side. Replace `<pathtofolder>` with appropriate location.
 
-        $ cp -frv ~/boinc/android/BOINC/app/src/main/assets/* /mnt/<drive>/<pathtofolder>/boinc/android/BOINC/app/src/main/assets/
+        $ cp -frv ~/boinc/android/BOINC/app/src/main/libs/* /mnt/<drive>/<pathtofolder>/boinc/android/BOINC/app/src/main/libs/
 
 Then import project from `<drive>:\<pathtofolder>\boinc\android\BOINC`
 

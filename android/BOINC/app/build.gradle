@@ -69,12 +69,13 @@ def checkAssetsFiles() {
     def allProjectsList = new XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
     def nomedia         = new XmlParser().parse(configFile).string.find { it.@name.equals 'nomedia' }.text()
     def client_config   = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_config' }.text()
+    def libs = "src/main/libs/"
+    assert file(libs + "arm64-v8a/"   + clientName).exists()
+    assert file(libs + "armeabi/"     + clientName).exists()
+    assert file(libs + "armeabi-v7a/" + clientName).exists()
+    assert file(libs + "x86/"         + clientName).exists()
+    assert file(libs + "x86_64/"      + clientName).exists()
     def assets = "src/main/assets/"
-    assert file(assets + "arm64-v8a/"   + clientName).exists()
-    assert file(assets + "armeabi/"     + clientName).exists()
-    assert file(assets + "armeabi-v7a/" + clientName).exists()
-    assert file(assets + "x86/"         + clientName).exists()
-    assert file(assets + "x86_64/"      + clientName).exists()
     assert file(assets + clientCabundle).exists()
     assert file(assets + allProjectsList).exists()
     assert file(assets + nomedia).exists()
@@ -308,6 +309,12 @@ preBuild.doFirst {
 android {
     compileSdkVersion 30
     buildToolsVersion '31.0.0'
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/libs']
+        }
+    }
 
     buildFeatures {
         viewBinding true

@@ -363,8 +363,8 @@ Armv6Test()
         if [ $build_with_vcpkg = "yes" ]; then
             vcpkg_dir_search=$(vcpkgDir $arch)
         fi
-        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i -E "Tag_CPU_arch: (v6|v5TE)" | head -c1 | wc -c) -eq 0 ]; then
-            echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/assets/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i "Tag_CPU_arch:")
+        if [ $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/libs/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i -E "Tag_CPU_arch: (v6|v5TE)" | head -c1 | wc -c) -eq 0 ]; then
+            echo $(readelf -A $(find $ANDROID_TC/armv6 "BOINC/app/src/main/libs/armeabi" "../samples" $vcpkg_dir_search -type f -name "$1") | grep -i "Tag_CPU_arch:")
             echo [ERROR] "$1" is not armv6 cpu arch
             exit 1
         fi

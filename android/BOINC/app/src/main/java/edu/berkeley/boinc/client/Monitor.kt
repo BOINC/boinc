@@ -112,6 +112,7 @@ class Monitor : LifecycleService() {
 
     private var isRemote = false
 
+
     /**
      * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86).
      * Defaults to ARM
@@ -448,7 +449,7 @@ class Monitor : LifecycleService() {
         Logging.logVerbose(Logging.Category.MONITOR, "Monitor.clientSetup()")
         
         clientStatus.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING, true)
-        val clientProcessName = boincWorkingDir + fileNameClient
+        val clientProcessName = "$applicationInfo.nativeLibraryDir/$fileNameClient"
         val md5AssetClient = computeMd5(fileNameClient, true)
         val md5InstalledClient = computeMd5(clientProcessName, false)
 
@@ -558,7 +559,7 @@ class Monitor : LifecycleService() {
         var success = false
         try {
             val param = if (remote) "--allow_remote_gui_rpc" else "--gui_rpc_unix_domain"
-            val cmd = arrayOf(boincWorkingDir + fileNameClient, "--daemon", param)
+            val cmd = arrayOf("$applicationInfo.nativeLibraryDir/$fileNameClient", "--daemon", param)
             
             Logging.logInfo(Logging.Category.MONITOR, "Launching '${cmd[0]}' from '$boincWorkingDir'")
             
@@ -603,11 +604,6 @@ class Monitor : LifecycleService() {
      * @return Boolean success
      */
     private fun installClient(): Boolean {
-        if (!installFile(fileNameClient, true, "")) {
-            Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameClient)
-            
-            return false
-        }
         if (!installFile(fileNameCABundle, false, "")) {
             Logging.logError(Logging.Category.MONITOR, INSTALL_FAILED + fileNameCABundle)
             
