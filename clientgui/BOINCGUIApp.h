@@ -102,6 +102,9 @@ protected:
     int                 m_iShutdownCoreClient;
     int                 m_iDisplayExitDialog;
     int                 m_iDisplayShutdownConnectedClientDialog;
+#ifdef __WXMAC__
+    int                 m_iDisplayMenuBarExtra;
+#endif
 
     bool                m_bGUIVisible;
     
@@ -168,6 +171,13 @@ public:
                                                     { return m_iDisplayShutdownConnectedClientDialog; }
     void                SetBOINCMGRDisplayShutdownConnectedClientMessage(int iDisplayShutdownConnectedClientDialog)
                                                     { m_iDisplayShutdownConnectedClientDialog = iDisplayShutdownConnectedClientDialog; }
+
+#ifdef __WXMAC__
+    int                 GetBOINCMGRDisplayMenuBarExtra()
+                                                    { return m_iDisplayMenuBarExtra; }
+    void                SetBOINCMGRDisplayMenuBarExtra(int iDisplayMenuBarExtra)
+                                                    { m_iDisplayMenuBarExtra = iDisplayMenuBarExtra; }
+#endif
 
     bool                GetRunDaemon()
                                                     { return m_bRunDaemon; }  

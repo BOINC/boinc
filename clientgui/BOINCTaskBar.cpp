@@ -412,13 +412,19 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     wxImage macIcon;
-    bool result;
     int err = noErr;
     int w, h, x, y;
 
     if (m_iconType != wxTBI_DOCK) {
-        result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
-        return (result && wxTaskBarIcon::SetIcon(icon));
+        bool displayMenuBarExtra = wxGetApp().GetBOINCMGRDisplayMenuBarExtra();
+        if (displayMenuBarExtra) {
+            bool result;
+            result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
+            return (result && wxTaskBarIcon::SetIcon(icon));
+        } else {
+            RemoveIcon();
+            return true;
+        }
     }
 
     if (icon.IsSameAs(m_iconCurrentIcon))

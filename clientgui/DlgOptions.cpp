@@ -102,6 +102,9 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_EnableRunDaemonCtrl = NULL;
     m_EnableBOINCManagerExitMessageCtrl = NULL;
     m_EnableBOINCClientShutdownMessageCtrl = NULL;
+#if defined(__WXMAC__)
+    m_EnableBOINCMenuBarExtraCtrl = NULL;
+#endif      // __WXMAC__
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
@@ -239,6 +242,18 @@ void CDlgOptions::CreateControls() {
     if (ShowToolTips())
         m_EnableBOINCClientShutdownMessageCtrl->SetToolTip(_("Display confirmation dialog when shutting down the connected client."));
     itemFlexGridSizer6->Add(m_EnableBOINCClientShutdownMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    
+#ifdef __WXMAC__
+    wxStaticText* itemStaticText14 = new wxStaticText;
+    itemStaticText14->Create( itemPanel4, wxID_STATIC, _("Show status in menu bar?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText14, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableBOINCMenuBarExtraCtrl = new wxCheckBox;
+    m_EnableBOINCMenuBarExtraCtrl->Create( itemPanel4, ID_ENABLEMENUBAREXTRA, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableBOINCMenuBarExtraCtrl->SetToolTip(_("Display a status icon in the system menu bar."));
+    itemFlexGridSizer6->Add(m_EnableBOINCMenuBarExtraCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif      // __WXMAC__
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 
@@ -640,6 +655,9 @@ bool CDlgOptions::ReadSettings() {
 
     m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
     m_EnableBOINCClientShutdownMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage() != 0);
+#ifdef __WXMAC__
+    m_EnableBOINCMenuBarExtraCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayMenuBarExtra() != 0);
+#endif
 #ifdef __WXMSW__
     m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 
@@ -756,6 +774,9 @@ bool CDlgOptions::SaveSettings() {
 
     wxGetApp().SetBOINCMGRDisplayExitMessage(m_EnableBOINCManagerExitMessageCtrl->GetValue());
     wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(m_EnableBOINCClientShutdownMessageCtrl->GetValue());
+#ifdef __WXMAC__
+    wxGetApp().SetBOINCMGRDisplayMenuBarExtra(m_EnableBOINCMenuBarExtraCtrl->GetValue());
+#endif
 #ifdef __WXMSW__
     wxGetApp().SetBOINCMGRDisableAutoStart(!m_EnableBOINCManagerAutoStartCtrl->GetValue());
 
