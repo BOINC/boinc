@@ -269,6 +269,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
+        git -C $VCPKG_ROOT checkout 868fc18364ec9a9ce5f5b9199c74af18535eb65d
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
