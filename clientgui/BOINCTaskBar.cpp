@@ -418,9 +418,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     if (m_iconType != wxTBI_DOCK) {
         bool displayMenuBarExtra = wxGetApp().GetBOINCMGRDisplayMenuBarExtra();
         if (displayMenuBarExtra) {
-            bool result;
-            result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
-            return (result && wxTaskBarIcon::SetIcon(icon));
+            return (wxGetApp().GetMacDockIcon()->SetIcon(icon) && wxTaskBarIcon::SetIcon(icon));
         } else {
             RemoveIcon();
             return true;
