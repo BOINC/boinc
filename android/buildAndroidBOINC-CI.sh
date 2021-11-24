@@ -260,7 +260,7 @@ if [ $build_with_vcpkg = "yes" ]; then
         triplets_setup="default"
     fi
     packages="rappture curl[core,openssl]"
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
+    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup  --overlay-ports=$vcpkg_ports_dir/ports/ --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
