@@ -2,7 +2,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 158d7a5..ae7b388 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1534,6 +1534,9 @@ foreach(_lib ${CURL_LIBS_FLAT})
+@@ -1534,6 +1534,11 @@ foreach(_lib ${CURL_LIBS_FLAT})
        set(_lib "-framework ${_lib}")
      endif()
    endif()
