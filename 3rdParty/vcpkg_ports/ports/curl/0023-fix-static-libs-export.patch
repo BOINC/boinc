@@ -9,7 +9,7 @@ index 158d7a5..ae7b388 100644
 +  message(STATUS "Found: ${_lib}")
 +  if(_lib MATCHES ".*/${CMAKE_STATIC_LIBRARY_PREFIX}([^/]*)${CMAKE_STATIC_LIBRARY_SUFFIX}\$")
 +  message(STATUS "Matched: ${CMAKE_MATCH_1}")
-+    #set(_lib -l${CMAKE_MATCH_1})
++    set(_lib -l${CMAKE_MATCH_1})
 +  endif()
    if(_lib MATCHES ".*/.*" OR _lib MATCHES "^-")
      set(LIBCURL_LIBS          "${LIBCURL_LIBS} ${_lib}")
