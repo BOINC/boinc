@@ -260,7 +260,7 @@ if [ $build_with_vcpkg = "yes" ]; then
         triplets_setup="default"
     fi
     packages="rappture curl[core,openssl]"
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
+    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --overlay-ports=$vcpkg_ports_dir/ports --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
@@ -268,7 +268,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
-        git -C $VCPKG_ROOT checkout 683665efb8e3c1a249cb7935956849d1b9f2e31d
+        # git -C $VCPKG_ROOT checkout 683665efb8e3c1a249cb7935956849d1b9f2e31d
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
