@@ -23,7 +23,7 @@ set -e
 export REV=1
 export ARMV6_REV=1
 export OPENSSL_VERSION=1.1.1l
-export CURL_VERSION=7.78.0
+export CURL_VERSION=7.80.0
 export NDK_VERSION=21d
 export NDK_ARMV6_VERSION=15c
 
@@ -306,7 +306,7 @@ vcpkgDir()
     arch=$1
     shift
     vcpkg_dir="$VCPKG_ROOT/installed"
-    
+
     if [ $arch = "armv6" ]; then
         vcpkg_dir="$vcpkg_dir/armv6-android"
     elif [ $arch = "arm" ]; then
