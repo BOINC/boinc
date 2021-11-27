@@ -1,0 +1,90 @@
+name: Flutter-Windows
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '25 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-flutter-build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        type: [windows, web, winuwp]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2          
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+
+      - name: Setup winuwp Desktop
+        if: matrix.type == 'winuwp'
+        run: flutter config --enable-windows-uwp-desktop
+
+      - name: Setup windows Desktop
+        if: matrix.type == 'windows'
+        run: flutter config --enable-windows-desktop
+
+      - name: Build windows client
+        if: matrix.type == 'windows'
+        run: samples\flutter\ci_build_windows.bat
+
+      - name: Install flutter dependencies
+        run: cd samples/flutter/boinc/ && flutter pub get
+
+      - name: Build winuwp
+        if: matrix.type == 'winuwp'
+        run:  |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/
+          flutter build winuwp
+        
+      - name: Build windows
+        if: matrix.type == 'windows'
+        run: |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/
+          flutter build windows
+        
+      - name: Build web
+        if: matrix.type == 'web'
+        run: |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/
+          flutter build web
+        
+      - name: Prepare windows
+        if: success() && matrix.type == 'windows'
+        run: |
+            7z.exe a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/windows/runner/Release/*
+
+      - name: Prepare web
+        if: success() && matrix.type == 'web'
+        run: |
+            7z.exe a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/web/*
+
+      - name: Prepare winuwp
+        if: success() && matrix.type == 'winuwp'
+        run: |
+            7z.exe a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/winuwp/runner_uwp/Release/*
+      
+      - name: Upload ${{ matrix.type }}
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.type }}_flutter_${{ github.event.pull_request.head.sha }}
+          path: deploy/flutter_${{ matrix.type }}.7z

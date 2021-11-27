@@ -1,0 +1,58 @@
+name: Flutter-macOS
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '25 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-flutter-build
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        type: [macos, ios]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2          
+          
+      - name: Setup xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '12.2'          
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'      
+
+      - name: Setup macos desktop
+        if: matrix.type == 'macos'
+        run: flutter config --enable-macos-desktop
+
+      - name: Build macos client
+        if: matrix.type == 'macos'
+        run: samples/flutter/ci_build_macos.sh
+
+      - name: Install flutter dependencies
+        run: cd samples/flutter/boinc/ && flutter pub get
+
+      - name: Build macos
+        if: matrix.type == 'macos'
+        run: |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/ 
+          flutter build macos
+
+      - name: Build ios
+        if: matrix.type == 'ios'
+        run:  |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/ 
+          flutter build ios --release --no-codesign

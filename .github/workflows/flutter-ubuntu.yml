@@ -1,0 +1,90 @@
+name: Flutter-Ubuntu
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '25 12 * * 0'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-flutter-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [linux, android]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          
+      - name: Setup Java
+        if: matrix.type == 'android'
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      - name: Setup android SDK
+        if: matrix.type == 'android'
+        uses: android-actions/setup-android@v2
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'
+
+      - name: Setup linux desktop
+        if: matrix.type == 'linux'
+        run: flutter config --enable-linux-desktop  
+
+      - name: Install linux dependencies
+        if: matrix.type == 'linux'
+        run: sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+
+      - name: Build linux client
+        if: matrix.type == 'linux'
+        run: samples/flutter/ci_build_linux.sh
+
+      - name: Build android client
+        if: matrix.type == 'android'
+        run: samples/flutter/ci_build_android.sh
+
+      - name: Install flutter dependencies
+        run: cd samples/flutter/boinc/ && flutter pub get
+        
+      - name: Build linux
+        if: matrix.type == 'linux'
+        run: |
+          cd samples/flutter/
+          flutter create boinc
+          cd boinc/
+          flutter build linux
+
+      - name: Build android
+        if: matrix.type == 'android'
+        run: |
+          cd samples/flutter/
+          flutter create boinc  --org edu.berkeley
+          cd boinc/
+          flutter build apk
+
+      - name: Prepare android
+        if: success() && matrix.type == 'android'
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/app/outputs/flutter-apk/app-release.apk     
+
+      - name: Prepare linux
+        if: success() && matrix.type == 'linux'
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/linux/x64/release/bundle/*
+      
+      - name: Upload ${{ matrix.type }}
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.type }}_flutter_${{ github.event.pull_request.head.sha }}
+          path: deploy/flutter_${{ matrix.type }}.7z
