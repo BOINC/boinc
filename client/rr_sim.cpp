@@ -328,9 +328,6 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 if (have_max_concurrent) {
                     switch (max_concurrent_exceeded(rp)) {
                     case CONCURRENT_LIMIT_PROJECT:
-                        // no more jobs for this project
-                        //
-                        //rsc_pwf.pending_iter = rsc_pwf.pending.end();
                         rsc_pwf.last_mc_limit_reltime = reltime;
                         p->pwf.at_max_concurrent_limit = true;
                         if (log_flags.rr_simulation) {
