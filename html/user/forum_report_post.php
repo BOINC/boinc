@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,6 +41,9 @@ if (!$forum) error_page("No such forum.");
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);
 check_banished($user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($user);
+}
 
 // Make sure the user has the forum's minimum amount of RAC and total credit
 // before allowing them to report a post.

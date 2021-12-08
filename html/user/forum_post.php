@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,6 +32,9 @@ $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
 check_banished($logged_in_user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($logged_in_user);
+}
 
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);

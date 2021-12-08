@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,7 +19,6 @@
 // Utility functions for BOINC web pages
 // Stuff that's not web-specific (e.g. that's used in non-web scripts)
 // should go in util_basic.inc
-
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -111,6 +110,10 @@ if (!defined('POST_MAX_LINKS')) {
 }
 if (!defined('DARK_MODE')) {
     define('DARK_MODE', false);
+}
+// require validated email to post in forums, send PMs, or make a profile
+if (!defined('VALIDATE_EMAIL_TO_POST')) {
+    define('VALIDATE_EMAIL_TO_POST', false);
 }
 
 // sleep this long on any login failure
@@ -1183,6 +1186,20 @@ function size_string($x) {
 
 function cert_filename() {
     return defined("CERT_FILENAME")?CERT_FILENAME:"cert1.php";
+}
+
+// if user hasn't validated their email addr, tell them to
+//
+function check_validated_email($user) {
+    if (!$user->email_validated) {
+        page_head("Please validate your email address");
+        echo "
+            To post here, please
+            <a href=validate_email_addr.php>validate your email address<a>.
+        ";
+        page_tail();
+        exit;
+    }
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

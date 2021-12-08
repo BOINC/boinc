@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -337,6 +337,10 @@ function show_profile_form($profile, $warning=null) {
 }
 
 $user = get_logged_in_user(true);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($user);
+}
+
 $profile = get_profile($user->id);
 $config = get_config();
 $min_credit = parse_config($config, "<profile_min_credit>");
