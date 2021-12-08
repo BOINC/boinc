@@ -125,6 +125,8 @@ void PROJECT::init() {
     gpu_ec = 0;
     gpu_time = 0;
     app_configs.clear();
+    upload_backoff.is_upload = true;
+    download_backoff.is_upload = false;
 
 #ifdef SIM
     idle_time = 0;

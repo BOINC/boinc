@@ -70,24 +70,37 @@ bool FILE_XFER_BACKOFF::ok_to_transfer() {
     return (dt <= 0);
 }
 
+// A transfer has failed.
+// Back off transfers (project-wide) if needed.
+//
 void FILE_XFER_BACKOFF::file_xfer_failed(PROJECT* p) {
+    // If we're already backed off, ignore this failure.
+    // If we start several transfers at once
+    // (say, N output files of a job) and they all fail,
+    // we don't want to back off N times, which could be hours.
+    //
+    if (gstate.now < next_xfer_time) {
+        return;
+    }
+
     file_xfer_failures++;
     if (file_xfer_failures < FILE_XFER_FAILURE_LIMIT) {
         next_xfer_time = 0;
-    } else {
-        double backoff = calculate_exponential_backoff(
-            file_xfer_failures,
-            gstate.pers_retry_delay_min,
-            gstate.pers_retry_delay_max
-        );
-        if (log_flags.file_xfer_debug) {
-            msg_printf(p, MSG_INFO,
-                "[file_xfer] project-wide xfer delay for %f sec",
-                backoff
-            );
-        }
-        next_xfer_time = gstate.now + backoff;
+        return;
     }
+    double backoff = calculate_exponential_backoff(
+        file_xfer_failures,
+        gstate.pers_retry_delay_min,
+        gstate.pers_retry_delay_max
+    );
+    if (log_flags.file_xfer_debug) {
+        msg_printf(p, MSG_INFO,
+            "[file_xfer] project-wide %s delay for %f sec",
+            is_upload?"upload":"download",
+            backoff
+        );
+    }
+    next_xfer_time = gstate.now + backoff;
 }
 
 void FILE_XFER_BACKOFF::file_xfer_succeeded() {
