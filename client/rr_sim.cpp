@@ -88,11 +88,11 @@ static inline void set_bits(
 // refer to RESULT
 //
 struct RR_SIM {
-    vector<RESULT*> active;
+    vector<RESULT*> active_jobs;
 
     inline void activate(RESULT* rp) {
         PROJECT* p = rp->project;
-        active.push_back(rp);
+        active_jobs.push_back(rp);
         int rt = rp->avp->gpu_usage.rsc_type;
 
         // if this is a GPU app and GPU computing is suspended,
@@ -227,17 +227,22 @@ void RR_SIM::init_pending_lists() {
     }
 }
 
-// Pick jobs to run from pending lists, putting them in "active" list.
+// Pick jobs to run from pending lists, putting them in "active_jobs" list.
 // Approximate what the job scheduler would do:
 // pick a job from the project P with highest scheduling priority,
 // then adjust P's scheduling priority.
 //
-// This is called at the start of the simulation,
-// and again each time a job finishes.
-// In the latter case, some resources may be saturated.
+// This is called:
+// - at the start of the simulation
+//      It will pick jobs to use all resources
+// - each time a job finishes in the simulation
+//      It will generally pick one new job to use the resource just freed
 //
 void RR_SIM::pick_jobs_to_run(double reltime) {
-    active.clear();
+    if (log_flags.rr_simulation) {
+        msg_printf(NULL, MSG_INFO, "pick_jobs_to_run() start");
+    }
+    active_jobs.clear();
 
     if (have_max_concurrent) {
         max_concurrent_init();
@@ -268,7 +273,13 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
-            if (rsc_pwf.pending.size() ==0) continue;
+            unsigned int s = rsc_pwf.pending.size();
+#if 0
+            if (log_flags.rrsim_detail) {
+                msg_printf(p, MSG_INFO, "[rr_sim] %u jobs for rsc %u", s, rt);
+            }
+#endif
+            if (s == 0) continue;
             rsc_pwf.pending_iter = rsc_pwf.pending.begin();
             rsc_pwf.sim_nused = 0;
             p->pwf.rec_temp = p->pwf.rec;
@@ -296,12 +307,8 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 rsc_pwf.pending_iter = rsc_pwf.pending.erase(
                     rsc_pwf.pending_iter
                 );
-            } else if (p->pwf.at_max_concurrent_limit) {
-                rsc_pwf.pending_iter = rsc_pwf.pending.erase(
-                    rsc_pwf.pending_iter
-                );
             } else {
-                // add job to active list, and adjust project priority
+                // add job to active_jobs list, and adjust project priority
                 //
                 activate(rp);
                 adjust_rec_sched(rp);
@@ -314,6 +321,35 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                         rp->rrsim_flops/1e9
                     );
                     rp->already_selected = true;
+                }
+
+                // Check if project is at a max_concurrent limit
+                //
+                if (have_max_concurrent) {
+                    switch (max_concurrent_exceeded(rp)) {
+                    case CONCURRENT_LIMIT_PROJECT:
+                        rsc_pwf.last_mc_limit_reltime = reltime;
+                        p->pwf.at_max_concurrent_limit = true;
+                        if (log_flags.rr_simulation) {
+                            msg_printf(p, MSG_INFO,
+                                "[rr_sim] at project max concurrent: t %f",
+                                reltime
+                            );
+                        }
+                        break;
+                    case CONCURRENT_LIMIT_APP:
+                        // no more jobs for this project/app
+                        //
+                        p->pwf.at_max_concurrent_limit = true;
+                        rsc_pwf.last_mc_limit_reltime = reltime;
+                        if (log_flags.rr_simulation) {
+                            msg_printf(p, MSG_INFO,
+                                "[rr_sim] at app max concurrent for %s; t %f",
+                                rp->app->name, reltime
+                            );
+                        }
+                        break;
+                    }
                 }
 
                 // check whether resource is saturated
@@ -337,35 +373,9 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 ++rsc_pwf.pending_iter;
             }
 
-            // Check if project is at a max_concurrent limit
-            //
-            if (have_max_concurrent) {
-                switch (max_concurrent_exceeded(rp)) {
-                case CONCURRENT_LIMIT_PROJECT:
-                    // no more jobs for this project
-                    //
-                    rsc_pwf.pending_iter = rsc_pwf.pending.end();
-                    p->pwf.at_max_concurrent_limit = true;
-                    if (log_flags.rr_simulation) {
-                        msg_printf(p, MSG_INFO,
-                            "[rr_sim] at project max concurrent"
-                        );
-                    }
-                    break;
-                case CONCURRENT_LIMIT_APP:
-                    // no more jobs for this project/app
-                    //
-                    p->pwf.at_max_concurrent_limit = true;
-                    if (log_flags.rr_simulation) {
-                        msg_printf(p, MSG_INFO,
-                            "[rr_sim] at app max concurrent for %s", rp->app->name
-                        );
-                    }
-                    break;
-                }
-            }
-
-            if (rsc_pwf.pending_iter == rsc_pwf.pending.end()) {
+            if (rsc_pwf.pending_iter == rsc_pwf.pending.end()
+                || p->pwf.at_max_concurrent_limit
+            ) {
                 // if this project now has no more jobs for the resource,
                 // remove it from the project heap
                 //
@@ -382,6 +392,9 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.rec_temp = p->pwf.rec_temp_save;
+    }
+    if (log_flags.rr_simulation) {
+        msg_printf(NULL, MSG_INFO, "pick_jobs_to_run() end");
     }
 }
 
@@ -502,13 +515,13 @@ void RR_SIM::simulate() {
             first = false;
         }
 
-        if (!active.size()) break;
+        if (!active_jobs.size()) break;
 
         // compute finish times and see which job finishes first
         //
         rpbest = NULL;
-        for (u=0; u<active.size(); u++) {
-            rp = active[u];
+        for (u=0; u<active_jobs.size(); u++) {
+            rp = active_jobs[u];
             rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
@@ -520,7 +533,7 @@ void RR_SIM::simulate() {
         double delta_t = rpbest->rrsim_finish_delay;
         if (log_flags.rrsim_detail) {
             msg_printf(NULL, MSG_INFO,
-                "[rrsim_detail] rpbest: %s (finish delay %.2f)",
+                "[rrsim_detail] next job to finish: %s (will finish in  %.2f sec)",
                 rpbest->name,
                 delta_t
             );
@@ -537,7 +550,7 @@ void RR_SIM::simulate() {
             }
             if (log_flags.rrsim_detail) {
                 msg_printf(NULL, MSG_INFO,
-                    "[rrsim_detail] time-slice step of %.2f sec", delta_t
+                    "[rrsim_detail] taking time-slice step of %.2f sec", delta_t
                 );
             }
         } else {
@@ -575,8 +588,8 @@ void RR_SIM::simulate() {
 
         // adjust FLOPS left of other active jobs
         //
-        for (unsigned int i=0; i<active.size(); i++) {
-            rp = active[i];
+        for (unsigned int i=0; i<active_jobs.size(); i++) {
+            rp = active_jobs[i];
             rp->rrsim_flops_left -= rp->rrsim_flops*delta_t;
 
             // can be slightly less than 0 due to roundoff
@@ -656,6 +669,11 @@ void RR_SIM::simulate() {
         if (have_max_concurrent) {
             mc_update_stats(sim_now, d_time, buf_end);
         }
+    }
+    if (log_flags.rr_simulation) {
+        msg_printf(0, MSG_INFO,
+            "[rr_sim] end"
+        );
     }
 }
 
