@@ -111,7 +111,7 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayExitDialog = 1;
     m_iDisplayShutdownConnectedClientDialog = 1;
 #ifdef __WXMAC__
-    m_iHideMenuBarExtra = 0;
+    m_iHideMenuBarIcon = 0;
 #endif
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
@@ -192,7 +192,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
 #ifdef __WXMAC__
-    m_pConfig->Read(wxT("HideMenuBarExtra"), &m_iHideMenuBarExtra, 0L);
+    m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
 #endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
@@ -598,7 +598,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
 #ifdef __WXMAC__
-    m_pConfig->Write(wxT("HideMenuBarExtra"), m_iHideMenuBarExtra);
+    m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
 #endif
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);

@@ -103,7 +103,7 @@ protected:
     int                 m_iDisplayExitDialog;
     int                 m_iDisplayShutdownConnectedClientDialog;
 #ifdef __WXMAC__
-    int                 m_iHideMenuBarExtra;
+    int                 m_iHideMenuBarIcon;
 #endif
 
     bool                m_bGUIVisible;
@@ -173,10 +173,10 @@ public:
                                                     { m_iDisplayShutdownConnectedClientDialog = iDisplayShutdownConnectedClientDialog; }
 
 #ifdef __WXMAC__
-    int                 GetBOINCMGRHideMenuBarExtra()
-                                                    { return m_iHideMenuBarExtra; }
-    void                SetBOINCMGRHideMenuBarExtra(int iHideMenuBarExtra)
-                                                    { m_iHideMenuBarExtra = iHideMenuBarExtra; }
+    int                 GetBOINCMGRHideMenuBarIcon()
+                                                    { return m_iHideMenuBarIcon; }
+    void                SetBOINCMGRHideMenuBarIcon(int iHideMenuBarIcon)
+                                                    { m_iHideMenuBarIcon = iHideMenuBarIcon; }
 #endif
 
     bool                GetRunDaemon()

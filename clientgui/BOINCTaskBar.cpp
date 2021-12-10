@@ -416,7 +416,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     int w, h, x, y;
 
     if (m_iconType != wxTBI_DOCK) {
-        if (wxGetApp().GetBOINCMGRHideMenuBarExtra()) {
+        if (wxGetApp().GetBOINCMGRHideMenuBarIcon()) {
             RemoveIcon();
             return true;
         }
