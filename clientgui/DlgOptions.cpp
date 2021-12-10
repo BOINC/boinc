@@ -656,7 +656,7 @@ bool CDlgOptions::ReadSettings() {
     m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
     m_EnableBOINCClientShutdownMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage() != 0);
 #ifdef __WXMAC__
-    m_EnableBOINCMenuBarExtraCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayMenuBarExtra() != 0);
+    m_EnableBOINCMenuBarExtraCtrl->SetValue(wxGetApp().GetBOINCMGRHideMenuBarExtra() == 0);
 #endif
 #ifdef __WXMSW__
     m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
@@ -775,7 +775,7 @@ bool CDlgOptions::SaveSettings() {
     wxGetApp().SetBOINCMGRDisplayExitMessage(m_EnableBOINCManagerExitMessageCtrl->GetValue());
     wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(m_EnableBOINCClientShutdownMessageCtrl->GetValue());
 #ifdef __WXMAC__
-    wxGetApp().SetBOINCMGRDisplayMenuBarExtra(m_EnableBOINCMenuBarExtraCtrl->GetValue());
+    wxGetApp().SetBOINCMGRHideMenuBarExtra(!m_EnableBOINCMenuBarExtraCtrl->GetValue());
 #endif
 #ifdef __WXMSW__
     wxGetApp().SetBOINCMGRDisableAutoStart(!m_EnableBOINCManagerAutoStartCtrl->GetValue());

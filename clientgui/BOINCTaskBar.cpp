@@ -416,12 +416,11 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     int w, h, x, y;
 
     if (m_iconType != wxTBI_DOCK) {
-        if (wxGetApp().GetBOINCMGRDisplayMenuBarExtra()) {
-            return (wxGetApp().GetMacDockIcon()->SetIcon(icon) && wxTaskBarIcon::SetIcon(icon));
-        } else {
+        if (wxGetApp().GetBOINCMGRHideMenuBarExtra()) {
             RemoveIcon();
             return true;
         }
+        return (wxGetApp().GetMacDockIcon()->SetIcon(icon) && wxTaskBarIcon::SetIcon(icon));
     }
 
     if (icon.IsSameAs(m_iconCurrentIcon))
