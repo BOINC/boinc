@@ -23,7 +23,7 @@ jobs:
       - name: Setup xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.2'          
+          xcode-version: '12.5.1'         
 
       - name: Setup flutter
         uses: subosito/flutter-action@v1

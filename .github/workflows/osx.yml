@@ -18,7 +18,8 @@ jobs:
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.2'
+          xcode-version: '12.5.1'
+
       - uses: actions/checkout@v2
 
       - name: Cache dependencies
