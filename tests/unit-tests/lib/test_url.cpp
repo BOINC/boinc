@@ -169,30 +169,90 @@ namespace test_url {
         EXPECT_STREQ(url.c_str(), "http://bad.example.com/");
     }
 
+    TEST_F(test_url, is_https_transition) {
+        char url1[1024];
+        char url2[1024];
+
+        //Check for correct transition
+        strncpy(url1, "http://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.example.com/", sizeof (url2));
+        EXPECT_EQ(is_https_transition(url1, url2), true);
+        //Check for wrong transition
+        EXPECT_EQ(is_https_transition(url2, url1), false);
+
+        //Check for wrong transition
+        strncpy(url1, "https://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.example.com/", sizeof (url2));
+        EXPECT_EQ(is_https_transition(url1, url2), false);
+
+        //Check for wrong domain name
+        strncpy(url1, "http://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.newname.org/", sizeof (url2));
+        EXPECT_EQ(is_https_transition(url1, url2), false);
+
+        //Check for wrong domain name
+        strncpy(url1, "http://www.example.com/", sizeof (url1));
+        strncpy(url2, "http://www.newname.org/", sizeof (url2));
+        EXPECT_EQ(is_https_transition(url1, url2), false);
+
+        //Check for wrong domain name
+        strncpy(url1, "https://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.newname.org/", sizeof (url2));
+        EXPECT_EQ(is_https_transition(url1, url2), false);
+    }
+
+    TEST_F(test_url, urls_match) {
+        char url1[1024];
+        char url2[1024];
+
+        //Check identical urls except protocol
+        strncpy(url1, "http://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.example.com/", sizeof (url2));
+        EXPECT_EQ(urls_match(url1, url2), true);
+        EXPECT_EQ(urls_match(url2, url1), true);
+        //Check if protocol is really ignored
+        strncpy(url1, "socks://www.example.com/", sizeof (url1));
+        strncpy(url2, "shoes://www.example.com/", sizeof (url2));
+        EXPECT_EQ(urls_match(url1, url2), true);
+        EXPECT_EQ(urls_match(url2, url1), true);
+
+        //Check for wrong input
+        strncpy(url1, "www.example.com/", sizeof (url1));
+        strncpy(url2, "www.example.com//", sizeof (url2));
+        EXPECT_EQ(urls_match(url1, url2), false);
+        EXPECT_EQ(urls_match(url2, url1), false);
+
+        //Check for wrong domain name
+        strncpy(url1, "http://www.example.com/", sizeof (url1));
+        strncpy(url2, "https://www.newname.org/", sizeof (url2));
+        EXPECT_EQ(urls_match(url1, url2), false);
+        EXPECT_EQ(urls_match(url2, url1), false);
+    }
+
     TEST_F(test_url, valid_master_url) {
         char url[1024];
-        
-        //Check for a good unsecure url. 
+
+        //Check for a good unsecure url.
         strncpy(url, "http://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for a good secure url
         strncpy(url, "https://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for no http or https.
         strncpy(url, "hxxp://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if missing final slash.
         strncpy(url, "http://www.example.com", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if it has no . in the name
         strncpy(url, "http://example/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
     }
-    
+
     TEST_F(test_url, escape_project_url) {
         char buf[1024];
         char url[1024];
@@ -201,7 +261,7 @@ namespace test_url {
         strncpy(url, "https://secure.example.com", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
-        
+
         //Testing url with bad character at the end removed.
         strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);
