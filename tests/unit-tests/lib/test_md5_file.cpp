@@ -75,8 +75,16 @@ namespace test_md5_file {
         EXPECT_EQ(result, 0);
         EXPECT_STREQ(output, "3b13c74a05696e71f9aeb4e6f10cbae8");
         EXPECT_EQ(bytes, 737);
+#ifdef _WIN32
+        const string md5_gzfile_path = "../../../../tests/unit-tests/lib/test_md5_file.tar.gz";
+#else
+        const string md5_gzfile_path = "../unit-tests/lib/test_md5_file.tar.gz";
+#endif
+        result = md5_file(md5_gzfile_path.c_str(), output, bytes, true);
+        EXPECT_EQ(result, 0);
+        // Our md5 implementation is skipping the gzip header so the output might be different from other tools
+        EXPECT_STREQ(output, "29c539de433805ab07a3267e3c44dd69");
+        EXPECT_EQ(bytes, 560);
     }
 
 } // namespace
-
-
