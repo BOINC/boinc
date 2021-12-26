@@ -59,6 +59,7 @@ namespace test_base64 {
         EXPECT_EQ(r_base64_encode("Bòíncüñ"), "QsOyw61uY8O8w7E=");
         EXPECT_EQ(r_base64_encode("äöüß"), "w6TDtsO8w58=");
         EXPECT_EQ(r_base64_encode("new\nline"), "bmV3CmxpbmU=");
+        EXPECT_EQ(r_base64_encode("BoincServerTestMessage"), "Qm9pbmNTZXJ2ZXJUZXN0TWVzc2FnZQ==");
     }
 
     TEST_F(test_base64, r_base64_decode) {
@@ -67,6 +68,7 @@ namespace test_base64 {
         EXPECT_EQ(r_base64_decode("QsOyw61uY8O8w7E="), "Bòíncüñ");
         EXPECT_EQ(r_base64_decode("w6TDtsO8w58="), "äöüß");
         EXPECT_EQ(r_base64_decode("bmV3CmxpbmU="), "new\nline");
+        EXPECT_EQ(r_base64_decode("Qm9pbmNTZXJ2ZXJUZXN0TWVzc2FnZQ=="), "BoincServerTestMessage");
     }
 
 
