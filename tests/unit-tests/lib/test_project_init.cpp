@@ -28,7 +28,6 @@ namespace test_project_init {
 
     class test_project_init : public ::testing::Test {
     protected:
-        PROJECT_INIT pi;
         std::string emptyFile = R"xxx(<project_init>
   <url></url>
   <name></name>
@@ -79,8 +78,13 @@ namespace test_project_init {
     };
 
     TEST_F(test_project_init, init) {
+        PROJECT_INIT pi;
         int result = pi.init();
         EXPECT_EQ(result, 0);
+        EXPECT_STREQ(pi.url, "");
+        EXPECT_STREQ(pi.name, "");
+        EXPECT_STREQ(pi.account_key, "");
+        EXPECT_EQ(pi.embedded, false);
 
         std::ofstream ofs ("project_init.xml", std::ofstream::out);
         ofs << exampleFile2;
@@ -88,20 +92,21 @@ namespace test_project_init {
         result = pi.init();
         EXPECT_EQ(result, 0);
         EXPECT_STREQ(pi.url, "https://secure.example.com/");
-        ASSERT_STREQ(pi.name, "Secure Example Project");
-        ASSERT_STREQ(pi.account_key, "zyxwvutsrqponmlkjihgfedcba0987654321");
-        ASSERT_EQ(pi.embedded, true);
+        EXPECT_STREQ(pi.name, "Secure Example Project");
+        EXPECT_STREQ(pi.account_key, "zyxwvutsrqponmlkjihgfedcba0987654321");
+        EXPECT_EQ(pi.embedded, true);
 
-        pi.remove();
-        pi.init();
+        std::remove("project_init.xml"); // delete file
     }
 
     TEST_F(test_project_init, write) {
+        PROJECT_INIT pi;
+        pi.init();
         int result = pi.write();
         EXPECT_EQ(result, 0);
         std::ifstream t("project_init.xml");
         std::string genfile((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-        ASSERT_EQ(emptyFile, genfile);
+        EXPECT_EQ(emptyFile, genfile);
 
         strncpy(pi.url, "http://www.example.com", sizeof (pi.url));
         strncpy(pi.name, "Example Project", sizeof (pi.name));
@@ -110,14 +115,18 @@ namespace test_project_init {
         EXPECT_EQ(result, 0);
         std::ifstream t2("project_init.xml");
         std::string genfile2((std::istreambuf_iterator<char>(t2)), std::istreambuf_iterator<char>());
-        ASSERT_EQ(exampleFile1, genfile2);
+        EXPECT_EQ(exampleFile1, genfile2);
+        std::remove("project_init.xml"); // delete file
     }
 
     TEST_F(test_project_init, remove) {
+        PROJECT_INIT pi;
+        pi.init();
+        pi.write();
         int result = pi.remove();
         EXPECT_EQ(result, 0);
         std::ifstream t("project_init.xml");
-        ASSERT_EQ(t.is_open(), false);
+        EXPECT_EQ(t.is_open(), false);
         result = pi.remove();
         EXPECT_EQ(result, 0);
     }
