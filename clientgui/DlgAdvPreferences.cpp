@@ -695,8 +695,8 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
 
     buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtNoRecentInput);
+    if (!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        ShowErrorMessage(ininvMsgFloat, m_txtNoRecentInput);
         return false;
     }
 
