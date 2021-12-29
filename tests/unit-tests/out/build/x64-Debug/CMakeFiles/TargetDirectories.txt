@@ -1,0 +1,11 @@
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/CMakeFiles/test.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/lib/CMakeFiles/rebuild_cache.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/lib/CMakeFiles/test.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/lib/CMakeFiles/test_lib.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/lib/CMakeFiles/edit_cache.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/sched/CMakeFiles/rebuild_cache.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/sched/CMakeFiles/test.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/sched/CMakeFiles/test_sched.dir
+C:/Users/wbaue/source/repos/Vulpine05-BOINC/tests/unit-tests/out/build/x64-Debug/sched/CMakeFiles/edit_cache.dir
