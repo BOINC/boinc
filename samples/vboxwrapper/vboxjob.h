@@ -166,6 +166,10 @@ public:
         // File can optionally contain is_notice bool (second line)
         // and stderr text (subsequent lines).
         // Addresses a problem where VM doesn't shut down properly
+
+    std::string multiattach_vdi_file;
+        // Name of the vdi file (without path) to be attached in multiattach mode.
+        // The file is expected to be in the project's base directory.
 };
 
 #endif
