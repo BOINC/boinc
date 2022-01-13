@@ -109,6 +109,7 @@ void VBOX_JOB::clear() {
     heartbeat_filename.clear();
     completion_trigger_file.clear();
     temporary_exit_trigger_file.clear();
+    multiattach_vdi_file.clear();
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_scratch_directory = false;
@@ -170,6 +171,7 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("heartbeat_filename", heartbeat_filename)) continue;
         else if (xp.parse_string("completion_trigger_file", completion_trigger_file)) continue;
         else if (xp.parse_string("temporary_exit_trigger_file", temporary_exit_trigger_file)) continue;
+        else if (xp.parse_string("multiattach_vdi_file", multiattach_vdi_file)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", enable_network)) continue;
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
