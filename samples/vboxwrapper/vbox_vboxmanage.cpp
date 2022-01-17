@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
+#include <algorithm>
 #include "boinc_win.h"
 #include "win_util.h"
 #else
@@ -532,11 +533,19 @@ namespace vboxmanage {
                 string medium_file = aid.project_dir;
                 medium_file += "/" + multiattach_vdi_file;
 
+#ifdef _WIN32
+                replace(medium_file.begin(), medium_file.end(), '\\', '/');
+#endif
+
                 vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
                 command = "list hdds";
 
                 retval = vbm_popen(command, output, "check if parent hdd is registered", false, false);
                 if (retval) return retval;
+
+#ifdef _WIN32
+                replace(output.begin(), output.end(), '\\', '/');
+#endif
 
                 if (output.find(medium_file) == string::npos) {
                     // parent hdd is not registered
