@@ -1,5 +1,5 @@
 
-#ifdef __APPLE__
+#if defined __APPLE__ || __cplusplus >= 201703L
 #define REG
 #else
 #define REG register
