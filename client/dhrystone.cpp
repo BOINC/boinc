@@ -90,7 +90,7 @@ int dhrystone(
     unsigned long         Loops;
     DS_DATA dd;
 
-    double                  startclock = 0.0, endclock = 0.0;
+    double                  startclock, endclock;
     double                  benchtime;
     double Dhrystones_Per_Second;
 
