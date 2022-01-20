@@ -118,6 +118,7 @@ enum {
     ID_TXTPROCFRIDAYSTART,
     ID_TXTPROCFRIDAYSTOP,
     ID_TXTPROCIDLEFOR,
+    ID_TXTNORECENTINPUT,
     ID_TXTPROCMONDAYSTART,
     ID_TXTPROCMONDAYSTOP,
     ID_TXTPROCSATURDAYSTART,
@@ -157,6 +158,7 @@ protected:
     wxCheckBox* m_chkProcInUse;
     wxCheckBox* m_chkGPUProcInUse;
     wxTextCtrl* m_txtProcIdleFor;
+    wxTextCtrl* m_txtNoRecentInput;
     wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
     wxCheckBox* m_chkNetEveryDay;

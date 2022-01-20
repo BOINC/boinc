@@ -161,6 +161,7 @@ struct GLOBAL_PREFS {
     bool dont_verify_images;
     bool hangup_if_dialed;
     double idle_time_to_run;
+    double idle_time_to_suspend;
     bool leave_apps_in_memory;
     double max_bytes_sec_down;
     double max_bytes_sec_up;

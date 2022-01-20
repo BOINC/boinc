@@ -128,6 +128,7 @@ void CDlgAdvPreferences::SetValidators() {
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNoRecentInput->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMaxLoad->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     
     m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -313,6 +314,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Disable();
     }
 
+    DisplayValue(prefs.suspend_if_no_recent_input, m_txtNoRecentInput);
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
 
@@ -446,6 +448,12 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         mask.idle_time_to_run=true;
     }
 
+    //
+    m_txtNoRecentInput->GetValue().ToDouble(&td);
+    prefs.suspend_if_no_recent_input = RoundToHundredths(td);
+    mask.suspend_if_no_recent_input = true;
+
+    //
     if (m_chkMaxLoad->IsChecked()) {
         m_txtMaxLoad->GetValue().ToDouble(&td);
         prefs.suspend_cpu_usage=RoundToHundredths(td);
@@ -684,6 +692,12 @@ bool CDlgAdvPreferences::ValidateInput() {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
+    }
+
+    buffer = m_txtNoRecentInput->GetValue();
+    if (!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
+        return false;
     }
 
     if (m_chkMaxLoad->IsChecked()) {
