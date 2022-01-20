@@ -335,6 +335,27 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     addNewRowToSizer(suspendComputingBoxSizer, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
+    // suspend after max idle time
+    wxString NoRecentInputTT(_("This allows some computers to enter low-power mode when not in use."));
+
+    wxStaticText* staticText27 = new wxStaticText(
+        suspendComputingStaticBox, ID_DEFAULT,
+        _("Suspend when no mouse/keyboard input in last"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+
+    wxStaticText* staticText28 = new wxStaticText(
+        suspendComputingStaticBox, ID_DEFAULT,
+        _("minutes"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
+
+    m_txtNoRecentInput = new wxTextCtrl(
+        suspendComputingStaticBox, ID_TXTNORECENTINPUT, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
+    );
+
+    addNewRowToSizer(suspendComputingBoxSizer, NoRecentInputTT, staticText27, m_txtNoRecentInput, staticText28);
+    
     // max CPU load
     wxString MaxLoadCheckBoxText = wxEmptyString;
     MaxLoadCheckBoxText.Printf(_("Suspend when non-BOINC CPU usage is above"));
