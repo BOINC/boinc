@@ -34,6 +34,14 @@ jobs:
         if: matrix.type == 'macos'
         run: flutter config --enable-macos-desktop
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.type == 'macos'
+        with:
+          path: 3rdParty/buildCache
+          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
+          restore-keys: osx-${{ matrix.type }}-
+
       - name: Build macos client
         if: matrix.type == 'macos'
         run: samples/flutter/ci_build_macos.sh

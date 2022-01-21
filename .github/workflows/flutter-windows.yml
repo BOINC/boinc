@@ -36,6 +36,28 @@ jobs:
         if: matrix.type == 'windows'
         run: flutter config --enable-windows-desktop
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.type == 'windows'
+        with:
+          path: |
+            ${{ github.workspace }}\3rdParty\Windows\cuda\
+          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
+          restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
+
+      - name: Configure Python
+        if: matrix.type == 'windows'
+        shell: cmd
+        run: |
+          pip install boto3
+
+      - name: Download vcpkg binary cache
+        if: matrix.type == 'windows'
+        shell: cmd
+        run: |
+          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_${{ matrix.platform }} "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+
+
       - name: Build windows client
         if: matrix.type == 'windows'
         run: samples\flutter\ci_build_windows.bat
