@@ -45,9 +45,42 @@ jobs:
           sudo apt update
           sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev
 
+      - name: Configure Python
+        run: |
+          pip install boto3
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.type == 'linux'
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/linux/vcpkgcache/
+          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh') }}
+          restore-keys: linux-${{ matrix.type }}-
+
+      - name: Download vcpkg binary cache
+        if: matrix.type == 'linux'
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/linux/vcpkgcache/vcpkg/archives/ linux "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+
       - name: Build linux client
         if: matrix.type == 'linux'
         run: samples/flutter/ci_build_linux.sh
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.type == 'android'
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/android/vcpkgcache/
+          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
+
+      - name: Download vcpkg binary cache
+        if: matrix.type == 'android'
+        run: |
+          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
 
       - name: Build android client
         if: matrix.type == 'android'
