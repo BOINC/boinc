@@ -231,6 +231,22 @@ class ProjectsParserTest {
 
     @Test
     @Throws(SAXException::class)
+    fun `When Xml Project has master_url and disk_usage then expect list with matching Project`() {
+        projectsParser.startElement(null, PROJECT, null, null)
+        projectsParser.startElement(null, edu.berkeley.boinc.rpc.MASTER_URL, null, null)
+        projectsParser.characters(MASTER_URL.toCharArray(), 0, MASTER_URL.length)
+        projectsParser.endElement(null, edu.berkeley.boinc.rpc.MASTER_URL, null)
+        projectsParser.startElement(null, Project.Fields.DISK_USAGE, null, null)
+        projectsParser.characters("1024.0".toCharArray(), 0, 6)
+        projectsParser.endElement(null, Project.Fields.DISK_USAGE, null)
+        projectsParser.endElement(null, PROJECT, null)
+        expected.masterURL = MASTER_URL
+        expected.diskUsage = 1024.0
+        Assert.assertEquals(listOf(expected), projectsParser.projects)
+    }
+
+    @Test
+    @Throws(SAXException::class)
     fun `When Xml Project has master_url and project_name then expect list with matching Project`() {
         projectsParser.startElement(null, PROJECT, null, null)
         projectsParser.startElement(null, edu.berkeley.boinc.rpc.MASTER_URL, null, null)

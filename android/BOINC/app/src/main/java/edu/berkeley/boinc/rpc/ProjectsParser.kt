@@ -165,6 +165,8 @@ class ProjectsParser : BaseParser() {
                     mProject.noCUDAPref = mCurrentElement.toString() != "0"
                 } else if (localName.equals(Project.Fields.NO_ATI_PREF, ignoreCase = true)) {
                     mProject.noATIPref = mCurrentElement.toString() != "0"
+                } else if (localName.equals(Project.Fields.DISK_USAGE, ignoreCase = true)) {
+                    mProject.diskUsage = mCurrentElement.toDouble()
                 }
             }
         } catch (e: Exception) {
