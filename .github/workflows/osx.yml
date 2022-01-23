@@ -35,6 +35,10 @@ jobs:
         if: success()
         run: ./mac_build/buildMacBOINC-CI.sh --no_shared_headers
 
+      - name: test boinc binary created
+        if: success()
+        run: if ! [ -e mac_build/build/Deployment/boinc ]; then exit 1; fi
+
       - name: deploy
         if: ${{ success() }}
         run: echo "Would start deployment now"
