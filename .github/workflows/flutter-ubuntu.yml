@@ -56,8 +56,8 @@ jobs:
           path: |
             3rdParty/buildCache
             !3rdParty/buildCache/linux/vcpkgcache/
-          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh') }}
-          restore-keys: linux-${{ matrix.type }}-
+          key: linux-client-vcpkg-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh') }}
+          restore-keys: linux-client-vcpkg-
 
       - name: Download vcpkg binary cache
         if: matrix.type == 'linux'
@@ -75,7 +75,7 @@ jobs:
           path: |
             3rdParty/buildCache
             !3rdParty/buildCache/android/vcpkgcache/
-          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
+          key: android-manager-vcpkg-${{ hashFiles('android/*.sh') }}
 
       - name: Download vcpkg binary cache
         if: matrix.type == 'android'
