@@ -42,8 +42,8 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}\3rdParty\Windows\cuda\
-          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
-          restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
+          key: windows-x64-Release-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
+          restore-keys: windows-x64-Release-
 
       - name: Configure Python
         if: matrix.type == 'windows'
@@ -55,7 +55,7 @@ jobs:
         if: matrix.type == 'windows'
         shell: cmd
         run: |
-          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_${{ matrix.platform }} "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_x64 "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
 
 
       - name: Build windows client
