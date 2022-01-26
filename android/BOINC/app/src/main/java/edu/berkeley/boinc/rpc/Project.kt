@@ -251,6 +251,7 @@ data class Project(
         const val NO_CPU_PREF = "no_cpu_pref"
         const val NO_CUDA_PREF = "no_cuda_pref"
         const val NO_ATI_PREF = "no_ati_pref"
+        const val DISK_USAGE = "disk_usage"
     }
 
     companion object {
