@@ -27,6 +27,7 @@ linux_client_list = [
 
 linux_apps_list = [
     './samples/condor/boinc_gahp',
+    './samples/collect_data/collect_data',
     './samples/example_app/uc2',
     './samples/example_app/ucn',
     './samples/example_app/uc2_graphics',
@@ -86,6 +87,12 @@ android_apps_list = [
     './samples/condor/android_arm64_boinc_gahp',
     './samples/condor/android_x86_boinc_gahp',
     './samples/condor/android_x86_64_boinc_gahp',
+    # collect_data
+    './samples/collect_data/android_armv6_collect_data',
+    './samples/collect_data/android_arm_collect_data',
+    './samples/collect_data/android_arm64_collect_data',
+    './samples/collect_data/android_x86_collect_data',
+    './samples/collect_data/android_x86_64_collect_data',
     # uc2
     './samples/example_app/android_armv6_uc2',
     './samples/example_app/android_arm_uc2',
@@ -149,6 +156,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/multi_thread*.exe',
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
+    './win_build/Build/x64/Release/collect_data*.exe',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
     './win_build/Build/ARM64/Release/wrapper*.exe',
     './win_build/Build/ARM64/Release/vboxwrapper*.exe',
@@ -160,7 +168,8 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/boinclog.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
     './win_build/Build/ARM64/Release/test*.exe',
-    './win_build/Build/ARM64/Release/wrappture*.exe'
+    './win_build/Build/ARM64/Release/wrappture*.exe',
+    './win_build/Build/ARM64/Release/collect_data*.exe',
 ]
 
 windows_client_list = [

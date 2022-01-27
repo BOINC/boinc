@@ -20,6 +20,11 @@ endif
 
 if BUILD_WITH_VCPKG
     SUBDIRS += wrappture
+    
+if !BUILD_WITH_MINGW
+    SUBDIRS += collect_data
+endif
+
 endif
 
 ## build openclapp if you have opencl on your device

@@ -259,7 +259,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     else
         triplets_setup="default"
     fi
-    packages="rappture curl[core,openssl]"
+    packages="curl[core,openssl] rappture sockpp"
     vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
@@ -406,6 +406,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     list_apps="$list_apps
                 ../samples/wrappture/ wrappture_example
                 ../samples/wrappture/ fermi
+                ../samples/collect_data/ collect_data
                 "
 fi
 
