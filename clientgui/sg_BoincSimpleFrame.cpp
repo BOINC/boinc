@@ -91,15 +91,6 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    wxASSERT(pDoc);
-
-    pDoc->GetCoreClientStatus(status, true);
-
-    if (!status.disable_version_check) {
-        EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
-    }
-
     EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
     EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
     EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
@@ -136,6 +127,7 @@ bool CSimpleFrame::CreateMenus() {
     wxString           strMenuDescription;
     bool               is_acct_mgr_detected = false;
     CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CC_STATUS     status;
     
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
@@ -329,7 +321,7 @@ bool CSimpleFrame::CreateMenus() {
 
     pDoc->GetCoreClientStatus(status, true);
 
-    if (!status.check_new_version) {
+    if (!status.disable_version_check) {
         strMenuName.Printf(
             _("Check for new %s version"),
             pSkinAdvanced->GetApplicationShortName().c_str()

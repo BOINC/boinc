@@ -195,16 +195,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
-
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    wxASSERT(pDoc);
-
-    pDoc->GetCoreClientStatus(status, true);
-
-    if (!status.disable_version_check) {
-        EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
-    }
-
+    EVT_MENU(ID_CHECK_VERSION, CAdvancedFrame::OnCheckVersion)
     EVT_MENU(ID_REPORT_BUG, CAdvancedFrame::OnReportBug)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
@@ -312,6 +303,7 @@ bool CAdvancedFrame::CreateMenus() {
     bool               is_boinc_started_by_manager = false;
     wxString           strMenuName;
     wxString           strMenuDescription;
+    CC_STATUS     status;
 
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
@@ -695,7 +687,7 @@ bool CAdvancedFrame::CreateMenus() {
 
     pDoc->GetCoreClientStatus(status, true);
 
-    if (!status.check_new_version) {
+    if (!status.disable_version_check) {
         strMenuName.Printf(
             _("Check for new %s version"),
             pSkinAdvanced->GetApplicationShortName().c_str()
