@@ -27,7 +27,6 @@ jobs:
         with:
           path: 3rdParty/buildCache
           key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
-          restore-keys: osx-${{ matrix.type }}-
 
       - name: install dependencies
         run: ./3rdParty/buildMacDependencies.sh -q
