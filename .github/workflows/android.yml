@@ -34,7 +34,7 @@ jobs:
           path: |
             3rdParty/buildCache
             !3rdParty/buildCache/android/vcpkgcache/
-          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh') }}
+          key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
 
       - name: Configure Python
         if: ${{ success() && contains(matrix.type, 'vcpkg') }}

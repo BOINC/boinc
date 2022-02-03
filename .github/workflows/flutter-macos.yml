@@ -18,17 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 2          
-          
+          fetch-depth: 2
+
       - name: Setup xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.5.1'         
+          xcode-version: '12.5.1'
 
       - name: Setup flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: 'beta'      
+          channel: 'beta'
 
       - name: Setup macos desktop
         if: matrix.type == 'macos'
@@ -39,8 +39,7 @@ jobs:
         if: matrix.type == 'macos'
         with:
           path: 3rdParty/buildCache
-          key: osx-flutter-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
-          restore-keys: osx-flutter-
+          key: osx-flutter-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh', '.github/workflows/flutter-macos.yml') }}
 
       - name: Build macos client
         if: matrix.type == 'macos'
@@ -54,7 +53,7 @@ jobs:
         run: |
           cd samples/flutter/
           flutter create boinc
-          cd boinc/ 
+          cd boinc/
           flutter build macos
 
       - name: Build ios
@@ -62,5 +61,5 @@ jobs:
         run:  |
           cd samples/flutter/
           flutter create boinc
-          cd boinc/ 
+          cd boinc/
           flutter build ios --release --no-codesign
