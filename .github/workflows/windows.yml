@@ -50,8 +50,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}\3rdParty\Windows\cuda\
-          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
-          restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
+          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj', '.github/workflows/windows.yml') }}
 
       - name: Configure Python
         if: ${{ success() }}

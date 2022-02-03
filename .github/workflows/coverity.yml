@@ -25,7 +25,7 @@ jobs:
           path: |
             3rdParty/buildCache
             !3rdParty/buildCache/linux/vcpkgcache/
-          key: linux-coverity
+          key: linux-coverity-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh', '.github/workflows/coverity.yml') }}
 
       - name: Automake
         if: success()

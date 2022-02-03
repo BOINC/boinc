@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 2          
+          fetch-depth: 2
 
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.2
@@ -42,8 +42,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}\3rdParty\Windows\cuda\
-          key: windows-x64-Release-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
-          restore-keys: windows-x64-Release-
+          key: windows-flutter-x64-Release-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj', '.github/workflows/flutter-windows.yml') }}
 
       - name: Configure Python
         if: matrix.type == 'windows'
@@ -72,7 +71,7 @@ jobs:
           flutter create boinc
           cd boinc/
           flutter build winuwp
-        
+
       - name: Build windows
         if: matrix.type == 'windows'
         run: |
@@ -80,7 +79,7 @@ jobs:
           flutter create boinc
           cd boinc/
           flutter build windows
-        
+
       - name: Build web
         if: matrix.type == 'web'
         run: |
@@ -88,7 +87,7 @@ jobs:
           flutter create boinc
           cd boinc/
           flutter build web
-        
+
       - name: Prepare windows
         if: success() && matrix.type == 'windows'
         run: |
@@ -103,7 +102,7 @@ jobs:
         if: success() && matrix.type == 'winuwp'
         run: |
             7z.exe a -t7z -mx=9 deploy/flutter_${{ matrix.type }}.7z -r0 samples/flutter/boinc/build/winuwp/runner_uwp/Release/*
-      
+
       - name: Upload ${{ matrix.type }}
         if: success()
         uses: actions/upload-artifact@v2
