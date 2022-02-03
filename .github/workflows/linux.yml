@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -33,25 +33,6 @@ jobs:
           sudo service mysql stop
           ./integration_test/installTestSuite.sh
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            3rdParty/buildCache
-            !3rdParty/buildCache/linux/vcpkgcache/
-          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh') }}
-          restore-keys: linux-${{ matrix.type }}-
-
-      - name: Configure Python
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
-        run: |
-          pip install boto3==1.19.12
-
-      - name: Download vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
-        run: |
-          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/linux/vcpkgcache/vcpkg/archives/ linux "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
-
       - name: Automake
         if: success()
         run: ./_autosetup
@@ -67,18 +48,6 @@ jobs:
       - name: Configure apps
         if: success() && matrix.type == 'apps'
         run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
-
-      - name: Configure libs with vcpkg
-        if: success() && matrix.type == 'libs-vcpkg'
-        run: linux/ci_configure_libs.sh
-
-      - name: Configure client with vcpkg
-        if: success() && matrix.type == 'client-vcpkg'
-        run: linux/ci_configure_client.sh
-
-      - name: Configure apps with vcpkg
-        if: success() && matrix.type == 'apps-vcpkg'
-        run: linux/ci_configure_apps.sh
 
       - name: Configure server
         if: success() && matrix.type == 'server'
@@ -108,17 +77,6 @@ jobs:
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
 
-      - name: Prepare logs on failure
-        if: ${{ failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
-
-      - name: Upload logs on failure
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/logs.7z
-
       - name: Prepare artifacts for deploy
         if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
@@ -147,11 +105,3 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
-
-      - name: Upload vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
-        env:
-          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
-        run: |
-          python ./deploy/manage_vcpkg_archive_cache.py upload 3rdParty/buildCache/linux/vcpkgcache/vcpkg/archives/ linux "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "$ACCESS_KEY" "$SECRET_KEY"          
