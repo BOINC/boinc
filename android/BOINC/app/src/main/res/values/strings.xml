@@ -177,6 +177,8 @@
     <string name="projects_icon">Project icon</string>
     <string name="projects_credits">Credit:</string>
     <string name="projects_credits_host_and_user">%1$,d (on this device) %2$,d (total)</string>
+    <string name="projects_disk_usage">Disk Usage:</string>
+    <string name="projects_disk_usage_with_unit">%1$s MB</string>
     <!-- project status strings -->
     <string name="projects_status_suspendedviagui">Suspended by user</string>
     <string name="projects_status_dontrequestmorework">Won\'t get new tasks</string>
