@@ -109,15 +109,8 @@ if [ "${style}" == "Development" ]; then
     libSearchPathDbg="${cache_dir}/lib/debug"
 fi
 
-target="libboinc"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
-    cd ..; exit 1;
-fi
-
 target="BOINC_Client"
-source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" -setting OTHER_LDFLAGS "-L. -lcurl -lcares -lcrypto -lssl -lldap -lz -v" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" -setting OTHER_LDFLAGS "-L. -lboinc -lcurl -lcares -lcrypto -lssl -lldap -lz -v" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
     cd ..; exit 1;
@@ -133,6 +126,13 @@ fi
 ## Target gfx2libboinc also build dependent target jpeg
 target="gfx2libboinc"
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../samples/jpeglib" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
+    cd ..; exit 1;
+fi
+
+target="libboinc"
+source BuildMacBOINC.sh ${config} -noclean -target ${target} | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     curl --upload-file ./xcodebuild_${target}.log https://transfer.sh/xcodebuild_${target}.log
     cd ..; exit 1;
