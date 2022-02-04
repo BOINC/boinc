@@ -119,6 +119,8 @@ if [ ${retval} -ne 0 ]; then
     cd ..; exit 1;
 fi
 
+echo "About to build target mgr_boinc"
+echo "OTHER_LDFLAGS = ${OTHER_LDFLAGS}"
 target="mgr_boinc"
 source BuildMacBOINC.sh ${config} -noclean -target ${target} -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib" -setting OTHER_LDFLAGS "${OTHER_LDFLAGS} -v" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
