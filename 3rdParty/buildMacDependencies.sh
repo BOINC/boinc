@@ -145,7 +145,6 @@ mkdir -p 3rdParty/mac
 mkdir -p "${PREFIX}"
 cd "${ROOTDIR}/3rdParty/mac" || exit 1
 
-doclean="yes"
 if [ "${doclean}" = "yes" ]; then
     echo "cleaning cache"
     rm -rf "${PREFIX}"
