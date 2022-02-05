@@ -26,8 +26,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: 3rdParty/buildCache
-          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
-          restore-keys: osx-${{ matrix.type }}-
+          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/setupForBOINC.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh', '.github/workflows/osx.yml') }}
 
       - name: install dependencies
         run: ./3rdParty/buildMacDependencies.sh -q
