@@ -241,7 +241,7 @@ void COPROC_NVIDIA::get(
     vector<string>& warnings
 ) {
     int cuda_ndevs, retval;
-    char buf[256];
+    char buf[2048];
     int j, itemp;
     size_t global_mem = 0;
     string s;
