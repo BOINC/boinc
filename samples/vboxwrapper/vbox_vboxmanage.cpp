@@ -246,6 +246,11 @@ namespace vboxmanage {
         command  = "modifyvm \"" + vm_name + "\" ";
         command += "--acpi on ";
         command += "--ioapic on ";
+        if (is_hostrtc_set_to_utc()) {
+            command += "--rtcuseutc on ";
+        } else {
+            command += "--rtcuseutc off ";
+        }
 
         retval = vbm_popen(command, output, "modifychipset");
         if (retval) return retval;
@@ -2072,6 +2077,46 @@ namespace vboxmanage {
         if (vm_pid) {
             setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
         }
+#endif
+    }
+
+    bool VBOX_VM::is_hostrtc_set_to_utc() {
+#ifdef _WIN32
+        bool  rtc_is_set_to_utc = false;
+        LONG  lReturnValue;
+        HKEY  hkSetupHive;
+
+        // If the key is present and set to "1" assume the host's rtc is set to UTC.
+        // Otherwise or in case of an error assume the host's rtc is set to localtime.
+        lReturnValue = RegOpenKeyEx(
+            HKEY_LOCAL_MACHINE,
+            _T("SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation"),
+            0,
+            KEY_READ,
+            &hkSetupHive
+            );
+
+        if (lReturnValue == ERROR_SUCCESS) {
+            DWORD dwvalue = 0;
+            DWORD dwsize = sizeof(DWORD);
+
+            lReturnValue = RegQueryValueEx(
+                hkSetupHive,
+                _T("RealTimeIsUniversal"),
+                NULL,
+                NULL,
+                (LPBYTE)&dwvalue,
+                &dwsize
+                );
+
+            if (lReturnValue == ERROR_SUCCESS && dwvalue == 1) rtc_is_set_to_utc = true;
+        }
+
+        if (hkSetupHive) RegCloseKey(hkSetupHive);
+        return rtc_is_set_to_utc;
+#else
+        // Non-Windows Systems usually set their rtc to UTC.
+        return true;
 #endif
     }
 }
