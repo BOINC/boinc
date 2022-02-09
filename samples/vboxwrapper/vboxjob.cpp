@@ -131,8 +131,8 @@ void VBOX_JOB::clear() {
     copy_cmdline_to_shared = false;
 
     // Initialize default values
-    vm_disk_controller_type = "ide";
-    vm_disk_controller_model = "PIIX4";
+    vm_disk_controller_type = "sata";
+    vm_disk_controller_model = "IntelAHCI";
 }
 
 int VBOX_JOB::parse() {
