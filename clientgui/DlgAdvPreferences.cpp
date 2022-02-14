@@ -286,7 +286,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
     
-            //cpu limit
+    //cpu limit
     // 0 means "no restriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
@@ -670,7 +670,10 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgLimit10 = _("Number must be between 0 and 10");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
     wxString invMsgLimit1_100 = _("Number must be between 1 and 100");
+    wxString invMsgIdle = _("Warning:  'When to suspend' time settings will not allow any CPU and/or GPU tasks to compute.  Reduce time to compute after idle or increase time to suspend after idle.");
     wxString buffer;
+    wxString bufferPIF;  //variable to store Processor Idle For string.
+    wxString bufferNRI;  //variable to store No Recent Input string.
     double startTime, endTime;
 
     // ######### proc usage page
@@ -679,25 +682,50 @@ bool CDlgAdvPreferences::ValidateInput() {
         ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
         return false;
     }
-    
+
     buffer = m_txtProcUseCPUTime->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
         return false;
     }
-    
-    if(m_txtProcIdleFor->IsEnabled()) {
-        buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
-            ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
-            return false;
-        }
-    }
 
-    buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0, 10000)) {
+    // Validate No Recent Input
+    //
+    bufferNRI = m_txtNoRecentInput->GetValue();
+    if (!IsValidFloatValueBetween(bufferNRI, 0, 10000)) {
         ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
         return false;
+    }
+
+    // If the processor is to suspend when the computer is not idle,
+    // this will first validate the input.
+    //
+    if (m_txtProcIdleFor->IsEnabled()) {
+        bufferPIF = m_txtProcIdleFor->GetValue();
+        if (!IsValidFloatValueBetween(bufferPIF, 0, 10000)) {
+            ShowErrorMessage(invMsgFloat, m_txtProcIdleFor);
+            return false;
+        }
+        // It is possible that the computer will not process tasks
+        // if the time for no recent input is nonzero and is less than or
+        // equal to the idle time before computing resumes (ProcIdleFor).
+        // This will check that condition and return an error.
+        //
+        double valueNRI;
+        bufferNRI.ToDouble(&valueNRI);
+        // Since these values will be stored rounded to the hundredth, it should
+        // be evaluated that way.
+        //
+        valueNRI = RoundToHundredths(valueNRI);
+        if (valueNRI > 0) {
+            double valuePIF;
+            bufferPIF.ToDouble(&valuePIF);
+            valuePIF = RoundToHundredths(valuePIF);
+            if (valueNRI <= valuePIF) {
+                ShowErrorMessage(invMsgIdle, m_txtNoRecentInput);
+                return false;
+            }
+        }
     }
 
     if (m_chkMaxLoad->IsChecked()) {
@@ -707,7 +735,7 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     //limit additional days from 0 to 10
     buffer = m_txtNetConnectInterval->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
