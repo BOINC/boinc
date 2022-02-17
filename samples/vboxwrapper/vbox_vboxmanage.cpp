@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
+#include <algorithm>
 #include "boinc_win.h"
 #include "win_util.h"
 #else
@@ -500,18 +501,80 @@ namespace vboxmanage {
 
             // Adding virtual hard drive to VM
             //
-            vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
+            string command_fix_part;
 
-            command  = "storageattach \"" + vm_name + "\" ";
-            command += "--storagectl \"Hard Disk Controller\" ";
-            command += "--port 0 ";
-            command += "--device 0 ";
-            command += "--type hdd ";
-            command += "--setuuid \"\" ";
-            command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            command_fix_part  = "storageattach \"" + vm_name + "\" ";
+            command_fix_part += "--storagectl \"Hard Disk Controller\" ";
+            command_fix_part += "--port 0 ";
+            command_fix_part += "--device 0 ";
+            command_fix_part += "--type hdd ";
 
-            retval = vbm_popen(command, output, "storage attach (fixed disk)");
-            if (retval) return retval;
+            if (!multiattach_vdi_file.size()) {
+                // the traditional method:
+                // copy the vdi file from the projects dir to the slots dir and rename it vm_image.vdi
+                // each copy must get a new (random) UUID
+                //
+                vboxlog_msg("Adding virtual disk drive to VM. (%s)", image_filename.c_str());
+                command  = command_fix_part;
+                command += "--setuuid \"\" ";
+                command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+
+                retval = vbm_popen(command, output, "storage attach (fixed disk)");
+                if (retval) return retval;
+            } else {
+                // Use MultiAttach mode and differencing images
+                // See: https://www.virtualbox.org/manual/ch05.html#hdimagewrites
+                //      https://www.virtualbox.org/manual/ch05.html#diffimages
+                // the vdi file downloaded to the projects dir becomes the parent (read only)
+                // "--setuid" must not be used
+                // each task gets it's own differencing image (writable)
+                // differencing images are written to the VM's snapshot folder
+                //
+                string medium_file = aid.project_dir;
+                medium_file += "/" + multiattach_vdi_file;
+
+#ifdef _WIN32
+                replace(medium_file.begin(), medium_file.end(), '\\', '/');
+#endif
+
+                vboxlog_msg("Adding virtual disk drive to VM. (%s)", multiattach_vdi_file.c_str());
+                command = "list hdds";
+
+                retval = vbm_popen(command, output, "check if parent hdd is registered", false, false);
+                if (retval) return retval;
+
+#ifdef _WIN32
+                replace(output.begin(), output.end(), '\\', '/');
+#endif
+
+                if (output.find(medium_file) == string::npos) {
+                    // parent hdd is not registered
+                    // vdi files can't be registered and set to multiattach mode within 1 step.
+                    // They must first be attached to a VM in normal mode, then detached from the VM
+                    //
+                    command  = command_fix_part;
+                    command += "--medium \"" + medium_file + "\" ";
+
+                    retval = vbm_popen(command, output, "register parent hdd", false, false);
+                    if (retval) return retval;
+
+                    command  = command_fix_part;
+                    command += "--medium none ";
+
+                    retval = vbm_popen(command, output, "detach parent vdi", false, false);
+                    if (retval) return retval;
+                    // the vdi file is now registered and ready to be attached in multiattach mode
+                    //
+                }
+
+                command  = command_fix_part;
+                command += "--mtype multiattach ";
+                command += "--medium \"" + medium_file + "\" ";
+
+                retval = vbm_popen(command, output, "storage attach (fixed disk - multiattach mode)");
+                if (retval) return retval;
+            }
+
 
             // Add guest additions to the VM
             //
