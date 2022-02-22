@@ -52,6 +52,7 @@ namespace vboxmanage {
         bool is_disk_image_registered();
         bool is_extpack_installed();
         bool is_virtualbox_installed();
+        bool is_hostrtc_set_to_utc();
 
         int get_install_directory(std::string& dir);
         int get_version_information(std::string& version_raw, std::string& version_display);
