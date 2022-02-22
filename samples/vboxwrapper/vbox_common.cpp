@@ -398,7 +398,7 @@ string VBOX_BASE::get_error(int num){
           "   NOTE: VM failed to enter an online state within the timeout period.\n \
               This might be a temporary problem and so this job will be rescheduled for another time.\n",
 
-          "VM environment needed to be cleaned up.",
+          "VM environment needs to be cleaned up.",
 
           "Foreign VM Hypervisor locked hardware acceleration features.",
 
