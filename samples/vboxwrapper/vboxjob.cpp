@@ -134,6 +134,8 @@ void VBOX_JOB::clear() {
     // Initialize default values
     vm_disk_controller_type = "ide";
     vm_disk_controller_model = "PIIX4";
+    vm_graphics_controller_type = "VBoxVGA";
+    vram_size_mb = VBOX_VRAM_MIN;
 }
 
 int VBOX_JOB::parse() {
@@ -163,6 +165,12 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("vm_disk_controller_type", vm_disk_controller_type)) continue;
         else if (xp.parse_string("vm_disk_controller_model", vm_disk_controller_model)) continue;
         else if (xp.parse_string("os_name", os_name)) continue;
+        else if (xp.parse_double("vram_size_mb", vram_size_mb)) {
+            // keep it within the valid range
+            if (vram_size_mb < VBOX_VRAM_MIN) vram_size_mb = VBOX_VRAM_MIN;
+            else if (vram_size_mb > VBOX_VRAM_MAX) vram_size_mb = VBOX_VRAM_MAX;
+            continue;
+        }
         else if (xp.parse_double("memory_size_mb", memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", job_duration)) continue;
         else if (xp.parse_double("minimum_checkpoint_interval", minimum_checkpoint_interval)) continue;

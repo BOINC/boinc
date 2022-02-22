@@ -251,6 +251,18 @@ namespace vboxmanage {
         retval = vbm_popen(command, output, "modifychipset");
         if (retval) return retval;
 
+        // Tweak the VM's Graphics Controller Options
+        //
+        vboxlog_msg("Setting Graphics Controller Options for VM.");
+        sprintf(buf, "%d", (int)vram_size_mb);
+
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--vram " + string(buf) + " ";
+        command += "--graphicscontroller " + vm_graphics_controller_type + " ";
+
+        retval = vbm_popen(command, output, "modifygraphicscontroller");
+        if (retval) return retval;
+
         // Tweak the VM's Boot Options
         //
         vboxlog_msg("Setting Boot Options for VM.");
