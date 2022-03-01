@@ -139,7 +139,7 @@ void TraverseSnapshots(std::string& current_snapshot_id, std::vector<std::string
 
     // Check to see if we have any children
     //
-#ifdef _VIRTUALBOX60_
+#ifdef _VIRTUALBOX6_
     rc = pSnapshot->get_ChildrenCount(&lCount);
 #else
     rc = pSnapshot->GetChildrenCount(&lCount);
@@ -835,7 +835,7 @@ int VBOX_VM::create_vm() {
             CComBSTR(string(virtual_machine_slot_directory + "\\shared").c_str()),
             TRUE,
             TRUE
-#ifdef _VIRTUALBOX60_
+#ifdef _VIRTUALBOX6_
             ,
             CComBSTR("/")
 #endif
@@ -852,7 +852,7 @@ int VBOX_VM::create_vm() {
             CComBSTR(virtualbox_scratch_directory.c_str()),
             TRUE,
             TRUE
-#ifdef _VIRTUALBOX60_
+#ifdef _VIRTUALBOX6_
             ,
             CComBSTR("/")
 #endif

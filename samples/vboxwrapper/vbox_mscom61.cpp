@@ -37,15 +37,15 @@
 #include "floppyio.h"
 #include "vboxlogging.h"
 #include "vboxwrapper.h"
-#include "vbox_mscom60.h"
+#include "vbox_mscom61.h"
 
 
-#import "file:vbox60.tlb" rename_namespace("vbox60"), named_guids, raw_interfaces_only
+#import "file:vbox61.tlb" rename_namespace("vbox61"), named_guids, raw_interfaces_only
 
 using std::string;
-using namespace vbox60;
+using namespace vbox61;
 
-namespace vbox60 {
+namespace vbox61 {
 
     class VBOX_PRIV {
     public:
