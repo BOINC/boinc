@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010-2012 University of California
+// Copyright (C) 2010-2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -85,24 +85,7 @@
 #include "vboxwrapper.h"
 #include "vbox_common.h"
 
-
-//Use of COM_OFF to choose between COM 
-//and VboxManage interfaces
-//
-//Default is COM
-//
-#ifdef _WIN32
-#ifndef COM_OFF
-#include "vbox_mscom42.h"
-#include "vbox_mscom43.h"
-#include "vbox_mscom50.h"
-#include "vbox_mscom51.h"
-#include "vbox_mscom52.h"
-#include "vbox_mscom60.h"
-#endif
-#endif
 #include "vbox_vboxmanage.h"
-
 
 using std::vector;
 using std::string;
@@ -443,9 +426,6 @@ int main(int argc, char** argv) {
     // Initialize system services
     //
 #ifdef _WIN32
-#ifndef COM_OFF
-    CoInitialize(NULL);
-#endif
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -463,67 +443,6 @@ int main(int argc, char** argv) {
 
     vboxlog_msg("Detected: BOINC client v%d.%d.%d", aid.major_version, aid.minor_version, aid.release);
 
-    //Use COM_OFF to choose how we initialize() the VM
-#ifdef _WIN32
-#ifndef COM_OFF
-    // Determine what version of VirtualBox we are using via the registry. Use a
-    // namespace specific version of the function because VirtualBox has been known
-    // to change the registry location from time to time.
-    //
-    // NOTE: We cannot use COM to automatically detect which interfaces are installed
-    //       on the machine because it will attempt to launch the 'vboxsvc' process
-    //       without out environment variable changes and muck everything up.
-    //
-    string vbox_version_raw;
-    string vbox_version_display;
-    int vbox_major = 0, vbox_minor = 0;
-
-    retval = vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    if (retval) {
-        retval = vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    }
-    if (retval) {
-        retval = vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    }
-    if (retval) {
-        retval = vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    }
-    if (retval) {
-        retval = vbox52::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    }
-    if (retval) {
-        retval = vbox60::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
-    }
-    if (!vbox_version_raw.empty()) {
-        sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
-        if ((4 == vbox_major) && (2 == vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox42::VBOX_VM();
-        }
-        if ((4 == vbox_major) && (3 == vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox43::VBOX_VM();
-        }
-        if ((5 == vbox_major) && (0 == vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox50::VBOX_VM();
-        }
-        if ((5 == vbox_major) && (1 == vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox51::VBOX_VM();
-        }
-        if ((5 == vbox_major) && (2 <= vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox52::VBOX_VM();
-        }
-        if ((6 == vbox_major) && (0 <= vbox_minor)) {
-            pVM = (VBOX_VM*) new vbox60::VBOX_VM();
-        }
-        if (pVM) {
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
-        }
-    }
-#endif
-#endif
     // Initialize VM Hypervisor
     //
     if (!pVM) {
@@ -1387,9 +1306,6 @@ int main(int argc, char** argv) {
     }
 
 #ifdef _WIN32
-#ifndef COM_OFF
-    CoUninitialize();
-#endif
 #ifdef USE_WINSOCK
     WSACleanup();
 #endif
