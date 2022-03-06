@@ -793,7 +793,7 @@ bool CPanelPreferences::ValidateInput() {
 
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
@@ -845,7 +845,7 @@ bool CPanelPreferences::ValidateInput() {
     
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }

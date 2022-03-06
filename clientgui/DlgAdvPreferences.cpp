@@ -722,19 +722,13 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
 
     buffer = m_txtProcSwitchEvery->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 1.0, 10000)) {
         ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
         return false;
-    } else {
-        double td;
-        if((!buffer.ToDouble(&td)) || (td < 1.0)) {
-            ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
-            return false;
-        }
     }
     
     buffer = m_txtDiskWriteToDisk->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
         ShowErrorMessage(invMsgFloat, m_txtDiskWriteToDisk);
         return false;
     }
@@ -743,7 +737,7 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chkNetDownloadRate->IsChecked()) {
         buffer = m_txtNetDownloadRate->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
             return false;
         }
@@ -751,7 +745,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     
     if (m_chkNetUploadRate->IsChecked()) {
         buffer = m_txtNetUploadRate->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
             return false;
         }
@@ -759,13 +753,13 @@ bool CDlgAdvPreferences::ValidateInput() {
     
     if (m_chk_daily_xfer_limit->IsChecked()) {
         buffer = m_txt_daily_xfer_limit_mb->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
             return false;
         }
     
         buffer = m_txt_daily_xfer_period_days->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
             return false;
         }
@@ -774,7 +768,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     // ######### disk and memory page
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }
@@ -782,7 +776,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     
     if (m_chkDiskLeastFree->IsChecked()) {
         buffer = m_txtDiskLeastFree->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
             return false;
         }
