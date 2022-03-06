@@ -252,7 +252,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
             return;
         }
     }
-    buffer.Printf(wxT("%g"), value);
+    buffer.Printf(wxT("%.2f"), value);
     textCtrl->ChangeValue(buffer);
     textCtrl->Enable();
 }
