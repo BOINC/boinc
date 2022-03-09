@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,7 +27,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
 #ifdef __WXMSW__
-    EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)    
+    EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)
 #else
     EVT_PAINT(CSimplePanelBase::OnPaint)
 #endif
@@ -77,12 +77,12 @@ void CSimplePanelBase::MakeBGBitMap() {
     int white_weight = pSkinSimple->GetPanelOpacity();
     int image_weight = MAX_OPACITY - white_weight;
 
-// Workaround for CSimpleGUIPanel not reliably getting 
+// Workaround for CSimpleGUIPanel not reliably getting
 // Paint or EraseBackground events under Linux
 #if (!(defined(__WXMSW_) || defined(__WXMAC__)))
     backgroundPanel->SetBackgroundBitmap();
 #endif
-    
+
     GetPosition(&r.x, &r.y);
     GetSize(&r.width, &r.height);
     wxBitmap *bgBmp(backgroundPanel->GetBackgroundBitMap());
@@ -100,7 +100,7 @@ void CSimplePanelBase::MakeBGBitMap() {
         dc.SetBrush(rawBrush);
         dc.DrawRectangle(0, 0, r.width, r.height);
     }
-    
+
     whiteBmp = wxBitmap(r.width, r.height);
     wxMemoryDC dc(whiteBmp);
     dc.SetBackgroundMode(wxSOLID);
@@ -141,7 +141,7 @@ void CSimplePanelBase::MakeBGBitMap() {
 }
 
 
-// Linux does not reliably generate EraseBackground 
+// Linux does not reliably generate EraseBackground
 // events here, so use Paint events
 void CSimplePanelBase::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
@@ -177,7 +177,7 @@ void CSimplePanelBase::EraseBackground(wxDC *dc) {
 
 #if 0   // This does not work properly with wxCocoa 3.0 and is no longer needed
 #ifdef __WXMAC__
-    // Mac progress bar can be hard to see on a colored 
+    // Mac progress bar can be hard to see on a colored
     // background, so put it on a white background
     wxRect* progressRect = GetProgressRect();
     if (progressRect) {
@@ -188,7 +188,7 @@ void CSimplePanelBase::EraseBackground(wxDC *dc) {
 #endif
 #endif
 
-    // Restore Mode, Pen and Brush 
+    // Restore Mode, Pen and Brush
     dc->SetBackgroundMode(oldMode);
     dc->SetPen(oldPen);
     dc->SetBrush(oldBrush);
@@ -216,12 +216,12 @@ void CSimplePanelBase::UpdateStaticText(CTransparentStaticText **whichText, wxSt
 void CSimplePanelBase::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     int x, y;
     int w, h;
-    wxSize sz = GetSize();
+    const wxSize sz = GetSize();
     win->GetPosition(&x, &y);
-    int maxWidth = sz.GetWidth() - x - SIDEMARGINS;
-    
+    const int maxWidth = sz.GetWidth() - x - sideMargins;
+
     win->GetTextExtent(s, &w, &h);
-    
+
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,15 +39,15 @@
 /*!
  * CTermsOfUsePage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CTermsOfUsePage, wxWizardPageEx )
- 
+
 /*!
  * CTermsOfUsePage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
- 
+
 ////@begin CTermsOfUsePage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CTermsOfUsePage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CTermsOfUsePage::OnPageChanging )
@@ -56,26 +56,26 @@ BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
     EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
     EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
 ////@end CTermsOfUsePage event table entries
- 
+
 END_EVENT_TABLE()
-  
+
 /*!
  * CTermsOfUsePage constructors
  */
- 
+
 CTermsOfUsePage::CTermsOfUsePage( )
 {
 }
-  
+
 CTermsOfUsePage::CTermsOfUsePage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * CTermsOfUsePage creator
  */
- 
+
 bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CTermsOfUsePage member initialisation
@@ -94,18 +94,16 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CTermsOfUsePage creation
- 
+
     return TRUE;
 }
-  
+
 /*!
  * Control creation for CTermsOfUsePage
  */
- 
+
 void CTermsOfUsePage::CreateControls()
-{    
-#define TERMSOFUSEWIDTH ADJUSTFORXDPI(580)
-#define TERMSOFUSEHEIGHT ADJUSTFORYDPI(250)
+{
 ////@begin CTermsOfUsePage content construction
     CTermsOfUsePage* itemWizardPage96 = this;
 
@@ -124,7 +122,7 @@ void CTermsOfUsePage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pTermsOfUseCtrl = new wxHtmlWindow;
-    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxDefaultPosition, wxSize(TERMSOFUSEWIDTH, TERMSOFUSEHEIGHT), wxHW_SCROLLBAR_AUTO, wxEmptyString);
+    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxDefaultPosition, wxSize(580, 250), wxHW_SCROLLBAR_AUTO, wxEmptyString);
     itemBoxSizer97->Add(m_pTermsOfUseCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAgreeCtrl = new wxRadioButton;
@@ -155,16 +153,16 @@ void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
 /*!
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CTermsOfUsePage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CTermsOfUsePage::GetNext() const
 {
     if (CHECK_CLOSINGINPROGRESS()) {
@@ -180,7 +178,7 @@ wxWizardPageEx* CTermsOfUsePage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     }
 }
- 
+
 /*!
  * Should we show tooltips?
  */
@@ -189,20 +187,20 @@ bool CTermsOfUsePage::ShowToolTips()
 {
     return TRUE;
 }
-  
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CTermsOfUsePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
- 
+
 ////@begin CTermsOfUsePage bitmap retrieval
     return wxNullBitmap;
 ////@end CTermsOfUsePage bitmap retrieval
 }
-  
+
 /*!
  * Get icon resources
  */
@@ -215,7 +213,7 @@ wxIcon CTermsOfUsePage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CTermsOfUsePage icon retrieval
 }
-   
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_TERMSOFUSEPAGE
  */
@@ -263,11 +261,11 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
 }
- 
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
  */
- 
+
 void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
     CWizardAttach*  pWA = ((CWizardAttach*)GetParent());
 
@@ -298,7 +296,7 @@ void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
         pWA->SetConsentedToTerms(GetUserAgrees());
     }
 }
-  
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
  */

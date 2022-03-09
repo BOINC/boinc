@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -55,7 +55,7 @@
 /*!
  * CProject type
  */
- 
+
 class CProjectInfo : public wxObject
 {
     DECLARE_DYNAMIC_CLASS( CProjectInfo )
@@ -100,15 +100,15 @@ IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
 /*!
  * CProjectInfoPage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CProjectInfoPage, wxWizardPageEx )
- 
+
 /*!
  * CProjectInfoPage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
- 
+
 ////@begin CProjectInfoPage event table entries
     EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
     EVT_LISTBOX( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
@@ -116,14 +116,14 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
 ////@end CProjectInfoPage event table entries
- 
+
 END_EVENT_TABLE()
 
 
 /*!
  * CProjectInfoPage constructors
  */
- 
+
 CProjectInfoPage::CProjectInfoPage( )
 {
 }
@@ -146,7 +146,7 @@ CProjectInfoPage::~CProjectInfoPage( )
         delete pEntry;
     }
     m_Projects.clear();
-    
+
     delete m_apl;
 }
 
@@ -154,7 +154,7 @@ CProjectInfoPage::~CProjectInfoPage( )
 /*!
  * CProjectInfoPage creator
  */
- 
+
 bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectInfoPage member initialisation
@@ -191,7 +191,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_Projects.clear();
     m_bProjectSupported = false;
     m_bProjectListPopulated = false;
- 
+
 ////@begin CProjectInfoPage creation
     wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE );
 
@@ -206,14 +206,14 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 /*!
  * Control creation for WizardPage
  */
- 
+
 void CProjectInfoPage::CreateControls()
-{    
+{
 ////@begin CProjectInfoPage content construction
 #ifdef __WXMAC__
-#define DESCRIPTIONSWIDTH 350
+    const int descriptionWidth = 350;
 #else
-#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
+    const int descriptionWidth = 310;
 #endif
 
     wxArrayString aCategories;
@@ -252,7 +252,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 5);
 
     // We must populate the combo box before our sizers can calculate its width.
-    // The combo box will be repopulated in  CProjectInfoPage::OnPageChanged(), 
+    // The combo box will be repopulated in  CProjectInfoPage::OnPageChanged(),
     // so we don't need to worry about duplicate entries here.
     // Get the project list
     m_apl = new ALL_PROJECTS_LIST;
@@ -277,14 +277,14 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, _("Project details"));
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
     itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(descriptionWidth, 100), wxTE_MULTILINE|wxTE_READONLY );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer16->AddGrowableCol(1);
@@ -401,7 +401,7 @@ wxWizardPageEx* CProjectInfoPage::GetPrev() const
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CProjectInfoPage::GetNext() const
 {
     if (CHECK_CLOSINGINPROGRESS()) {
@@ -416,7 +416,7 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CProjectInfoPage::ShowToolTips()
 {
     return TRUE;
@@ -426,7 +426,7 @@ bool CProjectInfoPage::ShowToolTips()
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
@@ -495,7 +495,7 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -517,7 +517,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
     // Populate the list box with the list of project names that belong to either the specific
     // category or all of them.
     for (unsigned int i=0; i<m_Projects.size(); i++) {
-        if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) || 
+        if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) ||
             (m_pProjectCategoriesCtrl->GetValue() == m_Projects[i]->m_strGeneralArea)
         ) {
             m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
@@ -530,7 +530,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
         wxCommandEvent evtEvent(wxEVT_COMMAND_LISTBOX_SELECTED, ID_PROJECTS);
         ProcessEvent(evtEvent);
     }
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
 }
 
@@ -675,7 +675,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     wxString strProjectPlatform = aProjectPlatforms[k];
                     wxString strRootProjectPlatform = strProjectPlatform.SubString(0, strProjectPlatform.Find(_T("[")) - 1);
                     wxString strProjectPlanClass = strProjectPlatform.Mid(strProjectPlatform.Find(_T("[")));
-                    
+
                     if (strProjectPlatform.Find(_T("windows")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsWindows = true;
                     }
@@ -683,7 +683,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     if (strProjectPlatform.Find(_T("apple")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsMac = true;
                     }
-                    
+
                     if (strProjectPlatform.Find(_T("linux")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinux = true;
                     }
@@ -778,7 +778,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
-    CMainDocument* pDoc = wxGetApp().GetDocument(); 
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString       strTitle;
     int            iAnswer;
@@ -791,7 +791,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
 
     strTitle.Printf(
-        wxT("%s"), 
+        wxT("%s"),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -812,7 +812,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
     }
 
-    // Check if we are already attached to that project: 
+    // Check if we are already attached to that project:
     const std::string http = "http://";
     const std::string https = "https://";
 
@@ -833,10 +833,10 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 	if (new_project_url.length() >= 1 && new_project_url[new_project_url.length() - 1] == '/') {
 		new_project_url.erase(new_project_url.length() - 1, 1);
 	}
- 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) {
  	    PROJECT* project = pDoc->project(i);
         if (project) {
-            std::string project_url = project->master_url;            
+            std::string project_url = project->master_url;
 
             canonicalize_master_url(project_url);
 
@@ -853,7 +853,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 bAlreadyAttached = true;
                 break;
             }
-        } 
+        }
     }
 
     if (bAlreadyAttached) {
@@ -890,7 +890,7 @@ void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     win->GetPosition(&x, &y);
     int maxWidth = sz.GetWidth() - x - 10;
     win->GetTextExtent(s, &w, &h);
-    
+
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;

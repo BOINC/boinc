@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -96,7 +96,7 @@ void CSkinImage::Clear() {
     m_colBackgroundColor = wxNullColour;
     m_iAnchorHorizontal = -1;
     m_iAnchorVertical = -1;
-    
+
 }
 
 
@@ -140,7 +140,7 @@ int CSkinImage::Parse(MIOFILE& in) {
 
 wxBitmap* CSkinImage::GetBitmap() {
     Validate();
-    return &m_bmpBitmap; 
+    return &m_bmpBitmap;
 }
 
 
@@ -181,15 +181,6 @@ bool CSkinImage::Validate() {
         if (!m_strDesiredBitmap.IsEmpty()) {
             wxImage img = wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY);
             if (img.IsOk()) {
-#ifdef __WXMSW__
-// TODO: Choose from multiple size images if provided, else resize the closest one
-                if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-                    img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
-                                (int) (img.GetHeight()*GetYDPIScaling()), 
-                                wxIMAGE_QUALITY_BILINEAR
-                            );
-                }
-#endif
                 m_bmpBitmap = wxBitmap(img);
             }
         }
@@ -197,7 +188,7 @@ bool CSkinImage::Validate() {
             if (show_error_msgs) {
                 fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", (const char *)m_strComponentName.mb_str());
             }
-            m_bmpBitmap = GetScaledBitmapFromXPMData(m_ppDefaultBitmap);
+            m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
     }
@@ -327,7 +318,7 @@ bool CSkinIcon::Validate() {
         // Configure bitmap object with optional transparency mask
         wxImage img = wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY);
         wxBitmap bmp = wxBitmap(img);
-        // If PNG file has alpha channel use it as mask & ignore <transparency_mask> tag 
+        // If PNG file has alpha channel use it as mask & ignore <transparency_mask> tag
         if (!(m_strDesiredTransparencyMask.IsEmpty() || img.HasAlpha())) {
             bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
         }
@@ -340,7 +331,7 @@ bool CSkinIcon::Validate() {
         // Configure bitmap object with optional transparency mask
         wxImage img32 = wxImage(m_strDesiredIcon32, wxBITMAP_TYPE_ANY);
         wxBitmap bmp32 = wxBitmap(img32);
-        // If PNG file has alpha channel use it as mask & ignore <transparency_mask> tag 
+        // If PNG file has alpha channel use it as mask & ignore <transparency_mask> tag
         if (!(m_strDesiredTransparencyMask32.IsEmpty() || img32.HasAlpha())) {
             bmp32.SetMask(new wxMask(bmp32, ParseColor(m_strDesiredTransparencyMask32)));
         }
@@ -528,15 +519,6 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                 if (boinc_file_exists(str.c_str())) {
                     wxImage img = wxImage(str.c_str(), wxBITMAP_TYPE_ANY);
                     if (img.IsOk()) {
-#ifdef __WXMSW__
-// TODO: Choose from multiple size images if provided, else resize the closest one
-                        if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-                            img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
-                                        (int) (img.GetHeight()*GetYDPIScaling()), 
-                                        wxIMAGE_QUALITY_BILINEAR
-                                    );
-                        }
-#endif
                         m_bitmapApplicationLogo = wxBitmap(img);
                     }
                 }
@@ -596,7 +578,7 @@ wxIconBundle* CSkinAdvanced::GetApplicationIcon() {
 }
 
 
-wxIconBundle* CSkinAdvanced::GetApplicationDisconnectedIcon() { 
+wxIconBundle* CSkinAdvanced::GetApplicationDisconnectedIcon() {
     return m_iconApplicationDisconnectedIcon.GetIcon();
 }
 
@@ -611,7 +593,7 @@ wxBitmap* CSkinAdvanced::GetApplicationLogo() {
 }
 
 
-wxString CSkinAdvanced::GetOrganizationName() { 
+wxString CSkinAdvanced::GetOrganizationName() {
     return m_strOrganizationName;
 }
 
@@ -629,17 +611,17 @@ wxString CSkinAdvanced::GetOrganizationReportBugUrl() {
     return m_strOrganizationReportBugUrl;
 }
 
-int CSkinAdvanced::GetDefaultTab() { 
+int CSkinAdvanced::GetDefaultTab() {
     return m_iDefaultTab;
 }
 
 
-wxString CSkinAdvanced::GetExitMessage() { 
+wxString CSkinAdvanced::GetExitMessage() {
     return m_strExitMessage;
 }
 
 
-bool CSkinAdvanced::IsBranded() { 
+bool CSkinAdvanced::IsBranded() {
     return m_bIsBranded;
 }
 
@@ -859,7 +841,7 @@ int CSkinWizards::Parse(MIOFILE& in) {
 
 
 bool CSkinWizards::InitializeDelayedValidation() {
-    return m_AttachToProjectWizard.InitializeDelayedValidation() && 
+    return m_AttachToProjectWizard.InitializeDelayedValidation() &&
            m_AttachToAccountManagerWizard.InitializeDelayedValidation();
 }
 
@@ -889,8 +871,8 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
     if (strSkin.IsEmpty()) {
         strSkin = GetDefaultSkinName();
     }
-    
-    // Clear out all the old stuff 
+
+    // Clear out all the old stuff
     Clear();
 
     // Set the default skin back to Default
@@ -961,9 +943,9 @@ wxString CSkinManager::GetDefaultSkinName() {
 
 wxString CSkinManager::ConstructSkinFileName() {
     return wxString(
-        GetSkinsLocation() + 
+        GetSkinsLocation() +
         wxString(wxFileName::GetPathSeparator()) +
-        m_strSelectedSkin + 
+        m_strSelectedSkin +
         wxString(wxFileName::GetPathSeparator()) +
         GetSkinFileName()
     );
@@ -972,9 +954,9 @@ wxString CSkinManager::ConstructSkinFileName() {
 
 wxString CSkinManager::ConstructSkinPath() {
     return wxString(
-        GetSkinsLocation() + 
+        GetSkinsLocation() +
         wxString(wxFileName::GetPathSeparator()) +
-        m_strSelectedSkin + 
+        m_strSelectedSkin +
         wxString(wxFileName::GetPathSeparator())
     );
 }
@@ -1054,8 +1036,8 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
 
 
 bool CSkinManager::InitializeDelayedValidation() {
-    return m_SimpleSkin.InitializeDelayedValidation() && 
-           m_AdvancedSkin.InitializeDelayedValidation() && 
+    return m_SimpleSkin.InitializeDelayedValidation() &&
+           m_AdvancedSkin.InitializeDelayedValidation() &&
            m_WizardsSkin.InitializeDelayedValidation();
 }
 

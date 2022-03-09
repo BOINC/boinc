@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -58,7 +58,7 @@
  */
 
 DEFINE_EVENT_TYPE(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE)
-  
+
 /*!
  * CAccountManagerProcessingPage type definition
  */
@@ -70,9 +70,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAccountManagerProcessingPage, wxWizardPageEx )
  */
 
 BEGIN_EVENT_TABLE( CAccountManagerProcessingPage, wxWizardPageEx )
- 
+
     EVT_ACCOUNTMANAGERPROCESSING_STATECHANGE( CAccountManagerProcessingPage::OnStateChange )
- 
+
 ////@begin CAccountManagerProcessingPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerProcessingPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerProcessingPage::OnCancel )
@@ -105,14 +105,14 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
     m_pPleaseWaitStaticCtrl = NULL;
     m_pProgressIndicator = NULL;
 ////@end CAccountManagerProcessingPage member initialisation
- 
+
     m_bProjectCommunicationsSucceeded = false;
     m_bProjectUnavailable = false;
     m_bProjectAccountNotFound = false;
     m_bProjectAccountAlreadyExists = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ATTACHACCTMGR_INIT;
- 
+
 ////@begin CAccountManagerProcessingPage creation
     wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROCESSINGPAGE );
 
@@ -127,7 +127,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
  */
 
 void CAccountManagerProcessingPage::CreateControls()
-{    
+{
 ////@begin CAccountManagerProcessingPage content construction
     CAccountManagerProcessingPage* itemWizardPage36 = this;
 
@@ -156,7 +156,7 @@ void CAccountManagerProcessingPage::CreateControls()
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
-    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(ADJUSTFORXDPI(184), ADJUSTFORYDPI(48)), 0 );
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
@@ -170,14 +170,14 @@ void CAccountManagerProcessingPage::CreateControls()
 void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
- 
+
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
-    
+
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
     wxASSERT(pWA);
-        
+
     if (!pWA->GetProjectName().IsEmpty()) {
         wxString str;
 
@@ -202,7 +202,7 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
     SetProjectUnavailable(false);
     SetProjectAccountAlreadyExists(false);
     SetNextState(ATTACHACCTMGR_INIT);
- 
+
     CAccountManagerProcessingPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
 
@@ -220,7 +220,7 @@ void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
 /*!
  * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
  */
- 
+
 void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -236,10 +236,10 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     bool bPostNewEvent = true;
     int iReturnValue = 0;
     unsigned int i;
- 
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
- 
+
     switch(GetCurrentState()) {
         case ATTACHACCTMGR_INIT:
             pWA->DisableNextButton();
@@ -268,7 +268,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 username = (const char*)pWA->GetAccountEmailAddress().mb_str();
             }
             password = (const char*)pWA->GetAccountPassword().mb_str();
-            
+
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
             dtCurrentExecutionTime = wxDateTime::Now();
@@ -276,7 +276,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             iReturnValue = 0;
             reply.error_num = ERR_RETRY;
             while (
-                !iReturnValue && 
+                !iReturnValue &&
                 ((ERR_IN_PROGRESS == reply.error_num) || (ERR_RETRY == reply.error_num)) &&
                 (tsExecutionTime.GetSeconds() <= 60) &&
                 !CHECK_CLOSINGINPROGRESS()
@@ -289,7 +289,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         pWA->IsCredentialsCached()
                     );
                 }
-            
+
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);
@@ -299,7 +299,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 ::wxMilliSleep(500);
                 wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
-    
+
             if (!iReturnValue && (!reply.error_num && reply.messages.size() == 0)) {
                 SetProjectAttachSucceeded(true);
                 pWA->SetAttachedToProjectSuccessfully(true);
@@ -321,7 +321,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
 
                 strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
-                    strBuffer += 
+                    strBuffer +=
                         _("An internal server error has occurred.\n");
                 } else {
                     for (i=0; i<reply.messages.size(); i++) {
@@ -345,15 +345,15 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             bPostNewEvent = false;
             break;
     }
- 
+
     Update();
- 
+
     if (bPostNewEvent && !CHECK_CLOSINGINPROGRESS()) {
         CAccountManagerProcessingPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
 }
-  
+
 /*!
  * Gets the previous page.
  */
@@ -381,7 +381,7 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     } else {
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } 
+    }
 }
 
 /*!
@@ -397,18 +397,18 @@ void CAccountManagerProcessingPage::StartProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex = 1;
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
 }
- 
+
 void CAccountManagerProcessingPage::IncrementProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex += 1;
     if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
- 
+
     wxString str;
     str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
- 
+
     pBitmap->SetBitmap(GetBitmapResource(str));
     Update();
 }
- 
+
 void CAccountManagerProcessingPage::FinishProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex = 12;
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
@@ -424,62 +424,62 @@ wxBitmap CAccountManagerProcessingPage::GetBitmapResource( const wxString& name 
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
-        wxBitmap bitmap(GetScaledBitmapFromXPMData(wizprogress01_xpm));
+        wxBitmap bitmap(wizprogress01_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress02.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress02_xpm));
+        wxBitmap  bitmap(wizprogress02_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress03.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress03_xpm));
+        wxBitmap  bitmap(wizprogress03_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress04.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress04_xpm));
+        wxBitmap  bitmap(wizprogress04_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress05.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress05_xpm));
+        wxBitmap  bitmap(wizprogress05_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress06.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress06_xpm));
+        wxBitmap  bitmap(wizprogress06_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress07.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress07_xpm));
+        wxBitmap  bitmap(wizprogress07_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress08.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress08_xpm));
+        wxBitmap  bitmap(wizprogress08_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress09_xpm));
+        wxBitmap  bitmap(wizprogress09_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress10.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress10_xpm));
+        wxBitmap  bitmap(wizprogress10_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress11.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress11_xpm));
+        wxBitmap  bitmap(wizprogress11_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress12.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress12_xpm));
+        wxBitmap  bitmap(wizprogress12_xpm);
         return bitmap;
     }
     return wxNullBitmap;

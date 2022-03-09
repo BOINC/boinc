@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -73,42 +73,42 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     m_sAddProjectString = _("Add Project");
     m_sSynchronizeString = _("Synchronize");
     m_sTotalWorkDoneString = _("Work done for this project");
-    
+
     m_sAddProjectToolTip = _("Volunteer for any or all of 30+ projects in many areas of science");
     m_sSynchronizeToolTip = _("Synchronize projects with account manager system");
-    
+
     m_GotBGBitMap = false; // Can't be made until parent has been laid out.
     SetForegroundColour(*wxBLACK);
-    
+
     wxBoxSizer* bSizer1;
     bSizer1 = new wxBoxSizer( wxVERTICAL );
 
     wxBoxSizer* bSizer2;
     bSizer2 = new wxBoxSizer( wxHORIZONTAL );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(5));
+
+    bSizer1->AddSpacer(5);
     m_myProjectsLabel = new CTransparentStaticText( this, wxID_ANY, _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_myProjectsLabel->Wrap( -1 );
-    bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, ADJUSTFORXDPI(5) );
+    bSizer2->Add( m_myProjectsLabel, 0, wxRIGHT, 5 );
     bSizer2->AddStretchSpacer();
 
     int addProjectWidth, synchronizeWidth, y;
     GetTextExtent(m_sAddProjectString, &addProjectWidth, &y);
     GetTextExtent(m_sSynchronizeString, &synchronizeWidth, &y);
-    m_TaskAddProjectButton = new CTransparentButton( this, ID_ADDROJECTBUTTON, 
+    m_TaskAddProjectButton = new CTransparentButton( this, ID_ADDROJECTBUTTON,
         (addProjectWidth > synchronizeWidth) ? m_sAddProjectString : m_sSynchronizeString,
         wxDefaultPosition, wxDefaultSize, 0
     );
-                            
-    bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND, SIDEMARGINS );
-    bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, ADJUSTFORXDPI(10) );
+
+    bSizer2->Add( m_TaskAddProjectButton, 0, wxRIGHT | wxEXPAND, sideMargins);
+    bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
 
 #ifndef __WXMAC__
-    bSizer1->AddSpacer(ADJUSTFORYDPI(5));
+    bSizer1->AddSpacer(5);
 #endif
-    
+
 #if TESTBIGICONPOPUP
-    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 4, tempArray, wxCB_READONLY ); 
+    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 4, tempArray, wxCB_READONLY );
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     bmArray[0] = *pSkinSimple->GetProjectImage()->GetBitmap();
     m_ProjectSelectionCtrl->SetItemBitmap(0, bmArray[0]);
@@ -119,26 +119,26 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 //    m_ProjectSelectionCtrl->SetStringSelection(tempArray[1]);
     m_ProjectSelectionCtrl->SetSelection(1);
 #else
-    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 0, NULL, wxCB_READONLY); 
+    m_ProjectSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGPROJECTSELECTOR, wxT(""), wxDefaultPosition, wxSize(-1, 42), 0, NULL, wxCB_READONLY);
 #endif
     // TODO: Might want better wording for Project Selection Combo Box tooltip
     str = _("Select a project to access with the controls below");
     m_ProjectSelectionCtrl->SetToolTip(str);
-    bSizer1->Add( m_ProjectSelectionCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( m_ProjectSelectionCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
 
 #ifndef __WXMAC__
-    bSizer1->AddSpacer(ADJUSTFORYDPI(8));
+    bSizer1->AddSpacer(8);
 #endif
-    
-    // Make sure m_TotalCreditValue string is large enough 
+
+    // Make sure m_TotalCreditValue string is large enough
     m_fDisplayedCredit = 9999999999.99;
     str.Printf(wxT("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
     m_TotalCreditValue = new CTransparentStaticText( this, wxID_ANY, str, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_TotalCreditValue->Wrap( -1 );
-    
-    bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
 
-    bSizer1->AddSpacer(ADJUSTFORYDPI(5));
+    bSizer1->Add( m_TotalCreditValue, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(5);
 
     wxBoxSizer* bSizer3;
     bSizer3 = new wxBoxSizer( wxHORIZONTAL );
@@ -150,11 +150,11 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     m_ProjectCommandsButton = new CSimpleProjectCommandPopupButton( this, ID_PROJECTCOMMANDBUTTON, _("Project Commands"), wxDefaultPosition, wxDefaultSize, 0 );
     bSizer3->Add( m_ProjectCommandsButton, 0, wxEXPAND, 0 );
 
-    bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(10));
+    bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
 
-    // Temporarily insert a dummy entry so sizer can 
+    bSizer1->AddSpacer(10);
+
+    // Temporarily insert a dummy entry so sizer can
     // get correct height of m_ProjectSelectionCtrl
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     wxBitmap* defaultBM = pSkinSimple->GetProjectImage()->GetBitmap();
@@ -162,7 +162,7 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
 
     this->SetSizer( bSizer1 );
     this->Layout();
-    
+
     // Remove the dummy entry
     m_ProjectSelectionCtrl->Delete(0);
 
@@ -216,7 +216,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         if (pDoc->m_iAcct_mgr_info_rpc_result == 0) {
             // We use an integer rather than a bool to force action the first time
             is_acct_mgr_detected = pDoc->ami.acct_mgr_url.size() ? 1 : 0;
-            
+
             if ((m_UsingAccountManager != is_acct_mgr_detected) || (!m_TaskAddProjectButton->IsEnabled())) {
                 m_UsingAccountManager = is_acct_mgr_detected;
                 if (is_acct_mgr_detected) {
@@ -237,7 +237,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         }
 
         UpdateProjectList();
-        
+
         count = m_ProjectSelectionCtrl->GetCount();
     }
     if (count > 0) {
@@ -246,27 +246,27 @@ void CSimpleProjectPanel::UpdateInterface() {
             m_ProjectSelectionCtrl->SetSelection(0);
             n = 0;
         }
-        
+
         // Check to see if we need to rebuild the menu
         char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(n))->project_url;
         if (strcmp(m_CurrentSelectedProjectURL, ctrl_url)) {
             b_needMenuRebuild = true;
             strlcpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
         }
-        
+
         PROJECT* project = pDoc->state.lookup_project(ctrl_url);
         if ( project != NULL && project->last_rpc_time > m_Project_last_rpc_time ) {
             b_needMenuRebuild = true;
             m_Project_last_rpc_time = project->last_rpc_time;
         }
-        
+
         if (b_needMenuRebuild) {
             m_ProjectWebSitesButton->RebuildMenu();
         }
 
         m_ProjectWebSitesButton->Enable();
         m_ProjectCommandsButton->Enable();
-        
+
         if (m_fDisplayedCredit != project->user_total_credit) {
             str.Printf(wxT("%s: %s"),
                 m_sTotalWorkDoneString.c_str(),
@@ -392,7 +392,7 @@ void CSimpleProjectPanel::OnProjectCommandButton(wxCommandEvent& /*event*/) {
 /*** CAF *** FOR TESTING ONLY ***/
     static int i = 1;
     wxString s;
-    
+
     if (++i > 8) i = 0;
     int sel = i % 3;
 //    m_ProjectSelectionCtrl->SetStringSelection(tempArray[sel]);
@@ -410,7 +410,7 @@ void CSimpleProjectPanel::OnProjectCommandButton(wxCommandEvent& /*event*/) {
 
 void CSimpleProjectPanel::OnProjectSelection(wxCommandEvent& /*event*/) {
     UpdateInterface();
-    
+
 //    const int sel = m_ProjectSelectionCtrl->GetSelection();
 #if 0 //TESTBIGICONPOPUP
     wxRect r;
@@ -432,7 +432,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
         int projCnt = pDoc->GetSimpleProjectCount();
         int ctrlCount = m_ProjectSelectionCtrl->GetCount();
         oldProjectSelection = m_ProjectSelectionCtrl->GetSelection();
-        
+
         // If a new project has been added, figure out which one
         for(int i=0; i<projCnt; i++) {
             char* ctrl_url;
@@ -474,7 +474,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
                         ++oldProjectSelection;
                         m_ProjectSelectionCtrl->SetSelection(oldProjectSelection);
                     }
-                } else 
+                } else
 #endif
                 {
                     m_ProjectSelectionCtrl->Append(projname, *projectBM, (void*)selData);
@@ -482,7 +482,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 ctrlCount = m_ProjectSelectionCtrl->GetCount();
             }
         }
-        
+
         newProjectSelection = oldProjectSelection;
         if ( projCnt < ctrlCount ) {
             project = NULL;
@@ -513,7 +513,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 }
             }
         }
-    
+
         // Check to see if we need to reload the project icon
         ctrlCount = m_ProjectSelectionCtrl->GetCount();
         for(int j=0; j<ctrlCount; j++) {
@@ -548,30 +548,20 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
 
     // Only update it if project specific is found
     if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
-        wxBitmap* projectBM;
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);
         if (wxFile::Exists(strIconPath)) {
             // wxBitmapComboBox requires all its bitmaps to be the same size
             // Our "project icon" bitmaps should all be 40 X 40
             wxImage img = wxImage(strIconPath, wxBITMAP_TYPE_ANY);
             if (img.IsOk()) {
-#ifdef __WXMSW__
-            if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-                img.Rescale((int) (40*GetXDPIScaling()), 
-                            (int) (40*GetYDPIScaling()), 
-                            wxIMAGE_QUALITY_BILINEAR
-                        );
-                }
-#else
                 if ((img.GetHeight() != 40) || (img.GetWidth() == 40)) {
                         img.Rescale(40, 40, wxIMAGE_QUALITY_BILINEAR);
                 }
-#endif
-                projectBM = new wxBitmap(img);
+                wxBitmap* projectBM = new wxBitmap(img);
                 if (projectBM->IsOk()) {
                     return projectBM;
                 }
-            } 
+            }
         }
     }
     return pSkinSimple->GetProjectImage()->GetBitmap();
