@@ -83,8 +83,10 @@ class MessagesParser : BaseParser() {
         @JvmStatic
         fun parse(rpcResult: String): List<Message> {
             return try {
+                // Replace 0x03 character in the rpcResult string
+                val rpcResultReplaced = rpcResult.replace("\u0003", "")
                 val parser = MessagesParser()
-                Xml.parse(rpcResult, parser)
+                Xml.parse(rpcResultReplaced, parser)
                 parser.messages
             } catch (e: SAXException) {
                 Logging.logException(Logging.Category.RPC, "MessagesParser: malformed XML ", e)
