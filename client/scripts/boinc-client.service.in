@@ -1,7 +1,8 @@
 [Unit]
 Description=Berkeley Open Infrastructure Network Computing Client
 Documentation=man:boinc(1)
-After=network-online.target
+Wants=vboxdrv.service
+After=vboxdrv.service network-online.target
 
 [Service]
 Type=simple
