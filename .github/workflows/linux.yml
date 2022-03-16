@@ -136,10 +136,6 @@ jobs:
           name: Linux_tests_results
           path: "tests/gtest/**/*_xml_report.xml"
 
-      - name: Run GCov
-        if: success() && matrix.type == 'unit-test'
-        run: bash -c "find . -type f -name '*.gcno' -exec gcov -pb {} +" || true
-
       - name: Upload coverage report
         uses: codecov/codecov-action@v2
         if: success() && matrix.type == 'unit-test'
