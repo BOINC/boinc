@@ -202,7 +202,7 @@
       <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;lzmad.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;lzma.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);$(VcpkgInstalledDir)/debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
@@ -245,7 +245,7 @@
       <AdditionalIncludeDirectories>$(VcpkgInstalledDir)/include/;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;lzmad.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxmsw31ud_html.lib;wxmsw31ud_qa.lib;wxmsw31ud_webview.lib;wxregexud.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;lzma.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);$(VcpkgInstalledDir)/debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
