@@ -94,6 +94,7 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
+		DD35BF3A27E3601800F1BBFC /* BOINCSaver.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */; };
 		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
@@ -179,7 +180,6 @@
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD43475826FB397A00B8880F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD43474F26FB378100B8880F /* QuartzCore.framework */; };
-		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
@@ -994,6 +994,7 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BOINCSaver.xib; path = ../clientscr/res/BOINCSaver.xib; sourceTree = "<group>"; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAA6216A25AD00BC673C /* boinc_finish_install */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_finish_install; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
@@ -1014,7 +1015,6 @@
 		DD4688410C165F3C0089F500 /* Uninstall BOINC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Uninstall BOINC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Uninstaller-Info.plist"; sourceTree = "<group>"; };
 		DD4688590C1661970089F500 /* uninstall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uninstall.cpp; path = ../mac_installer/uninstall.cpp; sourceTree = SOURCE_ROOT; };
-		DD48091E081A66F100A174AA /* BOINCSaver.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BOINCSaver.nib; path = ../clientscr/res/BOINCSaver.nib; sourceTree = SOURCE_ROOT; };
 		DD4AE04B13652BD700285859 /* cc_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cc_config.cpp; path = ../lib/cc_config.cpp; sourceTree = SOURCE_ROOT; };
 		DD4AE04C13652BD700285859 /* cc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cc_config.h; path = ../lib/cc_config.h; sourceTree = SOURCE_ROOT; };
 		DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgMessages.cpp; path = ../clientgui/sg_DlgMessages.cpp; sourceTree = SOURCE_ROOT; };
@@ -1653,10 +1653,10 @@
 				DD957E5A181B908800ECA34E /* thumbnail@2x.png */,
 				DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
+				DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
 				DD74B685177074AF005CF7DC /* PutInTrash.icns */,
-				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
 				DD64E7D507D89DB800B176C8 /* Info.plist */,
@@ -2736,8 +2736,8 @@
 				DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */,
 				DD5F656623607472009ED2A2 /* gfx_cleanup in Resources */,
 				DD818295245ED4110076E5D0 /* boinc_ss_helper.sh in Resources */,
+				DD35BF3A27E3601800F1BBFC /* BOINCSaver.xib in Resources */,
 				DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */,
-				DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */,
 				DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */,
 				DD957E5B181B908800ECA34E /* thumbnail.png in Resources */,
 				DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */,
