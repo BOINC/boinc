@@ -201,7 +201,13 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
 
 @implementation BOINC_Saver_ModuleView
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
+    NSBundle * myBundle;
+    int period;
+
     self = [ super initWithFrame:frame isPreview:isPreview ];
     
     gIsHighSierra = (compareOSVersionTo(10, 13) >= 0);
@@ -245,33 +251,14 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             DPI_multiplier = [((NSScreen*)allScreens[0]) backingScaleFactor];
         }
     }
-    return self;
-}
-
-// If there are multiple displays, this may get called 
-// multiple times (once for each display), so we need to guard 
-// against any problems that may cause.
-- (void)startAnimation {
-    NSBundle * myBundle;
-    int newFrequency;
-    int period;
-
-    gEventHandle = NXOpenEventStatus();
-    
-    mainThreadID = pthread_self();
-
-    // Under OS 10.14 Mojave, [super drawRect:] is slow but not needed if we do this:
-    [[self window] setBackgroundColor:[NSColor blackColor]];
 
     initBOINCSaver();
 
-    if (gBOINC_Logo == NULL) {
-        if (self) {
+    if (self) {
+        if (mBundleID == NULL) {
             myBundle = [ NSBundle bundleForClass:[self class]];
             // grab the screensaver defaults
-            if (mBundleID == NULL) {
-                mBundleID = [ myBundle bundleIdentifier ];
-            }
+            mBundleID = [ myBundle bundleIdentifier ];
 
             // Path to our copy of switcher utility application in this screensaver bundle
             if (gPathToBundleResources == NULL) {
@@ -318,40 +305,58 @@ void launchedGfxApp(char * appPath, pid_t thePID, int slot) {
             setGGFXChangePeriod((double)(period * 60));
 
            [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
-
-            NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc_ss_logo" ];
-            if (! fileName) {
-                // What should we do in this case?
-                return;
-            }
-            
-            gBOINC_Logo = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
-            gMovingRect.origin.x = 0.0;
-            gMovingRect.origin.y = 0.0;
-            gMovingRect.size = [gBOINC_Logo size];
-            
-            if (gMovingRect.size.width < TEXTBOXMINWIDTH) {
-                gImageXIndent = (TEXTBOXMINWIDTH - gMovingRect.size.width) / 2;
-                gMovingRect.size.width = TEXTBOXMINWIDTH;
-            } else {
-                gImageXIndent = 0.0;
-            }
-            gTextBoxHeight = MINTEXTBOXHEIGHT;
-            gMovingRect.size.height += gTextBoxHeight;
-            gCurrentPosition.x = SAFETYBORDER + 1;
-            gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
-            gCurrentDelta.x = 1.0;
-            gCurrentDelta.y = 1.0;
-            
-            gActualTextBoxHeight = MINTEXTBOXHEIGHT;
-            
-            [ self setAnimationTimeInterval:1/8.0 ];
         }
     }
     
     // Path to our copy of switcher utility application in this screensaver bundle
     if (gPathToBundleResources == NULL) {
         gPathToBundleResources = [ myBundle resourcePath ];
+    }
+    
+    return self;
+}
+
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
+- (void)startAnimation {
+    int newFrequency;
+
+    gEventHandle = NXOpenEventStatus();
+    
+    mainThreadID = pthread_self();
+
+    // Under OS 10.14 Mojave, [super drawRect:] is slow but not needed if we do this:
+    [[self window] setBackgroundColor:[NSColor blackColor]];
+
+    if (gBOINC_Logo == NULL) {    
+        NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc_ss_logo" ];
+        if (! fileName) {
+            // What should we do in this case?
+            return;
+        }
+        
+        gBOINC_Logo = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
+        gMovingRect.origin.x = 0.0;
+        gMovingRect.origin.y = 0.0;
+        gMovingRect.size = [gBOINC_Logo size];
+        
+        if (gMovingRect.size.width < TEXTBOXMINWIDTH) {
+            gImageXIndent = (TEXTBOXMINWIDTH - gMovingRect.size.width) / 2;
+            gMovingRect.size.width = TEXTBOXMINWIDTH;
+        } else {
+            gImageXIndent = 0.0;
+        }
+        gTextBoxHeight = MINTEXTBOXHEIGHT;
+        gMovingRect.size.height += gTextBoxHeight;
+        gCurrentPosition.x = SAFETYBORDER + 1;
+        gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+        gCurrentDelta.x = 1.0;
+        gCurrentDelta.y = 1.0;
+        
+        gActualTextBoxHeight = MINTEXTBOXHEIGHT;
+        
+        [ self setAnimationTimeInterval:1/8.0 ];
     }
 
     [ super startAnimation ];
