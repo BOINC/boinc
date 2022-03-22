@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -127,7 +127,7 @@ CNetworkConnection::~CNetworkConnection() {
 
 int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
- 
+
     int retval = read_gui_rpc_password(buf, password_msg);
     strPassword = wxString(buf, wxConvUTF8);
     return retval;
@@ -481,7 +481,7 @@ int CMainDocument::OnInit() {
 
     // client may auto-attach only when first launched
     m_bAutoAttaching = autoattach_in_progress();
-    
+
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
@@ -1596,7 +1596,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* rp) {
     bool exited = false;
     int slot = -1;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
-    
+
     if (m_running_gfx_apps.empty()) return NULL;
 
     char *p = strrchr((char*)rp->slot_path, '/');
@@ -1757,7 +1757,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
         previous_gfx_app = GetRunningGraphicsApp(rp);
 
         if (previous_gfx_app) {
-            // If graphics app is already running, the button has changed to 
+            // If graphics app is already running, the button has changed to
             // "Stop graphics", so we end the graphics app.
             //
             KillGraphicsApp(previous_gfx_app->pid); // User clicked on "Stop graphics" button
@@ -1766,7 +1766,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 
 #ifndef __WXMSW__
         char* argv[4];
-        
+
         argv[0] = "switcher";
         // For unknown reasons on Macs, the graphics application
         // exits with "RegisterProcess failed (error = -50)" unless
@@ -2654,59 +2654,6 @@ void color_cycle(int i, int n, wxColour& color) {
     unsigned char cg = (unsigned char) (g*256);
     unsigned char cb = (unsigned char) (b*256);
     color = wxColour(cr, cg, cb);
-}
-
-#ifdef __WXMSW__
-static double XDPIScaleFactor = 0.0;
-static double YDPIScaleFactor = 0.0;
-
-void GetDPIScaling() {
-    XDPIScaleFactor = 1.0;
-    YDPIScaleFactor = 1.0;
-    // SetProcessDPIAware() requires Windows Vista or later
-    HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
-    typedef BOOL (*SetProcessDPIAwareFunc)();
-    SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
-    if (setDPIAware) {
-        setDPIAware();
-        HWND hWnd = GetForegroundWindow();
-        HDC hdc = GetDC(hWnd);
-        XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
-        YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
-        ReleaseDC(hWnd, hdc);
-    }
-    FreeLibrary(hUser32);
-}
-
-double GetXDPIScaling() {
-    if (XDPIScaleFactor == 0.0) {
-        GetDPIScaling();
-    }
-    return XDPIScaleFactor;
-}
-
-double GetYDPIScaling() {
-    if (YDPIScaleFactor == 0.0) {
-        GetDPIScaling();
-    }
-    return YDPIScaleFactor;
-}
-#endif
-
-// TODO: Choose from multiple size images if provided, else resize the closest one
-wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
-#ifdef __WXMSW__
-    if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-        wxImage img = wxImage(XPMData);
-        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()),
-                    (int) (img.GetHeight()*GetYDPIScaling()),
-                    wxIMAGE_QUALITY_BILINEAR
-                );
-        wxBitmap *bm = new wxBitmap(img);
-        return *bm;
-    }
-#endif
-    return wxBitmap(XPMData);
 }
 
 wxString FormatTime(double secs) {

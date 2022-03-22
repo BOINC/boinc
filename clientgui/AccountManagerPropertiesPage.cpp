@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -58,9 +58,9 @@
 /*!
  * CAccountManagerPropertiesPage custom event definition
  */
- 
+
 DEFINE_EVENT_TYPE(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE)
-  
+
 /*!
  * CAccountManagerPropertiesPage type definition
  */
@@ -72,9 +72,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAccountManagerPropertiesPage, wxWizardPageEx )
  */
 
 BEGIN_EVENT_TABLE( CAccountManagerPropertiesPage, wxWizardPageEx )
- 
+
     EVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE( CAccountManagerPropertiesPage::OnStateChange )
- 
+
 ////@begin CAccountManagerPropertiesPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerPropertiesPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerPropertiesPage::OnCancel )
@@ -107,7 +107,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_pPleaseWaitStaticCtrl = NULL;
     m_pProgressIndicator = NULL;
 ////@end CAccountManagerPropertiesPage member initialisation
- 
+
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
     m_bProjectPropertiesCommunicationFailure = false;
@@ -119,7 +119,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bCredentialsAlreadyAvailable = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ACCTMGRPROP_INIT;
- 
+
 ////@begin CAccountManagerPropertiesPage creation
     wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROPERTIESPAGE );
 
@@ -134,7 +134,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
  */
 
 void CAccountManagerPropertiesPage::CreateControls()
-{    
+{
 ////@begin CAccountManagerPropertiesPage content construction
     CAccountManagerPropertiesPage* itemWizardPage36 = this;
 
@@ -163,7 +163,7 @@ void CAccountManagerPropertiesPage::CreateControls()
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
-    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(ADJUSTFORXDPI(184), ADJUSTFORYDPI(48)), 0 );
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
@@ -177,7 +177,7 @@ void CAccountManagerPropertiesPage::CreateControls()
 void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& /*event*/ )
 {
 //    if (event.GetDirection() == false) return;
- 
+
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
@@ -231,7 +231,7 @@ void CAccountManagerPropertiesPage::OnCancel( wxWizardExEvent& event ) {
 /*!
  * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
  */
- 
+
 void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& WXUNUSED(event) )
 {
     CMainDocument*  pDoc = wxGetApp().GetDocument();
@@ -244,10 +244,10 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     wxString strBuffer = wxEmptyString;
     bool bPostNewEvent = true;
     int  iReturnValue = 0;
- 
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
- 
+
     switch(GetCurrentState()) {
         case ACCTMGRPROP_INIT:
             pWA->DisableNextButton();
@@ -260,7 +260,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             break;
         case ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
-            
+
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
             dtCurrentExecutionTime = wxDateTime::Now();
@@ -288,12 +288,12 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 ::wxMilliSleep(500);
                 wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
- 
+
             if (
                 !iReturnValue
                 && (!pc->error_num || pc->error_num == ERR_ACCT_CREATION_DISABLED)
             ) {
-                // We either successfully retrieved the project's account creation 
+                // We either successfully retrieved the project's account creation
                 //   policies or we were able to talk to the web server and found out
                 //   they do not support account creation through the wizard.  In either
                 //   case we should claim success and set the correct flags to show the
@@ -394,15 +394,15 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             bPostNewEvent = false;
             break;
     }
- 
+
     Update();
- 
+
     if (bPostNewEvent && !CHECK_CLOSINGINPROGRESS()) {
         CAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
 }
-   
+
 /*!
  * Gets the previous page.
  */
@@ -454,28 +454,28 @@ bool CAccountManagerPropertiesPage::ShowToolTips()
     return TRUE;
 }
 
- 
+
 void CAccountManagerPropertiesPage::StartProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex = 1;
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
 }
- 
+
 void CAccountManagerPropertiesPage::IncrementProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex += 1;
     if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
- 
+
     wxString str;
     str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
- 
+
     pBitmap->SetBitmap(GetBitmapResource(str));
     Update();
 }
- 
+
 void CAccountManagerPropertiesPage::FinishProgress(wxStaticBitmap* pBitmap) {
     m_iBitmapIndex = 12;
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
 }
- 
+
 /*!
  * Get bitmap resources
  */
@@ -486,62 +486,62 @@ wxBitmap CAccountManagerPropertiesPage::GetBitmapResource( const wxString& name 
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
-        wxBitmap bitmap(GetScaledBitmapFromXPMData(wizprogress01_xpm));
+        wxBitmap bitmap(wizprogress01_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress02.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress02_xpm));
+        wxBitmap  bitmap(wizprogress02_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress03.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress03_xpm));
+        wxBitmap  bitmap(wizprogress03_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress04.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress04_xpm));
+        wxBitmap  bitmap(wizprogress04_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress05.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress05_xpm));
+        wxBitmap  bitmap(wizprogress05_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress06.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress06_xpm));
+        wxBitmap  bitmap(wizprogress06_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress07.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress07_xpm));
+        wxBitmap  bitmap(wizprogress07_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress08.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress08_xpm));
+        wxBitmap  bitmap(wizprogress08_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress09_xpm));
+        wxBitmap  bitmap(wizprogress09_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress10.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress10_xpm));
+        wxBitmap  bitmap(wizprogress10_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress11.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress11_xpm));
+        wxBitmap  bitmap(wizprogress11_xpm);
         return bitmap;
     }
     else if (name == wxT("res/wizprogress12.xpm"))
     {
-        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress12_xpm));
+        wxBitmap  bitmap(wizprogress12_xpm);
         return bitmap;
     }
     return wxNullBitmap;

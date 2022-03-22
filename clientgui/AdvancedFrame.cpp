@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -828,12 +828,12 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 
     pImageList = m_pNotebook->GetImageList();
     if (!pImageList) {
-        pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
+        pImageList = new wxImageList(16, 16, true, 0);
         wxASSERT(pImageList != NULL);
         m_pNotebook->SetImageList(pImageList);
     }
 
-    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(pwndNewNotebookPage->GetViewIcon()));
+    iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewDisplayName(), TRUE, iImageIndex);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
