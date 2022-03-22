@@ -183,6 +183,7 @@ noinst_HEADERS = \
     unix_util.h
 
 lib_LTLIBRARIES = libboinc.la
+pkgconfig_DATA = libboinc.pc
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
@@ -194,6 +195,7 @@ libboinc_la_LIBADD =
 
 if ENABLE_BOINCCRYPT
 lib_LTLIBRARIES += libboinc_crypt.la
+pkgconfig_DATA += libboinc_crypt.pc
 libboinc_crypt_la_SOURCES = crypt.cpp
 libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
 libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
@@ -203,6 +205,7 @@ endif
 
 if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
+pkgconfig_DATA += libboinc_fcgi.pc
 libboinc_fcgi_la_SOURCES = $(libfcgi_sources) $(mac_sources) $(win_sources)
 libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)

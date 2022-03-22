@@ -64,6 +64,9 @@ SAH_LINKS
 AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
 
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
+
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
 
@@ -1335,6 +1338,9 @@ AC_SUBST(FULLNAME)
 AC_CONFIG_FILES([
                  version.h
                  api/Makefile
+                 api/libboinc_api.pc
+                 api/libboinc_graphics2.pc
+                 api/libboinc_opencl.pc
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
@@ -1349,6 +1355,9 @@ AC_CONFIG_FILES([
                  doc/manpages/Makefile
                  html/Makefile
                  lib/Makefile
+                 lib/libboinc.pc
+                 lib/libboinc_crypt.pc
+                 lib/libboinc_fcgi.pc
                  locale/Makefile
                  Makefile
                  py/Boinc/version.py
@@ -1376,6 +1385,7 @@ AC_CONFIG_FILES([
                  tools/Makefile
                  vda/Makefile
                  zip/Makefile
+                 zip/libboinc_zip.pc
                  zip/zip/Makefile
                  zip/unzip/Makefile
                  m4/Makefile

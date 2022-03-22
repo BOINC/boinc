@@ -76,6 +76,7 @@
 ## files created by _autosetup (autoreconf):
 *.in
 *.in~
+!*.pc.in
 aclocal.m4
 autom4te.cache/
 compile
@@ -96,6 +97,7 @@ test-driver
 ## files created by configure:
 Makefile
 .deps/
+*.pc
 boinc_path_config.py
 pkginfo
 prototype
