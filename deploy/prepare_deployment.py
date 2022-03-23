@@ -146,9 +146,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/worker*.exe',
     './win_build/Build/x64/Release/sleeper*.exe',
     './win_build/Build/x64/Release/boinclog.exe',
-    './win_build/Build/x64/Release/boincsim.exe',
     './win_build/Build/x64/Release/multi_thread*.exe',
-    './win_build/Build/x64/Release/slide_show.exe',
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
@@ -160,9 +158,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/worker*.exe',
     './win_build/Build/ARM64/Release/sleeper*.exe',
     './win_build/Build/ARM64/Release/boinclog.exe',
-    './win_build/Build/ARM64/Release/boincsim.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
-    './win_build/Build/ARM64/Release/slide_show.exe',
     './win_build/Build/ARM64/Release/test*.exe',
     './win_build/Build/ARM64/Release/wrappture*.exe'
 ]
