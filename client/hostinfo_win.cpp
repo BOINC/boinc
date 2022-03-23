@@ -529,6 +529,18 @@ int get_os_information(
                             case PRODUCT_ENTERPRISE_N_EVALUATION:
                                 safe_strcat(szSKU, "Enterprise N (Evaluation) ");
                                 break;
+                            case PRODUCT_ENTERPRISE_S:
+                                safe_strcat(szSKU, "Enterprise LTSB ");
+                                break;
+                            case PRODUCT_ENTERPRISE_S_EVALUATION:
+                                safe_strcat(szSKU, "Enterprise LTSB Evaluation ");
+                                break;
+                            case PRODUCT_ENTERPRISE_S_N:
+                                safe_strcat(szSKU, "Enterprise LTSB N ");
+                                break;
+                            case PRODUCT_ENTERPRISE_S_N_EVALUATION:
+                                safe_strcat(szSKU, "Enterprise LTSB N Evaluation ");
+                                break;
                             case PRODUCT_HOME_BASIC:
                                 safe_strcat(szSKU, "Home Basic ");
                                 break;
@@ -595,6 +607,12 @@ int get_os_information(
                             case PRODUCT_ULTIMATE_N:
                                 safe_strcat(szSKU, "Ultimate N ");
                                 break;
+                            case PRODUCT_PRO_WORKSTATION:
+                                safe_strcat(szSKU, "Pro for Workstations ");
+                                break;
+                            case PRODUCT_PRO_WORKSTATION_N:
+                                safe_strcat(szSKU, "Pro for Workstations N ");
+                                break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
@@ -653,6 +671,12 @@ int get_os_information(
                                 break;
                             case PRODUCT_DATACENTER_EVALUATION_SERVER:
                                 safe_strcat(szSKU, "Datacenter (Evaluation) ");
+                                break;
+                            case PRODUCT_DATACENTER_A_SERVER_CORE:
+                                safe_strcat(szSKU, "Datacenter, Semi-Annual Channel (core installation) ");
+                                break;
+                            case PRODUCT_STANDARD_A_SERVER_CORE:
+                                safe_strcat(szSKU, "Standard, Semi-Annual Channel (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER:
                                 safe_strcat(szSKU, "Datacenter ");
@@ -797,6 +821,24 @@ int get_os_information(
                                 break;
                             case PRODUCT_WEB_SERVER_CORE:
                                 safe_strcat(szSKU, "Web Server (core installation) ");
+                                break;
+                            case PRODUCT_SB_SOLUTION_SERVER:
+                                safe_strcat(szSKU, "Small Business Server Essentials ");
+                                break;
+                            case PRODUCT_SB_SOLUTION_SERVER_EM:
+                                safe_strcat(szSKU, "Server For SB Solutions EM ");
+                                break;
+                            case PRODUCT_SERVER_FOR_SB_SOLUTIONS:
+                                safe_strcat(szSKU, "Server For SB Solutions ");
+                                break;
+                            case PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM:
+                                safe_strcat(szSKU, "Server For SB Solutions EM ");
+                                break;
+                            case PRODUCT_STANDARD_SERVER_SOLUTIONS:
+                                safe_strcat(szSKU, "Server Solutions Premium ");
+                                break;
+                            case PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE:
+                                safe_strcat(szSKU, "Server Solutions Premium (core installation) ");
                                 break;
                         }
 
