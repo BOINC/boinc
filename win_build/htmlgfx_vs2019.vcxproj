@@ -95,10 +95,10 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">htmlgfx_26155_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">htmlgfx_26155_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">htmlgfx_26155_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">htmlgfx_26155_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">htmlgfx_26203_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">htmlgfx_26203_windows_arm64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">htmlgfx_26203_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">htmlgfx_26203_windows_arm64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
