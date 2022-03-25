@@ -223,7 +223,7 @@ def prepare_7z_archive(archive_name, target_directory, files_list):
     os.system(command)
 
 def help():
-    print('Usage: python preprare_deployment.py BOINC_TYPE')
+    print('Usage: python prepare_deployment.py BOINC_TYPE')
     print(f'BOINC_TYPE : [{" | ".join(boinc_types.keys())}]')
 
 def prepare_linux_client(target_directory):
