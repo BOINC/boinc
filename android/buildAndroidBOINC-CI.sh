@@ -253,7 +253,6 @@ getTripletName()
 }
 
 if [ $build_with_vcpkg = "yes" ]; then
-    export XDG_CACHE_HOME=$cache_dir/vcpkgcache/
     if [ $ci = "yes" ]; then
         triplets_setup="ci"
     else

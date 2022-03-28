@@ -11,8 +11,6 @@ BUILD_DIR="$PWD/3rdParty/mingw"
 VCPKG_PORTS="$PWD/3rdParty/vcpkg_ports"
 VCPKG_ROOT="$BUILD_DIR/vcpkg"
 
-export XDG_CACHE_HOME=$CACHE_DIR/vcpkgcache
-
 if [ ! -d $VCPKG_ROOT ]; then
     mkdir -p $BUILD_DIR
     git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
