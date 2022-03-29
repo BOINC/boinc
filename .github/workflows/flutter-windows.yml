@@ -7,6 +7,11 @@ on:
   schedule:
     - cron:  '25 12 * * 0'
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
   build:
     name: ${{ matrix.type }}-flutter-build
@@ -44,18 +49,15 @@ jobs:
             ${{ github.workspace }}\3rdParty\Windows\cuda\
           key: windows-flutter-x64-Release-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj', '.github/workflows/flutter-windows.yml') }}
 
-      - name: Configure Python
-        if: matrix.type == 'windows'
-        shell: cmd
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
-          pip install boto3
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
 
-      - name: Download vcpkg binary cache
-        if: matrix.type == 'windows'
-        shell: cmd
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
         run: |
-          python deploy\manage_vcpkg_archive_cache.py download ${{ github.workspace }}\3rdParty\buildCache\windows\vcpkgcache\ windows_x64 "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
-
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: Build windows client
         if: matrix.type == 'windows'

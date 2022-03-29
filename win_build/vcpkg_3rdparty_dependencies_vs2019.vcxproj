@@ -178,8 +178,8 @@
     <Exec Command="vcpkg.exe remove curl --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="$(OutdatedCurl) != ''" />
   </Target>
   <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="RemoveOutdated3rdPartyLibraries" AfterTargets="RemoveOutdated3rdPartyLibraries">
-    <Exec Command="vcpkg.exe install openssl curl[core,schannel] wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --recurse --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
-    <Exec Command="vcpkg.exe install ftgl --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="'$(Platform)' == 'x64'" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
+    <Exec Command="vcpkg.exe install openssl curl[core,schannel] wxwidgets opencl rappture gtest --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --recurse --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
+    <Exec Command="vcpkg.exe install ftgl --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="'$(Platform)' == 'x64'" ContinueOnError="WarnAndContinue" />
+    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
   </Target>
 </Project>

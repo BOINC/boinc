@@ -7,6 +7,11 @@ on:
   schedule:
     - cron:  '5 12 * * 0'
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
   build:
     name: ${{ matrix.type }}-build
@@ -36,15 +41,15 @@ jobs:
             !3rdParty/buildCache/android/vcpkgcache/
           key: android-${{ matrix.type }}-${{ hashFiles('android/*.sh', '.github/workflows/android.yml') }}
 
-      - name: Configure Python
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
-          pip install boto3
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
 
-      - name: Download vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
         run: |
-          python ./deploy/manage_vcpkg_archive_cache.py download 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache"
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: Build manager
         if: ${{ success() && matrix.type == 'manager' }}
@@ -118,11 +123,3 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: false
-
-      - name: Upload vcpkg binary cache
-        if: ${{ success() && contains(matrix.type, 'vcpkg') }}
-        env:
-          ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
-        run: |
-          python ./deploy/manage_vcpkg_archive_cache.py upload 3rdParty/buildCache/android/vcpkgcache/vcpkg/archives/ android "edu.berkeley.boinc.github.actions.build.vcpkg.binary.cache" "$ACCESS_KEY" "$SECRET_KEY"
