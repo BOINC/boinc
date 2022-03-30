@@ -239,13 +239,19 @@ void newer_version_startup_check() {
 
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
+// get client version info from the BOINC server if we haven't done so recently.
+// Called periodically from the main loop.
+// Also called with force=true for the get_newer_version() GUI RPC
+//
 void CLIENT_STATE::new_version_check(bool force) {
-    if (force || (new_version_check_time == 0) ||
-        (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
-            // get_current_version_op.handle_reply()
-            // updates new_version_check_time
-            //
-            get_current_version_op.do_rpc();
-        }
+    if (force
+        || (new_version_check_time == 0)
+        || (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)
+    ) {
+        // get_current_version_op.handle_reply()
+        // updates new_version_check_time
+        //
+        get_current_version_op.do_rpc();
+    }
 }
 

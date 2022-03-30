@@ -1095,7 +1095,14 @@ static void handle_acct_mgr_rpc_poll(GUI_RPC_CONN& grc) {
 
 static void handle_get_newer_version(GUI_RPC_CONN& grc) {
     gstate.new_version_check(true);
-
+    // this initiates an RPC to get version info.
+    // Wait for it to finish.
+    //
+    while (gstate.get_current_version_op.gui_http->gui_http_state != HTTP_STATE_IDLE) {
+        if (!gstate.poll_slow_events()) {
+            gstate.do_io_or_sleep(1.0);
+        }
+    }
     grc.mfout.printf(
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
