@@ -640,8 +640,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
 #if wxDEBUG_LEVEL
             mutexErr =
-            m_pRPC_Request_Mutex->Unlock();
 #endif
+            m_pRPC_Request_Mutex->Unlock();
             wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
         }
         
