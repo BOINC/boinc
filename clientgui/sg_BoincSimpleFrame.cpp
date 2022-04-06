@@ -834,7 +834,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
 #ifndef __WXMAC__
         wasShown = IsShown();
-    #endif
+#endif
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
         if (!wasVisible) {
