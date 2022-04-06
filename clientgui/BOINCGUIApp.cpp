@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -119,11 +119,11 @@ bool CBOINCGUIApp::OnInit() {
     m_bNeedRunDaemon = true;
 
     // Initialize local variables
-    int      iErrorCode = 0;
     int      iDesiredLanguageCode = 0;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
 #ifdef SANDBOX
+    int      iErrorCode = 0;
     wxString strDialogMessage = wxEmptyString;
 #endif
     bool     success = false;
@@ -230,7 +230,9 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
+#ifdef SANDBOX
     if (!success) iErrorCode = -1016;
+#endif
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =

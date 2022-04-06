@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -564,7 +564,6 @@ wxWizardPageEx* CWizardAttach::PushPageTransition( wxWizardPageEx* pCurrentPage,
 
 void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
 
-    bool bCancelWithoutNextPage = false;
     wxWizardPageEx* page = GetCurrentPage();
 
     m_bCancelInProgress = true;
@@ -579,17 +578,6 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     // Reenable the next and back buttons if they have been disabled
     GetNextButton()->Enable(HasNextPage(page));
     GetBackButton()->Enable(HasPrevPage(page));
-
-    // Generic rules
-    bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);
-    bCancelWithoutNextPage |= (page == m_ErrUnavailablePage);
-    bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
-    
-    if (IsAttachToProjectWizard) {
-        bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
-    } else {
-        bCancelWithoutNextPage |= (page == m_ProjectWelcomePage);
-   }
 
     if (wxYES != iRetVal) {
         event.Veto();

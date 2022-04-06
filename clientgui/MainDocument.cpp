@@ -1707,7 +1707,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
     char* argv[6];
     char currentDir[1024];
     char thePIDbuf[20];
-    int id, iRetVal;
+    int id;
 
 
     if (g_use_sandbox) {
@@ -1719,7 +1719,7 @@ void CMainDocument::KillGraphicsApp(int pid) {
         argv[4] = thePIDbuf;
         argv[5] = 0;
 
-        iRetVal = run_program(
+        run_program(
             getcwd(currentDir, sizeof(currentDir)),
             "./switcher/switcher",
             5,

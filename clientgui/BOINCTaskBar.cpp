@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -412,7 +412,9 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     wxImage macIcon;
+#if wxDEBUG_LEVEL
     int err = noErr;
+#endif
     int w, h, x, y;
 
     if (m_iconType != wxTBI_DOCK) {
@@ -433,7 +435,10 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
         macIcon = wxImage(macsnoozebadge);
     else {
-        err = SetDockBadge(NULL);
+#if wxDEBUG_LEVEL
+        err = 
+#endif
+        SetDockBadge(NULL);
         return true;
     }
 
@@ -466,7 +471,10 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     }
 
     // Actually set the dock image
-    err = SetDockBadge(&bmp);
+#if wxDEBUG_LEVEL
+    err = 
+#endif
+    SetDockBadge(&bmp);
 
     wxASSERT(err == 0);
 

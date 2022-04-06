@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -152,7 +152,8 @@ static void handle_get_project_status(GUI_RPC_CONN& grc) {
 
 static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
     unsigned int i;
-    double size, boinc_non_project, d_allowed, boinc_total;
+    double size, boinc_non_project, d_allowed;
+//    double boinc_total;
 
     grc.mfout.printf("<disk_usage_summary>\n");
     int retval = get_filesystem_info(
@@ -184,7 +185,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         }
     }
 #endif
-    boinc_total = boinc_non_project;
+//    boinc_total = boinc_non_project;
     gstate.get_disk_usages();
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -195,7 +196,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
             "</project>\n",
             p->master_url, p->disk_usage
         );
-        boinc_total += p->disk_usage;
+//        boinc_total += p->disk_usage;
     }
     d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
     grc.mfout.printf(
