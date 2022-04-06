@@ -298,7 +298,6 @@ void CSimpleProjectPanel::ReskinInterface() {
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     ProjectSelectionData* selData;
-    PROJECT* project __attribute__((unused));
     char* ctrl_url;
 
     CSimplePanelBase::ReskinInterface();
@@ -308,7 +307,6 @@ void CSimpleProjectPanel::ReskinInterface() {
     for(int j=0; j<ctrlCount; j++) {
         selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
         ctrl_url = selData->project_url;
-        project = pDoc->state.lookup_project(ctrl_url);
         wxBitmap* projectBM = GetProjectSpecificBitmap(ctrl_url);
         m_ProjectSelectionCtrl->SetItemBitmap(j, *projectBM);
     }
