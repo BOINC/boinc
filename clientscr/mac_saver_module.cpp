@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -361,9 +361,7 @@ CScreensaver::CScreensaver() {
 
 
 int CScreensaver::Create() {
-    OSStatus err;
-    
-    // Ugly workaround for a problem with the System Preferences app
+        // Ugly workaround for a problem with the System Preferences app
     // For an unknown reason, when this screensaver is run using the 
     // Test button in the System Prefs Screensaver control panel, the 
     // control panel calls our stopAnimation function as soon as the 
@@ -414,7 +412,7 @@ int CScreensaver::Create() {
             m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
         }
         
-        err = initBOINCApp();
+        initBOINCApp();
 
         CGDisplayHideCursor(kCGNullDirectDisplay);
     
@@ -519,7 +517,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     *coveredFreq = 0;
     pid_t myPid;
     CC_STATE ccstate;
-    OSStatus err;
     
     if (ScreenIsBlanked) {
         setSSMessageText(0);   // No text message
@@ -531,7 +528,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
-        err = initBOINCApp();
+        initBOINCApp();
         break;
     
     case  SaverState_LaunchingCoreClient:

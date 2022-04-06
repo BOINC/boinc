@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -643,7 +643,7 @@ static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* repl
 #define IN_DOUBLE_QUOTED_TOKEN      2
 #define IN_UNQUOTED_TOKEN           3
 
-static int parse_posic_spawn_command_line(char* p, char** argv) {
+static int parse_posix_spawn_command_line(char* p, char** argv) {
     int state = NOT_IN_TOKEN;
     int argc=0;
 
@@ -700,7 +700,7 @@ int callPosixSpawn(const char *cmdline) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;
@@ -709,7 +709,7 @@ int callPosixSpawn(const char *cmdline) {
 
     // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
-    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
     strlcpy(progPath, argv[0], sizeof(progPath));
     strlcpy(progName, argv[0], sizeof(progName));
     p = strrchr(progName, '/');

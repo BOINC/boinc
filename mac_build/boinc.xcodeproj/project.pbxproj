@@ -4013,6 +4013,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
+					"-Wno-frame-address",
 				);
 			};
 			name = Development;
@@ -4096,6 +4097,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
+					"-Wno-frame-address",
 				);
 			};
 			name = Deployment;
@@ -4228,6 +4230,7 @@
 		DD4688490C165F3C0089F500 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4347,6 +4350,13 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Development;
 		};
@@ -4375,6 +4385,13 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Deployment;
 		};
@@ -4383,6 +4400,13 @@
 			buildSettings = {
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Deployment;
 		};
@@ -4455,12 +4479,20 @@
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Deployment;
 		};
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4553,6 +4585,13 @@
 			buildSettings = {
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Development;
 		};
@@ -4630,6 +4669,13 @@
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "../../curl-7.79.1/include ../../openssl-3.0.0/include ../lib/**";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-write-strings",
+					"-Wno-frame-address",
+				);
 			};
 			name = Development;
 		};
