@@ -579,21 +579,6 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     GetNextButton()->Enable(HasNextPage(page));
     GetBackButton()->Enable(HasPrevPage(page));
 
-#if 0   // These appear to no longer be used
-    bool bCancelWithoutNextPage = false;
-
-    // Generic rules
-    bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);
-    bCancelWithoutNextPage |= (page == m_ErrUnavailablePage);
-    bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
-    
-    if (IsAttachToProjectWizard) {
-        bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
-    } else {
-        bCancelWithoutNextPage |= (page == m_ProjectWelcomePage);
-   }
-#endif
-
     if (wxYES != iRetVal) {
         event.Veto();
         m_bCancelInProgress = false;
