@@ -133,7 +133,7 @@ function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     //
     echo '<br>
-        <a class="brand boinc-logo" href="http://boinc.berkeley.edu/"><img class="img-responsive center-block" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
+        <a class="brand boinc-logo" href="https://boinc.berkeley.edu/"><img class="img-responsive center-block" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
         <div class="form-group"></div>
         <p class="text-center"> &copy;'.gmdate("Y ").COPYRIGHT_HOLDER.'</p>
     ';

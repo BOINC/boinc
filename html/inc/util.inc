@@ -182,8 +182,8 @@ function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
 
-    $authenticator = BoincDb::escape_string($authenticator);
     if ($authenticator) {
+        $authenticator = BoincDb::escape_string($authenticator);
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
     if ($must_be_logged_in && !$g_logged_in_user) {
@@ -904,7 +904,7 @@ function button_text($url, $text, $desc=null, $class="btn-success btn-sm") {
 }
 
 function show_button($url, $text, $desc=null, $class="btn-success btn-sm") {
-    echo button_text($url, $text, $desc=null, $class);
+    echo button_text($url, $text, $desc, $class);
 }
 
 // for places with a bunch of buttons, like forum posts
