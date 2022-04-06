@@ -298,7 +298,7 @@ void CSimpleProjectPanel::ReskinInterface() {
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     ProjectSelectionData* selData;
-    PROJECT* project;
+    PROJECT* project __attribute__((unused));
     char* ctrl_url;
 
     CSimplePanelBase::ReskinInterface();

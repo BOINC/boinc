@@ -71,7 +71,8 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int lineHeight, totalLines, totalWidth;
+    int lineHeight, totalWidth;
+    int totalLines __attribute__((unused));
     wxString t = s;
 
     // Delete sizer & its children (CTransparentStaticText objects)

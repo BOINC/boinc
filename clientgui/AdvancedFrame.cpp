@@ -1636,7 +1636,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxWindow* pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
     int wasShown = 0;
+#endif
     int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
@@ -1700,7 +1702,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         // Yes, but we don't have have credentials.
         // Bring up the Wizard to get them.
         //
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
         wasShown = IsShown();
+#endif
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
         if (!wasVisible) {

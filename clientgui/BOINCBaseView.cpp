@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -250,10 +250,15 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                 m_pListPane->DeleteAllItems();
             } else {
                 int iIndex = 0;
+#if wxDEBUG_LEVEL
                 int iReturnValue = -1;
+#endif
                 if (iDocCount > iCacheCount) {
                     for (iIndex = 0; iIndex < (iDocCount - iCacheCount); iIndex++) {
-                        iReturnValue = AddCacheElement();
+#if wxDEBUG_LEVEL
+                        iReturnValue =
+#endif
+                        AddCacheElement();
                         wxASSERT(!iReturnValue);
                     }
                     int n = GetDocCount(), m = GetCacheCount();
@@ -269,7 +274,10 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     ClearSelections();
                     m_pListPane->SetItemCount(iDocCount);
                     for (iIndex = (iCacheCount - 1); iIndex >= iDocCount; --iIndex) {
-                        iReturnValue = RemoveCacheElement();
+#if wxDEBUG_LEVEL
+                        iReturnValue =
+#endif
+                        RemoveCacheElement();
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
