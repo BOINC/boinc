@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -354,7 +354,7 @@ static const struct load_command * FindLoadCommand(
 	uint32_t	cmdCount;
 	const struct load_command *	firstCommand;
 	const struct load_command *	thisCommand;
-	const char *				commandLimit;
+	const char *				commandLimit __attribute__((unused));
 	const struct load_command *	result;
 	
 	assert(qmoImage    != NULL);
@@ -380,7 +380,7 @@ static const struct load_command * FindLoadCommand(
 	commandLimit = ((const char *) qmoImage->machHeader) + qmoImage->machHeaderSize;
 	thisCommand = firstCommand;
 	while ( (result == NULL) && (cmdIndex < cmdCount) ) {
-		uint32_t	thisCommandSize;
+		uint32_t	thisCommandSize __attribute__((unused));
 		
 		thisCommandSize = QMOImageToLocalUInt32(qmoImage, thisCommand->cmdsize);
 		
@@ -1304,7 +1304,7 @@ static void QMOFileImageUnmapRange(
     // See the comments for QMOUnmapRangeProc for a discussion of the parameters.
 {
     #pragma unused(offset, mapRefCon)
-	int		junk;
+	int		junk __attribute__((unused));
 	
 	assert(qmoImage != NULL);
 	assert(length > 0);
@@ -1346,7 +1346,7 @@ static void QMOFileImageDestroy(QMOImage *qmoImage)
     // See the comments for QMODestroyProc for a discussion of the parameters.
 {
 	int	fd;
-	int	junk;
+	int	junk __attribute__((unused));
 	
 	assert(qmoImage != NULL);
 	
@@ -1503,7 +1503,7 @@ extern int QMOImageCreateFromFile(const char *filePath, cpu_type_t cputype, cpu_
 	// See comment in header.
 {
 	int					err;
-	int					junk;
+	int					junk __attribute__((unused));
 	int					fd;
 	ssize_t				bytesRead;
 	struct fat_header	fatHeader;

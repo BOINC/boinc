@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -102,7 +102,7 @@ enum {
 static void PrintOSVersion(int *majorVersion, int *minorVersion);
 
 void PrintBacktrace(void) {
-    int                         err;
+    int                         err __attribute__((unused));
     QCrashReportRef             crRef = NULL;
 
     char                        nameBuf[256], pathToThisProcess[1024];

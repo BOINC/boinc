@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -246,7 +246,7 @@ typedef struct QSymbols QSymbols;
 extern void QSymDestroy(QSymbolsRef symRef)
     // See comment in header.
 {
-    kern_return_t   krJunk;
+    kern_return_t   krJunk __attribute__((unused));
     size_t          imageIndex;
     
     if (symRef != NULL) {
@@ -674,7 +674,7 @@ extern int QSymGetImageForAddress(
     // See comment in header.
 {
 	int					err;
-	int                 junk;
+	int                 junk __attribute__((unused));
 	size_t              imageIndex;
 	QTMAddr             slide;
 	uint32_t            sectCount;

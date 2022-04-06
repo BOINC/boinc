@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -368,7 +368,7 @@ static OSStatus DoUninstall(void) {
     int                     i;
     char                    cmd[1024];
     passwd                  *pw;
-    OSStatus                err = noErr;
+    OSStatus                err __attribute__((unused)) = noErr;
 #if SEARCHFORALLBOINCMANAGERS
     char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10];
     char                    notBoot[] = "/Volumes/";
@@ -618,7 +618,8 @@ static OSStatus CleanupAllVisibleUsers(void)
    passwd              *pw;
     vector<string>      human_user_names;
     vector<uid_t>       human_user_IDs;
-    uid_t               saved_uid, saved_euid;
+//    uid_t               saved_uid;
+    uid_t               saved_euid;
     char                human_user_name[256];
     int                 i;
     int                 userIndex;
@@ -631,7 +632,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     OSStatus            err;
     Boolean             changeSaver;
 
-    saved_uid = getuid();
+//    saved_uid = getuid();
     saved_euid = geteuid();
 
     err = noErr;
@@ -1611,7 +1612,7 @@ int callPosixSpawn(const char *cmdline, bool delayForResult) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;

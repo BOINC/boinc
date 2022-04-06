@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -74,8 +74,6 @@ int use_sandbox, int isManager, char* path_to_error, int len
 ) {
     passwd              *pw;
     group               *grp;
-    gid_t               egid;
-    uid_t               euid;
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
@@ -293,12 +291,13 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
 //    rgid = getgid();
 //    ruid = getuid();
-    egid = getegid();
-    euid = geteuid();
 
 #ifdef _MAC_INSTALLER
     strlcpy(dir_path, dataPath, sizeof(dir_path));  // Installer
 #else       // _MAC_INSTALLER
+    gid_t               egid = getegid();;
+    uid_t               euid = geteuid();;
+
     getcwd(dir_path, sizeof(dir_path));             // Client or Manager
 
     if (! isManager) {                                   // If BOINC Client
