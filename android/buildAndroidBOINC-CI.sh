@@ -259,7 +259,8 @@ if [ $build_with_vcpkg = "yes" ]; then
         triplets_setup="default"
     fi
     packages="rappture curl[core,openssl]"
-    vcpkg_flags="--overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup --clean-after-build"
+    vcpkg_overlay="--overlay-ports=$vcpkg_ports_dir/ports --overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup"
+    vcpkg_flags="$vcpkg_overlay --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
         git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
@@ -267,6 +268,8 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
+        # ToDo: Remove when either https://github.com/openssl/openssl/issues/18059 or https://github.com/openssl/openssl/pull/18056 is fixed
+        git -C $VCPKG_ROOT checkout 89295c9fe22e97ca9e380a6c771ccf2ff09dca95
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
@@ -297,7 +300,7 @@ if [ $build_with_vcpkg = "yes" ]; then
         $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
 
-    $VCPKG_ROOT/vcpkg upgrade --no-dry-run
+    $VCPKG_ROOT/vcpkg upgrade $vcpkg_overlay --no-dry-run
 fi
 
 vcpkgDir()
