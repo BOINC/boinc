@@ -270,6 +270,7 @@ if [ $build_with_vcpkg = "yes" ]; then
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
+    export LDFLAGS="-latomic"
     if [ $arch = "armv6" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
 
