@@ -270,7 +270,6 @@ if [ $build_with_vcpkg = "yes" ]; then
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
-    export LDFLAGS="-latomic"
     if [ $arch = "armv6" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
 
@@ -289,7 +288,22 @@ if [ $build_with_vcpkg = "yes" ]; then
     fi
     if [ $arch = "x86" ]; then
         export ANDROID_NDK_HOME=$NDK_ROOT
+        export NDK_ROOT=${NDK_ROOT:-$HOME/Android/Ndk}
+        export ANDROID_TC="${ANDROID_TC:-$HOME/android-tc}"
+        export ANDROIDTC="${ANDROID_TC_X86:-$ANDROID_TC/x86}"
+        export TOOLCHAINROOT="$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64"
+        export TCBINARIES="$TOOLCHAINROOT/bin"
+        export TCINCLUDES="$ANDROIDTC/i686-linux-android"
+        export TCSYSROOT="$TOOLCHAINROOT/sysroot"
 
+        export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
+        export CC=i686-linux-android16-clang
+        export CXX=i686-linux-android16-clang++
+        export LD=i686-linux-android-ld
+        export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
+        export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=16 -Dchar16_t=uint16_t -Dchar32_t=uint32_t"
+        export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++"
+        export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
         $VCPKG_ROOT/vcpkg install $packages $vcpkg_flags --triplet=$(getTripletName $arch)
     fi
     if [ $arch = "x86_64" ]; then
