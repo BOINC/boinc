@@ -12,11 +12,13 @@
 /* Release part of BOINC version number */
 #define BOINC_RELEASE 0
 
-/* wrapper version number */
-#define WRAPPER_RELEASE 26016
+// wrapper version number
+// when you change this, change .exe file names in VS project files
+#define WRAPPER_RELEASE 26017
 
-/* vboxwrapper version number */
-#define VBOXWRAPPER_RELEASE 26203
+// vboxwrapper version number
+// when you change this, change .exe file names in VS project files
+#define VBOXWRAPPER_RELEASE 26204
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.19.0"
