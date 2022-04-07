@@ -23,6 +23,10 @@ export MINGW_LIBS="-lpsapi"
 if [ ! -f $VCPKG_DIR/lib/libz.a ]; then
     ln -s $VCPKG_DIR/lib/libzlib.a $VCPKG_DIR/lib/libz.a
 fi
+# uc2_graphics & slideshow
+if [ ! -f $VCPKG_DIR/lib/libfreeglut_static.a ]; then
+    ln -s $VCPKG_DIR/lib/libfreeglut.a $VCPKG_DIR/lib/libfreeglut_static.a
+fi
 
 export CXXFLAGS="-I$VCPKG_DIR/include -L$VCPKG_DIR/lib"
 export CFLAGS="$CXXFLAGS"
