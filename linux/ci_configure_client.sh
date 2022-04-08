@@ -6,7 +6,6 @@ if [ ! -d "linux" ]; then
     exit 1
 fi
 
-CACHE_DIR="$PWD/3rdParty/buildCache/linux"
 BUILD_DIR="$PWD/3rdParty/linux"
 VCPKG_ROOT="$BUILD_DIR/vcpkg"
 export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"

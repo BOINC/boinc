@@ -231,3 +231,7 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+
+# cmake build
+build/
+
