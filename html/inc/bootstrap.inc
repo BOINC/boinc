@@ -273,12 +273,18 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
     ';
 }
 
-function form_start($action, $method='get') {
+// to upload files:
+//  use method = POST and extra=ENCTYPE="multipart/form-data"
+// to have initial focus on input field foo:
+//      use extra = "name=x"
+//      call forum_focus(x, foo) after defining the field
+//
+function form_start($action, $method='get', $extra='') {
     echo sprintf(
-        '<div class="container">
-        <form class="form-horizontal" method="%s" action="%s">'
+        '<div class="container-fluid">
+        <form class="form-horizontal" method="%s" action="%s" %s>'
         ,
-        $method, $action
+        $method, $action, $extra
     );
 }
 
@@ -287,27 +293,47 @@ function form_input_hidden($name, $value) {
     ';
 }
 
+function form_focus($form_name, $field_name) {
+    echo "<script>document.$form_name.$field_name.focus()</script>\n";
+
+}
+
 function form_end() {
     echo '</form>
         </div>
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-4');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
-define('FORM_RIGHT_CLASS', 'col-sm-8');
+define('FORM_LEFT_CLASS', 'col-sm-3');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-3');
+define('FORM_RIGHT_CLASS', 'col-sm-9');
 
-function form_input_text($label, $name, $value='', $type='text', $attrs='', $extra='') {
+// just the input field
+//
+function form_input_text_field(
+    $name, $value='', $type='text', $attrs='', $extra=''
+) {
+    return sprintf(
+        '<input %s type="%s" class="form-control" name="%s" value="%s">%s',
+        $attrs, $type, $name, $value, $extra
+    );
+}
+
+// the whole row
+//
+function form_input_text(
+    $label, $name, $value='', $type='text', $attrs='', $extra=''
+) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
-                <input %s type="%s" class="form-control" name="%s" value="%s">%s
+                %s
             </div>
         </div>
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
-        $attrs, $type, $name, $value, $extra
+        form_input_text_field($name, $value, $type, $attrs, $extra)
     );
 }
 
@@ -324,16 +350,17 @@ function form_attr($name, $value) {
     );
 }
 
-function form_input_textarea($label, $name, $value='') {
+function form_input_textarea($label, $name, $value='', $nrows=4) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
-                <textarea rows="6" class="form-control" id="%s" name="%s">%s</textarea>
+                <textarea rows="%d" class="form-control" id="%s" name="%s">%s</textarea>
             </div>
         </div>
         ',
-        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $value
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS,
+        $nrows, $name, $name, $value
     );
 }
 
@@ -342,7 +369,7 @@ function form_input_textarea($label, $name, $value='') {
 function form_select($label, $name, $items) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
                 <select class="form-control" id="%s" name="%s">
         ',
@@ -365,7 +392,7 @@ function form_select($label, $name, $items) {
 function form_select_multiple($label, $name, $items, $flags) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
                 <select multiple class="form-control" id="%s" name="%s[]">
         ',
@@ -381,28 +408,31 @@ function form_select_multiple($label, $name, $items, $flags) {
     echo "</select></div></div>\n";
 }
 
+// return a list of string for checkbox items
+//
+function checkbox_item_strings($items, $attrs='') {
+    $x = [];
+    foreach ($items as $i) {
+        $x[] = sprintf('<input %s type="checkbox" name="%s" %s> %s
+            ',
+            $attrs, $i[0], $i[2]?"checked":"", $i[1]
+        );
+    }
+    return $x;
+}
+
 // $items is list of (name, label, checked)
 //
 function form_checkboxes($label, $items, $attrs='') {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
-    $first = true;
-    foreach ($items as $i) {
-        if ($first) {
-            $first = false;
-        } else {
-            echo "<br>\n";
-        }
-        echo sprintf('<input %s type="checkbox" name="%s" %s> %s
-            ',
-            $attrs, $i[0], $i[2]?"checked":"", $i[1]
-        );
-    }
+    $x = checkbox_item_strings($items, $attrs);
+    echo implode($x, '<br>');
     echo '</div>
         </div>
     ';
@@ -413,7 +443,7 @@ function form_checkboxes($label, $items, $attrs='') {
 function form_radio_buttons($label, $name, $items, $selected) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
@@ -436,7 +466,7 @@ function form_general($label, $item) {
     ';
     if (strlen($label)) {
         echo sprintf(
-'           <label class="control-label %s">%s</label>
+'           <label align=right class="%s">%s</label>
             <div class="%s">%s</div>
         ',
             FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS, $item
