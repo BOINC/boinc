@@ -14,5 +14,4 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 
 linux/bootstrap_vcpkg_cmake.sh
 
-rm -rf build
 cmake lib -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_OVERLAY_PORTS=$VCPKG_PORTS/ports -DVCPKG_OVERLAY_TRIPLETS=$VCPKG_PORTS/triplets/ci -DVCPKG_TARGET_TRIPLET=x64-linux -DVCPKG_INSTALL_OPTIONS=--clean-after-build
