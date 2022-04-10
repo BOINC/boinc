@@ -48,7 +48,7 @@ fi
 
 if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
     cd "$CURL"
-    echo "===== building curl for x86 from $PWD ====="    
+    echo "===== building curl for x86 from $PWD ====="
     if [ -n "$MAKECLEAN" ] && $(grep -q "^distclean:" "${CURL}/Makefile"); then
         if [ "$VERBOSE" = "no" ]; then
             make distclean 1>$STDOUT_TARGET 2>&1
@@ -68,7 +68,7 @@ if [ ! -e "${CURL_FLAGFILE}" -a $BUILD_WITH_VCPKG = "no" ]; then
         make $MAKE_FLAGS
         make install $MAKE_FLAGS
     fi
-    
+
     touch "${CURL_FLAGFILE}"
     echo "\e[1;32m===== curl for x86 build done =====\e[0m"
 fi

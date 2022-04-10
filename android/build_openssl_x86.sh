@@ -68,7 +68,7 @@ if [ ! -e "${OPENSSL_FLAGFILE}" -a  $BUILD_WITH_VCPKG = "no" ]; then
         make $MAKE_FLAGS
         make install_sw $MAKE_FLAGS
     fi
-    
+
     touch "${OPENSSL_FLAGFILE}"
     echo "\e[1;32m===== openssl for x86 build done =====\e[0m"
 fi

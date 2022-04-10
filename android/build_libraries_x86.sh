@@ -82,7 +82,7 @@ if [ -n "$COMPILEBOINC" ]; then
     make $MAKE_FLAGS
     make stage $MAKE_FLAGS
     make install $MAKE_FLAGS
-    
+
     echo "\e[1;32m===== building BOINC Libraries for x86 done =====\e[0m"
 
 fi

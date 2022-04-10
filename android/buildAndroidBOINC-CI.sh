@@ -268,8 +268,6 @@ if [ $build_with_vcpkg = "yes" ]; then
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
-        # ToDo: Remove when either https://github.com/openssl/openssl/issues/18059 or https://github.com/openssl/openssl/pull/18056 is fixed
-        git -C $VCPKG_ROOT checkout 89295c9fe22e97ca9e380a6c771ccf2ff09dca95
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
