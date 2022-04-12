@@ -1,0 +1,19 @@
+{
+    "name": "boinc-client",
+    "version-string": "7.19.0",
+    "builtin-baseline":"bd1ef2df46303989eeb048eb7aa9b816aa46365e",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        }
+    ],
+    "overrides": [
+        { 
+            "name": "openssl", 
+            "version-string": "1.1.1n" 
+        }
+    ]    
+}
