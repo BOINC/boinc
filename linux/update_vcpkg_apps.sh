@@ -17,5 +17,4 @@ fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install curl[core,openssl] rappture opencl --clean-after-build --overlay-triplets=$VCPKG_PORTS/triplets/ci
-$VCPKG_ROOT/vcpkg upgrade --no-dry-run
+$VCPKG_ROOT/vcpkg install --x-manifest-root=linux/vcpkg_config_apps/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --feature-flags=versions --clean-after-build

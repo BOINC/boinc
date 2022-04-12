@@ -1,0 +1,14 @@
+{
+    "name": "boinc-apps",
+    "version-string": "7.19.0",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        "rappture",
+        "opencl"
+    ]
+}
