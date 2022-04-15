@@ -166,20 +166,12 @@
     <Exec Command="$(TMP)\7z\7za x $(TMP)\cublas_dev.exe -onvcc -aoa" WorkingDirectory="$(CudaRootDir)" ConsoleToMSBuild="true" />
     <Touch Files="$(CudaGuardFile)" AlwaysCreate="true" />
   </Target>
-  <Target Name="InstallVcpkg" BeforeTargets="RemoveOutdated3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
+  <Target Name="InstallVcpkg" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="CreateFolders" AfterTargets="DownloadCUDA">
     <Exec Command="git clone https://github.com/microsoft/vcpkg" WorkingDirectory="$(Windows3rdPartyBuildDir)" ConsoleToMSBuild="true" Condition="!Exists($(VcpkgRootDir))" />
     <Exec Command="git pull" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
-  <Target Name="RemoveOutdated3rdPartyLibraries" BeforeTargets="Build3rdPartyLibraries" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
-    <Exec Command="vcpkg.exe list | findstr curl\[openssl\]:$(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue">
-      <Output TaskParameter="ConsoleOutput" PropertyName="OutdatedCurl" />
-    </Exec>
-    <Exec Command="vcpkg.exe remove curl --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="$(OutdatedCurl) != ''" />
-  </Target>
-  <Target Name="Build3rdPartyLibraries" BeforeTargets="ClCompile" DependsOnTargets="RemoveOutdated3rdPartyLibraries" AfterTargets="RemoveOutdated3rdPartyLibraries">
-    <Exec Command="vcpkg.exe install openssl curl[core,schannel] wxwidgets opencl rappture gtest --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --recurse --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
-    <Exec Command="vcpkg.exe install ftgl --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" Condition="'$(Platform)' == 'x64'" ContinueOnError="WarnAndContinue" />
-    <Exec Command="vcpkg.exe upgrade --no-dry-run --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName)" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
+  <Target Name="Build3rdPartyLibraries"  BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
+    <Exec Command="vcpkg.exe install --x-manifest-root=$(ProjectDir)/vcpkg_config_msbuild_$(Platform) --x-install-root=installed/  --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
   </Target>
 </Project>
