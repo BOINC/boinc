@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs-mingw, apps-mingw, apps-mingw-vcpkg]
+        type: [libs-mingw, apps-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -62,8 +62,8 @@ jobs:
           # Install PowerShell
           sudo apt install -y powershell
 
-      - name: Automake vcpkg apps
-        if: success() && matrix.type == 'apps-mingw-vcpkg'
+      - name: Automake vcpkg and cmake
+        if: success() && (contains(matrix.type, 'vcpkg') || contains(matrix.type, 'cmake'))
         run: ./_autosetup
 
       - name: Configure mingw vcpkg apps
@@ -71,18 +71,28 @@ jobs:
         run: |
           mingw/ci_configure_apps.sh
 
+      - name: Configure libs with cmake vcpkg
+        if: success() && matrix.type == 'libs-mingw-cmake'
+        run: |
+          mingw/ci_configure_libs_cmake.sh
+
       - name: Make mingw vcpkg apps
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
           mingw/ci_make_apps.sh
 
+      - name: Make for cmake
+        if: success() && endsWith(matrix.type, 'cmake')
+        run: 
+          cmake --build build
+
       - name: Prepare artifacts for deploy
-        if: ${{ success() && ! contains(matrix.type, 'libs-mingw') }}
+        if: success() && ! contains(matrix.type, 'libs')
         run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
-        if: ${{ ! contains(matrix.type, 'libs') }}
+        if: ${{! contains(matrix.type, 'libs')}}
         with:
           name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_${{ matrix.type }}.7z
