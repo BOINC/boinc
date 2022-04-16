@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg]
+        type: [manager, libs, apps, manager-vcpkg, libs-vcpkg, apps-vcpkg, libs-cmake]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -75,6 +75,10 @@ jobs:
       - name: Build apps with vcpkg
         if: ${{ success() && matrix.type == 'apps-vcpkg' }}
         run: ./android/ci_build_vcpkg_apps.sh
+
+      - name: Build libs with cmake
+        if: ${{ success() && matrix.type == 'libs-cmake' }}
+        run: ./android/ci_build_libs_cmake.sh
 
       - name: Prepare logs on failure
         if: ${{ failure() }}

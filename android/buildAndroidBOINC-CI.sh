@@ -24,8 +24,6 @@ export REV=1
 export ARMV6_REV=1
 export OPENSSL_VERSION=1.1.1l
 export CURL_VERSION=7.80.0
-export NDK_VERSION=21d
-export NDK_ARMV6_VERSION=15c
 
 # checks if a given path is canonical (absolute and does not contain relative links)
 # from http://unix.stackexchange.com/a/256437
@@ -145,10 +143,9 @@ if [ "${silent}" = "yes" ]; then
     export STDOUT_TARGET="/dev/null"
 fi
 
+. $(pwd)/ndk_common.sh
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
-export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
-export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
 export CURL_SRC=$BUILD_DIR/curl-${CURL_VERSION}
 export VCPKG_ROOT="$BUILD_DIR/vcpkg"
@@ -167,19 +164,7 @@ else
     export ANDROID_TC_FLAGFILE="$PREFIX/ANDROID_TC_WITH_NDK-${NDK_VERSION}-${arch}-${REV}_done"
 fi
 
-createNDKFolder()
-{
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
-}
 
-createNDKARMV6Folder()
-{
-    rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
-}
 
 if [ ! -e "${NDK_FLAGFILE}" ]; then
     createNDKFolder
