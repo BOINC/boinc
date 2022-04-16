@@ -1,7 +1,6 @@
 {
     "name": "boinc-apps",
     "version-string": "7.19.0",
-    "builtin-baseline":"bd1ef2df46303989eeb048eb7aa9b816aa46365e",
     "dependencies":
     [
         {
@@ -10,11 +9,5 @@
           "default-features": false
         },
         "rappture"
-    ],
-    "overrides": [
-        { 
-            "name": "openssl", 
-            "version-string": "1.1.1n" 
-        }
-    ]    
+    ]  
 }
