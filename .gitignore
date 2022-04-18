@@ -234,4 +234,5 @@ vda/vdad
 
 # cmake build
 build/
+build-*/
 
