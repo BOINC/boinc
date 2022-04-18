@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu bionic main universe'
           sudo apt-get -qq update
-          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
+          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkitgtk-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
 
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
@@ -87,6 +87,10 @@ jobs:
       - name: Configure libs with cmake vcpkg
         if: success() && matrix.type == 'libs-cmake'
         run: linux/ci_configure_libs_cmake.sh
+
+      - name: Configure manager with webview and vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg'
+        run: linux/ci_configure_manager.sh
 
       - name: Configure server
         if: success() && matrix.type == 'server'
