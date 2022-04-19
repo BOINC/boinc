@@ -209,6 +209,9 @@ def prepare_linux_apps_vcpkg(target_directory):
 def prepare_linux_manager_with_webview(target_directory):
     prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
 
+def prepare_linux_manager_with_webview_vcpkg(target_directory):
+    prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
+
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
 
@@ -249,6 +252,7 @@ boinc_types = {
     'linux_apps': prepare_linux_apps,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
+    'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
