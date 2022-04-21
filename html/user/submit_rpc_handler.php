@@ -128,7 +128,7 @@ function check_max_jobs_in_progress($r, $user_submit) {
 function estimate_batch($r) {
     xml_start_tag("estimate_batch");
     $app = get_submit_app((string)($r->batch->app_name));
-    list($user, $user_submit) = authenticate_user($r, $app);
+    list($user, $user_submit) = check_remote_submit_permissions($r, $app);
 
     $template = read_input_template($app, $r);
     $e = est_elapsed_time($r, $template);
@@ -444,7 +444,7 @@ function logical_end_time($r, $jobs, $user, $app) {
 function submit_batch($r) {
     xml_start_tag("submit_batch");
     $app = get_submit_app((string)($r->batch->app_name));
-    list($user, $user_submit) = authenticate_user($r, $app);
+    list($user, $user_submit) = check_remote_submit_permissions($r, $app);
     $jobs = xml_get_jobs($r);
     $template = read_input_template($app, $r);
     if ($template) {
@@ -546,7 +546,7 @@ function submit_batch($r) {
 function create_batch($r) {
     xml_start_tag("create_batch");
     $app = get_submit_app((string)($r->app_name));
-    list($user, $user_submit) = authenticate_user($r, $app);
+    list($user, $user_submit) = check_remote_submit_permissions($r, $app);
     $now = time();
     $batch_name = (string)($r->batch_name);
     $batch_name = BoincDb::escape_string($batch_name);
@@ -589,7 +589,7 @@ function print_batch_params($batch, $get_cpu_time) {
 
 function query_batches($r) {
     xml_start_tag("query_batches");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batches = BoincBatch::enum("user_id = $user->id");
     $get_cpu_time = (int)($r->get_cpu_time);
     foreach ($batches as $batch) {
@@ -691,7 +691,7 @@ function get_batch($r) {
 
 function query_batch($r) {
     xml_start_tag("query_batch");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         log_write("not owner of batch");
@@ -733,7 +733,7 @@ function results_sent($wu) {
 //
 function query_batch2($r) {
     xml_start_tag("query_batch2");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch_names = $r->batch_name;
     $batches = array();
     foreach ($batch_names as $b) {
@@ -792,7 +792,7 @@ function query_batch2($r) {
 
 function query_job($r) {
     xml_start_tag("query_job");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $job_id = (int)($r->job_id);
     $wu = BoincWorkunit::lookup_id($job_id);
     if (!$wu) {
@@ -835,7 +835,7 @@ function query_job($r) {
 //
 function query_completed_job($r) {
     xml_start_tag("query_completed_job");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $job_name = (string)($r->job_name);
     $job_name = BoincDb::escape_string($job_name);
     $wu = BoincWorkunit::lookup("name='$job_name'");
@@ -884,7 +884,7 @@ function query_completed_job($r) {
 
 function handle_abort_batch($r) {
     xml_start_tag("abort_batch");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         log_write("not owner");
@@ -900,7 +900,7 @@ function handle_abort_batch($r) {
 //
 function handle_abort_jobs($r) {
     xml_start_tag("abort_jobs");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch = null;
     foreach ($r->job_name as $job_name) {
         $job_name = BoincDb::escape_string($job_name);
@@ -930,7 +930,7 @@ function handle_abort_jobs($r) {
 
 function handle_retire_batch($r) {
     xml_start_tag("retire_batch");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         log_write("not owner of batch");
@@ -944,7 +944,7 @@ function handle_retire_batch($r) {
 
 function handle_set_expire_time($r) {
     xml_start_tag("set_expire_time");
-    list($user, $user_submit) = authenticate_user($r, null);
+    list($user, $user_submit) = check_remote_submit_permissions($r, null);
     $batch = get_batch($r);
     if ($batch->user_id != $user->id) {
         log_write("not owner of batch");
@@ -971,7 +971,7 @@ function get_templates($r) {
         $app = BoincApp::lookup_id($wu->appid);
     }
 
-    list($user, $user_submit) = authenticate_user($r, $app);
+    list($user, $user_submit) = check_remote_submit_permissions($r, $app);
     $in = file_get_contents(project_dir() . "/templates/".$app->name."_in");
     $out = file_get_contents(project_dir() . "/templates/".$app->name."_out");
     if ($in === false || $out === false) {
