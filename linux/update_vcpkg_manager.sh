@@ -13,7 +13,7 @@ VCPKG_ROOT="$BUILD_DIR/vcpkg"
 
 if [ ! -d $VCPKG_ROOT ]; then
     mkdir -p $BUILD_DIR
-    git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+    git -C $BUILD_DIR clone https://github.com/dg0yt/vcpkg -b wxwidgets-abspaths
 fi
 
 git -C $VCPKG_ROOT pull
