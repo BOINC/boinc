@@ -236,3 +236,4 @@ vda/vdad
 build/
 build-*/
 
+locale/BOINC-Manager-pofilter.txt

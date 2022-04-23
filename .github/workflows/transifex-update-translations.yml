@@ -1,0 +1,36 @@
+name: Update translations from Transifex
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    name: ${{ matrix.type }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [update-translations]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Install dependencies
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get install -y gettext translate-toolkit transifex-client
+      - name: Configure Transifex
+        run: |
+          echo $'[https://www.transifex.com]' > ~/.transifexrc
+          echo $'api_hostname = https://api.transifex.com' >> ~/.transifexrc
+          echo $'hostname = https://www.transifex.com' >> ~/.transifexrc
+          echo $'username = api' >> ~/.transifexrc
+          echo $'password = ${{ secrets.TRANSIFEX_API_KEY }}' >> ~/.transifexrc
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: Update translations
+        if: success() && matrix.type == 'update-translations'
+        run: |
+          ./locale/update_translations.sh

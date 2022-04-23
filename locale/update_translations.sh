@@ -17,7 +17,8 @@ command -v tx >/dev/null 2>&1 || { echo >&2 "tx (transifex-client) is needed but
 
 # check if working directory is clean to ensure we only commit localization changes
 if test 0 -ne `git status -s -uno |wc -l`; then
-  echo "Warning: You have pending changes! Please make sure to only commit localization changes!"
+  echo "Error: You have pending changes! Please make sure to only commit localization changes!"
+  exit 1
 fi
 
 echo "pulling translations from transifex"
@@ -57,10 +58,9 @@ done
 
 cd ${srcdir}
 
-echo "Translations compiled successfully. Now some manual steps:"
-echo " 1. less BOINC-Manager-pofilter.txt # check output from pofilter and adjust translations then start this script again"
-echo " 2. git add -u # only update already tracked files (add new files when needed too)"
-echo " 3. git commit -m \"Locale: Update localization files [skip ci]\""
-echo " 4. git push"
+git add .
+git diff-index --cached --quiet HEAD || { git commit -m "Locale: Update localization files"; git push origin HEAD; }
+
+echo "Translations compiled successfully."
 
 exit 0
