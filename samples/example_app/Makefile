@@ -47,6 +47,18 @@ LIBUI = -lX11 -lXmu
 LIBFTGL = -lftgl
 LIBJPEG = -ljpeg
 
+ifdef BUILD_WITH_VCPKG
+  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
+  VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
+
+  CXXFLAGS += \
+    -I$(VCPKG_DIR)/include \
+    -L$(VCPKG_DIR)/lib
+
+  LIBUI = -lX11 -lXmu -lXrandr -lXxf86vm -lXi
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec-static -lbrotlienc-static -lbrotlicommon-static -lz
+endif
+
 ifdef BUILD_WITH_MINGW
   LIBGLUT = -lfreeglut_static
   LIBGLU = -lglu32
