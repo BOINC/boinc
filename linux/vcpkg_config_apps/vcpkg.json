@@ -9,6 +9,8 @@
           "default-features": false
         },
         "rappture",
-        "opencl"
+        "opencl",
+        "ftgl",
+        "freeglut"
     ]
 }
