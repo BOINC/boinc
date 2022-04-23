@@ -123,13 +123,13 @@ rm ${DB_FILE} ${SCHEMA_FILE} ${STRINGS_FILE} ${SQLPOT_FILE}
 # The Android template is updated using Android Studio
 # The BOINC-Drupal.pot template is updated by Einstein@Home
 
-git add -u # only update already tracked files (will not track new files)
-if test $testmode -eq 0; then
-  git commit -m "Locale: Update localization template files [skip ci]"
-  git push
-  tx push -s
-else
-  echo "working directory prepared for commit, inspect changes with 'git diff --cached'"
-fi
+# git add -u # only update already tracked files (will not track new files)
+# if test $testmode -eq 0; then
+#   git commit -m "Locale: Update localization template files [skip ci]"
+#   git push
+#   tx push -s
+# else
+#   echo "working directory prepared for commit, inspect changes with 'git diff --cached'"
+# fi
 
 exit 0
