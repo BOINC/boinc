@@ -20,6 +20,7 @@
 #pragma implementation "DlgExitMessage.h"
 #endif
 
+////@begin includes
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
@@ -30,8 +31,9 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "DlgExitMessage.h"
-
-////@begin includes
+#ifdef __WXMAC__
+#include "mac_util.h"
+#endif
 ////@end includes
 
 ////@begin XPM images
@@ -131,14 +133,24 @@ void CDlgExitMessage::CreateControls()
         pSkinAdvanced->GetApplicationName().c_str()
     );
 #else
-    strExitMessage.Printf(
-        _("This will shut down %s and its tasks until either the\n%s or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
-        pSkinAdvanced->GetApplicationShortName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetApplicationShortName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetApplicationShortName().c_str()
-    );
+    if (compareOSVersionTo(10, 15) >= 0) {
+        strExitMessage.Printf(
+            _("This will shut down %s and its tasks until the\n%s is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
+            pSkinAdvanced->GetApplicationShortName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            pSkinAdvanced->GetApplicationShortName().c_str()
+        );
+    } else {
+        strExitMessage.Printf(
+            _("This will shut down %s and its tasks until either the\n%s or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
+            pSkinAdvanced->GetApplicationShortName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            pSkinAdvanced->GetApplicationShortName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str(),
+            pSkinAdvanced->GetApplicationShortName().c_str()
+        );
+    }
 #endif
 
     m_DialogExitMessage = new wxStaticText;
