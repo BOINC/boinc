@@ -56,6 +56,7 @@
 ## Updated 5/27/21 to support zsh & detecting X86_64 features emulated by Rosetta 2
 ## Updated 6/24/21 allow installing BOINC on arm64 Macs without Rosetta 2 installed
 ## Updated 10/10/21 to eliminate ca-bundle.crt
+## Updated 4/29/22 to eliminate obsolete clientscr/BOINCSaver_MacOS10_6_7.zip
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -317,15 +318,7 @@ cp -fpRL "${BUILDPATH}/detect_rosetta_cpu" ../BOINC_Installer/Pkg_Root/Library/A
 
 cp -fpRL "${BUILDPATH}/BOINCManager.app" ../BOINC_Installer/Pkg_Root/Applications/
 
-## OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but Xcode 5.0.2
-## was the last version of Xcode which supported building with Garbage Collection, so we
-## have saved the screensaver executable with GC as a binary. Add it to the screen saver
-## passed to the BOINC installer. At install time, he BOINC installer will select the
-## correct binary for the version of OS X and delete the other one. This script assumes
-## that $BUILDPATH/BOINCSaver.saver was built to use Automatic Reference Counting (ARC)
-## and not built to use GC.
 cp -fpRL "${BUILDPATH}/BOINCSaver.saver" ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
-ditto -xk ./clientscr/BOINCSaver_MacOS10_6_7.zip ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -421,9 +414,6 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the detect_rosetta_cpu helper app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/detect_rosetta_cpu"
-
-    # Code Sign the BOINC screensaver code for OS 10.6 and OS 10.7 if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/BOINCSaver.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7"
 
     # Code Sign the gfx_switcher utility embedded in BOINC screensaver if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"

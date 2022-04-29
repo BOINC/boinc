@@ -296,7 +296,6 @@ void CSimpleProjectPanel::UpdateInterface() {
 void CSimpleProjectPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleProjectPanel::ReskinInterface - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     ProjectSelectionData* selData;
     char* ctrl_url;
 
