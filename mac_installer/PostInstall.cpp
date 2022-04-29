@@ -309,29 +309,6 @@ int main(int argc, char *argv[])
     
     sleep (2);
 
-    // OS 10.6 and OS10.7 require screensavers built with Garbage Collection, but
-    // Xcode 5.0.2 was the last version of Xcode which supported building with
-    // Garbage Collection, so we have saved the screensaver executable with GC as
-    // a binary. The installer build script added it to the screen saver, which
-    // now contains both the code with Garbage Collection and the code with
-    // Automatic Reference Counting. Determine the correct one to use for this
-    // version of OS X and remove the other one.
-    if (compareOSVersionTo(10, 8) < 0) {
-        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver/Contents/MacOS/BOINCSaver\""
-        sprintf(s, "rm -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/%s\"", saverName[brandID], saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-        sprintf(s, "mv -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\" \"/Library/Screen Savers/%s.saver/Contents/MacOS/%s\"",
-            saverName[brandID], saverName[brandID], saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-    } else {
-        // "rm -rf \"/Library/Screen Savers/GridRepublic.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\""
-        sprintf(s, "rm -f \"/Library/Screen Savers/%s.saver/Contents/MacOS/BOINCSaver_MacOS10_6_7\"", saverName[brandID]);
-        err = callPosixSpawn (s);
-        REPORT_ERROR(err);
-    }
-
     // Install all_projects_list.xml file, but only if one doesn't 
     // already exist, since a pre-existing one is probably newer.
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
