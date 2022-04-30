@@ -711,11 +711,19 @@ AC_CHECK_HEADERS([sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttyp
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
-CXXFLAGS="${CXXFLAGS} -msse3"
-CPPFLAGS="${CPPFLAGS} -msse3"
+sse3_flags="-msse3"
+avx_flags="-mavx"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CPPFLAGS="${save_cppflags} ${sse3_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
-CXXFLAGS="${save_cxxflags} -mavx"
-CPPFLAGS="${save_cppflags} -mavx"
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
 AC_CHECK_HEADERS([immintrin.h avxintrin.h])
 
 AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
