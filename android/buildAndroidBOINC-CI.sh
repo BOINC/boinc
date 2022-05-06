@@ -248,7 +248,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     vcpkg_flags="$vcpkg_overlay  --feature-flags=versions --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
-        git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+        git -C $BUILD_DIR clone https://github.com/Thomas1664/vcpkg -b openssl-3.0.3
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
