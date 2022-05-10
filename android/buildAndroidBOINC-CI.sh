@@ -144,6 +144,7 @@ if [ "${silent}" = "yes" ]; then
 fi
 
 . $(pwd)/ndk_common.sh
+. $(pwd)/../3rdParty/vcpkg_ports/vcpkg_link.sh
 export NDK_FLAGFILE="$PREFIX/NDK-${NDK_VERSION}-${REV}_done"
 export NDK_ARMV6_FLAGFILE="$PREFIX/NDK-${NDK_ARMV6_VERSION}-armv6-${ARMV6_REV}_done"
 export OPENSSL_SRC=$BUILD_DIR/openssl-${OPENSSL_VERSION}
@@ -248,7 +249,7 @@ if [ $build_with_vcpkg = "yes" ]; then
     vcpkg_flags="$vcpkg_overlay  --feature-flags=versions --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
         mkdir -p $BUILD_DIR
-        git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+        git -C $BUILD_DIR clone $VCPKG_LINK
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
         git -C $VCPKG_ROOT reset --hard
