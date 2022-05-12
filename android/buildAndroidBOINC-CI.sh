@@ -303,7 +303,7 @@ vcpkgDir()
         vcpkg_dir="$vcpkg_dir/x64-android"
     fi
 
-    echo vcpkg_dir: $vcpkg_dir
+    echo $vcpkg_dir
 }
 
 list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper worker wrapper"
