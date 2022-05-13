@@ -252,11 +252,11 @@ if [ $build_with_vcpkg = "yes" ]; then
         git -C $BUILD_DIR clone $VCPKG_LINK
     fi
     if [ ! -e /tmp/vcpkg_updated ]; then
-        git -C $VCPKG_ROOT reset --hard
         git -C $VCPKG_ROOT pull
         $VCPKG_ROOT/bootstrap-vcpkg.sh
         touch /tmp/vcpkg_updated
     fi
+    sed -i "s/\"builtin-baseline\":.*,/\"builtin-baseline\": \"$(git -C $VCPKG_ROOT rev-parse HEAD)\",/" vcpkg_config_$component/vcpkg.json
     if [ $arch = "armv6" ]; then
         export ANDROID_NDK_HOME=$NDK_ARMV6_ROOT
 
