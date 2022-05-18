@@ -7,14 +7,22 @@ export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
 
 createNDKFolder()
 {
+    ndk_filename=android-ndk-r${NDK_VERSION}-linux-x86_64.zip
     rm -rf "$BUILD_DIR/android-ndk-r${NDK_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_${NDK_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_${NDK_VERSION}.zip -d $BUILD_DIR
+    echo Downloading $ndk_filename
+    wget -c --no-verbose -O /tmp/$ndk_filename https://dl.google.com/android/repository/$ndk_filename
+    echo Extracting $ndk_filename
+    unzip -qq /tmp/$ndk_filename -d $BUILD_DIR
+    echo Finished extracting of $ndk_filename
 }
 
 createNDKARMV6Folder()
 {
+    ndk_filename="android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip"
     rm -rf "$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}"
-    wget -c --no-verbose -O /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip https://dl.google.com/android/repository/android-ndk-r${NDK_ARMV6_VERSION}-linux-x86_64.zip
-    unzip -qq /tmp/ndk_armv6_${NDK_ARMV6_VERSION}.zip -d $BUILD_DIR
+    echo Downloading $ndk_filename
+    wget -c --no-verbose -O /tmp/$ndk_filename https://dl.google.com/android/repository/$ndk_filename
+    echo Extracting $ndk_filename
+    unzip -qq /tmp/$ndk_filename -d $BUILD_DIR
+    echo Finished extracting of $ndk_filename
 }
