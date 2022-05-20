@@ -81,7 +81,7 @@ if [ -n "$COMPILEBOINC" ]; then
 
     echo "Stripping Binaries"
     cd stage/usr/local/bin
-    x86_64-linux-android-strip *
+    llvm-strip *
     cd ../../../../
 
     echo "Copy Assets"
