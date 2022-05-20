@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export NDK_VERSION=21d
+export NDK_VERSION=22b
 export NDK_ARMV6_VERSION=15c
 export NDK_ROOT=$BUILD_DIR/android-ndk-r${NDK_VERSION}
 export NDK_ARMV6_ROOT=$BUILD_DIR/android-ndk-r${NDK_ARMV6_VERSION}
