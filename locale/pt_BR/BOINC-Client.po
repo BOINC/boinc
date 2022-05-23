@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -12,32 +12,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:19+0000\n"
-"Last-Translator: David Anderson <davea@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Wiri Marcolan Kamei <wirimk@hotmail.com>, 2017,2020\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: client/acct_mgr.cpp:557 client/acct_mgr.cpp:564
 msgid "Message from account manager"
 msgstr "Mensagem do gerente da conta"
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Mensagem do servidor"
 
-#: client/client_state.cpp:338
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Algumas tarefas precisam de mais memória que o permitido por suas preferências. Por favor confira as preferências."
 
-#: client/client_state.cpp:706
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Não foi possível gravar arquivo de estado; verifique as permissões do diretório"
 
@@ -45,46 +45,46 @@ msgstr "Não foi possível gravar arquivo de estado; verifique as permissões do
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A variável de ambiente HTTP_PROXY deve especificar um proxy HTTP"
 
-#: client/cs_scheduler.cpp:624
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
-msgstr "Este projeto está usando um URL antigo. Quando possível, remova o projeto, depois adicione %s"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr "Erro de sintaxe em app_info.xml"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "O arquivo indicado no app_info.xml não existe: "
 
-#: client/current_version.cpp:55
+#: client/current_version.cpp:66
 msgid "Missing start tag in nvc_config.xml"
 msgstr "Etiqueta inicial não encontrada em nvc_config.xml"
 
-#: client/current_version.cpp:64
+#: client/current_version.cpp:75
 msgid "Unexpected text in nvc_config.xml"
 msgstr "Texto inesperado em nvc_config.xml"
 
-#: client/current_version.cpp:91
+#: client/current_version.cpp:102
 msgid "Unrecognized tag in nvc_config.xml"
 msgstr "Etiqueta não reconhecida em nvc_config.xml"
 
-#: client/current_version.cpp:99
+#: client/current_version.cpp:110
 msgid "Missing end tag in nvc_config.xml"
 msgstr "Etiqueta final não encontrada em nvc_config.xml"
 
-#: client/current_version.cpp:177
+#: client/current_version.cpp:244
 msgid "A new version of BOINC is available"
 msgstr "Uma nova versão do BOINC está disponível"
 
-#: client/current_version.cpp:180 client/current_version.cpp:191
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "Download"
 
-#: client/current_version.cpp:183
+#: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
 msgstr "Uma nova versão de %s está disponível"
@@ -94,23 +94,23 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "não pode ser usado para computação CUDA ou OpenCL com driver CUDA 6.5 ou posterior"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:510
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr "Texto inesperado em cc_config.xml"
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Etiqueta não reconhecida em cc_config.xml"
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr "Etiqueta inicial faltante em cc_config.xml"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr "Erro nas opções do cc_config.xml"
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr "Etiqueta final faltante em cc_config.xml"
 

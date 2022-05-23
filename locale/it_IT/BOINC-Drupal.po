@@ -7,7 +7,8 @@
 # Translators:
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
 # bf74d81e6444bbcd07dca0f3fc7a4398, 2015
-# Erik Pannocchia <erik.pannocchia@gmail.com>, 2018
+# Daniele Pugliesi <d.pugliesi@engineer.com>, 2021
+# hiwrik <erik.pannocchia@gmail.com>, 2018
 # Filippo Rossi <rossi.filippo@gmail.com>, 2018
 # Francesco Marin <francesco.il.marin@gmail.com>, 2018
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015,2017
@@ -15,21 +16,21 @@
 # bf74d81e6444bbcd07dca0f3fc7a4398, 2015
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
-# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2020
+# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2020-2022
 # Stefano B <boboviz75@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
-"PO-Revision-Date: 2020-05-01 12:46+0000\n"
-"Last-Translator: SebastianoPistore <SebastianoPistore.info@protonmail.ch>\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2020-2022\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it_IT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "I'm new"
@@ -46,10 +47,10 @@ msgid "Enforced by version @number"
 msgstr "Disponibile dalla versione @number"
 
 msgid "Total Credit"
-msgstr "Credito totale"
+msgstr "Crediti totali"
 
 msgid "App ID"
-msgstr "ID Applicazione"
+msgstr "ID applicazione"
 
 msgid "Friends (@count)"
 msgstr "(@count) amici"
@@ -144,7 +145,7 @@ msgid "Matters only if you have a modem, ISDN, or VPN connection"
 msgstr "E' importante solo se hai un modem, ISDN o una connessione VPN"
 
 msgid "Maximum download rate"
-msgstr "Velocità massima di scaricamento"
+msgstr "Velocità massima di download"
 
 msgid "Maximum upload rate"
 msgstr "Velocità massima di invio"
@@ -311,7 +312,7 @@ msgid ""
 "preferences will not change if you load the disk usage settings from "
 "config.xml here into the drupal database. They must change their preference "
 "settings manually."
-msgstr "'Save configuration with disk usage settings from config.xml' salverà le preferenze nel database di drupal, ma caricherà anche il settaggio relativo all'uso del disco chesi trova nel file di configurazione config.xml del progetto BOINC. Ciò sovrascriverà ogni settaggio disco che hai messo prima. Attenzione: le preferenze personalinon cambieranno se si caricano i settaggi di uso del disco da questo file config.xml locale nel database drupal.  Ciascuno dovrà cambiare le proprie preferenzemanualmente."
+msgstr "'Save configuration with disk usage settings from config.xml' salverà le preferenze nel database di Dupal, ma caricherà anche il settaggio relativo all'uso del disco che si trova nel file di configurazione config.xml del progetto BOINC. Così facendo verrà sovrascritto ogni precedente settaggio. Attenzione: le preferenze personali non cambieranno se si caricano i settaggi di uso del disco da questo file config.xml locale nel database Drupal.  Ciascuno dovrà cambiare le proprie preferenze manualmente."
 
 #: account-dashboard
 msgctxt "account-dashboard"
@@ -1488,7 +1489,7 @@ msgstr "Sospendi quando il computer è alimentato a batteria?"
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
 msgid "Suspends computing on portables when running on battery power."
-msgstr "Sospendi la computazione su Laptop quando in modalità risparmio energetico"
+msgstr "Sospendi la computazione su Laptop quando in modalità risparmio energetico."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1667,7 +1668,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "This controls how often tasks save their state to disk, so that later they "
 "can be continued from that point."
-msgstr "Determina quanto spesso le attività salvano i risultati su disco in modo che i dati non vengano persi nel caso di arresto improvviso"
+msgstr "Determina quanto spesso le attività salvano i risultati su disco in modo che i dati non vengano persi nel caso di arresto improvviso."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -1734,7 +1735,7 @@ msgctxt "account-preferences-computing"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Cerca di scaricare più attività di quelle minime. Determina quante attività verranno richieste quando viene contattato un progetto."
+msgstr "Cerca di scaricare più attività di quelle minime.  Determina quante attività verranno richieste quando viene contattato un progetto."
 
 #: account-preferences-computing
 msgctxt "account-preferences-computing"
@@ -2277,12 +2278,12 @@ msgctxt "account-preferences"
 msgid ""
 "No preferences found for set '@venue'. Click SAVE CHANGES below to save the "
 "following preferences to your account."
-msgstr "Nessuna preferenza trovata per il set '@venue'. Clicca sotto SALVA CAMBIAMENTI per registrare le seguenti preferenze nel tuo account.  "
+msgstr "Nessuna preferenza trovata per il set '@venue'. Clicca sotto SALVA CAMBIAMENTI per registrare le seguenti preferenze nel tuo account."
 
 #: join-page
 msgctxt "join-page"
 msgid "Download the desktop software"
-msgstr "Scarica il software per desktop"
+msgstr "Scarica il software per PC"
 
 #: join-page
 msgctxt "join-page"
@@ -2302,7 +2303,7 @@ msgstr "Rispondi a questo commento"
 #: forum-reply-to-comment
 msgctxt "forum-reply-to-comment"
 msgid "Reply to this topic with a quote"
-msgstr "Rispondi a questo tema con una citazione."
+msgstr "Rispondi a questo tema con una citazione"
 
 #: private-message
 msgctxt "private-message"
@@ -3520,7 +3521,7 @@ msgstr "Inserisci il tuo indirizzo email"
 #: join-page
 msgctxt "join-page"
 msgid "Download the BOINC desktop software."
-msgstr "Scarica BOINC per desktop."
+msgstr "Scarica BOINC per PC."
 
 #: join-page
 msgctxt "join-page"
@@ -3537,7 +3538,7 @@ msgstr "Lancia l'installer."
 #: join-page
 msgctxt "join-page"
 msgid "Choose @sitename from the list, or enter @siteurl."
-msgstr "Scegli @sitename dalla lista, o inserisci @siteurl"
+msgstr "Scegli @sitename dalla lista, o inserisci @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3549,7 +3550,7 @@ msgctxt "join-page"
 msgid ""
 "Select <i>Tools / Add Project</i>. Choose @sitename from the list, or enter "
 "@siteurl."
-msgstr "Seleziona <i>Strumenti/Connessione ad un progetto</i>. Quindi seleziona @sitename dalla lista oppure inserisci @siteurl"
+msgstr "Seleziona <i>Strumenti/Connessione ad un progetto</i>. Quindi seleziona @sitename dalla lista oppure inserisci @siteurl."
 
 #: join-page
 msgctxt "join-page"
@@ -3558,7 +3559,7 @@ msgid ""
 "        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
 "        an account at this project, then use that account to connect with the\n"
 "        command-line version using <b>!boinccmd</b>."
-msgstr "Se stai eseguendo BOINC da linea di comando, \nper il primo uso avvia il software manager BOINC  (anche da un altro pc se necessario) per \ncreare un account  per questo progetto, poi usa quell'account per connetterti con la \nversione a riga di comando usando <b>!boinccmd</b>"
+msgstr "Se stai eseguendo BOINC da linea di comando, \nper il primo uso avvia il software manager BOINC  (anche da un altro pc se necessario) per \ncreare un account  per questo progetto, poi usa quell'account per connetterti con la \nversione a riga di comando usando <b>!boinccmd</b>."
 
 #: join-page
 msgctxt "join-page"
@@ -3780,7 +3781,7 @@ msgstr "Mostra questo topic"
 #: moderate-user
 msgctxt "moderate-user"
 msgid "Reason for banning this user"
-msgstr "Motivo del ban per questo utente"
+msgstr "Motivo del ban di questo utente"
 
 #: moderate-user
 msgctxt "moderate-user"
@@ -4039,7 +4040,7 @@ msgctxt "search-help-sidebar-block"
 msgid ""
 "For example, searching for 'boinc AND client' will only contain results with"
 " words boinc and client."
-msgstr "Per esempio, la ricerca 'boinc AND client' restituirà solo risultati che contengono le parole 'boinc' e 'client'"
+msgstr "Per esempio, la ricerca 'boinc AND client' restituirà solo risultati che contengono le parole 'boinc' e 'client'."
 
 #: search-help-sidebar-block
 msgctxt "search-help-sidebar-block"

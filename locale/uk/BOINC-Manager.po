@@ -1,5 +1,5 @@
 # BOINC manager localization template
-# Copyright (C) 2021 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
-"PO-Revision-Date: 2021-07-23 06:08+0000\n"
-"Last-Translator: makalu makalu <awakenings@outlook.com>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: makalu makalu <awakenings@outlook.com>, 2018-2021\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -528,7 +528,7 @@ msgstr "Попередити про проблему"
 msgid "Report bug or enhancement request"
 msgstr "Попередити про помилку або зробити запит на покращення"
 
-#: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:530
+#: clientgui/AdvancedFrame.cpp:710 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:344
 #, c-format
 msgid "&About %s..."
@@ -563,39 +563,39 @@ msgstr "&Інструменти"
 msgid "&Help"
 msgstr "&Довідка"
 
-#: clientgui/AdvancedFrame.cpp:1348
+#: clientgui/AdvancedFrame.cpp:1347
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Завершити роботу поточного клієнта..."
 
-#: clientgui/AdvancedFrame.cpp:1357
+#: clientgui/AdvancedFrame.cpp:1356
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr "%s вимкне підключений зараз клієнт\nі запитає у Вас адресу для підключення іншого комп'ютера."
 
-#: clientgui/AdvancedFrame.cpp:1747 clientgui/DlgAbout.cpp:121
+#: clientgui/AdvancedFrame.cpp:1750 clientgui/DlgAbout.cpp:121
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1757
+#: clientgui/AdvancedFrame.cpp:1760
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s успішно додав проект %s"
 
-#: clientgui/AdvancedFrame.cpp:1904
+#: clientgui/AdvancedFrame.cpp:1907
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1908
+#: clientgui/AdvancedFrame.cpp:1911
 #, c-format
 msgid "Connecting to %s"
 msgstr "Відбувається підключення до %s"
 
-#: clientgui/AdvancedFrame.cpp:1911
+#: clientgui/AdvancedFrame.cpp:1914
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Підключений до %s (%s)"
@@ -624,26 +624,26 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr "Обліковий запис з такою адресою електронної пошти вже існує і\nмає відмінний від Вашого пароль.\n\nБудь-ласка, відвідайте  домашню сторінку проекту для отримання інструкцій."
 
-#: clientgui/AsyncRPC.cpp:1037
+#: clientgui/AsyncRPC.cpp:1080
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Встановлюється зв'язок з BOINC-клієнтом.  Будь-ласка, зачекайте..."
 
-#: clientgui/AsyncRPC.cpp:1040
+#: clientgui/AsyncRPC.cpp:1083
 #, c-format
 msgid "&Quit %s"
 msgstr "&Вийти з %s"
 
-#: clientgui/AsyncRPC.cpp:1042
+#: clientgui/AsyncRPC.cpp:1085
 #, c-format
 msgid "E&xit %s"
 msgstr "В&ийти %s"
 
-#: clientgui/AsyncRPC.cpp:1046
+#: clientgui/AsyncRPC.cpp:1089
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Встановлення зв'язку"
 
-#: clientgui/AsyncRPC.cpp:1062 clientgui/DlgAdvPreferencesBase.cpp:183
+#: clientgui/AsyncRPC.cpp:1105 clientgui/DlgAdvPreferencesBase.cpp:183
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgExclusiveApps.cpp:151
 #: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:360
 msgid "Cancel"
@@ -675,8 +675,8 @@ msgstr "%s - помилка запуску Daemon"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr "%s не може запустити клієнта %s.\nСпробуйте запустити службу BOINC ще раз із 'Панель управління/Адміністрування/Служби'."
+"Please launch the Control Panel->Administrative Tools->Services applet and start the BOINC service."
+msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:611
 #, c-format
@@ -714,7 +714,7 @@ msgid ""
 msgstr "Якщо Ви припините використовувати %s,\nто збережете всі свої поточні проекти,\nпроте Вам доведеться керувати ними вручну.\n\nБажаєте припинити використовувати %s?"
 
 #. Create the web sites task group
-#: clientgui/BOINCBaseView.cpp:781
+#: clientgui/BOINCBaseView.cpp:789
 msgid "Project web pages"
 msgstr "Веб-сторінки проекту"
 
@@ -735,46 +735,46 @@ msgstr "Клієнт %s 3 рази за останні %d хвилин заве�
 msgid "%s - Network Status"
 msgstr "%s - стан мережевого підключення"
 
-#: clientgui/BOINCDialupManager.cpp:240
+#: clientgui/BOINCDialupManager.cpp:237
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr "%s потребує підключення до Інтернету.\nПідключитися зараз?"
 
-#: clientgui/BOINCDialupManager.cpp:253
+#: clientgui/BOINCDialupManager.cpp:250
 #, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s підключається до Інтернету."
 
-#: clientgui/BOINCDialupManager.cpp:302
+#: clientgui/BOINCDialupManager.cpp:299
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s встановив підключення до Інтернету."
 
-#: clientgui/BOINCDialupManager.cpp:330
+#: clientgui/BOINCDialupManager.cpp:327
 #, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s не вдалося підключитися до Інтернету."
 
-#: clientgui/BOINCDialupManager.cpp:371
+#: clientgui/BOINCDialupManager.cpp:368
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr "%s виявив встановлене підключення до Інтернету.\nВідбувається обмін файлами даних і оновлення інформації про проекти."
 
-#: clientgui/BOINCDialupManager.cpp:416
+#: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s розірвав підключення до Інтернету."
 
-#: clientgui/BOINCDialupManager.cpp:432
+#: clientgui/BOINCDialupManager.cpp:429
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s не вдалося розірвати підключення до Інтернету."
 
-#: clientgui/BOINCGUIApp.cpp:340
+#: clientgui/BOINCGUIApp.cpp:348
 #, c-format
 msgid ""
 "You currently are not authorized to manage %s.\n"
@@ -785,170 +785,170 @@ msgid ""
 "- contact your administrator to add you to the 'boinc_master' user group."
 msgstr "Наразі ви не авторизовані для керування %s.\n\nЩоб запустити %s від імені цього користувача, будь ласка:\n- перевстановіть %s, відповідаючи «Так» на питання про користувачів-неадміністраторів\n або\n- попросіть вашого адміністратора додати вас до групи boinc_master."
 
-#: clientgui/BOINCGUIApp.cpp:348
+#: clientgui/BOINCGUIApp.cpp:356
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr "%s відсутній доступ або неправильно встановлені права; перевстановіть, будь-ласка, %s.\n(Код помилки %d"
 
-#: clientgui/BOINCGUIApp.cpp:354
+#: clientgui/BOINCGUIApp.cpp:362
 msgid " at "
 msgstr " на "
 
-#: clientgui/BOINCGUIApp.cpp:357 clientgui/MainDocument.cpp:2521
+#: clientgui/BOINCGUIApp.cpp:365 clientgui/MainDocument.cpp:2521
 #: clientgui/MainDocument.cpp:2580 clientgui/ViewTransfers.cpp:871
 msgid ")"
 msgstr ")"
 
-#: clientgui/BOINCGUIApp.cpp:387
+#: clientgui/BOINCGUIApp.cpp:395
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr "Для коректної роботи BOINC необхідне перезавантаження.\nПерезавантажте, будь-ласка, комп’ютер і спробуйте знову."
 
-#: clientgui/BOINCGUIApp.cpp:388 clientgui/DlgAbout.cpp:158
+#: clientgui/BOINCGUIApp.cpp:396 clientgui/DlgAbout.cpp:158
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
-#: clientgui/BOINCGUIApp.cpp:604
+#: clientgui/BOINCGUIApp.cpp:615
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC менеджер був автоматично запущений операційною системою"
 
-#: clientgui/BOINCGUIApp.cpp:606
+#: clientgui/BOINCGUIApp.cpp:617
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Згортати BOINC менеджер в значок на панелі завдань під час запуску"
 
-#: clientgui/BOINCGUIApp.cpp:608
+#: clientgui/BOINCGUIApp.cpp:619
 msgid "Directory containing the BOINC Client executable"
 msgstr "Каталог, що містить виконавчий файл клієнта BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:609
+#: clientgui/BOINCGUIApp.cpp:620
 msgid "BOINC data directory"
 msgstr "Папка даних BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:611
+#: clientgui/BOINCGUIApp.cpp:622
 msgid "Host name or IP address"
 msgstr "Назва або IP -адреса комп'ютера"
 
-#: clientgui/BOINCGUIApp.cpp:612
+#: clientgui/BOINCGUIApp.cpp:623
 msgid "GUI RPC port number"
 msgstr "Номер порту GUI RPC"
 
-#: clientgui/BOINCGUIApp.cpp:613
+#: clientgui/BOINCGUIApp.cpp:624
 msgid "Password"
 msgstr "Пароль"
 
-#: clientgui/BOINCGUIApp.cpp:614
+#: clientgui/BOINCGUIApp.cpp:625
 msgid "Startup BOINC with these optional arguments"
 msgstr "Запускати BOINC з ключами запуску"
 
-#: clientgui/BOINCGUIApp.cpp:615
+#: clientgui/BOINCGUIApp.cpp:626
 msgid "disable BOINC security users and permissions"
 msgstr "відключити політику безпеки доступу користувачів до BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:616
+#: clientgui/BOINCGUIApp.cpp:627
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "включити режим відлагодження для виводу повідомлень про помилки"
 
-#: clientgui/BOINCGUIApp.cpp:617
+#: clientgui/BOINCGUIApp.cpp:628
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "дозволено декілька екземплярів менеджера BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:619
+#: clientgui/BOINCGUIApp.cpp:630
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Не використаний: зациклився через баг у XCode 4.2"
 
-#: clientgui/BOINCGUIApp.cpp:621
+#: clientgui/BOINCGUIApp.cpp:632
 msgid "Don't run the client"
 msgstr "Не запускати клієнт"
 
 #. These are just special tags so deal with them in a special way
-#: clientgui/BOINCGUIApp.cpp:890
+#: clientgui/BOINCGUIApp.cpp:901
 msgid "(Automatic Detection)"
 msgstr "(Автовизначення)"
 
-#: clientgui/BOINCGUIApp.cpp:891
+#: clientgui/BOINCGUIApp.cpp:902
 msgid "(Unknown)"
 msgstr "(Невідомий)"
 
-#: clientgui/BOINCGUIApp.cpp:892
+#: clientgui/BOINCGUIApp.cpp:903
 msgid "(User Defined)"
 msgstr "(Користувацький)"
 
-#: clientgui/BOINCTaskBar.cpp:508
+#: clientgui/BOINCTaskBar.cpp:519
 #, c-format
 msgid "Open %s Web..."
 msgstr "Відвідати веб-сторінку %s..."
 
-#: clientgui/BOINCTaskBar.cpp:515
+#: clientgui/BOINCTaskBar.cpp:526
 #, c-format
 msgid "Open %s..."
 msgstr "Відкрити %s..."
 
-#: clientgui/BOINCTaskBar.cpp:522 clientgui/BOINCTaskBar.cpp:620
-#: clientgui/BOINCTaskBar.cpp:625
+#: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:631
+#: clientgui/BOINCTaskBar.cpp:636
 msgid "Snooze"
 msgstr "Призупинити"
 
-#: clientgui/BOINCTaskBar.cpp:524 clientgui/BOINCTaskBar.cpp:639
-#: clientgui/BOINCTaskBar.cpp:644
+#: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
+#: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
 msgstr "Призупинити графічний процесор"
 
-#: clientgui/BOINCTaskBar.cpp:542
+#: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
 msgstr "В&ихід"
 
-#: clientgui/BOINCTaskBar.cpp:615 clientgui/ViewProjects.cpp:788
-#: clientgui/ViewWork.cpp:874 clientgui/sg_BoincSimpleFrame.cpp:957
+#: clientgui/BOINCTaskBar.cpp:626 clientgui/ViewProjects.cpp:788
+#: clientgui/ViewWork.cpp:874 clientgui/sg_BoincSimpleFrame.cpp:961
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "Відновити"
 
-#: clientgui/BOINCTaskBar.cpp:635
+#: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
 msgstr "Відновити обробку графічним процесором"
 
-#: clientgui/BOINCTaskBar.cpp:706
+#: clientgui/BOINCTaskBar.cpp:717
 msgid "Computing is enabled"
 msgstr "Обробка дозволена"
 
-#: clientgui/BOINCTaskBar.cpp:710
+#: clientgui/BOINCTaskBar.cpp:721
 msgid "Computing is suspended - "
 msgstr "Обробка призупинена - "
 
-#: clientgui/BOINCTaskBar.cpp:720
+#: clientgui/BOINCTaskBar.cpp:731
 msgid "GPU computing is enabled"
 msgstr "Обробка за допомогою графічного процесора дозволена"
 
-#: clientgui/BOINCTaskBar.cpp:723
+#: clientgui/BOINCTaskBar.cpp:734
 msgid "GPU computing is suspended - "
 msgstr "Обробка за допомогою графічного процесора призупинена- "
 
-#: clientgui/BOINCTaskBar.cpp:732
+#: clientgui/BOINCTaskBar.cpp:743
 msgid "Network is enabled"
 msgstr "Мережа доступна"
 
-#: clientgui/BOINCTaskBar.cpp:735
+#: clientgui/BOINCTaskBar.cpp:746
 msgid "Network is suspended - "
 msgstr "Доступ до мережі заборонений- "
 
-#: clientgui/BOINCTaskBar.cpp:743
+#: clientgui/BOINCTaskBar.cpp:754
 msgid "Reconnecting to client."
 msgstr "Повторне підключення до клієнта."
 
-#: clientgui/BOINCTaskBar.cpp:745
+#: clientgui/BOINCTaskBar.cpp:756
 msgid "Not connected to a client."
 msgstr "Не підключений до клієнта."
 
-#: clientgui/BOINCTaskBar.cpp:798
+#: clientgui/BOINCTaskBar.cpp:809
 #, c-format
 msgid "%s Notices"
 msgstr "Повідомлення %s"
 
-#: clientgui/BOINCTaskBar.cpp:804
+#: clientgui/BOINCTaskBar.cpp:815
 msgid "There are new notices - click to view."
 msgstr "Є нові повідомлення - натисніть для перегляду."
 
@@ -1058,56 +1058,56 @@ msgstr "%s розповсюджується під ліцензією GNU LGPL v
 msgid "For more information, visit "
 msgstr "Для отримання додаткової інформації відвідайте "
 
-#: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:226 clientgui/DlgExitMessage.cpp:185
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&Гаразд"
 
-#: clientgui/DlgAdvPreferences.cpp:659 clientgui/sg_DlgPreferences.cpp:787
+#: clientgui/DlgAdvPreferences.cpp:667 clientgui/sg_DlgPreferences.cpp:787
 msgid "Invalid number"
 msgstr "Неправильний номер"
 
-#: clientgui/DlgAdvPreferences.cpp:660 clientgui/sg_DlgPreferences.cpp:788
+#: clientgui/DlgAdvPreferences.cpp:668 clientgui/sg_DlgPreferences.cpp:788
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "Неприпустимий час, значення має бути від 0:00 до 24:00, у форматі години:хвилини"
 
-#: clientgui/DlgAdvPreferences.cpp:661 clientgui/sg_DlgPreferences.cpp:789
+#: clientgui/DlgAdvPreferences.cpp:669 clientgui/sg_DlgPreferences.cpp:789
 msgid "Start time must be different from end time"
 msgstr "Час запуску має відрізнятися від часу завершення"
 
-#: clientgui/DlgAdvPreferences.cpp:662
+#: clientgui/DlgAdvPreferences.cpp:670
 msgid "Number must be between 0 and 10"
 msgstr "Число має бути від 0 до 10"
 
-#: clientgui/DlgAdvPreferences.cpp:663 clientgui/sg_DlgPreferences.cpp:790
+#: clientgui/DlgAdvPreferences.cpp:671 clientgui/sg_DlgPreferences.cpp:790
 msgid "Number must be between 0 and 100"
 msgstr "Число має бути від 0 до 100"
 
-#: clientgui/DlgAdvPreferences.cpp:664
+#: clientgui/DlgAdvPreferences.cpp:672
 msgid "Number must be between 1 and 100"
 msgstr "Число має бути від 1 до 100"
 
-#: clientgui/DlgAdvPreferences.cpp:922 clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/DlgAdvPreferences.cpp:936 clientgui/sg_DlgPreferences.cpp:861
 msgid "invalid input value detected"
 msgstr "виявлене некоректне значення"
 
-#: clientgui/DlgAdvPreferences.cpp:934 clientgui/sg_DlgPreferences.cpp:873
+#: clientgui/DlgAdvPreferences.cpp:948 clientgui/sg_DlgPreferences.cpp:873
 msgid "Validation Error"
 msgstr "Помилка перевірки"
 
-#: clientgui/DlgAdvPreferences.cpp:1118 clientgui/sg_DlgPreferences.cpp:1207
+#: clientgui/DlgAdvPreferences.cpp:1132 clientgui/sg_DlgPreferences.cpp:1207
 msgid ""
 "Changing to use the local preferences defined on this page. This will "
 "override your web-based preferences, even if you subsequently make changes "
 "there. Do you want to proceed?"
 msgstr "Зміна локальних параметрів за замовчуванням, зазначених на цій сторінці. Ці дії перезапишуть ваші налаштування в веб версії, навіть якщо ви потім в них внесете зміни. Продовжити?"
 
-#: clientgui/DlgAdvPreferences.cpp:1122 clientgui/DlgAdvPreferences.cpp:1163
+#: clientgui/DlgAdvPreferences.cpp:1136 clientgui/DlgAdvPreferences.cpp:1177
 #: clientgui/sg_DlgPreferences.cpp:1199 clientgui/sg_DlgPreferences.cpp:1211
 msgid "Confirmation"
 msgstr "Підтвердження"
 
-#: clientgui/DlgAdvPreferences.cpp:1162
+#: clientgui/DlgAdvPreferences.cpp:1176
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "Скасувати локальні параметри та використати інтернет-налаштування?"
 
@@ -1139,13 +1139,13 @@ msgid "Restore web-based preferences and close the dialog."
 msgstr "Відновити інтернет-налаштувань і закрити вікно."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:701
+#: clientgui/DlgAdvPreferencesBase.cpp:722
 msgid "Computing"
 msgstr "Обчислення"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:155
-#: clientgui/DlgAdvPreferencesBase.cpp:903
+#: clientgui/DlgAdvPreferencesBase.cpp:924
 msgid "Network"
 msgstr "Мережа"
 
@@ -1173,7 +1173,7 @@ msgstr "Закрити діалогове вікно без збереження
 
 #: clientgui/DlgAdvPreferencesBase.cpp:190 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
-#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:993
+#: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:997
 #: clientgui/sg_DlgPreferences.cpp:370
 msgid "Help"
 msgstr "Допомога"
@@ -1183,7 +1183,7 @@ msgid "Shows the preferences web page."
 msgstr "Показує налаштування веб-сторінки."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:253
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#: clientgui/DlgAdvPreferencesBase.cpp:501
 msgid "Usage limits"
 msgstr "Обмеження на використання"
 
@@ -1261,314 +1261,324 @@ msgstr "«В роботі» означає введення даних миші/
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:332
-#: clientgui/DlgAdvPreferencesBase.cpp:430 clientgui/sg_DlgPreferences.cpp:276
+#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:451 clientgui/sg_DlgPreferences.cpp:276
 msgid "minutes"
 msgstr "хвилин"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:340
+#. suspend after max idle time
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+msgid "This allows some computers to enter low-power mode when not in use."
+msgstr "Це дозволяє деяким комп'ютерам перейти до режиму економії енергії у разі невикористанняю"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:343
+msgid "Suspend when no mouse/keyboard input in last"
+msgstr "Призупинити, якщо немає активності мишки або клавіатури протягом останніх"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:361
 msgid "Suspend when non-BOINC CPU usage is above"
 msgstr "Призупинити, коли використання процесора не-BOINC додатками перевищує"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:342
+#: clientgui/DlgAdvPreferencesBase.cpp:363
 msgid "Suspend computing when your computer is busy running other programs."
 msgstr "Призупинити обчислення, коли комп'ютер зайнятий роботою інших додатків."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:356
+#: clientgui/DlgAdvPreferencesBase.cpp:377
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
 msgstr "Щоб призупинити у певні години дня, перейдіть до розділу \"Щоденний графік\"."
 
 #. Context: heading for a group of miscellaneous preferences
-#: clientgui/DlgAdvPreferencesBase.cpp:366
-#: clientgui/DlgAdvPreferencesBase.cpp:533
+#: clientgui/DlgAdvPreferencesBase.cpp:387
+#: clientgui/DlgAdvPreferencesBase.cpp:554
 msgid "Other"
 msgstr "Інше"
 
 #. buffer sizes
-#: clientgui/DlgAdvPreferencesBase.cpp:372
+#: clientgui/DlgAdvPreferencesBase.cpp:393
 msgid "Store at least enough tasks to keep the computer busy for this long."
 msgstr "Зберігати достатньо завдань, щоб тримати комп'ютер зайнятим протягом цього часу."
 
 #. context: Store at least ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:376
+#: clientgui/DlgAdvPreferencesBase.cpp:397
 msgid "Store at least"
 msgstr "Зберігати щонайменше для"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:387
-#: clientgui/DlgAdvPreferencesBase.cpp:409
+#: clientgui/DlgAdvPreferencesBase.cpp:408
+#: clientgui/DlgAdvPreferencesBase.cpp:430
 msgid "days of work"
 msgstr "днів роботи"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:393
+#: clientgui/DlgAdvPreferencesBase.cpp:414
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
 msgstr "Зберігати додаткові завдання понад мінімальний рівень.  Визначає, скільки роботи запитується при зверненні до проекту."
 
 #. context: Store up to an additional ___ days of work
-#: clientgui/DlgAdvPreferencesBase.cpp:397
+#: clientgui/DlgAdvPreferencesBase.cpp:418
 msgid "Store up to an additional"
 msgstr "Зберігати додатково до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:416
+#: clientgui/DlgAdvPreferencesBase.cpp:437
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
 msgstr "Якщо у вас працює декілька проектів, %s може перемикатися між ними з такою частотою."
 
 #. context: Switch between tasks every ___ minutes
-#: clientgui/DlgAdvPreferencesBase.cpp:421
+#: clientgui/DlgAdvPreferencesBase.cpp:442
 msgid "Switch between tasks every"
 msgstr "Перемикатися між завданнями кожні"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:436
+#: clientgui/DlgAdvPreferencesBase.cpp:457
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
 msgstr "Цей елементи керування вказує, як часто зберігати стан завдання на диск, щоб пізніше можна було продовжувати далі із того моменту."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:440
+#: clientgui/DlgAdvPreferencesBase.cpp:461
 msgid "Request tasks to checkpoint at most every"
 msgstr "Запит на контрольні точки завдання щонайбільше кожні"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
-#: clientgui/DlgAdvPreferencesBase.cpp:449
+#: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "seconds"
 msgstr "секунд"
 
 #. upload/download rates
-#: clientgui/DlgAdvPreferencesBase.cpp:486
+#: clientgui/DlgAdvPreferencesBase.cpp:507
 msgid "Limit the download rate of file transfers."
 msgstr "Обмеження швидкості завантаження файлів."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:487
+#: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "Limit download rate to"
 msgstr "Обмежити швидкості завантаження до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:491
-#: clientgui/DlgAdvPreferencesBase.cpp:500
+#: clientgui/DlgAdvPreferencesBase.cpp:512
+#: clientgui/DlgAdvPreferencesBase.cpp:521
 msgid "KB/second"
 msgstr "Кб/с"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:495
+#: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "Limit the upload rate of file transfers."
 msgstr "Обмеження швидкості віддачі файлів."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:496
+#: clientgui/DlgAdvPreferencesBase.cpp:517
 msgid "Limit upload rate to"
 msgstr "Обмежити швидкість віддачі до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:507
+#: clientgui/DlgAdvPreferencesBase.cpp:528
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
 msgstr "Приклад: %s слід передати щонайбільше 2000 Мб даних кожні 30 днів."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:509
+#: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "Limit usage to"
 msgstr "Обмежити використання до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:513
+#: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "MB every"
 msgstr "Мб кожні"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:517
+#: clientgui/DlgAdvPreferencesBase.cpp:538
 msgid "days"
 msgstr "днів"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:522
+#: clientgui/DlgAdvPreferencesBase.cpp:543
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
 msgstr "Щоб встановити обмеження на передачу даних у певні години дня, перейдіть до розділу \"Щоденний графік\"."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:539
+#: clientgui/DlgAdvPreferencesBase.cpp:560
 #, c-format
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
 msgstr "Виберіть цей пункт, якщо Ваш інтернет провайдер змінює файли, що завантажуються. Пропуск перевірки зменшує безпеку %s."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:562
 msgid "Skip data verification for image files"
 msgstr "Скасувати перевірку даних файлів образів"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:545
+#: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "Confirm before connecting to Internet"
 msgstr "Підтвердити перед підключенням до інтернету"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:546
-#: clientgui/DlgAdvPreferencesBase.cpp:550
+#: clientgui/DlgAdvPreferencesBase.cpp:567
+#: clientgui/DlgAdvPreferencesBase.cpp:571
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr "Може бути корисним, тільки при наявності модемного, ISDN або VPN підключення."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:549
+#: clientgui/DlgAdvPreferencesBase.cpp:570
 msgid "Disconnect when done"
 msgstr "Розірвати з'єднання після завершення"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:576 clientgui/ViewResources.cpp:118
+#: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/ViewResources.cpp:118
 msgid "Disk"
 msgstr "Диск"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:581
+#: clientgui/DlgAdvPreferencesBase.cpp:602
 #, c-format
 msgid "%s will use the most restrictive of these settings:"
 msgstr "%s використовуватиме найбільш обмежені обмежені параметри:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:587 clientgui/sg_DlgPreferences.cpp:335
+#: clientgui/DlgAdvPreferencesBase.cpp:608 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
 msgstr "Обмежити обсяг дискового простору, який буде використовуватися %s."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:590
-#: clientgui/DlgAdvPreferencesBase.cpp:614 clientgui/sg_DlgPreferences.cpp:338
+#: clientgui/DlgAdvPreferencesBase.cpp:611
+#: clientgui/DlgAdvPreferencesBase.cpp:635 clientgui/sg_DlgPreferences.cpp:338
 msgid "Use no more than"
 msgstr "Використовувати не більше, ніж"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:594
+#: clientgui/DlgAdvPreferencesBase.cpp:615
 msgid "GB"
 msgstr "ГБ"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:599
+#: clientgui/DlgAdvPreferencesBase.cpp:620
 #, c-format
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
 msgstr "Обмежити використання диска, щоб залишити достатньо вільного місця на диску, де %s зберігає дані."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:602
+#: clientgui/DlgAdvPreferencesBase.cpp:623
 msgid "Leave at least"
 msgstr "Залишати щонайменше"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:627
 msgid "GB free"
 msgstr "ГБ вільно"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:611
+#: clientgui/DlgAdvPreferencesBase.cpp:632
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
 msgstr "Обмежити відсоток дискового простору, який може використовувати %s на диску, де зберігаються дані."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:619
+#: clientgui/DlgAdvPreferencesBase.cpp:640
 #, no-c-format
 msgid "% of total"
 msgstr "% від повного обсягу диска"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:626
+#: clientgui/DlgAdvPreferencesBase.cpp:647
 msgid "Memory"
 msgstr "Пам'ять"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:631
+#: clientgui/DlgAdvPreferencesBase.cpp:652
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
 msgstr "Обмежити використання пам'яті для %s коли комп'ютер використовується."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:633
+#: clientgui/DlgAdvPreferencesBase.cpp:654
 msgid "When computer is in use, use at most"
 msgstr "Використовувати якнайбільш, коли комп'ютер використовується"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:639
-#: clientgui/DlgAdvPreferencesBase.cpp:651
-#: clientgui/DlgAdvPreferencesBase.cpp:667
+#: clientgui/DlgAdvPreferencesBase.cpp:660
+#: clientgui/DlgAdvPreferencesBase.cpp:672
+#: clientgui/DlgAdvPreferencesBase.cpp:688
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:644
+#: clientgui/DlgAdvPreferencesBase.cpp:665
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
 msgstr "Обмежити використання пам'яті для %s коли комп'ютер не використовується."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:646
+#: clientgui/DlgAdvPreferencesBase.cpp:667
 msgid "When computer is not in use, use at most"
 msgstr "Використовувати якнайбільш, коли комп'ютер не використовується"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:655
+#: clientgui/DlgAdvPreferencesBase.cpp:676
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "Залишати завдання, які не обробляються графічним процесором, у пам'яті, коли призупинено"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:656
+#: clientgui/DlgAdvPreferencesBase.cpp:677
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "Якщо відмічено, призупинені завдання залишаються в пам'яті і при відновленні роботи результати не втрачаються. Якщо відмітку знято, призупинені завдання видаляються із пам'яті, і робота відновлюється із контрольної точки."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:660
+#: clientgui/DlgAdvPreferencesBase.cpp:681
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
 msgstr "Обмежити розмір файлу підкачки, який буде використовувати %s."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:662
+#: clientgui/DlgAdvPreferencesBase.cpp:683
 msgid "Page/swap file: use at most"
 msgstr "Файл підкачки: використовувати не більше"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:687 clientgui/sg_DlgPreferences.cpp:295
+#: clientgui/DlgAdvPreferencesBase.cpp:708 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
 msgstr "і"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:688
+#: clientgui/DlgAdvPreferencesBase.cpp:709
 msgid "to"
 msgstr "до"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:708 clientgui/sg_DlgPreferences.cpp:296
+#: clientgui/DlgAdvPreferencesBase.cpp:729 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
 msgstr "Обчислювати лише протягом певного періоду кожного дня."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:711 clientgui/sg_DlgPreferences.cpp:299
+#: clientgui/DlgAdvPreferencesBase.cpp:732 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
 msgstr "Обчислювати лише між"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:735
-#: clientgui/DlgAdvPreferencesBase.cpp:919
+#: clientgui/DlgAdvPreferencesBase.cpp:756
+#: clientgui/DlgAdvPreferencesBase.cpp:940
 msgid "Day-of-week override"
 msgstr "За розкладом"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:744
-#: clientgui/DlgAdvPreferencesBase.cpp:923
+#: clientgui/DlgAdvPreferencesBase.cpp:765
+#: clientgui/DlgAdvPreferencesBase.cpp:944
 msgid "Override the times above on the selected days:"
 msgstr "Перевизначити вказаний вище час у вибрані дні:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:767
-#: clientgui/DlgAdvPreferencesBase.cpp:940
+#: clientgui/DlgAdvPreferencesBase.cpp:788
+#: clientgui/DlgAdvPreferencesBase.cpp:961
 msgid "Monday"
 msgstr "Понеділок"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:794
-#: clientgui/DlgAdvPreferencesBase.cpp:955
+#: clientgui/DlgAdvPreferencesBase.cpp:815
+#: clientgui/DlgAdvPreferencesBase.cpp:976
 msgid "Friday"
 msgstr "П'ятниця"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:809
-#: clientgui/DlgAdvPreferencesBase.cpp:968
+#: clientgui/DlgAdvPreferencesBase.cpp:830
+#: clientgui/DlgAdvPreferencesBase.cpp:989
 msgid "Tuesday"
 msgstr "Вівторок"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:824
-#: clientgui/DlgAdvPreferencesBase.cpp:983
+#: clientgui/DlgAdvPreferencesBase.cpp:845
+#: clientgui/DlgAdvPreferencesBase.cpp:1004
 msgid "Saturday"
 msgstr "Субота"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:837
-#: clientgui/DlgAdvPreferencesBase.cpp:996
+#: clientgui/DlgAdvPreferencesBase.cpp:858
+#: clientgui/DlgAdvPreferencesBase.cpp:1017
 msgid "Wednesday"
 msgstr "Середа"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:852
-#: clientgui/DlgAdvPreferencesBase.cpp:1011
+#: clientgui/DlgAdvPreferencesBase.cpp:873
+#: clientgui/DlgAdvPreferencesBase.cpp:1032
 msgid "Sunday"
 msgstr "Неділя"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:865
-#: clientgui/DlgAdvPreferencesBase.cpp:1024
+#: clientgui/DlgAdvPreferencesBase.cpp:886
+#: clientgui/DlgAdvPreferencesBase.cpp:1045
 msgid "Thursday"
 msgstr "Четвер"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:907 clientgui/sg_DlgPreferences.cpp:317
+#: clientgui/DlgAdvPreferencesBase.cpp:928 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
 msgstr "Передавати файли лише протягом певного періоду кожного дня."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:909 clientgui/sg_DlgPreferences.cpp:319
+#: clientgui/DlgAdvPreferencesBase.cpp:930 clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
 msgstr "Передавати файли лише між"
 
@@ -1729,34 +1739,34 @@ msgstr "перейти на сторінку з описом налаштува�
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
-#: clientgui/DlgExclusiveApps.cpp:306 clientgui/DlgExclusiveApps.cpp:312
-#: clientgui/DlgExclusiveApps.cpp:318
+#: clientgui/DlgExclusiveApps.cpp:303 clientgui/DlgExclusiveApps.cpp:309
+#: clientgui/DlgExclusiveApps.cpp:315
 msgid "Choose application or enter file name"
 msgstr "Виберіть програму або введіть ім'я файлу"
 
-#: clientgui/DlgExclusiveApps.cpp:338
+#: clientgui/DlgExclusiveApps.cpp:335
 msgid "Name of application to add?"
 msgstr "Назва додатку, що додається?"
 
-#: clientgui/DlgExclusiveApps.cpp:338
+#: clientgui/DlgExclusiveApps.cpp:335
 msgid "Add exclusive app"
 msgstr "Додати винятковий додаток"
 
-#: clientgui/DlgExclusiveApps.cpp:368
+#: clientgui/DlgExclusiveApps.cpp:365
 #, c-format
 msgid "'%s' is already in the list."
 msgstr "'%s' вже у списку."
 
-#: clientgui/DlgExclusiveApps.cpp:369
+#: clientgui/DlgExclusiveApps.cpp:366
 msgid "Add Exclusive App"
 msgstr "Додати виконуваний додаток"
 
-#: clientgui/DlgExitMessage.cpp:82
+#: clientgui/DlgExitMessage.cpp:84
 #, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - Підтвердження виходу"
 
-#: clientgui/DlgExitMessage.cpp:130
+#: clientgui/DlgExitMessage.cpp:132
 #, c-format
 msgid ""
 "You have requested to exit the %s,\n"
@@ -1767,7 +1777,18 @@ msgid ""
 "choose from the following options:"
 msgstr "Ви намагаєтеся здійснити вихід з %s,\nякий дозволяє Вам переглядати і керувати\nзавданнями, що обробляються Вашим комп’ютером.\n\nЯкщо хочете також зупинити обробку завдань,\nвиберіть наступні параметри:"
 
-#: clientgui/DlgExitMessage.cpp:135
+#: clientgui/DlgExitMessage.cpp:138
+#, c-format
+msgid ""
+"This will shut down %s and its tasks until the\n"
+"%s is run again.\n"
+"\n"
+"In most cases, it is better just to close the %s window\n"
+"rather than to exit the application; that will allow %s to run its\n"
+"tasks at the times you selected in your preferences."
+msgstr ""
+
+#: clientgui/DlgExitMessage.cpp:146
 #, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
@@ -1778,17 +1799,17 @@ msgid ""
 "tasks at the times you selected in your preferences."
 msgstr "Завершення роботи %s. Обробка завдань буде зупинена\nдо наступного запуску %s або екранної заставки %s.\n\nВ більшості випадків краще просто закрити вікно %s.\nТоді %s продовжить керувати обробкою завдань\nу відповідності до визначених Вами налаштувань."
 
-#: clientgui/DlgExitMessage.cpp:153
+#: clientgui/DlgExitMessage.cpp:165
 #, c-format
 msgid "Stop running tasks when exiting the %s"
 msgstr "Зупинити обробку завдань при закритті %s"
 
-#: clientgui/DlgExitMessage.cpp:165
+#: clientgui/DlgExitMessage.cpp:177
 msgid "Remember this decision and do not show this dialog."
 msgstr "Запам'ятати вибір і більше не показувати це вікно."
 
-#: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:425 clientgui/DlgSelectComputer.cpp:168
+#: clientgui/DlgExitMessage.cpp:190 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgOptions.cpp:440 clientgui/DlgSelectComputer.cpp:168
 #: clientgui/wizardex.cpp:387
 msgid "&Cancel"
 msgstr "&Скасувати"
@@ -1854,7 +1875,7 @@ msgid "Properties of project "
 msgstr "Властивості проекту "
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:243
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgOptions.cpp:258
 msgid "General"
 msgstr "Загальні"
 
@@ -2088,164 +2109,172 @@ msgstr "Здійсненний"
 msgid "Local: "
 msgstr "Локальний: "
 
-#: clientgui/DlgOptions.cpp:131 clientgui/DlgOptions.cpp:137
+#: clientgui/DlgOptions.cpp:134 clientgui/DlgOptions.cpp:140
 msgid "Options"
 msgstr "Налаштування"
 
-#: clientgui/DlgOptions.cpp:180
+#: clientgui/DlgOptions.cpp:183
 msgid "Language:"
 msgstr "Мова:"
 
-#: clientgui/DlgOptions.cpp:187
+#: clientgui/DlgOptions.cpp:190
 msgid "What language should BOINC use?"
 msgstr "Яку мову повинен використовувати BOINC?"
 
-#: clientgui/DlgOptions.cpp:191
+#: clientgui/DlgOptions.cpp:194
 msgid "Notice reminder interval:"
 msgstr "Інтервал між нагадуваннями:"
 
-#: clientgui/DlgOptions.cpp:198
+#: clientgui/DlgOptions.cpp:201
 msgid "How often should BOINC remind you of new notices?"
 msgstr "Як часто BOINC повинен нагадувати про нові повідомлення?"
 
-#: clientgui/DlgOptions.cpp:203
+#: clientgui/DlgOptions.cpp:206
 msgid "Run Manager at login?"
 msgstr "Автозавантаження BOINC менеджера?"
 
-#: clientgui/DlgOptions.cpp:209
+#: clientgui/DlgOptions.cpp:212
 msgid "Run the BOINC Manager when you log on."
 msgstr "Запускати BOINC менеджер при вході користувача на комп'ютер."
 
-#: clientgui/DlgOptions.cpp:214
+#: clientgui/DlgOptions.cpp:217
 msgid "Run the client?"
 msgstr "Запустити клієнт?"
 
-#: clientgui/DlgOptions.cpp:220
+#: clientgui/DlgOptions.cpp:223
 msgid "Run the client when launching the Manager."
 msgstr "Запустити клієнт під час запуску менеджера."
 
-#: clientgui/DlgOptions.cpp:224
+#: clientgui/DlgOptions.cpp:227
 msgid "Enable Manager exit dialog?"
 msgstr "Підтвердження при виході з програми?"
 
-#: clientgui/DlgOptions.cpp:230
+#: clientgui/DlgOptions.cpp:233
 msgid "Display the exit dialog when shutting down the Manager."
 msgstr "Запитувати перед виходом з програми BOINC менеджер."
 
-#: clientgui/DlgOptions.cpp:234
+#: clientgui/DlgOptions.cpp:237
 msgid "Enable Client shutdown dialog?"
 msgstr "Увімкнути діалогове вікно вимкнення клієнта?"
 
-#: clientgui/DlgOptions.cpp:240
+#: clientgui/DlgOptions.cpp:243
 msgid "Display confirmation dialog when shutting down the connected client."
 msgstr "Відображати діалогове вікно підтвердження під час вимкнення підключеного клієнта."
 
-#: clientgui/DlgOptions.cpp:251
+#: clientgui/DlgOptions.cpp:248
+msgid "Show status in menu bar?"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:254
+msgid "Display a status icon in the system menu bar."
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:266
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Налаштування модемного з'єднання і VPN"
 
-#: clientgui/DlgOptions.cpp:265
+#: clientgui/DlgOptions.cpp:280
 msgid "&Set Default"
 msgstr "&Підключення за замовчуванням"
 
-#: clientgui/DlgOptions.cpp:270
+#: clientgui/DlgOptions.cpp:285
 msgid "&Clear Default"
 msgstr "&Немає підключення за замовчуванням"
 
-#: clientgui/DlgOptions.cpp:277
+#: clientgui/DlgOptions.cpp:292
 msgid "Default Connection:"
 msgstr "Підключення за замовчуванням:"
 
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:299
 msgid "Connections"
 msgstr "З'єднання"
 
-#: clientgui/DlgOptions.cpp:293
+#: clientgui/DlgOptions.cpp:308
 msgid "Connect via HTTP proxy server"
 msgstr "З'єднуватися через HTTP проксі сервер"
 
-#: clientgui/DlgOptions.cpp:297
+#: clientgui/DlgOptions.cpp:312
 msgid "HTTP Proxy Server Configuration"
 msgstr "Параметри HTTP проксі сервера"
 
-#: clientgui/DlgOptions.cpp:305 clientgui/DlgOptions.cpp:369
+#: clientgui/DlgOptions.cpp:320 clientgui/DlgOptions.cpp:384
 msgid "Address:"
 msgstr "Адреса:"
 
-#: clientgui/DlgOptions.cpp:313 clientgui/DlgOptions.cpp:377
+#: clientgui/DlgOptions.cpp:328 clientgui/DlgOptions.cpp:392
 #: clientgui/ProxyPage.cpp:340 clientgui/ProxyPage.cpp:360
 msgid "Port:"
 msgstr "Порт:"
 
-#: clientgui/DlgOptions.cpp:321 clientgui/DlgOptions.cpp:385
+#: clientgui/DlgOptions.cpp:336 clientgui/DlgOptions.cpp:400
 msgid "Don't use proxy for:"
 msgstr "Не використовувати проксі для:"
 
-#: clientgui/DlgOptions.cpp:328 clientgui/DlgOptions.cpp:392
+#: clientgui/DlgOptions.cpp:343 clientgui/DlgOptions.cpp:407
 msgid "Leave these blank if not needed"
 msgstr "Залишити поля порожніми, якщо не використовуються"
 
-#: clientgui/DlgOptions.cpp:334 clientgui/DlgOptions.cpp:398
+#: clientgui/DlgOptions.cpp:349 clientgui/DlgOptions.cpp:413
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "Ім'я користувача:"
 
-#: clientgui/DlgOptions.cpp:342 clientgui/DlgOptions.cpp:406
+#: clientgui/DlgOptions.cpp:357 clientgui/DlgOptions.cpp:421
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Пароль:"
 
-#: clientgui/DlgOptions.cpp:349
+#: clientgui/DlgOptions.cpp:364
 msgid "HTTP Proxy"
 msgstr "HTTP проксі"
 
-#: clientgui/DlgOptions.cpp:357
+#: clientgui/DlgOptions.cpp:372
 msgid "Connect via SOCKS proxy server"
 msgstr "З'єднуватися через SOCKS проксі сервер"
 
-#: clientgui/DlgOptions.cpp:361
+#: clientgui/DlgOptions.cpp:376
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Параметри SOCKS проксі сервера"
 
-#: clientgui/DlgOptions.cpp:413
+#: clientgui/DlgOptions.cpp:428
 msgid "SOCKS Proxy"
 msgstr "SOCKS проксі"
 
-#: clientgui/DlgOptions.cpp:421
+#: clientgui/DlgOptions.cpp:436
 msgid "&Save"
 msgstr "&Зберегти"
 
-#: clientgui/DlgOptions.cpp:611
+#: clientgui/DlgOptions.cpp:626
 msgid "always"
 msgstr "завжди"
 
-#: clientgui/DlgOptions.cpp:612
+#: clientgui/DlgOptions.cpp:627
 msgid "1 hour"
 msgstr "1 година"
 
-#: clientgui/DlgOptions.cpp:613
+#: clientgui/DlgOptions.cpp:628
 msgid "6 hours"
 msgstr "6 годин"
 
-#: clientgui/DlgOptions.cpp:614
+#: clientgui/DlgOptions.cpp:629
 msgid "1 day"
 msgstr "1 день"
 
-#: clientgui/DlgOptions.cpp:615
+#: clientgui/DlgOptions.cpp:630
 msgid "1 week"
 msgstr "1 тиждень"
 
-#: clientgui/DlgOptions.cpp:616
+#: clientgui/DlgOptions.cpp:631
 msgid "never"
 msgstr "ніколи"
 
-#: clientgui/DlgOptions.cpp:715
+#: clientgui/DlgOptions.cpp:733
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - зміна мови"
 
-#: clientgui/DlgOptions.cpp:722
+#: clientgui/DlgOptions.cpp:740
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2900,19 +2929,19 @@ msgstr "Автовизначення"
 msgid "SOCKS proxy"
 msgstr "SOCKS проксі"
 
-#: clientgui/TermsOfUsePage.cpp:232
+#: clientgui/TermsOfUsePage.cpp:230
 msgid "Terms of Use"
 msgstr "Умови використання"
 
-#: clientgui/TermsOfUsePage.cpp:236
+#: clientgui/TermsOfUsePage.cpp:234
 msgid "Please read the following terms of use:"
 msgstr "Будь ласка, ознайомтеся з наступними умовами використання:"
 
-#: clientgui/TermsOfUsePage.cpp:250
+#: clientgui/TermsOfUsePage.cpp:248
 msgid "I agree to the terms of use."
 msgstr "Я згоден з умовами використання."
 
-#: clientgui/TermsOfUsePage.cpp:256
+#: clientgui/TermsOfUsePage.cpp:254
 msgid "I do not agree to the terms of use."
 msgstr "Я не згоден з умовами використання."
 
@@ -3048,7 +3077,7 @@ msgstr "Отримання повідомлень; зачекайте, будь-
 msgid "There are no notices at this time."
 msgstr "Зараз повідомлення відсутні."
 
-#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:975
+#: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:979
 msgid "Notices"
 msgstr "Повідомлення"
 
@@ -3064,7 +3093,7 @@ msgstr "Отримати інформацію з сервера проекту: 
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:792
 #: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:880
-#: clientgui/sg_BoincSimpleFrame.cpp:956
+#: clientgui/sg_BoincSimpleFrame.cpp:960
 #: clientgui/sg_ProjectCommandPopup.cpp:72
 #: clientgui/sg_ProjectCommandPopup.cpp:128
 #: clientgui/sg_TaskCommandPopup.cpp:72 clientgui/sg_TaskCommandPopup.cpp:122
@@ -3581,11 +3610,11 @@ msgstr "Зупинити графіки"
 msgid "Close application graphics window."
 msgstr "Закрийте графічне вікно програми."
 
-#: clientgui/WizardAttach.cpp:573
+#: clientgui/WizardAttach.cpp:572
 msgid "Do you really want to cancel?"
 msgstr "Перервати процес підключення?"
 
-#: clientgui/WizardAttach.cpp:574
+#: clientgui/WizardAttach.cpp:573
 msgid "Question"
 msgstr "Запитання"
 
@@ -3622,19 +3651,19 @@ msgstr "Показати інформацію про BOINC і %s"
 msgid "Default"
 msgstr "За замовчуванням"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:958
+#: clientgui/sg_BoincSimpleFrame.cpp:962
 msgid "Suspend Computing"
 msgstr "Призупинити обчислення"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:959
+#: clientgui/sg_BoincSimpleFrame.cpp:963
 msgid "Resume Computing"
 msgstr "Відновити обчислення"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:976
+#: clientgui/sg_BoincSimpleFrame.cpp:980
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Відкрити вікно перегляду повідомлень проєктів і BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:997 clientgui/sg_DlgPreferences.cpp:373
+#: clientgui/sg_BoincSimpleFrame.cpp:1001 clientgui/sg_DlgPreferences.cpp:373
 #, c-format
 msgid "Get help with %s"
 msgstr "Отримати довідку щодо %s"

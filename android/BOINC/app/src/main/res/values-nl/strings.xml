@@ -23,22 +23,23 @@
   <string name="attachproject_conflict_not_unique">Account bestaat met ander wachtwoord</string>
   <string name="attachproject_conflict_bad_password">Foutief wachtwoord</string>
   <string name="attachproject_conflict_unknown_user">Account bestaat niet</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek projectwebsite om te registreren</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek de projectwebsite om te registreren</string>
   <!--working-->
   <string name="attachproject_working_attaching">%1$s aan het toevoegen</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
-  <string name="attachproject_hints_header">Hint</string>
+  <string name="attachproject_hints_header">Tip</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Hoe deel te nemen;</string>
   <string name="attachproject_hint_contribtion_wifi">1. Verbind met WIFI</string>
   <string name="attachproject_hint_contribtion_charger">2. Oplader aansluiten</string>
-  <string name="attachproject_hint_contribtion_screen">4. Scherm uitzetten</string>
+  <string name="attachproject_hint_contribtion_app">3. Voer BOINC uit en houdt het open</string>
+  <string name="attachproject_hint_contribtion_screen">4. Scherm uitschakelen</string>
   <string name="attachproject_hint_projectwebsite_header">Bezoek project website om:</string>
   <string name="attachproject_hint_projectwebsite_science">Leer meer over de wetenschap</string>
   <string name="attachproject_hint_projectwebsite_stats">Bekijk de gebruikers statistieken</string>
   <string name="attachproject_hint_projectwebsite_community">In contact te komen met andere vrijwiligers</string>
-  <string name="attachproject_hint_platforms_header">BOINC is ook beschikbaar voor je computer of laptop, bezoek boinc.berkeley.edu voor meer informatie.</string>
+  <string name="attachproject_hint_platforms_header">BOINC is ook beschikbaar voor je desktop computer of laptop, bezoek boinc.berkeley.edu voor meer informatie. </string>
   <!--project login-->
   <string name="attachproject_login_loading">Verbinding maken met projectspecifieke server...</string>
   <string name="attachproject_login_header_general_area">Vakgebied:</string>
@@ -53,8 +54,10 @@
   <string name="attachproject_login_button_login">Aanmelden</string>
   <string name="attachproject_login_button_forgotpw">Wachtwoord Vergeten</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten toe te voegen en te onderhouden</string>
+  <string name="attachproject_acctmgr_list_desc">Gebruik een accountmanager om dit apparaat te bedienen</string>
   <string name="attachproject_acctmgr_header">Accountmanager gebruiken</string>
+  <string name="attachproject_attach_projects_header">Voeg projecten toe</string>
+  <string name="attachproject_attach_projects_desc">Voeg projecten toe vanaf de lijst met projecten</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
   <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
@@ -103,12 +106,13 @@
   <string name="prefs_category_memory">Geheugen</string>
   <string name="prefs_category_other">Anders</string>
   <string name="prefs_category_debug">Foutoplossing</string>
+  <string name="prefs_category_remote">Op afstand beheren</string>
   <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen</string>
   <string name="prefs_suspend_when_screen_on">Pauzeer berekening wanneer scherm ingeschakeld is</string>
   <string name="prefs_general_device_name_header">Apparaatnaam</string>
   <string name="prefs_theme_header">Thema</string>
   <string name="prefs_stationary_device_mode_header">Stationaire apparaatmodus</string>
-  <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroomvoorkeuren. Alleen inschakelen als het apparaat geen batterij heeft.</string>
+  <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht Stroom voorkeuren. Alleen inschakelen als het apparaat niet over een batterij beschikt.</string>
   <string name="prefs_power_source_header">Stroombronnen voor berekeningen</string>
   <string name="prefs_power_source_ac">Wandcontactdoos</string>
   <string name="prefs_power_source_usb">USB verbinding</string>
@@ -123,17 +127,23 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">Dagelijkse overdracht limiet (Dagen)</string>
   <string name="prefs_network_wifi_only_header">Taken alleen bijwerken via WiFi</string>
   <string name="prefs_autostart_header">Autostart</string>
+  <string name="prefs_remote_header">Op afstand beheren inschakelen</string>
+  <string name="prefs_remote_summary">Wanneer dit verandert, zal de BOINC client herstart worden.</string>
   <string name="prefs_show_notification_notices_header">Melding weergeven voor nieuwe berichten</string>
   <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
   <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik hoger dan (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Bepaald wanneer BOINC de berekening pauzeert vanwege CPU gebruik door andere apps.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Bepaalt wanneer BOINC de berekening pauzeert bij CPU gebruik door andere apps.</string>
   <string name="prefs_cpu_time_max_header">CPU limiet (%)</string>
   <string name="prefs_cpu_time_max_description">Beperkt de CPU tijd gebruikt door BOINC voor berekeningen.</string>
   <string name="prefs_memory_max_idle_header">RAM limiet (%)</string>
-  <string name="prefs_other_store_at_least_x_days_of_work_header">werkeendheid buffer (dagen)</string>
-  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra werkeenheid buffer (dagen)</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Taken buffer (dagen)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Extra taken buffer (dagen)</string>
+  <string name="prefs_remote_authentication_key">GUI-verificatiesleutel</string>
+  <string name="prefs_remote_empty_password">Wachtwoordupdate mislukt: waarde mag niet leeg zijn </string>
+  <string name="prefs_remote_boinc_relaunched">De BOINC-client wordt opnieuw gestart na wachtwoordwijziging.</string>
   <string name="prefs_client_log_flags_header">BOINC Client log markering</string>
+  <string name="prefs_gui_log_categories">BOINC GUI log categorieën</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
   <string name="prefs_theme_light">licht</string>
@@ -144,6 +154,8 @@
   <string name="projects_icon">Project icoon</string>
   <string name="projects_credits">Punten:</string>
   <string name="projects_credits_host_and_user">%1$,d (op dit apparaat) %2$,d (totaal)</string>
+  <string name="projects_disk_usage">Schijfgebruik:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Onderbroken door gebruiker</string>
   <string name="projects_status_dontrequestmorework">Krijgt geen nieuwe taken</string>
@@ -167,8 +179,8 @@
   <string name="projects_control_sync_acctmgr">Bijwerken</string>
   <string name="projects_control_remove_acctmgr">Uitzetten</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_title">\'%1$s\' project?</string>
-  <string name="projects_confirm_message">weet u zeker dat us \'%1$s\' \'%2$s\' ?</string>
+  <string name="projects_confirm_title"> \'%1$s\'  project?</string>
+  <string name="projects_confirm_message">Weet u zeker dat u  %1$s %2$s ?</string>
   <string name="projects_confirm_detach_message">van BOINC</string>
   <string name="projects_confirm_detach_confirm">Verwijderen</string>
   <string name="projects_confirm_reset_confirm">Resetten</string>
@@ -212,7 +224,7 @@
   <string name="trans_pending">in behandeling</string>
   <string name="trans_control_retry">Opnieuw verzenden</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_client_header">Berichten van Cliënt</string>
+  <string name="eventlog_client_header">Berichten van de cliënt</string>
   <string name="eventlog_gui_header">GUI berichten</string>
   <string name="eventlog_copy_toast">Log naar klembord gekopieerd.</string>
   <string name="eventlog_email_subject">Logberichten voor BOINC op Android:</string>
@@ -232,7 +244,7 @@
   <string name="suspend_os">Gestopt door Android.</string>
   <string name="suspend_wifi">Niet verbonden met WiFi.</string>
   <string name="suspend_battery_charging">Wachten op laden van batterij.</string>
-  <string name="suspend_battery_charging_long">Berekenen wordt hervat wanneer het batterijniveau %1$d%% is (huidig niveau %2$d%%) </string>
+  <string name="suspend_battery_charging_long">Het computergebruik wordt hervat wanneer het batterijniveau   %1$d%%is. (Huidige niveau %2$d%%)</string>
   <string name="suspend_battery_overheating">Wacht op afkoelen batterij</string>
   <string name="suspend_user_req">Berekeningen hervatten...</string>
   <!--rpc reasons-->
@@ -259,9 +271,9 @@
   <string name="about_title">Over</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versie %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2021 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2022 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
-  <string name="about_credits">Met dank aan het Max Planck Instituut voor Gravitationele Natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
+  <string name="about_credits">Met dank aan het Max Planck Institute for Gravitational Physics, IBM Corporation en HTC Corporation voor hun steun.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nieuwe berichten van %1$s</item>
@@ -269,18 +281,20 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Andere berekenings app gedetecteerd</string>
-  <string name="nonexcl_dialog_text">Een andere vrijwilligersapp is berekeningen aan het doen op dit apparaat. Er kan maar één versie tegelijk uitgevoerd worden.</string>
+  <string name="nonexcl_dialog_text">Een andere vrijwilligerscomputer-app draait op dit apparaat. Er kan slechts één versie tegelijk worden uitgevoerd.</string>
   <string name="nonexcl_dialog_exit">Afsluiten</string>
   <!--social integration-->
   <string name="social_invite_button">Vrienden uitnodigen</string>
   <string name="social_invite_intent_title">Hoe wil je dit delen?</string>
   <string name="social_invite_content_title">Ik doe wetenschap op mijn smartphone!</string>
-  <string name="social_invite_content_body">Ik gebruik mijn %1$s om berekeningen te doen voor de wetenschap. Jij kan dat ook! Download de app van: %2$s</string>
+  <string name="social_invite_content_body">Ik gebruik mijn %1$scomputer voor de wetenschap. Dat kan jij ook! Download de app van: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
-  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Geeft non-notificatiemeldingen weer.</string>
   <string name="notice_notification_channel_name">Berichten</string>
   <string name="notice_notification_channel_description">Notificaties van de projecten weergeven.</string>
+  <string name="agree_button">Mee eens</string>
 </resources>
