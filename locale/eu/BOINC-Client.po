@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:19+0000\n"
-"Last-Translator: David Anderson <davea@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Jabier <j.lasa@koniker.coop>, 2016,2018\n"
 "Language-Team: Basque (http://www.transifex.com/boinc/boinc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,17 +24,17 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "Kontu-administratzailearen mezua"
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Zerbitzariaren mezua"
 
-#: client/client_state.cpp:338
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Zure hobespenetan baimendutakoa baino memoria gehiago behar dute ataza batzuk. Berrikusi hobespenak."
 
-#: client/client_state.cpp:706
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Ezin izan da idatzi egoera-fitxategia; egiaztatu karpetaren baimenak"
 
@@ -42,46 +42,46 @@ msgstr "Ezin izan da idatzi egoera-fitxategia; egiaztatu karpetaren baimenak"
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY ingurune-aldagaiak HTTP proxy bat zehaztu behar du"
 
-#: client/cs_scheduler.cpp:624
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
-msgstr "Proiektu hau zaharkitutako URL bat ari da erabiltzen. Nahi duzunean ezabatu proiektua eta ondoren gehitu %s"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr "Sintaxi-errorea \"app_info.xml\" fitxategian"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "\"app_info.xml\"-en zehazten den fitxategia ez da existitzen: "
 
-#: client/current_version.cpp:55
+#: client/current_version.cpp:66
 msgid "Missing start tag in nvc_config.xml"
 msgstr "Hasierako etiketa falta da \"nvc_config.xml\" fitxategian"
 
-#: client/current_version.cpp:64
+#: client/current_version.cpp:75
 msgid "Unexpected text in nvc_config.xml"
 msgstr "Espero ez den testua \"nvc_config.xml\" fitxategian "
 
-#: client/current_version.cpp:91
+#: client/current_version.cpp:102
 msgid "Unrecognized tag in nvc_config.xml"
 msgstr "Identifikatu gabeko etiketa \"nvc_config.xml\" fitxategian"
 
-#: client/current_version.cpp:99
+#: client/current_version.cpp:110
 msgid "Missing end tag in nvc_config.xml"
 msgstr "Amaierako etiketa falta da \"nvc_config.xml\" fitxategian"
 
-#: client/current_version.cpp:177
+#: client/current_version.cpp:244
 msgid "A new version of BOINC is available"
 msgstr "BOINCen bertsio berri bat dago eskuragarri"
 
-#: client/current_version.cpp:180 client/current_version.cpp:191
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "Jaitsi"
 
-#: client/current_version.cpp:183
+#: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
 msgstr "%s(r)en bertsio berri bat dago eskuragarri"
@@ -91,23 +91,23 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "ezin da CUDA edo OpenCL bidezko konputazioan erabili CUDA 6.5 edo berriagoa den kontrolatzailea"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:510
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr "Espero ez den testua \"cc_config.xml\" fitxategian"
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Identifikatu gabeko etiketa \"cc_config.xml\" fitxategian"
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr "Hasierako etiketa falta da \"cc_config.xml\" fitxategian"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr "Akatsa \"cc_config.xml\" fitxategiko aukeretan"
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr "Amaierako etiketa falta da \"cc_config.xm\" fitxategian"
 

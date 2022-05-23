@@ -1,17 +1,18 @@
 # BOINC client localization template
-# Copyright (C) 2018 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# Rune Bjørge <runetbj@hotmail.com>, 2016
+# Jan Sherdahl, 2020
+# Rune Bjørge <runetbj@hotmail.com>, 2016,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2018-01-17 16:06 UTC\n"
-"PO-Revision-Date: 2017-09-21 23:57+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Jan Sherdahl, 2020\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/boinc/boinc/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,91 +21,96 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: client/acct_mgr.cpp:503 client/acct_mgr.cpp:510
+#: client/acct_mgr.cpp:557 client/acct_mgr.cpp:564
 msgid "Message from account manager"
 msgstr "Melding fra kontobehandler"
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Melding fra tjener"
 
-#: client/client_state.cpp:315
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Noen oppgaver trenger mer minne enn tillatt utfra dine innstillinger.  Vennligst kontroller innstillinger."
 
-#: client/client_state.cpp:672
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Kunne ikke skrive til tilstandsfilen; sjekk mapperettighetene"
 
-#: client/cs_cmdline.cpp:303
+#: client/cs_cmdline.cpp:295
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY variabelen må spesifisere en HTTP mellomtjener"
 
 #: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
 msgstr ""
 
-#: client/cs_statefile.cpp:850
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaksfeil i app_info.xml"
 
-#: client/cs_statefile.cpp:894
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Filen det vises til i app_info.xml eksisterer ikke:"
 
-#: client/current_version.cpp:91
-msgid "A new version of BOINC is available"
-msgstr ""
+#: client/current_version.cpp:66
+msgid "Missing start tag in nvc_config.xml"
+msgstr "Mangler startetikett i nvc_config.xml"
 
-#: client/current_version.cpp:94 client/current_version.cpp:102
+#: client/current_version.cpp:75
+msgid "Unexpected text in nvc_config.xml"
+msgstr "Uventet tekst i nvc_config.xml"
+
+#: client/current_version.cpp:102
+msgid "Unrecognized tag in nvc_config.xml"
+msgstr "Ugjenkjennelig etikett i nvc_config.xml"
+
+#: client/current_version.cpp:110
+msgid "Missing end tag in nvc_config.xml"
+msgstr "Manglende stopp etikett i nvc_config.xml"
+
+#: client/current_version.cpp:244
+msgid "A new version of BOINC is available"
+msgstr "En ny versjon av BOINC er tilgjengelig."
+
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "Last ned"
 
-#: client/gpu_detect.cpp:243 client/gpu_detect.cpp:286
+#: client/current_version.cpp:250
+#, c-format
+msgid "A new version of %s is available"
+msgstr "En ny versjon av %s er tilgjengelig."
+
+#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
-msgstr ""
+msgstr "kan ikke brukes til CUDA- eller OpenCL-beregning med CUDA-driver 6.5 eller nyere"
 
-#: client/log_flags.cpp:316 client/log_flags.cpp:496
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr "Uventet tekst i cc_config.xml"
 
-#: client/log_flags.cpp:470 client/log_flags.cpp:525
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Ukjent tagg i cc_config.xml"
 
-#: client/log_flags.cpp:487
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr "Manglende starttagg i cc_config.xml"
 
-#: client/log_flags.cpp:515
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr "Feil i cc_config.xml alternativene"
 
-#: client/log_flags.cpp:533
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr "Manglende stopptagg i cc_config.xml"
-
-#: client/project.cpp:991
-msgid "To fix this, you can "
-msgstr ""
-
-#: client/project.cpp:994
-msgid "change Project Preferences on the project's web site"
-msgstr ""
-
-#: client/project.cpp:1000
-msgid "remove GPU exclusions in your cc_config.xml file"
-msgstr ""
-
-#: client/project.cpp:1007
-msgid "change your settings at your account manager web site"
-msgstr ""
 
 #: sched/handle_request.cpp:317
 msgid "Invalid or missing account key.  To fix, remove and add this project."
@@ -129,49 +135,49 @@ msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Du bruker en for gammel versjon av BOINC klienten.  Vær vennlig å installere den siste versjonen."
 
-#: sched/handle_request.cpp:1347
+#: sched/handle_request.cpp:1348
 msgid "This project doesn't support computers of type"
 msgstr "Dette prosjektet støtter ikke datamaskiner av type"
 
-#: sched/sched_send.cpp:1115
+#: sched/sched_send.cpp:1121
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Oppgradere til den siste versjon av grafikkdriver for å bruke PC'ens grafikkkort (GPU) til å gjøre beregninger"
 
-#: sched/sched_send.cpp:1122
+#: sched/sched_send.cpp:1128
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Oppgradere til siste versjon av grafikkdriver (GPU) for bruke dette prosjektets applikasjoner for grafikkprosessorer"
 
-#: sched/sched_send.cpp:1141
+#: sched/sched_send.cpp:1147
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "For å bruke din NVIDIA grafikkprosessor (GPU) trenger du en nyere versjon av BOINC, vennligst oppgrader til nyeste versjon"
 
-#: sched/sched_send.cpp:1175
+#: sched/sched_send.cpp:1181
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "En %s grafikkprosessor (GPU) er påkrevd for å kjøre oppgaver til dette prosjektet"
 
-#: sched/sched_send.cpp:1291
+#: sched/sched_send.cpp:1297
 msgid "No tasks are available for the applications you have selected."
 msgstr "Ingen oppgaver er tilgjengelig for applikasjonene du har valgt."
 
-#: sched/sched_send.cpp:1317
+#: sched/sched_send.cpp:1323
 msgid "Your computer type is not supported by this project"
 msgstr "Din datamaskintype støttes ikke av dette prosjektet"
 
-#: sched/sched_send.cpp:1323
+#: sched/sched_send.cpp:1329
 msgid "Newer BOINC version required; please install current version"
 msgstr "Dette krever en nyere versjon av BOINC. Vennligst Installer siste versjon"
 
-#: sched/sched_send.cpp:1334
+#: sched/sched_send.cpp:1340
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "Oppgaver til %s er tilgjengelig, men dine alternativer er satt opp til å ikke godkjenne disse"
 
-#: sched/sched_version.cpp:225
+#: sched/sched_version.cpp:241
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Din app_info.xml fil har ikke en brukbar versjon av"
