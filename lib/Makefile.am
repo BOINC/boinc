@@ -161,10 +161,12 @@ pkginclude_HEADERS = \
     opencl_boinc.h \
     parse.h \
     prefs.h \
+    proc_control.h \
     procinfo.h \
     proxy_info.h \
     sched_msgs.h \
     stackwalker_imports.h \
+    str_replace.h \
     str_util.h \
     url.h \
     util.h \
@@ -175,10 +177,7 @@ endif
 # These are used internally and are not meant to be installed
 noinst_HEADERS = \
     msg_queue.h \
-    proc_control.h \
-    procinfo.h \
     shmem.h \
-    str_replace.h \
     synch.h \
     unix_util.h
 
