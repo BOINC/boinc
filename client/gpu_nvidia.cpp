@@ -212,6 +212,7 @@ CUDA_GDG p_cuDeviceGet = NULL;
 CUDA_GDA p_cuDeviceGetAttribute = NULL;
 CUDA_GDN p_cuDeviceGetName = NULL;
 CUDA_GDM p_cuDeviceTotalMem = NULL;
+CUDA_GDM p_cuDeviceTotalMem_v2 = NULL;
 CUDA_GDCC p_cuDeviceComputeCapability = NULL;
 CUDA_CC p_cuCtxCreate = NULL;
 CUDA_CD p_cuCtxDestroy = NULL;
@@ -260,6 +261,7 @@ void COPROC_NVIDIA::get(
     p_cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress( cudalib, "cuDeviceGetAttribute" );
     p_cuDeviceGetName = (CUDA_GDN)GetProcAddress( cudalib, "cuDeviceGetName" );
     p_cuDeviceTotalMem = (CUDA_GDM)GetProcAddress( cudalib, "cuDeviceTotalMem" );
+    p_cuDeviceTotalMem_v2 = (CUDA_GDM)GetProcAddress(cudalib, "cuDeviceTotalMem_v2");
     p_cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress( cudalib, "cuDeviceComputeCapability" );
     p_cuCtxCreate = (CUDA_CC)GetProcAddress( cudalib, "cuCtxCreate" );
     p_cuCtxDestroy = (CUDA_CD)GetProcAddress( cudalib, "cuCtxDestroy" );
@@ -337,7 +339,7 @@ void* cudalib = NULL;
         warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
         goto leave;
     }
-    if (!p_cuDeviceTotalMem) {
+    if (!p_cuDeviceTotalMem && !p_cuDeviceTotalMem_v2) {
         warnings.push_back("cuDeviceTotalMem() missing from NVIDIA library");
         goto leave;
     }
@@ -409,7 +411,11 @@ void* cudalib = NULL;
             goto leave;
         }
         (*p_cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
-        (*p_cuDeviceTotalMem)(&global_mem, device);
+        if (p_cuDeviceTotalMem_v2) {
+            (*p_cuDeviceTotalMem_v2)(&global_mem, device);
+        } else {
+            (*p_cuDeviceTotalMem)(&global_mem, device);
+        }
         cc.prop.totalGlobalMem = (double) global_mem;
         (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
         cc.prop.sharedMemPerBlock = (double) itemp;
