@@ -312,6 +312,7 @@ void* cudalib = NULL;
     p_cuDeviceGetAttribute = (int(*)(int*, int, int)) dlsym( cudalib, "cuDeviceGetAttribute" );
     p_cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );
     p_cuDeviceTotalMem = (int(*)(size_t*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
+    p_cuDeviceTotalMem_v2 = (int(*)(size_t*, int)) dlsym(cudalib, "cuDeviceTotalMem_v2");
     p_cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
     p_cuCtxCreate = (int(*)(void**, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
     p_cuCtxDestroy = (int(*)(void*)) dlsym( cudalib, "cuCtxDestroy" );
