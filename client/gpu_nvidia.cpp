@@ -227,6 +227,7 @@ int (*p_cuDeviceGet)(int*, int);
 int (*p_cuDeviceGetAttribute)(int*, int, int);
 int (*p_cuDeviceGetName)(char*, int, int);
 int (*p_cuDeviceTotalMem)(size_t*, int);
+int (*p_cuDeviceTotalMem_v2)(size_t*, int);
 int (*p_cuDeviceComputeCapability)(int*, int*, int);
 int (*p_cuCtxCreate)(void**, unsigned int, unsigned int);
 int (*p_cuCtxDestroy)(void*);
