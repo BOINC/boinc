@@ -219,6 +219,7 @@ CUDA_CD p_cuCtxDestroy = NULL;
 CUDA_MA p_cuMemAlloc = NULL;
 CUDA_MF p_cuMemFree = NULL;
 CUDA_MGI p_cuMemGetInfo = NULL;
+CUDA_MGI p_cuMemGetInfo_v2 = NULL;
 #else
 int (*p_cuInit)(unsigned int);
 int (*p_cuDeviceGetCount)(int*);
@@ -234,6 +235,7 @@ int (*p_cuCtxDestroy)(void*);
 int (*p_cuMemAlloc)(unsigned int*, size_t);
 int (*p_cuMemFree)(unsigned int);
 int (*p_cuMemGetInfo)(size_t*, size_t*);
+int (*p_cuMemGetInfo_v2)(size_t*, size_t*);
 #endif
 
 // NVIDIA interfaces are documented here:
@@ -268,7 +270,8 @@ void COPROC_NVIDIA::get(
     p_cuCtxDestroy = (CUDA_CD)GetProcAddress( cudalib, "cuCtxDestroy" );
     p_cuMemAlloc = (CUDA_MA)GetProcAddress( cudalib, "cuMemAlloc" );
     p_cuMemFree = (CUDA_MF)GetProcAddress( cudalib, "cuMemFree" );
-    p_cuMemGetInfo = (CUDA_MGI)GetProcAddress( cudalib, "cuMemGetInfo" );
+    p_cuMemGetInfo = (CUDA_MGI)GetProcAddress(cudalib, "cuMemGetInfo");
+    p_cuMemGetInfo_v2 = (CUDA_MGI)GetProcAddress(cudalib, "cuMemGetInfo_v2");
 
 #ifndef SIM
     NvAPI_Initialize();
@@ -319,6 +322,7 @@ void* cudalib = NULL;
     p_cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym( cudalib, "cuMemAlloc" );
     p_cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
     p_cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym( cudalib, "cuMemGetInfo" );
+    p_cuMemGetInfo_v2 = (int(*)(size_t*, size_t*)) dlsym(cudalib, "cuMemGetInfo_v2");
 #endif
 
     if (!p_cuDriverGetVersion) {
@@ -572,7 +576,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         warnings.push_back("cuCtxDestroy() missing from NVIDIA library");
         return;
     }
-    if (!p_cuMemGetInfo) {
+    if (!p_cuMemGetInfo && !p_cuMemGetInfo_v2) {
         warnings.push_back("cuMemGetInfo() missing from NVIDIA library");
         return;
     }
@@ -593,7 +597,12 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         warnings.push_back(buf);
         return;
     }
-    retval = (*p_cuMemGetInfo)(&memfree, &memtotal);
+    if (p_cuMemGetInfo_v2) {
+        retval = (*p_cuMemGetInfo_v2)(&memfree, &memtotal);
+    }
+    else {
+        retval = (*p_cuMemGetInfo)(&memfree, &memtotal);
+    }
     if (retval) {
         snprintf(buf, sizeof(buf),
             "[coproc] cuMemGetInfo(%d) returned %d", cc.device_num, retval
