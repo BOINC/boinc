@@ -34,7 +34,7 @@ def set_configure_ac(version):
     with open('configure.ac', 'w') as f:
         for line in lines:
             if line.startswith('AC_INIT'):
-                line = 'AC_INIT(BOINC, %s)\n' % (version)
+                line = f'AC_INIT(BOINC, {version})\n'
             f.write(line)
 
 def set_version_h(version):
@@ -44,17 +44,17 @@ def set_version_h(version):
     with open('version.h', 'w') as f:
         for line in lines:
             if line.startswith('#define BOINC_MAJOR_VERSION'):
-                line = '#define BOINC_MAJOR_VERSION %s\n' % (major)
+                line = f'#define BOINC_MAJOR_VERSION {major}\n'
             elif line.startswith('#define BOINC_MINOR_VERSION'):
-                line = '#define BOINC_MINOR_VERSION %s\n' % (minor)
+                line = f'#define BOINC_MINOR_VERSION {minor}\n'
             elif line.startswith('#define BOINC_RELEASE'):
-                line = '#define BOINC_RELEASE %s\n' % (release)
+                line = f'#define BOINC_RELEASE {release}\n'
             elif line.startswith('#define BOINC_VERSION_STRING'):
-                line = '#define BOINC_VERSION_STRING "%s.%s.%s"\n' % (major, minor, release)
+                line = f'#define BOINC_VERSION_STRING "{major}.{minor}.{release}"\n'
             elif line.startswith('#define PACKAGE_STRING'):
-                line = '#define PACKAGE_STRING "BOINC %s.%s.%s"\n' % (major, minor, release)
+                line = f'#define PACKAGE_STRING "BOINC {major}.{minor}.{release}"\n'
             elif line.startswith('#define PACKAGE_VERSION'):
-                line = '#define PACKAGE_VERSION "%s.%s.%s"\n' % (major, minor, release)
+                line = f'#define PACKAGE_VERSION "{major}.{minor}.{release}"\n'
             elif line.find('#define BOINC_PRERELEASE 1') != -1:
                 if is_release(minor):
                     line = '//#define BOINC_PRERELEASE 1\n'
@@ -64,7 +64,7 @@ def set_version_h(version):
 
 def set_version_log(version):
     with open('version.log', 'w') as f:
-        line = '%s\n' % (version)
+        line = f'{version}\n'
         f.write(line)
 
 def set_build_gradle(version):
@@ -76,7 +76,7 @@ def set_build_gradle(version):
     with open('android/BOINC/app/build.gradle', 'w') as f:
         for line in lines:
             if line.startswith('    def version = '):
-                line = '    def version = \'%s : DEVELOPMENT\'\n' % (version)
+                line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
 def set_vcpkg_json(version):
@@ -84,7 +84,6 @@ def set_vcpkg_json(version):
                  'android/vcpkg_config_client/vcpkg.json',
                  'android/vcpkg_config_libs/vcpkg.json',
                  'lib/vcpkg.json',
-                 'lib/vcpkg_config_android/vcpkg.json',
                  'linux/vcpkg_config_apps/vcpkg.json',
                  'linux/vcpkg_config_client/vcpkg.json',
                  'linux/vcpkg_config_libs/vcpkg.json',
@@ -96,7 +95,7 @@ def set_vcpkg_json(version):
         with open(json, 'w') as f:
             for line in lines:
                 if line.startswith('    "version-string":'):
-                    line = '    "version-string": "%s",\n' % (version)
+                    line = f'    "version-string": "{version}",\n'
                 f.write(line)
 
 def set_installshield(version):
@@ -106,7 +105,7 @@ def set_installshield(version):
         with open(ism, 'w') as f:
             for line in lines:
                 if line.startswith('		<row><td>ProductVersion</td><td>'):
-                    line = '		<row><td>ProductVersion</td><td>%s</td><td/></row>\n' % (version)
+                    line = f'		<row><td>ProductVersion</td><td>{version}</td><td/></row>\n'
                 f.write(line)
 
 if (len(sys.argv) != 2):
@@ -118,10 +117,10 @@ version = sys.argv[1]
 _, minor, release = split_version(version)
 
 if (not is_release(minor) and release != 0):
-    print('ERROR: for development version release number should be 0 but it\'s set to %s' % (release))
+    print(f'ERROR: for development version release number should be 0 but it\'s set to {release}')
     exit(1)
 
-print('Setting BOINC version to %s...' % (version))
+print(f'Setting BOINC version to {version}...')
 
 set_configure_ac(version)
 set_version_h(version)

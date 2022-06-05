@@ -23,7 +23,7 @@ def set_configure_ac(version):
     with open('configure.ac', 'w') as f:
         for line in lines:
             if line.startswith('WRAPPER_RELEASE='):
-                line = 'WRAPPER_RELEASE=%s\n' % (version)
+                line = f'WRAPPER_RELEASE={version}\n'
             f.write(line)
 
 def set_version_h(version):
@@ -32,7 +32,7 @@ def set_version_h(version):
     with open('version.h', 'w') as f:
         for line in lines:
             if line.startswith('#define WRAPPER_RELEASE'):
-                line = '#define WRAPPER_RELEASE %s\n' % (version)
+                line = f'#define WRAPPER_RELEASE {version}\n'
             f.write(line)
 
 def set_vcxproj(version):
@@ -44,17 +44,17 @@ def set_vcxproj(version):
         with open(vcxproj, 'w') as f:
             for line in lines:
                 if line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">wrapper_%s_windows_x86_64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">wrapper_{version}_windows_x86_64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">wrapper_%s_windows_x86_64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">wrapper_{version}_windows_x86_64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">wrapper_%s_windows_intelx86</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">wrapper_{version}_windows_intelx86</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">wrapper_%s_windows_intelx86</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">wrapper_{version}_windows_intelx86</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">wrapper_%s_windows_arm64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">wrapper_{version}_windows_arm64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">wrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">wrapper_%s_windows_arm64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">wrapper_{version}_windows_arm64</TargetName>\n'
                 f.write(line)
 
 if (len(sys.argv) != 2):
@@ -63,7 +63,7 @@ if (len(sys.argv) != 2):
 
 version = sys.argv[1]
 
-print('Setting wrapper version to %s...' % (version))
+print(f'Setting wrapper version to {version}...')
 
 set_configure_ac(version)
 set_version_h(version)

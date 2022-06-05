@@ -23,7 +23,7 @@ def set_configure_ac(version):
     with open('configure.ac', 'w') as f:
         for line in lines:
             if line.startswith('VBOXWRAPPER_RELEASE='):
-                line = 'VBOXWRAPPER_RELEASE=%s\n' % (version)
+                line = f'VBOXWRAPPER_RELEASE={version}\n'
             f.write(line)
 
 def set_version_h(version):
@@ -32,7 +32,7 @@ def set_version_h(version):
     with open('version.h', 'w') as f:
         for line in lines:
             if line.startswith('#define VBOXWRAPPER_RELEASE'):
-                line = '#define VBOXWRAPPER_RELEASE %s\n' % (version)
+                line = f'#define VBOXWRAPPER_RELEASE {version}\n'
             f.write(line)
 
 def set_vcxproj(version):
@@ -44,17 +44,17 @@ def set_vcxproj(version):
         with open(vcxproj, 'w') as f:
             for line in lines:
                 if line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">vboxwrapper_%s_windows_x86_64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|x64\'">vboxwrapper_{version}_windows_x86_64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">vboxwrapper_%s_windows_x86_64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|x64\'">vboxwrapper_{version}_windows_x86_64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">vboxwrapper_%s_windows_intelx86</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|Win32\'">vboxwrapper_{version}_windows_intelx86</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">vboxwrapper_%s_windows_intelx86</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'">vboxwrapper_{version}_windows_intelx86</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">vboxwrapper_%s_windows_arm64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Debug|ARM64\'">vboxwrapper_{version}_windows_arm64</TargetName>\n'
                 elif line.startswith('    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">vboxwrapper_'):
-                    line = '    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">vboxwrapper_%s_windows_arm64</TargetName>\n' % (version)
+                    line = f'    <TargetName Condition="\'$(Configuration)|$(Platform)\'==\'Release|ARM64\'">vboxwrapper_{version}_windows_arm64</TargetName>\n'
                 f.write(line)
 
 if (len(sys.argv) != 2):
@@ -63,7 +63,7 @@ if (len(sys.argv) != 2):
 
 version = sys.argv[1]
 
-print('Setting vboxwrapper version to %s...' % (version))
+print(f'Setting vboxwrapper version to {version}...')
 
 set_configure_ac(version)
 set_version_h(version)
