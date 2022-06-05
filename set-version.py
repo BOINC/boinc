@@ -80,16 +80,15 @@ def set_build_gradle(version):
             f.write(line)
 
 def set_vcpkg_json(version):
-    for json in ['android/vcpkg_config_apps/vcpkg.json',
-                 'android/vcpkg_config_client/vcpkg.json',
-                 'android/vcpkg_config_libs/vcpkg.json',
-                 'lib/vcpkg.json',
-                 'linux/vcpkg_config_apps/vcpkg.json',
-                 'linux/vcpkg_config_client/vcpkg.json',
-                 'linux/vcpkg_config_libs/vcpkg.json',
-                 'mingw/vcpkg_config_apps/vcpkg.json',
-                 'win_build/vcpkg_config_msbuild_ARM64/vcpkg.json',
-                 'win_build/vcpkg_config_msbuild_x64/vcpkg.json']:
+    for json in ['3rdParty/vcpkg_ports/configs/libs/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/libs/windows/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/client/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/apps/android/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/apps/linux/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/apps/mingw/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/msbuild/x64/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/msbuild/ARM64/vcpkg.json',
+                ]:
         with open(json, 'r') as f:
             lines = f.readlines()
         with open(json, 'w') as f:

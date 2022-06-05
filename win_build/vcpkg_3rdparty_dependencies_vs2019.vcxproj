@@ -172,6 +172,6 @@
     <Exec Command="bootstrap-vcpkg.bat" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" />
   </Target>
   <Target Name="Build3rdPartyLibraries"  BeforeTargets="ClCompile" DependsOnTargets="InstallVcpkg" AfterTargets="InstallVcpkg">
-    <Exec Command="vcpkg.exe install --x-manifest-root=$(ProjectDir)/vcpkg_config_msbuild_$(Platform) --x-install-root=installed/  --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
+    <Exec Command="vcpkg.exe install --x-manifest-root=$(VcpkgConfigsDir)/$(Platform) --x-install-root=$(VcpkgRootDir)/installed/ --overlay-ports=../../vcpkg_ports/ports --overlay-triplets=../../vcpkg_ports/triplets/$(VcpkgTripletConfig) --triplet $(VcpkgTripletName) --clean-after-build" WorkingDirectory="$(VcpkgRootDir)" ConsoleToMSBuild="true" ContinueOnError="WarnAndContinue" />
   </Target>
 </Project>

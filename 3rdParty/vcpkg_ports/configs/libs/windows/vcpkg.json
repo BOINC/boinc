@@ -5,8 +5,9 @@
     [
         {
           "name": "curl",
-          "features": ["openssl"],
+          "features": ["schannel"],
           "default-features": false
-        }
-    ]
+        },
+        "openssl"
+    ]   
 }
