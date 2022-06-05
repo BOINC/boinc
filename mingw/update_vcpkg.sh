@@ -19,4 +19,4 @@ fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install --x-manifest-root=mingw/vcpkg_config_apps/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=x64-mingw-static --feature-flags=versions --clean-after-build
+$VCPKG_ROOT/vcpkg install --x-manifest-root=3rdParty/vcpkg_ports/configs/apps/mingw --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=x64-mingw-static --clean-after-build

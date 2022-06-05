@@ -1,8 +1,0 @@
-{
-    "name": "libboinc",
-    "version-string": "7.19.0",
-    "dependencies":
-    [
-        "openssl"
-    ]
-}

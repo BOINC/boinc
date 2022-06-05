@@ -18,4 +18,4 @@ fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install --x-manifest-root=linux/vcpkg_config_client/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=x64-linux --feature-flags=versions --clean-after-build
+$VCPKG_ROOT/vcpkg install --x-manifest-root=3rdParty/vcpkg_ports/configs/client/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=x64-linux --clean-after-build

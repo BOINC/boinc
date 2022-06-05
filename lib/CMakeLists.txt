@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(libboinc)
+project(boinc-libs)
 
 message(WARNING "This build is under development and may not work as expected")
 

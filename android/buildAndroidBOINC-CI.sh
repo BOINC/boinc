@@ -119,6 +119,7 @@ if [ "x$build_dir" != "x" ]; then
 else
     cd ../
     BUILD_DIR="$(pwd)/3rdParty/android"
+    THIRD_PARTY="$(pwd)/3rdParty"
     cd android/
 fi
 
@@ -244,7 +245,11 @@ if [ $build_with_vcpkg = "yes" ]; then
     else
         triplets_setup="default"
     fi
-    manifests="--x-manifest-root=vcpkg_config_$component/ --x-install-root=$VCPKG_ROOT/installed/"
+    manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
+    if [ $component = "apps" ]; then
+        manifest_dir=$manifest_dir/android
+    fi
+    manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
     vcpkg_overlay="--overlay-ports=$vcpkg_ports_dir/ports --overlay-triplets=$vcpkg_ports_dir/triplets/$triplets_setup"
     vcpkg_flags="$vcpkg_overlay  --feature-flags=versions --clean-after-build"
     if [ ! -d "$VCPKG_ROOT" ]; then
