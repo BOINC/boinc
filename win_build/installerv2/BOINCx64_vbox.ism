@@ -2712,7 +2712,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_2E07A56B_AF49_45D7_A84C_38B1FEA58227_</td><td>Oracle VM VirtualBox 6.1.12(x64).prq</td><td/><td/><td/></row>
+		<row><td>_E738330F_915F_486C_A67A_4C73626851FF_</td><td>Oracle VM VirtualBox 6.1.34(x64).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
