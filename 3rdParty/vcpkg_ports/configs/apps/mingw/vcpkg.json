@@ -1,6 +1,6 @@
 {
     "name": "boinc-apps",
-    "version-string": "7.19.0",
+    "version-string": "7.20.0",
     "dependencies":
     [
         {
