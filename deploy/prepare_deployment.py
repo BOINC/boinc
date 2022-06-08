@@ -184,6 +184,12 @@ windows_manager_list = [
     './win_build/Build/ARM64/Release/boincmgr.exe'
 ]
 
+wasm_client_list = [
+    './client/boinc_client.wasm',
+    './client/boinc.js',
+    './samples/wasm/index.html',
+]
+
 def prepare_7z_archive(archive_name, target_directory, files_list):
     os.makedirs(target_directory, exist_ok=True)
     archive_path = os.path.join(target_directory, archive_name + '.7z')
@@ -246,6 +252,9 @@ def prepare_win_client(target_directory):
 def prepare_win_manager(target_directory):
     prepare_7z_archive('win_manager', target_directory, windows_manager_list)
 
+def prepare_wasm_client(target_directory):
+    prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
+
 boinc_types = {
     'linux_client': prepare_linux_client,
     'linux_client-vcpkg': prepare_linux_client_vcpkg,
@@ -262,13 +271,13 @@ boinc_types = {
     'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
-    'win_manager': prepare_win_manager
+    'win_manager': prepare_win_manager,
+    'wasm_client': prepare_wasm_client
 }
 
 if (len(sys.argv) != 2):
     help()
     sys.exit(1)
-
 
 boinc_type = sys.argv[1]
 target_dir = 'deploy'
