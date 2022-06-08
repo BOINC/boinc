@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -194,7 +194,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2020 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2022 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxString buf = wxEmptyString;
