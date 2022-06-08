@@ -84,7 +84,7 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
 	         ;;
       esac
       GTK_CFLAGS="`pkg-config --cflags $gtkver`"
-      GTK_LIBS="`pkg-config --libs  $gtkver`"
+      GTK_LIBS="`pkg-config --libs $gtkver webkit2gtk-4.0`"
    fi
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])
