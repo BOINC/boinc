@@ -433,7 +433,6 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'cancel_jobs',
             'create_work',
             'dbcheck_files_exist',
-            'db_query',
             'demo_query',
             'demo_submit',
             'dir_hier_move',
@@ -445,7 +444,6 @@ sys.path.insert(0, os.path.join('{dest_dir}', 'py'))
             'sign_executable',
             'stage_file',
             'update_versions',
-            'watch_tcp',
             'xadd',
         ]
     for f in command:
