@@ -244,7 +244,7 @@ function show_user_info_private($user) {
         row2(tra("Email address"), $email_text);
     }
     if (USER_URL) {
-        if (strlen($user->url)) {
+        if ($user->url) {
             $u = normalize_user_url($user->url);
             row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }

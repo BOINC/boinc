@@ -176,11 +176,16 @@ function show_status_html($x) {
         tra("Users in last 24 hours")
     );
     foreach ($j->apps as $app) {
-        $avg = round($app->info->avg, 2);
-        $min = round($app->info->min, 2);
-        $max = round($app->info->max, 2);
-        $x = $max?"$avg ($min - $max)":"---";
-        $u = $app->info->users;
+        if ($app->info) {
+            $avg = round($app->info->avg, 2);
+            $min = round($app->info->min, 2);
+            $max = round($app->info->max, 2);
+            $x = $max?"$avg ($min - $max)":"---";
+            $u = $app->info->users;
+        } else {
+            $x = '---';
+            $u = '---';
+        }
         echo "<tr>
             <td>$app->user_friendly_name</td>
             <td>$app->unsent</td>
