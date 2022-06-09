@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# Copyright (C) 2022 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -57,6 +57,7 @@
 ## Updated 6/24/21 allow installing BOINC on arm64 Macs without Rosetta 2 installed
 ## Updated 10/10/21 to eliminate ca-bundle.crt
 ## Updated 4/29/22 to eliminate obsolete clientscr/BOINCSaver_MacOS10_6_7.zip
+## Updated 6/9/22 to eliminate harmless error message
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -595,7 +596,7 @@ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_
 if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then
     ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_${arch}_vbox boinc_$1.$2.$3_macOSX_${arch}_vbox.zip
 fi
-hdiutil create -srcfolder boinc_$1.$2.$3_$arch-apple-darwin -ov -format UDZO boinc_$1.$2.$3_$arch-apple-darwin.dmg
+sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-apple-darwin -ov -format UDZO boinc_$1.$2.$3_$arch-apple-darwin.dmg
 
 #popd
 cd "${BOINCPath}"
