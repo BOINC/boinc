@@ -24,13 +24,17 @@
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 4/14/15 for compatibility with Xcode 6
+# Updated 6/9/22 for Xcode 13 compatibility (no 32-bit build); add code signing
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.15 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
+## If you wish to code sign the vboxwrapper, create a file 
+## ~/BOINCCodeSignIdentities.txt whose first line is your application 
+## code signing identity.
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ##
 ## In Terminal, CD to the wrqpper directory.
@@ -75,41 +79,28 @@ rm -fR i386 x86_64
 
 echo
 echo "***************************************************"
-echo "******* Building 32-bit Intel Application *********"
-echo "***************************************************"
-echo
-
-export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 -fvisibility=hidden -fvisibility-inlines-hidden"
-export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
-
-make -f Makefile_mac clean
-make -f Makefile_mac all
-
-if [  $? -ne 0 ]; then exit 1; fi
-
-mkdir i386
-mv vboxwrapper i386/
-
-echo
-echo "***************************************************"
 echo "******* Building 64-bit Intel Application *********"
 echo "***************************************************"
 echo
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=101000 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000  -stdlib=libc++ -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.5
+export MACOSX_DEPLOYMENT_TARGET=10.10
 
 
 make -f Makefile_mac clean
 make -f Makefile_mac all
 
-    if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then exit 1; fi
+
+# Code Sign the vboxwrapper if we have a signing identity
+if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
+    exec 8<"${HOME}/BOINCCodeSignIdentities.txt"
+    read APPSIGNINGIDENTITY <&8
+    codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" vboxwrapper
+fi
 
 mkdir x86_64
 mv vboxwrapper x86_64/
