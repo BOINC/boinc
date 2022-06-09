@@ -75,16 +75,28 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
    gtkver=none
    AM_CONDITIONAL([GUI_GTK], echo $wx_default_config | grep -i ^gtk 2>&1 >/dev/null)
    if echo $wx_default_config | grep -i gtk 2>&1 >/dev/null ; then
-     case ${wx_default_config} in
-        gtk3-*|*-gtk3-*)  gtkver=gtk+-3.0
-	         ;;
-        gtk2-*|*-gtk2-*)  gtkver=gtk+-2.0
-	         ;;
-        gtk-*|*-gtk-*)    gtkver=gtk+
-	         ;;
-      esac
+      is_vcpkg=`if echo "$WX_CONFIG" | grep -q "vcpkg"; then echo true; else echo false; fi`  
+      if test $is_vcpkg = true ; then
+          wxpath="`dirname $WX_CONFIG`"
+          case ${wx_default_config} in
+            gtk3-*|*-gtk3-*) gtkver=$wxpath/../../lib/pkgconfig/gtk+-3.0.pc
+              ;;
+            gtk4-*|*-gtk4-*) gtkver=$wxpath/../../lib/pkgconfig/gtk+-4.0.pc
+              ;;
+          esac
+      else
+          case ${wx_default_config} in
+              gtk3-*|*-gtk3-*)  gtkver=gtk+-3.0
+                ;;
+              gtk2-*|*-gtk2-*)  gtkver=gtk+-2.0
+                ;;
+              gtk-*|*-gtk-*)    gtkver=gtk+
+                ;;
+          esac
+      fi
       GTK_CFLAGS="`pkg-config --cflags $gtkver`"
-      GTK_LIBS="`pkg-config --libs $gtkver webkit2gtk-4.0`"
+      GTK_LIBS="$WX_LIBS `pkg-config --libs webkit2gtk-4.0`"
+
    fi
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])

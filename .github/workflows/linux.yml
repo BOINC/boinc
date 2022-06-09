@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [manager-with-webview-vcpkg]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2

@@ -19,5 +19,4 @@ fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install curl[core,openssl] wxwidgets --clean-after-build --overlay-triplets=$VCPKG_PORTS/triplets/ci
-$VCPKG_ROOT/vcpkg install freetype[core,bzip2,png] freeglut ftgl --clean-after-build --overlay-triplets=$VCPKG_PORTS/triplets/ci
+$VCPKG_ROOT/vcpkg install --x-manifest-root=3rdParty/vcpkg_ports/configs/manager/ --x-install-root=$VCPKG_ROOT/installed/ --overlay-ports=$VCPKG_PORTS/ports --overlay-triplets=$VCPKG_PORTS/triplets/ci --triplet=x64-linux --clean-after-build

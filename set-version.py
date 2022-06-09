@@ -83,6 +83,7 @@ def set_vcpkg_json(version):
     for json in ['3rdParty/vcpkg_ports/configs/libs/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/libs/windows/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/client/vcpkg.json',
+                 '3rdParty/vcpkg_ports/configs/manager/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/apps/android/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/apps/linux/vcpkg.json',
                  '3rdParty/vcpkg_ports/configs/apps/mingw/vcpkg.json',
