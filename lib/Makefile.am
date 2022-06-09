@@ -131,6 +131,9 @@ mac_headers=
 endif
 endif
 
+if BUILD_WITH_WASM
+generic_sources += wasm.cpp
+endif
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = \

@@ -74,6 +74,7 @@ compile
 config.guess
 config.sub
 configure
+configure~
 depcomp
 install-sh
 ltmain.sh
@@ -227,3 +228,10 @@ vda/vdad
 build/
 build-*/
 
+# WASM
+*.wasm
+a.out.js
+boinc.js
+boinc_client.js
+boinccmd.js
+switcher.js
