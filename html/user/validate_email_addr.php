@@ -33,6 +33,8 @@ function send_validate_email() {
     );
     page_head(tra("Validate email sent"));
     echo tra("An email has been sent to %1. Visit the link it contains to validate your email address.", $user->email_addr);
+    echo "<p>";
+    echo tra("If you don't receive this email, check your spam folder.");
     page_tail();
 }
 
