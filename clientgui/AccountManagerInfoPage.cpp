@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -111,14 +111,14 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
  */
 
 void CAccountManagerInfoPage::CreateControls()
-{    
+{
 ////@begin CAccountManagerInfoPage content construction
 #ifdef __WXMAC__
-#define LISTBOXWIDTH 225
-#define DESCRIPTIONSWIDTH 350
+    const int listboxWidth = 225;
+    const int descriptionWidth = 350;
 #else
-#define LISTBOXWIDTH ADJUSTFORXDPI(150)
-#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
+    const int listboxWidth = 150;
+    const int descriptionWidth = 310;
 #endif
 
     CAccountManagerInfoPage* itemWizardPage23 = this;
@@ -142,7 +142,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(listboxWidth, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
@@ -152,8 +152,8 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectDetailsStaticCtrl = new wxStaticText;
     m_pProjectDetailsStaticCtrl->Create( itemWizardPage23, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer4->Add(m_pProjectDetailsStaticCtrl, 0, wxBOTTOM, 5);
-    
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
+
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(descriptionWidth, 100), wxTE_MULTILINE|wxTE_READONLY );
     itemFlexGridSizer4->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW);
 
 	m_pOpenWebSiteButton = new wxButton( this, ID_PROJECTWEBPAGECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -306,7 +306,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             pItem->SetImage( wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8) );
             pItem->SetDescription( wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8) );
 
-            
+
             m_pProjectListCtrl->Append(
                 wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
                 pItem

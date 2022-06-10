@@ -47,16 +47,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onResume() {
         super.onResume()
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         if ("usedCpuCores" !in sharedPreferences) {
             sharedPreferences.edit { putInt("usedCpuCores", pctCpuCoresToNumber(hostInfo, prefs.maxNoOfCPUsPct)) }
         }
@@ -76,7 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val stationaryDeviceMode = BOINCActivity.monitor!!.stationaryDeviceMode
         val stationaryDeviceSuspected = BOINCActivity.monitor!!.isStationaryDeviceSuspected
 
-        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 

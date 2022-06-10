@@ -123,11 +123,13 @@ class ProjectDetailsFragment : Fragment() {
     override fun onAttach(context: Context) {
         if (context is Activity) {
             val size = Point()
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 @Suppress("DEPRECATION")
                 context.windowManager.defaultDisplay.getSize(size)
             } else {
-                context.display!!.getRealSize(size)
+                val r = context.windowManager.currentWindowMetrics.bounds
+                size.x = r.width()
+                size.y = r.height()
             }
             width = size.x
             height = size.y

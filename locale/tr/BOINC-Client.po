@@ -1,19 +1,19 @@
 # BOINC client localization template
-# Copyright (C) 2021 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
 # Ali Eren gam <abcerenbicki@gmail.com>, 2020
 # Can Demirel <aycandemirel@hotmail.com>, 2017
-# ilkeryus <ilkeryus@gmail.com>, 2021
+# ilkeryus <ilkeryus@gmail.com>, 2021-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2021-07-04 19:17 UTC\n"
-"PO-Revision-Date: 2021-07-05 18:44+0000\n"
-"Last-Translator: ilkeryus <ilkeryus@gmail.com>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: ilkeryus <ilkeryus@gmail.com>, 2021-2022\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,12 +44,12 @@ msgstr "Durum dosyası yazılamadı; klasör izinlerini kontrol edin"
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY ortam değişkeni mutlaka bir HTTP vekil sunucusu belirtmeli"
 
-#: client/cs_scheduler.cpp:620
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
-msgstr "Bu proje eski bir URL kullanıyor. Uygun olduğunda, projeyi kaldırın ve daha sonra bunu ekleyin: %s"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
+msgstr "Bu proje URL'sini değiştirmiş görünüyor. Uygun olduğunda projeyi kaldırın, ardından %sprojesini ekleyin"
 
 #: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
@@ -59,36 +59,36 @@ msgstr "app_info.xml dosyasında sözdizimi hatası"
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml dosyasında belirtilen dosya mevcut değil:"
 
-#: client/current_version.cpp:55
+#: client/current_version.cpp:66
 msgid "Missing start tag in nvc_config.xml"
 msgstr "nvc_config.xml'de başlangıç etiketi eksik"
 
-#: client/current_version.cpp:64
+#: client/current_version.cpp:75
 msgid "Unexpected text in nvc_config.xml"
 msgstr "nvc_config.xml'de beklenmeyen metin"
 
-#: client/current_version.cpp:91
+#: client/current_version.cpp:102
 msgid "Unrecognized tag in nvc_config.xml"
 msgstr "nvc_config.xml'de tanınmayan etiket"
 
-#: client/current_version.cpp:99
+#: client/current_version.cpp:110
 msgid "Missing end tag in nvc_config.xml"
 msgstr "nvc_config.xml'de bitiş etiketi eksik"
 
-#: client/current_version.cpp:177
+#: client/current_version.cpp:244
 msgid "A new version of BOINC is available"
 msgstr "BOINC'in yeni bir sürümü mevcut"
 
-#: client/current_version.cpp:180 client/current_version.cpp:191
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "İndir"
 
-#: client/current_version.cpp:183
+#: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
 msgstr "%s'un yeni versiyonu mevcut"
 
-#: client/gpu_detect.cpp:257 client/gpu_detect.cpp:300
+#: client/gpu_detect.cpp:261 client/gpu_detect.cpp:304
 msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "CUDA sürücüsü 6.5 veya üstü ile CUDA veya OpenCL hesaplaması için kullanılamaz"

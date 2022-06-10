@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,7 +40,7 @@ typedef struct {
 
 
 ///
-/// Bitmask values for GetCurrentViewPage() 
+/// Bitmask values for GetCurrentViewPage()
 /// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
 ///
 #define VW_PROJ   1
@@ -177,11 +177,11 @@ public:
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
     PROJECTS                    async_projects_update_buf;
-    
+
     CC_STATE                    state;
     CC_STATE                    async_state_buf;
     int                         m_iGet_state_rpc_result;
-    
+
     CC_STATUS                   status;
     CC_STATUS                   async_status_buf;
     int                         m_iGet_status_rpc_result;
@@ -266,7 +266,7 @@ public:
     RESULTS                     async_results_buf;
     int                         m_iGet_results_rpc_result;
     bool                        m_ActiveTasksOnly;
-    
+
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
 
@@ -294,7 +294,7 @@ private:
 public:
     NOTICES                     notices;
     int                         m_iGet_notices_rpc_result;
-    
+
     NOTICE*                     notice(unsigned int);
     int                         CachedNoticeUpdate();
 
@@ -317,7 +317,7 @@ private:
 public:
     MESSAGES                    messages;
     int                         m_iGet_messages_rpc_result;
-    
+
     MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
 
@@ -342,7 +342,7 @@ public:
     FILE_TRANSFERS              ft;
     FILE_TRANSFERS              async_ft_buf;
     int                         m_iGet_file_transfers_rpc_result;
-    
+
     FILE_TRANSFER*              file_transfer(unsigned int);
     FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
 
@@ -364,7 +364,7 @@ public:
     DISK_USAGE                  disk_usage;
     DISK_USAGE                  async_disk_usage_buf;
     int                         m_iGet_dsk_usage_rpc_result;
-    
+
     PROJECT*                    DiskUsageProject(unsigned int);
     int                         CachedDiskUsageUpdate();
 
@@ -382,7 +382,7 @@ public:
     int                         m_iGet_statistics_rpc_result;
 
     int                         GetStatisticsCount();
-	
+
 
 	//
 	// Proxy Configuration
@@ -424,17 +424,7 @@ extern void color_cycle(int i, int n, wxColour& color);
 extern wxString FormatTime(double secs);
 extern bool autoattach_in_progress();
 
-#ifdef __WXMSW__
-#define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
-#define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
-extern double GetXDPIScaling();
-extern double GetYDPIScaling();
-#else
-#define ADJUSTFORXDPI(x) x
-#define ADJUSTFORYDPI(y) y
-#endif
 
-wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
 wxString format_number(double x, int nprec);
 
 #ifdef SANDBOX

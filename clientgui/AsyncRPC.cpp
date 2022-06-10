@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -139,8 +139,10 @@ void *RPCThread::Entry() {
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request;
     double startTime = 0;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
+#endif
 
 #ifdef HAVE__CONFIGTHREADLOCALE
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
@@ -159,7 +161,10 @@ void *RPCThread::Entry() {
         // This does the following:
         // (1) Unlocks the Mutex and puts the RPC thread to sleep as an atomic operation.
         // (2) On Signal from main thread: locks Mutex again and wakes the RPC thread.
-        condErr = m_pRPC_Thread_Condition->Wait();
+#if wxDEBUG_LEVEL
+        condErr =
+#endif
+        m_pRPC_Thread_Condition->Wait();
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
@@ -188,9 +193,11 @@ void *RPCThread::Entry() {
         
         current_request->retval = retval;
 
-        mutexErr = m_pRPC_Request_Mutex->Lock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Request_Mutex->Lock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
         current_request->isActive = false;
         wxPostEvent( wxTheApp, RPC_done_event );
 
@@ -198,7 +205,10 @@ void *RPCThread::Entry() {
         // currently blocked by m_pRPC_Request_Condition->Wait[Timeout]()
         m_pRPC_Request_Condition->Signal();
         
-        mutexErr = m_pRPC_Request_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Request_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 
@@ -466,7 +476,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0;
     int response = wxID_OK;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     long timeToDelay, delayTimeRemaining, timeToSleep;
     bool shown = false;
     
@@ -511,7 +523,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // Start this RPC if no other RPC is already in progress.
     if (RPC_requests.size() == 1) {
         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
         // Make sure activation is an atomic operation
@@ -523,7 +538,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
-        mutexErr = m_pRPC_Thread_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 
@@ -592,7 +610,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 return retval;
             }
             
-            mutexErr = m_pRPC_Request_Mutex->Lock();
+#if wxDEBUG_LEVEL
+            mutexErr =
+#endif
+            m_pRPC_Request_Mutex->Lock();
             wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
             // Simulate handling of CRPCFinishedEvent but don't allow any other 
@@ -601,7 +622,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             // the queue until it is safe to process them.
             // Allow RPC thread to run while we wait for it.
             if (!current_rpc_request.isActive) {
-                mutexErr = m_pRPC_Request_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+                mutexErr =
+#endif
+                m_pRPC_Request_Mutex->Unlock();
                 wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
                 
                 HandleCompletedRPC();
@@ -614,7 +638,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             // (2) On Signal from RPC thread: locks Mutex again and wakes the main thread.
             m_pRPC_Request_Condition->WaitTimeout(timeToSleep);
 
-            mutexErr = m_pRPC_Request_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+            mutexErr =
+#endif
+            m_pRPC_Request_Mutex->Unlock();
             wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
         }
         
@@ -676,7 +703,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
 
 void CMainDocument::KillRPCThread() {
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     int i;
 
     if (!m_RPCThread) {
@@ -690,13 +719,19 @@ void CMainDocument::KillRPCThread() {
    
     // On some platforms, Delete() takes effect only when thread calls TestDestroy()
     // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-    mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+    mutexErr =
+#endif
+    m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     m_bShutDownRPCThread = true;
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
-    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+#if wxDEBUG_LEVEL
+    mutexErr =
+#endif
+    m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     RPC_requests.clear();
@@ -721,7 +756,9 @@ void CMainDocument::OnRPCComplete(CRPCFinishedEvent&) {
 
 void CMainDocument::HandleCompletedRPC() {
     int retval = 0;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     int i, n, requestIndex = -1;
     bool stillWaitingForPendingRequests = false;
     
@@ -967,7 +1004,10 @@ void CMainDocument::HandleCompletedRPC() {
     // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
         // Make sure activation is an atomic operation
@@ -979,7 +1019,10 @@ void CMainDocument::HandleCompletedRPC() {
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
-        mutexErr = m_pRPC_Thread_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 }

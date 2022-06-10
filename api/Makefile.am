@@ -42,17 +42,20 @@ AM_CXXFLAGS += @GLUT_CFLAGS@
 endif
 
 lib_LTLIBRARIES = libboinc_api.la
+pkgconfig_DATA = libboinc_api.pc
 libboinc_api_la_SOURCES = $(api_files)
 libboinc_api_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
+pkgconfig_DATA += libboinc_graphics2.pc
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
 libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
 libboinc_graphics2_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -ljpeg
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la
+pkgconfig_DATA += libboinc_opencl.pc
 libboinc_opencl_la_SOURCES = $(opencl_files)
 libboinc_opencl_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 

@@ -17,7 +17,7 @@
 Project Website: https://boinc.berkeley.edu
 
 ## Want to create a project
-See: https://boinc.berkeley.edu/trac/wiki
+See: https://boinc.berkeley.edu/trac/wiki/ProjectMain
 
 ## Want to help
 Read about all the [ways you can help](CONTRIBUTING.md)

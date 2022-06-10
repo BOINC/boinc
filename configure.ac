@@ -6,15 +6,15 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.19.0)
+AC_INIT(BOINC, 7.21.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
-WRAPPER_RELEASE=26016
+WRAPPER_RELEASE=26017
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26202
+VBOXWRAPPER_RELEASE=26205
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -63,6 +63,9 @@ AC_PROG_MAKE_SET
 SAH_LINKS
 AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
+
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
 
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
@@ -145,6 +148,12 @@ AC_ARG_ENABLE(apps-gui,
                    [enable building the boinc apps that depend on gui]),
     [enable_apps_gui=${enableval}],
     [enable_apps_gui=no])
+
+AC_ARG_ENABLE(wasm,
+    AS_HELP_STRING([--enable-wasm],
+                   [enable building the boinc wasm]),
+    [enable_wasm=${enableval}],
+    [enable_wasm=no])
 
 AC_ARG_ENABLE(unit-tests,
     AS_HELP_STRING([--enable-unit-tests],
@@ -368,6 +377,10 @@ dnl doc/manpages, and set the conditional HAVE_DOCBOOK2X_MAN to build
 dnl the manpages only if docbook2x-man is available.
 AC_PATH_PROG(DOCBOOK2X_MAN, docbook2x-man)
 AM_CONDITIONAL(HAVE_DOCBOOK2X_MAN, [test -n "${DOCBOOK2X_MAN}"])
+
+if test "${enable_wasm}" = yes ; then
+  EXEEXT=.js
+fi
 
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
@@ -704,15 +717,27 @@ AC_TYPE_SIGNAL
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
-AC_CHECK_HEADERS([sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h])
+AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h)
+
+if test "${enable_wasm}" != yes ; then
+  AC_CHECK_HEADERS(sys/shm.h)
+fi
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
-CXXFLAGS="${CXXFLAGS} -msse3"
-CPPFLAGS="${CPPFLAGS} -msse3"
+sse3_flags="-msse3"
+avx_flags="-mavx"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CPPFLAGS="${save_cppflags} ${sse3_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
+AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
+CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
-CXXFLAGS="${save_cxxflags} -mavx"
-CPPFLAGS="${save_cppflags} -mavx"
+CXXFLAGS="${save_cxxflags} ${avx_flags}"
+CPPFLAGS="${save_cppflags} ${avx_flags}"
 AC_CHECK_HEADERS([immintrin.h avxintrin.h])
 
 AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
@@ -1092,10 +1117,16 @@ AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
 AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 AM_CONDITIONAL(OS_ARMV6_LINUX, [echo $host_alias | grep '^armv6-linux' > /dev/null])
 AM_CONDITIONAL(ANDROID, [test x"${ANDROID}" = xyes])
+
 AM_CONDITIONAL(BUILD_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
+AM_CONDITIONAL(BUILD_WITH_WASM, [test "${enable_wasm}" = yes])
+if test "${enable_wasm}" = yes ; then
+  AC_DEFINE([WASM], [1], [build boinc wasm])
+fi
+
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1335,6 +1366,9 @@ AC_SUBST(FULLNAME)
 AC_CONFIG_FILES([
                  version.h
                  api/Makefile
+                 api/libboinc_api.pc
+                 api/libboinc_graphics2.pc
+                 api/libboinc_opencl.pc
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
@@ -1349,6 +1383,9 @@ AC_CONFIG_FILES([
                  doc/manpages/Makefile
                  html/Makefile
                  lib/Makefile
+                 lib/libboinc.pc
+                 lib/libboinc_crypt.pc
+                 lib/libboinc_fcgi.pc
                  locale/Makefile
                  Makefile
                  py/Boinc/version.py
@@ -1376,6 +1413,7 @@ AC_CONFIG_FILES([
                  tools/Makefile
                  vda/Makefile
                  zip/Makefile
+                 zip/libboinc_zip.pc
                  zip/zip/Makefile
                  zip/unzip/Makefile
                  m4/Makefile

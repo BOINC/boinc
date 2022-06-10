@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,6 +27,17 @@
 #include "file_names.h"
 
 #include "current_version.h"
+
+// NVC_CONFIG allows branded installers to have the client check for a new 
+// branded client on their serve instead of checking the Berkeley server for
+// a new standard (unbranded) BOINC client.
+//
+// If the nvc_config.xml file is absent from the BOINC Data folder, use 
+// default values (Berkeley server.)
+// Unbranded BOINC should not have an nvc_config.xml file. 
+// Branded installers can create or replace this file to customize these values.
+// Standard (unbranded) BOINC installers should either delete the file or 
+// create or replace it with one containing default values.
 
 NVC_CONFIG nvc_config;
 
@@ -101,7 +112,7 @@ int NVC_CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int read_vc_config_file() {
+int read_nvc_config_file() {
     nvc_config.defaults();
     FILE* f = boinc_fopen(NVC_CONFIG_FILE, "r");
     if (!f) {
@@ -128,17 +139,47 @@ int GET_CURRENT_VERSION_OP::do_rpc() {
     return retval;
 }
 
-static bool is_version_newer(const char* p) {
+static bool is_version_newer(const char* p, int major, int minor, int release) {
     int maj=0, min=0, rel=0;
 
     sscanf(p, "%d.%d.%d", &maj, &min, &rel);
-    if (maj > gstate.core_client_version.major) return true;
-    if (maj < gstate.core_client_version.major) return false;
-    if (min > gstate.core_client_version.minor) return true;
-    if (min < gstate.core_client_version.minor) return false;
-    if (rel > gstate.core_client_version.release) return true;
+    if (maj > major) return true;
+    if (maj < major) return false;
+    if (min > minor) return true;
+    if (min < minor) return false;
+    if (rel > release) return true;
     return false;
 }
+
+#ifdef __APPLE__
+// Encode current MacOS version xx.yy.zz as an integer xxyyzz
+static int get_current_macos_version() {
+    char buf[100];
+    char *p1 = NULL, *p2 = NULL;
+    int vers = 0;
+    FILE *f;
+    buf[0] = '\0';
+    f = popen("sw_vers -productVersion", "r");
+    if (f) {
+        fscanf(f, "%s", buf);
+        pclose(f);
+    }
+    if (buf[0] == '\0') {
+        return 0;
+    }
+    
+    // Extract the major system version number
+    vers = atoi(buf) * 10000;
+    // Extract the minor system version number
+    p1 = strchr(buf, '.');
+    vers += atoi(p1+1) * 100;
+    p2 = strchr(p1+1, '.');
+    if (p2) {
+        vers += atoi(p2+1);
+    }
+    return vers;
+}
+#endif
 
 // Parse the output of download.php?xml=1.
 // If there is a newer version for our primary platform,
@@ -147,6 +188,11 @@ static bool is_version_newer(const char* p) {
 static bool parse_version(FILE* f, char* new_version, int len) {
     char buf2[256];
     bool same_platform = false, newer_version_exists = false;
+#ifdef __APPLE__
+    bool min_macos_OK = false, max_macos_OK = false;
+    int val = 0;
+    int macOS_version = get_current_macos_version();
+#endif
 
     MIOFILE mf;
     XML_PARSER xp(&mf);
@@ -154,15 +200,36 @@ static bool parse_version(FILE* f, char* new_version, int len) {
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/version")) {
+#ifdef __APPLE__
+            return (same_platform 
+                    && newer_version_exists
+                    && min_macos_OK
+                    && max_macos_OK
+                );
+#else
             return (same_platform && newer_version_exists);
+#endif
         }
         if (xp.parse_str("dbplatform", buf2, sizeof(buf2))) {
             same_platform = (strcmp(buf2, gstate.get_primary_platform())==0);
         }
         if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
-            newer_version_exists = is_version_newer(buf2);
+            newer_version_exists = is_version_newer(
+                                    buf2, 
+                                    gstate.core_client_version.major, 
+                                    gstate.core_client_version.minor, 
+                                    gstate.core_client_version.release
+                                    );
             strlcpy(new_version, buf2, len);
         }
+#ifdef __APPLE__
+        if (xp.parse_int("min_os_version", val)) {
+            min_macos_OK = (val <= macOS_version);
+        }
+        if (xp.parse_int("max_os_version", val)) {
+            max_macos_OK = (val >= macOS_version);
+        }
+#endif
     }
     return false;
 }
@@ -194,24 +261,34 @@ static void show_newer_version_msg(const char* new_vers) {
 }
 
 void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
-    char buf[256], new_version[256];
+    char buf[256], new_version[256], newest_version[256];
+    int maj=0, min=0, rel=0;
     if (http_op_retval) {
         error_num = http_op_retval;
         return;
     }
     gstate.new_version_check_time = gstate.now;
+    newest_version[0] = '\0';
     FILE* f = boinc_fopen(GET_CURRENT_VERSION_FILENAME, "r");
     if (!f) return;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
             if (parse_version(f, new_version, sizeof(new_version))) {
-                show_newer_version_msg(new_version);
-                gstate.newer_version = string(new_version);
-                break;
+                if (is_version_newer(new_version, maj, min, rel)) {
+                    strlcpy(newest_version, new_version, sizeof(newest_version));
+                    sscanf(newest_version, "%d.%d.%d", &maj, &min, &rel);
+                }
             }
         }
     }
     fclose(f);
+    
+    if (newest_version[0]) {
+        show_newer_version_msg(newest_version);
+    }
+    
+    // Cache neweer version number. Empty string if no newer version
+    gstate.newer_version = string(newest_version);
 }
 
 // called at startup to see if the client state file
@@ -229,7 +306,11 @@ void newer_version_startup_check() {
     }
 
     if (!gstate.newer_version.empty()) {
-        if (is_version_newer(gstate.newer_version.c_str())) {
+        if (is_version_newer(gstate.newer_version.c_str(), 
+                            gstate.core_client_version.major, 
+                            gstate.core_client_version.minor, 
+                            gstate.core_client_version.release)
+                            ) {
             show_newer_version_msg(gstate.newer_version.c_str());
         } else {
             gstate.newer_version = "";
@@ -239,13 +320,19 @@ void newer_version_startup_check() {
 
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
+// get client version info from the BOINC server if we haven't done so recently.
+// Called periodically from the main loop.
+// Also called with force=true for the get_newer_version() GUI RPC
+//
 void CLIENT_STATE::new_version_check(bool force) {
-    if (force || (new_version_check_time == 0) ||
-        (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
-            // get_current_version_op.handle_reply()
-            // updates new_version_check_time
-            //
-            get_current_version_op.do_rpc();
-        }
+    if (force
+        || (new_version_check_time == 0)
+        || (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)
+    ) {
+        // get_current_version_op.handle_reply()
+        // updates new_version_check_time
+        //
+        get_current_version_op.do_rpc();
+    }
 }
 

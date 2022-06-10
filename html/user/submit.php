@@ -206,7 +206,7 @@ function handle_main($user) {
     if (isset($submit_urls)) {
         // show links to per-app job submission pages
         //
-        echo "<h2>Submit jobs</h2>
+        echo "<h3>Submit jobs</h3>
             <ul>
         ";
         foreach ($submit_urls as $appname=>$submit_url) {
@@ -232,7 +232,7 @@ function handle_main($user) {
         }
     }
     if ($user_submit->manage_all || $app_admin) {
-        echo "<h2>Administrative functions</h2><ul>\n";
+        echo "<h3>Administrative functions</h3><ul>\n";
         if ($user_submit->manage_all) {
             echo "<li>All applications<br>
                 <a href=submit.php?action=admin&app_id=0>Batches</a>

@@ -18,15 +18,18 @@
  */
 package edu.berkeley.boinc.client;
 
+import android.Manifest.permission;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.Logging;
@@ -70,7 +73,8 @@ public class DeviceStatus {
 
         connManager = ContextCompat.getSystemService(context, ConnectivityManager.class);
         telManager = ContextCompat.getSystemService(context, TelephonyManager.class);
-        batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        batteryStatus =
+                context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     /**
@@ -92,10 +96,12 @@ public class DeviceStatus {
 
         if(change) {
             Logging.logDebug(Logging.Category.DEVICE,
-                  "change: " + " - stationary device: " + stationaryDeviceMode + " ; ac: " +
-                  status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
-                  " ; temperature: " + status.getBatteryTemperatureCelsius() + " ; wifi: " +
-                  status.isWiFiOnline() + " ; user active: " + status.isUserActive());
+                             "change: " + " - stationary device: " + stationaryDeviceMode +
+                             " ; ac: " +
+                             status.isOnACPower() + " ; level: " + status.getBatteryChargePct() +
+                             " ; temperature: " + status.getBatteryTemperatureCelsius() +
+                             " ; wifi: " +
+                             status.isWiFiOnline() + " ; user active: " + status.isUserActive());
         }
 
         return status;
@@ -103,7 +109,7 @@ public class DeviceStatus {
 
     /**
      * Returns latest device status, without updating it.
-     * If you need a up-to-date status, call udpate() instead.
+     * If you need a up-to-date status, call update() instead.
      *
      * @return DeviceStatusData, wrapper for device status, contains data retrieved upon last update. Might be in initial state, if no update has successfully finished.
      */
@@ -132,7 +138,19 @@ public class DeviceStatus {
      */
     private boolean determineUserActive() {
         boolean newUserActive;
-        int telStatus = telManager.getCallState();
+        int telStatus;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if(ActivityCompat.checkSelfPermission(context, permission.READ_PHONE_STATE) ==
+               PackageManager.PERMISSION_GRANTED) {
+                telStatus = telManager.getCallStateForSubscription();
+            } else {
+                telStatus = TelephonyManager.CALL_STATE_IDLE;
+            }
+        } else {
+            @SuppressWarnings( "deprecation" )
+            int telStatus_ = telManager.getCallState();
+            telStatus = telStatus_;
+        }
 
         if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
             newUserActive = true;

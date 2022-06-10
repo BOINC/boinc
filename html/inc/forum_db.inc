@@ -320,6 +320,10 @@ class BoincNotify {
         $db = BoincDb::get();
         return $db->enum_general('BoincNotify', $query);
     }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'notify', $clause);
+    }
 }
 
 define ('NOTIFY_FRIEND_REQ', 1);

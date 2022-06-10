@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">Учётная запись существует с другим паролем</string>
   <string name="attachproject_conflict_bad_password">Пароль неверен</string>
   <string name="attachproject_conflict_unknown_user">Учётная запись не существует</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Учётная запись не существует, для регистрации посетите веб-сайт проекта</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Аккаунт не существует, зайдите на сайт проекта, чтобы зарегистрироваться</string>
   <!--working-->
   <string name="attachproject_working_attaching">Подключение %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -39,7 +39,7 @@
   <string name="attachproject_hint_projectwebsite_science">Узнать больше о науке</string>
   <string name="attachproject_hint_projectwebsite_stats">Посмотреть статистику участия</string>
   <string name="attachproject_hint_projectwebsite_community">Общаться с другими участниками</string>
-  <string name="attachproject_hint_platforms_header">BOINC также доступен для вашего компьютера или ноутбука, посетите boinc.berkeley.edu чтобы узнать больше.</string>
+  <string name="attachproject_hint_platforms_header">BOINC также доступен для вашего компьютера или ноутбука. Посетите boinc.berkeley.edu, чтобы узнать больше.</string>
   <!--project login-->
   <string name="attachproject_login_loading">Соединение с сервером проекта…</string>
   <string name="attachproject_login_header_general_area">Основная область:</string>
@@ -54,7 +54,7 @@
   <string name="attachproject_login_button_login">Войти</string>
   <string name="attachproject_login_button_forgotpw">Восстановить пароль</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Использовать менеджер проектов для управления этим устройством</string>
+  <string name="attachproject_acctmgr_list_desc">Используйте менеджер учетных записей для управления этим устройством</string>
   <string name="attachproject_acctmgr_header">Использовать менеджер проектов</string>
   <string name="attachproject_attach_projects_header">Добавить проекты</string>
   <string name="attachproject_attach_projects_desc">Добавить проекты из списка проектов</string>
@@ -112,7 +112,7 @@
   <string name="prefs_general_device_name_header">Имя устройства</string>
   <string name="prefs_theme_header">Тема</string>
   <string name="prefs_stationary_device_mode_header">Стационарный режим работы устройства</string>
-  <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включать только в том случае, если устройство не оснащено аккумулятором.</string>
+  <string name="prefs_stationary_device_mode_description">Разрешает вычисления независимо от настроек Питания. Включайте, только если в устройстве нет батареи.</string>
   <string name="prefs_power_source_header">Источники питания для вычислений</string>
   <string name="prefs_power_source_ac">Розетки</string>
   <string name="prefs_power_source_usb">USB-подключение</string>
@@ -133,7 +133,7 @@
   <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
   <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
   <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше (%)</string>
-  <string name="prefs_cpu_other_load_suspension_description">Определяет, когда BOINC приостанавливает расчёты из-за использования процессора другими приложениями.</string>
+  <string name="prefs_cpu_other_load_suspension_description">Определяет, когда BOINC приостанавливает вычисления из-за использования ЦП другими приложениями.</string>
   <string name="prefs_cpu_time_max_header">Предельное время процессора (%)</string>
   <string name="prefs_cpu_time_max_description">Ограничивает время процессора, которое использует BOINC для расчётов.</string>
   <string name="prefs_memory_max_idle_header">Ограничение ОЗУ (%)</string>
@@ -141,8 +141,9 @@
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Дополнительный буфер для задач (дней)</string>
   <string name="prefs_remote_authentication_key">Ключ аутентификации GUI</string>
   <string name="prefs_remote_empty_password">Ошибка обновления пароля: значение не может быть пустым</string>
-  <string name="prefs_remote_boinc_relaunched">После изменения пароля клиент BOINC будет перезапущен.</string>
+  <string name="prefs_remote_boinc_relaunched">Клиент BOINC будет перезапущен после смены пароля.</string>
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
+  <string name="prefs_gui_log_categories">Категории лога BOINC GUI</string>
   <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
   <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
   <string name="prefs_theme_light">Светлая</string>
@@ -153,6 +154,8 @@
   <string name="projects_icon">Значок проекта</string>
   <string name="projects_credits">Очки:</string>
   <string name="projects_credits_host_and_user">%1$,d (на этом устройстве) %2$,d (всего)</string>
+  <string name="projects_disk_usage">Использование Диска:</string>
+  <string name="projects_disk_usage_with_unit">%1$s МБ</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Приостановлен пользователем</string>
   <string name="projects_status_dontrequestmorework">Не запрашивать новые задания</string>
@@ -268,9 +271,9 @@
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версия %1$s</string>
-  <string name="about_copyright">\u00A9 2003–2021 Калифорнийский университет, Беркли.</string>
+  <string name="about_copyright">\u00A9 2003–2021 Калифорнийский Университет, Беркли.</string>
   <string name="about_copyright_reserved">Все права защищены.</string>
-  <string name="about_credits">Спасибо за поддержку Институту гравитационной физики Макса Планка, Корпорации IBM и Корпорации HTC.</string>
+  <string name="about_credits">Спасибо Институту гравитационной физики им. Макса Планка, корпорациям IBM и корпорации HTC за их поддержку.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Новое уведомление от %1$s</item>
@@ -280,13 +283,13 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Обнаружено приложение добровольных вычислений</string>
-  <string name="nonexcl_dialog_text">Ещё одно приложение добровольных вычислений работает на этом устройстве. Одновременно может работать только одна версия.</string>
+  <string name="nonexcl_dialog_text">На этом устройстве запущено еще одно вычислительное приложение для добровольцев. Одновременно может работать только одна версия.</string>
   <string name="nonexcl_dialog_exit">Выход</string>
   <!--social integration-->
   <string name="social_invite_button">Пригласить друзей</string>
   <string name="social_invite_intent_title">Как Вы хотите поделиться?</string>
   <string name="social_invite_content_title">Я участвую в научных исследованиях на моём смартфоне!</string>
-  <string name="social_invite_content_body">Я использую мой %1$s для выполнения научных расчётов. Ты тоже можешь принять участие! Скачай приложение здесь: %2$s</string>
+  <string name="social_invite_content_body">Я использую свой %1$s для научных вычислений. Вы тоже можете! Загрузите приложение с: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>

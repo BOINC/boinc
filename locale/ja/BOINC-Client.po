@@ -1,10 +1,10 @@
 # BOINC client localization template
-# Copyright (C) 2020 University of California
+# Copyright (C) 2022 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
 # Translators:
-# ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​硫酸​鶏 <root@acid-chicken.com>, 2018
+# Acid Chicken (硫酸鶏) <root@acid-chicken.com>, 2018
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010
 # Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018
 # Masahiro Tagashira, 2015
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2020-07-11 20:16 UTC\n"
-"PO-Revision-Date: 2020-07-11 20:19+0000\n"
-"Last-Translator: David Anderson <davea@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2022-04-30 23:50 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018\n"
 "Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,17 +28,17 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "アカウント・マネージャからのお知らせ"
 
-#: client/client_msgs.cpp:82
+#: client/client_msgs.cpp:81
 msgid "Message from server"
 msgstr "プロジェクト・サーバからのメッセージ"
 
-#: client/client_state.cpp:338
+#: client/client_state.cpp:330
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "あなたの設定したプレファレンス(好みの設定)を越えるメモリ量を必要とするタスクがあります。プレファレンスの内容を確認してください。"
 
-#: client/client_state.cpp:706
+#: client/client_state.cpp:698
 msgid "Couldn't write state file; check directory permissions"
 msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめてください。"
 
@@ -46,46 +46,46 @@ msgstr "状態ファイルを書くことができませんでした。ディレ
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "環境変数 HTTP_PROXY でHTTPプロキシを指定する必要があります。"
 
-#: client/cs_scheduler.cpp:624
+#: client/cs_scheduler.cpp:617
 #, c-format
 msgid ""
-"This project is using an old URL.  When convenient, remove the project, then"
-" add %s"
-msgstr "このプロジェクトは古いURLを使っています。都合の良いときにプロジェクトを一旦削除し、改めて%sを追加してください"
+"This project seems to have changed its URL.  When convenient, remove the "
+"project, then add %s"
+msgstr ""
 
-#: client/cs_statefile.cpp:861
+#: client/cs_statefile.cpp:857
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml の中に構文誤りがあります。"
 
-#: client/cs_statefile.cpp:905
+#: client/cs_statefile.cpp:901
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml の中で参照されている次のファイルが存在しません: "
 
-#: client/current_version.cpp:55
+#: client/current_version.cpp:66
 msgid "Missing start tag in nvc_config.xml"
 msgstr "nvc_config.xml中のスタートタグがありません。"
 
-#: client/current_version.cpp:64
+#: client/current_version.cpp:75
 msgid "Unexpected text in nvc_config.xml"
 msgstr "nvc_config.xml中に予期しないテキストがあります。"
 
-#: client/current_version.cpp:91
+#: client/current_version.cpp:102
 msgid "Unrecognized tag in nvc_config.xml"
 msgstr "Unrecognized tag in nvc_config.xml中に認識されないタグがあります。"
 
-#: client/current_version.cpp:99
+#: client/current_version.cpp:110
 msgid "Missing end tag in nvc_config.xml"
 msgstr "nvc_config.xml中にエンドタグがありません。"
 
-#: client/current_version.cpp:177
+#: client/current_version.cpp:244
 msgid "A new version of BOINC is available"
 msgstr "BOINCの新しいバージョンが利用できるようになっています"
 
-#: client/current_version.cpp:180 client/current_version.cpp:191
+#: client/current_version.cpp:247 client/current_version.cpp:258
 msgid "Download"
 msgstr "ダウンロード"
 
-#: client/current_version.cpp:183
+#: client/current_version.cpp:250
 #, c-format
 msgid "A new version of %s is available"
 msgstr "新しいバージョンの1%sが利用可能です。"
@@ -95,23 +95,23 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "バージョン6.5以降のCUDAドライバーをCUDAまたはOpenCLによる計算に使用することはできません"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:510
+#: client/log_flags.cpp:326 client/log_flags.cpp:506
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml の中に予期しないテキストがみつかりました"
 
-#: client/log_flags.cpp:484 client/log_flags.cpp:539
+#: client/log_flags.cpp:480 client/log_flags.cpp:535
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml の中に認識されないタグが見つかりました"
 
-#: client/log_flags.cpp:501
+#: client/log_flags.cpp:497
 msgid "Missing start tag in cc_config.xml"
 msgstr "cc_config.xml の中で開始タグが不足しています。"
 
-#: client/log_flags.cpp:529
+#: client/log_flags.cpp:525
 msgid "Error in cc_config.xml options"
 msgstr "cc_config.xml オプション内のエラー"
 
-#: client/log_flags.cpp:547
+#: client/log_flags.cpp:543
 msgid "Missing end tag in cc_config.xml"
 msgstr "cc_config.xml の中で終了タグが不足しています。"
 

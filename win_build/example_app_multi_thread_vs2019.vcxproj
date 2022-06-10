@@ -93,16 +93,16 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>multi_thread_6.1_windows_$(Platform)</TargetName>
+    <TargetName>multi_thread_windows_$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <TargetName>multi_thread_6.1_windows_$(Platform)</TargetName>
+    <TargetName>multi_thread_windows_$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>multi_thread_6.1_windows_$(Platform)</TargetName>
+    <TargetName>multi_thread_windows_$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <TargetName>multi_thread_6.1_windows_$(Platform)</TargetName>
+    <TargetName>multi_thread_windows_$(Platform)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>

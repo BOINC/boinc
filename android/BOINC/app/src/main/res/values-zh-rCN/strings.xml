@@ -23,7 +23,7 @@
   <string name="attachproject_conflict_not_unique">账户已存在，但密码错误</string>
   <string name="attachproject_conflict_bad_password">密码错误</string>
   <string name="attachproject_conflict_unknown_user">账户不存在</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">帐户不存在，访问项目网站注册</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">账号不存在，请访问项目网站注册</string>
   <!--working-->
   <string name="attachproject_working_attaching">添加 %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -33,12 +33,13 @@
   <string name="attachproject_hint_contribtion_header">如何参与：</string>
   <string name="attachproject_hint_contribtion_wifi">1、连接到WiFi网络</string>
   <string name="attachproject_hint_contribtion_charger">2、插上充电器</string>
-  <string name="attachproject_hint_contribtion_screen">4、关闭屏幕（锁屏）</string>
+  <string name="attachproject_hint_contribtion_app">3. 运行 BOINC</string>
+  <string name="attachproject_hint_contribtion_screen">4. 关闭屏幕（锁屏）</string>
   <string name="attachproject_hint_projectwebsite_header">访问项目网站以：</string>
   <string name="attachproject_hint_projectwebsite_science">了解更多科学方面的内容</string>
   <string name="attachproject_hint_projectwebsite_stats">查看所做贡献的统计数据</string>
   <string name="attachproject_hint_projectwebsite_community">与其他志愿者交流</string>
-  <string name="attachproject_hint_platforms_header">BOINC也有电脑版本，请访问 boinc.berkeley.edu 了解更多信息。</string>
+  <string name="attachproject_hint_platforms_header">BOINC 也可用于您的计算机或笔记本电脑，请访问 boinc.berkeley.edu 了解更多信息。</string>
   <!--project login-->
   <string name="attachproject_login_loading">与项目服务器通信中...</string>
   <string name="attachproject_login_header_general_area">大致研究内容：</string>
@@ -53,8 +54,10 @@
   <string name="attachproject_login_button_login">登陆</string>
   <string name="attachproject_login_button_forgotpw">忘记密码</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">使用BOINC帐户管理器添加或管理多个项目</string>
+  <string name="attachproject_acctmgr_list_desc">使用帐户管理器控制此设备</string>
   <string name="attachproject_acctmgr_header">使用帐户管理器</string>
+  <string name="attachproject_attach_projects_header">添加项目</string>
+  <string name="attachproject_attach_projects_desc">从项目列表中挑选项目</string>
   <string name="attachproject_acctmgr_header_url">网址</string>
   <string name="attachproject_acctmgr_header_name">用户：</string>
   <string name="attachproject_acctmgr_header_pwd">密码：</string>
@@ -103,6 +106,7 @@
   <string name="prefs_category_memory">内存（RAM）</string>
   <string name="prefs_category_other">其它</string>
   <string name="prefs_category_debug">调试</string>
+  <string name="prefs_category_remote">远程控制</string>
   <string name="prefs_show_advanced_header">显示高级设置和选项</string>
   <string name="prefs_suspend_when_screen_on">当屏幕亮时暂停计算</string>
   <string name="prefs_general_device_name_header">设备名称</string>
@@ -123,17 +127,23 @@
   <string name="prefs_network_daily_xfer_limit_period_days_header">每日传输限制（天）</string>
   <string name="prefs_network_wifi_only_header">只使用WiFi传输任务</string>
   <string name="prefs_autostart_header">自启动</string>
+  <string name="prefs_remote_header">启用远程控制</string>
+  <string name="prefs_remote_summary">更改后，BOINC 客户端将重新启动。</string>
   <string name="prefs_show_notification_notices_header">当有新消息时显示通知</string>
   <string name="prefs_cpu_number_cpus_header">使用的CPU核心</string>
   <string name="prefs_cpu_number_cpus_description">限制BOINC使用的CPU核心数目。</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU占用率高于此值时暂停运算（%）</string>
-  <string name="prefs_cpu_other_load_suspension_description">当其他App的CPU使用率高于多少时BOINC应当暂停运算？</string>
+  <string name="prefs_cpu_other_load_suspension_description">当其他应用的CPU使用率高于多少时BOINC应当暂停运算？</string>
   <string name="prefs_cpu_time_max_header">CPU限制（％）</string>
   <string name="prefs_cpu_time_max_description">限制BOINC为计算所使用的CPU时间。</string>
   <string name="prefs_memory_max_idle_header">内存限制（％）</string>
   <string name="prefs_other_store_at_least_x_days_of_work_header">任务单元缓存（天）</string>
   <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">额外任务单元缓存（天）</string>
+  <string name="prefs_remote_authentication_key">图形用户界面认证密钥</string>
+  <string name="prefs_remote_empty_password">密码更新失败：值不能为空</string>
+  <string name="prefs_remote_boinc_relaunched">BOINC 客户端将在密码更改后重新启动。</string>
   <string name="prefs_client_log_flags_header">BOINC客户端日志标志</string>
+  <string name="prefs_gui_log_categories">BOINC用户界面日志类别</string>
   <string name="prefs_gui_log_level_header">GUI （用户界面）日志详细程度</string>
   <string name="prefs_gui_log_level_description">指定GUI日志信息的详细程度。</string>
   <string name="prefs_theme_light">明亮</string>
@@ -144,6 +154,8 @@
   <string name="projects_icon">项目图标</string>
   <string name="projects_credits">积分：</string>
   <string name="projects_credits_host_and_user">%1$,d (在该设备上) %2$,d (总计)</string>
+  <string name="projects_disk_usage">磁盘使用：</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">已被用户暂停</string>
   <string name="projects_status_dontrequestmorework">禁止下载新任务</string>
@@ -232,7 +244,7 @@
   <string name="suspend_os">已被Android系统暂停。</string>
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">您的电池需要充电。</string>
-  <string name="suspend_battery_charging_long">计算将在电池充电至%1$d%%后继续（当前电量 %2$d%%）</string>
+  <string name="suspend_battery_charging_long">计算将在电池充电至%1$d%%后继续（当前电量%2$d%%）</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
   <string name="suspend_user_req">正在恢复计算...</string>
   <!--rpc reasons-->
@@ -268,26 +280,20 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">检测到有志愿计算APP正在运行</string>
-  <string name="nonexcl_dialog_text">有其他志愿计算APP正在运行。一次只能执行一个版本。</string>
+  <string name="nonexcl_dialog_text">有其他志愿计算APP正在运行。一次只能运行一个版本。</string>
   <string name="nonexcl_dialog_exit">退出</string>
   <!--social integration-->
   <string name="social_invite_button">邀请好友</string>
   <string name="social_invite_intent_title">您准备如何分享？</string>
   <string name="social_invite_content_title">我在智能手机上探索科学的奥秘！</string>
-  <string name="social_invite_content_body">我的%1$s正在为科学而贡献计算力。你也试试吧！APP下载：%2$s</string>
+  <string name="social_invite_content_body">我的%1$s正在为科学计算贡献算力，你也可以！从%2$s下载App</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
   <!--Notification channels-->
   <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">显示其他通知。</string>
   <string name="notice_notification_channel_name">通知</string>
   <string name="notice_notification_channel_description">显示项目发送的通知。</string>
-  <!-- Xiaomi specific strings -->
-  <string name="terms_of_use_content_first">欢迎您使用小米商城！为了提供优质的购物体验，小米商城App需要联网并使用您的位置信息，
-    以获取周边商品库存、优化配送服务和进行个性化商品推荐，你有权拒绝或取消授权</string>
-  <string name="terms_of_use_content_second">在使用App之前，请您阅读并充分理解小米商城的《用户协议》和《隐私政策》，
-    了解您的用户权益及相关数据的处理方法。如您同意以上协议内容，请点击“同意”，开始使用我们的产品和服务。我们将以业界领先的信息安全保护水平，
-    保护您的个人信息，感谢您对小米商城的信任</string>
-  <string name="terms_of_use_content_user_agreement">用户协议: https://www.mi.com/about/user-agreement</string>
-  <string name="terms_of_use_content_privacy_policy">隐私政策: https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ded8d0e4a77d.html</string>
+  <string name="agree_button">同意</string>
 </resources>

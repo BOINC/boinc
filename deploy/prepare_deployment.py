@@ -146,9 +146,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/worker*.exe',
     './win_build/Build/x64/Release/sleeper*.exe',
     './win_build/Build/x64/Release/boinclog.exe',
-    './win_build/Build/x64/Release/boincsim.exe',
     './win_build/Build/x64/Release/multi_thread*.exe',
-    './win_build/Build/x64/Release/slide_show.exe',
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
@@ -160,9 +158,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/worker*.exe',
     './win_build/Build/ARM64/Release/sleeper*.exe',
     './win_build/Build/ARM64/Release/boinclog.exe',
-    './win_build/Build/ARM64/Release/boincsim.exe',
     './win_build/Build/ARM64/Release/multi_thread*.exe',
-    './win_build/Build/ARM64/Release/slide_show.exe',
     './win_build/Build/ARM64/Release/test*.exe',
     './win_build/Build/ARM64/Release/wrappture*.exe'
 ]
@@ -186,6 +182,12 @@ windows_manager_list = [
     './win_build/Build/x64/Release/boincmgr.exe',
     './win_build/Build/ARM64/Release/boinctray.exe',
     './win_build/Build/ARM64/Release/boincmgr.exe'
+]
+
+wasm_client_list = [
+    './client/boinc_client.wasm',
+    './client/boinc.js',
+    './samples/wasm/index.html',
 ]
 
 def prepare_7z_archive(archive_name, target_directory, files_list):
@@ -212,6 +214,9 @@ def prepare_linux_apps_vcpkg(target_directory):
 
 def prepare_linux_manager_with_webview(target_directory):
     prepare_7z_archive('linux_manager-with-webview', target_directory, linux_manager_list)
+
+def prepare_linux_manager_with_webview_vcpkg(target_directory):
+    prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
 
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
@@ -247,12 +252,16 @@ def prepare_win_client(target_directory):
 def prepare_win_manager(target_directory):
     prepare_7z_archive('win_manager', target_directory, windows_manager_list)
 
+def prepare_wasm_client(target_directory):
+    prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
+
 boinc_types = {
     'linux_client': prepare_linux_client,
     'linux_client-vcpkg': prepare_linux_client_vcpkg,
     'linux_apps': prepare_linux_apps,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
+    'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'win_apps-mingw': prepare_win_apps_mingw,
     'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
@@ -262,13 +271,13 @@ boinc_types = {
     'android_apps-vcpkg': prepare_android_apps_vcpkg,
     'win_apps': prepare_win_apps,
     'win_client': prepare_win_client,
-    'win_manager': prepare_win_manager
+    'win_manager': prepare_win_manager,
+    'wasm_client': prepare_wasm_client
 }
 
 if (len(sys.argv) != 2):
     help()
     sys.exit(1)
-
 
 boinc_type = sys.argv[1]
 target_dir = 'deploy'

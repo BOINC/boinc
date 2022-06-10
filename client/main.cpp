@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -233,8 +233,10 @@ static void init_core_client(int argc, char** argv) {
     read_config_file(true);
     
     // NOTE: this must be called BEFORE newer_version_startup_check()
+    // Only branded builds of BOINC should have an nvc_config.xml file
+    // in the BOINC Data directory. See comments in current_version.cpp.
     //
-    if (read_vc_config_file()) {
+    if (read_nvc_config_file()) {
        // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
     

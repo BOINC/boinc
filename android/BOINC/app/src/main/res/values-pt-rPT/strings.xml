@@ -13,19 +13,19 @@
   <string name="attachproject_list_manual_dialog_title">Inserir URL do projeto:</string>
   <string name="attachproject_list_no_internet">Sem ligação à Internet</string>
   <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Insira a informação da conta</string>
+  <string name="attachproject_credential_input_sing_desc">Inserir informação da conta</string>
   <string name="attachproject_credential_input_desc">Insira a informação da conta para os projetos selecionados:</string>
   <string name="attachproject_credential_input_show_pwd">Mostrar palavra-passe</string>
-  <string name="attachproject_individual_credential_input">Adicionar projetos individualmente</string>
+  <string name="attachproject_individual_credential_input">Anexar projetos individualmente</string>
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">Ocorreram problemas ao anexar os projetos científicos:</string>
   <string name="attachproject_conflict_undefined">Não foi possível ligar</string>
   <string name="attachproject_conflict_not_unique">A conta existe com uma palavra-passe diferente</string>
   <string name="attachproject_conflict_bad_password">Palavra-passe incorreta</string>
   <string name="attachproject_conflict_unknown_user">A conta não existe</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website do projeto para se registar</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website  do projeto para registar</string>
   <!--working-->
-  <string name="attachproject_working_attaching">Anexando %1$s</string>
+  <string name="attachproject_working_attaching">A anexar %1$s</string>
   <!--e.g. Attaching Einstein@Home-->
   <!--hints-->
   <string name="attachproject_hints_header">Dica</string>
@@ -35,29 +35,29 @@
   <string name="attachproject_hint_contribtion_charger">2. Ligar Carregador</string>
   <string name="attachproject_hint_contribtion_app">3. Executar BOINC e mantê-lo aberto</string>
   <string name="attachproject_hint_contribtion_screen">4. Desligar Ecrã</string>
-  <string name="attachproject_hint_projectwebsite_header">Visitar os sites da Web do projeto para:</string>
+  <string name="attachproject_hint_projectwebsite_header">Visitar os websites do projeto para:</string>
   <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>
-  <string name="attachproject_hint_projectwebsite_community">Entre em contacto com outros voluntários</string>
-  <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para aprender mais.</string>
+  <string name="attachproject_hint_projectwebsite_community">Contacte os outros voluntários</string>
+  <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para saber mais.</string>
   <!--project login-->
   <string name="attachproject_login_loading">A contactar o servidor do projeto...</string>
   <string name="attachproject_login_header_general_area">Área geral:</string>
   <string name="attachproject_login_header_specific_area">Área específica:</string>
   <string name="attachproject_login_header_description">Descrição:</string>
   <string name="attachproject_login_header_home">Início:</string>
-  <string name="attachproject_login_header_url">Site da Web:</string>
+  <string name="attachproject_login_header_url">Website:</string>
   <string name="attachproject_login_header_id_email">E-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Palavra-passe:</string>
   <string name="attachproject_login_button_registration">Registar</string>
   <string name="attachproject_login_button_login">Iniciar sessão</string>
-  <string name="attachproject_login_button_forgotpw">Esqueceu a Palavra-passe</string>
+  <string name="attachproject_login_button_forgotpw">Esqueceu-se da Palavra-passe</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Utilize gestor de conta para controlar este dispositivo</string>
-  <string name="attachproject_acctmgr_header">Utilizar gestor de conta</string>
+  <string name="attachproject_acctmgr_list_desc">Utilizar um gestor de contas para controlar este computador.</string>
+  <string name="attachproject_acctmgr_header">Usar gestor de conta</string>
   <string name="attachproject_attach_projects_header">Adicionar projetos</string>
-  <string name="attachproject_attach_projects_desc">Adicionar projetos duma lista de projetos</string>
+  <string name="attachproject_attach_projects_desc">Adicione projetos de uma lista de projetos</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
   <string name="attachproject_acctmgr_header_name">Utilizador:</string>
   <string name="attachproject_acctmgr_header_pwd">Palavra-passe:</string>
@@ -66,13 +66,13 @@
   <string name="attachproject_error_short_pwd">Palavra-passe demasiado curta</string>
   <string name="attachproject_error_no_internet">Falha de ligação</string>
   <string name="attachproject_error_no_url">Por favor, insira o URL</string>
-  <string name="attachproject_error_no_email">Por favor, insira o endereço de e-mail</string>
+  <string name="attachproject_error_no_email">Por favor, insira o endereço de \"e-mail\"</string>
   <string name="attachproject_error_no_pwd">Por favor, insira uma palavra-passe</string>
   <string name="attachproject_error_no_name">Por favor, insira o nome de utilizador</string>
   <string name="attachproject_error_unknown">falhou</string>
   <string name="attachproject_error_bad_username">Nome de utilizador recusado</string>
-  <string name="attachproject_error_email_in_use">Endereço de e-mail em uso</string>
-  <string name="attachproject_error_project_down">O projeto está off-line</string>
+  <string name="attachproject_error_email_in_use">O endereço de \"e-mail\" já está a ser usado</string>
+  <string name="attachproject_error_project_down">O projeto está \"off-line\"</string>
   <string name="attachproject_error_email_bad_syntax">E-mail recusado</string>
   <string name="attachproject_error_bad_pwd">Palavra-passe recusada</string>
   <string name="attachproject_error_creation_disabled">A criação de conta está desativada neste projeto</string>
@@ -86,7 +86,7 @@
   <string name="tab_notices">Avisos</string>
   <string name="tab_desc">Navegação</string>
   <!--status strings-->
-  <string name="status_running">A realizar computação</string>
+  <string name="status_running">A calcular</string>
   <string name="status_running_long">Obrigado por participar.</string>
   <string name="status_paused">Suspenso</string>
   <string name="status_idle">Nada para fazer</string>
@@ -126,10 +126,10 @@
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite diário de transferência (MB)</string>
   <string name="prefs_network_daily_xfer_limit_period_days_header">Limite diário de transferência (Dias)</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas em WiFi</string>
-  <string name="prefs_autostart_header">Começo Automático</string>
-  <string name="prefs_remote_header">Habilitar Controlo Remoto</string>
-  <string name="prefs_remote_summary">Quando modificado, o cliente BOINC será novamente lançado.</string>
-  <string name="prefs_show_notification_notices_header">Mostrar notificações para novas notícias</string>
+  <string name="prefs_autostart_header">Iniciar Automático</string>
+  <string name="prefs_remote_header">Ativar Controlo Remoto</string>
+  <string name="prefs_remote_summary">Quando alterado, o cliente BOINC será executado novamente.</string>
+  <string name="prefs_show_notification_notices_header">Mostrar notificação para as novas notícias</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos da CPU que o BOINC utiliza para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausar CPU quando utilização acima de (%)</string>
@@ -143,6 +143,7 @@
   <string name="prefs_remote_empty_password">Atualização da palavra-passe falhada: valor não pode estar vazio</string>
   <string name="prefs_remote_boinc_relaunched">O cliente BOINC será novamente lançado depois de alterar a palavra-passe.</string>
   <string name="prefs_client_log_flags_header">Log das bandeiras do BOINC</string>
+  <string name="prefs_gui_log_categories">Categorias de log da GUI do BOINC</string>
   <string name="prefs_gui_log_level_header">Nível de log da GUI</string>
   <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de log da GUI.</string>
   <string name="prefs_theme_light">Claro</string>
@@ -153,6 +154,8 @@
   <string name="projects_icon">Ícone do Projeto</string>
   <string name="projects_credits">Créditos:</string>
   <string name="projects_credits_host_and_user">%1$,d (neste dispositivo) %2$,d (total)</string>
+  <string name="projects_disk_usage">Utilização em Disco:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenso pelo utilizador</string>
   <string name="projects_status_dontrequestmorework">Não obter novas tarefas</string>
@@ -164,7 +167,7 @@
   <string name="projects_status_backoff">Comunicação agendada em: %1$s</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandos do projeto:</string>
-  <string name="projects_control_visit_website">Visitar site da Web</string>
+  <string name="projects_control_visit_website">Visitar website</string>
   <string name="projects_control_update">Atualizar</string>
   <string name="projects_control_remove">Remover</string>
   <string name="projects_control_suspend">Suspender</string>
@@ -274,6 +277,7 @@
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nova notícia de %1$s</item>
+    <item quantity="many">%2$,d notícias novas</item>
     <item quantity="other">%2$,d notícias novas</item>
   </plurals>
   <!--multi BOINC compatibility-->
