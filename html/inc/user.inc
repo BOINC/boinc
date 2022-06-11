@@ -78,7 +78,7 @@ function get_other_projects($user) {
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
         if (!$remote) {
-            $user->projects = null;
+            $user->projects = [];
             return $user;
         }
         if (count($remote) == 1) {
@@ -458,7 +458,7 @@ function show_user_summary_public($user) {
     if (USER_URL) {
         // don't show URL if user has no recent credit (spam suppression)
         //
-        if (strlen($user->url)) {
+        if ($user->url) {
             if (!NO_COMPUTING || $user->expavg_credit > 1) {
                 $u = normalize_user_url($user->url);
                 row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));

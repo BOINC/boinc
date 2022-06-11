@@ -432,7 +432,7 @@ function form_checkboxes($label, $items, $attrs='') {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     $x = checkbox_item_strings($items, $attrs);
-    echo implode($x, '<br>');
+    echo implode('<br>', $x);
     echo '</div>
         </div>
     ';

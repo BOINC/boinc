@@ -123,7 +123,9 @@ if ($force_title && $title){
     row2(tra("Title"), htmlspecialchars($title)."<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\">");
 } else {
     row2(tra("Title").$submit_help,
-        '<input type="text" class="form-control" name="title" value="'.htmlspecialchars($title).'">'
+        sprintf('<input type="text" class="form-control" name="title" value="%s">',
+            $title?htmlspecialchars($title):''
+        )
     );
 }
 
@@ -131,7 +133,9 @@ row2_init(tra("Message").bbcode_info().post_warning($forum).$body_help, "");
 start_table();
 echo $bbcode_html;
 end_table();
-echo '<textarea class="form-control" name="content" rows="12" cols="80">'.htmlspecialchars($content).'</textarea>';
+echo sprintf('<textarea class="form-control" name="content" rows="12" cols="80">%s</textarea>',
+    $content?htmlspecialchars($content):''
+);
 echo "</td></tr>";
 
 if (!$logged_in_user->prefs->no_signature_by_default) {
