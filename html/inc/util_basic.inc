@@ -123,6 +123,7 @@ function parse_next_element($xml, $tag, &$cursor) {
         }
         $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
     }
+    if (!$element) return null;
     return trim($element);
 }
 

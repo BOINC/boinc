@@ -24,7 +24,7 @@ check_get_args(array("border"));
 $user = get_logged_in_user();
 
 $join = gmdate('j F Y', $user->create_time);
-$today = gmdate('j F Y', time(0));
+$today = gmdate('j F Y', time());
 
 $border = get_str("border", true);
 

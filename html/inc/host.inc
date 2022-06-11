@@ -625,7 +625,7 @@ function host_update_credit($hostid) {
 function host_decay_credit($host) {
     $avg = $host->expavg_credit;
     $avg_time = $host->expavg_time;
-    $now = time(0);
+    $now = time();
     update_average($now, 0, 0, $avg, $avg_time);
     $host->update("expavg_credit=$avg, expavg_time=$now");
 }
