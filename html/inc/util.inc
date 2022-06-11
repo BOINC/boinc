@@ -1038,6 +1038,7 @@ function sanitize_numeric($x) {
 }
 
 function sanitize_email($x) {
+    if (!$x) return $x;
     if (function_exists('filter_var')) {
         return filter_var($x, FILTER_SANITIZE_EMAIL);
     } else {
