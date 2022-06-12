@@ -79,8 +79,8 @@ function get_other_projects($user) {
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
         if (!$remote) $remote = [];
-        if (count($remote) == 1) {
-            $remote = array($remote);
+        if (!is_array($remote)) {
+            $remote = [$remote];
         }
 
         // Cache the results
