@@ -186,7 +186,8 @@ windows_manager_list = [
 
 wasm_client_list = [
     './client/boinc_client.wasm',
-    './client/boinc.js',
+    './client/boinc_client.js',
+    './client/boinc.html',
     './samples/wasm/index.html',
 ]
 
