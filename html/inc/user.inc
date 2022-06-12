@@ -41,6 +41,7 @@ function get_other_projects($user) {
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
     if ($cacheddata) {
         $remote = unserialize($cacheddata);
+        if (!$remote) $remote = [];
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
         //
@@ -77,10 +78,7 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
-        if (!$remote) {
-            $user->projects = [];
-            return $user;
-        }
+        if (!$remote) $remote = [];
         if (count($remote) == 1) {
             $remote = array($remote);
         }
@@ -88,7 +86,6 @@ function get_other_projects($user) {
         // Cache the results
         set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
     }
-
     $user->projects = $remote;
     return $user;
 }
