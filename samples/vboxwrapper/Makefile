@@ -65,4 +65,4 @@ vboxwrapper.o: vboxwrapper.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c vboxwrapper.cpp
 
 vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC); strip vboxwrapper
