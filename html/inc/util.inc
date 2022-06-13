@@ -1024,6 +1024,7 @@ function sanitize_local_url($x) {
 // strip HTML tags
 //
 function sanitize_tags($x) {
+    if (!$x) return $x;
     return strip_tags($x);
 }
 
