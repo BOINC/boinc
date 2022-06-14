@@ -118,6 +118,9 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     CreateMenus();
     dlgMsgsPtr = NULL;
     m_pBackgroundPanel = new CSimpleGUIPanel(this);
+    mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->Add(m_pBackgroundPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, 0);
+    SetSizerAndFit(mainSizer);
     RestoreState();
 }
 
@@ -1006,7 +1009,6 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 
     Layout();
     SetSizerAndFit(mainSizer);
-    parent->SetSizerAndFit(mainSizer);
 
     SetBackgroundBitmap();
 
@@ -1033,8 +1035,6 @@ CSimpleGUIPanel::~CSimpleGUIPanel()
     checkForNewNoticesTimer->Stop();
 	delete checkForNewNoticesTimer;
     m_bmpBg = wxNullBitmap; // Deletes old bitmap via reference counting
-
-    GetParent()->SetSizer(NULL, false); // Avoid trying to delete mainSizer twice
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function End"));
 }
