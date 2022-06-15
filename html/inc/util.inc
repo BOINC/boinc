@@ -175,7 +175,14 @@ $got_logged_in_user = false;
 
 function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user, $got_logged_in_user;
-    if ($got_logged_in_user) return $g_logged_in_user;
+    if ($got_logged_in_user) {
+        // this could have been called earlier with $must_be_logged_in false
+        if ($must_be_logged_in) {
+            if ($g_logged_in_user) return $g_logged_in_user;
+        } else {
+            return $g_logged_in_user;
+        }
+    }
 
     if (web_stopped()) return null;
 
@@ -1017,6 +1024,7 @@ function sanitize_local_url($x) {
 // strip HTML tags
 //
 function sanitize_tags($x) {
+    if (!$x) return $x;
     return strip_tags($x);
 }
 
@@ -1031,6 +1039,7 @@ function sanitize_numeric($x) {
 }
 
 function sanitize_email($x) {
+    if (!$x) return $x;
     if (function_exists('filter_var')) {
         return filter_var($x, FILTER_SANITIZE_EMAIL);
     } else {

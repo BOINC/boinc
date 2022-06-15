@@ -30,7 +30,7 @@ $last_pos = get_int("last_pos", true);
 $table = get_str("table", true);
 $detail = get_str("detail", true);
 $clauses = get_str("clauses", true);
-if (strstr($clauses, ";")) admin_error_page("bad clause");
+if ($clauses && strstr($clauses, ";")) admin_error_page("bad clause");
 
 $q = new SqlQueryString();
 $q->process_form_items();

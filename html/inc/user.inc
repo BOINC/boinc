@@ -41,6 +41,7 @@ function get_other_projects($user) {
     $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
     if ($cacheddata) {
         $remote = unserialize($cacheddata);
+        if (!$remote) $remote = [];
     } else {
         // Fetch the XML, use curl if fopen() is disallowed
         //
@@ -77,18 +78,14 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
-        if (!$remote) {
-            $user->projects = null;
-            return $user;
-        }
-        if (count($remote) == 1) {
-            $remote = array($remote);
+        if (!$remote) $remote = [];
+        if (!is_array($remote)) {
+            $remote = [$remote];
         }
 
         // Cache the results
         set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
     }
-
     $user->projects = $remote;
     return $user;
 }
@@ -244,7 +241,7 @@ function show_user_info_private($user) {
         row2(tra("Email address"), $email_text);
     }
     if (USER_URL) {
-        if (strlen($user->url)) {
+        if ($user->url) {
             $u = normalize_user_url($user->url);
             row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));
         }
@@ -458,7 +455,7 @@ function show_user_summary_public($user) {
     if (USER_URL) {
         // don't show URL if user has no recent credit (spam suppression)
         //
-        if (strlen($user->url)) {
+        if ($user->url) {
             if (!NO_COMPUTING || $user->expavg_credit > 1) {
                 $u = normalize_user_url($user->url);
                 row2(tra("URL"), sprintf('<a href="%s">%s</a>', $u, $u));

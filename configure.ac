@@ -379,7 +379,7 @@ AC_PATH_PROG(DOCBOOK2X_MAN, docbook2x-man)
 AM_CONDITIONAL(HAVE_DOCBOOK2X_MAN, [test -n "${DOCBOOK2X_MAN}"])
 
 if test "${enable_wasm}" = yes ; then
-  EXEEXT=.js
+  EXEEXT=.html
 fi
 
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])

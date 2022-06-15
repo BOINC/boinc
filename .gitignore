@@ -231,7 +231,10 @@ build-*/
 # WASM
 *.wasm
 a.out.js
-boinc.js
 boinc_client.js
 boinccmd.js
 switcher.js
+boinc.html
+boinc_client.html
+boinccmd.html
+switcher.html
