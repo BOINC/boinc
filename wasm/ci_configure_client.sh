@@ -16,5 +16,13 @@ wasm/update_emsdk.sh
 source $EMSDK_ROOT/emsdk_env.sh
 wasm/update_emsdk_vcpkg.sh
 
+debug_flags=""
+
+if [ "debug" == "$1" ]; then
+    export CPPFLAGS="-g3 -fdebug-prefix-map=$PWD=.."
+    debug_flags="--enable-debug"
+    echo -e "\e[33mDebug flags: ./configure $debug_flags, CPPFLAGS=$CPPFLAGS\e[0m"
+fi
+
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-emconfigure ./configure --enable-wasm --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager
+emconfigure ./configure $debug_flags --enable-wasm --enable-vcpkg --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager
