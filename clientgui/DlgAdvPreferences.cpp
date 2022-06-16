@@ -118,7 +118,13 @@ CDlgAdvPreferences::~CDlgAdvPreferences() {
     delete m_vTimeValidator;
 }
 
-/* set validators for input filtering purposes only */
+// set validators for input filtering purposes only
+// maximum length for variables storing doubles is set to 16.  Rounding errors
+// occur when storing values >13 digits to the left of the decimal.  A maximum length
+// of 16 will allow 13 digits, the decimal itself, and 2 digits to the right of the decimal.
+//  This is only intended to prevent users from entering a very large string to process,
+// the IsValidFloatBetween function will determine if the double is within range.
+//
 void CDlgAdvPreferences::SetValidators() {
     m_vTimeValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST);
     m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
@@ -128,23 +134,34 @@ void CDlgAdvPreferences::SetValidators() {
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcIdleFor->SetMaxLength(16);
     m_txtNoRecentInput->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNoRecentInput->SetMaxLength(16);
     m_txtMaxLoad->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 
     m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetAdditionalDays->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcSwitchEvery->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcSwitchEvery->SetMaxLength(16);
     m_txtDiskWriteToDisk->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskWriteToDisk->SetMaxLength(16);
+
 
     // ######### net usage page
     m_txtNetDownloadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNetDownloadRate->SetMaxLength(16);
     m_txt_daily_xfer_limit_mb->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txt_daily_xfer_limit_mb->SetMaxLength(16);
     m_txt_daily_xfer_period_days->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txt_daily_xfer_period_days->SetMaxLength(16);
     m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNetUploadRate->SetMaxLength(16);
 
     // ######### disk and memory page
     m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskMaxSpace->SetMaxLength(16);
     m_txtDiskLeastFree->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskLeastFree->SetMaxLength(16);
     m_txtDiskMaxOfTotal->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMemoryMaxInUse->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMemoryMaxOnIdle->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -235,8 +252,9 @@ wxString CDlgAdvPreferences::DoubleToTimeString(double dt) {
 // precision of saved values to .01.  This prevents unexpected
 // behavior when, for example, a zero value means no restriction
 // and the value is displayed as 0.00 but is actually 0.001.
+//
 double CDlgAdvPreferences::RoundToHundredths(double td) {
-    int i = (int)((td + .005) * 100.);
+    __int64 i = (__int64)((td + .005) * 100.);
     return ((double)(i) / 100.);
 }
 
@@ -451,7 +469,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
     m_txtNoRecentInput->GetValue().ToDouble(&td);
     prefs.suspend_if_no_recent_input = RoundToHundredths(td);
-    mask.suspend_if_no_recent_input = true;
+       mask.suspend_if_no_recent_input = true;
 
     //
     if (m_chkMaxLoad->IsChecked()) {
@@ -688,14 +706,14 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
     }
 
     buffer = m_txtNoRecentInput->GetValue();
-    if (!IsValidFloatValueBetween(buffer, 0, 10000)) {
+    if (!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtNoRecentInput);
         return false;
     }
@@ -722,13 +740,13 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
 
     buffer = m_txtProcSwitchEvery->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 1.0, 10000)) {
+    if(!IsValidFloatValueBetween(buffer, 1.0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
         return false;
     }
 
     buffer = m_txtDiskWriteToDisk->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+    if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
         ShowErrorMessage(invMsgFloat, m_txtDiskWriteToDisk);
         return false;
     }
@@ -737,7 +755,7 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chkNetDownloadRate->IsChecked()) {
         buffer = m_txtNetDownloadRate->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
             return false;
         }
@@ -745,7 +763,7 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chkNetUploadRate->IsChecked()) {
         buffer = m_txtNetUploadRate->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
             return false;
         }
@@ -753,13 +771,13 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chk_daily_xfer_limit->IsChecked()) {
         buffer = m_txt_daily_xfer_limit_mb->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
             return false;
         }
 
         buffer = m_txt_daily_xfer_period_days->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
             return false;
         }
@@ -768,7 +786,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     // ######### disk and memory page
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }
@@ -776,7 +794,7 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chkDiskLeastFree->IsChecked()) {
         buffer = m_txtDiskLeastFree->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
             return false;
         }
