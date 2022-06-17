@@ -48,6 +48,7 @@ function lookup_team_seti_id($seti_id) {
 }
 
 function decode($x) {
+    if (!$x) return $x;
     return html_entity_decode($x, ENT_COMPAT, 'UTF-8');
 }
 
