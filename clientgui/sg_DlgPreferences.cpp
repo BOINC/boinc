@@ -618,7 +618,7 @@ wxString CPanelPreferences::DoubleToTimeString(double dt) {
 // and the value is displayed as 0.00 but is actually 0.001.
 //
 double CPanelPreferences::RoundToHundredths(double td) {
-    __int64 i = (__int64)((td + .005) * 100.);
+    int64_t i = (int64_t)((td + .005) * 100.);
     return ((double)(i) / 100.);
 }
 
