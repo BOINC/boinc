@@ -44,7 +44,7 @@ function job_issued($job, $inst, $user) {
 }
 
 function job_finished($job, $inst) {
-    $response = null;
+    $response = new stdClass;
     if (get_str('submit', true)) {
         $response->have_ellipse = 0;
     } else {
