@@ -153,7 +153,7 @@ void CDlgAdvPreferences::SetValidators() {
     m_txt_daily_xfer_limit_mb->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txt_daily_xfer_limit_mb->SetMaxLength(16);
     m_txt_daily_xfer_period_days->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
-    m_txt_daily_xfer_period_days->SetMaxLength(16);
+    m_txt_daily_xfer_period_days->SetMaxLength(10);
     m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetUploadRate->SetMaxLength(16);
 
@@ -777,7 +777,7 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
 
         buffer = m_txt_daily_xfer_period_days->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 2147483647.0)) {
             ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
             return false;
         }
