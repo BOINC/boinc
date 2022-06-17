@@ -14,4 +14,4 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 linux/update_vcpkg_manager.sh
 
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-./configure --enable-vcpkg --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config
+./configure --enable-vcpkg --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS=-DwxDEBUG_LEVEL=0
