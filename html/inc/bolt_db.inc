@@ -83,8 +83,11 @@ class BoltDb extends DbConn {
                 $host = "localhost";
             }
             $instance = new DbConn();
-            $retval = $instance->init_conn($user, $passwd, $host, $name);
-            if (!$retval) return null;
+            $retval = $instance->init_conn($user, $passwd, $host, $name, true);
+            if (!$retval) $instance = null;
+        }
+        if (!$instance) {
+            error_page("no DB conn");
         }
         return $instance;
     }
@@ -161,7 +164,7 @@ class BoltEnrollment {
         $db = BoltDb::get();
         return $db->insert('bolt_enrollment', $clause);
     }
-    function lookup($user_id, $course_id) {
+    static function lookup($user_id, $course_id) {
         $db = BoltDb::get();
         return $db->lookup('bolt_enrollment', 'BoltEnrollment', "user_id=$user_id and course_id=$course_id");
     }

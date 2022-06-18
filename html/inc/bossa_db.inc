@@ -40,7 +40,7 @@ class BossaDb extends DbConn {
                 $host = "localhost";
             }
             $instance = new DbConn();
-            $retval = $instance->init_conn($user, $passwd, $host, $name);
+            $retval = $instance->init_conn($user, $passwd, $host, $name, true);
             if (!$retval) return null;
         }
         return $instance;
