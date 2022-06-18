@@ -84,7 +84,9 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
 	         ;;
       esac
       GTK_CFLAGS="`pkg-config --cflags $gtkver`"
-      GTK_LIBS="`pkg-config --libs  $gtkver`"
+      if test "x$GTK_LIBS" = "x" ; then
+        GTK_LIBS="`pkg-config --libs $gtkver`"
+      fi
    fi
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])
