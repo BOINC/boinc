@@ -1202,7 +1202,8 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
         char* q = strstr(projects[i]->master_url, "//");
         if (!q) continue;
-        if (!strcmp(p, q)) {
+        if (!strcasecmp(p, q)) {
+            // note: canonicalize_master_url() doesn't lower-case
             return projects[i];
         }
     }
