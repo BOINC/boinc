@@ -315,11 +315,9 @@ fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(SERVERLIBS_FCGI)
 
-fcgi_file_upload_handler_SOURCES = \
-    file_upload_handler.cpp \
-    sched_config.cpp
+fcgi_file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
 fcgi_file_upload_handler_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_file_upload_handler_LDADD = $(SERVERLIBS_FCGI)
+fcgi_file_upload_handler_LDADD = $(FUHLIBS_FCGI)
 
 endif
 # end of "if ENABLE_FCGI"
