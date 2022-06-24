@@ -976,6 +976,14 @@ wxString CSkinManager::GetSkinsLocation() {
     strSkinLocation  = wxGetApp().GetRootDirectory();
     strSkinLocation += wxFileName::GetPathSeparator();
     strSkinLocation += wxT("skins");
+#elif defined(__WXGTK__)
+    strSkinLocation = wxGetApp().GetRootDirectory();
+    if (strSkinLocation.StartsWith("/usr/")) {
+        strSkinLocation += wxT("/../share/boinc-manager/skins");
+    }
+    else {
+        strSkinLocation += wxT("/skins");
+    }
 #else
     strSkinLocation = wxString(wxGetCwd() + wxString(wxFileName::GetPathSeparator()) + wxT("skins"));
 #endif
