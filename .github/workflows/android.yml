@@ -91,7 +91,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log android/BOINC/app/build/reports/ -r0 3rdParty/android/vcpkg/buildtrees/*.log
+        run: python ./deploy/prepare_deployment.py logs
 
       - name: Upload logs on failure
         if: ${{ failure() }}

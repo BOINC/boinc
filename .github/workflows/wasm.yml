@@ -68,7 +68,7 @@ jobs:
         if: ${{ failure() }}
         uses: edgarrc/action-7z@v1.0.4
         with:
-          args: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/wasm/vcpkg/buildtrees/*.log
+          args: python ./deploy/prepare_deployment.py logs
       
       - name: Upload logs on failure
         if: ${{ failure() }}
@@ -89,7 +89,7 @@ jobs:
         env:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run:  7z a -t7z -mx=9 deploy/wasm_${{ matrix.type }}.7z -r0 lib/*.cpp lib/*.h client/*.cpp client/*.h client/boinc_client.html client/boinc_client.js client/boinc_client.wasm
+        run:  python ./deploy/prepare_deployment.py wasm_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
