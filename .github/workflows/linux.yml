@@ -130,7 +130,7 @@ jobs:
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
-        run: 7z a -t7z -mx=9 deploy/logs.7z config.log -r0 3rdParty/linux/vcpkg/buildtrees/*.log
+        run: python ./deploy/prepare_deployment.py logs
 
       - name: Upload logs on failure
         if: ${{ failure() }}
