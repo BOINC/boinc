@@ -40,6 +40,10 @@ extern void install_stop_signal_handler();
 extern int try_fopen(const char* path, FILE*& f, const char* mode);
 extern int get_log_path(char*, const char*);
 
+// check the status of a file with the given path and its .md5 in download hier
+//
+extern int check_download_file(const char* file_path, const char* dl_hier_path);
+
 // convert filename to path in a hierarchical directory system
 //
 extern int dir_hier_path(

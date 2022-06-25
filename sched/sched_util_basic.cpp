@@ -22,6 +22,7 @@
 #include <csignal>
 #include <cerrno>
 #include <unistd.h>
+#include <sstream>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -167,6 +168,60 @@ static void filename_hash(const char* filename, int fanout, char* dir) {
     std::string s = md5_string((const unsigned char*)filename, strlen(filename));
     int x = strtol(s.substr(1, 7).c_str(), 0, 16);
     sprintf(dir, "%x", x % fanout);
+}
+
+// returns:
+// 0 if same file is already there and has correct .md5, we don't need to copy or create .md5
+// 1 if same file is already there and .md5 file is missing, need to create corresponding .md5 file
+// 2 if a file isn't there, need to copy and create .md5
+// -1 if a different file is there
+// -2 if a file operation failed
+//
+// file_path - source path to file, dl_hier_path - path to the same file in download hier
+//
+int check_download_file(const char* file_path, const char* dl_hier_path) {
+    bool md5_file_exists = false;
+    char md5_file_path[256];
+    char md5_hash_src[33], md5_hash_dst[33];
+    double nbytes;
+    std::string file_content, file_hash;
+    int file_size;
+
+    int retval = md5_file(file_path, md5_hash_src, nbytes);
+    if (retval) {
+        return -2;
+    }
+
+    sprintf(md5_file_path, "%s.md5", dl_hier_path);
+    if (boinc_file_exists(md5_file_path)) {
+        retval = read_file_string(md5_file_path, file_content);
+        if (retval) {
+            return -2;
+        }
+        std::stringstream stream(file_content);
+        stream >> file_hash >> file_size;
+        md5_file_exists = true;
+    }
+
+    if (!boinc_file_exists(dl_hier_path)) {
+        return 2;
+    }
+    // calculating md5 hash of existing file in dl hier
+    retval = md5_file(dl_hier_path, md5_hash_dst, nbytes);
+    if (retval) {
+        return -2;
+    }
+    int hashes_equal = !strcmp(md5_hash_src, md5_hash_dst);
+    if (md5_file_exists && hashes_equal) {
+        // the right file with correct .md5 is there
+        return 0;
+    } else if (hashes_equal) {
+        // files are the same, but need to create .md5
+        return 1;
+    }
+    // if the content of the file in dl hier differs from the source file's content
+    // then skip staging, consider to manually delete file in dl hier and retry
+    return -1;
 }
 
 // given a filename, compute its path in a directory hierarchy
